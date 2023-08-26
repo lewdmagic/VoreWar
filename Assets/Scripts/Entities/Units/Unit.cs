@@ -1226,8 +1226,10 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     {
         if (level >= Config.HardLevelCap)
             return 99999999;
-        return (int)(expRequiredMod * level * Config.ExperiencePerLevel + ((level >= Config.SoftLevelCap ? 8 : 0) + (level * Config.AdditionalExperiencePerLevel * (level - 1) / 2)) *
-            (level >= Config.SoftLevelCap ? (int)Math.Pow(2, level + 1 - Config.SoftLevelCap) : 1));
+        
+        return Mathf.FloorToInt((expRequiredMod * level * Config.ExperiencePerLevel) +
+                                ((level >= Config.SoftLevelCap ? 8 : 0) + Mathf.FloorToInt(level * Config.AdditionalExperiencePerLevel * (level - 1) / 2f)) *
+                                (level >= Config.SoftLevelCap ? Mathf.FloorToInt(Mathf.Pow(2, level + 1 - Config.SoftLevelCap)) : 1));
     }
 
     public static int GetLevelFromExperience(int experience)
@@ -1361,12 +1363,12 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         if (stat == Stat.Mind && GetStatusEffect(StatusEffectType.Focus) != null)
         {
             int stacks = GetStatusEffect(StatusEffectType.Focus).Duration;
-            bonus += stacks + (GetStatBase(Stat.Mind) * (stacks / 100));
+            bonus += stacks + (GetStatBase(Stat.Mind) * (stacks / 100f));
         }
         if (stat == Stat.Mind && GetStatusEffect(StatusEffectType.SpellForce) != null)
         {
             int stacks = GetStatusEffect(StatusEffectType.SpellForce).Duration;
-            bonus += stacks + (GetStatBase(Stat.Mind) * (stacks/10));
+            bonus += stacks + (GetStatBase(Stat.Mind) * (stacks/10f));
         }
 
         bonus -= GetStatBase(stat) * (GetStatusEffect(StatusEffectType.Shaken)?.Strength ?? 0);
