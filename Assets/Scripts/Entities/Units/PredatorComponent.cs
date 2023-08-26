@@ -1465,7 +1465,7 @@ public class PredatorComponent
             if (healthReduction >= preyUnit.Unit.MaxHealth + preyUnit.Unit.Health)
                 healthReduction = preyUnit.Unit.MaxHealth + preyUnit.Unit.Health + 1;
             preyUnit.Actor.SubtractHealth(healthReduction);
-            totalHeal += Math.Max((int)(healthReduction / 2f * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition * unit.TraitBoosts.Incoming.Nutrition), 1);
+            totalHeal += Math.Max((int)(healthReduction / 2 * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition * unit.TraitBoosts.Incoming.Nutrition), 1);
             var baseManaGain = healthReduction * (preyUnit.Unit.TraitBoosts.Outgoing.ManaAbsorbHundreths + unit.TraitBoosts.Incoming.ManaAbsorbHundreths);
             var totalManaGain = baseManaGain / 100 + (State.Rand.Next(100) < (baseManaGain % 100) ? 1 : 0);
             unit.RestoreMana(totalManaGain);
@@ -3205,7 +3205,7 @@ public class PredatorComponent
 
     private int heatlhBoostCalc(Prey preyUnit, Actor_Unit target)
     {
-        return Mathf.RoundToInt((preyUnit.Unit.MaxHealth / 10f + (((preyUnit.Unit.MaxHealth / 10f) * 9) / 20) * Math.Max(0, preyUnit.Unit.Level - target.Unit.Level / (actor.Unit.HasTrait(Traits.WetNurse) ? 2 : 1)) * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition));
+        return Mathf.RoundToInt((preyUnit.Unit.MaxHealth / 10 + (((preyUnit.Unit.MaxHealth / 10) * 9) / 20) * Math.Max(0, preyUnit.Unit.Level - target.Unit.Level / (actor.Unit.HasTrait(Traits.WetNurse) ? 2 : 1)) * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition));
     }
 
     private int expBoostCalc(Prey preyUnit)

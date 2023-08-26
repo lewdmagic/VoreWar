@@ -205,7 +205,7 @@ static class SpellList
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(4),
             Duration = (a, t) => 3 + a.Unit.GetStat(Stat.Mind) / 10,
-            Effect = (a, t) => .3f + a.Unit.GetStat(Stat.Mind) / 1000f,
+            Effect = (a, t) => .3f + a.Unit.GetStat(Stat.Mind) / 1000,
             Type = StatusEffectType.Fast,
             Tier = 1,
             Resistable = false,
@@ -247,7 +247,7 @@ static class SpellList
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(6),
             Duration = (a, t) => 2 + a.Unit.GetStat(Stat.Mind) / 10,
-            Effect = (a, t) => a.Unit.GetStat(Stat.Mind) / 4f,
+            Effect = (a, t) => a.Unit.GetStat(Stat.Mind) / 4,
             Type = StatusEffectType.Predation,
             Tier = 1,
             Resistable = false,
@@ -302,12 +302,12 @@ static class SpellList
             OnExecute = (a, t) =>
             {
                 a.CastOffensiveSpell(Pyre, t);
-                TacticalUtilities.CreateEffect(t.Position, TileEffectType.Fire, 1, 1 + a.Unit.GetStat(Stat.Mind) / 30f, 4);
+                TacticalUtilities.CreateEffect(t.Position, TileEffectType.Fire, 1, 1 + a.Unit.GetStat(Stat.Mind) / 30, 4);
             },
             OnExecuteTile = (a, l) =>
             {
                 a.CastOffensiveSpell(Pyre, null, l);
-                TacticalUtilities.CreateEffect(l, TileEffectType.Fire, 1, 1 + a.Unit.GetStat(Stat.Mind) / 30f, 4);
+                TacticalUtilities.CreateEffect(l, TileEffectType.Fire, 1, 1 + a.Unit.GetStat(Stat.Mind) / 30, 4);
             },
         };
         SpellDict[SpellTypes.Pyre] = Pyre;
@@ -342,7 +342,7 @@ static class SpellList
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(8),
             Duration = (a, t) => 4 + a.Unit.GetStat(Stat.Mind) / 5,
-            Effect = (a, t) => 1 + a.Unit.GetStat(Stat.Mind) / 20f,
+            Effect = (a, t) => 1 + a.Unit.GetStat(Stat.Mind) / 20,
             Type = StatusEffectType.Poisoned,
             Tier = 2,
             Resistable = true,
@@ -605,7 +605,7 @@ static class SpellList
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Tile },
             Range = new Range(6),
             Duration = (a, t) => 4,
-            Effect = (a, t) => 2 + a.Unit.GetStat(Stat.Mind) / 10f,
+            Effect = (a, t) => 2 + a.Unit.GetStat(Stat.Mind) / 10,
             AreaOfEffect = 1,
             Type = StatusEffectType.Poisoned,
             Tier = 0,

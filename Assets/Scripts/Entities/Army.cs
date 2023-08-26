@@ -162,7 +162,7 @@ public class Army
             }
             if (unit.HasTrait(Traits.Growth) && unit.BaseScale > 1 && !unit.HasTrait(Traits.PermanentGrowth))
             {
-                float extremum = -(Config.GrowthDecayOffset - Config.GrowthDecayIncreaseRate - 1f / 2f * Config.GrowthDecayIncreaseRate);
+                float extremum = -(Config.GrowthDecayOffset - Config.GrowthDecayIncreaseRate - 1 / 2 * Config.GrowthDecayIncreaseRate);
                 if (unit.BaseScale > extremum)
                     unit.BaseScale -= extremum - (extremum * ((1 - Config.GrowthDecayOffset) - Config.GrowthDecayIncreaseRate * (extremum - 1)));     // force the decay function to be monotonous
                 else

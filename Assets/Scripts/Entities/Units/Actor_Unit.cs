@@ -244,7 +244,7 @@ public class Actor_Unit
         bonus += Unit.TraitBoosts.SpeedBonus;
         if (State.World?.ItemRepository != null && Unit.Items.Contains(State.World.ItemRepository.GetItem(ItemType.Shoes)))
             bonus += 1;
-        int total = Mathf.Max(bonus + 3 + ((int)Mathf.Pow(Unit.GetStat(Stat.Agility) / 4f, .8f)), 1);
+        int total = Mathf.Max(bonus + 3 + ((int)Mathf.Pow(Unit.GetStat(Stat.Agility) / 4, .8f)), 1);
         var speed = Unit.GetStatusEffect(StatusEffectType.Fast);
         if (speed != null)
         {
@@ -266,7 +266,7 @@ public class Actor_Unit
         bonus += Unit.TraitBoosts.SpeedBonus;
         if (Unit.HasTrait(Traits.Charge) && State.GameManager.TacticalMode.currentTurn <= 2)
             bonus += 4;
-        int total = Mathf.Max(bonus + 3 + ((int)Mathf.Pow(Unit.GetStat(Stat.Agility) / 4f, .8f)) - sizePenalty, 1);
+        int total = Mathf.Max(bonus + 3 + ((int)Mathf.Pow(Unit.GetStat(Stat.Agility) / 4, .8f)) - sizePenalty, 1);
         var speed = Unit.GetStatusEffect(StatusEffectType.Fast);
         if (speed != null)
         {
@@ -1421,7 +1421,7 @@ public class Actor_Unit
                     if (target.Unit.GetStatusEffect(StatusEffectType.Focus) != null)
                         target.Unit.RemoveFocus();
                     if (target.Unit.HasTrait(Traits.Toxic) && State.Rand.Next(8) == 0)
-                        Unit.ApplyStatusEffect(StatusEffectType.Poisoned, 2 + target.Unit.GetStat(Stat.Endurance) / 20f, 3);
+                        Unit.ApplyStatusEffect(StatusEffectType.Poisoned, 2 + target.Unit.GetStat(Stat.Endurance) / 20, 3);
                     if (Unit.HasTrait(Traits.ForcefulBlow))
                         TacticalUtilities.KnockBack(this, target);
                     State.GameManager.SoundManager.PlayMeleeHit(target);
@@ -1526,7 +1526,7 @@ public class Actor_Unit
                 Unit.StatusEffects.Add(new StatusEffect(StatusEffectType.Shielded, .25f, 5));
                 break;
             case 4:
-                Unit.StatusEffects.Add(new StatusEffect(StatusEffectType.Predation, Unit.GetStat(Stat.Voracity) / 4f, 5));
+                Unit.StatusEffects.Add(new StatusEffect(StatusEffectType.Predation, Unit.GetStat(Stat.Voracity) / 4, 5));
                 break;
         }
     }
@@ -1637,7 +1637,7 @@ public class Actor_Unit
                 if (Unit.HasTrait(Traits.PollenProjector) == false)
                 {
                     Unit.ApplyStatusEffect(StatusEffectType.Clumsiness, 1.5f, 3);
-                    Unit.ApplyStatusEffect(StatusEffectType.Poisoned, 2 + attacker.Unit.GetStat(Stat.Mind) / 10f, 3);
+                    Unit.ApplyStatusEffect(StatusEffectType.Poisoned, 2 + attacker.Unit.GetStat(Stat.Mind) / 10, 3);
                     Unit.ApplyStatusEffect(StatusEffectType.WillingPrey, 0, 3);
                 }
             }
@@ -2329,8 +2329,9 @@ public class Actor_Unit
         {
             return 0;
         }
-        float ratio = (actor.Unit.GetStat(Stat.Dexterity) + actor.Unit.GetStat(Stat.Strength)) /
-            (float)(target.Unit.GetStat(Stat.Endurance) * target.Unit.GetStat(Stat.Endurance) + target.Unit.GetStat(Stat.Will));
+        float ratio = 0;
+        ratio = (float)((actor.Unit.GetStat(Stat.Dexterity) + actor.Unit.GetStat(Stat.Strength)) /
+            (target.Unit.GetStat(Stat.Endurance) * target.Unit.GetStat(Stat.Endurance) + target.Unit.GetStat(Stat.Will)));
 
         if (Config.BaseCritChance > ratio)
             ratio = Config.BaseCritChance;
@@ -2346,7 +2347,7 @@ public class Actor_Unit
         }
 
         int actor_stats = (actor.Unit.GetStat(Stat.Dexterity) + actor.Unit.GetStat(Stat.Strength)) / 2;
-        float ratio = (float)target.Unit.GetStat(Stat.Agility) / (float)(actor_stats * actor_stats);
+        float ratio = target.Unit.GetStat(Stat.Agility) / (actor_stats * actor_stats);
 
         if (Config.BaseGrazeChance > ratio)
             ratio = Config.BaseGrazeChance;

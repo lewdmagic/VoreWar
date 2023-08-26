@@ -89,7 +89,7 @@ class GoblinAI : IStrategicAI
         int baseXp = (int)(highestExp * .6f);
         if (empire.Gold < 10000)
             empire.AddGold(10000);
-        double mapFactor = (Config.StrategicWorldSizeX + Config.StrategicWorldSizeY) / 20f;
+        double mapFactor = (Config.StrategicWorldSizeX + Config.StrategicWorldSizeY) / 20;
 
         if (State.Rand.NextDouble() < (mapFactor - empire.Armies.Count) / 10)
         {
