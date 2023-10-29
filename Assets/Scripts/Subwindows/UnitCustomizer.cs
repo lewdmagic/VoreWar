@@ -1,11 +1,12 @@
 using System;
+using System.Linq;
 using UnityEngine.UI;
 
 public class UnitCustomizer
 {
     protected Actor_Unit actor;
 
-    internal DefaultRaceData RaceData;
+    internal IRaceData RaceData;
 
     protected CustomizerButton[] buttons;
 
@@ -177,62 +178,69 @@ public class UnitCustomizer
             buttons[i].Label.text = buttons[i].defaultText;
         }
 
-        buttons[(int)ButtonTypes.BodyAccessoryType].gameObject.SetActive(RaceData.SpecialAccessoryCount > 1);
+        buttons[(int)ButtonTypes.BodyAccessoryType].gameObject.SetActive(RaceData.MiscRaceData.SpecialAccessoryCount > 1);
 
-        buttons[(int)ButtonTypes.BodyAccessoryColor].gameObject.SetActive(RaceData.AccessoryColors > 1);
+        buttons[(int)ButtonTypes.BodyAccessoryColor].gameObject.SetActive(RaceData.MiscRaceData.AccessoryColors > 1);
 
         buttons[(int)ButtonTypes.ExtraColor1].gameObject.SetActive(false);
-        buttons[(int)ButtonTypes.EyeType].gameObject.SetActive(RaceData.EyeTypes > 1);
-        buttons[(int)ButtonTypes.Skintone].gameObject.SetActive(RaceData.SkinColors > 1);
-        buttons[(int)ButtonTypes.EyeColor].gameObject.SetActive(RaceData.EyeColors > 1);
-        buttons[(int)ButtonTypes.HairColor].gameObject.SetActive(RaceData.HairColors > 1);
-        buttons[(int)ButtonTypes.HairStyle].gameObject.SetActive(RaceData.HairStyles > 1);
-        buttons[(int)ButtonTypes.BeardStyle].gameObject.SetActive(RaceData.BeardStyles > 1);
-        buttons[(int)ButtonTypes.BreastSize].gameObject.SetActive(unit.HasBreasts && RaceData.BreastSizes > 1);
-        buttons[(int)ButtonTypes.CockSize].gameObject.SetActive(unit.HasDick && RaceData.DickSizes > 1);
-        CustomizerUI.Gender.gameObject.SetActive(RaceData.CanBeGender.Count > 1);
-        CustomizerUI.Nominative.gameObject.SetActive(RaceData.CanBeGender.Count > 1);
-        CustomizerUI.Accusative.gameObject.SetActive(RaceData.CanBeGender.Count > 1);
-        CustomizerUI.PronominalPossessive.gameObject.SetActive(RaceData.CanBeGender.Count > 1);
-        CustomizerUI.PredicativePossessive.gameObject.SetActive(RaceData.CanBeGender.Count > 1);
-        CustomizerUI.Reflexive.gameObject.SetActive(RaceData.CanBeGender.Count > 1);
-        CustomizerUI.Quantification.gameObject.SetActive(RaceData.CanBeGender.Count > 1);
+        buttons[(int)ButtonTypes.EyeType].gameObject.SetActive(RaceData.MiscRaceData.EyeTypes > 1);
+        buttons[(int)ButtonTypes.Skintone].gameObject.SetActive(RaceData.MiscRaceData.SkinColors > 1);
+        buttons[(int)ButtonTypes.EyeColor].gameObject.SetActive(RaceData.MiscRaceData.EyeColors > 1);
+        buttons[(int)ButtonTypes.HairColor].gameObject.SetActive(RaceData.MiscRaceData.HairColors > 1);
+        buttons[(int)ButtonTypes.HairStyle].gameObject.SetActive(RaceData.MiscRaceData.HairStyles > 1);
+        buttons[(int)ButtonTypes.BeardStyle].gameObject.SetActive(RaceData.MiscRaceData.BeardStyles > 1);
+        buttons[(int)ButtonTypes.BreastSize].gameObject.SetActive(unit.HasBreasts && RaceData.MiscRaceData.BreastSizes() > 1);
+        buttons[(int)ButtonTypes.CockSize].gameObject.SetActive(unit.HasDick && RaceData.MiscRaceData.DickSizes() > 1);
+        CustomizerUI.Gender.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
+        CustomizerUI.Nominative.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
+        CustomizerUI.Accusative.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
+        CustomizerUI.PronominalPossessive.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
+        CustomizerUI.PredicativePossessive.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
+        CustomizerUI.Reflexive.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
+        CustomizerUI.Quantification.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
         RefreshGenderDropdown(unit);
         RefreshPronouns(unit);
-        buttons[(int)ButtonTypes.BodyWeight].gameObject.SetActive(RaceData.BodySizes > 0);
-        buttons[(int)ButtonTypes.ClothingColor].gameObject.SetActive(RaceData.clothingColors > 1 && (RaceData.MainClothingTypesCount > 1 || RaceData.WaistClothingTypesCount > 1 || RaceData.ClothingHatTypesCount > 1));
-        buttons[(int)ButtonTypes.ClothingType].gameObject.SetActive(RaceData.MainClothingTypesCount > 1);
-        buttons[(int)ButtonTypes.Clothing2Type].gameObject.SetActive(RaceData.WaistClothingTypesCount > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType1].gameObject.SetActive(RaceData.ExtraMainClothing1Count > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType2].gameObject.SetActive(RaceData.ExtraMainClothing2Count > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType3].gameObject.SetActive(RaceData.ExtraMainClothing3Count > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType4].gameObject.SetActive(RaceData.ExtraMainClothing4Count > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType5].gameObject.SetActive(RaceData.ExtraMainClothing5Count > 1);
-        buttons[(int)ButtonTypes.HatType].gameObject.SetActive(RaceData.ClothingHatTypesCount > 1);
-        buttons[(int)ButtonTypes.ClothingAccessoryType].gameObject.SetActive(RaceData.ClothingAccessoryTypesCount > 1 || (unit.EarnedMask && Unit.Race <= Race.Goblins && Unit.Race != Race.Lizards));
-        buttons[(int)ButtonTypes.ClothingColor2].gameObject.SetActive(RaceData == Races.SlimeQueen || RaceData == Races.Panthers || RaceData == Races.Imps || RaceData == Races.Goblins); //The additional clothing colors are slime queen only for the moment
-        buttons[(int)ButtonTypes.ClothingColor3].gameObject.SetActive(RaceData == Races.SlimeQueen || RaceData == Races.Panthers);
-        buttons[(int)ButtonTypes.MouthType].gameObject.SetActive(RaceData.MouthTypes > 1);
+        buttons[(int)ButtonTypes.BodyWeight].gameObject.SetActive(RaceData.MiscRaceData.BodySizes > 0);
+        buttons[(int)ButtonTypes.ClothingColor].gameObject.SetActive(RaceData.MiscRaceData.ClothingColors > 1 && (RaceData.MiscRaceData.MainClothingTypesCount > 1 || RaceData.MiscRaceData.WaistClothingTypesCount > 1 || RaceData.MiscRaceData.ClothingHatTypesCount > 1));
+        buttons[(int)ButtonTypes.ClothingType].gameObject.SetActive(RaceData.MiscRaceData.MainClothingTypesCount > 1);
+        buttons[(int)ButtonTypes.Clothing2Type].gameObject.SetActive(RaceData.MiscRaceData.WaistClothingTypesCount > 1);
+        buttons[(int)ButtonTypes.ClothingExtraType1].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing1Count > 1);
+        buttons[(int)ButtonTypes.ClothingExtraType2].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing2Count > 1);
+        buttons[(int)ButtonTypes.ClothingExtraType3].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing3Count > 1);
+        buttons[(int)ButtonTypes.ClothingExtraType4].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing4Count > 1);
+        buttons[(int)ButtonTypes.ClothingExtraType5].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing5Count > 1);
+        buttons[(int)ButtonTypes.HatType].gameObject.SetActive(RaceData.MiscRaceData.ClothingHatTypesCount > 1);
+        buttons[(int)ButtonTypes.ClothingAccessoryType].gameObject.SetActive(RaceData.MiscRaceData.ClothingAccessoryTypesCount > 1 || (unit.EarnedMask && Unit.Race <= Race.Goblins && Unit.Race != Race.Lizards));
+        
+        
+        // TODO needs to be fixed, missing feature until there is a good way to achieve it. 
+        //buttons[(int)ButtonTypes.ClothingColor2].gameObject.SetActive(RaceData == Races.SlimeQueenInstance || RaceData == Races.PanthersInstance || RaceData == Races.ImpsInstance || RaceData == Races.GoblinsInstance); //The additional clothing colors are slime queen only for the moment // TODO imrpove comparison
+        //buttons[(int)ButtonTypes.ClothingColor3].gameObject.SetActive(RaceData == Races.SlimeQueenInstance || RaceData == Races.PanthersInstance);
+        buttons[(int)ButtonTypes.ClothingColor2].gameObject.SetActive(false); //The additional clothing colors are slime queen only for the moment // TODO imrpove comparison
+        buttons[(int)ButtonTypes.ClothingColor3].gameObject.SetActive(false);
+        
+        
+        buttons[(int)ButtonTypes.MouthType].gameObject.SetActive(RaceData.MiscRaceData.MouthTypes > 1);
 
-        buttons[(int)ButtonTypes.ExtraColor1].gameObject.SetActive(RaceData.ExtraColors1 > 0);
-        buttons[(int)ButtonTypes.ExtraColor2].gameObject.SetActive(RaceData.ExtraColors2 > 0);
-        buttons[(int)ButtonTypes.ExtraColor3].gameObject.SetActive(RaceData.ExtraColors3 > 0);
-        buttons[(int)ButtonTypes.ExtraColor4].gameObject.SetActive(RaceData.ExtraColors4 > 0);
+        buttons[(int)ButtonTypes.ExtraColor1].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors1 > 0);
+        buttons[(int)ButtonTypes.ExtraColor2].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors2 > 0);
+        buttons[(int)ButtonTypes.ExtraColor3].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors3 > 0);
+        buttons[(int)ButtonTypes.ExtraColor4].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors4 > 0);
 
 
-        buttons[(int)ButtonTypes.Furry].gameObject.SetActive(RaceData.FurCapable);
-        buttons[(int)ButtonTypes.HeadType].gameObject.SetActive(RaceData.HeadTypes > 1);
-        buttons[(int)ButtonTypes.TailTypes].gameObject.SetActive(RaceData.TailTypes > 1);
-        buttons[(int)ButtonTypes.FurTypes].gameObject.SetActive(RaceData.FurTypes > 1);
-        buttons[(int)ButtonTypes.EarTypes].gameObject.SetActive(RaceData.EarTypes > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes1].gameObject.SetActive(RaceData.BodyAccentTypes1 > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes2].gameObject.SetActive(RaceData.BodyAccentTypes2 > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes3].gameObject.SetActive(RaceData.BodyAccentTypes3 > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes4].gameObject.SetActive(RaceData.BodyAccentTypes4 > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes5].gameObject.SetActive(RaceData.BodyAccentTypes5 > 1);
-        buttons[(int)ButtonTypes.BallsSizes].gameObject.SetActive(RaceData.BallsSizes > 1);
-        buttons[(int)ButtonTypes.VulvaTypes].gameObject.SetActive(RaceData.VulvaTypes > 1);
-        buttons[(int)ButtonTypes.AltWeaponTypes].gameObject.SetActive(RaceData.BasicMeleeWeaponTypes > 1 || RaceData.BasicRangedWeaponTypes > 1 || RaceData.AdvancedMeleeWeaponTypes > 1 || RaceData.AdvancedRangedWeaponTypes > 1);
+        buttons[(int)ButtonTypes.Furry].gameObject.SetActive(RaceData.MiscRaceData.FurCapable);
+        buttons[(int)ButtonTypes.HeadType].gameObject.SetActive(RaceData.MiscRaceData.HeadTypes > 1);
+        buttons[(int)ButtonTypes.TailTypes].gameObject.SetActive(RaceData.MiscRaceData.TailTypes > 1);
+        buttons[(int)ButtonTypes.FurTypes].gameObject.SetActive(RaceData.MiscRaceData.FurTypes > 1);
+        buttons[(int)ButtonTypes.EarTypes].gameObject.SetActive(RaceData.MiscRaceData.EarTypes > 1);
+        buttons[(int)ButtonTypes.BodyAccentTypes1].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes1 > 1);
+        buttons[(int)ButtonTypes.BodyAccentTypes2].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes2 > 1);
+        buttons[(int)ButtonTypes.BodyAccentTypes3].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes3 > 1);
+        buttons[(int)ButtonTypes.BodyAccentTypes4].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes4 > 1);
+        buttons[(int)ButtonTypes.BodyAccentTypes5].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes5 > 1);
+        buttons[(int)ButtonTypes.BallsSizes].gameObject.SetActive(RaceData.MiscRaceData.BallsSizes > 1);
+        buttons[(int)ButtonTypes.VulvaTypes].gameObject.SetActive(RaceData.MiscRaceData.VulvaTypes > 1);
+        buttons[(int)ButtonTypes.AltWeaponTypes].gameObject.SetActive(RaceData.MiscRaceData.BasicMeleeWeaponTypes > 1 || RaceData.MiscRaceData.BasicRangedWeaponTypes > 1 || RaceData.MiscRaceData.AdvancedMeleeWeaponTypes > 1 || RaceData.MiscRaceData.AdvancedRangedWeaponTypes > 1);
 
         switch (unit.Race)
         {
@@ -525,13 +533,13 @@ public class UnitCustomizer
                     CustomizerUI.Gender.value = 0;
             }
         }
-        CustomizerUI.Gender.options[0].text = RaceData.CanBeGender.Contains(Gender.Male) ? "Male" : "--";
-        CustomizerUI.Gender.options[1].text = RaceData.CanBeGender.Contains(Gender.Female) ? "Female" : "--";
-        CustomizerUI.Gender.options[2].text = RaceData.CanBeGender.Contains(Gender.Hermaphrodite) ? "Hermaphrodite" : "--";
-        CustomizerUI.Gender.options[3].text = RaceData.CanBeGender.Contains(Gender.Gynomorph) ? "Gynomorph" : "--";
-        CustomizerUI.Gender.options[4].text = RaceData.CanBeGender.Contains(Gender.Maleherm) ? "Maleherm" : "--";
-        CustomizerUI.Gender.options[5].text = RaceData.CanBeGender.Contains(Gender.Andromorph) ? "Andromorph" : "--";
-        CustomizerUI.Gender.options[6].text = RaceData.CanBeGender.Contains(Gender.Agenic) ? "Agenic" : "--";
+        CustomizerUI.Gender.options[0].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Male) ? "Male" : "--";
+        CustomizerUI.Gender.options[1].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Female) ? "Female" : "--";
+        CustomizerUI.Gender.options[2].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Hermaphrodite) ? "Hermaphrodite" : "--";
+        CustomizerUI.Gender.options[3].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Gynomorph) ? "Gynomorph" : "--";
+        CustomizerUI.Gender.options[4].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Maleherm) ? "Maleherm" : "--";
+        CustomizerUI.Gender.options[5].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Andromorph) ? "Andromorph" : "--";
+        CustomizerUI.Gender.options[6].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Agenic) ? "Agenic" : "--";
 
     }
 
@@ -693,7 +701,7 @@ public class UnitCustomizer
                     CustomizerUI.Gender.value = 0;
             }
         }
-        if (RaceData.CanBeGender.Count <= 2)
+        if (RaceData.MiscRaceData.CanBeGender.Count <= 2)
         {
 
         }
@@ -762,20 +770,20 @@ public class UnitCustomizer
 
     public void RandomizeUnit()
     {
-        RaceData.RandomCustom(Unit);
+        RaceData.RandomCustomCall(Unit);
         RefreshView();
     }
 
 
     void ChangeSkinTone(int change)
     {
-        Unit.SkinColor = (RaceData.SkinColors + Unit.SkinColor + change) % RaceData.SkinColors;
+        Unit.SkinColor = (RaceData.MiscRaceData.SkinColors + Unit.SkinColor + change) % RaceData.MiscRaceData.SkinColors;
         RefreshView();
     }
 
     void ChangeHairColor(int change)
     {
-        Unit.HairColor = (RaceData.HairColors + Unit.HairColor + change) % RaceData.HairColors;
+        Unit.HairColor = (RaceData.MiscRaceData.HairColors + Unit.HairColor + change) % RaceData.MiscRaceData.HairColors;
         if (Unit.Race == Race.Cats | Unit.Race == Race.Dogs | Unit.Race == Race.Bunnies | Unit.Race == Race.Wolves | Unit.Race == Race.Foxes | Unit.Race == Race.Tigers)
         {
             buttons[(int)ButtonTypes.HairColor].Label.text = "Hair Color: " + HairColorLookup(Unit.HairColor);
@@ -785,47 +793,47 @@ public class UnitCustomizer
 
     void ChangeEyeColor(int change)
     {
-        Unit.EyeColor = (RaceData.EyeColors + Unit.EyeColor + change) % RaceData.EyeColors;
+        Unit.EyeColor = (RaceData.MiscRaceData.EyeColors + Unit.EyeColor + change) % RaceData.MiscRaceData.EyeColors;
         RefreshView();
     }
 
     void ChangeExtraColor1(int change)
     {
-        Unit.ExtraColor1 = (RaceData.ExtraColors1 + Unit.ExtraColor1 + change) % RaceData.ExtraColors1;
+        Unit.ExtraColor1 = (RaceData.MiscRaceData.ExtraColors1 + Unit.ExtraColor1 + change) % RaceData.MiscRaceData.ExtraColors1;
         RefreshView();
     }
     void ChangeExtraColor2(int change)
     {
-        Unit.ExtraColor2 = (RaceData.ExtraColors2 + Unit.ExtraColor2 + change) % RaceData.ExtraColors2;
+        Unit.ExtraColor2 = (RaceData.MiscRaceData.ExtraColors2 + Unit.ExtraColor2 + change) % RaceData.MiscRaceData.ExtraColors2;
         RefreshView();
     }
     void ChangeExtraColor3(int change)
     {
-        Unit.ExtraColor3 = (RaceData.ExtraColors3 + Unit.ExtraColor3 + change) % RaceData.ExtraColors3;
+        Unit.ExtraColor3 = (RaceData.MiscRaceData.ExtraColors3 + Unit.ExtraColor3 + change) % RaceData.MiscRaceData.ExtraColors3;
         RefreshView();
     }
     void ChangeExtraColor4(int change)
     {
-        Unit.ExtraColor4 = (RaceData.ExtraColors4 + Unit.ExtraColor4 + change) % RaceData.ExtraColors4;
+        Unit.ExtraColor4 = (RaceData.MiscRaceData.ExtraColors4 + Unit.ExtraColor4 + change) % RaceData.MiscRaceData.ExtraColors4;
         RefreshView();
     }
 
     void ChangeEyeType(int change)
     {
-        Unit.EyeType = (RaceData.EyeTypes + Unit.EyeType + change) % RaceData.EyeTypes;
+        Unit.EyeType = (RaceData.MiscRaceData.EyeTypes + Unit.EyeType + change) % RaceData.MiscRaceData.EyeTypes;
         RefreshView();
     }
 
     void ChangeHairStyle(int change)
     {
-        Unit.HairStyle = (RaceData.HairStyles + Unit.HairStyle + change) % RaceData.HairStyles;
+        Unit.HairStyle = (RaceData.MiscRaceData.HairStyles + Unit.HairStyle + change) % RaceData.MiscRaceData.HairStyles;
 
         RefreshView();
     }
 
     void ChangeBeardStyle(int change)
     {
-        Unit.BeardStyle = (RaceData.BeardStyles + Unit.BeardStyle + change) % RaceData.BeardStyles;
+        Unit.BeardStyle = (RaceData.MiscRaceData.BeardStyles + Unit.BeardStyle + change) % RaceData.MiscRaceData.BeardStyles;
 
         RefreshView();
     }
@@ -833,7 +841,7 @@ public class UnitCustomizer
 
     void ChangeBodyAccessoryColor(int change)
     {
-        Unit.AccessoryColor = (RaceData.AccessoryColors + Unit.AccessoryColor + change) % RaceData.AccessoryColors;
+        Unit.AccessoryColor = (RaceData.MiscRaceData.AccessoryColors + Unit.AccessoryColor + change) % RaceData.MiscRaceData.AccessoryColors;
         if (Unit.Race == Race.Cats | Unit.Race == Race.Dogs | Unit.Race == Race.Bunnies | Unit.Race == Race.Wolves | Unit.Race == Race.Foxes | Unit.Race == Race.Tigers)
             buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Fur Color: " + HairColorLookup(Unit.AccessoryColor);
         RefreshView();
@@ -841,7 +849,7 @@ public class UnitCustomizer
 
     void ChangeBodyAccessoryType(int change)
     {
-        Unit.SpecialAccessoryType = (RaceData.SpecialAccessoryCount + Unit.SpecialAccessoryType + change) % RaceData.SpecialAccessoryCount;
+        Unit.SpecialAccessoryType = (RaceData.MiscRaceData.SpecialAccessoryCount + Unit.SpecialAccessoryType + change) % RaceData.MiscRaceData.SpecialAccessoryCount;
         RefreshView();
     }
 
@@ -850,19 +858,19 @@ public class UnitCustomizer
         bool changedGender = false;
         if (CustomizerUI.Gender.value == 0 && Unit.GetGender() != Gender.Male)
         {
-            if (RaceData.CanBeGender.Contains(Gender.Male) == false)
+            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Male) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
             }
             changedGender = true;
-            Unit.DickSize = State.Rand.Next(RaceData.DickSizes);
+            Unit.DickSize = State.Rand.Next(RaceData.MiscRaceData.DickSizes());
             Unit.HasVagina = false;
             Unit.SetDefaultBreastSize(-1);
         }
         else if (CustomizerUI.Gender.value == 1 && Unit.GetGender() != Gender.Female)
         {
-            if (RaceData.CanBeGender.Contains(Gender.Female) == false)
+            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Female) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
@@ -870,45 +878,45 @@ public class UnitCustomizer
             changedGender = true;
             Unit.DickSize = -1;
             Unit.HasVagina = true;
-            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.BreastSizes));
+            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.MiscRaceData.BreastSizes()));
         }
         else if (CustomizerUI.Gender.value == 2 && Unit.GetGender() != Gender.Hermaphrodite)
         {
-            if (RaceData.CanBeGender.Contains(Gender.Hermaphrodite) == false)
+            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Hermaphrodite) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
             }
             changedGender = true;
-            Unit.DickSize = State.Rand.Next(RaceData.DickSizes);
+            Unit.DickSize = State.Rand.Next(RaceData.MiscRaceData.DickSizes());
             Unit.HasVagina = Config.HermsCanUB;
-            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.BreastSizes));
+            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.MiscRaceData.BreastSizes()));
         }
         else if (CustomizerUI.Gender.value == 3 && Unit.GetGender() != Gender.Gynomorph)
         {
-            if (RaceData.CanBeGender.Contains(Gender.Gynomorph) == false)
+            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Gynomorph) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
             }
             changedGender = true;
-            Unit.DickSize = State.Rand.Next(RaceData.DickSizes);
+            Unit.DickSize = State.Rand.Next(RaceData.MiscRaceData.DickSizes());
             Unit.HasVagina = false;
-            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.BreastSizes));
+            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.MiscRaceData.BreastSizes()));
         }
         else if (CustomizerUI.Gender.value == 4 && Unit.GetGender() != Gender.Maleherm)
         {
-            if (RaceData.CanBeGender.Contains(Gender.Maleherm) == false)
+            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Maleherm) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
             }
             changedGender = true;
-            Unit.DickSize = State.Rand.Next(RaceData.DickSizes);
+            Unit.DickSize = State.Rand.Next(RaceData.MiscRaceData.DickSizes());
         }
         else if (CustomizerUI.Gender.value == 5 && Unit.GetGender() != Gender.Andromorph)
         {
-            if (RaceData.CanBeGender.Contains(Gender.Andromorph) == false)
+            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Andromorph) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
@@ -920,7 +928,7 @@ public class UnitCustomizer
         }
         else if (CustomizerUI.Gender.value == 6 && Unit.GetGender() != Gender.Agenic)
         {
-            if (RaceData.CanBeGender.Contains(Gender.Agenic) == false)
+            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Agenic) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
@@ -928,11 +936,11 @@ public class UnitCustomizer
             changedGender = true;
             Unit.DickSize = -1;
             Unit.HasVagina = false;
-            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.BreastSizes));
+            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.MiscRaceData.BreastSizes()));
         }
 
-        buttons[(int)ButtonTypes.BreastSize].gameObject.SetActive(Unit.HasBreasts && RaceData.BreastSizes > 1);
-        buttons[(int)ButtonTypes.CockSize].gameObject.SetActive(Unit.HasDick && RaceData.DickSizes > 1);
+        buttons[(int)ButtonTypes.BreastSize].gameObject.SetActive(Unit.HasBreasts && RaceData.MiscRaceData.BreastSizes() > 1);
+        buttons[(int)ButtonTypes.CockSize].gameObject.SetActive(Unit.HasDick && RaceData.MiscRaceData.DickSizes() > 1);
         if (changedGender)
         {
             if (CustomizerUI.Gender.value == 0 || CustomizerUI.Gender.value == 5)
@@ -987,20 +995,20 @@ public class UnitCustomizer
 
     void ChangeBreastSize(int change)
     {
-        Unit.SetDefaultBreastSize((RaceData.BreastSizes + Unit.BreastSize + change) % RaceData.BreastSizes);
+        Unit.SetDefaultBreastSize((RaceData.MiscRaceData.BreastSizes() + Unit.BreastSize + change) % RaceData.MiscRaceData.BreastSizes());
         RefreshView();
     }
 
 
     void ChangeDickSize(int change)
     {
-        Unit.DickSize = (RaceData.DickSizes + Unit.DickSize + change) % RaceData.DickSizes;
+        Unit.DickSize = (RaceData.MiscRaceData.DickSizes() + Unit.DickSize + change) % RaceData.MiscRaceData.DickSizes();
         RefreshView();
     }
 
     void ChangeMouthType(int change)
     {
-        Unit.MouthType = (RaceData.MouthTypes + Unit.MouthType + change) % RaceData.MouthTypes;
+        Unit.MouthType = (RaceData.MiscRaceData.MouthTypes + Unit.MouthType + change) % RaceData.MiscRaceData.MouthTypes;
         RefreshView();
     }
 
@@ -1009,20 +1017,20 @@ public class UnitCustomizer
         if (Unit.BodySizeManuallyChanged == false)
             Unit.BodySize = Config.DefaultStartingWeight;
         Unit.BodySizeManuallyChanged = true;
-        Unit.BodySize = (RaceData.BodySizes + Unit.BodySize + change) % RaceData.BodySizes;
+        Unit.BodySize = (RaceData.MiscRaceData.BodySizes + Unit.BodySize + change) % RaceData.MiscRaceData.BodySizes;
         RefreshView();
     }
 
     void ChangeClothingType(int change)
     {
-        int totalClothingTypes = RaceData.MainClothingTypesCount;
+        int totalClothingTypes = RaceData.MiscRaceData.MainClothingTypesCount;
         if (totalClothingTypes == 0)
         {
             Unit.ClothingType = 0;
             return;
         }
 
-        if (Unit.ClothingType > RaceData.MainClothingTypesCount)
+        if (Unit.ClothingType > RaceData.MiscRaceData.MainClothingTypesCount)
             Unit.ClothingType = 0;
 
         Unit.ClothingType = (totalClothingTypes + Unit.ClothingType + change) % totalClothingTypes;
@@ -1030,7 +1038,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingType == 0)
                 break;
-            if (RaceData.AllowedMainClothingTypes[Unit.ClothingType - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedMainClothingTypes[Unit.ClothingType - 1].CanWear(Unit))
                 break;
             Unit.ClothingType = (totalClothingTypes + Unit.ClothingType + change) % totalClothingTypes;
         }
@@ -1038,14 +1046,14 @@ public class UnitCustomizer
     }
     void ChangeClothing2Type(int change)
     {
-        int totalClothingTypes = RaceData.WaistClothingTypesCount;
+        int totalClothingTypes = RaceData.MiscRaceData.WaistClothingTypesCount;
         if (totalClothingTypes == 0)
         {
             Unit.ClothingType2 = 0;
             return;
         }
 
-        if (Unit.ClothingType2 > RaceData.WaistClothingTypesCount)
+        if (Unit.ClothingType2 > RaceData.MiscRaceData.WaistClothingTypesCount)
             Unit.ClothingType2 = 0;
 
         Unit.ClothingType2 = (totalClothingTypes + Unit.ClothingType2 + change) % totalClothingTypes;
@@ -1053,7 +1061,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingType2 == 0)
                 break;
-            if (RaceData.AllowedWaistTypes[Unit.ClothingType2 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedWaistTypes[Unit.ClothingType2 - 1].CanWear(Unit))
                 break;
             Unit.ClothingType2 = (totalClothingTypes + Unit.ClothingType2 + change) % totalClothingTypes;
         }
@@ -1062,14 +1070,14 @@ public class UnitCustomizer
 
     void ChangeExtraClothing1Type(int change)
     {
-        int totalClothingTypes = RaceData.ExtraMainClothing1Count;
+        int totalClothingTypes = RaceData.MiscRaceData.ExtraMainClothing1Count;
         if (totalClothingTypes == 0)
         {
             Unit.ClothingExtraType1 = 0;
             return;
         }
 
-        if (Unit.ClothingExtraType1 > RaceData.ExtraMainClothing1Count)
+        if (Unit.ClothingExtraType1 > RaceData.MiscRaceData.ExtraMainClothing1Count)
             Unit.ClothingExtraType1 = 0;
 
         Unit.ClothingExtraType1 = (totalClothingTypes + Unit.ClothingExtraType1 + change) % totalClothingTypes;
@@ -1077,7 +1085,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType1 == 0)
                 break;
-            if (RaceData.ExtraMainClothing1Types[Unit.ClothingExtraType1 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing1Types[Unit.ClothingExtraType1 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType1 = (totalClothingTypes + Unit.ClothingExtraType1 + change) % totalClothingTypes;
         }
@@ -1086,14 +1094,14 @@ public class UnitCustomizer
 
     void ChangeExtraClothing2Type(int change)
     {
-        int totalClothingTypes = RaceData.ExtraMainClothing2Count;
+        int totalClothingTypes = RaceData.MiscRaceData.ExtraMainClothing2Count;
         if (totalClothingTypes == 0)
         {
             Unit.ClothingExtraType2 = 0;
             return;
         }
 
-        if (Unit.ClothingExtraType2 > RaceData.ExtraMainClothing2Count)
+        if (Unit.ClothingExtraType2 > RaceData.MiscRaceData.ExtraMainClothing2Count)
             Unit.ClothingExtraType2 = 0;
 
         Unit.ClothingExtraType2 = (totalClothingTypes + Unit.ClothingExtraType2 + change) % totalClothingTypes;
@@ -1101,7 +1109,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType2 == 0)
                 break;
-            if (RaceData.ExtraMainClothing2Types[Unit.ClothingExtraType2 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing2Types[Unit.ClothingExtraType2 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType2 = (totalClothingTypes + Unit.ClothingExtraType2 + change) % totalClothingTypes;
         }
@@ -1110,14 +1118,14 @@ public class UnitCustomizer
 
     void ChangeExtraClothing3Type(int change)
     {
-        int totalClothingTypes = RaceData.ExtraMainClothing3Count;
+        int totalClothingTypes = RaceData.MiscRaceData.ExtraMainClothing3Count;
         if (totalClothingTypes == 0)
         {
             Unit.ClothingExtraType3 = 0;
             return;
         }
 
-        if (Unit.ClothingExtraType3 > RaceData.ExtraMainClothing3Count)
+        if (Unit.ClothingExtraType3 > RaceData.MiscRaceData.ExtraMainClothing3Count)
             Unit.ClothingExtraType3 = 0;
 
         Unit.ClothingExtraType3 = (totalClothingTypes + Unit.ClothingExtraType3 + change) % totalClothingTypes;
@@ -1125,7 +1133,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType3 == 0)
                 break;
-            if (RaceData.ExtraMainClothing3Types[Unit.ClothingExtraType3 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing3Types[Unit.ClothingExtraType3 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType3 = (totalClothingTypes + Unit.ClothingExtraType3 + change) % totalClothingTypes;
         }
@@ -1134,14 +1142,14 @@ public class UnitCustomizer
 
     void ChangeExtraClothing4Type(int change)
     {
-        int totalClothingTypes = RaceData.ExtraMainClothing4Count;
+        int totalClothingTypes = RaceData.MiscRaceData.ExtraMainClothing4Count;
         if (totalClothingTypes == 0)
         {
             Unit.ClothingExtraType4 = 0;
             return;
         }
 
-        if (Unit.ClothingExtraType4 > RaceData.ExtraMainClothing4Count)
+        if (Unit.ClothingExtraType4 > RaceData.MiscRaceData.ExtraMainClothing4Count)
             Unit.ClothingExtraType4 = 0;
 
         Unit.ClothingExtraType4 = (totalClothingTypes + Unit.ClothingExtraType4 + change) % totalClothingTypes;
@@ -1149,7 +1157,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType4 == 0)
                 break;
-            if (RaceData.ExtraMainClothing4Types[Unit.ClothingExtraType4 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing4Types[Unit.ClothingExtraType4 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType4 = (totalClothingTypes + Unit.ClothingExtraType4 + change) % totalClothingTypes;
         }
@@ -1158,14 +1166,14 @@ public class UnitCustomizer
 
     void ChangeExtraClothing5Type(int change)
     {
-        int totalClothingTypes = RaceData.ExtraMainClothing5Count;
+        int totalClothingTypes = RaceData.MiscRaceData.ExtraMainClothing5Count;
         if (totalClothingTypes == 0)
         {
             Unit.ClothingExtraType5 = 0;
             return;
         }
 
-        if (Unit.ClothingExtraType5 > RaceData.ExtraMainClothing5Count)
+        if (Unit.ClothingExtraType5 > RaceData.MiscRaceData.ExtraMainClothing5Count)
             Unit.ClothingExtraType5 = 0;
 
         Unit.ClothingExtraType5 = (totalClothingTypes + Unit.ClothingExtraType5 + change) % totalClothingTypes;
@@ -1173,7 +1181,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType5 == 0)
                 break;
-            if (RaceData.ExtraMainClothing5Types[Unit.ClothingExtraType5 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing5Types[Unit.ClothingExtraType5 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType5 = (totalClothingTypes + Unit.ClothingExtraType5 + change) % totalClothingTypes;
         }
@@ -1182,7 +1190,7 @@ public class UnitCustomizer
 
     void ChangeClothingAccesoryType(int change)
     {
-        int totalClothingTypes = RaceData.ClothingAccessoryTypesCount;
+        int totalClothingTypes = RaceData.MiscRaceData.ClothingAccessoryTypesCount;
         if (Unit.EarnedMask && Unit.Race <= Race.Goblins && Unit.Race != Race.Lizards)
             totalClothingTypes += 1;
         if (totalClothingTypes == 0)
@@ -1199,9 +1207,9 @@ public class UnitCustomizer
         {
             if (Unit.ClothingAccessoryType == 0)
                 break;
-            if (Unit.ClothingAccessoryType == RaceData.ClothingAccessoryTypesCount && Unit.EarnedMask)
+            if (Unit.ClothingAccessoryType == RaceData.MiscRaceData.ClothingAccessoryTypesCount && Unit.EarnedMask)
                 break;
-            if (RaceData.AllowedClothingAccessoryTypes[Unit.ClothingAccessoryType - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedClothingAccessoryTypes[Unit.ClothingAccessoryType - 1].CanWear(Unit))
                 break;
             Unit.ClothingAccessoryType = (totalClothingTypes + Unit.ClothingAccessoryType + change) % totalClothingTypes;
         }
@@ -1210,14 +1218,14 @@ public class UnitCustomizer
 
     void ChangeClothingHatType(int change)
     {
-        int totalClothingTypes = RaceData.ClothingHatTypesCount;
+        int totalClothingTypes = RaceData.MiscRaceData.ClothingHatTypesCount;
         if (totalClothingTypes == 0)
         {
             Unit.ClothingHatType = 0;
             return;
         }
 
-        if (Unit.ClothingHatType > RaceData.ClothingHatTypesCount)
+        if (Unit.ClothingHatType > RaceData.MiscRaceData.ClothingHatTypesCount)
             Unit.ClothingHatType = 0;
 
         Unit.ClothingHatType = (totalClothingTypes + Unit.ClothingHatType + change) % totalClothingTypes;
@@ -1225,7 +1233,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingHatType == 0)
                 break;
-            if (RaceData.AllowedClothingHatTypes[Unit.ClothingHatType - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedClothingHatTypes[Unit.ClothingHatType - 1].CanWear(Unit))
                 break;
             Unit.ClothingHatType = (totalClothingTypes + Unit.ClothingHatType + change) % totalClothingTypes;
         }
@@ -1234,17 +1242,17 @@ public class UnitCustomizer
 
     void ChangeClothingColor(int change)
     {
-        Unit.ClothingColor = (RaceData.clothingColors + Unit.ClothingColor + change) % RaceData.clothingColors;
+        Unit.ClothingColor = (RaceData.MiscRaceData.ClothingColors + Unit.ClothingColor + change) % RaceData.MiscRaceData.ClothingColors;
         RefreshView();
     }
     void ChangeClothingColor2(int change)
     {
-        Unit.ClothingColor2 = (RaceData.clothingColors + Unit.ClothingColor2 + change) % RaceData.clothingColors;
+        Unit.ClothingColor2 = (RaceData.MiscRaceData.ClothingColors + Unit.ClothingColor2 + change) % RaceData.MiscRaceData.ClothingColors;
         RefreshView();
     }
     void ChangeClothingColor3(int change)
     {
-        Unit.ClothingColor3 = (RaceData.clothingColors + Unit.ClothingColor3 + change) % RaceData.clothingColors;
+        Unit.ClothingColor3 = (RaceData.MiscRaceData.ClothingColors + Unit.ClothingColor3 + change) % RaceData.MiscRaceData.ClothingColors;
         RefreshView();
     }
 
@@ -1268,80 +1276,80 @@ public class UnitCustomizer
 
     void ChangeHeadType(int change)
     {
-        Unit.HeadType = (RaceData.HeadTypes + Unit.HeadType + change) % RaceData.HeadTypes;
+        Unit.HeadType = (RaceData.MiscRaceData.HeadTypes + Unit.HeadType + change) % RaceData.MiscRaceData.HeadTypes;
         RefreshView();
     }
 
     void ChangeTailType(int change)
     {
-        Unit.TailType = (RaceData.TailTypes + Unit.TailType + change) % RaceData.TailTypes;
+        Unit.TailType = (RaceData.MiscRaceData.TailTypes + Unit.TailType + change) % RaceData.MiscRaceData.TailTypes;
         RefreshView();
     }
 
     void ChangeFurType(int change)
     {
-        Unit.FurType = (RaceData.FurTypes + Unit.FurType + change) % RaceData.FurTypes;
+        Unit.FurType = (RaceData.MiscRaceData.FurTypes + Unit.FurType + change) % RaceData.MiscRaceData.FurTypes;
         RefreshView();
     }
 
     void ChangeEarType(int change)
     {
-        Unit.EarType = (RaceData.EarTypes + Unit.EarType + change) % RaceData.EarTypes;
+        Unit.EarType = (RaceData.MiscRaceData.EarTypes + Unit.EarType + change) % RaceData.MiscRaceData.EarTypes;
         RefreshView();
     }
 
     void ChangeBodyAccentTypes1Type(int change)
     {
-        Unit.BodyAccentType1 = (RaceData.BodyAccentTypes1 + Unit.BodyAccentType1 + change) % RaceData.BodyAccentTypes1;
+        Unit.BodyAccentType1 = (RaceData.MiscRaceData.BodyAccentTypes1 + Unit.BodyAccentType1 + change) % RaceData.MiscRaceData.BodyAccentTypes1;
         RefreshView();
     }
 
     void ChangeBodyAccentTypes2Type(int change)
     {
-        Unit.BodyAccentType2 = (RaceData.BodyAccentTypes2 + Unit.BodyAccentType2 + change) % RaceData.BodyAccentTypes2;
+        Unit.BodyAccentType2 = (RaceData.MiscRaceData.BodyAccentTypes2 + Unit.BodyAccentType2 + change) % RaceData.MiscRaceData.BodyAccentTypes2;
         RefreshView();
     }
 
     void ChangeBodyAccentTypes3Type(int change)
     {
-        Unit.BodyAccentType3 = (RaceData.BodyAccentTypes3 + Unit.BodyAccentType3 + change) % RaceData.BodyAccentTypes3;
+        Unit.BodyAccentType3 = (RaceData.MiscRaceData.BodyAccentTypes3 + Unit.BodyAccentType3 + change) % RaceData.MiscRaceData.BodyAccentTypes3;
         RefreshView();
     }
 
     void ChangeBodyAccentTypes4Type(int change)
     {
-        Unit.BodyAccentType4 = (RaceData.BodyAccentTypes4 + Unit.BodyAccentType4 + change) % RaceData.BodyAccentTypes4;
+        Unit.BodyAccentType4 = (RaceData.MiscRaceData.BodyAccentTypes4 + Unit.BodyAccentType4 + change) % RaceData.MiscRaceData.BodyAccentTypes4;
         RefreshView();
     }
 
     void ChangeBodyAccentTypes5Type(int change)
     {
-        Unit.BodyAccentType5 = (RaceData.BodyAccentTypes5 + Unit.BodyAccentType5 + change) % RaceData.BodyAccentTypes5;
+        Unit.BodyAccentType5 = (RaceData.MiscRaceData.BodyAccentTypes5 + Unit.BodyAccentType5 + change) % RaceData.MiscRaceData.BodyAccentTypes5;
         RefreshView();
     }
 
     void ChangeBallsSize(int change)
     {
-        Unit.BallsSize = (RaceData.BallsSizes + Unit.BallsSize + change) % RaceData.BallsSizes;
+        Unit.BallsSize = (RaceData.MiscRaceData.BallsSizes + Unit.BallsSize + change) % RaceData.MiscRaceData.BallsSizes;
         RefreshView();
     }
 
     void ChangeVulvaType(int change)
     {
-        Unit.VulvaType = (RaceData.VulvaTypes + Unit.VulvaType + change) % RaceData.VulvaTypes;
+        Unit.VulvaType = (RaceData.MiscRaceData.VulvaTypes + Unit.VulvaType + change) % RaceData.MiscRaceData.VulvaTypes;
         RefreshView();
     }
 
     void ChangeWeaponSprite(int change)
     {
-        int basicMeleeTypes = RaceData.BasicMeleeWeaponTypes;
+        int basicMeleeTypes = RaceData.MiscRaceData.BasicMeleeWeaponTypes;
         if (Config.HideCocks == false)
             basicMeleeTypes++;
         Unit.BasicMeleeWeaponType = (basicMeleeTypes + Unit.BasicMeleeWeaponType + change) % basicMeleeTypes;
 
-        Unit.AdvancedMeleeWeaponType = (RaceData.AdvancedMeleeWeaponTypes + Unit.AdvancedMeleeWeaponType + change) % RaceData.AdvancedMeleeWeaponTypes;
-        Unit.BasicRangedWeaponType = (RaceData.BasicRangedWeaponTypes + Unit.BasicRangedWeaponType + change) % RaceData.BasicRangedWeaponTypes;
-        Unit.AdvancedRangedWeaponType = (RaceData.AdvancedRangedWeaponTypes + Unit.AdvancedRangedWeaponType + change) % RaceData.AdvancedRangedWeaponTypes;
+        Unit.AdvancedMeleeWeaponType = (RaceData.MiscRaceData.AdvancedMeleeWeaponTypes + Unit.AdvancedMeleeWeaponType + change) % RaceData.MiscRaceData.AdvancedMeleeWeaponTypes;
+        Unit.BasicRangedWeaponType = (RaceData.MiscRaceData.BasicRangedWeaponTypes + Unit.BasicRangedWeaponType + change) % RaceData.MiscRaceData.BasicRangedWeaponTypes;
+        Unit.AdvancedRangedWeaponType = (RaceData.MiscRaceData.AdvancedRangedWeaponTypes + Unit.AdvancedRangedWeaponType + change) % RaceData.MiscRaceData.AdvancedRangedWeaponTypes;
         RefreshView();
     }
 

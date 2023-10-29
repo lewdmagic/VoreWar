@@ -245,7 +245,6 @@ public class ContentSettings : MonoBehaviour
     public Slider MaxArmies;
 
     public Toggle StatBoostsAffectMaxHP;
-    public Toggle OverfeedingDamage;
 
 
 
@@ -348,7 +347,7 @@ public class ContentSettings : MonoBehaviour
             new ToggleObject(BurpOnDigest, "BurpOnDigest", false),
             new ToggleObject(FartOnAbsorb, "FartOnAbsorb", false),
             new ToggleObject(CanUseStomachRubOnEnemies, "CanUseStomachRubOnEnemies", false),
-            new ToggleObject(DayNightEnabled, "DayNightEnabled", false),
+            new ToggleObject(DayNightEnabled, "DayNightEnabled", true),
             new ToggleObject(DayNightCosmetic, "DayNightCosmetic", false),
             new ToggleObject(DayNightSchedule, "DayNightSchedule", true),
             new ToggleObject(DayNightRandom, "DayNightRandom", true),
@@ -358,12 +357,11 @@ public class ContentSettings : MonoBehaviour
             new ToggleObject(StatCrit, "StatCrit", false),
             new ToggleObject(StatGraze, "StatGraze", false),
             new ToggleObject(StatBoostsAffectMaxHP, "StatBoostsAffectMaxHP", false),
-            new ToggleObject(OverfeedingDamage, "OverfeedingDamage", false),
 
         };
         MercToggles = new List<ToggleObject>();
         MonsterSpawners = new List<MonsterSpawnerPanel>();
-        foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0).OrderBy((s) => s.ToString()))
+        foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).OrderBy((s) => s.ToString()))
         {
             var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
             MercToggles.Add(obj);
@@ -1315,7 +1313,7 @@ public class ContentSettings : MonoBehaviour
         }
         if (MercSortMethod.value == 0)
         {
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0).OrderBy((s) => s.ToString()))
+            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
                 MercToggles.Add(obj);
@@ -1324,7 +1322,7 @@ public class ContentSettings : MonoBehaviour
         }
         if (MercSortMethod.value == 1)
         {
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => s < Race.Succubi && s >= 0).OrderBy((s) => s.ToString()))
+            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => s < Race.Succubi).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
                 MercToggles.Add(obj);
@@ -1351,7 +1349,7 @@ public class ContentSettings : MonoBehaviour
         }
         if (MercSortMethod.value == 2)
         {
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0))
+            foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
                 MercToggles.Add(obj);
@@ -1419,7 +1417,6 @@ public class ContentSettings : MonoBehaviour
             CumGestation.isOn = false;
         SpecialMercsCanConvert.interactable = KuroTenkoEnabled.isOn && (int)Config.UBConversion <= 1;
         NoScatForDeadTransfers.interactable = KuroTenkoEnabled.isOn;
-        AlwaysRandomizeConverted.interactable = KuroTenkoEnabled.isOn;
     }
 
     public void DayNightCycleChanged()

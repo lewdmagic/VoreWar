@@ -448,4 +448,35 @@ public static class ColorMap
     public static int DratopyrFleshColorCount => DratopyrFleshColors.Length;
     public static int DratopyrEyeColorCount => DratopyrEyeColors.Length;
 
+    internal static Color Redify(Color color, float fraction)
+    {
+        color.r = 1 - (1 - color.r) * fraction;
+        color.g = color.g * (1 - fraction);
+        color.b = color.b * (1 - fraction);
+        return color;
+    }
+
+    internal static Color Bluify(Color color, float fraction)
+    {
+        color.r = color.r * (1 - fraction);
+        color.g = color.g * (1 - fraction);
+        color.b = 1 - (1 - color.b) * fraction;
+        return color;
+    }
+
+    internal static Color Darken(Color color, float fraction)
+    {
+        color.r = color.r * (1 - fraction);
+        color.g = color.g * (1 - fraction);
+        color.b = color.b * (1 - fraction);
+        return color;
+    }
+
+    internal static Color Lighten(Color color, float fraction)
+    {
+        color.r = 1 - ((1 - color.r) * (1 - fraction));
+        color.g = 1 - ((1 - color.g) * (1 - fraction));
+        color.b = 1 - ((1 - color.b) * (1 - fraction));
+        return color;
+    }
 }

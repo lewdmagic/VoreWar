@@ -1,0 +1,1609 @@
+﻿#region
+
+using System;
+using UnityEngine;
+
+#endregion
+
+internal static class Vargul
+{
+    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    {
+        builder.Setup(output =>
+        {
+            output.DickSizes = () => 8;
+            output.BreastSizes = () => 8;
+
+            output.BodySizes = 4;
+            output.EyeTypes = 5;
+            output.SpecialAccessoryCount = 6; // body patterns    
+            output.HairStyles = 0;
+            output.MouthTypes = 0;
+            output.HairColors = 0;
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.VargulSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.VargulSkin);
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.ViperSkin);
+            output.BodyAccentTypes1 = 5; // ears
+            output.BodyAccentTypes2 = 6; // head pattern
+            output.BodyAccentTypes3 = 2; // mask on/off
+
+            output.ExtendedBreastSprites = true;
+
+            output.AllowedClothingHatTypes.Clear();
+
+            output.AllowedMainClothingTypes.Set(
+                GenericTop1.GenericTop1Instance,
+                GenericTop2.GenericTop2Instance,
+                GenericTop3.GenericTop3Instance,
+                GenericTop4.GenericTop4Instance,
+                GenericTop5.GenericTop5Instance,
+                Natural.NaturalInstance,
+                Tribal.TribalInstance,
+                LightArmour.LightArmourInstance,
+                MediumArmour.MediumArmourInstance,
+                HeavyArmour.HeavyArmourInstance
+            );
+            output.AvoidedMainClothingTypes = 0;
+            output.AvoidedEyeTypes = 0;
+            output.AllowedWaistTypes.Set(
+                GenericBot1.GenericBot1Instance,
+                GenericBot2.GenericBot2Instance,
+                GenericBot3.GenericBot3Instance,
+                ArmourBot1.ArmourBot1Instance,
+                ArmourBot2.ArmourBot2Instance
+            );
+
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin);
+            output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing50Spaced);
+        });
+
+
+        builder.RunBefore((input, output) =>
+        {
+            CommonRaceCode.MakeBreastOversize(30 * 30).Invoke(input, output);
+            Defaults.BasicBellyRunAfter.Invoke(input, output);
+        });
+
+        builder.RenderSingle(SpriteType.Head, 19, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.IsOralVoring)
+            {
+                output.Sprite(input.Sprites.Vargul1[22]);
+                return;
+            }
+
+            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            {
+                output.Sprite(input.Sprites.Vargul1[21]);
+                return;
+            }
+
+            output.Sprite(input.Sprites.Vargul1[20]);
+        });
+
+        builder.RenderSingle(SpriteType.Eyes, 21, (input, output) =>
+        {
+            output.Coloring(Defaults.WhiteColored);
+            output.Sprite(input.Sprites.Vargul1[40 + input.Actor.Unit.EyeType]);
+        });
+
+        builder.RenderSingle(SpriteType.SecondaryEyes, 21, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.EyeColor));
+            output.Sprite(input.Sprites.Vargul1[45 + input.Actor.Unit.EyeType]);
+        });
+
+
+        builder.RenderSingle(SpriteType.Mouth, 21, (input, output) =>
+        {
+            output.Coloring(Defaults.WhiteColored);
+            if (input.Actor.IsOralVoring)
+            {
+                output.Sprite(input.Sprites.Vargul1[24]);
+                return;
+            }
+
+            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            {
+                output.Sprite(input.Sprites.Vargul1[23]);
+            }
+        });
+
+        builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.Unit.HasBreasts)
+            {
+                output.Sprite(input.Sprites.Vargul1[0 + input.Actor.Unit.BodySize]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Vargul1[4 + input.Actor.Unit.BodySize]);
+            }
+        });
+
+        builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.Unit.HasWeapon == false)
+            {
+                if (input.Actor.IsAttacking)
+                {
+                    output.Sprite(input.Sprites.Vargul1[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+                }
+
+                output.Sprite(input.Sprites.Vargul1[8 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                return;
+            }
+
+            switch (input.Actor.GetWeaponSprite())
+            {
+                case 0:
+                    output.Sprite(input.Sprites.Vargul1[12 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+                case 1:
+                    output.Sprite(input.Sprites.Vargul1[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+                case 2:
+                    output.Sprite(input.Sprites.Vargul1[12 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+                case 3:
+                    output.Sprite(input.Sprites.Vargul1[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+                case 4:
+                    output.Sprite(input.Sprites.Vargul1[12 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+                case 5:
+                    output.Sprite(input.Sprites.Vargul1[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+                case 6:
+                    output.Sprite(input.Sprites.Vargul1[12 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+                case 7:
+                    output.Sprite(input.Sprites.Vargul1[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+                default:
+                    output.Sprite(input.Sprites.Vargul1[8 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0)]);
+                    return;
+            }
+        }); // Right Arm
+
+        builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            output.Sprite(input.Sprites.Vargul1[30]);
+        }); // Tail
+        builder.RenderSingle(SpriteType.BodyAccent3, 2, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.AccessoryColor));
+            if (input.Actor.Unit.SpecialAccessoryType == 5)
+            {
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Vargul1[31]);
+            }
+        }); // Tail Pattern
+
+        builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.AccessoryColor));
+            if (input.Actor.Unit.SpecialAccessoryType == 5)
+            {
+            }
+            else
+            {
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    output.Sprite(input.Sprites.Vargul2[0 + input.Actor.Unit.BodySize + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                }
+                else
+                {
+                    output.Sprite(input.Sprites.Vargul2[4 + input.Actor.Unit.BodySize + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                }
+            }
+        }); // Body Secondary Pattern
+
+        builder.RenderSingle(SpriteType.BodyAccent5, 20, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.AccessoryColor));
+            if (input.Actor.Unit.BodyAccentType2 == 5)
+            {
+                return;
+            }
+
+            if (input.Actor.IsOralVoring)
+            {
+                output.Sprite(input.Sprites.Vargul1[62 + 3 * input.Actor.Unit.BodyAccentType2]);
+                return;
+            }
+
+            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            {
+                output.Sprite(input.Sprites.Vargul1[61 + 3 * input.Actor.Unit.BodyAccentType2]);
+                return;
+            }
+
+            output.Sprite(input.Sprites.Vargul1[60 + 3 * input.Actor.Unit.BodyAccentType2]);
+        }); // Head Secondary Pattern
+
+        builder.RenderSingle(SpriteType.BodyAccent6, 21, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.AccessoryColor));
+            if (input.Actor.Unit.BodyAccentType2 == 5 || input.Actor.Unit.BodyAccentType2 == 3)
+            {
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Vargul1[55 + input.Actor.Unit.BodyAccentType1]);
+            }
+        }); // Ears Pattern
+
+        builder.RenderSingle(SpriteType.BodyAccent7, 2, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.AccessoryColor));
+            if (input.Actor.Unit.SpecialAccessoryType == 5)
+            {
+                return;
+            }
+
+            if (input.Actor.Unit.HasWeapon == false)
+            {
+                if (input.Actor.IsAttacking)
+                {
+                    output.Sprite(input.Sprites.Vargul2[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+                }
+
+                output.Sprite(input.Sprites.Vargul2[8 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                return;
+            }
+
+            switch (input.Actor.GetWeaponSprite())
+            {
+                case 0:
+                    output.Sprite(input.Sprites.Vargul2[12 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+                case 1:
+                    output.Sprite(input.Sprites.Vargul2[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+                case 2:
+                    output.Sprite(input.Sprites.Vargul2[12 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+                case 3:
+                    output.Sprite(input.Sprites.Vargul2[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+                case 4:
+                    output.Sprite(input.Sprites.Vargul2[12 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+                case 5:
+                    output.Sprite(input.Sprites.Vargul2[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+                case 6:
+                    output.Sprite(input.Sprites.Vargul2[12 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+                case 7:
+                    output.Sprite(input.Sprites.Vargul2[16 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+                default:
+                    output.Sprite(input.Sprites.Vargul2[8 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + 20 * input.Actor.Unit.SpecialAccessoryType]);
+                    return;
+            }
+        }); // Right Arm Secondary Pattern
+
+        builder.RenderSingle(SpriteType.BodyAccent8, 6, (input, output) =>
+        {
+            output.Coloring(Defaults.WhiteColored);
+            output.Sprite(input.Sprites.Vargul1[26]);
+        }); // Claws
+        builder.RenderSingle(SpriteType.BodyAccent9, 2, (input, output) =>
+        {
+            output.Coloring(Defaults.WhiteColored);
+            if (input.Actor.Unit.HasWeapon == false)
+            {
+                if (input.Actor.IsAttacking)
+                {
+                    output.Sprite(input.Sprites.Vargul1[29]);
+                }
+                else
+                {
+                    output.Sprite(input.Sprites.Vargul1[27]);
+                }
+            }
+            else
+            {
+                if (input.Actor.IsAttacking)
+                {
+                    output.Sprite(input.Sprites.Vargul1[29]);
+                }
+                else
+                {
+                    output.Sprite(input.Sprites.Vargul1[28]);
+                }
+            }
+        }); // Right Arm Claws
+
+        builder.RenderSingle(SpriteType.BodyAccent10, 18, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.Unit.ClothingType == 9)
+            {
+                return;
+            }
+
+            output.Sprite(input.Sprites.Vargul1[25]);
+        }); // Fur Collar
+
+        builder.RenderSingle(SpriteType.BodyAccessory, 20, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            output.Sprite(input.Sprites.Vargul1[50 + input.Actor.Unit.BodyAccentType1]);
+        }); // Ears
+        builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.Unit.HasBreasts == false)
+            {
+                return;
+            }
+
+            input.Params.Oversize = false;
+            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            {
+                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(30 * 30));
+                if (leftSize > input.Actor.Unit.DefaultBreastSize)
+                {
+                    input.Params.Oversize = true;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 30)
+                {
+                    output.Sprite(input.Sprites.Vargul3[29]);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
+                {
+                    output.Sprite(input.Sprites.Vargul3[28]);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 26)
+                {
+                    output.Sprite(input.Sprites.Vargul3[27]);
+                    return;
+                }
+
+                if (leftSize > 26)
+                {
+                    leftSize = 26;
+                }
+
+                output.Sprite(input.Sprites.Vargul3[0 + leftSize]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Vargul3[0 + input.Actor.Unit.BreastSize]);
+            }
+        });
+
+        builder.RenderSingle(SpriteType.SecondaryBreasts, 17, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.Unit.HasBreasts == false)
+            {
+                return;
+            }
+
+            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            {
+                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(30 * 30));
+                if (rightSize > input.Actor.Unit.DefaultBreastSize)
+                {
+                    input.Params.Oversize = true;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 30)
+                {
+                    output.Sprite(input.Sprites.Vargul3[59]);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
+                {
+                    output.Sprite(input.Sprites.Vargul3[58]);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 26)
+                {
+                    output.Sprite(input.Sprites.Vargul3[57]);
+                    return;
+                }
+
+                if (rightSize > 26)
+                {
+                    rightSize = 26;
+                }
+
+                output.Sprite(input.Sprites.Vargul3[30 + rightSize]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Vargul3[30 + input.Actor.Unit.BreastSize]);
+            }
+        });
+
+        builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.HasBelly)
+            {
+                int size = input.Actor.GetStomachSize(26, 0.7f);
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 26)
+                {
+                    output.Sprite(input.Sprites.Vargul3[90]).AddOffset(0, -22 * .625f);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 26)
+                {
+                    output.Sprite(input.Sprites.Vargul3[89]).AddOffset(0, -22 * .625f);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 25)
+                {
+                    output.Sprite(input.Sprites.Vargul3[88]).AddOffset(0, -22 * .625f);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 24)
+                {
+                    output.Sprite(input.Sprites.Vargul3[87]).AddOffset(0, -22 * .625f);
+                    return;
+                }
+
+                switch (size)
+                {
+                    case 22:
+                        output.AddOffset(0, -4 * .625f);
+                        break;
+                    case 23:
+                        output.AddOffset(0, -9 * .625f);
+                        break;
+                    case 24:
+                        output.AddOffset(0, -14 * .625f);
+                        break;
+                    case 25:
+                        output.AddOffset(0, -19 * .625f);
+                        break;
+                    case 26:
+                        output.AddOffset(0, -22 * .625f);
+                        break;
+                }
+
+                output.Sprite(input.Sprites.Vargul3[60 + size]);
+            }
+        });
+
+        builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
+        {
+            output.Coloring(Defaults.WhiteColored);
+            if (input.Actor.Unit.HasDick == false)
+            {
+                return;
+            }
+
+            if (input.Actor.IsErect())
+            {
+                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(31 * 31)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(31 * 31)) < 16)
+                {
+                    output.Layer(20);
+                    if (input.Actor.IsCockVoring)
+                    {
+                        output.Sprite(input.Sprites.Vargul1[83 + input.Actor.Unit.DickSize]);
+                    }
+                    else
+                    {
+                        output.Sprite(input.Sprites.Vargul1[75 + input.Actor.Unit.DickSize]);
+                    }
+                }
+                else
+                {
+                    output.Layer(13);
+                    if (input.Actor.IsCockVoring)
+                    {
+                        output.Sprite(input.Sprites.Vargul1[99 + input.Actor.Unit.DickSize]);
+                    }
+                    else
+                    {
+                        output.Sprite(input.Sprites.Vargul1[91 + input.Actor.Unit.DickSize]);
+                    }
+                }
+            }
+
+            //output.Layer(11);
+        });
+
+        builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.Unit.HasDick == false)
+            {
+                return;
+            }
+
+            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(30 * 30)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(30 * 30)) < 16)
+            {
+                output.Layer(19);
+            }
+            else
+            {
+                output.Layer(10);
+            }
+
+            int size = input.Actor.Unit.DickSize;
+            int offset = input.Actor.GetBallSize(27, .8f);
+            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 27)
+            {
+                output.Sprite(input.Sprites.Vargul3[127]).AddOffset(0, -24 * .625f);
+                return;
+            }
+
+            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
+            {
+                output.Sprite(input.Sprites.Vargul3[126]).AddOffset(0, -19 * .625f);
+                return;
+            }
+
+            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 26)
+            {
+                output.Sprite(input.Sprites.Vargul3[125]).AddOffset(0, -15 * .625f);
+                return;
+            }
+
+            if (offset >= 25)
+            {
+                output.AddOffset(0, -10 * .625f);
+            }
+            else if (offset == 24)
+            {
+                output.AddOffset(0, -5 * .625f);
+            }
+
+            if (offset > 0)
+            {
+                output.Sprite(input.Sprites.Vargul3[Math.Min(99 + offset, 124)]);
+                return;
+            }
+
+            output.Sprite(input.Sprites.Vargul3[91 + size]);
+        });
+
+        builder.RenderSingle(SpriteType.Weapon, 3, (input, output) =>
+        {
+            output.Coloring(Defaults.WhiteColored);
+            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            {
+                output.Sprite(input.Sprites.Vargul1[32 + input.Actor.GetWeaponSprite()]);
+            }
+        });
+
+        builder.RandomCustom(data =>
+        {
+            Defaults.RandomCustom(data);
+            Unit unit = data.Unit;
+
+
+            unit.AccessoryColor = unit.SkinColor;
+
+            if (State.Rand.Next(2) > 0)
+            {
+                unit.SpecialAccessoryType = State.Rand.Next(data.MiscRaceData.SpecialAccessoryCount);
+            }
+            else
+            {
+                unit.SpecialAccessoryType = 0;
+            }
+
+            if (unit.SpecialAccessoryType == 5)
+            {
+                unit.BodyAccentType2 = 5;
+            }
+            else
+            {
+                unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2 - 1);
+            }
+
+            unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
+            unit.BodyAccentType3 = 1;
+        });
+    });
+
+
+    private static class GenericTop1
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Komodos4[48];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 61401;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(18);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[61]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[53 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericTop2
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Komodos4[58];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 61402;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(18);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[70]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[62 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericTop3
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Komodos4[68];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 61403;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(18);
+                output["Clothing2"].Layer(18);
+                output["Clothing2"].Coloring(Color.white);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[79]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[71 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing2"].Sprite(input.Sprites.Vargul4[80]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericTop4
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Komodos4[79];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 61404;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(18);
+                output["Clothing2"].Layer(18);
+                output["Clothing2"].Coloring(Color.white);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(null);
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[89]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[90 + input.Actor.Unit.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[81 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericTop5
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Komodos4[97];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 61405;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(18);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[106]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[98 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class Natural
+    {
+        internal static IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.RevealsBreasts = true;
+                output.OccupiesAllSlots = true;
+                output.FixedColor = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing2"].Layer(7);
+                output["Clothing1"].Layer(18);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(null);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[2 + input.Actor.Unit.BreastSize]);
+                }
+
+                if (input.Actor.Unit.BodySize < 3)
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[0]);
+                }
+                else
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[1]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.VargulSkin, input.Actor.Unit.SkinColor));
+            });
+        });
+    }
+
+    private static class Tribal
+    {
+        internal static IClothing<IOverSizeParameters> TribalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Komodos4[38];
+                output.RevealsBreasts = true;
+                output.Type = 61406;
+                output.OccupiesAllSlots = true;
+                output.FixedColor = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing2"].Layer(12);
+                output["Clothing2"].Coloring(Color.white);
+                output["Clothing1"].Layer(18);
+                output["Clothing1"].Coloring(Color.white);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[52]);
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[36 + input.Actor.Unit.BodySize]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[44 + input.Actor.Unit.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[36 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[40 + input.Actor.Unit.BodySize]);
+                }
+            });
+        });
+    }
+
+    private static class LightArmour
+    {
+        internal static IClothing<IOverSizeParameters> LightArmourInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Vargul5[38];
+                output.RevealsBreasts = true;
+                output.Type = 61802;
+                output.FixedColor = true;
+                output.OccupiesAllSlots = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing8"].Layer(18);
+                output["Clothing6"].Layer(12);
+                output["Clothing5"].Layer(7);
+                output["Clothing4"].Layer(7);
+                output["Clothing7"].Layer(19);
+                output["Clothing7"].Coloring(Color.white);
+                output["Clothing3"].Layer(22);
+                output["Clothing3"].Coloring(Color.white);
+                output["Clothing2"].Layer(3);
+                output["Clothing2"].Coloring(Color.white);
+                output["Clothing1"].Layer(0);
+                output["Clothing1"].Coloring(Color.white);
+                if (input.Actor.Unit.BodyAccentType3 == 0)
+                {
+                    output["Clothing3"].Sprite(input.Sprites.Vargul5[2]);
+                }
+                else
+                {
+                    if (input.Actor.IsOralVoring)
+                    {
+                        output["Clothing3"].Sprite(input.Sprites.Vargul5[5]);
+                    }
+                    else if (input.Actor.IsAttacking || input.Actor.IsEating)
+                    {
+                        output["Clothing3"].Sprite(input.Sprites.Vargul5[4]);
+                    }
+                    else
+                    {
+                        output["Clothing3"].Sprite(input.Sprites.Vargul5[3]);
+                    }
+                }
+
+                if (input.Params.Oversize)
+                {
+                    if (input.Actor.Unit.BodySize < 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[6]);
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[10]);
+                    }
+                    else if (input.Actor.Unit.BodySize > 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[7]);
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[11]);
+                    }
+                    else
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[7]);
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[10]);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Vargul5[1]);
+                    output["Clothing6"].Sprite(input.Sprites.Vargul5[14 + input.Actor.Unit.BodySize]);
+                    output["Clothing7"].Sprite(null);
+                    output["Clothing8"].Sprite(null);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Actor.Unit.BodySize < 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[6]);
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[10]);
+                    }
+                    else if (input.Actor.Unit.BodySize > 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[7]);
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[11]);
+                    }
+                    else
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[7]);
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[10]);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Vargul5[1]);
+                    output["Clothing6"].Sprite(input.Sprites.Vargul5[14 + input.Actor.Unit.BodySize]);
+                    output["Clothing7"].Sprite(input.Sprites.Vargul5[22 + input.Actor.Unit.BreastSize]);
+                    output["Clothing8"].Sprite(input.Sprites.Vargul5[30 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    if (input.Actor.Unit.BodySize < 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[8]);
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[12]);
+                    }
+                    else
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[9]);
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[13]);
+                    }
+
+                    output["Clothing2"].Sprite(null);
+                    output["Clothing6"].Sprite(input.Sprites.Vargul5[18 + input.Actor.Unit.BodySize]);
+                    output["Clothing7"].Sprite(null);
+                    output["Clothing8"].Sprite(input.Sprites.Vargul5[34 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing1"].Sprite(input.Sprites.Vargul5[0]);
+
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing5"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing6"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing8"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+            });
+        });
+    }
+
+    private static class MediumArmour
+    {
+        internal static IClothing<IOverSizeParameters> MediumArmourInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Vargul5[39];
+                output.RevealsBreasts = true;
+                output.Type = 61803;
+                output.FixedColor = true;
+                output.OccupiesAllSlots = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing8"].Layer(12);
+                output["Clothing6"].Layer(15);
+                output["Clothing5"].Layer(11);
+                output["Clothing4"].Layer(7);
+                output["Clothing3"].Layer(7);
+                output["Clothing2"].Layer(22);
+                output["Clothing1"].Layer(0);
+                output["Clothing7"].Layer(19);
+                output["Clothing7"].Coloring(Color.white);
+                if (input.Actor.GetStomachSize(26, 0.7f) > 6)
+                {
+                    if (input.Actor.Unit.HasBreasts)
+                    {
+                        output["Clothing6"].Sprite(input.Sprites.Vargul5[82]);
+                    }
+                    else
+                    {
+                        output["Clothing6"].Sprite(input.Sprites.Vargul5[83]);
+                    }
+
+                    output["Clothing6"].Layer(13);
+                }
+                else if (input.Actor.GetStomachSize(26, 0.7f) > 0)
+                {
+                    if (input.Actor.Unit.HasBreasts)
+                    {
+                        output["Clothing6"].Sprite(input.Sprites.Vargul5[74 + input.Actor.Unit.BodySize]);
+                    }
+                    else
+                    {
+                        output["Clothing6"].Sprite(input.Sprites.Vargul5[78 + input.Actor.Unit.BodySize]);
+                    }
+
+                    output["Clothing6"].Layer(15);
+                }
+                else
+                {
+                    if (input.Actor.Unit.HasBreasts)
+                    {
+                        output["Clothing6"].Sprite(input.Sprites.Vargul5[66 + input.Actor.Unit.BodySize]);
+                    }
+                    else
+                    {
+                        output["Clothing6"].Sprite(input.Sprites.Vargul5[70 + input.Actor.Unit.BodySize]);
+                    }
+
+                    output["Clothing6"].Layer(15);
+                }
+
+                if (input.Params.Oversize)
+                {
+                    if (input.Actor.Unit.BodySize < 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[54]);
+                    }
+                    else if (input.Actor.Unit.BodySize > 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[55]);
+                    }
+                    else
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[54]);
+                    }
+
+                    if (input.Actor.HasBelly)
+                    {
+                        output["Clothing7"].Sprite(input.Sprites.Vargul5[107]);
+                        output["Clothing8"].Sprite(input.Sprites.Vargul5[88 + input.Actor.Unit.BodySize]);
+                    }
+                    else
+                    {
+                        output["Clothing7"].Sprite(input.Sprites.Vargul5[107]);
+                        output["Clothing8"].Sprite(input.Sprites.Vargul5[84 + input.Actor.Unit.BodySize]);
+                    }
+
+                    if (input.Actor.Unit.BodyAccentType3 == 0)
+                    {
+                        output["Clothing2"].Sprite(input.Sprites.Vargul5[42]);
+                    }
+                    else
+                    {
+                        if (input.Actor.IsOralVoring)
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Vargul5[45]);
+                        }
+                        else if (input.Actor.IsAttacking || input.Actor.IsEating)
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Vargul5[44]);
+                        }
+                        else
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Vargul5[43]);
+                        }
+                    }
+
+                    output["Clothing5"].Sprite(input.Sprites.Vargul5[56 + input.Actor.Unit.BodySize]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Actor.Unit.BodySize < 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[54]);
+                    }
+                    else if (input.Actor.Unit.BodySize > 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[55]);
+                    }
+                    else
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[54]);
+                    }
+
+                    if (input.Actor.HasBelly)
+                    {
+                        output["Clothing7"].Sprite(input.Sprites.Vargul5[100 + input.Actor.Unit.BreastSize]);
+                        output["Clothing8"].Sprite(input.Sprites.Vargul5[88 + input.Actor.Unit.BodySize]);
+                    }
+                    else
+                    {
+                        output["Clothing7"].Sprite(input.Sprites.Vargul5[92 + input.Actor.Unit.BreastSize]);
+                        output["Clothing8"].Sprite(input.Sprites.Vargul5[84 + input.Actor.Unit.BodySize]);
+                    }
+
+                    if (input.Actor.Unit.BodyAccentType3 == 0)
+                    {
+                        output["Clothing2"].Sprite(input.Sprites.Vargul5[42]);
+                    }
+                    else
+                    {
+                        if (input.Actor.IsOralVoring)
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Vargul5[45]);
+                        }
+                        else if (input.Actor.IsAttacking || input.Actor.IsEating)
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Vargul5[44]);
+                        }
+                        else
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Vargul5[43]);
+                        }
+                    }
+
+                    output["Clothing5"].Sprite(input.Sprites.Vargul5[56 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    if (input.Actor.Unit.BodySize < 2)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[54]);
+                    }
+                    else
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Vargul5[55]);
+                    }
+
+                    if (input.Actor.HasBelly)
+                    {
+                        output["Clothing7"].Sprite(null);
+                        output["Clothing8"].Sprite(input.Sprites.Vargul5[112 + input.Actor.Unit.BodySize]);
+                    }
+                    else
+                    {
+                        output["Clothing7"].Sprite(null);
+                        output["Clothing8"].Sprite(input.Sprites.Vargul5[108 + input.Actor.Unit.BodySize]);
+                    }
+
+                    if (input.Actor.Unit.BodyAccentType3 == 0)
+                    {
+                        output["Clothing2"].Sprite(input.Sprites.Vargul5[151]);
+                    }
+                    else
+                    {
+                        if (input.Actor.IsOralVoring)
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Vargul5[154]);
+                        }
+                        else if (input.Actor.IsAttacking || input.Actor.IsEating)
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Vargul5[153]);
+                        }
+                        else
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Vargul5[152]);
+                        }
+                    }
+
+                    output["Clothing5"].Sprite(input.Sprites.Vargul5[60 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing1"].Sprite(input.Sprites.Vargul5[40]);
+                output["Clothing3"].Sprite(input.Sprites.Vargul5[46 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + (input.Actor.IsAttacking ? 4 : 0)]);
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing5"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing6"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing8"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+            });
+        });
+    }
+
+    private static class HeavyArmour
+    {
+        internal static IClothing<IOverSizeParameters> HeavyArmourInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Vargul5[159];
+                output.RevealsBreasts = true;
+                output.Type = 61804;
+                output.FixedColor = true;
+                output.OccupiesAllSlots = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing8"].Layer(20);
+
+                output["Clothing7"].Layer(19);
+
+                output["Clothing6"].Layer(12);
+
+                output["Clothing5"].Layer(13);
+
+                output["Clothing4"].Layer(7);
+
+                output["Clothing3"].Layer(22);
+
+                output["Clothing1"].Layer(0);
+
+                output["Clothing2"].Layer(22);
+
+                output["Clothing2"].Coloring(Color.white);
+
+                if (input.Actor.Unit.BodyAccentType3 == 0)
+                {
+                    output["Clothing3"].Sprite(null);
+                }
+                else
+                {
+                    if (input.Actor.IsOralVoring)
+                    {
+                        output["Clothing3"].Sprite(input.Sprites.Vargul5[122]);
+                    }
+                    else if (input.Actor.IsAttacking || input.Actor.IsEating)
+                    {
+                        output["Clothing3"].Sprite(input.Sprites.Vargul5[121]);
+                    }
+                    else
+                    {
+                        output["Clothing3"].Sprite(input.Sprites.Vargul5[120]);
+                    }
+                }
+
+                if (input.Params.Oversize)
+                {
+                    if (input.Actor.Unit.BodySize < 2)
+                    {
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[123]);
+                    }
+                    else if (input.Actor.Unit.BodySize > 2)
+                    {
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[124]);
+                    }
+                    else
+                    {
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[123]);
+                    }
+
+                    if (input.Actor.HasBelly || input.Actor.GetBallSize(27, .8f) > 0 || input.Actor.HasPreyInBreasts)
+                    {
+                        output["Clothing8"].Sprite(null);
+                    }
+                    else
+                    {
+                        output["Clothing8"].Sprite(input.Sprites.Vargul5[127 + input.Actor.Unit.BodySize]);
+                    }
+
+                    output["Clothing7"].Layer(21);
+                    output["Clothing1"].Sprite(input.Sprites.Vargul5[117]);
+                    output["Clothing2"].Sprite(input.Sprites.Vargul5[116]);
+                    output["Clothing6"].Sprite(input.Sprites.Vargul5[135 + input.Actor.Unit.BodySize]);
+                    output["Clothing7"].Sprite(null);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Actor.Unit.BodySize < 2)
+                    {
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[123]);
+                    }
+                    else if (input.Actor.Unit.BodySize > 2)
+                    {
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[124]);
+                    }
+                    else
+                    {
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[123]);
+                    }
+
+                    if (input.Actor.HasBelly || input.Actor.GetBallSize(27, .8f) > 0 || input.Actor.HasPreyInBreasts)
+                    {
+                        output["Clothing8"].Sprite(null);
+                    }
+                    else
+                    {
+                        output["Clothing8"].Sprite(input.Sprites.Vargul5[127 + input.Actor.Unit.BodySize]);
+                    }
+
+                    output["Clothing7"].Layer(21);
+                    output["Clothing1"].Sprite(input.Sprites.Vargul5[117]);
+                    output["Clothing2"].Sprite(input.Sprites.Vargul5[116]);
+                    output["Clothing6"].Sprite(input.Sprites.Vargul5[135 + input.Actor.Unit.BodySize]);
+                    output["Clothing7"].Sprite(input.Sprites.Vargul5[143 + input.Actor.Unit.BreastSize]);
+                }
+                else
+                {
+                    if (input.Actor.Unit.BodySize < 2)
+                    {
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[125]);
+                    }
+                    else
+                    {
+                        output["Clothing5"].Sprite(input.Sprites.Vargul5[126]);
+                    }
+
+                    if (input.Actor.HasBelly || input.Actor.GetBallSize(27, .8f) > 0 || input.Actor.HasPreyInBreasts)
+                    {
+                        output["Clothing8"].Sprite(null);
+                    }
+                    else
+                    {
+                        output["Clothing8"].Sprite(input.Sprites.Vargul5[131 + input.Actor.Unit.BodySize]);
+                    }
+
+                    output["Clothing7"].Layer(19);
+                    output["Clothing1"].Sprite(input.Sprites.Vargul5[119]);
+                    output["Clothing2"].Sprite(input.Sprites.Vargul5[118]);
+                    output["Clothing6"].Sprite(input.Sprites.Vargul5[139 + input.Actor.Unit.BodySize]);
+                    output["Clothing7"].Sprite(input.Sprites.Vargul5[155 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing4"].Sprite(input.Sprites.Vargul5[46 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + (!input.Actor.Unit.HasBreasts ? 2 : 0) + (input.Actor.IsAttacking ? 4 : 0)]);
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing5"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing6"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing7"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+                output["Clothing8"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+            });
+        });
+    }
+
+    private static class GenericBot1
+    {
+        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Komodos4[9];
+                output.RevealsBreasts = true;
+                output.Type = 61407;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(13);
+
+                output["Clothing2"].Layer(12);
+
+                output["Clothing2"].Coloring(Color.white);
+
+                if (input.Actor.Unit.BodySize < 3)
+                {
+                    if (input.Actor.Unit.DickSize > 0)
+                    {
+                        if (input.Actor.Unit.DickSize < 3)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Vargul4[19]);
+                        }
+                        else if (input.Actor.Unit.DickSize > 5)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Vargul4[21]);
+                        }
+                        else
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Vargul4[20]);
+                        }
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Vargul4[18]);
+                    }
+                }
+                else
+                {
+                    if (input.Actor.Unit.DickSize > 0)
+                    {
+                        if (input.Actor.Unit.DickSize < 3)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Vargul4[23]);
+                        }
+                        else if (input.Actor.Unit.DickSize > 5)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Vargul4[25]);
+                        }
+                        else
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Vargul4[24]);
+                        }
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Vargul4[22]);
+                    }
+                }
+
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[10 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[14 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericBot2
+    {
+        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Komodos4[19];
+                output.RevealsBreasts = true;
+                output.Type = 61408;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(13);
+
+                output["Clothing2"].Layer(12);
+
+                output["Clothing2"].Coloring(Color.white);
+
+                if (input.Actor.Unit.BodySize < 3)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[26]);
+                }
+                else
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[27]);
+                }
+
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[10 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul4[14 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericBot3
+    {
+        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Komodos4[24];
+                output.RevealsBreasts = true;
+                output.Type = 61409;
+                output.FixedColor = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(12);
+
+                output["Clothing1"].Coloring(Color.white);
+
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[28 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Vargul4[32 + input.Actor.Unit.BodySize]);
+                }
+            });
+        });
+    }
+
+    private static class ArmourBot1
+    {
+        internal static IClothing ArmourBot1Instance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Vargul5[41];
+                output.RevealsBreasts = true;
+                output.Type = 61801;
+                output.FixedColor = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing2"].Layer(12);
+
+                output["Clothing1"].Layer(13);
+
+                output["Clothing1"].Coloring(Color.white);
+
+                if (input.Actor.Unit.DickSize > 0)
+                {
+                    if (input.Actor.Unit.BodySize < 3)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Vargul5[64]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Vargul5[65]);
+                    }
+                }
+                else
+                {
+                    output["Clothing1"].Sprite(null);
+                }
+
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul5[56 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul5[60 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+            });
+        });
+    }
+
+    private static class ArmourBot2
+    {
+        internal static IClothing ArmourBot2Instance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Vargul5[41];
+                output.RevealsBreasts = true;
+                output.Type = 61801;
+                output.FixedColor = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing2"].Layer(12);
+
+                output["Clothing1"].Layer(13);
+
+                output["Clothing1"].Coloring(Color.white);
+
+                if (input.Actor.Unit.DickSize > 0)
+                {
+                    if (input.Actor.Unit.BodySize < 3)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Vargul5[64]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Vargul5[65]);
+                    }
+                }
+                else
+                {
+                    output["Clothing1"].Sprite(null);
+                }
+
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul5[135 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Vargul5[139 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ExtraColor1));
+            });
+        });
+    }
+}

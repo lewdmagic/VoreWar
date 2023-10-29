@@ -26,7 +26,7 @@ public class TutorialScript
         foreach (Unit unit in allUnits)
         {
             var race = Races.GetRace(unit);
-            race.RandomCustom(unit);
+            race.RandomCustomCall(unit);
         }
         State.GameManager.TacticalMode.AttackerName = "Cats";
         State.GameManager.TacticalMode.DefenderName = "Imps";

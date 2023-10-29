@@ -101,7 +101,7 @@ public class RaceEditorPanel : MonoBehaviour
     {
         if (RaceDropdown.options?.Any() == false)
         {
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0).OrderBy((s) => s.ToString()))
+            foreach (Race race in (((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0)).OrderBy((s) => s.ToString()))
             {
                 RaceDropdown.options.Add(new TMP_Dropdown.OptionData(race.ToString()));
             }
@@ -142,7 +142,7 @@ public class RaceEditorPanel : MonoBehaviour
 
         if (SpawnRaceDropdown.options?.Any() == false)
         {
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0).OrderBy((s) => s.ToString()))
+            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).OrderBy((s) => s.ToString()))
             {
                 SpawnRaceDropdown.options.Add(new TMP_Dropdown.OptionData(race.ToString()));
             }
@@ -151,7 +151,7 @@ public class RaceEditorPanel : MonoBehaviour
 
         if (ConversionRaceDropdown.options?.Any() == false)
         {
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0).OrderBy((s) => s.ToString()))
+            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).OrderBy((s) => s.ToString()))
             {
                 ConversionRaceDropdown.options.Add(new TMP_Dropdown.OptionData(race.ToString()));
             }
@@ -160,7 +160,7 @@ public class RaceEditorPanel : MonoBehaviour
 
         if (LeaderRaceDropdown.options?.Any() == false)
         {
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0).OrderBy((s) => s.ToString()))
+            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).OrderBy((s) => s.ToString()))
             {
                 LeaderRaceDropdown.options.Add(new TMP_Dropdown.OptionData(race.ToString()));
             }
@@ -330,22 +330,22 @@ public class RaceEditorPanel : MonoBehaviour
 
                 if (item.MinWeight < 0)
                     item.MinWeight = 0;
-                if (item.MaxWeight >= raceData.BodySizes)
-                    item.MaxWeight = Math.Max(raceData.BodySizes - 1, 0);
+                if (item.MaxWeight >= raceData.MiscRaceData.BodySizes)
+                    item.MaxWeight = Math.Max(raceData.MiscRaceData.BodySizes - 1, 0);
                 if (item.MinWeight > item.MaxWeight)
                     item.MinWeight = item.MaxWeight;
 
                 if (item.MinBoob < 0)
                     item.MinBoob = 0;
-                if (item.MaxBoob >= raceData.BreastSizes)
-                    item.MaxBoob = Math.Max(raceData.BreastSizes - 1, 0);
+                if (item.MaxBoob >= raceData.MiscRaceData.BreastSizes())
+                    item.MaxBoob = Math.Max(raceData.MiscRaceData.BreastSizes() - 1, 0);
                 if (item.MinBoob > item.MaxBoob)
                     item.MinBoob = item.MaxBoob;
 
                 if (item.MinDick < 0)
                     item.MinDick = 0;
-                if (item.MaxDick >= raceData.DickSizes)
-                    item.MaxDick = Math.Max(raceData.DickSizes - 1, 0);
+                if (item.MaxDick >= raceData.MiscRaceData.DickSizes())
+                    item.MaxDick = Math.Max(raceData.MiscRaceData.DickSizes() - 1, 0);
                 if (item.MinDick > item.MaxDick)
                     item.MinDick = item.MaxDick;
 
@@ -503,9 +503,9 @@ public class RaceEditorPanel : MonoBehaviour
             MinDick.text = (1 + item.MinDick).ToString();
             MaxDick.text = (1 + item.MaxDick).ToString();
 
-            WeightText.text = $"Weight 1 - {Math.Max(raceData.BodySizes, 1)}";
-            BoobText.text = $"Breasts 1 - {Math.Max(raceData.BreastSizes, 1)}";
-            DickText.text = $"Dick 1 - {Math.Max(raceData.DickSizes, 1)}";
+            WeightText.text = $"Weight 1 - {Math.Max(raceData.MiscRaceData.BodySizes, 1)}";
+            BoobText.text = $"Breasts 1 - {Math.Max(raceData.MiscRaceData.BreastSizes(), 1)}";
+            DickText.text = $"Dick 1 - {Math.Max(raceData.MiscRaceData.DickSizes(), 1)}";
 
             FavoredStat.value = (int)State.RaceSettings.GetFavoredStat(race);
             FavoredStat.RefreshShownValue();
@@ -608,7 +608,7 @@ public class RaceEditorPanel : MonoBehaviour
             return;
         }
 
-        if (raceData.CanBeGender.Count() > 1)
+        if (raceData.MiscRaceData.CanBeGender.Count() > 1)
         {
             OverrideGender.interactable = true;
         }
@@ -618,7 +618,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideGender.isOn = false;
         }
 
-        if (raceData.FurCapable)
+        if (raceData.MiscRaceData.FurCapable)
         {
             OverrideFurry.interactable = true;
         }
@@ -628,7 +628,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideFurry.isOn = false;
         }
 
-        if (raceData.BreastSizes > 0)
+        if (raceData.MiscRaceData.BreastSizes() > 0)
         {
             OverrideBoob.interactable = true;
         }
@@ -638,7 +638,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideBoob.isOn = false;
         }
 
-        if (raceData.DickSizes > 0)
+        if (raceData.MiscRaceData.DickSizes() > 0)
         {
             OverrideDick.interactable = true;
         }
@@ -648,7 +648,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideDick.isOn = false;
         }
 
-        if (raceData.BreastSizes > 0)
+        if (raceData.MiscRaceData.BreastSizes() > 0)
         {
             OverrideDick.interactable = true;
         }
@@ -658,7 +658,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideDick.isOn = false;
         }
 
-        if (raceData.AllowedMainClothingTypes?.Count > 0)
+        if (raceData.MiscRaceData.AllowedMainClothingTypes?.Count > 0)
         {
             OverrideClothed.interactable = true;
         }

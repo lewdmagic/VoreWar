@@ -993,30 +993,30 @@ public class Village
                 {
                     StrategicUtilities.SpendLevelUps(unit);
                 }
-                DefaultRaceData race = Races.GetRace(unit);
+                IRaceData race = Races.GetRace(unit);
                 if (unit.ClothingType != 0)
                 {
                     if (unit.Race == Race.Lizards)
                     {
-                        if (race.AllowedMainClothingTypes.Contains(RaceSpecificClothing.LizardPeasant))
-                            unit.ClothingType = 1 + race.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.LizardPeasant);
+                        if (race.MiscRaceData.AllowedMainClothingTypes.Contains(RaceSpecificClothing.LizardPeasantInstance))
+                            unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.LizardPeasantInstance);
                     }
                     else if (unit.Race == Race.Lamia)
                     {
-                        if (race.AllowedMainClothingTypes.Contains(RaceSpecificClothing.Toga))
-                            unit.ClothingType = 1 + race.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.Toga);
+                        if (race.MiscRaceData.AllowedMainClothingTypes.Contains(RaceSpecificClothing.TogaInstance))
+                            unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.TogaInstance);
                     }
                     else
                     {
                         if (unit.HasBreasts)
                         {
-                            if (race.AllowedMainClothingTypes.Contains(ClothingTypes.FemaleVillager))
-                                unit.ClothingType = 1 + race.AllowedMainClothingTypes.IndexOf(ClothingTypes.FemaleVillager);
+                            if (race.MiscRaceData.AllowedMainClothingTypes.Contains(ClothingTypes.FemaleVillagerInstance))
+                                unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypes.IndexOf(ClothingTypes.FemaleVillagerInstance);
                         }
                         else
                         {
-                            if (race.AllowedMainClothingTypes.Contains(ClothingTypes.MaleVillager))
-                                unit.ClothingType = 1 + race.AllowedMainClothingTypes.IndexOf(ClothingTypes.MaleVillager);
+                            if (race.MiscRaceData.AllowedMainClothingTypes.Contains(ClothingTypes.MaleVillagerInstance))
+                                unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypes.IndexOf(ClothingTypes.MaleVillagerInstance);
                         }
                     }
 
@@ -1287,7 +1287,7 @@ public class Village
         {
             TurnRefreshed = State.World.Turn;
             AvailableRaces = new List<Race>();
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0))
+            foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
             {
                 if (race < Race.Selicia && Config.World.GetValue($"Merc {race}"))
                     AvailableRaces.Add(race);

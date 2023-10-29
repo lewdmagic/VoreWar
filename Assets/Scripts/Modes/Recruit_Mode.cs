@@ -1208,7 +1208,7 @@ public class Recruit_Mode : SceneBase
 
     public void RandomizeUnit()
     {
-        Races.GetRace(Customizer.Unit).RandomCustom(Customizer.Unit);
+        Races.GetRace(Customizer.Unit).RandomCustomCall(Customizer.Unit);
         Customizer.RefreshView();
         Customizer.RefreshGenderSelector();
     }

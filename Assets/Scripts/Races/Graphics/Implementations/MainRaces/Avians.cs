@@ -1,0 +1,1172 @@
+﻿#region
+
+using System;
+using UnityEngine;
+
+#endregion
+
+internal static class Avians
+{
+    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    {
+        IClothing<IOverSizeParameters> LeaderClothes = AvianLeader.AvianLeaderInstance;
+        IClothing Rags = AvianRags.AvianRagsInstance;
+
+
+        builder.Setup(output =>
+        {
+            output.BodySizes = 4;
+            output.HairStyles = 12;
+            output.EyeTypes = 6;
+            output.SpecialAccessoryCount = 4; // feather patterns
+            output.HairColors = 0;
+            output.MouthTypes = 0;
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin); // claws color (black)
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin); // beak color (black)
+            output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin); // primary feather colors (white)
+            output.ExtraColors2 = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin); // secondary feather colors (grey)
+            output.BodyAccentTypes1 = 4; // wings
+            output.TailTypes = 16;
+
+            output.ExtendedBreastSprites = true;
+
+            output.AllowedMainClothingTypes.Set(
+                GenericTop1.GenericTop1Instance,
+                GenericTop2.GenericTop2Instance,
+                GenericTop3.GenericTop3Instance,
+                GenericTop4.GenericTop4Instance,
+                GenericTop5.GenericTop5Instance,
+                GenericTop6.GenericTop6Instance,
+                MaleTop.MaleTopInstance,
+                Natural.NaturalInstance,
+                Rags,
+                LeaderClothes
+            );
+            output.AvoidedMainClothingTypes = 2;
+
+            output.AllowedWaistTypes.Set(
+                GenericBot1.GenericBot1Instance,
+                GenericBot2.GenericBot2Instance,
+                GenericBot3.GenericBot3Instance,
+                GenericBot4.GenericBot4Instance
+            );
+
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin);
+        });
+
+
+        builder.RunBefore((input, output) =>
+        {
+            CommonRaceCode.MakeBreastOversize(32 * 32).Invoke(input, output);
+            Defaults.BasicBellyRunAfter.Invoke(input, output);
+        });
+
+        builder.RenderSingle(SpriteType.Head, 14, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+            output.Sprite(input.Sprites.Avians2[0 + input.Actor.Unit.HairStyle + 12 * input.Actor.Unit.SpecialAccessoryType]);
+        }); // head primary (white)
+        builder.RenderSingle(SpriteType.Eyes, 15, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
+            output.Sprite(input.Sprites.Avians2[132 + input.Actor.Unit.EyeType]);
+        });
+        builder.RenderSingle(SpriteType.SecondaryEyes, 16, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor2));
+            output.Sprite(input.Sprites.Avians2[138 + input.Actor.Unit.EyeType]);
+        }); // eyebrows (grey/secondary)
+        builder.RenderSingle(SpriteType.Mouth, 17, (input, output) =>
+        {
+            output.Coloring(Defaults.WhiteColored);
+            if (input.Actor.IsEating)
+            {
+                output.Sprite(input.Sprites.Avians2[120 + input.Actor.Unit.HairStyle]);
+            }
+        });
+
+        builder.RenderSingle(SpriteType.Hair, 14, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor2));
+            output.Sprite(input.Sprites.Avians2[48 + input.Actor.Unit.HairStyle + 12 * Math.Min(input.Actor.Unit.SpecialAccessoryType, 4)]);
+        }); // head secondary (grey)
+        builder.RenderSingle(SpriteType.Body, 6, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+            if (input.Actor.Unit.HasBreasts)
+            {
+                output.Sprite(input.Sprites.Avians1[0 + input.Actor.Unit.BodySize]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Avians1[4 + input.Actor.Unit.BodySize]);
+            }
+        }); // body (white/ primary)
+
+        builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+            if (input.Actor.IsAttacking)
+            {
+                output.Sprite(input.Sprites.Avians1[37 + input.Actor.Unit.BodyAccentType1]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Avians1[30 + input.Actor.Unit.BodyAccentType1]);
+            }
+        }); // wings primary (white)
+
+        builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor2));
+            if (input.Actor.IsAttacking)
+            {
+                output.Sprite(input.Sprites.Avians1[40 + input.Actor.Unit.BodyAccentType1]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Avians1[33 + input.Actor.Unit.BodyAccentType1]);
+            }
+        }); // wings secondary (grey)
+
+        builder.RenderSingle(SpriteType.BodyAccent3, 2, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+            if (input.Actor.Unit.TailType < 8)
+            {
+                output.Sprite(input.Sprites.Avians1[44 + input.Actor.Unit.TailType]);
+            }
+        }); // tail primary (white)
+
+        builder.RenderSingle(SpriteType.BodyAccent4, 2, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor2));
+            if (input.Actor.Unit.TailType >= 8)
+            {
+                output.Sprite(input.Sprites.Avians1[44 + input.Actor.Unit.TailType]);
+            }
+        }); // tail secondary (grey)
+
+        builder.RenderSingle(SpriteType.BodyAccent5, 3, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.Unit.BodySize >= 2)
+            {
+                output.Sprite(input.Sprites.Avians1[29]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Avians1[28]);
+            }
+        }); // feet (black)
+
+        builder.RenderSingle(SpriteType.BodyAccent6, 3, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.SkinColor));
+            if (input.Actor.IsAttacking)
+            {
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    output.Sprite(input.Sprites.Avians1[26]);
+                }
+                else
+                {
+                    output.Sprite(input.Sprites.Avians1[27]);
+                }
+            }
+            else
+            {
+                if (input.Actor.Unit.BodySize >= 2)
+                {
+                    output.Sprite(input.Sprites.Avians1[25]);
+                }
+                else
+                {
+                    output.Sprite(input.Sprites.Avians1[24]);
+                }
+            }
+        }); // claws (black)
+
+        builder.RenderSingle(SpriteType.BodyAccent7, 6, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor2));
+            if (input.Actor.Unit.HasBreasts)
+            {
+                output.Sprite(input.Sprites.Avians1[8 + input.Actor.Unit.BodySize]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Avians1[12 + input.Actor.Unit.BodySize]);
+            }
+        }); // legs (grey/ secondary)
+
+        builder.RenderSingle(SpriteType.BodyAccent8, 6, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor2));
+            if (input.Actor.IsAttacking)
+            {
+                output.Layer(3);
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Actor.Unit.BodySize >= 2)
+                    {
+                        output.Sprite(input.Sprites.Avians1[21]);
+                    }
+                    else
+                    {
+                        output.Sprite(input.Sprites.Avians1[20]);
+                    }
+                }
+                else
+                {
+                    if (input.Actor.Unit.BodySize >= 2)
+                    {
+                        output.Sprite(input.Sprites.Avians1[23]);
+                    }
+                    else
+                    {
+                        output.Sprite(input.Sprites.Avians1[22]);
+                    }
+                }
+            }
+            else
+            {
+                output.Layer(6);
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Actor.Unit.BodySize >= 2)
+                    {
+                        output.Sprite(input.Sprites.Avians1[17]);
+                    }
+                    else
+                    {
+                        output.Sprite(input.Sprites.Avians1[16]);
+                    }
+                }
+                else
+                {
+                    if (input.Actor.Unit.BodySize >= 2)
+                    {
+                        output.Sprite(input.Sprites.Avians1[19]);
+                    }
+                    else
+                    {
+                        output.Sprite(input.Sprites.Avians1[18]);
+                    }
+                }
+            }
+        }); // arms (grey/ secondary)
+
+        builder.RenderSingle(SpriteType.BodyAccessory, 17, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.AccessoryColor));
+            if (input.Actor.IsEating)
+            {
+                output.Sprite(input.Sprites.Avians2[108 + input.Actor.Unit.HairStyle]);
+                return;
+            }
+
+            output.Sprite(input.Sprites.Avians2[96 + input.Actor.Unit.HairStyle]);
+        }); // beak
+
+        builder.RenderSingle(SpriteType.Breasts, 12, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+            if (input.Actor.Unit.HasBreasts == false)
+            {
+                return;
+            }
+
+            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            {
+                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
+                {
+                    output.Sprite(input.Sprites.Avians3[31]);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
+                {
+                    output.Sprite(input.Sprites.Avians3[30]);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
+                {
+                    output.Sprite(input.Sprites.Avians3[29]);
+                    return;
+                }
+
+                if (leftSize > 28)
+                {
+                    leftSize = 28;
+                }
+
+                output.Sprite(input.Sprites.Avians3[0 + leftSize]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Avians3[0 + input.Actor.Unit.BreastSize]);
+            }
+        }); // breasts primary
+
+        builder.RenderSingle(SpriteType.SecondaryBreasts, 12, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+            if (input.Actor.Unit.HasBreasts == false)
+            {
+                return;
+            }
+
+            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            {
+                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
+                {
+                    output.Sprite(input.Sprites.Avians3[63]);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
+                {
+                    output.Sprite(input.Sprites.Avians3[62]);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
+                {
+                    output.Sprite(input.Sprites.Avians3[61]);
+                    return;
+                }
+
+                if (rightSize > 28)
+                {
+                    rightSize = 28;
+                }
+
+                output.Sprite(input.Sprites.Avians3[32 + rightSize]);
+            }
+            else
+            {
+                output.Sprite(input.Sprites.Avians3[32 + input.Actor.Unit.BreastSize]);
+            }
+        });
+
+        builder.RenderSingle(SpriteType.Belly, 11, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+            if (input.Actor.HasBelly)
+            {
+                int size = input.Actor.GetStomachSize(31, 0.8f);
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 31)
+                {
+                    output.Sprite(input.Sprites.Avians3[96]).AddOffset(0, -34 * .625f);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
+                {
+                    output.Sprite(input.Sprites.Avians3[143]).AddOffset(0, -34 * .625f);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
+                {
+                    output.Sprite(input.Sprites.Avians3[142]).AddOffset(0, -34 * .625f);
+                    return;
+                }
+
+                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
+                {
+                    output.Sprite(input.Sprites.Avians3[141]).AddOffset(0, -34 * .625f);
+                    return;
+                }
+
+
+                switch (size)
+                {
+                    case 26:
+                        output.AddOffset(0, -14 * .625f);
+                        break;
+                    case 27:
+                        output.AddOffset(0, -17 * .625f);
+                        break;
+                    case 28:
+                        output.AddOffset(0, -20 * .625f);
+                        break;
+                    case 29:
+                        output.AddOffset(0, -25 * .625f);
+                        break;
+                    case 30:
+                        output.AddOffset(0, -27 * .625f);
+                        break;
+                    case 31:
+                        output.AddOffset(0, -33 * .625f);
+                        break;
+                }
+
+                output.Sprite(input.Sprites.Avians3[64 + size]);
+            }
+        }); // belly primary
+
+        builder.RenderSingle(SpriteType.Dick, 8, (input, output) =>
+        {
+            output.Coloring(Defaults.WhiteColored);
+            if (input.Actor.Unit.HasDick == false)
+            {
+                return;
+            }
+
+            if (input.Actor.IsErect())
+            {
+                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                {
+                    output.Layer(18);
+                    if (input.Actor.IsCockVoring)
+                    {
+                        output.Sprite(input.Sprites.Avians1[84 + input.Actor.Unit.DickSize]);
+                    }
+                    else
+                    {
+                        output.Sprite(input.Sprites.Avians1[68 + input.Actor.Unit.DickSize]);
+                    }
+                }
+                else
+                {
+                    output.Layer(10);
+                    if (input.Actor.IsCockVoring)
+                    {
+                        output.Sprite(input.Sprites.Avians1[92 + input.Actor.Unit.DickSize]);
+                    }
+                    else
+                    {
+                        output.Sprite(input.Sprites.Avians1[76 + input.Actor.Unit.DickSize]);
+                    }
+                }
+            }
+
+            //output.Layer(8);
+        });
+
+        builder.RenderSingle(SpriteType.Balls, 7, (input, output) =>
+        {
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+            if (input.Actor.Unit.HasDick == false)
+            {
+                return;
+            }
+
+            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            {
+                output.Layer(17);
+            }
+            else
+            {
+                output.Layer(7);
+            }
+
+            int size = input.Actor.Unit.DickSize;
+            int offsetI = input.Actor.GetBallSize(28, .8f);
+            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offsetI == 28)
+            {
+                output.Sprite(input.Sprites.Avians1[137]).AddOffset(0, -23 * .625f);
+                return;
+            }
+
+            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offsetI == 28)
+            {
+                output.Sprite(input.Sprites.Avians1[136]).AddOffset(0, -21 * .625f);
+                return;
+            }
+
+            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offsetI == 27)
+            {
+                output.Sprite(input.Sprites.Avians1[135]).AddOffset(0, -19 * .625f);
+                return;
+            }
+
+            if (offsetI >= 26)
+            {
+                output.AddOffset(0, -17 * .625f);
+            }
+            else if (offsetI == 25)
+            {
+                output.AddOffset(0, -13 * .625f);
+            }
+            else if (offsetI == 24)
+            {
+                output.AddOffset(0, -11 * .625f);
+            }
+            else if (offsetI == 23)
+            {
+                output.AddOffset(0, -10 * .625f);
+            }
+            else if (offsetI == 22)
+            {
+                output.AddOffset(0, -7 * .625f);
+            }
+            else if (offsetI == 21)
+            {
+                output.AddOffset(0, -6 * .625f);
+            }
+            else if (offsetI == 20)
+            {
+                output.AddOffset(0, -4 * .625f);
+            }
+            else if (offsetI == 19)
+            {
+                output.AddOffset(0, -1 * .625f);
+            }
+
+            if (offsetI > 0)
+            {
+                output.Sprite(input.Sprites.Avians1[Math.Min(108 + offsetI, 134)]);
+                return;
+            }
+
+            output.Sprite(input.Sprites.Avians1[100 + size]);
+        }); // balls primary
+
+        builder.RenderSingle(SpriteType.Weapon, 4, (input, output) =>
+        {
+            output.Coloring(Defaults.WhiteColored);
+            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            {
+                output.Sprite(input.Sprites.Avians1[60 + input.Actor.GetWeaponSprite()]);
+            }
+        });
+
+        builder.RandomCustom(data =>
+        {
+            Unit unit = data.Unit;
+            Defaults.RandomCustom(data);
+
+            unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
+
+            unit.AccessoryColor = unit.SkinColor;
+
+            unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+
+            unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
+
+            if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
+            {
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
+                if (unit.ClothingType == -1) //Covers rags not in the list
+                {
+                    unit.ClothingType = 1;
+                }
+            }
+
+            if (unit.Type == UnitType.Leader)
+            {
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
+            }
+        });
+    });
+
+
+    private static class GenericTop1
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians4[24];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 1524;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(13);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[23]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[15 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericTop2
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians4[34];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 1534;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(13);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[33]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[25 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericTop3
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians4[44];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 1544;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(13);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[43]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[35 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericTop4
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians4[55];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 1555;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(13);
+                output["Clothing2"].Layer(13);
+                output["Clothing2"].Coloring(Color.white);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[53]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[45 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing2"].Sprite(input.Sprites.Avians4[54]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericTop5
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians4[74];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 1574;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(13);
+                output["Clothing2"].Layer(13);
+                output["Clothing2"].Coloring(Color.white);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[64]);
+                    output["Clothing2"].Sprite(input.Sprites.Avians4[73]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[56 + input.Actor.Unit.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Avians4[65 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericTop6
+    {
+        internal static IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians4[88];
+                output.FemaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 1588;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(13);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(null);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[80 + input.Actor.Unit.BreastSize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class MaleTop
+    {
+        internal static IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians4[79];
+                output.MaleOnly = true;
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.Type = 1579;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(13);
+                output["Clothing1"].Sprite(input.Sprites.Avians4[75 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class Natural
+    {
+        internal static IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.RevealsBreasts = true;
+                output.OccupiesAllSlots = true;
+                output.FixedColor = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing2"].Layer(9);
+                output["Clothing1"].Layer(13);
+                if (input.Params.Oversize)
+                {
+                    output["Clothing1"].Sprite(null);
+                    output["Clothing2"].Sprite(input.Sprites.Avians3[105]);
+                }
+                else if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians3[97 + input.Actor.Unit.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Avians3[105]);
+                }
+                else
+                {
+                    output["Clothing2"].Sprite(input.Sprites.Avians3[106]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
+            });
+        });
+    }
+
+    private static class AvianRags
+    {
+        internal static IClothing AvianRagsInstance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Rags[23];
+                output.RevealsDick = true;
+                output.InFrontOfDick = true;
+                output.RevealsBreasts = true;
+                output.Type = 207;
+                output.OccupiesAllSlots = true;
+                output.FixedColor = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing3"].Layer(15);
+                output["Clothing3"].Coloring(Color.white);
+                output["Clothing2"].Layer(9);
+                output["Clothing2"].Coloring(Color.white);
+                output["Clothing1"].Layer(13);
+                output["Clothing1"].Coloring(Color.white);
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Actor.Unit.BreastSize < 3)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians4[100]);
+                    }
+                    else if (input.Actor.Unit.BreastSize < 6)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians4[101]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians4[102]);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Avians4[89 + input.Actor.Unit.BodySize]);
+                    output["Clothing3"].Sprite(input.Sprites.Avians4[99]);
+                }
+                else
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[97]);
+                    output["Clothing2"].Sprite(input.Sprites.Avians4[93 + input.Actor.Unit.BodySize]);
+                    output["Clothing3"].Sprite(input.Sprites.Avians4[98]);
+                }
+            });
+        });
+    }
+
+    private static class AvianLeader
+    {
+        internal static IClothing<IOverSizeParameters> AvianLeaderInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.LeaderOnly = true;
+                output.DiscardSprite = input.Sprites.Avians4[139];
+                output.RevealsBreasts = true;
+                output.OccupiesAllSlots = true;
+                output.Type = 1539;
+                output.FixedColor = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing4"].Layer(10);
+                output["Clothing4"].Coloring(Color.white);
+                output["Clothing3"].Layer(18);
+                output["Clothing3"].Coloring(Color.white);
+                output["Clothing2"].Layer(9);
+                output["Clothing2"].Coloring(Color.white);
+                output["Clothing1"].Layer(13);
+                output["Clothing1"].Coloring(Color.white);
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Params.Oversize)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians4[111]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians4[103 + input.Actor.Unit.BreastSize]);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Avians4[112 + input.Actor.Unit.BodySize]);
+                    output["Clothing3"].Sprite(input.Sprites.Avians4[120 + input.Actor.Unit.HairStyle]);
+                    output["Clothing4"].Sprite(null);
+                }
+                else
+                {
+                    if (input.Actor.Unit.DickSize < 3)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Avians4[136]);
+                    }
+                    else if (input.Actor.Unit.DickSize > 5)
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Avians4[138]);
+                    }
+                    else
+                    {
+                        output["Clothing4"].Sprite(input.Sprites.Avians4[137]);
+                    }
+
+                    output["Clothing1"].Sprite(input.Sprites.Avians4[132 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Avians4[116 + input.Actor.Unit.BodySize]);
+                    output["Clothing3"].Sprite(null);
+                }
+            });
+        });
+    }
+
+    private static class GenericBot1
+    {
+        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians3[121];
+                output.RevealsBreasts = true;
+                output.Type = 1521;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing2"].Layer(9);
+
+                output["Clothing1"].Layer(10);
+
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Actor.Unit.DickSize > 0)
+                    {
+                        if (input.Actor.Unit.DickSize < 3)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Avians3[115]);
+                        }
+                        else if (input.Actor.Unit.DickSize > 5)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Avians3[117]);
+                        }
+                        else
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Avians3[116]);
+                        }
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(null);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Avians3[107 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    if (input.Actor.Unit.DickSize < 3)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians3[118]);
+                    }
+                    else if (input.Actor.Unit.DickSize > 5)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians3[120]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians3[119]);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Avians3[111 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericBot2
+    {
+        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians3[137];
+                output.RevealsBreasts = true;
+                output.Type = 1537;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(10);
+
+                output["Clothing2"].Layer(9);
+
+                output["Clothing2"].Coloring(Color.white);
+
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Actor.Unit.DickSize > 0)
+                    {
+                        if (input.Actor.Unit.DickSize < 3)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Avians3[131]);
+                        }
+                        else if (input.Actor.Unit.DickSize > 5)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Avians3[133]);
+                        }
+                        else
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Avians3[132]);
+                        }
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians3[130]);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Avians3[122 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    if (input.Actor.Unit.DickSize < 3)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians3[134]);
+                    }
+                    else if (input.Actor.Unit.DickSize > 5)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians3[136]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians3[135]);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Avians3[126 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericBot3
+    {
+        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians3[140];
+                output.RevealsBreasts = true;
+                output.RevealsDick = true;
+                output.InFrontOfDick = true;
+                output.Type = 1540;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing1"].Layer(10);
+
+                output["Clothing2"].Layer(9);
+
+                output["Clothing2"].Coloring(Color.white);
+
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians3[138]);
+                    output["Clothing2"].Sprite(input.Sprites.Avians3[122 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    output["Clothing1"].Sprite(input.Sprites.Avians3[139]);
+                    output["Clothing2"].Sprite(input.Sprites.Avians3[126 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+
+    private static class GenericBot4
+    {
+        internal static IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
+        {
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            {
+                output.DiscardSprite = input.Sprites.Avians4[14];
+                output.RevealsBreasts = true;
+                output.Type = 1514;
+                output.DiscardUsesPalettes = true;
+            });
+
+            builder.RenderAll((input, output) =>
+            {
+                output["Clothing2"].Layer(9);
+
+                output["Clothing1"].Layer(10);
+
+                if (input.Actor.Unit.HasBreasts)
+                {
+                    if (input.Actor.Unit.DickSize > 0)
+                    {
+                        if (input.Actor.Unit.DickSize < 3)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Avians4[8]);
+                        }
+                        else if (input.Actor.Unit.DickSize > 5)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Avians4[10]);
+                        }
+                        else
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.Avians4[9]);
+                        }
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(null);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Avians4[0 + input.Actor.Unit.BodySize]);
+                }
+                else
+                {
+                    if (input.Actor.Unit.DickSize < 3)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians4[11]);
+                    }
+                    else if (input.Actor.Unit.DickSize > 5)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians4[13]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Avians4[12]);
+                    }
+
+                    output["Clothing2"].Sprite(input.Sprites.Avians4[4 + input.Actor.Unit.BodySize]);
+                }
+
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+            });
+        });
+    }
+}

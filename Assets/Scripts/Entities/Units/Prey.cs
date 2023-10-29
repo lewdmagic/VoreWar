@@ -165,8 +165,8 @@ class Prey
         }
 
         Predator.PredatorComponent.OnRemoveCallbacks(this, false);
-        HashSet<Gender> set = new HashSet<Gender>(Races.GetRace(Unit.Race).CanBeGender);
-        bool equals = set.SetEquals(Races.GetRace(race).CanBeGender);
+        HashSet<Gender> set = new HashSet<Gender>(Races.GetRace(Unit.Race).MiscRaceData.CanBeGender);
+        bool equals = set.SetEquals(Races.GetRace(race).MiscRaceData.CanBeGender);
         Unit.ChangeRace(race);
         Unit.SetGear(race);
         if (equals == false || Config.AlwaysRandomizeConverted)
@@ -174,7 +174,7 @@ class Prey
         else
         {
             var raceAppearance = Races.GetRace(race);
-            raceAppearance.RandomCustom(Unit);
+            raceAppearance.RandomCustomCall(Unit);
         }
         Actor.Movement = 0;
         Actor.AnimationController = new AnimationController();

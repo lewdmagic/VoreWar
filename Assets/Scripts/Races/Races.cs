@@ -1,120 +1,138 @@
-﻿static class Races
+﻿using System;
+using System.Collections.Generic;
+
+static class Races
 {
 
+    private static Dictionary<Race, IRaceData> raceMap = new Dictionary<Race, IRaceData>();
 
-    static internal Cats Cats = new Cats();
-    static internal Dogs Dogs = new Dogs();
-    static internal Foxes Foxes = new Foxes();
-    static internal Wolves Wolves = new Wolves();
-    static internal Bunnies Bunnies = new Bunnies();
-    static internal Lizards Lizards = new Lizards();
-    static internal Slimes Slimes = new Slimes();
-    static internal SlimeQueen SlimeQueen = new SlimeQueen();
-    static internal Scylla Scylla = new Scylla();
-    static internal Harpies Harpies = new Harpies();
-    static internal Imps Imps = new Imps();
-    static internal Humans Humans = new Humans();
-    static internal Crypters Crypters = new Crypters();
-    static internal Lamia Lamia = new Lamia();
-    static internal Kangaroos Kangaroos = new Kangaroos();
-    static internal Taurus Cows = new Taurus();
-    static internal Crux Crux = new Crux();
-    static internal Equines Equines = new Equines();
-    static internal Sergal Sergal = new Sergal();
-    static internal Bees Bees = new Bees();
-    static internal Driders Driders = new Driders();
-    static internal Alraune Alraune = new Alraune();
-    static internal Demibats Demibats = new Demibats();
-    static internal Panthers Panthers = new Panthers();
-    static internal Mermen Mermen = new Mermen();
-    static internal Avians Avians = new Avians();
-    static internal Demiants Demiants = new Demiants();
-    static internal AntQueen AntQueen = new AntQueen();
-    static internal Demifrogs Demifrogs = new Demifrogs();
-    static internal Demisharks Demisharks = new Demisharks();
-    static internal Deer Deer = new Deer();
-    static internal Youko Youko = new Youko();
-    static internal Aabayx Aabayx = new Aabayx();
+    private static void RegisterRace(Race race, IRaceData raceData)
+    {
+        raceMap.Add(race, raceData);
+    }
 
-    static internal Tigers Tigers = new Tigers();
-    static internal Goblins Goblins = new Goblins();
-    static internal Succubi Succubi = new Succubi();
-    static internal Alligators Alligators = new Alligators();
-    static internal Puca Puca = new Puca();
-    static internal DewSprite DewSprite = new DewSprite();
-    static internal Hippos Hippos = new Hippos();
-    static internal Vipers Vipers = new Vipers();
-    static internal Komodos Komodos = new Komodos();
-    static internal Cockatrice Cockatrice = new Cockatrice();
-    static internal Vargul Vargul = new Vargul();
+    private static IRaceData SlimeQueenInstance;
+    private static IRaceData AntQueenInstance;
 
+    static Races()
+    {
+        LoadRaces();
+    }
+    
+    static internal void LoadRaces()
+    {
+        SlimeQueenInstance = SlimeQueen.Instance;
+        AntQueenInstance = AntQueen.Instance;
+        
+        RegisterRace(Race.Cats, Cats.Instance);
+        RegisterRace(Race.Dogs, Dogs.Instance);
+        RegisterRace(Race.Foxes, Foxes.Instance);
+        RegisterRace(Race.Wolves, Wolves.Instance);
+        RegisterRace(Race.Bunnies, Bunnies.Instance);
+        RegisterRace(Race.Lizards, Lizards.Instance);
+        RegisterRace(Race.Slimes, Slimes.Instance);
+        RegisterRace(Race.Scylla, Scylla.Instance);
+        RegisterRace(Race.Harpies, Harpies.Instance);
+        RegisterRace(Race.Imps, Imps.Instance);
+        RegisterRace(Race.Humans, Humans.Instance);
+        RegisterRace(Race.Crypters, Crypters.Instance);
+        RegisterRace(Race.Lamia, Lamia.Instance);
+        RegisterRace(Race.Kangaroos, Kangaroos.Instance);
+        RegisterRace(Race.Taurus, Taurus.Instance);
+        RegisterRace(Race.Crux, Crux.Instance);
+        RegisterRace(Race.Equines, Equines.Instance);
+        RegisterRace(Race.Sergal, Sergal.Instance);
+        RegisterRace(Race.Bees, Bees.Instance);
+        RegisterRace(Race.Driders, Driders.Instance);
+        RegisterRace(Race.Alraune, Alraune.Instance);
+        RegisterRace(Race.Bats, Bats.Instance);
+        RegisterRace(Race.Panthers, Panthers.Instance);
+        RegisterRace(Race.Merfolk, Merfolk.Instance);
+        RegisterRace(Race.Avians, Avians.Instance);
+        RegisterRace(Race.Ants, Ants.Instance);
+        RegisterRace(Race.Frogs, FeralFrogs.Instance);
+        RegisterRace(Race.Sharks, FeralSharks.Instance);
+        RegisterRace(Race.Deer, Deer.Instance);
+        RegisterRace(Race.Aabayx, Aabayx.Instance);
 
-    static internal Vagrants Vagrants = new Vagrants();
-    static internal Serpents Serpents = new Serpents();
-    static internal Wyvern Wyvern = new Wyvern();
-    static internal YoungWyvern YoungWyvern = new YoungWyvern();
-    static internal Compy Compy = new Compy();
-    static internal FeralWolf FeralWolf = new FeralWolf();
-    static internal Sharks Sharks = new Sharks();
-    static internal DarkSwallower DarkSwallower = new DarkSwallower();
-    static internal Cake Cake = new Cake();
-    static internal Harvester Harvester = new Harvester();
-    static internal Collector Collector = new Collector();
-    static internal Voilin Voilin = new Voilin();
-    static internal Bat Bat = new Bat();
-    static internal Kobolds Kobolds = new Kobolds();
-    static internal Frogs Frogs = new Frogs();
-    static internal Dragon Dragon = new Dragon();
-    static internal Dragonfly Dragonfly = new Dragonfly();
-    static internal Plant Plant = new Plant();
-    static internal Fairy Fairy = new Fairy();
-    static internal Ant Ant = new Ant();
-    static internal Gryphon Gryphon = new Gryphon();
-    static internal SpitterSlug SpitterSlug = new SpitterSlug();
-    static internal SpringSlug SpringSlug = new SpringSlug();
-    static internal RockSlug RockSlug = new RockSlug();
-    static internal CoralSlug CoralSlug = new CoralSlug();
-    static internal Salamander Salamander = new Salamander();
-    static internal Mantis Mantis = new Mantis();
-    static internal EasternDragon EasternDragon = new EasternDragon();
-    static internal Catfish Catfish = new Catfish();
-    static internal Raptor Raptor = new Raptor();
-    static internal WarriorAnt WarriorAnt = new WarriorAnt();
-    static internal Gazelle Gazelle = new Gazelle();
-    static internal Earthworms Earthworms = new Earthworms();
-    static internal FeralLizards FeralLizards = new FeralLizards();
-    static internal Monitors Monitors = new Monitors();
-    static internal Schiwardez Schiwardez = new Schiwardez();
-    static internal Terrorbird Terrorbird = new Terrorbird();
-    static internal Dratopyr Dratopyr = new Dratopyr();
-    static internal FeralLions FeralLions = new FeralLions();
+        RegisterRace(Race.Succubi, Succubi.Instance);
+        RegisterRace(Race.Tigers, Tigers.Instance);
+        RegisterRace(Race.Goblins, Goblins.Instance);
+        RegisterRace(Race.Alligators, Alligators.Instance);
+        RegisterRace(Race.Puca, Puca.Instance);
+        RegisterRace(Race.Kobolds, Kobolds.Instance);
+        RegisterRace(Race.DewSprites, DewSprites.Instance);
+        RegisterRace(Race.Hippos, Hippos.Instance);
+        RegisterRace(Race.Vipers, Vipers.Instance);
+        RegisterRace(Race.Komodos, Komodos.Instance);
+        RegisterRace(Race.Cockatrice, Cockatrice.Instance);
+        RegisterRace(Race.Vargul, Vargul.Instance);
+        RegisterRace(Race.Youko, Youko.Instance);
 
-    static internal Selicia Selicia = new Selicia();
-    static internal Vision Vision = new Vision();
-    static internal Ki Ki = new Ki();
-    static internal Scorch Scorch = new Scorch();
-    static internal Asura Asura = new Asura();
-    static internal DRACO DRACO = new DRACO();
-    static internal Zoey Zoey = new Zoey();
-    static internal Abakhanskya Abakhanskya = new Abakhanskya();
-    static internal Zera Zera = new Zera();
-    static internal Auri Aurilika = new Auri();
-    static internal Erin Erin = new Erin();
-    static internal Salix Salix = new Salix();
-    static internal Goodra Goodra = new Goodra();
+        RegisterRace(Race.Vagrants, Vagrants.Instance);
+        RegisterRace(Race.Serpents, Serpents.Instance);
+        RegisterRace(Race.Wyvern, Wyvern.Instance);
+        RegisterRace(Race.YoungWyvern, YoungWyvern.Instance);
+        RegisterRace(Race.Compy, Compy.Instance);
+        RegisterRace(Race.FeralSharks, FeralSharks.Instance);
+        RegisterRace(Race.FeralWolves, FeralWolves.Instance);
+        RegisterRace(Race.DarkSwallower, DarkSwallower.Instance);
+        RegisterRace(Race.Cake, Cake.Instance);
+        RegisterRace(Race.Harvesters, Harvesters.Instance);
+        RegisterRace(Race.Collectors, Collectors.Instance);
+        RegisterRace(Race.Voilin, Voilin.Instance);
+        RegisterRace(Race.FeralBats, FeralBats.Instance);
+        RegisterRace(Race.FeralFrogs, FeralFrogs.Instance);
+        RegisterRace(Race.Dragon, Dragon.Instance);
+        RegisterRace(Race.Dragonfly, Dragonfly.Instance);
+        RegisterRace(Race.TwistedVines, TwistedVines.Instance);
+        RegisterRace(Race.Fairies, Fairies.Instance);
+        RegisterRace(Race.FeralAnts, FeralAnts.Instance);
+        RegisterRace(Race.Gryphons, Gryphons.Instance);
+        RegisterRace(Race.SpitterSlugs, SpitterSlugs.Instance);
+        RegisterRace(Race.SpringSlugs, SpringSlugs.Instance);
+        RegisterRace(Race.RockSlugs, RockSlugs.Instance);
+        RegisterRace(Race.CoralSlugs, CoralSlugs.Instance);
+        RegisterRace(Race.Salamanders, Salamanders.Instance);
+        RegisterRace(Race.Mantis, Mantis.Instance);
+        RegisterRace(Race.EasternDragon, EasternDragon.Instance);
+        RegisterRace(Race.Catfish, Catfish.Instance);
+        RegisterRace(Race.Raptor, Raptor.Instance);
+        RegisterRace(Race.WarriorAnts, WarriorAnts.Instance);
+        RegisterRace(Race.Gazelle, Gazelle.Instance);
+        RegisterRace(Race.Earthworms, Earthworms.Instance);
+        RegisterRace(Race.FeralLizards, FeralLizards.Instance);
+        RegisterRace(Race.Monitors, Monitors.Instance);
+        RegisterRace(Race.Schiwardez, Schiwardez.Instance);
+        RegisterRace(Race.Terrorbird, Terrorbird.Instance);
+        RegisterRace(Race.Dratopyr, Dratopyr.Instance);
+        RegisterRace(Race.FeralLions, FeralLions.Instance);
+        RegisterRace(Race.Goodra, Goodra.Instance);
+        RegisterRace(Race.Whisp, Whisp.Instance);
 
-    static internal Whisp Whisp = new Whisp();
-    static internal BlankSlate BlankSlate = new BlankSlate();
+        RegisterRace(Race.Selicia, Selicia.Instance);
+        RegisterRace(Race.Vision, Vision.Instance);
+        RegisterRace(Race.Ki, Ki.Instance);
+        RegisterRace(Race.Scorch, Scorch.Instance);
+        RegisterRace(Race.Asura, Asura.Instance);
+        RegisterRace(Race.DRACO, DRACO.Instance);
+        RegisterRace(Race.Zoey, Zoey.Instance);
+        RegisterRace(Race.Abakhanskya, Abakhanskya.Instance);
+        RegisterRace(Race.Zera, Zera.Instance);
+        RegisterRace(Race.Auri, Auri.Instance);
+        RegisterRace(Race.Erin, Erin.Instance);
+        RegisterRace(Race.Salix, Salix.Instance);
+    }
 
-    static internal DefaultRaceData GetRace(Unit unit)
+    static internal IRaceData GetRace(Unit unit)
     {
         if (unit.Race == Race.Slimes && unit.Type == UnitType.Leader)
         {
-            return SlimeQueen;
+            return SlimeQueenInstance;
         }
         if (unit.Race == Race.Ants && unit.Type == UnitType.Leader)
         {
-            return AntQueen;
+            return AntQueenInstance;
         }
         return GetRace(unit.Race);
     }
@@ -122,204 +140,17 @@
     /// <summary>
     /// This version can't do the slime queen check, but is fine anywhere else
     /// </summary>    
-    static internal DefaultRaceData GetRace(Race race)
+    static internal IRaceData GetRace(Race race)
     {
-        //race = State.RaceSettings.GetDisplayedGraphic(race);
-        switch (race)
+        IRaceData raceData;
+        if (raceMap.TryGetValue(race, out raceData))
         {
-            case Race.Cats:
-                return Cats;
-            case Race.Dogs:
-                return Dogs;
-            case Race.Foxes:
-                return Foxes;
-            case Race.Youko:
-                return Youko;
-            case Race.Wolves:
-                return Wolves;
-            case Race.Bunnies:
-                return Bunnies;
-            case Race.Lizards:
-                return Lizards;
-            case Race.Slimes:
-                return Slimes;
-            case Race.Scylla:
-                return Scylla;
-            case Race.Harpies:
-                return Harpies;
-            case Race.Imps:
-                return Imps;
-            case Race.Humans:
-                return Humans;
-            case Race.Crypters:
-                return Crypters;
-            case Race.Lamia:
-                return Lamia;
-            case Race.Kangaroos:
-                return Kangaroos;
-            case Race.Taurus:
-                return Cows;
-            case Race.Crux:
-                return Crux;
-            case Race.Equines:
-                return Equines;
-            case Race.Sergal:
-                return Sergal;
-            case Race.Bees:
-                return Bees;
-            case Race.Driders:
-                return Driders;
-            case Race.Alraune:
-                return Alraune;
-            case Race.Bats:
-                return Demibats;
-            case Race.Tigers:
-                return Tigers;
-            case Race.Goblins:
-                return Goblins;
-            case Race.Succubi:
-                return Succubi;
-            case Race.Alligators:
-                return Alligators;
-            case Race.Puca:
-                return Puca;
-            case Race.Hippos:
-                return Hippos;
-            case Race.Vipers:
-                return Vipers;
-            case Race.Komodos:
-                return Komodos;
-            case Race.Vagrants:
-                return Vagrants;
-            case Race.Serpents:
-                return Serpents;
-            case Race.Wyvern:
-                return Wyvern;
-            case Race.YoungWyvern:
-                return YoungWyvern;
-            case Race.Compy:
-                return Compy;
-            case Race.FeralWolves:
-                return FeralWolf;
-            case Race.FeralSharks:
-                return Sharks;
-            case Race.DarkSwallower:
-                return DarkSwallower;
-            case Race.Cake:
-                return Cake;
-            case Race.Harvesters:
-                return Harvester;
-            case Race.Collectors:
-                return Collector;
-            case Race.Selicia:
-                return Selicia;
-            case Race.Vision:
-                return Vision;
-            case Race.Ki:
-                return Ki;
-            case Race.Scorch:
-                return Scorch;
-            case Race.Voilin:
-                return Voilin;
-            case Race.FeralBats:
-                return Bat;
-            case Race.Asura:
-                return Asura;
-            case Race.Kobolds:
-                return Kobolds;
-            case Race.FeralFrogs:
-                return Frogs;
-            case Race.Dragon:
-                return Dragon;
-            case Race.Dragonfly:
-                return Dragonfly;
-            case Race.TwistedVines:
-                return Plant;
-            case Race.Fairies:
-                return Fairy;
-            case Race.DRACO:
-                return DRACO;
-            case Race.Zoey:
-                return Zoey;
-            case Race.Abakhanskya:
-                return Abakhanskya;
-            case Race.Zera:
-                return Zera;
-            case Race.FeralAnts:
-                return Ant;
-            case Race.Gryphons:
-                return Gryphon;
-            case Race.SpitterSlugs:
-                return SpitterSlug;
-            case Race.SpringSlugs:
-                return SpringSlug;
-            case Race.RockSlugs:
-                return RockSlug;
-            case Race.CoralSlugs:
-                return CoralSlug;
-            case Race.DewSprites:
-                return DewSprite;
-            case Race.Panthers:
-                return Panthers;
-            case Race.Salamanders:
-                return Salamander;
-            case Race.EasternDragon:
-                return EasternDragon;
-            case Race.Merfolk:
-                return Mermen;
-            case Race.Mantis:
-                return Mantis;
-            case Race.Avians:
-                return Avians;
-            case Race.Auri:
-                return Aurilika;
-            case Race.Catfish:
-                return Catfish;
-            case Race.Raptor:
-                return Raptor;
-            case Race.Ants:
-                return Demiants;
-            case Race.WarriorAnts:
-                return WarriorAnt;
-            case Race.Frogs:
-                return Demifrogs;
-            case Race.Gazelle:
-                return Gazelle;
-            case Race.Sharks:
-                return Demisharks;
-            case Race.Earthworms:
-                return Earthworms;
-            case Race.FeralLizards:
-                return FeralLizards;
-            case Race.Cockatrice:
-                return Cockatrice;
-            case Race.Monitors:
-                return Monitors;
-            case Race.Deer:
-                return Deer;
-            case Race.Schiwardez:
-                return Schiwardez;
-            case Race.Terrorbird:
-                return Terrorbird;
-            case Race.Vargul:
-                return Vargul;
-            case Race.Dratopyr:
-                return Dratopyr;
-            case Race.Erin:
-                return Erin;
-            case Race.FeralLions:
-                return FeralLions;
-	        case Race.Goodra:
-                return Goodra;
-            case Race.Whisp:
-                return Whisp;
-            case Race.Salix:
-                return Salix;
-            case Race.Aabayx:
-                return Aabayx;
+            return raceData;
         }
-        UnityEngine.Debug.LogWarning("Couldn't find race, substituting the Blank Slate");
-        return BlankSlate;
+        else
+        {
+            throw new ApplicationException("No race registered for " + race.ToString());
+        }
     }
 
 }

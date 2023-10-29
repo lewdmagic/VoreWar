@@ -62,7 +62,7 @@ static class TacticalUtilities
                         friendlyVillage = villageList[0];
                     else
                         friendlyVillage = villageList[State.Rand.Next(villageList.Count())];
-                    var loc = StrategyPathfinder.GetArmyPath(null, armies[0], friendlyVillage.Position, 3, false, 999);
+                    var loc = StrategyPathfinder.GetPath(null, armies[0], friendlyVillage.Position, 3, false, 999);
                     int turns = 9999;
                     int flightTurns = 9999;
                     Vec2i destination = null;
@@ -657,7 +657,7 @@ static class TacticalUtilities
         {
             if (actor.Unit.Race != Race.Imps && actor.Unit.Race != Race.Lamia && actor.Unit.Race != Race.Tigers)
             {
-                Races.GetRace(actor.Unit).RandomCustom(actor.Unit);
+                Races.GetRace(actor.Unit).RandomCustomCall(actor.Unit);
             }
         }
     }
@@ -673,9 +673,9 @@ static class TacticalUtilities
     static internal List<Actor_Unit> UnitsWithinTiles(Vec2 target, int tiles)
     {
         List<Actor_Unit> unitList = new List<Actor_Unit>();
+
         foreach (Actor_Unit actor in Units)
         {
-            
             if (actor.Visible && actor.Targetable)
             {
                 if (actor.Position.GetNumberOfMovesDistance(target) <= tiles)

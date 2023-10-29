@@ -110,7 +110,7 @@ public class NPC_unit : Unit
         Stats[(int)Stat.Leadership] = 10;
 
         if (race == Race.Lizards)
-            Races.GetRace(Race.Lizards).RandomCustom(this);
+            Races.GetRace(Race.Lizards).RandomCustomCall(this);
         if (Config.LetterBeforeLeaderNames != "")
             Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;

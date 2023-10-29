@@ -16,7 +16,7 @@
 
         Health = MaxHealth;
         if (race == Race.Lizards)
-            Races.GetRace(Race.Lizards).RandomCustom(this);
+            Races.GetRace(Race.Lizards).RandomCustomCall(this);
         ExpMultiplier = 2;
         Type = UnitType.Spawn;
         if (race == Race.Slimes)

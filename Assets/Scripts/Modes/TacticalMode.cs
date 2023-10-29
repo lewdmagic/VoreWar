@@ -610,6 +610,10 @@ public class TacticalMode : SceneBase
             }
         }
 
+        if (State.World.IsNight)    
+        {
+            UpdateFog();
+        }
     }
 
     private void InitRetreatConditions(ITacticalAI AI, List<Actor_Unit> fighters, Empire empire, bool nonPlayer)
@@ -2464,7 +2468,7 @@ Turns: {currentTurn}
 
         if (actor.Movement <= 0)
         {
-            if (silent == false) State.GameManager.CreateMessageBox("Unit needs at least 1 AP to flee");
+            if (silent == false) State.GameManager.CreateMessageBox("Unit needs at least 1 mp to flee");
             return;
         }
 
@@ -3556,7 +3560,10 @@ Turns: {currentTurn}
     {
         AllSurrenderedCheck();
         Log.RegisterNewTurn(attackersTurn ? AttackerName : DefenderName, currentTurn);
-
+        if (State.World.IsNight)
+        {
+            UpdateFog();
+        }
         for (int i = 0; i < units.Count; i++)
         {
             if (units[i].Unit.IsDead == false && units[i].Unit.Side != activeSide)
@@ -4040,7 +4047,7 @@ Turns: {currentTurn}
             }
             var raceData = Races.GetRace(actor.Unit);
             actor.Unit.RandomizeNameAndGender(actor.Unit.Race, raceData);
-            raceData.RandomCustom(actor.Unit);
+            raceData.RandomCustomCall(actor.Unit);
             actor.Unit.DigestedUnits = 0;
             actor.Unit.KilledUnits = 0;
             actor.Unit.Health = actor.Unit.MaxHealth;

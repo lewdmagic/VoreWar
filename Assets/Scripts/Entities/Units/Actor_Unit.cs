@@ -86,7 +86,7 @@ public class Actor_Unit
     [OdinSerialize]
     public bool Hidden;
     [OdinSerialize]
-    public bool InSight = true;
+    public bool InSight;
 	
     [OdinSerialize]
     internal Prey SelfPrey;
@@ -700,7 +700,7 @@ public class Actor_Unit
     public bool HasPreyInBreasts => (PredatorComponent?.BreastFullness > 0 || PredatorComponent?.LeftBreastFullness > 0 || PredatorComponent?.RightBreastFullness > 0);
     public bool HasBodyWeight => Unit.Race != Race.Lizards && Unit.Race != Race.Slimes && Unit.Race != Race.Scylla && Unit.Race != Race.Harpies && Unit.Race != Race.Imps;
 
-    public int GetBodyWeight() => (Config.WeightGain || Unit.BodySizeManuallyChanged) ? Unit.BodySize : Mathf.Min(Config.DefaultStartingWeight, Races.GetRace(Unit).BodySizes);
+    public int GetBodyWeight() => (Config.WeightGain || Unit.BodySizeManuallyChanged) ? Unit.BodySize : Mathf.Min(Config.DefaultStartingWeight, Races.GetRace(Unit).MiscRaceData.BodySizes);
     public int GetWeaponSprite()
     {
         if (BestRanged != null)

@@ -347,7 +347,6 @@ static class Config
     public static bool FartOnAbsorb => World.GetValue("FartOnAbsorb");
 
     public static bool StatBoostsAffectMaxHP => World.GetValue("StatBoostsAffectMaxHP");
-    public static bool OverfeedingDamage => World.GetValue("OverfeedingDamage");
 
     internal static bool WinterActive()
     {

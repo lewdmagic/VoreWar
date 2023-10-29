@@ -216,23 +216,23 @@ class CustomizerData
         unit.Pronouns = Pronouns;
 
         var race = Races.GetRace(unit);
-        if (HairColor >= race.HairColors) unit.HairColor = 0;
-        if (HairStyle >= race.HairStyles) unit.HairStyle = 0;
-        if (SkinColor >= race.SkinColors) unit.SkinColor = 0;
-        if (AccessoryColor >= race.AccessoryColors) unit.AccessoryColor = 0;
-        if (EyeColor >= race.EyeColors) unit.EyeColor = 0;
-        if (EyeType >= race.EyeTypes) unit.EyeType = 0;
-        if (BodySize >= race.BodySizes) unit.BodySize = 0;
-        if (BreastSize >= race.BreastSizes) unit.SetDefaultBreastSize(0);
-        if (DickSize >= race.DickSizes) unit.DickSize = 0;
-        if (ClothingType > race.AllowedMainClothingTypes.Count) unit.ClothingType = 0;
-        if (ClothingType2 > race.AllowedWaistTypes.Count) unit.ClothingType2 = 0;
-        if (ClothingExtraType1 > race.ExtraMainClothing1Types.Count) unit.ClothingExtraType1 = 0;
-        if (ClothingExtraType2 > race.ExtraMainClothing2Types.Count) unit.ClothingExtraType2 = 0;
-        if (ClothingExtraType3 > race.ExtraMainClothing3Types.Count) unit.ClothingExtraType3 = 0;
-        if (ClothingExtraType4 > race.ExtraMainClothing4Types.Count) unit.ClothingExtraType4 = 0;
-        if (ClothingExtraType5 > race.ExtraMainClothing5Types.Count) unit.ClothingExtraType5 = 0;
-        if (HeadType > race.HeadTypes) unit.HeadType = 0;
+        if (HairColor >= race.MiscRaceData.HairColors) unit.HairColor = 0;
+        if (HairStyle >= race.MiscRaceData.HairStyles) unit.HairStyle = 0;
+        if (SkinColor >= race.MiscRaceData.SkinColors) unit.SkinColor = 0;
+        if (AccessoryColor >= race.MiscRaceData.AccessoryColors) unit.AccessoryColor = 0;
+        if (EyeColor >= race.MiscRaceData.EyeColors) unit.EyeColor = 0;
+        if (EyeType >= race.MiscRaceData.EyeTypes) unit.EyeType = 0;
+        if (BodySize >= race.MiscRaceData.BodySizes) unit.BodySize = 0;
+        if (BreastSize >= race.MiscRaceData.BreastSizes()) unit.SetDefaultBreastSize(0);
+        if (DickSize >= race.MiscRaceData.DickSizes()) unit.DickSize = 0;
+        if (ClothingType > race.MiscRaceData.AllowedMainClothingTypes.Count) unit.ClothingType = 0;
+        if (ClothingType2 > race.MiscRaceData.AllowedWaistTypes.Count) unit.ClothingType2 = 0;
+        if (ClothingExtraType1 > race.MiscRaceData.ExtraMainClothing1Types.Count) unit.ClothingExtraType1 = 0;
+        if (ClothingExtraType2 > race.MiscRaceData.ExtraMainClothing2Types.Count) unit.ClothingExtraType2 = 0;
+        if (ClothingExtraType3 > race.MiscRaceData.ExtraMainClothing3Types.Count) unit.ClothingExtraType3 = 0;
+        if (ClothingExtraType4 > race.MiscRaceData.ExtraMainClothing4Types.Count) unit.ClothingExtraType4 = 0;
+        if (ClothingExtraType5 > race.MiscRaceData.ExtraMainClothing5Types.Count) unit.ClothingExtraType5 = 0;
+        if (HeadType > race.MiscRaceData.HeadTypes) unit.HeadType = 0;
 
 
 

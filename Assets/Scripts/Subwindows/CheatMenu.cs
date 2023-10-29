@@ -76,7 +76,7 @@ public class CheatMenu : MonoBehaviour
             EmpireReplaced.RefreshShownValue();
             ReplacementRace.RefreshShownValue();
 
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0))
+            foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
             {
                 ReplacementRace.options.Add(new TMP_Dropdown.OptionData(race.ToString()));
             }

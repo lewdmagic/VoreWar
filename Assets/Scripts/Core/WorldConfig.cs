@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+
 
 public class WorldConfig
 {
@@ -337,7 +337,6 @@ public class WorldConfig
             ["BurpOnDigest"] = false,
             ["FartOnAbsorb"] = false,
             ["StatBoostsAffectMaxHP"] = false,
-            ["OverfeedingDamage"] = false,
             ["DayNightEnabled"] = true,
             ["DayNightCosmetic"] = false,
             ["DayNightSchedule"] = true,
@@ -349,7 +348,7 @@ public class WorldConfig
             ["StatGraze"] = false,
         };
 
-        foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => (int)s >= 0))
+        foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
         {
             Toggles[$"Merc {race}"] = true;
         }

@@ -38,14 +38,14 @@ class FogSystem
 
         foreach (Village village in villages)
         {
-            if ((village.Empire.IsAlly(playerEmpire) || (State.World.IsNight && Config.DayNightCosmetic && !Config.FogOfWar)) && village.GetTotalPop() > 0)
+            if (village.Empire.IsAlly(playerEmpire) && village.GetTotalPop() > 0)
             {
                 ClearWithinXTilesOf(village.Position);
             }
         }
         foreach (Army army in armies)
         {
-            if (army.Empire.IsAlly(playerEmpire) || (State.World.IsNight && Config.DayNightCosmetic && !Config.FogOfWar))
+            if (army.Empire.IsAlly(playerEmpire))
             {
                 ClearWithinXTilesOf(army.Position);
             }
@@ -111,7 +111,7 @@ class FogSystem
 
     void ClearWithinXTilesOf(Vec2i pos)
     {
-        int dist = Config.FogDistance - ((State.World.IsNight && Config.FogOfWar) ? Config.NightStrategicSightReduction : 0);
+        int dist = Config.FogDistance - ((State.World.IsNight) ? Config.NightStrategicSightReduction : 0);
         for (int x = pos.x - dist; x <= pos.x + dist; x++)
         {
             for (int y = pos.y - dist; y <= pos.y + dist; y++)

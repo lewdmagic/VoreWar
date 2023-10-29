@@ -89,7 +89,7 @@ static class TacticalGraphicalEffects
         {
             if (weapon.Graphic == 4)
             {
-                material = Races.Slimes.GetSlimeAccentMaterial(actor);
+                material = Slimes.GetSlimeAccentMaterial(actor);
                 return State.GameManager.SpriteDictionary.Slimes[16];
             }
             else if (weapon.Graphic == 6)
