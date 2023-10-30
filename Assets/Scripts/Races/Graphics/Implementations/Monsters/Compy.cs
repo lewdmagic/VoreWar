@@ -45,12 +45,12 @@ internal static class Compy
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -58,7 +58,7 @@ internal static class Compy
                     }
                 }
 
-                output.Sprite(input.Sprites.Compy[31 + frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Compy[31 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 

@@ -1078,7 +1078,7 @@ internal static class Goblins
                         input.Actor.Unit.ClothingColor2));
                     output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced,
                         input.Actor.Unit.ClothingColor2));
-                    output.changeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
+                    output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
                 }
                 else
                 {
@@ -1102,7 +1102,7 @@ internal static class Goblins
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
                     output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
                     output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                    output.changeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SkinToClothing, input.Actor.Unit.ClothingColor));
+                    output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SkinToClothing, input.Actor.Unit.ClothingColor));
                 }
             });
         });
@@ -1169,7 +1169,7 @@ internal static class GobboCasinoBunny
                     input.Actor.Unit.ClothingColor2));
                 output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced,
                     input.Actor.Unit.ClothingColor2));
-                output.changeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
+                output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
             }
             else
             {
@@ -1191,7 +1191,7 @@ internal static class GobboCasinoBunny
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
                 output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                output.changeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SkinToClothing, input.Actor.Unit.ClothingColor));
+                output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SkinToClothing, input.Actor.Unit.ClothingColor));
             }
         });
     });

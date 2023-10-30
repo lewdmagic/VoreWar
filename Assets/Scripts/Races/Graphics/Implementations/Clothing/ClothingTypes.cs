@@ -368,7 +368,7 @@ internal static class Leotard
             output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
             output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
             output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-            output.changeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SkinToClothing, input.Actor.Unit.ClothingColor));
+            output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SkinToClothing, input.Actor.Unit.ClothingColor));
 
             if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
             {
@@ -589,7 +589,7 @@ internal static class FemaleVillager
             output["Clothing3"].Sprite(input.Sprites.FemaleVillager[3 + input.Actor.GetBodyWeight()]);
             output["Clothing4"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.FemaleVillager[8 + input.Actor.Unit.BreastSize] : null);
 
-            output.changeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
+            output.ChangeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
         });
     });
 }
@@ -620,7 +620,7 @@ internal static class MaleVillager
             {
                 output["Clothing2"].Sprite(input.Sprites.MaleVillager[8]);
             }
-            output.changeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
+            output.ChangeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
         });
     });
 }

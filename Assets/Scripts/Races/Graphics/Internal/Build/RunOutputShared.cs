@@ -14,13 +14,13 @@ internal abstract class RunOutputShared : IRunOutput, IRunOutputReadable
 
     public Vector2? WholeBodyOffset { get; set; }
 
-    private SpriteChangeDict _changeDict;
+    private readonly SpriteChangeDict _changeDict;
     
     //
-    protected RunOutputShared(SpriteChangeDict schangeDict)
+    protected RunOutputShared(SpriteChangeDict changeDict)
     {
-        _changeDict = schangeDict;
+        _changeDict = changeDict;
     }
 
-    public IRaceRenderOutput changeSprite(SpriteType spriteType) => _changeDict.changeSprite(spriteType);
+    public IRaceRenderOutput ChangeSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
 }

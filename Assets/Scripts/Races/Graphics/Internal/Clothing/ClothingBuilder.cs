@@ -6,17 +6,17 @@ using System;
 
 internal abstract class ClothingBuilderShared
 {
-    private protected ClothingMiscData _misc;
+    private protected ClothingMiscData Misc;
 
     public void Setup(ClothingMiscData template, Action<IClothingSetupInput, IClothingSetupOutput> setMisc)
     {
         IClothingSetupInput input = new ClothingSetupInput();
         ClothingMiscData copy = template.ShallowCopy();
         setMisc(input, copy);
-        _misc = copy;
+        Misc = copy;
     }
 
-    private protected class ClothingSetupInput : IClothingSetupInput
+    private class ClothingSetupInput : IClothingSetupInput
     {
         public SpriteDictionary Sprites => State.GameManager.SpriteDictionary;
     }
@@ -34,12 +34,12 @@ internal abstract class ClothingBuilderShared
 
     private protected abstract class ClothingDataShared : IClothingDataSimple
     {
-        private protected ClothingMiscData _misc;
+        private protected readonly ClothingMiscData Misc;
         public IClothingDataFixed FixedData { get; set; }
 
         protected ClothingDataShared(ClothingMiscData fixedData)
         {
-            _misc = fixedData;
+            Misc = fixedData;
             FixedData = fixedData;
         }
 
@@ -73,7 +73,7 @@ internal abstract class ClothingBuilderShared
 
 internal class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
 {
-    internal static ClothingMiscData DefaultMisc = new ClothingMiscData();
+    internal static readonly ClothingMiscData DefaultMisc = new ClothingMiscData();
     private Action<IClothingRenderInput, IClothingRenderOutput> _completeGen;
 
     
@@ -96,7 +96,7 @@ internal class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
     [Obsolete("Old way of building.")]
     internal IClothing BuildClothing()
     {
-        return new Clothing(_misc, _completeGen);
+        return new Clothing(Misc, _completeGen);
     }
 
     internal static IClothing Create(Action<IClothingBuilder> builderUser)
@@ -115,7 +115,7 @@ internal class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
 
     private class Clothing : ClothingDataShared, IClothing
     {
-        private Action<IClothingRenderInput, IClothingRenderOutput> _completeGen;
+        private readonly Action<IClothingRenderInput, IClothingRenderOutput> _completeGen;
 
         public Clothing(ClothingMiscData fixedData, Action<IClothingRenderInput, IClothingRenderOutput> completeGen) : base(fixedData)
         {
@@ -125,7 +125,7 @@ internal class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
         public ClothingRenderOutput Configure(Actor_Unit actor, IParameters parameters, SpriteChangeDict changeDict)
         {
             IClothingRenderInput input = new ClothingRenderInputImpl(actor);
-            ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, _misc);
+            ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc);
             _completeGen.Invoke(input, renderOutput);
             return renderOutput;
         }
@@ -134,7 +134,7 @@ internal class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
 
 internal class ClothingBuilder<T> : ClothingBuilderShared, IClothingBuilder<T> where T : IParameters
 {
-    private protected Action<IClothingRenderInput<T>, IClothingRenderOutput> _completeGen;
+    private Action<IClothingRenderInput<T>, IClothingRenderOutput> _completeGen;
 
     public void RenderAll(Action<IClothingRenderInput<T>, IClothingRenderOutput> completeGen)
     {
@@ -144,37 +144,37 @@ internal class ClothingBuilder<T> : ClothingBuilderShared, IClothingBuilder<T> w
     [Obsolete("Old way of building.")]
     internal IClothing<T> BuildClothing()
     {
-        return new Clothing<T>(_misc, _completeGen);
+        return new Clothing<T>(Misc, _completeGen);
     }
 
 
-    private class Clothing<S> : ClothingDataShared, IClothing<S> where S : IParameters
+    private class Clothing<TS> : ClothingDataShared, IClothing<TS> where TS : IParameters
     {
-        private Action<IClothingRenderInput<S>, IClothingRenderOutput> _completeGen;
+        private readonly Action<IClothingRenderInput<TS>, IClothingRenderOutput> _completeGen;
 
-        public Clothing(ClothingMiscData misc, Action<IClothingRenderInput<S>, IClothingRenderOutput> completeGen) : base(misc)
+        public Clothing(ClothingMiscData misc, Action<IClothingRenderInput<TS>, IClothingRenderOutput> completeGen) : base(misc)
         {
             _completeGen = completeGen;
         }
 
-        public ClothingRenderOutput Configure(Actor_Unit actor, S state, SpriteChangeDict changeDict)
+        public ClothingRenderOutput Configure(Actor_Unit actor, TS state, SpriteChangeDict changeDict)
         {
-            IClothingRenderInput<S> input = new ClothingRenderInputImpl<S>(actor, state);
-            ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, _misc);
+            IClothingRenderInput<TS> input = new ClothingRenderInputImpl<TS>(actor, state);
+            ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc);
 
             _completeGen.Invoke(input, renderOutput);
 
             return renderOutput;
         }
 
-        private class ClothingRenderInputImpl<U> : ClothingRenderInputImpl, IClothingRenderInput<U> where U : IParameters
+        private class ClothingRenderInputImpl<TU> : ClothingRenderInputImpl, IClothingRenderInput<TU> where TU : IParameters
         {
-            public ClothingRenderInputImpl(Actor_Unit actor, U state) : base(actor)
+            public ClothingRenderInputImpl(Actor_Unit actor, TU state) : base(actor)
             {
                 Params = state;
             }
 
-            public U Params { get; private set; }
+            public TU Params { get; private set; }
         }
     }
 }

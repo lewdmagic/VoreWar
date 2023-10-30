@@ -118,19 +118,19 @@ internal static class Bees
         builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListWings.times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
+            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListWings.Times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
             {
                 input.Actor.AnimationController.frameLists[0].currentFrame++;
                 input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListWings.frames.Length)
+                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListWings.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame = 0;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
                 }
             }
 
-            output.Sprite(input.Sprites.Bees1[42 + frameListWings.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Bees1[42 + frameListWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
         }); // Wings
 
         builder.RenderSingle(SpriteType.BodyAccent2, 24, (input, output) =>

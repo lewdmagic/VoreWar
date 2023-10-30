@@ -114,12 +114,12 @@
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -127,7 +127,7 @@
                     }
                 }
 
-                output.Sprite(input.Sprites.Wyvern[22 + frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Wyvern[22 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -157,7 +157,7 @@
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                output.Sprite(input.Sprites.Wyvern[28 + frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Wyvern[28 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -206,12 +206,12 @@
 
             if (input.Actor.AnimationController.frameLists[1].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListTongue.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListTongue.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[1].currentFrame++;
                     input.Actor.AnimationController.frameLists[1].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListTongue.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListTongue.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[1].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[1].currentFrame = 0;
@@ -219,7 +219,7 @@
                     }
                 }
 
-                output.Sprite(input.Sprites.Wyvern[34 + frameListTongue.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                output.Sprite(input.Sprites.Wyvern[34 + frameListTongue.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
                 return;
             }
 

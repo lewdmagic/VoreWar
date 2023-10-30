@@ -188,42 +188,42 @@ internal static class Voilin
             int size = input.Actor.GetStomachSize(23);
             if (size > 14)
             {
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, (29 + (size - 15) * 2) * .625f);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, (12 + (size - 15) * 2) * .625f);
-                output.changeSprite(SpriteType.Hair).AddOffset(0, (29 + (size - 15) * 2) * .625f);
-                output.changeSprite(SpriteType.Eyes).AddOffset(0, (29 + (size - 15) * 2) * .625f);
-                output.changeSprite(SpriteType.Body).AddOffset(0, (12 + (size - 15) * 2) * .625f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, (12 + (size - 15) * 2) * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, (29 + (size - 15) * 2) * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, (12 + (size - 15) * 2) * .625f);
+                output.ChangeSprite(SpriteType.Hair).AddOffset(0, (29 + (size - 15) * 2) * .625f);
+                output.ChangeSprite(SpriteType.Eyes).AddOffset(0, (29 + (size - 15) * 2) * .625f);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, (12 + (size - 15) * 2) * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, (12 + (size - 15) * 2) * .625f);
             }
 
             else if (size > 11)
             {
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, (17 + (size - 12) * 4) * .625f);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, (size - 12) * 4 * .625f);
-                output.changeSprite(SpriteType.Hair).AddOffset(0, (17 + (size - 12) * 4) * .625f);
-                output.changeSprite(SpriteType.Eyes).AddOffset(0, (17 + (size - 12) * 4) * .625f);
-                output.changeSprite(SpriteType.Body).AddOffset(0, (size - 12) * 4 * .625f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, (size - 12) * 4 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, (17 + (size - 12) * 4) * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, (size - 12) * 4 * .625f);
+                output.ChangeSprite(SpriteType.Hair).AddOffset(0, (17 + (size - 12) * 4) * .625f);
+                output.ChangeSprite(SpriteType.Eyes).AddOffset(0, (17 + (size - 12) * 4) * .625f);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, (size - 12) * 4 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, (size - 12) * 4 * .625f);
             }
 
             else if (size > 8)
             {
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 0 * .625f);
-                output.changeSprite(SpriteType.Hair).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.Eyes).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.Body).AddOffset(0, 0 * .625f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 0 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 0 * .625f);
+                output.ChangeSprite(SpriteType.Hair).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, 0 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 0 * .625f);
             }
 
             else
             {
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 0 * .625f);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 0 * .625f);
-                output.changeSprite(SpriteType.Hair).AddOffset(0, 0 * .625f);
-                output.changeSprite(SpriteType.Eyes).AddOffset(0, 0 * .625f);
-                output.changeSprite(SpriteType.Body).AddOffset(0, 0 * .625f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 0 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 0 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 0 * .625f);
+                output.ChangeSprite(SpriteType.Hair).AddOffset(0, 0 * .625f);
+                output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 0 * .625f);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, 0 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 0 * .625f);
             }
         });
         builder.RandomCustom(data =>

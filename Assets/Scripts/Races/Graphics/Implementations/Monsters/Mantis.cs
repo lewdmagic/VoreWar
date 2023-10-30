@@ -190,12 +190,12 @@ internal static class Mantis
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListScythesDefault.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListScythesDefault.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListScythesDefault.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListScythesDefault.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -203,7 +203,7 @@ internal static class Mantis
                     }
                 }
 
-                output.Sprite(input.Sprites.Mantis[48 + frameListScythesDefault.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Mantis[48 + frameListScythesDefault.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -233,12 +233,12 @@ internal static class Mantis
 
             if (input.Actor.AnimationController.frameLists[1].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListScythesEating.times[input.Actor.AnimationController.frameLists[1].currentFrame])
+                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListScythesEating.Times[input.Actor.AnimationController.frameLists[1].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[1].currentFrame++;
                     input.Actor.AnimationController.frameLists[1].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListScythesEating.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListScythesEating.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[1].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[1].currentFrame = 0;
@@ -246,7 +246,7 @@ internal static class Mantis
                     }
                 }
 
-                output.Sprite(input.Sprites.Mantis[45 + frameListScythesEating.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                output.Sprite(input.Sprites.Mantis[45 + frameListScythesEating.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
                 return;
             }
 
@@ -389,32 +389,32 @@ internal static class Mantis
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.BodyAccent5).AddOffset(-15 * .625f, 15 * .625f);
+            output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(-15 * .625f, 15 * .625f);
 
             if (input.Actor.GetStomachSize(17) > 16)
             {
-                output.changeSprite(SpriteType.BodyAccent7).AddOffset(-5 * .625f, 0);
-                output.changeSprite(SpriteType.BodyAccent8).AddOffset(5 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent7).AddOffset(-5 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent8).AddOffset(5 * .625f, 0);
             }
             else if (input.Actor.GetStomachSize(17) > 14)
             {
-                output.changeSprite(SpriteType.BodyAccent7).AddOffset(-4 * .625f, 0);
-                output.changeSprite(SpriteType.BodyAccent8).AddOffset(4 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent7).AddOffset(-4 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent8).AddOffset(4 * .625f, 0);
             }
             else if (input.Actor.GetStomachSize(17) > 12)
             {
-                output.changeSprite(SpriteType.BodyAccent7).AddOffset(-3 * .625f, 0);
-                output.changeSprite(SpriteType.BodyAccent8).AddOffset(3 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent7).AddOffset(-3 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent8).AddOffset(3 * .625f, 0);
             }
             else if (input.Actor.GetStomachSize(17) > 10)
             {
-                output.changeSprite(SpriteType.BodyAccent7).AddOffset(-2 * .625f, 0);
-                output.changeSprite(SpriteType.BodyAccent8).AddOffset(2 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent7).AddOffset(-2 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent8).AddOffset(2 * .625f, 0);
             }
             else if (input.Actor.GetStomachSize(17) > 8)
             {
-                output.changeSprite(SpriteType.BodyAccent7).AddOffset(-1 * .625f, 0);
-                output.changeSprite(SpriteType.BodyAccent8).AddOffset(1 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent7).AddOffset(-1 * .625f, 0);
+                output.ChangeSprite(SpriteType.BodyAccent8).AddOffset(1 * .625f, 0);
             }
         });
 

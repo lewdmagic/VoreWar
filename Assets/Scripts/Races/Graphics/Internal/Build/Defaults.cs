@@ -33,7 +33,7 @@ internal static class Defaults
     };
 
 
-    internal static readonly Func<Actor_Unit, ColorSwapPalette> FurryBellyColor = actor =>
+    private static readonly Func<Actor_Unit, ColorSwapPalette> FurryBellyColor = actor =>
     {
         if (actor.Unit.Furry)
         {
@@ -60,7 +60,7 @@ internal static class Defaults
                 localScale = new Vector3(1, 1, 1);
             }
 
-            output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
+            output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
         }
     };
 
@@ -90,14 +90,7 @@ internal static class Defaults
         {
             if (unit.HasDick && unit.HasBreasts)
             {
-                if (Config.HermsOnlyUseFemaleHair)
-                {
-                    unit.HairStyle = State.Rand.Next(8);
-                }
-                else
-                {
-                    unit.HairStyle = State.Rand.Next(input.MiscRaceData.HairStyles);
-                }
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 8 : input.MiscRaceData.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
@@ -434,15 +427,7 @@ internal static class Defaults
         if (input.MiscRaceData.FurCapable)
         {
             var raceStats = State.RaceSettings.Get(unit.Race);
-            float furryFraction;
-            if (raceStats.OverrideFurry)
-            {
-                furryFraction = raceStats.furryFraction;
-            }
-            else
-            {
-                furryFraction = Config.FurryFraction;
-            }
+            var furryFraction = raceStats.OverrideFurry ? raceStats.furryFraction : Config.FurryFraction;
 
             unit.Furry = State.Rand.NextDouble() < furryFraction;
         }
@@ -506,15 +491,13 @@ internal static class Defaults
     };
 
 
-    public static Action<IRunInput, IRunOutput> BasicBellyRunAfter = (input, output) =>
+    public static readonly Action<IRunInput, IRunOutput> BasicBellyRunAfter = (input, output) =>
     {
         if (input.Actor.HasBelly)
         {
-            output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(new Vector3(1, 1, 1));
+            output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(new Vector3(1, 1, 1));
         }
     };
-
-    internal static Color WhiteColored2 = Color.white;
 
     static Defaults()
     {
@@ -529,9 +512,9 @@ internal static class Defaults
                 return;
             }
 
-            int GenderOffset = input.Actor.Unit.HasBreasts ? 0 : 8;
+            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 8;
 
-            output.Sprite(input.Actor.HasBodyWeight ? State.GameManager.SpriteDictionary.Legs[(input.Actor.Unit.BodySize - 1) * 2 + GenderOffset + attackingOffset] : null);
+            output.Sprite(input.Actor.HasBodyWeight ? State.GameManager.SpriteDictionary.Legs[(input.Actor.Unit.BodySize - 1) * 2 + genderOffset + attackingOffset] : null);
         });
 
 
@@ -628,7 +611,7 @@ internal static class Defaults
 
         SpriteGens3[SpriteType.Weapon] = new SingleRenderFunc<IParameters>(1, (input, output) =>
         {
-            output.Coloring(WhiteColored2);
+            output.Coloring(Color.white);
             if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
             {
                 output.Sprite(State.GameManager.SpriteDictionary.Weapons[input.Actor.GetWeaponSprite()]);
@@ -737,7 +720,7 @@ internal static class Defaults
                 Debug.Log(input.Actor.Unit.Race);
                 Debug.Log(e);
                 Debug.Log(State.GameManager.SpriteDictionary.Dicks.Length + " vs " + input.Actor.Unit.DickSize);
-                throw e;
+                throw;
             }
         });
 
@@ -874,7 +857,7 @@ internal static class Defaults
 
         SpriteGens3[SpriteType.BodyAccent2] = new SingleRenderFunc<IParameters>(6, (input, output) =>
         {
-            output.Coloring(WhiteColored2);
+            output.Coloring(Color.white);
             int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
             output.Sprite(Config.FurryHandsAndFeet || input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryHandsAndFeet[2 + thinOffset + (input.Actor.IsAttacking ? 1 : 0)] : null);
 
@@ -882,7 +865,7 @@ internal static class Defaults
 
         SpriteGens3[SpriteType.BodyAccent3] = new SingleRenderFunc<IParameters>(7, (input, output) =>
         {
-            output.Coloring(WhiteColored2);
+            output.Coloring(Color.white);
             if (Config.FurryFluff == false)
             {
                 return;
@@ -921,9 +904,9 @@ internal static class Defaults
                 return;
             }
 
-            int GenderOffset = input.Actor.Unit.HasBreasts ? 0 : 8;
+            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 8;
 
-            output.Sprite(input.Actor.HasBodyWeight ? State.GameManager.SpriteDictionary.Legs[(input.Actor.Unit.BodySize - 1) * 2 + GenderOffset + attackingOffset] : null);
+            output.Sprite(input.Actor.HasBodyWeight ? State.GameManager.SpriteDictionary.Legs[(input.Actor.Unit.BodySize - 1) * 2 + genderOffset + attackingOffset] : null);
         };
 
         SpriteGens2[SpriteType.Head] = (input, output) =>
@@ -1123,7 +1106,7 @@ internal static class Defaults
                 Debug.Log(input.Actor.Unit.Race);
                 Debug.Log(e);
                 Debug.Log(State.GameManager.SpriteDictionary.Dicks.Length + " vs " + input.Actor.Unit.DickSize);
-                throw e;
+                throw;
             }
         };
 

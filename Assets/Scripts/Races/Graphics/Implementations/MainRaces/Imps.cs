@@ -141,10 +141,10 @@ internal static class Imps
 
             if (input.Actor.HasBelly)
             {
-                output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(new Vector3(1, 1, 1));
+                output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(new Vector3(1, 1, 1));
             }
 
-            output.changeSprite(SpriteType.BodyAccent6).SetTransformParent(SpriteType.BodyAccent6, false);
+            output.ChangeSprite(SpriteType.BodyAccent6).SetTransformParent(SpriteType.BodyAccent6, false);
         });
 
 

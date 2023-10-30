@@ -178,7 +178,7 @@ internal static class LizardLeaderTop
             }
             else
             {
-                output.changeSprite(SpriteType.Breasts).Layer(15);
+                output.ChangeSprite(SpriteType.Breasts).Layer(15);
             }
 
             output["Clothing1"].Sprite(input.Sprites.LizardLeader[0 + (attacking ? 1 : 0)]);
@@ -269,15 +269,15 @@ internal static class LizardLeaderLegguards
                 output["Clothing1"].Layer(11);
                 if (bellySize > 3)
                 {
-                    output.changeSprite(SpriteType.Belly).Layer(14);
-                    output.changeSprite(SpriteType.Dick).Layer(13);
-                    output.changeSprite(SpriteType.Balls).Layer(12);
+                    output.ChangeSprite(SpriteType.Belly).Layer(14);
+                    output.ChangeSprite(SpriteType.Dick).Layer(13);
+                    output.ChangeSprite(SpriteType.Balls).Layer(12);
                     output["Clothing1"].Sprite(input.Sprites.LizardLeader[4]);
                 }
                 else if (bellySize < 3)
                 {
-                    output.changeSprite(SpriteType.Dick).Layer(21);
-                    output.changeSprite(SpriteType.Balls).Layer(20);
+                    output.ChangeSprite(SpriteType.Dick).Layer(21);
+                    output.ChangeSprite(SpriteType.Balls).Layer(20);
                     output["Clothing1"].Sprite(input.Sprites.LizardLeader[4]);
                 }
 
@@ -398,7 +398,7 @@ internal static class LizardBoneTop
             output.RevealsBreasts = true;
             if (input.Actor.IsUnbirthing || input.Actor.IsAnalVoring)
             {
-                output.changeSprite(SpriteType.Breasts).Layer(15);
+                output.ChangeSprite(SpriteType.Breasts).Layer(15);
                 output["Clothing2"].Layer(15);
                 if (input.Actor.Unit.HasBreasts == false)
                 {
@@ -518,15 +518,15 @@ internal static class LizardBoneLegguards
                 output["Clothing1"].Layer(11);
                 if (bellySize > 3)
                 {
-                    output.changeSprite(SpriteType.Belly).Layer(14);
-                    output.changeSprite(SpriteType.Dick).Layer(13);
-                    output.changeSprite(SpriteType.Balls).Layer(12);
+                    output.ChangeSprite(SpriteType.Belly).Layer(14);
+                    output.ChangeSprite(SpriteType.Dick).Layer(13);
+                    output.ChangeSprite(SpriteType.Balls).Layer(12);
                     output["Clothing1"].Sprite(input.Sprites.LizardBone[9]);
                 }
                 else if (bellySize < 3)
                 {
-                    output.changeSprite(SpriteType.Dick).Layer(21);
-                    output.changeSprite(SpriteType.Balls).Layer(20);
+                    output.ChangeSprite(SpriteType.Dick).Layer(21);
+                    output.ChangeSprite(SpriteType.Balls).Layer(20);
                     output["Clothing1"].Sprite(input.Sprites.LizardBone[9]);
                 }
 
@@ -692,7 +692,7 @@ internal static class LizardLeatherTop
                 else if (input.Actor.Unit.BreastSize >= 8)
                 {
                     output.RevealsBreasts = true;
-                    output.changeSprite(SpriteType.Breasts).Layer(16);
+                    output.ChangeSprite(SpriteType.Breasts).Layer(16);
                     output["Clothing2"].Sprite(input.Sprites.LizardLeather[15]);
                 }
 
@@ -772,15 +772,15 @@ internal static class LizardLeatherLegguards
                 output["Clothing1"].Layer(11);
                 if (bellySize > 3)
                 {
-                    output.changeSprite(SpriteType.Belly).Layer(14);
-                    output.changeSprite(SpriteType.Dick).Layer(13);
-                    output.changeSprite(SpriteType.Balls).Layer(12);
+                    output.ChangeSprite(SpriteType.Belly).Layer(14);
+                    output.ChangeSprite(SpriteType.Dick).Layer(13);
+                    output.ChangeSprite(SpriteType.Balls).Layer(12);
                     output["Clothing1"].Sprite(input.Sprites.LizardLeather[16]);
                 }
                 else if (bellySize < 3)
                 {
-                    output.changeSprite(SpriteType.Dick).Layer(21);
-                    output.changeSprite(SpriteType.Balls).Layer(20);
+                    output.ChangeSprite(SpriteType.Dick).Layer(21);
+                    output.ChangeSprite(SpriteType.Balls).Layer(20);
                     output["Clothing1"].Sprite(input.Sprites.LizardLeather[16]);
                 }
 
@@ -1007,14 +1007,14 @@ internal static class LizardClothShorts
                 output["Clothing1"].Layer(11);
                 if (bellySize > 3)
                 {
-                    output.changeSprite(SpriteType.Belly).Layer(14);
-                    output.changeSprite(SpriteType.Dick).Layer(13);
-                    output.changeSprite(SpriteType.Balls).Layer(12);
+                    output.ChangeSprite(SpriteType.Belly).Layer(14);
+                    output.ChangeSprite(SpriteType.Dick).Layer(13);
+                    output.ChangeSprite(SpriteType.Balls).Layer(12);
                 }
                 else if (bellySize < 3)
                 {
-                    output.changeSprite(SpriteType.Dick).Layer(21);
-                    output.changeSprite(SpriteType.Balls).Layer(20);
+                    output.ChangeSprite(SpriteType.Dick).Layer(21);
+                    output.ChangeSprite(SpriteType.Balls).Layer(20);
                 }
 
                 output["Clothing1"].Sprite(input.Sprites.LizardCloth[9]);
@@ -1104,8 +1104,8 @@ internal static class RainCoat
 
             int bellySize = input.Actor.GetStomachSize();
 
-            output.changeSprite(SpriteType.Hair).Sprite(input.Sprites.RainCoats[19 + input.Actor.Unit.HairStyle % 4]);
-            output.changeSprite(SpriteType.Hair2).SetHide(true);
+            output.ChangeSprite(SpriteType.Hair).Sprite(input.Sprites.RainCoats[19 + input.Actor.Unit.HairStyle % 4]);
+            output.ChangeSprite(SpriteType.Hair2).SetHide(true);
             if (bellySize < 3)
             {
                 output["Clothing2"].Sprite(input.Sprites.RainCoats[heavyWeight ? 7 : 6]);
@@ -1177,7 +1177,7 @@ internal static class TigerSpecial
 
             if (input.Actor.Unit.BreastSize > 4)
             {
-                output.changeSprite(SpriteType.Breasts).Sprite(input.Sprites.TigerSpecial[14 + input.Actor.Unit.BreastSize]);
+                output.ChangeSprite(SpriteType.Breasts).Sprite(input.Sprites.TigerSpecial[14 + input.Actor.Unit.BreastSize]);
                 output.BlocksBreasts = false;
             }
             else
@@ -1187,7 +1187,7 @@ internal static class TigerSpecial
 
             output["Clothing4"].Sprite(input.Sprites.TigerSpecial[input.Actor.IsAttacking ? 1 : 0]);
             output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
-            output.changeSprite(SpriteType.Weapon).SetHide(true);
+            output.ChangeSprite(SpriteType.Weapon).SetHide(true);
         });
     });
 }
@@ -1249,7 +1249,7 @@ internal static class CatLeader
                 output["Clothing6"].Sprite(input.Sprites.CatLeader[4]);
             }
 
-            output.changeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
+            output.ChangeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
         });
     });
 }
@@ -1328,7 +1328,7 @@ internal static class SuccubusDress
 
             if (spriteNum < 7)
             {
-                output.changeSprite(SpriteType.Dick).Layer(12);
+                output.ChangeSprite(SpriteType.Dick).Layer(12);
             }
 
             if (input.Actor.GetBallSize(15) > 6 && spriteNum >= 8)

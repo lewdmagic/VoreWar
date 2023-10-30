@@ -119,12 +119,12 @@ internal static class Raptor
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -132,12 +132,12 @@ internal static class Raptor
                     }
                 }
 
-                if (frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame] == 0)
+                if (frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame] == 0)
                 {
                     return;
                 }
 
-                output.Sprite(input.Sprites.Raptor[11 + frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Raptor[11 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -165,12 +165,12 @@ internal static class Raptor
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame] == 0)
+                if (frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame] == 0)
                 {
                     return;
                 }
 
-                output.Sprite(input.Sprites.Raptor[17 + frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Raptor[17 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
             }
         }); // Tail Stripes
 
@@ -267,15 +267,15 @@ internal static class Raptor
         {
             if (input.Actor.HasBelly == false)
             {
-                output.changeSprite(SpriteType.Dick).AddOffset(0, 0 * .3125f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 0 * .3125f);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 0 * .3125f);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 0 * .3125f);
-                output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 0 * .3125f);
-                output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 0 * .3125f);
-                output.changeSprite(SpriteType.Body).AddOffset(0, 0 * .3125f);
-                output.changeSprite(SpriteType.Eyes).AddOffset(0, 0 * .3125f);
-                output.changeSprite(SpriteType.Mouth).AddOffset(0, 0 * .3125f);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 0 * .3125f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 0 * .3125f);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 0 * .3125f);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 0 * .3125f);
+                output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 0 * .3125f);
+                output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 0 * .3125f);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, 0 * .3125f);
+                output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 0 * .3125f);
+                output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 0 * .3125f);
             }
 
             else
@@ -284,197 +284,197 @@ internal static class Raptor
 
                 if (size == 24 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false))
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 176 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 176 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 176 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 176 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 176 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 176 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 176 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 176 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 176 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 176 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 176 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 176 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 176 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 176 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 176 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 176 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 176 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 176 * .3125f);
                 }
 
                 else if (size >= 23 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 168 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 168 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 168 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 168 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 168 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 168 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 168 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 168 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 168 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 168 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 168 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 168 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 168 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 168 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 168 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 168 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 168 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 168 * .3125f);
                 }
 
                 else if (size == 22 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 152 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 152 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 152 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 152 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 152 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 152 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 152 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 152 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 152 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 152 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 152 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 152 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 152 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 152 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 152 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 152 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 152 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 152 * .3125f);
                 }
 
                 else if (size >= 21)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 144 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 144 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 144 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 144 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 144 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 144 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 144 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 144 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 144 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 144 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 144 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 144 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 144 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 144 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 144 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 144 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 144 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 144 * .3125f);
                 }
 
                 else if (size == 20)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 128 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 128 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 128 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 128 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 128 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 128 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 128 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 128 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 128 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 128 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 128 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 128 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 128 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 128 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 128 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 128 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 128 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 128 * .3125f);
                 }
 
                 else if (size == 19)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 112 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 112 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 112 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 112 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 112 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 112 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 112 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 112 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 112 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 112 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 112 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 112 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 112 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 112 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 112 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 112 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 112 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 112 * .3125f);
                 }
 
                 else if (size == 18)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 96 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 96 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 96 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 96 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 96 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 96 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 96 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 96 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 96 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 96 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 96 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 96 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 96 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 96 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 96 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 96 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 96 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 96 * .3125f);
                 }
 
                 else if (size == 17)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 80 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 80 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 80 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 80 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 80 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 80 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 80 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 80 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 80 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 80 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 80 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 80 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 80 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 80 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 80 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 80 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 80 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 80 * .3125f);
                 }
 
                 else if (size == 16)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 64 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 64 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 64 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 64 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 64 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 64 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 64 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 64 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 64 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 64 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 64 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 64 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 64 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 64 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 64 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 64 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 64 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 64 * .3125f);
                 }
 
                 else if (size == 15)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 48 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 48 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 48 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 48 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 48 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 48 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 48 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 48 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 48 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 48 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 48 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 48 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 48 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 48 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 48 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 48 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 48 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 48 * .3125f);
                 }
 
                 else if (size == 14)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 32 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 32 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 32 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 32 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 32 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 32 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 32 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 32 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 32 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 32 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 32 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 32 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 32 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 32 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 32 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 32 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 32 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 32 * .3125f);
                 }
 
                 else if (size == 13)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 24 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 24 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 24 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 24 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 24 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 24 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 24 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 24 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 24 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 24 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 24 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 24 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 24 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 24 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 24 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 24 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 24 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 24 * .3125f);
                 }
 
                 else if (size == 12)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 16 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 16 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 16 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 16 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 16 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 16 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 16 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 16 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 16 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 16 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 16 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 16 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 16 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 16 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 16 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 16 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 16 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 16 * .3125f);
                 }
 
                 else if (size == 11)
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 8 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 8 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 8 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 8 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 8 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 8 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 8 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 8 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 8 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 8 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 8 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 8 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 8 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 8 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 8 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 8 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 8 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 8 * .3125f);
                 }
 
                 else
                 {
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, 0 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 0 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 0 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 0 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 0 * .3125f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 0 * .3125f);
-                    output.changeSprite(SpriteType.Body).AddOffset(0, 0 * .3125f);
-                    output.changeSprite(SpriteType.Eyes).AddOffset(0, 0 * .3125f);
-                    output.changeSprite(SpriteType.Mouth).AddOffset(0, 0 * .3125f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 0 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 0 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 0 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 0 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 0 * .3125f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 0 * .3125f);
+                    output.ChangeSprite(SpriteType.Body).AddOffset(0, 0 * .3125f);
+                    output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 0 * .3125f);
+                    output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 0 * .3125f);
                 }
             }
         });

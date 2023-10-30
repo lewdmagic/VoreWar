@@ -15,7 +15,7 @@ internal class CompleteSprite
     
     private readonly List<ISpriteContainer> _clothingSprites = new List<ISpriteContainer>();
     private readonly SpriteTypeIndexed<ISpriteContainer> _sprites = new SpriteTypeIndexed<ISpriteContainer>();
-    private IEnumerable<ISpriteContainer> _allContainers => _sprites.Concat(_clothingSprites);
+    private IEnumerable<ISpriteContainer> AllContainers => _sprites.Concat(_clothingSprites);
     
     private readonly Actor_Unit _actor;
     private readonly Transform _folder;
@@ -50,19 +50,16 @@ internal class CompleteSprite
         }
     }
     
-    private ISpriteContainer getClothingContainer(int index)
+    private ISpriteContainer GetClothingContainer(int index)
     {
-        return _clothingSprites.GetOrAdd(index, () =>
-        {
-            return SpriteContainer.MakeContainer(_type, _folder);
-        });
+        return _clothingSprites.GetOrAdd(index, () => SpriteContainer.MakeContainer(_type, _folder));
     }
     
     private IRaceData GetRace => Races.GetRace(_actor.Unit);
 
     internal void Destroy()
     {
-        foreach (ISpriteContainer container in _allContainers)
+        foreach (ISpriteContainer container in AllContainers)
         {
             if (container != null)
             {
@@ -76,7 +73,7 @@ internal class CompleteSprite
         return _sprites[spriteType];
     }
 
-    internal void HideSprite(SpriteType spriteType)
+    private void HideSprite(SpriteType spriteType)
     {
         if (_sprites[spriteType] != null)
         {
@@ -85,7 +82,7 @@ internal class CompleteSprite
     }
 
 
-    internal void ChangeLayer(SpriteType spriteType, int layer)
+    private void ChangeLayer(SpriteType spriteType, int layer)
     {
         if (_sprites[spriteType] != null)
         {
@@ -112,14 +109,13 @@ internal class CompleteSprite
     {
         FullSpriteProcessOut fullOut = GetRace.NewUpdate(_actor);
 
-        Vector3 clothingShift = fullOut.RunOutput.ClothingShift.HasValue ? fullOut.RunOutput.ClothingShift.Value : GetRace.MiscRaceData.ClothingShift;
-        Vector2 wholebodyOffset = fullOut.RunOutput.WholeBodyOffset.HasValue ? fullOut.RunOutput.WholeBodyOffset.Value : GetRace.MiscRaceData.WholeBodyOffset;
+        Vector3 clothingShift = fullOut.RunOutput.ClothingShift ?? GetRace.MiscRaceData.ClothingShift;
+        Vector2 wholebodyOffset = fullOut.RunOutput.WholeBodyOffset ?? GetRace.MiscRaceData.WholeBodyOffset;
 
         foreach (SpriteType spriteType in EnumUtil.GetValues<SpriteType>())
         {
             ISpriteContainer container = _sprites[spriteType];
-            RaceRenderOutput raceRenderOutput;
-            if (fullOut.spriteOutputs.TryGetValue(spriteType, out raceRenderOutput))
+            if (fullOut.SpriteOutputs.TryGetValue(spriteType, out var raceRenderOutput))
             {
                 container.NewSetSprite(raceRenderOutput, wholebodyOffset, _actor.spriteLayerOffset);
             }
@@ -129,7 +125,7 @@ internal class CompleteSprite
             }
         }
         
-        foreach (KeyValuePair<SpriteType, RaceRenderOutput> entry in fullOut.spriteOutputs)
+        foreach (KeyValuePair<SpriteType, RaceRenderOutput> entry in fullOut.SpriteOutputs)
         {
             SpriteType type = entry.Key;
             RaceRenderOutput changes = entry.Value;
@@ -138,20 +134,20 @@ internal class CompleteSprite
 
             if (container != null)
             {
-                if (changes._gameObjectActive != null)
+                if (changes.GameObjectActive != null)
                 {
-                    container.GameObject.SetActive(changes._gameObjectActive.Value);
+                    container.GameObject.SetActive(changes.GameObjectActive.Value);
                 }
 
-                if (changes._gameObjectLocalScale != null)
+                if (changes.GameObjectLocalScale != null)
                 {
-                    container.GameObject.transform.localScale = changes._gameObjectLocalScale.Value;
+                    container.GameObject.transform.localScale = changes.GameObjectLocalScale.Value;
                 }
 
-                if (changes._SetParentData != null)
+                if (changes.SetParentData != null)
                 {
-                    Transform transform = _sprites[changes._SetParentData.Item1]?.GameObject?.transform.parent;
-                    container.GameObject.transform.SetParent(transform, changes._SetParentData.Item2);
+                    Transform transform = _sprites[changes.SetParentData.Item1]?.GameObject?.transform.parent;
+                    container.GameObject.transform.SetParent(transform, changes.SetParentData.Item2);
                 }
             }
             //if (changes._offset != null) sprites[type].GameObject.transform.SetParent(changes._SetParentData.Item1, changes._SetParentData.Item2);
@@ -180,11 +176,11 @@ internal class CompleteSprite
             }
         }
 
-        processAccumulated(fullOut.AccumulatedClothes, wholebodyOffset, clothingShift);
+        ProcessAccumulated(fullOut.AccumulatedClothes, wholebodyOffset, clothingShift);
 
         if (_sprites[0] != null && _sprites[0].IsImage) //Manual sort for Images
         {
-            ISpriteContainer[] containers = _allContainers.Where(s => s != null).OrderBy(s => s.SortOrder).ToArray();
+            ISpriteContainer[] containers = AllContainers.Where(s => s != null).OrderBy(s => s.SortOrder).ToArray();
             for (int i = 0; i < containers.Length; i++)
             {
                 containers[i].GameObject.transform.SetSiblingIndex(i + 1);
@@ -192,13 +188,13 @@ internal class CompleteSprite
         }
     }
 
-    private void processAccumulated(AccumulatedClothes accumulatedClothes, Vector2 wholebodyOffset, Vector3 clothingShift)
+    private void ProcessAccumulated(AccumulatedClothes accumulatedClothes, Vector2 wholebodyOffset, Vector3 clothingShift)
     {
-        int clothesContainers = Math.Max(accumulatedClothes.spritesInfos.Count, _clothingSprites.Count);
+        int clothesContainers = Math.Max(accumulatedClothes.SpritesInfos.Count, _clothingSprites.Count);
         for (int i = 0; i < clothesContainers; i++)
         {
-            ISpriteContainer container = getClothingContainer(i);
-            ISpriteChangeReadable one = accumulatedClothes.spritesInfos.GetOrNull(i);
+            ISpriteContainer container = GetClothingContainer(i);
+            ISpriteChangeReadable one = accumulatedClothes.SpritesInfos.GetOrNull(i);
 
             if (one != null)
             {
@@ -212,7 +208,7 @@ internal class CompleteSprite
             }
         }
 
-        if (accumulatedClothes.blocksBreasts)
+        if (accumulatedClothes.BlocksBreasts)
         {
             HideSprite(SpriteType.Breasts);
             HideSprite(SpriteType.SecondaryBreasts);
@@ -221,7 +217,7 @@ internal class CompleteSprite
                 HideSprite(SpriteType.BreastShadow); //Used for other things in newgraphics
             }
         }
-        else if (!accumulatedClothes.revealsBreasts)
+        else if (!accumulatedClothes.RevealsBreasts)
         {
             ChangeLayer(SpriteType.Breasts, 8);
             ChangeLayer(SpriteType.SecondaryBreasts, 8);
@@ -232,7 +228,7 @@ internal class CompleteSprite
             }
         }
 
-        if (!accumulatedClothes.revealsDick)
+        if (!accumulatedClothes.RevealsDick)
         {
             HideSprite(SpriteType.Dick);
             HideSprite(SpriteType.Balls);
@@ -243,7 +239,7 @@ internal class CompleteSprite
     internal void DarkenSprites()
     {
         float tint = 0.6f;
-        foreach (ISpriteContainer container in _allContainers)
+        foreach (ISpriteContainer container in AllContainers)
         {
             if (container != null)
             {
@@ -256,7 +252,7 @@ internal class CompleteSprite
     {
         float tint = .4f;
 
-        foreach (ISpriteContainer container in _allContainers)
+        foreach (ISpriteContainer container in AllContainers)
         {
             if (container != null)
             {
@@ -267,7 +263,7 @@ internal class CompleteSprite
 
     internal void RedifySprite(float tint)
     {
-        foreach (ISpriteContainer container in _allContainers)
+        foreach (ISpriteContainer container in AllContainers)
         {
             if (container != null)
             {

@@ -278,8 +278,8 @@ internal static class Asura
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Weapon).AddOffset(0, 74 * .625f);
-            output.changeSprite(SpriteType.SecondaryAccessory).AddOffset(0, 59 * .625f);
+            output.ChangeSprite(SpriteType.Weapon).AddOffset(0, 74 * .625f);
+            output.ChangeSprite(SpriteType.SecondaryAccessory).AddOffset(0, 59 * .625f);
 
             if (input.Actor.HasBelly)
             {
@@ -300,7 +300,7 @@ internal static class Asura
                     }
                 }
 
-                output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
+                output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
             }
         });
 
@@ -344,12 +344,12 @@ internal static class Asura
             return;
         }
 
-        if (input.Actor.AnimationController.frameLists[list].currentTime >= frameList[list].times[input.Actor.AnimationController.frameLists[list].currentFrame])
+        if (input.Actor.AnimationController.frameLists[list].currentTime >= frameList[list].Times[input.Actor.AnimationController.frameLists[list].currentFrame])
         {
             input.Actor.AnimationController.frameLists[list].currentFrame++;
             input.Actor.AnimationController.frameLists[list].currentTime = 0f;
 
-            if (input.Actor.AnimationController.frameLists[list].currentFrame >= frameList[list].frames.Length)
+            if (input.Actor.AnimationController.frameLists[list].currentFrame >= frameList[list].Frames.Length)
             {
                 input.Actor.AnimationController.frameLists[list].currentFrame = 0;
                 input.Actor.AnimationController.frameLists[list].currentlyActive = false;
@@ -358,7 +358,7 @@ internal static class Asura
             }
         }
 
-        output.Sprite(input.Sprites.Asura[frameList[list].frames[input.Actor.AnimationController.frameLists[list].currentFrame]]);
+        output.Sprite(input.Sprites.Asura[frameList[list].Frames[input.Actor.AnimationController.frameLists[list].currentFrame]]);
     }
 
 

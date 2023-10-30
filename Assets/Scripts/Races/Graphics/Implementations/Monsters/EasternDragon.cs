@@ -41,12 +41,12 @@ internal static class EasternDragon
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListEyes.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListEyes.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListEyes.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListEyes.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -54,7 +54,7 @@ internal static class EasternDragon
                     }
                 }
 
-                output.Sprite(input.Sprites.EasternDragon[1 + frameListEyes.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.EasternDragon[1 + frameListEyes.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -195,12 +195,12 @@ internal static class EasternDragon
 
             if (input.Actor.AnimationController.frameLists[1].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListTongue.times[input.Actor.AnimationController.frameLists[1].currentFrame])
+                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListTongue.Times[input.Actor.AnimationController.frameLists[1].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[1].currentFrame++;
                     input.Actor.AnimationController.frameLists[1].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListTongue.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListTongue.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[1].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[1].currentFrame = 0;
@@ -208,7 +208,7 @@ internal static class EasternDragon
                     }
                 }
 
-                output.Sprite(input.Sprites.EasternDragon[10 + frameListTongue.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                output.Sprite(input.Sprites.EasternDragon[10 + frameListTongue.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
                 return;
             }
 
@@ -340,11 +340,11 @@ internal static class EasternDragon
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Balls).AddOffset(128 * .3125f, 0);
-            output.changeSprite(SpriteType.Dick).AddOffset(128 * .3125f, 0);
-            output.changeSprite(SpriteType.BodyAccent2).AddOffset(128 * .3125f, 0);
-            output.changeSprite(SpriteType.BodyAccent3).AddOffset(128 * .3125f, 0);
-            output.changeSprite(SpriteType.BodyAccent4).AddOffset(128 * .3125f, 0);
+            output.ChangeSprite(SpriteType.Balls).AddOffset(128 * .3125f, 0);
+            output.ChangeSprite(SpriteType.Dick).AddOffset(128 * .3125f, 0);
+            output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(128 * .3125f, 0);
+            output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(128 * .3125f, 0);
+            output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(128 * .3125f, 0);
         });
 
 

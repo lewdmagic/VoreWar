@@ -536,12 +536,12 @@ internal static class Crux
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
                 if (input.Actor.AnimationController.frameLists[0].currentTime >=
-                    frameListDrool.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                    frameListDrool.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListDrool.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListDrool.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -549,7 +549,7 @@ internal static class Crux
                     }
                 }
 
-                output.Sprite(input.Sprites.Crux[291 + frameListDrool.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Crux[291 + frameListDrool.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 

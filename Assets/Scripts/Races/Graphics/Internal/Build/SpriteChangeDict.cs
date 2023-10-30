@@ -4,15 +4,14 @@ using UnityEngine;
 
 internal class SpriteChangeDict : ISpriteChanger
 {
-    internal Dictionary<SpriteType, RaceRenderOutput> reusedChangesDict = new Dictionary<SpriteType, RaceRenderOutput>();
+    internal readonly Dictionary<SpriteType, RaceRenderOutput> ReusedChangesDict = new Dictionary<SpriteType, RaceRenderOutput>();
     
-    public IRaceRenderOutput changeSprite(SpriteType spriteType)
+    public IRaceRenderOutput ChangeSprite(SpriteType spriteType)
     {
-        RaceRenderOutput raceRenderOutput;
-        if (!reusedChangesDict.TryGetValue(spriteType, out raceRenderOutput))
+        if (!ReusedChangesDict.TryGetValue(spriteType, out var raceRenderOutput))
         {
             raceRenderOutput = new RaceRenderOutput();
-            reusedChangesDict.Add(spriteType, raceRenderOutput);
+            ReusedChangesDict.Add(spriteType, raceRenderOutput);
         }
 
         return raceRenderOutput;
@@ -37,90 +36,90 @@ internal class SpriteChangeDict : ISpriteChanger
 
 internal class RaceRenderOutput : IRaceRenderOutput, ISpriteChangeReadable
 {
-    public Sprite _Sprite { get; private set; }
-    public Vector2 _Offset { get; private set; } = new Vector2(0, 0);
+    public Sprite Sprite { get; private set; }
+    public Vector2 Offset { get; private set; } = new Vector2(0, 0);
 
-    public Vector3? _gameObjectLocalScale { get; private set; }
-    public bool? _gameObjectActive { get; private set; }
-    public Tuple<SpriteType, bool> _SetParentData { get; private set; }
+    public Vector3? GameObjectLocalScale { get; private set; }
+    public bool? GameObjectActive { get; private set; }
+    public Tuple<SpriteType, bool> SetParentData { get; private set; }
 
-    public int? _Layer { get; private set; }
-    public bool? _Hide { get; private set; }
+    public int? Layer { get; private set; }
+    public bool? Hide { get; private set; }
         
-    public Color? _Color { get; private set; }
-    public ColorSwapPalette _Palette { get; private set; }
+    public Color? Color { get; private set; }
+    public ColorSwapPalette Palette { get; private set; }
         
-    public IRaceRenderOutput Sprite(Sprite sprite)
+    IRaceRenderOutput IRaceRenderOutput.Sprite(Sprite sprite)
     {
-        _Sprite = sprite;
+        Sprite = sprite;
         return this;
     }
 
     public IRaceRenderOutput AddOffset(float x, float y)
     {
-        _Offset = new Vector2(_Offset.x + x, _Offset.y + y);
+        Offset = new Vector2(Offset.x + x, Offset.y + y);
         return this;
     }
         
     public IRaceRenderOutput AddOffset(Vector2 offset)
     {
-        _Offset = offset;
+        Offset = offset;
         return this;
     }
 
     public IRaceRenderOutput SetOffset(float x, float y)
     {
-        _Offset = new Vector2(x, y);
+        Offset = new Vector2(x, y);
         return this;
     }
 
     public IRaceRenderOutput SetOffset(Vector2 offset)
     {
-        _Offset = offset;
+        Offset = offset;
         return this;
     }
 
-    public IRaceRenderOutput Layer(int layer)
+    IRaceRenderOutput IRaceRenderOutput.Layer(int layer)
     {
-        _Layer = layer;
+        Layer = layer;
         return this;
     }
         
-    public IRaceRenderOutput Coloring(Color? color)
+    IRaceRenderOutput IRaceRenderOutput.Coloring(Color? color)
     {
-        _Color = color;
-        _Palette = null;
+        Color = color;
+        Palette = null;
         return this;
     }
 
-    public IRaceRenderOutput Coloring(ColorSwapPalette palette)
+    IRaceRenderOutput IRaceRenderOutput.Coloring(ColorSwapPalette palette)
     {
-        _Palette = palette;
-        _Color = null;
+        Palette = palette;
+        Color = null;
         return this;
     }
 
     public IRaceRenderOutput SetHide(bool hide)
     {
-        _Hide = hide;
+        Hide = hide;
         return this;
     }
     
     public IRaceRenderOutput SetTransformParent(SpriteType parent, bool worldPositionStays)
     {
-        _SetParentData = Tuple.Create(parent, worldPositionStays);
+        SetParentData = Tuple.Create(parent, worldPositionStays);
         return this;
     }
     
     public IRaceRenderOutput SetActive(bool active)
     {
-        _gameObjectActive = active;
+        GameObjectActive = active;
         return this;
     }
     
     public IRaceRenderOutput SetLocalScale(Vector3 localScale)
     {
-        _gameObjectLocalScale = localScale;
+        GameObjectLocalScale = localScale;
         return this;
     }
 }

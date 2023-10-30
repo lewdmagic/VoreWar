@@ -124,12 +124,12 @@ internal static class Auri
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[1].currentTime >= earAnimation.times[input.Actor.AnimationController.frameLists[1].currentFrame])
+            if (input.Actor.AnimationController.frameLists[1].currentTime >= earAnimation.Times[input.Actor.AnimationController.frameLists[1].currentFrame])
             {
                 input.Actor.AnimationController.frameLists[1].currentFrame++;
                 input.Actor.AnimationController.frameLists[1].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[1].currentFrame >= earAnimation.frames.Length)
+                if (input.Actor.AnimationController.frameLists[1].currentFrame >= earAnimation.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[1].currentlyActive = false;
                     input.Actor.AnimationController.frameLists[1].currentTime = 0;
@@ -137,7 +137,7 @@ internal static class Auri
                 }
             }
 
-            output.Sprite(input.Sprites.Auri[faceAnimation.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+            output.Sprite(input.Sprites.Auri[faceAnimation.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
         });
 
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
@@ -238,12 +238,12 @@ internal static class Auri
             }
 
 
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= earAnimation.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+            if (input.Actor.AnimationController.frameLists[0].currentTime >= earAnimation.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
             {
                 input.Actor.AnimationController.frameLists[0].currentFrame++;
                 input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= earAnimation.frames.Length)
+                if (input.Actor.AnimationController.frameLists[0].currentFrame >= earAnimation.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0;
@@ -251,7 +251,7 @@ internal static class Auri
                 }
             }
 
-            output.Sprite(input.Sprites.Auri[earAnimation.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Auri[earAnimation.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
         });
 
         builder.RenderSingle(SpriteType.SecondaryAccessory, 0, (input, output) =>

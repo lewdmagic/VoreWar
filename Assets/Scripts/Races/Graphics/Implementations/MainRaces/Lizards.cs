@@ -684,7 +684,7 @@ internal static class Lizards
                         localScale = new Vector3(1, 1, 1);
                     }
 
-                    output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
+                    output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
                 }
             }
             else
@@ -704,7 +704,7 @@ internal static class Lizards
                         localScale = new Vector3(1, 1, 1);
                     }
 
-                    output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
+                    output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
                 }
             }
         });

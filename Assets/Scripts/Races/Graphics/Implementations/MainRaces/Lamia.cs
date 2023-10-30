@@ -290,28 +290,28 @@ internal static class Lamia
 
             output.Params.Selicia = Selicia;
 
-            output.changeSprite(SpriteType.Body).AddOffset(xOffset, yOffset);
-            output.changeSprite(SpriteType.Head).AddOffset(xOffset, yOffset);
-            output.changeSprite(SpriteType.Mouth).AddOffset(xOffset, yOffset);
-            output.changeSprite(SpriteType.Hair).AddOffset(xOffset, yOffset);
-            output.changeSprite(SpriteType.Hair2).AddOffset(xOffset, yOffset);
-            output.changeSprite(SpriteType.BodyAccent3).AddOffset(xOffset, yOffset);
-            output.changeSprite(SpriteType.BodyAccent4).AddOffset(xOffset, yOffset);
-            output.changeSprite(SpriteType.BodyAccent5).AddOffset(xOffset, yOffset);
-            output.changeSprite(SpriteType.Weapon).AddOffset(xOffset + 1.25f, yOffset + 1.25f);
-            output.changeSprite(SpriteType.BackWeapon).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.Body).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.Head).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.Mouth).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.Hair).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.Hair2).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.Weapon).AddOffset(xOffset + 1.25f, yOffset + 1.25f);
+            output.ChangeSprite(SpriteType.BackWeapon).AddOffset(xOffset, yOffset);
             if (Selicia == false)
             {
-                output.changeSprite(SpriteType.Belly).AddOffset(xOffset, yOffset);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(xOffset, yOffset);
             }
 
-            output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, yOffset);
-            output.changeSprite(SpriteType.Dick).AddOffset(xOffset, yOffset + 2.5f);
-            output.changeSprite(SpriteType.Balls).AddOffset(xOffset, yOffset + 2.5f);
-            output.changeSprite(SpriteType.Eyes).AddOffset(0, -1 * .625f);
+            output.ChangeSprite(SpriteType.Breasts).AddOffset(xOffset, yOffset);
+            output.ChangeSprite(SpriteType.Dick).AddOffset(xOffset, yOffset + 2.5f);
+            output.ChangeSprite(SpriteType.Balls).AddOffset(xOffset, yOffset + 2.5f);
+            output.ChangeSprite(SpriteType.Eyes).AddOffset(0, -1 * .625f);
             if (input.Actor.Unit.GetGender() != Gender.Male)
             {
-                output.changeSprite(SpriteType.SecondaryAccessory).AddOffset(0, -1 * .625f);
+                output.ChangeSprite(SpriteType.SecondaryAccessory).AddOffset(0, -1 * .625f);
             }
 
             if (!Config.LamiaUseTailAsSecondBelly)
@@ -331,7 +331,7 @@ internal static class Lamia
                         localScale = new Vector3(1, 1, 1);
                     }
 
-                    output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
+                    output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
                 }
             }
 
@@ -351,7 +351,7 @@ internal static class Lamia
                     localScale = new Vector3(1, 1, 1);
                 }
 
-                output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
+                output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
             }
         });
 

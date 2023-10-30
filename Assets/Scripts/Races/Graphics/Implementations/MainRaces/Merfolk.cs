@@ -198,27 +198,27 @@ internal static class Merfolk
         {
             if (input.Actor.Unit.Predator && input.Actor.GetStomachSize(16) > 5)
             {
-                output.changeSprite(SpriteType.Belly).AddOffset(0, 13);
-                output.changeSprite(SpriteType.Dick).AddOffset(0, 7);
-                output.changeSprite(SpriteType.Balls).AddOffset(0, 7);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 13);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
             }
             else if (input.Actor.Unit.Predator && input.Actor.GetStomachSize(16) > 3)
             {
-                output.changeSprite(SpriteType.Belly).AddOffset(0, 12);
-                output.changeSprite(SpriteType.Dick).AddOffset(0, 7);
-                output.changeSprite(SpriteType.Balls).AddOffset(0, 7);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 12);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
             }
             else if (input.Actor.Unit.Predator && input.Actor.GetStomachSize(16) > 2)
             {
-                output.changeSprite(SpriteType.Belly).AddOffset(0, 11);
-                output.changeSprite(SpriteType.Dick).AddOffset(0, 7);
-                output.changeSprite(SpriteType.Balls).AddOffset(0, 7);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 11);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
             }
             else
             {
-                output.changeSprite(SpriteType.Belly).AddOffset(0, 10);
-                output.changeSprite(SpriteType.Dick).AddOffset(0, 7);
-                output.changeSprite(SpriteType.Balls).AddOffset(0, 7);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 10);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
             }
         });
 

@@ -166,7 +166,7 @@ internal static class Schiwardez
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Balls).AddOffset(-125 * .5f, 0);
+            output.ChangeSprite(SpriteType.Balls).AddOffset(-125 * .5f, 0);
         });
         builder.RandomCustom(Defaults.RandomCustom);
     });

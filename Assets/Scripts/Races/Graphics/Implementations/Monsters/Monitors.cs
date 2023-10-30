@@ -162,12 +162,12 @@ internal static class Monitors
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTongue.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTongue.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTongue.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTongue.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -175,7 +175,7 @@ internal static class Monitors
                     }
                 }
 
-                output.Sprite(input.Sprites.Monitors[57 + frameListTongue.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Monitors[57 + frameListTongue.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 

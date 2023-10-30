@@ -127,8 +127,8 @@ internal static class Sergal
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Dick).AddOffset(0, 12 * .625f);
-            output.changeSprite(SpriteType.Balls).AddOffset(0, 12 * .625f);
+            output.ChangeSprite(SpriteType.Dick).AddOffset(0, 12 * .625f);
+            output.ChangeSprite(SpriteType.Balls).AddOffset(0, 12 * .625f);
             output.ActorFurry = true;
         });
 
@@ -175,7 +175,7 @@ internal static class BaseOutfit
             else if (input.Actor.Unit.BreastSize >= 7)
             {
                 output.RevealsBreasts = true;
-                output.changeSprite(SpriteType.Breasts).Layer(16);
+                output.ChangeSprite(SpriteType.Breasts).Layer(16);
                 output["Clothing1"].Sprite(input.Sprites.Sergal[64]);
             }
 

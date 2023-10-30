@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 internal class FullSpriteProcessOut
 {
-    internal AccumulatedClothes AccumulatedClothes;
-    internal IRunOutputReadable RunOutput;
-    internal IReadOnlyDictionary<SpriteType, RaceRenderOutput> spriteOutputs;
+    internal readonly AccumulatedClothes AccumulatedClothes;
+    internal readonly IRunOutputReadable RunOutput;
+    internal readonly IReadOnlyDictionary<SpriteType, RaceRenderOutput> SpriteOutputs;
 
     public FullSpriteProcessOut(IRunOutputReadable runOutput, IReadOnlyDictionary<SpriteType, RaceRenderOutput> spriteOutputs, AccumulatedClothes accumulatedClothes)
     {
         RunOutput = runOutput;
-        this.spriteOutputs = spriteOutputs;
+        SpriteOutputs = spriteOutputs;
         AccumulatedClothes = accumulatedClothes;
     }
 }

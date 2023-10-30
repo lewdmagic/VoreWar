@@ -282,9 +282,9 @@ internal static class SlimeQueen
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Mouth).AddOffset(0, 8.125f);
-            output.changeSprite(SpriteType.Belly).AddOffset(0, 2 * .625f);
-            output.changeSprite(SpriteType.Balls).AddOffset(0, 6 * .625f);
+            output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 8.125f);
+            output.ChangeSprite(SpriteType.Belly).AddOffset(0, 2 * .625f);
+            output.ChangeSprite(SpriteType.Balls).AddOffset(0, 6 * .625f);
         });
 
 

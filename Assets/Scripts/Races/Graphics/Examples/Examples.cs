@@ -202,8 +202,8 @@ internal static class Examples
             // Currently, if multiple items modify the same race rendering property,
             // the behavior is underfined. Avoid it because the results can change with updates
             // or with code reorganization. This might be addressed with overwrite priority down the line.
-            output.changeSprite(SpriteType.Balls).Sprite(input.Sprites.Kobolds[111]);
-            output.changeSprite(SpriteType.Balls).Layer(15);
+            output.ChangeSprite(SpriteType.Balls).Sprite(input.Sprites.Kobolds[111]);
+            output.ChangeSprite(SpriteType.Balls).Layer(15);
         });
     });
 }

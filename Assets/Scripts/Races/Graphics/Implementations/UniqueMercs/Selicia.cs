@@ -188,43 +188,43 @@ internal static class Selicia
             const float defaultYOffset = 20 * .625f;
             if (size == 14)
             {
-                output.changeSprite(SpriteType.Body).AddOffset(0, defaultYOffset + 0);
-                output.changeSprite(SpriteType.Head).AddOffset(16 * .625f, defaultYOffset + 16 * .625f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, defaultYOffset + 0);
-                output.changeSprite(SpriteType.BreastShadow).AddOffset(0, defaultYOffset + 0);
-                output.changeSprite(SpriteType.Belly).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BodySize).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, defaultYOffset + 0);
+                output.ChangeSprite(SpriteType.Head).AddOffset(16 * .625f, defaultYOffset + 16 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, defaultYOffset + 0);
+                output.ChangeSprite(SpriteType.BreastShadow).AddOffset(0, defaultYOffset + 0);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BodySize).AddOffset(0, defaultYOffset);
             }
             else if (size == 13)
             {
-                output.changeSprite(SpriteType.Body).AddOffset(0, defaultYOffset + -8 * .625f);
-                output.changeSprite(SpriteType.Head).AddOffset(16 * .625f, defaultYOffset + 8 * .625f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, defaultYOffset + -8 * .625f);
-                output.changeSprite(SpriteType.BreastShadow).AddOffset(0, defaultYOffset + -8 * .625f);
-                output.changeSprite(SpriteType.Belly).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BodySize).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, defaultYOffset + -8 * .625f);
+                output.ChangeSprite(SpriteType.Head).AddOffset(16 * .625f, defaultYOffset + 8 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, defaultYOffset + -8 * .625f);
+                output.ChangeSprite(SpriteType.BreastShadow).AddOffset(0, defaultYOffset + -8 * .625f);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BodySize).AddOffset(0, defaultYOffset);
             }
             else if (size == 12)
             {
-                output.changeSprite(SpriteType.Body).AddOffset(0, defaultYOffset + -16 * .625f);
-                output.changeSprite(SpriteType.Head).AddOffset(16 * .625f, defaultYOffset + 0);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, defaultYOffset + -16 * .625f);
-                output.changeSprite(SpriteType.BreastShadow).AddOffset(0, defaultYOffset + -16 * .625f);
-                output.changeSprite(SpriteType.Belly).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BodySize).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, defaultYOffset + -16 * .625f);
+                output.ChangeSprite(SpriteType.Head).AddOffset(16 * .625f, defaultYOffset + 0);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, defaultYOffset + -16 * .625f);
+                output.ChangeSprite(SpriteType.BreastShadow).AddOffset(0, defaultYOffset + -16 * .625f);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BodySize).AddOffset(0, defaultYOffset);
             }
             else
             {
-                output.changeSprite(SpriteType.Body).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.Head).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BreastShadow).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.Belly).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, defaultYOffset);
-                output.changeSprite(SpriteType.BodySize).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.Head).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BreastShadow).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, defaultYOffset);
+                output.ChangeSprite(SpriteType.BodySize).AddOffset(0, defaultYOffset);
             }
         });
 

@@ -379,8 +379,8 @@ internal static class Kobolds
 
                 ballsYOffset *= .625f; //Change from pixels to units
                 stomachYOffset *= .625f; //Change from pixels to units
-                output.changeSprite(SpriteType.Balls).AddOffset(0, -ballsYOffset);
-                output.changeSprite(SpriteType.Belly).AddOffset(0, -stomachYOffset);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(0, -ballsYOffset);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, -stomachYOffset);
 
                 output.WholeBodyOffset = new Vector2(0, Math.Max(ballsYOffset, stomachYOffset));
                 //AddOffset(Body, 0, ballsYOffset);

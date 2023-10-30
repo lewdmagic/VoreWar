@@ -573,53 +573,53 @@
 
             if (input.Actor.Unit.Predator && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(16) == 16)
             {
-                output.changeSprite(SpriteType.Body).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.Head).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.BodyAccent6).AddOffset(15 * .625f, 12 * .625f);
-                output.changeSprite(SpriteType.BodyAccent7).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.BodyAccent8).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.Dick).AddOffset(0, 30 * .625f);
-                output.changeSprite(SpriteType.Balls).AddOffset(20 * .625f, 10 * .625f);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.Head).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(15 * .625f, 12 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent7).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent8).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 30 * .625f);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(20 * .625f, 10 * .625f);
             }
             else if (input.Actor.Unit.Predator && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(16, .8f) == 16)
             {
-                output.changeSprite(SpriteType.Body).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.Head).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.BodyAccent6).AddOffset(15 * .625f, 2 * .625f);
-                output.changeSprite(SpriteType.BodyAccent7).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.BodyAccent8).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.Dick).AddOffset(0, 20 * .625f);
-                output.changeSprite(SpriteType.Balls).AddOffset(20 * .625f, 0);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.Head).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(15 * .625f, 2 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent7).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent8).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 20 * .625f);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(20 * .625f, 0);
             }
             else if (input.Actor.Unit.Predator && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(16, .9f) == 16)
             {
-                output.changeSprite(SpriteType.Body).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.Head).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.BodyAccent6).AddOffset(15 * .625f, -8 * .625f);
-                output.changeSprite(SpriteType.BodyAccent7).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.BodyAccent8).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.Dick).AddOffset(0, 10 * .625f);
-                output.changeSprite(SpriteType.Balls).AddOffset(20 * .625f, -10 * .625f);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.Head).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(15 * .625f, -8 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent7).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent8).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 10 * .625f);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(20 * .625f, -10 * .625f);
             }
             else
             {
-                output.changeSprite(SpriteType.Balls).AddOffset(20 * .625f, -20 * .625f);
-                output.changeSprite(SpriteType.BodyAccent6).AddOffset(15 * .625f, -18 * .625f);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(20 * .625f, -20 * .625f);
+                output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(15 * .625f, -18 * .625f);
             }
         });
 

@@ -34,7 +34,7 @@ internal abstract class RaceBuilderShared
             _makeTempState = makeTempState;
         }
 
-        public SpriteTypeIndexed<SingleRenderFunc<T>> RaceSpriteSet { get; }
+        private SpriteTypeIndexed<SingleRenderFunc<T>> RaceSpriteSet { get; }
 
         public IMiscRaceData MiscRaceData => _miscRaceDataReadable;
 
@@ -50,12 +50,12 @@ internal abstract class RaceBuilderShared
 
             _runBefore?.Invoke(runInput, runOutput);
 
-            foreach (var VARIABLE in RaceSpriteSet.KeyValues)
+            foreach (KeyValuePair<SpriteType,SingleRenderFunc<T>> raceSprite in RaceSpriteSet.KeyValues)
             {
-                SpriteType spriteType = VARIABLE.Key;
-                SingleRenderFunc<T> renderFunc = VARIABLE.Value;
+                SpriteType spriteType = raceSprite.Key;
+                SingleRenderFunc<T> renderFunc = raceSprite.Value;
                 IRaceRenderInput<T> input = new RaceRenderInput<T>(actor, _miscRaceDataReadable, MiscRaceData.BaseBody, state);
-                IRaceRenderOutput raceRenderOutput = changeDict.changeSprite(spriteType);
+                IRaceRenderOutput raceRenderOutput = changeDict.ChangeSprite(spriteType);
                 raceRenderOutput.Layer(renderFunc.Layer); // Set the default layer
                 renderFunc.Generator.Invoke(input, raceRenderOutput);
             }
@@ -71,9 +71,9 @@ internal abstract class RaceBuilderShared
             // Advanced, slightly different behavior; 
             
             List<ClothingRenderOutput> results = ClothingResults(actor, state, changeDict);
-            AccumulatedClothes accumulatedClothes = accumulate(results, actor);
+            AccumulatedClothes accumulatedClothes = Accumulate(results, actor);
             
-            return new FullSpriteProcessOut(runOutput, changeDict.reusedChangesDict, accumulatedClothes);
+            return new FullSpriteProcessOut(runOutput, changeDict.ReusedChangesDict, accumulatedClothes);
         }
 
 
@@ -82,7 +82,7 @@ internal abstract class RaceBuilderShared
             _randomCustom(new RandomCustomInput(unit, _miscRaceDataReadable));
         }
 
-        public List<ClothingRenderOutput> ClothingResults(Actor_Unit actorUnit, T state, SpriteChangeDict changeDict)
+        private List<ClothingRenderOutput> ClothingResults(Actor_Unit actorUnit, T state, SpriteChangeDict changeDict)
         {
             List<ClothingRenderOutput> clothingResults = new List<ClothingRenderOutput>();
 
@@ -173,7 +173,7 @@ internal abstract class RaceBuilderShared
             return clothingResults;
         }
 
-        private AccumulatedClothes accumulate(List<ClothingRenderOutput> clothingResults, Actor_Unit actor)
+        private AccumulatedClothes Accumulate(List<ClothingRenderOutput> clothingResults, Actor_Unit actor)
         {
             AccumulatedClothes accumulatedClothes = new AccumulatedClothes();
 
@@ -203,19 +203,19 @@ internal abstract class RaceBuilderShared
 
                 if (clothingOut.BlocksBreasts)
                 {
-                    accumulatedClothes.blocksBreasts = true;
+                    accumulatedClothes.BlocksBreasts = true;
                 }
 
                 if (clothingOut.InFrontOfDick)
                 {
-                    accumulatedClothes.inFrontOfDick = true;
+                    accumulatedClothes.InFrontOfDick = true;
                 }
 
-                accumulatedClothes.spritesInfos.AddRange(clothingOut.ClothingSpriteChanges.Values);
+                accumulatedClothes.SpritesInfos.AddRange(clothingOut.ClothingSpriteChanges.Values);
             }
 
-            accumulatedClothes.revealsBreasts = revealsBreasts;
-            accumulatedClothes.revealsDick = revealsDick;
+            accumulatedClothes.RevealsBreasts = revealsBreasts;
+            accumulatedClothes.RevealsDick = revealsDick;
 
             return accumulatedClothes;
         }
@@ -235,7 +235,7 @@ internal abstract class RaceBuilderShared
 
         private abstract class RaceRenderInput : IRaceRenderInput
         {
-            internal RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody)
+            protected RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody)
             {
                 Actor = actor;
                 RaceData = miscRaceData;
@@ -250,15 +250,15 @@ internal abstract class RaceBuilderShared
         }
 
 
-        private class RaceRenderInput<U> : RaceRenderInput, IRaceRenderInput<U> where U : IParameters
+        private class RaceRenderInput<TU> : RaceRenderInput, IRaceRenderInput<TU> where TU : IParameters
         {
-            internal RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody, U state)
+            internal RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody, TU state)
                 : base(actor, miscRaceData, baseBody)
             {
                 Params = state;
             }
 
-            public U Params { get; private set; }
+            public TU Params { get; private set; }
         }
 
 
@@ -276,21 +276,21 @@ internal abstract class RaceBuilderShared
         }
 
 
-        public class RunOutput : RunOutputShared
+        private class RunOutput : RunOutputShared
         {
-            public RunOutput(SpriteChangeDict spriteChangeDict) : base(spriteChangeDict)
+            protected RunOutput(SpriteChangeDict spriteChangeDict) : base(spriteChangeDict)
             {
             }
         }
 
-        internal class RunOutput<U> : RunOutput, IRunOutput<U> where U : IParameters
+        private class RunOutput<TU> : RunOutput, IRunOutput<TU> where TU : IParameters
         {
-            public RunOutput(SpriteChangeDict spriteChangeDict, U state) : base(spriteChangeDict)
+            public RunOutput(SpriteChangeDict spriteChangeDict, TU state) : base(spriteChangeDict)
             {
                 Params = state;
             }
 
-            public U Params { get; }
+            public TU Params { get; }
         }
     }
 }

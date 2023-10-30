@@ -62,12 +62,12 @@ internal static class Earthworms
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListHeadIdle.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListHeadIdle.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListHeadIdle.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListHeadIdle.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -75,7 +75,7 @@ internal static class Earthworms
                     }
                 }
 
-                output.Sprite(input.Sprites.Earthworms[8 + frameListHeadIdle.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Earthworms[8 + frameListHeadIdle.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -113,7 +113,7 @@ internal static class Earthworms
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Earthworms[12 + frameListHeadIdle.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Earthworms[12 + frameListHeadIdle.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                     return;
                 default:
                     return;
@@ -279,7 +279,7 @@ internal static class Earthworms
             _position = !input.Actor.HasAttackedThisCombat ? Position.Underground : Position.Aboveground;
             //base.RunFirst(data.Actor);
 
-            output.changeSprite(SpriteType.Belly).AddOffset(0, -48 * .625f);
+            output.ChangeSprite(SpriteType.Belly).AddOffset(0, -48 * .625f);
         });
 
         builder.RandomCustom(Defaults.RandomCustom);

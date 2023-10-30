@@ -146,12 +146,12 @@ internal static class Zoey
             output.Coloring(Defaults.WhiteColored);
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= SpinEffect.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= SpinEffect.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= SpinEffect.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= SpinEffect.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -164,7 +164,7 @@ internal static class Zoey
                 return;
             }
 
-            output.Sprite(input.Sprites.Zoey[SpinEffect.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Zoey[SpinEffect.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
         });
 
         builder.RenderSingle(SpriteType.Breasts, 10, (input, output) =>
@@ -302,19 +302,19 @@ internal static class Zoey
                 case BodyState.HighBelly:
                     if (input.Actor.GetStomachSize(19) == 19)
                     {
-                        output.changeSprite(SpriteType.Head).AddOffset(0, 30 * .625f);
-                        output.changeSprite(SpriteType.Hair).AddOffset(0, 30 * .625f);
-                        output.changeSprite(SpriteType.Hair2).AddOffset(0, 30 * .625f);
-                        output.changeSprite(SpriteType.Breasts).AddOffset(0, 30 * .625f);
+                        output.ChangeSprite(SpriteType.Head).AddOffset(0, 30 * .625f);
+                        output.ChangeSprite(SpriteType.Hair).AddOffset(0, 30 * .625f);
+                        output.ChangeSprite(SpriteType.Hair2).AddOffset(0, 30 * .625f);
+                        output.ChangeSprite(SpriteType.Breasts).AddOffset(0, 30 * .625f);
                         output.ClothingShift = new Vector3(0, 30 * .625f);
                     }
                     else //18
                     {
-                        output.changeSprite(SpriteType.Body).AddOffset(0, -14 * .625f);
-                        output.changeSprite(SpriteType.Head).AddOffset(0, 16 * .625f);
-                        output.changeSprite(SpriteType.Hair).AddOffset(0, 16 * .625f);
-                        output.changeSprite(SpriteType.Hair2).AddOffset(0, 16 * .625f);
-                        output.changeSprite(SpriteType.Breasts).AddOffset(0, 16 * .625f);
+                        output.ChangeSprite(SpriteType.Body).AddOffset(0, -14 * .625f);
+                        output.ChangeSprite(SpriteType.Head).AddOffset(0, 16 * .625f);
+                        output.ChangeSprite(SpriteType.Hair).AddOffset(0, 16 * .625f);
+                        output.ChangeSprite(SpriteType.Hair2).AddOffset(0, 16 * .625f);
+                        output.ChangeSprite(SpriteType.Breasts).AddOffset(0, 16 * .625f);
                         output.ClothingShift = new Vector3(0, 16 * .625f);
                     }
 
@@ -322,25 +322,25 @@ internal static class Zoey
                 case BodyState.SideBelly:
                     if (input.Actor.GetStomachSize(19) == 19)
                     {
-                        output.changeSprite(SpriteType.Breasts).AddOffset(-5 * .625f, 12 * .625f);
+                        output.ChangeSprite(SpriteType.Breasts).AddOffset(-5 * .625f, 12 * .625f);
                     }
                     else if (input.Actor.GetStomachSize(19) == 18)
                     {
-                        output.changeSprite(SpriteType.Breasts).AddOffset(-2 * .625f, 0);
-                        output.changeSprite(SpriteType.Body).AddOffset(0, -16 * .625f);
-                        output.changeSprite(SpriteType.Head).AddOffset(0, -16 * .625f);
-                        output.changeSprite(SpriteType.Hair).AddOffset(0, -16 * .625f);
-                        output.changeSprite(SpriteType.BodyAccent).AddOffset(0, -16 * .625f);
-                        output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, -16 * .625f);
+                        output.ChangeSprite(SpriteType.Breasts).AddOffset(-2 * .625f, 0);
+                        output.ChangeSprite(SpriteType.Body).AddOffset(0, -16 * .625f);
+                        output.ChangeSprite(SpriteType.Head).AddOffset(0, -16 * .625f);
+                        output.ChangeSprite(SpriteType.Hair).AddOffset(0, -16 * .625f);
+                        output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, -16 * .625f);
+                        output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, -16 * .625f);
                     }
                     else
                     {
-                        output.changeSprite(SpriteType.Breasts).AddOffset(-5 * .625f, 0);
-                        output.changeSprite(SpriteType.Body).AddOffset(0, -32 * .625f);
-                        output.changeSprite(SpriteType.Head).AddOffset(0, -32 * .625f);
-                        output.changeSprite(SpriteType.Hair).AddOffset(0, -32 * .625f);
-                        output.changeSprite(SpriteType.BodyAccent).AddOffset(0, -32 * .625f);
-                        output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, -32 * .625f);
+                        output.ChangeSprite(SpriteType.Breasts).AddOffset(-5 * .625f, 0);
+                        output.ChangeSprite(SpriteType.Body).AddOffset(0, -32 * .625f);
+                        output.ChangeSprite(SpriteType.Head).AddOffset(0, -32 * .625f);
+                        output.ChangeSprite(SpriteType.Hair).AddOffset(0, -32 * .625f);
+                        output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, -32 * .625f);
+                        output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, -32 * .625f);
                     }
 
                     break;

@@ -200,8 +200,8 @@
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Balls).AddOffset(-30 * .625f, -45 * .625f);
-            output.changeSprite(SpriteType.Belly).AddOffset(-10 * .625f, -40 * .625f);
+            output.ChangeSprite(SpriteType.Balls).AddOffset(-30 * .625f, -45 * .625f);
+            output.ChangeSprite(SpriteType.Belly).AddOffset(-10 * .625f, -40 * .625f);
         });
 
         builder.RandomCustom(data =>

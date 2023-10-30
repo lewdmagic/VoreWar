@@ -235,17 +235,17 @@ internal static class Puca
                 && input.Actor.GetStomachSize(9) == 9)
             {
                 float yOffset = 20 * .625f;
-                output.changeSprite(SpriteType.Body).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.Head).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.Mouth).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.Eyes).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.Weapon).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.Breasts).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.Dick).AddOffset(0, yOffset);
-                output.changeSprite(SpriteType.Balls).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.Head).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.Mouth).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.Eyes).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.Weapon).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.Breasts).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, yOffset);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(0, yOffset);
                 output.ClothingShift = new Vector3(0, yOffset);
             }
             else
@@ -269,7 +269,7 @@ internal static class Puca
                     localScale = new Vector3(1, 1, 1);
                 }
 
-                output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
+                output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
             }
         });
 

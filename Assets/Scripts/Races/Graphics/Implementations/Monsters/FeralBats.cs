@@ -57,19 +57,19 @@ internal static class FeralBats
         builder.RenderSingle(SpriteType.BodyAccent, 6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Bat, input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListWings.times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
+            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListWings.Times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
             {
                 input.Actor.AnimationController.frameLists[0].currentFrame++;
                 input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListWings.frames.Length)
+                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListWings.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame = 0;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
                 }
             }
 
-            output.Sprite(input.Sprites.Bat[5 + frameListWings.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Bat[5 + frameListWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
         }); // Wings
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>

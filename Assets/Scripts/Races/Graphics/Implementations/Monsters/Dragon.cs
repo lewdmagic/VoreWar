@@ -367,7 +367,7 @@
             if (input.Actor.IsAttacking || input.Actor.IsEating)
             {
                 output.Params.Position = Position.StandingCrouch;
-                output.changeSprite(SpriteType.Belly).AddOffset(0, 14 * .625f);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 14 * .625f);
             }
             else if (input.Actor.HasBelly || input.Actor.PredatorComponent?.BallsFullness > 0)
             {

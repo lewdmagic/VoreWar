@@ -71,19 +71,19 @@ internal static class Salamanders
         builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListSalamanderFlame.times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
+            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListSalamanderFlame.Times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
             {
                 input.Actor.AnimationController.frameLists[0].currentFrame++;
                 input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListSalamanderFlame.frames.Length)
+                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListSalamanderFlame.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame = 0;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
                 }
             }
 
-            output.Sprite(input.Sprites.Salamanders[22 + frameListSalamanderFlame.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Salamanders[22 + frameListSalamanderFlame.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
         }); // flame
 
         builder.RenderSingle(SpriteType.BodyAccent2, 3, (input, output) =>

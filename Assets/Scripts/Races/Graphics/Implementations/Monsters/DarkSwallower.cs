@@ -56,18 +56,18 @@ internal static class DarkSwallower
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
             {
                 input.Actor.AnimationController.frameLists[0].currentFrame++;
                 input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.frames.Length)
+                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame = 0;
                 }
             }
 
-            output.Sprite(input.Sprites.DarkSwallower[9 + frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.DarkSwallower[9 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
         }); // Tail.
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
@@ -79,18 +79,18 @@ internal static class DarkSwallower
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListFins.times[input.Actor.AnimationController.frameLists[1].currentFrame])
+            if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListFins.Times[input.Actor.AnimationController.frameLists[1].currentFrame])
             {
                 input.Actor.AnimationController.frameLists[1].currentFrame++;
                 input.Actor.AnimationController.frameLists[1].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListFins.frames.Length)
+                if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListFins.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[1].currentFrame = 0;
                 }
             }
 
-            output.Sprite(input.Sprites.DarkSwallower[14 + frameListFins.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+            output.Sprite(input.Sprites.DarkSwallower[14 + frameListFins.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
         }); // Sidefins.
 
         builder.RenderSingle(SpriteType.BodyAccent3, 1, (input, output) =>

@@ -9,16 +9,17 @@ internal class AccumulatedClothes
 {
 
     /// <summary>Turns off the breast sprites entirely</summary>
-    internal bool blocksBreasts;
+    internal bool BlocksBreasts;
 
+    // TODO possibly missing implementation? 
     /// <summary>Doesn't turn off the dick, but is in front of it</summary>
-    internal bool inFrontOfDick;
+    internal bool InFrontOfDick;
 
     /// <summary>if true lowers breast layer to 8 so that it will be under clothing</summary>
-    internal bool revealsBreasts;
+    internal bool RevealsBreasts;
 
     /// <summary>Turns off the dick sprites entirely</summary>
-    internal bool revealsDick;
+    internal bool RevealsDick;
 
-    internal List<ISpriteChangeReadable> spritesInfos = new List<ISpriteChangeReadable>();
+    internal readonly List<ISpriteChangeReadable> SpritesInfos = new List<ISpriteChangeReadable>();
 }

@@ -275,8 +275,8 @@ internal static class Succubi
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Dick).AddOffset(0, 30 * .625f);
-            output.changeSprite(SpriteType.Balls).AddOffset(0, 33 * .625f);
+            output.ChangeSprite(SpriteType.Dick).AddOffset(0, 30 * .625f);
+            output.ChangeSprite(SpriteType.Balls).AddOffset(0, 33 * .625f);
 
             if (input.Actor.HasBelly)
             {
@@ -294,7 +294,7 @@ internal static class Succubi
                     localScale = new Vector3(1, 1, 1);
                 }
 
-                output.changeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
+                output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
             }
         });
 

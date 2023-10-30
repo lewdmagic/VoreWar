@@ -42,12 +42,12 @@ internal static class Harvesters
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListEyes.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListEyes.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListEyes.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListEyes.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -55,7 +55,7 @@ internal static class Harvesters
                     }
                 }
 
-                output.Sprite(input.Sprites.Harvester[2 + frameListEyes.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Harvester[2 + frameListEyes.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -104,12 +104,12 @@ internal static class Harvesters
 
             if (input.Actor.AnimationController.frameLists[1].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListArms.times[input.Actor.AnimationController.frameLists[1].currentFrame])
+                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListArms.Times[input.Actor.AnimationController.frameLists[1].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[1].currentFrame++;
                     input.Actor.AnimationController.frameLists[1].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListArms.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListArms.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[1].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[1].currentFrame = 0;
@@ -117,7 +117,7 @@ internal static class Harvesters
                     }
                 }
 
-                output.Sprite(input.Sprites.Harvester[6 + frameListArms.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                output.Sprite(input.Sprites.Harvester[6 + frameListArms.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
                 return;
             }
 
@@ -147,12 +147,12 @@ internal static class Harvesters
 
             if (input.Actor.AnimationController.frameLists[3].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[3].currentTime >= frameListTongue.times[input.Actor.AnimationController.frameLists[3].currentFrame])
+                if (input.Actor.AnimationController.frameLists[3].currentTime >= frameListTongue.Times[input.Actor.AnimationController.frameLists[3].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[3].currentFrame++;
                     input.Actor.AnimationController.frameLists[3].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[3].currentFrame >= frameListTongue.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[3].currentFrame >= frameListTongue.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[3].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[3].currentFrame = 0;
@@ -160,7 +160,7 @@ internal static class Harvesters
                     }
                 }
 
-                output.Sprite(input.Sprites.Harvester[12 + frameListTongue.frames[input.Actor.AnimationController.frameLists[3].currentFrame]]);
+                output.Sprite(input.Sprites.Harvester[12 + frameListTongue.Frames[input.Actor.AnimationController.frameLists[3].currentFrame]]);
                 return;
             }
 
@@ -227,12 +227,12 @@ internal static class Harvesters
 
             if (input.Actor.AnimationController.frameLists[2].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[2].currentTime >= frameListDick.times[input.Actor.AnimationController.frameLists[2].currentFrame])
+                if (input.Actor.AnimationController.frameLists[2].currentTime >= frameListDick.Times[input.Actor.AnimationController.frameLists[2].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[2].currentFrame++;
                     input.Actor.AnimationController.frameLists[2].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[2].currentFrame >= frameListDick.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[2].currentFrame >= frameListDick.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[2].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[2].currentFrame = 0;
@@ -240,7 +240,7 @@ internal static class Harvesters
                     }
                 }
 
-                output.Sprite(input.Sprites.Harvester[10 + frameListDick.frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                output.Sprite(input.Sprites.Harvester[10 + frameListDick.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
                 return;
             }
 

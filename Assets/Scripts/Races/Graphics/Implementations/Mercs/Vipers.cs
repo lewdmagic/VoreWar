@@ -622,120 +622,120 @@ internal static class Vipers
             {
                 if (input.Actor.GetCombinedStomachSize() > 14)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -8 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -8 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -8 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -8 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -8 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -8 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -8 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -8 * .625f);
                 }
                 else if (input.Actor.GetCombinedStomachSize() > 12)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -6 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -6 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -6 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -6 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -6 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -6 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -6 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -6 * .625f);
                 }
                 else if (input.Actor.GetCombinedStomachSize() > 10)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -4 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -4 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -4 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -4 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -4 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -4 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -4 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -4 * .625f);
                 }
                 else if (input.Actor.GetCombinedStomachSize() > 8)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -2 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -2 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -2 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -2 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -2 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -2 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -2 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -2 * .625f);
                 }
                 else if (input.Actor.GetCombinedStomachSize() > 6)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -1 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -1 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -1 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -1 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -1 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -1 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -1 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -1 * .625f);
                 }
                 else
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, 0);
                 }
             }
             else
             {
                 if (input.Actor.GetStomachSize() > 14)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -8 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -8 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -8 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -8 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -8 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -8 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -8 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -8 * .625f);
                 }
                 else if (input.Actor.GetStomachSize() > 12)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -6 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -6 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -6 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -6 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -6 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -6 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -6 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -6 * .625f);
                 }
                 else if (input.Actor.GetStomachSize() > 10)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -4 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -4 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -4 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -4 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -4 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -4 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -4 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -4 * .625f);
                 }
                 else if (input.Actor.GetStomachSize() > 8)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -2 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -2 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -2 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -2 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -2 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -2 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -2 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -2 * .625f);
                 }
                 else if (input.Actor.GetStomachSize() > 6)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -1 * .625f);
-                    output.changeSprite(SpriteType.Dick).AddOffset(0, -1 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -1 * .625f);
-                    output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -1 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, -1 * .625f);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, -1 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -1 * .625f);
+                    output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -1 * .625f);
                 }
                 else
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, 0);
                 }
             }
         });

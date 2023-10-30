@@ -4,7 +4,7 @@ internal interface IClothingRenderInput
     SpriteDictionary Sprites { get; }
 }
 
-internal interface IClothingRenderInput<T> : IClothingRenderInput where T : IParameters
+internal interface IClothingRenderInput<out T> : IClothingRenderInput where T : IParameters
 {
     T Params { get; }
 }

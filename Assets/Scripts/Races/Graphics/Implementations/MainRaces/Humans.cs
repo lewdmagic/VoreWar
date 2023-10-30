@@ -590,26 +590,26 @@ internal static class Humans
             {
                 if (input.Actor.Unit.BodySize > 1)
                 {
-                    output.changeSprite(SpriteType.Balls).AddOffset(0, 3 * .625f);
-                    output.changeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(0, 3 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
                 }
                 else
                 {
-                    output.changeSprite(SpriteType.Balls).AddOffset(0, 3 * .625f);
-                    output.changeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(0, 3 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
                 }
             }
             else
             {
                 if (input.Actor.Unit.BodySize > 1)
                 {
-                    output.changeSprite(SpriteType.Balls).AddOffset(0, 1 * .625f);
-                    output.changeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(0, 1 * .625f);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
                 }
                 else
                 {
-                    output.changeSprite(SpriteType.Balls).AddOffset(0, 0);
-                    output.changeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(0, 0);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
                 }
             }
 
@@ -620,22 +620,22 @@ internal static class Humans
                 {
                     if (input.Actor.Unit.BodySize > 1)
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(-1 * .625f, 0);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(-1 * .625f, 0);
                     }
                     else
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(0, 0);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(0, 0);
                     }
                 }
                 else
                 {
                     if (input.Actor.Unit.BodySize > 1)
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(1 * .625f, -1 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(1 * .625f, -1 * .625f);
                     }
                     else
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(0, -1 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(0, -1 * .625f);
                     }
                 }
             }
@@ -645,22 +645,22 @@ internal static class Humans
                 {
                     if (input.Actor.Unit.BodySize > 1)
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(0, -1 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(0, -1 * .625f);
                     }
                     else
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(0, 0);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(0, 0);
                     }
                 }
                 else
                 {
                     if (input.Actor.Unit.BodySize > 1)
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(3 * .625f, -3 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(3 * .625f, -3 * .625f);
                     }
                     else
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(3 * .625f, -4 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(3 * .625f, -4 * .625f);
                     }
                 }
             }
@@ -670,22 +670,22 @@ internal static class Humans
                 {
                     if (input.Actor.Unit.BodySize > 1)
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(-1 * .625f, 2 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(-1 * .625f, 2 * .625f);
                     }
                     else
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(-2 * .625f, 3 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(-2 * .625f, 3 * .625f);
                     }
                 }
                 else
                 {
                     if (input.Actor.Unit.BodySize > 1)
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(0, 0);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(0, 0);
                     }
                     else
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(0, 0);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(0, 0);
                     }
                 }
             }
@@ -695,22 +695,22 @@ internal static class Humans
                 {
                     if (input.Actor.Unit.BodySize > 1)
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(1 * .625f, -1 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(1 * .625f, -1 * .625f);
                     }
                     else
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(0, 0);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(0, 0);
                     }
                 }
                 else
                 {
                     if (input.Actor.Unit.BodySize > 1)
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(2 * .625f, -3 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(2 * .625f, -3 * .625f);
                     }
                     else
                     {
-                        output.changeSprite(SpriteType.Weapon).AddOffset(2 * .625f, -3 * .625f);
+                        output.ChangeSprite(SpriteType.Weapon).AddOffset(2 * .625f, -3 * .625f);
                     }
                 }
             }

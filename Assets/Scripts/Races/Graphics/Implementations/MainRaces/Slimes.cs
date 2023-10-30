@@ -165,7 +165,7 @@ internal static class Slimes
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Mouth).AddOffset(0, 2.5f);
+            output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 2.5f);
             if (input.Actor.HasBelly)
             {
                 Vector3 localScale;
@@ -182,7 +182,7 @@ internal static class Slimes
                     localScale = new Vector3(1, 1, 1);
                 }
 
-                output.changeSprite(SpriteType.Belly).SetLocalScale(localScale);
+                output.ChangeSprite(SpriteType.Belly).SetLocalScale(localScale);
             }
         });
 

@@ -115,12 +115,12 @@
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTongue.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTongue.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTongue.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTongue.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -128,7 +128,7 @@
                     }
                 }
 
-                output.Sprite(input.Sprites.FeralLizards[87 + frameListTongue.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.FeralLizards[87 + frameListTongue.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -277,7 +277,7 @@
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Balls).AddOffset(-30 * .625f, 0);
+            output.ChangeSprite(SpriteType.Balls).AddOffset(-30 * .625f, 0);
         });
 
         builder.RandomCustom(data =>

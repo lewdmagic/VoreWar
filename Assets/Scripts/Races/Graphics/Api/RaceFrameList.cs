@@ -1,11 +1,11 @@
 internal struct RaceFrameList
 {
-    internal int[] frames;
-    internal float[] times;
+    internal readonly int[] Frames;
+    internal readonly float[] Times;
 
     internal RaceFrameList(int[] fra, float[] tim)
     {
-        frames = fra;
-        times = tim;
+        Frames = fra;
+        Times = tim;
     }
 }

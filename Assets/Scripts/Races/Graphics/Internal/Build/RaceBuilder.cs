@@ -7,17 +7,17 @@ using UnityEngine;
 
 internal class RaceBuilder : RaceBuilderShared, IRaceBuilder
 {
-    private protected readonly SpriteTypeIndexed<SingleRenderFunc<IParameters>> _raceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc<IParameters>>();
+    private readonly SpriteTypeIndexed<SingleRenderFunc<IParameters>> _raceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc<IParameters>>();
 
 
-    internal Action<IRandomCustomInput> _randomCustom;
+    private Action<IRandomCustomInput> _randomCustom;
 
     private Action<IRunInput, IRunOutput> _runBefore;
     private Action<MiscRaceDataReadable<IParameters>> _setupFunc;
 
-    private Func<MiscRaceDataReadable<IParameters>> _template;
+    private readonly Func<MiscRaceDataReadable<IParameters>> _template;
 
-    internal RaceBuilder(Func<MiscRaceDataReadable<IParameters>> template)
+    private RaceBuilder(Func<MiscRaceDataReadable<IParameters>> template)
     {
         _template = template;
     }
@@ -47,7 +47,7 @@ internal class RaceBuilder : RaceBuilderShared, IRaceBuilder
         _raceSpriteSet[spriteType] = render;
     }
 
-    public MiscRaceDataReadable<IParameters> toMiscData()
+    private MiscRaceDataReadable<IParameters> ToMiscData()
     {
         MiscRaceDataReadable<IParameters> dataReadable = _template();
         _setupFunc?.Invoke(dataReadable);
@@ -55,12 +55,12 @@ internal class RaceBuilder : RaceBuilderShared, IRaceBuilder
     }
 
 
-    internal static RaceBuilder New(Func<MiscRaceDataReadable<IParameters>> template)
+    private static RaceBuilder New(Func<MiscRaceDataReadable<IParameters>> template)
     {
         return new RaceBuilder(template);
     }
 
-    internal static RaceBuilder<T> New<T>(Func<MiscRaceDataReadable<T>> template) where T : IParameters, new()
+    private static RaceBuilder<T> New<T>(Func<MiscRaceDataReadable<T>> template) where T : IParameters, new()
     {
         return new RaceBuilder<T>(template);
     }
@@ -79,10 +79,10 @@ internal class RaceBuilder : RaceBuilderShared, IRaceBuilder
         return builder.Build();
     }
 
-    public IRaceData Build()
+    private IRaceData Build()
     {
         Func<IParameters> basic = () => new EmptyParameters();
-        return new RaceData<IParameters>(_raceSpriteSet, toMiscData(), _runBefore, _randomCustom, basic);
+        return new RaceData<IParameters>(_raceSpriteSet, ToMiscData(), _runBefore, _randomCustom, basic);
     }
 
     private class EmptyParameters : IParameters
@@ -93,14 +93,14 @@ internal class RaceBuilder : RaceBuilderShared, IRaceBuilder
 
 internal class RaceBuilder<T> : RaceBuilderShared, IRaceBuilder<T> where T : IParameters, new()
 {
-    private protected readonly SpriteTypeIndexed<SingleRenderFunc<T>> RaceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc<T>>();
+    private readonly SpriteTypeIndexed<SingleRenderFunc<T>> RaceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc<T>>();
 
     private Action<IRandomCustomInput> _randomCustom;
 
     private Action<IRunInput, IRunOutput<T>> _runBefore;
     private Action<MiscRaceDataReadable<T>> _setupFunc;
 
-    private Func<MiscRaceDataReadable<T>> _template;
+    private readonly Func<MiscRaceDataReadable<T>> _template;
 
 
     internal RaceBuilder(Func<MiscRaceDataReadable<T>> template)
@@ -133,7 +133,7 @@ internal class RaceBuilder<T> : RaceBuilderShared, IRaceBuilder<T> where T : IPa
         RaceSpriteSet[spriteType] = render;
     }
 
-    private MiscRaceDataReadable<T> toMiscData()
+    private MiscRaceDataReadable<T> ToMiscData()
     {
         MiscRaceDataReadable<T> dataReadable = _template();
         _setupFunc?.Invoke(dataReadable);
@@ -143,6 +143,6 @@ internal class RaceBuilder<T> : RaceBuilderShared, IRaceBuilder<T> where T : IPa
     public IRaceData Build()
     {
         Func<T> makeTempState = () => new T();
-        return new RaceData<T>(RaceSpriteSet, toMiscData(), _runBefore, _randomCustom, makeTempState);
+        return new RaceData<T>(RaceSpriteSet, ToMiscData(), _runBefore, _randomCustom, makeTempState);
     }
 }

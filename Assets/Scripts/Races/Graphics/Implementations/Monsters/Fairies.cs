@@ -263,12 +263,12 @@ internal static class Fairies
                 SetUpAnimations(input.Actor);
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= springWings.times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
+            if (input.Actor.AnimationController.frameLists[0].currentTime >= springWings.Times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
             {
                 input.Actor.AnimationController.frameLists[0].currentFrame++;
                 input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= springWings.frames.Length)
+                if (input.Actor.AnimationController.frameLists[0].currentFrame >= springWings.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame = 0;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
@@ -280,16 +280,16 @@ internal static class Fairies
                 switch (_season)
                 {
                     case FairyType.Spring:
-                        output.Sprite(input.Sprites.Fairy[springWingsEnc.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[springWingsEnc.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                         return;
                     case FairyType.Summer:
-                        output.Sprite(input.Sprites.Fairy[summerWingsEnc.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[summerWingsEnc.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                         return;
                     case FairyType.Fall:
-                        output.Sprite(input.Sprites.Fairy[fallWingsEnc.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[fallWingsEnc.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                         return;
                     default:
-                        output.Sprite(input.Sprites.Fairy[winterWingsEnc.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[winterWingsEnc.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                         return;
                 }
             }
@@ -297,16 +297,16 @@ internal static class Fairies
             switch (_season)
             {
                 case FairyType.Spring:
-                    output.Sprite(input.Sprites.Fairy[springWings.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Fairy[springWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                     return;
                 case FairyType.Summer:
-                    output.Sprite(input.Sprites.Fairy[summerWings.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Fairy[summerWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                     return;
                 case FairyType.Fall:
-                    output.Sprite(input.Sprites.Fairy[fallWings.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Fairy[fallWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                     return;
                 default:
-                    output.Sprite(input.Sprites.Fairy[winterWings.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Fairy[winterWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                     return;
             }
         });

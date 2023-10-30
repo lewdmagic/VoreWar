@@ -5,10 +5,10 @@ internal class ClothingRenderOutput : IClothingRenderOutput
 {
 
     
-    private SpriteChangeDict _changeDict;
-    public IRaceRenderOutput changeSprite(SpriteType spriteType) => _changeDict.changeSprite(spriteType);
+    private readonly SpriteChangeDict _changeDict;
+    public IRaceRenderOutput ChangeSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
     
-    internal Dictionary<string, RaceRenderOutput> ClothingSpriteChanges = new Dictionary<string, RaceRenderOutput>();
+    internal readonly Dictionary<string, RaceRenderOutput> ClothingSpriteChanges = new Dictionary<string, RaceRenderOutput>();
     public ClothingRenderOutput(SpriteChangeDict changeDict, ClothingMiscData miscData)
     {
         _changeDict = changeDict;
@@ -22,8 +22,7 @@ internal class ClothingRenderOutput : IClothingRenderOutput
     {
         get
         {
-            RaceRenderOutput clothing;
-            if (!ClothingSpriteChanges.TryGetValue(key, out clothing))
+            if (!ClothingSpriteChanges.TryGetValue(key, out var clothing))
             {
                 clothing = new RaceRenderOutput();
                 ClothingSpriteChanges.Add(key, clothing);

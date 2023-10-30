@@ -25,29 +25,29 @@ internal static class SpriteContainer
 {
     internal static ISpriteContainer MakeContainer(GameObject type, Transform folder)
     {
-        GameObject GameObject = Object.Instantiate(type, folder);
+        GameObject gameObject = Object.Instantiate(type, folder);
 
         SpriteRenderer spriteRenderer;
         if (type == State.GameManager.SpriteRenderAnimatedPrefab)
         {
-            spriteRenderer = GameObject.GetComponentInChildren<SpriteRenderer>();
-            GameObject = spriteRenderer.gameObject;
+            spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+            gameObject = spriteRenderer.gameObject;
         }
         else
         {
-            spriteRenderer = GameObject.GetComponent<SpriteRenderer>();
+            spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
 
         ISpriteContainer result;
 
         if (spriteRenderer != null)
         {
-            result = new SpriteContainerSpriteRenderer(GameObject, spriteRenderer);
+            result = new SpriteContainerSpriteRenderer(gameObject, spriteRenderer);
         }
         else
         {
-            Image image = GameObject.GetComponent<Image>();
-            result = new SpriteContainerImage(GameObject, image);
+            Image image = gameObject.GetComponent<Image>();
+            result = new SpriteContainerImage(gameObject, image);
         }
 
         return result;
@@ -84,7 +84,7 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
     
     public void NewSetSprite(ISpriteChangeReadable spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
     {
-        Sprite actualSprite = spriteChange._Sprite;
+        Sprite actualSprite = spriteChange.Sprite;
         
         if (actualSprite == null)
         {
@@ -92,27 +92,27 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
             return;
         }
         
-        if (spriteChange._Palette != null)
+        if (spriteChange.Palette != null)
         {
-            _spriteRenderer.material = spriteChange._Palette.colorSwapMaterial;
+            _spriteRenderer.material = spriteChange.Palette.colorSwapMaterial;
         }
         else
         {
             _spriteRenderer.material = ColorPaletteMap.Default.colorSwapMaterial;
         }
         
-        if (spriteChange._Color.HasValue)
+        if (spriteChange.Color.HasValue)
         {
-            if (_spriteRenderer.color != spriteChange._Color.Value)
+            if (_spriteRenderer.color != spriteChange.Color.Value)
             {
-                _spriteRenderer.color = spriteChange._Color.Value;
+                _spriteRenderer.color = spriteChange.Color.Value;
             }
         }
         
         int usedLayer = 0;
-        if (spriteChange._Layer.HasValue)
+        if (spriteChange.Layer.HasValue)
         {
-            usedLayer = spriteChange._Layer.Value;
+            usedLayer = spriteChange.Layer.Value;
         }
         else
         {
@@ -123,7 +123,7 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
         Sprite = actualSprite;
         SortOrder = usedLayer + extraLayerOffset;
         
-        Vector2 usedOffset = spriteChange._Offset + wholeBodyOffset;
+        Vector2 usedOffset = spriteChange.Offset + wholeBodyOffset;
         SetOffSets(usedOffset.x, usedOffset.y);
     }
     
@@ -186,7 +186,7 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
     
     public void NewSetSprite(ISpriteChangeReadable spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
     {
-        Sprite actualSprite = spriteChange._Sprite;
+        Sprite actualSprite = spriteChange.Sprite;
         
         if (actualSprite == null)
         {
@@ -194,18 +194,18 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
             return;
         }
 
-        Vector2 usedOffset = spriteChange._Offset + wholeBodyOffset;
+        Vector2 usedOffset = spriteChange.Offset + wholeBodyOffset;
         
-        UpdatePalette(spriteChange._Palette);
-        if (spriteChange._Color.HasValue)
+        UpdatePalette(spriteChange.Palette);
+        if (spriteChange.Color.HasValue)
         {
-            Color = spriteChange._Color.Value;
+            Color = spriteChange.Color.Value;
         }
         
         int usedLayer = 0;
-        if (spriteChange._Layer.HasValue)
+        if (spriteChange.Layer.HasValue)
         {
-            usedLayer = spriteChange._Layer.Value;
+            usedLayer = spriteChange.Layer.Value;
         }
         else
         {

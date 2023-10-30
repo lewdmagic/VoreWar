@@ -151,10 +151,10 @@ internal static class Vagrants
 
             output.Params.Sprites = vagrantSprites[Mathf.Clamp(input.Actor.Unit.SkinColor, 0, 2)];
 
-            output.changeSprite(SpriteType.Body).AddOffset(0, 60 * .625f);
-            output.changeSprite(SpriteType.BodyAccessory).AddOffset(0, 60 * .625f);
-            output.changeSprite(SpriteType.SecondaryAccessory).AddOffset(0, 60 * .625f);
-            output.changeSprite(SpriteType.Belly).AddOffset(0, 60 * .625f);
+            output.ChangeSprite(SpriteType.Body).AddOffset(0, 60 * .625f);
+            output.ChangeSprite(SpriteType.BodyAccessory).AddOffset(0, 60 * .625f);
+            output.ChangeSprite(SpriteType.SecondaryAccessory).AddOffset(0, 60 * .625f);
+            output.ChangeSprite(SpriteType.Belly).AddOffset(0, 60 * .625f);
         });
 
         builder.RandomCustom(Defaults.RandomCustom);

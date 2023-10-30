@@ -51,12 +51,12 @@ internal static class Ki
                 if (input.Actor.AnimationController.frameLists[1].currentlyActive)
                 {
                     if (input.Actor.AnimationController.frameLists[1].currentTime >=
-                        frameListFap.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                        frameListFap.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                     {
                         input.Actor.AnimationController.frameLists[1].currentFrame++;
                         input.Actor.AnimationController.frameLists[1].currentTime = 0f;
 
-                        if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListFap.frames.Length)
+                        if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListFap.Frames.Length)
                         {
                             input.Actor.AnimationController.frameLists[1].currentlyActive = false;
                             input.Actor.AnimationController.frameLists[1].currentFrame = 0;
@@ -65,7 +65,7 @@ internal static class Ki
                     }
 
                     output.Sprite(input.Sprites.Ki[
-                        31 + frameListFap.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                        31 + frameListFap.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
                     return;
                 }
 
@@ -135,12 +135,12 @@ internal static class Ki
                 if (input.Actor.AnimationController.frameLists[0].currentlyActive)
                 {
                     if (input.Actor.AnimationController.frameLists[0].currentTime >=
-                        frameListTail.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                        frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                     {
                         input.Actor.AnimationController.frameLists[0].currentFrame++;
                         input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                        if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.frames.Length)
+                        if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                         {
                             input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                             input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -148,12 +148,12 @@ internal static class Ki
                         }
                     }
 
-                    switch (frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame])
+                    switch (frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame])
                     {
                         case 0: return;
                         default:
                             output.Sprite(input.Sprites.Ki[
-                                34 + frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                                34 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                             break;
                     }
                 }
@@ -539,9 +539,9 @@ internal static class Ki
                 }
             }
 
-            output.changeSprite(SpriteType.Body).AddOffset(0, body * PixelOffset);
-            output.changeSprite(SpriteType.BodyAccent).AddOffset(0, bodyAccent * PixelOffset);
-            output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, bodyAccent2 * PixelOffset);
+            output.ChangeSprite(SpriteType.Body).AddOffset(0, body * PixelOffset);
+            output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, bodyAccent * PixelOffset);
+            output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, bodyAccent2 * PixelOffset);
         });
 
         builder.RandomCustom(data =>

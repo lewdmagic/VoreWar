@@ -197,19 +197,19 @@ internal static class Bats
 
             input.Actor.AnimationController.frameLists[0].currentlyActive = true;
 
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListDemibatWings.times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false && input.Actor.IsAttacking == false)
+            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListDemibatWings.Times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false && input.Actor.IsAttacking == false)
             {
                 input.Actor.AnimationController.frameLists[0].currentFrame++;
                 input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListDemibatWings.frames.Length)
+                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListDemibatWings.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame = 0;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
                 }
             }
 
-            output.Sprite(input.Sprites.Demibats1[48 + frameListDemibatWings.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Demibats1[48 + frameListDemibatWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
         }); // wings main
 
         builder.RenderSingle(SpriteType.BodyAccent6, 3, (input, output) =>
@@ -223,7 +223,7 @@ internal static class Bats
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                output.Sprite(input.Sprites.Demibats1[51 + frameListDemibatWings.frames[input.Actor.AnimationController.frameLists[0].currentFrame] + (input.Actor.Unit.Furry ? 3 : 0)]);
+                output.Sprite(input.Sprites.Demibats1[51 + frameListDemibatWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame] + (input.Actor.Unit.Furry ? 3 : 0)]);
                 return;
             }
 
@@ -241,7 +241,7 @@ internal static class Bats
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                output.Sprite(input.Sprites.Demibats1[57 + frameListDemibatWings.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Demibats1[57 + frameListDemibatWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 

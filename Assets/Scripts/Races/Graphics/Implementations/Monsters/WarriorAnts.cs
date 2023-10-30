@@ -111,8 +111,8 @@ internal static class WarriorAnts
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Body).AddOffset(20 * .625f, 0);
-            output.changeSprite(SpriteType.Belly).AddOffset(20 * .625f, 0);
+            output.ChangeSprite(SpriteType.Body).AddOffset(20 * .625f, 0);
+            output.ChangeSprite(SpriteType.Belly).AddOffset(20 * .625f, 0);
         });
 
         builder.RandomCustom(data =>

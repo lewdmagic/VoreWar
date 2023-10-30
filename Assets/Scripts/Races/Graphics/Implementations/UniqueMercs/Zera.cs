@@ -374,21 +374,21 @@ internal static class Zera
             if (StomachSize >= 10 && BodyState == BodyStateType.Second)
             {
                 float offset = 110 * .41666667f;
-                output.changeSprite(SpriteType.Head).AddOffset(0, offset);
-                output.changeSprite(SpriteType.Body).AddOffset(0, offset);
-                output.changeSprite(SpriteType.BodyAccent).AddOffset(0, offset);
-                output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, offset);
-                output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, offset);
-                output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, offset);
-                output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, offset);
-                output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, offset);
-                output.changeSprite(SpriteType.BodyAccent7).AddOffset(0, offset);
-                output.changeSprite(SpriteType.Balls).AddOffset(0, offset);
-                output.changeSprite(SpriteType.Dick).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.Head).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.Body).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.BodyAccent7).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(0, offset);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(0, offset);
             }
             else if (StomachSize >= 7 && BodyState == BodyStateType.Second)
             {
-                output.changeSprite(SpriteType.Belly).AddOffset(0, -62 * .41666667f);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, -62 * .41666667f);
             }
         });
 
@@ -476,10 +476,10 @@ internal static class Zera
 
         void SetThirdOffset(float y)
         {
-            output.changeSprite(SpriteType.Head).AddOffset(0, y);
-            output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, y);
-            output.changeSprite(SpriteType.BodyAccent3).AddOffset(0, y);
-            output.changeSprite(SpriteType.BodyAccent4).AddOffset(0, y);
+            output.ChangeSprite(SpriteType.Head).AddOffset(0, y);
+            output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, y);
+            output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(0, y);
+            output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(0, y);
         }
     }
 

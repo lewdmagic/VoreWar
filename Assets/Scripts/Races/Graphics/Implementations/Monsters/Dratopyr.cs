@@ -79,19 +79,19 @@ internal static class Dratopyr
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[4].currentTime >= frameListEars.times[input.Actor.AnimationController.frameLists[4].currentFrame])
+            if (input.Actor.AnimationController.frameLists[4].currentTime >= frameListEars.Times[input.Actor.AnimationController.frameLists[4].currentFrame])
             {
                 input.Actor.AnimationController.frameLists[4].currentFrame++;
                 input.Actor.AnimationController.frameLists[4].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[4].currentFrame >= frameListEars.frames.Length)
+                if (input.Actor.AnimationController.frameLists[4].currentFrame >= frameListEars.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[4].currentFrame = 0;
                     input.Actor.AnimationController.frameLists[4].currentTime = 0f;
                 }
             }
 
-            output.Sprite(input.Sprites.Dratopyr[14 + frameListEars.frames[input.Actor.AnimationController.frameLists[4].currentFrame]]);
+            output.Sprite(input.Sprites.Dratopyr[14 + frameListEars.Frames[input.Actor.AnimationController.frameLists[4].currentFrame]]);
         }); // Ears
 
         builder.RenderSingle(SpriteType.Body, 9, (input, output) =>
@@ -122,12 +122,12 @@ internal static class Dratopyr
 
             if (input.Actor.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[0].currentFrame++;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -135,7 +135,7 @@ internal static class Dratopyr
                     }
                 }
 
-                output.Sprite(input.Sprites.Dratopyr[26 + frameListTail.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Dratopyr[26 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -168,12 +168,12 @@ internal static class Dratopyr
 
             if (input.Actor.AnimationController.frameLists[2].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[2].currentTime >= frameListShake.times[input.Actor.AnimationController.frameLists[2].currentFrame])
+                if (input.Actor.AnimationController.frameLists[2].currentTime >= frameListShake.Times[input.Actor.AnimationController.frameLists[2].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[2].currentFrame++;
                     input.Actor.AnimationController.frameLists[2].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[2].currentFrame >= frameListShake.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[2].currentFrame >= frameListShake.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[2].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[2].currentFrame = 0;
@@ -181,7 +181,7 @@ internal static class Dratopyr
                     }
                 }
 
-                output.Sprite(input.Sprites.Dratopyr[17 + frameListShake.frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                output.Sprite(input.Sprites.Dratopyr[17 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
                 return;
             }
 
@@ -202,19 +202,19 @@ internal static class Dratopyr
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[3].currentTime >= frameListWings.times[input.Actor.AnimationController.frameLists[3].currentFrame])
+            if (input.Actor.AnimationController.frameLists[3].currentTime >= frameListWings.Times[input.Actor.AnimationController.frameLists[3].currentFrame])
             {
                 input.Actor.AnimationController.frameLists[3].currentFrame++;
                 input.Actor.AnimationController.frameLists[3].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[3].currentFrame >= frameListWings.frames.Length)
+                if (input.Actor.AnimationController.frameLists[3].currentFrame >= frameListWings.Frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[3].currentFrame = 0;
                     input.Actor.AnimationController.frameLists[3].currentTime = 0f;
                 }
             }
 
-            output.Sprite(input.Sprites.Dratopyr[8 + frameListWings.frames[input.Actor.AnimationController.frameLists[3].currentFrame]]);
+            output.Sprite(input.Sprites.Dratopyr[8 + frameListWings.Frames[input.Actor.AnimationController.frameLists[3].currentFrame]]);
         }); // Wing Webbing
 
         builder.RenderSingle(SpriteType.BodyAccent4, 2, (input, output) =>
@@ -226,7 +226,7 @@ internal static class Dratopyr
                 return;
             }
 
-            output.Sprite(input.Sprites.Dratopyr[11 + frameListWings.frames[input.Actor.AnimationController.frameLists[3].currentFrame]]);
+            output.Sprite(input.Sprites.Dratopyr[11 + frameListWings.Frames[input.Actor.AnimationController.frameLists[3].currentFrame]]);
         }); // Wing Bones
 
         builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
@@ -246,12 +246,12 @@ internal static class Dratopyr
 
             if (input.Actor.AnimationController.frameLists[1].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListEyes.times[input.Actor.AnimationController.frameLists[1].currentFrame])
+                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListEyes.Times[input.Actor.AnimationController.frameLists[1].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[1].currentFrame++;
                     input.Actor.AnimationController.frameLists[1].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListEyes.frames.Length)
+                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListEyes.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[1].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[1].currentFrame = 0;
@@ -259,12 +259,12 @@ internal static class Dratopyr
                     }
                 }
 
-                if (frameListEyes.frames[input.Actor.AnimationController.frameLists[1].currentFrame] == 0)
+                if (frameListEyes.Frames[input.Actor.AnimationController.frameLists[1].currentFrame] == 0)
                 {
                     return;
                 }
 
-                output.Sprite(input.Sprites.Dratopyr[2 + frameListEyes.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                output.Sprite(input.Sprites.Dratopyr[2 + frameListEyes.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
                 return;
             }
 
@@ -296,7 +296,7 @@ internal static class Dratopyr
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Dratopyr[34 + frameListShake.frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                    output.Sprite(input.Sprites.Dratopyr[34 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
                     return;
                 }
 
@@ -306,7 +306,7 @@ internal static class Dratopyr
                     return;
                 }
 
-                output.Sprite(input.Sprites.Dratopyr[31 + frameListShake.frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                output.Sprite(input.Sprites.Dratopyr[31 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
             }
         }); // Sheath
 
@@ -314,7 +314,7 @@ internal static class Dratopyr
         {
             output.Coloring(ColorMap.GetDratopyrMainColor(input.Actor.Unit.SkinColor));
             int bellySize = input.Actor.GetStomachSize(23, 0.7f);
-            int shake = frameListShake.frames[input.Actor.AnimationController.frameLists[2].currentFrame];
+            int shake = frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame];
 
             if (!input.Actor.Targetable)
             {
@@ -420,7 +420,7 @@ internal static class Dratopyr
 
                         if (input.Actor.AnimationController.frameLists[2].currentlyActive)
                         {
-                            output.Sprite(input.Sprites.Dratopyr[41 + frameListShake.frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                            output.Sprite(input.Sprites.Dratopyr[41 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
                             return;
                         }
 
@@ -448,7 +448,7 @@ internal static class Dratopyr
 
                         if (input.Actor.AnimationController.frameLists[2].currentlyActive)
                         {
-                            output.Sprite(input.Sprites.Dratopyr[37 + frameListShake.frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                            output.Sprite(input.Sprites.Dratopyr[37 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
                             return;
                         }
 
@@ -483,7 +483,7 @@ internal static class Dratopyr
                 return;
             }
 
-            int shake = frameListShake.frames[input.Actor.AnimationController.frameLists[2].currentFrame];
+            int shake = frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame];
             int ballSize = input.Actor.GetBallSize(21, 0.6f);
 
             if (!input.Actor.Targetable)
@@ -535,8 +535,8 @@ internal static class Dratopyr
 
         builder.RunBefore((input, output) =>
         {
-            output.changeSprite(SpriteType.Balls).AddOffset(0, -80 * .625f);
-            output.changeSprite(SpriteType.Belly).AddOffset(0, -80 * .625f);
+            output.ChangeSprite(SpriteType.Balls).AddOffset(0, -80 * .625f);
+            output.ChangeSprite(SpriteType.Belly).AddOffset(0, -80 * .625f);
         });
 
         builder.RandomCustom(data =>
