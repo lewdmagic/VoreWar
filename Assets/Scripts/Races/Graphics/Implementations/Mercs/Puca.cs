@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Puca
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         builder.Setup(output =>
         {
@@ -279,7 +279,7 @@ internal static class Puca
 
     private static class Vest
     {
-        internal static IClothing VestInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing VestInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -309,7 +309,7 @@ internal static class Puca
 
     private static class LoinCloth
     {
-        internal static IClothing LoinClothInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing LoinClothInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -319,15 +319,7 @@ internal static class Puca
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                int spriteNum;
-                if (input.Actor.IsAnalVoring)
-                {
-                    spriteNum = 22;
-                }
-                else
-                {
-                    spriteNum = 21;
-                }
+                var spriteNum = input.Actor.IsAnalVoring ? 22 : 21;
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
                 output["Clothing1"].Sprite(input.Sprites.Puca[spriteNum]);
@@ -337,7 +329,7 @@ internal static class Puca
 
     private static class Shorts
     {
-        internal static IClothing ShortsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing ShortsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -347,16 +339,10 @@ internal static class Puca
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                int spriteNum;
-                if (input.Actor.IsAnalVoring)
+                if (!input.Actor.IsAnalVoring)
                 {
-                    output["Clothing1"].Sprite(null);
-                }
-                else
-                {
-                    spriteNum = 36;
+                    output["Clothing1"].Sprite(input.Sprites.Puca[36]);
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
-                    output["Clothing1"].Sprite(input.Sprites.Puca[spriteNum]);
                 }
             });
         });

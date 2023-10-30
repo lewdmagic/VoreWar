@@ -9,7 +9,7 @@ namespace CruxClothing
 {
     internal static class NecklaceGold
     {
-        internal static IClothing NecklaceGoldInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing NecklaceGoldInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
 {
@@ -30,7 +30,7 @@ namespace CruxClothing
 
     internal static class NecklaceCrux
     {
-        internal static IClothing NecklaceCruxInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing NecklaceCruxInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
 {
@@ -51,7 +51,7 @@ namespace CruxClothing
 
     internal static class TShirt
     {
-        internal static IClothing TShirtInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing TShirtInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -137,7 +137,7 @@ namespace CruxClothing
 
     internal static class NetShirt
     {
-        internal static IClothing NetShirtInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing NetShirtInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -161,7 +161,7 @@ namespace CruxClothing
 
     internal static class RaggedBra
     {
-        internal static IClothing RaggedBraInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing RaggedBraInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -197,7 +197,7 @@ namespace CruxClothing
 
     internal static class LabCoat
     {
-        internal static IClothing LabCoatInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing LabCoatInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -219,38 +219,17 @@ namespace CruxClothing
                 if (input.Actor.GetStomachSize(23) <= 5)
                 {
                     output["Clothing1"].Layer(14);
-                    if (input.Actor.Unit.BreastSize <= 3)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Crux[341]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Crux[344]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.BreastSize <= 3 ? input.Sprites.Crux[341] : input.Sprites.Crux[344]);
                 }
                 else if (input.Actor.GetStomachSize(23) <= 10)
                 {
                     output["Clothing1"].Layer(14);
-                    if (input.Actor.Unit.BreastSize <= 3)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Crux[342]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Crux[345]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.BreastSize <= 3 ? input.Sprites.Crux[342] : input.Sprites.Crux[345]);
                 }
                 else
                 {
                     output["Clothing1"].Layer(11);
-                    if (input.Actor.Unit.BreastSize <= 3)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Crux[343]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Crux[346]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.BreastSize <= 3 ? input.Sprites.Crux[343] : input.Sprites.Crux[346]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Crux[347]);
@@ -260,7 +239,7 @@ namespace CruxClothing
 
     internal static class Boxers1
     {
-        internal static IClothing Boxers1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Boxers1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -299,7 +278,7 @@ namespace CruxClothing
 
     internal static class Boxers2
     {
-        internal static IClothing Boxers2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Boxers2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -338,7 +317,7 @@ namespace CruxClothing
 
     internal static class CruxJeans
     {
-        internal static IClothing CruxJeansInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing CruxJeansInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -361,7 +340,7 @@ namespace CruxClothing
 
     internal static class FannyBag
     {
-        internal static IClothing FannyBagInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing FannyBagInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -386,7 +365,7 @@ namespace CruxClothing
 
     internal static class BeltBags
     {
-        internal static IClothing BeltBagsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing BeltBagsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -411,7 +390,7 @@ namespace CruxClothing
 
     internal static class Rags
     {
-        internal static IClothing RagsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing RagsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -452,7 +431,7 @@ namespace CruxClothing
 
     internal static class SlaveCollar
     {
-        internal static IClothing SlaveCollarInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing SlaveCollarInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -476,22 +455,22 @@ namespace CruxClothing
 
     internal static class CruxClothingTypes
     {
-        internal static IClothing NecklaceGoldInstance = NecklaceGold.NecklaceGoldInstance;
-        internal static IClothing NecklaceCruxInstance = NecklaceCrux.NecklaceCruxInstance;
-        internal static IClothing TShirtInstance = TShirt.TShirtInstance;
-        internal static IClothing NetShirtInstance = NetShirt.NetShirtInstance;
-        internal static IClothing RaggedBraInstance = RaggedBra.RaggedBraInstance;
-        internal static IClothing LabCoatInstance = LabCoat.LabCoatInstance;
-        internal static IClothing Boxers1Instance = Boxers1.Boxers1Instance;
-        internal static IClothing Boxers2Instance = Boxers2.Boxers2Instance;
-        internal static IClothing CruxJeansInstance = CruxJeans.CruxJeansInstance;
-        internal static IClothing FannyBagInstance = FannyBag.FannyBagInstance;
-        internal static IClothing BeltBagsInstance = BeltBags.BeltBagsInstance;
-        internal static IClothing RagsInstance = Rags.RagsInstance;
-        internal static IClothing SlaveCollarInstance = SlaveCollar.SlaveCollarInstance;
+        internal static readonly IClothing NecklaceGoldInstance = NecklaceGold.NecklaceGoldInstance;
+        internal static readonly IClothing NecklaceCruxInstance = NecklaceCrux.NecklaceCruxInstance;
+        internal static readonly IClothing TShirtInstance = TShirt.TShirtInstance;
+        internal static readonly IClothing NetShirtInstance = NetShirt.NetShirtInstance;
+        internal static readonly IClothing RaggedBraInstance = RaggedBra.RaggedBraInstance;
+        internal static readonly IClothing LabCoatInstance = LabCoat.LabCoatInstance;
+        internal static readonly IClothing Boxers1Instance = Boxers1.Boxers1Instance;
+        internal static readonly IClothing Boxers2Instance = Boxers2.Boxers2Instance;
+        internal static readonly IClothing CruxJeansInstance = CruxJeans.CruxJeansInstance;
+        internal static readonly IClothing FannyBagInstance = FannyBag.FannyBagInstance;
+        internal static readonly IClothing BeltBagsInstance = BeltBags.BeltBagsInstance;
+        internal static readonly IClothing RagsInstance = Rags.RagsInstance;
+        internal static readonly IClothing SlaveCollarInstance = SlaveCollar.SlaveCollarInstance;
 
 
-        internal static List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
+        internal static readonly List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
         {
             TShirtInstance, NetShirtInstance, RaggedBraInstance, LabCoatInstance, Boxers1Instance, Boxers2Instance, CruxJeansInstance, FannyBagInstance, BeltBagsInstance, RagsInstance, SlaveCollarInstance
         };

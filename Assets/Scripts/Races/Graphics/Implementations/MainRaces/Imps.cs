@@ -13,9 +13,9 @@ using UnityEngine;
 
 internal static class Imps
 {
-    internal static List<IClothingDataSimple> AllClothing;
+    private static List<IClothingDataSimple> _allClothing;
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
         builder.Setup(output =>
         {
@@ -47,7 +47,7 @@ internal static class Imps
 
             output.ExtendedBreastSprites = true;
 
-            List<IClothing<IOverSizeParameters>> AllowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>() //undertops
+            List<IClothing<IOverSizeParameters>> allowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>() //undertops
             {
                 NewImpLeotard.NewImpLeotardInstance,
                 NewImpCasinoBunny.NewImpCasinoBunnyInstance,
@@ -81,14 +81,14 @@ internal static class Imps
 
             output.ExtraMainClothing2Types.Set( //Special clothing
                 NewImpOverOPFem.NewImpOverOPFemInstance,
-                NewImpOverOPM.NewImpOverOPMInstance,
+                NewImpOverOpm.NewImpOverOpmInstance,
                 NewImpOverTop1.NewImpOverTop1Instance,
                 NewImpOverTop2.NewImpOverTop2Instance,
                 NewImpOverTop3.NewImpOverTop3Instance,
                 NewImpOverTop4.NewImpOverTop4Instance
             );
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing3Types = new List<IClothing<IOverSizeParameters>>() //Legs
+            List<IClothing<IOverSizeParameters>> extraMainClothing3Types = new List<IClothing<IOverSizeParameters>>() //Legs
             {
                 GenericLegs.GenericLegs1,
                 GenericLegs.GenericLegs2,
@@ -105,9 +105,9 @@ internal static class Imps
                 GenericLegsAlt.GenericLegsAlts4,
                 GenericLegs.GenericLegs10
             };
-            output.ExtraMainClothing3Types.Set(ExtraMainClothing3Types);
+            output.ExtraMainClothing3Types.Set(extraMainClothing3Types);
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing4Types = new List<IClothing<IOverSizeParameters>>() //Gloves
+            List<IClothing<IOverSizeParameters>> extraMainClothing4Types = new List<IClothing<IOverSizeParameters>>() //Gloves
             {
                 GenericGloves.GenericGloves1,
                 GenericGlovesPlusSecond.GenericGlovesPlusSecond1,
@@ -116,22 +116,22 @@ internal static class Imps
                 GenericGlovesPlusSecondAlt.GenericGlovesPlusSecondAlt2,
                 GenericGloves.GenericGloves2
             };
-            output.ExtraMainClothing4Types.Set(ExtraMainClothing4Types);
+            output.ExtraMainClothing4Types.Set(extraMainClothing4Types);
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing5Types = new List<IClothing<IOverSizeParameters>>() //Hats
+            List<IClothing<IOverSizeParameters>> extraMainClothing5Types = new List<IClothing<IOverSizeParameters>>() //Hats
             {
                 Hat.Hat1,
                 Hat.Hat2,
                 HolidayHat.HolidayHatInstance
             };
-            output.ExtraMainClothing5Types.Set(ExtraMainClothing5Types);
+            output.ExtraMainClothing5Types.Set(extraMainClothing5Types);
 
 
-            AllClothing = new List<IClothingDataSimple>();
-            AllClothing.AddRange(AllowedMainClothingTypes);
-            AllClothing.AddRange(ExtraMainClothing3Types);
-            AllClothing.AddRange(ExtraMainClothing4Types);
-            AllClothing.AddRange(ExtraMainClothing5Types);
+            _allClothing = new List<IClothingDataSimple>();
+            _allClothing.AddRange(allowedMainClothingTypes);
+            _allClothing.AddRange(extraMainClothing3Types);
+            _allClothing.AddRange(extraMainClothing4Types);
+            _allClothing.AddRange(extraMainClothing5Types);
         });
 
 
@@ -372,14 +372,7 @@ internal static class Imps
             output.Coloring(ImpHorn(input.Actor));
             int sprite = 136;
             sprite += input.Actor.Unit.BodyAccentType3;
-            if (input.Actor.Unit.BodyAccentType3 == 0)
-            {
-                output.Sprite(input.Sprites.NewimpBase[sprite]).Layer(6);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.NewimpBase[sprite]).Layer(9);
-            }
+            output.Sprite(input.Sprites.NewimpBase[sprite]).Layer(input.Actor.Unit.BodyAccentType3 == 0 ? 6 : 9);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent4, 1, (input, output) =>
@@ -757,8 +750,8 @@ internal static class Imps
 
     private static class GenericGloves
     {
-        internal static IClothing GenericGloves1 = MakeGenericGloves(0, 8, 9108);
-        internal static IClothing GenericGloves2 = MakeGenericGloves(27, 35, 9135);
+        internal static readonly IClothing GenericGloves1 = MakeGenericGloves(0, 8, 9108);
+        internal static readonly IClothing GenericGloves2 = MakeGenericGloves(27, 35, 9135);
 
         private static IClothing MakeGenericGloves(int start, int discard, int type)
         {
@@ -779,26 +772,12 @@ internal static class Imps
                 if (input.Actor.Unit.HasBreasts)
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + 1 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.NewimpGloves[start + 1 + weightMod] : input.Sprites.NewimpGloves[start + weightMod]);
                 }
                 else
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + 5 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + 4 + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.NewimpGloves[start + 5 + weightMod] : input.Sprites.NewimpGloves[start + 4 + weightMod]);
                 }
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
@@ -809,8 +788,8 @@ internal static class Imps
 
     private static class GenericGlovesPlusSecond
     {
-        internal static IClothing GenericGlovesPlusSecond1 = MakeGenericGlovesPlusSecond(9, 17, 9117);
-        internal static IClothing GenericGlovesPlusSecond2 = MakeGenericGlovesPlusSecond(18, 26, 9126);
+        internal static readonly IClothing GenericGlovesPlusSecond1 = MakeGenericGlovesPlusSecond(9, 17, 9117);
+        internal static readonly IClothing GenericGlovesPlusSecond2 = MakeGenericGlovesPlusSecond(18, 26, 9126);
 
         private static IClothing MakeGenericGlovesPlusSecond(int start, int discard, int type)
         {
@@ -831,26 +810,12 @@ internal static class Imps
                 if (input.Actor.Unit.HasBreasts)
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + 1 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.NewimpGloves[start + 1 + weightMod] : input.Sprites.NewimpGloves[start + weightMod]);
                 }
                 else
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + 5 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + 4 + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.NewimpGloves[start + 5 + weightMod] : input.Sprites.NewimpGloves[start + 4 + weightMod]);
                 }
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
@@ -861,8 +826,8 @@ internal static class Imps
 
     private static class GenericGlovesPlusSecondAlt
     {
-        internal static IClothing GenericGlovesPlusSecondAlt1 = MakeGenericGlovesPlusSecondAlt(9, 17, 9117);
-        internal static IClothing GenericGlovesPlusSecondAlt2 = MakeGenericGlovesPlusSecondAlt(18, 26, 9126);
+        internal static readonly IClothing GenericGlovesPlusSecondAlt1 = MakeGenericGlovesPlusSecondAlt(9, 17, 9117);
+        internal static readonly IClothing GenericGlovesPlusSecondAlt2 = MakeGenericGlovesPlusSecondAlt(18, 26, 9126);
 
         private static IClothing MakeGenericGlovesPlusSecondAlt(int start, int discard, int type)
         {
@@ -883,26 +848,12 @@ internal static class Imps
                 if (input.Actor.Unit.HasBreasts)
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + 1 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.NewimpGloves[start + 1 + weightMod] : input.Sprites.NewimpGloves[start + weightMod]);
                 }
                 else
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + 5 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.NewimpGloves[start + 4 + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.NewimpGloves[start + 5 + weightMod] : input.Sprites.NewimpGloves[start + 4 + weightMod]);
                 }
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
@@ -913,16 +864,16 @@ internal static class Imps
 
     private static class GenericLegs
     {
-        internal static IClothing GenericLegs1 = MakeGenericLegs(0, 4, 45, 9004, femaleOnly: true, blocksDick: false);
-        internal static IClothing GenericLegs2 = MakeGenericLegs(5, 9, 45, 9009, femaleOnly: true, blocksDick: false);
-        internal static IClothing GenericLegs3 = MakeGenericLegs(10, 14, 45, 9019, femaleOnly: true, blocksDick: false);
-        internal static IClothing GenericLegs4 = MakeGenericLegs(15, 19, 45, 9015, femaleOnly: true, blocksDick: false);
-        internal static IClothing GenericLegs5 = MakeGenericLegs(20, 24, 45, 9020, femaleOnly: true, blocksDick: false);
-        internal static IClothing GenericLegs6 = MakeGenericLegs(2, 4, 45, 9002, true, blocksDick: true, black: true);
-        internal static IClothing GenericLegs7 = MakeGenericLegs(7, 9, 45, 9007, true, blocksDick: true, black: true);
-        internal static IClothing GenericLegs8 = MakeGenericLegs(12, 14, 45, 9012, true, blocksDick: true);
-        internal static IClothing GenericLegs9 = MakeGenericLegs(17, 19, 45, 9017, true, blocksDick: true);
-        internal static IClothing GenericLegs10 = MakeGenericLegs(22, 24, 45, 9022, true, blocksDick: false);
+        internal static readonly IClothing GenericLegs1 = MakeGenericLegs(0, 4, 45, 9004, femaleOnly: true, blocksDick: false);
+        internal static readonly IClothing GenericLegs2 = MakeGenericLegs(5, 9, 45, 9009, femaleOnly: true, blocksDick: false);
+        internal static readonly IClothing GenericLegs3 = MakeGenericLegs(10, 14, 45, 9019, femaleOnly: true, blocksDick: false);
+        internal static readonly IClothing GenericLegs4 = MakeGenericLegs(15, 19, 45, 9015, femaleOnly: true, blocksDick: false);
+        internal static readonly IClothing GenericLegs5 = MakeGenericLegs(20, 24, 45, 9020, femaleOnly: true, blocksDick: false);
+        internal static readonly IClothing GenericLegs6 = MakeGenericLegs(2, 4, 45, 9002, true, blocksDick: true, black: true);
+        internal static readonly IClothing GenericLegs7 = MakeGenericLegs(7, 9, 45, 9007, true, blocksDick: true, black: true);
+        internal static readonly IClothing GenericLegs8 = MakeGenericLegs(12, 14, 45, 9012, true, blocksDick: true);
+        internal static readonly IClothing GenericLegs9 = MakeGenericLegs(17, 19, 45, 9017, true, blocksDick: true);
+        internal static readonly IClothing GenericLegs10 = MakeGenericLegs(22, 24, 45, 9022, true, blocksDick: false);
 
         private static IClothing MakeGenericLegs(int start, int discard, int bulge, int type, bool maleOnly = false,
             bool femaleOnly = false, bool blocksDick = false, bool black = false)
@@ -992,10 +943,10 @@ internal static class Imps
 
     private static class GenericLegsAlt
     {
-        internal static IClothing GenericLegsAlts1 = MakeGenericLegsAlt(10, 14, 45, 9019, femaleOnly: true, blocksDick: false);
-        internal static IClothing GenericLegsAlts2 = MakeGenericLegsAlt(15, 19, 45, 9015, femaleOnly: true, blocksDick: false);
-        internal static IClothing GenericLegsAlts3 = MakeGenericLegsAlt(12, 14, 45, 9012, true, blocksDick: true);
-        internal static IClothing GenericLegsAlts4 = MakeGenericLegsAlt(17, 19, 45, 9017, true, blocksDick: true);
+        internal static readonly IClothing GenericLegsAlts1 = MakeGenericLegsAlt(10, 14, 45, 9019, femaleOnly: true, blocksDick: false);
+        internal static readonly IClothing GenericLegsAlts2 = MakeGenericLegsAlt(15, 19, 45, 9015, femaleOnly: true, blocksDick: false);
+        internal static readonly IClothing GenericLegsAlts3 = MakeGenericLegsAlt(12, 14, 45, 9012, true, blocksDick: true);
+        internal static readonly IClothing GenericLegsAlts4 = MakeGenericLegsAlt(17, 19, 45, 9017, true, blocksDick: true);
 
         private static IClothing MakeGenericLegsAlt(int start, int discard, int bulge, int type, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false, bool black = false)
         {
@@ -1033,14 +984,7 @@ internal static class Imps
                 {
                     if (blocksDick)
                     {
-                        if (black)
-                        {
-                            output["Clothing2"].Sprite(input.Sprites.NewimpUBottoms[bulge + 4 + input.Actor.Unit.DickSize]);
-                        }
-                        else
-                        {
-                            output["Clothing2"].Sprite(input.Sprites.NewimpUBottoms[bulge + input.Actor.Unit.DickSize]);
-                        }
+                        output["Clothing2"].Sprite(black ? input.Sprites.NewimpUBottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.NewimpUBottoms[bulge + input.Actor.Unit.DickSize]);
                     }
                     else
                     {
@@ -1062,11 +1006,11 @@ internal static class Imps
 
     private static class ImpUBottom
     {
-        internal static IClothing ImpUBottom1 = MakeImpUBottom(0, 2, 45, 8, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8808);
-        internal static IClothing ImpUBottom2 = MakeImpUBottom(9, 11, 45, 17, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8817);
-        internal static IClothing ImpUBottom3 = MakeImpUBottom(18, 20, 45, 26, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8826, true);
-        internal static IClothing ImpUBottom4 = MakeImpUBottom(27, 29, 45, 35, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8835);
-        internal static IClothing ImpUBottom5 = MakeImpUBottom(36, 38, 45, 44, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8844);
+        internal static readonly IClothing ImpUBottom1 = MakeImpUBottom(0, 2, 45, 8, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8808);
+        internal static readonly IClothing ImpUBottom2 = MakeImpUBottom(9, 11, 45, 17, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8817);
+        internal static readonly IClothing ImpUBottom3 = MakeImpUBottom(18, 20, 45, 26, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8826, true);
+        internal static readonly IClothing ImpUBottom4 = MakeImpUBottom(27, 29, 45, 35, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8835);
+        internal static readonly IClothing ImpUBottom5 = MakeImpUBottom(36, 38, 45, 44, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8844);
 
         private static IClothing MakeImpUBottom(int sprF, int sprM, int bulge, int discard, int layer,
             Sprite[] sheet, int type, bool black = false)
@@ -1089,28 +1033,14 @@ internal static class Imps
                 int weightMod = input.Actor.Unit.BodySize;
                 if (input.Actor.HasBelly)
                 {
-                    if (input.Actor.Unit.HasBreasts)
-                    {
-                        output["Clothing1"].Sprite(sheet[sprF + 4 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(sheet[sprM + 4 + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
 
                     if (input.Actor.Unit.HasDick)
                     {
                         //if (output.BlocksDick == true)
                         if (true)
                         {
-                            if (black)
-                            {
-                                output["Clothing2"].Sprite(input.Sprites.NewimpUBottoms[bulge + 4 + input.Actor.Unit.DickSize]);
-                            }
-                            else
-                            {
-                                output["Clothing2"].Sprite(input.Sprites.NewimpUBottoms[bulge + input.Actor.Unit.DickSize]);
-                            }
+                            output["Clothing2"].Sprite(black ? input.Sprites.NewimpUBottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.NewimpUBottoms[bulge + input.Actor.Unit.DickSize]);
                         }
                     }
                     else
@@ -1134,14 +1064,7 @@ internal static class Imps
                         //if (output.BlocksDick == true)
                         if (true)
                         {
-                            if (black)
-                            {
-                                output["Clothing2"].Sprite(input.Sprites.NewimpUBottoms[bulge + 4 + input.Actor.Unit.DickSize]);
-                            }
-                            else
-                            {
-                                output["Clothing2"].Sprite(input.Sprites.NewimpUBottoms[bulge + input.Actor.Unit.DickSize]);
-                            }
+                            output["Clothing2"].Sprite(black ? input.Sprites.NewimpUBottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.NewimpUBottoms[bulge + input.Actor.Unit.DickSize]);
                         }
                     }
                     else
@@ -1159,7 +1082,7 @@ internal static class Imps
 
     private static class NewImpLeotard
     {
-        internal static IClothing NewImpLeotardInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing NewImpLeotardInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1195,11 +1118,6 @@ internal static class Imps
                     {
                         output["Clothing3"].Sprite(input.Sprites.NewimpUBottoms[45 + input.Actor.Unit.DickSize]);
                     }
-                    else
-                    {
-                        output["Clothing3"].Sprite(null);
-                    }
-
 
                     output["Clothing2"].Sprite(input.Sprites.NewimpOnePieces[33 + bobs]);
                     output["Clothing1"].Sprite(input.Sprites.NewimpOnePieces[41 + size + 8 * weightMod]);
@@ -1214,10 +1132,6 @@ internal static class Imps
                     if (input.Actor.Unit.HasDick)
                     {
                         output["Clothing3"].Sprite(input.Sprites.NewimpUBottoms[45 + input.Actor.Unit.DickSize]);
-                    }
-                    else
-                    {
-                        output["Clothing3"].Sprite(null);
                     }
 
                     output["Clothing2"].Sprite(null);
@@ -1236,7 +1150,7 @@ internal static class Imps
 
 internal static class NewImpCasinoBunny
 {
-    internal static IClothing NewImpCasinoBunnyInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing NewImpCasinoBunnyInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1272,11 +1186,6 @@ internal static class NewImpCasinoBunny
                 {
                     output["Clothing3"].Sprite(input.Sprites.NewimpUBottoms[45 + input.Actor.Unit.DickSize]);
                 }
-                else
-                {
-                    output["Clothing3"].Sprite(null);
-                }
-
 
                 output["Clothing2"].Sprite(input.Sprites.NewimpOnePieces[0 + bobs]);
                 output["Clothing1"].Sprite(input.Sprites.NewimpOnePieces[8 + size + 6 * weightMod]);
@@ -1304,11 +1213,11 @@ internal static class NewImpCasinoBunny
 
 internal static class ImpOBottom
 {
-    internal static IClothing GenericBottom1 = MakeImpOBottom(0, 2, false, 45, 8, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8908);
-    internal static IClothing GenericBottom2 = MakeImpOBottom(9, 11, false, 45, 17, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8917);
-    internal static IClothing GenericBottom3 = MakeImpOBottom(18, 20, true, 45, 26, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8926);
-    internal static IClothing GenericBottom4 = MakeImpOBottom(27, 29, true, 49, 35, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8935);
-    internal static IClothing GenericBottom5 = MakeImpOBottom(36, 38, false, 45, 44, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8944);
+    internal static readonly IClothing GenericBottom1 = MakeImpOBottom(0, 2, false, 45, 8, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8908);
+    internal static readonly IClothing GenericBottom2 = MakeImpOBottom(9, 11, false, 45, 17, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8917);
+    internal static readonly IClothing GenericBottom3 = MakeImpOBottom(18, 20, true, 45, 26, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8926);
+    internal static readonly IClothing GenericBottom4 = MakeImpOBottom(27, 29, true, 49, 35, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8935);
+    internal static readonly IClothing GenericBottom5 = MakeImpOBottom(36, 38, false, 45, 44, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8944);
 
     private static IClothing MakeImpOBottom(int sprF, int sprM, bool showbulge, int bulge, int discard, int layer,
         Sprite[] sheet, int type)
@@ -1331,14 +1240,7 @@ internal static class ImpOBottom
             int weightMod = input.Actor.Unit.BodySize;
             if (input.Actor.HasBelly)
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF + 4 + weightMod]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM + 4 + weightMod]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
 
                 if (input.Actor.Unit.HasDick && showbulge)
                 {
@@ -1355,26 +1257,12 @@ internal static class ImpOBottom
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF + weightMod]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM + weightMod]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
 
                 if (input.Actor.Unit.HasDick)
                 {
                     //if (output.BlocksDick == true && showbulge == true)
-                    if (showbulge)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.NewimpUBottoms[Math.Min(bulge + input.Actor.Unit.DickSize, 52)]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(null);
-                    }
+                    output["Clothing2"].Sprite(showbulge ? input.Sprites.NewimpUBottoms[Math.Min(bulge + input.Actor.Unit.DickSize, 52)] : null);
                 }
                 else
                 {
@@ -1391,9 +1279,9 @@ internal static class ImpOBottom
 
 internal static class ImpOBottomAlt
 {
-    internal static IClothing ImpOBottomAlt1 = MakeImpOBottomAlt(27, 29, true, 49, 35, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8935);
+    internal static readonly IClothing ImpOBottomAlt1 = MakeImpOBottomAlt(27, 29, true, 49, 35, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8935);
 
-    internal static IClothing MakeImpOBottomAlt(int sprF, int sprM, bool showbulge, int bulge, int discard,
+    private static IClothing MakeImpOBottomAlt(int sprF, int sprM, bool showbulge, int bulge, int discard,
         int layer, Sprite[] sheet, int type)
     {
         ClothingBuilder builder = ClothingBuilder.New();
@@ -1415,14 +1303,7 @@ internal static class ImpOBottomAlt
             int weightMod = input.Actor.Unit.BodySize;
             if (input.Actor.HasBelly)
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF + 4 + weightMod]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM + 4 + weightMod]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
 
                 if (input.Actor.Unit.HasDick && showbulge)
                 {
@@ -1439,26 +1320,12 @@ internal static class ImpOBottomAlt
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF + weightMod]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM + weightMod]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
 
                 if (input.Actor.Unit.HasDick)
                 {
                     //if (output.BlocksDick == true && showbulge == true)
-                    if (showbulge)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.NewimpUBottoms[Math.Min(bulge + input.Actor.Unit.DickSize, 52)]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(null);
-                    }
+                    output["Clothing2"].Sprite(showbulge ? input.Sprites.NewimpUBottoms[Math.Min(bulge + input.Actor.Unit.DickSize, 52)] : null);
                 }
                 else
                 {
@@ -1475,8 +1342,8 @@ internal static class ImpOBottomAlt
 
 internal static class Hat
 {
-    internal static IClothing Hat1 = MakeHat(0, 0, State.GameManager.SpriteDictionary.NewimpHats, 666);
-    internal static IClothing Hat2 = MakeHat(34, 0, State.GameManager.SpriteDictionary.NewimpHats, 666);
+    internal static readonly IClothing Hat1 = MakeHat(0, 0, State.GameManager.SpriteDictionary.NewimpHats, 666);
+    internal static readonly IClothing Hat2 = MakeHat(34, 0, State.GameManager.SpriteDictionary.NewimpHats, 666);
 
     private static IClothing MakeHat(int start, int discard, Sprite[] sheet, int type)
     {
@@ -1506,7 +1373,7 @@ internal static class Hat
 
 internal static class NewImpUndertop1
 {
-    internal static IClothing<IOverSizeParameters> NewImpUndertop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> NewImpUndertop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1537,7 +1404,7 @@ internal static class NewImpUndertop1
 
 internal static class NewImpUndertop2
 {
-    internal static IClothing<IOverSizeParameters> NewImpUndertop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> NewImpUndertop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1568,7 +1435,7 @@ internal static class NewImpUndertop2
 
 internal static class NewImpUndertop3
 {
-    internal static IClothing<IOverSizeParameters> NewImpUndertop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> NewImpUndertop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1599,7 +1466,7 @@ internal static class NewImpUndertop3
 
 internal static class NewImpUndertop4
 {
-    internal static IClothing<IOverSizeParameters> NewImpUndertop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> NewImpUndertop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1630,7 +1497,7 @@ internal static class NewImpUndertop4
 
 internal static class NewImpUndertop5
 {
-    internal static IClothing<IOverSizeParameters> NewImpUndertop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> NewImpUndertop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1662,14 +1529,7 @@ internal static class NewImpUndertop5
                 output["Clothing1"].Sprite(input.Sprites.NewimpUTops[42 + input.Actor.Unit.BreastSize + 13 * weightMod]);
             }
 
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output["Clothing2"].Sprite(input.Sprites.NewimpUTops[36 + size + 13 * weightMod]);
-            }
-            else
-            {
-                output["Clothing2"].Sprite(input.Sprites.NewimpUTops[62 + size + 6 * weightMod]);
-            }
+            output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.NewimpUTops[36 + size + 13 * weightMod] : input.Sprites.NewimpUTops[62 + size + 6 * weightMod]);
 
             output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
             output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
@@ -1679,7 +1539,7 @@ internal static class NewImpUndertop5
 
 internal static class NewImpOverOPFem
 {
-    internal static IClothing<IOverSizeParameters> NewImpOverOPFemInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> NewImpOverOPFemInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1725,9 +1585,9 @@ internal static class NewImpOverOPFem
     });
 }
 
-internal static class NewImpOverOPM
+internal static class NewImpOverOpm
 {
-    internal static IClothing NewImpOverOPMInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing NewImpOverOpmInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1749,14 +1609,7 @@ internal static class NewImpOverOPM
                 size = 6;
             }
 
-            if (input.Actor.IsAttacking)
-            {
-                output["Clothing2"].Sprite(input.Sprites.NewImpOverOnePieces[25]);
-            }
-            else
-            {
-                output["Clothing2"].Sprite(input.Sprites.NewImpOverOnePieces[24]);
-            }
+            output["Clothing2"].Sprite(input.Actor.IsAttacking ? input.Sprites.NewImpOverOnePieces[25] : input.Sprites.NewImpOverOnePieces[24]);
 
 
             output["Clothing1"].Sprite(input.Sprites.NewImpOverOnePieces[26 + size + 7 * weightMod]);
@@ -1769,7 +1622,7 @@ internal static class NewImpOverOPM
 
 internal static class NewImpOverTop1
 {
-    internal static IClothing NewImpOverTop1Instance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing NewImpOverTop1Instance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1798,7 +1651,7 @@ internal static class NewImpOverTop1
 
 internal static class NewImpOverTop2
 {
-    internal static IClothing NewImpOverTop2Instance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing NewImpOverTop2Instance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1827,7 +1680,7 @@ internal static class NewImpOverTop2
 
 internal static class NewImpOverTop3
 {
-    internal static IClothing NewImpOverTop3Instance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing NewImpOverTop3Instance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1856,7 +1709,7 @@ internal static class NewImpOverTop3
 
 internal static class NewImpOverTop4
 {
-    internal static IClothing NewImpOverTop4Instance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing NewImpOverTop4Instance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1886,7 +1739,7 @@ internal static class NewImpOverTop4
 
 internal static class HolidayHat
 {
-    internal static IClothing HolidayHatInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing HolidayHatInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {

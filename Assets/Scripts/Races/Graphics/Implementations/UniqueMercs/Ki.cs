@@ -7,10 +7,10 @@ using System.Collections.Generic;
 
 internal static class Ki
 {
-    private const float pixelOffset = .3125f;
+    private const float PixelOffset = .3125f;
 
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         RaceFrameList frameListTail = new RaceFrameList(new int[9] { 1, 2, 0, 3, 4, 3, 0, 2, 1 },
             new float[9] { 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f });
@@ -190,14 +190,7 @@ internal static class Ki
 
             int bellySize = BellySize(input.Actor);
 
-            if (bellySize > 13)
-            {
-                output.Layer(5);
-            }
-            else
-            {
-                output.Layer(2);
-            }
+            output.Layer(bellySize > 13 ? 5 : 2);
 
             switch (bellySize)
             {
@@ -546,9 +539,9 @@ internal static class Ki
                 }
             }
 
-            output.changeSprite(SpriteType.Body).AddOffset(0, body * pixelOffset);
-            output.changeSprite(SpriteType.BodyAccent).AddOffset(0, bodyAccent * pixelOffset);
-            output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, bodyAccent2 * pixelOffset);
+            output.changeSprite(SpriteType.Body).AddOffset(0, body * PixelOffset);
+            output.changeSprite(SpriteType.BodyAccent).AddOffset(0, bodyAccent * PixelOffset);
+            output.changeSprite(SpriteType.BodyAccent2).AddOffset(0, bodyAccent2 * PixelOffset);
         });
 
         builder.RandomCustom(data =>
@@ -561,7 +554,7 @@ internal static class Ki
         });
     });
 
-    internal static void SetUpAnimations(Actor_Unit actor)
+    private static void SetUpAnimations(Actor_Unit actor)
     {
         actor.AnimationController.frameLists = new[]
         {

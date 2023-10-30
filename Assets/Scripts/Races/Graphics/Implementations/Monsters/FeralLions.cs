@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 internal static class FeralLions
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank<HindViewParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<HindViewParameters>, builder =>
     {
         RaceFrameList frameListRumpVore = new RaceFrameList(new int[2] { 0, 1 }, new float[2] { .75f, .5f });
 

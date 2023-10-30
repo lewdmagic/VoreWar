@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Bats
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
         RaceFrameList frameListDemibatWings = new RaceFrameList(new[] { 0, 1, 0, 2 }, new[] { .15f, .25f, .15f, .25f });
 
@@ -556,7 +556,7 @@ internal static class Bats
             output.Coloring(Defaults.WhiteColored);
             if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
             {
-                if (input.Actor.Unit.Furry && input.Actor.BestRanged != null && !(input.Actor.Unit.BodyAccentType1 == 3))
+                if (input.Actor.Unit.Furry && input.Actor.BestRanged != null && input.Actor.Unit.BodyAccentType1 != 3)
                 {
                     output.AddOffset(0, 2 * .625f);
                 }
@@ -606,14 +606,7 @@ internal static class Bats
 
             if (unit.HasDick && unit.HasBreasts)
             {
-                if (Config.HermsOnlyUseFemaleHair)
-                {
-                    unit.HairStyle = State.Rand.Next(18);
-                }
-                else
-                {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                }
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 18 : data.MiscRaceData.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
@@ -639,14 +632,7 @@ internal static class Bats
 
             if (Config.WinterActive())
             {
-                if (State.Rand.Next(2) == 0)
-                {
-                    unit.ClothingHatType = 1;
-                }
-                else
-                {
-                    unit.ClothingHatType = 0;
-                }
+                unit.ClothingHatType = State.Rand.Next(2) == 0 ? 1 : 0;
             }
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
@@ -670,7 +656,7 @@ internal static class Bats
         return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatHumanSkin, actor.Unit.SkinColor);
     }
 
-    internal static void SetUpAnimations(Actor_Unit actor)
+    private static void SetUpAnimations(Actor_Unit actor)
     {
         actor.AnimationController.frameLists = new[]
         {
@@ -681,7 +667,7 @@ internal static class Bats
 
     private static class GenericTop1
     {
-        internal static IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -712,7 +698,7 @@ internal static class Bats
 
     private static class GenericTop2
     {
-        internal static IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -743,7 +729,7 @@ internal static class Bats
 
     private static class GenericTop3
     {
-        internal static IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -774,7 +760,7 @@ internal static class Bats
 
     private static class GenericTop4
     {
-        internal static IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -808,7 +794,7 @@ internal static class Bats
 
     private static class GenericTop5
     {
-        internal static IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -843,7 +829,7 @@ internal static class Bats
 
     private static class GenericTop6
     {
-        internal static IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -874,7 +860,7 @@ internal static class Bats
 
     private static class GenericTop7
     {
-        internal static IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -905,7 +891,7 @@ internal static class Bats
 
     private static class MaleTop
     {
-        internal static IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -923,14 +909,7 @@ internal static class Bats
 
                 if (input.Actor.HasBelly)
                 {
-                    if (input.Actor.Unit.BodySize == 3)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Demibats4[94]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Demibats4[93]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.BodySize == 3 ? input.Sprites.Demibats4[94] : input.Sprites.Demibats4[93]);
                 }
                 else
                 {
@@ -944,7 +923,7 @@ internal static class Bats
 
     private static class MaleTop2
     {
-        internal static IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -979,7 +958,7 @@ internal static class Bats
 
     private static class Natural
     {
-        internal static IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1019,7 +998,7 @@ internal static class Bats
 
     private static class DemibatRags
     {
-        internal static IClothing DemibatRagsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing DemibatRagsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1041,14 +1020,7 @@ internal static class Bats
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
 
-                if (input.Actor.Unit.Furry)
-                {
-                    output["Clothing3"].Sprite(input.Sprites.Demibats4[115]);
-                }
-                else
-                {
-                    output["Clothing3"].Sprite(input.Sprites.Demibats4[111]);
-                }
+                output["Clothing3"].Sprite(input.Actor.Unit.Furry ? input.Sprites.Demibats4[115] : input.Sprites.Demibats4[111]);
 
                 if (input.Actor.Unit.HasBreasts)
                 {
@@ -1078,7 +1050,7 @@ internal static class Bats
 
     private static class DemibatLeader
     {
-        internal static IClothing<IOverSizeParameters> DemibatLeaderInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> DemibatLeaderInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1132,7 +1104,7 @@ internal static class Bats
 
     private static class GenericBot1
     {
-        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1166,14 +1138,7 @@ internal static class Bats
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats2[121 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats2[125 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demibats2[121 + input.Actor.Unit.BodySize] : input.Sprites.Demibats2[125 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
@@ -1183,7 +1148,7 @@ internal static class Bats
 
     private static class GenericBot2
     {
-        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1221,14 +1186,7 @@ internal static class Bats
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[0]);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats2[135 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats2[139 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demibats2[135 + input.Actor.Unit.BodySize] : input.Sprites.Demibats2[139 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1237,7 +1195,7 @@ internal static class Bats
 
     private static class GenericBot3
     {
-        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1254,14 +1212,7 @@ internal static class Bats
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Demibats2[143]);
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats2[135 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats2[139 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demibats2[135 + input.Actor.Unit.BodySize] : input.Sprites.Demibats2[139 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1270,7 +1221,7 @@ internal static class Bats
 
     private static class GenericBot4
     {
-        internal static IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1306,14 +1257,7 @@ internal static class Bats
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats4[4 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats4[12 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demibats4[4 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)] : input.Sprites.Demibats4[12 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
@@ -1324,7 +1268,7 @@ internal static class Bats
 
     private static class BatHat
     {
-        internal static IClothing BatHatInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing BatHatInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

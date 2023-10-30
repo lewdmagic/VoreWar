@@ -1,6 +1,6 @@
 ﻿internal static class FeralLizards
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         RaceFrameList frameListTongue = new RaceFrameList(new int[3] { 0, 1, 2 }, new float[3] { 0.5f, 0.2f, 0.3f });
 
@@ -191,14 +191,7 @@
         builder.RenderSingle(SpriteType.Belly, 6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.GetStomachSize(26) > 9)
-            {
-                output.Layer(9);
-            }
-            else
-            {
-                output.Layer(6);
-            }
+            output.Layer(input.Actor.GetStomachSize(26) > 9 ? 9 : 6);
 
             if (input.Actor.HasBelly == false)
             {
@@ -296,7 +289,7 @@
         });
     });
 
-    internal static void SetUpAnimations(Actor_Unit actor)
+    private static void SetUpAnimations(Actor_Unit actor)
     {
         actor.AnimationController.frameLists = new[]
         {

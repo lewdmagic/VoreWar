@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Sergal
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         builder.Setup(output =>
         {
@@ -147,7 +147,7 @@ internal static class Sergal
 
 internal static class BaseOutfit
 {
-    internal static IClothing BaseOutfitInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing BaseOutfitInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -192,14 +192,7 @@ internal static class BaseOutfit
 
             if (input.Actor.IsAttacking)
             {
-                if (input.Actor.BestRanged != null)
-                {
-                    output["Clothing4"].Sprite(input.Sprites.Sergal[58]);
-                }
-                else
-                {
-                    output["Clothing4"].Sprite(input.Sprites.Sergal[57]);
-                }
+                output["Clothing4"].Sprite(input.Actor.BestRanged != null ? input.Sprites.Sergal[58] : input.Sprites.Sergal[57]);
             }
 
             output["Clothing4"].Sprite(input.Sprites.Sergal[56]);
@@ -209,7 +202,7 @@ internal static class BaseOutfit
 
 internal static class SergalBikiniTop
 {
-    internal static IClothing SergalBikiniTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SergalBikiniTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -237,7 +230,7 @@ internal static class SergalBikiniTop
 
 internal static class SergalBlackTop
 {
-    internal static IClothing SergalBlackTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SergalBlackTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -251,21 +244,14 @@ internal static class SergalBlackTop
         {
             output["Clothing1"].Layer(17);
             output["Clothing1"].Coloring(Color.white);
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output["Clothing1"].Sprite(input.Sprites.SergalClothing[input.Actor.Unit.BreastSize]);
-            }
-            else
-            {
-                output["Clothing1"].Sprite(input.Sprites.SergalClothing[0]);
-            }
+            output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.SergalClothing[input.Actor.Unit.BreastSize] : input.Sprites.SergalClothing[0]);
         });
     });
 }
 
 internal static class SergalStrapTop
 {
-    internal static IClothing SergalStrapTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SergalStrapTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -304,7 +290,7 @@ internal static class SergalStrapTop
 
 internal static class SergalBikiniBottom
 {
-    internal static IClothing SergalBikiniBottomInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SergalBikiniBottomInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -317,14 +303,7 @@ internal static class SergalBikiniBottom
         builder.RenderAll((input, output) =>
         {
             output["Clothing1"].Layer(9);
-            if (input.Actor.Unit.DickSize > 3)
-            {
-                output["Clothing1"].Sprite(input.Sprites.SergalClothing[29]);
-            }
-            else
-            {
-                output["Clothing1"].Sprite(input.Sprites.SergalClothing[28]);
-            }
+            output["Clothing1"].Sprite(input.Actor.Unit.DickSize > 3 ? input.Sprites.SergalClothing[29] : input.Sprites.SergalClothing[28]);
 
             output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
         });
@@ -333,7 +312,7 @@ internal static class SergalBikiniBottom
 
 internal static class SergalShorts
 {
-    internal static IClothing SergalShortsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SergalShortsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -349,14 +328,7 @@ internal static class SergalShorts
             output["Clothing1"].Coloring(Color.white);
             if (input.Actor.Unit.DickSize > 2)
             {
-                if (input.Actor.Unit.DickSize > 4)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.SergalClothing[39]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.SergalClothing[38]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.DickSize > 4 ? input.Sprites.SergalClothing[39] : input.Sprites.SergalClothing[38]);
             }
 
             output["Clothing1"].Sprite(input.Sprites.SergalClothing[37]);
@@ -366,7 +338,7 @@ internal static class SergalShorts
 
 internal static class SergalLoincloth
 {
-    internal static IClothing SergalLoinclothInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SergalLoinclothInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -391,7 +363,7 @@ internal static class SergalLoincloth
 
 internal static class SergalRags
 {
-    internal static IClothing SergalRagsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SergalRagsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {

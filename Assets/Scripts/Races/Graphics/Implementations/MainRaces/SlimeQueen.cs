@@ -9,7 +9,7 @@ using UnityEngine;
 
 internal static class SlimeQueen
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         //////////////////////// SLIMES ///////////////////////////////////////////////////////////////
         //////////////////// TO BE REMOVED LATER //////////////////////////////////////////////////////
@@ -305,7 +305,7 @@ namespace SlimeQueenClothes
 {
     internal static class SlimeWithCrown
     {
-        internal static IClothing SlimeWithCrownInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing SlimeWithCrownInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

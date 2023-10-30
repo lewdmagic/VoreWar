@@ -8,15 +8,15 @@ using UnityEngine;
 
 internal static class Bees
 {
-    private static IClothing LeaderClothes = BeeLeader.BeeLeaderInstance;
-    private static IClothing Rags = BeeRags.BeeRagsInstance;
+    private static readonly IClothing LeaderClothes = BeeLeader.BeeLeaderInstance;
+    private static readonly IClothing Rags = BeeRags.BeeRagsInstance;
 
-    internal static List<IClothing> DiscardData = new List<IClothing>
+    internal static readonly List<IClothing> DiscardData = new List<IClothing>
     {
         Cuirass.CuirassInstance, LeaderClothes
     };
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
         RaceFrameList frameListWings = new RaceFrameList(new[] { 0, 1, 2, 3, 2, 1 }, new[] { .05f, .05f, .05f, .05f, .05f, .05f });
 
@@ -309,14 +309,7 @@ internal static class Bees
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
             if (input.Actor.Unit.BodySize > 0)
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output.Sprite(input.Sprites.Bees1[89 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.Bees1[92 + input.Actor.Unit.BodySize]);
-                }
+                output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Bees1[89 + input.Actor.Unit.BodySize] : input.Sprites.Bees1[92 + input.Actor.Unit.BodySize]);
             }
         });
 
@@ -478,26 +471,12 @@ internal static class Bees
                 if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
                 {
                     output.Layer(20);
-                    if (input.Actor.IsCockVoring)
-                    {
-                        output.Sprite(input.Sprites.Bees1[112 + input.Actor.Unit.DickSize]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Bees1[96 + input.Actor.Unit.DickSize]);
-                    }
+                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Bees1[112 + input.Actor.Unit.DickSize] : input.Sprites.Bees1[96 + input.Actor.Unit.DickSize]);
                 }
                 else
                 {
                     output.Layer(13);
-                    if (input.Actor.IsCockVoring)
-                    {
-                        output.Sprite(input.Sprites.Bees1[120 + input.Actor.Unit.DickSize]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Bees1[104 + input.Actor.Unit.DickSize]);
-                    }
+                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Bees1[120 + input.Actor.Unit.DickSize] : input.Sprites.Bees1[104 + input.Actor.Unit.DickSize]);
                 }
             }
 
@@ -593,14 +572,7 @@ internal static class Bees
 
             if (unit.HasDick && unit.HasBreasts)
             {
-                if (Config.HermsOnlyUseFemaleHair)
-                {
-                    unit.HairStyle = State.Rand.Next(12);
-                }
-                else
-                {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                }
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 12 : data.MiscRaceData.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
@@ -639,7 +611,7 @@ internal static class Bees
     });
 
 
-    internal static void SetUpAnimations(Actor_Unit actor)
+    private static void SetUpAnimations(Actor_Unit actor)
     {
         actor.AnimationController.frameLists = new[]
         {
@@ -648,7 +620,7 @@ internal static class Bees
     }
 
 
-    private static bool isOverSize(Actor_Unit actor)
+    private static bool IsOverSize(Actor_Unit actor)
     {
         if (actor.PredatorComponent?.LeftBreastFullness > 0)
         {
@@ -675,7 +647,7 @@ internal static class Bees
 
     private static class GenericTop1
     {
-        internal static IClothing GenericTop1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericTop1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -690,7 +662,7 @@ internal static class Bees
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(18);
-                if (isOverSize(input.Actor))
+                if (IsOverSize(input.Actor))
                 {
                     output["Clothing1"].Sprite(input.Sprites.Bees3[32]);
                 }
@@ -706,7 +678,7 @@ internal static class Bees
 
     private static class GenericTop2
     {
-        internal static IClothing GenericTop2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericTop2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -721,7 +693,7 @@ internal static class Bees
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(18);
-                if (isOverSize(input.Actor))
+                if (IsOverSize(input.Actor))
                 {
                     output["Clothing1"].Sprite(input.Sprites.Bees3[41]);
                 }
@@ -737,7 +709,7 @@ internal static class Bees
 
     private static class GenericTop3
     {
-        internal static IClothing GenericTop3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericTop3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -752,7 +724,7 @@ internal static class Bees
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(18);
-                if (isOverSize(input.Actor))
+                if (IsOverSize(input.Actor))
                 {
                     output["Clothing1"].Sprite(input.Sprites.Bees3[50]);
                 }
@@ -768,7 +740,7 @@ internal static class Bees
 
     private static class GenericTop4
     {
-        internal static IClothing GenericTop4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericTop4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -783,7 +755,7 @@ internal static class Bees
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(18);
-                if (isOverSize(input.Actor))
+                if (IsOverSize(input.Actor))
                 {
                     output["Clothing1"].Sprite(input.Sprites.Bees3[59]);
                 }
@@ -799,7 +771,7 @@ internal static class Bees
 
     private static class GenericTop5
     {
-        internal static IClothing GenericTop5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericTop5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -816,7 +788,7 @@ internal static class Bees
                 output["Clothing1"].Layer(18);
                 output["Clothing2"].Layer(18);
                 output["Clothing2"].Coloring(Color.white);
-                if (isOverSize(input.Actor))
+                if (IsOverSize(input.Actor))
                 {
                     output["Clothing1"].Sprite(input.Sprites.Bees3[68]);
                     output["Clothing2"].Sprite(input.Sprites.Bees3[77]);
@@ -834,7 +806,7 @@ internal static class Bees
 
     private static class GenericTop6
     {
-        internal static IClothing GenericTop6Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericTop6Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -849,7 +821,7 @@ internal static class Bees
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(18);
-                if (isOverSize(input.Actor))
+                if (IsOverSize(input.Actor))
                 {
                     output["Clothing1"].Sprite(null);
                 }
@@ -865,7 +837,7 @@ internal static class Bees
 
     private static class MaleTop
     {
-        internal static IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -881,14 +853,7 @@ internal static class Bees
             {
                 output["Clothing1"].Layer(18);
 
-                if (input.Actor.HasBelly)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[113]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[112]);
-                }
+                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Bees3[113] : input.Sprites.Bees3[112]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -897,7 +862,7 @@ internal static class Bees
 
     private static class MaleTop2
     {
-        internal static IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -920,7 +885,7 @@ internal static class Bees
 
     private static class Natural
     {
-        internal static IClothing NaturalInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing NaturalInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -933,7 +898,7 @@ internal static class Bees
             {
                 output["Clothing2"].Layer(7);
                 output["Clothing1"].Layer(18);
-                if (isOverSize(input.Actor))
+                if (IsOverSize(input.Actor))
                 {
                     output["Clothing1"].Sprite(null);
                 }
@@ -951,7 +916,7 @@ internal static class Bees
 
     private static class Cuirass
     {
-        internal static IClothing CuirassInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing CuirassInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -966,7 +931,7 @@ internal static class Bees
             {
                 output["Clothing1"].Layer(25);
                 output["Clothing1"].Coloring(Color.white);
-                if (isOverSize(input.Actor))
+                if (IsOverSize(input.Actor))
                 {
                     output["Clothing1"].Sprite(null);
                 }
@@ -984,7 +949,7 @@ internal static class Bees
 
     private static class Cuirass2
     {
-        internal static IClothing Cuirass2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Cuirass2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -999,7 +964,7 @@ internal static class Bees
             {
                 output["Clothing1"].Layer(25);
                 output["Clothing1"].Coloring(Color.white);
-                if (isOverSize(input.Actor))
+                if (IsOverSize(input.Actor))
                 {
                     output["Clothing1"].Sprite(null);
                 }
@@ -1017,7 +982,7 @@ internal static class Bees
 
     private static class BeeRags
     {
-        internal static IClothing BeeRagsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing BeeRagsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1058,14 +1023,7 @@ internal static class Bees
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.IsTailVoring)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Bees3[88]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Bees3[87]);
-                }
+                output["Clothing2"].Sprite(input.Actor.IsTailVoring ? input.Sprites.Bees3[88] : input.Sprites.Bees3[87]);
 
                 output["Clothing3"].Sprite(input.Sprites.Bees3[89]);
             });
@@ -1074,7 +1032,7 @@ internal static class Bees
 
     private static class BeeLeader
     {
-        internal static IClothing BeeLeaderInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing BeeLeaderInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1098,14 +1056,7 @@ internal static class Bees
                 output["Clothing1"].Coloring(Color.white);
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (isOverSize(input.Actor))
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Bees3[104]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Bees3[96 + input.Actor.Unit.BreastSize]);
-                    }
+                    output["Clothing2"].Sprite(IsOverSize(input.Actor) ? input.Sprites.Bees3[104] : input.Sprites.Bees3[96 + input.Actor.Unit.BreastSize]);
 
                     output["Clothing1"].Sprite(input.Sprites.Bees3[93]);
                 }
@@ -1117,36 +1068,15 @@ internal static class Bees
 
                 if (input.Actor.GetWeaponSprite() == 3)
                 {
-                    if (isOverSize(input.Actor))
-                    {
-                        output["Clothing3"].Sprite(input.Sprites.Bees3[110]);
-                    }
-                    else
-                    {
-                        output["Clothing3"].Sprite(input.Sprites.Bees3[107]);
-                    }
+                    output["Clothing3"].Sprite(IsOverSize(input.Actor) ? input.Sprites.Bees3[110] : input.Sprites.Bees3[107]);
                 }
                 else if (input.Actor.GetWeaponSprite() == 7)
                 {
-                    if (isOverSize(input.Actor))
-                    {
-                        output["Clothing3"].Sprite(input.Sprites.Bees3[109]);
-                    }
-                    else
-                    {
-                        output["Clothing3"].Sprite(input.Sprites.Bees3[106]);
-                    }
+                    output["Clothing3"].Sprite(IsOverSize(input.Actor) ? input.Sprites.Bees3[109] : input.Sprites.Bees3[106]);
                 }
                 else
                 {
-                    if (isOverSize(input.Actor))
-                    {
-                        output["Clothing3"].Sprite(input.Sprites.Bees3[108]);
-                    }
-                    else
-                    {
-                        output["Clothing3"].Sprite(input.Sprites.Bees3[105]);
-                    }
+                    output["Clothing3"].Sprite(IsOverSize(input.Actor) ? input.Sprites.Bees3[108] : input.Sprites.Bees3[105]);
                 }
 
                 output["Clothing4"].Sprite(input.Sprites.Bees3[111]);
@@ -1156,7 +1086,7 @@ internal static class Bees
 
     private static class GenericBot1
     {
-        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1200,7 +1130,7 @@ internal static class Bees
 
     private static class GenericBot2
     {
-        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1245,7 +1175,7 @@ internal static class Bees
 
     private static class GenericBot3
     {
-        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1270,7 +1200,7 @@ internal static class Bees
 
     private static class GenericBot4
     {
-        internal static IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1306,14 +1236,7 @@ internal static class Bees
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.IsTailVoring)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Bees3[20]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Bees3[19]);
-                }
+                output["Clothing2"].Sprite(input.Actor.IsTailVoring ? input.Sprites.Bees3[20] : input.Sprites.Bees3[19]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));

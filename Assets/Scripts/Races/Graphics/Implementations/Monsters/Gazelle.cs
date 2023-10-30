@@ -1,6 +1,6 @@
 ﻿internal static class Gazelle
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         builder.Setup(output =>
         {
@@ -114,14 +114,7 @@
         builder.RenderSingle(SpriteType.Belly, 6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GazelleSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.GetStomachSize(27) > 9)
-            {
-                output.Layer(9);
-            }
-            else
-            {
-                output.Layer(6);
-            }
+            output.Layer(input.Actor.GetStomachSize(27) > 9 ? 9 : 6);
 
             if (input.Actor.HasBelly == false)
             {

@@ -1,6 +1,6 @@
 ﻿internal static class Dragon
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank<DragonParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<DragonParameters>, builder =>
     {
         builder.Setup(output =>
         {
@@ -14,7 +14,7 @@
         builder.RenderSingle(SpriteType.Head, 8, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            switch (input.Params.position)
+            switch (input.Params.Position)
             {
                 case Position.Down:
                     output.Sprite(input.Sprites.Dragon[3]);
@@ -43,7 +43,7 @@
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            switch (input.Params.position)
+            switch (input.Params.Position)
             {
                 case Position.Down:
                     output.Sprite(input.Sprites.Dragon[0]);
@@ -60,7 +60,7 @@
         builder.RenderSingle(SpriteType.BodyAccent, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            switch (input.Params.position)
+            switch (input.Params.Position)
             {
                 case Position.Down:
                     output.Sprite(input.Sprites.Dragon[11]);
@@ -77,7 +77,7 @@
         builder.RenderSingle(SpriteType.BodyAccent2, 17, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            switch (input.Params.position)
+            switch (input.Params.Position)
             {
                 case Position.Standing:
                     if (input.Actor.IsAttacking)
@@ -105,7 +105,7 @@
         builder.RenderSingle(SpriteType.BodyAccent3, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Params.position == Position.Down)
+            if (input.Params.Position == Position.Down)
             {
                 output.Sprite(input.Sprites.Dragon[10]);
             }
@@ -114,12 +114,12 @@
         builder.RenderSingle(SpriteType.BodyAccent4, 17, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            if (input.Params.position == Position.Down)
+            if (input.Params.Position == Position.Down)
             {
                 return;
             }
 
-            if (input.Params.position == Position.Standing)
+            if (input.Params.Position == Position.Standing)
             {
                 if (input.Actor.IsAttacking)
                 {
@@ -143,7 +143,7 @@
         builder.RenderSingle(SpriteType.BodyAccent5, 6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            switch (input.Params.position)
+            switch (input.Params.Position)
             {
                 case Position.Standing:
                     if (input.Actor.IsAttacking)
@@ -172,7 +172,7 @@
         builder.RenderSingle(SpriteType.BodyAccent6, 5, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            switch (input.Params.position)
+            switch (input.Params.Position)
             {
                 case Position.Standing:
                     output.Sprite(input.Sprites.Dragon[41]);
@@ -189,7 +189,7 @@
         builder.RenderSingle(SpriteType.BodyAccent7, 4, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            switch (input.Params.position)
+            switch (input.Params.Position)
             {
                 case Position.Standing:
                     output.Sprite(input.Sprites.Dragon[44]);
@@ -205,7 +205,7 @@
         builder.RenderSingle(SpriteType.BodyAccent8, 5, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            if (input.Params.position == Position.Standing)
+            if (input.Params.Position == Position.Standing)
             {
                 output.Sprite(input.Sprites.Dragon[49]);
             }
@@ -215,7 +215,7 @@
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
             int sprite = 20 + 5 * input.Actor.Unit.SpecialAccessoryType;
-            switch (input.Params.position)
+            switch (input.Params.Position)
             {
                 case Position.Standing:
                     if (input.Actor.IsOralVoring)
@@ -244,7 +244,7 @@
         builder.RenderSingle(SpriteType.BodySize, 7, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            switch (input.Params.position)
+            switch (input.Params.Position)
             {
                 case Position.Standing:
                     output.Sprite(input.Sprites.Dragon[47]);
@@ -266,7 +266,7 @@
                 return;
             }
 
-            if (input.Params.position == Position.Standing || input.Params.position == Position.StandingCrouch)
+            if (input.Params.Position == Position.Standing || input.Params.Position == Position.StandingCrouch)
             {
                 output.Layer(16);
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
@@ -297,7 +297,7 @@
         builder.RenderSingle(SpriteType.Dick, 15, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            if (input.Params.position == Position.Down)
+            if (input.Params.Position == Position.Down)
             {
                 return;
             }
@@ -325,7 +325,7 @@
         builder.RenderSingle(SpriteType.Balls, 11, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragon, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasDick == false || input.Params.position == Position.Down)
+            if (input.Actor.Unit.HasDick == false || input.Params.Position == Position.Down)
             {
                 return;
             }
@@ -366,16 +366,16 @@
         {
             if (input.Actor.IsAttacking || input.Actor.IsEating)
             {
-                output.Params.position = Position.StandingCrouch;
+                output.Params.Position = Position.StandingCrouch;
                 output.changeSprite(SpriteType.Belly).AddOffset(0, 14 * .625f);
             }
             else if (input.Actor.HasBelly || input.Actor.PredatorComponent?.BallsFullness > 0)
             {
-                output.Params.position = Position.Standing;
+                output.Params.Position = Position.Standing;
             }
             else
             {
-                output.Params.position = Position.Down;
+                output.Params.Position = Position.Down;
             }
             //base.RunFirst(actor);
         });
@@ -383,15 +383,15 @@
         builder.RandomCustom(Defaults.RandomCustom);
     });
 
-    internal enum Position
+    private enum Position
     {
         Down,
         Standing,
         StandingCrouch
     }
 
-    internal class DragonParameters : IParameters
+    private class DragonParameters : IParameters
     {
-        internal Position position;
+        internal Position Position;
     }
 }

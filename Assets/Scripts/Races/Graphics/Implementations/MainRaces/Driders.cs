@@ -7,10 +7,10 @@ using UnityEngine;
 
 internal static class Driders
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         float yOffset = 30 * .625f;
-        IClothing LeaderClothes = DriderLeader.DriderLeaderInstance;
+        IClothing leaderClothes = DriderLeader.DriderLeaderInstance;
 
 
         builder.Setup(output =>
@@ -31,7 +31,7 @@ internal static class Driders
                 ClothingTypes.StrapTopInstance,
                 ClothingTypes.BlackTopInstance,
                 ClothingTypes.RagsInstance,
-                LeaderClothes
+                leaderClothes
             );
             output.AllowedWaistTypes.Set(
                 ClothingTypes.LoinclothInstance
@@ -131,14 +131,7 @@ internal static class Driders
             }
             else
             {
-                if (input.Actor.Unit.BodySize < 2)
-                {
-                    output.Sprite(input.Sprites.Driders[18]);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.Driders[17 + input.Actor.Unit.BodySize]);
-                }
+                output.Sprite(input.Actor.Unit.BodySize < 2 ? input.Sprites.Driders[18] : input.Sprites.Driders[17 + input.Actor.Unit.BodySize]);
             }
         }); //abdomen
 
@@ -209,19 +202,12 @@ internal static class Driders
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
             }
 
             if (unit.HasDick && unit.HasBreasts)
             {
-                if (Config.HermsOnlyUseFemaleHair)
-                {
-                    unit.HairStyle = State.Rand.Next(5);
-                }
-                else
-                {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                }
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 5 : data.MiscRaceData.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
@@ -250,7 +236,7 @@ namespace DriderClothing
 {
     internal static class DriderLeader
     {
-        internal static IClothing DriderLeaderInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing DriderLeaderInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

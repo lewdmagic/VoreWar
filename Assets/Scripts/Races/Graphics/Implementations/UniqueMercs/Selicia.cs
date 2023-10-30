@@ -8,7 +8,7 @@ internal static class Selicia
 {
     private const float BellyScale = 0.9f;
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         builder.Setup(output =>
         {

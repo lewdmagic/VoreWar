@@ -35,40 +35,38 @@ internal static class Salix
             output.AvoidedMainClothingTypes = 0;
             output.ClothingColors = 1;
 
-            List<IClothing<IOverSizeParameters>> AllowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>
+            List<IClothing<IOverSizeParameters>> allowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>
             {
                 SalixTop.SalixTopInstance
             };
-            output.AllowedMainClothingTypes.Set(AllowedMainClothingTypes);
+            output.AllowedMainClothingTypes.Set(allowedMainClothingTypes);
 
-            List<IClothing<IParameters>> AllowedWaistTypes = new List<IClothing<IParameters>>() //Bottoms
+            List<IClothing<IParameters>> allowedWaistTypes = new List<IClothing<IParameters>>() //Bottoms
             {
                 GenericBottom.GenericBottom1
             };
-            output.AllowedWaistTypes.Set(AllowedWaistTypes);
+            output.AllowedWaistTypes.Set(allowedWaistTypes);
 
             output.AllowedClothingHatTypes.Clear();
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing1Types = new List<IClothing<IOverSizeParameters>>() //Over
+            List<IClothing<IOverSizeParameters>> extraMainClothing1Types = new List<IClothing<IOverSizeParameters>>() //Over
             {
                 Cloak.Cloak1,
                 Cloak.Cloak2
             };
-            output.ExtraMainClothing1Types.Set(ExtraMainClothing1Types);
+            output.ExtraMainClothing1Types.Set(extraMainClothing1Types);
 
-            List<IClothing<IParameters>> ExtraMainClothing2Types = new List<IClothing<IParameters>>() //Shoes
+            List<IClothing<IParameters>> extraMainClothing2Types = new List<IClothing<IParameters>>() //Shoes
             {
                 SalixShoes.SalixShoesInstance
             };
-            output.ExtraMainClothing2Types.Set(ExtraMainClothing2Types);
+            output.ExtraMainClothing2Types.Set(extraMainClothing2Types);
 
-            List<IClothingDataSimple> AllClothing;
-
-            AllClothing = new List<IClothingDataSimple>();
-            AllClothing.AddRange(AllowedMainClothingTypes);
-            AllClothing.AddRange(AllowedWaistTypes);
-            AllClothing.AddRange(ExtraMainClothing1Types);
-            AllClothing.AddRange(ExtraMainClothing2Types);
+            var allClothing = new List<IClothingDataSimple>();
+            allClothing.AddRange(allowedMainClothingTypes);
+            allClothing.AddRange(allowedWaistTypes);
+            allClothing.AddRange(extraMainClothing1Types);
+            allClothing.AddRange(extraMainClothing2Types);
         });
 
 
@@ -474,7 +472,7 @@ internal static class Salix
 
     private static class SalixTop
     {
-        internal static IClothing<IOverSizeParameters> SalixTopInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> SalixTopInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -511,7 +509,7 @@ internal static class Salix
 
     private static class GenericBottom
     {
-        internal static IClothing GenericBottom1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericBottom1 = ClothingBuilder.Create( b =>
         {
             MakeGenericBottom(b, 26, 63, 13, State.GameManager.SpriteDictionary.Salix, 1300);
         });
@@ -538,22 +536,22 @@ internal static class Salix
 
     private static class Cloak
     {
-        internal static IClothing<IOverSizeParameters> Cloak1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> Cloak1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             MakeCloak(b, true);
         });
-        internal static IClothing<IOverSizeParameters> Cloak2 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> Cloak2 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             MakeCloak(b, false);
         });
 
-        private static void MakeCloak(IClothingBuilder<IOverSizeParameters> builder, bool Whole)
+        private static void MakeCloak(IClothingBuilder<IOverSizeParameters> builder, bool whole)
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.RevealsDick = true;
                 output.RevealsBreasts = true;
-                output.DiscardSprite = input.Sprites.Salix[65 + (Whole ? 1 : 0)];
+                output.DiscardSprite = input.Sprites.Salix[65 + (whole ? 1 : 0)];
                 output.DiscardUsesPalettes = false;
                 output.Type = 1302;
                 output.OccupiesAllSlots = true;
@@ -572,25 +570,11 @@ internal static class Salix
                 output["Clothing2"].SetOffset(0, 0 * .625f);
                 input.Actor.SquishedBreasts = true;
                 int mod = input.Actor.Unit.BreastSize + (input.Actor.Unit.HasBreasts ? 0 : 1);
-                if (Whole) // Full cloak sleeves
+                if (whole) // Full cloak sleeves
                 {
-                    if (input.Params.Oversize) // Cloak Shirt
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Salix[59]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Salix[52 + mod]);
-                    }
+                    output["Clothing1"].Sprite(input.Params.Oversize ? input.Sprites.Salix[59] : input.Sprites.Salix[52 + mod]); // Cloak Shirt
 
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Salix[51]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Salix[50]);
-                    }
+                    output["Clothing2"].Sprite(input.Actor.IsAttacking ? input.Sprites.Salix[51] : input.Sprites.Salix[50]);
 
                     output["Clothing3"].Sprite(input.Sprites.Salix[60 + input.Actor.Unit.BodySize]);
                 }
@@ -608,14 +592,7 @@ internal static class Salix
                         sleeveMod = 0;
                     }
 
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Salix[39 + sleeveMod]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Salix[38 + sleeveMod]);
-                    }
+                    output["Clothing2"].Sprite(input.Actor.IsAttacking ? input.Sprites.Salix[39 + sleeveMod] : input.Sprites.Salix[38 + sleeveMod]);
 
                     output["Clothing3"].Sprite(null);
                 }
@@ -625,7 +602,7 @@ internal static class Salix
 
     private static class SalixShoes
     {
-        internal static IClothing SalixShoesInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing SalixShoesInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -637,14 +614,7 @@ internal static class Salix
             {
                 output["Clothing1"].Layer(1);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.BodySize >= 2)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Salix[25]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Salix[24]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.BodySize >= 2 ? input.Sprites.Salix[25] : input.Sprites.Salix[24]);
             });
         });
     }

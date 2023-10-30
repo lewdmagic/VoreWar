@@ -20,7 +20,7 @@ internal static class Lamia
     private static readonly float xOffset = -1.875f; //3 pixels * 5/8
     private static readonly float yOffset = 3.75f;
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<SeliciaParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<SeliciaParameters>, builder =>
     {
         builder.Setup(output =>
         {

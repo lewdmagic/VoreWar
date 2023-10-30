@@ -7,12 +7,12 @@ using UnityEngine;
 
 internal static class Deer
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
-        IClothing<IOverSizeParameters> LeaderClothes1 = DeerLeader1.DeerLeader1Instance;
-        IClothing LeaderClothes2 = DeerLeader2.DeerLeader2Instance;
-        IClothing LeaderClothes3 = DeerLeader3.DeerLeader3Instance;
-        IClothing Rags = DeerRags.DeerRagsInstance;
+        IClothing<IOverSizeParameters> leaderClothes1 = DeerLeader1.DeerLeader1Instance;
+        IClothing leaderClothes2 = DeerLeader2.DeerLeader2Instance;
+        IClothing leaderClothes3 = DeerLeader3.DeerLeader3Instance;
+        IClothing rags = DeerRags.DeerRagsInstance;
 
 
         builder.Setup(output =>
@@ -49,9 +49,9 @@ internal static class Deer
                 Cuirass.CuirassInstance,
                 Special1.Special1Instance,
                 Special2.Special2Instance,
-                Rags,
-                LeaderClothes1,
-                LeaderClothes2
+                rags,
+                leaderClothes1,
+                leaderClothes2
             );
             output.AvoidedMainClothingTypes = 3;
             output.AvoidedEyeTypes = 0;
@@ -62,7 +62,7 @@ internal static class Deer
                 GenericBot4.GenericBot4Instance,
                 GenericBot5.GenericBot5Instance,
                 Loincloth.LoinclothInstance,
-                LeaderClothes3
+                leaderClothes3
             );
             output.ExtraMainClothing1Types.Set(
                 Scarf.ScarfInstance,
@@ -87,50 +87,22 @@ internal static class Deer
             {
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.IsEating)
-                    {
-                        output.Sprite(input.Sprites.Deer1[53]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Deer1[52]);
-                    }
+                    output.Sprite(input.Actor.IsEating ? input.Sprites.Deer1[53] : input.Sprites.Deer1[52]);
                 }
                 else
                 {
-                    if (input.Actor.IsEating)
-                    {
-                        output.Sprite(input.Sprites.Deer1[55]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Deer1[54]);
-                    }
+                    output.Sprite(input.Actor.IsEating ? input.Sprites.Deer1[55] : input.Sprites.Deer1[54]);
                 }
             }
             else
             {
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.IsEating)
-                    {
-                        output.Sprite(input.Sprites.Deer1[49]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Deer1[48]);
-                    }
+                    output.Sprite(input.Actor.IsEating ? input.Sprites.Deer1[49] : input.Sprites.Deer1[48]);
                 }
                 else
                 {
-                    if (input.Actor.IsEating)
-                    {
-                        output.Sprite(input.Sprites.Deer1[51]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Deer1[50]);
-                    }
+                    output.Sprite(input.Actor.IsEating ? input.Sprites.Deer1[51] : input.Sprites.Deer1[50]);
                 }
             }
         });
@@ -204,28 +176,14 @@ internal static class Deer
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output.Sprite(input.Sprites.Deer1[132]);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.Deer1[133]);
-                }
+                output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer1[132] : input.Sprites.Deer1[133]);
             }
         }); // Eyebrows
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Deer1[0 + input.Actor.Unit.BodySize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Deer1[12 + input.Actor.Unit.BodySize]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer1[0 + input.Actor.Unit.BodySize] : input.Sprites.Deer1[12 + input.Actor.Unit.BodySize]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
@@ -400,14 +358,7 @@ internal static class Deer
             output.Coloring(Defaults.WhiteColored);
             if (input.Actor.Unit.Furry)
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output.Sprite(input.Sprites.Deer1[136]);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.Deer1[137]);
-                }
+                output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer1[136] : input.Sprites.Deer1[137]);
             }
             else
             {
@@ -829,14 +780,7 @@ internal static class Deer
 
             if (unit.HasDick && unit.HasBreasts)
             {
-                if (Config.HermsOnlyUseFemaleHair)
-                {
-                    unit.HairStyle = State.Rand.Next(18);
-                }
-                else
-                {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                }
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 18 : data.MiscRaceData.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
@@ -860,20 +804,20 @@ internal static class Deer
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType2 = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedWaistTypes, LeaderClothes3);
+                unit.ClothingType2 = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedWaistTypes, leaderClothes3);
                 if (unit.HasBreasts)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes1);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes1);
                 }
                 else
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes2);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes2);
                 }
             }
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
                     unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
@@ -885,7 +829,7 @@ internal static class Deer
 
     private static class GenericTop1
     {
-        internal static IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -916,7 +860,7 @@ internal static class Deer
 
     private static class GenericTop2
     {
-        internal static IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -947,7 +891,7 @@ internal static class Deer
 
     private static class GenericTop3
     {
-        internal static IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -978,7 +922,7 @@ internal static class Deer
 
     private static class GenericTop4
     {
-        internal static IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1015,7 +959,7 @@ internal static class Deer
 
     private static class GenericTop5
     {
-        internal static IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1053,7 +997,7 @@ internal static class Deer
 
     private static class GenericTop6
     {
-        internal static IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1086,7 +1030,7 @@ internal static class Deer
 
     private static class GenericTop7
     {
-        internal static IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1117,7 +1061,7 @@ internal static class Deer
 
     private static class MaleTop
     {
-        internal static IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1133,14 +1077,7 @@ internal static class Deer
             {
                 output["Clothing1"].Layer(18);
 
-                if (input.Actor.HasBelly)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[83 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Deer4[84 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Cockatrice3[83 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[84 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1149,7 +1086,7 @@ internal static class Deer
 
     private static class MaleTop2
     {
-        internal static IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1172,7 +1109,7 @@ internal static class Deer
 
     private static class Natural
     {
-        internal static IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1210,7 +1147,7 @@ internal static class Deer
 
     private static class Cuirass
     {
-        internal static IClothing<IOverSizeParameters> CuirassInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> CuirassInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1265,40 +1202,19 @@ internal static class Deer
                 }
                 else
                 {
-                    if (input.Actor.Unit.HasBreasts)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Deer4[73 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Deer4[77 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[73 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[77 + input.Actor.Unit.BodySize]);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing3"].Sprite(input.Sprites.Deer4[65 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing3"].Sprite(input.Sprites.Deer4[69 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing3"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[65 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[69 + input.Actor.Unit.BodySize]);
 
-                if (input.Actor.GetWeaponSprite() == 1)
-                {
-                    output["Clothing4"].Sprite(input.Sprites.Deer4[82]);
-                }
-                else
-                {
-                    output["Clothing4"].Sprite(input.Sprites.Deer4[81]);
-                }
+                output["Clothing4"].Sprite(input.Actor.GetWeaponSprite() == 1 ? input.Sprites.Deer4[82] : input.Sprites.Deer4[81]);
             });
         });
     }
 
     private static class Special1
     {
-        internal static IClothing<IOverSizeParameters> Special1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> Special1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1361,7 +1277,7 @@ internal static class Deer
 
     private static class Special2
     {
-        internal static IClothing Special2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Special2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1383,7 +1299,7 @@ internal static class Deer
 
     private static class DeerRags
     {
-        internal static IClothing DeerRagsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing DeerRagsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1430,7 +1346,7 @@ internal static class Deer
 
     private static class DeerLeader1
     {
-        internal static IClothing<IOverSizeParameters> DeerLeader1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> DeerLeader1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1491,7 +1407,7 @@ internal static class Deer
 
     private static class DeerLeader2
     {
-        internal static IClothing DeerLeader2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing DeerLeader2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1515,7 +1431,7 @@ internal static class Deer
 
     private static class GenericBot1
     {
-        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1549,14 +1465,7 @@ internal static class Deer
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[12 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[16 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[12 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[16 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
@@ -1566,7 +1475,7 @@ internal static class Deer
 
     private static class GenericBot2
     {
-        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1604,14 +1513,7 @@ internal static class Deer
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[31]);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[20 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[24 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[20 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[24 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1620,7 +1522,7 @@ internal static class Deer
 
     private static class GenericBot3
     {
-        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1637,14 +1539,7 @@ internal static class Deer
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Cockatrice3[35]);
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[20 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[24 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[20 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[24 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1653,7 +1548,7 @@ internal static class Deer
 
     private static class GenericBot4
     {
-        internal static IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1693,21 +1588,14 @@ internal static class Deer
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[28 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[32 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[28 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[32 + input.Actor.Unit.BodySize]);
             });
         });
     }
 
     private static class GenericBot5
     {
-        internal static IClothing GenericBot5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1744,14 +1632,7 @@ internal static class Deer
 
                 output["Clothing1"].SetOffset(0, 0);
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[36 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[40 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[36 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[40 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
@@ -1761,7 +1642,7 @@ internal static class Deer
 
     private static class Loincloth
     {
-        internal static IClothing LoinclothInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing LoinclothInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1776,25 +1657,11 @@ internal static class Deer
                 output["Clothing1"].Layer(12);
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[1 + 2 * input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[0 + 2 * input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.DeerLeaderClothes[1 + 2 * input.Actor.Unit.BodySize] : input.Sprites.DeerLeaderClothes[0 + 2 * input.Actor.Unit.BodySize]);
                 }
                 else
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[9 + 2 * input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[8 + 2 * input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.DeerLeaderClothes[9 + 2 * input.Actor.Unit.BodySize] : input.Sprites.DeerLeaderClothes[8 + 2 * input.Actor.Unit.BodySize]);
                 }
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
@@ -1804,7 +1671,7 @@ internal static class Deer
 
     private static class DeerLeader3
     {
-        internal static IClothing DeerLeader3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing DeerLeader3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1877,7 +1744,7 @@ internal static class Deer
 
     private static class Scarf
     {
-        internal static IClothing ScarfInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing ScarfInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1899,7 +1766,7 @@ internal static class Deer
 
     private static class Necklace
     {
-        internal static IClothing NecklaceInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing NecklaceInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

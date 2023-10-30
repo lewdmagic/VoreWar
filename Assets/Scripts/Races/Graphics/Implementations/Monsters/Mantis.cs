@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 internal static class Mantis
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         RaceFrameList frameListScythesDefault = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
         RaceFrameList frameListScythesEating = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
@@ -429,7 +429,7 @@ internal static class Mantis
         });
     });
 
-    internal static void SetUpAnimations(Actor_Unit actor)
+    private static void SetUpAnimations(Actor_Unit actor)
     {
         actor.AnimationController.frameLists = new[]
         {

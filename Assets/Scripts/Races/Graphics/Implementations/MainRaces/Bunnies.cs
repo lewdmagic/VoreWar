@@ -1,6 +1,6 @@
 ﻿internal static class Bunnies
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         builder.RandomCustom(Defaults.RandomCustom);
 

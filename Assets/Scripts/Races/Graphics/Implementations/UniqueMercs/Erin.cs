@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Erin
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         builder.Setup(output =>
         {
@@ -142,7 +142,7 @@ internal static class Erin
 
 internal static class ErinTop
 {
-    internal static IClothing ErinTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing ErinTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -157,14 +157,7 @@ internal static class ErinTop
             output["Clothing2"].Coloring(Color.white);
             output["Clothing1"].Layer(12);
             output["Clothing1"].Coloring(Color.white);
-            if (input.Actor.IsAttacking)
-            {
-                output["Clothing1"].Sprite(input.Sprites.Erin[15]);
-            }
-            else
-            {
-                output["Clothing1"].Sprite(input.Sprites.Erin[14]);
-            }
+            output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Erin[15] : input.Sprites.Erin[14]);
 
             output["Clothing2"].Sprite(input.Sprites.Erin[16]);
         });
@@ -173,7 +166,7 @@ internal static class ErinTop
 
 internal static class ErinPantie
 {
-    internal static IClothing ErinPantieInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing ErinPantieInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -191,7 +184,7 @@ internal static class ErinPantie
 
 internal static class ErinSkirt
 {
-    internal static IClothing ErinSkirtInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing ErinSkirtInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -209,7 +202,7 @@ internal static class ErinSkirt
 
 internal static class ErinStocking
 {
-    internal static IClothing ErinStockingInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing ErinStockingInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -228,7 +221,7 @@ internal static class ErinStocking
 
 internal static class ErinShoes
 {
-    internal static IClothing ErinShoesInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing ErinShoesInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {

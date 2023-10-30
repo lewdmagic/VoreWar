@@ -10,7 +10,7 @@ internal static class Panthers
 {
     internal static List<IClothingDataSimple> AllClothing;
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
     {
         builder.Setup(output =>
         {
@@ -33,7 +33,7 @@ internal static class Panthers
 
             output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.PantherClothes);
 
-            List<IClothing<IOverSizeParameters>> AllowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>
+            List<IClothing<IOverSizeParameters>> allowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>
             {
                 All.GenericFemaleTop1,
                 All.BeltTop1,
@@ -53,9 +53,9 @@ internal static class Panthers
                 All.GenericOnepiece4
             };
 
-            output.AllowedMainClothingTypes.Set(AllowedMainClothingTypes);
+            output.AllowedMainClothingTypes.Set(allowedMainClothingTypes);
 
-            List<IClothing<IOverSizeParameters>> AllowedWaistTypes = new List<IClothing<IOverSizeParameters>>() //Bottoms
+            List<IClothing<IOverSizeParameters>> allowedWaistTypes = new List<IClothing<IOverSizeParameters>>() //Bottoms
             {
                 All.GenericBottom1,
                 All.GenericBottom2,
@@ -64,9 +64,9 @@ internal static class Panthers
                 All.GenericBottom5,
                 All.GenericBottom6
             };
-            output.AllowedWaistTypes.Set(AllowedWaistTypes);
+            output.AllowedWaistTypes.Set(allowedWaistTypes);
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing1Types = new List<IClothing<IOverSizeParameters>>() //Overtops
+            List<IClothing<IOverSizeParameters>> extraMainClothing1Types = new List<IClothing<IOverSizeParameters>>() //Overtops
             {
                 All.GenericFemaleTop7,
                 All.SimpleAttack1,
@@ -77,9 +77,9 @@ internal static class Panthers
                 All.SimpleAttack2,
                 All.SimpleAttack3
             };
-            output.ExtraMainClothing1Types.Set(ExtraMainClothing1Types); //Overtops
+            output.ExtraMainClothing1Types.Set(extraMainClothing1Types); //Overtops
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing2Types = new List<IClothing<IOverSizeParameters>>() //Overbottoms
+            List<IClothing<IOverSizeParameters>> extraMainClothing2Types = new List<IClothing<IOverSizeParameters>>() //Overbottoms
             {
                 All.Simple8,
                 All.OverbottomTwoTone1,
@@ -89,17 +89,17 @@ internal static class Panthers
                 All.Simple11,
                 All.Simple12
             };
-            output.ExtraMainClothing2Types.Set(ExtraMainClothing2Types); //Overbottoms
+            output.ExtraMainClothing2Types.Set(extraMainClothing2Types); //Overbottoms
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing3Types = new List<IClothing<IOverSizeParameters>>() //Hats
+            List<IClothing<IOverSizeParameters>> extraMainClothing3Types = new List<IClothing<IOverSizeParameters>>() //Hats
             {
                 All.GenericItem1,
                 All.GenericItem2,
                 SantaHat.SantaHatInstance
             };
-            output.ExtraMainClothing3Types.Set(ExtraMainClothing3Types); //Hats
+            output.ExtraMainClothing3Types.Set(extraMainClothing3Types); //Hats
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing4Types = new List<IClothing<IOverSizeParameters>>() //Gloves
+            List<IClothing<IOverSizeParameters>> extraMainClothing4Types = new List<IClothing<IOverSizeParameters>>() //Gloves
             {
                 All.GenericGlovesPlusSecond1,
                 All.GenericGloves1,
@@ -109,9 +109,9 @@ internal static class Panthers
                 All.GenericGloves5,
                 All.GenericGloves6
             };
-            output.ExtraMainClothing4Types.Set(ExtraMainClothing4Types); //Gloves
+            output.ExtraMainClothing4Types.Set(extraMainClothing4Types); //Gloves
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing5Types = new List<IClothing<IOverSizeParameters>>() //Legs
+            List<IClothing<IOverSizeParameters>> extraMainClothing5Types = new List<IClothing<IOverSizeParameters>>() //Legs
             {
                 All.GenericItem3,
                 All.GenericItem4,
@@ -119,16 +119,16 @@ internal static class Panthers
                 All.GenericItem6,
                 All.GenericItem7
             };
-            output.ExtraMainClothing5Types.Set(ExtraMainClothing5Types); //Legs
+            output.ExtraMainClothing5Types.Set(extraMainClothing5Types); //Legs
 
             AllClothing = new List<IClothingDataSimple>();
-            AllClothing.AddRange(AllowedMainClothingTypes);
-            AllClothing.AddRange(AllowedWaistTypes);
-            AllClothing.AddRange(ExtraMainClothing1Types);
-            AllClothing.AddRange(ExtraMainClothing2Types);
-            AllClothing.AddRange(ExtraMainClothing3Types);
-            AllClothing.AddRange(ExtraMainClothing4Types);
-            AllClothing.AddRange(ExtraMainClothing5Types);
+            AllClothing.AddRange(allowedMainClothingTypes);
+            AllClothing.AddRange(allowedWaistTypes);
+            AllClothing.AddRange(extraMainClothing1Types);
+            AllClothing.AddRange(extraMainClothing2Types);
+            AllClothing.AddRange(extraMainClothing3Types);
+            AllClothing.AddRange(extraMainClothing4Types);
+            AllClothing.AddRange(extraMainClothing5Types);
         });
 
 
@@ -143,8 +143,8 @@ internal static class Panthers
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
             int attackingOffset = input.Actor.IsAttacking || input.Actor.IsEating ? 2 : 0;
-            int GenderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
-            output.Sprite(input.Sprites.PantherBase[4 + GenderOffset + attackingOffset + 4 * input.Actor.Unit.EyeType]);
+            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
+            output.Sprite(input.Sprites.PantherBase[4 + genderOffset + attackingOffset + 4 * input.Actor.Unit.EyeType]);
         });
 
         builder.RenderSingle(SpriteType.Hair, 27, (input, output) =>
@@ -259,8 +259,8 @@ internal static class Panthers
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
             int attackingOffset = input.Actor.IsAttacking ? 2 : 0;
-            int GenderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
-            output.Sprite(input.Sprites.PantherBase[GenderOffset + attackingOffset]);
+            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
+            output.Sprite(input.Sprites.PantherBase[genderOffset + attackingOffset]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
@@ -694,14 +694,7 @@ internal static class Panthers
             Defaults.RandomCustom(data);
             Unit unit = data.Unit;
 
-            if (State.Rand.Next(10) == 0)
-            {
-                unit.EyeType = 1;
-            }
-            else
-            {
-                unit.EyeType = 0;
-            }
+            unit.EyeType = State.Rand.Next(10) == 0 ? 1 : 0;
 
             unit.ClothingColor = State.Rand.Next(data.MiscRaceData.ClothingColors);
             unit.ClothingColor2 = State.Rand.Next(data.MiscRaceData.ClothingColors);
@@ -755,219 +748,219 @@ internal static class Panthers
 
     private static class All
     {
-        internal static IClothing<IOverSizeParameters> GenericFemaleTop1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericFemaleTop1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericFemaleTop.MakeGenericFemaleTop(b, 0, 10, 20, State.GameManager.SpriteDictionary.PantherFTops, 801, ColorStyle.InnerWear);
         });
-        internal static IClothing<IOverSizeParameters> BeltTop1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> BeltTop1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             BeltTop.MakeBeltTop(b, 20);
         });
-        internal static IClothing<IOverSizeParameters> GenericFemaleTop2 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericFemaleTop2 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericFemaleTop.MakeGenericFemaleTop(b, 19, 29, 20, State.GameManager.SpriteDictionary.PantherFTops, 803, ColorStyle.InnerWear);
         });
-        internal static IClothing<IOverSizeParameters> GenericFemaleTop3 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericFemaleTop3 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericFemaleTop.MakeGenericFemaleTop(b, 24, 34, 20, State.GameManager.SpriteDictionary.PantherFTops, 804, ColorStyle.None);
         });
-        internal static IClothing<IOverSizeParameters> GenericFemaleTop4 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericFemaleTop4 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericFemaleTop.MakeGenericFemaleTop(b, 39, 49, 20, State.GameManager.SpriteDictionary.PantherFTops, 805, ColorStyle.InnerWear);
         });
-        internal static IClothing<IOverSizeParameters> GenericFemaleTop5 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericFemaleTop5 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericFemaleTop.MakeGenericFemaleTop(b, 44, 54, 20, State.GameManager.SpriteDictionary.PantherFTops, 806, ColorStyle.None);
         });
-        internal static IClothing<IOverSizeParameters> GenericFemaleTop6 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericFemaleTop6 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericFemaleTop.MakeGenericFemaleTop(b, 59, 64, 20, State.GameManager.SpriteDictionary.PantherFTops, 807, ColorStyle.InnerWear);
         });
-        internal static IClothing Simple1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple1 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 0, 5, 20, State.GameManager.SpriteDictionary.PantherMTops, 808, ColorStyle.None, true);
         });
-        internal static IClothing Simple2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple2 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 1, 6, 20, State.GameManager.SpriteDictionary.PantherMTops, 809, ColorStyle.InnerWear, true);
         });
-        internal static IClothing Simple3 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple3 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 2, 7, 20, State.GameManager.SpriteDictionary.PantherMTops, 810, ColorStyle.InnerWear, true);
         });
-        internal static IClothing Simple4 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple4 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 3, 8, 20, State.GameManager.SpriteDictionary.PantherMTops, 811, ColorStyle.None, true);
         });
-        internal static IClothing Simple5 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple5 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 4, 9, 20, State.GameManager.SpriteDictionary.PantherMTops, 812, ColorStyle.None, true);
         });
-        internal static IClothing<IOverSizeParameters> GenericOnepiece1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericOnepiece1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericOnepiece.MakeGenericOnepiece(b, 0, 5, 18, false);
         });
-        internal static IClothing<IOverSizeParameters> GenericOnepiece2 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericOnepiece2 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericOnepiece.MakeGenericOnepiece(b, 9, 14, 18, false);
         });
-        internal static IClothing<IOverSizeParameters> GenericOnepiece3 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericOnepiece3 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericOnepiece.MakeGenericOnepiece(b, 52, 57, 69, true);
         });
-        internal static IClothing<IOverSizeParameters> GenericOnepiece4 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericOnepiece4 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericOnepiece.MakeGenericOnepiece(b, 60, 65, 69, false);
         });
 
 
-        internal static IClothing GenericBottom1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericBottom1 = ClothingBuilder.Create( b =>
         {
             GenericBottom.MakeGenericBottom(b, 0, 0, 12, 6, 8, State.GameManager.SpriteDictionary.PantherBottoms, 840, true);
         });
-        internal static IClothing GenericBottom2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericBottom2 = ClothingBuilder.Create( b =>
         {
             GenericBottom.MakeGenericBottom(b, 1, 1, 12, 7, 8, State.GameManager.SpriteDictionary.PantherBottoms, 841, true);
         });
-        internal static IClothing GenericBottom3 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericBottom3 = ClothingBuilder.Create( b =>
         {
             GenericBottom.MakeGenericBottom(b, 2, 2, -2, 8, 8, State.GameManager.SpriteDictionary.PantherBottoms, 842, true);
         });
-        internal static IClothing GenericBottom4 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericBottom4 = ClothingBuilder.Create( b =>
         {
             GenericBottom.MakeGenericBottom(b, 3, 17, 14, 9, 8, State.GameManager.SpriteDictionary.PantherBottoms, 843, false);
         });
-        internal static IClothing GenericBottom5 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericBottom5 = ClothingBuilder.Create( b =>
         {
             GenericBottom.MakeGenericBottom(b, 16, 4, 12, 10, 8, State.GameManager.SpriteDictionary.PantherBottoms, 844, true);
         });
-        internal static IClothing GenericBottom6 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericBottom6 = ClothingBuilder.Create( b =>
         {
             GenericBottom.MakeGenericBottom(b, 5, 5, 12, 11, 8, State.GameManager.SpriteDictionary.PantherBottoms, 845, true);
         });
 
 
-        internal static IClothing<IOverSizeParameters> GenericFemaleTop7 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericFemaleTop7 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericFemaleTop.MakeGenericFemaleTop(b, 0, 5, 21, State.GameManager.SpriteDictionary.PantherFOvertops, 830, ColorStyle.OuterWear);
         });
-        internal static IClothing SimpleAttack1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing SimpleAttack1 = ClothingBuilder.Create( b =>
         {
             SimpleAttack.MakeSimpleAttack(b, 20, 21, 22, 21, State.GameManager.SpriteDictionary.PantherFOvertops, 831, ColorStyle.OuterWear, femaleOnly: true);
         });
-        internal static IClothing<IOverSizeParameters> GenericFemaleTop8 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> GenericFemaleTop8 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             GenericFemaleTop.MakeGenericFemaleTop(b, 10, 15, 21, State.GameManager.SpriteDictionary.PantherFOvertops, 832, ColorStyle.OuterWear);
         });
-        internal static IClothing<IOverSizeParameters> BoneTop1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
+        internal static readonly IClothing<IOverSizeParameters> BoneTop1 = ClothingBuilder.Create<IOverSizeParameters>( b =>
         {
             BoneTop.MakeBoneTop(b, 21);
         });
-        internal static IClothing Simple6 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple6 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 0, 6, 21, State.GameManager.SpriteDictionary.PantherMOvertops, 834, ColorStyle.None, true);
         });
-        internal static IClothing Simple7 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple7 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 1, 7, 21, State.GameManager.SpriteDictionary.PantherMOvertops, 835, ColorStyle.OuterWear, true);
         });
-        internal static IClothing SimpleAttack2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing SimpleAttack2 = ClothingBuilder.Create( b =>
         {
             SimpleAttack.MakeSimpleAttack(b, 2, 4, 8, 21, State.GameManager.SpriteDictionary.PantherMOvertops, 836, ColorStyle.OuterWear, true);
         });
-        internal static IClothing SimpleAttack3 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing SimpleAttack3 = ClothingBuilder.Create( b =>
         {
             SimpleAttack.MakeSimpleAttack(b, 3, 5, 9, 21, State.GameManager.SpriteDictionary.PantherMOvertops, 837, ColorStyle.OuterWear, true);
         });
 
 
-        internal static IClothing Simple8 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple8 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 0, 10, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, 860, ColorStyle.OuterWear, blocksDick: true);
         });
-        internal static IClothing OverbottomTwoTone1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing OverbottomTwoTone1 = ClothingBuilder.Create( b =>
         {
             OverbottomTwoTone.MakeOverbottomTwoTone(b, 1, 2, 3, 11, 11, 861);
         });
-        internal static IClothing Simple9 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple9 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 4, 12, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, 862, ColorStyle.OuterWear, blocksDick: true);
         });
-        internal static IClothing OverbottomTwoTone2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing OverbottomTwoTone2 = ClothingBuilder.Create( b =>
         {
             OverbottomTwoTone.MakeOverbottomTwoTone(b, 5, 5, 6, 13, 11, 863, true);
         });
-        internal static IClothing Simple10 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple10 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 7, 14, 15, State.GameManager.SpriteDictionary.PantherOverBottoms, 864, ColorStyle.None, blocksDick: false);
         });
-        internal static IClothing Simple11 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple11 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 8, 15, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, 865, ColorStyle.None, femaleOnly: true, blocksDick: true);
         });
-        internal static IClothing Simple12 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing Simple12 = ClothingBuilder.Create( b =>
         {
             Simple.MakeSimple(b, 9, 16, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, 866, ColorStyle.None, true, blocksDick: true);
         });
 
 
-        internal static IClothing GenericItem1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericItem1 = ClothingBuilder.Create( b =>
         {
             GenericItem.MakeGenericItem(b, 0, 2, 4, 28, State.GameManager.SpriteDictionary.PantherHats, 888, ColorStyle.None);
         });
-        internal static IClothing GenericItem2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericItem2 = ClothingBuilder.Create( b =>
         {
             GenericItem.MakeGenericItem(b, 1, 3, 5, 28, State.GameManager.SpriteDictionary.PantherHats, 889, ColorStyle.Other);
         });
 
 
-        internal static IClothing GenericGlovesPlusSecond1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGlovesPlusSecond1 = ClothingBuilder.Create( b =>
         {
             GenericGlovesPlusSecond.MakeGenericGlovesPlusSecond(b, 0, 890);
         });
-        internal static IClothing GenericGloves1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGloves1 = ClothingBuilder.Create( b =>
         {
             GenericGloves.MakeGenericGloves(b, 9, 891);
         });
-        internal static IClothing GenericGloves2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGloves2 = ClothingBuilder.Create( b =>
         {
             GenericGloves.MakeGenericGloves(b, 14, 892);
         });
-        internal static IClothing GenericGloves3 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGloves3 = ClothingBuilder.Create( b =>
         {
             GenericGloves.MakeGenericGloves(b, 19, 893);
         });
-        internal static IClothing GenericGloves4 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGloves4 = ClothingBuilder.Create( b =>
         {
             GenericGloves.MakeGenericGloves(b, 24, 894);
         });
-        internal static IClothing GenericGloves5 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGloves5 = ClothingBuilder.Create( b =>
         {
             GenericGloves.MakeGenericGloves(b, 29, 895);
         });
-        internal static IClothing GenericGloves6 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGloves6 = ClothingBuilder.Create( b =>
         {
             GenericGloves.MakeGenericGloves(b, 34, 896);
         });
 
 
-        internal static IClothing GenericItem3 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericItem3 = ClothingBuilder.Create( b =>
         {
             GenericItem.MakeGenericItem(b, 0, 1, 2, 9, State.GameManager.SpriteDictionary.PantherLegs, 901, ColorStyle.None);
         });
-        internal static IClothing GenericItem4 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericItem4 = ClothingBuilder.Create( b =>
         {
             GenericItem.MakeGenericItem(b, 3, 4, 5, 9, State.GameManager.SpriteDictionary.PantherLegs, 902, ColorStyle.None);
         });
-        internal static IClothing GenericItem5 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericItem5 = ClothingBuilder.Create( b =>
         {
             GenericItem.MakeGenericItem(b, 6, 7, 8, 9, State.GameManager.SpriteDictionary.PantherLegs, 903, ColorStyle.None);
         });
-        internal static IClothing GenericItem6 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericItem6 = ClothingBuilder.Create( b =>
         {
             GenericItem.MakeGenericItem(b, 9, 10, 11, 9, State.GameManager.SpriteDictionary.PantherLegs, 904, ColorStyle.None);
         });
-        internal static IClothing GenericItem7 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericItem7 = ClothingBuilder.Create( b =>
         {
             GenericItem.MakeGenericItem(b, 12, 13, 14, 9, State.GameManager.SpriteDictionary.PantherLegs, 905, ColorStyle.None);
         });
@@ -1035,14 +1028,7 @@ internal static class Panthers
                 output["Clothing1"].Layer(layer);
                 output["Clothing1"].Coloring(CalcColor(color));
                 output["Clothing1"].Coloring(CalcPalette(color, input.Actor));
-                if (input.Actor.IsAttacking)
-                {
-                    output["Clothing1"].Sprite(sheet[attacksprite]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[spr]);
-                }
+                output["Clothing1"].Sprite(input.Actor.IsAttacking ? sheet[attacksprite] : sheet[spr]);
             });
         }
     }
@@ -1120,14 +1106,7 @@ internal static class Panthers
                     output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor));
                 }
 
-                if (input.Actor.Unit.HasDick)
-                {
-                    output["Clothing1"].Sprite(sheet[sprM]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprF]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasDick ? sheet[sprM] : sheet[sprF]);
 
                 if (input.Actor.Unit.HasDick && bulge > 0)
                 {
@@ -1192,14 +1171,7 @@ internal static class Panthers
                     output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[18]);
                 }
 
-                if (input.Actor.IsAttacking)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.PantherFOvertops[21]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.PantherFOvertops[20]);
-                }
+                output["Clothing2"].Sprite(input.Actor.IsAttacking ? input.Sprites.PantherFOvertops[21] : input.Sprites.PantherFOvertops[20]);
 
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor2));
             });
@@ -1272,21 +1244,14 @@ internal static class Panthers
                 output["Clothing1"].Coloring(CalcColor(color));
 
                 output["Clothing1"].Coloring(CalcPalette(color, input.Actor));
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF] : sheet[sprM]);
             });
         }
     }
 
     private static class SantaHat
     {
-        internal static IClothing SantaHatInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing SantaHatInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1334,14 +1299,7 @@ internal static class Panthers
                 output["Clothing2"].Coloring(CalcPalette(ColorStyle.Other, input.Actor));
                 output["Clothing2"].Sprite(input.Sprites.PantherOverBottoms[secondSprite]);
 
-                if (input.Actor.HasBelly)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.PantherOverBottoms[sprB]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.PantherOverBottoms[spr]);
-                }
+                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.PantherOverBottoms[sprB] : input.Sprites.PantherOverBottoms[spr]);
             });
         }
     }
@@ -1365,25 +1323,11 @@ internal static class Panthers
                 output["Clothing1"].Coloring(Color.white);
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.PantherGloves[start + 1]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.PantherGloves[start]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.PantherGloves[start + 1] : input.Sprites.PantherGloves[start]);
                 }
                 else
                 {
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.PantherGloves[start + 3]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.PantherGloves[start + 2]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.PantherGloves[start + 3] : input.Sprites.PantherGloves[start + 2]);
                 }
             });
         }
@@ -1464,11 +1408,7 @@ internal static class Panthers
                 {
                     if (input.Params.Oversize)
                     {
-                        if (noPlusBreast)
-                        {
-                            output["Clothing1"].Sprite(null);
-                        }
-                        else
+                        if (!noPlusBreast)
                         {
                             output["Clothing1"].Sprite(input.Sprites.PantherOnePiece[secondRowStart + 3]);
                         }

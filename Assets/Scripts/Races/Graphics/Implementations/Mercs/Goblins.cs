@@ -13,9 +13,9 @@ using UnityEngine;
 
 internal static class Goblins
 {
-    internal static List<IClothingDataSimple> AllClothing;
+    private static List<IClothingDataSimple> _allClothing;
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
     {
         // Havent been implemented
         // Sprite[] SpritesGloves = State.GameManager.SpriteDictionary.Gobbglove;
@@ -57,7 +57,7 @@ internal static class Goblins
 
             output.ExtendedBreastSprites = true;
 
-            List<IClothing<IOverSizeParameters>> AllowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>() //undertops
+            List<IClothing<IOverSizeParameters>> allowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>() //undertops
             {
                 GobboLeotard.GobboLeotardInstance,
                 GobboCasinoBunny.GobboCasinoBunnyInstance,
@@ -67,7 +67,7 @@ internal static class Goblins
                 GobboUndertop4.GobboUndertop4Instance,
                 GobboUndertop5.GobboUndertop5Instance
             };
-            output.AllowedMainClothingTypes.Set(AllowedMainClothingTypes); //undertops
+            output.AllowedMainClothingTypes.Set(allowedMainClothingTypes); //undertops
 
             output.AllowedClothingHatTypes.Clear();
 
@@ -90,7 +90,7 @@ internal static class Goblins
             );
 
             output.ExtraMainClothing2Types.Set( //Special clothing
-                GobboOverOPFem.GobboOverOPFemInstance,
+                GobboOverOpFem.GobboOverOpFemInstance,
                 //GobboOverOPM.GobboOverOPMInstance,
                 GobboOverTop1.GobboOverTop1Instance,
                 GobboOverTop2.GobboOverTop2Instance,
@@ -98,7 +98,7 @@ internal static class Goblins
                 GobboOverTop4.GobboOverTop4Instance
             );
 
-            List<IClothing<IParameters>> ExtraMainClothing3Types = new List<IClothing<IParameters>>() //Legs
+            List<IClothing<IParameters>> extraMainClothing3Types = new List<IClothing<IParameters>>() //Legs
             {
                 All.GenericLegs1,
                 All.GenericLegs2,
@@ -113,9 +113,9 @@ internal static class Goblins
                 All.GenericLegs9,
                 All.GenericLegs10
             };
-            output.ExtraMainClothing3Types.Set(ExtraMainClothing3Types);
+            output.ExtraMainClothing3Types.Set(extraMainClothing3Types);
 
-            List<IClothing<IParameters>> ExtraMainClothing4Types = new List<IClothing<IParameters>>() //Gloves
+            List<IClothing<IParameters>> extraMainClothing4Types = new List<IClothing<IParameters>>() //Gloves
             {
                 All.GenericGloves1,
                 All.GenericGlovesPlusSecond1,
@@ -125,21 +125,21 @@ internal static class Goblins
                 All.GenericGloves2
             };
 
-            output.ExtraMainClothing4Types.Set(ExtraMainClothing4Types);
+            output.ExtraMainClothing4Types.Set(extraMainClothing4Types);
 
-            List<IClothing<IParameters>> ExtraMainClothing5Types = new List<IClothing<IParameters>>() //Hats
+            List<IClothing<IParameters>> extraMainClothing5Types = new List<IClothing<IParameters>>() //Hats
             {
                 All.GoblinHat1,
                 All.GoblinHat2,
                 GoblinHolidayHat.HolidayHatInstance
             };
-            output.ExtraMainClothing5Types.Set(ExtraMainClothing5Types);
+            output.ExtraMainClothing5Types.Set(extraMainClothing5Types);
 
-            AllClothing = new List<IClothingDataSimple>();
-            AllClothing.AddRange(AllowedMainClothingTypes);
-            AllClothing.AddRange(ExtraMainClothing3Types);
-            AllClothing.AddRange(ExtraMainClothing4Types);
-            AllClothing.AddRange(ExtraMainClothing5Types);
+            _allClothing = new List<IClothingDataSimple>();
+            _allClothing.AddRange(allowedMainClothingTypes);
+            _allClothing.AddRange(extraMainClothing3Types);
+            _allClothing.AddRange(extraMainClothing4Types);
+            _allClothing.AddRange(extraMainClothing5Types);
         });
 
 
@@ -597,110 +597,110 @@ internal static class Goblins
 
     private static class All
     {
-        internal static IClothing GoblinOBottom1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GoblinOBottom1 = ClothingBuilder.Create( b =>
         {
             GoblinOBottom.MakeImpOBottom(b, 0, 2, false, 45, 8, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12050);
         });
-        internal static IClothing GoblinOBottom2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GoblinOBottom2 = ClothingBuilder.Create( b =>
         {
             GoblinOBottom.MakeImpOBottom(b, 9, 11, false, 45, 17, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12051);
         });
-        internal static IClothing GoblinOBottom3 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GoblinOBottom3 = ClothingBuilder.Create( b =>
         {
             GoblinOBottom.MakeImpOBottom(b, 18, 20, true, 45, 26, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12052);
         });
-        internal static IClothing GoblinOBottom4 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GoblinOBottom4 = ClothingBuilder.Create( b =>
         {
             GoblinOBottom.MakeImpOBottom(b, 27, 29, true, 49, 35, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12053);
         });
-        internal static IClothing GoblinOBottomAlt1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GoblinOBottomAlt1 = ClothingBuilder.Create( b =>
         {
             GoblinOBottomAlt.MakeImpOBottomAlt(b, 27, 29, true, 49, 35, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12053);
         });
-        internal static IClothing GoblinOBottom5 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GoblinOBottom5 = ClothingBuilder.Create( b =>
         {
             GoblinOBottom.MakeImpOBottom(b, 36, 38, false, 45, 44, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12054);
         });
 
-        internal static IClothing GenericLegs1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs1 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 0, 4, 45, 12055, femaleOnly: true, blocksDick: false);
         });
-        internal static IClothing GenericLegs2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs2 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 5, 9, 45, 12056, femaleOnly: true, blocksDick: false);
         });
-        internal static IClothing GenericLegs3 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs3 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 10, 14, 45, 12057, femaleOnly: true, blocksDick: false);
         });
-        internal static IClothing GenericLegsAlt1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegsAlt1 = ClothingBuilder.Create( b =>
         {
             GenericLegsAlt.MakeGenericLegsAlt(b, 10, 14, 45, 12057, femaleOnly: true, blocksDick: false);
         });
-        internal static IClothing GenericLegs4 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs4 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 15, 19, 45, 12058, femaleOnly: true, blocksDick: false);
         });
-        internal static IClothing GenericLegsAlt2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegsAlt2 = ClothingBuilder.Create( b =>
         {
             GenericLegsAlt.MakeGenericLegsAlt(b, 15, 19, 45, 12058, femaleOnly: true, blocksDick: false);
         });
-        internal static IClothing GenericLegs5 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs5 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 20, 24, 45, 12059, femaleOnly: true, blocksDick: false);
         });
-        internal static IClothing GenericLegs6 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs6 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 2, 4, 45, 12060, true, blocksDick: true, black: true);
         });
-        internal static IClothing GenericLegs7 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs7 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 7, 9, 45, 12061, true, blocksDick: true, black: true);
         });
-        internal static IClothing GenericLegs8 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs8 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 12, 14, 45, 12062, true, blocksDick: true);
         });
-        internal static IClothing GenericLegs9 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs9 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 17, 19, 45, 12063, true, blocksDick: true);
         });
-        internal static IClothing GenericLegs10 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericLegs10 = ClothingBuilder.Create( b =>
         {
             GenericLegs.MakeGenericLegs(b, 22, 24, 45, 12064, true, blocksDick: false);
         });
 
-        internal static IClothing GenericGloves1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGloves1 = ClothingBuilder.Create( b =>
         {
             GenericGloves.MakeGenericGloves(b, 0, 8, 12065);
         });
-        internal static IClothing GenericGlovesPlusSecond1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGlovesPlusSecond1 = ClothingBuilder.Create( b =>
         {
             GenericGlovesPlusSecond.MakeGenericGlovesPlusSecond(b, 9, 17, 12066);
         });
-        internal static IClothing GenericGlovesPlusSecondAlt1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGlovesPlusSecondAlt1 = ClothingBuilder.Create( b =>
         {
             GenericGlovesPlusSecondAlt.MakeGenericGlovesPlusSecondAlt(b, 9, 17, 12066);
         });
-        internal static IClothing GenericGlovesPlusSecond2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGlovesPlusSecond2 = ClothingBuilder.Create( b =>
         {
             GenericGlovesPlusSecond.MakeGenericGlovesPlusSecond(b, 18, 26, 12067);
         });
-        internal static IClothing GenericGlovesPlusSecondAlt2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGlovesPlusSecondAlt2 = ClothingBuilder.Create( b =>
         {
             GenericGlovesPlusSecondAlt.MakeGenericGlovesPlusSecondAlt(b, 18, 26, 12067);
         });
-        internal static IClothing GenericGloves2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GenericGloves2 = ClothingBuilder.Create( b =>
         {
             GenericGloves.MakeGenericGloves(b, 27, 35, 12068);
         });
 
-        internal static IClothing GoblinHat1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GoblinHat1 = ClothingBuilder.Create( b =>
         {
             GoblinHat.MakeHat(b, 0, 0, State.GameManager.SpriteDictionary.Gobbohat, 12069);
         });
-        internal static IClothing GoblinHat2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing GoblinHat2 = ClothingBuilder.Create( b =>
         {
             GoblinHat.MakeHat(b, 34, 0, State.GameManager.SpriteDictionary.Gobbohat, 12070);
         });
@@ -726,26 +726,12 @@ internal static class Goblins
                 if (input.Actor.Unit.HasBreasts)
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + 1 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 1 + weightMod] : input.Sprites.Gobbglove[start + weightMod]);
                 }
                 else
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + 5 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + 4 + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 5 + weightMod] : input.Sprites.Gobbglove[start + 4 + weightMod]);
                 }
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
@@ -772,26 +758,12 @@ internal static class Goblins
                 if (input.Actor.Unit.HasBreasts)
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + 1 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 1 + weightMod] : input.Sprites.Gobbglove[start + weightMod]);
                 }
                 else
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + 5 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + 4 + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 5 + weightMod] : input.Sprites.Gobbglove[start + 4 + weightMod]);
                 }
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
@@ -819,26 +791,12 @@ internal static class Goblins
                 if (input.Actor.Unit.HasBreasts)
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + 1 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 1 + weightMod] : input.Sprites.Gobbglove[start + weightMod]);
                 }
                 else
                 {
                     int weightMod = input.Actor.Unit.BodySize * 2;
-                    if (input.Actor.IsAttacking)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + 5 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Gobbglove[start + 4 + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 5 + weightMod] : input.Sprites.Gobbglove[start + 4 + weightMod]);
                 }
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
@@ -881,14 +839,7 @@ internal static class Goblins
                 {
                     if (blocksDick)
                     {
-                        if (black)
-                        {
-                            output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize]);
-                        }
-                        else
-                        {
-                            output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
-                        }
+                        output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
 
                         if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
                         {
@@ -950,14 +901,7 @@ internal static class Goblins
                 {
                     if (blocksDick)
                     {
-                        if (black)
-                        {
-                            output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize]);
-                        }
-                        else
-                        {
-                            output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
-                        }
+                        output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
 
                         if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
                         {
@@ -986,28 +930,28 @@ internal static class Goblins
 
     private static class ImpUBottom
     {
-        internal static IClothing ImpUBottom1 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing ImpUBottom1 = ClothingBuilder.Create( b =>
         {
             MakeImpUBottom(b, 0, 2, 45, 8, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12045);
         });
-        internal static IClothing ImpUBottom2 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing ImpUBottom2 = ClothingBuilder.Create( b =>
         {
             MakeImpUBottom(b, 9, 11, 45, 17, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12046);
         });
-        internal static IClothing ImpUBottom3 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing ImpUBottom3 = ClothingBuilder.Create( b =>
         {
             MakeImpUBottom(b, 18, 20, 45, 26, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12047, true);
         });
-        internal static IClothing ImpUBottom4 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing ImpUBottom4 = ClothingBuilder.Create( b =>
         {
             MakeImpUBottom(b, 27, 29, 45, 35, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12048);
         });
-        internal static IClothing ImpUBottom5 = ClothingBuilder.Create( b =>
+        internal static readonly IClothing ImpUBottom5 = ClothingBuilder.Create( b =>
         {
             MakeImpUBottom(b, 36, 38, 45, 44, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12049);
         });
 
-        internal static void MakeImpUBottom(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, int type, bool black = false)
+        private static void MakeImpUBottom(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, int type, bool black = false)
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1025,28 +969,14 @@ internal static class Goblins
                 int weightMod = input.Actor.Unit.BodySize;
                 if (input.Actor.HasBelly)
                 {
-                    if (input.Actor.Unit.HasBreasts)
-                    {
-                        output["Clothing1"].Sprite(sheet[sprF + 4 + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(sheet[sprM + 4 + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
 
                     if (input.Actor.Unit.HasDick)
                     {
                         //if (output.BlocksDick == true)
                         if (true) // This was always true, pretty sure
                         {
-                            if (black)
-                            {
-                                output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize]);
-                            }
-                            else
-                            {
-                                output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
-                            }
+                            output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
 
                             if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
                             {
@@ -1058,35 +988,17 @@ internal static class Goblins
                             }
                         }
                     }
-                    else
-                    {
-                        output["Clothing2"].Sprite(null);
-                    }
                 }
                 else
                 {
-                    if (input.Actor.Unit.HasBreasts)
-                    {
-                        output["Clothing1"].Sprite(sheet[sprF + weightMod]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(sheet[sprM + weightMod]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
 
                     if (input.Actor.Unit.HasDick)
                     {
                         //if (output.BlocksDick == true)
                         if (true) // This was always true, pretty sure
                         {
-                            if (black)
-                            {
-                                output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize]);
-                            }
-                            else
-                            {
-                                output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
-                            }
+                            output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
 
                             if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
                             {
@@ -1112,7 +1024,7 @@ internal static class Goblins
 
     private static class GobboLeotard
     {
-        internal static IClothing GobboLeotardInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GobboLeotardInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1155,19 +1067,8 @@ internal static class Goblins
                             output["Clothing3"].SetOffset(0, 0);
                         }
                     }
-                    else
-                    {
-                        output["Clothing3"].Sprite(null);
-                    }
 
-                    if (bobs == 7)
-                    {
-                        output["Clothing2"].Sprite(null);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Gobbunderonepieces[33 + bobs]);
-                    }
+                    output["Clothing2"].Sprite(bobs == 7 ? null : input.Sprites.Gobbunderonepieces[33 + bobs]);
 
                     output["Clothing1"].Sprite(input.Sprites.Gobbunderonepieces[41 + size + 8 * weightMod]);
 
@@ -1210,7 +1111,7 @@ internal static class Goblins
 
 internal static class GobboCasinoBunny
 {
-    internal static IClothing GobboCasinoBunnyInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing GobboCasinoBunnyInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1318,14 +1219,7 @@ internal static class GoblinOBottom
             int weightMod = input.Actor.Unit.BodySize;
             if (input.Actor.HasBelly)
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF + 4 + weightMod]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM + 4 + weightMod]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
 
                 if (input.Actor.Unit.HasDick && showbulge)
                 {
@@ -1351,26 +1245,12 @@ internal static class GoblinOBottom
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF + weightMod]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM + weightMod]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
 
                 if (input.Actor.Unit.HasDick)
                 {
                     //if (output.BlocksDick == true && showbulge == true)
-                    if (showbulge) // first condition always true, pretty sure
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(null);
-                    }
+                    output["Clothing2"].Sprite(showbulge ? input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize] : null); // first condition always true, pretty sure
 
                     if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
                     {
@@ -1415,14 +1295,7 @@ internal static class GoblinOBottomAlt
             int weightMod = input.Actor.Unit.BodySize;
             if (input.Actor.HasBelly)
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF + 4 + weightMod]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM + 4 + weightMod]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
 
                 if (input.Actor.Unit.HasDick && showbulge)
                 {
@@ -1448,14 +1321,7 @@ internal static class GoblinOBottomAlt
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF + weightMod]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM + weightMod]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
 
                 if (input.Actor.Unit.HasDick)
                 {
@@ -1463,10 +1329,6 @@ internal static class GoblinOBottomAlt
                     if (showbulge) // first condition always true, pretty sure
                     {
                         output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(null);
                     }
 
                     if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
@@ -1477,10 +1339,6 @@ internal static class GoblinOBottomAlt
                     {
                         output["Clothing2"].SetOffset(0, 0);
                     }
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(null);
                 }
             }
 
@@ -1517,7 +1375,7 @@ internal static class GoblinHat
 
 internal static class GobboUndertop1
 {
-    internal static IClothing<IOverSizeParameters> GobboUndertop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> GobboUndertop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1548,7 +1406,7 @@ internal static class GobboUndertop1
 
 internal static class GobboUndertop2
 {
-    internal static IClothing<IOverSizeParameters> GobboUndertop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> GobboUndertop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1579,7 +1437,7 @@ internal static class GobboUndertop2
 
 internal static class GobboUndertop3
 {
-    internal static IClothing<IOverSizeParameters> GobboUndertop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> GobboUndertop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1610,7 +1468,7 @@ internal static class GobboUndertop3
 
 internal static class GobboUndertop4
 {
-    internal static IClothing<IOverSizeParameters> GobboUndertop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> GobboUndertop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1641,7 +1499,7 @@ internal static class GobboUndertop4
 
 internal static class GobboUndertop5
 {
-    internal static IClothing<IOverSizeParameters> GobboUndertop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> GobboUndertop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1673,14 +1531,7 @@ internal static class GobboUndertop5
                 output["Clothing1"].Sprite(input.Sprites.Gobundertops[42 + input.Actor.Unit.BreastSize + 13 * weightMod]);
             }
 
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output["Clothing2"].Sprite(input.Sprites.Gobundertops[36 + size + 13 * weightMod]);
-            }
-            else
-            {
-                output["Clothing2"].Sprite(input.Sprites.Gobundertops[62 + size + 6 * weightMod]);
-            }
+            output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Gobundertops[36 + size + 13 * weightMod] : input.Sprites.Gobundertops[62 + size + 6 * weightMod]);
 
             output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
             output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
@@ -1688,9 +1539,9 @@ internal static class GobboUndertop5
     });
 }
 
-internal static class GobboOverOPFem
+internal static class GobboOverOpFem
 {
-    internal static IClothing<IOverSizeParameters> GobboOverOPFemInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> GobboOverOpFemInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1736,9 +1587,9 @@ internal static class GobboOverOPFem
     });
 }
 
-internal static class GobboOverOPM
+internal static class GobboOverOpm
 {
-    internal static IClothing GobboOverOPMInstance = ClothingBuilder.Create(builder =>
+    internal static IClothing GobboOverOpmInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1760,14 +1611,7 @@ internal static class GobboOverOPM
                 size = 6;
             }
 
-            if (input.Actor.IsAttacking)
-            {
-                output["Clothing2"].Sprite(input.Sprites.Gobboveronepieces[25]);
-            }
-            else
-            {
-                output["Clothing2"].Sprite(input.Sprites.Gobboveronepieces[24]);
-            }
+            output["Clothing2"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobboveronepieces[25] : input.Sprites.Gobboveronepieces[24]);
 
 
             output["Clothing1"].Sprite(input.Sprites.Gobboveronepieces[26 + size + 7 * weightMod]);
@@ -1780,7 +1624,7 @@ internal static class GobboOverOPM
 
 internal static class GobboOverTop1
 {
-    internal static IClothing<IOverSizeParameters> GobboOverTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+    internal static readonly IClothing<IOverSizeParameters> GobboOverTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1816,7 +1660,7 @@ internal static class GobboOverTop1
 
 internal static class GobboOverTop2
 {
-    internal static IClothing GobboOverTop2Instance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing GobboOverTop2Instance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1852,7 +1696,7 @@ internal static class GobboOverTop2
 
 internal static class GobboOverTop3
 {
-    internal static IClothing GobboOverTop3Instance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing GobboOverTop3Instance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1889,7 +1733,7 @@ internal static class GobboOverTop3
 
 internal static class GobboOverTop4
 {
-    internal static IClothing GobboOverTop4Instance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing GobboOverTop4Instance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1925,7 +1769,7 @@ internal static class GobboOverTop4
 
 internal static class GoblinHolidayHat
 {
-    internal static IClothing HolidayHatInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing HolidayHatInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {

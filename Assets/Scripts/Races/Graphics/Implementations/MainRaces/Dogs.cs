@@ -1,6 +1,6 @@
 ﻿internal static class Dogs
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         builder.Setup(output =>
         {

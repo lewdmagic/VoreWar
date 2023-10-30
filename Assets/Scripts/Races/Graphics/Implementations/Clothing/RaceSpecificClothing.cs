@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class LizardPeasant
 {
-    internal static IClothing LizardPeasantInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardPeasantInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -127,7 +127,7 @@ internal static class LizardPeasant
 
 internal static class LizardLeaderCrown
 {
-    internal static IClothing LizardLeaderCrownInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeaderCrownInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
 {
@@ -152,7 +152,7 @@ internal static class LizardLeaderCrown
 
 internal static class LizardLeaderTop
 {
-    internal static IClothing LizardLeaderTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeaderTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -188,7 +188,7 @@ internal static class LizardLeaderTop
 
 internal static class LizardLeaderSkirt
 {
-    internal static IClothing LizardLeaderSkirtInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeaderSkirtInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -240,7 +240,7 @@ internal static class LizardLeaderSkirt
 
 internal static class LizardLeaderLegguards
 {
-    internal static IClothing LizardLeaderLegguardsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeaderLegguardsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -295,7 +295,7 @@ internal static class LizardLeaderLegguards
 
 internal static class LizardLeaderArmbands
 {
-    internal static IClothing LizardLeaderArmbandsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeaderArmbandsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -329,7 +329,7 @@ internal static class LizardLeaderArmbands
 
 internal static class LizardBoneCrown
 {
-    internal static IClothing LizardBoneCrownInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardBoneCrownInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
 {
@@ -354,7 +354,7 @@ internal static class LizardBoneCrown
 
 internal static class LizardBoneTop
 {
-    internal static IClothing LizardBoneTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardBoneTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -451,7 +451,7 @@ internal static class LizardBoneTop
 
 internal static class LizardBoneLoins
 {
-    internal static IClothing LizardBoneLoinsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardBoneLoinsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -489,7 +489,7 @@ internal static class LizardBoneLoins
 
 internal static class LizardBoneLegguards
 {
-    internal static IClothing LizardBoneLegguardsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardBoneLegguardsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -544,7 +544,7 @@ internal static class LizardBoneLegguards
 
 internal static class LizardBoneArmbands
 {
-    internal static IClothing LizardBoneArmbandsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardBoneArmbandsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -594,7 +594,7 @@ internal static class LizardBoneArmbands
 
 internal static class LizardLeatherCrown
 {
-    internal static IClothing LizardLeatherCrownInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeatherCrownInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
 {
@@ -618,7 +618,7 @@ internal static class LizardLeatherCrown
 
 internal static class LizardLeatherTop
 {
-    internal static IClothing LizardLeatherTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeatherTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -704,7 +704,7 @@ internal static class LizardLeatherTop
 
 internal static class LizardLeatherLoins
 {
-    internal static IClothing LizardLeatherLoinsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeatherLoinsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -743,7 +743,7 @@ internal static class LizardLeatherLoins
 
 internal static class LizardLeatherLegguards
 {
-    internal static IClothing LizardLeatherLegguardsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeatherLegguardsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -798,7 +798,7 @@ internal static class LizardLeatherLegguards
 
 internal static class LizardLeatherArmbands
 {
-    internal static IClothing LizardLeatherArmbandsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardLeatherArmbandsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -847,7 +847,7 @@ internal static class LizardLeatherArmbands
 
 internal static class LizardClothCrown
 {
-    internal static IClothing LizardClothCrownInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardClothCrownInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
 {
@@ -872,7 +872,7 @@ internal static class LizardClothCrown
 
 internal static class LizardClothTop
 {
-    internal static IClothing LizardClothTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardClothTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -941,7 +941,7 @@ internal static class LizardClothTop
 
 internal static class LizardClothLoins
 {
-    internal static IClothing LizardClothLoinsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardClothLoinsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -979,7 +979,7 @@ internal static class LizardClothLoins
 
 internal static class LizardClothShorts
 {
-    internal static IClothing LizardClothShortsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardClothShortsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1030,7 +1030,7 @@ internal static class LizardClothShorts
 
 internal static class LizardClothArmbands
 {
-    internal static IClothing LizardClothArmbandsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardClothArmbandsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1082,7 +1082,7 @@ internal static class LizardClothArmbands
 
 internal static class RainCoat
 {
-    internal static IClothing RainCoatInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing RainCoatInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1143,7 +1143,7 @@ internal static class RainCoat
 
 internal static class TigerSpecial
 {
-    internal static IClothing TigerSpecialInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing TigerSpecialInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1169,16 +1169,8 @@ internal static class TigerSpecial
             {
                 output["Clothing2"].Sprite(input.Sprites.TigerSpecial[11 + input.Actor.Unit.BreastSize]);
             }
-            else
-            {
-                output["Clothing2"].Sprite(null);
-            }
 
-            if (Config.FurryHandsAndFeet || input.Actor.Unit.Furry)
-            {
-                output["Clothing3"].Sprite(null);
-            }
-            else
+            if (!Config.FurryHandsAndFeet && !input.Actor.Unit.Furry)
             {
                 output["Clothing3"].Sprite(input.Sprites.TigerSpecial[2]);
             }
@@ -1202,7 +1194,7 @@ internal static class TigerSpecial
 
 internal static class CatLeader
 {
-    internal static IClothing CatLeaderInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing CatLeaderInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1238,11 +1230,7 @@ internal static class CatLeader
             output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
             output["Clothing2"].Sprite(input.Sprites.CatLeader[6 + bodyMod]);
             output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
-            if (input.Actor.Unit.BreastSize < 1)
-            {
-                output["Clothing3"].Sprite(null);
-            }
-            else
+            if (input.Actor.Unit.BreastSize >= 1)
             {
                 output["Clothing3"].Sprite(input.Sprites.CatLeader[13 + input.Actor.Unit.BreastSize]);
             }
@@ -1254,22 +1242,13 @@ internal static class CatLeader
                 output["Clothing4"].Sprite(input.Sprites.CatLeader[21 + bodyMod]);
                 output["Clothing5"].Sprite(input.Sprites.CatLeader[29 + bodyMod]);
             }
-            else
-            {
-                output["Clothing4"].Sprite(null);
-                output["Clothing5"].Sprite(null);
-            }
 
 
-            if (furryArms)
-            {
-                output["Clothing6"].Sprite(null);
-            }
-            else
+            if (!furryArms)
             {
                 output["Clothing6"].Sprite(input.Sprites.CatLeader[4]);
             }
-            
+
             output.changeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
         });
     });
@@ -1277,7 +1256,7 @@ internal static class CatLeader
 
 internal static class Toga
 {
-    internal static IClothing TogaInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing TogaInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1306,7 +1285,7 @@ internal static class Toga
 
 internal static class SuccubusDress
 {
-    internal static IClothing SuccubusDressInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SuccubusDressInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1346,10 +1325,6 @@ internal static class SuccubusDress
             {
                 output["Clothing2"].Sprite(input.Sprites.SuccubusDress[18 + input.Actor.Unit.BreastSize]);
             }
-            else
-            {
-                output["Clothing2"].Sprite(null);
-            }
 
             if (spriteNum < 7)
             {
@@ -1366,7 +1341,7 @@ internal static class SuccubusDress
 
 internal static class SuccubusLeotard
 {
-    internal static IClothing SuccubusLeotardInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SuccubusLeotardInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1407,12 +1382,7 @@ internal static class SuccubusLeotard
                 {
                     output["Clothing2"].Sprite(input.Sprites.SuccubusLeotard[25 + spriteNum]);
                 }
-                else
-                {
-                    output["Clothing2"].Sprite(null);
-                }
 
-                output["Clothing3"].Sprite(null);
                 if (input.Actor.HasBelly)
                 {
                     output["Clothing4"].Sprite(input.Sprites.SuccubusLeotard[4 + spriteNum]);
@@ -1429,14 +1399,9 @@ internal static class SuccubusLeotard
                     {
                         output["Clothing2"].Sprite(input.Sprites.SuccubusLeotard[25 + spriteNum]);
                     }
-                    else
-                    {
-                        output["Clothing2"].Sprite(null);
-                    }
                 }
                 else
                 {
-                    output["Clothing2"].Sprite(null);
                     output["Clothing4"].Sprite(input.Sprites.SuccubusLeotard[4]);
                 }
             }
@@ -1445,17 +1410,13 @@ internal static class SuccubusLeotard
             {
                 output["Clothing5"].Sprite(input.Sprites.SuccubusLeotard[21 + input.Actor.Unit.BreastSize]);
             }
-            else
-            {
-                output["Clothing5"].Sprite(null);
-            }
         });
     });
 }
 
 internal static class LizardBlackTop
 {
-    internal static IClothing LizardBlackTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardBlackTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1489,7 +1450,7 @@ internal static class LizardBlackTop
 
 internal static class LizardBikiniTop
 {
-    internal static IClothing LizardBikiniTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardBikiniTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1526,7 +1487,7 @@ internal static class LizardBikiniTop
 
 internal static class LizardStrapTop
 {
-    internal static IClothing LizardStrapTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LizardStrapTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -1562,53 +1523,53 @@ internal static class LizardStrapTop
 
 internal static class RaceSpecificClothing
 {
-    internal static IClothing LizardPeasantInstance = LizardPeasant.LizardPeasantInstance;
-    internal static IClothing LizardBlackTopInstance = LizardBlackTop.LizardBlackTopInstance;
-    internal static IClothing LizardBikiniTopInstance = LizardBikiniTop.LizardBikiniTopInstance;
-    internal static IClothing LizardStrapTopInstance = LizardStrapTop.LizardStrapTopInstance;
+    internal static readonly IClothing LizardPeasantInstance = LizardPeasant.LizardPeasantInstance;
+    internal static readonly IClothing LizardBlackTopInstance = LizardBlackTop.LizardBlackTopInstance;
+    internal static readonly IClothing LizardBikiniTopInstance = LizardBikiniTop.LizardBikiniTopInstance;
+    internal static readonly IClothing LizardStrapTopInstance = LizardStrapTop.LizardStrapTopInstance;
 
-    internal static IClothing LizardLeaderCrownInstance = LizardLeaderCrown.LizardLeaderCrownInstance;
-    internal static IClothing LizardLeaderTopInstance = LizardLeaderTop.LizardLeaderTopInstance;
-    internal static IClothing LizardLeaderSkirtInstance = LizardLeaderSkirt.LizardLeaderSkirtInstance;
-    internal static IClothing LizardLeaderLegguardsInstance = LizardLeaderLegguards.LizardLeaderLegguardsInstance;
-    internal static IClothing LizardLeaderArmbandsInstance = LizardLeaderArmbands.LizardLeaderArmbandsInstance;
+    internal static readonly IClothing LizardLeaderCrownInstance = LizardLeaderCrown.LizardLeaderCrownInstance;
+    internal static readonly IClothing LizardLeaderTopInstance = LizardLeaderTop.LizardLeaderTopInstance;
+    internal static readonly IClothing LizardLeaderSkirtInstance = LizardLeaderSkirt.LizardLeaderSkirtInstance;
+    internal static readonly IClothing LizardLeaderLegguardsInstance = LizardLeaderLegguards.LizardLeaderLegguardsInstance;
+    internal static readonly IClothing LizardLeaderArmbandsInstance = LizardLeaderArmbands.LizardLeaderArmbandsInstance;
 
-    internal static IClothing LizardBoneCrownInstance = LizardBoneCrown.LizardBoneCrownInstance;
-    internal static IClothing LizardBoneTopInstance = LizardBoneTop.LizardBoneTopInstance;
-    internal static IClothing LizardBoneLoinsInstance = LizardBoneLoins.LizardBoneLoinsInstance;
-    internal static IClothing LizardBoneLegguardsInstance = LizardBoneLegguards.LizardBoneLegguardsInstance;
+    internal static readonly IClothing LizardBoneCrownInstance = LizardBoneCrown.LizardBoneCrownInstance;
+    internal static readonly IClothing LizardBoneTopInstance = LizardBoneTop.LizardBoneTopInstance;
+    internal static readonly IClothing LizardBoneLoinsInstance = LizardBoneLoins.LizardBoneLoinsInstance;
+    internal static readonly IClothing LizardBoneLegguardsInstance = LizardBoneLegguards.LizardBoneLegguardsInstance;
 
-    internal static IClothing LizardBoneArmbandsInstance = LizardBoneArmbands.LizardBoneArmbandsInstance;
+    internal static readonly IClothing LizardBoneArmbandsInstance = LizardBoneArmbands.LizardBoneArmbandsInstance;
     //internal static LizardBoneArmbands2 LizardBoneArmbands2 = LizardBoneArmbands2.LizardBoneArmbands2Instance;
     //internal static LizardBoneArmbands3 LizardBoneArmbands3 = LizardBoneArmbands3.LizardBoneArmbands3Instance;
 
-    internal static IClothing LizardLeatherCrownInstance = LizardLeatherCrown.LizardLeatherCrownInstance;
-    internal static IClothing LizardLeatherTopInstance = LizardLeatherTop.LizardLeatherTopInstance;
-    internal static IClothing LizardLeatherLoinsInstance = LizardLeatherLoins.LizardLeatherLoinsInstance;
-    internal static IClothing LizardLeatherLegguardsInstance = LizardLeatherLegguards.LizardLeatherLegguardsInstance;
+    internal static readonly IClothing LizardLeatherCrownInstance = LizardLeatherCrown.LizardLeatherCrownInstance;
+    internal static readonly IClothing LizardLeatherTopInstance = LizardLeatherTop.LizardLeatherTopInstance;
+    internal static readonly IClothing LizardLeatherLoinsInstance = LizardLeatherLoins.LizardLeatherLoinsInstance;
+    internal static readonly IClothing LizardLeatherLegguardsInstance = LizardLeatherLegguards.LizardLeatherLegguardsInstance;
 
-    internal static IClothing LizardLeatherArmbandsInstance = LizardLeatherArmbands.LizardLeatherArmbandsInstance;
+    internal static readonly IClothing LizardLeatherArmbandsInstance = LizardLeatherArmbands.LizardLeatherArmbandsInstance;
     //internal static LizardLeatherArmbands2 LizardLeatherArmbands2 = LizardLeatherArmbands2.LizardLeatherArmbands2Instance;
     //internal static LizardLeatherArmbands3 LizardLeatherArmbands3 = LizardLeatherArmbands3.LizardLeatherArmbands3Instance;
 
-    internal static IClothing LizardClothCrownInstance = LizardClothCrown.LizardClothCrownInstance;
-    internal static IClothing LizardClothTopInstance = LizardClothTop.LizardClothTopInstance;
-    internal static IClothing LizardClothLoinsInstance = LizardClothLoins.LizardClothLoinsInstance;
-    internal static IClothing LizardClothShortsInstance = LizardClothShorts.LizardClothShortsInstance;
+    internal static readonly IClothing LizardClothCrownInstance = LizardClothCrown.LizardClothCrownInstance;
+    internal static readonly IClothing LizardClothTopInstance = LizardClothTop.LizardClothTopInstance;
+    internal static readonly IClothing LizardClothLoinsInstance = LizardClothLoins.LizardClothLoinsInstance;
+    internal static readonly IClothing LizardClothShortsInstance = LizardClothShorts.LizardClothShortsInstance;
 
-    internal static IClothing LizardClothArmbandsInstance = LizardClothArmbands.LizardClothArmbandsInstance;
+    internal static readonly IClothing LizardClothArmbandsInstance = LizardClothArmbands.LizardClothArmbandsInstance;
 
     //internal static LizardClothArmbands2 LizardClothArmbands2 = LizardClothArmbands2.LizardClothArmbands2Instance;
     //internal static LizardClothArmbands3 LizardClothArmbands3 = LizardClothArmbands3.LizardClothArmbands3Instance;
-    internal static IClothing RainCoatInstance = RainCoat.RainCoatInstance;
-    internal static IClothing TigerSpecialInstance = TigerSpecial.TigerSpecialInstance;
-    internal static IClothing CatLeaderInstance = CatLeader.CatLeaderInstance;
-    internal static IClothing TogaInstance = Toga.TogaInstance;
-    internal static IClothing SuccubusDressInstance = SuccubusDress.SuccubusDressInstance;
-    internal static IClothing SuccubusLeotardInstance = SuccubusLeotard.SuccubusLeotardInstance;
+    internal static readonly IClothing RainCoatInstance = RainCoat.RainCoatInstance;
+    internal static readonly IClothing TigerSpecialInstance = TigerSpecial.TigerSpecialInstance;
+    internal static readonly IClothing CatLeaderInstance = CatLeader.CatLeaderInstance;
+    internal static readonly IClothing TogaInstance = Toga.TogaInstance;
+    internal static readonly IClothing SuccubusDressInstance = SuccubusDress.SuccubusDressInstance;
+    internal static readonly IClothing SuccubusLeotardInstance = SuccubusLeotard.SuccubusLeotardInstance;
 
 
-    internal static List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
+    internal static readonly List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
     {
         LizardPeasantInstance,
         LizardBlackTopInstance,

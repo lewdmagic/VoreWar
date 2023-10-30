@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Vagrants
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank<VargantParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<VargantParameters>, builder =>
     {
         builder.Setup(output =>
         {
@@ -142,14 +142,14 @@ internal static class Vagrants
 
         builder.RunBefore((input, output) =>
         {
-            Sprite[][] VagrantSprites =
+            Sprite[][] vagrantSprites =
             {
                 State.GameManager.SpriteDictionary.Vagrants,
                 State.GameManager.SpriteDictionary.Vagrants2,
                 State.GameManager.SpriteDictionary.Vagrants3
             };
 
-            output.Params.Sprites = VagrantSprites[Mathf.Clamp(input.Actor.Unit.SkinColor, 0, 2)];
+            output.Params.Sprites = vagrantSprites[Mathf.Clamp(input.Actor.Unit.SkinColor, 0, 2)];
 
             output.changeSprite(SpriteType.Body).AddOffset(0, 60 * .625f);
             output.changeSprite(SpriteType.BodyAccessory).AddOffset(0, 60 * .625f);

@@ -9,7 +9,7 @@ namespace TaurusClothes
 {
     internal static class Overall
     {
-        internal static IClothing OverallInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing OverallInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -50,7 +50,7 @@ namespace TaurusClothes
 
     internal static class OverallBottom
     {
-        internal static IClothing OverallBottomInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing OverallBottomInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -70,7 +70,7 @@ namespace TaurusClothes
 
     internal static class Bikini
     {
-        internal static IClothing BikiniInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing BikiniInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -100,7 +100,7 @@ namespace TaurusClothes
 
     internal static class LeaderOutfit
     {
-        internal static IClothing LeaderOutfitInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing LeaderOutfitInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -136,7 +136,7 @@ namespace TaurusClothes
 
     internal static class Shirt
     {
-        internal static IClothing ShirtInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing ShirtInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -148,15 +148,7 @@ namespace TaurusClothes
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(17);
-                int spriteNum;
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    spriteNum = input.Actor.Unit.BreastSize;
-                }
-                else
-                {
-                    spriteNum = 5;
-                }
+                var spriteNum = input.Actor.Unit.HasBreasts ? input.Actor.Unit.BreastSize : 5;
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
                 output["Clothing1"].Sprite(input.Sprites.CowClothing[23 + spriteNum]);
@@ -166,7 +158,7 @@ namespace TaurusClothes
 
     internal static class BikiniBottom
     {
-        internal static IClothing BikiniBottomInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing BikiniBottomInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -205,7 +197,7 @@ namespace TaurusClothes
 
     internal static class Loincloth
     {
-        internal static IClothing LoinclothInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing LoinclothInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -227,12 +219,12 @@ namespace TaurusClothes
 
     internal static class CowBell
     {
-        internal static IClothing CowBellInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing CowBellInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { };
-});
+            {
+                { }
+            });
 
             builder.RenderAll((input, output) =>
             {
@@ -245,12 +237,12 @@ namespace TaurusClothes
 
     internal static class Hat
     {
-        internal static IClothing HatInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HatInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { };
-});
+            {
+                
+            });
 
             builder.RenderAll((input, output) =>
             {
@@ -263,12 +255,12 @@ namespace TaurusClothes
 
     internal static class HolidayHat
     {
-        internal static IClothing HolidayHatInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HolidayHatInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { output.ReqWinterHoliday = true; };
-});
+            {
+                output.ReqWinterHoliday = true;
+            });
 
             builder.RenderAll((input, output) =>
             {
@@ -281,7 +273,7 @@ namespace TaurusClothes
 
     internal static class HolidayOutfit
     {
-        internal static IClothing HolidayOutfitInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HolidayOutfitInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -316,20 +308,20 @@ namespace TaurusClothes
 
     internal static class TaurusClothingTypes
     {
-        internal static IClothing OverallInstance = Overall.OverallInstance;
-        internal static IClothing OverallBottomInstance = OverallBottom.OverallBottomInstance;
-        internal static IClothing ShirtInstance = Shirt.ShirtInstance;
-        internal static IClothing BikiniInstance = Bikini.BikiniInstance;
-        internal static IClothing HatInstance = Hat.HatInstance;
-        internal static IClothing HolidayHatInstance = HolidayHat.HolidayHatInstance;
-        internal static IClothing CowBellInstance = CowBell.CowBellInstance;
-        internal static IClothing BikiniBottomInstance = BikiniBottom.BikiniBottomInstance;
-        internal static IClothing LoinclothInstance = Loincloth.LoinclothInstance;
-        internal static IClothing HolidayOutfitInstance = HolidayOutfit.HolidayOutfitInstance;
-        internal static IClothing LeaderOutfitInstance = LeaderOutfit.LeaderOutfitInstance;
+        internal static readonly IClothing OverallInstance = Overall.OverallInstance;
+        internal static readonly IClothing OverallBottomInstance = OverallBottom.OverallBottomInstance;
+        internal static readonly IClothing ShirtInstance = Shirt.ShirtInstance;
+        internal static readonly IClothing BikiniInstance = Bikini.BikiniInstance;
+        internal static readonly IClothing HatInstance = Hat.HatInstance;
+        internal static readonly IClothing HolidayHatInstance = HolidayHat.HolidayHatInstance;
+        internal static readonly IClothing CowBellInstance = CowBell.CowBellInstance;
+        internal static readonly IClothing BikiniBottomInstance = BikiniBottom.BikiniBottomInstance;
+        internal static readonly IClothing LoinclothInstance = Loincloth.LoinclothInstance;
+        internal static readonly IClothing HolidayOutfitInstance = HolidayOutfit.HolidayOutfitInstance;
+        internal static readonly IClothing LeaderOutfitInstance = LeaderOutfit.LeaderOutfitInstance;
 
 
-        internal static List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
+        internal static readonly List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
         {
             OverallInstance, OverallBottomInstance, ShirtInstance, BikiniInstance, BikiniBottomInstance, LoinclothInstance, HolidayOutfitInstance, LeaderOutfitInstance
         };

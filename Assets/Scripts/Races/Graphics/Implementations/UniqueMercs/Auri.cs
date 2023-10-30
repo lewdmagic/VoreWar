@@ -8,14 +8,14 @@ using UnityEngine;
 
 internal static class Auri
 {
-    private const float stomachMult = 1.7f;
+    private const float StomachMult = 1.7f;
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
-        List<IClothingDataSimple> AllClothing;
+        List<IClothingDataSimple> allClothing;
 
-        RaceFrameList EarAnimation = new RaceFrameList(new int[3] { 22, 23, 22 }, new float[3] { .2f, .2f, .2f });
-        RaceFrameList FaceAnimation = new RaceFrameList(new int[3] { 18, 19, 18 }, new float[3] { .25f, .25f, .25f });
+        RaceFrameList earAnimation = new RaceFrameList(new int[3] { 22, 23, 22 }, new float[3] { .2f, .2f, .2f });
+        RaceFrameList faceAnimation = new RaceFrameList(new int[3] { 18, 19, 18 }, new float[3] { .25f, .25f, .25f });
 
         builder.Setup(output =>
         {
@@ -47,14 +47,14 @@ internal static class Auri
             output.BodyAccentTypes1 = 2;
             output.ClothingColors = 1;
 
-            List<IClothing<IOverSizeParameters>> AllowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>
+            List<IClothing<IOverSizeParameters>> allowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>
             {
                 AuriTop.AuriTopInstance
             };
 
             output.AllowedMainClothingTypes.Clear();
 
-            List<IClothing<IParameters>> AllowedWaistTypes = new List<IClothing<IParameters>>() //Bottoms
+            List<IClothing<IParameters>> allowedWaistTypes = new List<IClothing<IParameters>>() //Bottoms
             {
                 GenericBottom.GenericBottom1,
                 GenericBottom.GenericBottom2
@@ -63,33 +63,33 @@ internal static class Auri
 
             output.AllowedClothingHatTypes.Clear();
 
-            List<IClothing<IOverSizeParameters>> ExtraMainClothing1Types = new List<IClothing<IOverSizeParameters>>() //Over
+            List<IClothing<IOverSizeParameters>> extraMainClothing1Types = new List<IClothing<IOverSizeParameters>>() //Over
             {
                 Kimono.Kimono1,
                 Kimono.Kimono2,
                 KimonoHoliday.KimonoHoliday1,
                 KimonoHoliday.KimonoHoliday2
             };
-            output.ExtraMainClothing1Types.Set(ExtraMainClothing1Types);
+            output.ExtraMainClothing1Types.Set(extraMainClothing1Types);
 
-            List<IClothing<IParameters>> ExtraMainClothing2Types = new List<IClothing<IParameters>>() //Stocking
+            List<IClothing<IParameters>> extraMainClothing2Types = new List<IClothing<IParameters>>() //Stocking
             {
                 Stocking.Stocking1
             };
             output.ExtraMainClothing2Types.Clear();
 
-            List<IClothing<IParameters>> ExtraMainClothing3Types = new List<IClothing<IParameters>>() //Hat
+            List<IClothing<IParameters>> extraMainClothing3Types = new List<IClothing<IParameters>>() //Hat
             {
                 Hat.Hat1
             };
             output.ExtraMainClothing3Types.Clear();
 
-            AllClothing = new List<IClothingDataSimple>();
-            AllClothing.AddRange(AllowedMainClothingTypes);
-            AllClothing.AddRange(AllowedWaistTypes);
-            AllClothing.AddRange(ExtraMainClothing1Types);
-            AllClothing.AddRange(ExtraMainClothing2Types);
-            AllClothing.AddRange(ExtraMainClothing3Types);
+            allClothing = new List<IClothingDataSimple>();
+            allClothing.AddRange(allowedMainClothingTypes);
+            allClothing.AddRange(allowedWaistTypes);
+            allClothing.AddRange(extraMainClothing1Types);
+            allClothing.AddRange(extraMainClothing2Types);
+            allClothing.AddRange(extraMainClothing3Types);
         });
 
 
@@ -124,12 +124,12 @@ internal static class Auri
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[1].currentTime >= EarAnimation.times[input.Actor.AnimationController.frameLists[1].currentFrame])
+            if (input.Actor.AnimationController.frameLists[1].currentTime >= earAnimation.times[input.Actor.AnimationController.frameLists[1].currentFrame])
             {
                 input.Actor.AnimationController.frameLists[1].currentFrame++;
                 input.Actor.AnimationController.frameLists[1].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[1].currentFrame >= EarAnimation.frames.Length)
+                if (input.Actor.AnimationController.frameLists[1].currentFrame >= earAnimation.frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[1].currentlyActive = false;
                     input.Actor.AnimationController.frameLists[1].currentTime = 0;
@@ -137,7 +137,7 @@ internal static class Auri
                 }
             }
 
-            output.Sprite(input.Sprites.Auri[FaceAnimation.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+            output.Sprite(input.Sprites.Auri[faceAnimation.frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
         });
 
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
@@ -238,12 +238,12 @@ internal static class Auri
             }
 
 
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= EarAnimation.times[input.Actor.AnimationController.frameLists[0].currentFrame])
+            if (input.Actor.AnimationController.frameLists[0].currentTime >= earAnimation.times[input.Actor.AnimationController.frameLists[0].currentFrame])
             {
                 input.Actor.AnimationController.frameLists[0].currentFrame++;
                 input.Actor.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= EarAnimation.frames.Length)
+                if (input.Actor.AnimationController.frameLists[0].currentFrame >= earAnimation.frames.Length)
                 {
                     input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                     input.Actor.AnimationController.frameLists[0].currentTime = 0;
@@ -251,7 +251,7 @@ internal static class Auri
                 }
             }
 
-            output.Sprite(input.Sprites.Auri[EarAnimation.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Auri[earAnimation.frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
         });
 
         builder.RenderSingle(SpriteType.SecondaryAccessory, 0, (input, output) =>
@@ -382,7 +382,7 @@ internal static class Auri
             output.Coloring(Defaults.WhiteColored);
             if (input.Actor.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(32, stomachMult);
+                int size = input.Actor.GetStomachSize(32, StomachMult);
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 32)
                 {
                     output.Sprite(input.Sprites.AuriVore[105]).AddOffset(0, -34 * .625f);
@@ -480,7 +480,7 @@ internal static class Auri
         });
     });
 
-    internal static void SetUpAnimations(Actor_Unit actor)
+    private static void SetUpAnimations(Actor_Unit actor)
     {
         actor.AnimationController.frameLists = new[]
         {
@@ -493,7 +493,7 @@ internal static class Auri
 
     private static class AuriTop
     {
-        internal static IClothing<IOverSizeParameters> AuriTopInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> AuriTopInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -527,8 +527,8 @@ internal static class Auri
 
     private static class GenericBottom
     {
-        internal static IClothing GenericBottom1 = MakeGenericBottom(52, 52, 0, 56, 8, State.GameManager.SpriteDictionary.Auri, 840);
-        internal static IClothing GenericBottom2 = MakeGenericBottom(101, 101, 0, 101, 8, State.GameManager.SpriteDictionary.Auri, 841);
+        internal static readonly IClothing GenericBottom1 = MakeGenericBottom(52, 52, 0, 56, 8, State.GameManager.SpriteDictionary.Auri, 840);
+        internal static readonly IClothing GenericBottom2 = MakeGenericBottom(101, 101, 0, 101, 8, State.GameManager.SpriteDictionary.Auri, 841);
 
         private static IClothing MakeGenericBottom(int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, int type)
         {
@@ -547,14 +547,7 @@ internal static class Auri
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing2"].Layer(layer + 1);
                 output["Clothing2"].Coloring(Color.white);
-                if (input.Actor.Unit.HasDick)
-                {
-                    output["Clothing1"].Sprite(sheet[sprM]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprF + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasDick ? sheet[sprM] : sheet[sprF + input.Actor.Unit.BodySize]);
 
                 if (input.Actor.Unit.HasDick && bulge > 0)
                 {
@@ -578,10 +571,10 @@ internal static class Auri
 
     private static class Kimono
     {
-        internal static IClothing<IOverSizeParameters> Kimono1 = MakeKimono(true);
-        internal static IClothing<IOverSizeParameters> Kimono2 = MakeKimono(false);
+        internal static readonly IClothing<IOverSizeParameters> Kimono1 = MakeKimono(true);
+        internal static readonly IClothing<IOverSizeParameters> Kimono2 = MakeKimono(false);
 
-        internal static IClothing<IOverSizeParameters> MakeKimono(bool Skirt)
+        private static IClothing<IOverSizeParameters> MakeKimono(bool skirt)
         {
             ClothingBuilder<IOverSizeParameters> builder = ClothingBuilder.New<IOverSizeParameters>();
 
@@ -606,7 +599,7 @@ internal static class Auri
                 output["Clothing1"].SetOffset(0, 0 * .625f);
                 output["Clothing2"].SetOffset(0, 0 * .625f);
                 input.Actor.SquishedBreasts = true;
-                if (Skirt)
+                if (skirt)
                 {
                     int skirtMod = 0;
                     if (input.Actor.Unit.BodySize > 0 || input.Actor.Unit.BodyAccentType1 == 1)
@@ -620,9 +613,9 @@ internal static class Auri
                     }
                     else
                     {
-                        if (input.Actor.GetStomachSize(32, stomachMult) < 8)
+                        if (input.Actor.GetStomachSize(32, StomachMult) < 8)
                         {
-                            output["Clothing1"].Sprite(input.Sprites.Auri[80 + skirtMod + input.Actor.GetStomachSize(32, stomachMult)]);
+                            output["Clothing1"].Sprite(input.Sprites.Auri[80 + skirtMod + input.Actor.GetStomachSize(32, StomachMult)]);
                         }
                         else
                         {
@@ -635,7 +628,7 @@ internal static class Auri
                     output["Clothing1"].Sprite(null);
                 }
 
-                int kimMod = Skirt ? 0 : 7;
+                int kimMod = skirt ? 0 : 7;
                 if (input.Params.Oversize)
                 {
                     output["Clothing2"].Sprite(input.Sprites.Auri[93 + kimMod]);
@@ -660,14 +653,7 @@ internal static class Auri
                     mod += 8;
                 }
 
-                if (input.Actor.IsAttacking)
-                {
-                    output["Clothing3"].Sprite(input.Sprites.Auri[67 + mod]);
-                }
-                else
-                {
-                    output["Clothing3"].Sprite(input.Sprites.Auri[64 + mod]);
-                }
+                output["Clothing3"].Sprite(input.Actor.IsAttacking ? input.Sprites.Auri[67 + mod] : input.Sprites.Auri[64 + mod]);
             });
             return builder.BuildClothing();
         }
@@ -675,10 +661,10 @@ internal static class Auri
 
     private static class KimonoHoliday
     {
-        internal static IClothing<IOverSizeParameters> KimonoHoliday1 = MakeKimonoHoliday(true);
-        internal static IClothing<IOverSizeParameters> KimonoHoliday2 = MakeKimonoHoliday(false);
+        internal static readonly IClothing<IOverSizeParameters> KimonoHoliday1 = MakeKimonoHoliday(true);
+        internal static readonly IClothing<IOverSizeParameters> KimonoHoliday2 = MakeKimonoHoliday(false);
 
-        internal static IClothing<IOverSizeParameters> MakeKimonoHoliday(bool Skirt)
+        private static IClothing<IOverSizeParameters> MakeKimonoHoliday(bool skirt)
         {
             ClothingBuilder<IOverSizeParameters> builder = ClothingBuilder.New<IOverSizeParameters>();
 
@@ -708,7 +694,7 @@ internal static class Auri
                 output["Clothing1"].SetOffset(0, 0 * .625f);
                 output["Clothing2"].SetOffset(0, 0 * .625f);
                 input.Actor.SquishedBreasts = true;
-                if (Skirt)
+                if (skirt)
                 {
                     int skirtMod = 0;
                     if (input.Actor.Unit.BodySize > 0 || input.Actor.Unit.BodyAccentType1 == 1)
@@ -722,7 +708,7 @@ internal static class Auri
                     }
                     else
                     {
-                        if (input.Actor.GetStomachSize(32, stomachMult) < 4 && input.Actor.Unit.BodyAccentType1 == 0)
+                        if (input.Actor.GetStomachSize(32, StomachMult) < 4 && input.Actor.Unit.BodyAccentType1 == 0)
                         {
                             output["Clothing1"].Sprite(input.Sprites.AuriHoliday[22 + skirtMod]);
                         }
@@ -761,23 +747,12 @@ internal static class Auri
                     mod += 8;
                 }
 
-                if (input.Actor.IsAttacking)
-                {
-                    output["Clothing3"].Sprite(input.Sprites.AuriHoliday[3 + mod]);
-                }
-                else
-                {
-                    output["Clothing3"].Sprite(input.Sprites.AuriHoliday[0 + mod]);
-                }
+                output["Clothing3"].Sprite(input.Actor.IsAttacking ? input.Sprites.AuriHoliday[3 + mod] : input.Sprites.AuriHoliday[0 + mod]);
 
                 output["Clothing4"].Sprite(input.Sprites.AuriHoliday[21]);
-                if (input.Actor.GetStomachSize(32, stomachMult) >= 4)
+                if (input.Actor.GetStomachSize(32, StomachMult) >= 4)
                 {
                     output["Clothing5"].Sprite(input.Sprites.AuriHoliday[32]);
-                }
-                else
-                {
-                    output["Clothing5"].Sprite(null);
                 }
             });
             return builder.BuildClothing();
@@ -786,7 +761,7 @@ internal static class Auri
 
     private static class Stocking
     {
-        internal static IClothing Stocking1 = MakeStocking(48, 0, 48, 3, State.GameManager.SpriteDictionary.Auri, 901);
+        internal static readonly IClothing Stocking1 = MakeStocking(48, 0, 48, 3, State.GameManager.SpriteDictionary.Auri, 901);
 
         private static IClothing MakeStocking(int sprF, int sprM, int discard, int layer, Sprite[] sheet, int type)
         {
@@ -824,7 +799,7 @@ internal static class Auri
 
     private static class Hat
     {
-        internal static IClothing Hat1 = MakeHat(50, 0, 50, 20, State.GameManager.SpriteDictionary.Auri, 903);
+        internal static readonly IClothing Hat1 = MakeHat(50, 0, 50, 20, State.GameManager.SpriteDictionary.Auri, 903);
 
         private static IClothing MakeHat(int sprF, int sprM, int discard, int layer, Sprite[] sheet, int type)
         {
@@ -842,14 +817,7 @@ internal static class Auri
             {
                 output["Clothing1"].Layer(layer);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(sheet[sprF]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(sheet[sprM]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF] : sheet[sprM]);
             });
             return builder.BuildClothing();
         }

@@ -8,7 +8,7 @@ using UnityEngine;
 
 internal static class AntQueen
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
         IClothing<IOverSizeParameters> LeaderClothes = AntLeaderClothes.AntLeaderClothesInstance;
 
@@ -447,7 +447,7 @@ internal static class AntQueen
 
     private static class AntLeaderClothes
     {
-        internal static IClothing<IOverSizeParameters> AntLeaderClothesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> AntLeaderClothesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -468,14 +468,7 @@ internal static class AntQueen
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Params.Oversize)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AntQueen1[96]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AntQueen1[Mathf.Min(88 + input.Actor.Unit.BreastSize, 96)]);
-                }
+                output["Clothing1"].Sprite(input.Params.Oversize ? input.Sprites.AntQueen1[96] : input.Sprites.AntQueen1[Mathf.Min(88 + input.Actor.Unit.BreastSize, 96)]);
 
                 output["Clothing2"].Sprite(input.Sprites.AntQueen1[97 + input.Actor.Unit.BodySize]);
 

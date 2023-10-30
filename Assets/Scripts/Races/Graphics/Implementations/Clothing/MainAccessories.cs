@@ -1,11 +1,11 @@
 ﻿internal static class AsuraMask
 {
-    internal static IClothing AsuraMaskInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing AsuraMaskInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { };
-});
+        {
+            { };
+        });
 
         builder.RenderAll((input, output) =>
         {
@@ -30,12 +30,12 @@
 
 internal static class SantaHat
 {
-    internal static IClothing SantaHatInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing SantaHatInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { output.ReqWinterHoliday = true; };
-});
+        {
+            { output.ReqWinterHoliday = true; };
+        });
 
         builder.RenderAll((input, output) =>
         {
@@ -75,6 +75,6 @@ internal static class SantaHat
 
 internal static class MainAccessories
 {
-    internal static IClothing AsuraMaskInstance = AsuraMask.AsuraMaskInstance;
-    internal static IClothing SantaHatInstance = SantaHat.SantaHatInstance;
+    internal static readonly IClothing AsuraMaskInstance = AsuraMask.AsuraMaskInstance;
+    internal static readonly IClothing SantaHatInstance = SantaHat.SantaHatInstance;
 }

@@ -141,27 +141,13 @@ internal static class Komodos
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
             int sat = Mathf.Clamp(input.Actor.Unit.SpecialAccessoryType, 0, 4); //Protect against out of bounds from other unit types.  
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Komodos1[0 + input.Actor.Unit.BodySize + 10 * sat]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Komodos1[4 + input.Actor.Unit.BodySize + 10 * sat]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Komodos1[0 + input.Actor.Unit.BodySize + 10 * sat] : input.Sprites.Komodos1[4 + input.Actor.Unit.BodySize + 10 * sat]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking)
-            {
-                output.Sprite(input.Sprites.Komodos1[9 + 10 * input.Actor.Unit.SpecialAccessoryType]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Komodos1[8 + 10 * input.Actor.Unit.SpecialAccessoryType]);
-            }
+            output.Sprite(input.Actor.IsAttacking ? input.Sprites.Komodos1[9 + 10 * input.Actor.Unit.SpecialAccessoryType] : input.Sprites.Komodos1[8 + 10 * input.Actor.Unit.SpecialAccessoryType]);
         }); // Right Arm
 
         builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
@@ -408,26 +394,12 @@ internal static class Komodos
                 if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(31 * 31)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(31 * 31)) < 16)
                 {
                     output.Layer(20);
-                    if (input.Actor.IsCockVoring)
-                    {
-                        output.Sprite(input.Sprites.Komodos1[79 + input.Actor.Unit.DickSize]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Komodos1[71 + input.Actor.Unit.DickSize]);
-                    }
+                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Komodos1[79 + input.Actor.Unit.DickSize] : input.Sprites.Komodos1[71 + input.Actor.Unit.DickSize]);
                 }
                 else
                 {
                     output.Layer(13);
-                    if (input.Actor.IsCockVoring)
-                    {
-                        output.Sprite(input.Sprites.Komodos1[95 + input.Actor.Unit.DickSize]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Komodos1[87 + input.Actor.Unit.DickSize]);
-                    }
+                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Komodos1[95 + input.Actor.Unit.DickSize] : input.Sprites.Komodos1[87 + input.Actor.Unit.DickSize]);
                 }
             }
 
@@ -562,7 +534,7 @@ internal static class Komodos
 
     private static class GenericTop1
     {
-        internal static IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -593,7 +565,7 @@ internal static class Komodos
 
     private static class GenericTop2
     {
-        internal static IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -624,7 +596,7 @@ internal static class Komodos
 
     private static class GenericTop3
     {
-        internal static IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -658,7 +630,7 @@ internal static class Komodos
 
     private static class GenericTop4
     {
-        internal static IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -692,7 +664,7 @@ internal static class Komodos
 
     private static class GenericTop5
     {
-        internal static IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -723,7 +695,7 @@ internal static class Komodos
 
     private static class Natural
     {
-        internal static IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -763,7 +735,7 @@ internal static class Komodos
 
     private static class Tribal
     {
-        internal static IClothing<IOverSizeParameters> TribalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> TribalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -796,7 +768,7 @@ internal static class Komodos
 
     private static class GenericBot1
     {
-        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -842,7 +814,7 @@ internal static class Komodos
 
     private static class GenericBot2
     {
-        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -867,7 +839,7 @@ internal static class Komodos
 
     private static class GenericBot3
     {
-        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Cockatrice
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
         builder.Setup(output =>
         {
@@ -63,14 +63,7 @@ internal static class Cockatrice
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Cockatrice1[54]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Cockatrice1[55]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice1[54] : input.Sprites.Cockatrice1[55]);
         }); // Head - skin
 
         builder.RenderSingle(SpriteType.Eyes, 7, (input, output) =>
@@ -116,40 +109,19 @@ internal static class Cockatrice
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Cockatrice1[0 + input.Actor.Unit.BodySize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Cockatrice1[4 + input.Actor.Unit.BodySize]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice1[0 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice1[4 + input.Actor.Unit.BodySize]);
         }); // Body - skin
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Cockatrice1[8 + input.Actor.Unit.BodySize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Cockatrice1[12 + input.Actor.Unit.BodySize]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice1[8 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice1[12 + input.Actor.Unit.BodySize]);
         }); // Body - scales
 
         builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Cockatrice1[16 + input.Actor.Unit.BodySize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Cockatrice1[20 + input.Actor.Unit.BodySize]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice1[16 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice1[20 + input.Actor.Unit.BodySize]);
         }); // Legs - feathers
 
         builder.RenderSingle(SpriteType.BodyAccent3, 4, (input, output) =>
@@ -616,14 +588,7 @@ internal static class Cockatrice
 
             if (unit.HasDick && unit.HasBreasts)
             {
-                if (Config.HermsOnlyUseFemaleHair)
-                {
-                    unit.HairStyle = State.Rand.Next(18);
-                }
-                else
-                {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                }
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 18 : data.MiscRaceData.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
@@ -649,7 +614,7 @@ internal static class Cockatrice
 
     private static class GenericTop1
     {
-        internal static IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -680,7 +645,7 @@ internal static class Cockatrice
 
     private static class GenericTop2
     {
-        internal static IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -711,7 +676,7 @@ internal static class Cockatrice
 
     private static class GenericTop3
     {
-        internal static IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -742,7 +707,7 @@ internal static class Cockatrice
 
     private static class GenericTop4
     {
-        internal static IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -779,7 +744,7 @@ internal static class Cockatrice
 
     private static class GenericTop5
     {
-        internal static IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -817,7 +782,7 @@ internal static class Cockatrice
 
     private static class GenericTop6
     {
-        internal static IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -850,7 +815,7 @@ internal static class Cockatrice
 
     private static class GenericTop7
     {
-        internal static IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -881,7 +846,7 @@ internal static class Cockatrice
 
     private static class MaleTop
     {
-        internal static IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -897,14 +862,7 @@ internal static class Cockatrice
             {
                 output["Clothing1"].Layer(18);
 
-                if (input.Actor.HasBelly)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[83 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[79 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Cockatrice3[83 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[79 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -913,7 +871,7 @@ internal static class Cockatrice
 
     private static class MaleTop2
     {
-        internal static IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -936,7 +894,7 @@ internal static class Cockatrice
 
     private static class Natural
     {
-        internal static IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -973,7 +931,7 @@ internal static class Cockatrice
 
     private static class Cuirass
     {
-        internal static IClothing<IOverSizeParameters> CuirassInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> CuirassInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1028,40 +986,19 @@ internal static class Cockatrice
                 }
                 else
                 {
-                    if (input.Actor.Unit.HasBreasts)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Cockatrice3[109 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Cockatrice3[113 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[109 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[113 + input.Actor.Unit.BodySize]);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing3"].Sprite(input.Sprites.Cockatrice3[101 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing3"].Sprite(input.Sprites.Cockatrice3[105 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing3"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[101 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[105 + input.Actor.Unit.BodySize]);
 
-                if (input.Actor.GetWeaponSprite() == 1)
-                {
-                    output["Clothing4"].Sprite(input.Sprites.Cockatrice3[118]);
-                }
-                else
-                {
-                    output["Clothing4"].Sprite(input.Sprites.Cockatrice3[117]);
-                }
+                output["Clothing4"].Sprite(input.Actor.GetWeaponSprite() == 1 ? input.Sprites.Cockatrice3[118] : input.Sprites.Cockatrice3[117]);
             });
         });
     }
 
     private static class GenericBot1
     {
-        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1095,14 +1032,7 @@ internal static class Cockatrice
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Cockatrice3[12 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Cockatrice3[16 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[12 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[16 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
@@ -1112,7 +1042,7 @@ internal static class Cockatrice
 
     private static class GenericBot2
     {
-        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1150,14 +1080,7 @@ internal static class Cockatrice
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[31]);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Cockatrice3[23 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Cockatrice3[27 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[23 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[27 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1166,7 +1089,7 @@ internal static class Cockatrice
 
     private static class GenericBot3
     {
-        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1183,14 +1106,7 @@ internal static class Cockatrice
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Cockatrice3[35]);
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Cockatrice3[23 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Cockatrice3[27 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[23 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[27 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1199,7 +1115,7 @@ internal static class Cockatrice
 
     private static class GenericBot4
     {
-        internal static IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1239,14 +1155,7 @@ internal static class Cockatrice
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Cockatrice3[36 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Cockatrice3[40 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[36 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[40 + input.Actor.Unit.BodySize]);
             });
         });
     }

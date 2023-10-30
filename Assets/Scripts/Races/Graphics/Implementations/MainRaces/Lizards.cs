@@ -17,7 +17,7 @@ internal class FacingFrontParameters : IFacingFrontParameters
 
 internal static class Lizards
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<FacingFrontParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<FacingFrontParameters>, builder =>
     {
         builder.Setup(output =>
         {
@@ -152,14 +152,7 @@ internal static class Lizards
                     Debug.Log($"Missing the predator component: {e.Message}");
                 }
 
-                if (input.Actor.GetStomachSize(16) >= 16)
-                {
-                    output.Sprite(input.Sprites.LizardsBooty[74]);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.LizardsBooty[6]);
-                }
+                output.Sprite(input.Actor.GetStomachSize(16) >= 16 ? input.Sprites.LizardsBooty[74] : input.Sprites.LizardsBooty[6]);
             }
         }); //Claws
 

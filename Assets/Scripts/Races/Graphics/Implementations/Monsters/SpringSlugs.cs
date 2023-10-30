@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 internal static class SpringSlugs
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         builder.Setup(output =>
         {

@@ -6,7 +6,7 @@ using UnityEngine;
 
 internal static class Crypters
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         Color bellyColor = new Color(.2519f, .2519f, .3584f);
         builder.Setup(output =>

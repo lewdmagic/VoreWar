@@ -6,7 +6,7 @@ using UnityEngine;
 
 internal static class Harpies
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         builder.Setup(output =>
         {
@@ -170,14 +170,7 @@ internal static class Harpies
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.GetSimpleBodySprite() != 0)
-            {
-                output.ClothingShift = new Vector3(0, 10, 0);
-            }
-            else
-            {
-                output.ClothingShift = new Vector3(0, 0, 0);
-            }
+            output.ClothingShift = input.Actor.GetSimpleBodySprite() != 0 ? new Vector3(0, 10, 0) : new Vector3(0, 0, 0);
         });
 
         builder.RandomCustom(data =>

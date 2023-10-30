@@ -16,7 +16,7 @@ internal static class Asura
         new RaceFrameList(new int[7] { 95, 96, 97, 98, 99, 100, 101 }, new float[7] { .15f, .15f, .15f, .15f, .15f, .15f, .15f })
     };
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         builder.Setup(output =>
         {
@@ -315,7 +315,7 @@ internal static class Asura
     });
 
 
-    internal static void SetUpAnimations(Actor_Unit actor)
+    private static void SetUpAnimations(Actor_Unit actor)
     {
         actor.AnimationController.frameLists = new[]
             { new AnimationController.FrameList(), new AnimationController.FrameList(), new AnimationController.FrameList(), new AnimationController.FrameList() };
@@ -364,7 +364,7 @@ internal static class Asura
 
     private static class BaseOutfit
     {
-        internal static IClothing BaseOutfitInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing BaseOutfitInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -388,12 +388,11 @@ internal static class Asura
                 output["Clothing2"].Sprite(input.Sprites.Asura[input.Actor.HasBelly ? 32 : 26]);
                 output["Clothing3"].Sprite(input.Sprites.Asura[8]);
                 output["Clothing4"].Sprite(input.Sprites.Asura[input.Actor.IsAttacking ? 25 : 24]);
-                if (timeDuplicate != Time.time)
+                if (!Mathf.Approximately(timeDuplicate, Time.time))
                 {
                     time -= Time.deltaTime;
                 }
 
-                timeDuplicate = Time.time;
                 if (time <= 0)
                 {
                     time = 1 + (float)State.Rand.NextDouble();
@@ -409,21 +408,14 @@ internal static class Asura
                     output["Clothing5"].Sprite(input.Sprites.Asura[45]);
                 }
 
-                if (time > .15f)
-                {
-                    output["Clothing5"].Sprite(input.Sprites.Asura[46]);
-                }
-                else
-                {
-                    output["Clothing5"].Sprite(input.Sprites.Asura[47]);
-                }
+                output["Clothing5"].Sprite(time > .15f ? input.Sprites.Asura[46] : input.Sprites.Asura[47]);
             });
         });
     }
 
     private static class ReindeerHorns
     {
-        internal static IClothing ReindeerHornsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing ReindeerHornsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.ReqWinterHoliday = true; });
 
@@ -431,14 +423,7 @@ internal static class Asura
             {
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.ClothingType == 0)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AsuraHoliday[0]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AsuraHoliday[1]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.ClothingType == 0 ? input.Sprites.AsuraHoliday[0] : input.Sprites.AsuraHoliday[1]);
             });
         });
     }

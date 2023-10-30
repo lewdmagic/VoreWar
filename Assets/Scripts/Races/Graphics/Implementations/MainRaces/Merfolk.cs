@@ -7,10 +7,10 @@ using UnityEngine;
 
 internal static class Merfolk
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
-        IClothing LeaderClothes = MermenLeader.MermenLeaderInstance;
-        IClothing Rags = MermenRags.MermenRagsInstance;
+        IClothing leaderClothes = MermenLeader.MermenLeaderInstance;
+        IClothing rags = MermenRags.MermenRagsInstance;
 
 
         builder.Setup(output =>
@@ -36,8 +36,8 @@ internal static class Merfolk
                 MermenTop3.MermenTop3Instance,
                 MermenBodySuit.MermenBodySuitInstance,
                 MermenArmour.MermenArmourInstance,
-                Rags,
-                LeaderClothes
+                rags,
+                leaderClothes
             );
             output.AvoidedMainClothingTypes = 2;
             output.AllowedWaistTypes.Set(
@@ -117,27 +117,13 @@ internal static class Merfolk
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Mermen[0 + input.Actor.Unit.BodySize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Mermen[4 + input.Actor.Unit.BodySize]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen[0 + input.Actor.Unit.BodySize] : input.Sprites.Mermen[4 + input.Actor.Unit.BodySize]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Mermen[12 + input.Actor.Unit.BodySize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Mermen[16 + input.Actor.Unit.BodySize]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen[12 + input.Actor.Unit.BodySize] : input.Sprites.Mermen[16 + input.Actor.Unit.BodySize]);
         }); // fish tail
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
@@ -166,14 +152,7 @@ internal static class Merfolk
         builder.RenderSingle(SpriteType.BodyAccent5, 2, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Mermen[8 + (input.Actor.IsAttacking ? 1 : 0)]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Mermen[10 + (input.Actor.IsAttacking ? 1 : 0)]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen[8 + (input.Actor.IsAttacking ? 1 : 0)] : input.Sprites.Mermen[10 + (input.Actor.IsAttacking ? 1 : 0)]);
         }); // arms
 
         builder.RenderSingle(SpriteType.BodyAccessory, 4, (input, output) =>
@@ -209,14 +188,8 @@ internal static class Merfolk
             output.Coloring(Defaults.WhiteColored);
             if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
             {
-                if (input.Actor.IsAttacking)
-                {
-                    output.Sprite(input.Sprites.Mermen[128 + input.Actor.GetWeaponSprite()]).Layer(20);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.Mermen[128 + input.Actor.GetWeaponSprite()]).Layer(3);
-                }
+                output.Sprite(input.Sprites.Mermen[128 + input.Actor.GetWeaponSprite()]);
+                output.Layer(input.Actor.IsAttacking ? 20 : 3);
             }
         });
 
@@ -256,7 +229,7 @@ internal static class Merfolk
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
                 if (unit.ClothingType == -1) //Covers rags not in the list
                 {
                     unit.ClothingType = 1;
@@ -265,19 +238,12 @@ internal static class Merfolk
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
             }
 
             if (unit.HasDick && unit.HasBreasts)
             {
-                if (Config.HermsOnlyUseFemaleHair)
-                {
-                    unit.HairStyle = State.Rand.Next(6);
-                }
-                else
-                {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                }
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 6 : data.MiscRaceData.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
@@ -318,7 +284,7 @@ namespace MermenClothing
 {
     internal static class MermenTop1
     {
-        internal static IClothing MermenTop1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenTop1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -344,7 +310,7 @@ namespace MermenClothing
 
     internal static class MermenTop2
     {
-        internal static IClothing MermenTop2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenTop2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -370,7 +336,7 @@ namespace MermenClothing
 
     internal static class MermenTop3
     {
-        internal static IClothing MermenTop3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenTop3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -396,7 +362,7 @@ namespace MermenClothing
 
     internal static class MermenBodySuit
     {
-        internal static IClothing MermenBodySuitInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenBodySuitInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -428,7 +394,7 @@ namespace MermenClothing
 
     internal static class MermenArmour
     {
-        internal static IClothing MermenArmourInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenArmourInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -463,7 +429,7 @@ namespace MermenClothing
 
     internal static class MermenRags
     {
-        internal static IClothing MermenRagsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenRagsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -510,7 +476,7 @@ namespace MermenClothing
 
     internal static class MermenLeader
     {
-        internal static IClothing MermenLeaderInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenLeaderInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -550,7 +516,7 @@ namespace MermenClothing
 
     internal static class MermenFishTailLink1
     {
-        internal static IClothing MermenFishTailLink1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenFishTailLink1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -561,14 +527,7 @@ namespace MermenClothing
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[0 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[4 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen2[0 + input.Actor.Unit.BodySize] : input.Sprites.Mermen2[4 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
             });
@@ -577,7 +536,7 @@ namespace MermenClothing
 
     internal static class MermenFishTailLink2
     {
-        internal static IClothing MermenFishTailLink2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenFishTailLink2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -588,14 +547,7 @@ namespace MermenClothing
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[8 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[12 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen2[8 + input.Actor.Unit.BodySize] : input.Sprites.Mermen2[12 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
             });
@@ -604,7 +556,7 @@ namespace MermenClothing
 
     internal static class MermenFishTailLink3
     {
-        internal static IClothing MermenFishTailLink3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenFishTailLink3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -615,14 +567,7 @@ namespace MermenClothing
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[32 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[36 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen2[32 + input.Actor.Unit.BodySize] : input.Sprites.Mermen2[36 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
             });
@@ -631,7 +576,7 @@ namespace MermenClothing
 
     internal static class MermenLoincloth
     {
-        internal static IClothing MermenLoinclothInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenLoinclothInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -647,21 +592,14 @@ namespace MermenClothing
             {
                 output["Clothing1"].Layer(11);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[16 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[20 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen2[16 + input.Actor.Unit.BodySize] : input.Sprites.Mermen2[20 + input.Actor.Unit.BodySize]);
             });
         });
     }
 
     internal static class MermenBot
     {
-        internal static IClothing MermenBotInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenBotInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -680,17 +618,13 @@ namespace MermenClothing
                 {
                     output["Clothing1"].Sprite(input.Sprites.Mermen2[48 + input.Actor.Unit.BodySize]);
                 }
-                else
-                {
-                    output["Clothing1"].Sprite(null);
-                }
             });
         });
     }
 
     internal static class MermenShell1
     {
-        internal static IClothing MermenShell1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenShell1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -708,7 +642,7 @@ namespace MermenClothing
 
     internal static class MermenTiara
     {
-        internal static IClothing MermenTiaraInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenTiaraInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -726,7 +660,7 @@ namespace MermenClothing
 
     internal static class MermenStarfish
     {
-        internal static IClothing MermenStarfishInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenStarfishInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -744,7 +678,7 @@ namespace MermenClothing
 
     internal static class MermenShell2
     {
-        internal static IClothing MermenShell2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenShell2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -762,7 +696,7 @@ namespace MermenClothing
 
     internal static class MermenHairpin
     {
-        internal static IClothing MermenHairpinInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenHairpinInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -780,7 +714,7 @@ namespace MermenClothing
 
     internal static class MermenNecklace1
     {
-        internal static IClothing MermenNecklace1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenNecklace1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -798,7 +732,7 @@ namespace MermenClothing
 
     internal static class MermenNecklace2
     {
-        internal static IClothing MermenNecklace2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenNecklace2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -816,7 +750,7 @@ namespace MermenClothing
 
     internal static class MermenNecklace3
     {
-        internal static IClothing MermenNecklace3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenNecklace3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -834,7 +768,7 @@ namespace MermenClothing
 
     internal static class MermenNecklace4
     {
-        internal static IClothing MermenNecklace4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenNecklace4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -852,7 +786,7 @@ namespace MermenClothing
 
     internal static class MermenNecklace5
     {
-        internal static IClothing MermenNecklace5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenNecklace5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -870,7 +804,7 @@ namespace MermenClothing
 
     internal static class MermenNecklace6
     {
-        internal static IClothing MermenNecklace6Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenNecklace6Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -888,7 +822,7 @@ namespace MermenClothing
 
     internal static class MermenNecklace7
     {
-        internal static IClothing MermenNecklace7Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenNecklace7Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -906,7 +840,7 @@ namespace MermenClothing
 
     internal static class MermenNecklace8
     {
-        internal static IClothing MermenNecklace8Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MermenNecklace8Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

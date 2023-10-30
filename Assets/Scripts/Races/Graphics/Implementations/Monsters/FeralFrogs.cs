@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 internal static class FeralFrogs
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank<PositionParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<PositionParameters>, builder =>
     {
         builder.Setup(output =>
         {

@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Aabayx
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         builder.RandomCustom(data =>
         {
@@ -270,7 +270,7 @@ internal static class Aabayx
 
     private static class AabayxTop1
     {
-        internal static IClothing AabayxTop1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxTop1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -290,7 +290,7 @@ internal static class Aabayx
 
     private static class AabayxTop2
     {
-        internal static IClothing AabayxTop2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxTop2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -310,7 +310,7 @@ internal static class Aabayx
 
     private static class AabayxTop3
     {
-        internal static IClothing AabayxTop3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxTop3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -330,7 +330,7 @@ internal static class Aabayx
 
     private static class AabayxTop4
     {
-        internal static IClothing AabayxTop4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxTop4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -350,7 +350,7 @@ internal static class Aabayx
 
     private static class AabayxTop5
     {
-        internal static IClothing AabayxTop5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxTop5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -370,7 +370,7 @@ internal static class Aabayx
 
     private static class AabayxTop6
     {
-        internal static IClothing AabayxTop6Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxTop6Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -390,7 +390,7 @@ internal static class Aabayx
 
     private static class AabayxTop7
     {
-        internal static IClothing AabayxTop7Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxTop7Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -410,7 +410,7 @@ internal static class Aabayx
 
     private static class AabayxPants1
     {
-        internal static IClothing AabayxPants1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxPants1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -429,7 +429,7 @@ internal static class Aabayx
 
     private static class AabayxPants2
     {
-        internal static IClothing AabayxPants2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxPants2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -449,7 +449,7 @@ internal static class Aabayx
 
     private static class AabayxPants3
     {
-        internal static IClothing AabayxPants3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxPants3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -469,7 +469,7 @@ internal static class Aabayx
 
     private static class AabayxPants4
     {
-        internal static IClothing AabayxPants4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxPants4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -488,7 +488,7 @@ internal static class Aabayx
 
     private static class AabayxPants5
     {
-        internal static IClothing AabayxPants5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxPants5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -507,7 +507,7 @@ internal static class Aabayx
 
     private static class AabayxFacePaint1
     {
-        internal static IClothing AabayxFacePaint1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxFacePaint1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -520,21 +520,14 @@ internal static class Aabayx
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                if (input.Actor.IsOralVoring)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[7]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[0]);
-                }
+                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[7] : input.Sprites.AabayxFacePaint[0]);
             });
         });
     }
 
     private static class AabayxFacePaint2
     {
-        internal static IClothing AabayxFacePaint2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxFacePaint2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -561,7 +554,7 @@ internal static class Aabayx
 
     private static class AabayxFacePaint3
     {
-        internal static IClothing AabayxFacePaint3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxFacePaint3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -574,21 +567,14 @@ internal static class Aabayx
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                if (input.Actor.IsOralVoring)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[9]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[2]);
-                }
+                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[9] : input.Sprites.AabayxFacePaint[2]);
             });
         });
     }
 
     private static class AabayxFacePaint4
     {
-        internal static IClothing AabayxFacePaint4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxFacePaint4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -601,21 +587,14 @@ internal static class Aabayx
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                if (input.Actor.IsOralVoring)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[10]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[3]);
-                }
+                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[10] : input.Sprites.AabayxFacePaint[3]);
             });
         });
     }
 
     private static class AabayxFacePaint5
     {
-        internal static IClothing AabayxFacePaint5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxFacePaint5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -628,21 +607,14 @@ internal static class Aabayx
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                if (input.Actor.IsOralVoring)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[11]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[4]);
-                }
+                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[11] : input.Sprites.AabayxFacePaint[4]);
             });
         });
     }
 
     private static class AabayxFacePaint6
     {
-        internal static IClothing AabayxFacePaint6Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxFacePaint6Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -655,21 +627,14 @@ internal static class Aabayx
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                if (input.Actor.IsOralVoring)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[12]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[5]);
-                }
+                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[12] : input.Sprites.AabayxFacePaint[5]);
             });
         });
     }
 
     private static class AabayxFacePaint7
     {
-        internal static IClothing AabayxFacePaint7Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AabayxFacePaint7Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -682,11 +647,7 @@ internal static class Aabayx
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                if (input.Actor.IsOralVoring)
-                {
-                    output["Clothing1"].Sprite(null);
-                }
-                else
+                if (!input.Actor.IsOralVoring)
                 {
                     output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[6]);
                 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Succubi
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         builder.Setup(output =>
         {
@@ -113,14 +113,7 @@ internal static class Succubi
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImpDark, input.Actor.Unit.AccessoryColor));
             int sizeOffset = input.Actor.PredatorComponent?.TailFullness > 0 ? 1 + input.Actor.GetTailSize(2) : 0;
-            if (input.Actor.IsTailVoring)
-            {
-                output.Sprite(input.Sprites.Succubi[37 + sizeOffset]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Succubi[33 + sizeOffset]);
-            }
+            output.Sprite(input.Actor.IsTailVoring ? input.Sprites.Succubi[37 + sizeOffset] : input.Sprites.Succubi[33 + sizeOffset]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent4, 1, (input, output) =>

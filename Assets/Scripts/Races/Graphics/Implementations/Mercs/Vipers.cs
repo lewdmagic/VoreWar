@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Vipers
 {
-    private static readonly float xOffset = -7.5f; //12 pixels * 5/8
+    private static readonly float XOffset = -7.5f; //12 pixels * 5/8
 
     internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
@@ -207,14 +207,7 @@ internal static class Vipers
         builder.RenderSingle(SpriteType.BodyAccent3, 11, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.TailType == 0)
-            {
-                output.Sprite(input.Sprites.Vipers1[37]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Vipers4[21]);
-            }
+            output.Sprite(input.Actor.Unit.TailType == 0 ? input.Sprites.Vipers1[37] : input.Sprites.Vipers4[21]);
         }); // default tail
 
         builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
@@ -387,14 +380,7 @@ internal static class Vipers
         builder.RenderSingle(SpriteType.BodyAccessory, 3, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.TailType == 0)
-            {
-                output.Sprite(input.Sprites.Vipers1[21 + input.Actor.Unit.SpecialAccessoryType]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Vipers4[5 + input.Actor.Unit.SpecialAccessoryType]);
-            }
+            output.Sprite(input.Actor.Unit.TailType == 0 ? input.Sprites.Vipers1[21 + input.Actor.Unit.SpecialAccessoryType] : input.Sprites.Vipers4[5 + input.Actor.Unit.SpecialAccessoryType]);
         }); // hood
 
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
@@ -636,120 +622,120 @@ internal static class Vipers
             {
                 if (input.Actor.GetCombinedStomachSize() > 14)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -8 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -8 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -8 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -8 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -8 * .625f);
                 }
                 else if (input.Actor.GetCombinedStomachSize() > 12)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -6 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -6 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -6 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -6 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -6 * .625f);
                 }
                 else if (input.Actor.GetCombinedStomachSize() > 10)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -4 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -4 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -4 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -4 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -4 * .625f);
                 }
                 else if (input.Actor.GetCombinedStomachSize() > 8)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -2 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -2 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -2 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -2 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -2 * .625f);
                 }
                 else if (input.Actor.GetCombinedStomachSize() > 6)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -1 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -1 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -1 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -1 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -1 * .625f);
                 }
                 else
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, 0);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, 0);
                 }
             }
             else
             {
                 if (input.Actor.GetStomachSize() > 14)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -8 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -8 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -8 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -8 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -8 * .625f);
                 }
                 else if (input.Actor.GetStomachSize() > 12)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -6 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -6 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -6 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -6 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -6 * .625f);
                 }
                 else if (input.Actor.GetStomachSize() > 10)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -4 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -4 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -4 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -4 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -4 * .625f);
                 }
                 else if (input.Actor.GetStomachSize() > 8)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -2 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -2 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -2 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -2 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -2 * .625f);
                 }
                 else if (input.Actor.GetStomachSize() > 6)
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, -1 * .625f);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, -1 * .625f);
                     output.changeSprite(SpriteType.Dick).AddOffset(0, -1 * .625f);
                     output.changeSprite(SpriteType.BodyAccent5).AddOffset(0, -1 * .625f);
                     output.changeSprite(SpriteType.BodyAccent6).AddOffset(0, -1 * .625f);
                 }
                 else
                 {
-                    output.changeSprite(SpriteType.Belly).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Breasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(xOffset, 0);
-                    output.changeSprite(SpriteType.Balls).AddOffset(xOffset, 0);
+                    output.changeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.SecondaryBreasts).AddOffset(XOffset, 0);
+                    output.changeSprite(SpriteType.Balls).AddOffset(XOffset, 0);
                 }
             }
         });
@@ -771,7 +757,7 @@ internal static class Vipers
 
     private static class ViperArmour1TypeFull
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour1TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour1TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -820,7 +806,7 @@ internal static class Vipers
 
     private static class ViperArmour1TypeNoGloves
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour1TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour1TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -861,7 +847,7 @@ internal static class Vipers
 
     private static class ViperArmour1TypeNoCap
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour1TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour1TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -907,7 +893,7 @@ internal static class Vipers
 
     private static class ViperArmour1TypeBare
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour1TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour1TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -945,7 +931,7 @@ internal static class Vipers
 
     private static class ViperArmour2TypeFull
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour2TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour2TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -994,7 +980,7 @@ internal static class Vipers
 
     private static class ViperArmour2TypeNoGloves
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour2TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour2TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1035,7 +1021,7 @@ internal static class Vipers
 
     private static class ViperArmour2TypeNoCap
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour2TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour2TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1081,7 +1067,7 @@ internal static class Vipers
 
     private static class ViperArmour2TypeBare
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour2TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour2TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1119,7 +1105,7 @@ internal static class Vipers
 
     private static class ViperArmour3TypeFull
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour3TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour3TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1168,7 +1154,7 @@ internal static class Vipers
 
     private static class ViperArmour3TypeNoGloves
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour3TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour3TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1209,7 +1195,7 @@ internal static class Vipers
 
     private static class ViperArmour3TypeNoCap
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour3TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour3TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1255,7 +1241,7 @@ internal static class Vipers
 
     private static class ViperArmour3TypeBare
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour3TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour3TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1293,7 +1279,7 @@ internal static class Vipers
 
     private static class ViperRuler1TypeFull
     {
-        internal static IClothing<IOverSizeParameters> ViperRuler1TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperRuler1TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1339,7 +1325,7 @@ internal static class Vipers
 
     private static class ViperRuler1TypeNoGloves
     {
-        internal static IClothing<IOverSizeParameters> ViperRuler1TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperRuler1TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1380,7 +1366,7 @@ internal static class Vipers
 
     private static class ViperRuler1TypeNoCap
     {
-        internal static IClothing<IOverSizeParameters> ViperRuler1TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperRuler1TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1423,7 +1409,7 @@ internal static class Vipers
 
     private static class ViperRuler1TypeBare
     {
-        internal static IClothing<IOverSizeParameters> ViperRuler1TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperRuler1TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1461,7 +1447,7 @@ internal static class Vipers
 
     private static class ViperArmour4TypeFull
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour4TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour4TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1515,7 +1501,7 @@ internal static class Vipers
 
     private static class ViperArmour4TypeNoGloves
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour4TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour4TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1561,7 +1547,7 @@ internal static class Vipers
 
     private static class ViperArmour4TypeNoCap
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour4TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour4TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1608,7 +1594,7 @@ internal static class Vipers
 
     private static class ViperArmour4TypeBare
     {
-        internal static IClothing<IOverSizeParameters> ViperArmour4TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperArmour4TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1647,7 +1633,7 @@ internal static class Vipers
 
     private static class ViperRuler2TypeFull
     {
-        internal static IClothing<IOverSizeParameters> ViperRuler2TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperRuler2TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1693,7 +1679,7 @@ internal static class Vipers
 
     private static class ViperRuler2TypeNoGloves
     {
-        internal static IClothing<IOverSizeParameters> ViperRuler2TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperRuler2TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1734,7 +1720,7 @@ internal static class Vipers
 
     private static class ViperRuler2TypeNoCap
     {
-        internal static IClothing<IOverSizeParameters> ViperRuler2TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperRuler2TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1777,7 +1763,7 @@ internal static class Vipers
 
     private static class ViperRuler2TypeBare
     {
-        internal static IClothing<IOverSizeParameters> ViperRuler2TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> ViperRuler2TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

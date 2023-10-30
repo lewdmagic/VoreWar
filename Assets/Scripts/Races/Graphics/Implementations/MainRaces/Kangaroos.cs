@@ -27,7 +27,7 @@ internal static class Kangaroos
     //Open mouth. Will occlude part of the expression, some of the Fatness patch, some of Leader's necklace and a sliver of the Body Armor, so has to go after those.
 
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         builder.Setup(output =>
         {
@@ -480,7 +480,7 @@ namespace KangarooClothes
 {
     internal static class Loincloth1
     {
-        internal static IClothing Loincloth1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Loincloth1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -500,7 +500,7 @@ namespace KangarooClothes
 
     internal static class Loincloth2
     {
-        internal static IClothing Loincloth2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Loincloth2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -520,7 +520,7 @@ namespace KangarooClothes
 
     internal static class Loincloth3
     {
-        internal static IClothing Loincloth3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Loincloth3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -540,7 +540,7 @@ namespace KangarooClothes
 
     internal static class Loincloth4
     {
-        internal static IClothing Loincloth4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Loincloth4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

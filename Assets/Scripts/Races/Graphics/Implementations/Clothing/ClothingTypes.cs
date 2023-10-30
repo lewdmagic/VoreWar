@@ -8,7 +8,7 @@ using UnityEngine;
 
 internal static class BikiniTop
 {
-    internal static IClothing BikiniTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing BikiniTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -42,7 +42,7 @@ internal static class BikiniTop
 
 internal static class StrapTop
 {
-    internal static IClothing StrapTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing StrapTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -76,7 +76,7 @@ internal static class StrapTop
 
 internal static class BeltTop
 {
-    internal static IClothing BeltTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing BeltTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -115,7 +115,7 @@ internal static class BeltTop
 
 internal static class BikiniBottom
 {
-    internal static IClothing BikiniBottomInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing BikiniBottomInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -192,7 +192,7 @@ internal static class BikiniBottom
 
 internal static class Shorts
 {
-    internal static IClothing ShortsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing ShortsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -237,14 +237,7 @@ internal static class Shorts
 
             if (input.Actor.Unit.DickSize > 2)
             {
-                if (input.Actor.Unit.DickSize > 4)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Shorts[11]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Shorts[10]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.DickSize > 4 ? input.Sprites.Shorts[11] : input.Sprites.Shorts[10]);
             }
             else
             {
@@ -258,7 +251,7 @@ internal static class Shorts
 
 internal static class Loincloth
 {
-    internal static IClothing LoinclothInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LoinclothInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -313,7 +306,7 @@ internal static class Loincloth
 
 internal static class Leotard
 {
-    internal static IClothing LeotardInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing LeotardInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -409,7 +402,7 @@ internal static class Leotard
 
 internal static class Rags
 {
-    internal static IClothing RagsInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing RagsInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -507,7 +500,7 @@ internal static class Rags
 
 internal static class BlackTop
 {
-    internal static IClothing BlackTopInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing BlackTopInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -570,7 +563,7 @@ internal static class BlackTop
 
 internal static class FemaleVillager
 {
-    internal static IClothing FemaleVillagerInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing FemaleVillagerInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -594,14 +587,7 @@ internal static class FemaleVillager
             output["Clothing1"].Sprite(input.Sprites.FemaleVillager[input.Actor.IsAttacking ? 1 : 0]);
             output["Clothing2"].Sprite(input.Sprites.FemaleVillager[2]);
             output["Clothing3"].Sprite(input.Sprites.FemaleVillager[3 + input.Actor.GetBodyWeight()]);
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output["Clothing4"].Sprite(input.Sprites.FemaleVillager[8 + input.Actor.Unit.BreastSize]);
-            }
-            else
-            {
-                output["Clothing4"].Sprite(null);
-            }
+            output["Clothing4"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.FemaleVillager[8 + input.Actor.Unit.BreastSize] : null);
 
             output.changeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
         });
@@ -610,7 +596,7 @@ internal static class FemaleVillager
 
 internal static class MaleVillager
 {
-    internal static IClothing MaleVillagerInstance = ClothingBuilder.Create(builder =>
+    internal static readonly IClothing MaleVillagerInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
@@ -634,10 +620,6 @@ internal static class MaleVillager
             {
                 output["Clothing2"].Sprite(input.Sprites.MaleVillager[8]);
             }
-            else
-            {
-                output["Clothing2"].Sprite(null);
-            }
             output.changeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
         });
     });
@@ -645,19 +627,19 @@ internal static class MaleVillager
 
 internal static class ClothingTypes
 {
-    internal static IClothing BikiniTopInstance = BikiniTop.BikiniTopInstance;
-    internal static IClothing BikiniBottomInstance = BikiniBottom.BikiniBottomInstance;
-    internal static IClothing StrapTopInstance = StrapTop.StrapTopInstance;
-    internal static IClothing BeltTopInstance = BeltTop.BeltTopInstance;
-    internal static IClothing ShortsInstance = Shorts.ShortsInstance;
-    internal static IClothing LoinclothInstance = Loincloth.LoinclothInstance;
-    internal static IClothing LeotardInstance = Leotard.LeotardInstance;
-    internal static IClothing RagsInstance = Rags.RagsInstance;
-    internal static IClothing BlackTopInstance = BlackTop.BlackTopInstance;
-    internal static IClothing FemaleVillagerInstance = FemaleVillager.FemaleVillagerInstance;
-    internal static IClothing MaleVillagerInstance = MaleVillager.MaleVillagerInstance;
+    internal static readonly IClothing BikiniTopInstance = BikiniTop.BikiniTopInstance;
+    internal static readonly IClothing BikiniBottomInstance = BikiniBottom.BikiniBottomInstance;
+    internal static readonly IClothing StrapTopInstance = StrapTop.StrapTopInstance;
+    internal static readonly IClothing BeltTopInstance = BeltTop.BeltTopInstance;
+    internal static readonly IClothing ShortsInstance = Shorts.ShortsInstance;
+    internal static readonly IClothing LoinclothInstance = Loincloth.LoinclothInstance;
+    internal static readonly IClothing LeotardInstance = Leotard.LeotardInstance;
+    internal static readonly IClothing RagsInstance = Rags.RagsInstance;
+    internal static readonly IClothing BlackTopInstance = BlackTop.BlackTopInstance;
+    internal static readonly IClothing FemaleVillagerInstance = FemaleVillager.FemaleVillagerInstance;
+    internal static readonly IClothing MaleVillagerInstance = MaleVillager.MaleVillagerInstance;
 
-    internal static List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
+    internal static readonly List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
     {
         BikiniTopInstance,
         BikiniBottomInstance,

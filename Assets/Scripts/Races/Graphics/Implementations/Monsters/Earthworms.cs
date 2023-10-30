@@ -6,9 +6,10 @@ using System.Collections.Generic;
 
 internal static class Earthworms
 {
-    private static Position position;
+    // TODO
+    private static Position _position;
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         RaceFrameList frameListHeadIdle = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .5f, .5f, 1.5f, .5f, .5f });
 
@@ -32,7 +33,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating || position == Position.Underground)
+            if (input.Actor.IsAttacking || input.Actor.IsEating || _position == Position.Underground)
             {
                 input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                 input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -40,7 +41,7 @@ internal static class Earthworms
 
                 if (input.Actor.IsEating || input.Actor.IsAttacking)
                 {
-                    if (position == Position.Underground)
+                    if (_position == Position.Underground)
                     {
                         output.Sprite(input.Sprites.Earthworms[16]);
                         return;
@@ -50,7 +51,7 @@ internal static class Earthworms
                     return;
                 }
 
-                if (position == Position.Underground)
+                if (_position == Position.Underground)
                 {
                     return;
                 }
@@ -95,7 +96,7 @@ internal static class Earthworms
                 return;
             }
 
-            switch (position)
+            switch (_position)
             {
                 case Position.Underground:
                     if (input.Actor.IsEating || input.Actor.IsAttacking)
@@ -133,7 +134,7 @@ internal static class Earthworms
                 return;
             }
 
-            switch (position)
+            switch (_position)
             {
                 case Position.Underground:
                     if (input.Actor.IsEating || input.Actor.IsAttacking)
@@ -156,9 +157,9 @@ internal static class Earthworms
                 return;
             }
 
-            int GenderOffset = input.Actor.Unit.HasBreasts ? 0 : 8;
+            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 8;
 
-            output.Sprite(input.Actor.HasBodyWeight ? input.Sprites.Legs[(input.Actor.Unit.BodySize - 1) * 2 + GenderOffset + attackingOffset] : null);
+            output.Sprite(input.Actor.HasBodyWeight ? input.Sprites.Legs[(input.Actor.Unit.BodySize - 1) * 2 + genderOffset + attackingOffset] : null);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
@@ -169,7 +170,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (position == Position.Aboveground)
+            if (_position == Position.Aboveground)
             {
                 output.Sprite(input.Sprites.Earthworms[6]);
             }
@@ -184,7 +185,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (position == Position.Aboveground && input.Actor.HasBelly == false)
+            if (_position == Position.Aboveground && input.Actor.HasBelly == false)
             {
                 output.Sprite(input.Sprites.Earthworms[7]);
             }
@@ -199,7 +200,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (position == Position.Aboveground)
+            if (_position == Position.Aboveground)
             {
                 output.Sprite(input.Sprites.Earthworms[5]);
             }
@@ -213,7 +214,7 @@ internal static class Earthworms
                 return;
             }
 
-            switch (position)
+            switch (_position)
             {
                 case Position.Underground:
                     if (input.Actor.IsEating || input.Actor.IsAttacking)
@@ -239,7 +240,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (position == Position.Aboveground)
+            if (_position == Position.Aboveground)
             {
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                 {
@@ -275,14 +276,7 @@ internal static class Earthworms
 
         builder.RunBefore((input, output) =>
         {
-            if (!input.Actor.HasAttackedThisCombat)
-            {
-                position = Position.Underground;
-            }
-            else
-            {
-                position = Position.Aboveground;
-            }
+            _position = !input.Actor.HasAttackedThisCombat ? Position.Underground : Position.Aboveground;
             //base.RunFirst(data.Actor);
 
             output.changeSprite(SpriteType.Belly).AddOffset(0, -48 * .625f);
@@ -291,7 +285,7 @@ internal static class Earthworms
         builder.RandomCustom(Defaults.RandomCustom);
     });
 
-    internal static void SetUpAnimations(Actor_Unit actor)
+    private static void SetUpAnimations(Actor_Unit actor)
     {
         actor.AnimationController.frameLists = new[]
         {

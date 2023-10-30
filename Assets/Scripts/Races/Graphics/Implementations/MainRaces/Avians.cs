@@ -7,10 +7,10 @@ using UnityEngine;
 
 internal static class Avians
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
-        IClothing<IOverSizeParameters> LeaderClothes = AvianLeader.AvianLeaderInstance;
-        IClothing Rags = AvianRags.AvianRagsInstance;
+        IClothing<IOverSizeParameters> leaderClothes = AvianLeader.AvianLeaderInstance;
+        IClothing rags = AvianRags.AvianRagsInstance;
 
 
         builder.Setup(output =>
@@ -39,8 +39,8 @@ internal static class Avians
                 GenericTop6.GenericTop6Instance,
                 MaleTop.MaleTopInstance,
                 Natural.NaturalInstance,
-                Rags,
-                LeaderClothes
+                rags,
+                leaderClothes
             );
             output.AvoidedMainClothingTypes = 2;
 
@@ -93,40 +93,19 @@ internal static class Avians
         builder.RenderSingle(SpriteType.Body, 6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Avians1[0 + input.Actor.Unit.BodySize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Avians1[4 + input.Actor.Unit.BodySize]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Avians1[0 + input.Actor.Unit.BodySize] : input.Sprites.Avians1[4 + input.Actor.Unit.BodySize]);
         }); // body (white/ primary)
 
         builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor1));
-            if (input.Actor.IsAttacking)
-            {
-                output.Sprite(input.Sprites.Avians1[37 + input.Actor.Unit.BodyAccentType1]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Avians1[30 + input.Actor.Unit.BodyAccentType1]);
-            }
+            output.Sprite(input.Actor.IsAttacking ? input.Sprites.Avians1[37 + input.Actor.Unit.BodyAccentType1] : input.Sprites.Avians1[30 + input.Actor.Unit.BodyAccentType1]);
         }); // wings primary (white)
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor2));
-            if (input.Actor.IsAttacking)
-            {
-                output.Sprite(input.Sprites.Avians1[40 + input.Actor.Unit.BodyAccentType1]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Avians1[33 + input.Actor.Unit.BodyAccentType1]);
-            }
+            output.Sprite(input.Actor.IsAttacking ? input.Sprites.Avians1[40 + input.Actor.Unit.BodyAccentType1] : input.Sprites.Avians1[33 + input.Actor.Unit.BodyAccentType1]);
         }); // wings secondary (grey)
 
         builder.RenderSingle(SpriteType.BodyAccent3, 2, (input, output) =>
@@ -150,14 +129,7 @@ internal static class Avians
         builder.RenderSingle(SpriteType.BodyAccent5, 3, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.BodySize >= 2)
-            {
-                output.Sprite(input.Sprites.Avians1[29]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Avians1[28]);
-            }
+            output.Sprite(input.Actor.Unit.BodySize >= 2 ? input.Sprites.Avians1[29] : input.Sprites.Avians1[28]);
         }); // feet (black)
 
         builder.RenderSingle(SpriteType.BodyAccent6, 3, (input, output) =>
@@ -165,39 +137,18 @@ internal static class Avians
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.SkinColor));
             if (input.Actor.IsAttacking)
             {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output.Sprite(input.Sprites.Avians1[26]);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.Avians1[27]);
-                }
+                output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Avians1[26] : input.Sprites.Avians1[27]);
             }
             else
             {
-                if (input.Actor.Unit.BodySize >= 2)
-                {
-                    output.Sprite(input.Sprites.Avians1[25]);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.Avians1[24]);
-                }
+                output.Sprite(input.Actor.Unit.BodySize >= 2 ? input.Sprites.Avians1[25] : input.Sprites.Avians1[24]);
             }
         }); // claws (black)
 
         builder.RenderSingle(SpriteType.BodyAccent7, 6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ExtraColor2));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Avians1[8 + input.Actor.Unit.BodySize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Avians1[12 + input.Actor.Unit.BodySize]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Avians1[8 + input.Actor.Unit.BodySize] : input.Sprites.Avians1[12 + input.Actor.Unit.BodySize]);
         }); // legs (grey/ secondary)
 
         builder.RenderSingle(SpriteType.BodyAccent8, 6, (input, output) =>
@@ -208,25 +159,11 @@ internal static class Avians
                 output.Layer(3);
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize >= 2)
-                    {
-                        output.Sprite(input.Sprites.Avians1[21]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Avians1[20]);
-                    }
+                    output.Sprite(input.Actor.Unit.BodySize >= 2 ? input.Sprites.Avians1[21] : input.Sprites.Avians1[20]);
                 }
                 else
                 {
-                    if (input.Actor.Unit.BodySize >= 2)
-                    {
-                        output.Sprite(input.Sprites.Avians1[23]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Avians1[22]);
-                    }
+                    output.Sprite(input.Actor.Unit.BodySize >= 2 ? input.Sprites.Avians1[23] : input.Sprites.Avians1[22]);
                 }
             }
             else
@@ -234,25 +171,11 @@ internal static class Avians
                 output.Layer(6);
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize >= 2)
-                    {
-                        output.Sprite(input.Sprites.Avians1[17]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Avians1[16]);
-                    }
+                    output.Sprite(input.Actor.Unit.BodySize >= 2 ? input.Sprites.Avians1[17] : input.Sprites.Avians1[16]);
                 }
                 else
                 {
-                    if (input.Actor.Unit.BodySize >= 2)
-                    {
-                        output.Sprite(input.Sprites.Avians1[19]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Avians1[18]);
-                    }
+                    output.Sprite(input.Actor.Unit.BodySize >= 2 ? input.Sprites.Avians1[19] : input.Sprites.Avians1[18]);
                 }
             }
         }); // arms (grey/ secondary)
@@ -425,26 +348,12 @@ internal static class Avians
                 if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
                 {
                     output.Layer(18);
-                    if (input.Actor.IsCockVoring)
-                    {
-                        output.Sprite(input.Sprites.Avians1[84 + input.Actor.Unit.DickSize]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Avians1[68 + input.Actor.Unit.DickSize]);
-                    }
+                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Avians1[84 + input.Actor.Unit.DickSize] : input.Sprites.Avians1[68 + input.Actor.Unit.DickSize]);
                 }
                 else
                 {
                     output.Layer(10);
-                    if (input.Actor.IsCockVoring)
-                    {
-                        output.Sprite(input.Sprites.Avians1[92 + input.Actor.Unit.DickSize]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Avians1[76 + input.Actor.Unit.DickSize]);
-                    }
+                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Avians1[92 + input.Actor.Unit.DickSize] : input.Sprites.Avians1[76 + input.Actor.Unit.DickSize]);
                 }
             }
 
@@ -554,7 +463,7 @@ internal static class Avians
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
                 if (unit.ClothingType == -1) //Covers rags not in the list
                 {
                     unit.ClothingType = 1;
@@ -563,7 +472,7 @@ internal static class Avians
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
             }
         });
     });
@@ -571,7 +480,7 @@ internal static class Avians
 
     private static class GenericTop1
     {
-        internal static IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -602,7 +511,7 @@ internal static class Avians
 
     private static class GenericTop2
     {
-        internal static IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -633,7 +542,7 @@ internal static class Avians
 
     private static class GenericTop3
     {
-        internal static IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -664,7 +573,7 @@ internal static class Avians
 
     private static class GenericTop4
     {
-        internal static IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -698,7 +607,7 @@ internal static class Avians
 
     private static class GenericTop5
     {
-        internal static IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -733,7 +642,7 @@ internal static class Avians
 
     private static class GenericTop6
     {
-        internal static IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -764,7 +673,7 @@ internal static class Avians
 
     private static class MaleTop
     {
-        internal static IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -787,7 +696,7 @@ internal static class Avians
 
     private static class Natural
     {
-        internal static IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -823,7 +732,7 @@ internal static class Avians
 
     private static class AvianRags
     {
-        internal static IClothing AvianRagsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AvianRagsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -874,7 +783,7 @@ internal static class Avians
 
     private static class AvianLeader
     {
-        internal static IClothing<IOverSizeParameters> AvianLeaderInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> AvianLeaderInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -898,18 +807,9 @@ internal static class Avians
                 output["Clothing1"].Coloring(Color.white);
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Params.Oversize)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Avians4[111]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Avians4[103 + input.Actor.Unit.BreastSize]);
-                    }
-
+                    output["Clothing1"].Sprite(input.Params.Oversize ? input.Sprites.Avians4[111] : input.Sprites.Avians4[103 + input.Actor.Unit.BreastSize]);
                     output["Clothing2"].Sprite(input.Sprites.Avians4[112 + input.Actor.Unit.BodySize]);
                     output["Clothing3"].Sprite(input.Sprites.Avians4[120 + input.Actor.Unit.HairStyle]);
-                    output["Clothing4"].Sprite(null);
                 }
                 else
                 {
@@ -928,7 +828,6 @@ internal static class Avians
 
                     output["Clothing1"].Sprite(input.Sprites.Avians4[132 + input.Actor.Unit.BodySize]);
                     output["Clothing2"].Sprite(input.Sprites.Avians4[116 + input.Actor.Unit.BodySize]);
-                    output["Clothing3"].Sprite(null);
                 }
             });
         });
@@ -936,7 +835,7 @@ internal static class Avians
 
     private static class GenericBot1
     {
-        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1002,7 +901,7 @@ internal static class Avians
 
     private static class GenericBot2
     {
-        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1068,7 +967,7 @@ internal static class Avians
 
     private static class GenericBot3
     {
-        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1106,7 +1005,7 @@ internal static class Avians
 
     private static class GenericBot4
     {
-        internal static IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

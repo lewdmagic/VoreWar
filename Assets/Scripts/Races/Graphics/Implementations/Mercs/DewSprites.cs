@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class DewSprites
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         builder.Setup(output =>
         {
@@ -142,7 +142,7 @@ internal static class DewSprites
 
     private static class Bottom1
     {
-        internal static IClothing Bottom1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Bottom1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -172,7 +172,7 @@ internal static class DewSprites
 
     private static class Bottom2
     {
-        internal static IClothing Bottom2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Bottom2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -201,7 +201,7 @@ internal static class DewSprites
 
     private static class Bottom3
     {
-        internal static IClothing Bottom3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Bottom3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -230,7 +230,7 @@ internal static class DewSprites
 
     private static class Bottom4
     {
-        internal static IClothing Bottom4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Bottom4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -259,7 +259,7 @@ internal static class DewSprites
 
     private static class Top
     {
-        internal static IClothing TopInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing TopInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -270,14 +270,7 @@ internal static class DewSprites
             {
                 output["Clothing1"].Layer(17);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.DewSprite[63 + input.Actor.Unit.BreastSize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.DewSprite[62]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.DewSprite[63 + input.Actor.Unit.BreastSize] : input.Sprites.DewSprite[62]);
             });
         });
     }

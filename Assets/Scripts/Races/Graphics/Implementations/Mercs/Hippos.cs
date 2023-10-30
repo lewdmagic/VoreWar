@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Hippos
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
         builder.Setup(output =>
         {
@@ -93,14 +93,7 @@ internal static class Hippos
         builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Hippos[0 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Hippos[10 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
-            }
+            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Hippos[0 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize] : input.Sprites.Hippos[10 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
@@ -423,7 +416,7 @@ internal static class Hippos
 
     private static class HipposTop1
     {
-        internal static IClothing<IOverSizeParameters> HipposTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> HipposTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -452,7 +445,7 @@ internal static class Hippos
 
     private static class HipposTop2
     {
-        internal static IClothing<IOverSizeParameters> HipposTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> HipposTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -484,7 +477,7 @@ internal static class Hippos
 
     private static class HipposTop3
     {
-        internal static IClothing<IOverSizeParameters> HipposTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> HipposTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -516,7 +509,7 @@ internal static class Hippos
 
     private static class Natural
     {
-        internal static IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -547,7 +540,7 @@ internal static class Hippos
 
     private static class HipposBot1
     {
-        internal static IClothing HipposBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -567,7 +560,7 @@ internal static class Hippos
 
     private static class HipposBot2
     {
-        internal static IClothing HipposBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -587,7 +580,7 @@ internal static class Hippos
 
     private static class HipposBot3
     {
-        internal static IClothing HipposBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -607,7 +600,7 @@ internal static class Hippos
 
     private static class HipposBot4
     {
-        internal static IClothing HipposBot4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposBot4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -627,7 +620,7 @@ internal static class Hippos
 
     private static class HipposHeadband1
     {
-        internal static IClothing HipposHeadband1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposHeadband1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -642,7 +635,7 @@ internal static class Hippos
 
     private static class HipposHeadband2
     {
-        internal static IClothing HipposHeadband2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposHeadband2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -657,7 +650,7 @@ internal static class Hippos
 
     private static class HipposHeadband3
     {
-        internal static IClothing HipposHeadband3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposHeadband3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -672,7 +665,7 @@ internal static class Hippos
 
     private static class HipposHeadband4
     {
-        internal static IClothing HipposHeadband4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposHeadband4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -687,7 +680,7 @@ internal static class Hippos
 
     private static class HipposHeadband5
     {
-        internal static IClothing HipposHeadband5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposHeadband5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -702,7 +695,7 @@ internal static class Hippos
 
     private static class HipposHeadband6
     {
-        internal static IClothing HipposHeadband6Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposHeadband6Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -717,7 +710,7 @@ internal static class Hippos
 
     private static class HipposHeadband7
     {
-        internal static IClothing HipposHeadband7Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposHeadband7Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -732,7 +725,7 @@ internal static class Hippos
 
     private static class HipposHeadband8
     {
-        internal static IClothing HipposHeadband8Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposHeadband8Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -748,7 +741,7 @@ internal static class Hippos
 
     private static class HipposNecklace1
     {
-        internal static IClothing HipposNecklace1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposNecklace1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -763,7 +756,7 @@ internal static class Hippos
 
     private static class HipposNecklace2
     {
-        internal static IClothing HipposNecklace2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposNecklace2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -778,7 +771,7 @@ internal static class Hippos
 
     private static class HipposNecklace3
     {
-        internal static IClothing HipposNecklace3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposNecklace3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -793,7 +786,7 @@ internal static class Hippos
 
     private static class HipposNecklace4
     {
-        internal static IClothing HipposNecklace4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposNecklace4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -808,7 +801,7 @@ internal static class Hippos
 
     private static class HipposNecklace5
     {
-        internal static IClothing HipposNecklace5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposNecklace5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -823,7 +816,7 @@ internal static class Hippos
 
     private static class HipposNecklace6
     {
-        internal static IClothing HipposNecklace6Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposNecklace6Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -838,7 +831,7 @@ internal static class Hippos
 
     private static class HipposNecklace7
     {
-        internal static IClothing HipposNecklace7Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposNecklace7Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
@@ -853,7 +846,7 @@ internal static class Hippos
 
     private static class HipposNecklace8
     {
-        internal static IClothing HipposNecklace8Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing HipposNecklace8Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 

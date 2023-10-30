@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Humans
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
         builder.Setup(output =>
         {
@@ -75,14 +75,7 @@ internal static class Humans
             {
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
-                    {
-                        output.Sprite(input.Sprites.HumansBodySprites2[4]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.HumansBodySprites2[1]);
-                    }
+                    output.Sprite(input.Actor.Unit.BodySize > 1 ? input.Sprites.HumansBodySprites2[4] : input.Sprites.HumansBodySprites2[1]);
                 }
                 else
                 {
@@ -93,14 +86,7 @@ internal static class Humans
             {
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
-                    {
-                        output.Sprite(input.Sprites.HumansBodySprites2[5]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.HumansBodySprites2[2]);
-                    }
+                    output.Sprite(input.Actor.Unit.BodySize > 1 ? input.Sprites.HumansBodySprites2[5] : input.Sprites.HumansBodySprites2[2]);
                 }
                 else
                 {
@@ -111,14 +97,7 @@ internal static class Humans
             {
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
-                    {
-                        output.Sprite(input.Sprites.HumansBodySprites2[3]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.HumansBodySprites2[0]);
-                    }
+                    output.Sprite(input.Actor.Unit.BodySize > 1 ? input.Sprites.HumansBodySprites2[3] : input.Sprites.HumansBodySprites2[0]);
                 }
                 else
                 {
@@ -748,14 +727,7 @@ internal static class Humans
 
             if (unit.HasDick && unit.HasBreasts)
             {
-                if (Config.HermsOnlyUseFemaleHair)
-                {
-                    unit.HairStyle = State.Rand.Next(18);
-                }
-                else
-                {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                }
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 18 : data.MiscRaceData.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
@@ -938,7 +910,7 @@ internal static class Humans
 
     private static class GenericTop1
     {
-        internal static IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1002,7 +974,7 @@ internal static class Humans
 
     private static class GenericTop2
     {
-        internal static IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1065,7 +1037,7 @@ internal static class Humans
 
     private static class GenericTop3
     {
-        internal static IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1129,7 +1101,7 @@ internal static class Humans
 
     private static class GenericTop4
     {
-        internal static IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1192,7 +1164,7 @@ internal static class Humans
 
     private static class GenericTop5
     {
-        internal static IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1256,7 +1228,7 @@ internal static class Humans
 
     private static class GenericTop6
     {
-        internal static IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1320,7 +1292,7 @@ internal static class Humans
 
     private static class GenericTop7
     {
-        internal static IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1383,7 +1355,7 @@ internal static class Humans
 
     private static class MaleTop
     {
-        internal static IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1406,7 +1378,7 @@ internal static class Humans
 
     private static class MaleTop2
     {
-        internal static IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1424,21 +1396,14 @@ internal static class Humans
 
                 output["Clothing1"].Coloring(Color.white);
 
-                if (input.Actor.HasBelly)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.HumenMundertops[4]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.HumenMundertops[1 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.HumenMundertops[4] : input.Sprites.HumenMundertops[1 + input.Actor.Unit.BodySize]);
             });
         });
     }
 
     private static class MaleTop3
     {
-        internal static IClothing MaleTop3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1461,7 +1426,7 @@ internal static class Humans
 
     private static class MaleTop4
     {
-        internal static IClothing MaleTop4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1477,14 +1442,7 @@ internal static class Humans
             {
                 output["Clothing1"].Layer(18);
 
-                if (input.Actor.HasBelly)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.HumenMundertops[10]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.HumenMundertops[7 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.HumenMundertops[10] : input.Sprites.HumenMundertops[7 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
             });
@@ -1493,7 +1451,7 @@ internal static class Humans
 
     private static class MaleTop5
     {
-        internal static IClothing MaleTop5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1509,14 +1467,7 @@ internal static class Humans
             {
                 output["Clothing1"].Layer(18);
 
-                if (input.Actor.Unit.BodySize == 2)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.HumenMundertops[13]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.HumenMundertops[12]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.BodySize == 2 ? input.Sprites.HumenMundertops[13] : input.Sprites.HumenMundertops[12]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
             });
@@ -1525,7 +1476,7 @@ internal static class Humans
 
     private static class MaleTop6
     {
-        internal static IClothing MaleTop6Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop6Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1550,7 +1501,7 @@ internal static class Humans
 
     private static class Uniform1
     {
-        internal static IClothing<IOverSizeParameters> Uniform1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> Uniform1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1571,14 +1522,7 @@ internal static class Humans
                 }
                 else if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize > 5)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUniform2[6]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUniform2[0 + input.Actor.Unit.BreastSize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.BreastSize > 5 ? input.Sprites.HumenUniform2[6] : input.Sprites.HumenUniform2[0 + input.Actor.Unit.BreastSize]);
                 }
                 
                 if (input.Actor.HasBelly)
@@ -1646,7 +1590,7 @@ internal static class Humans
 
     private static class FemaleOnePiece1
     {
-        internal static IClothing<IOverSizeParameters> FemaleOnePiece1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> FemaleOnePiece1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1777,7 +1721,7 @@ internal static class Humans
 
     private static class FemaleOnePiece2
     {
-        internal static IClothing<IOverSizeParameters> FemaleOnePiece2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> FemaleOnePiece2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1845,7 +1789,7 @@ internal static class Humans
 
     private static class FemaleOnePiece3
     {
-        internal static IClothing<IOverSizeParameters> FemaleOnePiece3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> FemaleOnePiece3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1913,7 +1857,7 @@ internal static class Humans
 
     private static class FemaleOnePiece4
     {
-        internal static IClothing<IOverSizeParameters> FemaleOnePiece4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> FemaleOnePiece4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2044,7 +1988,7 @@ internal static class Humans
 
     private static class GenericBot1
     {
-        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2060,28 +2004,14 @@ internal static class Humans
                 output["Clothing1"].Layer(13);
                 if (input.Actor.Unit.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 4)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[60]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[61]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[0 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[3 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[0 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[3 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
@@ -2091,7 +2021,7 @@ internal static class Humans
 
     private static class GenericBot2
     {
-        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2121,14 +2051,7 @@ internal static class Humans
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[7 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[10 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[7 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[10 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
@@ -2138,7 +2061,7 @@ internal static class Humans
 
     private static class GenericBot3
     {
-        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2156,35 +2079,21 @@ internal static class Humans
                 output["Clothing1"].Coloring(Color.white);
                 if (input.Actor.Unit.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 4)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[62]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[63]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[62] : input.Sprites.HumenUnderbottoms[63]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[20 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[23 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[20 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[23 + input.Actor.Unit.BodySize]);
             });
         });
     }
 
     private static class GenericBot4
     {
-        internal static IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2200,28 +2109,14 @@ internal static class Humans
                 output["Clothing1"].Layer(13);
                 if (input.Actor.Unit.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 4)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[60]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[61]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[33 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[36 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[33 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[36 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
@@ -2231,7 +2126,7 @@ internal static class Humans
 
     private static class GenericBot5
     {
-        internal static IClothing GenericBot5Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot5Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2247,28 +2142,14 @@ internal static class Humans
                 output["Clothing1"].Layer(13);
                 if (input.Actor.Unit.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 4)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[60]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[61]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[46 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[49 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[46 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[49 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
@@ -2278,7 +2159,7 @@ internal static class Humans
 
     private static class GenericBot6
     {
-        internal static IClothing GenericBot6Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot6Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2294,28 +2175,14 @@ internal static class Humans
                 output["Clothing1"].Layer(13);
                 if (input.Actor.Unit.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 4)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[60]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[61]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[53 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUnderbottoms[56 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[53 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[56 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
@@ -2325,7 +2192,7 @@ internal static class Humans
 
     private static class Uniform2
     {
-        internal static IClothing Uniform2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Uniform2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2338,14 +2205,7 @@ internal static class Humans
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(12);
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.HumenUniform1[24 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.HumenUniform1[33 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUniform1[24 + input.Actor.Unit.BodySize] : input.Sprites.HumenUniform1[33 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
             });
@@ -2354,7 +2214,7 @@ internal static class Humans
 
     private static class BigLoin
     {
-        internal static IClothing BigLoinInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing BigLoinInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2383,7 +2243,7 @@ internal static class Humans
 
     private static class Pants1
     {
-        internal static IClothing Pants1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Pants1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2405,10 +2265,6 @@ internal static class Humans
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumenPants[24 + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
                     }
-                    else
-                    {
-                        output["Clothing2"].Sprite(null);
-                    }
 
                     output["Clothing1"].Sprite(input.Sprites.HumenPants[0 + 2 * input.Actor.Unit.BodySize + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
                 }
@@ -2423,7 +2279,7 @@ internal static class Humans
 
     private static class Pants2
     {
-        internal static IClothing Pants2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing Pants2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -2443,10 +2299,6 @@ internal static class Humans
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumenPants[29 + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
                     }
-                    else
-                    {
-                        output["Clothing2"].Sprite(null);
-                    }
 
                     output["Clothing1"].Sprite(input.Sprites.HumenPants[12 + 2 * input.Actor.Unit.BodySize + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
                 }
@@ -2464,7 +2316,7 @@ internal static class Humans
 
     private static class Skirt
     {
-        internal static IClothing SkirtInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing SkirtInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

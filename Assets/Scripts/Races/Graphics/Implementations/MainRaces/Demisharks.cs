@@ -9,8 +9,8 @@ internal static class Demisharks
 {
     internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
-        IClothing<IOverSizeParameters> LeaderClothes = DemisharkLeader.DemisharkLeaderInstance;
-        IClothing Rags = DemisharkRags.DemisharkRagsInstance;
+        IClothing<IOverSizeParameters> leaderClothes = DemisharkLeader.DemisharkLeaderInstance;
+        IClothing rags = DemisharkRags.DemisharkRagsInstance;
 
 
         builder.Setup(output =>
@@ -46,8 +46,8 @@ internal static class Demisharks
                 Natural.NaturalInstance,
                 PirateTop1.PirateTop1Instance,
                 PirateTop2.PirateTop2Instance,
-                Rags,
-                LeaderClothes
+                rags,
+                leaderClothes
             );
             output.AvoidedMainClothingTypes = 2;
             output.AvoidedEyeTypes = 0;
@@ -635,14 +635,7 @@ internal static class Demisharks
 
             if (unit.HasDick && unit.HasBreasts)
             {
-                if (Config.HermsOnlyUseFemaleHair)
-                {
-                    unit.HairStyle = State.Rand.Next(18);
-                }
-                else
-                {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                }
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 18 : data.MiscRaceData.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
@@ -666,7 +659,7 @@ internal static class Demisharks
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
                 unit.ClothingExtraType1 = 3;
             }
             else if (State.Rand.Next(3) == 0)
@@ -680,7 +673,7 @@ internal static class Demisharks
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
                     unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
@@ -702,7 +695,7 @@ internal static class Demisharks
 
     private static class GenericTop1
     {
-        internal static IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -733,7 +726,7 @@ internal static class Demisharks
 
     private static class GenericTop2
     {
-        internal static IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -764,7 +757,7 @@ internal static class Demisharks
 
     private static class GenericTop3
     {
-        internal static IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -795,7 +788,7 @@ internal static class Demisharks
 
     private static class GenericTop4
     {
-        internal static IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -829,7 +822,7 @@ internal static class Demisharks
 
     private static class GenericTop5
     {
-        internal static IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -864,7 +857,7 @@ internal static class Demisharks
 
     private static class GenericTop6
     {
-        internal static IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -895,7 +888,7 @@ internal static class Demisharks
 
     private static class GenericTop7
     {
-        internal static IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> GenericTop7Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -926,7 +919,7 @@ internal static class Demisharks
 
     private static class PirateTop1
     {
-        internal static IClothing<IOverSizeParameters> PirateTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> PirateTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -953,28 +946,14 @@ internal static class Demisharks
                 }
                 else if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[51 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks7[84 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Sharks6[51 + input.Actor.Unit.BodySize] : input.Sprites.Sharks7[84 + input.Actor.Unit.BodySize]);
 
                     output["Clothing2"].Sprite(input.Sprites.Sharks6[48]);
                     output["Clothing3"].Sprite(input.Sprites.Sharks6[60 + input.Actor.Unit.BreastSize]);
                 }
                 else
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[56 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks7[88 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Sharks6[56 + input.Actor.Unit.BodySize] : input.Sprites.Sharks7[88 + input.Actor.Unit.BodySize]);
 
                     output["Clothing2"].Sprite(input.Sprites.Sharks6[49]);
                     output["Clothing3"].Sprite(null);
@@ -985,7 +964,7 @@ internal static class Demisharks
 
     private static class PirateTop2
     {
-        internal static IClothing<IOverSizeParameters> PirateTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> PirateTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1079,7 +1058,7 @@ internal static class Demisharks
 
     private static class MaleTop
     {
-        internal static IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTopInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1095,14 +1074,7 @@ internal static class Demisharks
             {
                 output["Clothing1"].Layer(18);
 
-                if (input.Actor.HasBelly)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Sharks5[116 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Sharks5[112 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Sharks5[116 + input.Actor.Unit.BodySize] : input.Sprites.Sharks5[112 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1111,7 +1083,7 @@ internal static class Demisharks
 
     private static class MaleTop2
     {
-        internal static IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing MaleTop2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1134,7 +1106,7 @@ internal static class Demisharks
 
     private static class Natural
     {
-        internal static IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1177,7 +1149,7 @@ internal static class Demisharks
 
     private static class DemisharkRags
     {
-        internal static IClothing DemisharkRagsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing DemisharkRagsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1224,7 +1196,7 @@ internal static class Demisharks
 
     private static class DemisharkLeader
     {
-        internal static IClothing<IOverSizeParameters> DemisharkLeaderInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly IClothing<IOverSizeParameters> DemisharkLeaderInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1253,14 +1225,7 @@ internal static class Demisharks
                     output["Clothing1"].Sprite(null);
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
-                    if (input.Actor.Unit.HasBreasts)
-                    {
-                        output["Clothing5"].Sprite(input.Sprites.Sharks6[36 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing5"].Sprite(input.Sprites.Sharks6[44 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing5"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Sharks6[36 + input.Actor.Unit.BodySize] : input.Sprites.Sharks6[44 + input.Actor.Unit.BodySize]);
                 }
                 else if (input.Params.Oversize || input.Actor.Unit.BreastSize == 7)
                 {
@@ -1356,7 +1321,7 @@ internal static class Demisharks
 
     private static class GenericBot1
     {
-        internal static IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1390,14 +1355,7 @@ internal static class Demisharks
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[10 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[14 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Sharks5[10 + input.Actor.Unit.BodySize] : input.Sprites.Sharks5[14 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
@@ -1407,7 +1365,7 @@ internal static class Demisharks
 
     private static class GenericBot2
     {
-        internal static IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1445,14 +1403,7 @@ internal static class Demisharks
                     output["Clothing1"].Sprite(input.Sprites.Sharks5[29]);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[21 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[25 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Sharks5[21 + input.Actor.Unit.BodySize] : input.Sprites.Sharks5[25 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1461,7 +1412,7 @@ internal static class Demisharks
 
     private static class GenericBot3
     {
-        internal static IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1478,14 +1429,7 @@ internal static class Demisharks
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Sharks5[33]);
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[21 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[25 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Sharks5[21 + input.Actor.Unit.BodySize] : input.Sprites.Sharks5[25 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
             });
@@ -1494,7 +1438,7 @@ internal static class Demisharks
 
     private static class GenericBot4
     {
-        internal static IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing GenericBot4Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1530,14 +1474,7 @@ internal static class Demisharks
                     output["Clothing1"].Sprite(null);
                 }
 
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[34 + input.Actor.Unit.BodySize]);
-                }
-                else
-                {
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[38 + input.Actor.Unit.BodySize]);
-                }
+                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Sharks5[34 + input.Actor.Unit.BodySize] : input.Sprites.Sharks5[38 + input.Actor.Unit.BodySize]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
                 output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
@@ -1547,7 +1484,7 @@ internal static class Demisharks
 
     private static class PirateBot1
     {
-        internal static IClothing PirateBot1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing PirateBot1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1565,25 +1502,11 @@ internal static class Demisharks
 
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[4 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[0 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Sharks6[4 + input.Actor.Unit.BodySize] : input.Sprites.Sharks6[0 + input.Actor.Unit.BodySize]);
                 }
                 else
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[12 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[8 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Sharks6[12 + input.Actor.Unit.BodySize] : input.Sprites.Sharks6[8 + input.Actor.Unit.BodySize]);
                 }
             });
         });
@@ -1591,7 +1514,7 @@ internal static class Demisharks
 
     private static class PirateBot2
     {
-        internal static IClothing PirateBot2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing PirateBot2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1609,25 +1532,11 @@ internal static class Demisharks
 
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[20 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[16 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Sharks6[20 + input.Actor.Unit.BodySize] : input.Sprites.Sharks6[16 + input.Actor.Unit.BodySize]);
                 }
                 else
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[28 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[24 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Sharks6[28 + input.Actor.Unit.BodySize] : input.Sprites.Sharks6[24 + input.Actor.Unit.BodySize]);
                 }
             });
         });
@@ -1635,7 +1544,7 @@ internal static class Demisharks
 
     private static class PirateBot3
     {
-        internal static IClothing PirateBot3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing PirateBot3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1653,25 +1562,11 @@ internal static class Demisharks
 
                 if (input.Actor.Unit.HasBreasts)
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[36 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[32 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Sharks6[36 + input.Actor.Unit.BodySize] : input.Sprites.Sharks6[32 + input.Actor.Unit.BodySize]);
                 }
                 else
                 {
-                    if (input.Actor.HasBelly)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[44 + input.Actor.Unit.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.Sharks6[40 + input.Actor.Unit.BodySize]);
-                    }
+                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Sharks6[44 + input.Actor.Unit.BodySize] : input.Sprites.Sharks6[40 + input.Actor.Unit.BodySize]);
                 }
             });
         });
@@ -1679,7 +1574,7 @@ internal static class Demisharks
 
     private static class PirateHat1
     {
-        internal static IClothing PirateHat1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing PirateHat1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1713,7 +1608,7 @@ internal static class Demisharks
 
     private static class PirateHat2
     {
-        internal static IClothing PirateHat2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing PirateHat2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1742,7 +1637,7 @@ internal static class Demisharks
 
     private static class PirateHat3
     {
-        internal static IClothing PirateHat3Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing PirateHat3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

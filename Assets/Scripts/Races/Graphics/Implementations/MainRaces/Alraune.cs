@@ -8,11 +8,11 @@ using UnityEngine;
 
 internal static class Alraune
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
         float yOffset = 10 * .625f;
-        IClothing LeaderClothes = AlrauneLeader.AlrauneLeaderInstance;
-        IClothing Rags = AlrauneRags.AlrauneRagsInstance;
+        IClothing leaderClothes = AlrauneLeader.AlrauneLeaderInstance;
+        IClothing rags = AlrauneRags.AlrauneRagsInstance;
 
 
         builder.RandomCustom(data =>
@@ -24,7 +24,7 @@ internal static class Alraune
                 (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
                 unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(Rags);
+                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(rags);
                 if (unit.ClothingType == -1) //Covers rags not in the list
                 {
                     unit.ClothingType = 1;
@@ -33,7 +33,7 @@ internal static class Alraune
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(LeaderClothes);
+                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(leaderClothes);
             }
 
             if (unit.HasDick && unit.HasBreasts)
@@ -102,8 +102,8 @@ internal static class Alraune
                 AlrauneVines2.AlrauneVines2Instance,
                 AlrauneMoss.AlrauneMossInstance,
                 AlrauneChristmas.AlrauneChristmasInstance,
-                Rags,
-                LeaderClothes
+                rags,
+                leaderClothes
             );
 
             output.AllowedWaistTypes.Set(
@@ -267,7 +267,7 @@ namespace AlrauneClothing
 {
     internal static class AlrauneLeafs
     {
-        internal static IClothing AlrauneLeafsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AlrauneLeafsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -318,7 +318,7 @@ namespace AlrauneClothing
 
     internal static class AlrauneVines1
     {
-        internal static IClothing AlrauneVines1Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AlrauneVines1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -371,7 +371,7 @@ namespace AlrauneClothing
 
     internal static class AlrauneVines2
     {
-        internal static IClothing AlrauneVines2Instance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AlrauneVines2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -424,7 +424,7 @@ namespace AlrauneClothing
 
     internal static class AlrauneMoss
     {
-        internal static IClothing AlrauneMossInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AlrauneMossInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -436,14 +436,7 @@ namespace AlrauneClothing
             {
                 output["Clothing2"].Layer(10);
                 output["Clothing1"].Layer(17);
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Alraune[120 + input.Actor.Unit.BreastSize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Alraune[120]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Alraune[120 + input.Actor.Unit.BreastSize] : input.Sprites.Alraune[120]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
 
@@ -474,7 +467,7 @@ namespace AlrauneClothing
 
     internal static class AlrauneChristmas
     {
-        internal static IClothing AlrauneChristmasInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AlrauneChristmasInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -496,10 +489,6 @@ namespace AlrauneClothing
                 {
                     output["Clothing1"].Sprite(input.Sprites.AlrauneChristmas[2 + input.Actor.Unit.BreastSize]);
                 }
-                else
-                {
-                    output["Clothing1"].Sprite(null);
-                }
 
                 output["Clothing2"].Sprite(input.Sprites.AlrauneChristmas[10]);
 
@@ -510,7 +499,7 @@ namespace AlrauneClothing
 
     internal static class AlrauneRags
     {
-        internal static IClothing AlrauneRagsInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AlrauneRagsInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -531,10 +520,6 @@ namespace AlrauneClothing
                 if (input.Actor.Unit.HasBreasts)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Alraune[144 + input.Actor.Unit.BreastSize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(null);
                 }
 
                 if (input.Actor.Unit.DickSize > 0)
@@ -564,7 +549,7 @@ namespace AlrauneClothing
 
     internal static class AlrauneLeader
     {
-        internal static IClothing AlrauneLeaderInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing AlrauneLeaderInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -578,14 +563,7 @@ namespace AlrauneClothing
             {
                 output["Clothing2"].Layer(10);
                 output["Clothing1"].Layer(17);
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Alraune[132 + input.Actor.Unit.BreastSize]);
-                }
-                else
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Alraune[132]);
-                }
+                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Alraune[132 + input.Actor.Unit.BreastSize] : input.Sprites.Alraune[132]);
 
                 output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
 

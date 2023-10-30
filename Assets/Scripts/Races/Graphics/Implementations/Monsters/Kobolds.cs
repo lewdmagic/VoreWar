@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class Kobolds
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank<FacingFrontParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<FacingFrontParameters>, builder =>
     {
         builder.Setup(output =>
         {
@@ -349,7 +349,7 @@ internal static class Kobolds
                     ballsYOffset = 30;
                 }
 
-                bool OnBalls = ballsYOffset > 0;
+                bool onBalls = ballsYOffset > 0;
                 float stomachYOffset = 0;
                 int stomachSize = input.Actor.GetStomachSize(12);
                 if (stomachSize == 10)
@@ -407,11 +407,11 @@ internal static class Kobolds
 
     private static class BikiniBottom
     {
-        internal static IClothing<FacingFrontParameters> BikiniBottomInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+        internal static readonly IClothing<FacingFrontParameters> BikiniBottomInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output ) =>
             {
-                { };
+                
             });
 
             builder.RenderAll((input, output) =>
@@ -427,16 +427,11 @@ internal static class Kobolds
                     {
                         output["Clothing2"].Sprite(input.Sprites.Kobolds[106]);
                     }
-                    else
-                    {
-                        output["Clothing2"].Sprite(null);
-                    }
                 }
                 else
                 {
                     output.RevealsDick = true;
                     output["Clothing1"].Sprite(input.Sprites.Kobolds[107]);
-                    output["Clothing2"].Sprite(null);
                 }
             });
         });
@@ -444,7 +439,7 @@ internal static class Kobolds
 
     private static class Tabard
     {
-        internal static IClothing<FacingFrontParameters> TabardInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+        internal static readonly IClothing<FacingFrontParameters> TabardInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -483,11 +478,11 @@ internal static class Kobolds
 
     private static class LoinCloth
     {
-        internal static IClothing<FacingFrontParameters> LoinClothInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+        internal static readonly IClothing<FacingFrontParameters> LoinClothInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output ) =>
             {
-                { };
+                
             });
 
             builder.RenderAll((input, output) =>
@@ -511,11 +506,11 @@ internal static class Kobolds
 
     private static class Rags
     {
-        internal static IClothing<FacingFrontParameters> RagsInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+        internal static readonly IClothing<FacingFrontParameters> RagsInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output ) =>
             {
-                { output.RevealsDick = true; };
+                output.RevealsDick = true;
             });
 
             builder.RenderAll((input, output) =>
@@ -538,7 +533,7 @@ internal static class Kobolds
 
     private static class BeltTop
     {
-        internal static IClothing<FacingFrontParameters> BeltTopInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+        internal static readonly IClothing<FacingFrontParameters> BeltTopInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
