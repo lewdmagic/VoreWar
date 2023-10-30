@@ -184,7 +184,7 @@ internal class CompleteSprite
 
         if (_sprites[0] != null && _sprites[0].IsImage) //Manual sort for Images
         {
-            ISpriteContainer[] containers = _sprites.Where(s => s != null).OrderBy(s => s.SortOrder).ToArray();
+            ISpriteContainer[] containers = _allContainers.Where(s => s != null).OrderBy(s => s.SortOrder).ToArray();
             for (int i = 0; i < containers.Length; i++)
             {
                 containers[i].GameObject.transform.SetSiblingIndex(i + 1);

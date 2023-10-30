@@ -67,12 +67,6 @@ internal static class Serpents
             output.Sprite(input.Actor.IsEating ? input.Sprites.Serpents[4] : null);
         });
 
-        builder.RenderSingle(SpriteType.SecondaryAccessory, 1, (input, output) =>
-        {
-            Defaults.SpriteGens2[SpriteType.SecondaryAccessory].Invoke(input, output);
-            output.Coloring(Defaults.WhiteColored);
-        });
-
 
         builder.RenderSingle(SpriteType.BodySize, 7, (input, output) =>
         {
