@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,52 @@ internal static class Bats
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Bat", "Bats");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "bat", "chiropter", "demi-bat" },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Push Dagger",
+                [WeaponNames.Axe]         = "WeaponNames.Claw Katar",
+                [WeaponNames.SimpleBow]   = "Iron Throwing Knife",
+                [WeaponNames.CompoundBow] = "Steel Throwing Knife",
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 8,
+            StomachSize = 13,
+            HasTail = false,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Flight,
+                Traits.ArtfulDodge,
+                Traits.Vampirism
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color");
+            buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Collar Fur Type");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Dark Grotto",
+            "Black Hollow",
+            "Nightpoint",
+            "Echoing Cavern",
+            "Gotham",
+            "Batville",
+            "Crystal Cave",
+            "Deep Den",
+            "Sylvania",
+            "Strygos",
+        });
         RaceFrameList frameListDemibatWings = new RaceFrameList(new[] { 0, 1, 0, 2 }, new[] { .15f, .25f, .15f, .25f });
 
         IClothing<IOverSizeParameters> LeaderClothes = DemibatLeader.DemibatLeaderInstance;
@@ -25,9 +72,9 @@ internal static class Bats
             output.SpecialAccessoryCount = 17; // ears        
             output.HairStyles = 24;
             output.MouthTypes = 4;
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DemibatSkin); // Fur colors
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DemibatHumanSkin); // Skin colors for demi form
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.ViperSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.DemibatSkin); // Fur colors
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.DemibatHumanSkin); // Skin colors for demi form
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.ViperSkin);
             output.BodyAccentTypes1 = 4; // collar fur
 
             output.ExtendedBreastSprites = true;
@@ -59,7 +106,7 @@ internal static class Bats
                 BatHat.BatHatInstance
             );
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AviansSkin);
         });
 
 
@@ -71,88 +118,88 @@ internal static class Bats
 
         builder.RenderSingle(SpriteType.Head, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatHumanSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatHumanSkin, input.U.SkinColor));
+            if (input.U.Furry)
             {
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.Demibats1[32 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
+                output.Sprite(input.Sprites.Demibats1[32 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0)]);
             }
             else
             {
-                output.Sprite(input.Sprites.Demibats1[40 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
+                output.Sprite(input.Sprites.Demibats1[40 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0)]);
             }
         }); // human part of demi form
 
         builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.EyeColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.EyeColor));
             output.Sprite(input.Sprites.Demibats1[100]);
         });
         builder.RenderSingle(SpriteType.SecondaryEyes, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Demibats1[76 + input.Actor.Unit.EyeType + (input.Actor.Unit.Furry ? 6 : 0)]);
+            output.Sprite(input.Sprites.Demibats1[76 + input.U.EyeType + (input.U.Furry ? 6 : 0)]);
         }); // white/black sclera
         builder.RenderSingle(SpriteType.Mouth, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsEating || input.Actor.IsAttacking)
+            if (input.A.IsEating || input.A.IsAttacking)
             {
-                output.Sprite(input.Sprites.Demibats1[73 + (input.Actor.Unit.Furry ? 2 : 0)]);
+                output.Sprite(input.Sprites.Demibats1[73 + (input.U.Furry ? 2 : 0)]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Demibats1[72 + (input.Actor.Unit.Furry ? 2 : 0)]);
+            output.Sprite(input.Sprites.Demibats1[72 + (input.U.Furry ? 2 : 0)]);
         }); // mouth teeths/internal
 
         builder.RenderSingle(SpriteType.Hair, 20, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Demibats2[0 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Demibats2[0 + input.U.HairStyle]);
         }); // hair part below ears
         
         
         builder.RenderSingle(SpriteType.Hair2, 22, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Demibats2[24 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Demibats2[24 + input.U.HairStyle]);
         }); // hair part above ears
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatSkin, input.U.AccessoryColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.Demibats1[0 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0) + (input.Actor.Unit.Furry ? 16 : 0)]);
+                output.Sprite(input.Sprites.Demibats1[0 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0) + (input.U.Furry ? 16 : 0)]);
             }
             else
             {
-                output.Sprite(input.Sprites.Demibats1[8 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0) + (input.Actor.Unit.Furry ? 16 : 0)]);
+                output.Sprite(input.Sprites.Demibats1[8 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0) + (input.U.Furry ? 16 : 0)]);
             }
         }); // fur part of demi form or full furry form
 
         builder.RenderSingle(SpriteType.BodyAccent, 5, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.IsEating || input.Actor.IsAttacking)
+            if (input.A.IsEating || input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Demibats1[71]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Demibats1[67 + input.Actor.Unit.MouthType]);
+            output.Sprite(input.Sprites.Demibats1[67 + input.U.MouthType]);
         }); // mouth external part
 
         builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Demibats1[61]);
                 return;
@@ -163,85 +210,85 @@ internal static class Bats
 
         builder.RenderSingle(SpriteType.BodyAccent3, 19, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType1 == 3 || (!input.Actor.Unit.Furry && (input.Actor.Unit.ClothingType == 3 || input.Actor.Unit.ClothingType == 8 || input.Actor.Unit.ClothingType == 9 || (input.Actor.Unit.ClothingType == 12 && !input.Actor.Unit.HasBreasts))))
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatSkin, input.U.AccessoryColor));
+            if (input.U.BodyAccentType1 == 3 || (!input.U.Furry && (input.U.ClothingType == 3 || input.U.ClothingType == 8 || input.U.ClothingType == 9 || (input.U.ClothingType == 12 && !input.U.HasBreasts))))
             {
                 return;
             }
 
-            output.Sprite(input.Sprites.Demibats1[101 + input.Actor.Unit.BodyAccentType1 + (input.Actor.Unit.Furry ? 3 : 0)]);
+            output.Sprite(input.Sprites.Demibats1[101 + input.U.BodyAccentType1 + (input.U.Furry ? 3 : 0)]);
         }); // collar fur
 
         builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            output.Sprite(input.Sprites.Demibats1[88 + input.Actor.Unit.EyeType + (input.Actor.Unit.Furry ? 6 : 0)]);
+            output.Sprite(input.Sprites.Demibats1[88 + input.U.EyeType + (input.U.Furry ? 6 : 0)]);
         }); // eyebrows
         builder.RenderSingle(SpriteType.BodyAccent5, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatSkin, input.Actor.Unit.AccessoryColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatSkin, input.U.AccessoryColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Demibats1[48]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentlyActive = false;
+                input.A.AnimationController.frameLists[0].currentFrame = 0;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
                 output.Sprite(input.Sprites.Demibats1[49]);
                 return;
             }
 
-            input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+            input.A.AnimationController.frameLists[0].currentlyActive = true;
 
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListDemibatWings.Times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false && input.Actor.IsAttacking == false)
+            if (input.A.AnimationController.frameLists[0].currentTime >= frameListDemibatWings.Times[input.A.AnimationController.frameLists[0].currentFrame] && input.U.IsDead == false && input.A.IsAttacking == false)
             {
-                input.Actor.AnimationController.frameLists[0].currentFrame++;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentFrame++;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListDemibatWings.Frames.Length)
+                if (input.A.AnimationController.frameLists[0].currentFrame >= frameListDemibatWings.Frames.Length)
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame = 0;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
                 }
             }
 
-            output.Sprite(input.Sprites.Demibats1[48 + frameListDemibatWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Demibats1[48 + frameListDemibatWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
         }); // wings main
 
         builder.RenderSingle(SpriteType.BodyAccent6, 3, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
-                output.Sprite(input.Sprites.Demibats1[52 + (input.Actor.Unit.Furry ? 3 : 0)]);
+                output.Sprite(input.Sprites.Demibats1[52 + (input.U.Furry ? 3 : 0)]);
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                output.Sprite(input.Sprites.Demibats1[51 + frameListDemibatWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame] + (input.Actor.Unit.Furry ? 3 : 0)]);
+                output.Sprite(input.Sprites.Demibats1[51 + frameListDemibatWings.Frames[input.A.AnimationController.frameLists[0].currentFrame] + (input.U.Furry ? 3 : 0)]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Demibats1[51 + (input.Actor.Unit.Furry ? 3 : 0)]);
+            output.Sprite(input.Sprites.Demibats1[51 + (input.U.Furry ? 3 : 0)]);
         }); // arms main
 
         builder.RenderSingle(SpriteType.BodyAccent7, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Demibats1[58]);
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                output.Sprite(input.Sprites.Demibats1[57 + frameListDemibatWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Demibats1[57 + frameListDemibatWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -250,38 +297,20 @@ internal static class Bats
 
         builder.RenderSingle(SpriteType.BodyAccessory, 21, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Demibats1[107 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Demibats1[107 + input.U.SpecialAccessoryType]);
         }); // ears
         builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Demibats3[31]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Demibats3[30]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Demibats3[29]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
 
                 if (leftSize > 28)
                 {
@@ -292,42 +321,23 @@ internal static class Bats
             }
             else
             {
-                output.Sprite(input.Sprites.Demibats3[0 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Demibats3[0 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 17, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Demibats3[63]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Demibats3[62]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Demibats3[61]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
                 
-                if (rightSize > input.Actor.Unit.DefaultBreastSize)
+                if (rightSize > input.U.DefaultBreastSize)
                 {
                     input.Params.Oversize = true;
                 }
@@ -341,39 +351,16 @@ internal static class Bats
             }
             else
             {
-                output.Sprite(input.Sprites.Demibats3[32 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Demibats3[32 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(31, 0.7f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Demibats3[99]).AddOffset(0, -31 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Demibats3[98]).AddOffset(0, -31 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
-                {
-                    output.Sprite(input.Sprites.Demibats3[97]).AddOffset(0, -31 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.Demibats3[96]).AddOffset(0, -31 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(31, 0.7f);
 
                 switch (size)
                 {
@@ -405,42 +392,42 @@ internal static class Bats
         {
             
             
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (!input.Actor.Unit.Furry || !Config.FurryGenitals)
+            if (!input.U.Furry || !Config.FurryGenitals)
             {
                 output.Coloring(FurryColor(input.Actor));
             }
 
-            if (input.Actor.Unit.Furry && Config.FurryGenitals)
+            if (input.U.Furry && Config.FurryGenitals)
             {
 
-                if (input.Actor.IsErect())
+                if (input.A.IsErect())
                 {
-                    if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                    if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                     {
                         output.Layer(24);
-                        if (input.Actor.IsCockVoring)
+                        if (input.A.IsCockVoring)
                         {
-                            output.Sprite(input.Sprites.Demibats2[96 + input.Actor.Unit.DickSize]);
+                            output.Sprite(input.Sprites.Demibats2[96 + input.U.DickSize]);
                             return;
                         }
 
-                        output.Sprite(input.Sprites.Demibats2[80 + input.Actor.Unit.DickSize]);
+                        output.Sprite(input.Sprites.Demibats2[80 + input.U.DickSize]);
                         return;
                     }
 
                     output.Layer(13);
-                    if (input.Actor.IsCockVoring)
+                    if (input.A.IsCockVoring)
                     {
-                        output.Sprite(input.Sprites.Demibats2[104 + input.Actor.Unit.DickSize]);
+                        output.Sprite(input.Sprites.Demibats2[104 + input.U.DickSize]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Demibats2[88 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Demibats2[88 + input.U.DickSize]);
                     return;
                 }
 
@@ -448,49 +435,49 @@ internal static class Bats
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
                     output.Layer(24);
-                    if (input.Actor.IsCockVoring)
+                    if (input.A.IsCockVoring)
                     {
-                        output.Sprite(input.Sprites.Demibats2[72 + input.Actor.Unit.DickSize]);
+                        output.Sprite(input.Sprites.Demibats2[72 + input.U.DickSize]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Demibats2[64 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Demibats2[64 + input.U.DickSize]);
                     return;
                 }
 
                 output.Layer(13);
-                if (input.Actor.IsCockVoring)
+                if (input.A.IsCockVoring)
                 {
-                    output.Sprite(input.Sprites.Demibats2[56 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Demibats2[56 + input.U.DickSize]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Demibats2[48 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Demibats2[48 + input.U.DickSize]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Demibats2[48 + input.Actor.Unit.DickSize]).Layer(11);
+            output.Sprite(input.Sprites.Demibats2[48 + input.U.DickSize]).Layer(11);
         });
 
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (!(input.Actor.Unit.Furry && Config.FurryGenitals))
+            if (!(input.U.Furry && Config.FurryGenitals))
             {
                 output.AddOffset(0, 1 * .625f);
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(19);
             }
@@ -499,25 +486,8 @@ internal static class Bats
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offset = input.Actor.GetBallSize(28, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Demibats3[137 + (input.Actor.Unit.Furry && Config.FurryGenitals ? 38 : 0)]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Demibats3[136 + (input.Actor.Unit.Furry && Config.FurryGenitals ? 38 : 0)]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Demibats3[135 + (input.Actor.Unit.Furry && Config.FurryGenitals ? 38 : 0)]).AddOffset(0, -18 * .625f);
-                return;
-            }
+            int size = input.U.DickSize;
+            int offset = input.A.GetBallSize(28, .8f);
 
             if (offset >= 26)
             {
@@ -546,24 +516,24 @@ internal static class Bats
 
             if (offset > 0)
             {
-                output.Sprite(input.Sprites.Demibats3[Math.Min(108 + offset, 134) + (input.Actor.Unit.Furry && Config.FurryGenitals ? 38 : 0)]);
+                output.Sprite(input.Sprites.Demibats3[Math.Min(108 + offset, 134) + (input.U.Furry && Config.FurryGenitals ? 38 : 0)]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Demibats3[100 + size + (input.Actor.Unit.Furry && Config.FurryGenitals ? 38 : 0)]);
+            output.Sprite(input.Sprites.Demibats3[100 + size + (input.U.Furry && Config.FurryGenitals ? 38 : 0)]);
         });
 
         builder.RenderSingle(SpriteType.Weapon, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                if (input.Actor.Unit.Furry && input.Actor.BestRanged != null && input.Actor.Unit.BodyAccentType1 != 3)
+                if (input.U.Furry && input.A.BestRanged != null && input.U.BodyAccentType1 != 3)
                 {
                     output.AddOffset(0, 2 * .625f);
                 }
 
-                switch (input.Actor.GetWeaponSprite())
+                switch (input.A.GetWeaponSprite())
                 {
                     case 0:
                         output.Sprite(input.Sprites.Demibats1[124]).Layer(6);
@@ -578,16 +548,16 @@ internal static class Bats
                         output.Sprite(input.Sprites.Demibats1[127]).Layer(6);
                         return;
                     case 4:
-                        output.Sprite(input.Sprites.Demibats1[128 + (input.Actor.Unit.BodyAccentType1 == 3 || (!input.Actor.Unit.Furry && (input.Actor.Unit.ClothingType == 3 || input.Actor.Unit.ClothingType == 8 || input.Actor.Unit.ClothingType == 9 || (input.Actor.Unit.ClothingType == 12 && !input.Actor.Unit.HasBreasts))) ? 5 : 0)]).Layer(23);
+                        output.Sprite(input.Sprites.Demibats1[128 + (input.U.BodyAccentType1 == 3 || (!input.U.Furry && (input.U.ClothingType == 3 || input.U.ClothingType == 8 || input.U.ClothingType == 9 || (input.U.ClothingType == 12 && !input.U.HasBreasts))) ? 5 : 0)]).Layer(23);
                         return;
                     case 5:
-                        output.Sprite(input.Sprites.Demibats1[129 + (input.Actor.Unit.BodyAccentType1 == 3 || (!input.Actor.Unit.Furry && (input.Actor.Unit.ClothingType == 3 || input.Actor.Unit.ClothingType == 8 || input.Actor.Unit.ClothingType == 9 || (input.Actor.Unit.ClothingType == 12 && !input.Actor.Unit.HasBreasts))) ? 5 : 0)]).Layer(23);
+                        output.Sprite(input.Sprites.Demibats1[129 + (input.U.BodyAccentType1 == 3 || (!input.U.Furry && (input.U.ClothingType == 3 || input.U.ClothingType == 8 || input.U.ClothingType == 9 || (input.U.ClothingType == 12 && !input.U.HasBreasts))) ? 5 : 0)]).Layer(23);
                         return;
                     case 6:
-                        output.Sprite(input.Sprites.Demibats1[130 + (input.Actor.Unit.BodyAccentType1 == 3 || (!input.Actor.Unit.Furry && (input.Actor.Unit.ClothingType == 3 || input.Actor.Unit.ClothingType == 8 || input.Actor.Unit.ClothingType == 9 || (input.Actor.Unit.ClothingType == 12 && !input.Actor.Unit.HasBreasts))) ? 5 : 0)]).Layer(23);
+                        output.Sprite(input.Sprites.Demibats1[130 + (input.U.BodyAccentType1 == 3 || (!input.U.Furry && (input.U.ClothingType == 3 || input.U.ClothingType == 8 || input.U.ClothingType == 9 || (input.U.ClothingType == 12 && !input.U.HasBreasts))) ? 5 : 0)]).Layer(23);
                         return;
                     case 7:
-                        output.Sprite(input.Sprites.Demibats1[131 + (input.Actor.Unit.BodyAccentType1 == 3 || (!input.Actor.Unit.Furry && (input.Actor.Unit.ClothingType == 3 || input.Actor.Unit.ClothingType == 8 || input.Actor.Unit.ClothingType == 9 || (input.Actor.Unit.ClothingType == 12 && !input.Actor.Unit.HasBreasts))) ? 5 : 0)]).Layer(23);
+                        output.Sprite(input.Sprites.Demibats1[131 + (input.U.BodyAccentType1 == 3 || (!input.U.Furry && (input.U.ClothingType == 3 || input.U.ClothingType == 8 || input.U.ClothingType == 9 || (input.U.ClothingType == 12 && !input.U.HasBreasts))) ? 5 : 0)]).Layer(23);
                         return;
                     default:
                         //output.Layer(6); why is this here
@@ -603,7 +573,7 @@ internal static class Bats
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, LeaderClothes);
             }
 
             if (unit.HasDick && unit.HasBreasts)
@@ -639,10 +609,10 @@ internal static class Bats
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, Rags);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
-                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
+                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypesBasic.Count;
                 }
             }
         });
@@ -652,10 +622,10 @@ internal static class Bats
     {
         if (actor.Unit.Furry)
         {
-            return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatSkin, actor.Unit.AccessoryColor);
+            return ColorPaletteMap.GetPalette(SwapType.DemibatSkin, actor.Unit.AccessoryColor);
         }
 
-        return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatHumanSkin, actor.Unit.SkinColor);
+        return ColorPaletteMap.GetPalette(SwapType.DemibatHumanSkin, actor.Unit.SkinColor);
     }
 
     private static void SetUpAnimations(Actor_Unit actor)
@@ -688,12 +658,12 @@ internal static class Bats
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[31]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats4[23 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats4[23 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -719,12 +689,12 @@ internal static class Bats
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[40]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats4[32 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats4[32 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -750,12 +720,12 @@ internal static class Bats
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[49]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats4[41 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats4[41 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -783,13 +753,13 @@ internal static class Bats
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[58]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats4[50 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats4[50 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Demibats4[59]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -818,13 +788,13 @@ internal static class Bats
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[68]);
                     output["Clothing2"].Sprite(input.Sprites.Demibats4[77]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats4[60 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Demibats4[69 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats4[60 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Demibats4[69 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -850,12 +820,12 @@ internal static class Bats
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats4[81 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats4[81 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -881,12 +851,12 @@ internal static class Bats
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[124]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats4[116 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats4[116 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -909,16 +879,16 @@ internal static class Bats
             {
                 output["Clothing1"].Layer(18);
 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.BodySize == 3 ? input.Sprites.Demibats4[94] : input.Sprites.Demibats4[93]);
+                    output["Clothing1"].Sprite(input.U.BodySize == 3 ? input.Sprites.Demibats4[94] : input.Sprites.Demibats4[93]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats4[89 + input.Actor.Unit.BodySize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats4[89 + input.U.BodySize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -940,11 +910,11 @@ internal static class Bats
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(18);
-                if (input.Actor.Unit.BodySize == 3)
+                if (input.U.BodySize == 3)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[80]);
                 }
-                else if (input.Actor.Unit.BodySize == 2)
+                else if (input.U.BodySize == 2)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[79]);
                 }
@@ -953,7 +923,7 @@ internal static class Bats
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[78]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -977,22 +947,22 @@ internal static class Bats
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats2[112 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats2[112 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Demibats2[120]);
 
-                if (input.Actor.Unit.Furry)
+                if (input.U.Furry)
                 {
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatSkin, input.Actor.Unit.AccessoryColor));
-                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatSkin, input.Actor.Unit.AccessoryColor));
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatSkin, input.U.AccessoryColor));
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatSkin, input.U.AccessoryColor));
                 }
                 else
                 {
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatHumanSkin, input.Actor.Unit.SkinColor));
-                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemibatHumanSkin, input.Actor.Unit.SkinColor));
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatHumanSkin, input.U.SkinColor));
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatHumanSkin, input.U.SkinColor));
                 }
             });
         });
@@ -1022,15 +992,15 @@ internal static class Bats
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
 
-                output["Clothing3"].Sprite(input.Actor.Unit.Furry ? input.Sprites.Demibats4[115] : input.Sprites.Demibats4[111]);
+                output["Clothing3"].Sprite(input.U.Furry ? input.Sprites.Demibats4[115] : input.Sprites.Demibats4[111]);
 
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize < 3)
+                    if (input.U.BreastSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demibats4[112]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demibats4[113]);
                     }
@@ -1039,12 +1009,12 @@ internal static class Bats
                         output["Clothing1"].Sprite(input.Sprites.Demibats4[114]);
                     }
 
-                    output["Clothing2"].Sprite(input.Sprites.Demibats4[95 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
+                    output["Clothing2"].Sprite(input.Sprites.Demibats4[95 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0)]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
-                    output["Clothing2"].Sprite(input.Sprites.Demibats4[103 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
+                    output["Clothing2"].Sprite(input.Sprites.Demibats4[103 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0)]);
                 }
             });
         });
@@ -1076,29 +1046,29 @@ internal static class Bats
                 if (input.Params.Oversize)
                 {
                     output["Clothing1"].Sprite(null);
-                    output["Clothing3"].Sprite(input.Sprites.Demibats4[133 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
+                    output["Clothing3"].Sprite(input.Sprites.Demibats4[133 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0)]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demibats4[125 + input.Actor.Unit.BreastSize]);
-                    output["Clothing3"].Sprite(input.Sprites.Demibats4[133 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
+                    output["Clothing1"].Sprite(input.Sprites.Demibats4[125 + input.U.BreastSize]);
+                    output["Clothing3"].Sprite(input.Sprites.Demibats4[133 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0)]);
                 }
                 else
                 {
-                    output["Clothing3"].Sprite(input.Sprites.Demibats4[141 + input.Actor.Unit.BodySize]);
+                    output["Clothing3"].Sprite(input.Sprites.Demibats4[141 + input.U.BodySize]);
                 }
 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
                     output["Clothing2"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats4[145 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Demibats4[145 + input.U.BodySize]);
                 }
                 else
                 {
-                    output["Clothing2"].Sprite(input.Sprites.Demibats4[149 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Demibats4[149 + input.U.BodySize]);
                 }
             });
         });
@@ -1120,19 +1090,19 @@ internal static class Bats
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
-                        output["Clothing1"].Sprite(input.Sprites.Demibats2[129 + (input.Actor.Unit.BodySize == 3 ? 3 : 0)]);
+                        output["Clothing1"].Sprite(input.Sprites.Demibats2[129 + (input.U.BodySize == 3 ? 3 : 0)]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
-                        output["Clothing1"].Sprite(input.Sprites.Demibats2[131 + (input.Actor.Unit.BodySize == 3 ? 3 : 0)]);
+                        output["Clothing1"].Sprite(input.Sprites.Demibats2[131 + (input.U.BodySize == 3 ? 3 : 0)]);
                     }
                     else
                     {
-                        output["Clothing1"].Sprite(input.Sprites.Demibats2[130 + (input.Actor.Unit.BodySize == 3 ? 3 : 0)]);
+                        output["Clothing1"].Sprite(input.Sprites.Demibats2[130 + (input.U.BodySize == 3 ? 3 : 0)]);
                     }
                 }
                 else
@@ -1140,10 +1110,10 @@ internal static class Bats
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demibats2[121 + input.Actor.Unit.BodySize] : input.Sprites.Demibats2[125 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Demibats2[121 + input.U.BodySize] : input.Sprites.Demibats2[125 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1168,13 +1138,13 @@ internal static class Bats
 
                 output["Clothing2"].Coloring(Color.white);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demibats4[1]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demibats4[3]);
                     }
@@ -1188,9 +1158,9 @@ internal static class Bats
                     output["Clothing1"].Sprite(input.Sprites.Demibats4[0]);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demibats2[135 + input.Actor.Unit.BodySize] : input.Sprites.Demibats2[139 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Demibats2[135 + input.U.BodySize] : input.Sprites.Demibats2[139 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1214,9 +1184,9 @@ internal static class Bats
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Demibats2[143]);
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demibats2[135 + input.Actor.Unit.BodySize] : input.Sprites.Demibats2[139 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Demibats2[135 + input.U.BodySize] : input.Sprites.Demibats2[139 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1239,13 +1209,13 @@ internal static class Bats
 
                 output["Clothing1"].Layer(13);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demibats4[20]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demibats4[22]);
                     }
@@ -1259,10 +1229,10 @@ internal static class Bats
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demibats4[4 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)] : input.Sprites.Demibats4[12 + input.Actor.Unit.BodySize + (input.Actor.IsAttacking ? 4 : 0)]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Demibats4[4 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0)] : input.Sprites.Demibats4[12 + input.U.BodySize + (input.A.IsAttacking ? 4 : 0)]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }

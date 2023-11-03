@@ -18,6 +18,56 @@ internal static class Bees
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Bee", "Bees");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "apid", "bee", {"worker bee", Gender.Female}, {"drone", Gender.Male} },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Honeycomb WeaponNames.Mace",
+                [WeaponNames.Axe]         = "Quad Punch Claws",
+                [WeaponNames.SimpleBow]   = "Javelin",
+                [WeaponNames.CompoundBow] = "War Javelin"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 14,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Flight,
+                Traits.KeenReflexes,
+                Traits.PackDefense,
+                Traits.Stinger
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Exoskeleton Color");
+            buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Queen's Hive",
+            "Honeycomb",
+            "Buzzytown",
+            "Golden Orchard",
+            "Waxville",
+            "Bumblebee Grove",
+            "Beepolis",
+            "Maya's Meadow",
+            "Sweet Pollen",
+            "Black Swarm",
+            "Royal Jelly",
+            "Workers Hive",
+            "Apiarist Respite"
+        });
         RaceFrameList frameListWings = new RaceFrameList(new[] { 0, 1, 2, 3, 2, 1 }, new[] { .05f, .05f, .05f, .05f, .05f, .05f });
 
         builder.Setup(output =>
@@ -31,8 +81,8 @@ internal static class Bees
             output.HairStyles = 18;
             output.MouthTypes = 0;
             output.EyeColors = 0;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.BeeNewSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.BeeNewSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.BeeNewSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.BeeNewSkin);
 
             output.ExtendedBreastSprites = true;
 
@@ -60,14 +110,14 @@ internal static class Bees
                 GenericBot4.GenericBot4Instance
             );
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AviansSkin);
         });
 
 
         builder.RenderSingle(SpriteType.Head, 20, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Bees1[5]);
                 return;
@@ -79,12 +129,12 @@ internal static class Bees
         builder.RenderSingle(SpriteType.Eyes, 22, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Bees1[46 + input.Actor.Unit.EyeType]);
+            output.Sprite(input.Sprites.Bees1[46 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 21, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsEating)
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Bees1[9]);
                 return;
@@ -95,18 +145,18 @@ internal static class Bees
 
         builder.RenderSingle(SpriteType.Hair, 23, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Bees1[66 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Bees1[66 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Body, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
                 output.Sprite(input.Sprites.Bees1[0]);
                 return;
@@ -118,35 +168,35 @@ internal static class Bees
         builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListWings.Times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
+            if (input.A.AnimationController.frameLists[0].currentTime >= frameListWings.Times[input.A.AnimationController.frameLists[0].currentFrame] && input.U.IsDead == false)
             {
-                input.Actor.AnimationController.frameLists[0].currentFrame++;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentFrame++;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListWings.Frames.Length)
+                if (input.A.AnimationController.frameLists[0].currentFrame >= frameListWings.Frames.Length)
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame = 0;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
                 }
             }
 
-            output.Sprite(input.Sprites.Bees1[42 + frameListWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Bees1[42 + frameListWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
         }); // Wings
 
         builder.RenderSingle(SpriteType.BodyAccent2, 24, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Bees1[54 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+            output.Sprite(input.Sprites.Bees1[54 + input.U.SpecialAccessoryType]);
         }); // Antennae 1
         builder.RenderSingle(SpriteType.BodyAccent3, 24, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Bees1[60 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Bees1[60 + input.U.SpecialAccessoryType]);
         }); // Antennae 2
         builder.RenderSingle(SpriteType.BodyAccent4, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.AccessoryColor));
+            if (input.U.HasBreasts)
             {
                 output.Sprite(input.Sprites.Bees1[2]);
                 return;
@@ -157,8 +207,8 @@ internal static class Bees
 
         builder.RenderSingle(SpriteType.BodyAccent5, 20, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.AccessoryColor));
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Bees1[7]);
                 return;
@@ -169,10 +219,10 @@ internal static class Bees
 
         builder.RenderSingle(SpriteType.BodyAccent6, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasWeapon == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.AccessoryColor));
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Bees1[18]);
                     return;
@@ -182,7 +232,7 @@ internal static class Bees
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Bees1[14]);
@@ -216,8 +266,8 @@ internal static class Bees
 
         builder.RenderSingle(SpriteType.BodyAccent7, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.IsTailVoring)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.AccessoryColor));
+            if (input.A.IsTailVoring)
             {
                 output.Sprite(input.Sprites.Bees1[11]);
                 return;
@@ -229,7 +279,7 @@ internal static class Bees
         builder.RenderSingle(SpriteType.BodyAccent8, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsTailVoring)
+            if (input.A.IsTailVoring)
             {
                 output.Sprite(input.Sprites.Bees1[13]);
                 return;
@@ -241,7 +291,7 @@ internal static class Bees
         builder.RenderSingle(SpriteType.BodyAccent9, 19, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.ClothingType == 10 || input.Actor.Unit.ClothingType == 11)
+            if (input.U.ClothingType == 10 || input.U.ClothingType == 11)
             {
                 output.Sprite(input.Sprites.Bees3[134]);
                 return;
@@ -253,7 +303,7 @@ internal static class Bees
         builder.RenderSingle(SpriteType.BodyAccent10, 9, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.ClothingType == 12 || (input.Actor.Unit.ClothingType2 == 4 && input.Actor.Unit.ClothingType != 9 && input.Actor.Unit.ClothingType != 13))
+            if (input.U.ClothingType == 12 || (input.U.ClothingType2 == 4 && input.U.ClothingType != 9 && input.U.ClothingType != 13))
             {
                 return;
             }
@@ -263,9 +313,9 @@ internal static class Bees
 
         builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-            int sizet = input.Actor.GetTailSize(3);
-            if (input.Actor.IsTailVoring)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+            int sizet = input.A.GetTailSize(3);
+            if (input.A.IsTailVoring)
             {
                 output.Sprite(input.Sprites.Bees1[34 + sizet]);
                 return;
@@ -277,7 +327,7 @@ internal static class Bees
         builder.RenderSingle(SpriteType.SecondaryAccessory, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     return;
@@ -306,42 +356,24 @@ internal static class Bees
 
         builder.RenderSingle(SpriteType.BodySize, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.BodySize > 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+            if (input.U.BodySize > 0)
             {
-                output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Bees1[89 + input.Actor.Unit.BodySize] : input.Sprites.Bees1[92 + input.Actor.Unit.BodySize]);
+                output.Sprite(input.U.HasBreasts ? input.Sprites.Bees1[89 + input.U.BodySize] : input.Sprites.Bees1[92 + input.U.BodySize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Bees2[69]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Bees2[68]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Bees2[67]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
 
                 if (leftSize > 28)
                 {
@@ -352,39 +384,21 @@ internal static class Bees
             }
             else
             {
-                output.Sprite(input.Sprites.Bees2[38 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Bees2[38 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Bees2[104]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Bees2[103]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Bees2[102]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
 
                 if (rightSize > 28)
                 {
@@ -395,19 +409,19 @@ internal static class Bees
             }
             else
             {
-                output.Sprite(input.Sprites.Bees2[73 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Bees2[73 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.BreastShadow, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            int sizee = input.Actor.GetTailSize(3);
-            if (input.Actor.IsTailVoring)
+            int sizee = input.A.GetTailSize(3);
+            if (input.A.IsTailVoring)
             {
                 output.Sprite(input.Sprites.Bees1[38 + sizee]);
             }
-            else if (input.Actor.GetTailSize(3) >= 1)
+            else if (input.A.GetTailSize(3) >= 1)
             {
                 output.Sprite(input.Sprites.Bees1[30 + sizee]);
             }
@@ -416,33 +430,10 @@ internal static class Bees
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(31, 0.8f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Bees2[143]).AddOffset(0, -7 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Bees2[142]).AddOffset(0, -7 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
-                {
-                    output.Sprite(input.Sprites.Bees2[141]).AddOffset(0, -7 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.Bees2[140]).AddOffset(0, -7 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(31, 0.8f);
 
                 switch (size)
                 {
@@ -461,22 +452,22 @@ internal static class Bees
         builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
                     output.Layer(20);
-                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Bees1[112 + input.Actor.Unit.DickSize] : input.Sprites.Bees1[96 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.A.IsCockVoring ? input.Sprites.Bees1[112 + input.U.DickSize] : input.Sprites.Bees1[96 + input.U.DickSize]);
                 }
                 else
                 {
                     output.Layer(13);
-                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Bees1[120 + input.Actor.Unit.DickSize] : input.Sprites.Bees1[104 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.A.IsCockVoring ? input.Sprites.Bees1[120 + input.U.DickSize] : input.Sprites.Bees1[104 + input.U.DickSize]);
                 }
             }
 
@@ -485,13 +476,13 @@ internal static class Bees
 
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(19);
             }
@@ -500,25 +491,8 @@ internal static class Bees
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offset = input.Actor.GetBallSize(28, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Bees2[37]);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Bees2[36]);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Bees2[35]);
-                return;
-            }
+            int size = input.U.DickSize;
+            int offset = input.A.GetBallSize(28, .8f);
 
             if (offset > 0)
             {
@@ -532,9 +506,9 @@ internal static class Bees
         builder.RenderSingle(SpriteType.Weapon, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                switch (input.Actor.GetWeaponSprite())
+                switch (input.A.GetWeaponSprite())
                 {
                     case 0:
                         output.Sprite(input.Sprites.Bees1[84]);
@@ -596,16 +570,16 @@ internal static class Bees
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, Rags);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
-                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
+                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypesBasic.Count;
                 }
             }
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, LeaderClothes);
             }
         });
     });
@@ -666,12 +640,12 @@ internal static class Bees
                 {
                     output["Clothing1"].Sprite(input.Sprites.Bees3[32]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[24 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Bees3[24 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -697,12 +671,12 @@ internal static class Bees
                 {
                     output["Clothing1"].Sprite(input.Sprites.Bees3[41]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[33 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Bees3[33 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -728,12 +702,12 @@ internal static class Bees
                 {
                     output["Clothing1"].Sprite(input.Sprites.Bees3[50]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[42 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Bees3[42 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -759,12 +733,12 @@ internal static class Bees
                 {
                     output["Clothing1"].Sprite(input.Sprites.Bees3[59]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[51 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Bees3[51 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -793,13 +767,13 @@ internal static class Bees
                     output["Clothing1"].Sprite(input.Sprites.Bees3[68]);
                     output["Clothing2"].Sprite(input.Sprites.Bees3[77]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[60 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Bees3[69 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Bees3[60 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Bees3[69 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -825,12 +799,12 @@ internal static class Bees
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[79 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Bees3[79 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -853,9 +827,9 @@ internal static class Bees
             {
                 output["Clothing1"].Layer(18);
 
-                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Bees3[113] : input.Sprites.Bees3[112]);
+                output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.Bees3[113] : input.Sprites.Bees3[112]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -878,7 +852,7 @@ internal static class Bees
             {
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Sprite(input.Sprites.Bees3[78]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -902,14 +876,14 @@ internal static class Bees
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[0 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Bees3[0 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Bees3[8]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.BeeNewSkin, input.Actor.Unit.SkinColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.BeeNewSkin, input.U.SkinColor));
             });
         });
     }
@@ -935,9 +909,9 @@ internal static class Bees
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[115 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Bees3[115 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -968,9 +942,9 @@ internal static class Bees
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Bees3[124 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Bees3[124 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1003,13 +977,13 @@ internal static class Bees
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize < 3)
+                    if (input.U.BreastSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Bees3[90]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Bees3[91]);
                     }
@@ -1023,7 +997,7 @@ internal static class Bees
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.IsTailVoring ? input.Sprites.Bees3[88] : input.Sprites.Bees3[87]);
+                output["Clothing2"].Sprite(input.A.IsTailVoring ? input.Sprites.Bees3[88] : input.Sprites.Bees3[87]);
 
                 output["Clothing3"].Sprite(input.Sprites.Bees3[89]);
             });
@@ -1054,9 +1028,9 @@ internal static class Bees
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(12);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing2"].Sprite(IsOverSize(input.Actor) ? input.Sprites.Bees3[104] : input.Sprites.Bees3[96 + input.Actor.Unit.BreastSize]);
+                    output["Clothing2"].Sprite(IsOverSize(input.Actor) ? input.Sprites.Bees3[104] : input.Sprites.Bees3[96 + input.U.BreastSize]);
 
                     output["Clothing1"].Sprite(input.Sprites.Bees3[93]);
                 }
@@ -1066,11 +1040,11 @@ internal static class Bees
                     output["Clothing2"].Sprite(input.Sprites.Bees3[95]);
                 }
 
-                if (input.Actor.GetWeaponSprite() == 3)
+                if (input.A.GetWeaponSprite() == 3)
                 {
                     output["Clothing3"].Sprite(IsOverSize(input.Actor) ? input.Sprites.Bees3[110] : input.Sprites.Bees3[107]);
                 }
-                else if (input.Actor.GetWeaponSprite() == 7)
+                else if (input.A.GetWeaponSprite() == 7)
                 {
                     output["Clothing3"].Sprite(IsOverSize(input.Actor) ? input.Sprites.Bees3[109] : input.Sprites.Bees3[106]);
                 }
@@ -1100,13 +1074,13 @@ internal static class Bees
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Bees3[10]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Bees3[12]);
                     }
@@ -1122,8 +1096,8 @@ internal static class Bees
 
                 output["Clothing2"].Sprite(input.Sprites.Bees3[9]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1146,13 +1120,13 @@ internal static class Bees
                 output["Clothing2"].Layer(12);
                 output["Clothing2"].Coloring(Color.white);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Bees3[15]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Bees3[17]);
                     }
@@ -1168,7 +1142,7 @@ internal static class Bees
 
                 output["Clothing2"].Sprite(input.Sprites.Bees3[13]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1193,7 +1167,7 @@ internal static class Bees
                 output["Clothing1"].Sprite(input.Sprites.Bees3[18]);
                 output["Clothing2"].Sprite(input.Sprites.Bees3[13]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1216,13 +1190,13 @@ internal static class Bees
 
                 output["Clothing1"].Layer(13);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Bees3[21]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Bees3[23]);
                     }
@@ -1236,10 +1210,10 @@ internal static class Bees
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.IsTailVoring ? input.Sprites.Bees3[20] : input.Sprites.Bees3[19]);
+                output["Clothing2"].Sprite(input.A.IsTailVoring ? input.Sprites.Bees3[20] : input.Sprites.Bees3[19]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }

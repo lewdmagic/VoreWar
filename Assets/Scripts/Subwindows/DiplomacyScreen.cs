@@ -51,9 +51,9 @@ public class DiplomacyScreen : MonoBehaviour
         if (Config.Diplomacy == false)
         {
             Updates.text = "Diplomacy is turned off, you can only negotiate with the goblins";
-            DeclareWarButton.gameObject.SetActive(Other.Race == Race.Goblins);
-            AskAllyButton.gameObject.SetActive(Other.Race == Race.Goblins);
-            AskPeaceButton.gameObject.SetActive(Other.Race == Race.Goblins);
+            DeclareWarButton.gameObject.SetActive(Equals(Other.Race, Race.Goblins));
+            AskAllyButton.gameObject.SetActive(Equals(Other.Race, Race.Goblins));
+            AskPeaceButton.gameObject.SetActive(Equals(Other.Race, Race.Goblins));
         }
         else
         {
@@ -61,7 +61,7 @@ public class DiplomacyScreen : MonoBehaviour
             AskAllyButton.gameObject.SetActive(true);
             AskPeaceButton.gameObject.SetActive(true);
         }
-        if (Config.Diplomacy == false && Other.Race != Race.Goblins)
+        if (Config.Diplomacy == false && !Equals(Other.Race, Race.Goblins))
         {
             DeclareWarButton.interactable = false;
             AskAllyButton.interactable = false;

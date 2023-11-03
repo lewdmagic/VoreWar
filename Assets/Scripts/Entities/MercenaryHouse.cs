@@ -32,7 +32,7 @@ public class MercenaryHouse
         int highestExp = 0;
         if (State.World.Turn == 1)
             highestExp = 4;
-        foreach (Race race in (Race[])System.Enum.GetValues(typeof(Race)))
+        foreach (Race race in RaceFuncs.RaceEnumerable())
         {
             raceQuantities[race] = 0;
         }
@@ -43,9 +43,9 @@ public class MercenaryHouse
             else
                 raceQuantities[unit.Race] = 1;
         }
-        foreach (Race race in (Race[])System.Enum.GetValues(typeof(Race)))
+        foreach (Race race in RaceFuncs.RaceEnumerable())
         {
-            if (race < Race.Selicia)
+            if (RaceFuncs.isNotUniqueMerc(race))
                 continue;
             if (Config.World.GetValue($"Merc {race}") == false)
                 continue;
@@ -65,9 +65,10 @@ public class MercenaryHouse
         {
             TurnRefreshed = State.World.Turn;
             AvailableRaces = new List<Race>();
-            foreach (Race race in (Race[])System.Enum.GetValues(typeof(Race)))
+            foreach (Race race in RaceFuncs.RaceEnumerable())
             {
-                if (race < Race.Selicia && Config.World.GetValue($"Merc {race}"))
+                
+                if (RaceFuncs.isNotUniqueMerc(race) && Config.World.GetValue($"Merc {race}"))
                     AvailableRaces.Add(race);
             }
         }
@@ -104,8 +105,8 @@ public class MercenaryHouse
 
 
         int exp = (int)(highestExp * .8f) + State.Rand.Next(10);
-        merc.Unit = new Unit((int)race, race, exp, true, UnitType.Mercenary, true);
-        if (race < Race.Vagrants && merc.Unit.FixedGear == false)
+        merc.Unit = new Unit(race.ToSide(), race, exp, true, UnitType.Mercenary, true);
+        if (RaceFuncs.isMainRaceOrMerc(race) && merc.Unit.FixedGear == false)
         {
             if (merc.Unit.Items[0] == null)
             {
@@ -164,7 +165,7 @@ public class MercenaryHouse
         MercenaryContainer merc = new MercenaryContainer();
 
         int exp = (int)(highestExp * .8f);
-        merc.Unit = new Unit((int)race, race, exp, true, UnitType.SpecialMercenary, true)
+        merc.Unit = new Unit(race.ToSide(), race, exp, true, UnitType.SpecialMercenary, true)
         {
             FixedGear = true
         };

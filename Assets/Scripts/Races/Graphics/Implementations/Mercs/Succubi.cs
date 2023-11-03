@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,73 @@ internal static class Succubi
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names((input) =>
+        {
+            if (input.GetGender() == Gender.Female)
+            {
+                return "Succubus";
+            }
+            else if (input.GetGender() == Gender.Male)
+            {
+                return "Incubus";
+            }
+            else
+            {
+                return "Concubus";
+            }
+        }, (input) =>
+        {
+            if (input.GetGender() == Gender.Female)
+            {
+                return "Succubi";
+            }
+            else if (input.GetGender() == Gender.Male)
+            {
+                return "Incubi";
+            }
+            else
+            {
+                return "Concubi";
+            }
+        });
+        builder.FlavorText(new FlavorText(
+            new Texts { "devilishly tasty", "beguiling", "batty" },
+            new Texts { "demonic", "beguiling", "bat-winged" },
+            new Texts { "succubus", "demon", "hellish being" }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 12,
+            HasTail = true,
+            FavoredStat = Stat.Will,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore, VoreType.CockVore },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Dazzle,
+                Traits.Flight,
+                Traits.EnthrallingDepths,
+                Traits.PleasurableTouch,
+                Traits.Charmer
+            },
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(3, 6),
+                Dexterity = new RaceStats.StatRange(8, 14),
+                Endurance = new RaceStats.StatRange(8, 14),
+                Mind = new RaceStats.StatRange(8, 14),
+                Will = new RaceStats.StatRange(12, 20),
+                Agility = new RaceStats.StatRange(6, 14),
+                Voracity = new RaceStats.StatRange(8, 14),
+                Stomach = new RaceStats.StatRange(8, 14),
+            },
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetActive(ButtonType.ClothingColor2, true);
+        });
+        
+        
         builder.Setup(output =>
         {
             output.BreastSizes = () => 4;
@@ -19,12 +87,12 @@ internal static class Succubi
             output.HairStyles = 4;
 
             output.BodySizes = 0;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.OldImp);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.OldImpDark);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.OldImp);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.OldImpDark);
             output.ClothingShift = new Vector3(0, 32 * .625f, 0);
             output.AvoidedMainClothingTypes = 0;
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
             output.AllowedMainClothingTypes.Set(
                 ClothingTypes.BikiniTopInstance,
                 ClothingTypes.BeltTopInstance,
@@ -44,88 +112,88 @@ internal static class Succubi
 
         builder.RenderSingle(SpriteType.Head, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImp, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Succubi[input.Actor.IsOralVoring ? 21 : 20]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));
+            output.Sprite(input.Sprites.Succubi[input.A.IsOralVoring ? 21 : 20]);
         });
         builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HairRedKeyStrict, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Succubi[27 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HairRedKeyStrict, input.U.HairColor));
+            output.Sprite(input.Sprites.Succubi[27 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImp, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.IsOralVoring ? null : input.Sprites.Succubi[30 + input.Actor.Unit.MouthType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));
+            output.Sprite(input.A.IsOralVoring ? null : input.Sprites.Succubi[30 + input.U.MouthType]);
         });
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HairRedKeyStrict, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Succubi[Math.Min(75 + input.Actor.Unit.HairStyle, 78)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HairRedKeyStrict, input.U.HairColor));
+            output.Sprite(input.Sprites.Succubi[Math.Min(75 + input.U.HairStyle, 78)]);
         });
         builder.RenderSingle(SpriteType.Hair2, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HairRedKeyStrict, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Succubi[Math.Min(79 + input.Actor.Unit.HairStyle, 82)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HairRedKeyStrict, input.U.HairColor));
+            output.Sprite(input.Sprites.Succubi[Math.Min(79 + input.U.HairStyle, 82)]);
         });
         builder.RenderSingle(SpriteType.Hair3, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HairRedKeyStrict, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Succubi[Math.Min(83 + input.Actor.Unit.HairStyle, 88)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HairRedKeyStrict, input.U.HairColor));
+            output.Sprite(input.Sprites.Succubi[Math.Min(83 + input.U.HairStyle, 88)]);
         });
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImp, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsUnbirthing || input.Actor.IsAnalVoring)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));
+            if (input.A.IsUnbirthing || input.A.IsAnalVoring)
             {
                 output.Sprite(input.Sprites.Succubi[4]);
             }
             else
             {
-                //int sizeOffset = input.Actor.PredatorComponent?.VisibleFullness > .25f ? 1 : 0;
+                //int sizeOffset = input.A.PredatorComponent?.VisibleFullness > .25f ? 1 : 0;
                 int sizeOffset = 1;
-                int attackingOffset = input.Actor.IsAttacking ? 2 : 0;
+                int attackingOffset = input.A.IsAttacking ? 2 : 0;
                 output.Sprite(input.Sprites.Succubi[sizeOffset + attackingOffset]);
             }
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ImpRedKey, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.IsUnbirthing || input.Actor.IsAnalVoring)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ImpRedKey, input.U.AccessoryColor));
+            if (input.A.IsUnbirthing || input.A.IsAnalVoring)
             {
                 output.Sprite(input.Sprites.Succubi[9]);
             }
             else
             {
-                //int sizeOffset = input.Actor.PredatorComponent?.VisibleFullness > .25f ? 1 : 0;
+                //int sizeOffset = input.A.PredatorComponent?.VisibleFullness > .25f ? 1 : 0;
                 int sizeOffset = 1;
-                int attackingOffset = input.Actor.IsAttacking ? 2 : 0;
+                int attackingOffset = input.A.IsAttacking ? 2 : 0;
                 output.Sprite(input.Sprites.Succubi[5 + sizeOffset + attackingOffset]);
             }
         });
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImpDark, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImpDark, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Succubi[22]);
         });
         builder.RenderSingle(SpriteType.BodyAccent3, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImpDark, input.Actor.Unit.AccessoryColor));
-            int sizeOffset = input.Actor.PredatorComponent?.TailFullness > 0 ? 1 + input.Actor.GetTailSize(2) : 0;
-            output.Sprite(input.Actor.IsTailVoring ? input.Sprites.Succubi[37 + sizeOffset] : input.Sprites.Succubi[33 + sizeOffset]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImpDark, input.U.AccessoryColor));
+            int sizeOffset = input.A.PredatorComponent?.TailFullness > 0 ? 1 + input.A.GetTailSize(2) : 0;
+            output.Sprite(input.A.IsTailVoring ? input.Sprites.Succubi[37 + sizeOffset] : input.Sprites.Succubi[33 + sizeOffset]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent4, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HairRedKeyStrict, input.Actor.Unit.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HairRedKeyStrict, input.U.HairColor));
             output.Sprite(input.Sprites.Succubi[23]);
         });
         builder.RenderSingle(SpriteType.BodyAccent5, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            int sizeOffset = input.Actor.PredatorComponent?.TailFullness > 0 ? 1 : 0;
-            if (input.Actor.IsTailVoring)
+            int sizeOffset = input.A.PredatorComponent?.TailFullness > 0 ? 1 : 0;
+            if (input.A.IsTailVoring)
             {
                 output.Sprite(input.Sprites.Succubi[41 + sizeOffset]);
             }
@@ -133,118 +201,69 @@ internal static class Succubi
 
         builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImpDark, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Succubi[24 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImpDark, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Succubi[24 + input.U.SpecialAccessoryType]);
         });
         builder.RenderSingle(SpriteType.Breasts, 15, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImp, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.SquishedBreasts)
+            if (input.A.SquishedBreasts)
             {
-                output.Sprite(input.Sprites.Succubi[59 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Succubi[59 + input.U.BreastSize]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Succubi[63 + input.Actor.Unit.BreastSize]);
+            output.Sprite(input.Sprites.Succubi[63 + input.U.BreastSize]);
         });
 
         builder.RenderSingle(SpriteType.BreastShadow, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ImpRedKey, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ImpRedKey, input.U.AccessoryColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.SquishedBreasts)
+            if (input.A.SquishedBreasts)
             {
-                output.Sprite(input.Sprites.Succubi[67 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Succubi[67 + input.U.BreastSize]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Succubi[71 + input.Actor.Unit.BreastSize]);
+            output.Sprite(input.Sprites.Succubi[71 + input.U.BreastSize]);
         });
 
         builder.RenderSingle(SpriteType.Belly, 13, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImp, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    output.Sprite(input.Sprites.Succubi[88]);
-                    return;
-                }
 
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    if (input.Actor.GetStomachSize(15, 0.7f) == 15)
-                    {
-                        output.Sprite(input.Sprites.Succubi[91]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(15, 0.8f) == 15)
-                    {
-                        output.Sprite(input.Sprites.Succubi[90]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(15, 0.9f) == 15)
-                    {
-                        output.Sprite(input.Sprites.Succubi[89]);
-                        return;
-                    }
-                }
-
-                output.Sprite(input.Sprites.Succubi[43 + input.Actor.GetStomachSize()]);
+                output.Sprite(input.Sprites.Succubi[43 + input.A.GetStomachSize()]);
             }
         });
 
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Dick].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImp, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));
         });
         
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.OldImp, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            int baseSize = input.Actor.Unit.DickSize / 3;
-            int ballOffset = input.Actor.GetBallSize(21, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[24]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[23]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 20)
-            {
-                output.Sprite(input.Sprites.Balls[22]).AddOffset(0, -15 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 19)
-            {
-                output.Sprite(input.Sprites.Balls[21]).AddOffset(0, -14 * .625f);
-                return;
-            }
+            int baseSize = input.U.DickSize / 3;
+            int ballOffset = input.A.GetBallSize(21, .8f);
 
             int combined = Math.Min(baseSize + ballOffset + 2, 20);
             // Always false
@@ -278,13 +297,13 @@ internal static class Succubi
             output.ChangeSprite(SpriteType.Dick).AddOffset(0, 30 * .625f);
             output.ChangeSprite(SpriteType.Balls).AddOffset(0, 33 * .625f);
 
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 Vector3 localScale;
 
-                if (input.Actor.PredatorComponent.VisibleFullness > 4)
+                if (input.A.PredatorComponent.VisibleFullness > 4)
                 {
-                    float extraCap = input.Actor.PredatorComponent.VisibleFullness - 4;
+                    float extraCap = input.A.PredatorComponent.VisibleFullness - 4;
                     float xScale = Mathf.Min(1 + extraCap / 5, 1.8f);
                     float yScale = Mathf.Min(1 + extraCap / 40, 1.1f);
                     localScale = new Vector3(xScale, yScale, 1);

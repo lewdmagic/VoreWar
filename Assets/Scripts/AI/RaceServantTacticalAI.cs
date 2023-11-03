@@ -3,7 +3,7 @@ using System.Linq;
 
 public class RaceServantTacticalAI : HedonistTacticalAI
 {
-    public RaceServantTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, int AISide, bool defendingVillage = false) : base(actors, tiles, AISide, defendingVillage)
+    public RaceServantTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, Side AISide, bool defendingVillage = false) : base(actors, tiles, AISide, defendingVillage)
     {
     }
 
@@ -12,13 +12,13 @@ public class RaceServantTacticalAI : HedonistTacticalAI
         List<PotentialTarget> targets = new List<PotentialTarget>();
         Race masterRace = GetStrongestFriendlyRaceOnBattlefield(actor);
 
-        if (actor.Unit.Race == masterRace) return targets; // Don't serve your own race
+        if (Equals(actor.Unit.Race, masterRace)) return targets; // Don't serve your own race
 
-        List<Actor_Unit> masters = actors.Where(a => a.Unit.Race == masterRace).ToList();
+        List<Actor_Unit> masters = actors.Where(a => Equals(a.Unit.Race, masterRace)).ToList();
 
         foreach (Actor_Unit unit in masters)
         {
-            if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && TacticalUtilities.GetMindControlSide(unit.Unit) == -1 && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub)
+            if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Race.TrueNoneSide) && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub)
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(position);
                 if (distance - 1 + (actor.MaxMovement() / 3) <= moves)

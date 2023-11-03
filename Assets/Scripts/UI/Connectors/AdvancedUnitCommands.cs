@@ -32,9 +32,9 @@ public class AdvancedUnitCommands : MonoBehaviour
         {
             if (action.AppearConditional(actor) && (action.RequiresPred == false || actor.Unit.Predator))
             {
-                if (action.Name == "Tail Vore" && actor.Unit.Race == Race.Terrorbird)
+                if (action.Name == "Tail Vore" && Equals(actor.Unit.Race, Race.Terrorbird))
                     SetButton("Crop Vore", action.OnClicked, action.ButtonColor);
-                else if (action.Name == "Breast Vore" && actor.Unit.Race == Race.Kangaroos)
+                else if (action.Name == "Breast Vore" && Equals(actor.Unit.Race, Race.Kangaroos))
                     SetButton("Pouch Vore", action.OnClicked, action.ButtonColor);
                 else
                     SetButton(action.Name, action.OnClicked, action.ButtonColor);

@@ -9,6 +9,44 @@ internal static class Erin
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Erin", "Erin");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 13,
+            StomachSize = 10,
+            FavoredStat = Stat.Endurance,
+            AllowedVoreTypes = new List<VoreType> { },
+            ExpMultiplier = 2.4f,
+            PowerAdjustment = 2f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(5, 10),
+                Dexterity = new RaceStats.StatRange(5, 10),
+                Endurance = new RaceStats.StatRange(20, 25),
+                Mind = new RaceStats.StatRange(20, 25),
+                Will = new RaceStats.StatRange(20, 25),
+                Agility = new RaceStats.StatRange(24, 26),
+                Voracity = new RaceStats.StatRange(10, 15),
+                Stomach = new RaceStats.StatRange(9, 10),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Tasty,
+                Traits.Prey,
+                Traits.EasyToVore,
+                Traits.Flight,
+                Traits.TheGreatEscape
+            },
+            InnateSpells = new List<SpellTypes>()
+                { SpellTypes.DivinitysEmbrace },
+            RaceDescription = "Erin belongs to a very rare species known as a Nyangel, the lovechild of an angel and a catgirl.  Thanks to this divine heritage they aremostly all incredible healers... But they're also incredibly tasty.  Every Nyangel has a unique trait to set them apart from eachother, and Erin is no exception to this rule.  Her quirk is total acid resistance, the perfect defense against the raveous predators of this realm.  That doesn't stop her from being devoured, however, and that is unfortunately an all-too-common outcome for the girl.  Regardless of how many times she ends up eaten, the loveable Nyangel still tries her best to heal those she can.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.ClothingExtraType1, "Panties");
+            buttons.SetText(ButtonType.ClothingExtraType2, "Stockings");
+            buttons.SetText(ButtonType.ClothingExtraType3, "Shoes");
+        });
         builder.Setup(output =>
         {
             output.BreastSizes = () => 1;
@@ -59,13 +97,13 @@ internal static class Erin
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Erin[3]);
                 return;
             }
 
-            if (input.Actor.Unit.IsDead && input.Actor.Unit.Items != null) //Second part checks for a not fully initialized unit, so that she doesn't have the dead face when you view her race info
+            if (input.U.IsDead && input.U.Items != null) //Second part checks for a not fully initialized unit, so that she doesn't have the dead face when you view her race info
             {
                 output.Sprite(input.Sprites.Erin[4]);
                 return;
@@ -89,7 +127,7 @@ internal static class Erin
         builder.RenderSingle(SpriteType.Body, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Erin[1]);
                 return;
@@ -157,7 +195,7 @@ internal static class ErinTop
             output["Clothing2"].Coloring(Color.white);
             output["Clothing1"].Layer(12);
             output["Clothing1"].Coloring(Color.white);
-            output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Erin[15] : input.Sprites.Erin[14]);
+            output["Clothing1"].Sprite(input.A.IsAttacking ? input.Sprites.Erin[15] : input.Sprites.Erin[14]);
 
             output["Clothing2"].Sprite(input.Sprites.Erin[16]);
         });

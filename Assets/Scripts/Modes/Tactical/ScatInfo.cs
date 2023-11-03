@@ -24,12 +24,13 @@ class ScatInfo
         preyRace = preyUnit.Unit.Race;
         preySize = Mathf.RoundToInt(preyUnit.Actor.BodySize());
 
+        // ReSharper disable once PossibleUnintendedReferenceComparison
         if (pred.Race == Race.Slimes)
         {
             color = pred.AccessoryColor;
         }
 
-        if (pred.Race == Race.Selicia || preyUnit.Unit.Race == Race.Selicia)
+        if (Equals(pred.Race, Race.Selicia) || Equals(preyUnit.Unit.Race, Race.Selicia))
         {
             color = 3;
         }

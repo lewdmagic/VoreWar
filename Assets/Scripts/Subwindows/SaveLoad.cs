@@ -46,7 +46,7 @@ public class SaveLoad : MonoBehaviour
             }
             SaveInfo.LoadGame.interactable = true;
             if (TempWorld.Empires != null)
-                TempWorld.MainEmpires = TempWorld.Empires.ToList();
+                TempWorld.MainEmpiresWritable = TempWorld.Empires.ToList();
 
             if (TempWorld.MainEmpires == null)
             {
@@ -66,7 +66,7 @@ public class SaveLoad : MonoBehaviour
             StringBuilder sbRight = new StringBuilder();
             foreach (Empire empire in TempWorld.MainEmpires)
             {
-                int villageCount = TempWorld.Villages.Where(s => s.Side == empire.Side).Count();
+                int villageCount = TempWorld.Villages.Where(s => Equals(s.Side, empire.Side)).Count();
                 int armyCount = empire.Armies.Count();
                 if (armyCount > 0 || villageCount > 0)
                     sbLeft.AppendLine($"{(empire.Name != null ? empire.Name : empire.Race.ToString())} - Villages: {villageCount} Armies: {armyCount}");

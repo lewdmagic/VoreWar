@@ -13,7 +13,7 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     private CompleteSprite _completeSprite;
 
     private Actor_Unit _lastActor;
-    private Race? _lastRace;
+    private Race _lastRace;
 
     [HideInInspector] private int index = -1;
 
@@ -69,7 +69,7 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void UpdateSprites(Actor_Unit actor, bool locked = true)
     {
-        if (actor != _lastActor || !_lastRace.HasValue || actor.Unit.Race != _lastRace.Value)
+        if (actor != _lastActor || _lastRace == null || !Equals(actor.Unit.Race, _lastRace))
         {
             if (_completeSprite != null)
             {

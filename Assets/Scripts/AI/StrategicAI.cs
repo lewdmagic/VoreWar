@@ -36,7 +36,7 @@ public class StrategicAI : IStrategicAI
 
     int idealArmySize;
 
-    int AISide => empire.Side;
+    Side AISide => empire.Side;
 
     public StrategicAI(Empire empire, int cheatLevel, bool smarterAI)
     {
@@ -131,7 +131,7 @@ public class StrategicAI : IStrategicAI
             }
         }
 
-        if (empire.Gold < 150 && empire.Income < 0 && empire.Side < 50)
+        if (empire.Gold < 150 && empire.Income < 0 && RaceFuncs.IsMainRace2(empire.Side))
         {
             DismissWeakestArmy();
         }
@@ -451,7 +451,7 @@ public class StrategicAI : IStrategicAI
 
     void PurchaseBuildings()
     {
-        Village[] ownVillages = State.World.Villages.Where(s => s.Side == AISide && s.GetTotalPop() > 30).Where(s => StrategicUtilities.EnemyArmyWithinXTiles(s, 4) == false).OrderByDescending(s => s.GetTotalPop()).ToArray();
+        Village[] ownVillages = State.World.Villages.Where(s => Equals(s.Side, AISide) && s.GetTotalPop() > 30).Where(s => StrategicUtilities.EnemyArmyWithinXTiles(s, 4) == false).OrderByDescending(s => s.GetTotalPop()).ToArray();
         foreach (Village village in ownVillages)
         {
             TryVillageConstruction(village, empire, new ConstructionWants()
@@ -540,7 +540,7 @@ public class StrategicAI : IStrategicAI
 
     private void BuyGarrisonWeapons(int i)
     {
-        if (State.World.Villages[i].Side == AISide)
+        if (Equals(State.World.Villages[i].Side, AISide))
         {
             StrategicUtilities.BuyBasicWeapons(State.World.Villages[i]);
         }
@@ -553,7 +553,7 @@ public class StrategicAI : IStrategicAI
         int bestScore = -80;
         for (int i = 0; i < State.World.Villages.Length; i++)
         {
-            if (State.World.Villages[i].Side == empire.Side)
+            if (Equals(State.World.Villages[i].Side, empire.Side))
             {
                 bool occupied = StrategicUtilities.IsVillageOccupied(empire, i);
                 if (occupied == false)
@@ -629,7 +629,7 @@ public class StrategicAI : IStrategicAI
         }
 
         int offRacePenalty = 0;
-        if (village.Race != empire.ReplacedRace)
+        if (!Equals(village.Race, empire.ReplacedRace))
             offRacePenalty = 5;
 
         return hostileArmyPriority + hostileVillagePriority + friendlyArmyPriority - villageSizePenalty - offRacePenalty + (int)(expBonus / 4);

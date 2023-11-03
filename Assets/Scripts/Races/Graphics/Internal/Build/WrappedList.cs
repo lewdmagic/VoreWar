@@ -1,10 +1,11 @@
 #region
 
+using System.Collections;
 using System.Collections.Generic;
 
 #endregion
 
-internal class WrappedList<T> : IWriteOnlyList<T>
+public class WrappedList<T> : IWriteOnlyList<T>, IReadOnlyList<T>
 {
     internal readonly List<T> List;
 
@@ -48,4 +49,18 @@ internal class WrappedList<T> : IWriteOnlyList<T>
     {
         List.Clear();
     }
+
+    public int Count => List.Count;
+    
+    public IEnumerator<T> GetEnumerator()
+    {
+        return List.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    public T this[int index] => List[index];
 }

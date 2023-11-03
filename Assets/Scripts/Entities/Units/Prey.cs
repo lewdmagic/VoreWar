@@ -46,7 +46,8 @@ class Prey
 
     public void UpdateEscapeRate()
     {
-        if (Actor.Surrendered || (Predator.Unit.HasTrait(Traits.Endosoma) && (Unit.FixedSide == Predator.Unit.GetApparentSide(Unit)) || Unit.GetStatusEffect(StatusEffectType.Hypnotized)?.Strength == Predator.Unit.FixedSide))
+        StatusEffect hypnotizedEffect = Unit.GetStatusEffect(StatusEffectType.Hypnotized);
+        if (Actor.Surrendered || (Predator.Unit.HasTrait(Traits.Endosoma) && (Equals(Unit.FixedSide, Predator.Unit.GetApparentSide(Unit))) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, Predator.Unit.FixedSide))))
         {
             EscapeRate = 0;
             return;
@@ -158,7 +159,7 @@ class Prey
 
     public void ChangeRace(Race race)
     {
-        if (Unit.Race != Unit.HiddenRace)
+        if (!Equals(Unit.Race, Unit.HiddenRace))
         {
             Unit.ResetSharedTraits();
             Actor.RevertRace();
@@ -186,14 +187,14 @@ class Prey
         Actor.Surrendered = false;
     }
 
-    public void ChangeSide(int side)
+    public void ChangeSide(Side side)
     {
-        if (Unit.Side != side)
+        if (!Equals(Unit.Side, side))
             State.GameManager.TacticalMode.SwitchAlignment(Actor);
         if (Predator.Unit.HasTrait(Traits.Corruption) || Unit.HasTrait(Traits.Corruption))
         {
             Unit.hiddenFixedSide = true;
-            Actor.sidesAttackedThisBattle = new List<int>();
+            Actor.sidesAttackedThisBattle = new List<Side>();
             Unit.RemoveTrait(Traits.Corruption);
             Unit.AddPermanentTrait(Traits.Corruption);
         }
@@ -201,92 +202,98 @@ class Prey
             Unit.FixedSide = Predator.Unit.FixedSide;
         Actor.Surrendered = false;
     }
+    
     public List<BoneInfo> GetBoneTypes()
     {
-        List<BoneInfo> rtn = new List<BoneInfo>();
-        switch (Unit.Race)
-        {
-            case Race.Slimes:
-                rtn.Add(new BoneInfo(BoneTypes.SlimePile, Unit.Name, Unit.AccessoryColor));
-                break;
-            case Race.Crypters:
-                rtn.Add(new BoneInfo(BoneTypes.CrypterBonePile, Unit.Name, Unit.AccessoryColor));
-                rtn.Add(new BoneInfo(BoneTypes.CrypterSkull, Unit.Name));
-                break;
-            case Race.Kangaroos:
-                rtn.Add(new BoneInfo(BoneTypes.Kangaroo, Unit.Name));
-                break;
-            case Race.Wyvern:
-                rtn.Add(new BoneInfo(BoneTypes.Wyvern, Unit.Name));
-                break;
-            case Race.YoungWyvern:
-                rtn.Add(new BoneInfo(BoneTypes.YoungWyvern, Unit.Name));
-                break;
-            case Race.Compy:
-                rtn.Add(new BoneInfo(BoneTypes.Compy, Unit.Name));
-                break;
-            case Race.FeralSharks:
-                rtn.Add(new BoneInfo(BoneTypes.Shark, Unit.Name));
-                break;
-            case Race.DarkSwallower:
-                rtn.Add(new BoneInfo(BoneTypes.DarkSwallower, Unit.Name));
-                break;
-            case Race.Cake:
-                rtn.Add(new BoneInfo(BoneTypes.Cake, Unit.Name));
-                break;
-            case Race.Selicia:
-                rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
-                rtn.Add(new BoneInfo(BoneTypes.SeliciaSkull, Unit.Name));
-                break;
-            case Race.Vagrants:
-            case Race.CoralSlugs:
-            case Race.RockSlugs:
-            case Race.SpitterSlugs:
-            case Race.SpringSlugs:
-                // No bone
-                break;
-            case Race.Dragon:
-                rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
-                break;
-            case Race.Vision:
-                rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
-                rtn.Add(new BoneInfo(BoneTypes.VisionSkull, Unit.Name));
-                break;
-            default:
-                if (Unit.Furry)
-                {
-                    if (Unit.Race == Race.Bunnies)
-                        rtn.Add(new BoneInfo(BoneTypes.FurryRabbitBones, Unit.Name));
-                    else
-                        rtn.Add(new BoneInfo(BoneTypes.FurryBones, Unit.Name));
-                }
-                else
-                {
-                    rtn.Add(new BoneInfo(BoneTypes.GenericBonePile, Unit.Name));
-                    if (Unit.Race == Race.Lizards)
-                        rtn.Add(new BoneInfo(BoneTypes.LizardSkull, ""));
-                    else if (Unit.Race == Race.Imps)
-                    {
-                        if (Unit.EyeType == 0)
-                            rtn.Add(new BoneInfo(BoneTypes.Imp3EyeSkull, ""));
-                        else if (Unit.EyeType == 1)
-                            rtn.Add(new BoneInfo(BoneTypes.Imp1EyeSkull, ""));
-                        else
-                            rtn.Add(new BoneInfo(BoneTypes.Imp2EyeSkull, ""));
-                    }
-                    else if (Unit.Race == Race.Goblins)
-                    {
-                        rtn.Add(new BoneInfo(BoneTypes.Imp2EyeSkull, ""));
-                    }
-                    else
-                    {
-                        rtn.Add(new BoneInfo(BoneTypes.HumanoidSkull, ""));
-                    }
-                }
-                break;
-
-        }
-        return rtn;
+        return Races.GetRace(Unit.Race).BoneInfo(Unit);
     }
+    
+    // public List<BoneInfo> GetBoneTypes()
+    // {
+    //     List<BoneInfo> rtn = new List<BoneInfo>();
+    //     switch (RaceFuncs.RaceToSwitch(Unit.Race))
+    //     {
+    //         case RaceNumbers.Slimes:
+    //             rtn.Add(new BoneInfo(BoneTypes.SlimePile, Unit.Name, Unit.AccessoryColor));
+    //             break;
+    //         case RaceNumbers.Crypters:
+    //             rtn.Add(new BoneInfo(BoneTypes.CrypterBonePile, Unit.Name, Unit.AccessoryColor));
+    //             rtn.Add(new BoneInfo(BoneTypes.CrypterSkull, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Kangaroos:
+    //             rtn.Add(new BoneInfo(BoneTypes.Kangaroo, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Wyvern:
+    //             rtn.Add(new BoneInfo(BoneTypes.Wyvern, Unit.Name));
+    //             break;
+    //         case RaceNumbers.YoungWyvern:
+    //             rtn.Add(new BoneInfo(BoneTypes.YoungWyvern, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Compy:
+    //             rtn.Add(new BoneInfo(BoneTypes.Compy, Unit.Name));
+    //             break;
+    //         case RaceNumbers.FeralSharks:
+    //             rtn.Add(new BoneInfo(BoneTypes.Shark, Unit.Name));
+    //             break;
+    //         case RaceNumbers.DarkSwallower:
+    //             rtn.Add(new BoneInfo(BoneTypes.DarkSwallower, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Cake:
+    //             rtn.Add(new BoneInfo(BoneTypes.Cake, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Selicia:
+    //             rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
+    //             rtn.Add(new BoneInfo(BoneTypes.SeliciaSkull, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Vagrants:
+    //         case RaceNumbers.CoralSlugs:
+    //         case RaceNumbers.RockSlugs:
+    //         case RaceNumbers.SpitterSlugs:
+    //         case RaceNumbers.SpringSlugs:
+    //             // No bone
+    //             break;
+    //         case RaceNumbers.Dragon:
+    //             rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Vision:
+    //             rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
+    //             rtn.Add(new BoneInfo(BoneTypes.VisionSkull, Unit.Name));
+    //             break;
+    //         default:
+    //             if (Unit.Furry)
+    //             {
+    //                 if (Unit.Race == Race.Bunnies)
+    //                     rtn.Add(new BoneInfo(BoneTypes.FurryRabbitBones, Unit.Name));
+    //                 else
+    //                     rtn.Add(new BoneInfo(BoneTypes.FurryBones, Unit.Name));
+    //             }
+    //             else
+    //             {
+    //                 rtn.Add(new BoneInfo(BoneTypes.GenericBonePile, Unit.Name));
+    //                 if (Unit.Race == Race.Lizards)
+    //                     rtn.Add(new BoneInfo(BoneTypes.LizardSkull, ""));
+    //                 else if (Unit.Race == Race.Imps)
+    //                 {
+    //                     if (Unit.EyeType == 0)
+    //                         rtn.Add(new BoneInfo(BoneTypes.Imp3EyeSkull, ""));
+    //                     else if (Unit.EyeType == 1)
+    //                         rtn.Add(new BoneInfo(BoneTypes.Imp1EyeSkull, ""));
+    //                     else
+    //                         rtn.Add(new BoneInfo(BoneTypes.Imp2EyeSkull, ""));
+    //                 }
+    //                 else if (Unit.Race == Race.Goblins)
+    //                 {
+    //                     rtn.Add(new BoneInfo(BoneTypes.Imp2EyeSkull, ""));
+    //                 }
+    //                 else
+    //                 {
+    //                     rtn.Add(new BoneInfo(BoneTypes.HumanoidSkull, ""));
+    //                 }
+    //             }
+    //             break;
+    //
+    //     }
+    //     return rtn;
+    // }
 
 }

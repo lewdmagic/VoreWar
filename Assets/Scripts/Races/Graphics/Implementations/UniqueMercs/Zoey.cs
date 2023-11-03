@@ -24,6 +24,38 @@ internal static class Zoey
     
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<ZoeyParams>, builder =>
     {
+        builder.Names("Zoey", "Zoey");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 12,
+            StomachSize = 40,
+            HasTail = true,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal },
+            ExpMultiplier = 1.6f,
+            PowerAdjustment = 3f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(14, 20),
+                Dexterity = new RaceStats.StatRange(8, 10),
+                Endurance = new RaceStats.StatRange(18, 20),
+                Mind = new RaceStats.StatRange(6, 10),
+                Will = new RaceStats.StatRange(12, 18),
+                Agility = new RaceStats.StatRange(14, 18),
+                Voracity = new RaceStats.StatRange(14, 18),
+                Stomach = new RaceStats.StatRange(14, 18),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Maul,
+                Traits.StrongGullet,
+                Traits.Biter,
+                Traits.Greedy,
+                Traits.BornToMove,
+                Traits.TailStrike,
+            },
+            RaceDescription = "An anthropomorphic tiger shark from another world.  Zoey is typically a lazy girl who loves watching movies and being a general couch-potato.  However, upon realizing she'd been isekai'd into the realm, her gluttony left her interested in trying to stomach the local warriors and monsters with some basic martial arts, joining whichever side would pay her first.",
+        });
         RaceFrameList SpinEffect = new RaceFrameList(new int[2] { 25, 19 }, new float[2] { .375f, .375f });
         builder.Setup(output =>
         {
@@ -48,20 +80,20 @@ internal static class Zoey
                 case BodyState.SideBelly:
                     return;
                 default:
-                    if (input.Actor.IsOralVoring)
+                    if (input.A.IsOralVoring)
                     {
                         output.Sprite(input.Sprites.Zoey[3]);
                         return;
                     }
 
-                    if (input.Actor.PredatorComponent?.Fullness > 2)
+                    if (input.A.PredatorComponent?.Fullness > 2)
                     {
                         if (State.Rand.Next(650) == 0)
                         {
-                            input.Actor.SetAnimationMode(1, .5f);
+                            input.A.SetAnimationMode(1, .5f);
                         }
 
-                        int specialMode = input.Actor.CheckAnimationFrame();
+                        int specialMode = input.A.CheckAnimationFrame();
                         if (specialMode == 1)
                         {
                             output.Sprite(input.Sprites.Zoey[5]);
@@ -112,7 +144,7 @@ internal static class Zoey
             switch (input.Params.BodyState)
             {
                 case BodyState.HighBelly:
-                    if (input.Actor.IsAttacking == false)
+                    if (input.A.IsAttacking == false)
                     {
                         output.Sprite(input.Sprites.Zoey[9]);
                         return;
@@ -127,7 +159,7 @@ internal static class Zoey
                     output.Sprite(input.Sprites.Zoey[6]);
                     return;
                 default:
-                    if (input.Actor.IsAttacking == false)
+                    if (input.A.IsAttacking == false)
                     {
                         output.Sprite(input.Sprites.Zoey[0]);
                         return;
@@ -155,18 +187,18 @@ internal static class Zoey
         builder.RenderSingle(SpriteType.BodyAccent2, 14, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= SpinEffect.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.frameLists[0].currentTime >= SpinEffect.Times[input.A.AnimationController.frameLists[0].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame++;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame++;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= SpinEffect.Frames.Length)
+                    if (input.A.AnimationController.frameLists[0].currentFrame >= SpinEffect.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.frameLists[0].currentlyActive = false;
+                        input.A.AnimationController.frameLists[0].currentFrame = 0;
+                        input.A.AnimationController.frameLists[0].currentTime = 0f;
                     }
                 }
             }
@@ -175,7 +207,7 @@ internal static class Zoey
                 return;
             }
 
-            output.Sprite(input.Sprites.Zoey[SpinEffect.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Zoey[SpinEffect.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
         });
 
         builder.RenderSingle(SpriteType.Breasts, 10, (input, output) =>
@@ -194,16 +226,16 @@ internal static class Zoey
             {
                 case BodyState.SpinAttack:
                 case BodyState.SideBelly:
-                    if (input.Actor.PredatorComponent.VisibleFullness > 1)
+                    if (input.A.PredatorComponent.VisibleFullness > 1)
                     {
-                        output.Sprite(input.Sprites.Zoey[26 + input.Actor.Unit.BreastSize]);
+                        output.Sprite(input.Sprites.Zoey[26 + input.U.BreastSize]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Zoey[20 + input.Actor.Unit.BreastSize]);
+                    output.Sprite(input.Sprites.Zoey[20 + input.U.BreastSize]);
                     return;
                 default:
-                    output.Sprite(input.Sprites.Zoey[14 + input.Actor.Unit.BreastSize]);
+                    output.Sprite(input.Sprites.Zoey[14 + input.U.BreastSize]);
                     return;
             }
         });
@@ -211,70 +243,16 @@ internal static class Zoey
         builder.RenderSingle(SpriteType.Belly, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 switch (input.Params.BodyState)
                 {
                     case BodyState.SpinAttack:
                     case BodyState.SideBelly:
-                        if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(19) == 19)
-                        {
-                            output.Sprite(input.Sprites.Zoey[72]);
-                            return;
-                        }
-
-                        if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                        {
-                            if (input.Actor.GetStomachSize(19, 0.7f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[78]);
-                                return;
-                            }
-
-                            if (input.Actor.GetStomachSize(19, 0.8f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[77]);
-                                return;
-                            }
-
-                            if (input.Actor.GetStomachSize(19, 0.9f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[76]);
-                                return;
-                            }
-                        }
-
-                        output.Sprite(input.Sprites.Zoey[52 + input.Actor.GetStomachSize(19)]);
+                        output.Sprite(input.Sprites.Zoey[52 + input.A.GetStomachSize(19)]);
                         return;
                     default:
-                        if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(19) == 19)
-                        {
-                            output.Sprite(input.Sprites.Zoey[51]);
-                            return;
-                        }
-
-                        if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                        {
-                            if (input.Actor.GetStomachSize(19, 0.7f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[75]);
-                                return;
-                            }
-
-                            if (input.Actor.GetStomachSize(19, 0.8f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[74]);
-                                return;
-                            }
-
-                            if (input.Actor.GetStomachSize(19, 0.9f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[73]);
-                                return;
-                            }
-                        }
-
-                        output.Sprite(input.Sprites.Zoey[31 + input.Actor.GetStomachSize(19)]);
+                        output.Sprite(input.Sprites.Zoey[31 + input.A.GetStomachSize(19)]);
                         return;
                 }
             }
@@ -282,14 +260,14 @@ internal static class Zoey
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.AnimationController.frameLists == null || Enumerable.Count(input.Actor.AnimationController.frameLists) == 0)
+            if (input.A.AnimationController.frameLists == null || Enumerable.Count(input.A.AnimationController.frameLists) == 0)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            if (input.Actor.AnimationController?.frameLists[0].currentlyActive ?? false)
+            if (input.A.AnimationController?.frameLists[0].currentlyActive ?? false)
             {
-                if (input.Actor.GetStomachSize(19) >= 17)
+                if (input.A.GetStomachSize(19) >= 17)
                 {
                     output.Params.BodyState = BodyState.SideBelly;
                 }
@@ -298,7 +276,7 @@ internal static class Zoey
                     output.Params.BodyState = BodyState.SpinAttack;
                 }
             }
-            else if (input.Actor.GetStomachSize(19) >= 18)
+            else if (input.A.GetStomachSize(19) >= 18)
             {
                 output.Params.BodyState = BodyState.HighBelly;
             }
@@ -311,7 +289,7 @@ internal static class Zoey
             switch (output.Params.BodyState)
             {
                 case BodyState.HighBelly:
-                    if (input.Actor.GetStomachSize(19) == 19)
+                    if (input.A.GetStomachSize(19) == 19)
                     {
                         output.ChangeSprite(SpriteType.Head).AddOffset(0, 30 * .625f);
                         output.ChangeSprite(SpriteType.Hair).AddOffset(0, 30 * .625f);
@@ -331,11 +309,11 @@ internal static class Zoey
 
                     break;
                 case BodyState.SideBelly:
-                    if (input.Actor.GetStomachSize(19) == 19)
+                    if (input.A.GetStomachSize(19) == 19)
                     {
                         output.ChangeSprite(SpriteType.Breasts).AddOffset(-5 * .625f, 12 * .625f);
                     }
-                    else if (input.Actor.GetStomachSize(19) == 18)
+                    else if (input.A.GetStomachSize(19) == 18)
                     {
                         output.ChangeSprite(SpriteType.Breasts).AddOffset(-2 * .625f, 0);
                         output.ChangeSprite(SpriteType.Body).AddOffset(0, -16 * .625f);
@@ -405,7 +383,7 @@ internal static class Zoey
                 switch (state)
                 {
                     case BodyState.SpinAttack:
-                        if ((input.Actor.Unit.BreastSize == 4) | (input.Actor.GetStomachSize(19) >= 4))
+                        if ((input.U.BreastSize == 4) | (input.A.GetStomachSize(19) >= 4))
                         {
                             output["Clothing1"].Sprite(input.Sprites.ZoeyHoliday[6]);
                         }
@@ -419,13 +397,13 @@ internal static class Zoey
                         output["Clothing1"].Sprite(input.Sprites.ZoeyHoliday[5]);
                         break;
                     default:
-                        if ((input.Actor.Unit.BreastSize == 4) | (input.Actor.GetStomachSize(19) >= 4))
+                        if ((input.U.BreastSize == 4) | (input.A.GetStomachSize(19) >= 4))
                         {
-                            output["Clothing1"].Sprite(input.Sprites.ZoeyHoliday[24 + (input.Actor.IsAttacking ? 1 : 0)]);
+                            output["Clothing1"].Sprite(input.Sprites.ZoeyHoliday[24 + (input.A.IsAttacking ? 1 : 0)]);
                         }
                         else
                         {
-                            output["Clothing1"].Sprite(input.Sprites.ZoeyHoliday[22 + (input.Actor.IsAttacking ? 1 : 0)]);
+                            output["Clothing1"].Sprite(input.Sprites.ZoeyHoliday[22 + (input.A.IsAttacking ? 1 : 0)]);
                         }
 
                         break;
@@ -445,24 +423,24 @@ internal static class Zoey
                 {
                     case BodyState.SpinAttack:
                     case BodyState.SideBelly:
-                        if (input.Actor.PredatorComponent?.VisibleFullness > 1)
+                        if (input.A.PredatorComponent?.VisibleFullness > 1)
                         {
-                            output["Clothing2"].Sprite(input.Sprites.ZoeyHoliday[15 + Math.Min(input.Actor.Unit.BreastSize, 3)]);
+                            output["Clothing2"].Sprite(input.Sprites.ZoeyHoliday[15 + Math.Min(input.U.BreastSize, 3)]);
                         }
                         else
                         {
-                            output["Clothing2"].Sprite(input.Sprites.ZoeyHoliday[11 + Math.Min(input.Actor.Unit.BreastSize, 3)]);
+                            output["Clothing2"].Sprite(input.Sprites.ZoeyHoliday[11 + Math.Min(input.U.BreastSize, 3)]);
                         }
 
                         break;
                     default:
-                        if ((input.Actor.Unit.BreastSize == 4) | (input.Actor.GetStomachSize(19) >= 4))
+                        if ((input.U.BreastSize == 4) | (input.A.GetStomachSize(19) >= 4))
                         {
                             output["Clothing2"].Sprite(input.Sprites.ZoeyHoliday[24]);
                         }
                         else
                         {
-                            output["Clothing2"].Sprite(input.Sprites.ZoeyHoliday[7 + Math.Min(input.Actor.Unit.BreastSize, 3)]);
+                            output["Clothing2"].Sprite(input.Sprites.ZoeyHoliday[7 + Math.Min(input.U.BreastSize, 3)]);
                         }
 
                         break;
@@ -484,7 +462,7 @@ internal static class Zoey
                 switch (state)
                 {
                     case BodyState.HighBelly:
-                        output["Clothing4"].Sprite(input.Sprites.ZoeyHoliday[2 + (input.Actor.IsAttacking ? 1 : 0)]);
+                        output["Clothing4"].Sprite(input.Sprites.ZoeyHoliday[2 + (input.A.IsAttacking ? 1 : 0)]);
                         break;
                     case BodyState.SideBelly:
                         output["Clothing4"].Sprite(null);
@@ -493,7 +471,7 @@ internal static class Zoey
                         output["Clothing4"].Sprite(null);
                         break;
                     default:
-                        output["Clothing4"].Sprite(input.Sprites.ZoeyHoliday[0 + (input.Actor.IsAttacking ? 1 : 0)]);
+                        output["Clothing4"].Sprite(input.Sprites.ZoeyHoliday[0 + (input.A.IsAttacking ? 1 : 0)]);
                         break;
                 }
             });

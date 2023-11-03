@@ -29,7 +29,7 @@ namespace Assets.Scripts.Utility.Stored
         [OdinSerialize]
         internal Dictionary<string, float> Sliders;
         [OdinSerialize]
-        internal Dictionary<int, EmpireData> Empires;
+        internal Dictionary<Race, EmpireData> Empires;
 
         public CreateStrategicStored()
         {
@@ -37,7 +37,7 @@ namespace Assets.Scripts.Utility.Stored
             Toggles = new Dictionary<string, bool>();
             Dropdowns = new Dictionary<string, int>();
             Sliders = new Dictionary<string, float>();
-            Empires = new Dictionary<int, EmpireData>();
+            Empires = new Dictionary<Race, EmpireData>();
         }
     }
 }

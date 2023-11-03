@@ -397,7 +397,8 @@ static class SpellList
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(6),
             Duration = (a, t) => 2 + a.Unit.GetStat(Stat.Mind) / 10,
-            Effect = (a, t) => a.Unit.GetApparentSide(t.Unit),         // the unit will act to the best of its knowledge
+            Effect = (a, t) => 0f, // the unit will act to the best of its knowledge
+            EffectSide = (a, t) => a.Unit.GetApparentSide(t.Unit),         // the unit will act to the best of its knowledge
             Type = StatusEffectType.Charmed,
             Tier = 3,
             Resistable = true,
@@ -424,9 +425,9 @@ static class SpellList
                 if (TacticalUtilities.OpenTile(loc, null) && a.CastSpell(Summon, null))
                 {
                     var AvailableRaces = new List<Race>();
-                    foreach (Race race in (Race[])System.Enum.GetValues(typeof(Race)))
+                    foreach (Race race in RaceFuncs.RaceEnumerable())
                     {
-                        if (race >= Race.Vagrants && race < Race.Selicia && (Config.World.GetValue($"Merc {race}") || (Config.SpawnerInfoWithoutGeneration(race)?.Enabled ?? false)))
+                        if (RaceFuncs.isMonster(race) && (Config.World.GetValue($"Merc {race}") || (Config.World.GetSpawnerWithoutGeneration(race)?.Enabled ?? false)))
                             AvailableRaces.Add(race);
                     }
                     AvailableRaces.Remove(Race.Dragon);
@@ -437,7 +438,7 @@ static class SpellList
                     var actorCharm = a.Unit.GetStatusEffect(StatusEffectType.Charmed) ?? a.Unit.GetStatusEffect(StatusEffectType.Hypnotized);
                     if (actorCharm != null)
                     {
-                        unit.ApplyStatusEffect(StatusEffectType.Charmed, actorCharm.Strength, actorCharm.Duration);
+                        unit.ApplyStatusEffect(StatusEffectType.Charmed, actorCharm.Strength, actorCharm.Duration, actorCharm.Side);
                     }
 
                     StrategicUtilities.SpendLevelUps(unit);
@@ -741,7 +742,8 @@ static class SpellList
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Tile, AbilityTargets.Enemy },
             Range = new Range(1),
             Duration = (a, t) => 5,
-            Effect = (a, t) => a.Unit.GetApparentSide(t.Unit),
+            Effect = (a, t) => 0f,
+            EffectSide = (a, t) => a.Unit.GetApparentSide(t.Unit),
             AreaOfEffect = 1,
             Type = StatusEffectType.Hypnotized,
             Tier = 0,
@@ -857,7 +859,8 @@ static class SpellList
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(1),
             Duration = (a, t) => 3,
-            Effect = (a, t) => a.Unit.GetApparentSide(t.Unit),
+            Effect = (a, t) => 0f,
+            EffectSide = (a, t) => a.Unit.GetApparentSide(t.Unit),
             Type = StatusEffectType.Charmed,
             Tier = 3,
             Resistable = true,
@@ -906,7 +909,7 @@ static class SpellList
             {
                 a.CastSpell(AmplifyMagic, t);
                 int amt = a.Unit.GetStat(Stat.Will) / 25;
-                foreach (var ally in TacticalUtilities.UnitsWithinTiles(t.Position, 1).Where(s => s.Unit.IsDead == false && s.Unit.Side == a.Unit.Side))
+                foreach (var ally in TacticalUtilities.UnitsWithinTiles(t.Position, 1).Where(s => s.Unit.IsDead == false && Equals(s.Unit.Side, a.Unit.Side)))
                 {
                     ally.Unit.AddFocus(((amt > 1) ? amt : 1));
                     TacticalGraphicalEffects.CreateGenericMagic(a.Position, ally.Position, ally, TacticalGraphicalEffects.SpellEffectIcon.Buff);
@@ -1105,6 +1108,10 @@ class StatusSpell : Spell
 {
     internal Func<Actor_Unit, Actor_Unit, int> Duration;
     internal Func<Actor_Unit, Actor_Unit, float> Effect;
+    /// <summary>
+    /// BAD SOLUTION. TEMPORARY(tm) 
+    /// </summary>
+    internal Func<Actor_Unit, Actor_Unit, Side> EffectSide;
     internal StatusEffectType Type;
     internal bool Alraune = false;
 }

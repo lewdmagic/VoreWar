@@ -8,6 +8,46 @@ internal static class DarkSwallower
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Dark Swallower", "Dark Swallowers");
+        builder.BonesInfo((unit) => new List<BoneInfo>()
+        {
+            new BoneInfo(BoneTypes.DarkSwallower, unit.Name)
+        });
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts {  },
+            "Jaws"
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 20,
+            HasTail = true,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.5f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(6, 14),
+                Dexterity = new RaceStats.StatRange(4, 8),
+                Endurance = new RaceStats.StatRange(10, 16),
+                Mind = new RaceStats.StatRange(6, 10),
+                Will = new RaceStats.StatRange(8, 14),
+                Agility = new RaceStats.StatRange(8, 12),
+                Voracity = new RaceStats.StatRange(12, 20),
+                Stomach = new RaceStats.StatRange(6, 12),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Flight,
+                Traits.Ravenous
+            },
+            RaceDescription = "As the Scylla arrived in the new lands they brought some of their pets along. Not a year later the strange properties of the new realm had caused the fish to breed out of control, soon escaping and going wild.",
+
+        });
+        
+        
         RaceFrameList frameListTail = new RaceFrameList(new int[8] { 0, 1, 2, 3, 4, 3, 2, 1 }, new float[8] { 1.2f, 1f, 1f, 1f, 1.2f, 1f, 1f, 1f });
         RaceFrameList frameListFins = new RaceFrameList(new int[4] { 0, 1, 2, 1 }, new float[4] { 1f, .8f, 1f, .8f });
 
@@ -23,22 +63,22 @@ internal static class DarkSwallower
         builder.RenderSingle(SpriteType.Eyes, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.DarkSwallower[2 + input.Actor.Unit.EyeType]);
+            output.Sprite(input.Sprites.DarkSwallower[2 + input.U.EyeType]);
         }); // Eyes.
         builder.RenderSingle(SpriteType.Mouth, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Actor.IsAttacking || input.Actor.IsEating ? input.Sprites.DarkSwallower[8] : null);
+            output.Sprite(input.A.IsAttacking || input.A.IsEating ? input.Sprites.DarkSwallower[8] : null);
         }); // Mouth inside.
         builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSharkColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorMap.GetSharkColor(input.U.SkinColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            if (input.Actor.IsEating || input.Actor.IsAttacking)
+            if (input.A.IsEating || input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.DarkSwallower[1]);
                 return;
@@ -49,60 +89,60 @@ internal static class DarkSwallower
 
         builder.RenderSingle(SpriteType.BodyAccent, 0, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSharkColor(input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorMap.GetSharkColor(input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.DarkSwallower[9]);
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+            if (input.A.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.A.AnimationController.frameLists[0].currentFrame])
             {
-                input.Actor.AnimationController.frameLists[0].currentFrame++;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentFrame++;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
+                if (input.A.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame = 0;
+                    input.A.AnimationController.frameLists[0].currentFrame = 0;
                 }
             }
 
-            output.Sprite(input.Sprites.DarkSwallower[9 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.DarkSwallower[9 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
         }); // Tail.
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSharkColor(input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorMap.GetSharkColor(input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.DarkSwallower[14]);
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListFins.Times[input.Actor.AnimationController.frameLists[1].currentFrame])
+            if (input.A.AnimationController.frameLists[1].currentTime >= frameListFins.Times[input.A.AnimationController.frameLists[1].currentFrame])
             {
-                input.Actor.AnimationController.frameLists[1].currentFrame++;
-                input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                input.A.AnimationController.frameLists[1].currentFrame++;
+                input.A.AnimationController.frameLists[1].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListFins.Frames.Length)
+                if (input.A.AnimationController.frameLists[1].currentFrame >= frameListFins.Frames.Length)
                 {
-                    input.Actor.AnimationController.frameLists[1].currentFrame = 0;
+                    input.A.AnimationController.frameLists[1].currentFrame = 0;
                 }
             }
 
-            output.Sprite(input.Sprites.DarkSwallower[14 + frameListFins.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+            output.Sprite(input.Sprites.DarkSwallower[14 + frameListFins.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
         }); // Sidefins.
 
         builder.RenderSingle(SpriteType.BodyAccent3, 1, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSharkColor(input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorMap.GetSharkColor(input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.DarkSwallower[17]);
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentFrame % 2 == 0)
+            if (input.A.AnimationController.frameLists[0].currentFrame % 2 == 0)
             {
                 output.Sprite(input.Sprites.DarkSwallower[17]);
                 return;
@@ -113,38 +153,14 @@ internal static class DarkSwallower
 
         builder.RenderSingle(SpriteType.Belly, 2, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSharkColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorMap.GetSharkColor(input.U.SkinColor));
+            if (input.A.HasBelly == false)
             {
                 output.Sprite(input.Sprites.DarkSwallower[19]);
                 return;
             }
 
-            int size = input.Actor.GetStomachSize(29);
-
-            if (size >= 28 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true) ?? false))
-            {
-                output.Sprite(input.Sprites.DarkSwallower[44]);
-                return;
-            }
-
-            if (size >= 26 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false) ?? false))
-            {
-                output.Sprite(input.Sprites.DarkSwallower[43]);
-                return;
-            }
-
-            if (size >= 24 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false) ?? false))
-            {
-                output.Sprite(input.Sprites.DarkSwallower[42]);
-                return;
-            }
-
-            if (size >= 22 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false) ?? false))
-            {
-                output.Sprite(input.Sprites.DarkSwallower[41]);
-                return;
-            }
+            int size = input.A.GetStomachSize(29);
 
             if (size > 21)
             {

@@ -164,7 +164,7 @@ static class LogUtilities
 
     internal static Unit CompetitionWarrior(Unit unit)
     {
-        var friendlies = TacticalUtilities.Units.Where(s => s.Unit.Side == unit.Side && s.Unit != unit && s.Visible && s.Targetable && s.Unit.IsDead == false && RomanticTarget(unit, s.Unit) == false).ToArray();
+        var friendlies = TacticalUtilities.Units.Where(s => Equals(s.Unit.Side, unit.Side) && s.Unit != unit && s.Visible && s.Targetable && s.Unit.IsDead == false && RomanticTarget(unit, s.Unit) == false).ToArray();
         if (friendlies.Length == 0)
             return null;
         return friendlies[State.Rand.Next(friendlies.Length)].Unit;
@@ -172,7 +172,7 @@ static class LogUtilities
 
     internal static Unit PotentialNextPrey(Unit unit)
     {
-        var preyList = TacticalUtilities.Units.Where(s => s.Unit.Side != unit.Side && s.Visible && s.Targetable && !s.Unit.IsDead);
+        var preyList = TacticalUtilities.Units.Where(s => !Equals(s.Unit.Side, unit.Side) && s.Visible && s.Targetable && !s.Unit.IsDead);
         var preyChanceMap = new Dictionary<Actor_Unit, float>();
         foreach (Actor_Unit prey in preyList)
         {
@@ -195,7 +195,7 @@ static class LogUtilities
     {
         if (unit.AttractedTo != null)
         {
-            var actor = TacticalUtilities.Units.Where(s => s.Unit == unit.AttractedTo && s.Unit.Side == unit.Side && s.Unit != unit && RomanticTarget(unit, s.Unit)).FirstOrDefault(); //If this fails, reassign
+            var actor = TacticalUtilities.Units.Where(s => s.Unit == unit.AttractedTo && Equals(s.Unit.Side, unit.Side) && s.Unit != unit && RomanticTarget(unit, s.Unit)).FirstOrDefault(); //If this fails, reassign
             if (actor != null)
             {
                 if (actor.Visible && actor.Targetable && actor.Unit.IsDead == false)
@@ -206,7 +206,7 @@ static class LogUtilities
             }
         }
 
-        var friendlies = TacticalUtilities.Units.Where(s => s.Unit.Side == unit.Side && s.Unit != unit && s.Visible && s.Targetable && s.Unit.IsDead == false && RomanticTarget(unit, s.Unit)).ToArray();
+        var friendlies = TacticalUtilities.Units.Where(s => Equals(s.Unit.Side, unit.Side) && s.Unit != unit && s.Visible && s.Targetable && s.Unit.IsDead == false && RomanticTarget(unit, s.Unit)).ToArray();
         if (friendlies.Length == 0)
             return null;
         return friendlies[State.Rand.Next(friendlies.Length)].Unit;
@@ -214,7 +214,7 @@ static class LogUtilities
 
     internal static bool ActorHumanoid(Unit s)
     {
-        return s.Race < Race.Vagrants || s.Race >= Race.Selicia;
+        return RaceFuncs.isHumanoid(s.Race);
     }
 
     internal static bool RomanticTarget(Unit unit, Unit target)
@@ -298,72 +298,163 @@ static class LogUtilities
     /// <returns></returns>
     internal static string GetPreyDesc(Unit unit)
     {
-        switch (unit.Race)
+        return Races.GetRace(unit.Race).FlavorText().GetPreyDescription(unit);
+    }
+
+    /// <summary>
+    ///<para>Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, the prey filling his * body nicely."</para>
+    ///<para>Generally meant for the predator/winner/stronger unit. Strength describing, contentment/pleasure indicating, etc. terms.</para>
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    internal static string GetPredDesc(Unit unit)
+    {
+        return Races.GetRace(unit.Race).FlavorText().GetPredDescription(unit);
+    }
+
+    /// <summary>
+    /// <para>Gets a descriptive string that fits situations like "Jeanne graps Timothy's head, pushing the *'s face in her slit and soon forcing rest of him after it."</para>
+    /// <para>This is either the species name, a name of the genus the species belongs to or something similar. Can also be a synonym of the species name.</para>
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    internal static string GetRaceDescSingl(Unit unit)
+    {
+        return Races.GetRace(unit.Race).FlavorText().GetRaceSingleDescription(unit);
+    }
+
+    /// <summary>
+    /// Gets a name that fits the weapon the unit's graphics show it using.
+    /// </summary>
+    /// <param name="weapon"></param>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    internal static string GetWeaponTrueName(Weapon weapon, Unit unit)
+    {
+        return Races.GetRace(unit.Race).FlavorText().GetWeaponTrueName(weapon, unit);
+    }
+    
+    /*
+    /// <summary>
+    /// <para>Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, enjoying the * morsels squirms on her way down."</para>
+    /// <para>Generally meant for the prey/loser/weaker unit. Has mostly demeaning, belittling, weakness indicating or fear portraying terms.</para>
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    internal static string GetPreyDesc(Unit unit)
+    {
+        return LogRaceData.Get(unit.Race).GetPreyDescription(unit) + "$";
+    }
+
+    /// <summary>
+    ///<para>Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, the prey filling his * body nicely."</para>
+    ///<para>Generally meant for the predator/winner/stronger unit. Strength describing, contentment/pleasure indicating, etc. terms.</para>
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    internal static string GetPredDesc(Unit unit)
+    {
+        return LogRaceData.Get(unit.Race).GetPredDescription(unit) + "$";
+    }
+
+    /// <summary>
+    /// <para>Gets a descriptive string that fits situations like "Jeanne graps Timothy's head, pushing the *'s face in her slit and soon forcing rest of him after it."</para>
+    /// <para>This is either the species name, a name of the genus the species belongs to or something similar. Can also be a synonym of the species name.</para>
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    internal static string GetRaceDescSingl(Unit unit)
+    {
+        return LogRaceData.Get(unit.Race).GetRaceSingleDescription(unit) + "$";
+    }
+
+    /// <summary>
+    /// Gets a name that fits the weapon the unit's graphics show it using.
+    /// </summary>
+    /// <param name="weapon"></param>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    internal static string GetWeaponTrueName(Weapon weapon, Unit unit)
+    {
+        return LogRaceData.Get(unit.Race).GetWeaponTrueName(weapon, unit) + "$";
+    }
+    */
+    
+    /*
+    /// <summary>
+    /// <para>Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, enjoying the * morsels squirms on her way down."</para>
+    /// <para>Generally meant for the prey/loser/weaker unit. Has mostly demeaning, belittling, weakness indicating or fear portraying terms.</para>
+    /// </summary>
+    /// <param name="unit"></param>
+    /// <returns></returns>
+    internal static string GetPreyDesc(Unit unit)
+    {
+        switch (RaceFuncs.RaceToSwitch(unit.Race))
         {
-            case Race.Cats:
+            case RaceNumbers.Cats:
                 return GetRandomStringFrom("whiskered", "hissing", "bristle tailed");
-            case Race.Dogs:
+            case RaceNumbers.Dogs:
                 return GetRandomStringFrom("yelping", "curly tailed", "whining", "domesticated");
-            case Race.Youko:
-            case Race.Foxes:
+            case RaceNumbers.Youko:
+            case RaceNumbers.Foxes:
                 return GetRandomStringFrom("fluffy tailed", "squirming", "whimpering");
-            case Race.Wolves:
+            case RaceNumbers.Wolves:
                 return GetRandomStringFrom("wild", "growling", "wet furred");
-            case Race.Bunnies:
+            case RaceNumbers.Bunnies:
                 return GetRandomStringFrom("long eared", "bushy tailed", "leaf biting");
-            case Race.Lizards:
+            case RaceNumbers.Lizards:
                 return GetRandomStringFrom("hairless", "cold-blooded", "wiry");
-            case Race.Slimes:
+            case RaceNumbers.Slimes:
                 return GetRandomStringFrom("amorphous", "sludgy", "juicy");
-            case Race.Scylla:
+            case RaceNumbers.Scylla:
                 return GetRandomStringFrom("loose limbed", "aquatic", "ten-limbed");
-            case Race.Harpies:
+            case RaceNumbers.Harpies:
                 return GetRandomStringFrom("feathered", "keening", "grounded");
-            case Race.Imps:
+            case RaceNumbers.Imps:
                 return GetRandomStringFrom("infernal", "diminutive", "sized");
-            case Race.Humans:
+            case RaceNumbers.Humans:
                 return GetRandomStringFrom("bare skinned", "soft", "shouting");
-            case Race.Crypters:
+            case RaceNumbers.Crypters:
                 return GetRandomStringFrom("mechanical", "artifical", "whirring");
-            case Race.Lamia:
+            case RaceNumbers.Lamia:
                 return GetRandomStringFrom("scaly", "noodly", "double-tasty");
-            case Race.Kangaroos:
+            case RaceNumbers.Kangaroos:
                 return GetRandomStringFrom("bottom heavy", unit.DefaultBreastSize > 0 ? "pouched" : "pouchless", "long legged");
-            case Race.Taurus:
+            case RaceNumbers.Taurus:
                 return GetRandomStringFrom("mooing", "bulky", "hooved");
-            case Race.Crux:
+            case RaceNumbers.Crux:
                 return GetRandomStringFrom("crazy", "curly eared", "complaining"); // ---------------------------------------------------------
-            case Race.Succubi:
+            case RaceNumbers.Succubi:
                 return GetRandomStringFrom("devilishly tasty", "beguiling", "batty");
-            case Race.Tigers:
+            case RaceNumbers.Tigers:
                 return GetRandomStringFrom("striped", "roaring", "mewling");
-            case Race.Goblins:
+            case RaceNumbers.Goblins:
                 return GetRandomStringFrom("diminutive", "cursing", "short");
-            case Race.Alligators:
+            case RaceNumbers.Alligators:
                 return GetRandomStringFrom("crocodilian", "lumbering", "swampy");
-            case Race.Vagrants:
+            case RaceNumbers.Vagrants:
                 return GetRandomStringFrom("tentacled", "rubbery", "alien");
-            case Race.Serpents:
+            case RaceNumbers.Serpents:
                 return GetRandomStringFrom("limbless", "noodly", "slithery");
-            case Race.Wyvern:
+            case RaceNumbers.Wyvern:
                 return GetRandomStringFrom("winged", "horned", "wiry");
-            case Race.YoungWyvern:
+            case RaceNumbers.YoungWyvern:
                 return GetRandomStringFrom("plumb", "soft scaled", "stretchy");
-            case Race.Compy:
+            case RaceNumbers.Compy:
                 return GetRandomStringFrom("tiny", "chirping", "overambitious");
-            case Race.FeralSharks:
+            case RaceNumbers.FeralSharks:
                 return GetRandomStringFrom("finned", "torpedo shaped", "chompy");
-            case Race.FeralWolves:
+            case RaceNumbers.FeralWolves:
                 return GetRandomStringFrom("shaggy", "gamey", "growling");
-            case Race.Selicia:
+            case RaceNumbers.Selicia:
                 return GetRandomStringFrom("mighty tasty", "smooth scaled", "huge", "flexible", "formerly mighty", "surprisingly edible");
-            case Race.EasternDragon:
+            case RaceNumbers.EasternDragon:
                 return GetRandomStringFrom("tasty noodle", "noodle derg", "spaghetti-like", "easily-slurpable"); ////new, many thanks to Flame_Valxsarion
-            case Race.Dragon:
+            case RaceNumbers.Dragon:
                 return GetRandomStringFrom("formerly apex predator", "delicious dragon", "ex-predator"); ////new 
-            case Race.FeralLions:
+            case RaceNumbers.FeralLions:
                 return GetRandomStringFrom("roaring", "once-vicious", "formerly-fearsome");
-            case Race.Aabayx:
+            case RaceNumbers.Aabayx:
                 return GetRandomStringFrom("strange-headed", "humbled viroid", "awkward-shaped");
             default:
                 return "tasty";
@@ -378,68 +469,68 @@ static class LogUtilities
     /// <returns></returns>
     internal static string GetPredDesc(Unit unit)
     {
-        switch (unit.Race)
+        switch (RaceFuncs.RaceToSwitch(unit.Race))
         {
-            case Race.Cats:
+            case RaceNumbers.Cats:
                 return GetRandomStringFrom("purring", "sharp-toothed", "whiskered");
-            case Race.Dogs:
+            case RaceNumbers.Dogs:
                 return GetRandomStringFrom("wagging", "panting");
-            case Race.Youko:
-            case Race.Foxes:
+            case RaceNumbers.Youko:
+            case RaceNumbers.Foxes:
                 return GetRandomStringFrom("cunning", "grinning", "sly");
-            case Race.Wolves:
+            case RaceNumbers.Wolves:
                 return GetRandomStringFrom("spirited", "panting", "long furred");
-            case Race.Bunnies:
+            case RaceNumbers.Bunnies:
                 return GetRandomStringFrom("sharp eared", "strong footed", "chisel-toothed");
-            case Race.Lizards:
+            case RaceNumbers.Lizards:
                 return GetRandomStringFrom("thick-scaled", "cold-blooded", "tough");
-            case Race.Slimes:
+            case RaceNumbers.Slimes:
                 return GetRandomStringFrom("amorphous", "flowing", "hard-cored");
-            case Race.Scylla:
+            case RaceNumbers.Scylla:
                 return GetRandomStringFrom("tentacled", "aquatic", "ten-limbed");
-            case Race.Harpies:
+            case RaceNumbers.Harpies:
                 return GetRandomStringFrom("winged", "screeching", "taloned");
-            case Race.Imps:
+            case RaceNumbers.Imps:
                 return GetRandomStringFrom("infernal", "deceptive", "devious");
-            case Race.Humans:
+            case RaceNumbers.Humans:
                 return GetRandomStringFrom("adaptive", "clever", "resourceful");
-            case Race.Crypters:
+            case RaceNumbers.Crypters:
                 return GetRandomStringFrom("mechanical", "artifical", "rumbling");
-            case Race.Lamia:
+            case RaceNumbers.Lamia:
                 return GetRandomStringFrom("scaly", "long bodied", "sizeable");
-            case Race.Kangaroos:
+            case RaceNumbers.Kangaroos:
                 return GetRandomStringFrom("thick tailed", unit.DefaultBreastSize > 0 ? "pouched" : "long legged", "black clawed");
-            case Race.Taurus:
+            case RaceNumbers.Taurus:
                 return GetRandomStringFrom("multi-stomached", "heavy", "strong legged");
-            case Race.Crux:
+            case RaceNumbers.Crux:
                 return GetRandomStringFrom("curly eared", "crazed", "eager"); // ---------------------------------------------------------------------------------
-            case Race.Succubi:
+            case RaceNumbers.Succubi:
                 return GetRandomStringFrom("demonic", "beguiling", "bat-winged");
-            case Race.Tigers:
+            case RaceNumbers.Tigers:
                 return GetRandomStringFrom("striped", "roaring", "sharp toothed");
-            case Race.Goblins:
+            case RaceNumbers.Goblins:
                 return GetRandomStringFrom("stronger than looks", "knee kicking", "smart");
-            case Race.Alligators:
+            case RaceNumbers.Alligators:
                 return GetRandomStringFrom("armoured", "large jawed", "swampy");
-            case Race.Vagrants:
+            case RaceNumbers.Vagrants:
                 return GetRandomStringFrom("alien", "stretchy", "translucent");
-            case Race.Serpents:
+            case RaceNumbers.Serpents:
                 return GetRandomStringFrom("scaly", "long bodied", "slithering");
-            case Race.Wyvern:
+            case RaceNumbers.Wyvern:
                 return GetRandomStringFrom("mighty", "spined", "great-winged");
-            case Race.YoungWyvern:
+            case RaceNumbers.YoungWyvern:
                 return GetRandomStringFrom("grinning", "expansive", "rubbery");
-            case Race.Compy:
+            case RaceNumbers.Compy:
                 return GetRandomStringFrom("energetic", "tanuki shaming", "ambitious");
-            case Race.FeralSharks:
+            case RaceNumbers.FeralSharks:
                 return GetRandomStringFrom("large jawed", "rough scaled", "sharp finned");
-            case Race.FeralWolves:
+            case RaceNumbers.FeralWolves:
                 return GetRandomStringFrom("long furred", "spirited", "panting");
-            case Race.Selicia:
+            case RaceNumbers.Selicia:
                 return GetRandomStringFrom("wide mawed", "smooth scaled", "stretchy", "huge", "impressive", "all-too-eager", "mighty");
-            case Race.Dragon:
+            case RaceNumbers.Dragon:
                 return GetRandomStringFrom("apex predator", "hungry dragon", "voracious dragon");
-            case Race.FeralLions:
+            case RaceNumbers.FeralLions:
                 return GetRandomStringFrom("indulgent", "greedily snarling", "voracious", "capacious", "insatiable", "dominant", "pleased"); ////new 
             default:
                 return "strong";
@@ -454,114 +545,114 @@ static class LogUtilities
     /// <returns></returns>
     internal static string GetRaceDescSingl(Unit unit)
     {
-        switch (unit.Race)
+        switch (RaceFuncs.RaceToSwitch(unit.Race))
         {
-            case Race.Cats:
+            case RaceNumbers.Cats:
                 return GetRandomStringFrom("cat", GetGenderString(unit, "queen", "tom", "cat"), "feline");
-            case Race.Dogs:
+            case RaceNumbers.Dogs:
                 return GetRandomStringFrom("dog", GetGenderString(unit, "bitch", "dog", "dog"), "canine");
-            case Race.Youko:
-            case Race.Foxes:
+            case RaceNumbers.Youko:
+            case RaceNumbers.Foxes:
                 return GetRandomStringFrom("fox", GetGenderString(unit, "vixen", "tod", "fox"), "vulpine", "canid");
-            case Race.Wolves:
+            case RaceNumbers.Wolves:
                 return GetRandomStringFrom("feral", GetGenderString(unit, "wolfess", "wolf", "wolf"), "canine"); ////I changed "wolfen" to "wolfess" 
-            case Race.Bunnies:
+            case RaceNumbers.Bunnies:
                 return GetRandomStringFrom("bunny", GetGenderString(unit, "doe", "buck", "lagomorph"), "rabbit");
-            case Race.Deer:
+            case RaceNumbers.Deer:
                 return GetRandomStringFrom(GetGenderString(unit, GetRandomStringFrom("doe", "roe"), GetRandomStringFrom("buck", "stag", "hart"), "cervid"), "faun", "deer");
-            case Race.Lizards:
+            case RaceNumbers.Lizards:
                 return GetRandomStringFrom("lizard", "reptile", "reptilian");
-            case Race.Slimes:
+            case RaceNumbers.Slimes:
                 return GetRandomStringFrom("slime", "ooze", "jelly");
-            case Race.Scylla:
+            case RaceNumbers.Scylla:
                 return GetRandomStringFrom("scylla", "octopod", "aquanoid");
-            case Race.Harpies:
+            case RaceNumbers.Harpies:
                 return GetRandomStringFrom("harpy", "raptor", "harpyia");
-            case Race.Imps:
+            case RaceNumbers.Imps:
                 return GetRandomStringFrom("imp", "infernal being", "small demon"); ////added "small demon"
-            case Race.Humans:
+            case RaceNumbers.Humans:
                 return GetRandomStringFrom("human", GetGenderString(unit, "woman", "man", "human"), "humanoid");
-            case Race.Crypters:
+            case RaceNumbers.Crypters:
                 return GetRandomStringFrom("crypter", "machinoid", "synthetic", "robotic", "metallic", "futuristic", "fabricated");////added "synthetic", "robotic", "metallic", "futuristic", "fabricated" thanks to Flame_Valxsarion
-            case Race.Lamia:
+            case RaceNumbers.Lamia:
                 return GetRandomStringFrom("lamia", "serpent", "half-snake");
-            case Race.Kangaroos:
+            case RaceNumbers.Kangaroos:
                 return GetRandomStringFrom("kangaroo", unit.HasBreasts ? "flyer" : "boomer", "'roo", "marsupial");
-            case Race.Taurus:
+            case RaceNumbers.Taurus:
                 return GetRandomStringFrom("bovine", GetGenderString(unit, "cow", "bull", "taurus"), "taurus");
-            case Race.Crux:
+            case RaceNumbers.Crux:
                 return GetRandomStringFrom("crux", "lab-critter", "gene-engineered creature"); // --------------------------------------------------------------------------
-            case Race.Succubi:
+            case RaceNumbers.Succubi:
                 return GetRandomStringFrom("succubus", "demon", "hellish being");
-            case Race.Tigers:
+            case RaceNumbers.Tigers:
                 return GetRandomStringFrom("feline", GetGenderString(unit, "tigress", "tiger", "tiger"), "large feline");
-            case Race.Goblins:
+            case RaceNumbers.Goblins:
                 return GetRandomStringFrom("goblin", "goblinoid", "humanoid");
-            case Race.Alligators:
+            case RaceNumbers.Alligators:
                 return GetRandomStringFrom("'gator", "alligator", "crocodilian", "reptile");
-            case Race.Puca:
+            case RaceNumbers.Puca:
                 return GetRandomStringFrom("puca", "bunny", "lagomorph", "digger");
-            case Race.Vagrants:
+            case RaceNumbers.Vagrants:
                 return GetRandomStringFrom("vagrant", "jellyfish", "medusa");
-            case Race.Serpents:
+            case RaceNumbers.Serpents:
                 return GetRandomStringFrom("serpent", "snake", "slitherer");
-            case Race.Wyvern:
+            case RaceNumbers.Wyvern:
                 return GetRandomStringFrom("wyvern", "lesser draconic being", "drake");
-            case Race.YoungWyvern:
+            case RaceNumbers.YoungWyvern:
                 return GetRandomStringFrom("young wyvern", "wyverling", "small wyvern");
-            case Race.Compy:
+            case RaceNumbers.Compy:
                 return GetRandomStringFrom("compy", "compsognathus", "dinosaur", "tiny dino");
-            case Race.FeralSharks:
+            case RaceNumbers.FeralSharks:
                 return GetRandomStringFrom("skyshark", "shark", "great fish");
-            case Race.FeralWolves:
+            case RaceNumbers.FeralWolves:
                 return GetRandomStringFrom("feral", GetGenderString(unit, "wolfess", "wolf", "wolf"), "canine"); ////I changed "wolfen" to "wolfess"
-            case Race.Cake:
+            case RaceNumbers.Cake:
                 return GetRandomStringFrom("cake", "baked good", "ghostly confectionary", "delicious dessert");
-            case Race.Ki:
+            case RaceNumbers.Ki:
                 return GetRandomStringFrom("small creature", "furry critter");
-            case Race.Vision:
+            case RaceNumbers.Vision:
                 return GetRandomStringFrom("alien", "dinosaur");
-            case Race.Harvesters:
+            case RaceNumbers.Harvesters:
                 return GetRandomStringFrom("alien", "harvester");
-            case Race.Collectors:
+            case RaceNumbers.Collectors:
                 return GetRandomStringFrom("alien", "quadpod");
-            case Race.Selicia:
+            case RaceNumbers.Selicia:
                 return GetRandomStringFrom("dragon", "salamander dragon", "derg");
-            case Race.Equines:
+            case RaceNumbers.Equines:
                 return GetRandomStringFrom("equine", GetGenderString(unit, "mare", "stallion", "horse"), "bronco"); ////new
-            case Race.Sergal:
+            case RaceNumbers.Sergal:
                 return GetRandomStringFrom("furred", "sergal", "Eltussian"); ////new, many thanks to Flame_Valxsarion
-            case Race.Dragon:
+            case RaceNumbers.Dragon:
                 return GetRandomStringFrom("dragon", GetGenderString(unit, "dragoness", "drakon", "dragon"), "draconian"); ////new 
-            case Race.EasternDragon:
+            case RaceNumbers.EasternDragon:
                 return GetRandomStringFrom("oriental dragon", GetGenderString(unit, "eastern dragoness", "eastern dragon", "eastern dragon"), "serpentine dragon");  ////new    
-            case Race.Zera:
+            case RaceNumbers.Zera:
                 return GetRandomStringFrom("nargacuga", "fluffy wyvern", "big kitty"); ////new, many thanks to Selicia for the last two 
-            case Race.Hippos:
+            case RaceNumbers.Hippos:
                 return GetRandomStringFrom("hippo", "hippopotamus", "pachyderm"); ////new 
-            case Race.Komodos:
+            case RaceNumbers.Komodos:
                 return GetRandomStringFrom("komodo", "komodo dragon", "komodo lizard"); ////new  
-            case Race.Cockatrice:
+            case RaceNumbers.Cockatrice:
                 return GetRandomStringFrom("cockatrice", GetGenderString(unit, "scary hen", "monster cock", "danger chicken"), "terror chicken"); ////new, blame Flame_Valxsarion for encouraging me. Actually don't, I came up with "monster cock" 
-            case Race.Bees:
+            case RaceNumbers.Bees:
                 return GetRandomStringFrom("apid", GetGenderString(unit, "worker bee", "drone", "bee"), "bee"); ////new 
-            case Race.Alraune:
+            case RaceNumbers.Alraune:
                 return GetRandomStringFrom("plant", "demi-plant", "flowery being"); ////new   
-            case Race.Bats:
+            case RaceNumbers.Bats:
                 return GetRandomStringFrom("bat", "chiropter", "demi-bat"); ////new         
-            case Race.Merfolk:
+            case RaceNumbers.Merfolk:
                 return GetRandomStringFrom("walking fish", GetGenderString(unit, "mermaid", "merman", "merfolk"), "merfolk"); ////new  
-            case Race.Sharks:
+            case RaceNumbers.Sharks:
                 return GetRandomStringFrom("demi-shark", "shark", "landshark"); ////new     
-            case Race.Gryphons:
+            case RaceNumbers.Gryphons:
                 return GetRandomStringFrom("gryphon", "griffin", "griffon"); ////new 
-            case Race.Kobolds:
+            case RaceNumbers.Kobolds:
                 return GetRandomStringFrom("kobold", "little lizard", "little reptile"); ////new 
-            case Race.Frogs:
+            case RaceNumbers.Frogs:
                 return GetRandomStringFrom("demi-frog", "amphibian", "frog"); ////new, many thanks to Flame_Valxsarion             
-            case Race.FeralLions:
+            case RaceNumbers.FeralLions:
                 return GetRandomStringFrom("feline", GetGenderString(unit, "lioness", "lion", "lion"), "leonine", "kitty");
-            case Race.Aabayx:
+            case RaceNumbers.Aabayx:
                 return GetRandomStringFrom("viroid", "virosapien", "dice-like", "math-obsessed"); ////new, and probably wrong
             default:
                 return "creature";
@@ -677,7 +768,7 @@ static class LogUtilities
             else if (weapon.Name == "Compound Bow") return "Heavy Slingshot";
         }
         else if (unit.Race == Race.Vipers)
-        { /*V33B ADDITION*/
+        { //V33B ADDITION
             if (weapon.Name == "Mace") return "Arc Blade";
             else if (weapon.Name == "Axe") return "Fusion Blade";
             else if (weapon.Name == "Simple Bow") return "Plasma Pistol";
@@ -788,5 +879,6 @@ static class LogUtilities
         else if (weapon.Name == "Claw") return "Claws";
         return weapon.Name;
     }
+    */
 }
 

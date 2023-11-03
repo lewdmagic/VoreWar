@@ -10,16 +10,64 @@ internal static class Youko // TODO extend humans
     // Recode Youko to extend (not inheritance) human behavior 
     internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Whisp", "Whisps");
+        builder.WallType(WallType.Fox);
+        builder.FlavorText(new FlavorText(
+            new Texts { "fluffy tailed", "squirming", "whimpering" },
+            new Texts { "cunning", "grinning", "sly" },
+            new Texts { "fox", "vulpine", "canid", {"vixen", Gender.Female}, {"tod", Gender.Male} }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Mind,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Charmer,
+                Traits.Temptation,
+                Traits.Possession,
+                Traits.ForceFeeder,
+                Traits.ManaDrain,
+                Traits.CreateSpawn,
+            },
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(6, 14),
+                Dexterity = new RaceStats.StatRange(6, 14),
+                Endurance = new RaceStats.StatRange(6, 14),
+                Mind = new RaceStats.StatRange(14, 22),
+                Will = new RaceStats.StatRange(8, 16),
+                Agility = new RaceStats.StatRange(8, 18),
+                Voracity = new RaceStats.StatRange(12, 18),
+                Stomach = new RaceStats.StatRange(12, 18),
+            },
+            SpawnRace = Race.Whisp,
+            ConversionRace = Race.Foxes,
+            RaceDescription = "Foxes that were changed by spirit energy",
+        });
+        builder.TownNames(new List<string>
+        {
+            "Takama-ga-hara",
+            "Yamato-no-shi",
+            "Inari-no-shi",
+            "Zenko-no-machi",
+            "Yakan-no-machi",
+            "Ooji-no-machi",
+            "Onji-no-machi",
+        });
         builder.Setup(output =>
         {
             output.CanBeGender = new List<Gender> { Gender.None };
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.MermenSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin);
         });
 
 
         builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
             output.Sprite(input.Sprites.Whisp[0]);
         });
 
@@ -53,13 +101,13 @@ internal static class Youko // TODO extend humans
 }); // Ears
         RaceSpriteSet[SpriteType.Head] = new SpriteExtraInfo(6, null, FurryColor, (input) =>
         {
-            if (input.Actor.IsEating)
+            if (input.A.IsEating)
             {
-                if (input.Actor.Unit.Furry)
+                if (input.U.Furry)
                     return output.Sprite(Sprites2[47]);
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         return output.Sprite(Sprites2[4]);
                     }
@@ -70,16 +118,16 @@ internal static class Youko // TODO extend humans
                 }
                 else
                 {
-                    return output.Sprite(Sprites2[7 + (input.Actor.Unit.BodySize * 3)]);
+                    return output.Sprite(Sprites2[7 + (input.U.BodySize * 3)]);
                 }
             }
-            else if (input.Actor.IsAttacking)
+            else if (input.A.IsAttacking)
             {
-                if (input.Actor.Unit.Furry)
+                if (input.U.Furry)
                     return output.Sprite(Sprites2[49]);
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         return output.Sprite(Sprites2[5]);
                     }
@@ -90,16 +138,16 @@ internal static class Youko // TODO extend humans
                 }
                 else
                 {
-                    return output.Sprite(Sprites2[8 + (input.Actor.Unit.BodySize * 3)]);
+                    return output.Sprite(Sprites2[8 + (input.U.BodySize * 3)]);
                 }
             }
             else
             {
-                if (input.Actor.Unit.Furry)
+                if (input.U.Furry)
                     return output.Sprite(Sprites2[45]);
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         return output.Sprite(Sprites2[3]);
                     }
@@ -110,7 +158,7 @@ internal static class Youko // TODO extend humans
                 }
                 else
                 {
-                    return output.Sprite(Sprites2[6 + (input.Actor.Unit.BodySize * 3)]);
+                    return output.Sprite(Sprites2[6 + (input.U.BodySize * 3)]);
                 }
 
             }
@@ -126,7 +174,7 @@ internal static class Youko // TODO extend humans
         RaceSpriteSet[SpriteType.SecondaryAccessory] = new SpriteExtraInfo(1, null, (s) => ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, s.Unit.AccessoryColor), (input) =>
         {
             int tailCount = GetNumTails(input.Actor);
-            if (input.Actor.Unit.Predator && input.Actor.PredatorComponent.TailFullness > 0)
+            if (input.U.Predator && input.A.PredatorComponent.TailFullness > 0)
             {
                 if(tailCount >= 7)
                     return output.Sprite(Tails[10]);

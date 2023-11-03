@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,33 @@ internal static class Puca
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Puca", "Puca");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "puca", "bunny", "lagomorph", "digger" },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Shovel",
+                [WeaponNames.Axe]         = "Shovel",
+                [WeaponNames.SimpleBow]   = "Slingshot",
+                [WeaponNames.CompoundBow] = "Heavy Slingshot"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 7,
+            StomachSize = 14,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.ArtfulDodge,
+                Traits.Pounce,
+            },
+            RaceDescription = "A race of burrowers very true to their heritage, the Puca trust their shovels and feet above advanced technology. Many a foe has found themselves swallowed up by their deep dark tunnels.",
+        });
+        
         builder.Setup(output =>
         {
             IClothing vest = Vest.VestInstance;
@@ -31,8 +59,8 @@ internal static class Puca
 
         builder.RenderSingle(SpriteType.Head, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.IsOralVoring)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Puca[4]);
                 return;
@@ -43,24 +71,24 @@ internal static class Puca
 
         builder.RenderSingle(SpriteType.Eyes, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Puca[8 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Puca[8 + input.U.EyeType]);
         });
 
         builder.RenderSingle(SpriteType.Mouth, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Puca[16 + input.Actor.Unit.MouthType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Puca[16 + input.U.MouthType]);
         });
 
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.IsAttacking)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Puca[1]);
             }
-            else if (input.Actor.IsAnalVoring)
+            else if (input.A.IsAnalVoring)
             {
                 output.Sprite(input.Sprites.Puca[2]);
             }
@@ -72,20 +100,20 @@ internal static class Puca
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Puca[23]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent2, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Puca[24]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent3, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
+            if (input.U.HasBreasts)
             {
                 output.Sprite(input.Sprites.Puca[27]);
             }
@@ -93,8 +121,8 @@ internal static class Puca
 
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
+            if (input.U.HasBreasts)
             {
                 output.Sprite(input.Sprites.Puca[26]);
             }
@@ -102,83 +130,49 @@ internal static class Puca
 
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
+            if (input.A.HasBelly)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(9) == 9)
-                {
-                    output.Sprite(input.Sprites.Puca[50]);
-                    return;
-                }
 
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(9) == 9)
-                {
-                    output.Sprite(input.Sprites.Puca[49]);
-                    return;
-                }
-
-                output.Sprite(input.Sprites.Puca[37 + input.Actor.GetStomachSize(9)]);
+                output.Sprite(input.Sprites.Puca[37 + input.A.GetStomachSize(9)]);
             }
         });
 
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Puca, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f)
                 {
-                    output.Sprite(input.Sprites.Puca[33 + input.Actor.Unit.DickSize]).Layer(18);
+                    output.Sprite(input.Sprites.Puca[33 + input.U.DickSize]).Layer(18);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Puca[30 + input.Actor.Unit.DickSize]).Layer(12);
+                output.Sprite(input.Sprites.Puca[30 + input.U.DickSize]).Layer(12);
                 return;
             }
 
-            output.Sprite(input.Sprites.Puca[30 + input.Actor.Unit.DickSize]).Layer(9);
+            output.Sprite(input.Sprites.Puca[30 + input.U.DickSize]).Layer(9);
         });
 
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PucaBalls, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PucaBalls, input.U.AccessoryColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
             output.AddOffset(0, -21 * .625f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[24]).AddOffset(0, -18 * .625f);
-                return;
-            }
 
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[23]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 20)
-            {
-                output.Sprite(input.Sprites.Balls[22]).AddOffset(0, -15 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 19)
-            {
-                output.Sprite(input.Sprites.Balls[21]).AddOffset(0, -14 * .625f);
-                return;
-            }
-
-            int baseSize = input.Actor.Unit.DickSize / 3;
-            int ballOffset = input.Actor.GetBallSize(21, .8f);
+            int baseSize = input.U.DickSize / 3;
+            int ballOffset = input.A.GetBallSize(21, .8f);
             int combined = Math.Min(baseSize + ballOffset + 2, 20);
             // Always false
             // if (combined == 21)
@@ -207,15 +201,15 @@ internal static class Puca
         builder.RenderSingle(SpriteType.Weapon, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                int pose = input.Actor.IsAttacking ? 1 : 0;
-                if (input.Actor.IsAnalVoring)
+                int pose = input.A.IsAttacking ? 1 : 0;
+                if (input.A.IsAnalVoring)
                 {
                     pose = 2;
                 }
 
-                if (input.Actor.GetWeaponSprite() < 4)
+                if (input.A.GetWeaponSprite() < 4)
                 {
                     output.Sprite(input.Sprites.Puca[5 + pose]).Layer(3);
                 }
@@ -229,10 +223,10 @@ internal static class Puca
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.Unit.Predator &&
-                (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) ||
-                 input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                && input.Actor.GetStomachSize(9) == 9)
+            if (input.U.Predator &&
+                (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) ||
+                 input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+                && input.A.GetStomachSize(9) == 9)
             {
                 float yOffset = 20 * .625f;
                 output.ChangeSprite(SpriteType.Body).AddOffset(0, yOffset);
@@ -253,13 +247,13 @@ internal static class Puca
                 output.ClothingShift = new Vector3();
             }
 
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 Vector3 localScale;
 
-                if (input.Actor.PredatorComponent.VisibleFullness > 4)
+                if (input.A.PredatorComponent.VisibleFullness > 4)
                 {
-                    float extraCap = input.Actor.PredatorComponent.VisibleFullness - 4;
+                    float extraCap = input.A.PredatorComponent.VisibleFullness - 4;
                     float xScale = Mathf.Min(1 + extraCap / 5, 1.8f);
                     float yScale = Mathf.Min(1 + extraCap / 40, 1.1f);
                     localScale = new Vector3(xScale, yScale, 1);
@@ -291,8 +285,8 @@ internal static class Puca
             {
                 output["Clothing1"].Layer(17);
                 int spriteNum;
-                int femaleMod = input.Actor.Unit.HasBreasts ? 19 : 0;
-                if (input.Actor.IsAnalVoring)
+                int femaleMod = input.U.HasBreasts ? 19 : 0;
+                if (input.A.IsAnalVoring)
                 {
                     spriteNum = 29 + femaleMod;
                 }
@@ -301,7 +295,7 @@ internal static class Puca
                     spriteNum = 28 + femaleMod;
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
                 output["Clothing1"].Sprite(input.Sprites.Puca[spriteNum]);
             });
         });
@@ -319,9 +313,9 @@ internal static class Puca
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                var spriteNum = input.Actor.IsAnalVoring ? 22 : 21;
+                var spriteNum = input.A.IsAnalVoring ? 22 : 21;
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
                 output["Clothing1"].Sprite(input.Sprites.Puca[spriteNum]);
             });
         });
@@ -339,10 +333,10 @@ internal static class Puca
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                if (!input.Actor.IsAnalVoring)
+                if (!input.A.IsAnalVoring)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Puca[36]);
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
                 }
             });
         });

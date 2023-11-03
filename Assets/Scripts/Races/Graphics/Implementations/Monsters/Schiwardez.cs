@@ -8,6 +8,38 @@ internal static class Schiwardez
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Schiwardez", "Schiwardez");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 10,
+            HasTail = true,
+            FavoredStat = Stat.Endurance,
+            AllowedVoreTypes = new List<VoreType> { VoreType.CockVore },
+            ExpMultiplier = 1.3f,
+            PowerAdjustment = 1.6f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(10, 14),
+                Dexterity = new RaceStats.StatRange(8, 12),
+                Endurance = new RaceStats.StatRange(12, 16),
+                Mind = new RaceStats.StatRange(4, 6),
+                Will = new RaceStats.StatRange(8, 12),
+                Agility = new RaceStats.StatRange(10, 14),
+                Voracity = new RaceStats.StatRange(10, 14),
+                Stomach = new RaceStats.StatRange(10, 14),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Resilient,
+                Traits.Disgusting
+            },
+            RaceDescription = "A tough, twisted creature. Hunts for pleasure rather than sustenance.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.Skintone, "Body Color");
+        });
         builder.Setup(output =>
         {
             output.GentleAnimation = true;
@@ -18,14 +50,14 @@ internal static class Schiwardez
 
         builder.RenderSingle(SpriteType.Head, 8, (input, output) =>
             {
-                output.Coloring(ColorMap.GetSchiwardezColor(input.Actor.Unit.SkinColor));
-                if (input.Actor.IsAttacking)
+                output.Coloring(ColorMap.GetSchiwardezColor(input.U.SkinColor));
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Schiwardez[37]);
                     return;
                 }
 
-                if (input.Actor.GetBallSize(24) > 0)
+                if (input.A.GetBallSize(24) > 0)
                 {
                     output.Sprite(input.Sprites.Schiwardez[5]);
                     return;
@@ -36,8 +68,8 @@ internal static class Schiwardez
 
         builder.RenderSingle(SpriteType.Body, 5, (input, output) =>
             {
-                output.Coloring(ColorMap.GetSchiwardezColor(input.Actor.Unit.SkinColor));
-                if (input.Actor.GetBallSize(24) > 17)
+                output.Coloring(ColorMap.GetSchiwardezColor(input.U.SkinColor));
+                if (input.A.GetBallSize(24) > 17)
                 {
                     output.Sprite(input.Sprites.Schiwardez[1]);
                     return;
@@ -48,38 +80,38 @@ internal static class Schiwardez
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSchiwardezColor(input.Actor.Unit.SkinColor));
+            output.Coloring(ColorMap.GetSchiwardezColor(input.U.SkinColor));
             output.Sprite(input.Sprites.Schiwardez[3]);
         }); // Closer Legs
 
         builder.RenderSingle(SpriteType.BodyAccent2, 0, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSchiwardezColor(input.Actor.Unit.SkinColor));
+            output.Coloring(ColorMap.GetSchiwardezColor(input.U.SkinColor));
             output.Sprite(input.Sprites.Schiwardez[2]);
         }); // Far Legs
 
         builder.RenderSingle(SpriteType.BodyAccent3, 2, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSchiwardezColor(input.Actor.Unit.SkinColor));
+            output.Coloring(ColorMap.GetSchiwardezColor(input.U.SkinColor));
             output.Sprite(input.Sprites.Schiwardez[8]);
         }); // Sheath
 
         builder.RenderSingle(SpriteType.BodyAccent4, 6, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSchiwardezColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.GetBallSize(24) > 17)
+            output.Coloring(ColorMap.GetSchiwardezColor(input.U.SkinColor));
+            if (input.A.GetBallSize(24) > 17)
             {
                 output.Sprite(input.Sprites.Schiwardez[36]);
                 return;
             }
 
-            if (input.Actor.GetBallSize(24) > 14)
+            if (input.A.GetBallSize(24) > 14)
             {
                 output.Sprite(input.Sprites.Schiwardez[35]);
                 return;
             }
 
-            if (input.Actor.GetBallSize(24) > 12)
+            if (input.A.GetBallSize(24) > 12)
             {
                 output.Sprite(input.Sprites.Schiwardez[34]);
                 return;
@@ -91,7 +123,7 @@ internal static class Schiwardez
         builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Schiwardez[38]);
             }
@@ -100,13 +132,13 @@ internal static class Schiwardez
         builder.RenderSingle(SpriteType.Dick, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsCockVoring)
+            if (input.A.IsCockVoring)
             {
                 output.Sprite(input.Sprites.Schiwardez[7]);
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
                 output.Sprite(input.Sprites.Schiwardez[6]);
             }
@@ -114,46 +146,14 @@ internal static class Schiwardez
 
         builder.RenderSingle(SpriteType.Balls, 1, (input, output) =>
             {
-                output.Coloring(ColorMap.GetSchiwardezColor(input.Actor.Unit.SkinColor));
-                if (input.Actor.GetBallSize(24) == 0 && Config.HideCocks == false)
+                output.Coloring(ColorMap.GetSchiwardezColor(input.U.SkinColor));
+                if (input.A.GetBallSize(24) == 0 && Config.HideCocks == false)
                 {
                     output.Sprite(input.Sprites.Schiwardez[9]);
                     return;
                 }
 
-                int size = input.Actor.GetBallSize(24);
-
-                if (size == 24 &&
-                    (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true,
-                        PreyLocation.balls) ?? false))
-                {
-                    output.Sprite(input.Sprites.Schiwardez[32]);
-                    return;
-                }
-
-                if (size >= 23 &&
-                    (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false,
-                        PreyLocation.balls) ?? false))
-                {
-                    output.Sprite(input.Sprites.Schiwardez[31]);
-                    return;
-                }
-
-                if (size >= 21 &&
-                    (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false,
-                        PreyLocation.balls) ?? false))
-                {
-                    output.Sprite(input.Sprites.Schiwardez[30]);
-                    return;
-                }
-
-                if (size >= 19 &&
-                    (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false,
-                        PreyLocation.balls) ?? false))
-                {
-                    output.Sprite(input.Sprites.Schiwardez[29]);
-                    return;
-                }
+                int size = input.A.GetBallSize(24);
 
                 if (size > 18)
                 {

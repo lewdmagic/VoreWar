@@ -115,7 +115,7 @@ class GoblinAI : IStrategicAI
 
                 int num = 0;
                 int average = 0;
-                foreach (Empire emp in State.World.MainEmpires.Where(s => s.Side < 100 && s.KnockedOut == false))
+                foreach (Empire emp in State.World.MainEmpires.Where(s => RaceFuncs.IsMainRaceOrMerc(s.Side) && s.KnockedOut == false))
                 {
                     num++;
                     average += emp.MaxArmySize;
@@ -188,7 +188,7 @@ class GoblinAI : IStrategicAI
             }
         }
 
-        List<int> PreferredSides = new List<int>();
+        List<Side> PreferredSides = new List<Side>();
         foreach (var relation in State.World.Relations[empire.Side])
         {
             if (relation.Value.Type == RelationState.Neutral && State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0)

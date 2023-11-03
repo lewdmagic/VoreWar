@@ -2,6 +2,7 @@
 using MapObjects;
 using OdinSerializer;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -31,13 +32,13 @@ public enum StrategyAIType
 
 }
 
-public struct StrategicCreationArgs
+public class StrategicCreationArgs
 {
-    internal Empire.ConstructionArgs[] empireArgs;
-    internal bool[] CanVore;
-    internal int[] TurnOrder;
+    internal Dictionary<Race, Empire.ConstructionArgs> empireArgs;
+    internal Dictionary<Race, bool> CanVore;
+    internal Dictionary<Race, int> TurnOrder;
+    internal Dictionary<Race, int> Team;
     internal bool crazyBuildings;
-    internal int[] Team;
     internal int MercCamps;
     internal int GoldMines;
 
@@ -45,10 +46,10 @@ public struct StrategicCreationArgs
 
     public StrategicCreationArgs(int length)
     {
-        empireArgs = new Empire.ConstructionArgs[length];
-        CanVore = new bool[length];
-        TurnOrder = new int[length];
-        Team = new int[length];
+        empireArgs = new Dictionary<Race, Empire.ConstructionArgs>();
+        CanVore = new Dictionary<Race, bool>();
+        TurnOrder = new Dictionary<Race, int>();
+        Team = new Dictionary<Race, int>();
         crazyBuildings = false;
         MercCamps = 0;
         GoldMines = 0;
@@ -60,9 +61,12 @@ public struct StrategicCreationArgs
 
 public class CreateStrategicGame : MonoBehaviour
 {
+    public Transform ScrollViewContent;
+    public StartEmpireUI BasicEmpire;
+    
     public StartEmpireUI AllEmpires;
 
-    public StartEmpireUI[] Empires;
+    private Dictionary<Race, StartEmpireUI> Empires = new Dictionary<Race, StartEmpireUI>();
 
     public Dropdown StrategicAutoSize;
     public InputField StrategicX;
@@ -131,11 +135,73 @@ public class CreateStrategicGame : MonoBehaviour
         State.World = null;
         foreach (var emp in Empires)
         {
-            emp.PrimaryColor.GetComponent<Image>().color = ColorFromIndex(emp.PrimaryColor.value);
-            emp.SecondaryColor.GetComponent<Image>().color = GetDarkerColor(ColorFromIndex(emp.SecondaryColor.value));
+            emp.Value.PrimaryColor.GetComponent<Image>().color = ColorFromIndex(emp.Value.PrimaryColor.value);
+            emp.Value.SecondaryColor.GetComponent<Image>().color = GetDarkerColor(ColorFromIndex(emp.Value.SecondaryColor.value));
         }
     }
 
+    void Awake()
+    {
+        int i = 0;
+        foreach (Race race in RaceFuncs.MainRaceEnumerable())
+        {
+            IRaceData raceData = Races.GetRace(race);
+            StartEmpireUI empire = Instantiate(BasicEmpire, ScrollViewContent);
+            empire.name = raceData.SingularName(Gender.Male);
+            empire.Text.text = raceData.SingularName(Gender.Male);
+            empire.gameObject.SetActive(false);
+            empire.RemoveButton.onClick.AddListener(() => RemoveRace(empire));
+            empire.Team.text = i.ToString();
+            empire.TurnOrder.text = i.ToString();
+            empire.PrimaryColor.value = i;
+            empire.SecondaryColor.value = i;
+            empire.VillageCount.text = "0";
+            
+            Empires[race] = empire;
+            i++;
+        }
+        
+        // for (int i = 0; i < 30; i++)
+        // {
+        //     Race race = RaceFuncs.IntToRace(i);
+        //     IRaceData raceData = Races.GetRace(race);
+        //     StartEmpireUI empire = Instantiate(BasicEmpire, ScrollViewContent);
+        //     empire.name = raceData.SingularName(Gender.Male);
+        //     empire.Text.text = raceData.SingularName(Gender.Male);
+        //     empire.gameObject.SetActive(false);
+        //     empire.RemoveButton.onClick.AddListener(() => RemoveRace(empire));
+        //     empire.Team.text = i.ToString();
+        //     empire.TurnOrder.text = i.ToString();
+        //     empire.PrimaryColor.value = i;
+        //     empire.SecondaryColor.value = i;
+        //     empire.VillageCount.text = "0";
+        //     
+        //     Empires[race] = empire;
+        // }
+
+        // int i = 0;
+        // foreach (Race race in RaceFuncs.RaceEnumerable())
+        // {
+        //     //Race race = RaceFuncs.IntToRace(i);
+        //     IRaceData raceData = Races.GetRace(race);
+        //     StartEmpireUI empire = Instantiate(BasicEmpire, ScrollViewContent);
+        //     empire.name = raceData.SingularName(Gender.Male);
+        //     empire.Text.text = raceData.SingularName(Gender.Male);
+        //     empire.gameObject.SetActive(false);
+        //     empire.RemoveButton.onClick.AddListener(() => RemoveRace(empire));
+        //     empire.Team.text = i.ToString();
+        //     empire.TurnOrder.text = i.ToString();
+        //     empire.PrimaryColor.value = i;
+        //     empire.SecondaryColor.value = i;
+        //     
+        //     Empires[race] = empire;
+        //
+        //     if (i == 29) break;
+        //     
+        //     i++;
+        // }
+    }
+    
     public void SaveSettings(int slot)
     {
         CreateStrategicStored stored = new CreateStrategicStored();
@@ -159,25 +225,28 @@ public class CreateStrategicGame : MonoBehaviour
                 stored.Sliders[field.Name] = ((Slider)field.GetValue(this)).value;
             }
         }
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            
             var data = new EmpireData
             {
-                AIPlayer = Empires[i].AIPlayer.isOn,
-                CanVore = Empires[i].CanVore.isOn,
-                MaxArmySize = Empires[i].MaxArmySize.value,
-                MaxGarrisonSize = Empires[i].MaxGarrisonSize.value,
-                PrimaryColor = Empires[i].PrimaryColor.value,
-                SecondaryColor = Empires[i].SecondaryColor.value,
-                Team = Empires[i].Team.text,
-                TurnOrder = Empires[i].TurnOrder.text,
-                VillageCount = Empires[i].VillageCount.text,
-                StrategicAI = Empires[i].StrategicAI.value,
-                TacticalAI = Empires[i].TacticalAI.value,
+                AIPlayer = empire.AIPlayer.isOn,
+                CanVore = empire.CanVore.isOn,
+                MaxArmySize = empire.MaxArmySize.value,
+                MaxGarrisonSize = empire.MaxGarrisonSize.value,
+                PrimaryColor = empire.PrimaryColor.value,
+                SecondaryColor = empire.SecondaryColor.value,
+                Team = empire.Team.text,
+                TurnOrder = empire.TurnOrder.text,
+                VillageCount = empire.VillageCount.text,
+                StrategicAI = empire.StrategicAI.value,
+                TacticalAI = empire.TacticalAI.value,
 
             };
 
-            stored.Empires[i] = data;
+            stored.Empires[race] = data;
         }
         byte[] bytes = SerializationUtility.SerializeValue(stored, DataFormat.JSON);
         File.WriteAllBytes($"{State.StorageDirectory}createsettings{slot}.txt", bytes);
@@ -214,27 +283,30 @@ public class CreateStrategicGame : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            if (stored.Empires.TryGetValue(i, out var value))
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            
+            if (stored.Empires.TryGetValue(race, out var value))
             {
-                Empires[i].AIPlayer.isOn = value.AIPlayer;
-                Empires[i].CanVore.isOn = value.CanVore;
-                Empires[i].MaxArmySize.value = value.MaxArmySize;
-                Empires[i].MaxGarrisonSize.value = value.MaxGarrisonSize;
-                Empires[i].PrimaryColor.value = value.PrimaryColor;
-                Empires[i].SecondaryColor.value = value.SecondaryColor;
-                Empires[i].Team.text = value.Team;
-                Empires[i].TurnOrder.text = value.TurnOrder;
-                Empires[i].VillageCount.text = value.VillageCount;
-                Empires[i].StrategicAI.value = value.StrategicAI;
-                Empires[i].TacticalAI.value = value.TacticalAI;
+                empire.AIPlayer.isOn = value.AIPlayer;
+                empire.CanVore.isOn = value.CanVore;
+                empire.MaxArmySize.value = value.MaxArmySize;
+                empire.MaxGarrisonSize.value = value.MaxGarrisonSize;
+                empire.PrimaryColor.value = value.PrimaryColor;
+                empire.SecondaryColor.value = value.SecondaryColor;
+                empire.Team.text = value.Team;
+                empire.TurnOrder.text = value.TurnOrder;
+                empire.VillageCount.text = value.VillageCount;
+                empire.StrategicAI.value = value.StrategicAI;
+                empire.TacticalAI.value = value.TacticalAI;
                 if (int.TryParse(value.VillageCount, out int result))
                 {
-                    Empires[i].gameObject.SetActive(result > 0);
+                    empire.gameObject.SetActive(result > 0);
                 }
                 else
-                    Empires[i].gameObject.SetActive(false);
+                    empire.gameObject.SetActive(false);
             }
         }
 
@@ -259,59 +331,71 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void VillageCountUpdated()
     {
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            if (Empires[i].gameObject.activeSelf == false)
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            if (empire.gameObject.activeSelf == false)
                 continue;
-            Empires[i].VillageCount.text = AllEmpires.VillageCount.text;
+            empire.VillageCount.text = AllEmpires.VillageCount.text;
         }
     }
 
     public void StrategicAIUpdated()
     {
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            if (Empires[i].gameObject.activeSelf == false)
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            if (empire.gameObject.activeSelf == false)
                 continue;
-            Empires[i].StrategicAI.value = AllEmpires.StrategicAI.value;
+            empire.StrategicAI.value = AllEmpires.StrategicAI.value;
         }
     }
 
     public void TacticalAIUpdated()
     {
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            if (Empires[i].gameObject.activeSelf == false)
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            if (empire.gameObject.activeSelf == false)
                 continue;
-            Empires[i].TacticalAI.value = AllEmpires.TacticalAI.value;
+            empire.TacticalAI.value = AllEmpires.TacticalAI.value;
         }
     }
 
     public void UpdateAIBoxes()
     {
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            Empires[i].StrategicAI.interactable = Empires[i].AIPlayer.isOn;
-            Empires[i].TacticalAI.interactable = Empires[i].AIPlayer.isOn;
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            empire.StrategicAI.interactable = empire.AIPlayer.isOn;
+            empire.TacticalAI.interactable = empire.AIPlayer.isOn;
         }
     }
     public void MaxGarrisonSizeUpdated()
     {
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            if (Empires[i].gameObject.activeSelf == false)
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            if (empire.gameObject.activeSelf == false)
                 continue;
-            Empires[i].MaxGarrisonSize.value = AllEmpires.MaxGarrisonSize.value;
+            empire.MaxGarrisonSize.value = AllEmpires.MaxGarrisonSize.value;
         }
     }
 
     public void MaxArmySizeUpdated()
     {
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            if (Empires[i].gameObject.activeSelf == false)
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            if (empire.gameObject.activeSelf == false)
                 continue;
-            Empires[i].MaxArmySize.value = AllEmpires.MaxArmySize.value;
+            empire.MaxArmySize.value = AllEmpires.MaxArmySize.value;
         }
     }
 
@@ -371,19 +455,23 @@ public class CreateStrategicGame : MonoBehaviour
     internal void PickMap(string filename)
     {
         mapString = filename;
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            Empires[i].gameObject.SetActive(false);
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            empire.gameObject.SetActive(false);
         }
         map = Map.Get(filename);
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            Empires[i].VillageCount.interactable = false;
-            int count = map.storedVillages.Where(s => s.Race == (Race)i).Count();
-            Empires[i].VillageCount.text = count.ToString();
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            empire.VillageCount.interactable = false;
+            int count = map.storedVillages.Where(s => Equals(s.Race, race)).Count(); // Fix mess
+            empire.VillageCount.text = count.ToString();
             if (count > 0)
             {
-                Empires[i].gameObject.SetActive(true);
+                empire.gameObject.SetActive(true);
                 //Empires[i].TurnOrder.text = "1";
             }
 
@@ -400,9 +488,11 @@ public class CreateStrategicGame : MonoBehaviour
     public void ClearMap()
     {
         map = null;
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            Empires[i].VillageCount.interactable = true;
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            empire.VillageCount.interactable = true;
         }
         AllEmpires.VillageCount.interactable = true;
         StrategicX.interactable = true;
@@ -443,13 +533,14 @@ public class CreateStrategicGame : MonoBehaviour
         int y = Convert.ToInt32(StrategicY.text);
 
         int villageCount = 0;
-        int empireCount = 0;
-        for (int i = 0; i < Empires.Length; i++)
+        int empireCount = 0;        
+        foreach (var entry in Empires)
         {
-            if (Convert.ToInt32(Empires[i].VillageCount.text) < 0)
+            StartEmpireUI empire = entry.Value;
+            if (Convert.ToInt32(empire.VillageCount.text) < 0)
                 return "Can't have negative villages";
-            villageCount += Convert.ToInt32(Empires[i].VillageCount.text);
-            if (Convert.ToInt32(Empires[i].VillageCount.text) > 0)
+            villageCount += Convert.ToInt32(empire.VillageCount.text);
+            if (Convert.ToInt32(empire.VillageCount.text) > 0)
                 empireCount++;
         }
 
@@ -473,14 +564,19 @@ public class CreateStrategicGame : MonoBehaviour
 
         int villageCount = 0;
         int empireCount = 0;
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            if (Convert.ToInt32(Empires[i].VillageCount.text) < 0)
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            if (Convert.ToInt32(empire.VillageCount.text) < 0)
                 return "Can't have negative villages";
-            villageCount += Convert.ToInt32(Empires[i].VillageCount.text);
-            if (Convert.ToInt32(Empires[i].VillageCount.text) > 0)
+            villageCount += Convert.ToInt32(empire.VillageCount.text);
+            //Debug.Log(empire.VillageCount.text);
+            if (Convert.ToInt32(empire.VillageCount.text) > 0)
                 empireCount++;
         }
+        //Debug.Log(Empires.Count);
+        //Debug.Log(empireCount);
 
         villageCount += Convert.ToInt32(AbandonedVillages.text);
 
@@ -502,19 +598,20 @@ public class CreateStrategicGame : MonoBehaviour
 
     void AssignUnusedTurnOrders()
     {
-        int lastIndex = Empires.Length - 1;
-
-        for (int i = Empires.Length - 1; i >= 0; i--)
-        {
-            if (int.TryParse(Empires[i].VillageCount.text, out int result))
-            {
-                if (result <= 0)
-                {
-                    lastIndex--;
-                }
-            }
-
-        }
+        // TODO what does this even do
+        // int lastIndex = Empires.Length - 1;
+        //
+        // for (int i = Empires.Length - 1; i >= 0; i--)
+        // {
+        //     if (int.TryParse(Empires[i].VillageCount.text, out int result))
+        //     {
+        //         if (result <= 0)
+        //         {
+        //             lastIndex--;
+        //         }
+        //     }
+        //
+        // }
 
 
     }
@@ -524,21 +621,29 @@ public class CreateStrategicGame : MonoBehaviour
     {
         State.GameManager.Menu.Options.LoadFromStored();
         State.GameManager.Menu.CheatMenu.LoadFromStored();
-        Config.World.VillagesPerEmpire = new int[Empires.Length];
-        try
-        {
-            for (int i = 0; i < Empires.Length; i++)
+        Config.World.resetVillagesPerEmpire();
+        // try
+        // {
+            foreach (var entry in Empires)
             {
-                Config.VillagesPerEmpire[i] = Convert.ToInt32(Empires[i].VillageCount.text);
+                Race race = entry.Key;
+                StartEmpireUI empire = entry.Value;
+                //Debug.Log(empire.VillageCount.text);
+                //Debug.Log(race.Id);
+                int intValue = Convert.ToInt32(empire.VillageCount.text);
+                Config.World.VillagesPerEmpire[race] = intValue;
             }
             Config.World.SoftLevelCap = Convert.ToInt32(SoftLevelCap.text);
             Config.World.HardLevelCap = Convert.ToInt32(HardLevelCap.text);
-        }
-        catch
-        {
-            State.GameManager.CreateMessageBox("There's a blank textbox, if you want it to be 0 it should say 0");
-            return;
-        }
+            
+        // }
+        // catch
+        // {
+        //     State.GameManager.CreateMessageBox("There's a blank textbox, if you want it to be 0 it should say 0");
+        //     return;
+        // }
+        
+        // TODO evil try catch lies to you. Remove and replace. 
         try
         {
             string errorText = "";
@@ -589,35 +694,50 @@ public class CreateStrategicGame : MonoBehaviour
 
         Config.World.ItemSlots = Config.NewItemSlots;
 
-        StrategicCreationArgs args = new StrategicCreationArgs(Empires.Length);
-        Config.CenteredEmpire = new bool[Config.NumberOfRaces];
+        StrategicCreationArgs args = new StrategicCreationArgs(Empires.Count);
+        Config.ResetCenteredEmpire();
+        
+        // TODO evil try catch lies to you. Remove and replace. 
         try
         {
-            for (int i = 0; i < Empires.Length; i++)
+            foreach (var entry in Empires)
             {
-                if (Empires[i].AIPlayer.isOn)
+                Race race = entry.Key;
+                StartEmpireUI empire = entry.Value;
+                StrategyAIType strategyAIType;
+                TacticalAIType tacticalAIType;
+                if (empire.AIPlayer.isOn)
                 {
-                    args.empireArgs[i].strategicAI = (StrategyAIType)Empires[i].StrategicAI.value + 1;
-                    args.empireArgs[i].tacticalAI = (TacticalAIType)Empires[i].TacticalAI.value + 1;
-                    Config.CenteredEmpire[i] = ((StrategyAIType)Empires[i].StrategicAI.value + 1) == StrategyAIType.Passive;
+                    strategyAIType = (StrategyAIType)empire.StrategicAI.value + 1;
+                    tacticalAIType = (TacticalAIType)empire.TacticalAI.value + 1;
+                    Config.CenteredEmpire[race] = ((StrategyAIType)empire.StrategicAI.value + 1) == StrategyAIType.Passive;
                 }
                 else
                 {
-                    args.empireArgs[i].strategicAI = 0;
-                    args.empireArgs[i].tacticalAI = 0;
-                    Config.CenteredEmpire[i] = false;
+                    strategyAIType = 0;
+                    tacticalAIType = 0;
+                    Config.CenteredEmpire[race] = false;
                 }
-                args.CanVore[i] = Empires[i].CanVore.isOn;
-                args.empireArgs[i].team = Convert.ToInt32(Empires[i].Team.text);
-                args.Team[i] = args.empireArgs[i].team;
-                args.empireArgs[i].color = ColorFromIndex(Empires[i].PrimaryColor.value);
-                args.empireArgs[i].secColor = GetDarkerColor(ColorFromIndex(Empires[i].SecondaryColor.value));
-                args.TurnOrder[i] = Convert.ToInt32(Empires[i].TurnOrder.text);
-                args.empireArgs[i].maxArmySize = (int)Empires[i].MaxArmySize.value;
-                args.empireArgs[i].maxGarrisonSize = (int)Empires[i].MaxGarrisonSize.value;
-                args.empireArgs[i].side = i;
+                
+                args.CanVore[race] = empire.CanVore.isOn;
+                args.Team[race] = Convert.ToInt32(empire.Team.text);
+                args.TurnOrder[race] = Convert.ToInt32(empire.TurnOrder.text);
                 //args.empireArgs[i].bannerType = (i % 2 == 1) ? 1 : 3;
 
+                Empire.ConstructionArgs constructionArgs = new Empire.ConstructionArgs(
+                    race: race,
+                    side: race.ToSide(),
+                    color: ColorFromIndex(empire.PrimaryColor.value),
+                    secColor: GetDarkerColor(ColorFromIndex(empire.SecondaryColor.value)),
+                    bannerType: 0,
+                    strategicAI: strategyAIType,
+                    tacticalAI: tacticalAIType,
+                    team: Convert.ToInt32(empire.Team.text),
+                    maxArmySize: (int)empire.MaxArmySize.value,
+                    maxGarrisonSize: (int)empire.MaxGarrisonSize.value
+                );
+
+                args.empireArgs[race] = constructionArgs;
             }
             args.MercCamps = Convert.ToInt32(MercenaryHouses.text);
             args.GoldMines = Convert.ToInt32(GoldMines.text);
@@ -676,9 +796,11 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void ClearRaces()
     {
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            RemoveRace(Empires[i]);
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            RemoveRace(empire);
         }
         BuildRaceDisplay();
     }
@@ -691,17 +813,19 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void AllAddRaces()
     {
-        for (int i = 0; i < Empires.Length; i++)
+        foreach (var entry in Empires)
         {
-            if (Empires[i].gameObject.activeSelf == false)
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            if (empire.gameObject.activeSelf == false)
             {
-                Empires[i].gameObject.SetActive(true);
-                Empires[i].VillageCount.text = AllEmpires.VillageCount.text;
-                Empires[i].StrategicAI.value = AllEmpires.StrategicAI.value;
-                Empires[i].TacticalAI.value = AllEmpires.TacticalAI.value;
-                Empires[i].MaxArmySize.value = AllEmpires.MaxArmySize.value;
-                Empires[i].MaxGarrisonSize.value = AllEmpires.MaxGarrisonSize.value;
-                Empires[i].TurnOrder.text = "1";
+                empire.gameObject.SetActive(true);
+                empire.VillageCount.text = AllEmpires.VillageCount.text;
+                empire.StrategicAI.value = AllEmpires.StrategicAI.value;
+                empire.TacticalAI.value = AllEmpires.TacticalAI.value;
+                empire.MaxArmySize.value = AllEmpires.MaxArmySize.value;
+                empire.MaxGarrisonSize.value = AllEmpires.MaxGarrisonSize.value;
+                empire.TurnOrder.text = "1";
             }
 
         }
@@ -716,22 +840,23 @@ public class CreateStrategicGame : MonoBehaviour
         {
             Destroy(RaceUI.RaceFolder.transform.GetChild(i).gameObject);
         }
-        for (int i = 0; i < Config.NumberOfRaces; i++)
+        foreach (var entry in Empires)
         {
-
-            if (Empires[i].gameObject.activeSelf)
+            Race race = entry.Key;
+            StartEmpireUI empire = entry.Value;
+            if (empire.gameObject.activeSelf)
                 continue;
             GameObject obj = Instantiate(RaceUI.RaceUnitPanel, RaceUI.RaceFolder);
             UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
-            Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(1, (Race)i, 0, true));
+            // Side was 1 for Unit
+            Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dogs.ToSide(), race, 0, true));
             TextMeshProUGUI text = obj.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
             obj.GetComponentInChildren<UnitInfoPanel>().Unit = actor.Unit;
             var racePar = RaceParameters.GetTraitData(actor.Unit);
-            text.text = $"{(Race)i}\nBody Size: {State.RaceSettings.GetBodySize(actor.Unit.Race)}\nBase Stomach Size: {State.RaceSettings.GetStomachSize(actor.Unit.Race)}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";
+            text.text = $"{race}\nBody Size: {State.RaceSettings.GetBodySize(actor.Unit.Race)}\nBase Stomach Size: {State.RaceSettings.GetStomachSize(actor.Unit.Race)}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";
             sprite.UpdateSprites(actor);
             Button button = obj.GetComponentInChildren<Button>();
-            int temp = i;
-            button.onClick.AddListener(() => AddRace(temp));
+            button.onClick.AddListener(() => AddRace(race));
             button.onClick.AddListener(() => Destroy(obj));
         }
 
@@ -739,7 +864,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     }
 
-    void AddRace(int race)
+    void AddRace(Race race)
     {
         Empires[race].gameObject.SetActive(true);
         Empires[race].VillageCount.text = AllEmpires.VillageCount.text;
@@ -753,50 +878,68 @@ public class CreateStrategicGame : MonoBehaviour
     }
 
 
+    private static Color[] allColors = new Color[]
+    {
+        new Color(0.502f, 0.502f, 0.502f),
+        new Color(0.133f, 0.545f, 0.133f),
+        new Color(0.498f, 0.000f, 0.000f),
+        new Color(0.502f, 0.502f, 0.000f),
+        new Color(0.282f, 0.239f, 0.545f),
+        new Color(0.000f, 0.545f, 0.545f),
+        new Color(0.275f, 0.510f, 0.706f),
+        new Color(0.824f, 0.412f, 0.118f),
+        new Color(0.604f, 0.804f, 0.196f),
+        new Color(0.000f, 0.000f, 0.545f),
+        new Color(0.855f, 0.647f, 0.125f),    
+        new Color(0.498f, 0.000f, 0.498f),
+        new Color(0.561f, 0.737f, 0.561f),
+        new Color(0.690f, 0.188f, 0.376f),
+        new Color(1.000f, 0.271f, 0.000f),
+        new Color(1.000f, 1.000f, 0.000f),
+        new Color(0.251f, 0.878f, 0.816f),
+        new Color(0.498f, 1.000f, 0.000f),
+        new Color(0.580f, 0.000f, 0.827f),
+        new Color(0.000f, 1.000f, 0.498f),
+        new Color(0.863f, 0.078f, 0.235f),
+        new Color(0.000f, 0.000f, 1.000f),
+        new Color(1.000f, 0.000f, 1.000f),
+        new Color(0.118f, 0.565f, 1.000f),
+        new Color(0.941f, 0.902f, 0.549f),
+        new Color(0.980f, 0.502f, 0.447f),
+        new Color(0.565f, 0.933f, 0.565f),
+        new Color(0.678f, 0.847f, 0.902f),
+        new Color(1.000f, 0.078f, 0.576f),
+        new Color(0.482f, 0.408f, 0.933f),
+        new Color(0.933f, 0.510f, 0.933f),
+        new Color(1.000f, 0.714f, 0.757f)
+    };
+
+    internal static Color ColorFromRace(Race race)
+    {
+        int index = RaceFuncs.RaceToTempNumber(race) % 31;
+        return ColorFromIndex(index);
+    }
+
     internal static Color ColorFromIndex(int index)
     {
-        if (index == 0) return Color.blue;
-        else if (index == 1) return Color.red;
-        else if (index == 2) return new Color(.9f, .6f, 0f);
-        else if (index == 3) return Color.yellow;
-        else if (index == 4) return Color.magenta;
-        else if (index == 5) return new Color(0, .45f, 0f);
-        else if (index == 6) return Color.cyan;
-        else if (index == 7) return new Color(.9f, .4f, .4f);
-        else if (index == 8) return new Color(.7f, .4f, .9f);
-        else if (index == 9) return Color.green;
-        else if (index == 10) return Color.white;
-        else if (index == 11) return new Color(.2f, .2f, .2f);
-        else if (index == 12) return new Color(.52f, .66f, 1);
-        else if (index == 13) return new Color(.96f, .94f, .7f);
-        else if (index == 14) return new Color(.45f, .17f, .11f);
-        else if (index == 15) return new Color(.61f, .65f, 0);
-        else if (index == 16) return new Color(.7f, .7f, .7f);
-        return Color.black;
-
+        if (index < allColors.Length)
+        {
+            return allColors[index];
+        }
+        else
+        {
+            return new Color(0f, 0f, 0f);
+        }
     }
 
     internal static int IndexFromColor(Color color)
     {
-        if (color == Color.blue) return 0;
-        else if (color == Color.red) return 1;
-        else if (color == new Color(.9f, .6f, 0f)) return 2;
-        else if (color == Color.yellow) return 3;
-        else if (color == Color.magenta) return 4;
-        else if (color == new Color(0, .45f, 0f)) return 5;
-        else if (color == Color.cyan) return 6;
-        else if (color == new Color(.9f, .4f, .4f)) return 7;
-        else if (color == new Color(.7f, .4f, .9f)) return 8;
-        else if (color == Color.green) return 9;
-        else if (color == Color.white) return 10;
-        else if (color == new Color(.2f, .2f, .2f)) return 11;
-        else if (color == new Color(.52f, .66f, 1)) return 12;
-        else if (color == new Color(.96f, .94f, .7f)) return 13;
-        else if (color == new Color(.45f, .17f, .11f)) return 14;
-        else if (color == new Color(.61f, .65f, 0)) return 15;
-        else if (color == new Color(.7f, .7f, .7f)) return 16;
-        return 0;
+        for (int i = 0; i < allColors.Length; i++)
+        {
+            if (color == allColors[i]) return i;
+        }
 
+        return 0;
     }
 
     public void ChangeToolTip(int type)

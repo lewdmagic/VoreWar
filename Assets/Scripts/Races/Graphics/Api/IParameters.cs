@@ -1,3 +1,3 @@
-internal interface IParameters
+public interface IParameters
 {
 }

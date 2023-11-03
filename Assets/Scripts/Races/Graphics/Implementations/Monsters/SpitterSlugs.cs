@@ -8,10 +8,42 @@ internal static class SpitterSlugs
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Spitter Slug", "Spitter Slugs");
+        builder.BonesInfo(null);
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 12,
+            StomachSize = 20,
+            HasTail = false,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.2f,
+            PowerAdjustment = 1.5f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(6, 8),
+                Dexterity = new RaceStats.StatRange(8, 12),
+                Endurance = new RaceStats.StatRange(10, 15),
+                Mind = new RaceStats.StatRange(4, 6),
+                Will = new RaceStats.StatRange(8, 12),
+                Agility = new RaceStats.StatRange(4, 6),
+                Voracity = new RaceStats.StatRange(20, 30),
+                Stomach = new RaceStats.StatRange(8, 16),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.BoggingSlime,
+                Traits.GelatinousBody, // or resilient
+                Traits.SoftBody,
+                Traits.SlowMovement,
+                Traits.GlueBomb
+            },
+            RaceDescription = ""
+        });
         builder.Setup(output =>
         {
             output.CanBeGender = new List<Gender> { Gender.None };
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.SlugSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.SlugSkin);
             output.GentleAnimation = true;
             output.ClothingColors = 0;
         });
@@ -19,14 +51,14 @@ internal static class SpitterSlugs
 
         builder.RenderSingle(SpriteType.Head, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlugSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlugSkin, input.U.SkinColor));
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.SpitterSlug[3]);
                 return;
             }
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.SpitterSlug[4]);
                 return;
@@ -37,8 +69,8 @@ internal static class SpitterSlugs
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlugSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlugSkin, input.U.SkinColor));
+            if (input.A.IsOralVoring || input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.SpitterSlug[1]);
                 return;
@@ -50,13 +82,13 @@ internal static class SpitterSlugs
         builder.RenderSingle(SpriteType.BodyAccent, 10, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.SpitterSlug[7]);
                 return;
             }
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.SpitterSlug[8]);
                 return;
@@ -67,13 +99,13 @@ internal static class SpitterSlugs
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlugSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlugSkin, input.U.SkinColor));
             output.Sprite(input.Sprites.SpitterSlug[23]);
         }); // tail end
         builder.RenderSingle(SpriteType.BodySize, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlugSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlugSkin, input.U.SkinColor));
+            if (input.A.HasBelly == false)
             {
                 output.Sprite(input.Sprites.SpitterSlug[22]);
             }
@@ -81,25 +113,13 @@ internal static class SpitterSlugs
 
         builder.RenderSingle(SpriteType.Belly, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlugSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlugSkin, input.U.SkinColor));
+            if (input.A.HasBelly == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
-            {
-                output.Sprite(input.Sprites.SpitterSlug[21]);
-                return;
-            }
-
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach))
-            {
-                output.Sprite(input.Sprites.SpitterSlug[11 + input.Actor.GetStomachSize(9)]);
-                return;
-            }
-
-            output.Sprite(input.Sprites.SpitterSlug[11 + input.Actor.GetStomachSize(9)]);
+            output.Sprite(input.Sprites.SpitterSlug[11 + input.A.GetStomachSize(9)]);
         });
 
         builder.RunBefore(Defaults.Finalize);

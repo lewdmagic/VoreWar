@@ -153,7 +153,7 @@ static class TacticalActionList
             requiresPred: true,
             conditional: (a) => a.PredatorComponent?.CanFeed() ?? false,
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.BreastFeed),
-            onExecute: (a, t) => { return t.Unit.Side == a.Unit.Side ? a.PredatorComponent.Feed(t) : false; }));
+            onExecute: (a, t) => { return Equals(t.Unit.Side, a.Unit.Side) ? a.PredatorComponent.Feed(t) : false; }));
         TargetedDictionary[SpecialAction.BreastFeed] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
@@ -169,7 +169,7 @@ static class TacticalActionList
             requiresPred: true,
             conditional: (a) => a.PredatorComponent?.CanFeedCum() ?? false,
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.CumFeed),
-            onExecute: (a, t) => { return t.Unit.Side == a.Unit.Side && t.Unit != a.Unit ? a.PredatorComponent.FeedCum(t) : false; }));
+            onExecute: (a, t) => { return Equals(t.Unit.Side, a.Unit.Side) && t.Unit != a.Unit ? a.PredatorComponent.FeedCum(t) : false; }));
         TargetedDictionary[SpecialAction.CumFeed] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(

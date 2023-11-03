@@ -361,7 +361,7 @@ public class ContentSettings : MonoBehaviour
         };
         MercToggles = new List<ToggleObject>();
         MonsterSpawners = new List<MonsterSpawnerPanel>();
-        foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).OrderBy((s) => s.ToString()))
+        foreach (Race race in (RaceFuncs.RaceEnumerable()).OrderBy((s) => s.ToString()))
         {
             var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
             MercToggles.Add(obj);
@@ -369,22 +369,22 @@ public class ContentSettings : MonoBehaviour
 
         }
 
-        foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
+        foreach (Race race in RaceFuncs.RaceEnumerable())
         { //Done separately to keep their initial order for now
-            if (race >= Race.Vagrants && race < Race.Selicia && race != Race.YoungWyvern && race != Race.DarkSwallower && race != Race.Collectors && race != Race.CoralSlugs
-                && race != Race.SpitterSlugs && race != Race.SpringSlugs && race != Race.Raptor && race != Race.WarriorAnts)
+            if (RaceFuncs.isMonster(race) && !Equals(race, Race.YoungWyvern) && !Equals(race, Race.DarkSwallower) && !Equals(race, Race.Collectors) && !Equals(race, Race.CoralSlugs)
+                && !Equals(race, Race.SpitterSlugs) && !Equals(race, Race.SpringSlugs) && !Equals(race, Race.Raptor) && !Equals(race, Race.WarriorAnts))
             {
                 var spawner = CreateMonsterPanel(race);
                 MonsterSpawners.Add(spawner);
-                if (race == Race.Wyvern)
+                if (Equals(race, Race.Wyvern))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 115;
-                else if (race == Race.FeralSharks)
+                else if (Equals(race, Race.FeralSharks))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 116;
-                else if (race == Race.Harvesters)
+                else if (Equals(race, Race.Harvesters))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 138;
-                else if (race == Race.Compy)
+                else if (Equals(race, Race.Compy))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 209;
-                else if (race == Race.Monitors)
+                else if (Equals(race, Race.Monitors))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 232;
                 else
                     spawner.AddonRace.gameObject.SetActive(false);
@@ -399,103 +399,111 @@ public class ContentSettings : MonoBehaviour
         spawner.race = race;
         DisplayTooltip tooltip = spawner.SpawnEnabled.GetComponent<DisplayTooltip>();
         spawner.SpawnEnabled.GetComponentInChildren<Text>().text = $"{race} Enabled";
+        
+        // switch (RaceFuncs.RaceToSwitch(race))
+        // {
+        //     case RaceNumbers.Vagrants:
+        //         tooltip.value = 23;
+        //         break;
+        //     case RaceNumbers.Serpents:
+        //         tooltip.value = 88;
+        //         break;
+        //     case RaceNumbers.Wyvern:
+        //         tooltip.value = 89;
+        //         break;
+        //     case RaceNumbers.Compy:
+        //         tooltip.value = 90;
+        //         break;
+        //     case RaceNumbers.FeralSharks:
+        //         tooltip.value = 92;
+        //         break;
+        //     case RaceNumbers.FeralWolves:
+        //         tooltip.value = 102;
+        //         break;
+        //     case RaceNumbers.Cake:
+        //         tooltip.value = 108;
+        //         break;
+        //     case RaceNumbers.Harvesters:
+        //         tooltip.value = 129;
+        //         break;
+        //     case RaceNumbers.Voilin:
+        //         tooltip.value = 144;
+        //         break;
+        //     case RaceNumbers.FeralBats:
+        //         tooltip.value = 145;
+        //         break;
+        //     case RaceNumbers.FeralFrogs:
+        //         tooltip.value = 153;
+        //         break;
+        //     case RaceNumbers.Dragon:
+        //         tooltip.value = 160;
+        //         break;
+        //     case RaceNumbers.Dragonfly:
+        //         tooltip.value = 161;
+        //         break;
+        //     case RaceNumbers.TwistedVines:
+        //         tooltip.value = 170;
+        //         break;
+        //     case RaceNumbers.Fairies:
+        //         tooltip.value = 171;
+        //         break;
+        //     case RaceNumbers.FeralAnts:
+        //         tooltip.value = 178;
+        //         break;
+        //     case RaceNumbers.Gryphons:
+        //         tooltip.value = 191;
+        //         break;
+        //     case RaceNumbers.RockSlugs:
+        //         tooltip.value = 194;
+        //         break;
+        //     case RaceNumbers.Salamanders:
+        //         tooltip.value = 198;
+        //         break;
+        //     case RaceNumbers.Mantis:
+        //         tooltip.value = 203;
+        //         break;
+        //     case RaceNumbers.EasternDragon:
+        //         tooltip.value = 204;
+        //         break;
+        //     case RaceNumbers.Catfish:
+        //         tooltip.value = 208;
+        //         break;
+        //     case RaceNumbers.Gazelle:
+        //         tooltip.value = 210;
+        //         break;
+        //     case RaceNumbers.Earthworms:
+        //         tooltip.value = 225;
+        //         break;
+        //     case RaceNumbers.FeralLizards:
+        //         tooltip.value = 230;
+        //         break;
+        //     case RaceNumbers.Monitors:
+        //         tooltip.value = 233;
+        //         break;
+        //     case RaceNumbers.Schiwardez:
+        //         tooltip.value = 234;
+        //         break;
+        //     case RaceNumbers.Terrorbird:
+        //         tooltip.value = 238;
+        //         break;
+        //     case RaceNumbers.Dratopyr:
+        //         tooltip.value = 247;
+        //         break;
+        //     case RaceNumbers.FeralLions:
+        //         tooltip.value = 248;
+        //         break;
+        //     case RaceNumbers.Goodra:
+        //         tooltip.value = 257;
+        //         break;
+        // }
+        
 
-        switch (race)
+
+        if (RaceFuncs.TooltipValues.TryGetValue(race, out int tooltipNumber))
         {
-            case Race.Vagrants:
-                tooltip.value = 23;
-                break;
-            case Race.Serpents:
-                tooltip.value = 88;
-                break;
-            case Race.Wyvern:
-                tooltip.value = 89;
-                break;
-            case Race.Compy:
-                tooltip.value = 90;
-                break;
-            case Race.FeralSharks:
-                tooltip.value = 92;
-                break;
-            case Race.FeralWolves:
-                tooltip.value = 102;
-                break;
-            case Race.Cake:
-                tooltip.value = 108;
-                break;
-            case Race.Harvesters:
-                tooltip.value = 129;
-                break;
-            case Race.Voilin:
-                tooltip.value = 144;
-                break;
-            case Race.FeralBats:
-                tooltip.value = 145;
-                break;
-            case Race.FeralFrogs:
-                tooltip.value = 153;
-                break;
-            case Race.Dragon:
-                tooltip.value = 160;
-                break;
-            case Race.Dragonfly:
-                tooltip.value = 161;
-                break;
-            case Race.TwistedVines:
-                tooltip.value = 170;
-                break;
-            case Race.Fairies:
-                tooltip.value = 171;
-                break;
-            case Race.FeralAnts:
-                tooltip.value = 178;
-                break;
-            case Race.Gryphons:
-                tooltip.value = 191;
-                break;
-            case Race.RockSlugs:
-                tooltip.value = 194;
-                break;
-            case Race.Salamanders:
-                tooltip.value = 198;
-                break;
-            case Race.Mantis:
-                tooltip.value = 203;
-                break;
-            case Race.EasternDragon:
-                tooltip.value = 204;
-                break;
-            case Race.Catfish:
-                tooltip.value = 208;
-                break;
-            case Race.Gazelle:
-                tooltip.value = 210;
-                break;
-            case Race.Earthworms:
-                tooltip.value = 225;
-                break;
-            case Race.FeralLizards:
-                tooltip.value = 230;
-                break;
-            case Race.Monitors:
-                tooltip.value = 233;
-                break;
-            case Race.Schiwardez:
-                tooltip.value = 234;
-                break;
-            case Race.Terrorbird:
-                tooltip.value = 238;
-                break;
-            case Race.Dratopyr:
-                tooltip.value = 247;
-                break;
-            case Race.FeralLions:
-                tooltip.value = 248;
-                break;
-            case Race.Goodra:
-                tooltip.value = 257;
-                break;
+            tooltip.value = tooltipNumber;
         }
+        
         return spawner;
     }
 
@@ -702,7 +710,7 @@ public class ContentSettings : MonoBehaviour
                 PlayerPrefs.GetInt($"{spawner.race} Max Armies", 4),
                 PlayerPrefs.GetFloat($"{spawner.race} Spawn Rate", .15f),
                 PlayerPrefs.GetInt($"{spawner.race} Scale Factor", 40),
-                PlayerPrefs.GetInt($"{spawner.race} Team", 900 + (int)spawner.race),
+                PlayerPrefs.GetInt($"{spawner.race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.race)),
                 PlayerPrefs.GetInt($"{spawner.race} Attempts", 1),
                 PlayerPrefs.GetInt($"{spawner.race} Add-On", 1) == 1,
                 PlayerPrefs.GetFloat($"{spawner.race} Confidence", 6f),
@@ -834,7 +842,7 @@ public class ContentSettings : MonoBehaviour
 
         foreach (MonsterSpawnerPanel spawner in MonsterSpawners)
         {
-            SpawnerInfo info = Config.SpawnerInfo(spawner.race);
+            SpawnerInfo info = Config.World.GetSpawner(spawner.race);
             spawner.SpawnEnabled.isOn = info.Enabled;
             spawner.SpawnRate.value = info.spawnRate;
             spawner.ScalingRate.text = info.scalingFactor.ToString();
@@ -908,7 +916,7 @@ public class ContentSettings : MonoBehaviour
             {
                 foreach (Unit unit in StrategicUtilities.GetAllUnits())
                 {
-                    if (unit.Race != Race.Vagrants)
+                    if (!Equals(unit.Race, Race.Vagrants))
                     {
                         unit.ReloadTraits();
                     }
@@ -1030,7 +1038,7 @@ public class ContentSettings : MonoBehaviour
 
         foreach (MonsterSpawnerPanel spawner in MonsterSpawners)
         {
-            SpawnerInfo info = Config.SpawnerInfo(spawner.race);
+            SpawnerInfo info = Config.World.GetSpawner(spawner.race);
             if (spawner.SpawnEnabled.isOn == false && State.World != null && State.World.AllActiveEmpires != null)
             {
                 var emp = State.World?.GetEmpireOfRace(spawner.race);
@@ -1067,10 +1075,11 @@ public class ContentSettings : MonoBehaviour
             }
             else
                 info.MaxArmySize = 12;
+            
             if (int.TryParse(spawner.Team.text, out int team))
                 info.Team = team;
             else
-                info.Team = 900 + (int)spawner.race;
+                info.Team = 900 + RaceFuncs.RaceToIntForTeam(spawner.race);
 
             if (int.TryParse(spawner.TurnOrder.text, out int turnOrder))
                 info.TurnOrder = turnOrder;
@@ -1240,7 +1249,7 @@ public class ContentSettings : MonoBehaviour
             if (int.TryParse(spawner.Team.text, out int team))
                 PlayerPrefs.SetInt($"{spawner.race} Team", team);
             else
-                PlayerPrefs.SetInt($"{spawner.race} Team", 900 + (int)spawner.race);
+                PlayerPrefs.SetInt($"{spawner.race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.race));
 
             if (int.TryParse(spawner.TurnOrder.text, out int turnOrder))
                 PlayerPrefs.SetInt($"{spawner.race} Turn Order", turnOrder);
@@ -1313,7 +1322,7 @@ public class ContentSettings : MonoBehaviour
         }
         if (MercSortMethod.value == 0)
         {
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).OrderBy((s) => s.ToString()))
+            foreach (Race race in (RaceFuncs.RaceEnumerable()).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
                 MercToggles.Add(obj);
@@ -1322,25 +1331,25 @@ public class ContentSettings : MonoBehaviour
         }
         if (MercSortMethod.value == 1)
         {
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => s < Race.Succubi).OrderBy((s) => s.ToString()))
+            foreach (Race race in (RaceFuncs.RaceEnumerable()).Where(s => RaceFuncs.IsMainRace(s)).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
                 MercToggles.Add(obj);
                 Toggles.Add(obj);
             }
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => s >= Race.Succubi && s < Race.Vagrants).OrderBy((s) => s.ToString()))
+            foreach (Race race in (RaceFuncs.RaceEnumerable()).Where(s => RaceFuncs.IsMerc(s)).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
                 MercToggles.Add(obj);
                 Toggles.Add(obj);
             }
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => s >= Race.Vagrants && s < Race.Selicia).OrderBy((s) => s.ToString()))
+            foreach (Race race in (RaceFuncs.RaceEnumerable()).Where(s => RaceFuncs.isMonster(s)).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
                 MercToggles.Add(obj);
                 Toggles.Add(obj);
             }
-            foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).Where(s => s >= Race.Selicia).OrderBy((s) => s.ToString()))
+            foreach (Race race in (RaceFuncs.RaceEnumerable()).Where(s => RaceFuncs.isUniqueMerc(s)).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
                 MercToggles.Add(obj);
@@ -1349,7 +1358,7 @@ public class ContentSettings : MonoBehaviour
         }
         if (MercSortMethod.value == 2)
         {
-            foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
+            foreach (Race race in RaceFuncs.RaceEnumerable())
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
                 MercToggles.Add(obj);

@@ -8,6 +8,43 @@ internal static class Harvesters
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Harvester", "Harvesters");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "alien", "harvester" },
+            "Scythes"
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 18,
+            StomachSize = 30,
+            HasTail = true,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.5f,
+            PowerAdjustment = 2.2f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(12, 22),
+                Dexterity = new RaceStats.StatRange(6, 14),
+                Endurance = new RaceStats.StatRange(18, 24),
+                Mind = new RaceStats.StatRange(6, 10),
+                Will = new RaceStats.StatRange(10, 22),
+                Agility = new RaceStats.StatRange(18, 28),
+                Voracity = new RaceStats.StatRange(18, 24),
+                Stomach = new RaceStats.StatRange(10, 14),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.SlowDigestion,
+                Traits.Intimidating,
+                Traits.BornToMove,
+                Traits.NimbleClimber,
+            },
+            RaceDescription = "A lifeform from far beyond the stars, the Harvesters saw the empty lands fill and felt rising hunger. How they made their way here is unknown, but their mission is readily understood. They are here to feed until the land is empty once more.",
+
+        });
         RaceFrameList frameListEyes = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .2f, .3f, .2f, .2f });
         RaceFrameList frameListArms = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
         RaceFrameList frameListDick = new RaceFrameList(new int[6] { 0, 1, 0, 1, 0, 1 }, new float[6] { .2f, .2f, .2f, .2f, .3f, .4f });
@@ -18,50 +55,50 @@ internal static class Harvesters
         {
             output.DickSizes = () => 1;
             output.BreastSizes = () => 1;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Harvester);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.Harvester);
             output.CanBeGender = new List<Gender> { Gender.Male };
         });
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Harvester, input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Harvester, input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Harvester[2]);
                 return;
             }
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentlyActive = false;
+                input.A.AnimationController.frameLists[0].currentFrame = 0;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
                 output.Sprite(input.Sprites.Harvester[5]);
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListEyes.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.frameLists[0].currentTime >= frameListEyes.Times[input.A.AnimationController.frameLists[0].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame++;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame++;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListEyes.Frames.Length)
+                    if (input.A.AnimationController.frameLists[0].currentFrame >= frameListEyes.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.frameLists[0].currentlyActive = false;
+                        input.A.AnimationController.frameLists[0].currentFrame = 0;
+                        input.A.AnimationController.frameLists[0].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Harvester[2 + frameListEyes.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Harvester[2 + frameListEyes.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
             if (State.Rand.Next(400) == 0)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+                input.A.AnimationController.frameLists[0].currentlyActive = true;
             }
 
             output.Sprite(input.Sprites.Harvester[2]);
@@ -69,8 +106,8 @@ internal static class Harvesters
 
         builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Harvester, input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Harvester, input.U.SkinColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
@@ -80,50 +117,50 @@ internal static class Harvesters
 
         builder.RenderSingle(SpriteType.BodyAccent, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Harvester, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Harvester, input.U.SkinColor));
             output.Sprite(input.Sprites.Harvester[1]);
         }); // Tail
 
         builder.RenderSingle(SpriteType.BodyAccent2, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Harvester, input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Harvester, input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Harvester[6]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
-                input.Actor.AnimationController.frameLists[1].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[1].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                input.A.AnimationController.frameLists[1].currentlyActive = false;
+                input.A.AnimationController.frameLists[1].currentFrame = 0;
+                input.A.AnimationController.frameLists[1].currentTime = 0f;
                 output.Sprite(input.Sprites.Harvester[9]);
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[1].currentlyActive)
+            if (input.A.AnimationController.frameLists[1].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListArms.Times[input.Actor.AnimationController.frameLists[1].currentFrame])
+                if (input.A.AnimationController.frameLists[1].currentTime >= frameListArms.Times[input.A.AnimationController.frameLists[1].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[1].currentFrame++;
-                    input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                    input.A.AnimationController.frameLists[1].currentFrame++;
+                    input.A.AnimationController.frameLists[1].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListArms.Frames.Length)
+                    if (input.A.AnimationController.frameLists[1].currentFrame >= frameListArms.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[1].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[1].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                        input.A.AnimationController.frameLists[1].currentlyActive = false;
+                        input.A.AnimationController.frameLists[1].currentFrame = 0;
+                        input.A.AnimationController.frameLists[1].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Harvester[6 + frameListArms.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                output.Sprite(input.Sprites.Harvester[6 + frameListArms.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
                 return;
             }
 
             if (State.Rand.Next(600) == 0)
             {
-                input.Actor.AnimationController.frameLists[1].currentlyActive = true;
+                input.A.AnimationController.frameLists[1].currentlyActive = true;
             }
 
             output.Sprite(input.Sprites.Harvester[6]);
@@ -131,78 +168,54 @@ internal static class Harvesters
 
         builder.RenderSingle(SpriteType.BodyAccent3, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Harvester, input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Harvester, input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 return;
             }
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
-                input.Actor.AnimationController.frameLists[3].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[3].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[3].currentTime = 0f;
+                input.A.AnimationController.frameLists[3].currentlyActive = false;
+                input.A.AnimationController.frameLists[3].currentFrame = 0;
+                input.A.AnimationController.frameLists[3].currentTime = 0f;
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[3].currentlyActive)
+            if (input.A.AnimationController.frameLists[3].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[3].currentTime >= frameListTongue.Times[input.Actor.AnimationController.frameLists[3].currentFrame])
+                if (input.A.AnimationController.frameLists[3].currentTime >= frameListTongue.Times[input.A.AnimationController.frameLists[3].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[3].currentFrame++;
-                    input.Actor.AnimationController.frameLists[3].currentTime = 0f;
+                    input.A.AnimationController.frameLists[3].currentFrame++;
+                    input.A.AnimationController.frameLists[3].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[3].currentFrame >= frameListTongue.Frames.Length)
+                    if (input.A.AnimationController.frameLists[3].currentFrame >= frameListTongue.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[3].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[3].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[3].currentTime = 0f;
+                        input.A.AnimationController.frameLists[3].currentlyActive = false;
+                        input.A.AnimationController.frameLists[3].currentFrame = 0;
+                        input.A.AnimationController.frameLists[3].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Harvester[12 + frameListTongue.Frames[input.Actor.AnimationController.frameLists[3].currentFrame]]);
+                output.Sprite(input.Sprites.Harvester[12 + frameListTongue.Frames[input.A.AnimationController.frameLists[3].currentFrame]]);
                 return;
             }
 
-            if (State.Rand.Next(500) == 0 && input.Actor.HasBelly)
+            if (State.Rand.Next(500) == 0 && input.A.HasBelly)
             {
-                input.Actor.AnimationController.frameLists[3].currentlyActive = true;
+                input.A.AnimationController.frameLists[3].currentlyActive = true;
             }
         }); // Tongue
 
         builder.RenderSingle(SpriteType.Belly, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Harvester, input.Actor.Unit.SkinColor));
-            if (!input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Harvester, input.U.SkinColor));
+            if (!input.A.HasBelly)
             {
                 return;
             }
 
-            int size = input.Actor.GetStomachSize(26);
-
-            if (size >= 26 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true) ?? false))
-            {
-                output.Sprite(input.Sprites.Harvester[38]);
-                return;
-            }
-
-            if (size >= 24 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false) ?? false))
-            {
-                output.Sprite(input.Sprites.Harvester[37]);
-                return;
-            }
-
-            if (size >= 22 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false) ?? false))
-            {
-                output.Sprite(input.Sprites.Harvester[36]);
-                return;
-            }
-
-            if (size >= 20 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false) ?? false))
-            {
-                output.Sprite(input.Sprites.Harvester[35]);
-                return;
-            }
+            int size = input.A.GetStomachSize(26);
 
             if (size > 18)
             {
@@ -214,44 +227,44 @@ internal static class Harvesters
 
         builder.RenderSingle(SpriteType.Dick, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Harvester, input.Actor.Unit.SkinColor));
-            if (!input.Actor.IsErect())
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Harvester, input.U.SkinColor));
+            if (!input.A.IsErect())
             {
                 return;
             }
 
-            if (!input.Actor.Targetable)
+            if (!input.A.Targetable)
             {
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[2].currentlyActive)
+            if (input.A.AnimationController.frameLists[2].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[2].currentTime >= frameListDick.Times[input.Actor.AnimationController.frameLists[2].currentFrame])
+                if (input.A.AnimationController.frameLists[2].currentTime >= frameListDick.Times[input.A.AnimationController.frameLists[2].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[2].currentFrame++;
-                    input.Actor.AnimationController.frameLists[2].currentTime = 0f;
+                    input.A.AnimationController.frameLists[2].currentFrame++;
+                    input.A.AnimationController.frameLists[2].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[2].currentFrame >= frameListDick.Frames.Length)
+                    if (input.A.AnimationController.frameLists[2].currentFrame >= frameListDick.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[2].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[2].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[2].currentTime = 0f;
+                        input.A.AnimationController.frameLists[2].currentlyActive = false;
+                        input.A.AnimationController.frameLists[2].currentFrame = 0;
+                        input.A.AnimationController.frameLists[2].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Harvester[10 + frameListDick.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                output.Sprite(input.Sprites.Harvester[10 + frameListDick.Frames[input.A.AnimationController.frameLists[2].currentFrame]]);
                 return;
             }
 
             if (State.Rand.Next(300) == 0)
             {
-                input.Actor.AnimationController.frameLists[2].currentlyActive = true;
-                input.Actor.AnimationController.frameLists[2].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[2].currentTime = 0f;
+                input.A.AnimationController.frameLists[2].currentlyActive = true;
+                input.A.AnimationController.frameLists[2].currentFrame = 0;
+                input.A.AnimationController.frameLists[2].currentTime = 0f;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
                 output.Sprite(input.Sprites.Harvester[10]);
             }

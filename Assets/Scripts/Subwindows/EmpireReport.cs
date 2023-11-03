@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EmpireReport : MonoBehaviour
 {
-    EmpireReportItem[] Reports;
+    Dictionary<Side, EmpireReportItem> Reports = new Dictionary<Side, EmpireReportItem>();
 
     public GameObject ReportItemPrefab;
     public Transform ReportFolder;
@@ -14,34 +14,33 @@ public class EmpireReport : MonoBehaviour
 
     bool pausedState = false;
 
-    const int GoblinNum = Config.NumberOfRaces;
-    const int FirstMonster = Config.NumberOfRaces + 1;
+    readonly int GoblinNum = RaceFuncs.MainRaceCount;
+    readonly int FirstMonster = RaceFuncs.MainRaceCount + 1;
 
+    private EmpireReportItem GetReportItem(Side side)
+    {
+        return Reports.GetOrSet(side, () => Instantiate(ReportItemPrefab, ReportFolder).GetComponent<EmpireReportItem>());
+    }
+    
     public void Open()
     {
         pausedState = State.GameManager.StrategyMode.Paused;
         State.GameManager.StrategyMode.Paused = true;
         gameObject.SetActive(true);
-        if (Reports == null)
+        
+        foreach (Race race in RaceFuncs.MainRaceEnumerable())
         {
-            Reports = new EmpireReportItem[Config.NumberOfRaces + World.MonsterCount + 1];
-            for (int i = 0; i < Reports.Length; i++)
-            {
-                Reports[i] = Instantiate(ReportItemPrefab, ReportFolder).GetComponent<EmpireReportItem>();
-            }
+            Side side = race.ToSide();
+            GetReportItem(side).Contact.onClick.RemoveAllListeners();
+            GetReportItem(side).Contact.gameObject.SetActive(!Equals(State.World.ActingEmpire.Side, side));
+            GetReportItem(side).Contact.onClick.AddListener(() => DiplomacyScreen.Open(State.World.ActingEmpire, State.World.GetEmpireOfSide(side)));
         }
-        for (int i = 0; i < Config.NumberOfRaces; i++)
-        {
-            int side = i;
-            Reports[i].Contact.onClick.RemoveAllListeners();
-            Reports[i].Contact.gameObject.SetActive(State.World.ActingEmpire.Side != i);
-            Reports[i].Contact.onClick.AddListener(() => DiplomacyScreen.Open(State.World.ActingEmpire, State.World.GetEmpireOfSide(side)));
-        }
+        
         if (Config.GoblinCaravans)
         {
-            int side = (int)Race.Goblins;
-            Reports[GoblinNum].Contact.onClick.RemoveAllListeners();
-            Reports[GoblinNum].Contact.onClick.AddListener(() => DiplomacyScreen.Open(State.World.ActingEmpire, State.World.GetEmpireOfSide(side)));
+            Side side = Race.Goblins.ToSide();
+            GetReportItem(Race.Goblins.ToSide()).Contact.onClick.RemoveAllListeners();
+            GetReportItem(Race.Goblins.ToSide()).Contact.onClick.AddListener(() => DiplomacyScreen.Open(State.World.ActingEmpire, State.World.GetEmpireOfSide(side)));
         }
 
 
@@ -51,55 +50,53 @@ public class EmpireReport : MonoBehaviour
 
     public void Refresh()
     {
-        for (int i = 0; i < Reports.Length; i++)
+        foreach (EmpireReportItem report in Reports.Values)
         {
-            Reports[i].gameObject.SetActive(false);
+            report.gameObject.SetActive(false);
         }
         for (int i = 0; i < State.World.MainEmpires.Count; i++)
         {
             Empire empire = State.World.MainEmpires[i];
-            Reports[i].gameObject.SetActive(!empire.KnockedOut);
+            Reports[empire.Side].gameObject.SetActive(!empire.KnockedOut);
             if (empire.KnockedOut)
                 continue;
 
-            Reports[i].EmpireStatus.text = $"{empire.Name}  Villages: {State.World.Villages.Where(s => s.Side == empire.Side).Count()}  Mines: {State.World.Claimables.Where(s => s.Owner == empire).Count()} Armies : {empire.Armies.Count()} ";
+            Reports[empire.Side].EmpireStatus.text = $"{empire.Name}  Villages: {State.World.Villages.Where(s => Equals(s.Side, empire.Side)).Count()}  Mines: {State.World.Claimables.Where(s => s.Owner == empire).Count()} Armies : {empire.Armies.Count()} ";
             if (empire.IsAlly(State.World.ActingEmpire) || Config.CheatExtraStrategicInfo || State.GameManager.StrategyMode.OnlyAIPlayers)
             {
-                Reports[i].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count} Gold: {empire.Gold}  Income: {empire.Income}";
+                Reports[empire.Side].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count} Gold: {empire.Gold}  Income: {empire.Income}";
             }
 
         }
         if (Config.GoblinCaravans)
         {
             Empire empire = State.World.GetEmpireOfRace(Race.Goblins);
-            Reports[GoblinNum].gameObject.SetActive(true);
+            GetReportItem(Race.Goblins.ToSide()).gameObject.SetActive(true);
             if (empire != null)
             {
-                Reports[GoblinNum].EmpireStatus.text = $"{empire.Name}  Armies : {empire.Armies.Count()} ";
+                GetReportItem(Race.Goblins.ToSide()).EmpireStatus.text = $"{empire.Name}  Armies : {empire.Armies.Count()} ";
                 if (empire.IsAlly(State.World.ActingEmpire) || Config.CheatExtraStrategicInfo || State.GameManager.StrategyMode.OnlyAIPlayers)
                 {
-                    Reports[GoblinNum].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count}";
+                    GetReportItem(Race.Goblins.ToSide()).EmpireStatus.text += $"Units: {empire.GetAllUnits().Count}";
                 }
             }
         }
 
 
-        int currentIndex = GoblinNum;
         foreach (Empire empire in State.World.MonsterEmpires)
         {
-            currentIndex += 1;
-            if (empire.Race == Race.Goblins)
+            if (Equals(empire.Race, Race.Goblins))
                 continue;
-            SpawnerInfo spawner = Config.SpawnerInfo(empire.Race);
+            SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
             if (spawner == null)
                 continue;
-            Reports[currentIndex].gameObject.SetActive(spawner.Enabled);
-            Reports[currentIndex].Contact.gameObject.SetActive(false);
+            Reports[empire.Side].gameObject.SetActive(spawner.Enabled);
+            Reports[empire.Side].Contact.gameObject.SetActive(false);
 
-            Reports[currentIndex].EmpireStatus.text = $"{empire.Name}  Villages: {State.World.Villages.Where(s => s.Side == empire.Side).Count()} Armies : {empire.Armies.Count()} ";
+            Reports[empire.Side].EmpireStatus.text = $"{empire.Name}  Villages: {State.World.Villages.Where(s => Equals(s.Side, empire.Side)).Count()} Armies : {empire.Armies.Count()} ";
             if (empire.IsAlly(State.World.ActingEmpire) || Config.CheatExtraStrategicInfo || State.GameManager.StrategyMode.OnlyAIPlayers)
             {
-                Reports[currentIndex].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count}";
+                Reports[empire.Side].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count}";
             }
 
         }
@@ -124,7 +121,7 @@ public class EmpireReport : MonoBehaviour
             {
                 if (emp == emp2)
                     continue;
-                if (emp.Side >= 700 || emp2.Side >= 700)
+                if (RaceFuncs.IsRebelOrBandit5(emp.Side) || RaceFuncs.IsRebelOrBandit5(emp2.Side))
                     continue;
                 var relation = RelationsManager.GetRelation(emp.Side, emp2.Side);
                 switch (relation.Type)

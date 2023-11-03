@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using KangarooClothes;
 using UnityEngine;
 
@@ -29,6 +30,40 @@ internal static class Kangaroos
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Kangaroo", "Kangaroos");
+        builder.WallType(WallType.WoodenPallisade);        
+        builder.BonesInfo((unit) => new List<BoneInfo>()
+        {
+            new BoneInfo(BoneTypes.Kangaroo, unit.Name)
+        });
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.BornToMove,
+                Traits.Resourceful,
+            },
+            RaceDescription = "Their old home turning ever drier and hotter, the Kangaroo tribes did not hesitate when mysterious portals opened and granted them passage to greener lands. Nomadic by nature, the Kangaroos are very adept at carrying plenty of gear with them and aren't unused to traveling with a full belly either.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.HairStyle, "Ear Type");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Roostadt",
+            "Pouchbottom",
+            "Over'under",
+            "Red-dust",
+            "Sidney",
+            "Marsupia",
+            "Ayer",
+            "Guardia",
+        });
         builder.Setup(output =>
         {
             output.DickSizes = () => 6;
@@ -38,9 +73,9 @@ internal static class Kangaroos
             output.HairStyles = 9; //Ears
             output.EyeTypes = 23;
             output.SpecialAccessoryCount = 6; //Lower accessory
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Kangaroo);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.Kangaroo);
             output.AccessoryColors = 0;
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.EyeColor);
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.EyeColor);
 
             output.MouthTypes = 0;
 
@@ -63,23 +98,23 @@ internal static class Kangaroos
         builder.RenderSingle(SpriteType.Head, 12, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.Level > 15)
+            if (input.U.Level > 15)
             {
                 output.Sprite(input.Sprites.Kangaroos[114]);
             }
-            else if (input.Actor.Unit.Level > 10)
+            else if (input.U.Level > 10)
             {
                 output.Sprite(input.Sprites.Kangaroos[113]);
             }
-            else if (input.Actor.Unit.Level > 7)
+            else if (input.U.Level > 7)
             {
                 output.Sprite(input.Sprites.Kangaroos[112]);
             }
-            else if (input.Actor.Unit.Level > 5)
+            else if (input.U.Level > 5)
             {
                 output.Sprite(input.Sprites.Kangaroos[111]);
             }
-            else if (input.Actor.Unit.Level > 3)
+            else if (input.U.Level > 3)
             {
                 output.Sprite(input.Sprites.Kangaroos[110]);
             }
@@ -87,30 +122,30 @@ internal static class Kangaroos
 
         builder.RenderSingle(SpriteType.Eyes, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Kangaroos[6 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            output.Sprite(input.Sprites.Kangaroos[6 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 14, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Actor.IsEating ? input.Sprites.Kangaroos[2] : null);
+            output.Sprite(input.A.IsEating ? input.Sprites.Kangaroos[2] : null);
         });
         builder.RenderSingle(SpriteType.Hair, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kangaroo, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Kangaroos[41 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kangaroo, input.U.SkinColor));
+            output.Sprite(input.Sprites.Kangaroos[41 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kangaroo, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Kangaroos[input.Actor.Unit.HasWeapon || input.Actor.IsAttacking ? 1 : 0]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kangaroo, input.U.SkinColor));
+            output.Sprite(input.Sprites.Kangaroos[input.U.HasWeapon || input.A.IsAttacking ? 1 : 0]);
         });
         builder.RenderSingle(SpriteType.BodyAccent, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kangaroo, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasWeapon == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kangaroo, input.U.SkinColor));
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Kangaroos[34]);
                     return;
@@ -119,7 +154,7 @@ internal static class Kangaroos
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Kangaroos[32]);
@@ -154,14 +189,14 @@ internal static class Kangaroos
         {
             output.Coloring(Defaults.WhiteColored);
             Accessory acc = null;
-            if (input.Actor.Unit.Items == null || input.Actor.Unit.Items.Length < 1)
+            if (input.U.Items == null || input.U.Items.Length < 1)
             {
                 return;
             }
 
-            if (input.Actor.Unit.Items[0] is Accessory)
+            if (input.U.Items[0] is Accessory)
             {
-                acc = (Accessory)input.Actor.Unit.Items[0];
+                acc = (Accessory)input.U.Items[0];
             }
 
             SpriteForAccessory(input, output, ref acc);
@@ -170,7 +205,7 @@ internal static class Kangaroos
         builder.RenderSingle(SpriteType.BodyAccent3, 13, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.Type == UnitType.Leader)
+            if (input.U.Type == UnitType.Leader)
             {
                 output.Sprite(input.Sprites.Kangaroos[115]);
             }
@@ -180,14 +215,14 @@ internal static class Kangaroos
         {
             output.Coloring(Defaults.WhiteColored);
             Accessory acc = null;
-            if (input.Actor.Unit.Items == null || input.Actor.Unit.Items.Length < 2)
+            if (input.U.Items == null || input.U.Items.Length < 2)
             {
                 return;
             }
 
-            if (input.Actor.Unit.Items[1] is Accessory)
+            if (input.U.Items[1] is Accessory)
             {
-                acc = (Accessory)input.Actor.Unit.Items[1];
+                acc = (Accessory)input.U.Items[1];
             }
 
             SpriteForAccessory(input, output, ref acc);
@@ -197,14 +232,14 @@ internal static class Kangaroos
         {
             output.Coloring(Defaults.WhiteColored);
             Accessory acc = null;
-            if (input.Actor.Unit.Items == null || input.Actor.Unit.Items.Length < 3)
+            if (input.U.Items == null || input.U.Items.Length < 3)
             {
                 return;
             }
 
-            if (input.Actor.Unit.Items[2] is Accessory)
+            if (input.U.Items[2] is Accessory)
             {
-                acc = (Accessory)input.Actor.Unit.Items[2];
+                acc = (Accessory)input.U.Items[2];
             }
 
             SpriteForAccessory(input, output, ref acc);
@@ -212,33 +247,28 @@ internal static class Kangaroos
 
         builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kangaroo, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Kangaroos[98 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kangaroo, input.U.SkinColor));
+            output.Sprite(input.Sprites.Kangaroos[98 + input.U.SpecialAccessoryType]);
         });
         builder.RenderSingle(SpriteType.BodySize, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kangaroo, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.BodySize > 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kangaroo, input.U.SkinColor));
+            if (input.U.BodySize > 0)
             {
-                output.Sprite(input.Sprites.Kangaroos[103 + input.Actor.Unit.BodySize]);
+                output.Sprite(input.Sprites.Kangaroos[103 + input.U.BodySize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kangaroo, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kangaroo, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
                 output.Layer(15);
 
-                int sprite = input.Actor.GetStomachSize(19, .8f);
-                if (input.Actor.Unit.HasBreasts)
+                int sprite = input.A.GetStomachSize(19, .8f);
+                if (input.U.HasBreasts)
                 {
-                    if (sprite == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
-                    {
-                        output.Sprite(input.Sprites.Kangaroos[136]);
-                        return;
-                    }
 
                     if (sprite <= 15)
                     {
@@ -247,12 +277,6 @@ internal static class Kangaroos
                     }
 
                     output.Sprite(input.Sprites.Kangaroos[132 - 16 + sprite]);
-                    return;
-                }
-
-                if (sprite == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    output.Sprite(input.Sprites.Kangaroos[131]);
                     return;
                 }
 
@@ -266,7 +290,7 @@ internal static class Kangaroos
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     output.Sprite(input.Sprites.Kangaroos[3]).Layer(7);
                 }
@@ -276,50 +300,41 @@ internal static class Kangaroos
         builder.RenderSingle(SpriteType.Dick, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.DickSize >= 0 && input.Actor.IsErect())
+            if (input.U.DickSize >= 0 && input.A.IsErect())
             {
-                output.Sprite(input.Sprites.Kangaroos[56 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Kangaroos[56 + input.U.DickSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Balls, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kangaroo, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.DickSize < 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kangaroo, input.U.SkinColor));
+            if (input.U.DickSize < 0)
             {
                 return;
             }
 
-            if (input.Actor.Unit.DickSize >= 0)
+            if (input.U.DickSize >= 0)
             {
-                if (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false)
+                if (input.A.PredatorComponent?.BallsFullness > 0)
                 {
-                    if (input.Actor.PredatorComponent.BallsFullness > 3)
-                    {
-                        output.Sprite(input.Sprites.Kangaroos[148]);
-                        return;
-                    }
-                }
-
-                if (input.Actor.PredatorComponent?.BallsFullness > 0)
-                {
-                    output.Sprite(input.Sprites.Kangaroos[137 + input.Actor.GetBallSize(10)]);
+                    output.Sprite(input.Sprites.Kangaroos[137 + input.A.GetBallSize(10)]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Kangaroos[50 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Kangaroos[50 + input.U.DickSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Weapon, 10, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon == false || input.Actor.Surrendered)
+            if (input.U.HasWeapon == false || input.A.Surrendered)
             {
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Kangaroos[33]);
@@ -352,12 +367,12 @@ internal static class Kangaroos
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 Vector3 localScale;
-                if (input.Actor.PredatorComponent.VisibleFullness > 4)
+                if (input.A.PredatorComponent.VisibleFullness > 4)
                 {
-                    float extraCap = input.Actor.PredatorComponent.VisibleFullness - 4;
+                    float extraCap = input.A.PredatorComponent.VisibleFullness - 4;
                     float xScale = Mathf.Min(1 + extraCap / 5, 1.8f);
                     float yScale = Mathf.Min(1 + extraCap / 40, 1.1f);
                     localScale = new Vector3(xScale, yScale, 1);
@@ -403,7 +418,7 @@ internal static class Kangaroos
 
         if (acc == State.World.ItemRepository.GetItem(ItemType.BodyArmor))
         {
-            if (input.Actor.Unit.EyeType % 2 == 0)
+            if (input.U.EyeType % 2 == 0)
             {
                 output.Sprite(input.Sprites.Kangaroos[107]);
                 return;
@@ -427,13 +442,13 @@ internal static class Kangaroos
 
         if (acc == State.World.ItemRepository.GetItem(ItemType.Gloves))
         {
-            if (input.Actor.Unit.HasWeapon == false || input.Actor.Surrendered)
+            if (input.U.HasWeapon == false || input.A.Surrendered)
             {
                 output.Sprite(input.Sprites.Kangaroos[117]);
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Kangaroos[120]);
@@ -492,7 +507,7 @@ namespace KangarooClothes
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
                 output["Clothing1"].Sprite(input.Sprites.Kangaroos[94]);
             });
         });
@@ -512,7 +527,7 @@ namespace KangarooClothes
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
                 output["Clothing1"].Sprite(input.Sprites.Kangaroos[95]);
             });
         });
@@ -532,7 +547,7 @@ namespace KangarooClothes
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
                 output["Clothing1"].Sprite(input.Sprites.Kangaroos[96]);
             });
         });

@@ -11,6 +11,7 @@ internal static class SlimeQueen
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("SlimeQueen", "SlimeQueens");
         //////////////////////// SLIMES ///////////////////////////////////////////////////////////////
         //////////////////// TO BE REMOVED LATER //////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,7 +20,7 @@ internal static class SlimeQueen
 
         builder.RenderSingle(SpriteType.BodyAccessory, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeSub, 3 * input.Actor.Unit.AccessoryColor + input.Actor.Unit.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
             output.Sprite(input.Sprites.Slimes[18]);
         });
 
@@ -112,7 +113,7 @@ internal static class SlimeQueen
         {
             output.AvoidedMainClothingTypes = 1;
 
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.SlimeMain);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.SlimeMain);
             output.EyeColors = 1;
             output.HairColors = 3;
 
@@ -128,7 +129,7 @@ internal static class SlimeQueen
             );
 
             output.AllowedWaistTypes.Clear();
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
             output.ExtraColors1 = 2;
             output.ExtraColors2 = 2;
             output.BodySizes = 0;
@@ -137,38 +138,15 @@ internal static class SlimeQueen
 
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeMain, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
             output.AddOffset(0, 0);
             int baseSize = 6;
-            int ballOffset = input.Actor.GetBallSize(21);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[24]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[23]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 20)
-            {
-                output.Sprite(input.Sprites.Balls[22]).AddOffset(0, -15 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 19)
-            {
-                output.Sprite(input.Sprites.Balls[21]).AddOffset(0, -14 * .625f);
-                return;
-            }
+            int ballOffset = input.A.GetBallSize(21);
 
             int combined = Math.Min(baseSize + ballOffset + 3, 20);
             // Always false
@@ -197,79 +175,58 @@ internal static class SlimeQueen
 
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeMain, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.SlimeQueen[input.Actor.GetSimpleBodySprite()]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.SlimeQueen[input.A.GetSimpleBodySprite()]);
         });
         builder.RenderSingle(SpriteType.BodyAccent, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeSub, 3 * input.Actor.Unit.AccessoryColor + input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.SlimeQueen[3 + (input.Actor.IsAttacking ? 1 : 0)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
+            output.Sprite(input.Sprites.SlimeQueen[3 + (input.A.IsAttacking ? 1 : 0)]);
         });
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeMain, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.SlimeQueen[5 + input.Actor.Unit.BreastSize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.SlimeQueen[5 + input.U.BreastSize]);
         });
 
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeMain, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Actor.Unit.HasDick ? input.Sprites.SlimeQueen[9] : null);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+            output.Sprite(input.U.HasDick ? input.Sprites.SlimeQueen[9] : null);
         });
 
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeSub, 3 * input.Actor.Unit.AccessoryColor + input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.SlimeQueen[10 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
+            output.Sprite(input.Sprites.SlimeQueen[10 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeSub, 3 * input.Actor.Unit.AccessoryColor + input.Actor.Unit.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
             output.Sprite(input.Sprites.SlimeQueen[12]);
         });
 
 
         builder.RenderSingle(SpriteType.Eyes, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeMain, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
             output.Sprite(input.Sprites.SlimeQueen[27]);
         });
 
 
         builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Mouth].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Mouth, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Mouth].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Mouth, input.U.SkinColor));
         });
 
 
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeMain, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+            if (input.A.HasBelly)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    output.Sprite(input.Sprites.Slimes[69]).AddOffset(0, -25 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    if (input.Actor.GetStomachSize(15, .75f) == 15)
-                    {
-                        output.Sprite(input.Sprites.Slimes[68]).AddOffset(0, -25 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(15, .875f) == 15)
-                    {
-                        output.Sprite(input.Sprites.Slimes[67]).AddOffset(0, -25 * .625f);
-                        return;
-                    }
-                }
-
-                output.Sprite(input.Sprites.Slimes[51 + input.Actor.GetStomachSize()]);
+                output.Sprite(input.Sprites.Slimes[51 + input.A.GetStomachSize()]);
             }
         });
 
@@ -277,7 +234,7 @@ internal static class SlimeQueen
         builder.RenderSingle(SpriteType.Weapon, 12, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.SlimeQueen[23 + (input.Actor.IsAttacking ? 1 : 0)]);
+            output.Sprite(input.Sprites.SlimeQueen[23 + (input.A.IsAttacking ? 1 : 0)]);
         });
 
         builder.RunBefore((input, output) =>
@@ -322,20 +279,20 @@ namespace SlimeQueenClothes
                 output["Clothing3"].Layer(8);
                 output["Clothing2"].Layer(8);
                 output["Clothing1"].Layer(17);
-                output["Clothing1"].Sprite(input.Actor.Unit.ExtraColor1 == 0 ? null : input.Sprites.SlimeQueen[17 + input.Actor.Unit.BreastSize]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor2));
+                output["Clothing1"].Sprite(input.U.ExtraColor1 == 0 ? null : input.Sprites.SlimeQueen[17 + input.U.BreastSize]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor2));
                 output["Clothing2"].Sprite(input.Sprites.SlimeQueen[13]);
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing3"].Sprite(input.Sprites.SlimeQueen[14]);
-                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Sprite(input.Actor.Unit.ExtraColor2 == 0 ? null : input.Sprites.SlimeQueen[15]);
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-                output["Clothing5"].Sprite(input.Sprites.SlimeQueen[21 + (input.Actor.IsAttacking ? 1 : 0)]);
-                output["Clothing6"].Sprite(input.Sprites.SlimeQueen[25 + (input.Actor.IsAttacking ? 1 : 0)]);
-                output["Clothing6"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor3));
+                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+                output["Clothing4"].Sprite(input.U.ExtraColor2 == 0 ? null : input.Sprites.SlimeQueen[15]);
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+                output["Clothing5"].Sprite(input.Sprites.SlimeQueen[21 + (input.A.IsAttacking ? 1 : 0)]);
+                output["Clothing6"].Sprite(input.Sprites.SlimeQueen[25 + (input.A.IsAttacking ? 1 : 0)]);
+                output["Clothing6"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor3));
 
 
-                if (Config.CockVoreHidesClothes && input.Actor.PredatorComponent?.BallsFullness > 0)
+                if (Config.CockVoreHidesClothes && input.A.PredatorComponent?.BallsFullness > 0)
                 {
                     output["Clothing4"].Sprite(null);
                 }

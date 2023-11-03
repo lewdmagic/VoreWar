@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using DaVikingCode.AssetPacker;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -111,6 +113,14 @@ public class GameManager : MonoBehaviour
         currentScene = Start_Mode;
         State.GameManager = this;
         Application.wantsToQuit += () => WantsToQuit();
+        SeliciaMod.ModAll();
+
+        State.SpriteManager = new SpriteManager();
+        State.SpriteManager.Process2();
+        
+        //LuaTest.MoonSharpTest();
+        float res = (0f - 0.2f + 1f) / (2f * 0f);
+        Debug.Log(res);
     }
 
     void Quit()
@@ -380,7 +390,7 @@ public class GameManager : MonoBehaviour
     {
         CameraController.SaveStrategicCamera();
         StrategyMode.gameObject.SetActive(false);
-        int defenderSide = defender?.Side ?? village.Side;
+        Side defenderSide = defender?.Side ?? village.Side;
         CurrentScene = TacticalMode;
 
         //If a human is either the army or the garrison, it gets to control both.
@@ -396,7 +406,7 @@ public class GameManager : MonoBehaviour
                 RelationsManager.VillageAttacked(invader.Empire, village.Empire);
             else
                 RelationsManager.ArmyAttacked(invader.Empire, defender.Empire);
-            if (village != null && defender != null && defender.Side != village.Side)
+            if (village != null && defender != null && !Equals(defender.Side, village.Side))
             {
                 RelationsManager.ArmyAttacked(invader.Empire, defender.Empire);
             }
@@ -440,7 +450,7 @@ public class GameManager : MonoBehaviour
         CurrentScene = Recruit_Mode;
     }
 
-    public void ActivateEndSceneWin(int side)
+    public void ActivateEndSceneWin(Side side)
     {
         var winners = State.World.MainEmpires.Where(s => s.IsAlly(State.World.GetEmpireOfSide(side)));
         string winner = "";

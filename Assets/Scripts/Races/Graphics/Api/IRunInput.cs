@@ -1,4 +1,4 @@
-internal interface IRunInput
+public interface IRunInput : IRenderInput
 {
-    Actor_Unit Actor { get; }
+    
 }

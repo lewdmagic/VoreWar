@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,56 @@ internal static class Deer
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Deer", "Deer");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "faun", "deer", {"doe", 0.5/5, Gender.Female}, {"roe", 0.5/5, Gender.Female}, {"buck", 0.5/5, Gender.Male}, {"stag", 0.5/5, Gender.Male}, {"hart", 0.5/5, Gender.Male} } 
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.EvasiveBattler,
+                Traits.ArtfulDodge,
+                Traits.PackDefense,
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Antlers Type");
+            buttons.SetText(ButtonType.BodyAccentTypes2, "Body Pattern Type");
+            buttons.SetText(ButtonType.BodyAccentTypes3, "Leg Type");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Artemis Woods",
+            "The Golden Stag",
+            "Elkfurt",
+            "Hoovechester",
+            "Buckville",
+            "The White Doe",
+            "Cernunnos",
+            "Dappled Hide",
+            "Ceryneia",
+            "Hindburg",
+            "Peryton",
+            "Antlertown",
+            "Swiftbrook",
+            "Red Hart",
+            "Eikthyrnir",
+            "Actaeon",
+            "Darbywood",
+            "Rohit",
+            "Furfur",
+            "Achlis"
+        });
         IClothing<IOverSizeParameters> leaderClothes1 = DeerLeader1.DeerLeader1Instance;
         IClothing leaderClothes2 = DeerLeader2.DeerLeader2Instance;
         IClothing leaderClothes3 = DeerLeader3.DeerLeader3Instance;
@@ -25,9 +76,9 @@ internal static class Deer
             output.SpecialAccessoryCount = 12; // ears     
             output.HairStyles = 25;
             output.MouthTypes = 6;
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DeerLeaf);
-            output.HairColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.UniversalHair);
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DeerSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.DeerLeaf);
+            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.UniversalHair);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.DeerSkin);
             output.BodyAccentTypes1 = 12; // antlers
             output.BodyAccentTypes2 = 7; // pattern types
             output.BodyAccentTypes3 = 2; // leg types
@@ -69,7 +120,7 @@ internal static class Deer
                 Necklace.NecklaceInstance
             );
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AviansSkin);
         });
 
 
@@ -82,62 +133,62 @@ internal static class Deer
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.Furry)
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output.Sprite(input.Actor.IsEating ? input.Sprites.Deer1[53] : input.Sprites.Deer1[52]);
+                    output.Sprite(input.A.IsEating ? input.Sprites.Deer1[53] : input.Sprites.Deer1[52]);
                 }
                 else
                 {
-                    output.Sprite(input.Actor.IsEating ? input.Sprites.Deer1[55] : input.Sprites.Deer1[54]);
+                    output.Sprite(input.A.IsEating ? input.Sprites.Deer1[55] : input.Sprites.Deer1[54]);
                 }
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output.Sprite(input.Actor.IsEating ? input.Sprites.Deer1[49] : input.Sprites.Deer1[48]);
+                    output.Sprite(input.A.IsEating ? input.Sprites.Deer1[49] : input.Sprites.Deer1[48]);
                 }
                 else
                 {
-                    output.Sprite(input.Actor.IsEating ? input.Sprites.Deer1[51] : input.Sprites.Deer1[50]);
+                    output.Sprite(input.A.IsEating ? input.Sprites.Deer1[51] : input.Sprites.Deer1[50]);
                 }
             }
         });
 
         builder.RenderSingle(SpriteType.Eyes, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            if (input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            if (input.U.Furry)
             {
                 output.AddOffset(0, 1 * .625f);
             }
 
-            output.Sprite(input.Sprites.Deer1[71 + input.Actor.Unit.EyeType]);
+            output.Sprite(input.Sprites.Deer1[71 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.Furry)
+            if (input.U.Furry)
             {
-                if (input.Actor.IsEating)
+                if (input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Deer1[60]);
                 }
-                else if (input.Actor.IsAttacking)
+                else if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Deer1[62]);
                 }
             }
             else
             {
-                if (input.Actor.IsEating)
+                if (input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Deer1[56]);
                 }
-                else if (input.Actor.IsAttacking)
+                else if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Deer1[58]);
                 }
@@ -146,99 +197,99 @@ internal static class Deer
 
         builder.RenderSingle(SpriteType.Hair, 21, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.HairStyle == 24 || input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
+            if (input.U.HairStyle == 24 || input.U.Furry)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.Deer1[84 + input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Deer1[84 + input.U.HairStyle]);
             }
         });
 
         builder.RenderSingle(SpriteType.Hair2, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.HairStyle == 24 || input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
+            if (input.U.HairStyle == 24 || input.U.Furry)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.Deer1[108 + input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Deer1[108 + input.U.HairStyle]);
             }
         });
 
         builder.RenderSingle(SpriteType.Hair3, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
+            if (input.U.Furry)
             {
             }
             else
             {
-                output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer1[132] : input.Sprites.Deer1[133]);
+                output.Sprite(input.U.HasBreasts ? input.Sprites.Deer1[132] : input.Sprites.Deer1[133]);
             }
         }); // Eyebrows
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer1[0 + input.Actor.Unit.BodySize] : input.Sprites.Deer1[12 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Deer1[0 + input.U.BodySize] : input.Sprites.Deer1[12 + input.U.BodySize]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasWeapon == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
-                    output.Sprite(input.Sprites.Deer1[6 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[6 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Deer1[4 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                output.Sprite(input.Sprites.Deer1[4 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
-                    output.Sprite(input.Sprites.Deer1[5 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[5 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
                 case 1:
-                    output.Sprite(input.Sprites.Deer1[6 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[6 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
                 case 2:
-                    output.Sprite(input.Sprites.Deer1[5 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[5 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
                 case 3:
-                    output.Sprite(input.Sprites.Deer1[6 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[6 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
                 case 4:
-                    output.Sprite(input.Sprites.Deer1[4 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[4 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
                 case 5:
-                    output.Sprite(input.Sprites.Deer1[5 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[5 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
                 case 6:
-                    output.Sprite(input.Sprites.Deer1[4 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[4 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
                 case 7:
-                    output.Sprite(input.Sprites.Deer1[5 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[5 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
                 default:
-                    output.Sprite(input.Sprites.Deer1[4 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 12 : 0)]);
+                    output.Sprite(input.Sprites.Deer1[4 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 12 : 0)]);
                     return;
             }
         }); // Right Arm
 
         builder.RenderSingle(SpriteType.BodyAccent2, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasWeapon == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Deer1[23]);
                     return;
@@ -248,12 +299,12 @@ internal static class Deer
                 return;
             }
 
-            if (!input.Actor.Unit.HasBreasts)
+            if (!input.U.HasBreasts)
             {
                 output.AddOffset(2 * .625f, 0);
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Deer1[22]);
@@ -287,68 +338,68 @@ internal static class Deer
 
         builder.RenderSingle(SpriteType.BodyAccent3, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.BodyAccentType2 >= 6) //Changed to >= to hopefully prevent a rare exception
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.BodyAccentType2 >= 6) //Changed to >= to hopefully prevent a rare exception
             {
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.Deer2[0 + input.Actor.Unit.BodySize + 20 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Deer2[0 + input.U.BodySize + 20 * input.U.BodyAccentType2]);
             }
             else
             {
-                output.Sprite(input.Sprites.Deer2[10 + input.Actor.Unit.BodySize + 20 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Deer2[10 + input.U.BodySize + 20 * input.U.BodyAccentType2]);
             }
         }); // Body Pattern
 
         builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.BodyAccentType2 == 6)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.BodyAccentType2 == 6)
             {
                 return;
             }
 
-            if (input.Actor.Unit.HasWeapon == false)
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
-                    output.Sprite(input.Sprites.Deer2[6 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[6 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Deer2[4 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Deer2[4 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
-                    output.Sprite(input.Sprites.Deer2[5 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[5 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
                 case 1:
-                    output.Sprite(input.Sprites.Deer2[6 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[6 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
                 case 2:
-                    output.Sprite(input.Sprites.Deer2[5 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[5 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
                 case 3:
-                    output.Sprite(input.Sprites.Deer2[6 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[6 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
                 case 4:
-                    output.Sprite(input.Sprites.Deer2[4 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[4 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
                 case 5:
-                    output.Sprite(input.Sprites.Deer2[5 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[5 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
                 case 6:
-                    output.Sprite(input.Sprites.Deer2[4 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[4 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
                 case 7:
-                    output.Sprite(input.Sprites.Deer2[5 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[5 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
                 default:
-                    output.Sprite(input.Sprites.Deer2[4 + (input.Actor.Unit.BodySize > 1 ? 3 : 0) + (!input.Actor.Unit.HasBreasts ? 10 : 0) + 20 * input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Deer2[4 + (input.U.BodySize > 1 ? 3 : 0) + (!input.U.HasBreasts ? 10 : 0) + 20 * input.U.BodyAccentType2]);
                     return;
             }
         }); // Arm Pattern
@@ -356,9 +407,9 @@ internal static class Deer
         builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.Furry)
+            if (input.U.Furry)
             {
-                output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer1[136] : input.Sprites.Deer1[137]);
+                output.Sprite(input.U.HasBreasts ? input.Sprites.Deer1[136] : input.Sprites.Deer1[137]);
             }
             else
             {
@@ -373,16 +424,16 @@ internal static class Deer
         }); // Hoofs
         builder.RenderSingle(SpriteType.BodyAccent7, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.Furry)
             {
-                if (input.Actor.IsEating)
+                if (input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Deer1[61]);
                     return;
                 }
 
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Deer1[63]);
                     return;
@@ -392,84 +443,66 @@ internal static class Deer
             }
             else
             {
-                if (input.Actor.IsEating)
+                if (input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Deer1[57]);
                     return;
                 }
 
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Deer1[59]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Deer1[64 + input.Actor.Unit.MouthType]);
+                output.Sprite(input.Sprites.Deer1[64 + input.U.MouthType]);
             }
         }); // Mouth external
 
         builder.RenderSingle(SpriteType.BodyAccent8, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.BodyAccentType3 == 1)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.BodyAccentType3 == 1)
             {
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.Deer4[88 + input.Actor.Unit.BodySize]);
+                output.Sprite(input.Sprites.Deer4[88 + input.U.BodySize]);
             }
             else
             {
-                output.Sprite(input.Sprites.Deer4[92 + input.Actor.Unit.BodySize]);
+                output.Sprite(input.Sprites.Deer4[92 + input.U.BodySize]);
             }
         }); // alternative legs
 
         builder.RenderSingle(SpriteType.BodyAccessory, 20, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Deer1[24 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            output.Sprite(input.Sprites.Deer1[24 + input.U.SpecialAccessoryType]);
         }); // Ears
         builder.RenderSingle(SpriteType.SecondaryAccessory, 22, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (!input.Actor.Unit.HasDick)
+            if (!input.U.HasDick)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.Deer1[36 + input.Actor.Unit.BodyAccentType1]);
+                output.Sprite(input.Sprites.Deer1[36 + input.U.BodyAccentType1]);
             }
         }); // Antlers
 
         builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[31]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[30]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[29]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
 
                 if (leftSize > 28)
                 {
@@ -480,39 +513,21 @@ internal static class Deer
             }
             else
             {
-                output.Sprite(input.Sprites.Cockatrice2[0 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Cockatrice2[0 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[63]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[62]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[61]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
 
                 if (rightSize > 28)
                 {
@@ -523,42 +538,19 @@ internal static class Deer
             }
             else
             {
-                output.Sprite(input.Sprites.Cockatrice2[32 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Cockatrice2[32 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
             output.AddOffset(0, -1 * .625f);
 
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(31, 0.7f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[99]).AddOffset(0, -29 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[98]).AddOffset(0, -29 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[97]).AddOffset(0, -29 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[96]).AddOffset(0, -29 * .625f);
-                    return;
-                }
-
+                int size = input.A.GetStomachSize(31, 0.7f);
+                
                 switch (size)
                 {
                     case 26:
@@ -587,47 +579,47 @@ internal static class Deer
 
         builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
         {
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (!input.Actor.Unit.Furry || !Config.FurryGenitals)
+            if (!input.U.Furry || !Config.FurryGenitals)
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
             }
 
-            if (input.Actor.Unit.Furry && Config.FurryGenitals)
+            if (input.U.Furry && Config.FurryGenitals)
             {
                 output.AddOffset(0, -3 * .625f);
 
-                if (input.Actor.IsErect())
+                if (input.A.IsErect())
                 {
-                    if (input.Actor.PredatorComponent?.VisibleFullness < .75f &&
-                        (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize +
-                                       input.Actor.GetRightBreastSize(32 * 32)) < 16 &&
-                        (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize +
-                                       input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                    if (input.A.PredatorComponent?.VisibleFullness < .75f &&
+                        (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize +
+                                       input.A.GetRightBreastSize(32 * 32)) < 16 &&
+                        (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize +
+                                       input.A.GetLeftBreastSize(32 * 32)) < 16)
                     {
                         output.Layer(24);
-                        if (input.Actor.IsCockVoring)
+                        if (input.A.IsCockVoring)
                         {
-                            output.Sprite(input.Sprites.Deer3[54 + input.Actor.Unit.DickSize]);
+                            output.Sprite(input.Sprites.Deer3[54 + input.U.DickSize]);
                             return;
                         }
 
-                        output.Sprite(input.Sprites.Deer3[38 + input.Actor.Unit.DickSize]);
+                        output.Sprite(input.Sprites.Deer3[38 + input.U.DickSize]);
                         return;
                     }
 
                     output.Layer(13);
-                    if (input.Actor.IsCockVoring)
+                    if (input.A.IsCockVoring)
                     {
-                        output.Sprite(input.Sprites.Deer3[62 + input.Actor.Unit.DickSize]);
+                        output.Sprite(input.Sprites.Deer3[62 + input.U.DickSize]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Deer3[46 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Deer3[46 + input.U.DickSize]);
                     return;
                 }
 
@@ -635,53 +627,53 @@ internal static class Deer
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f &&
-                    (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize +
-                                   input.Actor.GetRightBreastSize(32 * 32)) < 16 &&
-                    (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize +
-                                   input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f &&
+                    (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize +
+                                   input.A.GetRightBreastSize(32 * 32)) < 16 &&
+                    (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize +
+                                   input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
                     output.Layer(24);
-                    if (input.Actor.IsCockVoring)
+                    if (input.A.IsCockVoring)
                     {
-                        output.Sprite(input.Sprites.Deer3[86 + input.Actor.Unit.DickSize]);
+                        output.Sprite(input.Sprites.Deer3[86 + input.U.DickSize]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Deer3[70 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Deer3[70 + input.U.DickSize]);
                     return;
                 }
 
                 output.Layer(13);
-                if (input.Actor.IsCockVoring)
+                if (input.A.IsCockVoring)
                 {
-                    output.Sprite(input.Sprites.Deer3[94 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Deer3[94 + input.U.DickSize]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Deer3[78 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Deer3[78 + input.U.DickSize]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Deer3[78 + input.Actor.Unit.DickSize]).Layer(11);
+            output.Sprite(input.Sprites.Deer3[78 + input.U.DickSize]).Layer(11);
         });
 
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.Furry && Config.FurryGenitals)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+            if (input.U.Furry && Config.FurryGenitals)
             {
                 output.AddOffset(0, -3 * .625f);
             }
 
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(19);
             }
@@ -690,25 +682,8 @@ internal static class Deer
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offset = input.Actor.GetBallSize(28, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Deer3[139 - (input.Actor.Unit.Furry && Config.FurryGenitals ? 102 : 0)]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Deer3[138 - (input.Actor.Unit.Furry && Config.FurryGenitals ? 102 : 0)]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Deer3[137 - (input.Actor.Unit.Furry && Config.FurryGenitals ? 102 : 0)]).AddOffset(0, -18 * .625f);
-                return;
-            }
+            int size = input.U.DickSize;
+            int offset = input.A.GetBallSize(28, .8f);
 
             if (offset >= 26)
             {
@@ -737,24 +712,24 @@ internal static class Deer
 
             if (offset > 0)
             {
-                output.Sprite(input.Sprites.Deer3[Math.Min(110 + offset, 136) - (input.Actor.Unit.Furry && Config.FurryGenitals ? 102 : 0)]);
+                output.Sprite(input.Sprites.Deer3[Math.Min(110 + offset, 136) - (input.U.Furry && Config.FurryGenitals ? 102 : 0)]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Deer3[102 + size - (input.Actor.Unit.Furry && Config.FurryGenitals ? 102 : 0)]);
+            output.Sprite(input.Sprites.Deer3[102 + size - (input.U.Furry && Config.FurryGenitals ? 102 : 0)]);
         });
 
         builder.RenderSingle(SpriteType.Weapon, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (!input.Actor.Unit.HasBreasts)
+            if (!input.U.HasBreasts)
             {
                 output.AddOffset(2 * .625f, 0);
             }
 
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Deer1[76 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Deer1[76 + input.A.GetWeaponSprite()]);
             }
         });
 
@@ -804,23 +779,23 @@ internal static class Deer
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType2 = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedWaistTypes, leaderClothes3);
+                unit.ClothingType2 = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedWaistTypesBasic, leaderClothes3);
                 if (unit.HasBreasts)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes1);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, leaderClothes1);
                 }
                 else
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes2);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, leaderClothes2);
                 }
             }
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, rags);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
-                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
+                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypesBasic.Count;
                 }
             }
         });
@@ -848,12 +823,12 @@ internal static class Deer
                 {
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[56]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[48 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[48 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -879,12 +854,12 @@ internal static class Deer
                 {
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[65]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[57 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[57 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -910,12 +885,12 @@ internal static class Deer
                 {
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[74]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[66 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[66 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -946,13 +921,13 @@ internal static class Deer
                 {
                     output["Clothing1"].Sprite(input.Sprites.Sharks5[80]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Sharks5[72 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Sharks5[72 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Sharks5[81]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -984,13 +959,13 @@ internal static class Deer
                     output["Clothing1"].Sprite(input.Sprites.Sharks5[90]);
                     output["Clothing2"].Sprite(input.Sprites.Sharks5[99]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Sharks5[82 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[91 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Sharks5[82 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Sharks5[91 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1018,12 +993,12 @@ internal static class Deer
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Sharks5[104 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Sharks5[104 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1049,12 +1024,12 @@ internal static class Deer
                 {
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[95]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[87 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[87 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1077,9 +1052,9 @@ internal static class Deer
             {
                 output["Clothing1"].Layer(18);
 
-                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Cockatrice3[83 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[84 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.Cockatrice3[83 + input.U.BodySize] : input.Sprites.Deer4[84 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1101,8 +1076,8 @@ internal static class Deer
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(18);
-                output["Clothing1"].Sprite(input.Sprites.Cockatrice3[75 + input.Actor.Unit.BodySize]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Sprite(input.Sprites.Cockatrice3[75 + input.U.BodySize]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1128,9 +1103,9 @@ internal static class Deer
                     output["Clothing2"].Sprite(input.Sprites.Deer4[0]);
                     output["Clothing2"].SetOffset(0, 0);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Deer4[2 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Deer4[2 + input.U.BreastSize]);
                     output["Clothing2"].Sprite(input.Sprites.Deer4[0]);
                     output["Clothing2"].SetOffset(0, 0);
                 }
@@ -1139,8 +1114,8 @@ internal static class Deer
                     output["Clothing2"].Sprite(input.Sprites.Deer4[1]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
             });
         });
     }
@@ -1172,17 +1147,17 @@ internal static class Deer
                 {
                     output["Clothing1"].Sprite(input.Sprites.Deer4[64]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize < 2)
+                    if (input.U.BreastSize < 2)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Deer4[60]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 4)
+                    else if (input.U.BreastSize < 4)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Deer4[61]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Deer4[62]);
                     }
@@ -1196,18 +1171,18 @@ internal static class Deer
                     output["Clothing1"].Sprite(input.Sprites.Deer4[83]);
                 }
 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
                     output["Clothing2"].Sprite(null);
                 }
                 else
                 {
-                    output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[73 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[77 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Deer4[73 + input.U.BodySize] : input.Sprites.Deer4[77 + input.U.BodySize]);
                 }
 
-                output["Clothing3"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[65 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[69 + input.Actor.Unit.BodySize]);
+                output["Clothing3"].Sprite(input.U.HasBreasts ? input.Sprites.Deer4[65 + input.U.BodySize] : input.Sprites.Deer4[69 + input.U.BodySize]);
 
-                output["Clothing4"].Sprite(input.Actor.GetWeaponSprite() == 1 ? input.Sprites.Deer4[82] : input.Sprites.Deer4[81]);
+                output["Clothing4"].Sprite(input.A.GetWeaponSprite() == 1 ? input.Sprites.Deer4[82] : input.Sprites.Deer4[81]);
             });
         });
     }
@@ -1239,29 +1214,29 @@ internal static class Deer
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.Deer4[96 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.Deer4[96 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[50]);
                         output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[51]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[52]);
                         output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[53]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[54]);
                         output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[55]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.Cockatrice2[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.Cockatrice2[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.Cockatrice2[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.Cockatrice2[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1269,8 +1244,8 @@ internal static class Deer
                     output.BlocksBreasts = true;
                 }
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
             });
         });
     }
@@ -1292,7 +1267,7 @@ internal static class Deer
             {
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Deer4[108 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.Sprites.Deer4[108 + input.U.BodySize]);
             });
         });
     }
@@ -1318,13 +1293,13 @@ internal static class Deer
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize < 3)
+                    if (input.U.BreastSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Deer4[57]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Deer4[58]);
                     }
@@ -1333,12 +1308,12 @@ internal static class Deer
                         output["Clothing1"].Sprite(input.Sprites.Deer4[59]);
                     }
 
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[48 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Deer4[48 + input.U.BodySize]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(input.Sprites.Deer4[56]);
-                    output["Clothing2"].Sprite(input.Sprites.Deer4[52 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Deer4[52 + input.U.BodySize]);
                 }
             });
         });
@@ -1373,34 +1348,34 @@ internal static class Deer
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[Math.Min(56 + input.Actor.Unit.BreastSize, 66)]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[Math.Min(56 + input.U.BreastSize, 66)]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[50]);
                         output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[51]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[52]);
                         output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[53]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[54]);
                         output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[55]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.Cockatrice2[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.Cockatrice2[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.Cockatrice2[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.Cockatrice2[32 + input.U.BreastSize]);
                     }
                 }
                 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
-                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerSkin, input.Actor.Unit.SkinColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
+                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
             });
         });
     }
@@ -1445,13 +1420,13 @@ internal static class Deer
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[20]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[22]);
                     }
@@ -1465,10 +1440,10 @@ internal static class Deer
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[12 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[16 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Deer4[12 + input.U.BodySize] : input.Sprites.Deer4[16 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1493,13 +1468,13 @@ internal static class Deer
 
                 output["Clothing2"].Coloring(Color.white);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[32]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[34]);
                     }
@@ -1513,9 +1488,9 @@ internal static class Deer
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[31]);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[20 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[24 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Deer4[20 + input.U.BodySize] : input.Sprites.Deer4[24 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1539,9 +1514,9 @@ internal static class Deer
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Cockatrice3[35]);
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[20 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[24 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Deer4[20 + input.U.BodySize] : input.Sprites.Deer4[24 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1568,13 +1543,13 @@ internal static class Deer
 
                 output["Clothing1"].Coloring(Color.white);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[44]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[46]);
                     }
@@ -1588,7 +1563,7 @@ internal static class Deer
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[28 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[32 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Deer4[28 + input.U.BodySize] : input.Sprites.Deer4[32 + input.U.BodySize]);
             });
         });
     }
@@ -1609,14 +1584,14 @@ internal static class Deer
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
                     output["Clothing1"].SetOffset(0, -1 * .625f);
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Deer4[44]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Deer4[46]);
                     }
@@ -1632,10 +1607,10 @@ internal static class Deer
 
                 output["Clothing1"].SetOffset(0, 0);
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Deer4[36 + input.Actor.Unit.BodySize] : input.Sprites.Deer4[40 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Deer4[36 + input.U.BodySize] : input.Sprites.Deer4[40 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1655,16 +1630,16 @@ internal static class Deer
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(12);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.DeerLeaderClothes[1 + 2 * input.Actor.Unit.BodySize] : input.Sprites.DeerLeaderClothes[0 + 2 * input.Actor.Unit.BodySize]);
+                    output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.DeerLeaderClothes[1 + 2 * input.U.BodySize] : input.Sprites.DeerLeaderClothes[0 + 2 * input.U.BodySize]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.DeerLeaderClothes[9 + 2 * input.Actor.Unit.BodySize] : input.Sprites.DeerLeaderClothes[8 + 2 * input.Actor.Unit.BodySize]);
+                    output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.DeerLeaderClothes[9 + 2 * input.U.BodySize] : input.Sprites.DeerLeaderClothes[8 + 2 * input.U.BodySize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1687,16 +1662,16 @@ internal static class Deer
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(15);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.HasBelly)
+                    if (input.A.HasBelly)
                     {
-                        output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[1 + 2 * input.Actor.Unit.BodySize]);
+                        output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[1 + 2 * input.U.BodySize]);
 
-                        if (input.Actor.GetStomachSize(31, 0.7f) < 4)
+                        if (input.A.GetStomachSize(31, 0.7f) < 4)
                         {
-                            output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[17 + 2 * input.Actor.Unit.BodySize]);
-                            output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[33 + 2 * input.Actor.Unit.BodySize]);
+                            output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[17 + 2 * input.U.BodySize]);
+                            output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[33 + 2 * input.U.BodySize]);
                         }
                         else
                         {
@@ -1706,21 +1681,21 @@ internal static class Deer
                     }
                     else
                     {
-                        output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[16 + 2 * input.Actor.Unit.BodySize]);
-                        output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[0 + 2 * input.Actor.Unit.BodySize]);
-                        output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[32 + 2 * input.Actor.Unit.BodySize]);
+                        output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[16 + 2 * input.U.BodySize]);
+                        output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[0 + 2 * input.U.BodySize]);
+                        output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[32 + 2 * input.U.BodySize]);
                     }
                 }
                 else
                 {
-                    if (input.Actor.HasBelly)
+                    if (input.A.HasBelly)
                     {
-                        output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[9 + 2 * input.Actor.Unit.BodySize]);
+                        output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[9 + 2 * input.U.BodySize]);
 
-                        if (input.Actor.GetStomachSize(31, 0.7f) < 4)
+                        if (input.A.GetStomachSize(31, 0.7f) < 4)
                         {
-                            output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[25 + 2 * input.Actor.Unit.BodySize]);
-                            output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[41 + 2 * input.Actor.Unit.BodySize]);
+                            output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[25 + 2 * input.U.BodySize]);
+                            output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[41 + 2 * input.U.BodySize]);
                         }
                         else
                         {
@@ -1730,14 +1705,14 @@ internal static class Deer
                     }
                     else
                     {
-                        output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[24 + 2 * input.Actor.Unit.BodySize]);
-                        output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[8 + 2 * input.Actor.Unit.BodySize]);
-                        output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[40 + 2 * input.Actor.Unit.BodySize]);
+                        output["Clothing1"].Sprite(input.Sprites.DeerLeaderClothes[24 + 2 * input.U.BodySize]);
+                        output["Clothing2"].Sprite(input.Sprites.DeerLeaderClothes[8 + 2 * input.U.BodySize]);
+                        output["Clothing3"].Sprite(input.Sprites.DeerLeaderClothes[40 + 2 * input.U.BodySize]);
                     }
                 }
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DeerLeaf, input.Actor.Unit.AccessoryColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.DeerLeaf, input.U.AccessoryColor));
             });
         });
     }
@@ -1759,7 +1734,7 @@ internal static class Deer
             {
                 output["Clothing1"].Layer(19);
                 output["Clothing1"].Sprite(input.Sprites.Deer4[105]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }

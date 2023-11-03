@@ -1,5 +1,6 @@
 ﻿#region
 
+using System.Collections.Generic;
 using MermenClothing;
 using UnityEngine;
 
@@ -9,6 +10,60 @@ internal static class Merfolk
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Merfolk", "Merfolk");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "walking fish", "merfolk", {"mermaid", Gender.Female}, {"merman", Gender.Male} },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Crude Trident",
+                [WeaponNames.Axe]         = "Royal Trident",
+                [WeaponNames.SimpleBow]   = "Scepter",
+                [WeaponNames.CompoundBow] = "Orb Staff"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 13,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Will,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.MagicResistance,
+                Traits.HealingBlood,
+                Traits.Slippery
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryType, "Head Fin");
+            buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace / Hair Ornament");
+            buttons.SetText(ButtonType.ExtraColor1, "Scale Color");
+            buttons.SetText(ButtonType.BodyAccentTypes2, "Tail Fin");
+            buttons.SetText(ButtonType.BodyAccentTypes3, "Arm Fin");
+            buttons.SetText(ButtonType.BodyAccentTypes4, "Eyebrow");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Neo Atlantis",
+            "Rapture",
+            "Templemer",
+            "Reefsong",
+            "Numenor",
+            "Thalassa",
+            "Amphitrite",
+            "Triton",
+            "Nautica",
+            "Poseidonia",
+            "Neptunia",
+            "Ulthuan",
+            "Nereidia",
+            "Pontus",
+            "Eurybia"
+        });
         IClothing leaderClothes = MermenLeader.MermenLeaderInstance;
         IClothing rags = MermenRags.MermenRagsInstance;
 
@@ -23,9 +78,9 @@ internal static class Merfolk
             output.SpecialAccessoryCount = 12; //ears
             output.MouthTypes = 8;
             output.AccessoryColors = 0;
-            output.HairColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.MermenHair);
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.MermenSkin);
-            output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.MermenSkin); // fish parts colors
+            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenHair);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin);
+            output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin); // fish parts colors
             output.BodyAccentTypes2 = 12; // tail fins
             output.BodyAccentTypes3 = 7; // arm fins
             output.BodyAccentTypes4 = 4; // eyebrows
@@ -69,13 +124,13 @@ internal static class Merfolk
         builder.RenderSingle(SpriteType.Head, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsEating)
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Mermen[20]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Mermen[21]);
             }
@@ -83,132 +138,132 @@ internal static class Merfolk
 
         builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Mermen[108 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            output.Sprite(input.Sprites.Mermen[108 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Mermen[22]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Mermen[23]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Mermen[24 + input.Actor.Unit.MouthType]);
+            output.Sprite(input.Sprites.Mermen[24 + input.U.MouthType]);
         });
 
         builder.RenderSingle(SpriteType.Hair, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Mermen[84 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Mermen[84 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Mermen[96 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Mermen[96 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen[0 + input.Actor.Unit.BodySize] : input.Sprites.Mermen[4 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[0 + input.U.BodySize] : input.Sprites.Mermen[4 + input.U.BodySize]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen[12 + input.Actor.Unit.BodySize] : input.Sprites.Mermen[16 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[12 + input.U.BodySize] : input.Sprites.Mermen[16 + input.U.BodySize]);
         }); // fish tail
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
-            output.Sprite(input.Sprites.Mermen[60 + input.Actor.Unit.BodyAccentType2]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
+            output.Sprite(input.Sprites.Mermen[60 + input.U.BodyAccentType2]);
         }); //tail fins
         builder.RenderSingle(SpriteType.BodyAccent3, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
+            if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.Mermen[32 + (input.Actor.IsAttacking ? 1 : 0) + 4 * input.Actor.Unit.BodyAccentType3]);
+                output.Sprite(input.Sprites.Mermen[32 + (input.A.IsAttacking ? 1 : 0) + 4 * input.U.BodyAccentType3]);
             }
             else
             {
-                output.Sprite(input.Sprites.Mermen[34 + (input.Actor.IsAttacking ? 1 : 0) + 4 * input.Actor.Unit.BodyAccentType3]);
+                output.Sprite(input.Sprites.Mermen[34 + (input.A.IsAttacking ? 1 : 0) + 4 * input.U.BodyAccentType3]);
             }
         }); // arm fins
 
         builder.RenderSingle(SpriteType.BodyAccent4, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Mermen[116 + input.Actor.Unit.BodyAccentType4]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Mermen[116 + input.U.BodyAccentType4]);
         }); // eyebrows
         builder.RenderSingle(SpriteType.BodyAccent5, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen[8 + (input.Actor.IsAttacking ? 1 : 0)] : input.Sprites.Mermen[10 + (input.Actor.IsAttacking ? 1 : 0)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[8 + (input.A.IsAttacking ? 1 : 0)] : input.Sprites.Mermen[10 + (input.A.IsAttacking ? 1 : 0)]);
         }); // arms
 
         builder.RenderSingle(SpriteType.BodyAccessory, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
-            output.Sprite(input.Sprites.Mermen[72 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
+            output.Sprite(input.Sprites.Mermen[72 + input.U.SpecialAccessoryType]);
         }); // ears
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen[120 + input.Actor.Unit.BreastSize] : null);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[120 + input.U.BreastSize] : null);
         });
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Belly].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
         });
 
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Dick].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
         });
 
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Balls].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
         });
         
         builder.RenderSingle(SpriteType.Weapon, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Mermen[128 + input.Actor.GetWeaponSprite()]);
-                output.Layer(input.Actor.IsAttacking ? 20 : 3);
+                output.Sprite(input.Sprites.Mermen[128 + input.A.GetWeaponSprite()]);
+                output.Layer(input.A.IsAttacking ? 20 : 3);
             }
         });
 
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.Unit.Predator && input.Actor.GetStomachSize(16) > 5)
+            if (input.U.Predator && input.A.GetStomachSize(16) > 5)
             {
                 output.ChangeSprite(SpriteType.Belly).AddOffset(0, 13);
                 output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
                 output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
             }
-            else if (input.Actor.Unit.Predator && input.Actor.GetStomachSize(16) > 3)
+            else if (input.U.Predator && input.A.GetStomachSize(16) > 3)
             {
                 output.ChangeSprite(SpriteType.Belly).AddOffset(0, 12);
                 output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
                 output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
             }
-            else if (input.Actor.Unit.Predator && input.Actor.GetStomachSize(16) > 2)
+            else if (input.U.Predator && input.A.GetStomachSize(16) > 2)
             {
                 output.ChangeSprite(SpriteType.Belly).AddOffset(0, 11);
                 output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
@@ -229,7 +284,7 @@ internal static class Merfolk
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, rags);
                 if (unit.ClothingType == -1) //Covers rags not in the list
                 {
                     unit.ClothingType = 1;
@@ -238,7 +293,7 @@ internal static class Merfolk
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, leaderClothes);
             }
 
             if (unit.HasDick && unit.HasBreasts)
@@ -300,9 +355,9 @@ namespace MermenClothing
             {
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[24 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Mermen2[24 + input.U.BreastSize]);
                 }
             });
         });
@@ -326,9 +381,9 @@ namespace MermenClothing
             {
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[40 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Mermen2[40 + input.U.BreastSize]);
                 }
             });
         });
@@ -352,9 +407,9 @@ namespace MermenClothing
             {
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[52 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Mermen2[52 + input.U.BreastSize]);
                 }
             });
         });
@@ -375,18 +430,18 @@ namespace MermenClothing
             {
                 output["Clothing2"].Layer(11);
                 output["Clothing1"].Layer(18);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[60 + input.Actor.Unit.BreastSize]);
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
-                    output["Clothing2"].Sprite(input.Sprites.Mermen2[68 + input.Actor.Unit.BodySize]);
-                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
+                    output["Clothing1"].Sprite(input.Sprites.Mermen2[60 + input.U.BreastSize]);
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
+                    output["Clothing2"].Sprite(input.Sprites.Mermen2[68 + input.U.BodySize]);
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
-                    output["Clothing2"].Sprite(input.Sprites.Mermen2[132 + input.Actor.Unit.BodySize]);
-                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
+                    output["Clothing2"].Sprite(input.Sprites.Mermen2[132 + input.U.BodySize]);
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
                 }
             });
         });
@@ -413,15 +468,15 @@ namespace MermenClothing
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[98 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Mermen2[90 + input.Actor.Unit.BodySize]);
+                    output["Clothing1"].Sprite(input.Sprites.Mermen2[98 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Mermen2[90 + input.U.BodySize]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(input.Sprites.Mermen2[106]);
-                    output["Clothing2"].Sprite(input.Sprites.Mermen2[94 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Mermen2[94 + input.U.BodySize]);
                 }
             });
         });
@@ -448,13 +503,13 @@ namespace MermenClothing
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize < 3)
+                    if (input.U.BreastSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Mermen2[129]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Mermen2[130]);
                     }
@@ -463,12 +518,12 @@ namespace MermenClothing
                         output["Clothing1"].Sprite(input.Sprites.Mermen2[131]);
                     }
 
-                    output["Clothing2"].Sprite(input.Sprites.Mermen2[120 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Mermen2[120 + input.U.BodySize]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(input.Sprites.Mermen2[128]);
-                    output["Clothing2"].Sprite(input.Sprites.Mermen2[124 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Mermen2[124 + input.U.BodySize]);
                 }
             });
         });
@@ -498,15 +553,15 @@ namespace MermenClothing
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[80 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Mermen2[72 + input.Actor.Unit.BodySize]);
+                    output["Clothing1"].Sprite(input.Sprites.Mermen2[80 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Mermen2[72 + input.U.BodySize]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(input.Sprites.Mermen2[89]);
-                    output["Clothing2"].Sprite(input.Sprites.Mermen2[76 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Mermen2[76 + input.U.BodySize]);
                 }
 
                 output["Clothing3"].Sprite(input.Sprites.Mermen2[88]);
@@ -527,9 +582,9 @@ namespace MermenClothing
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen2[0 + input.Actor.Unit.BodySize] : input.Sprites.Mermen2[4 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.Mermen2[0 + input.U.BodySize] : input.Sprites.Mermen2[4 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
             });
         });
     }
@@ -547,9 +602,9 @@ namespace MermenClothing
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen2[8 + input.Actor.Unit.BodySize] : input.Sprites.Mermen2[12 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.Mermen2[8 + input.U.BodySize] : input.Sprites.Mermen2[12 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
             });
         });
     }
@@ -567,9 +622,9 @@ namespace MermenClothing
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen2[32 + input.Actor.Unit.BodySize] : input.Sprites.Mermen2[36 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.Mermen2[32 + input.U.BodySize] : input.Sprites.Mermen2[36 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MermenSkin, input.Actor.Unit.ExtraColor1));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
             });
         });
     }
@@ -592,7 +647,7 @@ namespace MermenClothing
             {
                 output["Clothing1"].Layer(11);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Mermen2[16 + input.Actor.Unit.BodySize] : input.Sprites.Mermen2[20 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.Mermen2[16 + input.U.BodySize] : input.Sprites.Mermen2[20 + input.U.BodySize]);
             });
         });
     }
@@ -614,9 +669,9 @@ namespace MermenClothing
             {
                 output["Clothing1"].Layer(11);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Mermen2[48 + input.Actor.Unit.BodySize]);
+                    output["Clothing1"].Sprite(input.Sprites.Mermen2[48 + input.U.BodySize]);
                 }
             });
         });

@@ -1,7 +1,7 @@
 ﻿#region
 
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 
 #endregion
 
@@ -12,14 +12,31 @@ internal interface ISingleRenderFunc
 
 internal class SingleRenderFunc<T> : ISingleRenderFunc where T : IParameters
 {
-    internal readonly Action<IRaceRenderInput<T>, IRaceRenderOutput> Generator;
-    internal Func<IRaceRenderInput<T>, IRaceRenderOutput> GeneratorMod; // TODO temp testing
+    private readonly List<Action<IRaceRenderInput<T>, IRaceRenderOutput>> _generators = new List<Action<IRaceRenderInput<T>, IRaceRenderOutput>>();
 
     internal SingleRenderFunc(int layer, Action<IRaceRenderInput<T>, IRaceRenderOutput> generator)
     {
         Layer = layer;
-        Generator = generator;
+        _generators.Add(generator);
     }
 
-    public int Layer { get; private set; }
+    internal void ModAfter(Action<IRaceRenderInput<T>, IRaceRenderOutput> generator)
+    {
+        _generators.Add(generator);
+    }
+    
+    internal void ModBefore(Action<IRaceRenderInput<T>, IRaceRenderOutput> generator)
+    {
+        _generators.Insert(0, generator);
+    }
+    
+    public void Invoke(IRaceRenderInput<T> input, IRaceRenderOutput output)
+    {
+        foreach (Action<IRaceRenderInput<T>,IRaceRenderOutput> generator in _generators)
+        {
+            generator.Invoke(input, output);
+        }
+    }
+
+    public int Layer { get; }
 }

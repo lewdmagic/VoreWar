@@ -32,7 +32,7 @@ public class RaceDropdownBox : MonoBehaviour
     public void YesClicked()
     {
         var strings = Dropdown.captionText.text.Split(' ');
-        if (Enum.TryParse(strings[0], out Race race))
+        if (RaceFuncs.TryParse(strings[0], out Race race))
         {
             YesAction?.Invoke(race);
         }

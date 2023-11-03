@@ -26,7 +26,7 @@ class StrategicArmyCommander
 
     internal float StrongestArmyRatio { get; private set; }
 
-    int AISide => empire.Side;
+    Side AISide => empire.Side;
 
     public StrategicArmyCommander(Empire empire, int maxSize, bool smarterAI)
     {
@@ -110,7 +110,7 @@ class StrategicArmyCommander
             foreach (Unit unit in army.Units)
             {
                 StrategicUtilities.SpendLevelUps(unit);
-                if (unit.HasTrait(Traits.Infiltrator) && unit.Type != UnitType.Leader && unit.FixedSide == army.Side)
+                if (unit.HasTrait(Traits.Infiltrator) && unit.Type != UnitType.Leader && Equals(unit.FixedSide, army.Side))
                     infiltrators.Add(unit);
             }
             infiltrators.ForEach(u => StrategicUtilities.TryInfiltrateRandom(army, u));
@@ -356,7 +356,7 @@ class StrategicArmyCommander
                 if (StrategicUtilities.TileThreat(Villages[i].Position) < MaxDefenderStrength * StrategicUtilities.ArmyPower(army))
                 {
                     potentialTargets.Add(Villages[i].Position);
-                    int value = Villages[i].Race == empire.ReplacedRace ? 45 : ((State.World.GetEmpireOfRace(Villages[i].Race)?.IsAlly(empire) ?? false) ? 40 : 35);
+                    int value = Equals(Villages[i].Race, empire.ReplacedRace) ? 45 : ((State.World.GetEmpireOfRace(Villages[i].Race)?.IsAlly(empire) ?? false) ? 40 : 35);
                     if (Villages[i].GetTotalPop() == 0)
                         value = 30;
                     value -= Villages[i].Position.GetNumberOfMovesDistance(capitalPosition) / 3;
@@ -370,7 +370,7 @@ class StrategicArmyCommander
             if (!hostileArmy.Units.All(u => u.HasTrait(Traits.Infiltrator)) && StrategicUtilities.ArmyPower(hostileArmy) < MaxDefenderStrength * StrategicUtilities.ArmyPower(army) && hostileArmy.InVillageIndex == -1)
             {
                 potentialTargets.Add(hostileArmy.Position);
-                if (hostileArmy.Side >= 100 || hostileArmy.Side == (int)Race.Goblins) //If Monster
+                if (RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(hostileArmy.Side) || Equals(hostileArmy.Side, Race.Goblins.ToSide())) //If Monster
                     potentialTargetValue.Add(12);
                 else
                     potentialTargetValue.Add(42 - hostileArmy.Position.GetNumberOfMovesDistance(capitalPosition) / 3);
@@ -412,7 +412,7 @@ class StrategicArmyCommander
         float need = 32 * (((float)maxArmySize - army.Units.Count()) / maxArmySize) + StrategicUtilities.NumberOfDesiredUpgrades(army);
         if (need > 4 && empire.Gold >= 40 && empire.Income > 25)
         {
-            var path = StrategyPathfinder.GetPathToClosestObject(empire, army, Villages.Where(s => s.Side == army.Side).Select(s => s.Position).ToArray(), army.RemainingMP, 5, army.movementMode == Army.MovementMode.Flight);
+            var path = StrategyPathfinder.GetPathToClosestObject(empire, army, Villages.Where(s => Equals(s.Side, army.Side)).Select(s => s.Position).ToArray(), army.RemainingMP, 5, army.movementMode == Army.MovementMode.Flight);
             if (path != null && path.Count() < need / 2)
                 army.AIMode = AIMode.Resupply;
 

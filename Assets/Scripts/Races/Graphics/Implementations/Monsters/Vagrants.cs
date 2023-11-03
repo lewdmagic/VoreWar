@@ -9,6 +9,54 @@ internal static class Vagrants
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<VargantParameters>, builder =>
     {
+        builder.Names("Vagrant", "Vagrants");
+        builder.BonesInfo(null);
+        builder.FlavorText(new FlavorText(
+            new Texts { "tentacled", "rubbery", "alien" },
+            new Texts { "alien", "stretchy", "translucent" },
+            new Texts { "vagrant", "jellyfish", "medusa" },
+            "Stinger"
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 8,
+            StomachSize = 13,
+            HasTail = false,
+            FavoredStat = Stat.Agility,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.25f,
+            PowerAdjustment = 1f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(10, 26),
+                Dexterity = new RaceStats.StatRange(6, 14),
+                Endurance = new RaceStats.StatRange(12, 20),
+                Mind = new RaceStats.StatRange(10, 22),
+                Will = new RaceStats.StatRange(4, 12),
+                Agility = new RaceStats.StatRange(8, 20),
+                Voracity = new RaceStats.StatRange(10, 18),
+                Stomach = new RaceStats.StatRange(20, 30),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.DoubleAttack,
+                Traits.Paralyzer
+            },
+            RaceDescription = "It is a matter of argument whether these beings emerged from the ocean or fell from the skies, or are even a mix of both, but they are among the first and oldest native threats the people who settled this realm faced. Their many tentacles paralyze those they touch and their rubbery bodies easily expand to engulf their prey.",
+        });
+        builder.IndividualNames(new List<string>
+        {
+            "Tenty",
+            "Stingy",
+            "Rubby",
+            "Gulfy",
+            "Weedy",
+            "Squishy",
+            "Waddle",
+            "Waddly",
+            "Domy",
+        });
+        
         builder.Setup(output =>
         {
             output.CanBeGender = new List<Gender> { Gender.None };
@@ -19,7 +67,7 @@ internal static class Vagrants
         builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Params.Sprites[28]);
                 return;
@@ -31,13 +79,13 @@ internal static class Vagrants
         builder.RenderSingle(SpriteType.BodyAccessory, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsEating)
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Params.Sprites[3]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Params.Sprites[4]);
                 return;
@@ -49,7 +97,7 @@ internal static class Vagrants
         builder.RenderSingle(SpriteType.SecondaryAccessory, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Params.Sprites[1]);
                 return;
@@ -61,81 +109,15 @@ internal static class Vagrants
         builder.RenderSingle(SpriteType.Belly, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                if (input.Actor.IsAttacking || input.Actor.IsEating)
+                if (input.A.IsAttacking || input.A.IsEating)
                 {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
-                    {
-                        output.Sprite(input.Params.Sprites[50]);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach))
-                    {
-                        if (input.Actor.GetStomachSize(16, .60f) == 16)
-                        {
-                            output.Sprite(input.Params.Sprites[49]);
-                            return;
-                        }
-
-                        if (input.Actor.GetStomachSize(16, .70f) == 16)
-                        {
-                            output.Sprite(input.Params.Sprites[48]);
-                            return;
-                        }
-
-                        if (input.Actor.GetStomachSize(16, .80f) == 16)
-                        {
-                            output.Sprite(input.Params.Sprites[47]);
-                            return;
-                        }
-
-                        if (input.Actor.GetStomachSize(16, .90f) == 16)
-                        {
-                            output.Sprite(input.Params.Sprites[46]);
-                            return;
-                        }
-                    }
-
-                    output.Sprite(input.Params.Sprites[29 + input.Actor.GetStomachSize(16)]);
+                    output.Sprite(input.Params.Sprites[29 + input.A.GetStomachSize(16)]);
                     return;
                 }
 
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
-                {
-                    output.Sprite(input.Params.Sprites[27]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach))
-                {
-                    if (input.Actor.GetStomachSize(16, .60f) == 16)
-                    {
-                        output.Sprite(input.Params.Sprites[26]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(16, .70f) == 16)
-                    {
-                        output.Sprite(input.Params.Sprites[25]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(16, .80f) == 16)
-                    {
-                        output.Sprite(input.Params.Sprites[24]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(16, .90f) == 16)
-                    {
-                        output.Sprite(input.Params.Sprites[23]);
-                        return;
-                    }
-                }
-
-                output.Sprite(input.Params.Sprites[6 + input.Actor.GetStomachSize(16)]);
+                output.Sprite(input.Params.Sprites[6 + input.A.GetStomachSize(16)]);
             }
         });
 
@@ -149,7 +131,7 @@ internal static class Vagrants
                 State.GameManager.SpriteDictionary.Vagrants3
             };
 
-            output.Params.Sprites = vagrantSprites[Mathf.Clamp(input.Actor.Unit.SkinColor, 0, 2)];
+            output.Params.Sprites = vagrantSprites[Mathf.Clamp(input.U.SkinColor, 0, 2)];
 
             output.ChangeSprite(SpriteType.Body).AddOffset(0, 60 * .625f);
             output.ChangeSprite(SpriteType.BodyAccessory).AddOffset(0, 60 * .625f);

@@ -78,9 +78,9 @@ class ScatV2Discard : MiscDiscard
             if (color != -1)
             {
                 if (bonesInfo.boneTypes == BoneTypes.CrypterBonePile)
-                    boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CrypterWeapon, color).colorSwapMaterial;
+                    boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.CrypterWeapon, color).colorSwapMaterial;
                 else if (bonesInfo.boneTypes == BoneTypes.SlimePile)
-                    boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeMain, color).colorSwapMaterial;
+                    boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.SlimeMain, color).colorSwapMaterial;
             }
         }
     }

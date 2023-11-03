@@ -66,17 +66,17 @@ namespace CruxClothing
             {
                 output["Clothing1"].Layer(14);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.U.ClothingColor));
 
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.PredatorComponent?.VisibleFullness == 0)
+                    if (input.A.PredatorComponent?.VisibleFullness == 0)
                     {
-                        if (input.Actor.Unit.BreastSize <= 1)
+                        if (input.U.BreastSize <= 1)
                         {
                             output["Clothing1"].Sprite(input.Sprites.Crux[315]);
                         }
-                        else if (input.Actor.Unit.BreastSize <= 3)
+                        else if (input.U.BreastSize <= 3)
                         {
                             output["Clothing1"].Sprite(input.Sprites.Crux[316]);
                         }
@@ -85,13 +85,13 @@ namespace CruxClothing
                             output["Clothing1"].Sprite(input.Sprites.Crux[317]);
                         }
                     }
-                    else if (input.Actor.GetStomachSize(23) <= 4)
+                    else if (input.A.GetStomachSize(23) <= 4)
                     {
-                        if (input.Actor.Unit.BreastSize <= 1)
+                        if (input.U.BreastSize <= 1)
                         {
                             output["Clothing1"].Sprite(input.Sprites.Crux[319]);
                         }
-                        else if (input.Actor.Unit.BreastSize <= 3)
+                        else if (input.U.BreastSize <= 3)
                         {
                             output["Clothing1"].Sprite(input.Sprites.Crux[320]);
                         }
@@ -102,11 +102,11 @@ namespace CruxClothing
                     }
                     else
                     {
-                        if (input.Actor.Unit.BreastSize <= 1)
+                        if (input.U.BreastSize <= 1)
                         {
                             output["Clothing1"].Sprite(input.Sprites.Crux[323]);
                         }
-                        else if (input.Actor.Unit.BreastSize <= 3)
+                        else if (input.U.BreastSize <= 3)
                         {
                             output["Clothing1"].Sprite(input.Sprites.Crux[324]);
                         }
@@ -118,11 +118,11 @@ namespace CruxClothing
                 }
                 else
                 {
-                    if (input.Actor.PredatorComponent?.VisibleFullness == 0)
+                    if (input.A.PredatorComponent?.VisibleFullness == 0)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Crux[314]);
                     }
-                    else if (input.Actor.GetStomachSize(23) <= 4)
+                    else if (input.A.GetStomachSize(23) <= 4)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Crux[318]);
                     }
@@ -153,7 +153,7 @@ namespace CruxClothing
             {
                 output["Clothing1"].Layer(14);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.U.ClothingColor));
                 output["Clothing1"].Sprite(input.Sprites.Crux[326]);
             });
         });
@@ -178,12 +178,12 @@ namespace CruxClothing
             {
                 output["Clothing1"].Layer(14);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.Actor.Unit.ClothingColor));
-                if (input.Actor.Unit.BreastSize <= 1)
+                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.U.ClothingColor));
+                if (input.U.BreastSize <= 1)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Crux[327]);
                 }
-                else if (input.Actor.Unit.BreastSize <= 3)
+                else if (input.U.BreastSize <= 3)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Crux[328]);
                 }
@@ -216,20 +216,20 @@ namespace CruxClothing
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(14);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.GetStomachSize(23) <= 5)
+                if (input.A.GetStomachSize(23) <= 5)
                 {
                     output["Clothing1"].Layer(14);
-                    output["Clothing1"].Sprite(input.Actor.Unit.BreastSize <= 3 ? input.Sprites.Crux[341] : input.Sprites.Crux[344]);
+                    output["Clothing1"].Sprite(input.U.BreastSize <= 3 ? input.Sprites.Crux[341] : input.Sprites.Crux[344]);
                 }
-                else if (input.Actor.GetStomachSize(23) <= 10)
+                else if (input.A.GetStomachSize(23) <= 10)
                 {
                     output["Clothing1"].Layer(14);
-                    output["Clothing1"].Sprite(input.Actor.Unit.BreastSize <= 3 ? input.Sprites.Crux[342] : input.Sprites.Crux[345]);
+                    output["Clothing1"].Sprite(input.U.BreastSize <= 3 ? input.Sprites.Crux[342] : input.Sprites.Crux[345]);
                 }
                 else
                 {
                     output["Clothing1"].Layer(11);
-                    output["Clothing1"].Sprite(input.Actor.Unit.BreastSize <= 3 ? input.Sprites.Crux[343] : input.Sprites.Crux[346]);
+                    output["Clothing1"].Sprite(input.U.BreastSize <= 3 ? input.Sprites.Crux[343] : input.Sprites.Crux[346]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Crux[347]);
@@ -255,16 +255,16 @@ namespace CruxClothing
             {
                 output["Clothing1"].Layer(9);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.Actor.Unit.ClothingColor2));
-                if (input.Actor.Unit.DickSize == -1)
+                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.U.ClothingColor2));
+                if (input.U.DickSize == -1)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Crux[330]);
                 }
-                else if (input.Actor.Unit.DickSize <= 2)
+                else if (input.U.DickSize <= 2)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Crux[331]);
                 }
-                else if (input.Actor.Unit.DickSize <= 5)
+                else if (input.U.DickSize <= 5)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Crux[332]);
                 }
@@ -294,16 +294,16 @@ namespace CruxClothing
             {
                 output["Clothing1"].Layer(9);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.Actor.Unit.ClothingColor2));
-                if (input.Actor.Unit.DickSize == -1)
+                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.U.ClothingColor2));
+                if (input.U.DickSize == -1)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Crux[334]);
                 }
-                else if (input.Actor.Unit.DickSize <= 2)
+                else if (input.U.DickSize <= 2)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Crux[335]);
                 }
-                else if (input.Actor.Unit.DickSize <= 5)
+                else if (input.U.DickSize <= 5)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Crux[336]);
                 }
@@ -357,7 +357,7 @@ namespace CruxClothing
             {
                 output["Clothing1"].Layer(9);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.Actor.Unit.ClothingColor2));
+                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.U.ClothingColor2));
                 output["Clothing1"].Sprite(input.Sprites.Crux[339]);
             });
         });
@@ -382,7 +382,7 @@ namespace CruxClothing
             {
                 output["Clothing1"].Layer(9);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.Actor.Unit.ClothingColor2));
+                output["Clothing1"].Coloring(ColorMap.GetClothingColor(input.U.ClothingColor2));
                 output["Clothing1"].Sprite(input.Sprites.Crux[338]);
             });
         });
@@ -408,7 +408,7 @@ namespace CruxClothing
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(14);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     output["Clothing1"].Layer(14);
                     // TODO changing discard sprite dymanically is currently not supported

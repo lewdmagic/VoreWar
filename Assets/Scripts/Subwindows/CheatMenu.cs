@@ -43,7 +43,7 @@ public class CheatMenu : MonoBehaviour
         {
             foreach (Empire empire in State.World.MainEmpires)
             {
-                if (empire.Side >= 700)
+                if (RaceFuncs.IsRebelOrBandit5(empire.Side))
                     continue;
                 FirstRaceDropdown.options.Add(new TMP_Dropdown.OptionData(empire.Name));
                 SecondRaceDropdown.options.Add(new TMP_Dropdown.OptionData(empire.Name));
@@ -54,7 +54,7 @@ public class CheatMenu : MonoBehaviour
             {
                 foreach (Empire empire in State.World.MonsterEmpires)
                 {
-                    if (empire.Side >= 700)
+                    if (RaceFuncs.IsRebelOrBandit5(empire.Side))
                         continue;
                     EmpireReplaced.options.Add(new TMP_Dropdown.OptionData(empire.Name));
                 }
@@ -76,7 +76,7 @@ public class CheatMenu : MonoBehaviour
             EmpireReplaced.RefreshShownValue();
             ReplacementRace.RefreshShownValue();
 
-            foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
+            foreach (Race race in RaceFuncs.RaceEnumerable())
             {
                 ReplacementRace.options.Add(new TMP_Dropdown.OptionData(race.ToString()));
             }
@@ -101,7 +101,7 @@ public class CheatMenu : MonoBehaviour
         EmpireDropdown.ClearOptions();
         if (State.World.MainEmpires != null)
         {
-            foreach (Empire empire in State.World.MainEmpires.Where(s => s.Side < 100))
+            foreach (Empire empire in State.World.MainEmpires.Where(s => RaceFuncs.IsMainRaceOrMerc(s.Side)))
             {
                 EmpireDropdown.options.Add(new TMP_Dropdown.OptionData(empire.Name));
             }
@@ -135,7 +135,7 @@ public class CheatMenu : MonoBehaviour
         if (emp == null)
         {
             Empire monsterEmp = State.World.MonsterEmpires.Where(s => s.Name == EmpireReplaced.captionText.text).FirstOrDefault();
-            if (Enum.TryParse(ReplacementRace.captionText.text, out Race monRace))
+            if (RaceFuncs.TryParse(ReplacementRace.captionText.text, out Race monRace))
             {
                 monsterEmp.ReplacedRace = monRace;
             }
@@ -143,9 +143,9 @@ public class CheatMenu : MonoBehaviour
             return;
         }
 
-        if (Enum.TryParse(ReplacementRace.captionText.text, out Race race))
+        if (RaceFuncs.TryParse(ReplacementRace.captionText.text, out Race race))
         {
-            foreach (Village village in State.World.Villages.Where(s => s.Side == emp.Side))
+            foreach (Village village in State.World.Villages.Where(s => Equals(s.Side, emp.Side)))
             {
                 village.Race = race;
                 village.OriginalRace = race;
@@ -255,11 +255,11 @@ public class CheatMenu : MonoBehaviour
         }
         foreach (Empire firstEmpire in State.World.MainEmpires)
         {
-            if (firstEmpire.Side >= 700)
+            if (RaceFuncs.IsRebelOrBandit5(firstEmpire.Side))
                 continue;
             foreach (Empire secondEmpire in State.World.MainEmpires)
             {
-                if (secondEmpire.Side >= 700)
+                if (RaceFuncs.IsRebelOrBandit5(secondEmpire.Side))
                     continue;
                 if (firstEmpire == secondEmpire)
                     continue;
@@ -283,17 +283,17 @@ public class CheatMenu : MonoBehaviour
             return;
         }
 
-        int firstSide;
+        Side firstSide;
         if (FirstRaceDropdown.value < State.World.MainEmpires.Count - 2)
             firstSide = State.World.MainEmpires[FirstRaceDropdown.value].Side;
         else
             firstSide = State.World.MonsterEmpires[7].Side;
-        int secondSide;
+        Side secondSide;
         if (SecondRaceDropdown.value < State.World.MainEmpires.Count - 2)
             secondSide = State.World.MainEmpires[SecondRaceDropdown.value].Side;
         else
             secondSide = State.World.MonsterEmpires[7].Side;
-        if (firstSide != secondSide)
+        if (!Equals(firstSide, secondSide))
         {
             Relation = RelationsManager.GetRelation(firstSide, secondSide);
             CounterRelation = RelationsManager.GetRelation(secondSide, firstSide);

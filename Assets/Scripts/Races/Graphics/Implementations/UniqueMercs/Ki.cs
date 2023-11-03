@@ -12,6 +12,41 @@ internal static class Ki
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Ki", "Ki");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "small creature", "furry critter" },
+            "Jaws"
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 22,
+            HasTail = true,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore },
+            ExpMultiplier = 1.2f,
+            PowerAdjustment = 1.5f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(5, 7),
+                Dexterity = new RaceStats.StatRange(5, 7),
+                Endurance = new RaceStats.StatRange(9, 11),
+                Mind = new RaceStats.StatRange(8, 12),
+                Will = new RaceStats.StatRange(18, 22),
+                Agility = new RaceStats.StatRange(20, 24),
+                Voracity = new RaceStats.StatRange(18, 22),
+                Stomach = new RaceStats.StatRange(18, 22),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.ArtfulDodge,
+                Traits.KeenReflexes,
+                Traits.StrongGullet,
+            },
+            RaceDescription = "A member of a race that uses its small size and unthreathening appearance to lure in potential prey, Ki decided that becoming a mercenary suited him fine. After all, he'd be paid for getting free meals!",
+        });
         RaceFrameList frameListTail = new RaceFrameList(new int[9] { 1, 2, 0, 3, 4, 3, 0, 2, 1 },
             new float[9] { 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f });
         RaceFrameList frameListFap = new RaceFrameList(
@@ -35,43 +70,43 @@ internal static class Ki
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.AnimationController.frameLists == null)
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            if (input.Actor.GetBallSize(9, 0.48f) > 0)
+            if (input.A.GetBallSize(9, 0.48f) > 0)
             {
-                if (!input.Actor.Targetable)
+                if (!input.A.Targetable)
                 {
                     output.Sprite(input.Sprites.Ki[31]);
                     return;
                 }
 
-                if (input.Actor.AnimationController.frameLists[1].currentlyActive)
+                if (input.A.AnimationController.frameLists[1].currentlyActive)
                 {
-                    if (input.Actor.AnimationController.frameLists[1].currentTime >=
-                        frameListFap.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.frameLists[1].currentTime >=
+                        frameListFap.Times[input.A.AnimationController.frameLists[0].currentFrame])
                     {
-                        input.Actor.AnimationController.frameLists[1].currentFrame++;
-                        input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                        input.A.AnimationController.frameLists[1].currentFrame++;
+                        input.A.AnimationController.frameLists[1].currentTime = 0f;
 
-                        if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListFap.Frames.Length)
+                        if (input.A.AnimationController.frameLists[1].currentFrame >= frameListFap.Frames.Length)
                         {
-                            input.Actor.AnimationController.frameLists[1].currentlyActive = false;
-                            input.Actor.AnimationController.frameLists[1].currentFrame = 0;
-                            input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                            input.A.AnimationController.frameLists[1].currentlyActive = false;
+                            input.A.AnimationController.frameLists[1].currentFrame = 0;
+                            input.A.AnimationController.frameLists[1].currentTime = 0f;
                         }
                     }
 
                     output.Sprite(input.Sprites.Ki[
-                        31 + frameListFap.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                        31 + frameListFap.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
                     return;
                 }
 
-                if (input.Actor.PredatorComponent?.BallsFullness > 0 && State.Rand.Next(800) == 0)
+                if (input.A.PredatorComponent?.BallsFullness > 0 && State.Rand.Next(800) == 0)
                 {
-                    input.Actor.AnimationController.frameLists[1].currentlyActive = true;
+                    input.A.AnimationController.frameLists[1].currentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Ki[31]);
@@ -81,7 +116,7 @@ internal static class Ki
             int bellySize = BellySize(input.Actor);
             if (bellySize > 13)
             {
-                if (input.Actor.IsOralVoring)
+                if (input.A.IsOralVoring)
                 {
                     output.Sprite(input.Sprites.Ki[7]);
                     return;
@@ -91,7 +126,7 @@ internal static class Ki
                 return;
             }
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Ki[1]);
                 return;
@@ -124,43 +159,43 @@ internal static class Ki
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.GetBallSize(9, 0.48f) > 0)
+            if (input.A.GetBallSize(9, 0.48f) > 0)
             {
-                if (!input.Actor.Targetable)
+                if (!input.A.Targetable)
                 {
                     output.Sprite(input.Sprites.Ki[35]);
                     return;
                 }
 
-                if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.frameLists[0].currentlyActive)
                 {
-                    if (input.Actor.AnimationController.frameLists[0].currentTime >=
-                        frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.frameLists[0].currentTime >=
+                        frameListTail.Times[input.A.AnimationController.frameLists[0].currentFrame])
                     {
-                        input.Actor.AnimationController.frameLists[0].currentFrame++;
-                        input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.frameLists[0].currentFrame++;
+                        input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                        if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
+                        if (input.A.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                         {
-                            input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                            input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                            input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.frameLists[0].currentlyActive = false;
+                            input.A.AnimationController.frameLists[0].currentFrame = 0;
+                            input.A.AnimationController.frameLists[0].currentTime = 0f;
                         }
                     }
 
-                    switch (frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame])
+                    switch (frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame])
                     {
                         case 0: return;
                         default:
                             output.Sprite(input.Sprites.Ki[
-                                34 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                                34 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                             break;
                     }
                 }
 
                 if (State.Rand.Next(500) == 0)
                 {
-                    input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.frameLists[0].currentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Ki[35]);
@@ -177,12 +212,12 @@ internal static class Ki
         builder.RenderSingle(SpriteType.Belly, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.GetBallSize(9, 0.48f) > 0)
+            if (input.A.GetBallSize(9, 0.48f) > 0)
             {
                 return;
             }
 
-            if (input.Actor.Unit.Predator == false || input.Actor.PredatorComponent.VisibleFullness == 0)
+            if (input.U.Predator == false || input.A.PredatorComponent.VisibleFullness == 0)
             {
                 return;
             }
@@ -267,23 +302,23 @@ internal static class Ki
         builder.RenderSingle(SpriteType.Dick, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.GetBallSize(9, 0.48f) >= 1)
+            if (input.A.GetBallSize(9, 0.48f) >= 1)
             {
                 return;
             }
 
-            if (input.Actor.IsCockVoring)
+            if (input.A.IsCockVoring)
             {
                 output.Sprite(input.Sprites.Ki[30]);
                 return;
             }
 
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 return;
             }
 
-            if (!Config.HideCocks && (input.Actor.PredatorComponent?.VisibleFullness ?? 0) == 0)
+            if (!Config.HideCocks && (input.A.PredatorComponent?.VisibleFullness ?? 0) == 0)
             {
                 output.Sprite(input.Sprites.Ki[3]);
             }
@@ -292,19 +327,19 @@ internal static class Ki
         builder.RenderSingle(SpriteType.Balls, 0, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.GetBallSize(9, 0.48f) <= 0)
+            if (input.A.GetBallSize(9, 0.48f) <= 0)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) &&
-                input.Actor.GetBallSize(9, .48f) == 9)
+            if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) &&
+                input.A.GetBallSize(9, .48f) == 9)
             {
                 output.Sprite(input.Sprites.Ki[47]);
                 return;
             }
 
-            switch (input.Actor.GetBallSize(9, 0.48f))
+            switch (input.A.GetBallSize(9, 0.48f))
             {
                 case 1:
                     output.Sprite(input.Sprites.Ki[39]);
@@ -340,17 +375,17 @@ internal static class Ki
             float bodyAccent2 = 0;
             float body = 0;
 
-            if (input.Actor.GetBallSize(9, 0.48f) > 0)
+            if (input.A.GetBallSize(9, 0.48f) > 0)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) &&
-                    input.Actor.GetBallSize(9, .48f) == 9)
+                if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) &&
+                    input.A.GetBallSize(9, .48f) == 9)
                 {
                     bodyAccent2 = 110;
                     body = 110;
                 }
                 else
                 {
-                    switch (input.Actor.GetBallSize(9, 0.48f))
+                    switch (input.A.GetBallSize(9, 0.48f))
                     {
                         case 1:
                         {

@@ -56,10 +56,10 @@ public class VillageBuildingDefinition
         if (village.buildings.Contains(Id) == true) return false;
 
 
-        var subjugationRequirementMet = (RequiresSubjugatedRace == false) || (village.Side != (int)village.Race);
+        var subjugationRequirementMet = (RequiresSubjugatedRace == false) || (!Equals(village.Side, village.Race.ToSide()));
         if (subjugationRequirementMet == false) return false;
 
-        if (RequiresRaceCapitol && (village.Capital == false || village.OriginalRace != village.Race)) return false;
+        if (RequiresRaceCapitol && (village.Capital == false || !Equals(village.OriginalRace, village.Race))) return false;
 
         return HasAllPrerequisites(village);
     }

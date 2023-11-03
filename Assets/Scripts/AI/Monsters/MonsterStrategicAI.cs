@@ -69,7 +69,7 @@ class MonsterStrategicAI : IStrategicAI
 
     public bool TurnAI()
     {
-        SpawnerInfo spawner = Config.SpawnerInfo(empire.Race);
+        SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
         if (spawner == null)
             return false;
         empire.MaxArmySize = spawner.MaxArmySize;
@@ -94,7 +94,7 @@ class MonsterStrategicAI : IStrategicAI
                 int x = 0;
                 int y = 0;
                 bool foundSpot = false;
-                var spawners = State.GameManager.StrategyMode.Spawners.Where(s => s.Race == empire.Race).ToArray();
+                var spawners = State.GameManager.StrategyMode.Spawners.Where(s => Equals(s.Race, empire.Race)).ToArray();
                 for (int i = 0; i < 10; i++)
                 {
 
@@ -131,7 +131,7 @@ class MonsterStrategicAI : IStrategicAI
                 if (count <= 0)
                     continue;
 
-                if (empire.ReplacedRace == Race.Wyvern)
+                if (Equals(empire.ReplacedRace, Race.Wyvern))
                 {
                     for (int i = 0; i < count; i++)
                     {
@@ -141,7 +141,7 @@ class MonsterStrategicAI : IStrategicAI
                             army.Units.Add(new Unit(empire.Side, Race.Wyvern, RandXp(baseXp), true));
                     }
                 }
-                else if (empire.ReplacedRace == Race.FeralSharks)
+                else if (Equals(empire.ReplacedRace, Race.FeralSharks))
                 {
                     for (int i = 0; i < count; i++)
                     {
@@ -151,7 +151,7 @@ class MonsterStrategicAI : IStrategicAI
                             army.Units.Add(new Unit(empire.Side, Race.FeralSharks, RandXp(baseXp), true));
                     }
                 }
-                else if (empire.ReplacedRace == Race.Harvesters)
+                else if (Equals(empire.ReplacedRace, Race.Harvesters))
                 {
                     for (int i = 0; i < count; i++)
                     {
@@ -161,7 +161,7 @@ class MonsterStrategicAI : IStrategicAI
                             army.Units.Add(new Unit(empire.Side, Race.Harvesters, RandXp(baseXp), true));
                     }
                 }
-                else if (empire.ReplacedRace == Race.Dragon)
+                else if (Equals(empire.ReplacedRace, Race.Dragon))
                 {
                     army.Units.Add(new Unit(empire.Side, Race.Dragon, RandXp(baseXp), true));
                     for (int i = 1; i < count; i++)
@@ -174,7 +174,7 @@ class MonsterStrategicAI : IStrategicAI
                         army.Units.Add(unit);
                     }
                 }
-                else if (empire.ReplacedRace == Race.RockSlugs)
+                else if (Equals(empire.ReplacedRace, Race.RockSlugs))
                 {
                     const float rockFraction = .08f;
                     const float spitterFraction = .25f;
@@ -192,7 +192,7 @@ class MonsterStrategicAI : IStrategicAI
                     for (int i = 0; i < springCount; i++)
                         army.Units.Add(new Unit(empire.Side, Race.SpringSlugs, RandXp(baseXp), true));
                 }
-                else if (empire.ReplacedRace == Race.Compy)
+                else if (Equals(empire.ReplacedRace, Race.Compy))
                 {
                     for (int i = 0; i < count; i++)
                     {
@@ -202,7 +202,7 @@ class MonsterStrategicAI : IStrategicAI
                             army.Units.Add(new Unit(empire.Side, Race.Compy, RandXp(baseXp), true));
                     }
                 }
-                else if (empire.ReplacedRace == Race.Monitors)
+                else if (Equals(empire.ReplacedRace, Race.Monitors))
                 {
                     for (int i = 0; i < count; i++)
                     {
@@ -212,7 +212,7 @@ class MonsterStrategicAI : IStrategicAI
                             army.Units.Add(new Unit(empire.Side, Race.Monitors, RandXp(baseXp), true));
                     }
                 }
-                else if (empire.ReplacedRace == Race.FeralLions)
+                else if (Equals(empire.ReplacedRace, Race.FeralLions))
                 {
                     army.Units.Add(new Leader(empire.Side, Race.FeralLions, RandXp(baseXp * 2)));
                     for (int i = 1; i < count; i++)
@@ -269,7 +269,7 @@ class MonsterStrategicAI : IStrategicAI
                 }
                 StrategicUtilities.SpendLevelUps(unit);
             }
-            if (army.Units.Count > 0 && army.InVillageIndex != -1 && State.World.Villages[army.InVillageIndex].Race == army.Units[0].Race)
+            if (army.Units.Count > 0 && army.InVillageIndex != -1 && Equals(State.World.Villages[army.InVillageIndex].Race, army.Units[0].Race))
             {
                 Village village = State.World.Villages[army.InVillageIndex];
                 for (int i = 0; i < 8; i++)
@@ -297,7 +297,7 @@ class MonsterStrategicAI : IStrategicAI
     {
         pathIsFor = army;
 
-        SpawnerInfo spawner = Config.SpawnerInfo(empire.Race);
+        SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
         Config.MonsterConquestType spawnerType;
         if (spawner != null)
             spawnerType = spawner.GetConquestType();
@@ -311,13 +311,13 @@ class MonsterStrategicAI : IStrategicAI
             bool inOwnVillage = false;
             if (State.World.Villages[army.InVillageIndex].Empire.IsEnemy(empire))
                 inEnemyVillage = true;
-            else if (State.World.Villages[army.InVillageIndex].Side == empire.Side)
+            else if (Equals(State.World.Villages[army.InVillageIndex].Side, empire.Side))
                 inOwnVillage = true;
             else
                 inAlliedVillage = true;
 
             if ((spawnerType != Config.MonsterConquestType.CompleteDevourAndMoveOn || State.World.Villages[army.InVillageIndex].Population > 0) &&
-            (inEnemyVillage || (inOwnVillage && army.Units.Where(s => s.Race == State.World.Villages[army.InVillageIndex].Race).Any() == false)))
+            (inEnemyVillage || (inOwnVillage && army.Units.Where(s => Equals(s.Race, State.World.Villages[army.InVillageIndex].Race)).Any() == false)))
             {
                 if (spawnerType == Config.MonsterConquestType.CompleteDevourAndMoveOn || spawnerType == Config.MonsterConquestType.CompleteDevourAndRepopulate || spawnerType == Config.MonsterConquestType.CompleteDevourAndRepopulateFortify || spawnerType == Config.MonsterConquestType.CompleteDevourAndHold)
                 {
@@ -372,7 +372,7 @@ class MonsterStrategicAI : IStrategicAI
                 potentialTargetValue.Add(0);
             }
         }
-        SpawnerInfo spawner = Config.SpawnerInfo(empire.Race);
+        SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
         Config.MonsterConquestType spawnerType;
         if (spawner != null)
             spawnerType = spawner.GetConquestType();

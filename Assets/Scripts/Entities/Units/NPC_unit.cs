@@ -1,13 +1,13 @@
 public class NPC_unit : Unit
 {
 
-    public NPC_unit(int level, bool advancedWeapons, int type, int side, Race race, int startingXP, bool canVore) : base(side, race, startingXP, canVore, type: type == 3 ? UnitType.Leader : UnitType.Soldier)
+    public NPC_unit(int level, bool advancedWeapons, int type, Side side, Race race, int startingXP, bool canVore) : base(side, race, startingXP, canVore, type: type == 3 ? UnitType.Leader : UnitType.Soldier)
     {
-        if (race == Race.Alligators || race == Race.Komodos)
+        if (Equals(race, Race.Alligators) || Equals(race, Race.Komodos))
             GenMelee(level - 1, advancedWeapons);
-        else if (race >= Race.Vagrants)
+        else if (RaceFuncs.isMosnterOrUniqueMerc(race))
             GenMonster(level - 1);
-        else if (FixedGear || race == Race.Succubi)
+        else if (FixedGear || Equals(race, Race.Succubi))
             StrategicUtilities.CheatForceLevelUps(this, level - 1);
         else
         {
@@ -109,12 +109,12 @@ public class NPC_unit : Unit
         Stats[(int)Stat.Stomach] = 4 + raceStats.Stomach.Minimum + raceStats.Stomach.Roll;
         Stats[(int)Stat.Leadership] = 10;
 
-        if (race == Race.Lizards)
+        if (Equals(race, Race.Lizards))
             Races.GetRace(Race.Lizards).RandomCustomCall(this);
         if (Config.LetterBeforeLeaderNames != "")
             Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;
-        if (race == Race.Slimes)
+        if (Equals(race, Race.Slimes))
         {
             if (Config.HermFraction >= 0.05)
             {

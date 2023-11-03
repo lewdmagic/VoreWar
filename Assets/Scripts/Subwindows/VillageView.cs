@@ -126,7 +126,7 @@ public class VillageView
         ClearAllButtons();
         int nextOpenPos = 0;
 
-        Village[] villages = State.World.Villages.Where(s => s.Side == village.Side).ToArray();
+        Village[] villages = State.World.Villages.Where(s => Equals(s.Side, village.Side)).ToArray();
 
         foreach (var building in VillageBuildingList.GetListOfBuildingEnum())
         {
@@ -320,7 +320,7 @@ public class VillageView
 
     void BuildAllForAll()
     {
-        foreach (Village vill in State.World.Villages.Where(s => s.Side == village.Side))
+        foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, village.Side)))
         {
             vill.BuyAllBuildings(BuyingEmpire);
         }
@@ -329,7 +329,7 @@ public class VillageView
 
     void BuildForEachVillage(VillageBuilding building)
     {
-        foreach (Village vill in State.World.Villages.Where(s => s.Side == village.Side && s.buildings.Contains(building) == false))
+        foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, village.Side) && s.buildings.Contains(building) == false))
         {
             vill.Build(building, BuyingEmpire);
         }

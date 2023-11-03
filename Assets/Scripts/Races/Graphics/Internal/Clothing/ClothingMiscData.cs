@@ -5,7 +5,7 @@ using UnityEngine;
 #endregion
 
 
-internal interface IClothingDataFixed
+public interface IClothingDataFixed
 {
     /// <summary>Only wearable by units with the leader type</summary>
     bool LeaderOnly { get; set; }
@@ -54,7 +54,7 @@ internal interface IClothingSetupOutput : IClothingDataFixed
 }
 
 
-internal class ClothingMiscData : IClothingSetupOutput
+public class ClothingMiscData : IClothingSetupOutput
 {
     /// <summary>Only wearable by units with the leader type</summary>
     public bool LeaderOnly { get; set; } = false;

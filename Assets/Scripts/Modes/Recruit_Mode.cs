@@ -222,7 +222,7 @@ public class Recruit_Mode : SceneBase
         ArmyUI.Shop.interactable = activatingEmpire < ActivatingEmpire.Observer && validUnit && unit != null && (unit.FixedGear == false || unit.HasTrait(Traits.BookEater));
         var dismissText = ArmyUI.Dismiss.gameObject.GetComponentInChildren(typeof(Text)) as Text;
 
-        if (unit != null && unit.FixedSide == empire.Side && unit.IsInfiltratingSide(unit.Side) && activatingEmpire > ActivatingEmpire.Ally)
+        if (unit != null && Equals(unit.FixedSide, empire.Side) && unit.IsInfiltratingSide(unit.Side) && activatingEmpire > ActivatingEmpire.Ally)
         {
             dismissText.text = "Exfiltrate";
             ArmyUI.Dismiss.interactable = State.GameManager.StrategyMode.IsPlayerTurn;
@@ -630,7 +630,8 @@ public class Recruit_Mode : SceneBase
             {
                 GameObject obj = Instantiate(PopUI.RecruitPanel, PopUI.ActorFolder);
                 UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
-                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(1, village.VillagePopulation.Population[i].Race, 0, true));
+                // Side was 1 for Unit
+                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dogs.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
                 TextMeshProUGUI text = obj.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                 var racePar = RaceParameters.GetTraitData(actor.Unit);
                 text.text = $"{village.VillagePopulation.Population[i].Race}\nTotal: {village.VillagePopulation.Population[i].Population}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";
@@ -1118,7 +1119,7 @@ public class Recruit_Mode : SceneBase
     public void CopySkintoneFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => s.Race == source.Race && s.Type != UnitType.Leader))
+        foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race) && s.Type != UnitType.Leader))
         {
             unit.SkinColor = source.SkinColor;
         }
@@ -1126,7 +1127,7 @@ public class Recruit_Mode : SceneBase
     public void CopyHairColorFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => s.Race == source.Race && s.Type != UnitType.Leader))
+        foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race) && s.Type != UnitType.Leader))
         {
             unit.HairColor = source.HairColor;
         }
@@ -1134,7 +1135,7 @@ public class Recruit_Mode : SceneBase
     public void CopyHairStyleFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => s.Race == source.Race && s.Type != UnitType.Leader))
+        foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race) && s.Type != UnitType.Leader))
         {
             unit.HairStyle = source.HairStyle;
         }
@@ -1142,7 +1143,7 @@ public class Recruit_Mode : SceneBase
     public void CopyBodyColorFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => s.Race == source.Race && s.Type != UnitType.Leader))
+        foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race) && s.Type != UnitType.Leader))
         {
             unit.AccessoryColor = source.AccessoryColor;
         }
@@ -1153,7 +1154,7 @@ public class Recruit_Mode : SceneBase
         if (Customizer.Unit.HasBreasts == false)
             return;
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => s.Race == source.Race && s.HasBreasts == source.HasBreasts && s.Type != UnitType.Leader))
+        foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race) && s.HasBreasts == source.HasBreasts && s.Type != UnitType.Leader))
         {
             unit.SetDefaultBreastSize(source.BreastSize);
         }
@@ -1162,8 +1163,8 @@ public class Recruit_Mode : SceneBase
     public void CopyClothingTypeFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => s.Race == source.Race &&
-        (s.Type == source.Type || (source.Race != Race.Slimes && source.Type == UnitType.Leader && (s.Type == UnitType.Soldier || s.Type == UnitType.Mercenary || s.Type == UnitType.Adventurer)))))
+        foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race) &&
+        (s.Type == source.Type || (!Equals(source.Race, Race.Slimes) && source.Type == UnitType.Leader && (s.Type == UnitType.Soldier || s.Type == UnitType.Mercenary || s.Type == UnitType.Adventurer)))))
         {
             unit.ClothingType = source.ClothingType;
             unit.ClothingType2 = source.ClothingType2;
@@ -1180,7 +1181,7 @@ public class Recruit_Mode : SceneBase
     public void CopyClothingColorFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => (s.Race == Race.Panthers) == (source.Race == Race.Panthers))) //Since panthers use different color systems
+        foreach (Unit unit in army.Units.Where(s => (Equals(s.Race, Race.Panthers)) == (Equals(source.Race, Race.Panthers)))) //Since panthers use different color systems
         {
             unit.ClothingColor = source.ClothingColor;
             unit.ClothingColor2 = source.ClothingColor2;
@@ -1191,7 +1192,7 @@ public class Recruit_Mode : SceneBase
     public void CopyEyeColorFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => s.Race == source.Race))
+        foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race)))
         {
             unit.EyeColor = source.EyeColor;
         }
@@ -1200,7 +1201,7 @@ public class Recruit_Mode : SceneBase
     public void CopyEyeTypeFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => s.Race == source.Race))
+        foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race)))
         {
             unit.EyeType = source.EyeType;
         }
@@ -1590,11 +1591,11 @@ public class Recruit_Mode : SceneBase
                 UpdateActorList();
                 if (village != null)
                 {
-                    if (unit.Race < Race.Selicia)
+                    if (RaceFuncs.isMainRaceOrMercOrMonster(unit.Side))
                     {
                         if (village.GetTotalPop() == 0)
                         {
-                            if (unit.Race >= Race.Selicia)
+                            if (RaceFuncs.IsUniqueMercsOrRebelsOrBandits(unit.Side))
                                 village.Race = State.World.GetEmpireOfSide(army.Side).ReplacedRace;
                             else
                                 village.Race = unit.Race;
@@ -1807,7 +1808,8 @@ public class Recruit_Mode : SceneBase
             {
                 GameObject obj = Instantiate(RaceUI.RecruitPanel, RaceUI.ActorFolder);
                 UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
-                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(1, village.VillagePopulation.Population[i].Race, 0, true));
+                // Side was 1 for Unit
+                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dogs.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
                 TextMeshProUGUI text = obj.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
                 var racePar = RaceParameters.GetTraitData(actor.Unit);
                 text.text = $"{village.VillagePopulation.Population[i].Race}\nAvailable: {village.VillagePopulation.Population[i].Population - village.VillagePopulation.Population[i].Hireables}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";

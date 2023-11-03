@@ -1,14 +1,50 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
 
 internal static class Equines
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
     {
+        builder.Names("Equine", "Equines");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "equine", "bronco", {"mare", Gender.Female}, {"stallion", Gender.Male} }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 16,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Charge,
+                Traits.StrongMelee
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons[(int)UnitCustomizer.ButtonTypes.ClothingExtraType1].Label.text = "Overtop";
+            buttons[(int)UnitCustomizer.ButtonTypes.ClothingExtraType2].Label.text = "Overbottom";
+            buttons[(int)UnitCustomizer.ButtonTypes.BodyAccentTypes3].Label.text = "Skin Pattern";
+            buttons[(int)UnitCustomizer.ButtonTypes.BodyAccentTypes4].Label.text = "Head Pattern";
+            buttons[(int)UnitCustomizer.ButtonTypes.BodyAccentTypes5].Label.text = "Torso Color";
+        });
+        builder.TownNames(new List<string>
+        {
+            "Cataphracta",
+            "Equus",
+            "The Ranch",
+            "Haciendo",
+            "Alfarsan"
+        });
         builder.Setup(output =>
         {
             output.DickSizes = () => 3;
@@ -43,32 +79,32 @@ internal static class Equines
             output.ExtendedBreastSprites = true;
 
             output.AllowedMainClothingTypes.Set( //undertops
-                HorseUndertop1.HorseUndertop1Instance,
-                HorseUndertop2.HorseUndertop2Instance,
-                HorseUndertop3.HorseUndertop3Instance,
-                HorseUndertop4.HorseUndertop4Instance,
-                HorseUndertopM1.HorseUndertopM1Instance,
-                HorseUndertopM2.HorseUndertopM2Instance,
-                HorseUndertopM3.HorseUndertopM3Instance
+                HorseClothing.HorseUndertop1Instance,
+                HorseClothing.HorseUndertop2Instance,
+                HorseClothing.HorseUndertop3Instance,
+                HorseClothing.HorseUndertop4Instance,
+                HorseClothing.HorseUndertopM1Instance,
+                HorseClothing.HorseUndertopM2Instance,
+                HorseClothing.HorseUndertopM3Instance
             );
 
             output.AllowedWaistTypes.Set( //underbottoms
-                HorseUBottom.HorseUBottom1,
-                HorseUBottom.HorseUBottom2,
-                HorseUBottom.HorseUBottom3,
-                HorseUBottom.HorseUBottom4,
-                HorseUBottom.HorseUBottom5
+                HorseClothing.HorseUBottom1,
+                HorseClothing.HorseUBottom2,
+                HorseClothing.HorseUBottom3,
+                HorseClothing.HorseUBottom4,
+                HorseClothing.HorseUBottom5
             );
 
             output.ExtraMainClothing1Types.Set( //Overtops
-                HorsePoncho.HorsePonchoInstance,
-                HorseNecklace.HorseNecklaceInstance
+                HorseClothing.HorsePonchoInstance,
+                HorseClothing.HorseNecklaceInstance
             );
 
             output.ExtraMainClothing2Types.Set( //Overbottoms
-                HorseOBottom1.HorseOBottom1Instance,
-                HorseOBottom2.HorseOBottom2Instance,
-                HorseOBottom3.HorseOBottom3Instance
+                HorseClothing.HorseOBottom1Instance,
+                HorseClothing.HorseOBottom2Instance,
+                HorseClothing.HorseOBottom3Instance
             );
 
             output.WholeBodyOffset = new Vector2(0, 16 * .625f);
@@ -109,373 +145,199 @@ internal static class Equines
 
         builder.RenderSingle(SpriteType.Head, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.Actor.Unit.SkinColor));
-            int attacking = input.Actor.IsAttacking ? 1 : 0;
-            int eating = input.Actor.IsEating ? 1 : 0;
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Horse[13 + attacking + eating] : input.Sprites.Horse[3 + attacking + eating]);
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.SkinColor));
+            string state = (input.A.IsAttacking || input.A.IsEating) ? "eat" : "still";
+            output.Sprite(($"head_{input.Sex}_{state}"));
         }); //head
 
         builder.RenderSingle(SpriteType.Eyes, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.U.EyeColor));
+            if (input.U.IsDead && input.U.Items != null)
             {
-                if (input.Actor.Unit.IsDead && input.Actor.Unit.Items != null)
-                {
-                    output.Sprite(input.Sprites.Horse[9]);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.Horse[5 + input.Actor.Unit.EyeType]);
-                }
+                output.Sprite(($"eyes_{input.Sex}_dead"));
             }
             else
             {
-                if (input.Actor.Unit.IsDead && input.Actor.Unit.Items != null)
-                {
-                    output.Sprite(input.Sprites.Horse[19]);
-                }
-                else
-                {
-                    output.Sprite(input.Sprites.Horse[15 + input.Actor.Unit.EyeType]);
-                }
+                output.Sprite0($"eyes_{input.Sex}", input.U.EyeType);
             }
         }); //eyes;
 
         builder.RenderSingle(SpriteType.Hair, 21, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Horse[150 + 2 * input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.U.HairColor));
+            output.Sprite0("hair_front", input.U.HairStyle);
         }); //forward hair;
 
         builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Horse[151 + 2 * input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.U.HairColor));
+            output.Sprite0("hair_back", input.U.HairStyle);
         }); //back hair
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.Actor.Unit.SkinColor));
-            int Hasweapon = input.Actor.Unit.HasWeapon ? 1 : 0;
-            if (input.Actor.Unit.HasBreasts)
-            {
-                output.Sprite(input.Actor.IsAttacking ? input.Sprites.Horse[12] : input.Sprites.Horse[10 + Hasweapon]);
-            }
-            else
-            {
-                output.Sprite(input.Actor.IsAttacking ? input.Sprites.Horse[2] : input.Sprites.Horse[0 + Hasweapon]);
-            }
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.SkinColor));
+            string name = input.U.HasBreasts ? "body_female" : "body_male";
+            int index = input.A.IsAttacking ? 2 : (input.U.HasWeapon ? 1 : 0);
+
+            output.Sprite0(name, index);
         }); //body
 
         builder.RenderSingle(SpriteType.BodyAccent3, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType3 == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.AccessoryColor));
+            if (input.U.BodyAccentType3 != 0)
             {
-            }
-            else
-            {
-                int Hasweapon = input.Actor.Unit.HasWeapon ? 1 : 0;
-                if (input.Actor.Unit.HasBreasts == false)
-                {
-                    output.Sprite(input.Actor.IsAttacking ? input.Sprites.Horse[214 + 6 * input.Actor.Unit.BodyAccentType3] : input.Sprites.Horse[212 + 6 * input.Actor.Unit.BodyAccentType3 + Hasweapon]);
-                }
-                else
-                {
-                    output.Sprite(input.Actor.IsAttacking ? input.Sprites.Horse[217 + 6 * input.Actor.Unit.BodyAccentType3] : input.Sprites.Horse[215 + 6 * input.Actor.Unit.BodyAccentType3 + Hasweapon]);
-                }
+                string sex = input.U.HasBreasts ? "female" : "male";
+                string state = input.A.IsAttacking ? "attack" : (input.U.HasWeapon ? "holdweapon" : "stand");
+                output.Sprite0($"skin_pattern_{state}_{sex}", input.U.BodyAccentType3 - 1);
             }
         }); //limb spots
 
         builder.RenderSingle(SpriteType.BodyAccent4, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType4 == 0)
+            if (input.U.BodyAccentType4 != 0)
             {
-            }
-            else
-            {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    int attack = input.Actor.IsAttacking ? 1 : 0;
-                    int eat = input.Actor.IsEating ? 1 : 0;
-                    output.Sprite(input.Sprites.Horse[200 + 4 * input.Actor.Unit.BodyAccentType4 + attack + eat]);
-                }
-                else
-                {
-                    int attack = input.Actor.IsAttacking ? 1 : 0;
-                    int eat = input.Actor.IsEating ? 1 : 0;
-                    output.Sprite(input.Sprites.Horse[198 + 4 * input.Actor.Unit.BodyAccentType4 + attack + eat]);
-                }
+                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.AccessoryColor));
+                string state = (input.A.IsAttacking || input.A.IsEating) ? "eat" : "still";
+                output.Sprite0($"head_pattern_{input.Sex}_{state}", input.U.BodyAccentType4 - 1);
             }
         }); //head spots
 
         builder.RenderSingle(SpriteType.BodyAccent5, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType5 == 0)
-            {
-            }
-            else
-            {
-                output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Horse[201] : input.Sprites.Horse[200]);
-            }
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.AccessoryColor));
+            output.Sprite(($"torso_pattern_{input.Sex}"));
         }); //belly spots, also color breasts/belly/dick
 
         builder.RenderSingle(SpriteType.BodyAccent8, 6, (input, output) =>
         {
             output.Coloring(LegTuft(input.Actor));
-            output.Sprite(input.Sprites.Horse[22]);
+            output.Sprite(("leg_tuft"));
         }); //leg tuft
 
-        builder.RenderSingle(SpriteType.BodyAccent9, 3, (input, output) =>
-        {
-            output.Coloring(TailBit(input.Actor));
-            if (input.Actor.Unit.TailType <= 3)
-            {
-            }
-            else if (input.Actor.Unit.TailType == 4)
-            {
-                output.Sprite(input.Sprites.Horse[185]);
-            }
-            else if (input.Actor.Unit.TailType == 5)
-            {
-                output.Sprite(input.Sprites.Horse[187]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Horse[189]);
-            }
-        }); //tail bit
 
-        builder.RenderSingle(SpriteType.BodyAccent10, 5, (input, output) => { output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Horse[21] : input.Sprites.Horse[20]); }); //leg hoof;
+
+        builder.RenderSingle(SpriteType.BodyAccent10, 5, (input, output) =>
+        {
+            output.Sprite(($"hooves_{input.Sex}"));
+        }); //leg hoof;
 
         builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.TailType <= 3)
-            {
-                output.Sprite(input.Sprites.Horse[180 + input.Actor.Unit.TailType]);
-            }
-            else if (input.Actor.Unit.TailType == 4)
-            {
-                output.Sprite(input.Sprites.Horse[184]);
-            }
-            else if (input.Actor.Unit.TailType == 5)
-            {
-                output.Sprite(input.Sprites.Horse[186]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Horse[188]);
-            }
+            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.U.HairColor));
+            output.Sprite0("tail_1", input.U.TailType);
         }); //tail
-
-        builder.RenderSingle(SpriteType.SecondaryAccessory, 3, (input, output) =>
+        
+        builder.RenderSingle(SpriteType.BodyAccent9, 3, (input, output) =>
         {
-            output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
-            {
-                int weaponSprite2 = input.Actor.GetWeaponSprite();
-                switch (weaponSprite2)
-                {
-                    case 0:
-                        return;
-                    case 1:
-                        return;
-                    case 2:
-                        return;
-                    case 3:
-                        return;
-                    case 4:
-                        return;
-                    case 5:
-                        return;
-                    case 6:
-                        output.Sprite(input.Sprites.Horse[198]);
-                        return;
-                    case 7:
-                        return;
-                }
-            }
-        }); //bow bit
+            output.Coloring(TailBit(input.Actor));
+            output.Sprite0("tail_2", input.U.TailType, true);
+        }); //tail bit
+
 
         builder.RenderSingle(SpriteType.Breasts, 19, (input, output) =>
         {
             output.Coloring(SpottedBelly(input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(29 * 29));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 29)
-                {
-                    output.Sprite(input.Sprites.Horse[119]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 29)
-                {
-                    output.Sprite(input.Sprites.Horse[118]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 27)
-                {
-                    output.Sprite(input.Sprites.Horse[117]);
-                    return;
-                }
-
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(29 * 29));
 
                 if (leftSize > 26)
                 {
                     leftSize = 26;
                 }
 
-
-                output.Sprite(input.Sprites.Horse[90 + leftSize]);
+                output.Sprite0("breast_left", leftSize);
             }
             else
             {
-                if (input.Actor.Unit.DefaultBreastSize == 0)
+                if (input.U.DefaultBreastSize == 0)
                 {
-                    output.Sprite(input.Sprites.Horse[90]);
+                    output.Sprite0("breast_left", 0);
                     return;
                 }
-
-                output.Sprite(input.Sprites.Horse[90 + input.Actor.Unit.BreastSize]);
+                
+                output.Sprite0("breast_left", input.U.BreastSize);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 19, (input, output) =>
         {
             output.Coloring(SpottedBelly(input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(29 * 29));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 29)
-                {
-                    output.Sprite(input.Sprites.Horse[149]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 29)
-                {
-                    output.Sprite(input.Sprites.Horse[148]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 27)
-                {
-                    output.Sprite(input.Sprites.Horse[147]);
-                    return;
-                }
-
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(29 * 29));
 
                 if (rightSize > 26)
                 {
                     rightSize = 26;
                 }
-
-
-                output.Sprite(input.Sprites.Horse[120 + rightSize]);
+                
+                output.Sprite0("breast_right", rightSize);
             }
             else
             {
-                if (input.Actor.Unit.DefaultBreastSize == 0)
+                if (input.U.DefaultBreastSize == 0)
                 {
-                    output.Sprite(input.Sprites.Horse[120]);
+                    output.Sprite0("breast_right", 0);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Horse[120 + input.Actor.Unit.BreastSize]);
+                output.Sprite0("breast_right", input.U.BreastSize);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 17, (input, output) =>
         {
             output.Coloring(SpottedBelly(input.Actor));
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(29, 1.2f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.Horse[89]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.Horse[88]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size >= 27)
-                {
-                    output.Sprite(input.Sprites.Horse[87]);
-                    return;
-                }
-
+                int size = input.A.GetStomachSize(29, 1.2f);
                 int combined = Math.Min(size, 26);
-                output.Sprite(input.Sprites.Horse[60 + combined]);
+                output.Sprite0("belly", combined, true);
             }
         }); //belly
 
         builder.RenderSingle(SpriteType.Dick, 14, (input, output) =>
         {
             output.Coloring(SpottedBelly(input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick)
             {
-                return;
-            }
+                bool breastsNotTooBig = input.A.PredatorComponent?.VisibleFullness < .26f &&
+                                        (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(29 * 29)) < 16 &&
+                                        (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(29 * 29)) < 16;
+            
+                output.Layer(breastsNotTooBig ? 24 : 14);
+            
+                bool useErectSprite = input.A.IsErect() || input.A.IsCockVoring;
 
-            if (input.Actor.PredatorComponent?.VisibleFullness < .26f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(29 * 29)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(29 * 29)) < 16)
-            {
-                output.Layer(24);
-                if (input.Actor.IsCockVoring)
+                if (!useErectSprite && Config.FurryGenitals)
                 {
-                    output.Sprite(input.Sprites.Horse[25 + 2 * input.Actor.Unit.DickSize]);
+                    output.Sprite(("penis_furry"));
                 }
                 else
                 {
-                    if (Config.FurryGenitals)
+                    if (!breastsNotTooBig && useErectSprite)
                     {
-                        output.Sprite(input.Actor.IsErect() ? input.Sprites.Horse[25 + 2 * input.Actor.Unit.DickSize] : input.Sprites.Horse[23]);
+                        output.Sprite0("penis_erect_down", input.U.DickSize);
                     }
                     else
                     {
-                        output.Sprite(input.Actor.IsErect() ? input.Sprites.Horse[25 + 2 * input.Actor.Unit.DickSize] : input.Sprites.Horse[24 + 2 * input.Actor.Unit.DickSize]);
+                        output.Sprite0(useErectSprite ? "penis_erect_up" : "penis_flaccid", input.U.DickSize);
                     }
-                }
-            }
-            else
-            {
-                output.Layer(14);
-                if (input.Actor.IsCockVoring)
-                {
-                    output.Sprite(input.Sprites.Horse[24 + 2 * input.Actor.Unit.DickSize]);
-                }
-                else
-                {
-                    if (Config.FurryGenitals)
-                    {
-                        output.Sprite(input.Sprites.Horse[23]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Horse[24 + 2 * input.Actor.Unit.DickSize]);
-                    }
+                    
                 }
             }
         }); //cocc
@@ -483,79 +345,51 @@ internal static class Equines
         builder.RenderSingle(SpriteType.Balls, 13, (input, output) =>
         {
             output.Coloring(SpottedBelly(input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            int size = input.Actor.GetBallSize(29, .8f);
-            int baseSize = (input.Actor.Unit.DickSize + 1) / 3;
+            int size = input.A.GetBallSize(29, .8f);
+            int baseSize = (input.U.DickSize + 1) / 3;
+            int combinedSize = Math.Min(baseSize + size + 2, 26);
 
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && size == 29)
-            {
-                output.Sprite(input.Sprites.Horse[59]);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && size >= 29)
-            {
-                output.Sprite(input.Sprites.Horse[58]);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && size >= 27)
-            {
-                output.Sprite(input.Sprites.Horse[57]);
-                return;
-            }
-
-            int combined = Math.Min(baseSize + size + 2, 26);
-            if (size > 0)
-            {
-                output.Sprite(input.Sprites.Horse[30 + combined]);
-                return;
-            }
-
-            output.Sprite(input.Sprites.Horse[30 + baseSize]);
+            output.Sprite0("balls", combinedSize);
         }); //balls        
 
         builder.RenderSingle(SpriteType.Weapon, 12, (input, output) =>
         {
-            output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                int weaponSprite = input.Actor.GetWeaponSprite();
-                switch (weaponSprite)
-                {
-                    case 0:
-                        output.Sprite(input.Sprites.Horse[190]);
-                        return;
-                    case 1:
-                        output.Sprite(input.Sprites.Horse[191]);
-                        return;
-                    case 2:
-                        output.Sprite(input.Sprites.Horse[192]);
-                        return;
-                    case 3:
-                        output.Sprite(input.Sprites.Horse[193]);
-                        return;
-                    case 4:
-                        output.Sprite(input.Sprites.Horse[194]);
-                        return;
-                    case 5:
-                        return;
-                    case 6:
-                        output.Sprite(input.Sprites.Horse[197]);
-                        return;
-                    case 7:
-                        output.Sprite(input.Sprites.Horse[199]);
-                        return;
-                }
+                output.Coloring(Defaults.WhiteColored);
+                output.Sprite(input.SimpleWeaponSpriteFrontV1, true);
             }
         });
+        
+        builder.RenderSingle(SpriteType.SecondaryAccessory, 3, (input, output) =>
+        {            
+            if (input.U.HasWeapon && input.A.Surrendered == false)
+            {
+                output.Coloring(Defaults.WhiteColored);
+                output.Sprite(input.SimpleWeaponSpriteBackV1, true);
+            }
+        }); //bow bit
 
         builder.RunBefore((input, output) =>
         {
+            // if (input.U.HasWeapon && input.A.Surrendered == false)
+            // {
+            //     output.ChangeSprite(SpriteType.SecondaryAccessory)
+            //         .Sprite(input.SimpleWeaponSpriteBackV1, true)
+            //         .Coloring(Defaults.WhiteColored)
+            //         .Layer(3);
+            //     
+            //     output.ChangeSprite(SpriteType.SecondaryAccessory)
+            //         .Sprite(input.SimpleWeaponSpriteFrontV1, true)
+            //         .Coloring(Defaults.WhiteColored)
+            //         .Layer(12);
+            // }
+            
             CommonRaceCode.MakeBreastOversize(29 * 29).Invoke(input, output);
             Defaults.BasicBellyRunAfter.Invoke(input, output);
         });
@@ -599,18 +433,19 @@ internal static class Equines
                 {
                     output["Clothing1"].Sprite(sprite1);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output["Clothing1"].Sprite(sprite2(input.Actor));
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
             return builder.BuildClothing();
         }
     }
 
-    private static class HorseUndertop1
+
+    public static class HorseClothing
     {
         internal static readonly IClothing<IOverSizeParameters> HorseUndertop1Instance = HorseUndertops.MakeCommon(
             76147,
@@ -618,41 +453,29 @@ internal static class Equines
             State.GameManager.SpriteDictionary.HorseClothing[47],
             actor => State.GameManager.SpriteDictionary.HorseClothing[40 + actor.Unit.BreastSize]
         );
-    }
-
-    private static class HorseUndertop2
-    {
+        
         internal static readonly IClothing<IOverSizeParameters> HorseUndertop2Instance = HorseUndertops.MakeCommon(
             76148,
             State.GameManager.SpriteDictionary.HorseClothing[48],
             null,
             actor => State.GameManager.SpriteDictionary.HorseClothing[48 + actor.Unit.BreastSize]
         );
-    }
-
-    private static class HorseUndertop3
-    {
+        
         internal static readonly IClothing<IOverSizeParameters> HorseUndertop3Instance = HorseUndertops.MakeCommon(
             76156,
             State.GameManager.SpriteDictionary.HorseClothing[56],
             null,
             actor => State.GameManager.SpriteDictionary.HorseClothing[56 + actor.Unit.BreastSize]
         );
-    }
-
-    private static class HorseUndertop4
-    {
+        
         internal static readonly IClothing<IOverSizeParameters> HorseUndertop4Instance = HorseUndertops.MakeCommon(
             76208,
             State.GameManager.SpriteDictionary.HorseExtras1[8],
             State.GameManager.SpriteDictionary.HorseExtras1[7],
             actor => State.GameManager.SpriteDictionary.HorseExtras1[0 + actor.Unit.BreastSize]
         );
-    }
-
-    private static class HorseUndertopShared
-    {
-        internal static IClothing MakeCommon(int type, Sprite discard, Sprite sprite1, Sprite sprite2)
+        
+        private static IClothing MakeCommon(int type, Sprite discard, Sprite sprite1, Sprite sprite2)
         {
             ClothingBuilder builder = ClothingBuilder.New();
 
@@ -669,47 +492,35 @@ internal static class Equines
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(20);
-                int size = input.Actor.GetStomachSize(32, 1.2f);
+                int size = input.A.GetStomachSize(32, 1.2f);
                 output["Clothing1"].Sprite(size >= 6 ? sprite1 : sprite2);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
             return builder.BuildClothing();
         }
-    }
-
-    private static class HorseUndertopM1
-    {
-        internal static readonly IClothing HorseUndertopM1Instance = HorseUndertopShared.MakeCommon(
+        
+        internal static readonly IClothing HorseUndertopM1Instance = MakeCommon(
             76136,
             State.GameManager.SpriteDictionary.HorseClothing[36],
             State.GameManager.SpriteDictionary.HorseExtras1[17],
             State.GameManager.SpriteDictionary.HorseClothing[36]
         );
-    }
-
-    private static class HorseUndertopM2
-    {
-        internal static readonly IClothing HorseUndertopM2Instance = HorseUndertopShared.MakeCommon(
+        
+        internal static readonly IClothing HorseUndertopM2Instance = MakeCommon(
             76137,
             State.GameManager.SpriteDictionary.HorseClothing[37],
             State.GameManager.SpriteDictionary.HorseExtras1[18],
             State.GameManager.SpriteDictionary.HorseClothing[37]
         );
-    }
-
-    private static class HorseUndertopM3
-    {
-        internal static readonly IClothing HorseUndertopM3Instance = HorseUndertopShared.MakeCommon(
+        
+        internal static readonly IClothing HorseUndertopM3Instance = MakeCommon(
             76138,
             State.GameManager.SpriteDictionary.HorseClothing[38],
             State.GameManager.SpriteDictionary.HorseClothing[39],
             State.GameManager.SpriteDictionary.HorseClothing[38]
         );
-    }
-
-    private static class HorsePoncho
-    {
+        
         internal static readonly IClothing HorsePonchoInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -725,16 +536,13 @@ internal static class Equines
             {
                 output["Clothing1"].Layer(21);
                 output["Clothing1"].Sprite(input.Sprites.HorseClothing[33]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Layer(3);
                 output["Clothing2"].Sprite(input.Sprites.HorseClothing[34]);
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
-    }
-
-    private static class HorseNecklace
-    {
+        
         internal static readonly IClothing HorseNecklaceInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -750,13 +558,10 @@ internal static class Equines
             {
                 output["Clothing1"].Layer(21);
                 output["Clothing1"].Sprite(input.Sprites.HorseClothing[35]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
-    }
-
-    private static class HorseUBottom
-    {
+        
         internal static readonly IClothing HorseUBottom1 = MakeHorseUBottom(2, 0, 30, 5, 9, State.GameManager.SpriteDictionary.HorseClothing, 76105, false);
         internal static readonly IClothing HorseUBottom2 = MakeHorseUBottom(7, 5, 30, 9, 9, State.GameManager.SpriteDictionary.HorseClothing, 76109, false);
         internal static readonly IClothing HorseUBottom3 = MakeHorseUBottom(17, 15, 30, 19, 9, State.GameManager.SpriteDictionary.HorseClothing, 76119, false);
@@ -780,16 +585,16 @@ internal static class Equines
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing2"].Layer(layer + 1);
                 output["Clothing2"].Coloring(Color.white);
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 1] : sheet[sprM + 1]);
+                    output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF + 1] : sheet[sprM + 1]);
 
-                    if (input.Actor.Unit.HasDick)
+                    if (input.U.HasDick)
                     {
                         //if (output.BlocksDick == true)
                         if (true)
                         {
-                            output["Clothing2"].Sprite(black ? input.Sprites.HorseExtras1[bulge + input.Actor.Unit.DickSize] : input.Sprites.HorseClothing[bulge + input.Actor.Unit.DickSize]);
+                            output["Clothing2"].Sprite(black ? input.Sprites.HorseExtras1[bulge + input.U.DickSize] : input.Sprites.HorseClothing[bulge + input.U.DickSize]);
                         }
                     }
                     else
@@ -799,14 +604,14 @@ internal static class Equines
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF] : sheet[sprM]);
+                    output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF] : sheet[sprM]);
 
-                    if (input.Actor.Unit.HasDick)
+                    if (input.U.HasDick)
                     {
                         //if (output.BlocksDick == true)
                         if (true)
                         {
-                            output["Clothing2"].Sprite(black ? input.Sprites.HorseExtras1[bulge + input.Actor.Unit.DickSize] : input.Sprites.HorseClothing[bulge + input.Actor.Unit.DickSize]);
+                            output["Clothing2"].Sprite(black ? input.Sprites.HorseExtras1[bulge + input.U.DickSize] : input.Sprites.HorseClothing[bulge + input.U.DickSize]);
                         }
                     }
                     else
@@ -815,16 +620,12 @@ internal static class Equines
                     }
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
             return builder.BuildClothing();
         }
-    }
-
-
-    private static class HorseOBottom1
-    {
+        
         internal static readonly IClothing HorseOBottom1Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -840,22 +641,19 @@ internal static class Equines
                 output["Clothing1"].Layer(15);
                 output["Clothing1"].Coloring(Color.white);
 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HorseClothing[13] : input.Sprites.HorseClothing[11]);
+                    output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.HorseClothing[13] : input.Sprites.HorseClothing[11]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HorseClothing[12] : input.Sprites.HorseClothing[10]);
+                    output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.HorseClothing[12] : input.Sprites.HorseClothing[10]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
-    }
-
-    private static class HorseOBottom2
-    {
+        
         internal static readonly IClothing HorseOBottom2Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -873,28 +671,25 @@ internal static class Equines
                 output["Clothing1"].Layer(15);
                 output["Clothing1"].Coloring(Color.white);
                 {
-                    if (input.Actor.HasBelly)
+                    if (input.A.HasBelly)
                     {
-                        output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HorseClothing[67] : input.Sprites.HorseClothing[65]);
+                        output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.HorseClothing[67] : input.Sprites.HorseClothing[65]);
                     }
                     else
                     {
-                        output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HorseClothing[66] : input.Sprites.HorseClothing[64]);
+                        output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.HorseClothing[66] : input.Sprites.HorseClothing[64]);
                     }
                 }
-                if (input.Actor.Unit.HasDick)
+                if (input.U.HasDick)
                 {
-                    output["Clothing2"].Sprite(input.Sprites.HorseExtras1[Math.Min(14 + input.Actor.Unit.DickSize, 17)]);
+                    output["Clothing2"].Sprite(input.Sprites.HorseExtras1[Math.Min(14 + input.U.DickSize, 17)]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
-    }
-
-    private static class HorseOBottom3
-    {
+        
         internal static readonly IClothing HorseOBottom3Instance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -910,16 +705,16 @@ internal static class Equines
                 output["Clothing1"].Layer(15);
                 output["Clothing1"].Coloring(Color.white);
 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HorseClothing[72] : input.Sprites.HorseClothing[70]);
+                    output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.HorseClothing[72] : input.Sprites.HorseClothing[70]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HorseClothing[71] : input.Sprites.HorseClothing[69]);
+                    output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.HorseClothing[71] : input.Sprites.HorseClothing[69]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }

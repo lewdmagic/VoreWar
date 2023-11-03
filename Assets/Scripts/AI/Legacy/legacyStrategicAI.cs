@@ -7,7 +7,10 @@ namespace LegacyAI
 {
     public class LegacyStrategicAI : IStrategicAI
     {
-        List<Empire> Empires => State.World.AllActiveEmpires;
+        // TODO index is used as a Side/Race key, change to dictionary
+        // TODO This AI is basically disabled and WILL NOT WORK AT ALL 
+        //IReadOnlyList<Empire> Empires => State.World.AllActiveEmpires;
+        IReadOnlyList<Empire> Empires => new List<Empire>();
         [OdinSerialize]
         int AISide;
         [OdinSerialize]
@@ -28,16 +31,16 @@ namespace LegacyAI
             get
             {
                 if (_empire == null)
-                    _empire = State.World.GetEmpireOfSide(AISide);
+                    _empire = State.World.GetEmpireOfSide(RaceFuncs.IntToRace(AISide).ToSide());
                 return _empire;
             }
             set { _empire = value; }
         }
 
 
-        public LegacyStrategicAI(int AISide)
+        public LegacyStrategicAI(Side AISide)
         {
-            this.AISide = AISide;
+            this.AISide = RaceFuncs.RaceToInt(AISide.ToRace());
             growth = 2.2F;
             freegold = 0;
         }
@@ -232,7 +235,7 @@ namespace LegacyAI
             {
                 for (int i = 0; i < State.World.Villages.Length; i++)
                 {
-                    if (State.World.Villages[i].Side == AISide)
+                    if (Equals(State.World.Villages[i].Side, RaceFuncs.IntToRace(AISide).ToSide()))
                     {
                         StrategicUtilities.BuyBasicWeapons(State.World.Villages[i]);
                     }
@@ -262,7 +265,7 @@ namespace LegacyAI
         {
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
-                if (State.World.Villages[i].Side == empire.Side)
+                if (Equals(State.World.Villages[i].Side, empire.Side))
                 {
                     //check village isn't occupied by an existing army
                     bool occupied = false;
@@ -293,7 +296,7 @@ namespace LegacyAI
             Village village = null;
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
-                if (State.World.Villages[i].Side == AISide && (int)State.World.Villages[i].Race == AISide)
+                if (Equals(State.World.Villages[i].Side, RaceFuncs.IntToRace(AISide).ToSide()) && RaceFuncs.RaceToInt(State.World.Villages[i].Race) == AISide)
                 {
                     //check village isn't occupied by an existing army
                     bool occupied = false;

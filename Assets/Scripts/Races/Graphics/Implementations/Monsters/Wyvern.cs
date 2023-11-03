@@ -1,7 +1,59 @@
-﻿internal static class Wyvern
+﻿using System.Collections.Generic;
+
+internal static class Wyvern
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Wyvern", "Wyverns");
+        builder.BonesInfo((unit) => new List<BoneInfo>()
+        {
+            new BoneInfo(BoneTypes.Wyvern, unit.Name)
+        });
+        builder.FlavorText(new FlavorText(
+            new Texts { "winged", "horned", "wiry" },
+            new Texts { "mighty", "spined", "great-winged" },
+            new Texts { "wyvern", "lesser draconic being", "drake" },
+            "Claws"
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 18,
+            StomachSize = 18,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.Anal },
+            ExpMultiplier = 1.5f,
+            PowerAdjustment = 2f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(8, 20),
+                Dexterity = new RaceStats.StatRange(6, 14),
+                Endurance = new RaceStats.StatRange(12, 20),
+                Mind = new RaceStats.StatRange(12, 28),
+                Will = new RaceStats.StatRange(6, 14),
+                Agility = new RaceStats.StatRange(10, 22),
+                Voracity = new RaceStats.StatRange(10, 18),
+                Stomach = new RaceStats.StatRange(8, 16),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Flight,
+            },
+            RaceDescription = "Fast, winged and ravenous. These lesser cousins of dragons do not have the magical abilities of true dragons, but they are still a dangerous force. They are often followed by their younger kin, but their care only extends as far as not snacking on the weaklings themselves. ",
+
+        });
+        builder.IndividualNames(new List<string>
+        {
+            "Swiftwing",
+            "Deathtalon",
+            "Sharpbeak",
+            "Spineback",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyWeight, "Horn Type");
+        });
+        
         RaceFrameList frameListTail = new RaceFrameList(new int[6] { 2, 1, 0, 5, 4, 3 }, new float[6] { 0.55f, 0.55f, 0.55f, 0.55f, 0.55f, 0.55f });
         RaceFrameList frameListTongue = new RaceFrameList(new int[6] { 0, 1, 2, 3, 4, 5 }, new float[6] { 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f });
 
@@ -28,18 +80,18 @@
 
         builder.RenderSingle(SpriteType.Head, 3, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernBellyColor(input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorMap.GetWyvernBellyColor(input.U.AccessoryColor));
             output.Sprite(input.Sprites.Wyvern[54]);
         }); // Lower belly piece
         builder.RenderSingle(SpriteType.Eyes, 0, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernBellyColor(input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Wyvern[10 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorMap.GetWyvernBellyColor(input.U.EyeColor));
+            output.Sprite(input.Sprites.Wyvern[10 + input.U.EyeType]);
         }); // Eyes
         builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Wyvern[9]);
             }
@@ -47,8 +99,8 @@
 
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking)
+            output.Coloring(ColorMap.GetWyvernColor(input.U.SkinColor));
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Wyvern[8]);
             }
@@ -56,8 +108,8 @@
 
         builder.RenderSingle(SpriteType.Hair2, 6, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking)
+            output.Coloring(ColorMap.GetWyvernColor(input.U.SkinColor));
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Wyvern[5]);
                 return;
@@ -68,25 +120,25 @@
 
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorMap.GetWyvernColor(input.U.SkinColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Wyvern[2]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Wyvern[1]);
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.VisibleFullness > 0)
+            if (input.A.PredatorComponent?.VisibleFullness > 0)
             {
                 output.Sprite(input.Sprites.Wyvern[3]);
                 return;
@@ -97,43 +149,43 @@
 
         builder.RenderSingle(SpriteType.BodyAccent, 0, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernColor(input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorMap.GetWyvernColor(input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Wyvern[24]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentlyActive = false;
+                input.A.AnimationController.frameLists[0].currentFrame = 0;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.A.AnimationController.frameLists[0].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame++;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame++;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
+                    if (input.A.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.frameLists[0].currentlyActive = false;
+                        input.A.AnimationController.frameLists[0].currentFrame = 0;
+                        input.A.AnimationController.frameLists[0].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Wyvern[22 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Wyvern[22 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
             if (State.Rand.Next(400) == 0)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+                input.A.AnimationController.frameLists[0].currentlyActive = true;
             }
 
             output.Sprite(input.Sprites.Wyvern[24]);
@@ -141,23 +193,23 @@
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernBellyColor(input.Actor.Unit.AccessoryColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorMap.GetWyvernBellyColor(input.U.AccessoryColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Wyvern[30]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = false;
+                input.A.AnimationController.frameLists[0].currentlyActive = false;
                 output.Sprite(input.Sprites.Wyvern[6]);
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                output.Sprite(input.Sprites.Wyvern[28 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Wyvern[28 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
@@ -166,8 +218,8 @@
 
         builder.RenderSingle(SpriteType.BodyAccent3, 3, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernBellyColor(input.Actor.Unit.ExtraColor1));
-            if (input.Actor.IsAttacking)
+            output.Coloring(ColorMap.GetWyvernBellyColor(input.U.ExtraColor1));
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Wyvern[19]);
                 return;
@@ -179,7 +231,7 @@
         builder.RenderSingle(SpriteType.BodyAccessory, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Wyvern[21]);
                 return;
@@ -191,92 +243,84 @@
         builder.RenderSingle(SpriteType.SecondaryAccessory, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (!input.Actor.Targetable)
+            if (!input.A.Targetable)
             {
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsOralVoring)
+            if (input.A.IsAttacking || input.A.IsOralVoring)
             {
-                input.Actor.AnimationController.frameLists[1].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[1].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                input.A.AnimationController.frameLists[1].currentlyActive = false;
+                input.A.AnimationController.frameLists[1].currentFrame = 0;
+                input.A.AnimationController.frameLists[1].currentTime = 0f;
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[1].currentlyActive)
+            if (input.A.AnimationController.frameLists[1].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListTongue.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.frameLists[1].currentTime >= frameListTongue.Times[input.A.AnimationController.frameLists[0].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[1].currentFrame++;
-                    input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                    input.A.AnimationController.frameLists[1].currentFrame++;
+                    input.A.AnimationController.frameLists[1].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListTongue.Frames.Length)
+                    if (input.A.AnimationController.frameLists[1].currentFrame >= frameListTongue.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[1].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[1].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                        input.A.AnimationController.frameLists[1].currentlyActive = false;
+                        input.A.AnimationController.frameLists[1].currentFrame = 0;
+                        input.A.AnimationController.frameLists[1].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Wyvern[34 + frameListTongue.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                output.Sprite(input.Sprites.Wyvern[34 + frameListTongue.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.VisibleFullness > 0 && State.Rand.Next(600) == 0)
+            if (input.A.PredatorComponent?.VisibleFullness > 0 && State.Rand.Next(600) == 0)
             {
-                input.Actor.AnimationController.frameLists[1].currentlyActive = true;
+                input.A.AnimationController.frameLists[1].currentlyActive = true;
             }
         }); // Tongue
 
         builder.RenderSingle(SpriteType.BodySize, 1, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernBellyColor(input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Wyvern[14 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorMap.GetWyvernBellyColor(input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Wyvern[14 + input.U.BodySize]);
         }); // Horns
         builder.RenderSingle(SpriteType.Belly, 5, (input, output) =>
         {
-            output.Coloring(ColorMap.GetWyvernBellyColor(input.Actor.Unit.AccessoryColor));
-            if (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true) ?? false)
-            {
-                if (input.Actor.PredatorComponent.VisibleFullness > 3)
-                {
-                    output.Sprite(input.Sprites.Wyvern[50]);
-                    return;
-                }
-            }
+            output.Coloring(ColorMap.GetWyvernBellyColor(input.U.AccessoryColor));
 
-            if (input.Actor.GetUniversalSize(1) == 0)
+            if (input.A.GetUniversalSize(1) == 0)
             {
                 output.Sprite(input.Sprites.Wyvern[7]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Wyvern[40 + input.Actor.GetUniversalSize(9, .8f)]);
+            output.Sprite(input.Sprites.Wyvern[40 + input.A.GetUniversalSize(9, .8f)]);
         }); // Belly
 
         builder.RenderSingle(SpriteType.Dick, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsCockVoring)
+            if (input.A.IsCockVoring)
             {
                 output.Sprite(input.Sprites.Wyvern[53]);
                 return;
             }
 
-            if (input.Actor.IsUnbirthing)
+            if (input.A.IsUnbirthing)
             {
                 output.Sprite(input.Sprites.Wyvern[51]);
                 return;
             }
 
-            if (input.Actor.IsAnalVoring)
+            if (input.A.IsAnalVoring)
             {
                 output.Sprite(input.Sprites.Wyvern[51]);
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
                 output.Sprite(input.Sprites.Wyvern[52]);
             }

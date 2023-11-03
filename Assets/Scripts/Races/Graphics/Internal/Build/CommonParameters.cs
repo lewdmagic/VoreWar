@@ -1,9 +1,14 @@
-internal interface IOverSizeParameters : IParameters
+public sealed class EmptyParameters : IParameters
+{
+    
+}
+
+public interface IOverSizeParameters : IParameters
 {
     bool Oversize { get; }
 }
 
-internal class OverSizeParameters : IOverSizeParameters
+public class OverSizeParameters : IOverSizeParameters
 {
     public bool Oversize { get; set; } = false;
 }

@@ -66,7 +66,7 @@ public class ItemRepository
     [OdinSerialize]
     List<Item> specialItems;
     [OdinSerialize]
-    List<Item> monsterItems;
+    Dictionary<Race, Item> monsterItems;
     [OdinSerialize]
     public Weapon Claws;
     [OdinSerialize]
@@ -117,48 +117,46 @@ public class ItemRepository
             new SpellBook("Resurrection Book", "Allows the casting of Resurrection", 150, 4, SpellTypes.Resurrection),
             new SpellBook("Reanimate Book", "Allows the casting of Reanimate", 150, 4, SpellTypes.Reanimate),
         };
-        monsterItems = new List<Item>()
+        monsterItems = new Dictionary<Race, Item>()
         {
-            new Weapon(name:"Vagrant Stinger", description:"Jellyfish stinger", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Serpent Fangs", description:"Fangs", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Wyvern Claws", description:"Claws", cost:4, graphic:0, damage:5, range:1),
-            new Weapon(name:"Young Wyvern Claws", description:"Claws", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Puny Claws", description:"Puny Claws", cost:4, graphic:0, damage:2, range:1),
-            new Weapon(name:"Shark Jaws", description:"Shark Jaws", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Wolf Claws", description:"Wolf Claws", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Dark Swallower Jaws", description:"Dark Swallower Jaws", cost:4, graphic:0, damage:2, range:1),
-            new Weapon(name:"Pointy Teeth", description:"Cake Jaws", cost:4, graphic:0, damage:6, range:1),
-            new Weapon(name:"Harvester Scythes", description:"Scythes", cost:4, graphic:0, damage:6, range:1),
-            new Weapon(name:"Collector Maw", description:"Maw", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Voilin Jaws", description:"Jaws", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Bat Jaws", description:"Jaws", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Frog Tongue", description:"Tongue", cost:4, graphic:0, damage:6, range:1),
-            new Weapon(name:"Dragon Claws", description:"Claws", cost:4, graphic:0, damage:6, range:1),
-            new Weapon(name:"Dragonfly Mandibles", description:"Mandibles", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Plant Bite", description:"Bite", cost:4, graphic:0, damage:5, range:1),
-            new Weapon(name:"Fairy Spark", description:"Magical Attack", cost:4, graphic:0, damage:5, range:5, omniWeapon: true, magicWeapon: true),
-            new Weapon(name:"Ant Mandibles", description:"Mandibles", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Gryphon Claws", description:"Gryphon Claws", cost:4, graphic:0, damage:6, range:1),
-            new Weapon(name:"Slug Slime", description:"Slug Slime", cost:4, graphic:0, damage:4, range:5, omniWeapon: true),
-            new Weapon(name:"Slug Headbash", description:"Headbash", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Slug Body Slam", description:"Body Slam", cost:4, graphic:0, damage:5, range:1),
-            new Weapon(name:"Slug Stinger", description:"Venomous Stinger", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Salamander Jaws", description:"Salamander Jaws", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Mantis Scythes", description:"Mantis Scythes", cost:4, graphic:0, damage:6, range:1),
-            new Weapon(name:"Eastern Dragon Jaws", description:"Eastern Jaws", cost:4, graphic:0, damage:5, range:1),
-            new Weapon(name:"Catfish Jaws", description:"Catfish Jaws", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Raptor Jaws", description:"Raptor Jaws", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Warrior Ant Mandibles", description:"Warrior Ant Mandibles", cost:4, graphic:0, damage:3, range:1),
-            new Weapon(name:"Gazelle Headbash", description:"Gazelle Headbash", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Earthworm Maw", description:"Earthworm Maw", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Lizard Jaws", description:"Lizard Jaws", cost:4, graphic:0, damage:6, range:1),
-            new Weapon(name:"Monitor Lizard Claws", description:"Monitor Lizard Claws", cost:4, graphic:0, damage:5, range:1),
-            new Weapon(name:"Schiwardez Jaws", description:"Schiwardez Jaws", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Terrorbird Beak", description:"Terrorbird Beak", cost:4, graphic:0, damage:5, range:1),
-            new Weapon(name:"Dratopyr Jaws", description:"Dratopyr Jaws", cost:4, graphic:0, damage:4, range:1),
-            new Weapon(name:"Lion Fangs", description:"Serrated and pointy (Feline) Canines", cost:4, graphic:0, damage:6, range:1),
-			new Weapon(name:"Goodra Slug Antenna", description:"Goodra's Power Whip", cost:4, graphic:0, damage:5, range:1),
-            new Weapon(name:"Whisp fire", description:"Whisp's FoxFire", cost:4, graphic:0, damage:5, range:5, omniWeapon: true, magicWeapon: true),
+            {Race.Vagrants, new Weapon(name:"Vagrant Stinger", description:"Jellyfish stinger", cost:4, graphic:0, damage:3, range:1) },
+            {Race.Serpents, new Weapon(name:"Serpent Fangs", description:"Fangs", cost:4, graphic:0, damage:3, range:1) },
+            {Race.Wyvern, new Weapon(name:"Wyvern Claws", description:"Claws", cost:4, graphic:0, damage:5, range:1) },
+            {Race.YoungWyvern, new Weapon(name:"Young Wyvern Claws", description:"Claws", cost:4, graphic:0, damage:4, range:1) },
+            {Race.Compy, new Weapon(name:"Puny Claws", description:"Puny Claws", cost:4, graphic:0, damage:2, range:1) },
+            {Race.FeralSharks, new Weapon(name:"Shark Jaws", description:"Shark Jaws", cost:4, graphic:0, damage:4, range:1) },
+            {Race.FeralWolves, new Weapon(name:"Wolf Claws", description:"Wolf Claws", cost:4, graphic:0, damage:4, range:1) },
+            {Race.DarkSwallower, new Weapon(name:"Dark Swallower Jaws", description:"Dark Swallower Jaws", cost:4, graphic:0, damage:2, range:1) },
+            {Race.Cake, new Weapon(name:"Pointy Teeth", description:"Cake Jaws", cost:4, graphic:0, damage:6, range:1) },
+            {Race.Harvesters, new Weapon(name:"Harvester Scythes", description:"Scythes", cost:4, graphic:0, damage:6, range:1) },
+            {Race.Collectors, new Weapon(name:"Collector Maw", description:"Maw", cost:4, graphic:0, damage:4, range:1) },
+            {Race.Voilin, new Weapon(name:"Voilin Jaws", description:"Jaws", cost:4, graphic:0, damage:3, range:1) },
+            {Race.FeralBats, new Weapon(name:"Bat Jaws", description:"Jaws", cost:4, graphic:0, damage:3, range:1) },
+            {Race.FeralFrogs, new Weapon(name:"Frog Tongue", description:"Tongue", cost:4, graphic:0, damage:6, range:1) },
+            {Race.Dragon, new Weapon(name:"Dragon Claws", description:"Claws", cost:4, graphic:0, damage:6, range:1) },
+            {Race.Dragonfly, new Weapon(name:"Dragonfly Mandibles", description:"Mandibles", cost:4, graphic:0, damage:3, range:1) },
+            {Race.TwistedVines, new Weapon(name:"Plant Bite", description:"Bite", cost:4, graphic:0, damage:5, range:1) },
+            {Race.Fairies, new Weapon(name:"Fairy Spark", description:"Magical Attack", cost:4, graphic:0, damage:5, range:5, omniWeapon: true, magicWeapon: true) },
+            {Race.FeralAnts, new Weapon(name:"Ant Mandibles", description:"Mandibles", cost:4, graphic:0, damage:3, range:1) },
+            {Race.Gryphons, new Weapon(name:"Gryphon Claws", description:"Gryphon Claws", cost:4, graphic:0, damage:6, range:1) },
+            {Race.SpitterSlugs, new Weapon(name:"Slug Slime", description:"Slug Slime", cost:4, graphic:0, damage:4, range:5, omniWeapon: true) },
+            {Race.SpringSlugs, new Weapon(name:"Slug Headbash", description:"Headbash", cost:4, graphic:0, damage:3, range:1) },
+            {Race.RockSlugs, new Weapon(name:"Slug Body Slam", description:"Body Slam", cost:4, graphic:0, damage:5, range:1) },
+            {Race.CoralSlugs, new Weapon(name:"Slug Stinger", description:"Venomous Stinger", cost:4, graphic:0, damage:4, range:1) },
+            {Race.Salamanders, new Weapon(name:"Salamander Jaws", description:"Salamander Jaws", cost:4, graphic:0, damage:4, range:1) },
+            {Race.Catfish, new Weapon(name:"Catfish Jaws", description:"Catfish Jaws", cost:4, graphic:0, damage:3, range:1) },
+            {Race.Raptor, new Weapon(name:"Raptor Jaws", description:"Raptor Jaws", cost:4, graphic:0, damage:3, range:1) },
+            {Race.WarriorAnts, new Weapon(name:"Warrior Ant Mandibles", description:"Warrior Ant Mandibles", cost:4, graphic:0, damage:3, range:1) },
+            {Race.Gazelle, new Weapon(name:"Gazelle Headbash", description:"Gazelle Headbash", cost:4, graphic:0, damage:4, range:1) },
+            {Race.Earthworms, new Weapon(name:"Earthworm Maw", description:"Earthworm Maw", cost:4, graphic:0, damage:4, range:1) },
+            {Race.FeralLizards, new Weapon(name:"Lizard Jaws", description:"Lizard Jaws", cost:4, graphic:0, damage:6, range:1) },
+            {Race.Monitors, new Weapon(name:"Monitor Lizard Claws", description:"Monitor Lizard Claws", cost:4, graphic:0, damage:5, range:1) },
+            {Race.Schiwardez, new Weapon(name:"Schiwardez Jaws", description:"Schiwardez Jaws", cost:4, graphic:0, damage:4, range:1) },
+            {Race.Terrorbird, new Weapon(name:"Terrorbird Beak", description:"Terrorbird Beak", cost:4, graphic:0, damage:5, range:1) },
+            {Race.Dratopyr, new Weapon(name:"Dratopyr Jaws", description:"Dratopyr Jaws", cost:4, graphic:0, damage:4, range:1) },
+            {Race.FeralLions, new Weapon(name:"Lion Fangs", description:"Serrated and pointy (Feline) Canines", cost:4, graphic:0, damage:6, range:1) },
+			{Race.Goodra, new Weapon(name:"Goodra Slug Antenna", description:"Goodra's Power Whip", cost:4, graphic:0, damage:5, range:1) },
+            {Race.Whisp, new Weapon(name:"Whisp fire", description:"Whisp's FoxFire", cost:4, graphic:0, damage:5, range:5, omniWeapon: true, magicWeapon: true) },
         };
 
         specialItems = new List<Item>()
@@ -181,7 +179,7 @@ public class ItemRepository
 
         AllItems = new List<Item>();
         AllItems.AddRange(items);
-        AllItems.AddRange(monsterItems);
+        AllItems.AddRange(monsterItems.Values);
         AllItems.AddRange(specialItems);
 
 
@@ -191,7 +189,7 @@ public class ItemRepository
 
     public Item GetItem(int i) => items[i];
 
-    public Item GetMonsterItem(int i) => monsterItems[i];
+    public Item GetMonsterItem(Race i) => monsterItems[i];
 
     public Item GetSpecialItem(SpecialItems i) => specialItems[(int)i];
 
@@ -228,7 +226,7 @@ public class ItemRepository
 
     internal bool ItemIsUnique(Item item)
     {
-        return monsterItems.Contains(item) || specialItems.Contains(item);
+        return monsterItems.ContainsValue(item) || specialItems.Contains(item);
     }
 
     public bool ItemIsRangedWeapon(int i)
@@ -264,11 +262,11 @@ public class ItemRepository
     {
         var ret = items.Where(s => s.Name == item.Name).FirstOrDefault();
         if (ret == null)
-            ret = monsterItems.Where(s => s.Name == item.Name).FirstOrDefault();
+            ret = monsterItems.Values.Where(s => s.Name == item.Name).FirstOrDefault();
         if (ret == null)
             ret = specialItems.Where(s => s.Name == item.Name).FirstOrDefault();
         if (item.Name.Contains("Frog ???"))
-            ret = monsterItems.Where(s => s.Name.Contains("Frog Tongue")).FirstOrDefault();
+            ret = monsterItems.Values.Where(s => s.Name.Contains("Frog Tongue")).FirstOrDefault();
         if (ret == null)
         {
             if (item is Weapon weap)

@@ -1,4 +1,5 @@
-﻿using OdinSerializer;
+﻿using System.Collections.Generic;
+using OdinSerializer;
 using System.Text;
 
 
@@ -42,27 +43,32 @@ public class StrategicStats
 
     }
     [OdinSerialize]
-    RaceStats[] EmpireStats;
+    Dictionary<Side, RaceStats> EmpireStats;
 
     public StrategicStats()
     {
-        int empires = State.World.MainEmpires.Count;
-        EmpireStats = new RaceStats[empires];
-        for (int i = 0; i < empires; i++)
+        EmpireStats = new Dictionary<Side, RaceStats>();
+        foreach (Empire empire in State.World.MainEmpires)
         {
-            EmpireStats[i] = new RaceStats(((Race)i).ToString());
+            
+            
+            EmpireStats[empire.Side] = new RaceStats(empire.Side.ToString());
         }
     }
 
     public void ExpandToIncludeNewRaces()
     {
-        var empireStats = new RaceStats[State.World.MainEmpires.Count];
-        for (int i = 0; i < State.World.MainEmpires.Count; i++)
+        var empireStats = new Dictionary<Side, RaceStats>();
+        foreach (Empire empire in State.World.MainEmpires)
         {
-            if (EmpireStats.Length > i)
-                empireStats[i] = EmpireStats[i];
+            if (EmpireStats.TryGetValue(empire.Side, out RaceStats stats))
+            {
+                empireStats[empire.Side] = EmpireStats[empire.Side];
+            }
             else
-                empireStats[i] = new RaceStats(((Race)i).ToString());
+            {
+                empireStats[empire.Side] = new RaceStats(empire.Side.ToString());
+            }
         }
         EmpireStats = empireStats;
     }
@@ -70,7 +76,7 @@ public class StrategicStats
     public string Summary()
     {
         StringBuilder sb = new StringBuilder();
-        foreach (RaceStats race in EmpireStats)
+        foreach (RaceStats race in EmpireStats.Values)
         {
             if (race.TotalGoldCollected == Config.StartingGold || (race.BattlesLost == 0 && race.BattlesWon == 0))
                 continue;
@@ -93,83 +99,98 @@ public class StrategicStats
         return sb.ToString();
     }
 
-    public void BattleResolution(int winner, int loser)
+    public void BattleResolution(Side winner, Side loser)
     {
-        if (winner >= State.World.MainEmpires.Count || loser >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[winner].BattlesWon++;
-        EmpireStats[loser].BattlesLost++;
+        RaceStats stats;
+        if (EmpireStats.TryGetValue(winner, out stats))
+        {
+            stats.BattlesWon++;
+        }
+        if (EmpireStats.TryGetValue(loser, out stats))
+        {
+            stats.BattlesLost++;
+        }
     }
 
-    public void LostArmy(int side)
+    public void LostArmy(Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].ArmiesLost++;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.ArmiesLost++;
+        }
     }
 
-    public void ResurrectedLeader(int side)
+    public void ResurrectedLeader(Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].LeaderResurrections++;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.LeaderResurrections++;
+        }
     }
 
-    public void CollectedGold(int amount, int side)
+    public void CollectedGold(int amount, Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].TotalGoldCollected += amount;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.TotalGoldCollected++;
+        }
     }
 
-    public void SpentGold(int amount, int side)
+    public void SpentGold(int amount, Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].TotalGoldSpent += amount;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.TotalGoldSpent++;
+        }
     }
 
-    public void SpentGoldOnArmyEquipment(int amount, int side)
+    public void SpentGoldOnArmyEquipment(int amount, Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].GoldSpentOnEquipment += amount;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.GoldSpentOnEquipment++;
+        }
     }
 
-    public void SpentGoldOnBuildings(int amount, int side)
+    public void SpentGoldOnBuildings(int amount, Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].GoldSpentOnBuildings += amount;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.GoldSpentOnBuildings++;
+        }
     }
 
-    public void SpentGoldOnArmyTraining(int amount, int side)
+    public void SpentGoldOnArmyTraining(int amount, Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].GoldSpentOnTraining += amount;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.GoldSpentOnTraining++;
+        }
     }
 
-    public void SpentGoldOnArmyMaintenance(int amount, int side)
+    public void SpentGoldOnArmyMaintenance(int amount, Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].TotalGoldSpent += amount;
-        EmpireStats[side].GoldSpentOnMaintainingArmies += amount;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.TotalGoldSpent++;
+            stats.GoldSpentOnMaintainingArmies++;
+        }
     }
 
-    public void SoldiersRecruited(int amount, int side)
+    public void SoldiersRecruited(int amount, Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].SoldiersRecruited += amount;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.SoldiersRecruited++;
+        }
     }
 
-    public void SoldiersLost(int amount, int side)
+    public void SoldiersLost(int amount, Side side)
     {
-        if (side >= State.World.MainEmpires.Count)
-            return;
-        EmpireStats[side].SoldiersLost += amount;
+        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        {
+            stats.SoldiersLost++;
+        }
     }
 
 

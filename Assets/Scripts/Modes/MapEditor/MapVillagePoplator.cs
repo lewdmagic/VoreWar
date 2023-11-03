@@ -1,5 +1,6 @@
 ﻿using MapObjects;
 using System.Collections.Generic;
+using System.Linq;
 
 
 class MapVillagePopulator
@@ -14,24 +15,24 @@ class MapVillagePopulator
     internal void PopulateVillages(Map map, ref Village[] villages)
     {
         List<Village> newVillages = new List<Village>();
-        Dictionary<int, int> nameIndex = new Dictionary<int, int>();
+        Dictionary<Race, int> nameIndex = new Dictionary<Race, int>();
 
         for (int i = 0; i < map.storedVillages.Length; i++)
         {
-            if (map.storedVillages[i].Race == Race.Vagrants)
+            if (Equals(map.storedVillages[i].Race, Race.Vagrants))
             {
                 Race race = Race.Vagrants;
-                if (nameIndex.ContainsKey((int)race) == false)
-                    nameIndex[(int)race] = 0;
-                Village vill = new Village(State.NameGen.GetTownName(race, nameIndex[(int)race]), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false);
+                if (nameIndex.ContainsKey(race) == false)
+                    nameIndex[race] = 0;
+                Village vill = new Village(State.NameGen.GetTownName(race, nameIndex[race]), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false);
                 vill.SubtractPopulation(999999);
                 newVillages.Add(vill);
-                nameIndex[(int)race] = nameIndex[(int)race] + 1;
+                nameIndex[race] = nameIndex[race] + 1;
                 continue;
             }
-            if (Config.VillagesPerEmpire.Length < (int)map.storedVillages[i].Race)
-                continue;
-            if (Config.VillagesPerEmpire[(int)map.storedVillages[i].Race] == 0)
+            // if (Config.World.VillagesPerEmpire.Count < RaceFuncs.RaceToInt(map.storedVillages[i].Race))
+            //     continue; // TODO check is probably not needed with a dictionary
+            if (Config.World.VillagesPerEmpire[map.storedVillages[i].Race] == 0)
                 continue;
 
             if (map.storedVillages[i].Capital == true)
@@ -42,15 +43,57 @@ class MapVillagePopulator
             else
             {
                 Race race = map.storedVillages[i].Race;
-                if (nameIndex.ContainsKey((int)race) == false)
-                    nameIndex[(int)race] = 0;
-                newVillages.Add(new Village(State.NameGen.GetTownName(race, nameIndex[(int)race] + 1), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false));
-                nameIndex[(int)race] = nameIndex[(int)race] + 1;
+                if (nameIndex.ContainsKey(race) == false)
+                    nameIndex[race] = 0;
+                newVillages.Add(new Village(State.NameGen.GetTownName(race, nameIndex[race] + 1), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false));
+                nameIndex[race] = nameIndex[race] + 1;
             }
 
         }
         villages = newVillages.ToArray();
     }
+    
+    
+    // internal void PopulateVillages(Map map, ref Village[] villages)
+    // {
+    //     List<Village> newVillages = new List<Village>();
+    //     Dictionary<int, int> nameIndex = new Dictionary<int, int>();
+    //
+    //     for (int i = 0; i < map.storedVillages.Length; i++)
+    //     {
+    //         if (map.storedVillages[i].Race == Race.Vagrants)
+    //         {
+    //             Race race = Race.Vagrants;
+    //             if (nameIndex.ContainsKey(RaceFuncs.RaceToInt(race)) == false)
+    //                 nameIndex[RaceFuncs.RaceToInt(race)] = 0;
+    //             Village vill = new Village(State.NameGen.GetTownName(race, nameIndex[RaceFuncs.RaceToInt(race)]), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false);
+    //             vill.SubtractPopulation(999999);
+    //             newVillages.Add(vill);
+    //             nameIndex[RaceFuncs.RaceToInt(race)] = nameIndex[RaceFuncs.RaceToInt(race)] + 1;
+    //             continue;
+    //         }
+    //         if (Config.World.VillagesPerEmpire.Count < RaceFuncs.RaceToInt(map.storedVillages[i].Race))
+    //             continue; // TODO check is probably not needed with a dictionary
+    //         if (Config.World.VillagesPerEmpire[map.storedVillages[i].Race] == 0)
+    //             continue;
+    //
+    //         if (map.storedVillages[i].Capital == true)
+    //         {
+    //             Race race = map.storedVillages[i].Race;
+    //             newVillages.Add(new Village(State.NameGen.GetTownName(race, 0), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, true));
+    //         }
+    //         else
+    //         {
+    //             Race race = map.storedVillages[i].Race;
+    //             if (nameIndex.ContainsKey(RaceFuncs.RaceToInt(race)) == false)
+    //                 nameIndex[RaceFuncs.RaceToInt(race)] = 0;
+    //             newVillages.Add(new Village(State.NameGen.GetTownName(race, nameIndex[RaceFuncs.RaceToInt(race)] + 1), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false));
+    //             nameIndex[RaceFuncs.RaceToInt(race)] = nameIndex[RaceFuncs.RaceToInt(race)] + 1;
+    //         }
+    //
+    //     }
+    //     villages = newVillages.ToArray();
+    // }
 
     internal void PopulateMercenaryHouses(Map map, ref MercenaryHouse[] houses)
     {

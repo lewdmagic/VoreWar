@@ -8,21 +8,49 @@ internal static class Dragonfly
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Dragonfly", "Dragonflies");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 9,
+            StomachSize = 9,
+            HasTail = false,
+            FavoredStat = Stat.Dexterity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.2f,
+            PowerAdjustment = 1.4f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(8, 10),
+                Dexterity = new RaceStats.StatRange(15, 20),
+                Endurance = new RaceStats.StatRange(8, 10),
+                Mind = new RaceStats.StatRange(6, 8),
+                Will = new RaceStats.StatRange(8, 12),
+                Agility = new RaceStats.StatRange(15, 20),
+                Voracity = new RaceStats.StatRange(8, 12),
+                Stomach = new RaceStats.StatRange(8, 10),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Flight,
+                Traits.Tempered
+            },
+            RaceDescription = "The ambient energies that abound in this world sometimes cause normal creatures to grow to abnormal sizes. These dragonflies have adapted their diet to suit their new size and abilities, and are a terror to face unprepared."
+        });
         RaceFrameList frameListWings = new RaceFrameList(new int[3] { 0, 1, 2 }, new float[3] { .02f, .02f, .02f });
 
         builder.Setup(output =>
         {
             output.CanBeGender = new List<Gender> { Gender.None };
 
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Dragonfly);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.Dragonfly);
             output.GentleAnimation = true;
         });
 
 
         builder.RenderSingle(SpriteType.Head, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragonfly, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragonfly, input.U.SkinColor));
+            if (input.A.IsOralVoring || input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Dragonfly[1]);
                 return;
@@ -33,8 +61,8 @@ internal static class Dragonfly
 
         builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragonfly, input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragonfly, input.U.SkinColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
@@ -44,46 +72,37 @@ internal static class Dragonfly
 
         builder.RenderSingle(SpriteType.BodyAccent, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragonfly, input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListWings.Times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragonfly, input.U.SkinColor));
+            if (input.A.AnimationController.frameLists[0].currentTime >= frameListWings.Times[input.A.AnimationController.frameLists[0].currentFrame] && input.U.IsDead == false)
             {
-                input.Actor.AnimationController.frameLists[0].currentFrame++;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentFrame++;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListWings.Frames.Length)
+                if (input.A.AnimationController.frameLists[0].currentFrame >= frameListWings.Frames.Length)
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame = 0;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
                 }
             }
 
-            output.Sprite(input.Sprites.Dragonfly[3 + frameListWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+            output.Sprite(input.Sprites.Dragonfly[3 + frameListWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
         }); // Wings
 
         builder.RenderSingle(SpriteType.Belly, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Dragonfly, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.Predator == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragonfly, input.U.SkinColor));
+            if (input.U.Predator == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
-            {
-                if (input.Actor.PredatorComponent.VisibleFullness > 3)
-                {
-                    output.Sprite(input.Sprites.Dragonfly[27]);
-                    return;
-                }
-            }
-
-            if (!input.Actor.HasBelly)
+            if (!input.A.HasBelly)
             {
                 output.Sprite(input.Sprites.Dragonfly[6]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Dragonfly[7 + input.Actor.GetStomachSize(19)]);
+            output.Sprite(input.Sprites.Dragonfly[7 + input.A.GetStomachSize(19)]);
         }); // Belly
 
         builder.RunBefore(Defaults.Finalize);

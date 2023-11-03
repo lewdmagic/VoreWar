@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,52 @@ internal static class Aabayx
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Aabayx", "Aabayx");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 6,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Strength,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.Anal },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.ViralDigestion,
+                Traits.AwkwardShape,
+                Traits.SlowAbsorption,
+                Traits.SlowBreeder,
+            },
+            RaceDescription = "The Aabayx are a species of virosapiens who recently revealed themselves to the world and were quick to commit to the stage of war.  Strangely enough, they are not new arrivals to the realm, but rather have been in extreme isolation in an unknown location and were waiting for the exact right time to resurface and conquer the masses.  That time is now.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Head Color");
+            buttons.SetText(ButtonType.ClothingExtraType1, "Face Paint");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Akaryocyte",  ///(this one is the capital, by the way)
+            "Infection Site Zero",
+            "Arenai",
+            "Temple of Twenty",
+            "Adnaviria",
+            "Ysynsr aaz Lextrnl's Domain",
+            "Duplodnaviria",
+            "Bacteriophage",
+            "Monodnaviria",
+            "Aychkaynienteeseven",
+            "Riboviria",
+            "Capsid",
+            "Ribozyviria",
+            "Lipid Envelope",
+            "Varidnaviria",
+            "Mimi",
+            "Tevenvirinae",
+            "Myoviridae",
+            "Podoviridae",
+            "Autographiviridae",
+        });
+
         builder.RandomCustom(data =>
         {
             Defaults.RandomCustom(data);
@@ -16,7 +63,6 @@ internal static class Aabayx
 
             unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
         });
-
         builder.Setup(output =>
         {
             output.DickSizes = () => 6;
@@ -32,8 +78,8 @@ internal static class Aabayx
             output.TailTypes = 16;
             output.SpecialAccessoryCount = 0;
             output.ClothingColors = 0;
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AabayxSkin); // Head color
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AabayxSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.AabayxSkin); // Head color
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.AabayxSkin);
 
             output.AllowedMainClothingTypes.Set(
                 AabayxTop1.AabayxTop1Instance,
@@ -68,25 +114,25 @@ internal static class Aabayx
 
         builder.RenderSingle(SpriteType.Head, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Aabayx[2]);
         });
         builder.RenderSingle(SpriteType.Eyes, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.Aabayx[12 + input.Actor.Unit.EyeType]);
+                output.Sprite(input.Sprites.Aabayx[12 + input.U.EyeType]);
             }
         });
 
         builder.RenderSingle(SpriteType.Mouth, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Aabayx[3]);
             }
@@ -94,90 +140,90 @@ internal static class Aabayx
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.BodySize == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+            if (input.U.BodySize == 0)
             {
-                output.Sprite(input.Sprites.Aabayx[0 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output.Sprite(input.Sprites.Aabayx[0 + (input.A.IsAttacking ? 1 : 0)]);
                 return;
             }
 
-            if (input.Actor.Unit.BodySize == 1)
+            if (input.U.BodySize == 1)
             {
-                output.Sprite(input.Sprites.Aabayx[4 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output.Sprite(input.Sprites.Aabayx[4 + (input.A.IsAttacking ? 1 : 0)]);
                 return;
             }
 
-            if (input.Actor.Unit.BodySize == 2)
+            if (input.U.BodySize == 2)
             {
-                output.Sprite(input.Sprites.Aabayx[6 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output.Sprite(input.Sprites.Aabayx[6 + (input.A.IsAttacking ? 1 : 0)]);
                 return;
             }
 
-            if (input.Actor.Unit.BodySize == 3)
+            if (input.U.BodySize == 3)
             {
-                output.Sprite(input.Sprites.Aabayx[8 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output.Sprite(input.Sprites.Aabayx[8 + (input.A.IsAttacking ? 1 : 0)]);
                 return;
             }
 
-            if (input.Actor.Unit.BodySize == 4)
+            if (input.U.BodySize == 4)
             {
-                output.Sprite(input.Sprites.Aabayx[10 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output.Sprite(input.Sprites.Aabayx[10 + (input.A.IsAttacking ? 1 : 0)]);
             }
         });
 
         builder.RenderSingle(SpriteType.BodyAccent3, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Aabayx[60 + input.Actor.Unit.TailType]);
+            output.Sprite(input.Sprites.Aabayx[60 + input.U.TailType]);
         }); // Tail
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+            if (input.A.HasBelly == false)
             {
                 return;
             }
 
-            output.Sprite(input.Actor.HasBelly ? input.Sprites.Aabayx[33 + input.Actor.GetStomachSize(21)] : null);
+            output.Sprite(input.A.HasBelly ? input.Sprites.Aabayx[33 + input.A.GetStomachSize(21)] : null);
         });
 
         builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
             output.AddOffset(0, 3 * .625f);
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
-                    output.Sprite(input.Sprites.HumansBodySprites4[1 + input.Actor.Unit.DickSize * 2 + (input.Actor.Unit.BodySize > 1 ? 12 : 0) + (!input.Actor.Unit.HasBreasts ? 24 : 0)]).Layer(20);
+                    output.Sprite(input.Sprites.HumansBodySprites4[1 + input.U.DickSize * 2 + (input.U.BodySize > 1 ? 12 : 0) + (!input.U.HasBreasts ? 24 : 0)]).Layer(20);
                     return;
                 }
 
-                output.Sprite(input.Sprites.HumansBodySprites4[0 + input.Actor.Unit.DickSize * 2 + (input.Actor.Unit.BodySize > 1 ? 12 : 0) + (!input.Actor.Unit.HasBreasts ? 24 : 0)]).Layer(13);
+                output.Sprite(input.Sprites.HumansBodySprites4[0 + input.U.DickSize * 2 + (input.U.BodySize > 1 ? 12 : 0) + (!input.U.HasBreasts ? 24 : 0)]).Layer(13);
                 return;
             }
 
-            output.Sprite(input.Sprites.HumansBodySprites4[0 + input.Actor.Unit.DickSize * 2 + (input.Actor.Unit.BodySize > 1 ? 12 : 0) + (!input.Actor.Unit.HasBreasts ? 24 : 0)]).Layer(11);
+            output.Sprite(input.Sprites.HumansBodySprites4[0 + input.U.DickSize * 2 + (input.U.BodySize > 1 ? 12 : 0) + (!input.U.HasBreasts ? 24 : 0)]).Layer(11);
         });
 
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
             output.AddOffset(0, 2 * .625f);
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(19);
             }
@@ -186,25 +232,8 @@ internal static class Aabayx
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offsetI = input.Actor.GetBallSize(28, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offsetI == 28)
-            {
-                output.Sprite(input.Sprites.HumansVoreSprites[141]).AddOffset(0, -22 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offsetI == 28)
-            {
-                output.Sprite(input.Sprites.HumansVoreSprites[140]).AddOffset(0, -22 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offsetI == 27)
-            {
-                output.Sprite(input.Sprites.HumansVoreSprites[139]).AddOffset(0, -22 * .625f);
-                return;
-            }
+            int size = input.U.DickSize;
+            int offsetI = input.A.GetBallSize(28, .8f);
 
             if (offsetI >= 26)
             {
@@ -256,9 +285,9 @@ internal static class Aabayx
         builder.RenderSingle(SpriteType.Weapon, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Aabayx[88 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Aabayx[88 + input.A.GetWeaponSprite()]);
             }
         });
     });
@@ -283,7 +312,7 @@ internal static class Aabayx
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(15);
-                output["Clothing1"].Sprite(input.Sprites.Aabayx[96 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output["Clothing1"].Sprite(input.Sprites.Aabayx[96 + (input.A.IsAttacking ? 1 : 0)]);
             });
         });
     }
@@ -303,7 +332,7 @@ internal static class Aabayx
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(15);
-                output["Clothing1"].Sprite(input.Sprites.Aabayx[98 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output["Clothing1"].Sprite(input.Sprites.Aabayx[98 + (input.A.IsAttacking ? 1 : 0)]);
             });
         });
     }
@@ -323,7 +352,7 @@ internal static class Aabayx
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(15);
-                output["Clothing1"].Sprite(input.Sprites.Aabayx[100 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output["Clothing1"].Sprite(input.Sprites.Aabayx[100 + (input.A.IsAttacking ? 1 : 0)]);
             });
         });
     }
@@ -343,7 +372,7 @@ internal static class Aabayx
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(15);
-                output["Clothing1"].Sprite(input.Sprites.Aabayx[102 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output["Clothing1"].Sprite(input.Sprites.Aabayx[102 + (input.A.IsAttacking ? 1 : 0)]);
             });
         });
     }
@@ -363,7 +392,7 @@ internal static class Aabayx
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(15);
-                output["Clothing1"].Sprite(input.Sprites.Aabayx[104 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output["Clothing1"].Sprite(input.Sprites.Aabayx[104 + (input.A.IsAttacking ? 1 : 0)]);
             });
         });
     }
@@ -383,7 +412,7 @@ internal static class Aabayx
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(15);
-                output["Clothing1"].Sprite(input.Sprites.Aabayx[106 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output["Clothing1"].Sprite(input.Sprites.Aabayx[106 + (input.A.IsAttacking ? 1 : 0)]);
             });
         });
     }
@@ -403,7 +432,7 @@ internal static class Aabayx
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(15);
-                output["Clothing1"].Sprite(input.Sprites.Aabayx[108 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output["Clothing1"].Sprite(input.Sprites.Aabayx[108 + (input.A.IsAttacking ? 1 : 0)]);
             });
         });
     }
@@ -519,8 +548,8 @@ internal static class Aabayx
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[7] : input.Sprites.AabayxFacePaint[0]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+                output["Clothing1"].Sprite(input.A.IsOralVoring ? input.Sprites.AabayxFacePaint[7] : input.Sprites.AabayxFacePaint[0]);
             });
         });
     }
@@ -539,8 +568,8 @@ internal static class Aabayx
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                if (input.Actor.IsOralVoring)
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+                if (input.A.IsOralVoring)
                 {
                     output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[8]);
                 }
@@ -566,8 +595,8 @@ internal static class Aabayx
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[9] : input.Sprites.AabayxFacePaint[2]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+                output["Clothing1"].Sprite(input.A.IsOralVoring ? input.Sprites.AabayxFacePaint[9] : input.Sprites.AabayxFacePaint[2]);
             });
         });
     }
@@ -586,8 +615,8 @@ internal static class Aabayx
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[10] : input.Sprites.AabayxFacePaint[3]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+                output["Clothing1"].Sprite(input.A.IsOralVoring ? input.Sprites.AabayxFacePaint[10] : input.Sprites.AabayxFacePaint[3]);
             });
         });
     }
@@ -606,8 +635,8 @@ internal static class Aabayx
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[11] : input.Sprites.AabayxFacePaint[4]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+                output["Clothing1"].Sprite(input.A.IsOralVoring ? input.Sprites.AabayxFacePaint[11] : input.Sprites.AabayxFacePaint[4]);
             });
         });
     }
@@ -626,8 +655,8 @@ internal static class Aabayx
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                output["Clothing1"].Sprite(input.Actor.IsOralVoring ? input.Sprites.AabayxFacePaint[12] : input.Sprites.AabayxFacePaint[5]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+                output["Clothing1"].Sprite(input.A.IsOralVoring ? input.Sprites.AabayxFacePaint[12] : input.Sprites.AabayxFacePaint[5]);
             });
         });
     }
@@ -646,8 +675,8 @@ internal static class Aabayx
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AabayxSkin, input.Actor.Unit.SkinColor));
-                if (!input.Actor.IsOralVoring)
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AabayxSkin, input.U.SkinColor));
+                if (!input.A.IsOralVoring)
                 {
                     output["Clothing1"].Sprite(input.Sprites.AabayxFacePaint[6]);
                 }

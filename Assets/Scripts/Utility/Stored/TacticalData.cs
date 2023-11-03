@@ -21,7 +21,7 @@ public class TacticalData
     public Actor_Unit selectedUnit;
 
     [OdinSerialize]
-    public int defenderSide;
+    public Side defenderSide;
 
     [OdinSerialize]
     public int currentTurn;
@@ -31,7 +31,7 @@ public class TacticalData
     [OdinSerialize]
     public bool isAPlayerTurn;
     [OdinSerialize]
-    public int activeSide;
+    public Side activeSide;
 
     [OdinSerialize]
     public bool AIAttacker;

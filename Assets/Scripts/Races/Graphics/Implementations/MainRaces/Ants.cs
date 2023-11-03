@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,55 @@ internal static class Ants
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Ant", "Ants");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts {  },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Barbed Spear",
+                [WeaponNames.Axe]         = "Quad Blades",
+                [WeaponNames.SimpleBow]   = "Simple Bow",
+                [WeaponNames.CompoundBow] = "Compound Bow"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 9,
+            StomachSize = 12,
+            HasTail = false,
+            FavoredStat = Stat.Strength,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.PackStrength,
+                Traits.RangedIneptitude,
+                Traits.AntPheromones
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Exoskeleton Color");
+            buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Queen's Mound",
+            "Formicia",
+            "Antville",
+            "Red Hill",
+            "Leafcutter Heap",
+            "Sugar Farm",
+            "Paraponera City",
+            "Myrmidon Point",
+            "Bivouac Nest",
+            "Fire Ant Fort",
+            "Larvaburg",
+            "Needlefields",
+            "Flik's Town",
+            "Lasius Rock"
+        });
         IClothing rags = DemiantRags.DemiantRagsInstance;
 
 
@@ -23,8 +73,8 @@ internal static class Ants
             output.HairStyles = 24;
             output.MouthTypes = 3;
             output.EyeColors = 0;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DemiantSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DemiantSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.DemiantSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.DemiantSkin);
 
             output.ExtendedBreastSprites = true;
 
@@ -50,63 +100,63 @@ internal static class Ants
                 GenericBot4.GenericBot4Instance
             );
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AviansSkin);
         });
 
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demiants1[0 + input.Actor.Unit.BodySize] : input.Sprites.Demiants1[3 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Demiants1[0 + input.U.BodySize] : input.Sprites.Demiants1[3 + input.U.BodySize]);
         }); // Upper Body (White)
 
         builder.RenderSingle(SpriteType.Eyes, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Demiants1[24 + input.Actor.Unit.EyeType]);
+            output.Sprite(input.Sprites.Demiants1[24 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsEating)
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Demiants1[32]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Demiants1[33 + input.Actor.Unit.MouthType]);
+            output.Sprite(input.Sprites.Demiants1[33 + input.U.MouthType]);
         });
 
         builder.RenderSingle(SpriteType.Hair, 18, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Demiants1[60 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Demiants1[60 + input.U.HairStyle]);
         });
         
         builder.RenderSingle(SpriteType.Body, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demiants1[6 + input.Actor.Unit.BodySize] : input.Sprites.Demiants1[9 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Demiants1[6 + input.U.BodySize] : input.Sprites.Demiants1[9 + input.U.BodySize]);
         }); // Lower Body (black)
 
         builder.RenderSingle(SpriteType.BodyAccent, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Demiants1[18 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+            output.Sprite(input.Sprites.Demiants1[18 + input.U.BodySize]);
         }); // Abdomen 2 (White)
         
         builder.RenderSingle(SpriteType.BodyAccent2, 19, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demiants1[36 + input.Actor.Unit.SpecialAccessoryType] : input.Sprites.Demiants1[48 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Demiants1[36 + input.U.SpecialAccessoryType] : input.Sprites.Demiants1[48 + input.U.SpecialAccessoryType]);
         }); // Antennae (black)
 
         builder.RenderSingle(SpriteType.BodyAccent3, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasWeapon == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Demiants1[17]);
                     return;
@@ -116,7 +166,7 @@ internal static class Ants
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Demiants1[16]);
@@ -150,10 +200,10 @@ internal static class Ants
 
         builder.RenderSingle(SpriteType.BodyAccent4, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasWeapon == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Demiants1[14]);
                     return;
@@ -163,7 +213,7 @@ internal static class Ants
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Demiants1[12]);
@@ -197,39 +247,20 @@ internal static class Ants
 
         builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Demiants1[21 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Demiants1[21 + input.U.BodySize]);
         }); // Abdomen (black)
         builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Demiants2[31]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Demiants2[30]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Demiants2[29]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
 
                 if (leftSize > 28)
                 {
@@ -240,39 +271,21 @@ internal static class Ants
             }
             else
             {
-                output.Sprite(input.Sprites.Demiants2[0 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Demiants2[0 + input.U.BreastSize]);
             }
         }); // Breasts (white)
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Demiants2[63]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Demiants2[62]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Demiants2[61]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
 
                 if (rightSize > 28)
                 {
@@ -283,39 +296,16 @@ internal static class Ants
             }
             else
             {
-                output.Sprite(input.Sprites.Demiants2[32 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Demiants2[32 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(31, 0.8f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Demiants2[99]).AddOffset(0, -32 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Demiants2[98]).AddOffset(0, -32 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
-                {
-                    output.Sprite(input.Sprites.Demiants2[97]).AddOffset(0, -32 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.Demiants2[96]).AddOffset(0, -32 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(31, 0.8f);
 
                 switch (size)
                 {
@@ -346,22 +336,22 @@ internal static class Ants
         builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
                     output.Layer(20);
-                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Demiants1[100 + input.Actor.Unit.DickSize] : input.Sprites.Demiants1[84 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.A.IsCockVoring ? input.Sprites.Demiants1[100 + input.U.DickSize] : input.Sprites.Demiants1[84 + input.U.DickSize]);
                 }
                 else
                 {
                     output.Layer(13);
-                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Demiants1[108 + input.Actor.Unit.DickSize] : input.Sprites.Demiants1[92 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.A.IsCockVoring ? input.Sprites.Demiants1[108 + input.U.DickSize] : input.Sprites.Demiants1[92 + input.U.DickSize]);
                 }
             }
 
@@ -370,13 +360,13 @@ internal static class Ants
 
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(19);
             }
@@ -385,25 +375,8 @@ internal static class Ants
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offset = input.Actor.GetBallSize(28, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Demiants2[137]).AddOffset(0, -21 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Demiants2[136]).AddOffset(0, -19 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Demiants2[135]).AddOffset(0, -17 * .625f);
-                return;
-            }
+            int size = input.U.DickSize;
+            int offset = input.A.GetBallSize(28, .8f);
 
             if (offset >= 26)
             {
@@ -446,9 +419,9 @@ internal static class Ants
         builder.RenderSingle(SpriteType.Weapon, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Demiants1[116 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Demiants1[116 + input.A.GetWeaponSprite()]);
             }
         });
 
@@ -493,10 +466,10 @@ internal static class Ants
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, rags);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
-                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
+                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypesBasic.Count;
                 }
             }
         });
@@ -524,12 +497,12 @@ internal static class Ants
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[46]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demiants3[38 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demiants3[38 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -556,12 +529,12 @@ internal static class Ants
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[46]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demiants3[38 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demiants3[38 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
 
@@ -584,12 +557,12 @@ internal static class Ants
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[46]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demiants3[38 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demiants3[38 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -615,12 +588,12 @@ internal static class Ants
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[55]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demiants3[47 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demiants3[47 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -646,12 +619,12 @@ internal static class Ants
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[64]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demiants3[56 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demiants3[56 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -679,13 +652,13 @@ internal static class Ants
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[73]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demiants3[65 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demiants3[65 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Demiants3[74]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -714,13 +687,13 @@ internal static class Ants
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[83]);
                     output["Clothing2"].Sprite(input.Sprites.Demiants3[92]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demiants3[75 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Demiants3[84 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demiants3[75 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Demiants3[84 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -746,16 +719,16 @@ internal static class Ants
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demiants3[96 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demiants3[96 + input.U.BreastSize]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -778,9 +751,9 @@ internal static class Ants
             {
                 output["Clothing1"].Layer(18);
 
-                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Demiants3[107 + input.Actor.Unit.BodySize] : input.Sprites.Demiants3[104 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.Demiants3[107 + input.U.BodySize] : input.Sprites.Demiants3[104 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -802,8 +775,8 @@ internal static class Ants
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(18);
-                output["Clothing1"].Sprite(input.Sprites.Demiants3[93 + input.Actor.Unit.BodySize]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Sprite(input.Sprites.Demiants3[93 + input.U.BodySize]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -827,9 +800,9 @@ internal static class Ants
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demiants3[0 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demiants3[0 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -837,8 +810,8 @@ internal static class Ants
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Demiants3[8]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
             });
         });
     }
@@ -870,17 +843,17 @@ internal static class Ants
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[124]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize < 2)
+                    if (input.U.BreastSize < 2)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[120]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 4)
+                    else if (input.U.BreastSize < 4)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[121]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[122]);
                     }
@@ -894,22 +867,22 @@ internal static class Ants
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[125]);
                 }
 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
                     output["Clothing2"].Sprite(null);
                 }
                 else
                 {
-                    output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demiants3[126 + input.Actor.Unit.BodySize] : input.Sprites.Demiants3[129 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Demiants3[126 + input.U.BodySize] : input.Sprites.Demiants3[129 + input.U.BodySize]);
                 }
 
-                output["Clothing3"].Sprite(input.Sprites.Demiants3[132 + input.Actor.Unit.BodySize]);
+                output["Clothing3"].Sprite(input.Sprites.Demiants3[132 + input.U.BodySize]);
 
-                if (input.Actor.GetWeaponSprite() == 1)
+                if (input.A.GetWeaponSprite() == 1)
                 {
                     output["Clothing4"].Sprite(input.Sprites.Demiants3[136]);
                 }
-                else if (input.Actor.GetWeaponSprite() == 3)
+                else if (input.A.GetWeaponSprite() == 3)
                 {
                     output["Clothing4"].Sprite(input.Sprites.Demiants3[137]);
                 }
@@ -941,13 +914,13 @@ internal static class Ants
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize < 3)
+                    if (input.U.BreastSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[117]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[118]);
                     }
@@ -956,12 +929,12 @@ internal static class Ants
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[119]);
                     }
 
-                    output["Clothing2"].Sprite(input.Sprites.Demiants3[110 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Demiants3[110 + input.U.BodySize]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[116]);
-                    output["Clothing2"].Sprite(input.Sprites.Demiants3[113 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Demiants3[113 + input.U.BodySize]);
                 }
             });
         });
@@ -984,13 +957,13 @@ internal static class Ants
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[15]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[17]);
                     }
@@ -1004,10 +977,10 @@ internal static class Ants
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demiants3[9 + input.Actor.Unit.BodySize] : input.Sprites.Demiants3[12 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Demiants3[9 + input.U.BodySize] : input.Sprites.Demiants3[12 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1032,13 +1005,13 @@ internal static class Ants
 
                 output["Clothing2"].Coloring(Color.white);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[25]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[27]);
                     }
@@ -1052,9 +1025,9 @@ internal static class Ants
                     output["Clothing1"].Sprite(input.Sprites.Demiants3[24]);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demiants3[18 + input.Actor.Unit.BodySize] : input.Sprites.Demiants3[21 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Demiants3[18 + input.U.BodySize] : input.Sprites.Demiants3[21 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1078,9 +1051,9 @@ internal static class Ants
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Demiants3[28]);
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demiants3[18 + input.Actor.Unit.BodySize] : input.Sprites.Demiants3[21 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Demiants3[18 + input.U.BodySize] : input.Sprites.Demiants3[21 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1103,13 +1076,13 @@ internal static class Ants
 
                 output["Clothing1"].Layer(13);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[35]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demiants3[37]);
                     }
@@ -1123,10 +1096,10 @@ internal static class Ants
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Demiants3[29 + input.Actor.Unit.BodySize] : input.Sprites.Demiants3[32 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Demiants3[29 + input.U.BodySize] : input.Sprites.Demiants3[32 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }

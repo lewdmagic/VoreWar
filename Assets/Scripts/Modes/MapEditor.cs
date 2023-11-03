@@ -247,19 +247,20 @@ public class MapEditor : SceneBase
     void CatchUpEmpires()
     {
         bool changed = false;
-        for (int i = 0; i < Config.NumberOfRaces; i++)
+        foreach (Race race in RaceFuncs.MainRaceEnumerable())
         {
-            if (State.World.MainEmpires.Where(s => s.Side == i).Any() == false)
+            if (State.World.MainEmpires.Where(s => Equals(s.Side, race.ToSide())).Any() == false)
             {
                 changed = true;
-                State.World.MainEmpires.Add(new Empire(new Empire.ConstructionArgs(i, CreateStrategicGame.ColorFromIndex(i), Color.white, 0, StrategyAIType.Basic, TacticalAIType.Full, i, 16, 16)));
-                State.World.AllActiveEmpires.Add(State.World.MainEmpires.Last());
+                Empire empire = new Empire(new Empire.ConstructionArgs(race, race.ToSide(), CreateStrategicGame.ColorFromRace(race), Color.white, 0, StrategyAIType.Basic, TacticalAIType.Full, RaceFuncs.RaceToIntForTeam(race), 16, 16));
+                State.World.MainEmpiresWritable.Add(empire);
+                State.World.AllActiveEmpiresWritable.Add(empire);
             }
         }
         if (changed)
         {
-            State.World.MainEmpires = State.World.MainEmpires.OrderBy(s => s.Side).ToList();
-            Config.World.VillagesPerEmpire = new int[Config.NumberOfRaces];
+            State.World.SortMainEmpiresBySide();
+            Config.World.resetVillagesPerEmpire();
             State.World.Stats.ExpandToIncludeNewRaces();
             State.World.RefreshTurnOrder();
         }
@@ -358,7 +359,7 @@ public class MapEditor : SceneBase
     internal void SetVillageTooltip(Race race)
     {
         Tooltip.gameObject.SetActive(true);
-        if (race == Race.Vagrants)
+        if (Equals(race, Race.Vagrants))
             Tooltip.text = $"Place abandoned Village";
         else
             Tooltip.text = $"Place {race} Village";
@@ -509,8 +510,7 @@ public class MapEditor : SceneBase
         {
             foreach (Army army in empire.Armies)
             {
-
-                if (army.Side < 30)
+                if (RaceFuncs.IsMainRace3(army.Side))
                 {
                     if (army.BannerStyle > (int)BannerTypes.VoreWar && CustomBannerTest.Sprites[army.BannerStyle - 23] != null)
                     {
@@ -899,10 +899,10 @@ public class MapEditor : SceneBase
                 bool activeRace = false;
                 foreach (Empire empire in State.World.MainEmpires)
                 {
-                    if (empire.Race == villageRace)
+                    if (Equals(empire.Race, villageRace))
                         activeRace = true;
                 }
-                if (villageRace == Race.Vagrants)
+                if (Equals(villageRace, Race.Vagrants))
                     activeRace = true;
                 if (activeRace == false)
                     return;
@@ -924,8 +924,8 @@ public class MapEditor : SceneBase
                     }
                 }
 
-                var curVillages = State.World.Villages.Where(s => s.Side == (int)villageRace);
-                if (curVillages.Where(s => s.Capital || s.Race == Race.Vagrants).Any() == false)
+                var curVillages = State.World.Villages.Where(s => Equals(s.Side, villageRace.ToSide()));
+                if (curVillages.Where(s => s.Capital || Equals(s.Race, Race.Vagrants)).Any() == false)
                 {
                     newVillage = new Village(State.NameGen.GetTownName(villageRace, 0), clickLocation, 8, villageRace, true);
                 }
@@ -952,7 +952,7 @@ public class MapEditor : SceneBase
                 LastActionBuilder.Add(() => DestroyVillagesAtTile(new Vec2i(x, y)));
                 var villages = State.World.Villages.ToList();
                 villages.Add(newVillage);
-                if (newVillage.Race == Race.Vagrants)
+                if (Equals(newVillage.Race, Race.Vagrants))
                     newVillage.SubtractPopulation(99999);
                 State.World.Villages = villages.ToArray();
                 RefreshVillageCounts();
@@ -964,13 +964,13 @@ public class MapEditor : SceneBase
                 Village vill = StrategicUtilities.GetVillageAt(clickLocation);
                 if (vill != null)
                 {
-                    if (vill.Side != State.World.GetEmpireOfRace(villageRace).Side)
+                    if (!Equals(vill.Side, State.World.GetEmpireOfRace(villageRace).Side))
                     {
                         var lastSide = State.World.GetEmpireOfRace(villageRace).Side;
                         LastActionBuilder.Add(() => vill.ChangeOwner(State.World.GetEmpireOfRace(villageRace).Side));
                         vill.ChangeOwner(State.World.GetEmpireOfRace(villageRace).Side);
                     }
-                    else if (vill.Race == villageRace)
+                    else if (Equals(vill.Race, villageRace))
                     {
                         var lastPop = vill.GetTotalPop();
                         LastActionBuilder.Add(() => { vill.SubtractPopulation(99999); vill.AddPopulation(lastPop); });
@@ -984,7 +984,7 @@ public class MapEditor : SceneBase
                 Village newVillage;
                 if (vill != null)
                 {
-                    var curVillages = State.World.Villages.Where(s => s.Side == (int)villageRace);
+                    var curVillages = State.World.Villages.Where(s => Equals(s.Side, villageRace.ToSide()));
                     if (curVillages.Where(s => s.Capital).Any() == false)
                     {
                         newVillage = new Village(State.NameGen.GetTownName(villageRace, 0), clickLocation, 8, villageRace, true);
@@ -1202,7 +1202,7 @@ public class MapEditor : SceneBase
         for (int i = 0; i < map.storedVillages.Length; i++)
         {
             newVillages.Add(new Village("None", map.storedVillages[i].Position, 8, map.storedVillages[i].Race, map.storedVillages[i].Capital));
-            if (newVillages.Last().Race == Race.Vagrants)
+            if (Equals(newVillages.Last().Race, Race.Vagrants))
                 newVillages.Last().SubtractPopulation(99999);
         }
         State.World.Villages = newVillages.ToArray();
@@ -1449,16 +1449,18 @@ public class MapEditor : SceneBase
 
     private static void RefreshVillageCounts()
     {
-        if (Config.VillagesPerEmpire.Length != State.World.MainEmpires.Count)
-            Config.World.VillagesPerEmpire = new int[State.World.MainEmpires.Count];
-        for (int i = 0; i < State.World.MainEmpires.Count; i++)
+        // TODO many checks are probably redundant
+        if (Config.World.VillagesPerEmpire.Count() != State.World.MainEmpires.Count)
+            Config.World.resetVillagesPerEmpire();
+        foreach (Race race in Config.World.VillagesPerEmpire.Keys)
         {
-            Config.VillagesPerEmpire[i] = 0;
+            // TODO probably can be replaced with resetVillagesPerEmpire
+            Config.World.VillagesPerEmpire[race] = 0;
         }
         foreach (Village vill in State.World.Villages)
         {
-            if (vill.Race < Race.Succubi)
-                Config.VillagesPerEmpire[(int)vill.Race]++;
+            if (RaceFuncs.IsMainRace(vill.Side))
+                Config.World.VillagesPerEmpire[vill.Race]++;
         }
     }
 
@@ -1487,9 +1489,9 @@ public class MapEditor : SceneBase
                 sb.AppendLine($"Village: {villageAtCursor.Name}");
                 if (villageAtCursor.Capital)
                     sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");
-                if (villageAtCursor.Race != Race.Vagrants || villageAtCursor.GetTotalPop() != 0)
+                if (!Equals(villageAtCursor.Race, Race.Vagrants) || villageAtCursor.GetTotalPop() != 0)
                 {
-                    sb.AppendLine($"Owner: {(Race)villageAtCursor.Side}");
+                    sb.AppendLine($"Owner: {villageAtCursor.Side.ToRace()}");
                     sb.AppendLine($"Race: {villageAtCursor.Race}");
                 }
                 else
@@ -1501,7 +1503,7 @@ public class MapEditor : SceneBase
             }
             else
             {
-                if (villageAtCursor.Race != Race.Vagrants || villageAtCursor.GetTotalPop() != 0)
+                if (!Equals(villageAtCursor.Race, Race.Vagrants) || villageAtCursor.GetTotalPop() != 0)
                 {
                     if (villageAtCursor.Capital)
                         sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");

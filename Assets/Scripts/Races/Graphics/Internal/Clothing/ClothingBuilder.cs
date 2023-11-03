@@ -12,62 +12,64 @@ internal abstract class ClothingBuilderShared
     {
         IClothingSetupInput input = new ClothingSetupInput();
         ClothingMiscData copy = template.ShallowCopy();
-        setMisc(input, copy);
+        setMisc?.Invoke(input, copy);
         Misc = copy;
     }
-
-    private class ClothingSetupInput : IClothingSetupInput
+    
+    public void Setup(ClothingMiscData template)
     {
-        public SpriteDictionary Sprites => State.GameManager.SpriteDictionary;
+        Setup(template, null);
+    }
+}
+
+internal class ClothingRenderInputImpl : RenderInput, IClothingRenderInput
+{
+    public ClothingRenderInputImpl(Actor_Unit actor) : base(actor)
+    {
+            
+    }
+}
+
+public abstract class ClothingDataShared : IClothingDataSimple
+{
+    private protected readonly ClothingMiscData Misc;
+    public IClothingDataFixed FixedData { get; set; }
+
+    protected ClothingDataShared(ClothingMiscData fixedData)
+    {
+        Misc = fixedData;
+        FixedData = fixedData;
     }
 
-    private protected class ClothingRenderInputImpl : IClothingRenderInput
+    public bool CanWear(Unit unit)
     {
-        public ClothingRenderInputImpl(Actor_Unit actor)
+        if (FixedData.MaleOnly && (unit.HasBreasts || unit.HasDick == false))
         {
-            Actor = actor;
+            return false;
         }
 
-        public Actor_Unit Actor { get; private set; }
-        public SpriteDictionary Sprites => State.GameManager.SpriteDictionary;
+        if (FixedData.FemaleOnly && unit.HasDick && unit.HasBreasts == false)
+        {
+            return false;
+        }
+
+        if (FixedData.LeaderOnly && unit.Type != UnitType.Leader)
+        {
+            return false;
+        }
+
+        if (FixedData.ReqWinterHoliday && Config.WinterActive() == false)
+        {
+            return false;
+        }
+
+        return true;
     }
+}
 
-    private protected abstract class ClothingDataShared : IClothingDataSimple
-    {
-        private protected readonly ClothingMiscData Misc;
-        public IClothingDataFixed FixedData { get; set; }
-
-        protected ClothingDataShared(ClothingMiscData fixedData)
-        {
-            Misc = fixedData;
-            FixedData = fixedData;
-        }
-
-        public bool CanWear(Unit unit)
-        {
-            if (FixedData.MaleOnly && (unit.HasBreasts || unit.HasDick == false))
-            {
-                return false;
-            }
-
-            if (FixedData.FemaleOnly && unit.HasDick && unit.HasBreasts == false)
-            {
-                return false;
-            }
-
-            if (FixedData.LeaderOnly && unit.Type != UnitType.Leader)
-            {
-                return false;
-            }
-
-            if (FixedData.ReqWinterHoliday && Config.WinterActive() == false)
-            {
-                return false;
-            }
-
-            return true;
-        }
-    }
+internal class ClothingSetupInput : IClothingSetupInput
+{
+    public SpriteDictionary Sprites => State.GameManager.SpriteDictionary;
 }
 
 
@@ -112,24 +114,6 @@ internal class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
         builderUser.Invoke(builder);
         return builder.BuildClothing();
     }
-
-    private class Clothing : ClothingDataShared, IClothing
-    {
-        private readonly Action<IClothingRenderInput, IClothingRenderOutput> _completeGen;
-
-        public Clothing(ClothingMiscData fixedData, Action<IClothingRenderInput, IClothingRenderOutput> completeGen) : base(fixedData)
-        {
-            _completeGen = completeGen;
-        }
-
-        public ClothingRenderOutput Configure(Actor_Unit actor, IParameters parameters, SpriteChangeDict changeDict)
-        {
-            IClothingRenderInput input = new ClothingRenderInputImpl(actor);
-            ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc);
-            _completeGen.Invoke(input, renderOutput);
-            return renderOutput;
-        }
-    }
 }
 
 internal class ClothingBuilder<T> : ClothingBuilderShared, IClothingBuilder<T> where T : IParameters
@@ -145,36 +129,5 @@ internal class ClothingBuilder<T> : ClothingBuilderShared, IClothingBuilder<T> w
     internal IClothing<T> BuildClothing()
     {
         return new Clothing<T>(Misc, _completeGen);
-    }
-
-
-    private class Clothing<TS> : ClothingDataShared, IClothing<TS> where TS : IParameters
-    {
-        private readonly Action<IClothingRenderInput<TS>, IClothingRenderOutput> _completeGen;
-
-        public Clothing(ClothingMiscData misc, Action<IClothingRenderInput<TS>, IClothingRenderOutput> completeGen) : base(misc)
-        {
-            _completeGen = completeGen;
-        }
-
-        public ClothingRenderOutput Configure(Actor_Unit actor, TS state, SpriteChangeDict changeDict)
-        {
-            IClothingRenderInput<TS> input = new ClothingRenderInputImpl<TS>(actor, state);
-            ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc);
-
-            _completeGen.Invoke(input, renderOutput);
-
-            return renderOutput;
-        }
-
-        private class ClothingRenderInputImpl<TU> : ClothingRenderInputImpl, IClothingRenderInput<TU> where TU : IParameters
-        {
-            public ClothingRenderInputImpl(Actor_Unit actor, TU state) : base(actor)
-            {
-                Params = state;
-            }
-
-            public TU Params { get; private set; }
-        }
     }
 }

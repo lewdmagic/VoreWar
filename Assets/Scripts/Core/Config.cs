@@ -37,8 +37,6 @@ static class Config
         Disabled
     }
 
-    public const int NumberOfRaces = 30;
-
     public const int NewItemSlots = 2;
 
     public const int GarrisonCost = 8;
@@ -55,7 +53,7 @@ static class Config
     public static float TacticalAttackDelay = 0.2f;
     public static float TacticalVoreDelay = 0.3f;
 
-    public static int MaxVillages => World.VillagesPerEmpire.Sum();
+    public static int MaxVillages => World.VillagesPerEmpire.Values.Sum();
 
     public static AutoAdvanceType AutoAdvance = AutoAdvanceType.AdvanceTurns;
     public static bool StopAtEndOfBattle = false;
@@ -113,8 +111,26 @@ static class Config
 
     public static bool KuroTenkoConvertsAllTypes = false;
 
-    public static bool[] CenteredEmpire = new bool[NumberOfRaces];
+    public static Dictionary<Race, bool> CenteredEmpire = MakeCenteredEmpire();
 
+    
+    internal static void ResetCenteredEmpire()
+    {
+        CenteredEmpire = MakeCenteredEmpire();
+    }
+
+    private static Dictionary<Race, bool> MakeCenteredEmpire()
+    {
+        Dictionary<Race, bool> villagesPerEmpire = new Dictionary<Race, bool>();
+        foreach (Race race in RaceFuncs.MainRaceEnumerable())
+        {
+            villagesPerEmpire[race] = false;
+        }
+
+        return villagesPerEmpire;
+    }
+    
+    
     public static int StartingGold;
 
     //Everything below this line should be mirrored in WorldConfigStorage to ensure proper saving
@@ -122,7 +138,7 @@ static class Config
     internal static WorldConfig World = new WorldConfig();
 
 
-    internal static int[] VillagesPerEmpire => World.VillagesPerEmpire;
+    //internal static int[] VillagesPerEmpire => World.VillagesPerEmpire;
 
     internal static MonsterConquestType MonsterConquest => World.MonsterConquest;
     internal static int MonsterConquestTurns => World.MonsterConquestTurns;
@@ -209,9 +225,6 @@ static class Config
     internal static int LeaderLossLevels => World.LeaderLossLevels;
 
     public static bool LamiaUseTailAsSecondBelly => World.GetValue("LamiaUseTailAsSecondBelly");
-
-    internal static SpawnerInfo SpawnerInfo(Race race) => World.GetSpawner(race);
-    internal static SpawnerInfo SpawnerInfoWithoutGeneration(Race race) => World.GetSpawnerWithoutGeneration(race);
 
     internal static VictoryType VictoryCondition => World.VictoryCondition;
     internal static int BreastSizeModifier => World.BreastSizeModifier;

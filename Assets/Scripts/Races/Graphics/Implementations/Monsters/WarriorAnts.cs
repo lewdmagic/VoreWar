@@ -8,21 +8,55 @@ internal static class WarriorAnts
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Warrior Ant", "Warrior Ants");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 8,
+            StomachSize = 14,
+            HasTail = false,
+            FavoredStat = Stat.Strength,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.1f,
+            PowerAdjustment = 1.3f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(8, 12),
+                Dexterity = new RaceStats.StatRange(12, 15),
+                Endurance = new RaceStats.StatRange(8, 12),
+                Mind = new RaceStats.StatRange(16, 20),
+                Will = new RaceStats.StatRange(6, 10),
+                Agility = new RaceStats.StatRange(8, 12),
+                Voracity = new RaceStats.StatRange(8, 12),
+                Stomach = new RaceStats.StatRange(8, 12),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.AcidResistant,
+                Traits.PackStrength,
+                Traits.SlowDigestion
+            },
+            RaceDescription = ""
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.Skintone, "Body Color");
+            buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
+        });
         builder.Setup(output =>
         {
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SpecialAccessoryCount = 9; // antennae
             output.ClothingColors = 0;
             output.GentleAnimation = true;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DemiantSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DemiantSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.DemiantSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.DemiantSkin);
         });
 
 
         builder.RenderSingle(SpriteType.Head, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.WarriorAnt[1]);
                 return;
@@ -39,7 +73,7 @@ internal static class WarriorAnts
         builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.WarriorAnt[2]);
             }
@@ -47,8 +81,8 @@ internal static class WarriorAnts
 
         builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+            if (input.A.HasBelly == false)
             {
                 output.Sprite(input.Sprites.WarriorAnt[16]);
             }
@@ -56,8 +90,8 @@ internal static class WarriorAnts
 
         builder.RenderSingle(SpriteType.BodyAccent, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.WarriorAnt[4]);
                 return;
@@ -68,44 +102,23 @@ internal static class WarriorAnts
 
         builder.RenderSingle(SpriteType.BodyAccent2, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
             output.Sprite(input.Sprites.WarriorAnt[5]);
         }); // legs
         builder.RenderSingle(SpriteType.BodyAccessory, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.WarriorAnt[6 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.WarriorAnt[6 + input.U.SpecialAccessoryType]);
         }); // antennae
         builder.RenderSingle(SpriteType.Belly, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemiantSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
+            if (input.A.HasBelly == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
-            {
-                output.Sprite(input.Sprites.WarriorAnt[36]);
-                return;
-            }
-
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach))
-            {
-                if (input.Actor.GetStomachSize(16, .8f) == 20)
-                {
-                    output.Sprite(input.Sprites.WarriorAnt[35]);
-                    return;
-                }
-
-                if (input.Actor.GetStomachSize(16, .9f) == 20)
-                {
-                    output.Sprite(input.Sprites.WarriorAnt[34]);
-                    return;
-                }
-            }
-
-            output.Sprite(input.Sprites.WarriorAnt[17 + input.Actor.GetStomachSize(16)]);
+            output.Sprite(input.Sprites.WarriorAnt[17 + input.A.GetStomachSize(16)]);
         });
 
 

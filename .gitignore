@@ -115,5 +115,4 @@ $RECYCLE.BIN/
 *.bak
 *.bak.meta
 .vsconfig
-LibraryBackup
-Assets/package/Api/GlobalSuppressions.cs
+.idea

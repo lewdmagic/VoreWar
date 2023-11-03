@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,47 @@ internal static class Komodos
 {
     internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Komodo", "Komodos");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "komodo", "komodo dragon", "komodo lizard" }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 18,
+            StomachSize = 18,
+            HasTail = true,
+            FavoredStat = Stat.Strength,
+            CanUseRangedWeapons = false,
+            PowerAdjustment = 1.4f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(16, 24),
+                Dexterity = new RaceStats.StatRange(6, 10),
+                Endurance = new RaceStats.StatRange(14, 24),
+                Mind = new RaceStats.StatRange(6, 12),
+                Will = new RaceStats.StatRange(8, 16),
+                Agility = new RaceStats.StatRange(10, 16),
+                Voracity = new RaceStats.StatRange(16, 24),
+                Stomach = new RaceStats.StatRange(12, 18),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Biter,
+                Traits.VenomousBite,
+                Traits.Intimidating,
+                Traits.Resilient,
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Head Shape");
+            buttons.SetText(ButtonType.BodyAccentTypes2, "Secondary Pattern Type");
+            buttons.SetText(ButtonType.BodyAccentTypes3, "Head Pattern on/off");
+        });
         builder.Setup(output =>
         {
             output.DickSizes = () => 8;
@@ -20,8 +62,8 @@ internal static class Komodos
             output.HairStyles = 0;
             output.MouthTypes = 0;
             output.HairColors = 0;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.KomodosSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.KomodosSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.KomodosSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.KomodosSkin);
             output.BodyAccentTypes1 = 11; // head shapes
             output.BodyAccentTypes2 = 6; // secondary body pattern
             output.BodyAccentTypes3 = 2; // head pattern on/off
@@ -48,7 +90,7 @@ internal static class Komodos
                 GenericBot3.GenericBot3Instance
             );
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AviansSkin);
         });
 
 
@@ -60,16 +102,16 @@ internal static class Komodos
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 4)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 4)
             {
-                if (input.Actor.IsOralVoring)
+                if (input.A.IsOralVoring)
                 {
                     output.Sprite(input.Sprites.Komodos1[61]);
                     return;
                 }
 
-                if (input.Actor.IsAttacking || input.Actor.IsEating)
+                if (input.A.IsAttacking || input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Komodos1[58]);
                     return;
@@ -77,15 +119,15 @@ internal static class Komodos
 
                 output.Sprite(input.Sprites.Komodos1[55]);
             }
-            else if (input.Actor.Unit.SpecialAccessoryType == 3)
+            else if (input.U.SpecialAccessoryType == 3)
             {
-                if (input.Actor.IsOralVoring)
+                if (input.A.IsOralVoring)
                 {
                     output.Sprite(input.Sprites.Komodos1[59]);
                     return;
                 }
 
-                if (input.Actor.IsAttacking || input.Actor.IsEating)
+                if (input.A.IsAttacking || input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Komodos1[56]);
                     return;
@@ -95,13 +137,13 @@ internal static class Komodos
             }
             else
             {
-                if (input.Actor.IsOralVoring)
+                if (input.A.IsOralVoring)
                 {
                     output.Sprite(input.Sprites.Komodos1[60]);
                     return;
                 }
 
-                if (input.Actor.IsAttacking || input.Actor.IsEating)
+                if (input.A.IsAttacking || input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Komodos1[57]);
                     return;
@@ -113,10 +155,10 @@ internal static class Komodos
 
         builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Komodos1[65 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            output.Sprite(input.Sprites.Komodos1[65 + input.U.EyeType]);
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.AddOffset(0, 1 * .625f);
             }
@@ -125,13 +167,13 @@ internal static class Komodos
         builder.RenderSingle(SpriteType.Mouth, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Komodos1[63]);
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Komodos1[62]);
             }
@@ -139,15 +181,15 @@ internal static class Komodos
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            int sat = Mathf.Clamp(input.Actor.Unit.SpecialAccessoryType, 0, 4); //Protect against out of bounds from other unit types.  
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Komodos1[0 + input.Actor.Unit.BodySize + 10 * sat] : input.Sprites.Komodos1[4 + input.Actor.Unit.BodySize + 10 * sat]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+            int sat = Mathf.Clamp(input.U.SpecialAccessoryType, 0, 4); //Protect against out of bounds from other unit types.  
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Komodos1[0 + input.U.BodySize + 10 * sat] : input.Sprites.Komodos1[4 + input.U.BodySize + 10 * sat]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.IsAttacking ? input.Sprites.Komodos1[9 + 10 * input.Actor.Unit.SpecialAccessoryType] : input.Sprites.Komodos1[8 + 10 * input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+            output.Sprite(input.A.IsAttacking ? input.Sprites.Komodos1[9 + 10 * input.U.SpecialAccessoryType] : input.Sprites.Komodos1[8 + 10 * input.U.SpecialAccessoryType]);
         }); // Right Arm
 
         builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
@@ -157,88 +199,88 @@ internal static class Komodos
         }); // Toenails
         builder.RenderSingle(SpriteType.BodyAccent3, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.BodyAccentType1 == 10)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+            if (input.U.BodyAccentType1 == 10)
             {
             }
-            else if (input.Actor.Unit.SpecialAccessoryType == 3)
+            else if (input.U.SpecialAccessoryType == 3)
             {
-                output.Sprite(input.Sprites.Komodos3[10 + input.Actor.Unit.BodyAccentType1]);
+                output.Sprite(input.Sprites.Komodos3[10 + input.U.BodyAccentType1]);
             }
             else
             {
-                output.Sprite(input.Sprites.Komodos3[0 + input.Actor.Unit.BodyAccentType1]);
+                output.Sprite(input.Sprites.Komodos3[0 + input.U.BodyAccentType1]);
             }
         }); // Head Shape
 
         builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType2 == 5)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.AccessoryColor));
+            if (input.U.BodyAccentType2 == 5)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.Komodos3[20 + input.Actor.Unit.BodySize + 10 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Komodos3[20 + input.U.BodySize + 10 * input.U.BodyAccentType2]);
             }
         }); // Body Secondary Pattern
 
         builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType3 == 1 || input.Actor.Unit.BodyAccentType2 == 5)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.AccessoryColor));
+            if (input.U.BodyAccentType3 == 1 || input.U.BodyAccentType2 == 5)
             {
             }
-            else if (input.Actor.IsOralVoring)
+            else if (input.A.IsOralVoring)
             {
-                output.Sprite(input.Sprites.Komodos3[29 + 10 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Komodos3[29 + 10 * input.U.BodyAccentType2]);
             }
-            else if (input.Actor.IsAttacking || input.Actor.IsEating)
+            else if (input.A.IsAttacking || input.A.IsEating)
             {
-                output.Sprite(input.Sprites.Komodos3[28 + 10 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Komodos3[28 + 10 * input.U.BodyAccentType2]);
             }
             else
             {
-                output.Sprite(input.Sprites.Komodos3[27 + 10 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Komodos3[27 + 10 * input.U.BodyAccentType2]);
             }
         }); // Head Secondary Pattern
 
         builder.RenderSingle(SpriteType.BodyAccent6, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType2 == 5)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.AccessoryColor));
+            if (input.U.BodyAccentType2 == 5)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.Komodos3[26 + 10 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Komodos3[26 + 10 * input.U.BodyAccentType2]);
             }
         }); // Tail Secondary Pattern
 
         builder.RenderSingle(SpriteType.BodyAccent7, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType2 == 5)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.AccessoryColor));
+            if (input.U.BodyAccentType2 == 5)
             {
             }
-            else if (input.Actor.IsAttacking)
+            else if (input.A.IsAttacking)
             {
-                output.Sprite(input.Sprites.Komodos3[25 + 10 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Komodos3[25 + 10 * input.U.BodyAccentType2]);
             }
             else
             {
-                output.Sprite(input.Sprites.Komodos3[24 + 10 * input.Actor.Unit.BodyAccentType2]);
+                output.Sprite(input.Sprites.Komodos3[24 + 10 * input.U.BodyAccentType2]);
             }
         }); // Right Arm Secondary Pattern
 
         builder.RenderSingle(SpriteType.BodyAccessory, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 4)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 4)
             {
                 output.Sprite(input.Sprites.Komodos1[52]);
             }
-            else if (input.Actor.Unit.SpecialAccessoryType == 3)
+            else if (input.U.SpecialAccessoryType == 3)
             {
                 output.Sprite(input.Sprites.Komodos1[50]);
             }
@@ -251,32 +293,14 @@ internal static class Komodos
         builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
         {
             output.Coloring(KomodoColor(input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(30 * 30));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Komodos2[29]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Komodos2[28]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 26)
-                {
-                    output.Sprite(input.Sprites.Komodos2[27]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(30 * 30));
 
                 if (leftSize > 26)
                 {
@@ -287,39 +311,21 @@ internal static class Komodos
             }
             else
             {
-                output.Sprite(input.Sprites.Komodos2[0 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Komodos2[0 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 17, (input, output) =>
         {
             output.Coloring(KomodoColor(input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(30 * 30));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Komodos2[59]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Komodos2[58]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 26)
-                {
-                    output.Sprite(input.Sprites.Komodos2[57]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(30 * 30));
 
                 if (rightSize > 26)
                 {
@@ -330,39 +336,16 @@ internal static class Komodos
             }
             else
             {
-                output.Sprite(input.Sprites.Komodos2[30 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Komodos2[30 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
             output.Coloring(KomodoColor(input.Actor));
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(26, 0.7f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 26)
-                {
-                    output.Sprite(input.Sprites.Komodos2[90]).AddOffset(0, -12 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 26)
-                {
-                    output.Sprite(input.Sprites.Komodos2[89]).AddOffset(0, -12 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 25)
-                {
-                    output.Sprite(input.Sprites.Komodos2[88]).AddOffset(0, -12 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 24)
-                {
-                    output.Sprite(input.Sprites.Komodos2[87]).AddOffset(0, -12 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(26, 0.7f);
 
                 switch (size)
                 {
@@ -384,22 +367,22 @@ internal static class Komodos
         builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(31 * 31)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(31 * 31)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(31 * 31)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(31 * 31)) < 16)
                 {
                     output.Layer(20);
-                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Komodos1[79 + input.Actor.Unit.DickSize] : input.Sprites.Komodos1[71 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.A.IsCockVoring ? input.Sprites.Komodos1[79 + input.U.DickSize] : input.Sprites.Komodos1[71 + input.U.DickSize]);
                 }
                 else
                 {
                     output.Layer(13);
-                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Komodos1[95 + input.Actor.Unit.DickSize] : input.Sprites.Komodos1[87 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.A.IsCockVoring ? input.Sprites.Komodos1[95 + input.U.DickSize] : input.Sprites.Komodos1[87 + input.U.DickSize]);
                 }
             }
 
@@ -409,12 +392,12 @@ internal static class Komodos
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
             output.Coloring(KomodoColor(input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(30 * 30)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(30 * 30)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(30 * 30)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(30 * 30)) < 16)
             {
                 output.Layer(19);
             }
@@ -423,25 +406,8 @@ internal static class Komodos
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offset = input.Actor.GetBallSize(27, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Komodos2[127]).AddOffset(0, -27 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Komodos2[126]).AddOffset(0, -22 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 26)
-            {
-                output.Sprite(input.Sprites.Komodos2[125]).AddOffset(0, -18 * .625f);
-                return;
-            }
+            int size = input.U.DickSize;
+            int offset = input.A.GetBallSize(27, .8f);
 
             if (offset >= 25)
             {
@@ -468,9 +434,9 @@ internal static class Komodos
         builder.RenderSingle(SpriteType.Weapon, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                switch (input.Actor.GetWeaponSprite())
+                switch (input.A.GetWeaponSprite())
                 {
                     case 0:
                         output.Sprite(input.Sprites.Komodos1[103]);
@@ -525,10 +491,10 @@ internal static class Komodos
     {
         if (actor.Unit.SpecialAccessoryType == 4)
         {
-            return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosReversed, actor.Unit.SkinColor);
+            return ColorPaletteMap.GetPalette(SwapType.KomodosReversed, actor.Unit.SkinColor);
         }
 
-        return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, actor.Unit.SkinColor);
+        return ColorPaletteMap.GetPalette(SwapType.KomodosSkin, actor.Unit.SkinColor);
     }
 
 
@@ -553,12 +519,12 @@ internal static class Komodos
                 {
                     output["Clothing1"].Sprite(input.Sprites.Komodos4[47]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Komodos4[39 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Komodos4[39 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -584,12 +550,12 @@ internal static class Komodos
                 {
                     output["Clothing1"].Sprite(input.Sprites.Komodos4[57]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Komodos4[49 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Komodos4[49 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -617,13 +583,13 @@ internal static class Komodos
                 {
                     output["Clothing1"].Sprite(input.Sprites.Komodos4[67]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Komodos4[59 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Komodos4[59 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Komodos4[69]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -651,13 +617,13 @@ internal static class Komodos
                     output["Clothing1"].Sprite(null);
                     output["Clothing2"].Sprite(input.Sprites.Komodos4[78]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Komodos4[80 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Komodos4[70 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Komodos4[80 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Komodos4[70 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -683,12 +649,12 @@ internal static class Komodos
                 {
                     output["Clothing1"].Sprite(input.Sprites.Komodos4[96]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Komodos4[88 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Komodos4[88 + input.U.BreastSize]);
                 }
                 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -712,22 +678,22 @@ internal static class Komodos
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Komodos4[1 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Komodos4[1 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Komodos4[0]);
 
-                if (input.Actor.Unit.SpecialAccessoryType == 4)
+                if (input.U.SpecialAccessoryType == 4)
                 {
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosReversed, input.Actor.Unit.SkinColor));
-                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosReversed, input.Actor.Unit.SkinColor));
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosReversed, input.U.SkinColor));
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosReversed, input.U.SkinColor));
                 }
                 else
                 {
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
                 }
             });
         });
@@ -756,12 +722,12 @@ internal static class Komodos
                 {
                     output["Clothing1"].Sprite(input.Sprites.Komodos4[37]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Komodos4[29 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Komodos4[29 + input.U.BreastSize]);
                 }
 
-                output["Clothing2"].Sprite(input.Sprites.Komodos4[25 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.Sprites.Komodos4[25 + input.U.BodySize]);
             });
         });
     }
@@ -785,13 +751,13 @@ internal static class Komodos
 
                 output["Clothing2"].Coloring(Color.white);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Komodos4[15]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Komodos4[17]);
                     }
@@ -805,9 +771,9 @@ internal static class Komodos
                     output["Clothing1"].Sprite(input.Sprites.Komodos4[14]);
                 }
 
-                output["Clothing2"].Sprite(input.Sprites.Komodos4[10 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.Sprites.Komodos4[10 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -830,9 +796,9 @@ internal static class Komodos
                 output["Clothing2"].Layer(12);
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Komodos4[18]);
-                output["Clothing2"].Sprite(input.Sprites.Komodos4[10 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.Sprites.Komodos4[10 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -855,7 +821,7 @@ internal static class Komodos
 
                 output["Clothing1"].Coloring(Color.white);
 
-                output["Clothing1"].Sprite(input.Sprites.Komodos4[20 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.Sprites.Komodos4[20 + input.U.BodySize]);
             });
         });
     }

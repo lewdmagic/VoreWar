@@ -8,12 +8,46 @@ internal static class EasternDragon
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Eastern Dragon", "Eastern Dragons");
+        builder.FlavorText(new FlavorText(
+            new Texts { "tasty noodle", "noodle derg", "spaghetti-like", "easily-slurpable" },
+            new Texts {  }, // Missing in original
+            new Texts { "oriental dragon", "serpentine dragon", {"eastern dragoness", Gender.Female}, {"eastern dragon", Gender.Male} }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 20,
+            StomachSize = 20,
+            HasTail = true,
+            FavoredStat = Stat.Mind,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore, VoreType.Unbirth },
+            ExpMultiplier = 1.6f,
+            PowerAdjustment = 1.9f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(12, 22),
+                Dexterity = new RaceStats.StatRange(8, 16),
+                Endurance = new RaceStats.StatRange(12, 18),
+                Mind = new RaceStats.StatRange(14, 30),
+                Will = new RaceStats.StatRange(8, 18),
+                Agility = new RaceStats.StatRange(14, 28),
+                Voracity = new RaceStats.StatRange(12, 22),
+                Stomach = new RaceStats.StatRange(12, 22),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Flight,
+                Traits.Ravenous
+            },
+            RaceDescription = "A variety of dragons especially attuned to magic, the Eastern Dragons, or Lung Dragons as they are also known as, are able to fly without wings. Reminiscent of snakes, the Eastern Dragons are readily able to prove that the resemblance is more than skin deep, devouring large prey with ease.",
+
+        });
         RaceFrameList frameListEyes = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .2f, .3f, .2f, .2f });
         RaceFrameList frameListTongue = new RaceFrameList(new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 }, new float[8] { 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f });
 
         builder.Setup(output =>
         {
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.EasternDragon); // Main body, legs, head, tail upper
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.EasternDragon); // Main body, legs, head, tail upper
             output.GentleAnimation = true;
             output.WeightGainDisabled = true;
             output.CanBeGender = new List<Gender> { Gender.Male, Gender.Female };
@@ -23,44 +57,44 @@ internal static class EasternDragon
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EasternDragon, input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EasternDragon, input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.EasternDragon[3]);
                 return;
             }
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentlyActive = false;
+                input.A.AnimationController.frameLists[0].currentFrame = 0;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
                 output.Sprite(input.Sprites.EasternDragon[4]);
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListEyes.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.frameLists[0].currentTime >= frameListEyes.Times[input.A.AnimationController.frameLists[0].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame++;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame++;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListEyes.Frames.Length)
+                    if (input.A.AnimationController.frameLists[0].currentFrame >= frameListEyes.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.frameLists[0].currentlyActive = false;
+                        input.A.AnimationController.frameLists[0].currentFrame = 0;
+                        input.A.AnimationController.frameLists[0].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.EasternDragon[1 + frameListEyes.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.EasternDragon[1 + frameListEyes.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
             if (State.Rand.Next(750) == 0)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+                input.A.AnimationController.frameLists[0].currentlyActive = true;
             }
 
             output.Sprite(input.Sprites.EasternDragon[1]);
@@ -69,7 +103,7 @@ internal static class EasternDragon
         builder.RenderSingle(SpriteType.Mouth, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.EasternDragon[5]);
             }
@@ -77,8 +111,8 @@ internal static class EasternDragon
 
         builder.RenderSingle(SpriteType.Body, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EasternDragon, input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EasternDragon, input.U.SkinColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
@@ -88,20 +122,20 @@ internal static class EasternDragon
 
         builder.RenderSingle(SpriteType.BodyAccent, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EasternDragon, input.Actor.Unit.SkinColor));
-            if (!Config.HideCocks && input.Actor.PredatorComponent?.BallsFullness > 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EasternDragon, input.U.SkinColor));
+            if (!Config.HideCocks && input.A.PredatorComponent?.BallsFullness > 0)
             {
                 output.Sprite(input.Sprites.EasternDragon[38]).AddOffset(128 * .3125f, 0);
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.WombFullness > 0)
+            if (input.A.PredatorComponent?.WombFullness > 0)
             {
                 output.Sprite(input.Sprites.EasternDragon[38]).AddOffset(128 * .3125f, 0);
                 return;
             }
 
-            if (input.Actor.IsCockVoring || input.Actor.IsUnbirthing)
+            if (input.A.IsCockVoring || input.A.IsUnbirthing)
             {
                 output.Sprite(input.Sprites.EasternDragon[38]).AddOffset(128 * .3125f, 0);
                 return;
@@ -112,10 +146,10 @@ internal static class EasternDragon
 
         builder.RenderSingle(SpriteType.BodyAccent2, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EasternDragon, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.GetGender() == Gender.Male)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EasternDragon, input.U.SkinColor));
+            if (input.U.GetGender() == Gender.Male)
             {
-                if (input.Actor.Unit.DickSize < 0)
+                if (input.U.DickSize < 0)
                 {
                     return;
                 }
@@ -125,14 +159,14 @@ internal static class EasternDragon
                     return;
                 }
 
-                if (input.Actor.PredatorComponent?.BallsFullness > 0 || input.Actor.IsCockVoring)
+                if (input.A.PredatorComponent?.BallsFullness > 0 || input.A.IsCockVoring)
                 {
                     output.Sprite(input.Sprites.EasternDragon[39]);
                 }
             }
             else
             {
-                if (input.Actor.PredatorComponent?.WombFullness > 0 || input.Actor.IsUnbirthing)
+                if (input.A.PredatorComponent?.WombFullness > 0 || input.A.IsUnbirthing)
                 {
                     output.Sprite(input.Sprites.EasternDragon[67]);
                 }
@@ -142,7 +176,7 @@ internal static class EasternDragon
         builder.RenderSingle(SpriteType.BodyAccent3, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsUnbirthing)
+            if (input.A.IsUnbirthing)
             {
                 output.Sprite(input.Sprites.EasternDragon[68]);
             }
@@ -150,28 +184,10 @@ internal static class EasternDragon
 
         builder.RenderSingle(SpriteType.BodyAccent4, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EasternDragon, input.Actor.Unit.SkinColor));
-            if (input.Actor.GetWombSize(17) > 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EasternDragon, input.U.SkinColor));
+            if (input.A.GetWombSize(17) > 0)
             {
-                int sprite = input.Actor.GetWombSize(17, 0.8f);
-
-                if (sprite == 17 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.womb) ?? false))
-                {
-                    output.Sprite(input.Sprites.EasternDragon[86]);
-                    return;
-                }
-
-                if (sprite == 17 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.womb) ?? false))
-                {
-                    output.Sprite(input.Sprites.EasternDragon[85]);
-                    return;
-                }
-
-                if (sprite == 16 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.womb) ?? false))
-                {
-                    output.Sprite(input.Sprites.EasternDragon[84]);
-                    return;
-                }
+                int sprite = input.A.GetWombSize(17, 0.8f);
 
                 output.Sprite(input.Sprites.EasternDragon[68 + sprite]);
             }
@@ -180,73 +196,55 @@ internal static class EasternDragon
         builder.RenderSingle(SpriteType.SecondaryAccessory, 9, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (!input.Actor.Targetable)
+            if (!input.A.Targetable)
             {
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsOralVoring)
+            if (input.A.IsAttacking || input.A.IsOralVoring)
             {
-                input.Actor.AnimationController.frameLists[1].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[1].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                input.A.AnimationController.frameLists[1].currentlyActive = false;
+                input.A.AnimationController.frameLists[1].currentFrame = 0;
+                input.A.AnimationController.frameLists[1].currentTime = 0f;
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[1].currentlyActive)
+            if (input.A.AnimationController.frameLists[1].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[1].currentTime >= frameListTongue.Times[input.Actor.AnimationController.frameLists[1].currentFrame])
+                if (input.A.AnimationController.frameLists[1].currentTime >= frameListTongue.Times[input.A.AnimationController.frameLists[1].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[1].currentFrame++;
-                    input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                    input.A.AnimationController.frameLists[1].currentFrame++;
+                    input.A.AnimationController.frameLists[1].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[1].currentFrame >= frameListTongue.Frames.Length)
+                    if (input.A.AnimationController.frameLists[1].currentFrame >= frameListTongue.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[1].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[1].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[1].currentTime = 0f;
+                        input.A.AnimationController.frameLists[1].currentlyActive = false;
+                        input.A.AnimationController.frameLists[1].currentFrame = 0;
+                        input.A.AnimationController.frameLists[1].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.EasternDragon[10 + frameListTongue.Frames[input.Actor.AnimationController.frameLists[1].currentFrame]]);
+                output.Sprite(input.Sprites.EasternDragon[10 + frameListTongue.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.VisibleFullness > 0 && State.Rand.Next(1200) == 0)
+            if (input.A.PredatorComponent?.VisibleFullness > 0 && State.Rand.Next(1200) == 0)
             {
-                input.Actor.AnimationController.frameLists[1].currentlyActive = true;
+                input.A.AnimationController.frameLists[1].currentlyActive = true;
             }
         }); // Tongue
 
         builder.RenderSingle(SpriteType.BodySize, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EasternDragon, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.EasternDragon[6 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EasternDragon, input.U.SkinColor));
+            output.Sprite(input.Sprites.EasternDragon[6 + input.U.BodySize]);
         }); // Horns
         builder.RenderSingle(SpriteType.Belly, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EasternDragon, input.Actor.Unit.SkinColor));
-            if (input.Actor.PredatorComponent?.ExclusiveStomachFullness > 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EasternDragon, input.U.SkinColor));
+            if (input.A.PredatorComponent?.ExclusiveStomachFullness > 0)
             {
-                int sprite = input.Actor.GetExclusiveStomachSize(16, 0.8f);
-
-                if (sprite == 16 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false))
-                {
-                    output.Sprite(input.Sprites.EasternDragon[37]).AddOffset(0, 0 * .625f);
-                    return;
-                }
-
-                if (sprite == 16 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
-                {
-                    output.Sprite(input.Sprites.EasternDragon[36]).AddOffset(0, 0 * .625f);
-                    return;
-                }
-
-                if (sprite == 15 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
-                {
-                    output.Sprite(input.Sprites.EasternDragon[35]).AddOffset(0, 0 * .625f);
-                    return;
-                }
+                int sprite = input.A.GetExclusiveStomachSize(16, 0.8f);
 
                 if (sprite >= 14)
                 {
@@ -258,19 +256,19 @@ internal static class EasternDragon
                 return;
             }
 
-            if (input.Actor.GetExclusiveStomachSize(1) == 0)
+            if (input.A.GetExclusiveStomachSize(1) == 0)
             {
                 output.Sprite(input.Sprites.EasternDragon[19]);
                 return;
             }
 
-            output.Sprite(input.Sprites.EasternDragon[20 + input.Actor.GetExclusiveStomachSize(14, 0.8f)]);
+            output.Sprite(input.Sprites.EasternDragon[20 + input.A.GetExclusiveStomachSize(14, 0.8f)]);
         }); // Belly
 
         builder.RenderSingle(SpriteType.Dick, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.DickSize < 0)
+            if (input.U.DickSize < 0)
             {
                 return;
             }
@@ -280,13 +278,13 @@ internal static class EasternDragon
                 return;
             }
 
-            if (input.Actor.IsCockVoring)
+            if (input.A.IsCockVoring)
             {
                 output.Sprite(input.Sprites.EasternDragon[41]);
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
                 output.Sprite(input.Sprites.EasternDragon[40]);
             }
@@ -294,8 +292,8 @@ internal static class EasternDragon
 
         builder.RenderSingle(SpriteType.Balls, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EasternDragon, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.DickSize < 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EasternDragon, input.U.SkinColor));
+            if (input.U.DickSize < 0)
             {
                 return;
             }
@@ -305,27 +303,9 @@ internal static class EasternDragon
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.BallsFullness > 0 || input.Actor.IsCockVoring)
+            if (input.A.PredatorComponent?.BallsFullness > 0 || input.A.IsCockVoring)
             {
-                int sprite = input.Actor.GetBallSize(24, 0.8f);
-
-                if (sprite == 24 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false))
-                {
-                    output.Sprite(input.Sprites.EasternDragon[66]);
-                    return;
-                }
-
-                if (sprite == 24 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false))
-                {
-                    output.Sprite(input.Sprites.EasternDragon[65]);
-                    return;
-                }
-
-                if (sprite == 23 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false))
-                {
-                    output.Sprite(input.Sprites.EasternDragon[64]);
-                    return;
-                }
+                int sprite = input.A.GetBallSize(24, 0.8f);
 
                 if (sprite >= 22)
                 {

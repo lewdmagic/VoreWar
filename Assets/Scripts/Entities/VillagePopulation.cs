@@ -456,7 +456,7 @@ public class VillagePopulation
     {
         if (Config.MultiRaceVillages == false)
             race = Village.Race;
-        var rec = NamedRecruitables.Where(s => s.Race == race).OrderBy(s => s.Experience).FirstOrDefault();
+        var rec = NamedRecruitables.Where(s => Equals(s.Race, race)).OrderBy(s => s.Experience).FirstOrDefault();
         if (rec != null)
         {
             NamedRecruitables.Remove(rec);
@@ -493,11 +493,11 @@ public class VillagePopulation
         {
             if (Population.Count <= x)
                 break;
-            Population[x].Hireables = NamedRecruitables.Where(s => s.Race == Population[x].Race).Count();
+            Population[x].Hireables = NamedRecruitables.Where(s => Equals(s.Race, Population[x].Race)).Count();
             while (NamedRecruitables.Count > 0 && Population[x].Population < Population[x].Hireables)
             {
                 RemoveLowestHireable(Population[x].Race);
-                var count = NamedRecruitables.Where(s => s.Race == Population[x].Race).Count();
+                var count = NamedRecruitables.Where(s => Equals(s.Race, Population[x].Race)).Count();
                 if (count < Population[x].Hireables)
                     Population[x].Hireables = count;
 

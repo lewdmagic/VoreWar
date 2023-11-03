@@ -1,7 +1,53 @@
-﻿internal static class Alligators
+﻿using System.Collections.Generic;
+
+internal static class Alligators
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Alligator", "Alligators");
+        builder.FlavorText(new FlavorText(
+            new Texts { "crocodilian", "lumbering", "swampy" },
+            new Texts { "armoured", "large jawed", "swampy", {"interior crocodile alligator", 0.005} },
+            new Texts { "gator", "alligator", "crocodilian", "reptile" },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Turtle Club",
+                [WeaponNames.Axe]         = "Flint Spear",
+                [WeaponNames.SimpleBow]   = "Simple Bow",
+                [WeaponNames.CompoundBow] = "Compound Bow",
+                [WeaponNames.Claw]        = "Claws"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 15,
+            StomachSize = 20,
+            HasTail = true,
+            FavoredStat = Stat.Strength,
+            CanUseRangedWeapons = false,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore, VoreType.Unbirth, VoreType.Anal },
+            ExpMultiplier = 1.25f,
+            PowerAdjustment = 1.5f,
+            RaceStats = new RaceStats() // Stronger, tougher, slower moving and with slower digestion. (Crocodilians would normally have a very strong digestion, but that reguires focusing on it, not going on fighting.)
+                // Wider, shorter throats also make eating easier, but also make prey's escape easier. (Not in RL, obviously. Or perhaps they would, if crocodilians had a habit of swallowing sizeable living prey.)
+                {
+                    Strength = new RaceStats.StatRange(10, 18),
+                    Dexterity = new RaceStats.StatRange(4, 7),
+                    Endurance = new RaceStats.StatRange(12, 18),
+                    Mind = new RaceStats.StatRange(5, 10),
+                    Will = new RaceStats.StatRange(8, 14),
+                    Agility = new RaceStats.StatRange(6, 10),
+                    Voracity = new RaceStats.StatRange(7, 14),
+                    Stomach = new RaceStats.StatRange(8, 14),
+                },
+            RacialTraits = new List<Traits>() // Alligator = Lizard+
+            {
+                Traits.Ravenous, // Bonus to voracity before eating
+                Traits.Resilient, // Damage decrease
+                Traits.Intimidating, // Penalty to enemies in melee range
+            },
+            RaceDescription = "Natives to great swamps on another dimension, the Alligators emerge sporadically from portals across the land. Either unwilling or unable to settle this realm, they instead work as mercenaries for hire. Large, tough and intimidating, they make great bruisers, but seem totally unable to understand the principle of ranged weapons.",
+        });
         builder.Setup(output =>
         {
             // Alligators have three different dick sizes and no breasts.
@@ -9,7 +55,7 @@
             output.BreastSizes = () => 1;
             // These set the layers and colour options used by the various alligator parts.
 
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Alligator); // All parts use these colours or are precoloured.
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.Alligator); // All parts use these colours or are precoloured.
             // Alligators have 4 mouth options (three different mouth corner variants and an empty option showing the base expression) and 4 different eyes to choose from.
             output.MouthTypes = 4;
             output.EyeTypes = 4;
@@ -23,34 +69,34 @@
         builder.RenderSingle(SpriteType.Eyes, 0, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Alligators[8 + input.Actor.Unit.EyeType]);
+            output.Sprite(input.Sprites.Alligators[8 + input.U.EyeType]);
         }); // The eyes come precoloured for the 'gators, and go under the body to boot.
         builder.RenderSingle(SpriteType.Mouth, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Alligator, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.MouthType == 0 ? null : input.Sprites.Alligators[4 + input.Actor.Unit.MouthType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Alligator, input.U.SkinColor));
+            output.Sprite(input.U.MouthType == 0 ? null : input.Sprites.Alligators[4 + input.U.MouthType]);
         }); // The mouth corners, not the actual mouth.
         builder.RenderSingle(SpriteType.Hair, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Alligator, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.IsOralVoring ? input.Sprites.Alligators[3] : null);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Alligator, input.U.SkinColor));
+            output.Sprite(input.A.IsOralVoring ? input.Sprites.Alligators[3] : null);
         }); // Open mouth edges.
         builder.RenderSingle(SpriteType.Hair2, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Actor.IsOralVoring ? input.Sprites.Alligators[4] : null);
+            output.Sprite(input.A.IsOralVoring ? input.Sprites.Alligators[4] : null);
         }); // Open mouth inside.
         builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Alligator, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.IsAttacking ? input.Sprites.Alligators[1] : input.Sprites.Alligators[0]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Alligator, input.U.SkinColor));
+            output.Sprite(input.A.IsAttacking ? input.Sprites.Alligators[1] : input.Sprites.Alligators[0]);
         }); // Main body.
         builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Alligator, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasWeapon == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Alligator, input.U.SkinColor));
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Alligators[48]);
                     return;
@@ -60,7 +106,7 @@
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Alligators[46]);
@@ -87,14 +133,14 @@
         }); // Toenails.
         builder.RenderSingle(SpriteType.BodyAccent3, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Alligator, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsUnbirthing)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Alligator, input.U.SkinColor));
+            if (input.A.IsUnbirthing)
             {
                 output.Sprite(input.Sprites.Alligators[23]);
                 return;
             }
 
-            if (input.Actor.IsAnalVoring)
+            if (input.A.IsAnalVoring)
             {
                 output.Sprite(input.Sprites.Alligators[23]);
                 return;
@@ -106,7 +152,7 @@
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
                 output.Sprite(input.Sprites.Alligators[17]);
             }
@@ -116,14 +162,14 @@
         {
             output.Coloring(Defaults.WhiteColored);
             Accessory acc = null;
-            if (input.Actor.Unit.Items == null || input.Actor.Unit.Items.Length < 3)
+            if (input.U.Items == null || input.U.Items.Length < 3)
             {
                 return;
             }
 
-            if (input.Actor.Unit.Items[2] is Accessory)
+            if (input.U.Items[2] is Accessory)
             {
-                acc = (Accessory)input.Actor.Unit.Items[2];
+                acc = (Accessory)input.U.Items[2];
             }
 
             GetItemAccessorySprite(input, output, acc);
@@ -133,14 +179,14 @@
         {
             output.Coloring(Defaults.WhiteColored);
             Accessory acc = null;
-            if (input.Actor.Unit.Items == null || input.Actor.Unit.Items.Length < 2)
+            if (input.U.Items == null || input.U.Items.Length < 2)
             {
                 return;
             }
 
-            if (input.Actor.Unit.Items[1] is Accessory)
+            if (input.U.Items[1] is Accessory)
             {
-                acc = (Accessory)input.Actor.Unit.Items[1];
+                acc = (Accessory)input.U.Items[1];
             }
 
             GetItemAccessorySprite(input, output, acc);
@@ -149,37 +195,37 @@
         builder.RenderSingle(SpriteType.BodyAccessory, 9, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.Level > 19)
+            if (input.U.Level > 19)
             {
                 output.Sprite(input.Sprites.Alligators[44]);
                 return;
             }
 
-            if (input.Actor.Unit.Level > 17)
+            if (input.U.Level > 17)
             {
                 output.Sprite(input.Sprites.Alligators[43]);
                 return;
             }
 
-            if (input.Actor.Unit.Level > 14)
+            if (input.U.Level > 14)
             {
                 output.Sprite(input.Sprites.Alligators[42]);
                 return;
             }
 
-            if (input.Actor.Unit.Level > 11)
+            if (input.U.Level > 11)
             {
                 output.Sprite(input.Sprites.Alligators[41]);
                 return;
             }
 
-            if (input.Actor.Unit.Level > 8)
+            if (input.U.Level > 8)
             {
                 output.Sprite(input.Sprites.Alligators[40]);
                 return;
             }
 
-            if (input.Actor.Unit.Level > 4)
+            if (input.U.Level > 4)
             {
                 output.Sprite(input.Sprites.Alligators[39]);
             }
@@ -189,14 +235,14 @@
         {
             output.Coloring(Defaults.WhiteColored);
             Accessory acc = null;
-            if (input.Actor.Unit.Items == null || input.Actor.Unit.Items.Length < 1)
+            if (input.U.Items == null || input.U.Items.Length < 1)
             {
                 return;
             }
 
-            if (input.Actor.Unit.Items[0] is Accessory)
+            if (input.U.Items[0] is Accessory)
             {
-                acc = (Accessory)input.Actor.Unit.Items[0];
+                acc = (Accessory)input.U.Items[0];
             }
 
             GetItemAccessorySprite(input, output, acc);
@@ -204,8 +250,8 @@
 
         builder.RenderSingle(SpriteType.Belly, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Alligator, input.Actor.Unit.SkinColor));
-            int bellySize = input.Actor.GetUniversalSize(8); //One extra for the empty check
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Alligator, input.U.SkinColor));
+            int bellySize = input.A.GetUniversalSize(8); //One extra for the empty check
             bellySize -= 1;
             if (bellySize == -1)
             {
@@ -218,14 +264,14 @@
         builder.RenderSingle(SpriteType.Dick, 12, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAnalVoring)
+            if (input.A.IsAnalVoring)
             {
                 return;
             }
 
-            if (input.Actor.IsCockVoring)
+            if (input.A.IsCockVoring)
             {
-                if (input.Actor.Unit.DickSize < 2)
+                if (input.U.DickSize < 2)
                 {
                     output.Sprite(input.Sprites.Alligators[21]);
                     return;
@@ -235,15 +281,15 @@
                 return;
             }
 
-            if (input.Actor.IsUnbirthing)
+            if (input.A.IsUnbirthing)
             {
                 output.Sprite(input.Sprites.Alligators[24]);
                 return;
             }
 
-            if (input.Actor.IsErect() && !Config.HideCocks)
+            if (input.A.IsErect() && !Config.HideCocks)
             {
-                switch (input.Actor.Unit.DickSize)
+                switch (input.U.DickSize)
                 {
                     case 0:
                         output.Sprite(input.Sprites.Alligators[18]);
@@ -261,12 +307,12 @@
         builder.RenderSingle(SpriteType.Weapon, 11, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon == false)
+            if (input.U.HasWeapon == false)
             {
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Alligators[12]);
@@ -318,9 +364,9 @@
 
         if (acc == State.World.ItemRepository.GetItem(ItemType.Gauntlet))
         {
-            if (input.Actor.Unit.HasWeapon == false)
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Alligators[35]);
                     return;
@@ -330,7 +376,7 @@
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Alligators[34]);

@@ -146,7 +146,7 @@ public class RandomizerTraitEditor : MonoBehaviour
 
     private void Remove(RandomizerTrait rt)
     {
-        foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
+        foreach (Race race in RaceFuncs.RaceEnumerable())
         {
             RaceSettingsItem item = State.RaceSettings.Get(race);
             item.RaceTraits.Remove((Traits)rt.id);

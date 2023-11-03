@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,48 @@ internal static class Sergal
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Sergal", "Sergals");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "furred", "sergal", "Eltussian" }, //new, many thanks to Flame_Valxsarion
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Lance",
+                [WeaponNames.Axe]         = "Twin Glaive",
+                [WeaponNames.SimpleBow]   = "Speargun",
+                [WeaponNames.CompoundBow] = "Prototype Railgun" //changed to "prototype railgun", thanks to Flame_Valxsarion
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 11,
+            StomachSize = 14,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.KeenReflexes,
+                Traits.StrongMelee,
+                Traits.EscapeArtist
+            },
+            RaceDescription = "",
+        });
+        builder.TownNames(new List<string>
+        {
+            "Glorious City of Eltus",
+            "Gold Ring",
+            "Astna",
+            "Tesae",
+            "Col Hazma",
+            "Adzma",
+            "Nihazama",
+            "Lon Sodd",
+            "Reono",
+            "Etai",
+            "Magoe",
+            "Salt Outpost"
+        });
         builder.Setup(output =>
         {
             output.BreastSizes = () => 10;
@@ -38,8 +81,8 @@ internal static class Sergal
 
         builder.RenderSingle(SpriteType.Head, 4, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
-                if (input.Actor.IsEating)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
+                if (input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Sergal[1]);
                 }
@@ -47,26 +90,26 @@ internal static class Sergal
 
         builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Sergal[4 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            output.Sprite(input.Sprites.Sergal[4 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Sergal[8 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Sergal[8 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Sergal[0]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 6, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
-                if (input.Actor.IsAttacking)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
+                if (input.A.IsAttacking)
                 {
-                    if (input.Actor.BestRanged != null)
+                    if (input.A.BestRanged != null)
                     {
                         output.Sprite(input.Sprites.Sergal[3]);
                         return;
@@ -81,47 +124,41 @@ internal static class Sergal
 
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Sergal[16 + input.Actor.Unit.BreastSize] : null);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Sergal[16 + input.U.BreastSize] : null);
         });
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
+            if (input.A.HasBelly == false)
             {
                 return;
             }
 
-            int size = input.Actor.GetStomachSize(18);
-            if (size == 18 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true,
-                    PreyLocation.stomach, PreyLocation.womb))
-            {
-                output.Sprite(input.Sprites.Sergal[45]);
-                return;
-            }
+            int size = input.A.GetStomachSize(18);
 
             output.Sprite(input.Sprites.Sergal[26 + size]);
         });
 
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Dick].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
+            Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
         });
 
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Balls].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
+            Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
         });
 
 
         builder.RenderSingle(SpriteType.Weapon, 14, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Sergal[46 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Sergal[46 + input.A.GetWeaponSprite()]);
             }
         });
 
@@ -164,15 +201,15 @@ internal static class BaseOutfit
             output["Clothing3"].Layer(13);
             output["Clothing2"].Layer(13);
             output["Clothing1"].Layer(13);
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FurStrict, input.Actor.Unit.AccessoryColor));
-            output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.FurStrict, input.U.AccessoryColor));
+            output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
             output["Clothing1"].Layer(13);
             output.RevealsBreasts = false;
-            if (input.Actor.Unit.BreastSize <= 2)
+            if (input.U.BreastSize <= 2)
             {
                 output["Clothing1"].Sprite(input.Sprites.Sergal[59]);
             }
-            else if (input.Actor.Unit.BreastSize >= 7)
+            else if (input.U.BreastSize >= 7)
             {
                 output.RevealsBreasts = true;
                 output.ChangeSprite(SpriteType.Breasts).Layer(16);
@@ -180,9 +217,9 @@ internal static class BaseOutfit
             }
 
             output["Clothing1"].Layer(17);
-            output["Clothing1"].Sprite(input.Sprites.Sergal[57 + input.Actor.Unit.BreastSize]);
+            output["Clothing1"].Sprite(input.Sprites.Sergal[57 + input.U.BreastSize]);
             output["Clothing2"].Sprite(input.Sprites.Sergal[54]);
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
                 output["Clothing3"].Sprite(null);
             }
@@ -190,9 +227,9 @@ internal static class BaseOutfit
             output["Clothing3"].Sprite(input.Sprites.Sergal[55]);
 
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
-                output["Clothing4"].Sprite(input.Actor.BestRanged != null ? input.Sprites.Sergal[58] : input.Sprites.Sergal[57]);
+                output["Clothing4"].Sprite(input.A.BestRanged != null ? input.Sprites.Sergal[58] : input.Sprites.Sergal[57]);
             }
 
             output["Clothing4"].Sprite(input.Sprites.Sergal[56]);
@@ -218,11 +255,11 @@ internal static class SergalBikiniTop
         builder.RenderAll((input, output) =>
         {
             output["Clothing1"].Layer(17);
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
-                output["Clothing1"].Sprite(input.Sprites.SergalClothing[10 + input.Actor.Unit.BreastSize]);
-                input.Actor.SquishedBreasts = true;
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Sprite(input.Sprites.SergalClothing[10 + input.U.BreastSize]);
+                input.A.SquishedBreasts = true;
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
             }
         });
     });
@@ -244,7 +281,7 @@ internal static class SergalBlackTop
         {
             output["Clothing1"].Layer(17);
             output["Clothing1"].Coloring(Color.white);
-            output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.SergalClothing[input.Actor.Unit.BreastSize] : input.Sprites.SergalClothing[0]);
+            output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.SergalClothing[input.U.BreastSize] : input.Sprites.SergalClothing[0]);
         });
     });
 }
@@ -266,23 +303,23 @@ internal static class SergalStrapTop
         builder.RenderAll((input, output) =>
         {
             output["Clothing1"].Layer(17);
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
-                if (input.Actor.Unit.BreastSize < 2)
+                if (input.U.BreastSize < 2)
                 {
                     output["Clothing1"].Sprite(input.Sprites.SergalClothing[20]);
                 }
-                else if (input.Actor.Unit.BreastSize < 4)
+                else if (input.U.BreastSize < 4)
                 {
                     output["Clothing1"].Sprite(input.Sprites.SergalClothing[21]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.SergalClothing[18 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.SergalClothing[18 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-                input.Actor.SquishedBreasts = true;
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+                input.A.SquishedBreasts = true;
             }
         });
     });
@@ -303,9 +340,9 @@ internal static class SergalBikiniBottom
         builder.RenderAll((input, output) =>
         {
             output["Clothing1"].Layer(9);
-            output["Clothing1"].Sprite(input.Actor.Unit.DickSize > 3 ? input.Sprites.SergalClothing[29] : input.Sprites.SergalClothing[28]);
+            output["Clothing1"].Sprite(input.U.DickSize > 3 ? input.Sprites.SergalClothing[29] : input.Sprites.SergalClothing[28]);
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
         });
     });
 }
@@ -326,9 +363,9 @@ internal static class SergalShorts
         {
             output["Clothing1"].Layer(10);
             output["Clothing1"].Coloring(Color.white);
-            if (input.Actor.Unit.DickSize > 2)
+            if (input.U.DickSize > 2)
             {
-                output["Clothing1"].Sprite(input.Actor.Unit.DickSize > 4 ? input.Sprites.SergalClothing[39] : input.Sprites.SergalClothing[38]);
+                output["Clothing1"].Sprite(input.U.DickSize > 4 ? input.Sprites.SergalClothing[39] : input.Sprites.SergalClothing[38]);
             }
 
             output["Clothing1"].Sprite(input.Sprites.SergalClothing[37]);
@@ -354,7 +391,7 @@ internal static class SergalLoincloth
         {
             output["Clothing1"].Layer(10);
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
             output["Clothing1"].Sprite(input.Sprites.SergalClothing[36]);
         });
     });
@@ -386,17 +423,17 @@ internal static class SergalRags
 
             output["Clothing2"].Layer(10);
 
-            if (input.Actor.Unit.BreastSize >= 0)
+            if (input.U.BreastSize >= 0)
             {
                 output["Clothing2"].SetOffset(0, 0);
-                if (input.Actor.Unit.BreastSize < 2)
+                if (input.U.BreastSize < 2)
                 {
                     output["Clothing2"].Sprite(input.Sprites.SergalClothing[30]);
                 }
                 else
                 {
                     output["Clothing2"].Sprite(input.Sprites.SergalClothing[
-                        Math.Min(29 + input.Actor.Unit.BreastSize, 33)]);
+                        Math.Min(29 + input.U.BreastSize, 33)]);
                 }
 
                 output["Clothing2"].Layer(18);

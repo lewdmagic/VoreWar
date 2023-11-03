@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 static class Races
 {
 
-    private static Dictionary<Race, IRaceData> raceMap = new Dictionary<Race, IRaceData>();
+    private static Dictionary<Race, IRaceData> raceMap;
 
     private static void RegisterRace(Race race, IRaceData raceData)
     {
@@ -13,14 +14,10 @@ static class Races
 
     private static IRaceData SlimeQueenInstance;
     private static IRaceData AntQueenInstance;
-
-    static Races()
-    {
-        LoadRaces();
-    }
     
-    static internal void LoadRaces()
+    private static void LoadRaces()
     {
+        raceMap = new Dictionary<Race, IRaceData>();
         SlimeQueenInstance = SlimeQueen.Instance;
         AntQueenInstance = AntQueen.Instance;
         
@@ -40,18 +37,18 @@ static class Races
         RegisterRace(Race.Kangaroos, Kangaroos.Instance);
         RegisterRace(Race.Taurus, Taurus.Instance);
         RegisterRace(Race.Crux, Crux.Instance);
-        RegisterRace(Race.Equines, Equines.Instance);
+        RegisterRace(Race.Equines, EquinesLua.Instance);
         RegisterRace(Race.Sergal, Sergal.Instance);
         RegisterRace(Race.Bees, Bees.Instance);
         RegisterRace(Race.Driders, Driders.Instance);
         RegisterRace(Race.Alraune, Alraune.Instance);
-        RegisterRace(Race.Bats, Bats.Instance);
+        RegisterRace(Race.DemiBats, Bats.Instance);
         RegisterRace(Race.Panthers, Panthers.Instance);
         RegisterRace(Race.Merfolk, Merfolk.Instance);
         RegisterRace(Race.Avians, Avians.Instance);
         RegisterRace(Race.Ants, Ants.Instance);
-        RegisterRace(Race.Frogs, FeralFrogs.Instance);
-        RegisterRace(Race.Sharks, FeralSharks.Instance);
+        RegisterRace(Race.Demifrogs, Demifrogs.Instance);
+        RegisterRace(Race.Demisharks, Demisharks.Instance);
         RegisterRace(Race.Deer, Deer.Instance);
         RegisterRace(Race.Aabayx, Aabayx.Instance);
 
@@ -126,11 +123,11 @@ static class Races
 
     static internal IRaceData GetRace(Unit unit)
     {
-        if (unit.Race == Race.Slimes && unit.Type == UnitType.Leader)
+        if (Equals(unit.Race, Race.Slimes) && unit.Type == UnitType.Leader)
         {
             return SlimeQueenInstance;
         }
-        if (unit.Race == Race.Ants && unit.Type == UnitType.Leader)
+        if (Equals(unit.Race, Race.Ants) && unit.Type == UnitType.Leader)
         {
             return AntQueenInstance;
         }
@@ -142,6 +139,26 @@ static class Races
     /// </summary>    
     static internal IRaceData GetRace(Race race)
     {
+        if (raceMap == null) LoadRaces();
+
+
+        // TODO needs to be fixed eventually, probably with "Side" rework
+        // Maybe make a No-OP race implementation
+        // if (Equals(race, Race.Rebels) ||
+        //     Equals(race, Race.Bandits) ||
+        //     Equals(race, Race.none) //||
+        //     //Equals(race, Race.Empire30) ||
+        //     //Equals(race, Race.Empire31) ||
+        //     //Equals(race, Race.Empire32) ||
+        //     //Equals(race, Race.Empire33) ||
+        //     //Equals(race, Race.Empire34
+        //     )
+        // {
+        //     Debug.Log("Found try to GetRace");
+        //     Debug.Log(race);
+        //     return Whisp.Instance;
+        // }
+        
         IRaceData raceData;
         if (raceMap.TryGetValue(race, out raceData))
         {
@@ -149,7 +166,9 @@ static class Races
         }
         else
         {
-            throw new ApplicationException("No race registered for " + race.ToString());
+            Debug.Log("Null race");
+            return null;
+            //throw new ApplicationException("No race registered for " + race.ToString());
         }
     }
 

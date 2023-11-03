@@ -8,6 +8,36 @@ internal static class Raptor
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Raptor", "Raptors");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 5,
+            StomachSize = 12,
+            HasTail = true,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore },
+            ExpMultiplier = .85f,
+            PowerAdjustment = .75f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(3, 7),
+                Dexterity = new RaceStats.StatRange(3, 5),
+                Endurance = new RaceStats.StatRange(6, 10),
+                Mind = new RaceStats.StatRange(5, 8),
+                Will = new RaceStats.StatRange(5, 8),
+                Agility = new RaceStats.StatRange(8, 16),
+                Voracity = new RaceStats.StatRange(6, 14),
+                Stomach = new RaceStats.StatRange(8, 20),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.ArtfulDodge,
+                Traits.Pounce,
+                Traits.SlowDigestion
+            },
+            RaceDescription = "Bigger cousins of the Compy, these rarer creatures often appear in smaller numbers among their lesser kin. While still relatively harmless compared to most monsters, the Raptors are at the edge of being a real danger to unprepared travelers, not least because they are at times known to be clever.",
+
+        });
         RaceFrameList frameListTail = new RaceFrameList(new int[24] { 0, 4, 5, 6, 5, 4, 0, 3, 2, 1, 2, 3, 0, 4, 5, 6, 5, 4, 0, 3, 2, 1, 2, 3 }, new float[24] { 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f });
 
 
@@ -22,26 +52,26 @@ internal static class Raptor
 
         builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
         {
-            output.Coloring(ColorMap.GetLizardColor(input.Actor.Unit.ExtraColor1));
+            output.Coloring(ColorMap.GetLizardColor(input.U.ExtraColor1));
             output.Sprite(input.Sprites.Raptor[5]);
         });
 
         builder.RenderSingle(SpriteType.Mouth, 9, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking || input.Actor.IsOralVoring)
+            if (input.A.IsAttacking || input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Raptor[7]);
                 return;
             }
 
-            if (input.Actor.GetBallSize(16) > 0)
+            if (input.A.GetBallSize(16) > 0)
             {
                 output.Sprite(input.Sprites.Raptor[9]);
                 return;
             }
 
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 output.Sprite(input.Sprites.Raptor[8]);
                 return;
@@ -52,25 +82,25 @@ internal static class Raptor
 
         builder.RenderSingle(SpriteType.Body, 8, (input, output) =>
         {
-            output.Coloring(ColorMap.GetLizardColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorMap.GetLizardColor(input.U.SkinColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsOralVoring)
+            if (input.A.IsAttacking || input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Raptor[1]);
                 return;
             }
 
-            if (input.Actor.GetBallSize(16) > 0)
+            if (input.A.GetBallSize(16) > 0)
             {
                 output.Sprite(input.Sprites.Raptor[3]);
                 return;
             }
 
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 output.Sprite(input.Sprites.Raptor[2]);
                 return;
@@ -81,8 +111,8 @@ internal static class Raptor
 
         builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
         {
-            output.Coloring(ColorMap.GetLizardColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking || input.Actor.IsOralVoring)
+            output.Coloring(ColorMap.GetLizardColor(input.U.SkinColor));
+            if (input.A.IsAttacking || input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Raptor[48]);
                 return;
@@ -93,8 +123,8 @@ internal static class Raptor
 
         builder.RenderSingle(SpriteType.BodyAccent2, 10, (input, output) =>
         {
-            output.Coloring(ColorMap.GetLizardColor(input.Actor.Unit.ExtraColor1));
-            if (input.Actor.IsAttacking || input.Actor.IsOralVoring)
+            output.Coloring(ColorMap.GetLizardColor(input.U.ExtraColor1));
+            if (input.A.IsAttacking || input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Raptor[49]);
                 return;
@@ -105,103 +135,85 @@ internal static class Raptor
 
         builder.RenderSingle(SpriteType.BodyAccent3, 4, (input, output) =>
         {
-            output.Coloring(ColorMap.GetLizardColor(input.Actor.Unit.ExtraColor1));
+            output.Coloring(ColorMap.GetLizardColor(input.U.ExtraColor1));
             output.Sprite(input.Sprites.Raptor[11]);
         }); // Leg Stripes
 
         builder.RenderSingle(SpriteType.BodyAccent4, 1, (input, output) =>
         {
-            output.Coloring(ColorMap.GetLizardColor(input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorMap.GetLizardColor(input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.A.AnimationController.frameLists[0].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame++;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame++;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
+                    if (input.A.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.frameLists[0].currentlyActive = false;
+                        input.A.AnimationController.frameLists[0].currentFrame = 0;
+                        input.A.AnimationController.frameLists[0].currentTime = 0f;
                     }
                 }
 
-                if (frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame] == 0)
+                if (frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame] == 0)
                 {
                     return;
                 }
 
-                output.Sprite(input.Sprites.Raptor[11 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Raptor[11 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
-            if (input.Actor.HasBelly || input.Actor.GetBallSize(18) > 0)
+            if (input.A.HasBelly || input.A.GetBallSize(18) > 0)
             {
                 if (State.Rand.Next(300) == 0)
                 {
-                    input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.frameLists[0].currentlyActive = true;
                 }
             }
 
             else if (State.Rand.Next(1200) == 0)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+                input.A.AnimationController.frameLists[0].currentlyActive = true;
             }
         }); // Tail
 
         builder.RenderSingle(SpriteType.BodyAccent5, 2, (input, output) =>
         {
-            output.Coloring(ColorMap.GetLizardColor(input.Actor.Unit.ExtraColor1));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorMap.GetLizardColor(input.U.ExtraColor1));
+            if (!input.A.Targetable)
             {
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                if (frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame] == 0)
+                if (frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame] == 0)
                 {
                     return;
                 }
 
-                output.Sprite(input.Sprites.Raptor[17 + frameListTail.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Raptor[17 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
             }
         }); // Tail Stripes
 
         builder.RenderSingle(SpriteType.BodyAccent6, 0, (input, output) =>
         {
-            output.Coloring(ColorMap.GetLizardColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.GetBallSize(24, 2) == 0 && Config.HideCocks == false)
+            output.Coloring(ColorMap.GetLizardColor(input.U.SkinColor));
+            if (input.A.GetBallSize(24, 2) == 0 && Config.HideCocks == false)
             {
                 output.Sprite(input.Sprites.Raptor[52]);
                 return;
             }
 
-            int size = input.Actor.GetBallSize(24, 2);
-
-            if (size == 24 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false))
-            {
-                output.Sprite(input.Sprites.Raptor[75]);
-                return;
-            }
-
-            if (size >= 23 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false))
-            {
-                output.Sprite(input.Sprites.Raptor[74]);
-                return;
-            }
-
-            if (size == 22 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false))
-            {
-                output.Sprite(input.Sprites.Raptor[73]);
-                return;
-            }
+            int size = input.A.GetBallSize(24, 2);
 
             if (size > 21)
             {
@@ -213,31 +225,13 @@ internal static class Raptor
 
         builder.RenderSingle(SpriteType.Belly, 7, (input, output) =>
         {
-            output.Coloring(ColorMap.GetLizardColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorMap.GetLizardColor(input.U.SkinColor));
+            if (input.A.HasBelly == false)
             {
                 return;
             }
 
-            int size = input.Actor.GetStomachSize(24, 2);
-
-            if (size == 24 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false))
-            {
-                output.Sprite(input.Sprites.Raptor[47]);
-                return;
-            }
-
-            if (size >= 23 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
-            {
-                output.Sprite(input.Sprites.Raptor[46]);
-                return;
-            }
-
-            if (size == 22 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
-            {
-                output.Sprite(input.Sprites.Raptor[45]);
-                return;
-            }
+            int size = input.A.GetStomachSize(24, 2);
 
             if (size > 21)
             {
@@ -250,13 +244,13 @@ internal static class Raptor
         builder.RenderSingle(SpriteType.Dick, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsCockVoring)
+            if (input.A.IsCockVoring)
             {
                 output.Sprite(input.Sprites.Raptor[51]);
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
                 output.Sprite(input.Sprites.Raptor[50]);
             }
@@ -265,7 +259,7 @@ internal static class Raptor
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.HasBelly == false)
+            if (input.A.HasBelly == false)
             {
                 output.ChangeSprite(SpriteType.Dick).AddOffset(0, 0 * .3125f);
                 output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 0 * .3125f);
@@ -280,9 +274,9 @@ internal static class Raptor
 
             else
             {
-                int size = input.Actor.GetStomachSize(24, 2);
+                int size = input.A.GetStomachSize(24, 2);
 
-                if (size == 24 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false))
+                if (size == 24 && (input.A.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false))
                 {
                     output.ChangeSprite(SpriteType.Dick).AddOffset(0, 176 * .3125f);
                     output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 176 * .3125f);
@@ -295,7 +289,7 @@ internal static class Raptor
                     output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 176 * .3125f);
                 }
 
-                else if (size >= 23 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
+                else if (size >= 23 && (input.A.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
                 {
                     output.ChangeSprite(SpriteType.Dick).AddOffset(0, 168 * .3125f);
                     output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 168 * .3125f);
@@ -308,7 +302,7 @@ internal static class Raptor
                     output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 168 * .3125f);
                 }
 
-                else if (size == 22 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
+                else if (size == 22 && (input.A.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
                 {
                     output.ChangeSprite(SpriteType.Dick).AddOffset(0, 152 * .3125f);
                     output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 152 * .3125f);

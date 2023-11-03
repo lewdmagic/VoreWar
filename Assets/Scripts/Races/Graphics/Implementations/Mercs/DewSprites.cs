@@ -9,6 +9,22 @@ internal static class DewSprites
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("DewSprite", "DewSprites");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 14,
+            StomachSize = 16,
+            HasTail = false,
+            FavoredStat = Stat.Endurance,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Resilient,
+                Traits.IronGut,
+                Traits.EnthrallingDepths
+            },
+            RaceDescription = "",
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal },
+        });
         builder.Setup(output =>
         {
             output.BreastSizes = () => 9;
@@ -38,26 +54,26 @@ internal static class DewSprites
         builder.RenderSingle(SpriteType.Eyes, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.DewSprite[27 + input.Actor.Unit.EyeType]);
+            output.Sprite(input.Sprites.DewSprite[27 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.DewSprite[45 + input.Actor.Unit.MouthType]);
+            output.Sprite(input.Sprites.DewSprite[45 + input.U.MouthType]);
         });
         builder.RenderSingle(SpriteType.Hair, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.DewSprite[33 + input.Actor.Unit.HairStyle]);
+            output.Sprite(input.Sprites.DewSprite[33 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.BodySize == 0)
+            if (input.U.BodySize == 0)
             {
                 output.Sprite(input.Sprites.DewSprite[52]);
             }
-            else if (input.Actor.Unit.BodySize == 1)
+            else if (input.U.BodySize == 1)
             {
                 output.Sprite(input.Sprites.DewSprite[21]);
             }
@@ -70,7 +86,7 @@ internal static class DewSprites
         builder.RenderSingle(SpriteType.BodyAccent, 11, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            int sprite = input.Actor.GetWeaponSprite();
+            int sprite = input.A.GetWeaponSprite();
             switch (sprite)
             {
                 case 1:
@@ -88,25 +104,25 @@ internal static class DewSprites
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.DewSprite[12 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.DewSprite[12 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                output.Sprite(input.Sprites.DewSprite[0 + input.Actor.GetStomachSize(11)]);
+                output.Sprite(input.Sprites.DewSprite[0 + input.A.GetStomachSize(11)]);
             }
         });
 
         builder.RenderSingle(SpriteType.Weapon, 10, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            int sprite = input.Actor.GetWeaponSprite();
+            int sprite = input.A.GetWeaponSprite();
             switch (sprite)
             {
                 case 0:
@@ -154,11 +170,11 @@ internal static class DewSprites
             {
                 output["Clothing1"].Layer(5);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.BodySize == 0)
+                if (input.U.BodySize == 0)
                 {
                     output["Clothing1"].Sprite(input.Sprites.DewSprite[53]);
                 }
-                else if (input.Actor.Unit.BodySize == 1)
+                else if (input.U.BodySize == 1)
                 {
                     output["Clothing1"].Sprite(input.Sprites.DewSprite[22]);
                 }
@@ -183,11 +199,11 @@ internal static class DewSprites
             {
                 output["Clothing1"].Layer(5);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.BodySize == 0)
+                if (input.U.BodySize == 0)
                 {
                     output["Clothing1"].Sprite(input.Sprites.DewSprite[54]);
                 }
-                else if (input.Actor.Unit.BodySize == 1)
+                else if (input.U.BodySize == 1)
                 {
                     output["Clothing1"].Sprite(input.Sprites.DewSprite[23]);
                 }
@@ -212,11 +228,11 @@ internal static class DewSprites
             {
                 output["Clothing1"].Layer(5);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.BodySize == 0)
+                if (input.U.BodySize == 0)
                 {
                     output["Clothing1"].Sprite(input.Sprites.DewSprite[55]);
                 }
-                else if (input.Actor.Unit.BodySize == 1)
+                else if (input.U.BodySize == 1)
                 {
                     output["Clothing1"].Sprite(input.Sprites.DewSprite[24]);
                 }
@@ -241,11 +257,11 @@ internal static class DewSprites
             {
                 output["Clothing1"].Layer(5);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.BodySize == 0)
+                if (input.U.BodySize == 0)
                 {
                     output["Clothing1"].Sprite(input.Sprites.DewSprite[56]);
                 }
-                else if (input.Actor.Unit.BodySize == 1)
+                else if (input.U.BodySize == 1)
                 {
                     output["Clothing1"].Sprite(input.Sprites.DewSprite[25]);
                 }
@@ -270,7 +286,7 @@ internal static class DewSprites
             {
                 output["Clothing1"].Layer(17);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.DewSprite[63 + input.Actor.Unit.BreastSize] : input.Sprites.DewSprite[62]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.DewSprite[63 + input.U.BreastSize] : input.Sprites.DewSprite[62]);
             });
         });
     }

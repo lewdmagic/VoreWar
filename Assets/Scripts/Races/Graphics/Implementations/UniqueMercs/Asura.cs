@@ -18,6 +18,39 @@ internal static class Asura
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Asura", "Asura");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 18,
+            StomachSize = 30,
+            HasTail = true,
+            FavoredStat = Stat.Strength,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal },
+            ExpMultiplier = 2.4f,
+            PowerAdjustment = 3f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(20, 24),
+                Dexterity = new RaceStats.StatRange(6, 10),
+                Endurance = new RaceStats.StatRange(16, 20),
+                Mind = new RaceStats.StatRange(8, 12),
+                Will = new RaceStats.StatRange(12, 16),
+                Agility = new RaceStats.StatRange(10, 16),
+                Voracity = new RaceStats.StatRange(18, 24),
+                Stomach = new RaceStats.StatRange(8, 12),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Maul,
+                Traits.Frenzy,
+                Traits.ShunGokuSatsu
+            },
+            CanUseRangedWeapons = false,
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.ClothingAccessoryType, "Mask");
+        });
         builder.Setup(output =>
         {
             IClothing outfit = BaseOutfit.BaseOutfitInstance;
@@ -32,7 +65,7 @@ internal static class Asura
         builder.RenderSingle(SpriteType.Head, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsEating)
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Asura[11]);
                 return;
@@ -44,7 +77,7 @@ internal static class Asura
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.AnimationController.frameLists == null)
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
@@ -70,13 +103,13 @@ internal static class Asura
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking && input.Actor.Unit.ClothingType != 0)
+            if (input.A.IsAttacking && input.U.ClothingType != 0)
             {
                 output.Sprite(input.Sprites.Asura[2]);
                 return;
             }
 
-            if (input.Actor.IsAttacking && input.Actor.Unit.ClothingType == 0)
+            if (input.A.IsAttacking && input.U.ClothingType == 0)
             {
                 output.Sprite(input.Sprites.Asura[1]);
                 return;
@@ -93,9 +126,9 @@ internal static class Asura
         builder.RenderSingle(SpriteType.BodyAccent2, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (Config.FurryHandsAndFeet && input.Actor.Unit.ClothingType == 0)
+            if (Config.FurryHandsAndFeet && input.U.ClothingType == 0)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Asura[21]);
                     return;
@@ -110,7 +143,7 @@ internal static class Asura
             output.Coloring(Defaults.WhiteColored);
             if (Config.FurryHandsAndFeet)
             {
-                if (input.Actor.Unit.ClothingType == 0)
+                if (input.U.ClothingType == 0)
                 {
                     output.Sprite(input.Sprites.Asura[22]);
                     return;
@@ -123,9 +156,9 @@ internal static class Asura
         builder.RenderSingle(SpriteType.BodyAccent4, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (Config.FurryHandsAndFeet && input.Actor.Unit.ClothingType == 0)
+            if (Config.FurryHandsAndFeet && input.U.ClothingType == 0)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Asura[29]);
                     return;
@@ -140,7 +173,7 @@ internal static class Asura
             output.Coloring(Defaults.WhiteColored);
             if (Config.FurryHandsAndFeet)
             {
-                if (input.Actor.Unit.ClothingType == 0)
+                if (input.U.ClothingType == 0)
                 {
                     output.Sprite(input.Sprites.Asura[30]);
                 }
@@ -155,9 +188,9 @@ internal static class Asura
         builder.RenderSingle(SpriteType.BodyAccent7, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (Config.FurryHandsAndFeet && input.Actor.Unit.ClothingType == 0)
+            if (Config.FurryHandsAndFeet && input.U.ClothingType == 0)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Asura[34]);
                     return;
@@ -179,9 +212,9 @@ internal static class Asura
         builder.RenderSingle(SpriteType.BodyAccent9, 9, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (Config.FurryHandsAndFeet && input.Actor.Unit.ClothingType == 0)
+            if (Config.FurryHandsAndFeet && input.U.ClothingType == 0)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Asura[42]);
                     return;
@@ -208,7 +241,7 @@ internal static class Asura
         builder.RenderSingle(SpriteType.SecondaryAccessory, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking && input.Actor.Unit.ClothingType != 0)
+            if (input.A.IsAttacking && input.U.ClothingType != 0)
             {
                 output.Sprite(input.Sprites.Asura[37]);
             }
@@ -217,7 +250,7 @@ internal static class Asura
         builder.RenderSingle(SpriteType.Breasts, 10, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.ClothingType == 0)
+            if (input.U.ClothingType == 0)
             {
                 output.Sprite(input.Sprites.Asura[6]);
                 return;
@@ -229,9 +262,9 @@ internal static class Asura
         builder.RenderSingle(SpriteType.BreastShadow, 16, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.TurnUsedShun > 0 && input.Actor.TurnUsedShun == State.GameManager.TacticalMode.currentTurn)
+            if (input.A.TurnUsedShun > 0 && input.A.TurnUsedShun == State.GameManager.TacticalMode.currentTurn)
             {
-                output.Sprite(input.Sprites.Asura[Math.Max(59 + input.Actor.GetStomachSize(), 64)]);
+                output.Sprite(input.Sprites.Asura[Math.Max(59 + input.A.GetStomachSize(), 64)]);
             }
         });
 
@@ -239,37 +272,16 @@ internal static class Asura
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    output.Sprite(input.Sprites.Asura[104]).AddOffset(0, -24 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    if (input.Actor.GetStomachSize(15, .90f) == 15)
-                    {
-                        output.Sprite(input.Sprites.Asura[103]).AddOffset(0, -24 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(15, 1.05f) == 15)
-                    {
-                        output.Sprite(input.Sprites.Asura[102]).AddOffset(0, -16 * .625f);
-                        return;
-                    }
-                }
-
-                output.Sprite(input.Sprites.Asura[48 + input.Actor.GetStomachSize()]);
+                output.Sprite(input.Sprites.Asura[48 + input.A.GetStomachSize()]);
             }
         });
 
         builder.RenderSingle(SpriteType.Weapon, 14, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking && input.Actor.Unit.ClothingType != 0)
+            if (input.A.IsAttacking && input.U.ClothingType != 0)
             {
                 output.Sprite(input.Sprites.Asura[38]);
             }
@@ -281,25 +293,9 @@ internal static class Asura
             output.ChangeSprite(SpriteType.Weapon).AddOffset(0, 74 * .625f);
             output.ChangeSprite(SpriteType.SecondaryAccessory).AddOffset(0, 59 * .625f);
 
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 Vector3 localScale = new Vector3(1, 1, 1);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    localScale = new Vector3(1, 1, 1);
-                }
-                else if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    if (input.Actor.GetStomachSize(15, .90f) == 15)
-                    {
-                        localScale = new Vector3(1, 1, 1);
-                    }
-                    else if (input.Actor.GetStomachSize(15, 1.05f) == 15)
-                    {
-                        localScale = new Vector3(1, 1, 1);
-                    }
-                }
-
                 output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(localScale);
             }
         });
@@ -327,7 +323,7 @@ internal static class Asura
 
     private static void ProcessAnimation(IRaceRenderInput input, IRaceRenderOutput output, int list)
     {
-        if (input.Actor.Unit.ClothingType == 0)
+        if (input.U.ClothingType == 0)
         {
             output.Sprite(null);
             return;
@@ -335,30 +331,30 @@ internal static class Asura
 
         if (State.Rand.Next(120) == 0)
         {
-            input.Actor.AnimationController.frameLists[list].currentlyActive = true;
+            input.A.AnimationController.frameLists[list].currentlyActive = true;
         }
 
-        if (input.Actor.AnimationController.frameLists[list].currentlyActive == false)
+        if (input.A.AnimationController.frameLists[list].currentlyActive == false)
         {
             output.Sprite(null);
             return;
         }
 
-        if (input.Actor.AnimationController.frameLists[list].currentTime >= frameList[list].Times[input.Actor.AnimationController.frameLists[list].currentFrame])
+        if (input.A.AnimationController.frameLists[list].currentTime >= frameList[list].Times[input.A.AnimationController.frameLists[list].currentFrame])
         {
-            input.Actor.AnimationController.frameLists[list].currentFrame++;
-            input.Actor.AnimationController.frameLists[list].currentTime = 0f;
+            input.A.AnimationController.frameLists[list].currentFrame++;
+            input.A.AnimationController.frameLists[list].currentTime = 0f;
 
-            if (input.Actor.AnimationController.frameLists[list].currentFrame >= frameList[list].Frames.Length)
+            if (input.A.AnimationController.frameLists[list].currentFrame >= frameList[list].Frames.Length)
             {
-                input.Actor.AnimationController.frameLists[list].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[list].currentlyActive = false;
+                input.A.AnimationController.frameLists[list].currentFrame = 0;
+                input.A.AnimationController.frameLists[list].currentlyActive = false;
                 output.Sprite(null);
                 return;
             }
         }
 
-        output.Sprite(input.Sprites.Asura[frameList[list].Frames[input.Actor.AnimationController.frameLists[list].currentFrame]]);
+        output.Sprite(input.Sprites.Asura[frameList[list].Frames[input.A.AnimationController.frameLists[list].currentFrame]]);
     }
 
 
@@ -384,10 +380,10 @@ internal static class Asura
                 output["Clothing1"].Layer(12);
                 float timeDuplicate = 0f;
                 float time = 0f;
-                output["Clothing1"].Sprite(input.Sprites.Asura[input.Actor.IsAttacking ? 4 : 3]);
-                output["Clothing2"].Sprite(input.Sprites.Asura[input.Actor.HasBelly ? 32 : 26]);
+                output["Clothing1"].Sprite(input.Sprites.Asura[input.A.IsAttacking ? 4 : 3]);
+                output["Clothing2"].Sprite(input.Sprites.Asura[input.A.HasBelly ? 32 : 26]);
                 output["Clothing3"].Sprite(input.Sprites.Asura[8]);
-                output["Clothing4"].Sprite(input.Sprites.Asura[input.Actor.IsAttacking ? 25 : 24]);
+                output["Clothing4"].Sprite(input.Sprites.Asura[input.A.IsAttacking ? 25 : 24]);
                 if (!Mathf.Approximately(timeDuplicate, Time.time))
                 {
                     time -= Time.deltaTime;
@@ -423,7 +419,7 @@ internal static class Asura
             {
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Actor.Unit.ClothingType == 0 ? input.Sprites.AsuraHoliday[0] : input.Sprites.AsuraHoliday[1]);
+                output["Clothing1"].Sprite(input.U.ClothingType == 0 ? input.Sprites.AsuraHoliday[0] : input.Sprites.AsuraHoliday[1]);
             });
         });
     }

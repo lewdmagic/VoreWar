@@ -1,21 +1,56 @@
-﻿internal static class Terrorbird
+﻿using System.Collections.Generic;
+
+internal static class Terrorbird
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Terrorbird", "Terrorbirds");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 18,
+            StomachSize = 18,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.TailVore },
+            ExpMultiplier = 1.5f,
+            PowerAdjustment = 1.75f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(12, 20),
+                Dexterity = new RaceStats.StatRange(8, 16),
+                Endurance = new RaceStats.StatRange(8, 16),
+                Mind = new RaceStats.StatRange(6, 12),
+                Will = new RaceStats.StatRange(6, 12),
+                Agility = new RaceStats.StatRange(12, 20),
+                Voracity = new RaceStats.StatRange(10, 18),
+                Stomach = new RaceStats.StatRange(8, 16),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Intimidating,
+                Traits.ArtfulDodge,
+                Traits.Tenacious
+            },
+            RaceDescription = ""
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryType, "Head Plumage Type");
+        });
         builder.Setup(output =>
         {
             output.SpecialAccessoryCount = 8; // head plumage type
             output.ClothingColors = 0;
             output.GentleAnimation = true;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.TerrorbirdSkin);
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.TerrorbirdSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.TerrorbirdSkin);
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.TerrorbirdSkin);
         });
 
 
         builder.RenderSingle(SpriteType.Head, 9, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Terrorbird[10]);
                 return;
@@ -26,8 +61,8 @@
 
         builder.RenderSingle(SpriteType.Eyes, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Terrorbird[12]);
                 return;
@@ -38,8 +73,8 @@
 
         builder.RenderSingle(SpriteType.Body, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Terrorbird[1]);
                 return;
@@ -50,8 +85,8 @@
 
         builder.RenderSingle(SpriteType.BodyAccent, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.GetStomachSize(29) >= 27)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
+            if (input.A.GetStomachSize(29) >= 27)
             {
                 output.Sprite(input.Sprites.Terrorbird[14]);
                 return;
@@ -62,13 +97,13 @@
 
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
             output.Sprite(input.Sprites.Terrorbird[7]);
         }); // back leg feathers
         builder.RenderSingle(SpriteType.BodyAccent3, 10, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.GetStomachSize(29) >= 27)
+            if (input.A.GetStomachSize(29) >= 27)
             {
                 output.Sprite(input.Sprites.Terrorbird[15]);
                 return;
@@ -84,8 +119,8 @@
         }); // back leg claws
         builder.RenderSingle(SpriteType.BodyAccent5, 11, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Terrorbird[3]);
                 return;
@@ -96,24 +131,24 @@
 
         builder.RenderSingle(SpriteType.BodyAccent6, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
             output.Sprite(input.Sprites.Terrorbird[13]);
         }); // back tail feather
         builder.RenderSingle(SpriteType.BodyAccent7, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
             output.Sprite(input.Sprites.Terrorbird[8]);
         }); // belly cover
         builder.RenderSingle(SpriteType.BodyAccent8, 12, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
-            int sizet = input.Actor.GetTailSize(4);
-            if (input.Actor.Unit.Predator == false || input.Actor.PredatorComponent?.TailFullness == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
+            int sizet = input.A.GetTailSize(4);
+            if (input.U.Predator == false || input.A.PredatorComponent?.TailFullness == 0)
             {
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Terrorbird[67 + 2 * sizet]);
                 return;
@@ -124,52 +159,25 @@
 
         builder.RenderSingle(SpriteType.BodyAccessory, 13, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
+            if (input.A.IsAttacking || input.A.IsEating)
             {
-                output.Sprite(input.Sprites.Terrorbird[24 + input.Actor.Unit.SpecialAccessoryType]);
+                output.Sprite(input.Sprites.Terrorbird[24 + input.U.SpecialAccessoryType]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Terrorbird[16 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Sprite(input.Sprites.Terrorbird[16 + input.U.SpecialAccessoryType]);
         }); // head plumage
 
         builder.RenderSingle(SpriteType.Belly, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.TerrorbirdSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.TerrorbirdSkin, input.U.SkinColor));
+            if (input.A.HasBelly == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
-            {
-                output.Sprite(input.Sprites.Terrorbird[65]);
-                return;
-            }
-
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-            {
-                if (input.Actor.GetStomachSize(29, .75f) == 29)
-                {
-                    output.Sprite(input.Sprites.Terrorbird[64]);
-                    return;
-                }
-
-                if (input.Actor.GetStomachSize(29, .8275f) == 29)
-                {
-                    output.Sprite(input.Sprites.Terrorbird[63]);
-                    return;
-                }
-
-                if (input.Actor.GetStomachSize(29, .9f) == 29)
-                {
-                    output.Sprite(input.Sprites.Terrorbird[62]);
-                    return;
-                }
-            }
-
-            output.Sprite(input.Sprites.Terrorbird[32 + input.Actor.GetStomachSize(29)]);
+            output.Sprite(input.Sprites.Terrorbird[32 + input.A.GetStomachSize(29)]);
         });
 
         builder.RunBefore(Defaults.Finalize);

@@ -24,17 +24,17 @@ internal static class BikiniTop
         builder.RenderAll((input, output) =>
         {
             output["Clothing1"].Layer(17);
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
                 int breastMod = 0;
-                if (input.Actor.Unit.Race == Race.Succubi)
+                if (Equals(input.U.GetRace, Race.Succubi))
                 {
                     breastMod = 3;
                 }
 
-                output["Clothing1"].Sprite(input.Sprites.BikiniTop[input.Actor.Unit.BreastSize + breastMod]);
-                input.Actor.SquishedBreasts = true;
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Sprite(input.Sprites.BikiniTop[input.U.BreastSize + breastMod]);
+                input.A.SquishedBreasts = true;
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
             }
         });
     });
@@ -58,17 +58,17 @@ internal static class StrapTop
         {
             output["Clothing1"].Layer(17);
 
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
                 int breastMod = 0;
-                if (input.Actor.Unit.Race == Race.Succubi)
+                if (Equals(input.U.GetRace, Race.Succubi))
                 {
                     breastMod = 3;
                 }
 
-                output["Clothing1"].Sprite(input.Sprites.Straps[input.Actor.Unit.BreastSize + breastMod]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-                input.Actor.SquishedBreasts = true;
+                output["Clothing1"].Sprite(input.Sprites.Straps[input.U.BreastSize + breastMod]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+                input.A.SquishedBreasts = true;
             }
         });
     });
@@ -92,21 +92,21 @@ internal static class BeltTop
         {
             output["Clothing1"].Layer(17);
             output["Clothing1"].Coloring(Color.white);
-            if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
+            if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
             {
                 output.RevealsDick = true;
                 output["Clothing1"].Sprite(null);
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
                 int breastMod = 0;
-                if (input.Actor.Unit.Race == Race.Succubi)
+                if (Equals(input.U.GetRace, Race.Succubi))
                 {
                     breastMod = 3;
                 }
 
-                output["Clothing1"].Sprite(input.Sprites.Belts[input.Actor.Unit.BreastSize + breastMod]);
-                input.Actor.SquishedBreasts = true;
+                output["Clothing1"].Sprite(input.Sprites.Belts[input.U.BreastSize + breastMod]);
+                input.A.SquishedBreasts = true;
             }
         });
     });
@@ -130,28 +130,28 @@ internal static class BikiniBottom
             output["Clothing2"].Layer(10);
             output["Clothing1"].Layer(9);
             int spr = 0;
-            if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
+            if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
             {
                 output.RevealsDick = true;
                 output["Clothing1"].Sprite(null);
             }
-            else if (input.Actor.Unit.Race == Race.Lizards)
+            else if (Equals(input.U.GetRace, Race.Lizards))
             {
                 spr = 8;
             }
-            else if (input.Actor.Unit.Race == Race.Harpies)
+            else if (Equals(input.U.GetRace, Race.Harpies))
             {
                 spr = 9;
             }
-            else if (input.Actor.Unit.Race == Race.Lamia)
+            else if (Equals(input.U.GetRace, Race.Lamia))
             {
-                spr = 3 + (input.Actor.Unit.HasBreasts ? 0 : 4);
+                spr = 3 + (input.U.HasBreasts ? 0 : 4);
             }
             else
             {
-                if (input.Actor.GetBodyWeight() > 0)
+                if (input.A.GetBodyWeight() > 0)
                 {
-                    spr = (input.Actor.Unit.HasBreasts ? 0 : 4) + input.Actor.Unit.BodySize;
+                    spr = (input.U.HasBreasts ? 0 : 4) + input.U.BodySize;
                 }
 
                 if (spr > 7)
@@ -160,14 +160,14 @@ internal static class BikiniBottom
                 }
             }
 
-            if (input.Actor.Unit.DickSize > 2)
+            if (input.U.DickSize > 2)
             {
-                if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
+                if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
                 {
                     output.RevealsDick = true;
                     output["Clothing2"].Sprite(null);
                 }
-                else if (input.Actor.Unit.DickSize > 4)
+                else if (input.U.DickSize > 4)
                 {
                     output["Clothing2"].Sprite(input.Sprites.BikiniBottom[11]);
                 }
@@ -181,8 +181,8 @@ internal static class BikiniBottom
                 output["Clothing2"].Sprite(null);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
 
 
             output["Clothing1"].Sprite(input.Sprites.BikiniBottom[spr]);
@@ -209,24 +209,24 @@ internal static class Shorts
             output["Clothing1"].Layer(10);
             output["Clothing1"].Coloring(Color.white);
             int spr = 0;
-            if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
+            if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
             {
                 output.RevealsDick = true;
                 output["Clothing1"].Sprite(null);
             }
-            else if (input.Actor.Unit.Race == Race.Lizards)
+            else if (Equals(input.U.GetRace, Race.Lizards))
             {
                 spr = 8;
             }
-            else if (input.Actor.Unit.Race == Race.Harpies)
+            else if (Equals(input.U.GetRace, Race.Harpies))
             {
                 spr = 9;
             }
             else
             {
-                if (input.Actor.GetBodyWeight() > 0)
+                if (input.A.GetBodyWeight() > 0)
                 {
-                    spr = (input.Actor.Unit.HasBreasts ? 0 : 4) + input.Actor.Unit.BodySize;
+                    spr = (input.U.HasBreasts ? 0 : 4) + input.U.BodySize;
                 }
 
                 if (spr > 7)
@@ -235,9 +235,9 @@ internal static class Shorts
                 }
             }
 
-            if (input.Actor.Unit.DickSize > 2)
+            if (input.U.DickSize > 2)
             {
-                output["Clothing2"].Sprite(input.Actor.Unit.DickSize > 4 ? input.Sprites.Shorts[11] : input.Sprites.Shorts[10]);
+                output["Clothing2"].Sprite(input.U.DickSize > 4 ? input.Sprites.Shorts[11] : input.Sprites.Shorts[10]);
             }
             else
             {
@@ -267,27 +267,27 @@ internal static class Loincloth
         {
             output["Clothing1"].Layer(10);
             int spr = 0;
-            if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
+            if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
             {
                 output["Clothing1"].Sprite(null);
             }
-            else if (input.Actor.Unit.Race == Race.Lizards)
+            else if (Equals(input.U.GetRace, Race.Lizards))
             {
                 spr = 8;
             }
-            else if (input.Actor.Unit.Race == Race.Harpies)
+            else if (Equals(input.U.GetRace, Race.Harpies))
             {
                 spr = 9;
             }
-            else if (input.Actor.Unit.Race == Race.Lamia)
+            else if (Equals(input.U.GetRace, Race.Lamia))
             {
-                spr = 3 + (input.Actor.Unit.HasBreasts ? 0 : 4);
+                spr = 3 + (input.U.HasBreasts ? 0 : 4);
             }
             else
             {
-                if (input.Actor.GetBodyWeight() > 0)
+                if (input.A.GetBodyWeight() > 0)
                 {
-                    spr = (input.Actor.Unit.HasBreasts ? 0 : 4) + input.Actor.Unit.BodySize;
+                    spr = (input.U.HasBreasts ? 0 : 4) + input.U.BodySize;
                 }
 
                 if (spr > 7)
@@ -296,7 +296,7 @@ internal static class Loincloth
                 }
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
 
 
             output["Clothing1"].Sprite(input.Sprites.Loincloths[spr]);
@@ -323,19 +323,19 @@ internal static class Leotard
             output["Clothing2"].Layer(17);
             output["Clothing1"].Layer(10);
             int spr = 0;
-            if (input.Actor.Unit.Race == Race.Lizards)
+            if (Equals(input.U.GetRace, Race.Lizards))
             {
                 spr = 8;
             }
-            else if (input.Actor.Unit.Race == Race.Harpies)
+            else if (Equals(input.U.GetRace, Race.Harpies))
             {
                 spr = 9;
             }
             else
             {
-                if (input.Actor.GetBodyWeight() > 0)
+                if (input.A.GetBodyWeight() > 0)
                 {
-                    spr = (input.Actor.Unit.HasBreasts ? 0 : 4) + input.Actor.Unit.BodySize;
+                    spr = (input.U.HasBreasts ? 0 : 4) + input.U.BodySize;
                 }
 
                 if (spr > 7)
@@ -344,14 +344,14 @@ internal static class Leotard
                 }
             }
 
-            if (input.Actor.Unit.DickSize > 2)
+            if (input.U.DickSize > 2)
             {
-                if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
+                if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
                 {
                     output.RevealsDick = true;
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.DickSize > 4)
+                else if (input.U.DickSize > 4)
                 {
                     output["Clothing3"].Sprite(input.Sprites.Leotards[11]);
                 }
@@ -365,12 +365,12 @@ internal static class Leotard
                 output["Clothing3"].Sprite(null);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-            output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-            output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SkinToClothing, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+            output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+            output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.SkinToClothing, input.U.ClothingColor));
 
-            if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
+            if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
             {
                 output.RevealsDick = true;
                 output["Clothing1"].Sprite(null);
@@ -380,16 +380,16 @@ internal static class Leotard
                 output["Clothing1"].Sprite(input.Sprites.Leotards[spr]);
             }
 
-            if (input.Actor.Unit.BreastSize >= 0)
+            if (input.U.BreastSize >= 0)
             {
-                if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
+                if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
                 {
                     output.RevealsDick = true;
                     output["Clothing2"].Sprite(null);
                 }
                 else
                 {
-                    output["Clothing2"].Sprite(input.Sprites.Leotards[12 + input.Actor.Unit.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Leotards[12 + input.U.BreastSize]);
                 }
             }
             else
@@ -422,7 +422,7 @@ internal static class Rags
             output["Clothing1"].Layer(11);
             output["Clothing1"].Coloring(Color.white);
             int spr = 0;
-            if (input.Actor.Unit.Race == Race.Lizards)
+            if (Equals(input.U.GetRace, Race.Lizards))
             {
                 spr = 8;
                 //CompleteSprite.ChangeOffsetPlaceholder(SpriteType.Clothing2, new Vector2(0, 2.5f));
@@ -430,23 +430,23 @@ internal static class Rags
                 // it's not going to be re-implemented so a different way should be found to
                 // achieve whatever it was trying to do
             }
-            else if (input.Actor.Unit.Race == Race.Harpies)
+            else if (Equals(input.U.GetRace, Race.Harpies))
             {
                 spr = 9;
             }
-            else if (input.Actor.Unit.Race == Race.Lamia)
+            else if (Equals(input.U.GetRace, Race.Lamia))
             {
-                spr = 3 + (input.Actor.Unit.HasBreasts ? 0 : 4);
+                spr = 3 + (input.U.HasBreasts ? 0 : 4);
             }
-            else if (input.Actor.Unit.Race == Race.Imps || input.Actor.Unit.Race == Race.Goblins)
+            else if (Equals(input.U.GetRace, Race.Imps) || Equals(input.U.GetRace, Race.Goblins))
             {
                 spr = 10;
             }
             else
             {
-                if (input.Actor.GetBodyWeight() > 0)
+                if (input.A.GetBodyWeight() > 0)
                 {
-                    spr = (input.Actor.Unit.HasBreasts ? 0 : 4) + input.Actor.Unit.BodySize;
+                    spr = (input.U.HasBreasts ? 0 : 4) + input.U.BodySize;
                 }
 
                 if (spr > 7)
@@ -455,9 +455,9 @@ internal static class Rags
                 }
             }
 
-            //if ((BlocksDick || InFrontOfDick) && Config.CockVoreHidesClothes && input.Actor.PredatorComponent?.BallsFullness > 0)   
+            //if ((BlocksDick || InFrontOfDick) && Config.CockVoreHidesClothes && input.A.PredatorComponent?.BallsFullness > 0)   
             // This was bugged, InFrontOfDick was always true anyway. 
-            if ((false || true) && Config.CockVoreHidesClothes && input.Actor.PredatorComponent?.BallsFullness > 0)
+            if ((false || true) && Config.CockVoreHidesClothes && input.A.PredatorComponent?.BallsFullness > 0)
             {
                 output["Clothing1"].Sprite(null);
             }
@@ -467,9 +467,9 @@ internal static class Rags
             }
 
             output["Clothing2"].Layer(10);
-            if (input.Actor.Unit.Race == Race.Imps || input.Actor.Unit.Race == Race.Goblins)
+            if (Equals(input.U.GetRace, Race.Imps) || Equals(input.U.GetRace, Race.Goblins))
             {
-                int spr2 = 21 + input.Actor.Unit.BreastSize; //-1 to 1
+                int spr2 = 21 + input.U.BreastSize; //-1 to 1
                 if (spr2 > 22)
                 {
                     spr2 = 22;
@@ -478,14 +478,14 @@ internal static class Rags
                 output["Clothing2"].Sprite(input.Sprites.Rags[spr2]);
                 output["Clothing2"].Layer(18);
             }
-            else if ((input.Actor.Unit.Race == Race.Lizards && input.Actor.IsAnalVoring) || input.Actor.IsUnbirthing)
+            else if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
             {
                 output.RevealsDick = true;
                 output["Clothing2"].Sprite(null);
             }
-            else if (input.Actor.Unit.BreastSize >= 0)
+            else if (input.U.BreastSize >= 0)
             {
-                output["Clothing2"].Sprite(input.Sprites.Rags[11 + input.Actor.Unit.BreastSize]);
+                output["Clothing2"].Sprite(input.Sprites.Rags[11 + input.U.BreastSize]);
                 output["Clothing2"].Layer(18);
             }
             else
@@ -515,46 +515,84 @@ internal static class BlackTop
         {
             output["Clothing1"].Layer(17);
             output["Clothing1"].Coloring(Color.white);
-            switch (input.Actor.Unit.Race)
+
+            // switch (RaceFuncs.RaceToSwitch(input.U.GetRace))
+            // {
+            //     case RaceNumbers.Goblins:
+            //     case RaceNumbers.Imps:
+            //         if (input.U.GetRace == Race.Goblins && input.U.BreastSize > 0)
+            //         {
+            //             output["Clothing1"].Sprite(input.Sprites.BlackTop[3 + input.U.BreastSize]);
+            //         }
+            //         else
+            //         {
+            //             output["Clothing1"].Sprite(input.Sprites.BlackTop[16 + Math.Min(input.U.BreastSize, 1)]);
+            //         }
+            //
+            //         break;
+            //     default:
+            //         if (input.U.HasBreasts)
+            //         {
+            //             int breastMod = 0;
+            //             if (input.U.GetRace == Race.Succubi)
+            //             {
+            //                 breastMod = 3;
+            //             }
+            //
+            //             output["Clothing1"].Sprite(input.Sprites.BlackTop[6 + input.U.BreastSize + breastMod]);
+            //         }
+            //         else
+            //         {
+            //             if (input.A.GetBodyWeight() <= 0)
+            //             {
+            //                 output["Clothing1"].Sprite(input.Sprites.BlackTop[6]);
+            //             }
+            //             else
+            //             {
+            //                 output["Clothing1"].Sprite(input.Sprites.BlackTop[Math.Max(Math.Min(input.A.GetBodyWeight() - 1, 2), 0)]);
+            //             }
+            //         }
+            //
+            //         break;
+            // }
+            
+            if (Equals(input.U.GetRace, Race.Goblins) || Equals(input.U.GetRace, Race.Imps))
             {
-                case Race.Goblins:
-                case Race.Imps:
-                    if (input.Actor.Unit.Race == Race.Goblins && input.Actor.Unit.BreastSize > 0)
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.BlackTop[3 + input.Actor.Unit.BreastSize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(input.Sprites.BlackTop[16 + Math.Min(input.Actor.Unit.BreastSize, 1)]);
-                    }
-
-                    break;
-                default:
-                    if (input.Actor.Unit.HasBreasts)
-                    {
-                        int breastMod = 0;
-                        if (input.Actor.Unit.Race == Race.Succubi)
-                        {
-                            breastMod = 3;
-                        }
-
-                        output["Clothing1"].Sprite(input.Sprites.BlackTop[6 + input.Actor.Unit.BreastSize + breastMod]);
-                    }
-                    else
-                    {
-                        if (input.Actor.GetBodyWeight() <= 0)
-                        {
-                            output["Clothing1"].Sprite(input.Sprites.BlackTop[6]);
-                        }
-                        else
-                        {
-                            output["Clothing1"].Sprite(input.Sprites.BlackTop[Math.Max(Math.Min(input.Actor.GetBodyWeight() - 1, 2), 0)]);
-                        }
-                    }
-
-                    break;
+                if (Equals(input.U.GetRace, Race.Goblins) && input.U.BreastSize > 0)
+                {
+                    output["Clothing1"].Sprite(input.Sprites.BlackTop[3 + input.U.BreastSize]);
+                }
+                else
+                {
+                    output["Clothing1"].Sprite(input.Sprites.BlackTop[16 + Math.Min(input.U.BreastSize, 1)]);
+                }
             }
-            //if (input.Actor.Unit.Race == Race.Lizards)
+            else
+            {
+                if (input.U.HasBreasts)
+                {
+                    int breastMod = 0;
+                    if (Equals(input.U.GetRace, Race.Succubi))
+                    {
+                        breastMod = 3;
+                    }
+
+                    output["Clothing1"].Sprite(input.Sprites.BlackTop[6 + input.U.BreastSize + breastMod]);
+                }
+                else
+                {
+                    if (input.A.GetBodyWeight() <= 0)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.BlackTop[6]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.BlackTop[Math.Max(Math.Min(input.A.GetBodyWeight() - 1, 2), 0)]);
+                    }
+                }
+            }
+            
+            //if (input.U.Race == Race.Lizards)
             //CompleteSprite.ChangeOffsetPlaceholder(SpriteType.Clothing, new Vector2(0, 2.5f));
             // TODO Find a replacement way to achieve this. 
         });
@@ -581,13 +619,13 @@ internal static class FemaleVillager
             output["Clothing3"].Layer(10);
             output["Clothing2"].Layer(10);
             output["Clothing1"].Layer(10);
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
-            output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
-            output["Clothing1"].Sprite(input.Sprites.FemaleVillager[input.Actor.IsAttacking ? 1 : 0]);
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
+            output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
+            output["Clothing1"].Sprite(input.Sprites.FemaleVillager[input.A.IsAttacking ? 1 : 0]);
             output["Clothing2"].Sprite(input.Sprites.FemaleVillager[2]);
-            output["Clothing3"].Sprite(input.Sprites.FemaleVillager[3 + input.Actor.GetBodyWeight()]);
-            output["Clothing4"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.FemaleVillager[8 + input.Actor.Unit.BreastSize] : null);
+            output["Clothing3"].Sprite(input.Sprites.FemaleVillager[3 + input.A.GetBodyWeight()]);
+            output["Clothing4"].Sprite(input.U.HasBreasts ? input.Sprites.FemaleVillager[8 + input.U.BreastSize] : null);
 
             output.ChangeSprite(CompleteSprite.AssumedFluffType).SetHide(true);
         });
@@ -613,10 +651,10 @@ internal static class MaleVillager
             output["Clothing2"].Layer(10);
             output["Clothing2"].Coloring(Color.white);
             output["Clothing1"].Layer(10);
-            int attackFactor = input.Actor.IsAttacking ? 0 : 4;
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
-            output["Clothing1"].Sprite(input.Sprites.MaleVillager[Mathf.Min(input.Actor.GetBodyWeight(), 3) + attackFactor]);
-            if (input.Actor.Unit.DickSize >= 2)
+            int attackFactor = input.A.IsAttacking ? 0 : 4;
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
+            output["Clothing1"].Sprite(input.Sprites.MaleVillager[Mathf.Min(input.A.GetBodyWeight(), 3) + attackFactor]);
+            if (input.U.DickSize >= 2)
             {
                 output["Clothing2"].Sprite(input.Sprites.MaleVillager[8]);
             }

@@ -32,7 +32,7 @@ public class Army
     [OdinSerialize]
     public AIMode AIMode; //May eventually split this out, but we'll see
     [OdinSerialize]
-    public int Side;
+    public Side Side;
     [OdinSerialize]
     public List<Unit> Units;
     [OdinSerialize]
@@ -111,7 +111,7 @@ public class Army
     }
 
 
-    public Army(Empire empire, Vec2i p, int side)
+    public Army(Empire empire, Vec2i p, Side side)
     {
         this.empire = empire;
         Side = side;
@@ -122,7 +122,7 @@ public class Army
         JustCreated = true;
 
         NameArmy(empire);
-        if (empire.Side < 30)
+        if (RaceFuncs.IsPlayableRace(empire.Side.ToRace()))
             BannerStyle = empire.BannerType;
 
         if (State.World.Turn == 1 && Config.FirstTurnArmiesIdle)
@@ -133,9 +133,14 @@ public class Army
     {
         string newName;
         if (State.World?.Villages != null)
-            newName = State.NameGen.GetArmyName(empire.Race, StrategicUtilities.GetVillageAt(Position));
+        {
+            NameGenerator nameGen = State.NameGen;
+            newName = nameGen.GetArmyName(empire.Race, StrategicUtilities.GetVillageAt(Position));
+        }
         else
+        {
             newName = State.NameGen.GetArmyName(empire.Race, null);
+        }
 
         empire.ArmiesCreated++;
         if (newName == "")

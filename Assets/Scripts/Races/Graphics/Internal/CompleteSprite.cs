@@ -212,7 +212,7 @@ internal class CompleteSprite
         {
             HideSprite(SpriteType.Breasts);
             HideSprite(SpriteType.SecondaryBreasts);
-            if (_actor.Unit.Race == Race.Succubi)
+            if (Equals(_actor.Unit.Race, Race.Succubi))
             {
                 HideSprite(SpriteType.BreastShadow); //Used for other things in newgraphics
             }
@@ -221,7 +221,7 @@ internal class CompleteSprite
         {
             ChangeLayer(SpriteType.Breasts, 8);
             ChangeLayer(SpriteType.SecondaryBreasts, 8);
-            if (_actor.Unit.Race == Race.Succubi)
+            if (Equals(_actor.Unit.Race, Race.Succubi))
             {
                 ChangeLayer(SpriteType.Breasts, 7);
                 ChangeLayer(SpriteType.BreastShadow, 8);

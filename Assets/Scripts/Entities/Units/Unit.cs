@@ -29,11 +29,31 @@ public enum AIClass
     Custom
 }
 
-public class Unit
+public class Unit// : ISerializationCallbackReceiver, IUnitRead
 {
 
+    //
+    // void ISerializationCallbackReceiver.OnAfterDeserialize()
+    // {
+    //     SetUp();
+    // }
+    //
+    // void ISerializationCallbackReceiver.OnBeforeSerialize()
+    // {
+    //
+    // }
+    //
+    // private void SetUp()
+    // {
+    //     ReloadTraits();
+    //     InitializeTraits();
+    //     RefreshSecrecy();
+    //     InitializeFixedSide(Side);
+    // }
+    //
+    
     [OdinSerialize]
-    public int Side;
+    public Side Side;
     [OdinSerialize]
     internal Unit _controller = null;
 
@@ -58,16 +78,16 @@ public class Unit
         }
     }
     [OdinSerialize]
-    private int _fixedSide = -1;
+    private Side _fixedSide = Race.TrueNoneSide;
 
-    internal bool HasFixedSide() => _fixedSide != -1;
-    public int FixedSide
+    internal bool HasFixedSide() => RaceFuncs.isNotNone(_fixedSide.ToRace());
+    public Side FixedSide
     {
         get
         {
             if (Controller != null)
                 return _controller.FixedSide;
-            return (_fixedSide == -1) ? Side : _fixedSide;
+            return (RaceFuncs.isNone(_fixedSide.ToRace())) ? Side : _fixedSide;
         }
         set => _fixedSide = value;
     }
@@ -78,8 +98,11 @@ public class Unit
         Traits.Possession, Traits.Changeling, Traits.Reincarnation, Traits.InfiniteReincarnation, Traits.Transmigration, Traits.InfiniteTransmigration,
         Traits.Untamable, Traits.GreaterChangeling, Traits.SpiritPossession, Traits.ForcedMetamorphosis};
 
-    [OdinSerialize]
+    
+    [OdinSerialize] 
     public Race Race;
+    public Race GetRace => Race;
+    
     [OdinSerialize]
     public int Health;
     [OdinSerialize]
@@ -146,112 +169,112 @@ public class Unit
 
     #region Customizations
     [OdinSerialize]
-    public int HairColor;
+    public int HairColor { get; set; }
     [OdinSerialize]
-    public int HairStyle;
+    public int HairStyle { get; set; }
     [OdinSerialize]
-    public int BeardStyle;
+    public int BeardStyle { get; set; }
     [OdinSerialize]
-    public int SkinColor;
+    public int SkinColor { get; set; }
     [OdinSerialize]
-    public int AccessoryColor;
+    public int AccessoryColor { get; set; }
     [OdinSerialize]
-    public int EyeColor;
+    public int EyeColor { get; set; }
     [OdinSerialize]
-    public int ExtraColor1;
+    public int ExtraColor1 { get; set; }
     [OdinSerialize]
-    public int ExtraColor2;
+    public int ExtraColor2 { get; set; }
     [OdinSerialize]
-    public int ExtraColor3;
+    public int ExtraColor3 { get; set; }
     [OdinSerialize]
-    public int ExtraColor4;
+    public int ExtraColor4 { get; set; }
     [OdinSerialize]
-    public int EyeType;
+    public int EyeType { get; set; }
     [OdinSerialize]
-    public int MouthType;
+    public int MouthType { get; set; }
     [OdinSerialize]
-    public int BreastSize;
+    public int BreastSize { get; set; }
     [OdinSerialize]
-    public int DickSize;
+    public int DickSize { get; set; }
     [OdinSerialize]
-    public bool HasVagina;
+    public bool HasVagina { get; set; }
     [OdinSerialize]
-    internal int BodySize;
+    public int BodySize { get; set; }
     [OdinSerialize]
-    internal int SpecialAccessoryType;
+    public int SpecialAccessoryType { get; set; }
     [OdinSerialize]
-    internal bool BodySizeManuallyChanged;
+    public bool BodySizeManuallyChanged { get; set; }
     [OdinSerialize]
-    internal int DefaultBreastSize;
+    public int DefaultBreastSize { get; set; }
     [OdinSerialize]
-    internal int ClothingType;
+    public int ClothingType { get; set; }
     [OdinSerialize]
-    internal int ClothingType2;
+    public int ClothingType2 { get; set; }
     [OdinSerialize]
-    internal int ClothingHatType;
+    public int ClothingHatType { get; set; }
     [OdinSerialize]
-    internal int ClothingAccessoryType;
+    public int ClothingAccessoryType { get; set; }
     [OdinSerialize]
-    internal int ClothingExtraType1;
+    public int ClothingExtraType1 { get; set; }
     [OdinSerialize]
-    internal int ClothingExtraType2;
+    public int ClothingExtraType2 { get; set; }
     [OdinSerialize]
-    internal int ClothingExtraType3;
+    public int ClothingExtraType3 { get; set; }
     [OdinSerialize]
-    internal int ClothingExtraType4;
+    public int ClothingExtraType4 { get; set; }
     [OdinSerialize]
-    internal int ClothingExtraType5;
+    public int ClothingExtraType5 { get; set; }
     [OdinSerialize]
-    internal int ClothingColor;
+    public int ClothingColor { get; set; }
     [OdinSerialize]
-    internal int ClothingColor2;
+    public int ClothingColor2 { get; set; }
     [OdinSerialize]
-    internal int ClothingColor3;
+    public int ClothingColor3 { get; set; }
     [OdinSerialize]
-    internal bool Furry;
+    public bool Furry { get; set; }
     [OdinSerialize]
-    public int HeadType;
+    public int HeadType { get; set; }
     [OdinSerialize]
-    public int TailType;
+    public int TailType { get; set; }
     [OdinSerialize]
-    public int FurType;
+    public int FurType { get; set; }
     [OdinSerialize]
-    public int EarType;
+    public int EarType { get; set; }
     [OdinSerialize]
-    public int BodyAccentType1;
+    public int BodyAccentType1 { get; set; }
     [OdinSerialize]
-    public int BodyAccentType2;
+    public int BodyAccentType2 { get; set; }
     [OdinSerialize]
-    public int BodyAccentType3;
+    public int BodyAccentType3 { get; set; }
     [OdinSerialize]
-    public int BodyAccentType4;
+    public int BodyAccentType4 { get; set; }
     [OdinSerialize]
-    public int BodyAccentType5;
+    public int BodyAccentType5 { get; set; }
     [OdinSerialize]
-    public int BallsSize;
+    public int BallsSize { get; set; }
     [OdinSerialize]
-    public int VulvaType;
+    public int VulvaType { get; set; }
     [OdinSerialize]
-    public int BasicMeleeWeaponType;
+    public int BasicMeleeWeaponType { get; set; }
     [OdinSerialize]
-    public int AdvancedMeleeWeaponType;
+    public int AdvancedMeleeWeaponType { get; set; }
     [OdinSerialize]
-    public int BasicRangedWeaponType;
+    public int BasicRangedWeaponType { get; set; }
     [OdinSerialize]
-    public int AdvancedRangedWeaponType;
+    public int AdvancedRangedWeaponType { get; set; }
     #endregion
 
     [OdinSerialize]
-    internal int DigestedUnits;
+    public int DigestedUnits { get; set; }
     [OdinSerialize]
-    internal int KilledUnits;
+    public int KilledUnits { get; set; }
 
     [OdinSerialize]
-    internal int TimesKilled;
+    public int TimesKilled { get; set; }
 
 
     [OdinSerialize]
-    public Item[] Items;
+    public Item[] Items { get; set; }
     [OdinSerialize]
     public string Name { get; set; }
     [OdinSerialize]
@@ -267,9 +290,9 @@ public class Unit
         return Pronouns[num];
     }
     [OdinSerialize]
-    public UnitType Type;
+    public UnitType Type { get; set; }
     [OdinSerialize]
-    public bool Predator;
+    public bool Predator { get; set; }
     [OdinSerialize]
     public bool ImmuneToDefections;
     [OdinSerialize]
@@ -360,7 +383,7 @@ public class Unit
     {
         get
         {
-            return (_spawnRace == Race.none) ? Race : _spawnRace;
+            return (Equals(_spawnRace, Race.TrueNone)) ? Race : _spawnRace;
         }
         set => _spawnRace = value;
     }
@@ -370,7 +393,7 @@ public class Unit
     {
         get
         {
-            return (_conversionRace == Race.none) ? Race : _conversionRace;
+            return (Equals(_conversionRace, Race.TrueNone)) ? Race : _conversionRace;
         }
         set => _conversionRace = value;
     }
@@ -388,15 +411,15 @@ public class Unit
         set => _useableSpells = value;
     }
 
-    internal bool HasDick => DickSize > -1;
-    internal bool HasBreasts => DefaultBreastSize > -1;
+    public bool HasDick => DickSize > -1;
+    public bool HasBreasts => DefaultBreastSize > -1;
 
-    public bool IsInfiltratingSide(int side)
+    public bool IsInfiltratingSide(Side side)
     {
-        return side == Side && Side != FixedSide && hiddenFixedSide;
+        return Equals(side, Side) && !Equals(Side, FixedSide) && hiddenFixedSide;
     }
 
-    internal Gender GetGender()
+    public Gender GetGender()
     {
         if (HasBreasts && HasDick && (HasVagina || Config.HermsCanUB == false))
             return Gender.Hermaphrodite;
@@ -445,7 +468,7 @@ public class Unit
         }
     }
 
-    internal bool HasWeapon
+    public bool HasWeapon
     {
         get
         {
@@ -594,7 +617,7 @@ public class Unit
         Mana = MaxMana;
     }
 
-    public Unit(int side, Race race, int startingXP, bool predator, UnitType type = UnitType.Soldier, bool immuneToDefectons = false)
+    public Unit(Side side, Race race, int startingXP, bool predator, UnitType type = UnitType.Soldier, bool immuneToDefectons = false)
     {
         Stats = new int[(int)Stat.None];
         Race = race;
@@ -635,14 +658,14 @@ public class Unit
         InnateSpells = new List<SpellTypes>();
         ShifterShapes = new List<Unit>();
 
-        if (race == Race.Dragon)
+        if (ReferenceEquals(race, Race.Dragon))
         {
             int rand = State.Rand.Next(3);
             if (rand == 0) InnateSpells.Add(SpellTypes.IceBlast);
             if (rand == 1) InnateSpells.Add(SpellTypes.Pyre);
             if (rand == 2) InnateSpells.Add(SpellTypes.LightningBolt);
         }
-        if (race == Race.Fairies)
+        if (Equals(race, Race.Fairies))
         {
             FairyUtil.SetSeason(this, FairyUtil.GetSeason(this)); //To establish the spell properly
         }
@@ -659,8 +682,8 @@ public class Unit
                 UniformDataStorer.ExternalCopyToUnit(available[State.Rand.Next(available.Count)], this);
             }
         }
-        _spawnRace = Race.none;
-        _conversionRace = Race.none;
+        _spawnRace = Race.TrueNone;
+        _conversionRace = Race.TrueNone;
 
         ReincarnateCheck();
         //if (HasTrait(Traits.Shapeshifter) || HasTrait(Traits.Skinwalker))
@@ -708,8 +731,8 @@ public class Unit
     {
         if (State.World != null && State.World.Reincarnators != null && State.World.Reincarnators?.Count > 0 && Type != UnitType.SpecialMercenary && Type != UnitType.Summon)
         {
-            if (State.World.Reincarnators.Where(r => r.Race == Race).Count() > 0 && State.Rand.Next(3) == 0)
-                Reincarnate(State.World.Reincarnators.Where(r => r.Race == Race).First());
+            if (State.World.Reincarnators.Where(r => Equals(r.Race, Race)).Count() > 0 && State.Rand.Next(3) == 0)
+                Reincarnate(State.World.Reincarnators.Where(r => Equals(r.Race, Race)).First());
         }
     }
 
@@ -751,70 +774,75 @@ public class Unit
 
     internal void SetGear(Race race, bool skipTraitItems = false)
     {
-        if (race >= Race.Vagrants && race < Race.Selicia)
+        if (State.World == null) return;
+        
+        if (RaceFuncs.isMonster(race))
         {
             FixedGear = true;
-            Items[0] = State.World.ItemRepository.GetMonsterItem((int)Race - 100);
+            Items[0] = State.World.ItemRepository.GetMonsterItem(Race);
         }
-        else if (race == Race.Selicia)
+        else if (Equals(race, Race.Selicia))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.SeliciaWeapon);
         }
-        else if (race == Race.Vision)
+        else if (Equals(race, Race.Vision))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.VisionWeapon);
         }
-        else if (race == Race.Ki)
+        else if (Equals(race, Race.Ki))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.KiWeapon);
         }
-        else if (race == Race.Scorch)
+        else if (Equals(race, Race.Scorch))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.ScorchWeapon);
         }
-        else if (race == Race.Succubi)
+        else if (Equals(race, Race.Succubi))
         {
-            Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.SuccubusWeapon);
+            World world = State.World;
+            ItemRepository itemRepository = world.ItemRepository;
+            Item value = itemRepository.GetSpecialItem(SpecialItems.SuccubusWeapon);
+            Items[0] = value;
         }
-        else if (race == Race.Asura)
+        else if (Equals(race, Race.Asura))
         {
             Items[0] = State.World.ItemRepository.GetItem(ItemType.Axe);
         }
-        else if (race == Race.DRACO)
+        else if (Equals(race, Race.DRACO))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.DRACOWeapon);
         }
-        else if (race == Race.Zoey)
+        else if (Equals(race, Race.Zoey))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.ZoeyWeapon);
         }
-        else if (race == Race.Abakhanskya)
+        else if (Equals(race, Race.Abakhanskya))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.AbakWeapon);
         }
-        else if (race == Race.Zera)
+        else if (Equals(race, Race.Zera))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.ZeraWeapon);
         }
-        else if (race == Race.Auri)
+        else if (Equals(race, Race.Auri))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.AurilikaWeapon);
         }
-        else if (race == Race.Salix)
+        else if (Equals(race, Race.Salix))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.SalixWeapon);
         }
-        else if (race == Race.Erin)
+        else if (Equals(race, Race.Erin))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.ErinWeapon);
@@ -995,7 +1023,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             isMale = false;
         }
 
-        if (race >= Race.Vagrants)
+        if (RaceFuncs.isMosnterOrUniqueMerc(race))
         {
             Name = State.NameGen.GetMonsterName(isMale, race);
         }
@@ -1075,7 +1103,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             isMale = false;
         }
 
-        if (race >= Race.Vagrants)
+        if (RaceFuncs.isMosnterOrUniqueMerc(race))
         {
             Name = State.NameGen.GetMonsterName(isMale, race);
         }
@@ -1457,10 +1485,10 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         if (HasTrait(Traits.Infiltrator) || HasTrait(Traits.Corruption))
             hiddenFixedSide = true;
     }
-    internal void InitializeFixedSide(int side)
+    internal void InitializeFixedSide(Side side)
     {
         if (State.World?.ItemRepository == null) return; //protection for the create strat screen
-        if (_fixedSide > -1) return;
+        if (RaceFuncs.isNotNone(_fixedSide.ToRace())) return;
         if (HasTrait(Traits.Untamable))
         {
             FixedSide = State.World.GetEmpireOfRace(Race)?.Side ?? side;
@@ -1471,12 +1499,12 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             FixedSide = side;
             return;
         }
-        FixedSide = -1;
+        FixedSide = Race.TrueNoneSide;
     }
 
     public bool HasTrait(Traits tag)
     {
-        if (tag == Traits.TheGreatEscape && Race == Race.Erin)
+        if (tag == Traits.TheGreatEscape && Equals(Race, Race.Erin))
             return true;
         if (Tags != null)
             return Tags.Contains(tag) || (PermanentTraits?.Contains(tag) ?? false);
@@ -1569,9 +1597,9 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         return ret;
     }
 
-    public bool IsEnemyOfSide(int side)
+    public bool IsEnemyOfSide(Side side)
     {
-        return (Side != side);
+        return (!Equals(Side, side));
     }
 
     public void AddTraits(List<Traits> traitIdsToAdd)
@@ -1852,7 +1880,10 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     {
         Tags = new List<Traits>();
         if (Config.RaceTraitsEnabled)
+        {
             Tags.AddRange(State.RaceSettings.GetRaceTraits(HiddenUnit.Race));
+        }
+
         if (HiddenUnit.HasBreasts && HiddenUnit.HasDick == false)
         {
             var femaleTraits = State.RaceSettings.GetFemaleRaceTraits(HiddenUnit.Race);
@@ -2533,10 +2564,15 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     public void ApplyStatusEffect(StatusEffectType type, float strength, int duration)
     {
+        ApplyStatusEffect(type, strength, duration, null);
+    }
+
+    public void ApplyStatusEffect(StatusEffectType type, float strength, int duration, Side side)
+    {
         if (type == StatusEffectType.Poisoned && HasTrait(Traits.PoisonSpit))
             return;
         StatusEffects.Remove(GetStatusEffect(type));                    // if null, nothing happens, otherwise status is effectively overwritten
-        StatusEffects.Add(new StatusEffect(type, strength, duration));
+        StatusEffects.Add(new StatusEffect(type, strength, duration, side));
     }
 
     internal StatusEffect GetStatusEffect(StatusEffectType type)
@@ -2569,7 +2605,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         return ret;
     }
 
-    public int GetApparentSide(Unit viewer = null)
+    public Side GetApparentSide(Unit viewer = null)
     {
         if (viewer != null && TacticalUtilities.UnitCanSeeTrueSideOfTarget(viewer, this))
             return FixedSide;
@@ -2921,7 +2957,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     public Race DetermineSpawnRace()
     {
-        if (SpawnRace != Race)
+        if (!Equals(SpawnRace, Race))
         {
             return SpawnRace;
         }
@@ -2932,7 +2968,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     public Race DetermineConversionRace()
     {
-        if (ConversionRace != Race)
+        if (!Equals(ConversionRace, Race))
             return ConversionRace;
         else
             return State.RaceSettings.GetConversionRace(Race);

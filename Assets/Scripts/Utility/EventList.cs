@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -315,7 +316,7 @@ internal class EventList
                             CreateRebels(RebelDifficulty.Hard, empire.CapitalCity);
                         }
                     });
-                    UI.ThirdChoice.interactable = empire.CapitalCity != null && empire.CapitalCity.Side == empire.Side;
+                    UI.ThirdChoice.interactable = empire.CapitalCity != null && Equals(empire.CapitalCity.Side, empire.Side);
                 }
                 break;
             case 2:
@@ -335,7 +336,7 @@ internal class EventList
                         if (empire.VillageCount < 3 || otherEmpire2 == null)
                             return false;
 
-                        var villages = State.World.Villages.Where(s => s.Side == empire.Side && s.Race != otherEmpire.ReplacedRace).OrderBy(s => s.Population).ToArray();
+                        var villages = State.World.Villages.Where(s => Equals(s.Side, empire.Side) && !Equals(s.Race, otherEmpire.ReplacedRace)).OrderBy(s => s.Population).ToArray();
                         UI.MainText.text = $"The war between {otherEmpire.Name} and {otherEmpire2.Name} has intensified considerably. As such a number of {otherEmpire.Name} refugees have found their way to our border. The infirm and young make up the majority of this group. There are far too many to integrate easily into our communities. They are begging our border guards for entry into our nation. What shall be done?";
                         UI.MainText.text += AddVillageInfo(villages[0]); UI.MainText.text += AddVillageInfo(villages[0]);
                         UI.FirstChoice.GetComponentInChildren<Text>().text = $"Though it will be difficult for us, we must accommodate those in need. Move the villagers from the town with lowest population to another town. We shall give the town to these people in need.";
@@ -390,8 +391,8 @@ internal class EventList
             case 3:
                 {
                     var village = GetRandomConqueredVillage(empire.Side, empire.ReplacedRace);
-                    var selfVillages = State.World.Villages.Where(s => s.Side == empire.Side && s.Race == empire.ReplacedRace);
-                    var occupiedVillages = State.World.Villages.Where(s => s.Side == empire.Side && s.Race != empire.ReplacedRace);
+                    var selfVillages = State.World.Villages.Where(s => Equals(s.Side, empire.Side) && Equals(s.Race, empire.ReplacedRace));
+                    var occupiedVillages = State.World.Villages.Where(s => Equals(s.Side, empire.Side) && !Equals(s.Race, empire.ReplacedRace));
                     if (village == null)
                         return false;
                     UI.MainText.text = $"Non-{empire.ReplacedRace} Citizens within our borders have become discontent with the way they’ve been treated and are demanding equal liberties. {empire.ReplacedRace} across the empire are violently opposed to such action. What shall be done?";
@@ -436,7 +437,7 @@ internal class EventList
                             if (State.Rand.Next(3) == 0 && StrategicUtilities.ArmyAt(vill.Position) == null)
                             {
                                 CreateRebels(RebelDifficulty.Medium, vill);
-                                vill.ChangeOwner(700);
+                                vill.ChangeOwner(Race.RebelSide);
                             }
                             else vill.SubtractPopulation(vill.Population / 2);
                         }
@@ -594,7 +595,7 @@ internal class EventList
                     if (hostileEmpire == null)
                         hostileEmpire = GetRandomEmpire(empire);
                     Village village;
-                    if (empire.CapitalCity?.Side == empire.Side)
+                    if (Equals(empire.CapitalCity?.Side, empire.Side))
                         village = empire.CapitalCity;
                     else
                         village = GetRandomVillage(empire.Side);
@@ -794,7 +795,7 @@ internal class EventList
                 {
                     Village village = GetRandomVillage(empire.Side);
                     var race = GetRandomEmpire(empire).ReplacedRace;
-                    if (village == null || empire.CapitalCity == null || empire.CapitalCity.Side != empire.Side)
+                    if (village == null || empire.CapitalCity == null || !Equals(empire.CapitalCity.Side, empire.Side))
                         return false;
                     UI.MainText.text = $"A {race} bandit has taken up residence in {village.Name}. They have been devouring the most beautiful women throughout town. What shall be done?";
                     UI.MainText.text += AddVillageInfo(village);
@@ -918,8 +919,8 @@ internal class EventList
             case 14:
                 {
                     Village village = empire.CapitalCity;
-                    var villages = State.World.Villages.Where(s => s.Side == empire.Side);
-                    if (village == null || village.Side != empire.Side || empire.Leader == null)
+                    var villages = State.World.Villages.Where(s => Equals(s.Side, empire.Side));
+                    if (village == null || !Equals(village.Side, empire.Side) || empire.Leader == null)
                         return false;
                     UI.MainText.text = $"A musician has come to {village.Name}. Their songs are horrendously lewd and bawdy. Most of them center on objectifying and complementing {empire.Leader.Name} body. The city’s aristocracy finds the songs distasteful and want the bard to leave. What shall be done?";
                     UI.MainText.text += AddVillageInfo(village);
@@ -1192,7 +1193,7 @@ internal class EventList
                 if (Config.MaleFraction < .5f)
                 {
                     Village village = empire.CapitalCity;
-                    if (village == null || village.Side != empire.Side)
+                    if (village == null || !Equals(village.Side, empire.Side))
                         return false;
                     UI.MainText.text = $"An eccentric noble woman renowned for her beauty and wealth has opened up a grand tournament to select her next mate as the last one mysteriously became a layer of fat on her bosom. As such she has no desire for another weak partner and in order to gain a more stable relationship has spread word of this event across the empire. Single men and women across our nation rally to partake. How does the event pan out?";
                     UI.FirstChoice.GetComponentInChildren<Text>().text = $"The event goes off without a hitch.";
@@ -1224,7 +1225,7 @@ internal class EventList
                 else
                 {
                     Village village = empire.CapitalCity;
-                    if (village == null || village.Side != empire.Side)
+                    if (village == null || !Equals(village.Side, empire.Side))
                         return false;
                     UI.MainText.text = $"An eccentric noble man renowned for his beauty and wealth has opened up a grand tournament to select his next mate as the last one mysteriously became a layer of fat on his ass. As such he has no desire for another weak partner and in order to gain a more stable relationship has spread word of this event across the empire. Single men and women across our nation rally to partake. How does the event pan out?";
                     UI.FirstChoice.GetComponentInChildren<Text>().text = $"The event goes off without a hitch.";
@@ -1420,7 +1421,7 @@ internal class EventList
                     {
                         if (State.Rand.Next(3) != 0)
                         {
-                            foreach (Village vill in State.World.Villages.Where(s => s.Side == otherEmpire.Side))
+                            foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, otherEmpire.Side)))
                             {
                                 vill.Happiness -= 30;
                                 vill.SubtractPopulation(10);
@@ -1482,7 +1483,7 @@ internal class EventList
                     UI.SecondChoice.onClick.AddListener(() =>
                     {
                         ChangeAllVillageHappiness(empire, -10);
-                        foreach (Village vill in State.World.Villages.Where(s => s.Side == empire.Side))
+                        foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, empire.Side)))
                         {
                             vill.SubtractPopulation(5);
                             vill.SetPopulationToAtleastTwo();
@@ -1563,6 +1564,8 @@ internal class EventList
                 break;
             case 27:
                 {
+                    // TODO disabled because of CreateFactionlessEmpire
+                    /*
                     Village village = GetRandomVillage(empire.Side);
                     if (village == null)
                         return false;
@@ -1644,11 +1647,15 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The people feel betrayed with how their government seems to extend its protection towards the beast and its keeper rather than them, as it devours more and more of them unhindered. On the bright side, Kitty grows up big and strong, and the duo can be recruited in {village.Name}.\n\n Happiness -40, Population -{village.Maxpop / 2}");
                     });
                     UI.ThirdChoice.interactable = true;
+                    */
                 }
                 break;
 
 			case 28:
                 {
+                    
+                    // TODO disabled because of CreateFactionlessEmpire
+                    /*
                     Village village = GetRandomVillage(empire.Side);
                     if (village == null)
                         return false;
@@ -1681,6 +1688,7 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The gurgling terrorbird stomach kindly asks you to reconsider but our pens are already signing the contracts. We recieve a modest up front fee and the bird with ingested rancher are shipped off to the {empire.CapitalCity} zoo. The Terror bird is well taken care of and enjoys being an attraction. She presents her belly to visitors so they can see the hand prints of her most prized catch. The Rancher will be sloshing in her stomach until the magic wears out and the rancher will be mashed into a nutricious sludge when the contract expires in 5 years.");
                     });
                     UI.ThirdChoice.interactable = true;
+                    */
                 }
                 break;
             case 29:
@@ -1985,7 +1993,7 @@ internal class EventList
             return;
         if (count >= village.Empire.MaxArmySize)
             count = village.Empire.MaxArmySize;
-        Empire banditEmp = State.World.GetEmpireOfSide(701);
+        Empire banditEmp = State.World.GetEmpireOfSide(Race.BanditSide);
         if (banditEmp == null)
         {
             Debug.Log("Bandit empire doesn't exist");
@@ -2056,7 +2064,7 @@ internal class EventList
             count = village.Empire.MaxArmySize;
         if (count == 0)
             return;
-        Empire rebelEmp = State.World.GetEmpireOfSide(700);
+        Empire rebelEmp = State.World.GetEmpireOfSide(Race.RebelSide);
         if (rebelEmp == null)
         {
             Debug.Log("Rebel empire doesn't exist");
@@ -2108,8 +2116,10 @@ internal class EventList
         }
     }
 
+    // TODO disabled due to creating int Sides
     Empire CreateFactionlessArmy(Village village, int bannerType, Unit[] units, int distance, string armyName)
     {
+        /*
 
         Vec2 loc = new Vec2(0, 0);
         CheckTile(village.Position + new Vec2(-distance, 0));
@@ -2145,27 +2155,29 @@ internal class EventList
                 loc = spot;
         }
 
-        int unusedSide = 702;
+        Side unusedSide = 702;
         while (State.World.AllActiveEmpires.Any(emp => emp.Side == unusedSide))
         {
             unusedSide++;
         }
-        Empire pseudoEmp = new MonsterEmpire(new Empire.ConstructionArgs(unusedSide, UnityEngine.Color.white, UnityEngine.Color.white, bannerType, StrategyAIType.Monster, TacticalAIType.Full, 2000 + unusedSide, 32, 0));
+        Empire pseudoEmp = new MonsterEmpire(new Empire.ConstructionArgs(RaceFuncs.IntToRace(unusedSide), UnityEngine.Color.white, UnityEngine.Color.white, bannerType, StrategyAIType.Monster, TacticalAIType.Full, 2000 + unusedSide, 32, 0));
         Army army = new Army(pseudoEmp, new Vec2i(loc.x, loc.y), unusedSide);
         army.Units = units.ToList();
         army.Name = armyName;
         pseudoEmp.ReplacedRace = army.Units[0].Race;
         pseudoEmp.Armies.Add(army);
         pseudoEmp.TurnOrder = 1337;
-        Config.World.SpawnerInfo[(Race)unusedSide] = new SpawnerInfo(true, 1, 0, 0.4f, pseudoEmp.Team, 0, false, 9999, 2, pseudoEmp.MaxArmySize, pseudoEmp.TurnOrder);
-        State.World.AllActiveEmpires.Add(pseudoEmp);
+        Config.World.SpawnerInfo[RaceFuncs.IntToRace(unusedSide)] = new SpawnerInfo(true, 1, 0, 0.4f, pseudoEmp.Team, 0, false, 9999, 2, pseudoEmp.MaxArmySize, pseudoEmp.TurnOrder);
+        State.World.AllActiveEmpiresWritable.Add(pseudoEmp);
         State.World.RefreshTurnOrder();
         return pseudoEmp;
+        */
+        throw new Exception("Disabled");
     }
 
     void ChangeAllVillageHappiness(Empire empire, int value)
     {
-        var villages = State.World.Villages.Where(s => s.Side == empire.Side);
+        var villages = State.World.Villages.Where(s => Equals(s.Side, empire.Side));
         foreach (Village vill in villages)
         {
             vill.Happiness += value;
@@ -2174,7 +2186,7 @@ internal class EventList
 
     Empire GetRandomHostileEmpire(Empire empire)
     {
-        var hostileEmpires = State.World.MainEmpires.Where(s => s.IsEnemy(empire) && s.Side < 100 && s.VillageCount > 0).ToArray();
+        var hostileEmpires = State.World.MainEmpires.Where(s => s.IsEnemy(empire) && RaceFuncs.IsMainRaceOrMerc(s.Side) && s.VillageCount > 0).ToArray();
         if (hostileEmpires.Count() == 0)
             return null;
         return hostileEmpires[State.Rand.Next(hostileEmpires.Count())];
@@ -2182,7 +2194,7 @@ internal class EventList
 
     Empire GetRandomAlliedEmpire(Empire empire)
     {
-        var alliedEmpires = State.World.MainEmpires.Where(s => s.IsAlly(empire) && s.VillageCount > 0 && s.Side != empire.Side && s.Side < 100).ToArray();
+        var alliedEmpires = State.World.MainEmpires.Where(s => s.IsAlly(empire) && s.VillageCount > 0 && !Equals(s.Side, empire.Side) && RaceFuncs.IsMainRaceOrMerc(s.Side)).ToArray();
         if (alliedEmpires.Count() == 0)
             return null;
         return alliedEmpires[State.Rand.Next(alliedEmpires.Count())];
@@ -2190,7 +2202,7 @@ internal class EventList
 
     Empire[] GetTwoRandomEmpires(Empire empire)
     {
-        var hostileEmpires = State.World.MainEmpires.Where(s => s.VillageCount > 0 && s.Side != empire.Side && s.Side < 100).ToArray();
+        var hostileEmpires = State.World.MainEmpires.Where(s => s.VillageCount > 0 && !Equals(s.Side, empire.Side) && RaceFuncs.IsMainRaceOrMerc(s.Side)).ToArray();
         if (hostileEmpires.Length <= 1)
             return null;
         int first = State.Rand.Next(hostileEmpires.Length);
@@ -2205,7 +2217,7 @@ internal class EventList
 
     Empire[] GetTwoRandomAIEmpires()
     {
-        var hostileEmpires = State.World.MainEmpires.Where(s => s.VillageCount > 0 && s.StrategicAI != null && s.Side < 100).ToArray();
+        var hostileEmpires = State.World.MainEmpires.Where(s => s.VillageCount > 0 && s.StrategicAI != null && RaceFuncs.IsMainRaceOrMerc(s.Side)).ToArray();
         if (hostileEmpires.Length <= 1)
             return null;
         int first = State.Rand.Next(hostileEmpires.Length);
@@ -2222,31 +2234,31 @@ internal class EventList
 
     Empire GetRandomEmpire(Empire empire)
     {
-        var empires = State.World.MainEmpires.Where(s => s.VillageCount > 0 && s.Side != empire.Side && s.Side < 100).ToArray();
+        var empires = State.World.MainEmpires.Where(s => s.VillageCount > 0 && !Equals(s.Side, empire.Side) && RaceFuncs.IsMainRaceOrMerc(s.Side)).ToArray();
         if (empires.Length == 0)
             return null;
         return empires[State.Rand.Next(empires.Length)];
     }
 
-    Village GetRandomConqueredVillage(int side, Race homeRace)
+    Village GetRandomConqueredVillage(Side side, Race homeRace)
     {
-        var villages = State.World.Villages.Where(s => s.Side == side && s.Race != homeRace).ToArray();
+        var villages = State.World.Villages.Where(s => Equals(s.Side, side) && !Equals(s.Race, homeRace)).ToArray();
         if (villages.Length == 0)
             return null;
         return villages[State.Rand.Next(villages.Length)];
     }
 
-    Village GetRandomVillage(int side)
+    Village GetRandomVillage(Side side)
     {
-        var villages = State.World.Villages.Where(s => s.Side == side).ToArray();
+        var villages = State.World.Villages.Where(s => Equals(s.Side, side)).ToArray();
         if (villages.Length == 0)
             return null;
         return villages[State.Rand.Next(villages.Length)];
     }
 
-    Village[] GetTwoRandomVillages(int side)
+    Village[] GetTwoRandomVillages(Side side)
     {
-        var villages = State.World.Villages.Where(s => s.Side == side).ToArray();
+        var villages = State.World.Villages.Where(s => Equals(s.Side, side)).ToArray();
         if (villages.Length <= 1)
             return null;
         int first = State.Rand.Next(villages.Length);

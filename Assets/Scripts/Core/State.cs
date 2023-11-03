@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using DaVikingCode.AssetPacker;
 using UnityEngine;
 
 public static class State
@@ -28,6 +29,8 @@ public static class State
     public static string SaveDirectory;
     public static string StorageDirectory;
     public static string MapDirectory;
+
+    public static SpriteManager SpriteManager;
 
     public static int RaceSlot;
     public static string RaceSaveDataName;
@@ -266,7 +269,7 @@ public static class State
 
             if (World.Empires != null)
             {
-                World.MainEmpires = World.Empires.ToList();
+                World.MainEmpiresWritable = World.Empires.ToList();
                 World.RefreshEmpires();
             }
 
@@ -322,25 +325,25 @@ public static class State
             //Always runs for new versions           
             if (World.SaveVersion != Version && World.AllActiveEmpires != null)
             {
-                if (World.GetEmpireOfSide(700) == null)
+                if (World.GetEmpireOfSide(Race.RebelSide) == null)
                 {
-                    World.MainEmpires.Add(new Empire(new Empire.ConstructionArgs(700, Color.red, new Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 700, 16, 16)));
+                    World.MainEmpiresWritable.Add(new Empire(new Empire.ConstructionArgs(null, Race.RebelSide, Color.red, new Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 700, 16, 16)));
                     World.RefreshEmpires();
                 }
                 else
                 {
-                    World.GetEmpireOfSide(700).Name = "Rebels";
-                    if (World.EmpireOrder.Where(s => s.Side == 700).Any() == false)
-                        World.EmpireOrder.Add(World.GetEmpireOfSide(700));
+                    World.GetEmpireOfSide(Race.RebelSide).Name = "Rebels";
+                    if (World.EmpireOrder.Where(s => Equals(s.Side, Race.RebelSide)).Any() == false)
+                        World.EmpireOrder.Add(World.GetEmpireOfSide(Race.RebelSide));
                 }
-                if (World.GetEmpireOfSide(701) == null)
+                if (World.GetEmpireOfSide(Race.BanditSide) == null)
                 {
-                    World.MainEmpires.Add(new Empire(new Empire.ConstructionArgs(701, Color.red, new Color(.6f, 0, 0), 7, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16)));
+                    World.MainEmpiresWritable.Add(new Empire(new Empire.ConstructionArgs(null, Race.BanditSide, Color.red, new Color(.6f, 0, 0), 7, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16)));
                     World.RefreshEmpires();
                 }
                 else
                 {
-                    World.GetEmpireOfSide(701).Name = "Bandits";
+                    World.GetEmpireOfSide(Race.BanditSide).Name = "Bandits";
                 }
                 /*         if (World.GetEmpireOfSide(702) == null)
                         {
@@ -379,7 +382,7 @@ public static class State
                         foreach (Unit unit in army.Units)
                         {
 
-                            if (unit.Side != army.Side)
+                            if (!Equals(unit.Side, army.Side))
                                 unit.Side = army.Side;
                             if (unit.BodySize < 0) //Can take this out later, was a fix for 14H
                                 unit.BodySize = 0;
@@ -400,7 +403,7 @@ public static class State
                 {
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        if (unit.Race == Race.Goblins) //Re-randomize because the number of options has dropped
+                        if (Equals(unit.Race, Race.Goblins)) //Re-randomize because the number of options has dropped
                             unit.EyeType = Rand.Next(3);
                     }
                 }
@@ -460,7 +463,7 @@ public static class State
                         {
                             foreach (Unit unit in army.Units)
                             {
-                                if (unit.Race == Race.Lizards) //Adjustment for the added clothing item
+                                if (Equals(unit.Race, Race.Lizards)) //Adjustment for the added clothing item
                                     if (unit.ClothingType == 4)
                                         unit.ClothingType = 5;
                                     else if (unit.ClothingType == 5)
@@ -493,7 +496,7 @@ public static class State
                         {
                             foreach (Unit unit in army.Units)
                             {
-                                if (unit.Race == Race.Lizards) //Adjustment for the added clothing item
+                                if (Equals(unit.Race, Race.Lizards)) //Adjustment for the added clothing item
                                     if (unit.ClothingType >= 5)
                                         unit.ClothingType++;
                             }
@@ -512,7 +515,7 @@ public static class State
                         {
                             foreach (Unit unit in army.Units)
                             {
-                                if (unit.Race == Race.Abakhanskya) //Adjustment for the added clothing item
+                                if (Equals(unit.Race, Race.Abakhanskya)) //Adjustment for the added clothing item
                                 {
                                     unit.FixedGear = true;
                                     unit.Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.AbakWeapon);
@@ -530,7 +533,7 @@ public static class State
                 {
                     foreach (Empire empire in World.AllActiveEmpires)
                     {
-                        if (empire.Leader?.Race == Race.Bees)
+                        if (Equals(empire.Leader?.Race, Race.Bees))
                             empire.Leader.ClothingType = 6;
                     }
                 }
@@ -561,7 +564,7 @@ public static class State
                         {
                             foreach (Unit unit in army.Units)
                             {
-                                if (unit.Race == Race.Succubi)
+                                if (Equals(unit.Race, Race.Succubi))
                                 {
                                     if (unit.ClothingType2 == 3)
                                         unit.ClothingType2 = 2;
@@ -600,7 +603,7 @@ public static class State
                     var raceData = Races.GetRace(Race.Bees);
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        if (unit.Race == Race.Bees)
+                        if (Equals(unit.Race, Race.Bees))
                             raceData.RandomCustomCall(unit);
                     }
                 }
@@ -655,7 +658,7 @@ public static class State
                 {
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        if (unit.Race == Race.Bats || unit.Race == Race.Equines)
+                        if (Equals(unit.Race, Race.DemiBats) || Equals(unit.Race, Race.Equines))
                         {
                             unit.TotalRandomizeAppearance();
                         }
@@ -753,7 +756,7 @@ public static class State
                 {
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        if (unit.Race == Race.Humans)
+                        if (Equals(unit.Race, Race.Humans))
                         {
                             unit.RandomizeAppearance();
                         }
@@ -768,7 +771,7 @@ public static class State
                     foreach (var unit in World.TacticalData.units)
                     {
                         unit.modeQueue = new List<KeyValuePair<int, float>>();
-                        unit.Unit.FixedSide = -1;
+                        unit.Unit.FixedSide = Race.TrueNoneSide;
                     }
                 }
 
@@ -776,7 +779,7 @@ public static class State
                 {
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        unit.FixedSide = -1;
+                        unit.FixedSide = Race.TrueNoneSide;
                     }
 
                 }
@@ -812,7 +815,7 @@ public static class State
             {
                 foreach (Empire emp in World.AllActiveEmpires)
                 {
-                    if (emp.Side > 300)
+                    if (RaceFuncs.IsRebelOrBandit4(emp.Side))
                         continue;
                     var raceFlags = RaceSettings.GetRaceTraits(emp.Race);
                     if (raceFlags != null)
@@ -824,7 +827,7 @@ public static class State
 
                 foreach (Empire emp in World.MainEmpires)
                 {
-                    if (emp.Side > 300)
+                    if (RaceFuncs.IsRebelOrBandit4(emp.Side))
                         continue;
                     if (RaceSettings.Exists(emp.Race))
                     {

@@ -1,5 +1,6 @@
 ﻿#region
 
+using System.Collections.Generic;
 using DriderClothing;
 using UnityEngine;
 
@@ -9,6 +10,53 @@ internal static class Driders
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Drider", "Driders");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts {  },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Dagger",
+                [WeaponNames.Axe]         = "Short Sword",
+                [WeaponNames.SimpleBow]   = "Pistol Crossbow",
+                [WeaponNames.CompoundBow] = "Crossbow"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 20,
+            StomachSize = 20,
+            HasTail = false,
+            FavoredStat = Stat.Strength,
+            RacialTraits = new List<Traits>()
+            {
+                //Traits.StrongMelee,
+                Traits.NimbleClimber,
+                Traits.Webber,
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Spider Half Color");
+            buttons.SetText(ButtonType.ExtraColor1, "Spider Accent Color");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Arachnos",
+            "Weaverville",
+            "Silkroad",
+            "Tarantulos",
+            "Shelob's Lair",
+            "Araneae",
+            "Webbington",
+            "Dark Caves",
+            "Flytrap",
+            "Net town",
+            "Aragog Forest",
+            "Spiderverse",
+        });
         float yOffset = 30 * .625f;
         IClothing leaderClothes = DriderLeader.DriderLeaderInstance;
 
@@ -18,13 +66,13 @@ internal static class Driders
             output.BodySizes = 5;
             output.EyeTypes = 8;
             output.HairStyles = 10;
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DriderSkin); // abdomen and legs colors
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DriderEyes); // drider special eyes colors
-            output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DriderEyes); // abdomen patterns colors
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.DriderSkin); // abdomen and legs colors
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.DriderEyes); // drider special eyes colors
+            output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(SwapType.DriderEyes); // abdomen patterns colors
 
             output.ClothingShift = new Vector3(0, yOffset, 0);
             output.AvoidedMainClothingTypes = 2;
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
             output.AllowedMainClothingTypes.Set(
                 ClothingTypes.BikiniTopInstance,
                 ClothingTypes.BeltTopInstance,
@@ -44,8 +92,8 @@ internal static class Driders
 
         builder.RenderSingle(SpriteType.Head, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DriderSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DriderSkin, input.U.AccessoryColor));
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Driders[23]);
             }
@@ -53,145 +101,145 @@ internal static class Driders
 
         builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DriderEyes, input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Driders[28 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DriderEyes, input.U.EyeColor));
+            output.Sprite(input.Sprites.Driders[28 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Mouth].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Mouth].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
             output.AddOffset(0, yOffset);
         });
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Driders[38 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Driders[38 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
+            if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.Driders[0 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
+                output.Sprite(input.Sprites.Driders[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize]);
             }
             else
             {
-                if (input.Actor.Unit.BodySize < 1)
+                if (input.U.BodySize < 1)
                 {
-                    output.Sprite(input.Sprites.Driders[0 + (input.Actor.IsAttacking ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Driders[0 + (input.A.IsAttacking ? 1 : 0)]);
                 }
                 else
                 {
-                    output.Sprite(input.Sprites.Driders[8 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
+                    output.Sprite(input.Sprites.Driders[8 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize]);
                 }
             }
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DriderSkin, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DriderSkin, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Driders[24]);
         }); //Back Legs
         builder.RenderSingle(SpriteType.BodyAccent2, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DriderSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Driders[25 + input.Actor.GetSimpleBodySprite()]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DriderSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Driders[25 + input.A.GetSimpleBodySprite()]);
         }); //Back of front Legs
         builder.RenderSingle(SpriteType.BodyAccent3, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DriderEyes, input.Actor.Unit.EyeColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DriderEyes, input.U.EyeColor));
             output.Sprite(input.Sprites.Driders[36]);
         }); // extra Eyes
         builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
             output.Sprite(input.Sprites.Driders[37]);
         }); //eyebrow
         builder.RenderSingle(SpriteType.BodyAccent5, 18, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Driders[61 + input.Actor.GetSimpleBodySprite() + 3 * (input.Actor.GetWeaponSprite() / 2)]);
+                output.Sprite(input.Sprites.Driders[61 + input.A.GetSimpleBodySprite() + 3 * (input.A.GetWeaponSprite() / 2)]);
             }
         }); //Extra Leg Accessories
 
         builder.RenderSingle(SpriteType.BodyAccent6, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DriderSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Driders[98 + input.Actor.GetSimpleBodySprite()]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DriderSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Driders[98 + input.A.GetSimpleBodySprite()]);
         }); //Front of front Legs
         //builder.SetSpriteInfo(SpriteType.BodyAccent7, 7, Defaults.WhiteColored, null, (input, output) => null); //For Spider Web attack animation???
         builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DriderSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DriderSkin, input.U.AccessoryColor));
+            if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.Driders[18 + input.Actor.Unit.BodySize]);
+                output.Sprite(input.Sprites.Driders[18 + input.U.BodySize]);
             }
             else
             {
-                output.Sprite(input.Actor.Unit.BodySize < 2 ? input.Sprites.Driders[18] : input.Sprites.Driders[17 + input.Actor.Unit.BodySize]);
+                output.Sprite(input.U.BodySize < 2 ? input.Sprites.Driders[18] : input.Sprites.Driders[17 + input.U.BodySize]);
             }
         }); //abdomen
 
         builder.RenderSingle(SpriteType.SecondaryAccessory, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DriderEyes, input.Actor.Unit.ExtraColor1));
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DriderEyes, input.U.ExtraColor1));
+            if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.Driders[48 + input.Actor.Unit.BodySize]);
+                output.Sprite(input.Sprites.Driders[48 + input.U.BodySize]);
             }
             else
             {
-                if (input.Actor.Unit.BodySize < 2)
+                if (input.U.BodySize < 2)
                 {
                     output.Sprite(input.Sprites.Driders[48]);
                 }
                 else
                 {
-                    output.Sprite(input.Sprites.Driders[47 + input.Actor.Unit.BodySize]);
+                    output.Sprite(input.Sprites.Driders[47 + input.U.BodySize]);
                 }
             }
         }); // abdomen patterns
 
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Belly].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneSkin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
             output.AddOffset(0, yOffset);
         });
 
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Breasts].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Breasts].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
             output.AddOffset(0, yOffset);
         });
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Belly].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
             output.AddOffset(0, yOffset);
         });
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Dick].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
             output.AddOffset(0, yOffset);
         });
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Balls].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
             output.AddOffset(0, yOffset);
         });
         builder.RenderSingle(SpriteType.Weapon, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Driders[53 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Driders[53 + input.A.GetWeaponSprite()]);
             }
         });
 
@@ -202,7 +250,7 @@ internal static class Driders
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, leaderClothes);
             }
 
             if (unit.HasDick && unit.HasBreasts)
@@ -264,20 +312,20 @@ namespace DriderClothing
 
                 output["Clothing1"].Coloring(Color.white);
 
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     // output.DiscardSprite = input.Sprites.Driders[97];
                     // output.Type = 237;
                     // TODO this was not a robust way of doing this. Changing discards dynamically isnt currently supported 
                     output["Clothing1"].Sprite(input.Sprites.Driders[76]);
-                    output["Clothing2"].Sprite(input.Sprites.Driders[87 + input.Actor.Unit.BreastSize]);
-                    output["Clothing3"].Sprite(input.Sprites.Driders[82 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.Sprites.Driders[87 + input.U.BreastSize]);
+                    output["Clothing3"].Sprite(input.Sprites.Driders[82 + input.U.BodySize]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(input.Sprites.Driders[95]);
                     output["Clothing2"].Sprite(null);
-                    output["Clothing3"].Sprite(input.Sprites.Driders[77 + input.Actor.Unit.BodySize]);
+                    output["Clothing3"].Sprite(input.Sprites.Driders[77 + input.U.BodySize]);
                 }
             });
         });

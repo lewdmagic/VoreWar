@@ -73,7 +73,7 @@ internal static class Examples
         builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
         {
             // You can provide either a Palette or a solid Color. 
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kobold, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.Actor.Unit.AccessoryColor));
             
             // Access FacingFront we set inside RunBefore
             if (input.Params.FacingFront)

@@ -1,5 +1,5 @@
 
-interface ISpriteChanger
+public interface ISpriteChanger
 {
     IRaceRenderOutput ChangeSprite(SpriteType spriteType);
 }

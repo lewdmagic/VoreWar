@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,39 @@ internal static class Kobolds
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<FacingFrontParameters>, builder =>
     {
+        builder.Names("Kobold", "Kobolds");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "kobold", "little lizard", "little reptile" },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Pickax",
+                [WeaponNames.Axe]         = "Pickax",
+                [WeaponNames.SimpleBow]   = "Dart",
+                [WeaponNames.CompoundBow] = "Dart",
+                [WeaponNames.Claw]        = "Fist"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 9,
+            StomachSize = 12,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.ProlificBreeder,
+                Traits.EasyToVore,
+                Traits.Replaceable,
+            },
+            RaceDescription = "",
+            RaceAI = RaceAI.ServantRace
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.TailTypes, "Preferred Facing");
+        });
         builder.Setup(output =>
         {
             output.BreastSizes = () => 3;
@@ -29,18 +63,18 @@ internal static class Kobolds
             output.TailTypes = 2;
             output.HeadTypes = 3;
             output.SpecialAccessoryCount = 5;
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Kobold);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.Kobold);
         });
 
 
         builder.RenderSingle(SpriteType.Head, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kobold, input.Actor.Unit.AccessoryColor));
-            int spr = 7 + 3 * input.Actor.Unit.HeadType;
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
+            int spr = 7 + 3 * input.U.HeadType;
             if (input.Params.FacingFront)
             {
                 output.Layer(4);
-                if (input.Actor.IsOralVoring)
+                if (input.A.IsOralVoring)
                 {
                     output.Sprite(input.Sprites.Kobolds[spr + 1]);
                     return;
@@ -55,10 +89,10 @@ internal static class Kobolds
 
         builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kobold, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
             if (input.Params.FacingFront)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Kobolds[1]);
                     return;
@@ -73,7 +107,7 @@ internal static class Kobolds
 
         builder.RenderSingle(SpriteType.BodyAccent, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kobold, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
             output.Sprite(input.Params.FacingFront ? null : input.Sprites.Kobolds[3]);
         });
         builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
@@ -82,7 +116,7 @@ internal static class Kobolds
             if (input.Params.FacingFront)
             {
                 output.Layer(4);
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Kobolds[5]);
                     return;
@@ -103,7 +137,7 @@ internal static class Kobolds
                 return;
             }
 
-            if (input.Actor.BestRanged == null && input.Actor.Unit.HasWeapon && input.Actor.IsAttacking == false)
+            if (input.A.BestRanged == null && input.U.HasWeapon && input.A.IsAttacking == false)
             {
                 output.Sprite(input.Sprites.Kobolds[16]);
             }
@@ -111,32 +145,32 @@ internal static class Kobolds
 
         builder.RenderSingle(SpriteType.BodyAccent4, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kobold, input.Actor.Unit.AccessoryColor));
-            int spr = 21 + 2 * input.Actor.Unit.SpecialAccessoryType;
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
+            int spr = 21 + 2 * input.U.SpecialAccessoryType;
             if (input.Params.FacingFront)
             {
-                output.Sprite(input.Actor.IsOralVoring ? input.Sprites.Kobolds[spr + 1] : input.Sprites.Kobolds[spr]);
+                output.Sprite(input.A.IsOralVoring ? input.Sprites.Kobolds[spr + 1] : input.Sprites.Kobolds[spr]);
             }
         });
 
         builder.RenderSingle(SpriteType.Breasts, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kobold, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
             if (Config.LizardsHaveNoBreasts)
             {
                 return;
             }
 
-            if (input.Actor.Unit.HasBreasts && input.Params.FacingFront)
+            if (input.U.HasBreasts && input.Params.FacingFront)
             {
-                output.Sprite(input.Sprites.Kobolds[42 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Kobolds[42 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kobold, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.Predator == false || input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
+            if (input.U.Predator == false || input.A.HasBelly == false)
             {
                 return;
             }
@@ -144,87 +178,33 @@ internal static class Kobolds
             if (input.Params.FacingFront)
             {
                 output.Layer(15);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(12) == 12)
-                {
-                    output.Sprite(input.Sprites.Kobolds[84]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    if (input.Actor.GetStomachSize(12, 0.7f) == 12)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[110]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(12, 0.8f) == 12)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[109]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(12, 0.9f) == 12)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[108]);
-                        return;
-                    }
-                }
-
-                output.Sprite(input.Sprites.Kobolds[71 + input.Actor.GetStomachSize(12)]);
+                output.Sprite(input.Sprites.Kobolds[71 + input.A.GetStomachSize(12)]);
                 return;
             }
 
             output.Layer(2);
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(12) == 12)
-            {
-                output.Sprite(input.Sprites.Kobolds[102]);
-                return;
-            }
-
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-            {
-                if (input.Actor.GetStomachSize(12, 0.7f) == 12)
-                {
-                    output.Sprite(input.Sprites.Kobolds[116]);
-                    return;
-                }
-
-                if (input.Actor.GetStomachSize(12, 0.8f) == 12)
-                {
-                    output.Sprite(input.Sprites.Kobolds[115]);
-                    return;
-                }
-
-                if (input.Actor.GetStomachSize(12, 0.9f) == 12)
-                {
-                    output.Sprite(input.Sprites.Kobolds[114]);
-                    return;
-                }
-            }
-
-            output.Sprite(input.Sprites.Kobolds[89 + input.Actor.GetStomachSize(12)]);
+            output.Sprite(input.Sprites.Kobolds[89 + input.A.GetStomachSize(12)]);
         });
 
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kobold, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
             output.Layer(input.Params.FacingFront ? 9 : 17);
-            if (input.Actor.GetBallSize(10) > 2)
+            if (input.A.GetBallSize(10) > 2)
             {
                 output.Layer(input.Params.FacingFront ? 7 : 15);
             }
 
-            if (input.Actor.Unit.DickSize >= 0)
+            if (input.U.DickSize >= 0)
             {
-                int spr = 33 + 3 * input.Actor.Unit.DickSize;
+                int spr = 33 + 3 * input.U.DickSize;
                 if (input.Params.FacingFront == false)
                 {
                     output.Sprite(input.Sprites.Kobolds[spr + 2]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Kobolds[input.Actor.IsErect() ? spr + 1 : spr]);
+                output.Sprite(input.Sprites.Kobolds[input.A.IsErect() ? spr + 1 : spr]);
                 return;
             }
 
@@ -235,44 +215,17 @@ internal static class Kobolds
 
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Kobold, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            int baseSize = input.Actor.Unit.DickSize;
+            int baseSize = input.U.DickSize;
             output.Layer(input.Params.FacingFront ? 8 : 18);
-            if (input.Actor.PredatorComponent?.BallsFullness > 0)
+            if (input.A.PredatorComponent?.BallsFullness > 0)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) && input.Actor.GetBallSize(16) == 16)
-                {
-                    output.Sprite(input.Sprites.Kobolds[62]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls))
-                {
-                    if (input.Actor.GetBallSize(16, 0.7f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[113]);
-                        return;
-                    }
-
-                    if (input.Actor.GetBallSize(16, 0.8f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[112]);
-                        return;
-                    }
-
-                    if (input.Actor.GetBallSize(16, 0.9f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[111]);
-                        return;
-                    }
-                }
-
-                output.Sprite(input.Sprites.Kobolds[45 + baseSize + input.Actor.GetBallSize(16 - baseSize)]);
+                output.Sprite(input.Sprites.Kobolds[45 + baseSize + input.A.GetBallSize(16 - baseSize)]);
                 return;
             }
 
@@ -287,26 +240,26 @@ internal static class Kobolds
                 return;
             }
 
-            if (input.Actor.BestRanged != null)
+            if (input.A.BestRanged != null)
             {
-                output.Sprite(input.Actor.IsAttacking ? null : input.Sprites.Kobolds[19]);
+                output.Sprite(input.A.IsAttacking ? null : input.Sprites.Kobolds[19]);
                 return;
             }
 
-            if (input.Actor.Unit.HasWeapon)
+            if (input.U.HasWeapon)
             {
-                output.Sprite(input.Actor.IsAttacking ? input.Sprites.Kobolds[18] : input.Sprites.Kobolds[17]);
+                output.Sprite(input.A.IsAttacking ? input.Sprites.Kobolds[18] : input.Sprites.Kobolds[17]);
             }
         });
 
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.IsAnalVoring || input.Actor.IsUnbirthing || input.Actor.IsCockVoring)
+            if (input.A.IsAnalVoring || input.A.IsUnbirthing || input.A.IsCockVoring)
             {
                 output.Params.FacingFront = false;
             }
-            else if (input.Actor.Unit.TailType == 0 || input.Actor.IsOralVoring || input.Actor.IsAttacking)
+            else if (input.U.TailType == 0 || input.A.IsOralVoring || input.A.IsAttacking)
             {
                 output.Params.FacingFront = true;
             }
@@ -315,10 +268,10 @@ internal static class Kobolds
                 output.Params.FacingFront = true;
             }
 
-            if (input.Actor.Unit.Predator)
+            if (input.U.Predator)
             {
                 float ballsYOffset = 0;
-                int ballSize = input.Actor.Unit.DickSize + input.Actor.GetBallSize(16 - input.Actor.Unit.DickSize);
+                int ballSize = input.U.DickSize + input.A.GetBallSize(16 - input.U.DickSize);
                 if (ballSize == 13)
                 {
                     ballsYOffset = 14;
@@ -339,19 +292,19 @@ internal static class Kobolds
                     ballsYOffset = 30;
                 }
 
-                if (ballSize == 16 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls))
+                if (ballSize == 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls))
                 {
                     ballsYOffset = 30;
                 }
 
-                if (ballSize == 16 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
+                if (ballSize == 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
                 {
                     ballsYOffset = 30;
                 }
 
                 bool onBalls = ballsYOffset > 0;
                 float stomachYOffset = 0;
-                int stomachSize = input.Actor.GetStomachSize(12);
+                int stomachSize = input.A.GetStomachSize(12);
                 if (stomachSize == 10)
                 {
                     stomachYOffset = 6;
@@ -367,12 +320,12 @@ internal static class Kobolds
                     stomachYOffset = 20;
                 }
 
-                if (stomachSize == 12 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+                if (stomachSize == 12 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
                 {
                     stomachYOffset = 20;
                 }
 
-                if (stomachSize == 12 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
+                if (stomachSize == 12 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
                 {
                     stomachYOffset = 20;
                 }
@@ -418,12 +371,12 @@ internal static class Kobolds
             {
                 output["Clothing2"].Layer(11);
                 output["Clothing1"].Layer(10);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
                 if (input.Params.FacingFront)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Kobolds[105]);
-                    if (input.Actor.Unit.HasDick)
+                    if (input.U.HasDick)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Kobolds[106]);
                     }
@@ -450,15 +403,15 @@ internal static class Kobolds
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(20);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
                 if (input.Params.FacingFront)
                 {
                     output["Clothing1"].Layer(20);
-                    if (input.Actor.Unit.BreastSize > 1)
+                    if (input.U.BreastSize > 1)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Kobolds[88]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 0)
+                    else if (input.U.BreastSize == 0)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Kobolds[87]);
                     }
@@ -488,7 +441,7 @@ internal static class Kobolds
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(10);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ClothingStrict, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
                 if (input.Params.FacingFront)
                 {
                     output["Clothing1"].Layer(10);

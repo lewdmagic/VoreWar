@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,62 @@ internal static class Demifrogs
 {
     internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("DemiFrog", "DemiFrogs");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "demi-frog", "amphibian", "frog" }, //new, many thanks to Flame_Valxsarion
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "WeaponNames.Mace",
+                [WeaponNames.Axe]         = "WeaponNames.Axe",
+                [WeaponNames.SimpleBow]   = "Slingshot",
+                [WeaponNames.CompoundBow] = "Feathered Bow",
+                [WeaponNames.Claw]        = "Fist"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 14,
+            StomachSize = 18,
+            HasTail = false,
+            FavoredStat = Stat.Voracity,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Pounce,
+                Traits.HeavyPounce,
+                Traits.RangedVore,
+                Traits.Clumsy
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryType, "Primary Pattern Type");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Secondary Pattern Type");
+            buttons.SetText(ButtonType.BodyAccentTypes2, "Extra Colors for Females");
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Secondary Pattern Colors");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Frogpolis",
+            "Buzzing Bog",
+            "Lily Pond",
+            "Evermire",
+            "Green Lake",
+            "Toadburg",
+            "Muddy Pool",
+            "Flycatcher Swamp",
+            "Tadpole City",
+            "Misty Tarn",
+            "Froppyville",
+            "Willow Wetlands",
+            "Loch Bufo",
+            "Murky Puddle",
+            "Soggy Marsh",
+            "Backwater Borough",
+            "Sawgrass Slough"
+        });
         IClothing<IOverSizeParameters> LeaderClothes = DemifrogLeader.DemifrogLeaderInstance;
         IClothing Rags = DemifrogRags.DemifrogRagsInstance;
 
@@ -24,9 +81,9 @@ internal static class Demifrogs
             output.HairStyles = 0;
             output.MouthTypes = 0;
             output.HairColors = 0;
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DemifrogSkin);
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DemifrogSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.DemifrogSkin); // Secondary pattern Colors
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.DemifrogSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.DemifrogSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.DemifrogSkin); // Secondary pattern Colors
             output.BodyAccentTypes1 = 13; // secondary pattern types
             output.BodyAccentTypes2 = 2; // colored genitals/tits switch
 
@@ -56,7 +113,7 @@ internal static class Demifrogs
                 TribalBot.TribalBotInstance
             );
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AviansSkin);
         });
 
 
@@ -68,14 +125,14 @@ internal static class Demifrogs
 
         builder.RenderSingle(SpriteType.Head, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Demifrogs1[11]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Demifrogs1[10]);
                 return;
@@ -86,21 +143,21 @@ internal static class Demifrogs
 
         builder.RenderSingle(SpriteType.Eyes, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.EyeColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.EyeColor));
             output.Sprite(input.Sprites.Demifrogs1[8]);
         });
         builder.RenderSingle(SpriteType.Mouth, 21, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Demifrogs1[14]);
             }
-            else if (input.Actor.IsEating)
+            else if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Demifrogs1[13]);
             }
-            else if (input.Actor.IsAttacking)
+            else if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Demifrogs1[12]);
             }
@@ -108,52 +165,52 @@ internal static class Demifrogs
 
         builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Demifrogs1[0 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            output.Sprite(input.Sprites.Demifrogs1[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize]);
         }); //Skin
 
         builder.RenderSingle(SpriteType.BodyAccent, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 7)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 7)
             {
                 return;
             }
 
-            output.Sprite(input.Sprites.Demifrogs1[15 + (input.Actor.IsEating ? 2 : input.Actor.IsAttacking ? 1 : 0) + 3 * input.Actor.Unit.SpecialAccessoryType]);
+            output.Sprite(input.Sprites.Demifrogs1[15 + (input.A.IsEating ? 2 : input.A.IsAttacking ? 1 : 0) + 3 * input.U.SpecialAccessoryType]);
         }); // Primary Pattern (head)
 
         builder.RenderSingle(SpriteType.BodyAccent2, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType1 == 12)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.AccessoryColor));
+            if (input.U.BodyAccentType1 == 12)
             {
                 return;
             }
 
-            output.Sprite(input.Sprites.Demifrogs2[0 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize + 8 * input.Actor.Unit.BodyAccentType1]);
+            output.Sprite(input.Sprites.Demifrogs2[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize + 8 * input.U.BodyAccentType1]);
         }); // Secondary Pattern (body)
 
         builder.RenderSingle(SpriteType.BodyAccent3, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType1 == 12)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.AccessoryColor));
+            if (input.U.BodyAccentType1 == 12)
             {
                 return;
             }
 
-            output.Sprite(input.Sprites.Demifrogs2[96 + (input.Actor.IsEating ? 2 : input.Actor.IsAttacking ? 1 : 0) + 3 * input.Actor.Unit.BodyAccentType1]);
+            output.Sprite(input.Sprites.Demifrogs2[96 + (input.A.IsEating ? 2 : input.A.IsAttacking ? 1 : 0) + 3 * input.U.BodyAccentType1]);
         }); // Secondary Pattern (head)
 
         builder.RenderSingle(SpriteType.BodyAccent4, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 6 || input.Actor.Unit.HasDick || input.Actor.Unit.BodyAccentType2 == 1)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 6 || input.U.HasDick || input.U.BodyAccentType2 == 1)
             {
                 return;
             }
 
-            if (input.Actor.Unit.BodySize > 2)
+            if (input.U.BodySize > 2)
             {
                 output.Sprite(input.Sprites.Demifrogs1[139]);
                 return;
@@ -164,63 +221,45 @@ internal static class Demifrogs
 
         builder.RenderSingle(SpriteType.BodyAccent5, 18, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 6 || input.Actor.Unit.HasBreasts == false || input.Actor.PredatorComponent?.LeftBreastFullness > 0 || input.Actor.PredatorComponent?.RightBreastFullness > 0 || input.Actor.Unit.BodyAccentType2 == 1)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 6 || input.U.HasBreasts == false || input.A.PredatorComponent?.LeftBreastFullness > 0 || input.A.PredatorComponent?.RightBreastFullness > 0 || input.U.BodyAccentType2 == 1)
             {
                 return;
             }
 
-            output.Sprite(input.Sprites.Demifrogs2[132 + input.Actor.Unit.BreastSize]);
+            output.Sprite(input.Sprites.Demifrogs2[132 + input.U.BreastSize]);
         }); // Tertiary Pattern (breasts)
 
         builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType >= 7)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType >= 7)
             {
-                if (input.Actor.Unit.SpecialAccessoryType > 7)
+                if (input.U.SpecialAccessoryType > 7)
                 {
-                    input.Actor.Unit.SpecialAccessoryType = 7;
+                    input.U.SpecialAccessoryType = 7;
                 }
 
                 return;
             }
 
 
-            output.Sprite(input.Sprites.Demifrogs1[36 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize + 8 * input.Actor.Unit.SpecialAccessoryType]);
+            output.Sprite(input.Sprites.Demifrogs1[36 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize + 8 * input.U.SpecialAccessoryType]);
         }); // Primary Pattern (body)
 
         builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.Unit.SpecialAccessoryType == 6)
+            if (input.U.SpecialAccessoryType == 6)
             {
-                if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+                if (input.A.PredatorComponent?.LeftBreastFullness > 0)
                 {
-                    int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(31 * 31));
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 31)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[30]);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 29)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[29]);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 27)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[28]);
-                        return;
-                    }
+                    int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(31 * 31));
 
                     if (leftSize > 27)
                     {
@@ -231,32 +270,14 @@ internal static class Demifrogs
                 }
                 else
                 {
-                    output.Sprite(input.Sprites.Demifrogs3alt[0 + input.Actor.Unit.BreastSize]);
+                    output.Sprite(input.Sprites.Demifrogs3alt[0 + input.U.BreastSize]);
                 }
             }
             else
             {
-                if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+                if (input.A.PredatorComponent?.LeftBreastFullness > 0)
                 {
-                    int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(31 * 31));
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 31)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[30]);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 29)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[29]);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 27)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[28]);
-                        return;
-                    }
+                    int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(31 * 31));
 
                     if (leftSize > 27)
                     {
@@ -267,42 +288,24 @@ internal static class Demifrogs
                 }
                 else
                 {
-                    output.Sprite(input.Sprites.Demifrogs3[0 + input.Actor.Unit.BreastSize]);
+                    output.Sprite(input.Sprites.Demifrogs3[0 + input.U.BreastSize]);
                 }
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.Unit.SpecialAccessoryType == 6)
+            if (input.U.SpecialAccessoryType == 6)
             {
-                if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+                if (input.A.PredatorComponent?.RightBreastFullness > 0)
                 {
-                    int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(31 * 31));
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 31)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[61]);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 29)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[60]);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 27)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[59]);
-                        return;
-                    }
+                    int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(31 * 31));
 
                     if (rightSize > 27)
                     {
@@ -313,32 +316,14 @@ internal static class Demifrogs
                 }
                 else
                 {
-                    output.Sprite(input.Sprites.Demifrogs3alt[31 + input.Actor.Unit.BreastSize]);
+                    output.Sprite(input.Sprites.Demifrogs3alt[31 + input.U.BreastSize]);
                 }
             }
             else
             {
-                if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+                if (input.A.PredatorComponent?.RightBreastFullness > 0)
                 {
-                    int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(31 * 31));
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 31)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[61]);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 29)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[60]);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 27)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[59]);
-                        return;
-                    }
+                    int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(31 * 31));
 
                     if (rightSize > 27)
                     {
@@ -349,43 +334,20 @@ internal static class Demifrogs
                 }
                 else
                 {
-                    output.Sprite(input.Sprites.Demifrogs3[31 + input.Actor.Unit.BreastSize]);
+                    output.Sprite(input.Sprites.Demifrogs3[31 + input.U.BreastSize]);
                 }
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(28, 0.6f);
+                int size = input.A.GetStomachSize(28, 0.6f);
 
-                if (input.Actor.Unit.SpecialAccessoryType == 6)
+                if (input.U.SpecialAccessoryType == 6)
                 {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 28)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[94]).AddOffset(0, -26 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 28)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[93]).AddOffset(0, -26 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 27)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[92]).AddOffset(0, -26 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 26)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3alt[91]).AddOffset(0, -26 * .625f);
-                        return;
-                    }
 
                     switch (size)
                     {
@@ -413,30 +375,6 @@ internal static class Demifrogs
                 }
                 else
                 {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 28)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[94]).AddOffset(0, -26 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 28)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[93]).AddOffset(0, -26 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 27)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[92]).AddOffset(0, -26 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 26)
-                    {
-                        output.Sprite(input.Sprites.Demifrogs3[91]).AddOffset(0, -26 * .625f);
-                        return;
-                    }
-
                     switch (size)
                     {
                         case 23:
@@ -467,22 +405,22 @@ internal static class Demifrogs
         builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(31 * 31)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(31 * 31)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(31 * 31)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(31 * 31)) < 16)
                 {
                     output.Layer(20);
-                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Demifrogs1[108 + input.Actor.Unit.DickSize] : input.Sprites.Demifrogs1[92 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.A.IsCockVoring ? input.Sprites.Demifrogs1[108 + input.U.DickSize] : input.Sprites.Demifrogs1[92 + input.U.DickSize]);
                 }
                 else
                 {
                     output.Layer(13);
-                    output.Sprite(input.Actor.IsCockVoring ? input.Sprites.Demifrogs1[116 + input.Actor.Unit.DickSize] : input.Sprites.Demifrogs1[100 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.A.IsCockVoring ? input.Sprites.Demifrogs1[116 + input.U.DickSize] : input.Sprites.Demifrogs1[100 + input.U.DickSize]);
                 }
             }
 
@@ -491,17 +429,17 @@ internal static class Demifrogs
 
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f &&
-                (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize +
-                               input.Actor.GetRightBreastSize(32 * 32)) < 16 &&
-                (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize +
-                               input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f &&
+                (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize +
+                               input.A.GetRightBreastSize(32 * 32)) < 16 &&
+                (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize +
+                               input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(19);
             }
@@ -510,33 +448,12 @@ internal static class Demifrogs
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offset = input.Actor.GetBallSize(28, .8f);
+            int size = input.U.DickSize;
+            int offset = input.A.GetBallSize(28, .8f);
 
 
-            if (input.Actor.Unit.SpecialAccessoryType == 6)
+            if (input.U.SpecialAccessoryType == 6)
             {
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ??
-                     false) && offset == 28)
-                {
-                    output.Sprite(input.Sprites.Demifrogs3alt[132]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ??
-                     false) && offset == 28)
-                {
-                    output.Sprite(input.Sprites.Demifrogs3alt[131]).AddOffset(0, -20 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ??
-                     false) && offset == 27)
-                {
-                    output.Sprite(input.Sprites.Demifrogs3alt[130]).AddOffset(0, -18 * .625f);
-                    return;
-                }
-
                 if (offset >= 26)
                 {
                     output.AddOffset(0, -16 * .625f);
@@ -576,27 +493,6 @@ internal static class Demifrogs
             }
             else
             {
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ??
-                     false) && offset == 28)
-                {
-                    output.Sprite(input.Sprites.Demifrogs3[132]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ??
-                     false) && offset == 28)
-                {
-                    output.Sprite(input.Sprites.Demifrogs3[131]).AddOffset(0, -20 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ??
-                     false) && offset == 27)
-                {
-                    output.Sprite(input.Sprites.Demifrogs3[130]).AddOffset(0, -18 * .625f);
-                    return;
-                }
-
                 if (offset >= 26)
                 {
                     output.AddOffset(0, -16 * .625f);
@@ -639,12 +535,12 @@ internal static class Demifrogs
         builder.RenderSingle(SpriteType.Weapon, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                switch (input.Actor.GetWeaponSprite())
+                switch (input.A.GetWeaponSprite())
                 {
                     case 0:
-                        if (input.Actor.Unit.BodySize == 3)
+                        if (input.U.BodySize == 3)
                         {
                             output.Sprite(input.Sprites.Demifrogs1[125]);
                             return;
@@ -656,7 +552,7 @@ internal static class Demifrogs
                         output.Sprite(input.Sprites.Demifrogs1[126]);
                         return;
                     case 2:
-                        if (input.Actor.Unit.BodySize == 3)
+                        if (input.U.BodySize == 3)
                         {
                             output.Sprite(input.Sprites.Demifrogs1[128]);
                             return;
@@ -668,7 +564,7 @@ internal static class Demifrogs
                         output.Sprite(input.Sprites.Demifrogs1[129]);
                         return;
                     case 4:
-                        if (input.Actor.Unit.BodySize == 3)
+                        if (input.U.BodySize == 3)
                         {
                             output.Sprite(input.Sprites.Demifrogs1[131]);
                             return;
@@ -680,7 +576,7 @@ internal static class Demifrogs
                         output.Sprite(input.Sprites.Demifrogs1[132]);
                         return;
                     case 6:
-                        output.Sprite(input.Sprites.Demifrogs1[133 + input.Actor.Unit.BodySize]);
+                        output.Sprite(input.Sprites.Demifrogs1[133 + input.U.BodySize]);
                         return;
                     case 7:
                         output.Sprite(input.Sprites.Demifrogs1[137]);
@@ -721,15 +617,15 @@ internal static class Demifrogs
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, LeaderClothes);
             }
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, Rags);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
-                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
+                    unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypesBasic.Count;
                 }
             }
         });
@@ -757,12 +653,12 @@ internal static class Demifrogs
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demifrogs4[56]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[48 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[48 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -788,12 +684,12 @@ internal static class Demifrogs
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demifrogs4[65]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[57 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[57 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -819,12 +715,12 @@ internal static class Demifrogs
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demifrogs4[74]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[66 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[66 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -852,13 +748,13 @@ internal static class Demifrogs
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demifrogs4[83]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[75 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[75 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Demifrogs4[84]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -887,13 +783,13 @@ internal static class Demifrogs
                     output["Clothing1"].Sprite(input.Sprites.Demifrogs4[93]);
                     output["Clothing2"].Sprite(input.Sprites.Demifrogs4[102]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[85 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Demifrogs4[94 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[85 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Demifrogs4[94 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -919,12 +815,12 @@ internal static class Demifrogs
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[107 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[107 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -947,9 +843,9 @@ internal static class Demifrogs
             {
                 output["Clothing1"].Layer(19);
 
-                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Demifrogs4[119 + input.Actor.Unit.BodySize] : input.Sprites.Demifrogs4[115 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.Demifrogs4[119 + input.U.BodySize] : input.Sprites.Demifrogs4[115 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -971,8 +867,8 @@ internal static class Demifrogs
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(19);
-                output["Clothing1"].Sprite(input.Sprites.Demifrogs4[103 + input.Actor.Unit.BodySize]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Sprite(input.Sprites.Demifrogs4[103 + input.U.BodySize]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -996,22 +892,22 @@ internal static class Demifrogs
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.SpecialAccessoryType == 6 ? input.Sprites.Demifrogs4[12 + input.Actor.Unit.BreastSize] : input.Sprites.Demifrogs4[2 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.U.SpecialAccessoryType == 6 ? input.Sprites.Demifrogs4[12 + input.U.BreastSize] : input.Sprites.Demifrogs4[2 + input.U.BreastSize]);
                 }
 
-                if (input.Actor.Unit.BodySize > 2)
+                if (input.U.BodySize > 2)
                 {
-                    output["Clothing2"].Sprite(input.Actor.Unit.SpecialAccessoryType == 6 ? input.Sprites.Demifrogs4[11] : input.Sprites.Demifrogs4[1]);
+                    output["Clothing2"].Sprite(input.U.SpecialAccessoryType == 6 ? input.Sprites.Demifrogs4[11] : input.Sprites.Demifrogs4[1]);
                 }
                 else
                 {
-                    output["Clothing2"].Sprite(input.Actor.Unit.SpecialAccessoryType == 6 ? input.Sprites.Demifrogs4[10] : input.Sprites.Demifrogs4[0]);
+                    output["Clothing2"].Sprite(input.U.SpecialAccessoryType == 6 ? input.Sprites.Demifrogs4[10] : input.Sprites.Demifrogs4[0]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.DemifrogSkin, input.Actor.Unit.SkinColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.DemifrogSkin, input.U.SkinColor));
             });
         });
     }
@@ -1039,12 +935,12 @@ internal static class Demifrogs
                 {
                     output["Clothing1"].Sprite(input.Sprites.Demifrogs4[138]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[131 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Demifrogs4[131 + input.U.BreastSize]);
                 }
 
-                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[139 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[139 + input.U.BodySize]);
             });
         });
     }
@@ -1070,13 +966,13 @@ internal static class Demifrogs
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(19);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize < 3)
+                    if (input.U.BreastSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[127]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[128]);
                     }
@@ -1090,7 +986,7 @@ internal static class Demifrogs
                     output["Clothing1"].Sprite(input.Sprites.Demifrogs4[130]);
                 }
 
-                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[123 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[123 + input.U.BodySize]);
             });
         });
     }
@@ -1123,25 +1019,25 @@ internal static class Demifrogs
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(12);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Demifrogs5[0 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.Sprites.Demifrogs5[0 + input.U.BodySize]);
                 output["Clothing2"].Sprite(input.Sprites.Demifrogs5[4]);
-                output["Clothing4"].Sprite(input.Sprites.Demifrogs5[10 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
+                output["Clothing4"].Sprite(input.Sprites.Demifrogs5[10 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize]);
                 output["Clothing5"].Sprite(input.Sprites.Demifrogs5[18]);
                 output["Clothing6"].Sprite(input.Sprites.Demifrogs5[19]);
 
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     if (input.Params.Oversize)
                     {
                         output["Clothing3"].Sprite(null);
                     }
-                    else if (input.Actor.Unit.BreastSize < 3)
+                    else if (input.U.BreastSize < 3)
                     {
                         output["Clothing3"].Sprite(null);
                     }
                     else
                     {
-                        output["Clothing3"].Sprite(input.Sprites.Demifrogs5[2 + input.Actor.Unit.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.Demifrogs5[2 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1168,13 +1064,13 @@ internal static class Demifrogs
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[24]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[26]);
                     }
@@ -1188,10 +1084,10 @@ internal static class Demifrogs
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[20 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[20 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1216,13 +1112,13 @@ internal static class Demifrogs
 
                 output["Clothing2"].Coloring(Color.white);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[32]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[34]);
                     }
@@ -1236,9 +1132,9 @@ internal static class Demifrogs
                     output["Clothing1"].Sprite(input.Sprites.Demifrogs4[31]);
                 }
 
-                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[27 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[27 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1261,9 +1157,9 @@ internal static class Demifrogs
                 output["Clothing2"].Layer(12);
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Demifrogs4[35]);
-                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[27 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[27 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1286,13 +1182,13 @@ internal static class Demifrogs
 
                 output["Clothing1"].Layer(13);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[45]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[47]);
                     }
@@ -1306,10 +1202,10 @@ internal static class Demifrogs
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[41 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.Sprites.Demifrogs4[41 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1332,7 +1228,7 @@ internal static class Demifrogs
 
                 output["Clothing1"].Coloring(Color.white);
 
-                output["Clothing1"].Sprite(input.Sprites.Demifrogs4[36 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.Sprites.Demifrogs4[36 + input.U.BodySize]);
             });
         });
     }

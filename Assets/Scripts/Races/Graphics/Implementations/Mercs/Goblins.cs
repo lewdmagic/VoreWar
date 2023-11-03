@@ -17,6 +17,77 @@ internal static class Goblins
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
     {
+        builder.Names("Goblin", "Goblins");
+        builder.BonesInfo((unit) => 
+        {
+            if (unit.Furry)
+            {
+                return new List<BoneInfo>
+                {
+                    new BoneInfo(BoneTypes.FurryBones, unit.Name)
+                };
+            }
+            else
+            {
+                return new List<BoneInfo>
+                {
+                    new BoneInfo(BoneTypes.GenericBonePile, unit.Name),
+                    new BoneInfo(BoneTypes.Imp2EyeSkull, "")
+                };
+            }
+        });
+        builder.FlavorText(new FlavorText(
+            new Texts { "diminutive", "cursing", "short" },
+            new Texts { "stronger than looks", "knee kicking", "smart" },
+            new Texts { "goblin", "goblinoid", "humanoid" },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Cleaver",
+                [WeaponNames.Axe]         = "Sharpened Cleaver",
+                [WeaponNames.SimpleBow]   = "Derringer",
+                [WeaponNames.CompoundBow] = "Pepperbox Pistol",
+                [WeaponNames.Claw]        = "Fist",
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 7,
+            StomachSize = 14,
+            HasTail = false,
+            FavoredStat = Stat.Mind,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Clever,
+                Traits.Tempered,
+                Traits.ArtfulDodge,
+                Traits.EscapeArtist,
+            },
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(6, 14),
+                Dexterity = new RaceStats.StatRange(10, 18),
+                Endurance = new RaceStats.StatRange(8, 16),
+                Mind = new RaceStats.StatRange(8, 16),
+                Will = new RaceStats.StatRange(10, 16),
+                Agility = new RaceStats.StatRange(10, 16),
+                Voracity = new RaceStats.StatRange(8, 16),
+                Stomach = new RaceStats.StatRange(10, 15),
+            },
+            RaceDescription = "Small and physically unintimidating, the Goblins came from a realm far ahead in technology. Were it not for the lack of materials to replicate their greatest inventions and the small size of their weapons, the Goblins might have claimed the entire land. As it is, they learned to be good at dodging and escaping the maws and guts of predators, through one end or another.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Body Accent Color");
+            buttons.SetText(ButtonType.ClothingType, "Under Tops");
+            buttons.SetText(ButtonType.Clothing2Type, "Under Bottoms");
+            buttons.SetText(ButtonType.ClothingExtraType1, "Over Bottoms");
+            buttons.SetText(ButtonType.ClothingExtraType2, "Over Tops");
+            buttons.SetText(ButtonType.ClothingExtraType3, "Legs");
+            buttons.SetText(ButtonType.ClothingExtraType4, "Gloves");
+            buttons.SetText(ButtonType.ClothingExtraType5, "Hats");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Ear Type");
+            buttons.SetText(ButtonType.BodyAccentTypes2, "Eyebrow Type");
+        });
         // Havent been implemented
         // Sprite[] SpritesGloves = State.GameManager.SpriteDictionary.Gobbglove;
         // Sprite[] SpritesLegs = State.GameManager.SpriteDictionary.Gobleggo;
@@ -38,12 +109,12 @@ internal static class Goblins
             output.AvoidedEyeTypes = 0;
             output.AvoidedMouthTypes = 0;
 
-            output.HairColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.UniversalHair);
+            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.UniversalHair);
             output.HairStyles = 16;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Goblins);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.ImpDark);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.Goblins);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.ImpDark);
             output.EyeTypes = 8;
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.EyeColor);
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.EyeColor);
             output.SecondaryEyeColors = 1;
             output.BodySizes = 2;
             output.AllowedWaistTypes.Clear();
@@ -53,7 +124,7 @@ internal static class Goblins
             output.BodyAccentTypes2 = 4;
 
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing50Spaced);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing50Spaced);
 
             output.ExtendedBreastSprites = true;
 
@@ -152,56 +223,56 @@ internal static class Goblins
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
-            int attackingOffset = input.Actor.IsAttacking ? 1 : 0;
-            int eatingOffset = input.Actor.IsEating ? 2 : 0;
-            int hurtOffset = input.Actor.Unit.IsDead && input.Actor.Unit.Items != null ? 3 : 0;
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+            int attackingOffset = input.A.IsAttacking ? 1 : 0;
+            int eatingOffset = input.A.IsEating ? 2 : 0;
+            int hurtOffset = input.U.IsDead && input.U.Items != null ? 3 : 0;
+            if (input.U.HasBreasts)
             {
-                output.Sprite(input.Sprites.Gobbo[8 + attackingOffset + eatingOffset + hurtOffset + 8 * input.Actor.Unit.MouthType]);
+                output.Sprite(input.Sprites.Gobbo[8 + attackingOffset + eatingOffset + hurtOffset + 8 * input.U.MouthType]);
             }
             else
             {
-                output.Sprite(input.Sprites.Gobbo[12 + attackingOffset + eatingOffset + hurtOffset + 8 * input.Actor.Unit.MouthType]);
+                output.Sprite(input.Sprites.Gobbo[12 + attackingOffset + eatingOffset + hurtOffset + 8 * input.U.MouthType]);
             }
         });
 
         builder.RenderSingle(SpriteType.Eyes, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.IsDead && input.Actor.Unit.Items != null)
+            if (input.U.IsDead && input.U.Items != null)
             {
                 int sprite = 80;
-                sprite += input.Actor.Unit.EyeType;
+                sprite += input.U.EyeType;
                 output.Sprite(input.Sprites.Gobbo[sprite]);
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
                 int sprite = 40;
-                int attackingOffset = input.Actor.IsAttacking ? 1 : 0;
-                if (input.Actor.Unit.EyeType > 8)
+                int attackingOffset = input.A.IsAttacking ? 1 : 0;
+                if (input.U.EyeType > 8)
                 {
-                    sprite += 2 * input.Actor.Unit.EyeType;
+                    sprite += 2 * input.U.EyeType;
                     output.Sprite(input.Sprites.Gobbo[sprite - 16 + attackingOffset]);
                 }
                 else
                 {
-                    sprite += 2 * input.Actor.Unit.EyeType;
+                    sprite += 2 * input.U.EyeType;
                     output.Sprite(input.Sprites.Gobbo[sprite + attackingOffset]);
                 }
             }
             else
             {
                 int sprite = 56;
-                int attackingOffset = input.Actor.IsAttacking ? 1 : 0;
-                if (input.Actor.Unit.EyeType > 8)
+                int attackingOffset = input.A.IsAttacking ? 1 : 0;
+                if (input.U.EyeType > 8)
                 {
-                    sprite += 2 * input.Actor.Unit.EyeType;
+                    sprite += 2 * input.U.EyeType;
                     output.Sprite(input.Sprites.Gobbo[sprite - 16 + attackingOffset]);
                 }
                 else
                 {
-                    sprite += 2 * input.Actor.Unit.EyeType;
+                    sprite += 2 * input.U.EyeType;
                     output.Sprite(input.Sprites.Gobbo[sprite + attackingOffset]);
                 }
             }
@@ -209,22 +280,22 @@ internal static class Goblins
 
         builder.RenderSingle(SpriteType.SecondaryEyes, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            if (input.Actor.Unit.IsDead && input.Actor.Unit.Items != null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            if (input.U.IsDead && input.U.Items != null)
             {
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     int sprite = 72;
-                    sprite += input.Actor.Unit.EyeType;
+                    sprite += input.U.EyeType;
                     output.Sprite(input.Sprites.Gobbo[sprite]);
                 }
                 else
                 {
                     int sprite = 136;
-                    sprite += input.Actor.Unit.EyeType;
+                    sprite += input.U.EyeType;
                     output.Sprite(input.Sprites.Gobbo[sprite]);
                 }
             }
@@ -233,45 +304,45 @@ internal static class Goblins
 
         builder.RenderSingle(SpriteType.Hair, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.ClothingExtraType5 == 1)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
+            if (input.U.ClothingExtraType5 == 1)
             {
-                output.Sprite(input.Sprites.Gobbohat[2 + 2 * input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Gobbohat[2 + 2 * input.U.HairStyle]);
             }
-            else if (input.Actor.Unit.ClothingExtraType5 == 2)
+            else if (input.U.ClothingExtraType5 == 2)
             {
-                output.Sprite(input.Sprites.Gobbohat[36 + 2 * input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Gobbohat[36 + 2 * input.U.HairStyle]);
             }
             else
             {
-                output.Sprite(input.Sprites.Gobbo[96 + 2 * input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Gobbo[96 + 2 * input.U.HairStyle]);
             }
         });
 
         builder.RenderSingle(SpriteType.Hair2, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.ClothingExtraType5 == 1)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
+            if (input.U.ClothingExtraType5 == 1)
             {
-                output.Sprite(input.Sprites.Gobbohat[3 + 2 * input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Gobbohat[3 + 2 * input.U.HairStyle]);
             }
-            else if (input.Actor.Unit.ClothingExtraType5 == 2)
+            else if (input.U.ClothingExtraType5 == 2)
             {
-                output.Sprite(input.Sprites.Gobbohat[37 + 2 * input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Gobbohat[37 + 2 * input.U.HairStyle]);
             }
             else
             {
-                output.Sprite(input.Sprites.Gobbo[97 + 2 * input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Gobbo[97 + 2 * input.U.HairStyle]);
             }
         });
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
-            int weightMod = Math.Min(input.Actor.Unit.BodySize * 2, 2);
-            if (input.Actor.Unit.HasBreasts)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+            int weightMod = Math.Min(input.U.BodySize * 2, 2);
+            if (input.U.HasBreasts)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Gobbo[1 + weightMod]);
                     return;
@@ -281,7 +352,7 @@ internal static class Goblins
             }
             else
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Gobbo[5 + weightMod]);
                     return;
@@ -293,51 +364,27 @@ internal static class Goblins
 
         builder.RenderSingle(SpriteType.BodyAccent, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Gobbo[32 + input.Actor.Unit.BodyAccentType1]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+            output.Sprite(input.Sprites.Gobbo[32 + input.U.BodyAccentType1]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent2, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Gobbo[36 + input.Actor.Unit.BodyAccentType2]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+            output.Sprite(input.Sprites.Gobbo[36 + input.U.BodyAccentType2]);
         });
 
         builder.RenderSingle(SpriteType.Breasts, 19, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(22 * 22));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 22)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[21]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 22)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[20]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 20)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[19]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 18)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[18]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(22 * 22));
 
                 if (leftSize > 17)
                 {
@@ -349,51 +396,27 @@ internal static class Goblins
             }
             else
             {
-                if (input.Actor.Unit.DefaultBreastSize == 0)
+                if (input.U.DefaultBreastSize == 0)
                 {
                     output.Sprite(input.Sprites.Gobbovore[0]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Gobbovore[0 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Gobbovore[0 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 19, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(22 * 22));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 22)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[43]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 22)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[42]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 20)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[41]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 18)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[40]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(22 * 22));
 
                 if (rightSize > 17)
                 {
@@ -404,39 +427,22 @@ internal static class Goblins
             }
             else
             {
-                if (input.Actor.Unit.DefaultBreastSize == 0)
+                if (input.U.DefaultBreastSize == 0)
                 {
                     output.Sprite(input.Sprites.Gobbovore[22]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Gobbovore[22 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Gobbovore[22 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(32, 1.2f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 32)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[105]).AddOffset(0, -23 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 32)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[104]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size >= 30)
-                {
-                    output.Sprite(input.Sprites.Gobbovore[103]).AddOffset(0, -22 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(32, 1.2f);
 
                 switch (size)
                 {
@@ -469,7 +475,7 @@ internal static class Goblins
                         break;
                 }
 
-                //if (input.Actor.PredatorComponent.OnlyOnePreyAndLiving() && size >= 8 && size <= 13)
+                //if (input.A.PredatorComponent.OnlyOnePreyAndLiving() && size >= 8 && size <= 13)
                 //    return Out.Update(State.GameManager.SpriteDictionary.Gobbovore[71]);
 
                 output.Sprite(input.Sprites.Gobbovore[70 + size]);
@@ -478,55 +484,37 @@ internal static class Goblins
 
         builder.RenderSingle(SpriteType.Dick, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f)
                 {
-                    output.Sprite(input.Sprites.Gobbo[129 + 2 * input.Actor.Unit.DickSize]).Layer(21);
+                    output.Sprite(input.Sprites.Gobbo[129 + 2 * input.U.DickSize]).Layer(21);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Gobbo[129 + 2 * input.Actor.Unit.DickSize]).Layer(14);
+                output.Sprite(input.Sprites.Gobbo[129 + 2 * input.U.DickSize]).Layer(14);
                 return;
             }
 
-            output.Sprite(input.Sprites.Gobbo[128 + 2 * input.Actor.Unit.DickSize]).Layer(14);
+            output.Sprite(input.Sprites.Gobbo[128 + 2 * input.U.DickSize]).Layer(14);
         });
 
         builder.RenderSingle(SpriteType.Balls, 13, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            int size = input.Actor.GetBallSize(22, .8f);
-            int baseSize = (input.Actor.Unit.DickSize + 1) / 3;
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && size == 22)
-            {
-                output.Sprite(input.Sprites.Gobbovore[69]).AddOffset(0, -19 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && size >= 22)
-            {
-                output.Sprite(input.Sprites.Gobbovore[68]).AddOffset(0, -17 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && size >= 20)
-            {
-                output.Sprite(input.Sprites.Gobbovore[67]).AddOffset(0, -14 * .625f);
-                return;
-            }
+            int size = input.A.GetBallSize(22, .8f);
+            int baseSize = (input.U.DickSize + 1) / 3;
 
             int combined = Math.Min(baseSize + size + 2, 22);
             if (combined == 22)
@@ -562,14 +550,14 @@ internal static class Goblins
         builder.RenderSingle(SpriteType.Weapon, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                if (input.Actor.GetWeaponSprite() == 5)
+                if (input.A.GetWeaponSprite() == 5)
                 {
                     return;
                 }
 
-                output.Sprite(input.Sprites.Gobbo[88 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Gobbo[88 + input.A.GetWeaponSprite()]);
             }
         });
 
@@ -723,18 +711,18 @@ internal static class Goblins
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(5);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    int weightMod = input.Actor.Unit.BodySize * 2;
-                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 1 + weightMod] : input.Sprites.Gobbglove[start + weightMod]);
+                    int weightMod = input.U.BodySize * 2;
+                    output["Clothing1"].Sprite(input.A.IsAttacking ? input.Sprites.Gobbglove[start + 1 + weightMod] : input.Sprites.Gobbglove[start + weightMod]);
                 }
                 else
                 {
-                    int weightMod = input.Actor.Unit.BodySize * 2;
-                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 5 + weightMod] : input.Sprites.Gobbglove[start + 4 + weightMod]);
+                    int weightMod = input.U.BodySize * 2;
+                    output["Clothing1"].Sprite(input.A.IsAttacking ? input.Sprites.Gobbglove[start + 5 + weightMod] : input.Sprites.Gobbglove[start + 4 + weightMod]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         }
     }
@@ -755,18 +743,18 @@ internal static class Goblins
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(5);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    int weightMod = input.Actor.Unit.BodySize * 2;
-                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 1 + weightMod] : input.Sprites.Gobbglove[start + weightMod]);
+                    int weightMod = input.U.BodySize * 2;
+                    output["Clothing1"].Sprite(input.A.IsAttacking ? input.Sprites.Gobbglove[start + 1 + weightMod] : input.Sprites.Gobbglove[start + weightMod]);
                 }
                 else
                 {
-                    int weightMod = input.Actor.Unit.BodySize * 2;
-                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 5 + weightMod] : input.Sprites.Gobbglove[start + 4 + weightMod]);
+                    int weightMod = input.U.BodySize * 2;
+                    output["Clothing1"].Sprite(input.A.IsAttacking ? input.Sprites.Gobbglove[start + 5 + weightMod] : input.Sprites.Gobbglove[start + 4 + weightMod]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         }
     }
@@ -788,18 +776,18 @@ internal static class Goblins
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(5);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    int weightMod = input.Actor.Unit.BodySize * 2;
-                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 1 + weightMod] : input.Sprites.Gobbglove[start + weightMod]);
+                    int weightMod = input.U.BodySize * 2;
+                    output["Clothing1"].Sprite(input.A.IsAttacking ? input.Sprites.Gobbglove[start + 1 + weightMod] : input.Sprites.Gobbglove[start + weightMod]);
                 }
                 else
                 {
-                    int weightMod = input.Actor.Unit.BodySize * 2;
-                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobbglove[start + 5 + weightMod] : input.Sprites.Gobbglove[start + 4 + weightMod]);
+                    int weightMod = input.U.BodySize * 2;
+                    output["Clothing1"].Sprite(input.A.IsAttacking ? input.Sprites.Gobbglove[start + 5 + weightMod] : input.Sprites.Gobbglove[start + 4 + weightMod]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
             });
         }
     }
@@ -833,15 +821,15 @@ internal static class Goblins
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                int weightMod = input.Actor.Unit.BodySize;
+                int weightMod = input.U.BodySize;
                 output["Clothing1"].Sprite(input.Sprites.Gobleggo[start + weightMod]);
-                if (input.Actor.Unit.HasDick)
+                if (input.U.HasDick)
                 {
                     if (blocksDick)
                     {
-                        output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
+                        output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.U.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.U.DickSize]);
 
-                        if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                        if (input.U.GetGender() == Gender.Hermaphrodite)
                         {
                             output["Clothing2"].SetOffset(0, 2 * .625f);
                         }
@@ -860,8 +848,8 @@ internal static class Goblins
                     output["Clothing2"].Sprite(null);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         }
     }
@@ -895,15 +883,15 @@ internal static class Goblins
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                int weightMod = input.Actor.Unit.BodySize;
+                int weightMod = input.U.BodySize;
                 output["Clothing1"].Sprite(input.Sprites.Gobleggo[start + weightMod]);
-                if (input.Actor.Unit.HasDick)
+                if (input.U.HasDick)
                 {
                     if (blocksDick)
                     {
-                        output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
+                        output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.U.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.U.DickSize]);
 
-                        if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                        if (input.U.GetGender() == Gender.Hermaphrodite)
                         {
                             output["Clothing2"].SetOffset(0, 2 * .625f);
                         }
@@ -922,8 +910,8 @@ internal static class Goblins
                     output["Clothing2"].Sprite(null);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
             });
         }
     }
@@ -966,19 +954,19 @@ internal static class Goblins
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(layer);
                 output["Clothing1"].Coloring(Color.white);
-                int weightMod = input.Actor.Unit.BodySize;
-                if (input.Actor.HasBelly)
+                int weightMod = input.U.BodySize;
+                if (input.A.HasBelly)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
+                    output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
 
-                    if (input.Actor.Unit.HasDick)
+                    if (input.U.HasDick)
                     {
                         //if (output.BlocksDick == true)
                         if (true) // This was always true, pretty sure
                         {
-                            output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
+                            output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.U.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.U.DickSize]);
 
-                            if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                            if (input.U.GetGender() == Gender.Hermaphrodite)
                             {
                                 output["Clothing2"].SetOffset(0, 2 * .625f);
                             }
@@ -991,16 +979,16 @@ internal static class Goblins
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
+                    output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
 
-                    if (input.Actor.Unit.HasDick)
+                    if (input.U.HasDick)
                     {
                         //if (output.BlocksDick == true)
                         if (true) // This was always true, pretty sure
                         {
-                            output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.Actor.Unit.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
+                            output["Clothing2"].Sprite(black ? input.Sprites.Gobbunderbottoms[bulge + 4 + input.U.DickSize] : input.Sprites.Gobbunderbottoms[bulge + input.U.DickSize]);
 
-                            if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                            if (input.U.GetGender() == Gender.Hermaphrodite)
                             {
                                 output["Clothing2"].SetOffset(0, 2 * .625f);
                             }
@@ -1016,8 +1004,8 @@ internal static class Goblins
                     }
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
             });
         }
     }
@@ -1040,25 +1028,25 @@ internal static class Goblins
                 output["Clothing3"].Layer(13);
                 output["Clothing2"].Layer(20);
                 output["Clothing1"].Layer(17);
-                int weightMod = input.Actor.Unit.BodySize;
-                int bobs = input.Actor.Unit.BreastSize;
+                int weightMod = input.U.BodySize;
+                int bobs = input.U.BreastSize;
                 if (bobs > 7)
                 {
                     bobs = 7;
                 }
 
-                int size = input.Actor.GetStomachSize(32, 1.2f);
+                int size = input.A.GetStomachSize(32, 1.2f);
                 if (size > 7)
                 {
                     size = 7;
                 }
 
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.HasDick)
+                    if (input.U.HasDick)
                     {
-                        output["Clothing3"].Sprite(input.Sprites.Gobbunderbottoms[45 + input.Actor.Unit.DickSize]);
-                        if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                        output["Clothing3"].Sprite(input.Sprites.Gobbunderbottoms[45 + input.U.DickSize]);
+                        if (input.U.GetGender() == Gender.Hermaphrodite)
                         {
                             output["Clothing3"].SetOffset(0, 2 * .625f);
                         }
@@ -1072,13 +1060,13 @@ internal static class Goblins
 
                     output["Clothing1"].Sprite(input.Sprites.Gobbunderonepieces[41 + size + 8 * weightMod]);
 
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced,
-                        input.Actor.Unit.ClothingColor2));
-                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced,
-                        input.Actor.Unit.ClothingColor2));
-                    output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced,
-                        input.Actor.Unit.ClothingColor2));
-                    output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced,
+                        input.U.ClothingColor2));
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced,
+                        input.U.ClothingColor2));
+                    output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced,
+                        input.U.ClothingColor2));
+                    output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
                 }
                 else
                 {
@@ -1086,9 +1074,9 @@ internal static class Goblins
                     output["Clothing2"].Layer(20);
                     output["Clothing3"].Layer(16);
 
-                    output["Clothing3"].Sprite(input.Sprites.Gobbunderbottoms[45 + input.Actor.Unit.DickSize]);
+                    output["Clothing3"].Sprite(input.Sprites.Gobbunderbottoms[45 + input.U.DickSize]);
 
-                    if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                    if (input.U.GetGender() == Gender.Hermaphrodite)
                     {
                         output["Clothing3"].SetOffset(0, 2 * .625f);
                     }
@@ -1099,10 +1087,10 @@ internal static class Goblins
 
                     output["Clothing2"].Sprite(null);
                     output["Clothing1"].Sprite(input.Sprites.Gobbunderonepieces[57 + size + 9 * weightMod]);
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                    output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                    output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SkinToClothing, input.Actor.Unit.ClothingColor));
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+                    output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+                    output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.SkinToClothing, input.U.ClothingColor));
                 }
             });
         });
@@ -1127,25 +1115,25 @@ internal static class GobboCasinoBunny
             output["Clothing3"].Layer(13);
             output["Clothing2"].Layer(20);
             output["Clothing1"].Layer(17);
-            int weightMod = input.Actor.Unit.BodySize;
-            int bobs = input.Actor.Unit.BreastSize;
+            int weightMod = input.U.BodySize;
+            int bobs = input.U.BreastSize;
             if (bobs > 7)
             {
                 bobs = 7;
             }
 
-            int size = input.Actor.GetStomachSize(32, 1.2f);
+            int size = input.A.GetStomachSize(32, 1.2f);
             if (size > 5)
             {
                 size = 5;
             }
 
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
-                if (input.Actor.Unit.HasDick)
+                if (input.U.HasDick)
                 {
-                    output["Clothing3"].Sprite(input.Sprites.Gobbunderbottoms[45 + input.Actor.Unit.DickSize]);
-                    if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                    output["Clothing3"].Sprite(input.Sprites.Gobbunderbottoms[45 + input.U.DickSize]);
+                    if (input.U.GetGender() == Gender.Hermaphrodite)
                     {
                         output["Clothing3"].SetOffset(0, 2 * .625f);
                     }
@@ -1163,21 +1151,21 @@ internal static class GobboCasinoBunny
                 output["Clothing2"].Sprite(input.Sprites.Gobbunderonepieces[0 + bobs]);
                 output["Clothing1"].Sprite(input.Sprites.Gobbunderonepieces[8 + size + 6 * weightMod]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced,
-                    input.Actor.Unit.ClothingColor2));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced,
-                    input.Actor.Unit.ClothingColor2));
-                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced,
-                    input.Actor.Unit.ClothingColor2));
-                output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Goblins, input.Actor.Unit.SkinColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced,
+                    input.U.ClothingColor2));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced,
+                    input.U.ClothingColor2));
+                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced,
+                    input.U.ClothingColor2));
+                output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
             }
             else
             {
                 output["Clothing1"].Layer(13);
                 output["Clothing2"].Layer(20);
                 output["Clothing3"].Layer(16);
-                output["Clothing3"].Sprite(input.Sprites.Gobbunderbottoms[45 + input.Actor.Unit.DickSize]);
-                if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                output["Clothing3"].Sprite(input.Sprites.Gobbunderbottoms[45 + input.U.DickSize]);
+                if (input.U.GetGender() == Gender.Hermaphrodite)
                 {
                     output["Clothing3"].SetOffset(0, 2 * .625f);
                 }
@@ -1188,10 +1176,10 @@ internal static class GobboCasinoBunny
 
                 output["Clothing2"].Sprite(null);
                 output["Clothing1"].Sprite(input.Sprites.Gobbunderonepieces[20 + size + 6 * weightMod]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-                output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SkinToClothing, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+                output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.SkinToClothing, input.U.ClothingColor));
             }
         });
     });
@@ -1216,20 +1204,20 @@ internal static class GoblinOBottom
             output["Clothing1"].Coloring(Color.white);
             output["Clothing2"].Layer(layer + 1);
             output["Clothing2"].Coloring(Color.white);
-            int weightMod = input.Actor.Unit.BodySize;
-            if (input.Actor.HasBelly)
+            int weightMod = input.U.BodySize;
+            if (input.A.HasBelly)
             {
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
 
-                if (input.Actor.Unit.HasDick && showbulge)
+                if (input.U.HasDick && showbulge)
                 {
                     //if (output.BlocksDick == true)
                     if (true) // This was always true, pretty sure
                     {
-                        output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
+                        output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.U.DickSize]);
                     }
 
-                    if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                    if (input.U.GetGender() == Gender.Hermaphrodite)
                     {
                         output["Clothing2"].SetOffset(0, 2 * .625f);
                     }
@@ -1245,14 +1233,14 @@ internal static class GoblinOBottom
             }
             else
             {
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
 
-                if (input.Actor.Unit.HasDick)
+                if (input.U.HasDick)
                 {
                     //if (output.BlocksDick == true && showbulge == true)
-                    output["Clothing2"].Sprite(showbulge ? input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize] : null); // first condition always true, pretty sure
+                    output["Clothing2"].Sprite(showbulge ? input.Sprites.Gobbunderbottoms[bulge + input.U.DickSize] : null); // first condition always true, pretty sure
 
-                    if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                    if (input.U.GetGender() == Gender.Hermaphrodite)
                     {
                         output["Clothing2"].SetOffset(0, 2 * .625f);
                     }
@@ -1267,8 +1255,8 @@ internal static class GoblinOBottom
                 }
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
         });
     }
 }
@@ -1292,20 +1280,20 @@ internal static class GoblinOBottomAlt
             output["Clothing1"].Coloring(Color.white);
             output["Clothing2"].Layer(layer + 1);
             output["Clothing2"].Coloring(Color.white);
-            int weightMod = input.Actor.Unit.BodySize;
-            if (input.Actor.HasBelly)
+            int weightMod = input.U.BodySize;
+            if (input.A.HasBelly)
             {
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF + 4 + weightMod] : sheet[sprM + 4 + weightMod]);
 
-                if (input.Actor.Unit.HasDick && showbulge)
+                if (input.U.HasDick && showbulge)
                 {
                     //if (output.BlocksDick == true)
                     if (true) // This was always true, pretty sure
                     {
-                        output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
+                        output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.U.DickSize]);
                     }
 
-                    if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                    if (input.U.GetGender() == Gender.Hermaphrodite)
                     {
                         output["Clothing2"].SetOffset(0, 2 * .625f);
                     }
@@ -1321,17 +1309,17 @@ internal static class GoblinOBottomAlt
             }
             else
             {
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF + weightMod] : sheet[sprM + weightMod]);
 
-                if (input.Actor.Unit.HasDick)
+                if (input.U.HasDick)
                 {
                     //if (output.BlocksDick == true && showbulge == true)
                     if (showbulge) // first condition always true, pretty sure
                     {
-                        output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.Actor.Unit.DickSize]);
+                        output["Clothing2"].Sprite(input.Sprites.Gobbunderbottoms[bulge + input.U.DickSize]);
                     }
 
-                    if (input.Actor.Unit.GetGender() == Gender.Hermaphrodite)
+                    if (input.U.GetGender() == Gender.Hermaphrodite)
                     {
                         output["Clothing2"].SetOffset(0, 2 * .625f);
                     }
@@ -1342,8 +1330,8 @@ internal static class GoblinOBottomAlt
                 }
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
         });
     }
 }
@@ -1367,8 +1355,8 @@ internal static class GoblinHat
             output["Clothing1"].Sprite(sheet[start]);
             output["Clothing2"].Sprite(sheet[start + 1]);
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
         });
     }
 }
@@ -1394,12 +1382,12 @@ internal static class GobboUndertop1
             {
                 output["Clothing1"].Sprite(input.Sprites.Gobundertops[7]);
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
-                output["Clothing1"].Sprite(input.Sprites.Gobundertops[0 + input.Actor.Unit.BreastSize]);
+                output["Clothing1"].Sprite(input.Sprites.Gobundertops[0 + input.U.BreastSize]);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
         });
     });
 }
@@ -1425,12 +1413,12 @@ internal static class GobboUndertop2
             {
                 output["Clothing1"].Sprite(input.Sprites.Gobundertops[16]);
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
-                output["Clothing1"].Sprite(input.Sprites.Gobundertops[9 + input.Actor.Unit.BreastSize]);
+                output["Clothing1"].Sprite(input.Sprites.Gobundertops[9 + input.U.BreastSize]);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
         });
     });
 }
@@ -1456,12 +1444,12 @@ internal static class GobboUndertop3
             {
                 output["Clothing1"].Sprite(null);
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
-                output["Clothing1"].Sprite(input.Sprites.Gobundertops[18 + input.Actor.Unit.BreastSize]);
+                output["Clothing1"].Sprite(input.Sprites.Gobundertops[18 + input.U.BreastSize]);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
         });
     });
 }
@@ -1487,12 +1475,12 @@ internal static class GobboUndertop4
             {
                 output["Clothing1"].Sprite(input.Sprites.Gobundertops[34]);
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
-                output["Clothing1"].Sprite(input.Sprites.Gobundertops[27 + input.Actor.Unit.BreastSize]);
+                output["Clothing1"].Sprite(input.Sprites.Gobundertops[27 + input.U.BreastSize]);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
         });
     });
 }
@@ -1515,8 +1503,8 @@ internal static class GobboUndertop5
         {
             output["Clothing2"].Layer(16);
             output["Clothing1"].Layer(20);
-            int weightMod = input.Actor.Unit.BodySize;
-            int size = input.Actor.GetStomachSize(32, 1.2f);
+            int weightMod = input.U.BodySize;
+            int size = input.A.GetStomachSize(32, 1.2f);
             if (size > 5)
             {
                 size = 5;
@@ -1526,15 +1514,15 @@ internal static class GobboUndertop5
             {
                 output["Clothing1"].Sprite(input.Sprites.Gobundertops[48 + 13 * weightMod]);
             }
-            else if (input.Actor.Unit.HasBreasts)
+            else if (input.U.HasBreasts)
             {
-                output["Clothing1"].Sprite(input.Sprites.Gobundertops[42 + input.Actor.Unit.BreastSize + 13 * weightMod]);
+                output["Clothing1"].Sprite(input.Sprites.Gobundertops[42 + input.U.BreastSize + 13 * weightMod]);
             }
 
-            output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Gobundertops[36 + size + 13 * weightMod] : input.Sprites.Gobundertops[62 + size + 6 * weightMod]);
+            output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Gobundertops[36 + size + 13 * weightMod] : input.Sprites.Gobundertops[62 + size + 6 * weightMod]);
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor2));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
         });
     });
 }
@@ -1556,21 +1544,21 @@ internal static class GobboOverOpFem
         {
             output["Clothing2"].Layer(18);
             output["Clothing1"].Layer(20);
-            int weightMod = input.Actor.Unit.BodySize;
-            int size = input.Actor.GetStomachSize(32, 1.2f);
+            int weightMod = input.U.BodySize;
+            int size = input.A.GetStomachSize(32, 1.2f);
             if (size > 7)
             {
                 size = 7;
             }
 
-            int bobs = input.Actor.Unit.BreastSize;
+            int bobs = input.U.BreastSize;
             if (bobs > 7)
             {
                 bobs = 7;
             }
 
             {
-                if (input.Params.Oversize || input.Actor.Unit.HasBreasts == false)
+                if (input.Params.Oversize || input.U.HasBreasts == false)
                 {
                     output["Clothing1"].Sprite(null);
                 }
@@ -1581,8 +1569,8 @@ internal static class GobboOverOpFem
             }
             output["Clothing2"].Sprite(input.Sprites.Gobboveronepieces[7 + size + 8 * weightMod]);
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
         });
     });
 }
@@ -1604,20 +1592,20 @@ internal static class GobboOverOpm
         {
             output["Clothing2"].Layer(20);
             output["Clothing1"].Layer(20);
-            int weightMod = input.Actor.Unit.BodySize;
-            int size = input.Actor.GetStomachSize(32, 1.2f);
+            int weightMod = input.U.BodySize;
+            int size = input.A.GetStomachSize(32, 1.2f);
             if (size > 6)
             {
                 size = 6;
             }
 
-            output["Clothing2"].Sprite(input.Actor.IsAttacking ? input.Sprites.Gobboveronepieces[25] : input.Sprites.Gobboveronepieces[24]);
+            output["Clothing2"].Sprite(input.A.IsAttacking ? input.Sprites.Gobboveronepieces[25] : input.Sprites.Gobboveronepieces[24]);
 
 
             output["Clothing1"].Sprite(input.Sprites.Gobboveronepieces[26 + size + 7 * weightMod]);
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
         });
     });
 }
@@ -1639,9 +1627,9 @@ internal static class GobboOverTop1
         {
             output["Clothing2"].Layer(3);
             output["Clothing1"].Layer(21);
-            int weightMod = input.Actor.Unit.BodySize;
+            int weightMod = input.U.BodySize;
 
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
                 output["Clothing1"].Sprite(input.Sprites.Gobbovertops[0 + weightMod]);
                 output["Clothing2"].Sprite(input.Sprites.Gobbovertops[2]);
@@ -1652,8 +1640,8 @@ internal static class GobboOverTop1
                 output["Clothing2"].Sprite(input.Sprites.Gobbovertops[18]);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
         });
     });
 }
@@ -1675,9 +1663,9 @@ internal static class GobboOverTop2
         {
             output["Clothing2"].Layer(3);
             output["Clothing1"].Layer(21);
-            int weightMod = input.Actor.Unit.BodySize;
+            int weightMod = input.U.BodySize;
 
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
                 output["Clothing1"].Sprite(input.Sprites.Gobbovertops[4 + weightMod]);
                 output["Clothing2"].Sprite(input.Sprites.Gobbovertops[6]);
@@ -1688,8 +1676,8 @@ internal static class GobboOverTop2
                 output["Clothing2"].Sprite(input.Sprites.Gobbovertops[22]);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
         });
     });
 }
@@ -1711,10 +1699,10 @@ internal static class GobboOverTop3
         {
             output["Clothing2"].Layer(3);
             output["Clothing1"].Layer(21);
-            int weightMod = input.Actor.Unit.BodySize;
+            int weightMod = input.U.BodySize;
 
 
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
                 output["Clothing1"].Sprite(input.Sprites.Gobbovertops[8 + weightMod]);
                 output["Clothing2"].Sprite(input.Sprites.Gobbovertops[10]);
@@ -1725,8 +1713,8 @@ internal static class GobboOverTop3
                 output["Clothing2"].Sprite(input.Sprites.Gobbovertops[26]);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
         });
     });
 }
@@ -1748,9 +1736,9 @@ internal static class GobboOverTop4
         {
             output["Clothing2"].Layer(3);
             output["Clothing1"].Layer(21);
-            int weightMod = input.Actor.Unit.BodySize;
+            int weightMod = input.U.BodySize;
 
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
                 output["Clothing1"].Sprite(input.Sprites.Gobbovertops[12 + weightMod]);
                 output["Clothing2"].Sprite(input.Sprites.Gobbovertops[14]);
@@ -1761,8 +1749,8 @@ internal static class GobboOverTop4
                 output["Clothing2"].Sprite(input.Sprites.Gobbovertops[30]);
             }
 
-            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+            output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
         });
     });
 }

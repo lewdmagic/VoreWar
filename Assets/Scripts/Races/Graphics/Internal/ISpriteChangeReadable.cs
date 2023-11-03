@@ -7,9 +7,9 @@ using UnityEngine;
 
 internal interface ISpriteChangeReadable
 {
-    Sprite Sprite { get; }
+    Sprite SpriteVal { get; }
     Vector2 Offset { get; }
-    int? Layer { get; }
+    int? LayerVal { get; }
     
     ColorSwapPalette Palette { get; }
     Color? Color { get; }

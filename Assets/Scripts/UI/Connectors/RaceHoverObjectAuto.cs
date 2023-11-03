@@ -18,7 +18,7 @@ public class RaceHoverObjectAuto : MonoBehaviour, IPointerEnterHandler, IPointer
             return;
         }
 
-        if (Enum.TryParse(GetComponentInChildren<TextMeshProUGUI>().text, out Race result))
+        if (RaceFuncs.TryParse(GetComponentInChildren<TextMeshProUGUI>().text, out Race result))
             race = result;
         else
             Destroy(this);

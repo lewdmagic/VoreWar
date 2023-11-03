@@ -9,6 +9,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
+
+
+
 public class StrategyMode : SceneBase
 {
     public Translator Translator;
@@ -122,6 +125,11 @@ public class StrategyMode : SceneBase
     public Sprite[] VillageSprites;
     public GameObject[] SpriteCategories;
 
+    private GameObject SelectionBox => SpriteCategories[0];
+    private GameObject GenericBanner => SpriteCategories[1];
+    private GameObject GenericVillage => SpriteCategories[2];
+    private GameObject MultiStageBanner => SpriteCategories[3];
+    
     public Sprite[] Banners;
 
     public Transform VillageFolder;
@@ -197,7 +205,7 @@ public class StrategyMode : SceneBase
         foreach (Empire emp in State.World.MainEmpires)
         {
 
-            if (State.World.Villages.Where(s => s.Side == emp.Side).Any() == false)
+            if (State.World.Villages.Where(s => Equals(s.Side, emp.Side)).Any() == false)
             {
                 emp.KnockedOut = true;
                 continue;
@@ -212,7 +220,7 @@ public class StrategyMode : SceneBase
         State.World.RefreshTurnOrder();
         for (int i = 0; i < State.World.EmpireOrder.Count; i++)
         {
-            if (State.World.EmpireOrder[i].KnockedOut == false || (State.World.EmpireOrder[i].Side == 701 && State.World.EmpireOrder[i].Armies.Any()))
+            if (State.World.EmpireOrder[i].KnockedOut == false || (Equals(State.World.EmpireOrder[i].Side, Race.BanditSide) && State.World.EmpireOrder[i].Armies.Any()))
             {
                 ActingEmpire = State.World.EmpireOrder[i];
                 break;
@@ -342,7 +350,7 @@ public class StrategyMode : SceneBase
                 return;
             }
 
-            if (right.RemainingMP < 1 && right.Side == left.Side)
+            if (right.RemainingMP < 1 && Equals(right.Side, left.Side))
             {
                 State.GameManager.CreateMessageBox("Recieving Army needs to have at least 1 MP to exchange units  (0 Mp for Allied armies)");
                 return;
@@ -374,23 +382,14 @@ public class StrategyMode : SceneBase
         {
             foreach (Army army in empire.Armies)
             {
-                if (army.Units.Any() && !army.Units.Any(unit => unit.GetApparentSide() == army.Side))
+                if (army.Units.Any() && !army.Units.Any(unit => Equals(unit.GetApparentSide(), army.Side)))
                 {
                     armiesToReassign.Add(army);
                 }
-                if (army.Side < 30)
+                if (RaceFuncs.IsPlayableRace(army.Side.ToRace()))
                 {
-                    if (army.BannerStyle > (int)BannerTypes.VoreWar && CustomBannerTest.Sprites[army.BannerStyle - 23] != null)
-                    {
-                        army.Sprite = Instantiate(SpriteCategories[1], new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
-                        army.Sprite.sprite = CustomBannerTest.Sprites[army.BannerStyle - 23];
-                    }
-                    else
-                    {
-                        army.Banner = Instantiate(SpriteCategories[3], new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<MultiStageBanner>();
-                        army.Banner.Refresh(army, army == SelectedArmy);
-                    }
-
+                    army.Banner = Instantiate(MultiStageBanner, new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<MultiStageBanner>();
+                    army.Banner.Refresh(army, army == SelectedArmy);
                 }
                 else
                 {
@@ -398,7 +397,7 @@ public class StrategyMode : SceneBase
                     int tileType = empire.BannerType;
                     if (army.Units.Contains(empire.Leader)) tileType += 4;
                     if (SelectedArmy == army) tileType += 1;
-                    army.Sprite = Instantiate(SpriteCategories[1], new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
+                    army.Sprite = Instantiate(GenericBanner, new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
                     army.Sprite.sprite = Sprites[tileType];
                     army.Sprite.color = empire.UnityColor;
                 }
@@ -558,9 +557,12 @@ public class StrategyMode : SceneBase
         UpdateFog();
     }
 
+    private static readonly int TheFreeTeam = 2500;
+    private static readonly int UnboundTeam = 3000;
+    
     internal void ReassignArmyEmpire(Army army)
     {
-        var sidesRepresented = new Dictionary<int,int>();
+        var sidesRepresented = new Dictionary<Side,int>();
         army.Units.ForEach(unit =>
         {
             if (sidesRepresented.ContainsKey(unit.FixedSide))
@@ -573,8 +575,7 @@ public class StrategyMode : SceneBase
             }
         });
         
-        var finalSide = sidesRepresented.OrderByDescending(s => s.Value).First();
-        var emp = State.World.GetEmpireOfSide(finalSide.Key);
+        var finalSide = sidesRepresented.OrderByDescending(s => s.Value).First().Key;
         var pos = army.Position;
         Vec2 loc = pos;
         if (StrategicUtilities.GetVillageAt(pos) != null)
@@ -615,6 +616,7 @@ public class StrategyMode : SceneBase
             }
         }
         pos = new Vec2i(loc.x,loc.y);
+        var emp = State.World.GetEmpireOfSide(finalSide);
         if (emp != null)
         {
             var newArmy = new Army(emp, pos, emp.Side);
@@ -623,30 +625,30 @@ public class StrategyMode : SceneBase
             newArmy.Units.ForEach(u => u.Side = newArmy.Side);
         } else // we'll literally make up an empire on the spot. Should rarely happen
         {
-            var monsterEmp = State.World.MonsterEmpires.Where(e => e.Race == army.Units.Where(u => u.FixedSide == finalSide.Key).FirstOrDefault()?.Race).FirstOrDefault();
+            var monsterEmp = State.World.MonsterEmpires.Where(e => Equals(e.Race, army.Units.Where(u => Equals(u.FixedSide, finalSide)).FirstOrDefault()?.Race)).FirstOrDefault();
             if (monsterEmp != null) {
-                Empire brandNewEmp = new MonsterEmpire(new Empire.ConstructionArgs(finalSide.Key, UnityEngine.Color.white, UnityEngine.Color.white, monsterEmp.BannerType, StrategyAIType.Monster, TacticalAIType.Full, 2000 + finalSide.Key, monsterEmp.MaxArmySize, 0));
+                Empire brandNewEmp = new MonsterEmpire(new Empire.ConstructionArgs(emp.Race, finalSide, UnityEngine.Color.white, UnityEngine.Color.white, monsterEmp.BannerType, StrategyAIType.Monster, TacticalAIType.Full, UnboundTeam, monsterEmp.MaxArmySize, 0));
                 brandNewEmp.ReplacedRace = monsterEmp.Race;
                 brandNewEmp.TurnOrder = 1234;
                 brandNewEmp.Name = "Unbound " + monsterEmp.Name;
                 var newArmy = new Army(brandNewEmp, pos, brandNewEmp.Side);
                 newArmy.Units = army.Units;
                 brandNewEmp.Armies.Add(newArmy);
-                State.World.AllActiveEmpires.Add(brandNewEmp);
+                State.World.AllActiveEmpiresWritable.Add(brandNewEmp);
                 State.World.RefreshTurnOrder();
-                Config.World.SpawnerInfo[(Race)finalSide.Key] = new SpawnerInfo(true, 1, 0, 0.4f, brandNewEmp.Team, 0, false, 9999, 1, monsterEmp.MaxArmySize, brandNewEmp.TurnOrder);
+                Config.World.SpawnerInfo[finalSide.ToRace()] = new SpawnerInfo(true, 1, 0, 0.4f, brandNewEmp.Team, 0, false, 9999, 1, monsterEmp.MaxArmySize, brandNewEmp.TurnOrder);
             }
             else
             {
-                Empire brandNewEmp = new Empire(new Empire.ConstructionArgs(finalSide.Key, UnityEngine.Random.ColorHSV(), UnityEngine.Random.ColorHSV(), 5, StrategyAIType.Advanced, TacticalAIType.Full, 2000 + finalSide.Key, State.World.MainEmpires[0].MaxArmySize, 0));
-                brandNewEmp.ReplacedRace = army.Units.Where(u => u.FixedSide == finalSide.Key).First().Race;
+                Empire brandNewEmp = new Empire(new Empire.ConstructionArgs(emp.Race, finalSide, UnityEngine.Random.ColorHSV(), UnityEngine.Random.ColorHSV(), 5, StrategyAIType.Advanced, TacticalAIType.Full, TheFreeTeam, State.World.MainEmpires[0].MaxArmySize, 0));
+                brandNewEmp.ReplacedRace = army.Units.Where(u => Equals(u.FixedSide, finalSide)).First().Race;
                 brandNewEmp.TurnOrder = 1432;
                 brandNewEmp.Name = "The Free";
                 var newArmy = new Army(brandNewEmp, pos, brandNewEmp.Side);
                 newArmy.Units = army.Units;
                 brandNewEmp.Armies.Add(newArmy);
-                State.World.AllActiveEmpires.Add(brandNewEmp);
-                State.World.MainEmpires.Add(brandNewEmp);
+                State.World.AllActiveEmpiresWritable.Add(brandNewEmp);
+                State.World.MainEmpiresWritable.Add(brandNewEmp);
                 State.World.RefreshTurnOrder();
             }
         }
@@ -686,9 +688,9 @@ public class StrategyMode : SceneBase
         {
             var spr = army.Banner?.GetComponent<MultiStageBanner>();
             if (spr != null)
-                spr.gameObject.SetActive(army.Side == LastHumanEmpire.Side || !army.Units.All(u => u.HasTrait(Traits.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => u.FixedSide == ActingEmpire.Side) : army.Units.Any(u => u.FixedSide == LastHumanEmpire.Side)));
+                spr.gameObject.SetActive(Equals(army.Side, LastHumanEmpire.Side) || !army.Units.All(u => u.HasTrait(Traits.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => Equals(u.FixedSide, ActingEmpire.Side)) : army.Units.Any(u => Equals(u.FixedSide, LastHumanEmpire.Side))));
             var spr2 = army.Sprite;
-            if (spr2 != null) spr2.enabled = army.Side == LastHumanEmpire.Side || !army.Units.All(u => u.HasTrait(Traits.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => u.FixedSide == ActingEmpire.Side) : army.Units.Any(u => u.FixedSide == LastHumanEmpire.Side));
+            if (spr2 != null) spr2.enabled = Equals(army.Side, LastHumanEmpire.Side) || !army.Units.All(u => u.HasTrait(Traits.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => Equals(u.FixedSide, ActingEmpire.Side)) : army.Units.Any(u => Equals(u.FixedSide, LastHumanEmpire.Side)));
         }
     }
 
@@ -800,21 +802,21 @@ public class StrategyMode : SceneBase
         {
             if (villages[i] == null)
                 continue;
-            GameObject vill = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
+            GameObject vill = Instantiate(GenericVillage, new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
             vill.GetComponent<SpriteRenderer>().sprite = VillageSprites[villages[i].GetImageNum(highestVillageSprite)];
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
             int villageColorSprite = villages[i].GetColoredImageNum(highestVillageSprite);
-            GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
+            GameObject villColored = Instantiate(GenericVillage, new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
             villColored.GetComponent<SpriteRenderer>().sprite = VillageSprites[villageColorSprite];
             villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side).UnityColor;
             if (villageColorSprite == 0)
                 villColored.GetComponent<SpriteRenderer>().color = Color.clear;
-            GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
+            GameObject villShield = Instantiate(GenericVillage, new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
             villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
             villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side).UnitySecondaryColor;
 
-            GameObject villShieldInner = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
+            GameObject villShieldInner = Instantiate(GenericVillage, new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
             villShieldInner.GetComponent<SpriteRenderer>().sprite = Sprites[10];
             villShieldInner.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShieldInner.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side).UnityColor;
@@ -825,7 +827,7 @@ public class StrategyMode : SceneBase
         }
         foreach (var mercHouse in State.World.MercenaryHouses)
         {
-            GameObject merc = Instantiate(SpriteCategories[2], new Vector3(mercHouse.Position.x, mercHouse.Position.y), new Quaternion(), VillageFolder);
+            GameObject merc = Instantiate(GenericVillage, new Vector3(mercHouse.Position.x, mercHouse.Position.y), new Quaternion(), VillageFolder);
             merc.GetComponent<SpriteRenderer>().sprite = Sprites[14];
             merc.GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
@@ -834,17 +836,17 @@ public class StrategyMode : SceneBase
             int spr = 0;
             if (claimable is GoldMine)
                 spr = 12;
-            GameObject vill = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject vill = Instantiate(GenericVillage, new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
             vill.GetComponent<SpriteRenderer>().sprite = Sprites[spr];
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject villColored = Instantiate(GenericVillage, new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
             villColored.GetComponent<SpriteRenderer>().sprite = Sprites[spr + 1];
             villColored.GetComponent<SpriteRenderer>().color = claimable.Owner?.UnityColor ?? Color.clear;
-            GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject villShield = Instantiate(GenericVillage, new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
             villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
             villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShield.GetComponent<SpriteRenderer>().color = claimable.Owner?.UnityColor ?? Color.clear;
-            GameObject villShieldInner = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject villShieldInner = Instantiate(GenericVillage, new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
             villShieldInner.GetComponent<SpriteRenderer>().sprite = Sprites[10];
             villShieldInner.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShieldInner.GetComponent<SpriteRenderer>().color = claimable.Owner?.UnityColor ?? Color.clear;
@@ -1232,7 +1234,8 @@ public class StrategyMode : SceneBase
             {
                 GameObject obj = Instantiate(RaceUI.DevourPanel, RaceUI.ActorFolder);
                 UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
-                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(1, village.VillagePopulation.Population[i].Race, 0, true));
+                // Side was 1 for Unit
+                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dogs.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
                 TextMeshProUGUI text = obj.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                 var racePar = RaceParameters.GetTraitData(actor.Unit);
                 text.text = $"{village.VillagePopulation.Population[i].Race}\nTotal: {village.VillagePopulation.Population[i].Population} \nHireable: {village.VillagePopulation.Population[i].Hireables}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";
@@ -1282,7 +1285,7 @@ public class StrategyMode : SceneBase
             if (village.GetTotalPop() < 1)
             {
                 RedrawVillages();
-                if (village.Empire.ReplacedRace != predArmy.Empire.ReplacedRace)
+                if (!Equals(village.Empire.ReplacedRace, predArmy.Empire.ReplacedRace))
                 {
                     RelationsManager.Genocide(predArmy.Empire, village.Empire);
                 }
@@ -1303,14 +1306,14 @@ public class StrategyMode : SceneBase
             village.SubtractPopulation(1, race);
 
             if (Config.MultiRaceVillages && village.VillagePopulation.GetRacePop(race) <= 0)
-                village.VillagePopulation.DirectLinkToNamed().RemoveAll(s => s.Race == race);
+                village.VillagePopulation.DirectLinkToNamed().RemoveAll(s => Equals(s.Race, race));
 
             predArmy.DevourHeal(1);
 
             if (village.GetTotalPop() < 1)
             {
                 RedrawVillages();
-                if (village.Empire.ReplacedRace != predArmy.Empire.ReplacedRace)
+                if (!Equals(village.Empire.ReplacedRace, predArmy.Empire.ReplacedRace))
                 {
                     RelationsManager.Genocide(predArmy.Empire, village.Empire);
                 }
@@ -1335,14 +1338,14 @@ public class StrategyMode : SceneBase
             village.SubtractPopulation(numToEat, race);
 
             if (Config.MultiRaceVillages)
-                village.VillagePopulation.DirectLinkToNamed().RemoveAll(s => s.Race == race);
+                village.VillagePopulation.DirectLinkToNamed().RemoveAll(s => Equals(s.Race, race));
 
             predArmy.DevourHeal(numToEat);
 
             if (village.GetTotalPop() < 1)
             {
                 RedrawVillages();
-                if (village.Empire.ReplacedRace != predArmy.Empire.ReplacedRace)
+                if (!Equals(village.Empire.ReplacedRace, predArmy.Empire.ReplacedRace))
                 {
                     RelationsManager.Genocide(predArmy.Empire, village.Empire);
                 }
@@ -1613,7 +1616,7 @@ public class StrategyMode : SceneBase
     {       
         UndoMoves.Clear();
         ActingEmpire.Reports.Clear();
-        if (State.World.EmpireOrder == null || State.World.EmpireOrder.Count != State.World.AllActiveEmpires.Count)
+        if (State.World.EmpireOrder == null || State.World.EmpireOrder.Count != State.World.AllActiveEmpiresCount)
             State.World.RefreshTurnOrder();
         int startingIndex = State.World.EmpireOrder.IndexOf(ActingEmpire);
         SelectedArmy = null;
@@ -1635,7 +1638,7 @@ public class StrategyMode : SceneBase
 
             RelationsManager.TurnElapsed();
             ActingEmpire = State.World.EmpireOrder[0];
-            if (State.World.MonsterEmpires.Count() < World.MonsterCount)
+            if (State.World.MonsterEmpires.Count() < RaceFuncs.SpawnerElligibleMonsterRaces.Count)
                 State.World.RefreshMonstersKeepingArmies();
             foreach (ClaimableBuilding claimable in State.World.Claimables)
             {
@@ -1670,11 +1673,11 @@ public class StrategyMode : SceneBase
         }
         if (ActingEmpire is MonsterEmpire)
         {
-            if (ActingEmpire.Race == Race.Goblins)
+            if (Equals(ActingEmpire.Race, Race.Goblins))
             {
 
             }
-            else if (Config.SpawnerInfo(ActingEmpire.Race).Enabled == false)
+            else if (Config.World.GetSpawner(ActingEmpire.Race).Enabled == false)
             {
                 EndTurn();
                 return;
@@ -1685,7 +1688,7 @@ public class StrategyMode : SceneBase
 
         VictoryCheck();
 
-        if (ActingEmpire.KnockedOut && (ActingEmpire.Side < 700 || (ActingEmpire.Armies.Count == 0 && ActingEmpire.VillageCount == 0)))
+        if (ActingEmpire.KnockedOut && (RaceFuncs.NotRebelOrBandit(ActingEmpire.Side) || (ActingEmpire.Armies.Count == 0 && ActingEmpire.VillageCount == 0)))
         {
             EndTurn();
             return;
@@ -1823,7 +1826,8 @@ public class StrategyMode : SceneBase
             case Config.VictoryType.NeverEnd:
                 return;
         }
-        int side = 0;
+        // was set to 0
+        Side side = Race.Cats.ToSide();
         foreach (Empire emp in survivors.Keys)
         {
             side = emp.Side;
@@ -1846,7 +1850,7 @@ public class StrategyMode : SceneBase
 
         empire.CalcIncome(State.World.Villages, true);
         empire.AddGold(empire.Income);
-        if (empire.Side >= 50)
+        if (RaceFuncs.NotMainRace(empire.Side))
         {
             if (empire.Gold < 0)
                 empire.AddGold(-empire.Gold);
@@ -1890,10 +1894,10 @@ public class StrategyMode : SceneBase
             State.World.Villages[i].NewTurn();
         }
 
-        for (int i = 0; i < State.World.AllActiveEmpires.Count; i++)
+        foreach (Empire empire in State.World.AllActiveEmpires)
         {
-            State.World.AllActiveEmpires[i].CalcIncome(State.World.Villages);
-            State.World.AllActiveEmpires[i].Regenerate();
+            empire.CalcIncome(State.World.Villages);
+            empire.Regenerate();
         }
         for (int i = 0; i < State.World.MercenaryHouses.Length; i++)
         {
@@ -1918,7 +1922,7 @@ public class StrategyMode : SceneBase
         }
         else
         {
-            foreach (Army army in ActingEmpire.Armies.Where(a => a.Side == ActingEmpire.Side))
+            foreach (Army army in ActingEmpire.Armies.Where(a => Equals(a.Side, ActingEmpire.Side)))
             {
                 if (army.Position.GetDistance(clickLocation) < 1)
                 {
@@ -1936,7 +1940,7 @@ public class StrategyMode : SceneBase
                 }
             }
 
-            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => s.Side == ActingEmpire.Side))
+            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => Equals(s.Side, ActingEmpire.Side)))
             {
                 if (army.Position.GetDistance(clickLocation) < 1)
                 {
@@ -1959,7 +1963,7 @@ public class StrategyMode : SceneBase
 
 
 
-            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => s.Side != ActingEmpire.Side && s.Empire.IsAlly(ActingEmpire)))
+            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => !Equals(s.Side, ActingEmpire.Side) && s.Empire.IsAlly(ActingEmpire)))
             {
                 if (army.Position.GetDistance(clickLocation) < 1)
                 {
@@ -1981,7 +1985,7 @@ public class StrategyMode : SceneBase
                 }
             }
 
-            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => (s.Side != ActingEmpire.Side && s.Empire.IsEnemy(ActingEmpire) || s.Side != ActingEmpire.Side && s.Empire.IsNeutral(ActingEmpire)) && ContainsFriendly(s)))
+            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => (!Equals(s.Side, ActingEmpire.Side) && s.Empire.IsEnemy(ActingEmpire) || !Equals(s.Side, ActingEmpire.Side) && s.Empire.IsNeutral(ActingEmpire)) && ContainsFriendly(s)))
             {
                 if (army.Position.GetDistance(clickLocation) < 1)
                 {
@@ -2028,7 +2032,7 @@ public class StrategyMode : SceneBase
     private bool ContainsFriendly(Army s)
     {
         return s.Units.Any(u => {
-            return u.FixedSide == ActingEmpire.Side || (State.World.GetEmpireOfSide(u.FixedSide)?.IsAlly(ActingEmpire) ?? false);
+            return Equals(u.FixedSide, ActingEmpire.Side) || (State.World.GetEmpireOfSide(u.FixedSide)?.IsAlly(ActingEmpire) ?? false);
         });
     }
 
@@ -2177,7 +2181,7 @@ public class StrategyMode : SceneBase
                 obj.transform.SetPositionAndRotation(new Vector3(village.Position.x, village.Position.y), new Quaternion());
                 obj.sprite = Banners[2];
                 obj.sortingOrder = 30000;
-                if (village.Side == ActingEmpire.Side)
+                if (Equals(village.Side, ActingEmpire.Side))
                     obj.color = new Color(0, 1, 0, .75f);
                 else if (village.Empire.IsEnemy(ActingEmpire))
                     obj.color = new Color(1, 0, 0, .75f);
@@ -2193,7 +2197,7 @@ public class StrategyMode : SceneBase
                 obj.transform.SetPositionAndRotation(new Vector3(army.Position.x, army.Position.y), new Quaternion());
                 obj.sprite = Banners[2];
                 obj.sortingOrder = 30000;
-                if (army.Side == ActingEmpire.Side)
+                if (Equals(army.Side, ActingEmpire.Side))
                     obj.color = new Color(0, 1, 0, .75f);
                 else if (army.Empire.IsEnemy(ActingEmpire))
                     obj.color = new Color(1, 0, 0, .75f);

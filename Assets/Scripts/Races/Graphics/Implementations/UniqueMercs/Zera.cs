@@ -18,6 +18,45 @@ internal static class Zera
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<ZeraParameters>, builder =>
     {
+        builder.Names("Zera", "Zera");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "nargacuga", "fluffy wyvern", "big kitty" } //new, many thanks to Selicia for the last two
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 24,
+            StomachSize = 30,
+            HasTail = true,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.CockVore },
+            ExpMultiplier = 2.4f,
+            PowerAdjustment = 4f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(20, 24),
+                Dexterity = new RaceStats.StatRange(6, 10),
+                Endurance = new RaceStats.StatRange(16, 24),
+                Mind = new RaceStats.StatRange(16, 20),
+                Will = new RaceStats.StatRange(12, 18),
+                Agility = new RaceStats.StatRange(16, 28),
+                Voracity = new RaceStats.StatRange(16, 24),
+                Stomach = new RaceStats.StatRange(16, 24),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.StrongGullet,
+                Traits.ArtfulDodge,
+                Traits.NimbleClimber,
+                Traits.BornToMove
+            },
+            RaceDescription = "A devious and voracious wyvern. Known for his agility and cunning, don't ever turn your back to him or you might find yourself in trouble.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.TailTypes, "Default Facing");
+        });
         int[] BallsLow = { 0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 17, 18, 19, 20, 21, 22, 35, 34, 33, 32 }; //8 is cut out so the lengths match
         int[] BallsMedium = { 0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 15, 16, 23, 24, 25, 20, 21, 22, 35, 34, 33, 32 };
         int[] BallsHigh = { 0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 15, 16, 26, 27, 28, 29, 30, 31, 35, 34, 33, 32 };
@@ -38,7 +77,7 @@ internal static class Zera
             switch (input.Params.BodyState)
             {
                 case BodyStateType.Third:
-                    if (input.Actor.IsOralVoring)
+                    if (input.A.IsOralVoring)
                     {
                         output.Sprite(input.Sprites.Zera240[36]);
                         return;
@@ -47,7 +86,7 @@ internal static class Zera
                     output.Sprite(input.Sprites.Zera240[35]);
                     return;
                 case BodyStateType.Second:
-                    if (input.Actor.IsOralVoring)
+                    if (input.A.IsOralVoring)
                     {
                         output.Sprite(input.Sprites.Zera240[22]);
                         return;
@@ -56,7 +95,7 @@ internal static class Zera
                     output.Sprite(input.Sprites.Zera240[21]);
                     return;
                 default:
-                    if (input.Actor.IsOralVoring)
+                    if (input.A.IsOralVoring)
                     {
                         output.Sprite(input.Sprites.Zera240[5]);
                         return;
@@ -209,7 +248,7 @@ internal static class Zera
         builder.RenderSingle(SpriteType.Belly, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.HasBelly == false)
+            if (input.A.HasBelly == false)
             {
                 return;
             }
@@ -228,13 +267,13 @@ internal static class Zera
 
             if (input.Params.BodyState == BodyStateType.Third)
             {
-                if (input.Params.StomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                if (input.Params.StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                 {
                     output.Sprite(input.Sprites.ZeraFrontBelly[12]);
                     return;
                 }
 
-                if (input.Params.StomachSize > 16 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                if (input.Params.StomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
                 {
                     input.Params.StomachSize = 16;
                 }
@@ -261,19 +300,19 @@ internal static class Zera
                 return;
             }
 
-            if (input.Params.StomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+            if (input.Params.StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
             {
                 output.Sprite(input.Sprites.ZeraBelly[9]);
                 return;
             }
 
-            if (input.Params.StomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
+            if (input.Params.StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
             {
                 input.Params.StomachSize = 18;
             }
 
 
-            if (input.Params.StomachSize > 17 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+            if (input.Params.StomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
             {
                 input.Params.StomachSize = 17;
             }
@@ -300,18 +339,18 @@ internal static class Zera
                 return;
             }
 
-            int ballIndex = input.Actor.GetBallSize(21);
+            int ballIndex = input.A.GetBallSize(21);
             int ballSprite;
-            //int ballSprite = input.Actor.Unit.BodyAccentType2;
+            //int ballSprite = input.U.BodyAccentType2;
 
-            if (input.Actor.Unit.Predator)
+            if (input.U.Predator)
             {
-                if (ballIndex > 18 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) == false)
+                if (ballIndex > 18 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) == false)
                 {
                     ballIndex = 18;
                 }
 
-                if (ballIndex == 21 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) == false)
+                if (ballIndex == 21 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) == false)
                 {
                     ballIndex = 20;
                 }
@@ -359,14 +398,14 @@ internal static class Zera
         // TODO this is disaster. 
         builder.RunBefore((input, output) =>
         {
-            int stomachSize = input.Actor.GetStomachSize(19);
+            int stomachSize = input.A.GetStomachSize(19);
             BodyStateType bodyState;
             //input.Params.StomachSize = actor.Unit.BodyAccentType1;
-            if (stomachSize >= 7 && input.Actor.PredatorComponent?.BallsFullness == 0)
+            if (stomachSize >= 7 && input.A.PredatorComponent?.BallsFullness == 0)
             {
                 bodyState = BodyStateType.Third;
             }
-            else if (stomachSize >= 7 || input.Actor.Unit.TailType == 1 || input.Actor.PredatorComponent?.BallsFullness > 0)
+            else if (stomachSize >= 7 || input.U.TailType == 1 || input.A.PredatorComponent?.BallsFullness > 0)
             {
                 bodyState = BodyStateType.Second;
             }
@@ -379,27 +418,27 @@ internal static class Zera
             /////////////////////////////////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////
 
-            if (!(bodyState == BodyStateType.Third && stomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach)))
+            if (!(bodyState == BodyStateType.Third && stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach)))
             {
                 if (bodyState == BodyStateType.Third)
                 {
-                    if (stomachSize > 16 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                    if (stomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
                     {
                         stomachSize = 16;
                     }
                 }
             
-                if (stomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                 {
                     // Nothing ? I think
                 }
 
-                if (stomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
+                if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
                 {
                     stomachSize = 18;
                 }
 
-                if (stomachSize > 17 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                if (stomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
                 {
                     stomachSize = 17;
                 }
@@ -453,20 +492,20 @@ internal static class Zera
     // Extracted from BellySprite
     private static void AdjustBodyOffsets(IRunInput input, IRunOutput output, BodyStateType bodyState, int stomachSize)
     {
-        if (input.Actor.HasBelly == false)
+        if (input.A.HasBelly == false)
         {
             return;
         }
 
         if (bodyState == BodyStateType.Third)
         {
-            if (stomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+            if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
             {
                 SetThirdOffset(59 * .416667f);
                 return;
             }
 
-            if (stomachSize > 16 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+            if (stomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
             {
                 stomachSize = 16;
             }
@@ -489,7 +528,7 @@ internal static class Zera
     // Extracted from BellySprite
     private static void adjustBodyOffsets222(IRunInput input, IRunOutput output, BodyStateType bodyState, int stomachSize)
     {
-        if (input.Actor.HasBelly == false)
+        if (input.A.HasBelly == false)
         {
             return;
         }
@@ -506,13 +545,13 @@ internal static class Zera
 
         if (bodyState == BodyStateType.Third)
         {
-            if (stomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+            if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
             {
                 SetThirdOffset(59 * .416667f);
                 return;
             }
 
-            if (stomachSize > 16 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+            if (stomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
             {
                 stomachSize = 16;
             }
@@ -527,18 +566,18 @@ internal static class Zera
             }
         }
 
-        if (stomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+        if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
         {
             return;
         }
 
-        if (stomachSize == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
+        if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
         {
             stomachSize = 18;
         }
 
 
-        if (stomachSize > 17 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+        if (stomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
         {
             stomachSize = 17;
         }

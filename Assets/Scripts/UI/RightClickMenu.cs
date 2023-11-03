@@ -190,7 +190,7 @@ public class RightClickMenu : MonoBehaviour
         }
 
 
-        if (TacticalUtilities.IsUnitControlledByPlayer(target.Unit) || target.Unit.Side == actor.Unit.Side)
+        if (TacticalUtilities.IsUnitControlledByPlayer(target.Unit) || Equals(target.Unit.Side, actor.Unit.Side))
         {
             foreach (Spell spell in actor.Unit.UseableSpells)
             {
@@ -320,7 +320,7 @@ public class RightClickMenu : MonoBehaviour
             }
         }
 
-        if ((target.Unit.GetApparentSide(actor.Unit) != actor.Unit.GetApparentSide() && target.Unit.GetApparentSide(actor.Unit) != actor.Unit.FixedSide) &&
+        if ((!Equals(target.Unit.GetApparentSide(actor.Unit), actor.Unit.GetApparentSide()) && !Equals(target.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide)) &&
             !rubCreated &&
             (Config.CanUseStomachRubOnEnemies || actor.Unit.HasTrait(Traits.SeductiveTouch)))
         {
@@ -416,9 +416,9 @@ public class RightClickMenu : MonoBehaviour
             {
                 Buttons[currentButton].onClick.AddListener(() => targetedAction.OnExecute(data.Actor, data.Target));
                 Buttons[currentButton].onClick.AddListener(FinishAction);
-                if (actionType == SpecialAction.TailVore && actor.Unit.Race == Race.Terrorbird)
+                if (actionType == SpecialAction.TailVore && Equals(actor.Unit.Race, Race.Terrorbird))
                     Buttons[currentButton].GetComponentInChildren<Text>().text = $"Crop Vore {data.DevourChance}%";
-                else if (actionType == SpecialAction.BreastVore && actor.Unit.Race == Race.Kangaroos)
+                else if (actionType == SpecialAction.BreastVore && Equals(actor.Unit.Race, Race.Kangaroos))
                     Buttons[currentButton].GetComponentInChildren<Text>().text = $"Pouch Vore {data.DevourChance}%";
                 else
                     Buttons[currentButton].GetComponentInChildren<Text>().text = $"{targetedAction.Name} {data.DevourChance}%";
@@ -607,7 +607,7 @@ public class RightClickMenu : MonoBehaviour
     {
         if (Config.KuroTenkoEnabled)
         {
-            if (data.Actor.Unit.Side == data.Target.Unit.Side && data.Actor.Unit != data.Target.Unit)
+            if (Equals(data.Actor.Unit.Side, data.Target.Unit.Side) && data.Actor.Unit != data.Target.Unit)
             {
                 if (actor.PredatorComponent.CanFeed())
                 {

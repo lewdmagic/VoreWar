@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,39 @@ internal static class Humans
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Human", "Humans");
+        builder.FlavorText(new FlavorText(
+            new Texts { "bare skinned", "soft", "shouting" },
+            new Texts { "adaptive", "clever", "resourceful" },
+            new Texts { "human", "humanoid", {"woman", Gender.Female}, {"man", Gender.Male} }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 15,
+            HasTail = false,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.AdeptLearner,
+                Traits.Clever
+            },
+            RaceDescription = "These nearly hairless, soft skinned creatures suffer from a lack in the way of physical abilities, but have proven capable of improving their skills at a great speed.",
+        });
+        builder.TownNames(new List<string>
+        {
+            "Bastion",
+            "Bulwark",
+            "The Iron Stronghold",
+            "Forlorn Citadel",
+            "Fort Dauntless",
+            "Homestead",
+            "The Partition",
+            "Gold Hand Redoubt",
+            "Fort Hera",
+            "Boldenholm",
+            "Grace",
+        });
         builder.Setup(output =>
         {
             output.DickSizes = () => 6;
@@ -20,9 +54,9 @@ internal static class Humans
             output.HairStyles = 36;
             output.MouthTypes = 12;
             output.AccessoryColors = 0;
-            output.HairColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.UniversalHair);
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.RedSkin);
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.EyeColor);
+            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.UniversalHair);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.RedSkin);
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.EyeColor);
             output.BodyAccentTypes1 = 6; // eyebrows
             output.BeardStyles = 7;
 
@@ -65,43 +99,43 @@ internal static class Humans
             output.ExtraMainClothing1Types.Set(
             );
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing50Spaced);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing50Spaced);
         });
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.IsEating)
+            if (input.A.IsEating)
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output.Sprite(input.Actor.Unit.BodySize > 1 ? input.Sprites.HumansBodySprites2[4] : input.Sprites.HumansBodySprites2[1]);
+                    output.Sprite(input.U.BodySize > 1 ? input.Sprites.HumansBodySprites2[4] : input.Sprites.HumansBodySprites2[1]);
                 }
                 else
                 {
-                    output.Sprite(input.Sprites.HumansBodySprites2[7 + input.Actor.Unit.BodySize * 3]);
+                    output.Sprite(input.Sprites.HumansBodySprites2[7 + input.U.BodySize * 3]);
                 }
             }
-            else if (input.Actor.IsAttacking)
+            else if (input.A.IsAttacking)
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output.Sprite(input.Actor.Unit.BodySize > 1 ? input.Sprites.HumansBodySprites2[5] : input.Sprites.HumansBodySprites2[2]);
+                    output.Sprite(input.U.BodySize > 1 ? input.Sprites.HumansBodySprites2[5] : input.Sprites.HumansBodySprites2[2]);
                 }
                 else
                 {
-                    output.Sprite(input.Sprites.HumansBodySprites2[8 + input.Actor.Unit.BodySize * 3]);
+                    output.Sprite(input.Sprites.HumansBodySprites2[8 + input.U.BodySize * 3]);
                 }
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output.Sprite(input.Actor.Unit.BodySize > 1 ? input.Sprites.HumansBodySprites2[3] : input.Sprites.HumansBodySprites2[0]);
+                    output.Sprite(input.U.BodySize > 1 ? input.Sprites.HumansBodySprites2[3] : input.Sprites.HumansBodySprites2[0]);
                 }
                 else
                 {
-                    output.Sprite(input.Sprites.HumansBodySprites2[6 + input.Actor.Unit.BodySize * 3]);
+                    output.Sprite(input.Sprites.HumansBodySprites2[6 + input.U.BodySize * 3]);
                 }
             }
         });
@@ -109,25 +143,25 @@ internal static class Humans
         builder.RenderSingle(SpriteType.Eyes, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.IsDead && input.Actor.Unit.Items != null)
+            if (input.U.IsDead && input.U.Items != null)
             {
                 output.Sprite(input.Sprites.HumansBodySprites2[69]);
             }
             else
             {
-                output.Sprite(input.Sprites.HumansBodySprites3[24 + 4 * input.Actor.Unit.EyeType + (input.Actor.IsAttacking || input.Actor.IsEating ? 0 : 2)]);
+                output.Sprite(input.Sprites.HumansBodySprites3[24 + 4 * input.U.EyeType + (input.A.IsAttacking || input.A.IsEating ? 0 : 2)]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryEyes, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            if (input.Actor.Unit.IsDead && input.Actor.Unit.Items != null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            if (input.U.IsDead && input.U.Items != null)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.HumansBodySprites3[25 + 4 * input.Actor.Unit.EyeType + (input.Actor.IsAttacking || input.Actor.IsEating ? 0 : 2)]);
+                output.Sprite(input.Sprites.HumansBodySprites3[25 + 4 * input.U.EyeType + (input.A.IsAttacking || input.A.IsEating ? 0 : 2)]);
             }
         });
 
@@ -135,88 +169,88 @@ internal static class Humans
         builder.RenderSingle(SpriteType.Mouth, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsEating || input.Actor.IsAttacking)
+            if (input.A.IsEating || input.A.IsAttacking)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.HumansBodySprites3[108 + input.Actor.Unit.MouthType]);
+                output.Sprite(input.Sprites.HumansBodySprites3[108 + input.U.MouthType]);
             }
         });
 
         builder.RenderSingle(SpriteType.Hair, 21, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.HumansBodySprites2[71 + 2 * input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.HumansBodySprites2[71 + 2 * input.U.HairStyle]);
         });
 
         builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.HumansBodySprites2[72 + 2 * input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.HumansBodySprites2[72 + 2 * input.U.HairStyle]);
         });
 
         builder.RenderSingle(SpriteType.Hair3, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.HumansBodySprites3[120 + input.Actor.Unit.BodyAccentType1]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.HumansBodySprites3[120 + input.U.BodyAccentType1]);
         }); // Eyebrows
 
         builder.RenderSingle(SpriteType.Beard, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.BeardStyle == 6)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
+            if (input.U.BeardStyle == 6)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.HumansBodySprites3[126 + input.Actor.Unit.BeardStyle]);
+                output.Sprite(input.Sprites.HumansBodySprites3[126 + input.U.BeardStyle]);
             }
         });
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasWeapon == false)
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
-                    output.Sprite(input.Sprites.HumansBodySprites1[3 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[3 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.HumansBodySprites1[0 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                output.Sprite(input.Sprites.HumansBodySprites1[0 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
-                    output.Sprite(input.Sprites.HumansBodySprites1[2 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[2 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
                 case 1:
-                    output.Sprite(input.Sprites.HumansBodySprites1[3 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[3 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
                 case 2:
-                    output.Sprite(input.Sprites.HumansBodySprites1[1 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[1 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
                 case 3:
-                    output.Sprite(input.Sprites.HumansBodySprites1[3 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[3 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
                 case 4:
-                    output.Sprite(input.Sprites.HumansBodySprites1[2 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[2 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
                 case 5:
-                    output.Sprite(input.Sprites.HumansBodySprites1[1 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[1 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
                 case 6:
-                    output.Sprite(input.Sprites.HumansBodySprites1[2 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[2 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
                 case 7:
-                    output.Sprite(input.Sprites.HumansBodySprites1[1 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[1 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
                 default:
-                    output.Sprite(input.Sprites.HumansBodySprites1[0 + input.Actor.Unit.BodySize * 4 + (input.Actor.Unit.HasBreasts ? 0 : 12)]);
+                    output.Sprite(input.Sprites.HumansBodySprites1[0 + input.U.BodySize * 4 + (input.U.HasBreasts ? 0 : 12)]);
                     return;
             }
         });
@@ -224,12 +258,12 @@ internal static class Humans
         builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon == false)
+            if (input.U.HasWeapon == false)
             {
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     return;
@@ -257,12 +291,12 @@ internal static class Humans
         builder.RenderSingle(SpriteType.BodyAccent2, 0, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon == false)
+            if (input.U.HasWeapon == false)
             {
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.HumansBodySprites3[143]).Layer(22);
@@ -295,38 +329,20 @@ internal static class Humans
 
         builder.RenderSingle(SpriteType.BodyAccessory, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.RedSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.RedSkin, input.U.SkinColor));
             output.Sprite(input.Sprites.HumansBodySprites3[0]);
         }); // Ears
         builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[31]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[30]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[29]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
 
                 if (leftSize > 28)
                 {
@@ -337,39 +353,21 @@ internal static class Humans
             }
             else
             {
-                output.Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 17, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[63]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[62]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[61]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
 
                 if (rightSize > 28)
                 {
@@ -380,39 +378,16 @@ internal static class Humans
             }
             else
             {
-                output.Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(31, 0.7f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[105]).AddOffset(0, -33 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[104]).AddOffset(0, -33 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[103]).AddOffset(0, -33 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.HumansVoreSprites[102]).AddOffset(0, -33 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(31, 0.7f);
 
                 switch (size)
                 {
@@ -443,35 +418,35 @@ internal static class Humans
         builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
-                    output.Sprite(input.Sprites.HumansBodySprites4[1 + input.Actor.Unit.DickSize * 2 + (input.Actor.Unit.BodySize > 1 ? 12 : 0) + (!input.Actor.Unit.HasBreasts ? 24 : 0)]).Layer(20);
+                    output.Sprite(input.Sprites.HumansBodySprites4[1 + input.U.DickSize * 2 + (input.U.BodySize > 1 ? 12 : 0) + (!input.U.HasBreasts ? 24 : 0)]).Layer(20);
                     return;
                 }
 
-                output.Sprite(input.Sprites.HumansBodySprites4[0 + input.Actor.Unit.DickSize * 2 + (input.Actor.Unit.BodySize > 1 ? 12 : 0) + (!input.Actor.Unit.HasBreasts ? 24 : 0)]).Layer(13);
+                output.Sprite(input.Sprites.HumansBodySprites4[0 + input.U.DickSize * 2 + (input.U.BodySize > 1 ? 12 : 0) + (!input.U.HasBreasts ? 24 : 0)]).Layer(13);
                 return;
             }
 
-            output.Sprite(input.Sprites.HumansBodySprites4[0 + input.Actor.Unit.DickSize * 2 + (input.Actor.Unit.BodySize > 1 ? 12 : 0) + (!input.Actor.Unit.HasBreasts ? 24 : 0)]).Layer(11);
+            output.Sprite(input.Sprites.HumansBodySprites4[0 + input.U.DickSize * 2 + (input.U.BodySize > 1 ? 12 : 0) + (!input.U.HasBreasts ? 24 : 0)]).Layer(11);
         });
 
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(19);
             }
@@ -480,26 +455,9 @@ internal static class Humans
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offset = input.Actor.GetBallSize(28, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.HumansVoreSprites[141]).AddOffset(0, -22 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.HumansVoreSprites[140]).AddOffset(0, -22 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.HumansVoreSprites[139]).AddOffset(0, -22 * .625f);
-                return;
-            }
-
+            int size = input.U.DickSize;
+            int offset = input.A.GetBallSize(28, .8f);
+            
             if (offset >= 26)
             {
                 output.AddOffset(0, -22 * .625f);
@@ -549,9 +507,9 @@ internal static class Humans
         builder.RenderSingle(SpriteType.Weapon, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                switch (input.Actor.GetWeaponSprite())
+                switch (input.A.GetWeaponSprite())
                 {
                     case 0:
                         output.Sprite(input.Sprites.HumansBodySprites3[132]);
@@ -586,9 +544,9 @@ internal static class Humans
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
-                if (input.Actor.Unit.BodySize > 1)
+                if (input.U.BodySize > 1)
                 {
                     output.ChangeSprite(SpriteType.Balls).AddOffset(0, 3 * .625f);
                     output.ChangeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
@@ -601,7 +559,7 @@ internal static class Humans
             }
             else
             {
-                if (input.Actor.Unit.BodySize > 1)
+                if (input.U.BodySize > 1)
                 {
                     output.ChangeSprite(SpriteType.Balls).AddOffset(0, 1 * .625f);
                     output.ChangeSprite(SpriteType.Belly).AddOffset(0, 1 * .625f);
@@ -613,12 +571,12 @@ internal static class Humans
                 }
             }
 
-            if (input.Actor.GetWeaponSprite() == 0 || input.Actor.GetWeaponSprite() == 4 ||
-                input.Actor.GetWeaponSprite() == 6)
+            if (input.A.GetWeaponSprite() == 0 || input.A.GetWeaponSprite() == 4 ||
+                input.A.GetWeaponSprite() == 6)
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         output.ChangeSprite(SpriteType.Weapon).AddOffset(-1 * .625f, 0);
                     }
@@ -629,7 +587,7 @@ internal static class Humans
                 }
                 else
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         output.ChangeSprite(SpriteType.Weapon).AddOffset(1 * .625f, -1 * .625f);
                     }
@@ -639,11 +597,11 @@ internal static class Humans
                     }
                 }
             }
-            else if (input.Actor.GetWeaponSprite() == 1 || input.Actor.GetWeaponSprite() == 3)
+            else if (input.A.GetWeaponSprite() == 1 || input.A.GetWeaponSprite() == 3)
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         output.ChangeSprite(SpriteType.Weapon).AddOffset(0, -1 * .625f);
                     }
@@ -654,7 +612,7 @@ internal static class Humans
                 }
                 else
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         output.ChangeSprite(SpriteType.Weapon).AddOffset(3 * .625f, -3 * .625f);
                     }
@@ -664,11 +622,11 @@ internal static class Humans
                     }
                 }
             }
-            else if (input.Actor.GetWeaponSprite() == 2)
+            else if (input.A.GetWeaponSprite() == 2)
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         output.ChangeSprite(SpriteType.Weapon).AddOffset(-1 * .625f, 2 * .625f);
                     }
@@ -679,7 +637,7 @@ internal static class Humans
                 }
                 else
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         output.ChangeSprite(SpriteType.Weapon).AddOffset(0, 0);
                     }
@@ -689,11 +647,11 @@ internal static class Humans
                     }
                 }
             }
-            else if (input.Actor.GetWeaponSprite() == 5 || input.Actor.GetWeaponSprite() == 7)
+            else if (input.A.GetWeaponSprite() == 5 || input.A.GetWeaponSprite() == 7)
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         output.ChangeSprite(SpriteType.Weapon).AddOffset(1 * .625f, -1 * .625f);
                     }
@@ -704,7 +662,7 @@ internal static class Humans
                 }
                 else
                 {
-                    if (input.Actor.Unit.BodySize > 1)
+                    if (input.U.BodySize > 1)
                     {
                         output.ChangeSprite(SpriteType.Weapon).AddOffset(2 * .625f, -3 * .625f);
                     }
@@ -763,59 +721,59 @@ internal static class Humans
 
     private static void ClothingShared1(IClothingRenderInput<IOverSizeParameters> input, IRaceRenderOutput clothing4)
     {
-        if (input.Actor.Unit.BodySize == 2)
+        if (input.U.BodySize == 2)
         {
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                if (input.Actor.GetStomachSize(31, 0.7f) > 12)
+                if (input.A.GetStomachSize(31, 0.7f) > 12)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[36]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 11)
+                else if (input.A.GetStomachSize(31, 0.7f) > 11)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[35]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 10)
+                else if (input.A.GetStomachSize(31, 0.7f) > 10)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[34]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 9)
+                else if (input.A.GetStomachSize(31, 0.7f) > 9)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[33]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 8)
+                else if (input.A.GetStomachSize(31, 0.7f) > 8)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[32]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 7)
+                else if (input.A.GetStomachSize(31, 0.7f) > 7)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[31]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 6)
+                else if (input.A.GetStomachSize(31, 0.7f) > 6)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[30]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 5)
+                else if (input.A.GetStomachSize(31, 0.7f) > 5)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[29]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 4)
+                else if (input.A.GetStomachSize(31, 0.7f) > 4)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[28]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 3)
+                else if (input.A.GetStomachSize(31, 0.7f) > 3)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[27]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 2)
+                else if (input.A.GetStomachSize(31, 0.7f) > 2)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[26]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 1)
+                else if (input.A.GetStomachSize(31, 0.7f) > 1)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[25]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 0)
+                else if (input.A.GetStomachSize(31, 0.7f) > 0)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[24]);
                 }
@@ -831,57 +789,57 @@ internal static class Humans
         }
         else
         {
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                if (input.Actor.GetStomachSize(31, 0.7f) > 12)
+                if (input.A.GetStomachSize(31, 0.7f) > 12)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[14]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 11)
+                else if (input.A.GetStomachSize(31, 0.7f) > 11)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[13]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 10)
+                else if (input.A.GetStomachSize(31, 0.7f) > 10)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[12]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 9)
+                else if (input.A.GetStomachSize(31, 0.7f) > 9)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[11]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 8)
+                else if (input.A.GetStomachSize(31, 0.7f) > 8)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[10]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 7)
+                else if (input.A.GetStomachSize(31, 0.7f) > 7)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[9]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 6)
+                else if (input.A.GetStomachSize(31, 0.7f) > 6)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[8]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 5)
+                else if (input.A.GetStomachSize(31, 0.7f) > 5)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[7]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 4)
+                else if (input.A.GetStomachSize(31, 0.7f) > 4)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[6]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 3)
+                else if (input.A.GetStomachSize(31, 0.7f) > 3)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[5]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 2)
+                else if (input.A.GetStomachSize(31, 0.7f) > 2)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[4]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 1)
+                else if (input.A.GetStomachSize(31, 0.7f) > 1)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[3]);
                 }
-                else if (input.Actor.GetStomachSize(31, 0.7f) > 0)
+                else if (input.A.GetStomachSize(31, 0.7f) > 0)
                 {
                     clothing4.Sprite(input.Sprites.HumenFOnePieces[2]);
                 }
@@ -901,10 +859,10 @@ internal static class Humans
     {
         if (actor.Unit.Furry)
         {
-            return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.RedFur, actor.Unit.AccessoryColor);
+            return ColorPaletteMap.GetPalette(SwapType.RedFur, actor.Unit.AccessoryColor);
         }
 
-        return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.RedSkin, actor.Unit.SkinColor);
+        return ColorPaletteMap.GetPalette(SwapType.RedSkin, actor.Unit.SkinColor);
     }
 
 
@@ -935,29 +893,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[0 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[0 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -965,7 +923,7 @@ internal static class Humans
                     output.BlocksBreasts = true;
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Coloring(FurryColor(input.Actor));
                 output["Clothing3"].Coloring(FurryColor(input.Actor));
             });
@@ -999,29 +957,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[8 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[8 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1062,29 +1020,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[16 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[16 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1092,7 +1050,7 @@ internal static class Humans
                     output.BlocksBreasts = true;
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Coloring(FurryColor(input.Actor));
                 output["Clothing3"].Coloring(FurryColor(input.Actor));
             });
@@ -1126,29 +1084,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[24 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[24 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1189,29 +1147,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[32 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[32 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1219,7 +1177,7 @@ internal static class Humans
                     output.BlocksBreasts = true;
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Coloring(FurryColor(input.Actor));
                 output["Clothing3"].Coloring(FurryColor(input.Actor));
             });
@@ -1253,29 +1211,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[40 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[40 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1283,7 +1241,7 @@ internal static class Humans
                     output.BlocksBreasts = true;
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Coloring(FurryColor(input.Actor));
                 output["Clothing3"].Coloring(FurryColor(input.Actor));
             });
@@ -1317,29 +1275,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[48 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFundertops[48 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1396,7 +1354,7 @@ internal static class Humans
 
                 output["Clothing1"].Coloring(Color.white);
 
-                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.HumenMundertops[4] : input.Sprites.HumenMundertops[1 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.HumenMundertops[4] : input.Sprites.HumenMundertops[1 + input.U.BodySize]);
             });
         });
     }
@@ -1419,7 +1377,7 @@ internal static class Humans
             {
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Sprite(input.Sprites.HumenMundertops[6]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -1442,9 +1400,9 @@ internal static class Humans
             {
                 output["Clothing1"].Layer(18);
 
-                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.HumenMundertops[10] : input.Sprites.HumenMundertops[7 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.HumenMundertops[10] : input.Sprites.HumenMundertops[7 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -1467,9 +1425,9 @@ internal static class Humans
             {
                 output["Clothing1"].Layer(18);
 
-                output["Clothing1"].Sprite(input.Actor.Unit.BodySize == 2 ? input.Sprites.HumenMundertops[13] : input.Sprites.HumenMundertops[12]);
+                output["Clothing1"].Sprite(input.U.BodySize == 2 ? input.Sprites.HumenMundertops[13] : input.Sprites.HumenMundertops[12]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -1520,70 +1478,70 @@ internal static class Humans
                 {
                     output["Clothing1"].Sprite(input.Sprites.HumenUniform2[6]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.BreastSize > 5 ? input.Sprites.HumenUniform2[6] : input.Sprites.HumenUniform2[0 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.U.BreastSize > 5 ? input.Sprites.HumenUniform2[6] : input.Sprites.HumenUniform2[0 + input.U.BreastSize]);
                 }
                 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
-                    if (input.Actor.GetStomachSize(31, 0.7f) > 4)
+                    if (input.A.GetStomachSize(31, 0.7f) > 4)
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[13 + 7 * input.Actor.Unit.BodySize + 21 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[13 + 7 * input.U.BodySize + 21 * (!input.U.HasBreasts ? 1 : 0)]);
                     }
-                    else if (input.Actor.GetStomachSize(31, 0.7f) > 3)
+                    else if (input.A.GetStomachSize(31, 0.7f) > 3)
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[12 + 7 * input.Actor.Unit.BodySize + 21 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[12 + 7 * input.U.BodySize + 21 * (!input.U.HasBreasts ? 1 : 0)]);
                     }
-                    else if (input.Actor.GetStomachSize(31, 0.7f) > 2)
+                    else if (input.A.GetStomachSize(31, 0.7f) > 2)
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[11 + 7 * input.Actor.Unit.BodySize + 21 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[11 + 7 * input.U.BodySize + 21 * (!input.U.HasBreasts ? 1 : 0)]);
                     }
-                    else if (input.Actor.GetStomachSize(31, 0.7f) > 1)
+                    else if (input.A.GetStomachSize(31, 0.7f) > 1)
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[10 + 7 * input.Actor.Unit.BodySize + 21 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[10 + 7 * input.U.BodySize + 21 * (!input.U.HasBreasts ? 1 : 0)]);
                     }
-                    else if (input.Actor.GetStomachSize(31, 0.7f) > 0)
+                    else if (input.A.GetStomachSize(31, 0.7f) > 0)
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[9 + 7 * input.Actor.Unit.BodySize + 21 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[9 + 7 * input.U.BodySize + 21 * (!input.U.HasBreasts ? 1 : 0)]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[8 + 7 * input.Actor.Unit.BodySize + 21 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                        output["Clothing2"].Sprite(input.Sprites.HumenUniform2[8 + 7 * input.U.BodySize + 21 * (!input.U.HasBreasts ? 1 : 0)]);
                     }
                 }
                 else
                 {
-                    output["Clothing2"].Sprite(input.Sprites.HumenUniform2[7 + 7 * input.Actor.Unit.BodySize + 21 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output["Clothing2"].Sprite(input.Sprites.HumenUniform2[7 + 7 * input.U.BodySize + 21 * (!input.U.HasBreasts ? 1 : 0)]);
                 }
 
-                if (input.Actor.Unit.HasWeapon == false)
+                if (input.U.HasWeapon == false)
                 {
-                    if (input.Actor.IsAttacking)
+                    if (input.A.IsAttacking)
                     {
-                        output["Clothing3"].Sprite(input.Sprites.HumenUniform1[3 + 4 * input.Actor.Unit.BodySize + 12 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                        output["Clothing3"].Sprite(input.Sprites.HumenUniform1[3 + 4 * input.U.BodySize + 12 * (!input.U.HasBreasts ? 1 : 0)]);
                     }
                     else
                     {
-                        output["Clothing3"].Sprite(input.Sprites.HumenUniform1[0 + 4 * input.Actor.Unit.BodySize + 12 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                        output["Clothing3"].Sprite(input.Sprites.HumenUniform1[0 + 4 * input.U.BodySize + 12 * (!input.U.HasBreasts ? 1 : 0)]);
                     }
                 }
-                else if (input.Actor.GetWeaponSprite() == 0 || input.Actor.GetWeaponSprite() == 4 || input.Actor.GetWeaponSprite() == 6)
+                else if (input.A.GetWeaponSprite() == 0 || input.A.GetWeaponSprite() == 4 || input.A.GetWeaponSprite() == 6)
                 {
-                    output["Clothing3"].Sprite(input.Sprites.HumenUniform1[2 + 4 * input.Actor.Unit.BodySize + 12 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output["Clothing3"].Sprite(input.Sprites.HumenUniform1[2 + 4 * input.U.BodySize + 12 * (!input.U.HasBreasts ? 1 : 0)]);
                 }
-                else if (input.Actor.GetWeaponSprite() == 1 || input.Actor.GetWeaponSprite() == 3)
+                else if (input.A.GetWeaponSprite() == 1 || input.A.GetWeaponSprite() == 3)
                 {
-                    output["Clothing3"].Sprite(input.Sprites.HumenUniform1[3 + 4 * input.Actor.Unit.BodySize + 12 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output["Clothing3"].Sprite(input.Sprites.HumenUniform1[3 + 4 * input.U.BodySize + 12 * (!input.U.HasBreasts ? 1 : 0)]);
                 }
                 else
                 {
-                    output["Clothing3"].Sprite(input.Sprites.HumenUniform1[1 + 4 * input.Actor.Unit.BodySize + 12 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output["Clothing3"].Sprite(input.Sprites.HumenUniform1[1 + 4 * input.U.BodySize + 12 * (!input.U.HasBreasts ? 1 : 0)]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -1616,29 +1574,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[43 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[43 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1646,23 +1604,23 @@ internal static class Humans
                     output.BlocksBreasts = true;
                 }
 
-                if (input.Actor.Unit.BodySize == 2)
+                if (input.U.BodySize == 2)
                 {
-                    if (input.Actor.HasBelly)
+                    if (input.A.HasBelly)
                     {
-                        if (input.Actor.GetStomachSize(31, 0.7f) > 3)
+                        if (input.A.GetStomachSize(31, 0.7f) > 3)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[42]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 2)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 2)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[41]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 1)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 1)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[40]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 0)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 0)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[39]);
                         }
@@ -1678,25 +1636,25 @@ internal static class Humans
                 }
                 else
                 {
-                    if (input.Actor.HasBelly)
+                    if (input.A.HasBelly)
                     {
-                        if (input.Actor.GetStomachSize(31, 0.7f) > 4)
+                        if (input.A.GetStomachSize(31, 0.7f) > 4)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[21]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 3)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 3)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[20]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 2)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 2)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[19]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 1)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 1)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[18]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 0)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 0)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[17]);
                         }
@@ -1711,10 +1669,10 @@ internal static class Humans
                     }
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Coloring(FurryColor(input.Actor));
                 output["Clothing3"].Coloring(FurryColor(input.Actor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -1747,29 +1705,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[52 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[52 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1779,10 +1737,10 @@ internal static class Humans
 
                 ClothingShared1(input, output["Clothing4"]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Coloring(FurryColor(input.Actor));
                 output["Clothing3"].Coloring(FurryColor(input.Actor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -1815,29 +1773,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[61 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[61 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1847,10 +1805,10 @@ internal static class Humans
 
                 ClothingShared1(input, output["Clothing4"]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Coloring(FurryColor(input.Actor));
                 output["Clothing3"].Coloring(FurryColor(input.Actor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -1883,29 +1841,29 @@ internal static class Humans
                     output["Clothing2"].Sprite(null);
                     output["Clothing3"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
                     output.BlocksBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[70 + input.Actor.Unit.BreastSize]);
-                    if (input.Actor.Unit.BreastSize == 3)
+                    output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[70 + input.U.BreastSize]);
+                    if (input.U.BreastSize == 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[64]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[67]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 4)
+                    else if (input.U.BreastSize == 4)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[65]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[68]);
                     }
-                    else if (input.Actor.Unit.BreastSize == 5)
+                    else if (input.U.BreastSize == 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[66]);
                         output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[69]);
                     }
                     else
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.Actor.Unit.BreastSize]);
-                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.Actor.Unit.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.HumansVoreSprites[0 + input.U.BreastSize]);
+                        output["Clothing3"].Sprite(input.Sprites.HumansVoreSprites[32 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -1913,23 +1871,23 @@ internal static class Humans
                     output.BlocksBreasts = true;
                 }
 
-                if (input.Actor.Unit.BodySize == 2)
+                if (input.U.BodySize == 2)
                 {
-                    if (input.Actor.HasBelly)
+                    if (input.A.HasBelly)
                     {
-                        if (input.Actor.GetStomachSize(31, 0.7f) > 3)
+                        if (input.A.GetStomachSize(31, 0.7f) > 3)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[42]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 2)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 2)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[41]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 1)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 1)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[40]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 0)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 0)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[39]);
                         }
@@ -1945,25 +1903,25 @@ internal static class Humans
                 }
                 else
                 {
-                    if (input.Actor.HasBelly)
+                    if (input.A.HasBelly)
                     {
-                        if (input.Actor.GetStomachSize(31, 0.7f) > 4)
+                        if (input.A.GetStomachSize(31, 0.7f) > 4)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[21]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 3)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 3)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[20]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 2)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 2)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[19]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 1)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 1)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[18]);
                         }
-                        else if (input.Actor.GetStomachSize(31, 0.7f) > 0)
+                        else if (input.A.GetStomachSize(31, 0.7f) > 0)
                         {
                             output["Clothing4"].Sprite(input.Sprites.HumenFOnePieces[17]);
                         }
@@ -1978,10 +1936,10 @@ internal static class Humans
                     }
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Coloring(FurryColor(input.Actor));
                 output["Clothing3"].Coloring(FurryColor(input.Actor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -2002,19 +1960,19 @@ internal static class Humans
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
+                    output["Clothing1"].Sprite(input.U.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[0 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[3 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.HumenUnderbottoms[0 + input.U.BodySize] : input.Sprites.HumenUnderbottoms[3 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -2035,9 +1993,9 @@ internal static class Humans
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 4)
+                    if (input.U.DickSize < 4)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenUnderbottoms[60]);
                     }
@@ -2051,10 +2009,10 @@ internal static class Humans
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[7 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[10 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.HumenUnderbottoms[7 + input.U.BodySize] : input.Sprites.HumenUnderbottoms[10 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -2077,16 +2035,16 @@ internal static class Humans
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(13);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[62] : input.Sprites.HumenUnderbottoms[63]);
+                    output["Clothing1"].Sprite(input.U.DickSize < 4 ? input.Sprites.HumenUnderbottoms[62] : input.Sprites.HumenUnderbottoms[63]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[20 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[23 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.HumenUnderbottoms[20 + input.U.BodySize] : input.Sprites.HumenUnderbottoms[23 + input.U.BodySize]);
             });
         });
     }
@@ -2107,19 +2065,19 @@ internal static class Humans
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
+                    output["Clothing1"].Sprite(input.U.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[33 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[36 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.HumenUnderbottoms[33 + input.U.BodySize] : input.Sprites.HumenUnderbottoms[36 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -2140,19 +2098,19 @@ internal static class Humans
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
+                    output["Clothing1"].Sprite(input.U.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[46 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[49 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.HumenUnderbottoms[46 + input.U.BodySize] : input.Sprites.HumenUnderbottoms[49 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -2173,19 +2131,19 @@ internal static class Humans
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    output["Clothing1"].Sprite(input.Actor.Unit.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
+                    output["Clothing1"].Sprite(input.U.DickSize < 4 ? input.Sprites.HumenUnderbottoms[60] : input.Sprites.HumenUnderbottoms[61]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUnderbottoms[53 + input.Actor.Unit.BodySize] : input.Sprites.HumenUnderbottoms[56 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.HumenUnderbottoms[53 + input.U.BodySize] : input.Sprites.HumenUnderbottoms[56 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -2205,9 +2163,9 @@ internal static class Humans
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(12);
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.HumenUniform1[24 + input.Actor.Unit.BodySize] : input.Sprites.HumenUniform1[33 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.HumenUniform1[24 + input.U.BodySize] : input.Sprites.HumenUniform1[33 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -2227,16 +2185,16 @@ internal static class Humans
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(12);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.HumenBigLoin[0 + 2 * input.Actor.Unit.BodySize + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
+                    output["Clothing1"].Sprite(input.Sprites.HumenBigLoin[0 + 2 * input.U.BodySize + (input.A.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.HumenBigLoin[6 + 2 * input.Actor.Unit.BodySize + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
+                    output["Clothing1"].Sprite(input.Sprites.HumenBigLoin[6 + 2 * input.U.BodySize + (input.A.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -2259,19 +2217,19 @@ internal static class Humans
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(12);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.DickSize > 0)
+                    if (input.U.DickSize > 0)
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumenPants[24 + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
+                        output["Clothing2"].Sprite(input.Sprites.HumenPants[24 + (input.A.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
                     }
 
-                    output["Clothing1"].Sprite(input.Sprites.HumenPants[0 + 2 * input.Actor.Unit.BodySize + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
+                    output["Clothing1"].Sprite(input.Sprites.HumenPants[0 + 2 * input.U.BodySize + (input.A.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.HumenPants[6 + 2 * input.Actor.Unit.BodySize + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
-                    output["Clothing2"].Sprite(input.Sprites.HumenPants[25 + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
+                    output["Clothing1"].Sprite(input.Sprites.HumenPants[6 + 2 * input.U.BodySize + (input.A.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
+                    output["Clothing2"].Sprite(input.Sprites.HumenPants[25 + (input.A.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
                 }
             });
         });
@@ -2293,23 +2251,23 @@ internal static class Humans
             {
                 output["Clothing2"].Layer(13);
                 output["Clothing1"].Layer(12);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.DickSize > 0)
+                    if (input.U.DickSize > 0)
                     {
-                        output["Clothing2"].Sprite(input.Sprites.HumenPants[29 + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
+                        output["Clothing2"].Sprite(input.Sprites.HumenPants[29 + (input.A.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
                     }
 
-                    output["Clothing1"].Sprite(input.Sprites.HumenPants[12 + 2 * input.Actor.Unit.BodySize + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
+                    output["Clothing1"].Sprite(input.Sprites.HumenPants[12 + 2 * input.U.BodySize + (input.A.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.HumenPants[18 + 2 * input.Actor.Unit.BodySize + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
-                    output["Clothing2"].Sprite(input.Sprites.HumenPants[30 + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
+                    output["Clothing1"].Sprite(input.Sprites.HumenPants[18 + 2 * input.U.BodySize + (input.A.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
+                    output["Clothing2"].Sprite(input.Sprites.HumenPants[30 + (input.A.GetStomachSize(31, 0.7f) > 3 ? 2 : 0)]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }
@@ -2330,9 +2288,9 @@ internal static class Humans
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(12);
-                output["Clothing1"].Sprite(input.Sprites.HumenSkirt[0 + 2 * input.Actor.Unit.BodySize + (input.Actor.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
+                output["Clothing1"].Sprite(input.Sprites.HumenSkirt[0 + 2 * input.U.BodySize + (input.A.GetStomachSize(31, 0.7f) > 3 ? 1 : 0)]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }

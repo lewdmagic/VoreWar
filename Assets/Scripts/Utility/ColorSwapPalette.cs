@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-class ColorSwapPalette
+public class ColorSwapPalette
 {
     internal Material colorSwapMaterial;
 

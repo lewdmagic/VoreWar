@@ -8,6 +8,34 @@ internal static class TwistedVines
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Twisted Vine", "Twisted Vines");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 8,
+            StomachSize = 11,
+            HasTail = false,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.2f,
+            PowerAdjustment = 1.4f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(10, 16),
+                Dexterity = new RaceStats.StatRange(6, 8),
+                Endurance = new RaceStats.StatRange(8, 14),
+                Mind = new RaceStats.StatRange(4, 6),
+                Will = new RaceStats.StatRange(6, 12),
+                Agility = new RaceStats.StatRange(4, 8),
+                Voracity = new RaceStats.StatRange(8, 15),
+                Stomach = new RaceStats.StatRange(8, 13),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Tempered,
+                Traits.SlowDigestion
+            },
+            RaceDescription = ""
+        });
         builder.Setup(output =>
         {
             output.CanBeGender = new List<Gender> { Gender.None };
@@ -18,8 +46,8 @@ internal static class TwistedVines
         builder.RenderSingle(SpriteType.Head, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            int headType = input.Actor.Unit.EyeType * 2;
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            int headType = input.U.EyeType * 2;
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 headType++;
             }
@@ -41,18 +69,12 @@ internal static class TwistedVines
         builder.RenderSingle(SpriteType.Belly, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.HasBelly == false)
+            if (input.A.HasBelly == false)
             {
                 return;
             }
 
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false) && input.Actor.GetStomachSize() == 15)
-            {
-                output.Sprite(input.Sprites.Plant[15]);
-                return;
-            }
-
-            output.Sprite(input.Sprites.Plant[6 + input.Actor.GetStomachSize(8)]);
+            output.Sprite(input.Sprites.Plant[6 + input.A.GetStomachSize(8)]);
         });
 
         builder.RunBefore(Defaults.Finalize);

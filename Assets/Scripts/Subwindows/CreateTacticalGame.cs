@@ -36,16 +36,15 @@ public class CreateTacticalGame : MonoBehaviour
     Race batchingAttackerRace;
     Race batchingDefenderRace;
 
-    Race[] AllRandomRaces;
 
     public void Start()
     {
-        //foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
+        //foreach (Race race in RaceFuncs.RaceEnumerable())
         //{
         //    Attacker.Race.options.Add(new Dropdown.OptionData(race.ToString()));
         //    Defender.Race.options.Add(new Dropdown.OptionData(race.ToString()));
         //}
-        foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).OrderBy((s) => s.ToString()))
+        foreach (Race race in (RaceFuncs.RaceEnumerable()).OrderBy((s) => s.ToString()))
         {
             Attacker.Race.options.Add(new Dropdown.OptionData(race.ToString()));
             Defender.Race.options.Add(new Dropdown.OptionData(race.ToString()));
@@ -68,7 +67,7 @@ public class CreateTacticalGame : MonoBehaviour
 
         Race race;
 
-        if (Enum.TryParse(Attacker.Race.captionText.text, out race))
+        if (RaceFuncs.TryParse(Attacker.Race.captionText.text, out race))
         {
 
         }
@@ -90,7 +89,7 @@ public class CreateTacticalGame : MonoBehaviour
             DefenderUnit = new Actor_Unit(new Unit(Race.Cats));
         }
 
-        if (Enum.TryParse(Defender.Race.captionText.text, out Race race))
+        if (RaceFuncs.TryParse(Defender.Race.captionText.text, out Race race))
         {
 
         }
@@ -184,18 +183,18 @@ public class CreateTacticalGame : MonoBehaviour
         float time = Time.realtimeSinceStartup;
         List<Race> participants = new List<Race>();
         batching = true;
-        foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
+        foreach (Race race in RaceFuncs.RaceEnumerable())
         {
-            if (AllRaces.isOn == false && race == Race.Succubi)
+            if (AllRaces.isOn == false && Equals(race, Race.Succubi))
                 break;
-            if (race == Race.Selicia)
+            if (Equals(race, Race.Selicia))
                 break;
             participants.Add(race);
 
         }
 
 
-        if (Enum.TryParse(Attacker.Race.options[Attacker.Race.value].text, out Race thisRace))
+        if (RaceFuncs.TryParse(Attacker.Race.options[Attacker.Race.value].text, out Race thisRace))
         {
             batchingAttackerRace = thisRace;
         }
@@ -206,7 +205,7 @@ public class CreateTacticalGame : MonoBehaviour
 
         for (int j = 0; j < participants.Count; j++)
         {
-            if (participants[j] == batchingAttackerRace)
+            if (Equals(participants[j], batchingAttackerRace))
                 continue;
             State.GameManager.TacticalMode.Wins = new Vector2Int();
             for (int k = 0; k < Bulk.value; k++)
@@ -227,7 +226,7 @@ public class CreateTacticalGame : MonoBehaviour
         int total = 0;
         for (int y = 0; y < participants.Count; y++)
         {
-            if (participants[y] == batchingAttackerRace)
+            if (Equals(participants[y], batchingAttackerRace))
             {
                 sb.Append($"-\t");
                 continue;
@@ -248,17 +247,17 @@ public class CreateTacticalGame : MonoBehaviour
         float time = Time.realtimeSinceStartup;
         List<Race> participants = new List<Race>();
 
-        foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
+        foreach (Race race in RaceFuncs.RaceEnumerable())
         {
-            if (AllRaces.isOn == false && race == Race.Succubi)
+            if (AllRaces.isOn == false && Equals(race, Race.Succubi))
                 break;
-            if (race == Race.Selicia)
+            if (Equals(race, Race.Selicia))
                 break;
             participants.Add(race);
 
         }
 
-        if (Enum.TryParse(Attacker.Race.options[Attacker.Race.value].text, out Race thisRace))
+        if (RaceFuncs.TryParse(Attacker.Race.options[Attacker.Race.value].text, out Race thisRace))
         {
             batchingAttackerRace = thisRace;
         }
@@ -325,12 +324,12 @@ public class CreateTacticalGame : MonoBehaviour
         int remaining = 5;
         State.GameManager.TacticalMode.Wins = new Vector2Int();
 
-        if (Enum.TryParse(Attacker.Race.options[Attacker.Race.value].text, out Race attackerRace))
+        if (RaceFuncs.TryParse(Attacker.Race.options[Attacker.Race.value].text, out Race attackerRace))
         {
             batchingAttackerRace = attackerRace;
         }
 
-        if (Enum.TryParse(Attacker.Race.options[Defender.Race.value].text, out Race defenderRace))
+        if (RaceFuncs.TryParse(Attacker.Race.options[Defender.Race.value].text, out Race defenderRace))
         {
             batchingDefenderRace = defenderRace;
         }
@@ -430,8 +429,8 @@ public class CreateTacticalGame : MonoBehaviour
         int defenderMeleeHeavyCount = (fightersB - defenderRangedCount) * (int)Defender.HeavyWeaponsPercentage.value / 100;
         int attackerRangedHeavyCount = attackerRangedCount * (int)Attacker.HeavyWeaponsPercentage.value / 100;
         int defenderRangedHeavyCount = defenderRangedCount * (int)Defender.HeavyWeaponsPercentage.value / 100;
-        int attackerSide = 0;
-        int defenderSide = 1;
+        Side attackerSide = Race.Cats.ToSide();
+        Side defenderSide = Race.Dogs.ToSide();
         Func<Race> AttackerRace;
         Func<Race> DefenderRace;
         if (batching == false)
@@ -449,7 +448,7 @@ public class CreateTacticalGame : MonoBehaviour
 
         Func<Race> SetupRace(Dropdown tacRace)
         {
-            if (Enum.TryParse(tacRace.options[tacRace.value].text, out Race race))
+            if (RaceFuncs.TryParse(tacRace.options[tacRace.value].text, out Race race))
             {
                 return () => race;
             }
@@ -569,14 +568,8 @@ public class CreateTacticalGame : MonoBehaviour
 
     Race GetRandomRace()
     {
-        if (AllRandomRaces == null)
-            AllRandomRaces = (Race[])Enum.GetValues(typeof(Race));
-        for (int i = 0; i < 4; i++)
-        {
-            Race race = AllRandomRaces[State.Rand.Next(AllRandomRaces.Length)];
-        }
-        return (Race)State.Rand.Next(Config.NumberOfRaces);
-
+        IReadOnlyList<Race> mainRaces = RaceFuncs.MainRaceEnumerable();
+        return mainRaces[State.Rand.Next(mainRaces.Count)];
     }
 
     public void ChangeToolTip(int type)

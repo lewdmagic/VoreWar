@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-internal interface IClothingRenderOutput
+public interface IClothingRenderOutput
 {
     IRaceRenderOutput this[string key] { get; }
     IRaceRenderOutput ChangeSprite(SpriteType spriteType);

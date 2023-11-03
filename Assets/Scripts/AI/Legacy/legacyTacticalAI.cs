@@ -12,7 +12,7 @@ namespace LegacyAI
         bool didAction;
         bool foundPath;
         [OdinSerialize]
-        readonly int AISide;
+        readonly Side AISide;
         List<PathNode> path;
         Actor_Unit pathIsFor;
 
@@ -40,7 +40,7 @@ namespace LegacyAI
             set => foreignTurn = value;
         }
 
-        public LegacyTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, int AIteam)
+        public LegacyTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, Side AIteam)
         {
             AISide = AIteam;
             this.tiles = tiles;
@@ -53,7 +53,7 @@ namespace LegacyAI
         {
             foreach (Actor_Unit actor in actors)
             {
-                if (actor.Targetable == true && actor.Unit.Side == AISide && actor.Movement > 0)
+                if (actor.Targetable == true && Equals(actor.Unit.Side, AISide) && actor.Movement > 0)
                 {
                     if (path != null && pathIsFor == actor)
                     {
@@ -121,7 +121,7 @@ namespace LegacyAI
                     if (actors[i].InSight == true && actors[i].InSight == true && actors[i].Targetable == true && d < 8)
                     {
                         Actor_Unit unit = actors[i];
-                        if (unit.Unit.Side != AISide && unit.Bulk() <= cap)
+                        if (!Equals(unit.Unit.Side, AISide) && unit.Bulk() <= cap)
                         {
                             int c = (int)(100 * unit.GetDevourChance(actor, true));
                             if (c > 50 && c > chance && TacticalUtilities.FreeSpaceAroundTarget(actors[i].Position, actor) && unit.AIAvoidEat <= 0)
@@ -210,7 +210,7 @@ namespace LegacyAI
                 if (actors[i].InSight == true && actors[i].InSight == true && actors[i].Targetable == true)
                 {
                     Actor_Unit unit = actors[i];
-                    if (unit.Unit.Side != AISide && d < distance && (d > 1 || (actor.BestRanged.Omni && d > 0)))
+                    if (!Equals(unit.Unit.Side, AISide) && d < distance && (d > 1 || (actor.BestRanged.Omni && d > 0)))
                     {
                         index = i;
                         distance = d;
@@ -273,7 +273,7 @@ namespace LegacyAI
                 if (actors[i].InSight == true && actors[i].InSight == true && actors[i].Targetable == true)
                 {
                     Actor_Unit unit = actors[i];
-                    if (unit.Unit.Side != AISide)
+                    if (!Equals(unit.Unit.Side, AISide))
                     {
                         if (d < distance)
                         {

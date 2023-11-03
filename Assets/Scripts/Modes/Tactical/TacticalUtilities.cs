@@ -42,19 +42,20 @@ static class TacticalUtilities
         UnitPickerUI = State.GameManager.TacticalMode.UnitPickerUI;
     }
 
+    // This is for fleeing units
     static internal void ProcessTravelingUnits(List<Unit> travelingUnits)
     {
         if (State.World.Villages == null)
         {
             return;
         }
-        if (travelingUnits[0].Side < 60)
+        if (!RaceFuncs.isMonster(travelingUnits[0].Side.ToRace()))
         {
             if (Config.TroopScatter)
             {
                 foreach (var unit in travelingUnits.ToList())
                 {
-                    var villageList = State.World.Villages.Where(s => travelingUnits[0].Side == s.Side && s != village).ToList();
+                    var villageList = State.World.Villages.Where(s => Equals(travelingUnits[0].Side, s.Side) && s != village).ToList();
                     Village friendlyVillage;
                     if (villageList.Count() == 0)
                         continue;
@@ -86,7 +87,7 @@ static class TacticalUtilities
             }
             else
             {
-                var loc = StrategyPathfinder.GetPathToClosestObject(null, armies[0], State.World.Villages.Where(s => travelingUnits[0].Side == s.Side && s != village).Select(s => s.Position).ToArray(), 3, 999, false);
+                var loc = StrategyPathfinder.GetPathToClosestObject(null, armies[0], State.World.Villages.Where(s => Equals(travelingUnits[0].Side, s.Side) && s != village).Select(s => s.Position).ToArray(), 3, 999, false);
                 int turns = 9999;
                 int flightTurns = 9999;
                 Vec2i destination = null;
@@ -108,7 +109,7 @@ static class TacticalUtilities
 
 
         }
-        else if (travelingUnits[0].Side > 500)
+        else if (RaceFuncs.IsRebelOrBandit(travelingUnits[0].Side))
         {
             //Bandits and rebels that flee simply vanish
         }
@@ -138,7 +139,7 @@ static class TacticalUtilities
                     continue;
                 if (StrategicUtilities.IsTileClear(loc))
                 {
-                    MonsterEmpire monsterEmp = (MonsterEmpire)State.World.GetEmpireOfSide(fleeingUnits[0].Side);
+                    MonsterEmpire monsterEmp = (MonsterEmpire)State.World.GetEmpireOfSide(fleeingUnits[0].Side); // TODO incorrect cast exception happened here.
                     if (monsterEmp == null)
                         return;
                     var army = new Army(monsterEmp, loc, fleeingUnits[0].Side);
@@ -183,8 +184,9 @@ static class TacticalUtilities
 
     static internal void CleanVillage(int remainingAttackers)
     {
-        bool MonsterAttacker = armies[0].Side >= 100;
-        SpawnerInfo spawner = Config.SpawnerInfo((Race)armies[0]?.Side);
+        bool MonsterAttacker = RaceFuncs.isMonster(armies[0].Side.ToRace());
+        //SpawnerInfo spawner = Config.SpawnerInfo((Race)armies[0]?.Side);
+        SpawnerInfo spawner = Config.World.GetSpawner(armies[0].Side.ToRace());
         Config.MonsterConquestType spawnerType;
         if (spawner != null)
             spawnerType = spawner.GetConquestType();
@@ -195,13 +197,13 @@ static class TacticalUtilities
         {
             foreach (Actor_Unit garrison in garrison)
             {
-                if (garrison.Unit.IsDead || garrison.Fled || garrison.Unit.Side == armies[0].Side)
+                if (garrison.Unit.IsDead || garrison.Fled || Equals(garrison.Unit.Side, armies[0].Side))
                 {
                     village.VillagePopulation.RemoveHireable(garrison.Unit);
                 }
             }
         }
-        if (village.Side != armies[0].Side && remainingAttackers > 0 && (MonsterAttacker == false || spawnerType != Config.MonsterConquestType.DevourAndDisperse))
+        if (!Equals(village.Side, armies[0].Side) && remainingAttackers > 0 && (MonsterAttacker == false || spawnerType != Config.MonsterConquestType.DevourAndDisperse))
         {
             village.ChangeOwner(armies[0].Side);
         }
@@ -248,20 +250,20 @@ static class TacticalUtilities
     }
     internal static bool IsUnitControlledByPlayer(Unit unit)
     {
-        if (GetMindControlSide(unit) != -1)  // Charmed units may fight for the player, but they are always AI controlled
+        if (!Equals(GetMindControlSide(unit), Race.TrueNoneSide))  // Charmed units may fight for the player, but they are always AI controlled
             return false;
-        int defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
-        int attackerSide = State.GameManager.TacticalMode.GetAttackerSide();
+        Side defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
+        Side attackerSide = State.GameManager.TacticalMode.GetAttackerSide();
         bool aiDefender = State.GameManager.TacticalMode.AIDefender;
         bool aiAttacker = State.GameManager.TacticalMode.AIAttacker;
-        if (State.GameManager.TacticalMode.CheatAttackerControl && unit.Side == attackerSide)
+        if (State.GameManager.TacticalMode.CheatAttackerControl && Equals(unit.Side, attackerSide))
             return true;
-        if (State.GameManager.TacticalMode.CheatDefenderControl && unit.Side == defenderSide)
+        if (State.GameManager.TacticalMode.CheatDefenderControl && Equals(unit.Side, defenderSide))
             return true;
 
         if (State.GameManager.PureTactical)
         {
-            return !aiAttacker && attackerSide == unit.FixedSide || !aiDefender && defenderSide == unit.FixedSide;
+            return !aiAttacker && Equals(attackerSide, unit.FixedSide) || !aiDefender && Equals(defenderSide, unit.FixedSide);
         }
         else
         {
@@ -269,8 +271,8 @@ static class TacticalUtilities
             {
                 return true;
             }
-            bool prefSideHuman = !aiDefender && defenderSide == GetPreferredSide(unit, defenderSide, attackerSide) || !aiAttacker && attackerSide == GetPreferredSide(unit, attackerSide, defenderSide);
-            bool currentSideHuman = !aiDefender && defenderSide == unit.Side || !aiAttacker && attackerSide == unit.Side;
+            bool prefSideHuman = !aiDefender && Equals(defenderSide, GetPreferredSide(unit, defenderSide, attackerSide)) || !aiAttacker && Equals(attackerSide, GetPreferredSide(unit, attackerSide, defenderSide));
+            bool currentSideHuman = !aiDefender && Equals(defenderSide, unit.Side) || !aiAttacker && Equals(attackerSide, unit.Side);
             return prefSideHuman && currentSideHuman && !PlayerCanSeeTrueSide(unit); // "sleeping" infiltrators follow your orders while it doesn't go against their agenda.
         }
     }
@@ -279,18 +281,18 @@ static class TacticalUtilities
     {
         if (pred == prey)
             return false;
-        if (pred.Unit.Side == prey.Unit.Side)
+        if (Equals(pred.Unit.Side, prey.Unit.Side))
         {
-            if (prey.Surrendered || pred.Unit.HasTrait(Traits.Cruel) || Config.AllowInfighting || pred.Unit.HasTrait(Traits.Endosoma) || !(prey.Unit.GetApparentSide(pred.Unit) == pred.Unit.FixedSide && prey.Unit.GetApparentSide(pred.Unit) == pred.Unit.GetApparentSide()) || GetMindControlSide(prey.Unit) != -1 || GetMindControlSide(pred.Unit) != -1 )
+            if (prey.Surrendered || pred.Unit.HasTrait(Traits.Cruel) || Config.AllowInfighting || pred.Unit.HasTrait(Traits.Endosoma) || !(Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.FixedSide) && Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.GetApparentSide())) || !Equals(GetMindControlSide(prey.Unit), Race.TrueNoneSide) || !Equals(GetMindControlSide(pred.Unit), Race.TrueNoneSide) )
                 return true;
             return false;
         }
         return true;
     }
 
-    static public int GetPreferredSide(Unit actor, int sideA, int sideB) // If equally aligned with both, should default to A
+    static public Side GetPreferredSide(Unit actor, Side sideA, Side sideB) // If equally aligned with both, should default to A
     {
-        int effectiveActorSide = GetMindControlSide(actor) != -1 ? GetMindControlSide(actor) : actor.FixedSide;
+        Side effectiveActorSide = !Equals(GetMindControlSide(actor), Race.TrueNoneSide) ? GetMindControlSide(actor) : actor.FixedSide;
         if (State.GameManager.PureTactical)
         {
             return effectiveActorSide;
@@ -298,9 +300,9 @@ static class TacticalUtilities
 
         int aISideHostility = 0;
         int enemySideHostility = 0;
-        if (effectiveActorSide != sideA)
+        if (!Equals(effectiveActorSide, sideA))
         {
-            if (effectiveActorSide != sideB)
+            if (!Equals(effectiveActorSide, sideB))
             {
                 switch (RelationsManager.GetRelation(effectiveActorSide, sideB).Type)
                 {
@@ -350,28 +352,28 @@ static class TacticalUtilities
     static public bool TreatAsHostile(Actor_Unit actor, Actor_Unit target)
     {
         if (actor == target) return false;
-        if (actor.Unit.Side == actor.Unit.FixedSide && !(target.sidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false) && target.Unit.Side == actor.Unit.Side && GetMindControlSide(actor.Unit) == -1)
+        if (ReferenceEquals(actor.Unit.Side, actor.Unit.FixedSide) && !(target.sidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false) && Equals(target.Unit.Side, actor.Unit.Side) && Equals(GetMindControlSide(actor.Unit), Race.TrueNoneSide))
             return false;
-        int friendlySide = actor.Unit.Side;
-        int defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
-        int opponentSide = friendlySide == defenderSide ? State.GameManager.TacticalMode.GetAttackerSide() : defenderSide;
-        int effectiveTargetSide = target.Unit.GetApparentSide(actor.Unit);
-        int effectiveActorSide = GetMindControlSide(actor.Unit) != -1 ? GetMindControlSide(actor.Unit) : actor.Unit.FixedSide;
-        if (GetMindControlSide(target.Unit) == effectiveActorSide)
+        Side friendlySide = actor.Unit.Side;
+        Side defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
+        Side opponentSide = Equals(friendlySide, defenderSide) ? State.GameManager.TacticalMode.GetAttackerSide() : defenderSide;
+        Side effectiveTargetSide = target.Unit.GetApparentSide(actor.Unit);
+        Side effectiveActorSide = !Equals(GetMindControlSide(actor.Unit), Race.TrueNoneSide) ? GetMindControlSide(actor.Unit) : actor.Unit.FixedSide;
+        if (Equals(GetMindControlSide(target.Unit), effectiveActorSide))
             return false;
         if (State.GameManager.PureTactical)
         {
-            return effectiveTargetSide != effectiveActorSide;
+            return !Equals(effectiveTargetSide, effectiveActorSide);
         }
-        if (effectiveActorSide == effectiveTargetSide)
+        if (Equals(effectiveActorSide, effectiveTargetSide))
             return false;
         int aISideHostility = 0;
         int enemySideHostility = 0;
-        int preferredSide;
-        int unpreferredSide;
-        if (effectiveActorSide != friendlySide)
+        Side preferredSide;
+        Side unpreferredSide;
+        if (!Equals(effectiveActorSide, friendlySide))
         {
-            if (effectiveActorSide != opponentSide)
+            if (!Equals(effectiveActorSide, opponentSide))
             {
                 switch (RelationsManager.GetRelation(effectiveActorSide, opponentSide).Type)
                 {
@@ -411,7 +413,7 @@ static class TacticalUtilities
                     }
             }
             preferredSide = enemySideHostility >= aISideHostility ? friendlySide : opponentSide;
-            unpreferredSide = preferredSide == friendlySide ? opponentSide : friendlySide;
+            unpreferredSide = Equals(preferredSide, friendlySide) ? opponentSide : friendlySide;
         }
         else
         {
@@ -421,7 +423,7 @@ static class TacticalUtilities
 
         int targetSideHostilityP = 0;
         int targetSideHostilityUP = 0;
-        if (preferredSide != effectiveTargetSide)
+        if (!Equals(preferredSide, effectiveTargetSide))
         {
             switch (RelationsManager.GetRelation(preferredSide, effectiveTargetSide).Type)
             {
@@ -443,7 +445,7 @@ static class TacticalUtilities
             }
 
         }
-        if (unpreferredSide != effectiveTargetSide)
+        if (!Equals(unpreferredSide, effectiveTargetSide))
         {
             switch (RelationsManager.GetRelation(unpreferredSide, effectiveTargetSide).Type)
             {
@@ -470,18 +472,27 @@ static class TacticalUtilities
 
     static public bool SneakAttackCheck(Unit attacker, Unit target)
     {
-        if (GetMindControlSide(attacker) != -1) return false;
-        return attacker.GetApparentSide(target) == target.GetApparentSide() && attacker.IsInfiltratingSide(target.GetApparentSide());
+        if (!Equals(GetMindControlSide(attacker), Race.TrueNoneSide)) return false;
+        return Equals(attacker.GetApparentSide(target), target.GetApparentSide()) && attacker.IsInfiltratingSide(target.GetApparentSide());
     }
 
-    static public int GetMindControlSide(Unit unit)
+    static public Side GetMindControlSide(Unit unit)
     {
         if (unit.GetStatusEffect(StatusEffectType.Hypnotized) != null)
-            return (int)(unit.GetStatusEffect(StatusEffectType.Hypnotized).Strength);
+            return unit.GetStatusEffect(StatusEffectType.Hypnotized).Side;
         if (unit.GetStatusEffect(StatusEffectType.Charmed) != null)
-            return (int)(unit.GetStatusEffect(StatusEffectType.Charmed).Strength);
-        return -1;
+            return unit.GetStatusEffect(StatusEffectType.Charmed).Side;
+        return Race.TrueNoneSide;
+        
     }
+    // static public Side GetMindControlSide(Unit unit)
+    // {
+    //     if (unit.GetStatusEffect(StatusEffectType.Hypnotized) != null)
+    //         return (int)(unit.GetStatusEffect(StatusEffectType.Hypnotized).Strength);
+    //     if (unit.GetStatusEffect(StatusEffectType.Charmed) != null)
+    //         return (int)(unit.GetStatusEffect(StatusEffectType.Charmed).Strength);
+    //     return Race.none.ToSide();
+    // }
 
     static public bool OpenTile(Vec2i vec, Actor_Unit actor) => OpenTile(vec.x, vec.y, actor);
 
@@ -655,7 +666,7 @@ static class TacticalUtilities
             return;
         foreach (Actor_Unit actor in Units)
         {
-            if (actor.Unit.Race != Race.Imps && actor.Unit.Race != Race.Lamia && actor.Unit.Race != Race.Tigers)
+            if (!Equals(actor.Unit.Race, Race.Imps) && !Equals(actor.Unit.Race, Race.Lamia) && !Equals(actor.Unit.Race, Race.Tigers))
             {
                 Races.GetRace(actor.Unit).RandomCustomCall(actor.Unit);
             }
@@ -673,7 +684,6 @@ static class TacticalUtilities
     static internal List<Actor_Unit> UnitsWithinTiles(Vec2 target, int tiles)
     {
         List<Actor_Unit> unitList = new List<Actor_Unit>();
-
         foreach (Actor_Unit actor in Units)
         {
             if (actor.Visible && actor.Targetable)
@@ -689,7 +699,7 @@ static class TacticalUtilities
 
     static internal Actor_Unit FindUnitToResurrect(Actor_Unit caster)
     {
-        Actor_Unit actor = Units.Where(s => s.Unit.Side == caster.Unit.Side && s.Unit.IsDead && s.Unit.Type != UnitType.Summon).OrderByDescending(s => s.Unit.Experience).FirstOrDefault();
+        Actor_Unit actor = Units.Where(s => Equals(s.Unit.Side, caster.Unit.Side) && s.Unit.IsDead && s.Unit.Type != UnitType.Summon).OrderByDescending(s => s.Unit.Experience).FirstOrDefault();
         return actor;
     }
 
@@ -700,14 +710,14 @@ static class TacticalUtilities
     }
 
 
-    internal static void CreateResurrectionPanel(Vec2i loc, int side)
+    internal static void CreateResurrectionPanel(Vec2i loc, Side side)
     {
         int children = UnitPickerUI.ActorFolder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
         {
             UnityEngine.Object.Destroy(UnitPickerUI.ActorFolder.transform.GetChild(i).gameObject);
         }
-        Actor_Unit[] list = Units.Where(s => s.Unit.Side == side && s.Unit.IsDead && s.Unit.Type != UnitType.Summon).OrderByDescending(s => s.Unit.Experience).ToArray();
+        Actor_Unit[] list = Units.Where(s => Equals(s.Unit.Side, side) && s.Unit.IsDead && s.Unit.Type != UnitType.Summon).OrderByDescending(s => s.Unit.Experience).ToArray();
         foreach (Actor_Unit actor in list)
         {
             GameObject obj = UnityEngine.Object.Instantiate(UnitPickerUI.HiringUnitPanel, UnitPickerUI.ActorFolder);
@@ -836,7 +846,7 @@ static class TacticalUtilities
         target.Targetable = true;
         target.SelfPrey = null;
         target.Surrendered = false;
-        target.sidesAttackedThisBattle = new List<int>();
+        target.sidesAttackedThisBattle = new List<Side>();
         target.Unit.Type = UnitType.Summon;
         State.GameManager.TacticalMode.HandleReanimationSideEffects(caster, target);
         if (!target.Unit.HasTrait(Traits.Untamable))
@@ -860,11 +870,11 @@ static class TacticalUtilities
 
     static internal bool MeetsQualifier(List<AbilityTargets> targets, Actor_Unit actor, Actor_Unit target)
     {
-        if ((target.Unit.GetApparentSide() != actor.Unit.FixedSide) && targets.Contains(AbilityTargets.Enemy))
+        if ((!Equals(target.Unit.GetApparentSide(), actor.Unit.FixedSide)) && targets.Contains(AbilityTargets.Enemy))
             return true;
-        if ((target.Unit.GetApparentSide() == actor.Unit.GetApparentSide() || target.Unit.GetApparentSide() == actor.Unit.FixedSide) && targets.Contains(AbilityTargets.Ally))
+        if ((Equals(target.Unit.GetApparentSide(), actor.Unit.GetApparentSide()) || Equals(target.Unit.GetApparentSide(), actor.Unit.FixedSide)) && targets.Contains(AbilityTargets.Ally))
             return true;
-        if ((target.Unit.GetApparentSide() == actor.Unit.GetApparentSide() || target.Unit.GetApparentSide() == actor.Unit.FixedSide) && target.Surrendered && targets.Contains(AbilityTargets.SurrenderedAlly))
+        if ((Equals(target.Unit.GetApparentSide(), actor.Unit.GetApparentSide()) || Equals(target.Unit.GetApparentSide(), actor.Unit.FixedSide)) && target.Surrendered && targets.Contains(AbilityTargets.SurrenderedAlly))
             return true;
         if (targets.Contains(AbilityTargets.Enemy) && Config.AllowInfighting)
             return true;
@@ -916,11 +926,11 @@ static class TacticalUtilities
 
     }
 
-    static public bool IsUnitControlledBySide(Unit unit, int side)
+    static public bool IsUnitControlledBySide(Unit unit, Side side)
     {
-        if (GetMindControlSide(unit) != -1)  // Charmed units may fight for a specific side, but for targeting purposes we'll consider them driven by separate forces
+        if (!Equals(GetMindControlSide(unit), Race.TrueNoneSide))  // Charmed units may fight for a specific side, but for targeting purposes we'll consider them driven by separate forces
             return false;
-        if (side == unit.FixedSide)
+        if (Equals(side, unit.FixedSide))
             return true;
         else if (State.GameManager.PureTactical)
             return false;
@@ -931,10 +941,10 @@ static class TacticalUtilities
 
     static public bool PlayerCanSeeTrueSide(Unit unit)
     {
-        if (!unit.hiddenFixedSide || unit.FixedSide == unit.Side) return true;
+        if (!unit.hiddenFixedSide || Equals(unit.FixedSide, unit.Side)) return true;
 
         if (State.World.MainEmpires == null)
-            return unit.FixedSide == (!State.GameManager.TacticalMode.AIAttacker ?
+            return Equals(unit.FixedSide, !State.GameManager.TacticalMode.AIAttacker ?
                 State.GameManager.TacticalMode.GetAttackerSide() : (!State.GameManager.TacticalMode.AIDefender ? State.GameManager.TacticalMode.GetDefenderSide() : unit.FixedSide));
 
         if (StrategicUtilities.GetAllHumanSides().Count > 1) return false;
@@ -942,7 +952,7 @@ static class TacticalUtilities
 
 
 
-        if (State.GameManager.StrategyMode.LastHumanEmpire?.Side == unit.FixedSide)
+        if (Equals(State.GameManager.StrategyMode.LastHumanEmpire?.Side, unit.FixedSide))
             return true;
 
         if (RelationsManager.GetRelation(unit.FixedSide, State.GameManager.StrategyMode.LastHumanEmpire.Side).Type == RelationState.Allied)
@@ -955,11 +965,11 @@ static class TacticalUtilities
 
     static public bool UnitCanSeeTrueSideOfTarget(Unit viewer, Unit target)
     {
-        if (!target.hiddenFixedSide || target.FixedSide == target.Side) return true;
+        if (!target.hiddenFixedSide || Equals(target.FixedSide, target.Side)) return true;
 
         if (State.World.MainEmpires == null) return false;
 
-        if (target.FixedSide == viewer.FixedSide)
+        if (ReferenceEquals(target.FixedSide, viewer.FixedSide))
             return true;
 
         if (RelationsManager.GetRelation(target.FixedSide, viewer.FixedSide).Type == RelationState.Allied)
@@ -1048,7 +1058,7 @@ static class TacticalUtilities
 
     internal static bool IsPreyEndoTargetForUnit(Prey preyUnit, Unit unit)
     {
-        return unit.HasTrait(Traits.Endosoma) && (preyUnit.Unit.FixedSide == unit.GetApparentSide(preyUnit.Unit)) && preyUnit.Unit.IsDead == false;
+        return unit.HasTrait(Traits.Endosoma) && (Equals(preyUnit.Unit.FixedSide, unit.GetApparentSide(preyUnit.Unit))) && preyUnit.Unit.IsDead == false;
     }
 }
 

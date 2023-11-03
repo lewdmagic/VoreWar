@@ -87,7 +87,7 @@ namespace Unity.Editor.Tasks
 		public event Action<IProgress> OnProgress;
 
 		public ProgressData(ITask task, float percentage, long value, long total, string message,
-			IProgress innerProgress)
+			IProgress innerProgress) : this()
 		{
 			this.Task = task;
 			this.Percentage = percentage;
@@ -95,8 +95,8 @@ namespace Unity.Editor.Tasks
 			this.Total = total;
 			this.Message = message;
 			this.InnerProgress = innerProgress;
-			this.OnProgress = null;
 			this.Changed = true;
+			this.OnProgress = null;
 		}
 
 		public IProgress UpdateProgress(long value, long total, string message = null,

@@ -33,7 +33,7 @@ public class BattleReportPanel : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        int defenderSide = defender?.Side ?? village.Side;
+        Side defenderSide = defender?.Side ?? village.Side;
         TacticalAIType defenderType = State.World.GetEmpireOfSide(defenderSide).TacticalAIType;
         if (village != null && State.World.GetEmpireOfSide(defenderSide).TacticalAIType == TacticalAIType.None)
             defenderType = TacticalAIType.None;
@@ -65,7 +65,7 @@ public class BattleReportPanel : MonoBehaviour
             sb.AppendLine($"Village: {village.Name}");
             if (village.Capital)
                 sb.AppendLine($"Capital City ({village.OriginalRace})");
-            sb.AppendLine($"Owner: {(Race)village.Side}");
+            sb.AppendLine($"Owner: {village.Side}");
             sb.AppendLine($"Race: {village.Race}");
             sb.AppendLine($"Population: {village.Population}");
             sb.AppendLine($"Garrison: {village.Garrison}");

@@ -53,11 +53,11 @@ public abstract class TacticalAI : ITacticalAI
     [OdinSerialize]
     protected List<Actor_Unit> actors;
     [OdinSerialize]
-    protected int enemySide;
+    protected Side enemySide;
     [OdinSerialize]
     protected readonly TacticalTileType[,] tiles;
     [OdinSerialize]
-    protected readonly int AISide;
+    protected readonly Side AISide;
     [OdinSerialize]
     protected int targetsEaten;
     [OdinSerialize]
@@ -92,29 +92,29 @@ public abstract class TacticalAI : ITacticalAI
         }
     }
 
-    public TacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, int AISide, bool defendingVillage = false)
+    public TacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, Side AISide, bool defendingVillage = false)
     {
         this.AISide = AISide;
         this.tiles = tiles;
         this.actors = actors;
         this.defendingVillage = defendingVillage;
-        enemySide = State.GameManager.TacticalMode.GetAttackerSide() == AISide ? State.GameManager.TacticalMode.GetDefenderSide() : State.GameManager.TacticalMode.GetAttackerSide();
+        enemySide = Equals(State.GameManager.TacticalMode.GetAttackerSide(), AISide) ? State.GameManager.TacticalMode.GetDefenderSide() : State.GameManager.TacticalMode.GetAttackerSide();
     }
     public void TurnAI()
     {
         if (actors == null)
             actors = TacticalUtilities.Units;
         path = null;
-        var actorsThatMatter = actors.Where(a => a.Targetable && a.Unit.IsDead == false && a.Surrendered == false && a.Unit.Side == AISide);
-        onlyForeignTroopsLeft = actorsThatMatter.All(a => TacticalUtilities.GetMindControlSide(a.Unit) == -1 && TacticalUtilities.GetPreferredSide(a.Unit, enemySide, AISide) == enemySide);
-        onlySurrenderedEnemies = actors.Where(s => s.Unit.Side != AISide && s.Unit.IsDead == false && s.Surrendered == false && !s.Fled).Any() == false;
-        var preds = actors.Where(s => s.Unit.Side == AISide && s.Unit.IsDead == false && s.Unit.Predator);
+        var actorsThatMatter = actors.Where(a => a.Targetable && a.Unit.IsDead == false && a.Surrendered == false && Equals(a.Unit.Side, AISide));
+        onlyForeignTroopsLeft = actorsThatMatter.All(a => Equals(TacticalUtilities.GetMindControlSide(a.Unit), Race.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(a.Unit, enemySide, AISide), enemySide));
+        onlySurrenderedEnemies = actors.Where(s => !Equals(s.Unit.Side, AISide) && s.Unit.IsDead == false && s.Surrendered == false && !s.Fled).Any() == false;
+        var preds = actors.Where(s => Equals(s.Unit.Side, AISide) && s.Unit.IsDead == false && s.Unit.Predator);
         lackPredators = preds.Any() == false;
         bool tooBig = true;
         if (onlySurrenderedEnemies)
         {
             //Array of all opposing live units
-            var enemies = actors.Where(s => s.Unit.Side != AISide && s.Unit.IsDead == false);
+            var enemies = actors.Where(s => !Equals(s.Unit.Side, AISide) && s.Unit.IsDead == false);
             foreach (var actor in preds)
             {
                 if (tooBig == false)
@@ -137,14 +137,14 @@ public abstract class TacticalAI : ITacticalAI
             {
                 if (retreating == false)
                 {
-                    State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=orange>{(actors[0].Unit.Side == AISide ? "Attackers" : "Defenders")} are now fleeing because they've eaten enough units that they're satisfied</color>");
+                    State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=orange>{(Equals(actors[0].Unit.Side, AISide) ? "Attackers" : "Defenders")} are now fleeing because they've eaten enough units that they're satisfied</color>");
                 }
                 retreating = true;
             }
             else if (retreatPlan.MinPowerRatio > 0.0001)
             {
-                double friendlyPower = StrategicUtilities.ArmyPower(actors.Where(s => s.Unit.Side == AISide && s.Unit.IsDead == false && s.Surrendered == false).Select(s => s.Unit).ToList());
-                double enemyPower = StrategicUtilities.ArmyPower(actors.Where(s => s.Unit.Side != AISide && s.Unit.IsDead == false && s.Surrendered == false).Select(s => s.Unit).ToList());
+                double friendlyPower = StrategicUtilities.ArmyPower(actors.Where(s => Equals(s.Unit.Side, AISide) && s.Unit.IsDead == false && s.Surrendered == false).Select(s => s.Unit).ToList());
+                double enemyPower = StrategicUtilities.ArmyPower(actors.Where(s => !Equals(s.Unit.Side, AISide) && s.Unit.IsDead == false && s.Surrendered == false).Select(s => s.Unit).ToList());
 
                 if (defendingVillage)
                     friendlyPower *= 2;
@@ -153,7 +153,7 @@ public abstract class TacticalAI : ITacticalAI
                 {
                     if (retreating == false)
                     {
-                        State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=orange>{(actors[0].Unit.Side == AISide ? "Attackers" : "Defenders")} are now fleeing because they are significantly outmatched</color>");
+                        State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=orange>{(Equals(actors[0].Unit.Side, AISide) ? "Attackers" : "Defenders")} are now fleeing because they are significantly outmatched</color>");
                     }
                     retreating = true;
                 }
@@ -161,24 +161,24 @@ public abstract class TacticalAI : ITacticalAI
                 {
                     if (retreating && (enemyPower > 0) && (friendlyPower / enemyPower) > 1.2f * retreatPlan.MinPowerRatio && !onlyForeignTroopsLeft)
                     {
-                        State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=orange>{(actors[0].Unit.Side == AISide ? "Attackers" : "Defenders")} are no longer fleeing</color>");
+                        State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=orange>{(Equals(actors[0].Unit.Side, AISide) ? "Attackers" : "Defenders")} are no longer fleeing</color>");
                         retreating = false;
                     }
                 }
             }
             else if (retreatPlan.acceptableLossRatio > 0.0001) // Made because it somewhat considers how the battle is developing instead of just a snapshot metric
             {
-                bool aIisAttacker = actors[0].Unit.Side == AISide;
+                bool aIisAttacker = Equals(actors[0].Unit.Side, AISide);
 
-                var friendlies = actors.Where(s => s.Unit.Side == AISide && s.Unit.IsDead == false && s.Surrendered == false).Select(s => s.Unit).ToList();
-                var enemies = actors.Where(s => s.Unit.Side != AISide && s.Unit.IsDead == false && s.Surrendered == false).Select(s => s.Unit).ToList();
+                var friendlies = actors.Where(s => Equals(s.Unit.Side, AISide) && s.Unit.IsDead == false && s.Surrendered == false).Select(s => s.Unit).ToList();
+                var enemies = actors.Where(s => !Equals(s.Unit.Side, AISide) && s.Unit.IsDead == false && s.Surrendered == false).Select(s => s.Unit).ToList();
 
                 double friendlyPower = 0d;
                 double enemyPower = 0d;
 
                 actors.ForEach(actor =>
                 {
-                    if (AISide == actor.Unit.Side)
+                    if (Equals(AISide, actor.Unit.Side))
                     {
                         friendlyPower += actor.Unit.HealthPct * StrategicUtilities.ArmyPower(new List<Unit> { actor.Unit });  // More accurately than an average health pct, this correctly considers health loss on fodder units as less important
                     }
@@ -243,7 +243,7 @@ public abstract class TacticalAI : ITacticalAI
                 seenUnit.InSight = true;
             }
 
-            if (actor.Targetable == true && actor.Unit.Side == AISide && (foreignTurn ? !TacticalUtilities.IsUnitControlledByPlayer(actor.Unit) : true) && actor.Movement > 0)
+            if (actor.Targetable == true && Equals(actor.Unit.Side, AISide) && (foreignTurn ? !TacticalUtilities.IsUnitControlledByPlayer(actor.Unit) : true) && actor.Movement > 0)
             {
                 if (TacticalUtilities.IsUnitControlledByPlayer(actor.Unit) && State.GameManager.TacticalMode.RunningFriendlyAI == false && !State.GameManager.TacticalMode.IgnorePseudo && !State.GameManager.TacticalMode.turboMode)
                 {
@@ -376,14 +376,14 @@ public abstract class TacticalAI : ITacticalAI
 
         foreach (Actor_Unit unit in actors)
         {
-            if (unit.Targetable == true && unit.Unit.Predator && unit.Unit.FixedSide == temptation.Strength && TacticalUtilities.GetMindControlSide(unit.Unit) == -1 && !unit.Surrendered)
+            if (unit.Targetable == true && unit.Unit.Predator && Equals(unit.Unit.FixedSide, temptation.Side) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Race.TrueNoneSide) && !unit.Surrendered)
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(position);
                 if (distance < ap)
                 {
                     if (distance > 1 && TacticalUtilities.FreeSpaceAroundTarget(unit.Position, actor) == false)
                         continue;
-                targets.Add(new PotentialTarget(unit, 100, distance, 4, -distance));
+                    targets.Add(new PotentialTarget(unit, 100, distance, 4, -distance));
                 }
 
             }
@@ -421,7 +421,7 @@ public abstract class TacticalAI : ITacticalAI
 
         foreach (Actor_Unit unit in actors)
         {
-            if (unit.Targetable == true && unit.Unit.Predator && unit.Unit.FixedSide == temptation.Strength && TacticalUtilities.GetMindControlSide(unit.Unit) == -1 && !unit.Surrendered)
+            if (unit.Targetable == true && unit.Unit.Predator && Equals(unit.Unit.FixedSide, temptation.Side) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Race.TrueNoneSide) && !unit.Surrendered)
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                 if (distance < actor.Movement)
@@ -564,7 +564,7 @@ public abstract class TacticalAI : ITacticalAI
 
         foreach (Actor_Unit unit in actors)
         {
-            if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && TacticalUtilities.GetMindControlSide(unit.Unit) == -1 && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub) // includes self
+            if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Race.TrueNoneSide) && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub) // includes self
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(position);
                 if (distance - 1 + (actor.MaxMovement() / 3) <= moves)
@@ -1120,7 +1120,7 @@ public abstract class TacticalAI : ITacticalAI
             {
                 if (targets[0].actor.Position.GetNumberOfMovesDistance(actor.Position) < actor.Movement && targets[0].actor.InSight) //discard the clearly impossible
                 {
-                    if (actor.Unit.Race == Race.Asura && TacticalActionList.TargetedDictionary[SpecialAction.ShunGokuSatsu].AppearConditional(actor))
+                    if (Equals(actor.Unit.Race, Race.Asura) && TacticalActionList.TargetedDictionary[SpecialAction.ShunGokuSatsu].AppearConditional(actor))
                         MoveToAndAction(actor, targets[0].actor.Position, 1, actor.Movement, () => actor.ShunGokuSatsu(targets[0].actor));
                     else
                         MoveToAndAction(actor, targets[0].actor.Position, 1, actor.Movement, () => actor.Attack(targets[0].actor, false));
@@ -1365,7 +1365,7 @@ public abstract class TacticalAI : ITacticalAI
             {
                 var prevBinder = actors.Where(a => a.Unit.BoundUnit?.Unit == unit.Unit).FirstOrDefault();
 
-                if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && prevBinder?.Unit.GetApparentSide(actor.Unit) != actor.Unit.FixedSide && prevBinder?.Unit.FixedSide != actor.Unit.FixedSide)
+                if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
                 {
                     int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                     float chance = unit.GetMagicChance(unit, spell);
@@ -1381,7 +1381,7 @@ public abstract class TacticalAI : ITacticalAI
                 {
                     var prevBinder = actors.Where(a => a.Unit.BoundUnit?.Unit == unit.Unit).FirstOrDefault();
 
-                    if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && prevBinder?.Unit.GetApparentSide(actor.Unit) != actor.Unit.FixedSide && prevBinder?.Unit.FixedSide != actor.Unit.FixedSide)
+                    if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
                     {
                         int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                         float chance = unit.GetMagicChance(unit, spell);
@@ -1440,7 +1440,7 @@ public abstract class TacticalAI : ITacticalAI
             {
                 var prevBinder = actors.Where(a => a.Unit.BoundUnit?.Unit == unit.Unit).FirstOrDefault();
 
-                if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && prevBinder?.Unit.GetApparentSide(actor.Unit) != actor.Unit.FixedSide && prevBinder?.Unit.FixedSide != actor.Unit.FixedSide)
+                if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
                 {
                     int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                     float chance = unit.GetMagicChance(unit, spell);
@@ -1456,7 +1456,7 @@ public abstract class TacticalAI : ITacticalAI
                 {
                     var prevBinder = actors.Where(a => a.Unit.BoundUnit?.Unit == unit.Unit).FirstOrDefault();
 
-                    if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && prevBinder?.Unit.GetApparentSide(actor.Unit) != actor.Unit.FixedSide && prevBinder?.Unit.FixedSide != actor.Unit.FixedSide)
+                    if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
                     {
                         int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                         float chance = unit.GetMagicChance(unit, spell);
@@ -1550,7 +1550,7 @@ public abstract class TacticalAI : ITacticalAI
 
         Spell spell = availableSpells[State.Rand.Next(availableSpells.Count())];
 
-        if ((spell == SpellList.Charm || spell == SpellList.HypnoGas) && TacticalUtilities.GetMindControlSide(actor.Unit) != -1) // Charmed units should not use charm. Trust me.
+        if ((spell == SpellList.Charm || spell == SpellList.HypnoGas) && !Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Race.TrueNoneSide)) // Charmed units should not use charm. Trust me.
             return;
 
         if (State.GameManager.TacticalMode.IsOnlyOneSideVisible())
@@ -1664,7 +1664,7 @@ public abstract class TacticalAI : ITacticalAI
                     continue;
                 if (spell == SpellList.AssumeForm && unit?.PredatorComponent.PreyCount <= 0)
                     continue;
-                if (spell == SpellList.RevertForm && unit.Unit.Race == unit.Unit.HiddenRace)
+                if (spell == SpellList.RevertForm && Equals(unit.Unit.Race, unit.Unit.HiddenRace))
                     continue;
                 if (unit.Targetable == true && unit.Surrendered == false)
                 {
@@ -1693,7 +1693,7 @@ public abstract class TacticalAI : ITacticalAI
             {
                 if (!retreating) { 
                     retreating = true;                      // Will hopefully cause inattentive opponents to have these sneaking right back into their cities
-                    State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=orange>{(actors[0].Unit.Side == AISide ? "Attackers" : "Defenders")} are now fleeing</color>");
+                    State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=orange>{(Equals(actors[0].Unit.Side, AISide) ? "Attackers" : "Defenders")} are now fleeing</color>");
                 }
                 return;
             }
@@ -1750,7 +1750,7 @@ public abstract class TacticalAI : ITacticalAI
         List<PotentialTarget> targets = new List<PotentialTarget>();
         foreach (Actor_Unit unit in actors)
         {
-            if (unit.Targetable && unit.Unit.Side == AISide)
+            if (unit.Targetable && Equals(unit.Unit.Side, AISide))
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                 if (distance < actor.Movement)
@@ -1808,7 +1808,7 @@ public abstract class TacticalAI : ITacticalAI
         {
             if (unit.Unit.Predator)
             {
-                if (unit.Targetable && unit.Unit.Side == AISide && (unit.PredatorComponent.CanFeed() || unit.PredatorComponent.CanFeedCum()))
+                if (unit.Targetable && Equals(unit.Unit.Side, AISide) && (unit.PredatorComponent.CanFeed() || unit.PredatorComponent.CanFeedCum()))
                 {
                     int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                     if (distance < actor.Movement)

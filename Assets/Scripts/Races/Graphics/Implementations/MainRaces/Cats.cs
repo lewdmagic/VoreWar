@@ -1,14 +1,61 @@
-﻿internal static class Cats
+﻿using System.Collections.Generic;
+
+internal static class Cats
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Cat", "Cats");
+        builder.WallType(WallType.Cat);
+        builder.FlavorText(new FlavorText(
+            new Texts { "whiskered", "hissing", "bristle tailed" },
+            new Texts { "purring", "sharp-toothed", "whiskered" },
+            new Texts { "cat", "whiskered", {"queen", Gender.Female}, {"tom", Gender.Male} }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Pounce,
+                Traits.EscapeArtist
+            },
+            RaceDescription = "Natives to the realm, the Cats are skilled at pouncing on their enemy with a sudden burst of speed. Many a wounded warrior has found themselves devoured by a feline jumping over a wall of their fellow warriors, while the Cat's allies defy their enemies by somehow squirming out of their stomach's.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.HairColor, "Hair Color: " + UnitCustomizer.HairColorLookup(unit.HairColor));
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color: " + UnitCustomizer.HairColorLookup(unit.AccessoryColor));
+        });
+        builder.TownNames(new List<string>
+        {
+            "Pyramid of Indulgence",
+            "Catro",
+            "Meowixandria",
+            "Feliyum",
+            "Al Bastet",
+            "Catazig",
+            "Pursia",
+            "Palace of Decedance",
+            "Yarnodos",
+            "Meopolis",
+            "Catolomeic Palace",
+            "Catopolis",
+            "Catville",
+            "Nekotown",
+            "Meowscow",
+            "Caturdayton",
+        });
+        
         builder.RandomCustom(data =>
         {
             Unit unit = data.Unit;
             Defaults.RandomCustom(data);
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.CatLeaderInstance);
+                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(RaceSpecificClothing.CatLeaderInstance);
             }
         });
 
@@ -33,18 +80,45 @@
         builder.RenderSingle(SpriteType.BodyAccent4, Defaults.SpriteGens3[SpriteType.BodyAccent4]);
         builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output ) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Bodies[8]);
         });
         builder.RenderSingle(SpriteType.SecondaryAccessory, 1, (input, output ) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
             output.Sprite(input.Sprites.BodyParts[0]);
         });
         builder.RenderSingle(SpriteType.BodySize, Defaults.SpriteGens3[SpriteType.BodySize]);
         builder.RenderSingle(SpriteType.Breasts, Defaults.SpriteGens3[SpriteType.Breasts]);
         builder.RenderSingle(SpriteType.Belly, Defaults.SpriteGens3[SpriteType.Belly]);
-        builder.RenderSingle(SpriteType.Dick, Defaults.SpriteGens3[SpriteType.Dick]);
+        builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
+        {
+            output.Coloring(Defaults.FurryColor(input.Actor));
+            if (input.U.HasDick == false)
+            {
+                return;
+            }
+
+            if (input.U.Furry && Config.FurryGenitals)
+            {
+                if (input.A.IsErect() == false)
+                {
+                    return;
+                }
+
+                int type = 0;
+                type = input.A.IsCockVoring ? 5 : 2;
+
+                output.Coloring(Defaults.WhiteColored);
+                if (input.A.PredatorComponent?.VisibleFullness < .75f)
+                {
+                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[24 + type]).Layer(18);
+                    return;
+                }
+
+                output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[30 + type]).Layer(12);
+            }
+        });
         builder.RenderSingle(SpriteType.Balls, Defaults.SpriteGens3[SpriteType.Balls]);
         builder.RenderSingle(SpriteType.Weapon, Defaults.SpriteGens3[SpriteType.Weapon]);
         builder.RenderSingle(SpriteType.BackWeapon, Defaults.SpriteGens3[SpriteType.BackWeapon]);

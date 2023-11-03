@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #endregion
 
-internal interface IWriteOnlyList<in T>
+public interface IWriteOnlyList<in T>
 {
     void Insert(int position, T value);
     void Add(params T[] values);

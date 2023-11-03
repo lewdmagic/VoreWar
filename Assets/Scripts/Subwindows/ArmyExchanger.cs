@@ -227,7 +227,7 @@ public class ArmyExchanger : MonoBehaviour
         if (rightSelected >= RightArmy.Units.Count || LeftArmy.Units.Count == LeftArmy.MaxSize)
             return;
 
-        if (RightArmy.Units[rightSelected] == RightArmy.Empire.Leader && LeftArmy.Side != RightArmy.Side)
+        if (RightArmy.Units[rightSelected] == RightArmy.Empire.Leader && !Equals(LeftArmy.Side, RightArmy.Side))
         {
             State.GameManager.CreateMessageBox("Can't trade heroes between races");
             return;
@@ -254,7 +254,7 @@ public class ArmyExchanger : MonoBehaviour
         if (leftSelected >= LeftArmy.Units.Count || RightArmy.Units.Count == RightArmy.MaxSize)
             return;
 
-        if (LeftArmy.Units[leftSelected] == LeftArmy.Empire.Leader && LeftArmy.Side != RightArmy.Side)
+        if (LeftArmy.Units[leftSelected] == LeftArmy.Empire.Leader && !Equals(LeftArmy.Side, RightArmy.Side))
         {
             State.GameManager.CreateMessageBox("Can't trade heroes between races");
             return;
@@ -326,13 +326,13 @@ public class ArmyExchanger : MonoBehaviour
         if (rightSelected >= RightArmy.Units.Count || leftSelected >= LeftArmy.Units.Count)
             return;
 
-        if (LeftArmy.Units[rightSelected] == LeftArmy.Empire.Leader && LeftArmy.Side != RightArmy.Side)
+        if (LeftArmy.Units[rightSelected] == LeftArmy.Empire.Leader && !Equals(LeftArmy.Side, RightArmy.Side))
         {
             State.GameManager.CreateMessageBox("Can't trade heroes between races");
             return;
         }
 
-        if (RightArmy.Units[rightSelected] == RightArmy.Empire.Leader && LeftArmy.Side != RightArmy.Side)
+        if (RightArmy.Units[rightSelected] == RightArmy.Empire.Leader && !Equals(LeftArmy.Side, RightArmy.Side))
         {
             State.GameManager.CreateMessageBox("Can't trade heroes between races");
             return;

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class ClothingRenderOutput : IClothingRenderOutput
+public class ClothingRenderOutput : IClothingRenderOutput
 {
 
     

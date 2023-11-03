@@ -11,7 +11,7 @@ public class Empire
     [OdinSerialize]
     public int Team;
     [OdinSerialize]
-    public int Side { get; private set; }
+    public Side Side { get; private set; }
     [OdinSerialize]
     public Race Race;
     [OdinSerialize]
@@ -68,13 +68,13 @@ public class Empire
     [OdinSerialize]
     public bool CanVore = true;
 
-    public int VillageCount => State.World.Villages.Where(s => s.Side == Side).Count();
+    public int VillageCount => State.World.Villages.Where(s => Equals(s.Side, Side)).Count();
 
     public bool IsAlly(Empire empire)
     {
         if (empire == null)
             return false;
-        if (Side == empire.Side || RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Allied)
+        if (Equals(Side, empire.Side) || RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Allied)
             return true;
         return false;
     }
@@ -83,7 +83,7 @@ public class Empire
     {
         if (empire == null)
             return false;
-        if (Side == empire.Side)
+        if (Equals(Side, empire.Side))
             return false;
         if (RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Enemies)
             return true;
@@ -94,7 +94,7 @@ public class Empire
     {
         if (empire == null)
             return false;
-        if (Side == empire.Side)
+        if (Equals(Side, empire.Side))
             return false;
         if (RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Neutral)
             return true;
@@ -122,7 +122,8 @@ public class Empire
 
     public struct ConstructionArgs
     {
-        internal int side;
+        internal Race race;
+        internal Side side;
         internal Color color;
         internal Color secColor;
         internal int bannerType;
@@ -132,8 +133,9 @@ public class Empire
         internal int maxArmySize;
         internal int maxGarrisonSize;
 
-        public ConstructionArgs(int side, Color color, Color secColor, int bannerType, StrategyAIType strategicAI, TacticalAIType tacticalAI, int team, int maxArmySize, int maxGarrisonSize)
+        public ConstructionArgs(Race race, Side side, Color color, Color secColor, int bannerType, StrategyAIType strategicAI, TacticalAIType tacticalAI, int team, int maxArmySize, int maxGarrisonSize)
         {
+            this.race = race;
             this.side = side;
             this.color = color;
             this.secColor = secColor;
@@ -157,14 +159,15 @@ public class Empire
         UnitySecondaryColor = args.secColor;
         gold = Config.StartingGold;
         Income = 0;
-        Race = (Race)args.side;
+        Race = args.race;
         ReplacedRace = Race;
         Side = args.side;
         Team = args.team;
         MaxArmySize = args.maxArmySize;
         MaxGarrisonSize = args.maxGarrisonSize;
         Armies = new List<Army>();
-        Name = Race.ToString();
+        
+        Name = Race?.ToString() ?? args.side.ToString();
         if (args.strategicAI == StrategyAIType.None)
             StrategicAI = null;
         else if (args.strategicAI == StrategyAIType.Passive)
@@ -223,14 +226,14 @@ public class Empire
         Income = 0;
         for (int i = 0; i < villages.Length; i++)
         {
-            if (villages[i].Side == Side)
+            if (Equals(villages[i].Side, Side))
             {
                 villages[i].UpdateNetBoosts();
                 int value = villages[i].GetIncome();
                 Income = Income + value;
             }
         }
-        if (Side < 50)
+        if (RaceFuncs.IsMainRace2(Side))
         {
             for (int i = 0; i < Armies.Count; i++)
             {
@@ -277,10 +280,10 @@ public class Empire
         {
             if (_capitalCity == null)
             {
-                _capitalCity = State.World.Villages.Where(s => s.Capital && s.OriginalRace == Race).FirstOrDefault();
+                _capitalCity = State.World.Villages.Where(s => s.Capital && Equals(s.OriginalRace, Race)).FirstOrDefault();
                 if (_capitalCity == null)
                 {
-                    _capitalCity = State.World.Villages.Where(s => s.OriginalRace == Race).FirstOrDefault();
+                    _capitalCity = State.World.Villages.Where(s => Equals(s.OriginalRace, Race)).FirstOrDefault();
                 }
             }
 
@@ -305,7 +308,7 @@ public class Empire
         {
             Armies[i].Refresh();
         }
-        if (Config.FactionLeaders && Side < 50)
+        if (Config.FactionLeaders && RaceFuncs.IsMainRace2(Side))
         {
             if (Leader == null)
                 GenerateLeader();
@@ -349,7 +352,7 @@ public class Empire
     {
         var capital = CapitalCity;
         if (capital == null)
-            capital = State.World.Villages.Where(s => s.Side == Side).FirstOrDefault();
+            capital = State.World.Villages.Where(s => Equals(s.Side, Side)).FirstOrDefault();
         if (capital == null)
             return;
         Leader = new Leader(Side, State.RaceSettings.GetLeaderRace(Race), 0);
@@ -359,7 +362,7 @@ public class Empire
     private void PlaceLeader(Village capital)
     {
         var CapitalArmy = StrategicUtilities.ArmyAt(capital.Position);
-        if (CapitalArmy != null && CapitalArmy.Units.Count < MaxArmySize && CapitalArmy.Side == Side)
+        if (CapitalArmy != null && CapitalArmy.Units.Count < MaxArmySize && Equals(CapitalArmy.Side, Side))
             CapitalArmy.Units.Add(Leader);
         else
         {

@@ -30,23 +30,38 @@ public class WorldSettings : MonoBehaviour
             Empires[i].Name.text = State.World.MainEmpires[i].Name.ToString();
             Empires[i].AIPlayer.isOn = State.World.MainEmpires[i].StrategicAI != null;
             if (State.World.MainEmpires[i].StrategicAI is PassiveAI)
+            {
                 Empires[i].StrategicAI.value = 0;
+            }
             else if (State.World.MainEmpires[i].StrategicAI is LegacyStrategicAI)
+            {
                 Empires[i].StrategicAI.value = 1;
+            }
             else if (State.World.MainEmpires[i].StrategicAI is StrategicAI)
             {
                 StrategicAI ai = (StrategicAI)State.World.MainEmpires[i].StrategicAI;
                 if (ai.CheatLevel > 0)
+                {
                     Empires[i].StrategicAI.value = 3 + ai.CheatLevel;
+                }
                 else if (ai.smarterAI)
+                {
                     Empires[i].StrategicAI.value = 3;
+                }
                 else
+                {
                     Empires[i].StrategicAI.value = 2;
+                }
             }
             if (Empires[i].AIPlayer.isOn)
+            {
                 Empires[i].TacticalAI.value = ((int)State.World.MainEmpires[i].TacticalAIType) - 1;
+            }
             else
+            {
                 Empires[i].TacticalAI.value = 1;
+            }
+
             Empires[i].CanVore.isOn = State.World.MainEmpires[i].CanVore;
             Empires[i].Team.text = State.World.MainEmpires[i].Team.ToString();
             Empires[i].PrimaryColor.value = CreateStrategicGame.IndexFromColor(State.World.MainEmpires[i].UnityColor);
@@ -59,8 +74,10 @@ public class WorldSettings : MonoBehaviour
             Empires[i].MaxArmySize.GetComponentInChildren<SetMeToValue>().Set(Empires[i].MaxArmySize);
             Empires[i].MaxGarrisonSize.GetComponentInChildren<SetMeToValue>().Set(Empires[i].MaxGarrisonSize);
             Empires[i].TurnOrder.text = State.World.MainEmpires[i].TurnOrder.ToString();
-            if (State.World.MainEmpires[i].KnockedOut || State.World.MainEmpires[i].Side > 600)
+            if (State.World.MainEmpires[i].KnockedOut || RaceFuncs.IsRebelOrBandit3(State.World.MainEmpires[i].Side))
+            {
                 Empires[i].gameObject.SetActive(false);
+            }
         }
         UpdateColors();
         RelationsManager.ResetMonsterRelations();
@@ -83,7 +100,7 @@ public class WorldSettings : MonoBehaviour
     {
         for (int i = 0; i < Empires.Length; i++)
         {
-            if (State.World.MainEmpires[i].Side > 500)
+            if (RaceFuncs.IsRebelOrBandit2(State.World.MainEmpires[i].Side))
                 continue;
             if (Empires[i].AIPlayer.isOn)
             {
@@ -112,7 +129,7 @@ public class WorldSettings : MonoBehaviour
             if (State.World.MainEmpires[i].CanVore != Empires[i].CanVore.isOn)
             {
                 State.World.MainEmpires[i].CanVore = Empires[i].CanVore.isOn;
-                foreach (Unit unit in StrategicUtilities.GetAllUnits().Where(s => s.Race == State.World.MainEmpires[i].Race))
+                foreach (Unit unit in StrategicUtilities.GetAllUnits().Where(s => Equals(s.Race, State.World.MainEmpires[i].Race)))
                 {
                     if (unit.Type == UnitType.Soldier)
                     {

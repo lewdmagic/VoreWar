@@ -7,29 +7,51 @@ using UnityEngine;
 
 #endregion
 
-internal static class Defaults
+public static class Defaults
 {
-    internal static readonly SpriteTypeIndexed<Action<IRaceRenderInput, IRaceRenderOutput>> SpriteGens2 = new SpriteTypeIndexed<Action<IRaceRenderInput, IRaceRenderOutput>>();
     internal static readonly SpriteTypeIndexed<SingleRenderFunc<IParameters>> SpriteGens3 = new SpriteTypeIndexed<SingleRenderFunc<IParameters>>();
 
-    internal static readonly Func<Actor_Unit, ColorSwapPalette> FurryColor = actor =>
+    
+    internal static void ModifySingleRender(SpriteType spriteType, ModdingMode mode, Action<IRaceRenderInput<IParameters>, IRaceRenderOutput> generator)
+    {
+        SingleRenderFunc<IParameters> current = SpriteGens3[spriteType];
+        if (current != null)
+        {
+            if (mode == ModdingMode.Before)
+            {
+                current.ModBefore(generator);
+            }
+
+            if (mode == ModdingMode.After)
+            {
+                current.ModAfter(generator);
+            }
+        }
+        else
+        {
+            throw new Exception("Tried to modify " + spriteType + " which does not exist. Use ReplaceSingleRender instead");
+        }
+    }
+    
+    
+    public static readonly Func<Actor_Unit, ColorSwapPalette> FurryColor = actor =>
     {
         if (actor.Unit.Furry)
         {
-            return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, actor.Unit.AccessoryColor);
+            return ColorPaletteMap.GetPalette(SwapType.Fur, actor.Unit.AccessoryColor);
         }
 
-        return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, actor.Unit.SkinColor);
+        return ColorPaletteMap.GetPalette(SwapType.Skin, actor.Unit.SkinColor);
     };
 
-    internal static readonly Func<Actor_Unit, ColorSwapPalette> FurryColor2 = actor =>
+    public static readonly Func<Actor_Unit, ColorSwapPalette> FurryColor2 = actor =>
     {
         if (actor.Unit.Furry)
         {
-            return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, actor.Unit.AccessoryColor);
+            return ColorPaletteMap.GetPalette(SwapType.Fur, actor.Unit.AccessoryColor);
         }
 
-        return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, actor.Unit.SkinColor);
+        return ColorPaletteMap.GetPalette(SwapType.Skin, actor.Unit.SkinColor);
     };
 
 
@@ -40,10 +62,10 @@ internal static class Defaults
             return ColorPaletteMap.FurryBellySwap;
         }
 
-        return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, actor.Unit.SkinColor);
+        return ColorPaletteMap.GetPalette(SwapType.Skin, actor.Unit.SkinColor);
     };
 
-    internal static readonly Action<IRunInput, IRunOutput> Finalize = (input, output) =>
+    public static readonly Action<IRunInput, IRunOutput> Finalize = (input, output) =>
     {
         if (input.Actor.HasBelly)
         {
@@ -64,7 +86,7 @@ internal static class Defaults
         }
     };
 
-    internal static readonly Action<IRandomCustomInput> RandomCustom = input =>
+    public static readonly Action<IRandomCustomInput> RandomCustom = input =>
     {
         Unit unit = input.Unit;
         if (input.MiscRaceData.BodySizes > 0)
@@ -122,24 +144,24 @@ internal static class Defaults
 
         if (Config.ExtraRandomHairColors)
         {
-            if (input.MiscRaceData.HairColors == ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.NormalHair))
+            if (input.MiscRaceData.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.NormalHair))
             {
                 unit.HairColor = State.Rand.Next(input.MiscRaceData.HairColors);
             }
 
-            if (input.MiscRaceData.AccessoryColors == ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Fur))
+            if (input.MiscRaceData.AccessoryColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
             {
                 unit.AccessoryColor = State.Rand.Next(input.MiscRaceData.AccessoryColors);
             }
         }
         else
         {
-            if (input.MiscRaceData.HairColors == ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.NormalHair))
+            if (input.MiscRaceData.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.NormalHair))
             {
                 unit.HairColor = State.Rand.Next(ColorPaletteMap.MixedHairColors);
             }
 
-            if (input.MiscRaceData.AccessoryColors == ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Fur))
+            if (input.MiscRaceData.AccessoryColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
             {
                 unit.AccessoryColor = State.Rand.Next(ColorPaletteMap.MixedHairColors);
             }
@@ -169,7 +191,7 @@ internal static class Defaults
             {
                 if (unit.ClothingAccessoryType > 0)
                 {
-                    if (input.MiscRaceData.AllowedClothingAccessoryTypes[unit.ClothingAccessoryType - 1].CanWear(unit))
+                    if (input.MiscRaceData.AllowedClothingAccessoryTypesBasic[unit.ClothingAccessoryType - 1].CanWear(unit))
                     {
                         break;
                     }
@@ -179,7 +201,7 @@ internal static class Defaults
             }
 
             if (unit.ClothingAccessoryType > 0 &&
-                input.MiscRaceData.AllowedClothingAccessoryTypes[unit.ClothingAccessoryType - 1].CanWear(unit) == false)
+                input.MiscRaceData.AllowedClothingAccessoryTypesBasic[unit.ClothingAccessoryType - 1].CanWear(unit) == false)
             {
                 unit.ClothingAccessoryType = 0;
             }
@@ -187,7 +209,7 @@ internal static class Defaults
 
         if (input.MiscRaceData.ClothingHatTypesCount > 1)
         {
-            if (input.MiscRaceData.AllowedClothingHatTypes.Contains(MainAccessories.SantaHatInstance) && Config.WinterActive())
+            if (input.MiscRaceData.AllowedClothingHatTypesBasic.Contains(MainAccessories.SantaHatInstance) && Config.WinterActive())
             {
                 if (State.Rand.Next(2) == 0)
                 {
@@ -201,7 +223,7 @@ internal static class Defaults
                 {
                     if (unit.ClothingHatType > 0)
                     {
-                        if (input.MiscRaceData.AllowedClothingHatTypes[unit.ClothingHatType - 1].CanWear(unit))
+                        if (input.MiscRaceData.AllowedClothingHatTypesBasic[unit.ClothingHatType - 1].CanWear(unit))
                         {
                             break;
                         }
@@ -211,7 +233,7 @@ internal static class Defaults
                 }
 
                 if (unit.ClothingHatType > 0 &&
-                    input.MiscRaceData.AllowedClothingHatTypes[unit.ClothingHatType - 1].CanWear(unit) == false)
+                    input.MiscRaceData.AllowedClothingHatTypesBasic[unit.ClothingHatType - 1].CanWear(unit) == false)
                 {
                     unit.ClothingHatType = 0;
                 }
@@ -232,7 +254,7 @@ internal static class Defaults
                 {
                     if (unit.ClothingType > 0)
                     {
-                        if (input.MiscRaceData.AllowedMainClothingTypes[unit.ClothingType - 1].CanWear(unit))
+                        if (input.MiscRaceData.AllowedMainClothingTypesBasic[unit.ClothingType - 1].CanWear(unit))
                         {
                             break;
                         }
@@ -243,7 +265,7 @@ internal static class Defaults
                 }
 
                 if (unit.ClothingType > 0 &&
-                    input.MiscRaceData.AllowedMainClothingTypes[unit.ClothingType - 1].CanWear(unit) == false)
+                    input.MiscRaceData.AllowedMainClothingTypesBasic[unit.ClothingType - 1].CanWear(unit) == false)
                 {
                     unit.ClothingType = 0;
                 }
@@ -255,7 +277,7 @@ internal static class Defaults
                     {
                         if (unit.ClothingType2 > 0)
                         {
-                            if (input.MiscRaceData.AllowedWaistTypes[unit.ClothingType2 - 1].CanWear(unit))
+                            if (input.MiscRaceData.AllowedWaistTypesBasic[unit.ClothingType2 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -265,7 +287,7 @@ internal static class Defaults
                     }
 
                     if (unit.ClothingType2 > 0 &&
-                        input.MiscRaceData.AllowedWaistTypes[unit.ClothingType2 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.AllowedWaistTypesBasic[unit.ClothingType2 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingType2 = 0;
                     }
@@ -278,7 +300,7 @@ internal static class Defaults
                     {
                         if (unit.ClothingExtraType1 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing1Types[unit.ClothingExtraType1 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing1TypesBasic[unit.ClothingExtraType1 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -288,7 +310,7 @@ internal static class Defaults
                     }
 
                     if (unit.ClothingExtraType1 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing1Types[unit.ClothingExtraType1 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing1TypesBasic[unit.ClothingExtraType1 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType1 = 0;
                     }
@@ -301,7 +323,7 @@ internal static class Defaults
                     {
                         if (unit.ClothingExtraType2 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing2Types[unit.ClothingExtraType2 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing2TypesBasic[unit.ClothingExtraType2 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -311,7 +333,7 @@ internal static class Defaults
                     }
 
                     if (unit.ClothingExtraType2 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing2Types[unit.ClothingExtraType2 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing2TypesBasic[unit.ClothingExtraType2 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType2 = 0;
                     }
@@ -324,7 +346,7 @@ internal static class Defaults
                     {
                         if (unit.ClothingExtraType3 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing3Types[unit.ClothingExtraType3 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing3TypesBasic[unit.ClothingExtraType3 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -334,7 +356,7 @@ internal static class Defaults
                     }
 
                     if (unit.ClothingExtraType3 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing3Types[unit.ClothingExtraType3 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing3TypesBasic[unit.ClothingExtraType3 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType3 = 0;
                     }
@@ -347,7 +369,7 @@ internal static class Defaults
                     {
                         if (unit.ClothingExtraType4 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing4Types[unit.ClothingExtraType4 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing4TypesBasic[unit.ClothingExtraType4 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -357,7 +379,7 @@ internal static class Defaults
                     }
 
                     if (unit.ClothingExtraType4 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing1Types[unit.ClothingExtraType4 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing1TypesBasic[unit.ClothingExtraType4 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType4 = 0;
                     }
@@ -370,7 +392,7 @@ internal static class Defaults
                     {
                         if (unit.ClothingExtraType5 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing5Types[unit.ClothingExtraType5 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing5TypesBasic[unit.ClothingExtraType5 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -380,7 +402,7 @@ internal static class Defaults
                     }
 
                     if (unit.ClothingExtraType5 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing5Types[unit.ClothingExtraType5 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing5TypesBasic[unit.ClothingExtraType5 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType5 = 0;
                     }
@@ -394,7 +416,7 @@ internal static class Defaults
                     }
                 }
 
-                if (unit.Race == Race.Lizards && Config.LizardsHaveNoBreasts)
+                if (Equals(unit.Race, Race.Lizards) && Config.LizardsHaveNoBreasts)
                 {
                     unit.ClothingType = 0;
                 }
@@ -408,13 +430,13 @@ internal static class Defaults
                 (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
                 unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + input.MiscRaceData.AllowedMainClothingTypes.IndexOf(ClothingTypes.RagsInstance);
+                unit.ClothingType = 1 + input.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(ClothingTypes.RagsInstance);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
-                    if (input.MiscRaceData.AllowedMainClothingTypes.Last()?.FixedData.ReqWinterHoliday ==
+                    if (input.MiscRaceData.AllowedMainClothingTypesBasic.Last()?.FixedData.ReqWinterHoliday ==
                         false) //Avoid bugs where the winter holiday is the last.
                     {
-                        unit.ClothingType = input.MiscRaceData.AllowedMainClothingTypes.Count;
+                        unit.ClothingType = input.MiscRaceData.AllowedMainClothingTypesBasic.Count;
                     }
                 }
             }
@@ -539,13 +561,13 @@ internal static class Defaults
 
         SpriteGens3[SpriteType.Hair] = new SingleRenderFunc<IParameters>(6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.Actor.Unit.HairColor));
             output.Sprite(State.GameManager.SpriteDictionary.Hair[input.Actor.Unit.HairStyle]);
         });
 
         SpriteGens3[SpriteType.Hair2] = new SingleRenderFunc<IParameters>(1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.Actor.Unit.HairColor));
             if (input.Actor.Unit.HairStyle == 1)
             {
                 output.Sprite(State.GameManager.SpriteDictionary.Hair[input.RaceData.HairStyles]);
@@ -572,7 +594,7 @@ internal static class Defaults
 
         SpriteGens3[SpriteType.Mouth] = new SingleRenderFunc<IParameters>(5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Mouth, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Mouth, input.Actor.Unit.SkinColor));
             if (input.BaseBody)
             {
                 if (input.Actor.Unit.HasBreasts)
@@ -593,18 +615,6 @@ internal static class Defaults
             output.Coloring(FurryBellyColor(input.Actor));
             if (input.Actor.HasBelly)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.Bellies[17]).AddOffset(0, -30 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.Bellies[16]).AddOffset(0, -30 * .625f);
-                    return;
-                }
-
                 output.Sprite(State.GameManager.SpriteDictionary.Bellies[input.Actor.GetStomachSize()]);
             }
         });
@@ -626,7 +636,7 @@ internal static class Defaults
 
         SpriteGens3[SpriteType.Eyes] = new SingleRenderFunc<IParameters>(5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.Actor.Unit.EyeColor));
             output.Sprite(State.GameManager.SpriteDictionary.Eyes[Math.Min(input.Actor.Unit.EyeType, input.RaceData.EyeTypes - 1)]);
 
         });
@@ -667,24 +677,6 @@ internal static class Defaults
                 if (input.Actor.IsCockVoring)
                 {
                     type = 5;
-                }
-                else
-                {
-                    switch (input.Actor.Unit.Race)
-                    {
-                        case Race.Bunnies:
-                            type = 0;
-                            break;
-                        case Race.Foxes:
-                        case Race.Dogs:
-                        case Race.Wolves:
-                            type = 1;
-                            break;
-                        case Race.Cats:
-                        case Race.Tigers:
-                            type = 2;
-                            break;
-                    }
                 }
 
                 output.Coloring(WhiteColored);
@@ -736,29 +728,6 @@ internal static class Defaults
             {
                 int size = input.Actor.Unit.DickSize;
                 int offset = input.Actor.GetBallSize(18, .8f);
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 18)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[42]).AddOffset(0, -23 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && offset == 18)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[41]).AddOffset(0, -23 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && offset == 17)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[40]).AddOffset(0, -20 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && offset == 16)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[39]).AddOffset(0, -19 * .625f);
-                    return;
-                }
 
                 if (offset >= 15)
                 {
@@ -799,29 +768,6 @@ internal static class Defaults
 
             int baseSize = input.Actor.Unit.DickSize / 3;
             int ballOffset = input.Actor.GetBallSize(21);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Balls[24]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Balls[23]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 20)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Balls[22]).AddOffset(0, -15 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 19)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Balls[21]).AddOffset(0, -14 * .625f);
-                return;
-            }
 
             int combined = Math.Min(baseSize + ballOffset + 3, 20);
             if (false) // combined == 21 is always false 
@@ -849,7 +795,7 @@ internal static class Defaults
 
         SpriteGens3[SpriteType.BodyAccent] = new SingleRenderFunc<IParameters>(6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.Actor.Unit.AccessoryColor));
             int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
             output.Sprite(Config.FurryHandsAndFeet || input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryHandsAndFeet[thinOffset + (input.Actor.IsAttacking ? 1 : 0)] : null);
 
@@ -878,445 +824,116 @@ internal static class Defaults
 
         SpriteGens3[SpriteType.BodyAccent4] = new SingleRenderFunc<IParameters>(5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.Actor.Unit.HairColor));
             output.Sprite(State.GameManager.SpriteDictionary.Eyebrows[Math.Min(input.Actor.Unit.EyeType, State.GameManager.SpriteDictionary.Eyebrows.Length - 1)]);
         });
-        
-        
-        
-        
-        
-        
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        SpriteGens2[SpriteType.Body] = (input, output) =>
-        {
-            int attackingOffset = input.Actor.IsAttacking ? 1 : 0;
-            if (input.Actor.Unit.BodySize == 0)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Bodies[attackingOffset]);
-                return;
-            }
-
-            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 8;
-
-            output.Sprite(input.Actor.HasBodyWeight ? State.GameManager.SpriteDictionary.Legs[(input.Actor.Unit.BodySize - 1) * 2 + genderOffset + attackingOffset] : null);
-        };
-
-        SpriteGens2[SpriteType.Head] = (input, output) =>
-        {
-            int eatingOffset = input.Actor.IsEating ? 1 : 0;
-
-            if (input.Actor.Unit.Furry)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Bodies[6 + eatingOffset]);
-            }
-            else if (input.Actor.Unit.BreastSize >= 0)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Bodies[2 + eatingOffset]);
-            }
-            else
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Bodies[4 + eatingOffset]);
-            }
-        };
-
-
-        SpriteGens2[SpriteType.Hair] = (input, output) =>
-        {
-            output.Sprite(State.GameManager.SpriteDictionary.Hair[input.Actor.Unit.HairStyle]);
-        };
-
-
-        SpriteGens2[SpriteType.Hair2] = (input, output) =>
-        {
-            if (input.Actor.Unit.HairStyle == 1)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Hair[input.RaceData.HairStyles]);
-                return;
-            }
-
-            if (input.Actor.Unit.HairStyle == 2)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Hair[input.RaceData.HairStyles + 1]);
-                return;
-            }
-
-            if (input.Actor.Unit.HairStyle == 5)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Hair[input.RaceData.HairStyles + 3]);
-                return;
-            }
-
-            if (input.Actor.Unit.HairStyle == 6 || input.Actor.Unit.HairStyle == 7)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Hair[input.RaceData.HairStyles + 2]);
-            }
-        };
-
-        SpriteGens2[SpriteType.Mouth] = (input, output) =>
-        {
-            if (input.BaseBody)
-            {
-                if (input.Actor.Unit.HasBreasts)
-                {
-                    output.AddOffset(0, 0);
-                }
-                else
-                {
-                    output.AddOffset(0, -.625f);
-                }
-            }
-
-            output.Sprite(input.Actor.IsEating == false ? State.GameManager.SpriteDictionary.Mouths[input.Actor.Unit.MouthType] : null);
-        };
-
-
-        SpriteGens2[SpriteType.Belly] = (input, output) =>
-        {
-            if (input.Actor.HasBelly)
-            {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.Bellies[17]).AddOffset(0, -30 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.Bellies[16]).AddOffset(0, -30 * .625f);
-                    return;
-                }
-
-                output.Sprite(State.GameManager.SpriteDictionary.Bellies[input.Actor.GetStomachSize()]);
-            }
-        };
-
-
-        SpriteGens2[SpriteType.Weapon] = (input, output) =>
-        {
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Weapons[input.Actor.GetWeaponSprite()]);
-            }
-        };
-
-        SpriteGens2[SpriteType.BodySize] = (input, output) =>
-        {
-            output.Sprite(input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryTorsos[Mathf.Clamp(input.Actor.GetBodyWeight(), 0, 3)] : null);
-        };
-
-        SpriteGens2[SpriteType.Eyes] = (input, output) =>
-        {
-            output.Sprite(State.GameManager.SpriteDictionary.Eyes[Math.Min(input.Actor.Unit.EyeType, input.RaceData.EyeTypes - 1)]);
-        };
-
-        SpriteGens2[SpriteType.Breasts] = (input, output) =>
-        {
-            if (input.Actor.Unit.HasBreasts == false)
-            {
-                return;
-            }
-
-            if (input.Actor.SquishedBreasts && input.Actor.Unit.BreastSize >= 3 && input.Actor.Unit.BreastSize <= 6)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.SquishedBreasts[input.Actor.Unit.BreastSize - 3]);
-                return;
-            }
-
-            output.Sprite(State.GameManager.SpriteDictionary.Breasts[input.Actor.Unit.BreastSize]);
-        };
-
-        SpriteGens2[SpriteType.Dick] = (input, output) =>
-        {
-            if (input.Actor.Unit.HasDick == false)
-            {
-                return;
-            }
-
-            output.Coloring(FurryColor(input.Actor));
-
-            if (input.Actor.Unit.Furry && Config.FurryGenitals)
-            {
-                if (input.Actor.IsErect() == false)
-                {
-                    return;
-                }
-
-                int type = 0;
-                if (input.Actor.IsCockVoring)
-                {
-                    type = 5;
-                }
-                else
-                {
-                    switch (input.Actor.Unit.Race)
-                    {
-                        case Race.Bunnies:
-                            type = 0;
-                            break;
-                        case Race.Foxes:
-                        case Race.Dogs:
-                        case Race.Wolves:
-                            type = 1;
-                            break;
-                        case Race.Cats:
-                        case Race.Tigers:
-                            type = 2;
-                            break;
-                    }
-                }
-
-                output.Coloring(WhiteColored);
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[24 + type]).Layer(18);
-                    return;
-                }
-
-                output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[30 + type]).Layer(12);
-                return;
-            }
-
-            if (input.Actor.IsErect())
-            {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.ErectDicks[input.Actor.Unit.DickSize]).Layer(18);
-                    return;
-                }
-
-                output.Sprite(State.GameManager.SpriteDictionary.Dicks[input.Actor.Unit.DickSize]).Layer(12);
-                return;
-            }
-
-
-            try
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Dicks[input.Actor.Unit.DickSize]).Layer(9);
-            }
-            catch (Exception e)
-            {
-                Debug.Log(input.Actor.Unit.Race);
-                Debug.Log(e);
-                Debug.Log(State.GameManager.SpriteDictionary.Dicks.Length + " vs " + input.Actor.Unit.DickSize);
-                throw;
-            }
-        };
-
-        SpriteGens2[SpriteType.Balls] = (input, output) =>
-        {
-            if (input.Actor.Unit.HasDick == false)
-            {
-                return;
-            }
-
-            if (input.Actor.Unit.Furry && Config.FurryGenitals)
-            {
-                int size = input.Actor.Unit.DickSize;
-                int offset = input.Actor.GetBallSize(18, .8f);
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 18)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[42]).AddOffset(0, -23 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && offset == 18)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[41]).AddOffset(0, -23 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && offset == 17)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[40]).AddOffset(0, -20 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && offset == 16)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[39]).AddOffset(0, -19 * .625f);
-                    return;
-                }
-
-                if (offset >= 15)
-                {
-                    output.AddOffset(0, -16 * .625f);
-                }
-                else if (offset >= 13)
-                {
-                    output.AddOffset(0, -13 * .625f);
-                }
-                else if (offset == 12)
-                {
-                    output.AddOffset(0, -8 * .625f);
-                }
-                else if (offset == 11)
-                {
-                    output.AddOffset(0, -5 * .625f);
-                }
-                else if (offset == 10)
-                {
-                    output.AddOffset(0, -1 * .625f);
-                }
-
-                if (offset > 0 && offset <= 12)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[Math.Min(11 + offset, 23)]);
-                    return;
-                }
-
-                if (offset > 12)
-                {
-                    output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[Math.Min(23 + offset, 38)]);
-                    return;
-                }
-
-                output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[size]);
-                return;
-            }
-
-            int baseSize = input.Actor.Unit.DickSize / 3;
-            int ballOffset = input.Actor.GetBallSize(21);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Balls[24]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Balls[23]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 20)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Balls[22]).AddOffset(0, -15 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 19)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Balls[21]).AddOffset(0, -14 * .625f);
-                return;
-            }
-
-            int combined = Math.Min(baseSize + ballOffset + 3, 20);
-            if (false) // combined == 21 is always false 
-            {
-                output.AddOffset(0, -14 * .625f);
-            }
-
-            if (combined == 20)
-            {
-                output.AddOffset(0, -12 * .625f);
-            }
-            else if (combined >= 17 && true /*combined <= 19*/)
-            {
-                output.AddOffset(0, -8 * .625f);
-            }
-
-            if (ballOffset > 0)
-            {
-                output.Sprite(State.GameManager.SpriteDictionary.Balls[combined]);
-                return;
-            }
-
-            output.Sprite(State.GameManager.SpriteDictionary.Balls[baseSize]);
-        };
-
-        SpriteGens2[SpriteType.BodyAccent] = (input, output) =>
-        {
-            int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
-            output.Sprite(Config.FurryHandsAndFeet || input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryHandsAndFeet[thinOffset + (input.Actor.IsAttacking ? 1 : 0)] : null);
-        };
-
-        SpriteGens2[SpriteType.BodyAccent2] = (input, output) =>
-        {
-            int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
-            output.Sprite(Config.FurryHandsAndFeet || input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryHandsAndFeet[2 + thinOffset + (input.Actor.IsAttacking ? 1 : 0)] : null);
-        };
-
-        SpriteGens2[SpriteType.BodyAccent3] = (input, output) =>
-        {
-            if (Config.FurryFluff == false)
-            {
-                return;
-            }
-
-            int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
-            output.Sprite(Config.FurryHandsAndFeet || input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryHandsAndFeet[4 + thinOffset + (input.Actor.IsAttacking ? 1 : 0)] : null);
-        };
-
-        SpriteGens2[SpriteType.BodyAccent4] = (input, output) =>
-        {
-            output.Sprite(State.GameManager.SpriteDictionary.Eyebrows[Math.Min(input.Actor.Unit.EyeType, State.GameManager.SpriteDictionary.Eyebrows.Length - 1)]);
-        };
     }
 
 
-    public static MiscRaceDataReadable<IParameters> Default()
+    internal static MiscRaceDataWritableReadable<IParameters> Default()
     {
         return Default<IParameters>();
     }
 
-    public static MiscRaceDataReadable<T> Default<T>() where T : IParameters
+    internal static MiscRaceDataWritableReadable<T> Default<T>() where T : IParameters
     {
-        MiscRaceDataReadable<T> miscRaceDataReadable = new MiscRaceDataReadable<T>(
-            () => Config.AllowHugeBreasts ? State.GameManager.SpriteDictionary.Breasts.Length : State.GameManager.SpriteDictionary.Breasts.Length - 3,
-            () => Config.AllowHugeDicks ? State.GameManager.SpriteDictionary.Dicks.Length : State.GameManager.SpriteDictionary.Dicks.Length - 3,
-            false,
-            new List<Gender> { Gender.Female, Gender.Male, Gender.Hermaphrodite, Gender.Gynomorph, Gender.Maleherm, Gender.Andromorph, Gender.Agenic },
-            false,
-            false,
-            false,
-            false,
-            ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.NormalHair),
-            15,
-            ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Skin),
-            ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.NormalHair),
-            8,
-            2,
-            ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.EyeColor),
-            1,
-            5,
-            0,
-            0,
-            State.GameManager.SpriteDictionary.Mouths.Length,
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            1,
-            1,
-            1,
-            3,
-            ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing),
-            new Vector2(),
-            new Vector3()
+        
+        /*
+         *
+    Func<int> breastSizes, 
+    Func<int> dickSizes, 
+    bool furCapable, 
+    List<Gender> canBeGender, 
+    bool extendedBreastSprites, 
+    bool gentleAnimation, 
+    bool baseBody, 
+    bool weightGainDisabled, 
+    int hairColors, 
+    int hairStyles, 
+    int skinColors, 
+    int accessoryColors, 
+    int eyeTypes, 
+    int avoidedEyeTypes, 
+    int eyeColors, 
+    int secondaryEyeColors, 
+    int bodySizes, 
+    int specialAccessoryCount, 
+    int beardStyles, 
+    int mouthTypes, 
+    int avoidedMouthTypes, 
+    int extraColors1, 
+    int extraColors2, 
+    int extraColors3, 
+    int extraColors4, 
+    int headTypes, 
+    int tailTypes, 
+    int furTypes, 
+    int earTypes, 
+    int bodyAccentTypes1, 
+    int bodyAccentTypes2, 
+    int bodyAccentTypes3, 
+    int bodyAccentTypes4, 
+    int bodyAccentTypes5, 
+    int ballsSizes, 
+    int vulvaTypes, 
+    int basicMeleeWeaponTypes, 
+    int advancedMeleeWeaponTypes, 
+    int basicRangedWeaponTypes, 
+    int advancedRangedWeaponTypes, 
+    int avoidedMainClothingTypes, 
+    int clothingColors, 
+    Vector2 wholeBodyOffset, 
+    Vector3 clothingShift)
+         * 
+         */
+        MiscRaceDataWritableReadable<T> miscRaceDataWritableReadable = new MiscRaceDataWritableReadable<T>(
+            breastSizes: () => Config.AllowHugeBreasts ? State.GameManager.SpriteDictionary.Breasts.Length : State.GameManager.SpriteDictionary.Breasts.Length - 3,
+            dickSizes: () => Config.AllowHugeDicks ? State.GameManager.SpriteDictionary.Dicks.Length : State.GameManager.SpriteDictionary.Dicks.Length - 3,
+            furCapable: false,
+            canBeGender: new List<Gender> { Gender.Female, Gender.Male, Gender.Hermaphrodite, Gender.Gynomorph, Gender.Maleherm, Gender.Andromorph, Gender.Agenic },
+            extendedBreastSprites: false,
+            gentleAnimation: false,
+            baseBody: false,
+            weightGainDisabled: false,
+            hairColors: ColorPaletteMap.GetPaletteCount(SwapType.NormalHair),
+            hairStyles: 15,
+            skinColors: ColorPaletteMap.GetPaletteCount(SwapType.Skin),
+            accessoryColors: ColorPaletteMap.GetPaletteCount(SwapType.NormalHair),
+            eyeTypes: 8,
+            avoidedEyeTypes : 2,
+            eyeColors: ColorPaletteMap.GetPaletteCount(SwapType.EyeColor),
+            secondaryEyeColors: 1,
+            bodySizes: 5,
+            specialAccessoryCount: 0,
+            beardStyles: 0,
+            mouthTypes: State.GameManager.SpriteDictionary.Mouths.Length,
+            avoidedMouthTypes: 1,
+            extraColors1: 0,
+            extraColors2: 0,
+            extraColors3: 0,
+            extraColors4: 0,
+            headTypes: 0,
+            tailTypes: 0,
+            furTypes: 0,
+            earTypes: 0,
+            bodyAccentTypes1: 0,
+            bodyAccentTypes2: 0,
+            bodyAccentTypes3: 0,
+            bodyAccentTypes4: 0,
+            bodyAccentTypes5: 0,
+            ballsSizes: 0,
+            vulvaTypes: 0,
+            basicMeleeWeaponTypes: 1,
+            advancedMeleeWeaponTypes: 1,
+            basicRangedWeaponTypes: 1,
+            advancedRangedWeaponTypes: 1,
+            avoidedMainClothingTypes: 3,
+            clothingColors: ColorPaletteMap.GetPaletteCount(SwapType.Clothing),
+            wholeBodyOffset: new Vector2(),
+            clothingShift: new Vector3()
         );
 
-        miscRaceDataReadable.AllowedMainClothingTypes.Set(
+        miscRaceDataWritableReadable.AllowedMainClothingTypes.Set(
             (IClothing<T>)ClothingTypes.BikiniTopInstance,
             (IClothing<T>)ClothingTypes.BeltTopInstance,
             (IClothing<T>)ClothingTypes.StrapTopInstance,
@@ -1327,27 +944,27 @@ internal static class Defaults
             (IClothing<T>)ClothingTypes.MaleVillagerInstance
         );
 
-        miscRaceDataReadable.AllowedWaistTypes.Set(
+        miscRaceDataWritableReadable.AllowedWaistTypes.Set(
             (IClothing<T>)ClothingTypes.BikiniBottomInstance,
             (IClothing<T>)ClothingTypes.LoinclothInstance,
             (IClothing<T>)ClothingTypes.ShortsInstance
         );
 
-        miscRaceDataReadable.AllowedClothingHatTypes.Set(
+        miscRaceDataWritableReadable.AllowedClothingHatTypes.Set(
             (IClothing<T>)MainAccessories.SantaHatInstance
         );
 
-        return miscRaceDataReadable;
+        return miscRaceDataWritableReadable;
     }
 
-    public static MiscRaceDataReadable<IParameters> Blank()
+    internal static MiscRaceDataWritableReadable<IParameters> Blank()
     {
         return Blank<IParameters>();
     }
 
-    public static MiscRaceDataReadable<T> Blank<T>() where T : IParameters
+    internal static MiscRaceDataWritableReadable<T> Blank<T>() where T : IParameters
     {
-        MiscRaceDataReadable<T> miscRaceDataReadable = new MiscRaceDataReadable<T>(
+        MiscRaceDataWritableReadable<T> miscRaceDataWritableReadable = new MiscRaceDataWritableReadable<T>(
             () => Config.AllowHugeBreasts ? State.GameManager.SpriteDictionary.Breasts.Length : State.GameManager.SpriteDictionary.Breasts.Length - 3,
             () => Config.AllowHugeDicks ? State.GameManager.SpriteDictionary.Dicks.Length : State.GameManager.SpriteDictionary.Dicks.Length - 3,
             false,
@@ -1389,12 +1006,12 @@ internal static class Defaults
             1,
             1,
             0, // Different
-            ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing),
+            ColorPaletteMap.GetPaletteCount(SwapType.Clothing),
             new Vector2(),
             new Vector3()
         );
 
-        return miscRaceDataReadable;
+        return miscRaceDataWritableReadable;
     }
 
 

@@ -1,5 +1,6 @@
 ﻿#region
 
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -8,6 +9,65 @@ internal static class Crypters
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Crypter", "Crypters");
+        builder.WallType(WallType.Crypter);
+        builder.BonesInfo((unit) => new List<BoneInfo>()
+        {
+            new BoneInfo(BoneTypes.CrypterBonePile, unit.Name, unit.AccessoryColor),
+            new BoneInfo(BoneTypes.CrypterSkull, unit.Name)
+        });
+        builder.FlavorText(new FlavorText(
+            new Texts { "mechanical", "artifical", "whirring" },
+            new Texts { "mechanical", "artifical", "rumbling" },
+            new Texts { "crypter", "machinoid", "synthetic", "robotic", "metallic", "futuristic", "fabricated" }, //added "synthetic", "robotic", "metallic", "futuristic", "fabricated" thanks to Flame_Valxsarion
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Sword",
+                [WeaponNames.Axe]         = "Power Fist",
+                [WeaponNames.SimpleBow]   = "Crossbow",
+                [WeaponNames.CompoundBow] = "Cannon",
+                [WeaponNames.Claw]        = "Metal Fist"
+            } 
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 18,
+            HasTail = false,
+            FavoredStat = Stat.Agility,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.SlowBreeder,
+                Traits.MetalBody,
+                Traits.Resilient
+            },
+            RaceDescription = "Arriving from a realm long dead, the Crypters shambled forth when the smell of the living beckoned them from their ancient tombs. Cold, hard metal resists both damage and attempts to eat it, but the strange powers of this realm provide no aid in crafting new automatons for the ancient spirits to inhabit.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetActive(ButtonType.ClothingColor, false);
+        });
+        builder.TownNames(new List<string>
+        {
+            "The Eternal Palace",
+            "Citadel of Divine Purpose",
+            "Citadel of Syn",
+            "Ur-Babel Arisen",
+            "Citadel of Talmund",
+            "Gullet of Shem",
+            "Crucible of Consumption",
+            "Devouring Catalyst",
+            //Sleeping below this, but not implemented separately
+            "Tongue of Shem",
+            "Crypt of the Undying Queen",
+            "Crypt of Testament",
+            "Tomb of Doubt",
+            "Tomb of Syn",
+            "Ruins of Ur-Babel",
+            "Tomb of Talmund",
+        });
+        
+        
         Color bellyColor = new Color(.2519f, .2519f, .3584f);
         builder.Setup(output =>
         {
@@ -19,12 +79,12 @@ internal static class Crypters
             output.MouthTypes = 4;
             output.BodySizes = 7;
             output.HairStyles += 4;
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.LizardMain);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.LizardMain);
 
             output.WeightGainDisabled = true;
 
             output.AvoidedMainClothingTypes = 0;
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
             output.AllowedMainClothingTypes.Clear();
             output.AllowedWaistTypes.Clear();
 
@@ -40,37 +100,37 @@ internal static class Crypters
         });
         builder.RenderSingle(SpriteType.Eyes, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Crypters[8 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            output.Sprite(input.Sprites.Crypters[8 + input.U.EyeType]);
         });
 
         builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.MouthType > 3) //Defending against a weird exception.
+            if (input.U.MouthType > 3) //Defending against a weird exception.
             {
-                input.Actor.Unit.MouthType = 3;
+                input.U.MouthType = 3;
             }
 
-            output.Sprite(input.Sprites.Crypters[37 + 2 * input.Actor.Unit.MouthType + (input.Actor.IsEating ? 1 : 0)]);
+            output.Sprite(input.Sprites.Crypters[37 + 2 * input.U.MouthType + (input.A.IsEating ? 1 : 0)]);
         });
 
         builder.RenderSingle(SpriteType.Hair, 12, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.HairStyle < 15)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            if (input.U.HairStyle < 15)
             {
-                output.Sprite(input.Sprites.Hair[input.Actor.Unit.HairStyle]).AddOffset(0, 1.25f);
+                output.Sprite(input.Sprites.Hair[input.U.HairStyle]).AddOffset(0, 1.25f);
                 return;
             }
 
-            output.Sprite(input.Sprites.Crypters[12 + input.Actor.Unit.HairStyle - 15]).AddOffset(0, 0);
+            output.Sprite(input.Sprites.Crypters[12 + input.U.HairStyle - 15]).AddOffset(0, 0);
         });
 
         builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.HairStyle < 15)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            if (input.U.HairStyle < 15)
             {
                 output.AddOffset(0, 1.25f);
             }
@@ -79,19 +139,19 @@ internal static class Crypters
                 output.AddOffset(0, 0);
             }
 
-            if (input.Actor.Unit.HairStyle == 1)
+            if (input.U.HairStyle == 1)
             {
                 output.Sprite(input.Sprites.Hair[input.RaceData.HairStyles - 4]);
             }
-            else if (input.Actor.Unit.HairStyle == 2)
+            else if (input.U.HairStyle == 2)
             {
                 output.Sprite(input.Sprites.Hair[input.RaceData.HairStyles + 1 - 4]);
             }
-            else if (input.Actor.Unit.HairStyle == 5)
+            else if (input.U.HairStyle == 5)
             {
                 output.Sprite(input.Sprites.Hair[input.RaceData.HairStyles + 3 - 4]);
             }
-            else if (input.Actor.Unit.HairStyle == 6 || input.Actor.Unit.HairStyle == 7)
+            else if (input.U.HairStyle == 6 || input.U.HairStyle == 7)
             {
                 output.Sprite(input.Sprites.Hair[input.RaceData.HairStyles + 2 - 4]);
             }
@@ -109,22 +169,22 @@ internal static class Crypters
         });
         builder.RenderSingle(SpriteType.BodyAccent2, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.LizardMain, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Crypters[5]);
         });
         builder.RenderSingle(SpriteType.BodyAccent3, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Crypters[6 + (input.Actor.IsEating ? 1 : 0)]);
+            output.Sprite(input.Sprites.Crypters[6 + (input.A.IsEating ? 1 : 0)]);
         });
         builder.RenderSingle(SpriteType.BodyAccent4, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.LizardMain, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Crypters[36]);
         });
         builder.RenderSingle(SpriteType.BodyAccessory, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.LizardMain, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Crypters[28]);
         });
         builder.RenderSingle(SpriteType.SecondaryAccessory, 3, (input, output) =>
@@ -136,26 +196,26 @@ internal static class Crypters
         builder.RenderSingle(SpriteType.BodySize, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Crypters[29 + input.Actor.Unit.BodySize]);
+            output.Sprite(input.Sprites.Crypters[29 + input.U.BodySize]);
         });
 
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Belly].Invoke(input, output);
+            Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
             output.Coloring(bellyColor);
         });
         
         
         builder.RenderSingle(SpriteType.Weapon, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CrypterWeapon, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CrypterWeapon, input.U.AccessoryColor));
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Crypters[19 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Crypters[19 + input.A.GetWeaponSprite()]);
             }
             else
             {
-                output.Sprite(input.Sprites.Crypters[17 + (input.Actor.IsAttacking ? 1 : 0)]);
+                output.Sprite(input.Sprites.Crypters[17 + (input.A.IsAttacking ? 1 : 0)]);
             }
         });
 

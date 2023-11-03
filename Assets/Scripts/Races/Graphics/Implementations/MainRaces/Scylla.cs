@@ -1,13 +1,58 @@
-﻿internal static class Scylla
+﻿using System.Collections.Generic;
+
+internal static class Scylla
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Scylla", "Scylla");
+        builder.WallType(WallType.Scylla);
+        builder.FlavorText(new FlavorText(
+            new Texts { "loose limbed", "aquatic", "ten-limbed" },
+            new Texts { "tentacled", "aquatic", "ten-limbed" },
+            new Texts { "scylla", "octopod", "aquanoid" },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Knife",
+                [WeaponNames.Axe]         = "Trident",
+                [WeaponNames.SimpleBow]   = "Javelin",
+                [WeaponNames.CompoundBow] = "Medusa Launcher",
+                [WeaponNames.Claw]        = "Tentacle"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 15,
+            StomachSize = 15,
+            HasTail = false,
+            FavoredStat = Stat.Will,
+            RacialTraits = new List<Traits>()
+            {
+                //Traits.Aquatic,
+                Traits.TentacleHarassment
+            },
+            RaceDescription = "Trapped under the surface at their old world, the Scylla surged forth when the appearance of mystical portals gave them passage to lands above water. Their many tentacles seem to act as if having minds of their own, hindering and harassing their enemies.",
+        });
+        builder.TownNames(new List<string>
+        {
+            "City of the Conch",
+            "Lost City of Vorantis",
+            "The Trident",
+            "Seafoama",
+            "The Tidepool",
+            "Clamonia",
+            "Baiae",
+            "Olous",
+            "Heracleion",
+            "Pavlopetri",
+            "Ravenser",
+            "Atlit Yum",
+        });
         builder.Setup(output =>
         {
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.LizardMain);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.LizardMain);
             output.BodySizes = 4;
             output.AvoidedMainClothingTypes = 1;
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
             output.AllowedMainClothingTypes.Set(
                 ClothingTypes.BikiniTopInstance,
                 ClothingTypes.BeltTopInstance,
@@ -30,60 +75,60 @@
         
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Scylla[24 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize + (input.Actor.Unit.HasBreasts ? 0 : 8)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
+            output.Sprite(input.Sprites.Scylla[24 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize + (input.U.HasBreasts ? 0 : 8)]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.LizardMain, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Scylla[0]);
         });
         builder.RenderSingle(SpriteType.BodyAccent2, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.LizardMain, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Scylla[1]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.LizardMain, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Scylla[0]);
         });
         builder.RenderSingle(SpriteType.SecondaryAccessory, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.LizardMain, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Scylla[0]);
         });
 
 
         builder.RenderSingle(SpriteType.BodySize, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.LizardMain, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Scylla[3 + input.Actor.Unit.BodySize + (input.Actor.Unit.HasBreasts ? 0 : 7)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Scylla[3 + input.U.BodySize + (input.U.HasBreasts ? 0 : 7)]);
         });
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Breasts].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Breasts].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
         });
         
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Belly].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
         });
         
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Dick].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
         });
 
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Balls].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
         });
 
 
@@ -91,9 +136,9 @@
         builder.RenderSingle(SpriteType.Weapon, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                int sprite = input.Actor.GetWeaponSprite();
+                int sprite = input.A.GetWeaponSprite();
                 if (sprite == 5)
                 {
                     return;

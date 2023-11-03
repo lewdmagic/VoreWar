@@ -20,10 +20,10 @@ class RaceSettings
     {
         foreach (KeyValuePair<Race, RaceSettingsItem> entry in Races)
         {
-            if (entry.Value.ConversionRace == Race.none) entry.Value.ConversionRace = RaceParameters.GetRaceTraits(entry.Key).ConversionRace;
-            if (entry.Value.LeaderRace == Race.none) entry.Value.LeaderRace = RaceParameters.GetRaceTraits(entry.Key).LeaderRace;
-            if (entry.Value.SpawnRace == Race.none) entry.Value.SpawnRace = RaceParameters.GetRaceTraits(entry.Key).SpawnRace;
-            if (entry.Value.ConversionRace == Race.Cats && entry.Value.LeaderRace == Race.Cats && entry.Value.SpawnRace == Race.Cats && entry.Key != Race.Cats)
+            if (Equals(entry.Value.ConversionRace, Race.TrueNone)) entry.Value.ConversionRace = RaceParameters.GetRaceTraits(entry.Key).ConversionRace;
+            if (Equals(entry.Value.LeaderRace, Race.TrueNone)) entry.Value.LeaderRace = RaceParameters.GetRaceTraits(entry.Key).LeaderRace;
+            if (Equals(entry.Value.SpawnRace, Race.TrueNone)) entry.Value.SpawnRace = RaceParameters.GetRaceTraits(entry.Key).SpawnRace;
+            if (Equals(entry.Value.ConversionRace, Race.TrueNone) && Equals(entry.Value.LeaderRace, Race.Cats) && Equals(entry.Value.SpawnRace, Race.Cats) && !Equals(entry.Key, Race.Cats))
             {
                 entry.Value.ConversionRace = RaceParameters.GetRaceTraits(entry.Key).ConversionRace;
                 entry.Value.LeaderRace = RaceParameters.GetRaceTraits(entry.Key).LeaderRace;
@@ -120,13 +120,13 @@ class RaceSettings
         return RaceParameters.GetRaceTraits(race).StomachSize;
     }
 
-    internal List<Traits> GetRaceTraits(Race? race)
+    internal List<Traits> GetRaceTraits(Race race)
     {
         if (race == null)
             return null;
-        if (Races.ContainsKey((Race)race))
-            return Get((Race)race).RaceTraits;
-        return RaceParameters.GetRaceTraits((Race)race).RacialTraits;
+        if (Races.ContainsKey(race))
+            return Get(race).RaceTraits;
+        return RaceParameters.GetRaceTraits(race).RacialTraits;
     }
 
     internal List<Traits> GetMaleRaceTraits(Race race)
@@ -230,32 +230,32 @@ class RaceSettings
 
     internal Race GetSpawnRace(Race race)
     {
-        Race spawnRace = Race.none;
+        Race spawnRace = Race.TrueNone;
         if (Races.ContainsKey(race))
             spawnRace = Get(race).SpawnRace;
-        if (spawnRace == Race.none)
+        if (Equals(spawnRace, Race.TrueNone))
             spawnRace = RaceParameters.GetRaceTraits(race).SpawnRace; 
-        return (spawnRace == Race.none) ? race : spawnRace;
+        return (Equals(spawnRace, Race.TrueNone)) ? race : spawnRace;
     }
 
     internal Race GetConversionRace(Race race)
     {
-        Race conversionRace = Race.none;
+        Race conversionRace = Race.TrueNone;
         if (Races.ContainsKey(race))
             conversionRace = Get(race).ConversionRace;
-        if (conversionRace == Race.none)
+        if (Equals(conversionRace, Race.TrueNone))
             conversionRace = RaceParameters.GetRaceTraits(race).ConversionRace; 
-        return (conversionRace == Race.none) ? race : conversionRace;
+        return (Equals(conversionRace, Race.TrueNone)) ? race : conversionRace;
     }
 
     internal Race GetLeaderRace(Race race)
     {
-        Race leaderRace = Race.none;
+        Race leaderRace = Race.TrueNone;
         if (Races.ContainsKey(race))
             leaderRace = Get(race).LeaderRace;
-        if (leaderRace == Race.none)
+        if (Equals(leaderRace, Race.TrueNone))
             leaderRace = RaceParameters.GetRaceTraits(race).LeaderRace; 
-        return (leaderRace == Race.none) ? race : leaderRace;
+        return (Equals(leaderRace, Race.TrueNone)) ? race : leaderRace;
     }
 
     //internal Race GetDisplayedGraphic(Race race)
@@ -268,7 +268,7 @@ class RaceSettings
     internal void Reset(Race race)
     {
         Races.Remove(race);
-        if (race == Race.FeralBats)
+        if (Equals(race, Race.FeralBats))
         {
             Races[Race.FeralBats] = new RaceSettingsItem(Race.FeralBats);
             Races[Race.FeralBats].MaleTraits = new List<Traits> { Traits.Small };

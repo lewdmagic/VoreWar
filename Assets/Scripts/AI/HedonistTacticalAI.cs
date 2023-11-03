@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class HedonistTacticalAI : TacticalAI
 {
-    public HedonistTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, int AISide, bool defendingVillage = false) : base(actors, tiles, AISide, defendingVillage)
+    public HedonistTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, Side AISide, bool defendingVillage = false) : base(actors, tiles, AISide, defendingVillage)
     {
     }
 
@@ -12,7 +12,7 @@ public class HedonistTacticalAI : TacticalAI
         didAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
 
         path = null;
-        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && TacticalUtilities.GetMindControlSide(actor.Unit) == -1 && TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide) == AISide)
+        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Race.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide))
         {
             int retreatY;
             if (State.GameManager.TacticalMode.IsDefender(actor) == false)

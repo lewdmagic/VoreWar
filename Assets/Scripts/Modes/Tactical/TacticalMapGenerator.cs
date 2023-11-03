@@ -517,26 +517,53 @@ class TacticalMapGenerator
         TacticalBuilding RandomBuilding()
         {
             Vec2 loc = new Vec2(x, y);
-            switch (village.Race)
+            // switch (RaceFuncs.RaceToSwitch(village.Race))
+            // {
+            //     case RaceNumbers.Harpies:
+            //         return GetRandomBuildingFrom(loc, typeof(HarpyNest), typeof(HarpyNestCanopy));
+            //     case RaceNumbers.Lamia:
+            //         return GetRandomBuildingFrom(loc, typeof(StoneHouse), typeof(LamiaTemple), typeof(FancyStoneHouse));
+            //     case RaceNumbers.Cats:
+            //         if (State.Rand.Next(2) == 0)
+            //             return GetRandomBuildingFrom(loc, typeof(CatHouse), typeof(YellowCobbleStoneHouse));
+            //         break;
+            //     case RaceNumbers.Youko:
+            //     case RaceNumbers.Foxes:
+            //         if (State.Rand.Next(3) == 0)
+            //             return new FoxStoneHouse(loc);
+            //         break;
+            //     case RaceNumbers.Crux:
+            //     case RaceNumbers.Kangaroos:
+            //         return GetRandomBuildingFrom(loc, typeof(LogCabin), typeof(Log1x2), typeof(Log1x1));
+            //
+            //
+            // }
+
+            if (Equals(village.Race, Race.Harpies))
             {
-                case Race.Harpies:
-                    return GetRandomBuildingFrom(loc, typeof(HarpyNest), typeof(HarpyNestCanopy));
-                case Race.Lamia:
-                    return GetRandomBuildingFrom(loc, typeof(StoneHouse), typeof(LamiaTemple), typeof(FancyStoneHouse));
-                case Race.Cats:
-                    if (State.Rand.Next(2) == 0)
-                        return GetRandomBuildingFrom(loc, typeof(CatHouse), typeof(YellowCobbleStoneHouse));
-                    break;
-                case Race.Youko:
-                case Race.Foxes:
-                    if (State.Rand.Next(3) == 0)
-                        return new FoxStoneHouse(loc);
-                    break;
-                case Race.Crux:
-                case Race.Kangaroos:
-                    return GetRandomBuildingFrom(loc, typeof(LogCabin), typeof(Log1x2), typeof(Log1x1));
-
-
+                return GetRandomBuildingFrom(loc, typeof(HarpyNest), typeof(HarpyNestCanopy));
+            } 
+            else if (Equals(village.Race, Race.Lamia))
+            {
+                return GetRandomBuildingFrom(loc, typeof(StoneHouse), typeof(LamiaTemple), typeof(FancyStoneHouse));
+            } 
+            else if (Equals(village.Race, Race.Cats))
+            {
+                if (State.Rand.Next(2) == 0)
+                {
+                    return GetRandomBuildingFrom(loc, typeof(CatHouse), typeof(YellowCobbleStoneHouse));
+                }
+            }
+            else if (Equals(village.Race, Race.Youko) || Equals(village.Race, Race.Foxes))
+            {
+                if (State.Rand.Next(3) == 0)
+                {
+                    return new FoxStoneHouse(loc);
+                }
+            }
+            else if (Equals(village.Race, Race.Crux) || Equals(village.Race, Race.Kangaroos))
+            {
+                return GetRandomBuildingFrom(loc, typeof(LogCabin), typeof(Log1x2), typeof(Log1x1));
             }
 
 

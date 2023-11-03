@@ -56,4 +56,42 @@ public static class Extensions
             return null;
         }
     }
+
+    public static V GetOrSet<K, V>(this IDictionary<K, V> self, K key, Func<V> makeSetDefault)
+    {
+        if (self.TryGetValue(key, out V value))
+        {
+            return value;
+        }
+        else
+        {
+            V newValue = makeSetDefault.Invoke();
+            self[key] = newValue;
+            return newValue;
+        }
+    }
+
+    public static V GetOrDefault<K, V>(this IDictionary<K, V> self, K key, V defaultValue)
+    {
+        if (self.TryGetValue(key, out V value))
+        {
+            return value;
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+
+    public static V GetOrNull<K, V>(this IDictionary<K, V> self, K key) where V : class
+    {
+        if (self.TryGetValue(key, out V value))
+        {
+            return value;
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

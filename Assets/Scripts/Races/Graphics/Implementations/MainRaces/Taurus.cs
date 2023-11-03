@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using TaurusClothes;
 using UnityEngine;
 
@@ -10,12 +11,54 @@ internal static class Taurus
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Cow", "Cows");
+        builder.WallType(WallType.WoodenPallisade);
+        builder.FlavorText(new FlavorText(
+            new Texts { "mooing", "bulky", "hooved" },
+            new Texts { "multi-stomached", "heavy", "strong legged" },
+            new Texts { "bovine", "taurus", {"cow", Gender.Female}, {"bull", Gender.Male} },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Hammer",
+                [WeaponNames.Axe]         = "Glaive",
+                [WeaponNames.SimpleBow]   = "Revolver",
+                [WeaponNames.CompoundBow] = "Shotgun",
+                [WeaponNames.Claw]        = "Fist"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 15,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Strength,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.StrongMelee,
+                Traits.ForcefulBlow
+            },
+            RaceDescription = "Once mere cattle, a drop of minotaur blood slumbered in their veins. Rising and butchering their \"masters\", the Taurus took what they could from their old ranches and fled through mysterious portals that had heralded their rise. While intelligent, the Taurus trust in their physical might and great size, tossing their enemies aside as they trample on.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.EyeType, "Face Expression");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Minos",
+            "Fourbelly",
+            "Beefsburg",
+            "Udderlife",
+            "Rangeton",
+            "Salisbury",
+            "Cuddington",
+        });
         builder.Setup(output =>
         {
             output.BreastSizes = () => 5;
             output.DickSizes = () => 5;
 
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Fur);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.Fur);
             output.BodySizes = 0;
             output.MouthTypes = 0;
 
@@ -54,17 +97,17 @@ internal static class Taurus
         {
             output.Coloring(FurryColor(input.Actor));
             int sprite = 32;
-            if (input.Actor.Unit.Furry)
+            if (input.U.Furry)
             {
                 sprite += 4;
             }
 
-            if (input.Actor.Unit.HasBreasts)
+            if (input.U.HasBreasts)
             {
                 sprite += 2;
             }
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 sprite += 1;
             }
@@ -74,10 +117,10 @@ internal static class Taurus
 
         builder.RenderSingle(SpriteType.Eyes, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            if (input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            if (input.U.Furry)
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     output.Sprite(input.Sprites.Cows[63]);
                     return;
@@ -88,8 +131,8 @@ internal static class Taurus
             }
 
             int sprite = 48;
-            sprite += 3 * input.Actor.Unit.EyeType;
-            if (input.Actor.Unit.HasBreasts == false)
+            sprite += 3 * input.U.EyeType;
+            if (input.U.HasBreasts == false)
             {
                 sprite += 16;
                 if (sprite > 80)
@@ -103,15 +146,15 @@ internal static class Taurus
 
         builder.RenderSingle(SpriteType.SecondaryEyes, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            if (input.U.Furry)
             {
                 return;
             }
 
             int sprite = 50;
-            sprite += 3 * input.Actor.Unit.EyeType;
-            if (input.Actor.Unit.HasBreasts == false)
+            sprite += 3 * input.U.EyeType;
+            if (input.U.HasBreasts == false)
             {
                 sprite += 16;
                 if (sprite > 82)
@@ -126,14 +169,14 @@ internal static class Taurus
         builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.Furry)
+            if (input.U.Furry)
             {
                 return;
             }
 
             int sprite = 49;
-            sprite += 3 * input.Actor.Unit.EyeType;
-            if (input.Actor.Unit.HasBreasts == false)
+            sprite += 3 * input.U.EyeType;
+            if (input.U.HasBreasts == false)
             {
                 sprite += 16;
                 if (sprite > 81)
@@ -147,22 +190,22 @@ internal static class Taurus
 
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Cows[77 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Cows[77 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.HairStyle <= 6)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            if (input.U.HairStyle <= 6)
             {
-                output.Sprite(input.Sprites.Cows[90 + input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Cows[90 + input.U.HairStyle]);
             }
         });
 
         builder.RenderSingle(SpriteType.Hair3, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.HairStyle == 6)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            if (input.U.HairStyle == 6)
             {
                 output.Sprite(input.Sprites.Cows[97]);
             }
@@ -170,28 +213,28 @@ internal static class Taurus
 
         builder.RenderSingle(SpriteType.Beard, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.NormalHair, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.Furry)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
+            if (input.U.Furry)
             {
                 return;
             }
 
-            if (input.Actor.Unit.BeardStyle > 0)
+            if (input.U.BeardStyle > 0)
             {
-                output.Sprite(input.Sprites.Cows[87 + input.Actor.Unit.BeardStyle]);
+                output.Sprite(input.Sprites.Cows[87 + input.U.BeardStyle]);
             }
         });
 
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            int sprite = input.Actor.IsAttacking ? 1 : 0;
-            if (input.Actor.GetWeaponSprite() == 2)
+            int sprite = input.A.IsAttacking ? 1 : 0;
+            if (input.A.GetWeaponSprite() == 2)
             {
                 sprite += 2;
             }
 
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 sprite += 9;
             }
@@ -201,26 +244,26 @@ internal static class Taurus
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.GetWeaponSprite() == 2)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
+            if (input.A.GetWeaponSprite() == 2)
             {
-                if ((Config.FurryHandsAndFeet || input.Actor.Unit.Furry) == false)
+                if ((Config.FurryHandsAndFeet || input.U.Furry) == false)
                 {
                     output.Sprite(input.Sprites.Cows[20]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Cows[input.Actor.Unit.HasBreasts ? 21 : 22]);
+                output.Sprite(input.Sprites.Cows[input.U.HasBreasts ? 21 : 22]);
                 return;
             }
 
-            if ((Config.FurryHandsAndFeet || input.Actor.Unit.Furry) == false)
+            if ((Config.FurryHandsAndFeet || input.U.Furry) == false)
             {
                 return;
             }
 
-            int sprite = input.Actor.IsAttacking ? 5 : 4;
-            if (input.Actor.Unit.HasBreasts == false)
+            int sprite = input.A.IsAttacking ? 5 : 4;
+            if (input.U.HasBreasts == false)
             {
                 sprite += 9;
             }
@@ -231,19 +274,19 @@ internal static class Taurus
         builder.RenderSingle(SpriteType.BodyAccent2, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if ((Config.FurryHandsAndFeet || input.Actor.Unit.Furry) == false || Config.FurryFluff == false)
+            if ((Config.FurryHandsAndFeet || input.U.Furry) == false || Config.FurryFluff == false)
             {
                 return;
             }
 
-            if (input.Actor.GetWeaponSprite() == 2)
+            if (input.A.GetWeaponSprite() == 2)
             {
-                output.Sprite(input.Sprites.Cows[input.Actor.Unit.HasBreasts ? 23 : 24]);
+                output.Sprite(input.Sprites.Cows[input.U.HasBreasts ? 23 : 24]);
                 return;
             }
 
-            int sprite = input.Actor.IsAttacking ? 7 : 6;
-            if (input.Actor.Unit.HasBreasts == false)
+            int sprite = input.A.IsAttacking ? 7 : 6;
+            if (input.U.HasBreasts == false)
             {
                 sprite += 9;
             }
@@ -253,18 +296,18 @@ internal static class Taurus
 
         builder.RenderSingle(SpriteType.BodyAccent3, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Cows[18]);
         });
         builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Cows[12]);
         });
         builder.RenderSingle(SpriteType.BodyAccent5, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(Config.FurryHandsAndFeet || input.Actor.Unit.Furry || Config.FurryFluff == false ? input.Sprites.Cows[19] : null);
+            output.Sprite(Config.FurryHandsAndFeet || input.U.Furry || Config.FurryFluff == false ? input.Sprites.Cows[19] : null);
         });
         builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
         {
@@ -279,154 +322,119 @@ internal static class Taurus
         builder.RenderSingle(SpriteType.BodySize, 3, (input, output) =>
         {
             output.Coloring(FurryBellyColor(input.Actor));
-            output.Sprite(input.Sprites.Cows[input.Actor.Unit.HasBreasts ? 8 : 17]);
+            output.Sprite(input.Sprites.Cows[input.U.HasBreasts ? 8 : 17]);
         });
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
             output.Coloring(FurryBellyColor(input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.SquishedBreasts)
+            if (input.A.SquishedBreasts)
             {
-                output.Sprite(input.Sprites.Cows[Math.Max(114 + input.Actor.Unit.BreastSize, 115)]);
+                output.Sprite(input.Sprites.Cows[Math.Max(114 + input.U.BreastSize, 115)]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Cows[110 + input.Actor.Unit.BreastSize]);
+            output.Sprite(input.Sprites.Cows[110 + input.U.BreastSize]);
         });
 
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
             output.Coloring(FurryBellyColor(input.Actor));
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(11, .95f) == 11)
-                {
-                    output.Sprite(input.Sprites.CowsSeliciaBelly[1]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(11, .95f) == 11)
-                {
-                    output.Sprite(input.Sprites.CowsSeliciaBelly[0]);
-                    return;
-                }
-
-                output.Sprite(input.Sprites.Cows[98 + input.Actor.GetStomachSize(11, .95f)]);
+                output.Sprite(input.Sprites.Cows[98 + input.A.GetStomachSize(11, .95f)]);
             }
         });
 
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .5f)
+                if (input.A.PredatorComponent?.VisibleFullness < .5f)
                 {
                     output.Layer(18);
-                    if (input.Actor.Unit.DickSize == 4)
+                    if (input.U.DickSize == 4)
                     {
                         output.Sprite(input.Sprites.Cows[123]);
                         return;
                     }
 
-                    if (input.Actor.Unit.DickSize == 3)
+                    if (input.U.DickSize == 3)
                     {
                         output.Sprite(input.Sprites.Cows[121]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Cows[29 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Cows[29 + input.U.DickSize]);
                     return;
                 }
 
                 output.Layer(12);
-                if (input.Actor.Unit.DickSize == 4)
+                if (input.U.DickSize == 4)
                 {
                     output.Sprite(input.Sprites.Cows[122]);
                     return;
                 }
 
-                if (input.Actor.Unit.DickSize == 3)
+                if (input.U.DickSize == 3)
                 {
                     output.Sprite(input.Sprites.Cows[120]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Cows[26 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Cows[26 + input.U.DickSize]);
                 return;
             }
 
             output.Layer(9);
-            if (input.Actor.Unit.DickSize == 4)
+            if (input.U.DickSize == 4)
             {
                 output.Sprite(input.Sprites.Cows[122]);
                 return;
             }
 
-            if (input.Actor.Unit.DickSize == 3)
+            if (input.U.DickSize == 3)
             {
                 output.Sprite(input.Sprites.Cows[119]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Cows[26 + input.Actor.Unit.DickSize]);
+            output.Sprite(input.Sprites.Cows[26 + input.U.DickSize]);
         });
 
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
-            //if (input.Actor.Unit.Furry && Config.FurryGenitals)
+            //if (input.U.Furry && Config.FurryGenitals)
             //{
-            //    int size = input.Actor.Unit.DickSize;
-            //    int offset = (int)((input.Actor.PredatorComponent?.BallsFullness ?? 0) * 3);
+            //    int size = input.U.DickSize;
+            //    int offset = (int)((input.A.PredatorComponent?.BallsFullness ?? 0) * 3);
             //    if (offset > 0)
             //        return Out.Update(State.GameManager.SpriteDictionary.FurryDicks[Math.Min(12 + offset, 23)]);
             //    return Out.Update(State.GameManager.SpriteDictionary.FurryDicks[size]);
             //}
 
             int baseSize = 2;
-            if (input.Actor.Unit.DickSize == 4)
+            if (input.U.DickSize == 4)
             {
                 baseSize = 8;
             }
 
-            int ballOffset = input.Actor.GetBallSize(21, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[24]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[23]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 20)
-            {
-                output.Sprite(input.Sprites.Balls[22]).AddOffset(0, -15 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .8f) == 19)
-            {
-                output.Sprite(input.Sprites.Balls[21]).AddOffset(0, -14 * .625f);
-                return;
-            }
+            int ballOffset = input.A.GetBallSize(21, .8f);
 
             int combined = Math.Min(baseSize + ballOffset, 20);
             // Always false
@@ -456,13 +464,13 @@ internal static class Taurus
         builder.RenderSingle(SpriteType.Weapon, 12, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                int weaponSprite = input.Actor.GetWeaponSprite();
+                int weaponSprite = input.A.GetWeaponSprite();
                 switch (weaponSprite)
                 {
                     case 1:
-                        if (input.Actor.Unit.DickSize < 0)
+                        if (input.U.DickSize < 0)
                         {
                             output.AddOffset(0, 0);
                         }
@@ -473,7 +481,7 @@ internal static class Taurus
 
                         break;
                     case 3:
-                        if (input.Actor.Unit.DickSize < 0)
+                        if (input.U.DickSize < 0)
                         {
                             output.AddOffset(0, 11 * .625f);
                         }
@@ -494,20 +502,20 @@ internal static class Taurus
                         break;
                 }
 
-                output.Sprite(input.Sprites.Cows[40 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Cows[40 + input.A.GetWeaponSprite()]);
             }
         });
 
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 Vector3 localScale;
 
-                if (input.Actor.PredatorComponent.VisibleFullness > 4)
+                if (input.A.PredatorComponent.VisibleFullness > 4)
                 {
-                    float extraCap = input.Actor.PredatorComponent.VisibleFullness - 4;
+                    float extraCap = input.A.PredatorComponent.VisibleFullness - 4;
                     float xScale = Mathf.Min(1 + extraCap / 5, 1.8f);
                     float yScale = Mathf.Min(1 + extraCap / 40, 1.1f);
                     localScale = new Vector3(xScale, yScale, 1);
@@ -530,7 +538,7 @@ internal static class Taurus
             if (unit.Type == UnitType.Leader)
             {
                 unit.ClothingHatType = 1;
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, TaurusClothingTypes.LeaderOutfitInstance);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, TaurusClothingTypes.LeaderOutfitInstance);
             }
             else
             {
@@ -573,10 +581,10 @@ internal static class Taurus
     {
         if (actor.Unit.Furry)
         {
-            return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Fur, actor.Unit.AccessoryColor);
+            return ColorPaletteMap.GetPalette(SwapType.Fur, actor.Unit.AccessoryColor);
         }
 
-        return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, actor.Unit.SkinColor);
+        return ColorPaletteMap.GetPalette(SwapType.Skin, actor.Unit.SkinColor);
     }
 
     private static ColorSwapPalette FurryBellyColor(Actor_Unit actor)
@@ -586,6 +594,6 @@ internal static class Taurus
             return ColorPaletteMap.FurryBellySwap;
         }
 
-        return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Skin, actor.Unit.SkinColor);
+        return ColorPaletteMap.GetPalette(SwapType.Skin, actor.Unit.SkinColor);
     }
 }

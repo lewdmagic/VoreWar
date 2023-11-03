@@ -1,88 +1,26 @@
 #region
 
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 
 #endregion
 
-internal class RaceBuilder : RaceBuilderShared, IRaceBuilder
+internal static class RaceBuilder
 {
-    private readonly SpriteTypeIndexed<SingleRenderFunc<IParameters>> _raceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc<IParameters>>();
-
-
-    private Action<IRandomCustomInput> _randomCustom;
-
-    private Action<IRunInput, IRunOutput> _runBefore;
-    private Action<MiscRaceDataReadable<IParameters>> _setupFunc;
-
-    private readonly Func<MiscRaceDataReadable<IParameters>> _template;
-
-    private RaceBuilder(Func<MiscRaceDataReadable<IParameters>> template)
-    {
-        _template = template;
-    }
-
-    public void Setup(Action<IMiscRaceData<IParameters>> setupFunc)
-    {
-        _setupFunc = setupFunc;
-    }
-
-    public void RandomCustom(Action<IRandomCustomInput> value)
-    {
-        _randomCustom = value;
-    }
-
-    public void RunBefore(Action<IRunInput, IRunOutput> value)
-    {
-        _runBefore = value;
-    }
-
-    public void RenderSingle(SpriteType spriteType, int layer, Action<IRaceRenderInput, IRaceRenderOutput> generator)
-    {
-        _raceSpriteSet[spriteType] = new SingleRenderFunc<IParameters>(layer, generator);
-    }
-    
-    public void RenderSingle(SpriteType spriteType, SingleRenderFunc<IParameters> render)
-    {
-        _raceSpriteSet[spriteType] = render;
-    }
-
-    private MiscRaceDataReadable<IParameters> ToMiscData()
-    {
-        MiscRaceDataReadable<IParameters> dataReadable = _template();
-        _setupFunc?.Invoke(dataReadable);
-        return dataReadable;
-    }
-
-
-    private static RaceBuilder New(Func<MiscRaceDataReadable<IParameters>> template)
-    {
-        return new RaceBuilder(template);
-    }
-
-    private static RaceBuilder<T> New<T>(Func<MiscRaceDataReadable<T>> template) where T : IParameters, new()
-    {
-        return new RaceBuilder<T>(template);
-    }
-
-    internal static IRaceData Create(Func<MiscRaceDataReadable<IParameters>> template, Action<IRaceBuilder> builderUser)
-    {
-        RaceBuilder builder = New(template);
-        builderUser.Invoke(builder);
-        return builder.Build();
-    }
-
-    internal static IRaceData Create<T>(Func<MiscRaceDataReadable<T>> template, Action<IRaceBuilder<T>> builderUser) where T : IParameters, new()
-    {
-        RaceBuilder<T> builder = New(template);
-        builderUser.Invoke(builder);
-        return builder.Build();
-    }
-
-    private IRaceData Build()
+    internal static IRaceData Create(Func<MiscRaceDataWritableReadable<IParameters>> template, Action<IRaceBuilder<IParameters>> builderUser)
     {
         Func<IParameters> basic = () => new EmptyParameters();
-        return new RaceData<IParameters>(_raceSpriteSet, ToMiscData(), _runBefore, _randomCustom, basic);
+        RaceBuilder<IParameters> builder = new RaceBuilder<IParameters>(template);
+        builderUser.Invoke(builder);
+        return builder.Build(basic);
+    }
+
+    internal static IRaceData Create<T>(Func<MiscRaceDataWritableReadable<T>> template, Action<IRaceBuilder<T>> builderUser) where T : IParameters, new()
+    {
+        Func<T> makeTempState = () => new T();
+        RaceBuilder<T> builder = new RaceBuilder<T>(template);
+        builderUser.Invoke(builder);
+        return builder.Build(makeTempState);
     }
 
     private class EmptyParameters : IParameters
@@ -90,25 +28,156 @@ internal class RaceBuilder : RaceBuilderShared, IRaceBuilder
     }
 }
 
+internal interface INameInput
+{
+    Gender GetGender();
+}
 
-internal class RaceBuilder<T> : RaceBuilderShared, IRaceBuilder<T> where T : IParameters, new()
+internal class NameInput : INameInput
+{
+    public Gender GetGender() => _gender;
+    private readonly Gender _gender;
+
+    public NameInput(Gender gender)
+    {
+        _gender = gender;
+    }
+}
+
+// TODO find a better name probably
+internal class ExtraRaceInfo
+{
+    private static readonly Func<Unit, List<BoneInfo>> DefaultBoneInfo = (unit) =>
+    {
+        if (unit.Furry)
+        {
+            return new List<BoneInfo>
+            {
+                new BoneInfo(BoneTypes.FurryBones, unit.Name)
+            };
+        }
+        else
+        {
+            return new List<BoneInfo>
+            {
+                new BoneInfo(BoneTypes.GenericBonePile, unit.Name),
+                new BoneInfo(BoneTypes.HumanoidSkull, "")
+            };
+        }
+    };
+    
+    internal Func<INameInput, string> SingularName;
+    internal Func<INameInput, string> PluralName;
+    internal WallType? WallType;
+
+    internal Func<Unit, List<BoneInfo>> BoneTypesGen = DefaultBoneInfo;
+    internal FlavorText FlavorText;
+    internal RaceTraits RaceTraits;
+
+    internal Action<Unit, EnumIndexedArray<ButtonType, CustomizerButton>> CustomizeButtonsAction;
+    internal Action<Unit, ButtonCustomizer> CustomizeButtonsAction2;
+
+    internal List<string> IndividualNames;
+    internal List<string> TownNames;
+    internal List<string> PreyTownNames;
+}
+
+internal class RaceBuilder<T> : IRaceBuilder<T> where T : IParameters
 {
     private readonly SpriteTypeIndexed<SingleRenderFunc<T>> RaceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc<T>>();
 
     private Action<IRandomCustomInput> _randomCustom;
 
     private Action<IRunInput, IRunOutput<T>> _runBefore;
-    private Action<MiscRaceDataReadable<T>> _setupFunc;
+    private Action<MiscRaceDataWritableReadable<T>> _setupFunc;
 
-    private readonly Func<MiscRaceDataReadable<T>> _template;
+    private readonly Func<MiscRaceDataWritableReadable<T>> _template;
 
+    
+    private readonly ExtraRaceInfo _extraRaceInfo = new ExtraRaceInfo();
 
-    internal RaceBuilder(Func<MiscRaceDataReadable<T>> template)
+    internal RaceBuilder(Func<MiscRaceDataWritableReadable<T>> template)
     {
         _template = template;
     }
 
-    public void Setup(Action<IMiscRaceData<T>> setupFunc)
+    public void Names(string singularName, string pluralName)
+    {
+        _extraRaceInfo.SingularName = (input) => singularName;
+        _extraRaceInfo.PluralName = (input) => pluralName;
+    }
+
+    public void Names(string singularName, Func<INameInput, string> pluralName)
+    {
+        _extraRaceInfo.SingularName = (input) => singularName;
+        _extraRaceInfo.PluralName = pluralName;
+    }
+
+    public void Names(Func<INameInput, string> singularName, string pluralName)
+    {
+        _extraRaceInfo.SingularName = singularName;
+        _extraRaceInfo.PluralName = (input) => pluralName;
+    }
+    
+    public void Names(Func<INameInput, string> singularName, Func<INameInput, string> pluralName)
+    {
+        _extraRaceInfo.SingularName = singularName;
+        _extraRaceInfo.PluralName = pluralName;
+    }    
+    
+    public void WallType(WallType wallType)
+    {
+        _extraRaceInfo.WallType = wallType;
+    }
+
+    public void BonesInfo(Func<Unit, List<BoneInfo>> boneTypesGen)
+    {
+        _extraRaceInfo.BoneTypesGen = boneTypesGen;
+    }
+
+    public void FlavorText(FlavorText flavorText)
+    {
+        _extraRaceInfo.FlavorText = flavorText;
+    }
+
+    public void RaceTraits(RaceTraits raceTraits)
+    {
+        _extraRaceInfo.RaceTraits = raceTraits;
+    }
+
+    public void SetRaceTraits(Action<RaceTraits> setRaceTraits)
+    {
+        RaceTraits traits = new RaceTraits();
+        setRaceTraits.Invoke(traits);
+        _extraRaceInfo.RaceTraits = traits;
+    }
+
+    public void CustomizeButtons(Action<Unit, EnumIndexedArray<ButtonType, CustomizerButton>> action)
+    {
+        _extraRaceInfo.CustomizeButtonsAction = action;
+    }
+
+    public void CustomizeButtons(Action<Unit, ButtonCustomizer> action)
+    {
+        _extraRaceInfo.CustomizeButtonsAction2 = action;
+    }
+    
+    public void TownNames(List<string> nameList)
+    {
+        _extraRaceInfo.TownNames = nameList;
+    }
+
+    public void PreyTownNames(List<string> nameList)
+    {
+        _extraRaceInfo.PreyTownNames = nameList;
+    }
+
+    public void IndividualNames(List<string> nameList)
+    {
+        _extraRaceInfo.IndividualNames = nameList;
+    }
+    
+    public void Setup(Action<MiscRaceDataWritableReadable<T>> setupFunc)
     {
         _setupFunc = setupFunc;
     }
@@ -133,16 +202,15 @@ internal class RaceBuilder<T> : RaceBuilderShared, IRaceBuilder<T> where T : IPa
         RaceSpriteSet[spriteType] = render;
     }
 
-    private MiscRaceDataReadable<T> ToMiscData()
+    private MiscRaceDataWritableReadable<T> ToMiscData()
     {
-        MiscRaceDataReadable<T> dataReadable = _template();
-        _setupFunc?.Invoke(dataReadable);
-        return dataReadable;
+        MiscRaceDataWritableReadable<T> dataWritableReadable = _template();
+        _setupFunc?.Invoke(dataWritableReadable);
+        return dataWritableReadable;
     }
 
-    public IRaceData Build()
+    public IRaceData Build(Func<T> makeTempState)
     {
-        Func<T> makeTempState = () => new T();
-        return new RaceData<T>(RaceSpriteSet, ToMiscData(), _runBefore, _randomCustom, makeTempState);
+        return new RaceData<T>(RaceSpriteSet, ToMiscData(), _runBefore, _randomCustom, makeTempState, _extraRaceInfo);
     }
 }

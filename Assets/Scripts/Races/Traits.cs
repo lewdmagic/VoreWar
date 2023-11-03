@@ -485,7 +485,7 @@ internal class Whispers : VoreTrait, IProvidesSingleSpell
 
     public override bool OnDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
     {
-        if(predUnit.Unit.FixedSide != preyUnit.Unit.FixedSide)
+        if(!Equals(predUnit.Unit.FixedSide, preyUnit.Unit.FixedSide))
             preyUnit.Actor.CastStatusSpell(SpellList.Whispers, predUnit);
         return true;
     }
@@ -533,7 +533,7 @@ internal class Metamorphosis : VoreTrait, INoAutoEscape
         Race conversionRace = preyUnit.Unit.HiddenUnit.DetermineSpawnRace();
         preyUnit.Unit.Health = preyUnit.Unit.MaxHealth;
         preyUnit.Unit.GiveExp(predUnit.Unit.Experience / 2);
-        if (preyUnit.Unit.Race != conversionRace)
+        if (!Equals(preyUnit.Unit.Race, conversionRace))
         {
             preyUnit.ChangeRace(conversionRace);
         }
@@ -769,12 +769,12 @@ internal class SpiritPossession : Possession
         predUnit.RemovePossession(preyUnit.Actor);
         if(possessed)
         {
-            if (predUnit.Unit.Side != preyUnit.Unit.Side)
+            if (!Equals(predUnit.Unit.Side, preyUnit.Unit.Side))
                 State.GameManager.TacticalMode.SwitchAlignment(predUnit);
             //TODO: This game needs some form of true fusion mechanic. 
             //this is an approximation of fusion with the result taking the appearance of the pred, and the side of the prey
-            if (predUnit.Unit.Side == preyUnit.Unit.Side)
-                predUnit.Unit.FixedSide = -1;
+            if (Equals(predUnit.Unit.Side, preyUnit.Unit.Side))
+                predUnit.Unit.FixedSide = Race.TrueNoneSide;
             predUnit.Unit.Name = preyUnit.Unit.Name;
             predUnit.Unit.GiveExp(preyUnit.Unit.Experience);
         }
@@ -801,7 +801,7 @@ internal class ForcedMetamorphosis : VoreTraitBooster, INoAutoEscape
     public override bool OnDigestionKill(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
     {
         //TODO: Make this a status effect instead
-        if((predUnit.Unit.FixedSide == preyUnit.Unit.FixedSide) && (predUnit.Unit.FixedSide == predUnit.Unit.Side))
+        if((Equals(predUnit.Unit.FixedSide, preyUnit.Unit.FixedSide)) && (Equals(predUnit.Unit.FixedSide, predUnit.Unit.Side)))
             predUnit.Unit.AddPermanentTrait(Traits.Metamorphosis);
         else predUnit.Unit.AddPermanentTrait(Traits.MetamorphicConversion);
         predUnit.Unit.SpawnRace = preyUnit.Unit.HiddenUnit.DetermineSpawnRace();

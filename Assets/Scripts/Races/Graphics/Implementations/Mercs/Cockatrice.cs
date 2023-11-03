@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,42 @@ internal static class Cockatrice
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Cockatrice", "Cockatrice");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "cockatrice", "terror chicken", "danger chicken", {"scary hen", Gender.Female}, {"scary hen", Gender.Male}} ////new, blame Flame_Valxsarion for encouraging me. Actually don't, I came up with "monster cock" 
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 14,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Mind,
+            ExpMultiplier = 1.25f,
+            PowerAdjustment = 1.5f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(10, 16),
+                Dexterity = new RaceStats.StatRange(8, 14),
+                Endurance = new RaceStats.StatRange(8, 14),
+                Mind = new RaceStats.StatRange(12, 20),
+                Will = new RaceStats.StatRange(8, 14),
+                Agility = new RaceStats.StatRange(8, 14),
+                Voracity = new RaceStats.StatRange(8, 14),
+                Stomach = new RaceStats.StatRange(12, 15),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Intimidating,
+                Traits.Petrifier,
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Feather Color");
+        });
         builder.Setup(output =>
         {
             output.DickSizes = () => 8;
@@ -18,9 +55,9 @@ internal static class Cockatrice
             output.SpecialAccessoryCount = 0;
             output.HairStyles = 24;
             output.MouthTypes = 6;
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.CockatriceSkin); // Feather Colors
-            output.HairColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.CockatriceSkin);
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.CockatriceSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.CockatriceSkin); // Feather Colors
+            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.CockatriceSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.CockatriceSkin);
 
             output.ExtendedBreastSprites = true;
 
@@ -46,7 +83,7 @@ internal static class Cockatrice
                 GenericBot4.GenericBot4Instance
             );
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AviansSkin);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AviansSkin);
         });
 
 
@@ -54,7 +91,7 @@ internal static class Cockatrice
         {
             CommonRaceCode.MakeBreastOversize(32 * 32).Invoke(input, output);
 
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
                 output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(new Vector3(1, 1, 1));
             }
@@ -62,111 +99,111 @@ internal static class Cockatrice
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice1[54] : input.Sprites.Cockatrice1[55]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.SkinColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice1[54] : input.Sprites.Cockatrice1[55]);
         }); // Head - skin
 
         builder.RenderSingle(SpriteType.Eyes, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Cockatrice1[72 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            output.Sprite(input.Sprites.Cockatrice1[72 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.SkinColor));
+            if (input.A.IsEating)
             {
-                output.Sprite(input.Sprites.Cockatrice1[62 + 2 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                output.Sprite(input.Sprites.Cockatrice1[62 + 2 * (!input.U.HasBreasts ? 1 : 0)]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
-                output.Sprite(input.Sprites.Cockatrice1[63 + 2 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                output.Sprite(input.Sprites.Cockatrice1[63 + 2 * (!input.U.HasBreasts ? 1 : 0)]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Cockatrice1[66 + input.Actor.Unit.MouthType]);
+            output.Sprite(input.Sprites.Cockatrice1[66 + input.U.MouthType]);
         });
 
         builder.RenderSingle(SpriteType.Hair, 20, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Cockatrice1[96 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.HairColor));
+            output.Sprite(input.Sprites.Cockatrice1[96 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Hair2, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.HairColor));
-            if (input.Actor.Unit.HairStyle > 13)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.HairColor));
+            if (input.U.HairStyle > 13)
             {
             }
             else
             {
-                output.Sprite(input.Sprites.Cockatrice1[120 + input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Cockatrice1[120 + input.U.HairStyle]);
             }
         });
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice1[0 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice1[4 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.SkinColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice1[0 + input.U.BodySize] : input.Sprites.Cockatrice1[4 + input.U.BodySize]);
         }); // Body - skin
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice1[8 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice1[12 + input.Actor.Unit.BodySize]);
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice1[8 + input.U.BodySize] : input.Sprites.Cockatrice1[12 + input.U.BodySize]);
         }); // Body - scales
 
         builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice1[16 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice1[20 + input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.AccessoryColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice1[16 + input.U.BodySize] : input.Sprites.Cockatrice1[20 + input.U.BodySize]);
         }); // Legs - feathers
 
         builder.RenderSingle(SpriteType.BodyAccent3, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.HasWeapon == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.AccessoryColor));
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
-                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
-                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 1:
-                    output.Sprite(input.Sprites.Cockatrice1[26 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[26 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 2:
-                    output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 3:
-                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 4:
-                    output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 5:
-                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 6:
-                    output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 7:
-                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[25 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 default:
-                    output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[24 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
             }
         }); // Arms - feathers
@@ -174,46 +211,46 @@ internal static class Cockatrice
         builder.RenderSingle(SpriteType.BodyAccent4, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon == false)
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
-                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
-                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 1:
-                    output.Sprite(input.Sprites.Cockatrice1[38 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[38 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 2:
-                    output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 3:
-                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 4:
-                    output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 5:
-                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 6:
-                    output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 7:
-                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[37 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 default:
-                    output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 6 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[36 + 3 * (input.U.BodySize > 1 ? 1 : 0) + 6 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
             }
         }); // Arms - scales
@@ -221,11 +258,11 @@ internal static class Cockatrice
         builder.RenderSingle(SpriteType.BodyAccent5, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Cockatrice1[48 + (input.Actor.Unit.BodySize > 1 ? 1 : 0) + 2 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+            output.Sprite(input.Sprites.Cockatrice1[48 + (input.U.BodySize > 1 ? 1 : 0) + 2 * (!input.U.HasBreasts ? 1 : 0)]);
         }); // Legs - scales
         builder.RenderSingle(SpriteType.BodyAccent6, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.AccessoryColor));
             output.Sprite(input.Sprites.Cockatrice1[52]);
         }); // Tail - feathers
         builder.RenderSingle(SpriteType.BodyAccent7, 1, (input, output) =>
@@ -236,72 +273,72 @@ internal static class Cockatrice
         builder.RenderSingle(SpriteType.BodyAccent8, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsEating)
+            if (input.A.IsEating)
             {
-                output.Sprite(input.Sprites.Cockatrice1[57 + 3 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                output.Sprite(input.Sprites.Cockatrice1[57 + 3 * (!input.U.HasBreasts ? 1 : 0)]);
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
-                output.Sprite(input.Sprites.Cockatrice1[58 + 3 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                output.Sprite(input.Sprites.Cockatrice1[58 + 3 * (!input.U.HasBreasts ? 1 : 0)]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Cockatrice1[56 + 3 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+            output.Sprite(input.Sprites.Cockatrice1[56 + 3 * (!input.U.HasBreasts ? 1 : 0)]);
         }); // Head - scales
 
         builder.RenderSingle(SpriteType.BodyAccent9, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon == false)
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
-                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Cockatrice1[143 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                output.Sprite(input.Sprites.Cockatrice1[143 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
-                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 1:
-                    output.Sprite(input.Sprites.Cockatrice1[146 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[146 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 2:
-                    output.Sprite(input.Sprites.Cockatrice1[144 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[144 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 3:
-                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 4:
-                    output.Sprite(input.Sprites.Cockatrice1[144 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[144 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 5:
-                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 6:
-                    output.Sprite(input.Sprites.Cockatrice1[144 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[144 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 case 7:
-                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[145 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
                 default:
-                    output.Sprite(input.Sprites.Cockatrice1[144 + 4 * (!input.Actor.Unit.HasBreasts ? 1 : 0)]);
+                    output.Sprite(input.Sprites.Cockatrice1[144 + 4 * (!input.U.HasBreasts ? 1 : 0)]);
                     return;
             }
         }); // Hands - scales
 
         builder.RenderSingle(SpriteType.BodyAccent10, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Cockatrice1[84 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.HairColor));
+            output.Sprite(input.Sprites.Cockatrice1[84 + input.U.EyeType]);
         }); // Eyebrows
         builder.RenderSingle(SpriteType.BodyAccessory, 21, (input, output) =>
         {
@@ -310,33 +347,15 @@ internal static class Cockatrice
         });
         builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[31]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[30]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[29]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
 
                 if (leftSize > 28)
                 {
@@ -347,39 +366,21 @@ internal static class Cockatrice
             }
             else
             {
-                output.Sprite(input.Sprites.Cockatrice2[0 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Cockatrice2[0 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[63]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[62]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[61]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
 
                 if (rightSize > 28)
                 {
@@ -390,40 +391,17 @@ internal static class Cockatrice
             }
             else
             {
-                output.Sprite(input.Sprites.Cockatrice2[32 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Cockatrice2[32 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(31, 0.7f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[99]).AddOffset(0, -29 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[98]).AddOffset(0, -29 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[97]).AddOffset(0, -29 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.Cockatrice2[96]).AddOffset(0, -29 * .625f);
-                    return;
-                }
-
+                int size = input.A.GetStomachSize(31, 0.7f);
+                
                 switch (size)
                 {
                     case 26:
@@ -452,52 +430,52 @@ internal static class Cockatrice
 
         builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
             output.AddOffset(0, 1 * .625f);
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
                     output.Layer(20);
-                    if (input.Actor.IsCockVoring)
+                    if (input.A.IsCockVoring)
                     {
-                        output.Sprite(input.Sprites.Sharks3[132 + input.Actor.Unit.DickSize]);
+                        output.Sprite(input.Sprites.Sharks3[132 + input.U.DickSize]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Sharks3[124 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Sharks3[124 + input.U.DickSize]);
                     return;
                 }
 
                 output.Layer(13);
-                if (input.Actor.IsCockVoring)
+                if (input.A.IsCockVoring)
                 {
-                    output.Sprite(input.Sprites.Sharks3[116 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Sharks3[116 + input.U.DickSize]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Sharks3[108 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Sharks3[108 + input.U.DickSize]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Sharks3[108 + input.Actor.Unit.DickSize]).Layer(11);
+            output.Sprite(input.Sprites.Sharks3[108 + input.U.DickSize]).Layer(11);
         });
 
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(19);
             }
@@ -506,25 +484,8 @@ internal static class Cockatrice
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offset = input.Actor.GetBallSize(28, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Cockatrice2[137]).AddOffset(0, -19 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Cockatrice2[136]).AddOffset(0, -19 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Cockatrice2[135]).AddOffset(0, -19 * .625f);
-                return;
-            }
+            int size = input.U.DickSize;
+            int offset = input.A.GetBallSize(28, .8f);
 
             if (offset >= 26)
             {
@@ -567,10 +528,10 @@ internal static class Cockatrice
         builder.RenderSingle(SpriteType.Weapon, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Cockatrice1[135 + input.Actor.GetWeaponSprite()]);
-                if (!input.Actor.Unit.HasBreasts)
+                output.Sprite(input.Sprites.Cockatrice1[135 + input.A.GetWeaponSprite()]);
+                if (!input.U.HasBreasts)
                 {
                     output.AddOffset(2 * .625f, 0);
                 }
@@ -633,12 +594,12 @@ internal static class Cockatrice
                 {
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[56]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[48 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[48 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -664,12 +625,12 @@ internal static class Cockatrice
                 {
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[65]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[57 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[57 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -695,12 +656,12 @@ internal static class Cockatrice
                 {
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[74]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[66 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[66 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -731,13 +692,13 @@ internal static class Cockatrice
                 {
                     output["Clothing1"].Sprite(input.Sprites.Sharks5[80]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Sharks5[72 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Sharks5[72 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.Sharks5[81]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -769,13 +730,13 @@ internal static class Cockatrice
                     output["Clothing1"].Sprite(input.Sprites.Sharks5[90]);
                     output["Clothing2"].Sprite(input.Sprites.Sharks5[99]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Sharks5[82 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Sharks5[91 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Sharks5[82 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Sharks5[91 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -803,12 +764,12 @@ internal static class Cockatrice
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Sharks5[104 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Sharks5[104 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -834,12 +795,12 @@ internal static class Cockatrice
                 {
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[95]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[87 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[87 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -862,9 +823,9 @@ internal static class Cockatrice
             {
                 output["Clothing1"].Layer(18);
 
-                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.Cockatrice3[83 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[79 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.Cockatrice3[83 + input.U.BodySize] : input.Sprites.Cockatrice3[79 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -886,8 +847,8 @@ internal static class Cockatrice
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(18);
-                output["Clothing1"].Sprite(input.Sprites.Cockatrice3[75 + input.Actor.Unit.BodySize]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Sprite(input.Sprites.Cockatrice3[75 + input.U.BodySize]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -913,9 +874,9 @@ internal static class Cockatrice
                     output["Clothing1"].Sprite(null);
                     output["Clothing2"].SetOffset(0, 0);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[4 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Cockatrice3[4 + input.U.BreastSize]);
                     output["Clothing2"].SetOffset(0, 0);
                 }
                 else
@@ -923,8 +884,8 @@ internal static class Cockatrice
                     output["Clothing2"].SetOffset(0, -1 * .625f);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CockatriceSkin, input.Actor.Unit.SkinColor));
-                output["Clothing2"].Sprite(input.Sprites.Cockatrice3[0 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.CockatriceSkin, input.U.SkinColor));
+                output["Clothing2"].Sprite(input.Sprites.Cockatrice3[0 + input.U.BodySize]);
             });
         });
     }
@@ -956,17 +917,17 @@ internal static class Cockatrice
                 {
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[100]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    if (input.Actor.Unit.BreastSize < 2)
+                    if (input.U.BreastSize < 2)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[96]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 4)
+                    else if (input.U.BreastSize < 4)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[97]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[98]);
                     }
@@ -980,18 +941,18 @@ internal static class Cockatrice
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[119]);
                 }
 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
                     output["Clothing2"].Sprite(null);
                 }
                 else
                 {
-                    output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[109 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[113 + input.Actor.Unit.BodySize]);
+                    output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice3[109 + input.U.BodySize] : input.Sprites.Cockatrice3[113 + input.U.BodySize]);
                 }
 
-                output["Clothing3"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[101 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[105 + input.Actor.Unit.BodySize]);
+                output["Clothing3"].Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice3[101 + input.U.BodySize] : input.Sprites.Cockatrice3[105 + input.U.BodySize]);
 
-                output["Clothing4"].Sprite(input.Actor.GetWeaponSprite() == 1 ? input.Sprites.Cockatrice3[118] : input.Sprites.Cockatrice3[117]);
+                output["Clothing4"].Sprite(input.A.GetWeaponSprite() == 1 ? input.Sprites.Cockatrice3[118] : input.Sprites.Cockatrice3[117]);
             });
         });
     }
@@ -1012,13 +973,13 @@ internal static class Cockatrice
             {
                 output["Clothing2"].Layer(12);
                 output["Clothing1"].Layer(13);
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[20]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[22]);
                     }
@@ -1032,10 +993,10 @@ internal static class Cockatrice
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[12 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[16 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice3[12 + input.U.BodySize] : input.Sprites.Cockatrice3[16 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1060,13 +1021,13 @@ internal static class Cockatrice
 
                 output["Clothing2"].Coloring(Color.white);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[32]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[34]);
                     }
@@ -1080,9 +1041,9 @@ internal static class Cockatrice
                     output["Clothing1"].Sprite(input.Sprites.Cockatrice3[31]);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[23 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[27 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice3[23 + input.U.BodySize] : input.Sprites.Cockatrice3[27 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1106,9 +1067,9 @@ internal static class Cockatrice
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Sprite(input.Sprites.Cockatrice3[35]);
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[23 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[27 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice3[23 + input.U.BodySize] : input.Sprites.Cockatrice3[27 + input.U.BodySize]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AviansSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1135,13 +1096,13 @@ internal static class Cockatrice
 
                 output["Clothing1"].Coloring(Color.white);
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[44]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Cockatrice3[46]);
                     }
@@ -1155,7 +1116,7 @@ internal static class Cockatrice
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Cockatrice3[36 + input.Actor.Unit.BodySize] : input.Sprites.Cockatrice3[40 + input.Actor.Unit.BodySize]);
+                output["Clothing2"].Sprite(input.U.HasBreasts ? input.Sprites.Cockatrice3[36 + input.U.BodySize] : input.Sprites.Cockatrice3[40 + input.U.BodySize]);
             });
         });
     }

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -8,6 +9,39 @@ internal static class Monitors
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Monitor", "Monitors");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 17,
+            StomachSize = 17,
+            HasTail = true,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
+            PowerAdjustment = 1.3f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(12, 20),
+                Dexterity = new RaceStats.StatRange(6, 10),
+                Endurance = new RaceStats.StatRange(12, 20),
+                Mind = new RaceStats.StatRange(6, 12),
+                Will = new RaceStats.StatRange(8, 16),
+                Agility = new RaceStats.StatRange(10, 16),
+                Voracity = new RaceStats.StatRange(16, 24),
+                Stomach = new RaceStats.StatRange(12, 18),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.HardSkin,
+                Traits.Resilient,
+                Traits.VenomShock,
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Body Pattern Colors");
+        });
         RaceFrameList frameListTongue = new RaceFrameList(new int[7] { 0, 1, 2, 1, 2, 1, 0 }, new float[7] { 0.1f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.3f });
 
 
@@ -19,22 +53,22 @@ internal static class Monitors
             output.BodySizes = 3;
             output.SpecialAccessoryCount = 7; // body pattern
             output.ClothingColors = 0;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.KomodosSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.KomodosSkin);
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.EyeColor);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.KomodosSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.KomodosSkin);
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.EyeColor);
         });
 
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsOralVoring)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Monitors[7]);
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Monitors[6]);
                 return;
@@ -45,8 +79,8 @@ internal static class Monitors
 
         builder.RenderSingle(SpriteType.Eyes, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            if (input.Actor.IsOralVoring)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Monitors[11]);
                 return;
@@ -58,13 +92,13 @@ internal static class Monitors
         builder.RenderSingle(SpriteType.Mouth, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Monitors[9]);
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Monitors[8]);
             }
@@ -72,19 +106,19 @@ internal static class Monitors
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            output.Sprite(input.Sprites.Monitors[0 + input.Actor.Unit.BodySize]);
+            output.Sprite(input.Sprites.Monitors[0 + input.U.BodySize]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsAttacking)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Monitors[4]);
                 return;
@@ -95,36 +129,36 @@ internal static class Monitors
 
         builder.RenderSingle(SpriteType.BodyAccent2, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 6)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.AccessoryColor));
+            if (input.U.SpecialAccessoryType == 6)
             {
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
-                output.Sprite(input.Sprites.Monitors[19 + 7 * input.Actor.Unit.SpecialAccessoryType]);
+                output.Sprite(input.Sprites.Monitors[19 + 7 * input.U.SpecialAccessoryType]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Monitors[18 + 7 * input.Actor.Unit.SpecialAccessoryType]);
+            output.Sprite(input.Sprites.Monitors[18 + 7 * input.U.SpecialAccessoryType]);
         }); // right arm pattern
 
         builder.RenderSingle(SpriteType.BodyAccent3, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 6)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.AccessoryColor));
+            if (input.U.SpecialAccessoryType == 6)
             {
                 return;
             }
 
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
-                output.Sprite(input.Sprites.Monitors[21 + 7 * input.Actor.Unit.SpecialAccessoryType]);
+                output.Sprite(input.Sprites.Monitors[21 + 7 * input.U.SpecialAccessoryType]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Monitors[20 + 7 * input.Actor.Unit.SpecialAccessoryType]);
+            output.Sprite(input.Sprites.Monitors[20 + 7 * input.U.SpecialAccessoryType]);
         }); // head pattern
 
         builder.RenderSingle(SpriteType.BodyAccent4, 7, (input, output) =>
@@ -135,7 +169,7 @@ internal static class Monitors
         builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Monitors[14]);
                 return;
@@ -147,41 +181,41 @@ internal static class Monitors
         builder.RenderSingle(SpriteType.BodyAccent6, 9, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (!input.Actor.Targetable)
+            if (!input.A.Targetable)
             {
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentlyActive = false;
+                input.A.AnimationController.frameLists[0].currentFrame = 0;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListTongue.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.frameLists[0].currentTime >= frameListTongue.Times[input.A.AnimationController.frameLists[0].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame++;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame++;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListTongue.Frames.Length)
+                    if (input.A.AnimationController.frameLists[0].currentFrame >= frameListTongue.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.frameLists[0].currentlyActive = false;
+                        input.A.AnimationController.frameLists[0].currentFrame = 0;
+                        input.A.AnimationController.frameLists[0].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Monitors[57 + frameListTongue.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Monitors[57 + frameListTongue.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
             if (State.Rand.Next(900) == 0)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+                input.A.AnimationController.frameLists[0].currentlyActive = true;
             }
         }); // tongue
 
@@ -193,9 +227,9 @@ internal static class Monitors
                 return;
             }
 
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
-                if (input.Actor.IsUnbirthing)
+                if (input.A.IsUnbirthing)
                 {
                     output.Sprite(input.Sprites.Monitors[62]);
                     return;
@@ -204,7 +238,7 @@ internal static class Monitors
                 return;
             }
 
-            if (input.Actor.IsErect() || input.Actor.IsCockVoring)
+            if (input.A.IsErect() || input.A.IsCockVoring)
             {
                 output.Sprite(input.Sprites.Monitors[65]);
             }
@@ -212,15 +246,15 @@ internal static class Monitors
 
         builder.RenderSingle(SpriteType.BodyAccent8, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
             if (Config.HideCocks)
             {
                 return;
             }
 
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
-                if (input.Actor.IsUnbirthing)
+                if (input.A.IsUnbirthing)
                 {
                     output.Sprite(input.Sprites.Monitors[61]);
                     return;
@@ -230,7 +264,7 @@ internal static class Monitors
                 return;
             }
 
-            if (input.Actor.IsErect() || input.Actor.IsCockVoring)
+            if (input.A.IsErect() || input.A.IsCockVoring)
             {
                 output.Sprite(input.Sprites.Monitors[64]);
                 return;
@@ -241,44 +275,21 @@ internal static class Monitors
 
         builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 6)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.AccessoryColor));
+            if (input.U.SpecialAccessoryType == 6)
             {
                 return;
             }
 
-            output.Sprite(input.Sprites.Monitors[15 + input.Actor.Unit.BodySize + 7 * input.Actor.Unit.SpecialAccessoryType]);
+            output.Sprite(input.Sprites.Monitors[15 + input.U.BodySize + 7 * input.U.SpecialAccessoryType]);
         }); // body pattern
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.KomodosSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.KomodosSkin, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(29, 0.7f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.Monitors[153]).AddOffset(0, -13 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.Monitors[152]).AddOffset(0, -13 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 28)
-                {
-                    output.Sprite(input.Sprites.Monitors[151]).AddOffset(0, -13 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 27)
-                {
-                    output.Sprite(input.Sprites.Monitors[150]).AddOffset(0, -13 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(29, 0.7f);
 
                 switch (size)
                 {
@@ -303,34 +314,34 @@ internal static class Monitors
         builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < 1.35f)
+                if (input.A.PredatorComponent?.VisibleFullness < 1.35f)
                 {
                     output.Layer(20);
-                    if (input.Actor.IsCockVoring)
+                    if (input.A.IsCockVoring)
                     {
-                        output.Sprite(input.Sprites.Monitors[72 + input.Actor.Unit.DickSize]);
+                        output.Sprite(input.Sprites.Monitors[72 + input.U.DickSize]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Monitors[66 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Monitors[66 + input.U.DickSize]);
                     return;
                 }
 
                 output.Layer(13);
-                if (input.Actor.IsCockVoring)
+                if (input.A.IsCockVoring)
                 {
-                    output.Sprite(input.Sprites.Monitors[84 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Monitors[84 + input.U.DickSize]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Monitors[78 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Monitors[78 + input.U.DickSize]);
             }
 
             // output.Layer(11);
@@ -339,12 +350,12 @@ internal static class Monitors
         builder.RenderSingle(SpriteType.Balls, 10, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < 1.35f)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < 1.35f)
             {
                 output.Layer(19);
             }
@@ -353,24 +364,7 @@ internal static class Monitors
                 output.Layer(10);
             }
 
-            int offset = input.Actor.GetBallSize(28, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Monitors[119]).AddOffset(0, -27 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.Monitors[118]).AddOffset(0, -27 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Monitors[117]).AddOffset(0, -27 * .625f);
-                return;
-            }
+            int offset = input.A.GetBallSize(28, .8f);
 
             if (offset >= 26)
             {

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class TutorialScript
 {
-
     List<Actor_Unit> tacticalUnits;
 
     string message;
@@ -50,18 +49,24 @@ public class TutorialScript
         }
         tacticalUnits[0].Unit.SetDefaultBreastSize(2);
         tacticalUnits[0].Unit.DickSize = -1;
-        State.GameManager.TacticalMode.TacticalStats.SetInitialUnits(3, 1, 0, 0, 9);
-        State.World.MainEmpires[(int)Race.Imps].MaxGarrisonSize = 4;
-        State.World.MainEmpires[(int)Race.Cats].Armies[0].SetEmpire(State.World.MainEmpires[(int)Race.Cats]);
-        State.World.MainEmpires[(int)Race.Cats].AddGold(1000);
-        State.World.MainEmpires[(int)Race.Imps].Armies[0].SetEmpire(State.World.MainEmpires[(int)Race.Imps]);
+        State.GameManager.TacticalMode.TacticalStats.SetInitialUnits(3, 1, 0, Race.Cats.ToSide(), Race.Imps.ToSide());
+
+        Empire imps = State.World.MainEmpires.First((item) => Equals(item.Race, Race.Imps));
+        imps.MaxGarrisonSize = 4;
+        imps.Armies[0].SetEmpire(imps);
+            
+            
+        Empire cats = State.World.MainEmpires.First((item) => Equals(item.Race, Race.Cats));
+        cats.Armies[0].SetEmpire(cats);
+        cats.AddGold(1000);
+        
         State.World.Villages[0].UpdateNetBoosts();
         State.World.Villages[1].UpdateNetBoosts();
         State.World.Villages[0].AddPopulation(60);
         State.World.Villages[1].AddPopulation(60);
         State.World.Villages[1].TutorialWeapons();
         State.World.MonsterEmpires = new MonsterEmpire[1];
-        State.World.MonsterEmpires[0] = new MonsterEmpire(new Empire.ConstructionArgs(100, Color.white, Color.white, 9, StrategyAIType.Monster, TacticalAIType.Full, 999, 8, 0));
+        State.World.MonsterEmpires[0] = new MonsterEmpire(new Empire.ConstructionArgs(Race.Vagrants, Race.Vagrants.ToSide(), Color.white, Color.white, 9, StrategyAIType.Monster, TacticalAIType.Full, 999, 8, 0));
     }
 
     internal void CheckStatus()

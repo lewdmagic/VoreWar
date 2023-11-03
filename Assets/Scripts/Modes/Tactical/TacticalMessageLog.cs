@@ -356,7 +356,7 @@ public class TacticalMessageLog
     {
         if (SimpleText)
         {
-            if (action.Unit.Race == Race.Terrorbird)
+            if (Equals(action.Unit.Race, Race.Terrorbird))
                 return $"<b>{action.Unit.Name}</b> massages {(action.Unit == action.Target ? GPPHis(action.Target) : "<b>" + action.Target.Name + "</b>'s")} filled crop.";
             else
                 return $"<b>{action.Unit.Name}</b> massages {(action.Unit == action.Target ? GPPHis(action.Target) : "<b>" + action.Target.Name + "</b>'s")} stuffed tail.";
@@ -529,9 +529,9 @@ public class TacticalMessageLog
         }
         if (action.preyLocation == PreyLocation.stomach)
         {
-            if (action.Target.Race < Race.Vagrants || action.Target.Race >= Race.Selicia) // Prey Humanoid
+            if (RaceFuncs.isHumanoid(action.Target.Race)) // Prey Humanoid
             {
-                if (action.Unit.Race < Race.Vagrants || action.Unit.Race >= Race.Selicia) // Pred Humanoid
+                if (RaceFuncs.isHumanoid(action.Unit.Race)) // Pred Humanoid
                     return GetRandomStringFrom(
                     $"From within <b>{action.Unit.Name}</b>’s gurgling gut, <b>{action.Target.Name}</b> remembers all the loved ones that would miss {GPPHim(action.Target)} and with this incentive forces {GPPHis(action.Target)} way out.{odds}",
                     $"<b>{action.Unit.Name}</b>’s stomach finds something particularly disagreeable with how <b>{action.Target.Name}</b> tastes. With a wretched gag, <b>{action.Target.Name}</b> is expelled from <b>{action.Unit.Name}</b>’s tummy.{odds}",
@@ -558,7 +558,7 @@ public class TacticalMessageLog
             }
             else // Prey Feral
             {
-                if (action.Unit.Race < Race.Vagrants || action.Unit.Race >= Race.Selicia) // Pred Humanoid
+                if (RaceFuncs.isHumanoid(action.Unit.Race)) // Pred Humanoid
                     return GetRandomStringFrom(
                     $"<b>{action.Unit.Name}</b>’s stomach finds something particularly disagreeable with how <b>{action.Target.Name}</b> tastes. With a wretched gag, <b>{action.Target.Name}</b> is expelled from <b>{action.Unit.Name}</b>’s tummy.{odds}",
                     $"The rampant indigestion caused by <b>{action.Target.Name}</b>’s incessant struggles causes <b>{action.Unit.Name}</b> to reluctantly release {GPPHis(action.Unit)} stubborn prey.{odds}",
@@ -586,7 +586,7 @@ public class TacticalMessageLog
         }
         else
         {
-            if (action.preyLocation == PreyLocation.breasts && action.Unit.Race == Race.Kangaroos)
+            if (action.preyLocation == PreyLocation.breasts && Equals(action.Unit.Race, Race.Kangaroos))
             {
                 return GetRandomStringFrom(
                     $"Just when all hope seemed lost, <b>{action.Target.Name}</b> manages to pry <b>{action.Unit.Name}</b>'s pouch entrance open, and clambers out, taking large breaths of fresh air. {odds}",
@@ -615,10 +615,10 @@ public class TacticalMessageLog
             return $"<b>{action.Unit.Name}</b> regurgitates <b>{action.Target.Name}</b>.";
         }
         List<string> possibleLines = new List<string>();
-        if (action.Unit.Race == Race.Slimes)
+        if (Equals(action.Unit.Race, Race.Slimes))
         {
             possibleLines.Add($"As <b>{action.Unit.Name}</b> moves forward, {GPPHis(action.Unit)} slimey body contorts, leaving behind <b>{action.Target.Name}</b>, covered in goo, but otherwise alive.");
-            if (action.Target.Race != Race.Slimes)
+            if (!Equals(action.Target.Race, Race.Slimes))
                 possibleLines.Add($"For a moment, <b>{action.Unit.Name}</b> appears to be undergoing mitosis, splitting in half. Then, one half pulls itself off a slightly freaked out <b>{action.Target.Name}</b>, the other becoming <b>{action.Unit.Name}</b> once again.");
             else
                 possibleLines.Add($"For a moment, <b>{action.Unit.Name}</b> appears to be undergoing mitosis, splitting in half. Then, one half begins to shift slightly as <b>{action.Target.Name}</b> becomes a seperate slime once more.");
@@ -636,7 +636,7 @@ public class TacticalMessageLog
             switch (action.preyLocation)
             {
                 case PreyLocation.stomach:
-                    possibleLines.Add($"<b>{action.Unit.Name}</b>, not wishing to {(action.Unit.HasTrait(Traits.Endosoma) && action.Unit.Side == action.Target.Side ? $"carry around <b>{action.Target.Name}</b> any longer" : $"digest <b>{action.Target.Name}</b>")}, sticks a finger in {GPPHis(action.Unit)} throat and {GetRandomStringFrom("vomits out", "throws up", "coughs up")} {GetRandomStringFrom($"<b>{action.Target.Name}</b>", $"the {GetRaceDescSingl(action.Target)}")}.");
+                    possibleLines.Add($"<b>{action.Unit.Name}</b>, not wishing to {(action.Unit.HasTrait(Traits.Endosoma) && Equals(action.Unit.Side, action.Target.Side) ? $"carry around <b>{action.Target.Name}</b> any longer" : $"digest <b>{action.Target.Name}</b>")}, sticks a finger in {GPPHis(action.Unit)} throat and {GetRandomStringFrom("vomits out", "throws up", "coughs up")} {GetRandomStringFrom($"<b>{action.Target.Name}</b>", $"the {GetRaceDescSingl(action.Target)}")}.");
                     possibleLines.Add($"<b>{action.Target.Name}</b> was released back out <b>{action.Unit.Name}</b>'s mouth.");
                     possibleLines.Add($"<b>{action.Unit.Name}</b> pushes up on the bulge <b>{action.Target.Name}</b> makes in {GPPHis(action.Unit)} belly. It isn't long before <b>{action.Target.Name}</b> is pushed back out {GetRandomStringFrom($"the way {GPPHe(action.Target)} came in", $"<b>{action.Unit.Name}</b>'s mouth")}.");
                     possibleLines.Add($"<b>{action.Unit.Name}</b> pushes down on the bulge <b>{action.Target.Name}</b> makes in {GPPHis(action.Unit)} belly. For a moment, this appears to do nothing aside from cause <b>{action.Target.Name}</b> some discomfort. Then, <b>{action.Target.Name}</b> emerges intact from {GetRandomStringFrom($"<b>{action.Unit.Name}</b>", $"the {GetRaceDescSingl(action.Unit)}")}'s ass!");
@@ -745,7 +745,7 @@ public class TacticalMessageLog
             GetRandomStringFrom($"<b>{action.Unit.Name}</b> hears {GPPHis(action.Unit)} {loc} gurgle{locs} intensely. {Capitalize(GPPHe(action.Unit))} feels <b>{action.Target.Name}</b> begin to slip under {GPPHis(action.Unit)} turbulent acids.",
                                 $"<b>{action.Unit.Name}</b>'s {loc} glurt{locs} and blort{locs}, {GPPHis(action.Unit)} {GetPredDesc(action.Target)} prey starting to break down. <b>{action.Target.Name}</b> seems doomed.");
         }
-        if (action.preyLocation == PreyLocation.breasts && action.Unit.Race == Race.Kangaroos)
+        if (action.preyLocation == PreyLocation.breasts && Equals(action.Unit.Race, Race.Kangaroos))
         {
             return GetRandomStringFrom(
 
@@ -816,7 +816,7 @@ public class TacticalMessageLog
     string GetStoredMessage(StoredLogTexts.MessageTypes msgType, EventLog action)
     {
         List<StoredLogTexts.EventString> list = StoredLogTexts.Redirect(msgType);
-        IEnumerable<StoredLogTexts.EventString> messages = list.Where(s => (s.ActorRace == action.Unit.Race || s.ActorRace == (Race)4000) && (s.TargetRace == action.Target.Race || s.TargetRace == (Race)4000) &&
+        IEnumerable<StoredLogTexts.EventString> messages = list.Where(s => (Equals(s.ActorRace, action.Unit.Race) || s.ActorRace == null) && (Equals(s.TargetRace, action.Target.Race) || s.TargetRace == null) &&
         s.Conditional(action));
 
         if (messages.Any() == false)

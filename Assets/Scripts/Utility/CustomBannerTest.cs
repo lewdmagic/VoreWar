@@ -9,10 +9,10 @@ static class CustomBannerTest
 
     static CustomBannerTest()
     {
-        Sprites = new Sprite[Config.NumberOfRaces];
+        Sprites = new Sprite[RaceFuncs.MainRaceCount];
         try
         {
-            for (int i = 0; i < Config.NumberOfRaces; i++)
+            for (int i = 0; i < RaceFuncs.MainRaceCount; i++)
             {
                 Sprites[i] = LoadPNG($"UserData{Path.DirectorySeparatorChar}Banners{Path.DirectorySeparatorChar}{i + 1}.jpg");
                 if (Sprites[i] == null)

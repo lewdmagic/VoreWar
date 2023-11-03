@@ -16,19 +16,25 @@ public class MultiStageBanner : MonoBehaviour
         Empire empire = army.Empire;
         LeaderLayer.enabled = army.LeaderIfInArmy() != null;
         if (empire.UnitySecondaryColor != default)
-            FullBannerLayer.color = empire.UnitySecondaryColor;
-        else
-            FullBannerLayer.color = Color.white;
-        InsigniaLayer.color = empire.UnityColor;
-        if (army.BannerStyle == 0)
         {
-            if (25 + (int)empire.Race < State.GameManager.StrategyMode.Banners.Length)
-                InsigniaLayer.sprite = State.GameManager.StrategyMode.Banners[25 + (int)empire.Race];
-            else
-                InsigniaLayer.sprite = State.GameManager.StrategyMode.Banners[3];
+            FullBannerLayer.color = empire.UnitySecondaryColor;
         }
         else
+        {
+            FullBannerLayer.color = Color.white;
+        }
+
+        InsigniaLayer.color = empire.UnityColor;
+        // TODONE what is 25?
+        // 25 is where the race banners start
+        if (army.BannerStyle == 0)
+        {
+            InsigniaLayer.sprite = RaceFuncs.BannerSprite(empire.Race);
+        }
+        else
+        {
             InsigniaLayer.sprite = State.GameManager.StrategyMode.Banners[2 + army.BannerStyle];
+        }
         //Color TransparentPrimaryColor = new Color(empire.UnityColor.r, empire.UnityColor.g, empire.UnityColor.b, 0.5f);
         //Color TransparentSecondaryColor = new Color(empire.UnitySecondaryColor.r, empire.UnitySecondaryColor.g, empire.UnitySecondaryColor.b, 0.5f);
 
@@ -42,7 +48,9 @@ public class MultiStageBanner : MonoBehaviour
         SelectedBackLayer.enabled = selected;
         SelectedColorLayer.enabled = selected;
         if (selected)
+        {
             SelectedColorLayer.color = empire.UnityColor;
+        }
 
         if (empire.StrategicAI == null && State.World.ActingEmpire == empire && army.Units.Where(s => s.HasEnoughExpToLevelUp()).Any())
         {
@@ -56,7 +64,9 @@ public class MultiStageBanner : MonoBehaviour
         else
         {
             if (system != null)
+            {
                 system.gameObject.SetActive(false);
+            }
         }
     }
 }

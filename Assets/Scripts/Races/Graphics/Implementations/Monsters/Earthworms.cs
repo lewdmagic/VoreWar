@@ -9,6 +9,35 @@ internal static class Earthworms
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<EarthWormParameters>, builder =>
     {
+        builder.Names("Earthworm", "Earthworms");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 12,
+            StomachSize = 16,
+            HasTail = false,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.0f,
+            PowerAdjustment = 1.0f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(8, 12),
+                Dexterity = new RaceStats.StatRange(8, 12),
+                Endurance = new RaceStats.StatRange(10, 16),
+                Mind = new RaceStats.StatRange(6, 10),
+                Will = new RaceStats.StatRange(6, 10),
+                Agility = new RaceStats.StatRange(10, 16),
+                Voracity = new RaceStats.StatRange(20, 28),
+                Stomach = new RaceStats.StatRange(16, 24),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.EasyToVore,
+                Traits.SteadyStomach,
+                Traits.AllOutFirstStrike
+            },
+            RaceDescription = ""
+        });
         RaceFrameList frameListHeadIdle = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .5f, .5f, 1.5f, .5f, .5f });
 
 
@@ -18,26 +47,26 @@ internal static class Earthworms
             output.ClothingColors = 0;
             output.GentleAnimation = true;
             output.WeightGainDisabled = true;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.EarthwormSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.EarthwormSkin);
         });
 
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EarthwormSkin, input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EarthwormSkin, input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Earthworms[8]);
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating || input.Params.Position == Position.Underground)
+            if (input.A.IsAttacking || input.A.IsEating || input.Params.Position == Position.Underground)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentlyActive = false;
+                input.A.AnimationController.frameLists[0].currentFrame = 0;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.IsEating || input.Actor.IsAttacking)
+                if (input.A.IsEating || input.A.IsAttacking)
                 {
                     if (input.Params.Position == Position.Underground)
                     {
@@ -58,28 +87,28 @@ internal static class Earthworms
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >= frameListHeadIdle.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.frameLists[0].currentTime >= frameListHeadIdle.Times[input.A.AnimationController.frameLists[0].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame++;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame++;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListHeadIdle.Frames.Length)
+                    if (input.A.AnimationController.frameLists[0].currentFrame >= frameListHeadIdle.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.frameLists[0].currentlyActive = false;
+                        input.A.AnimationController.frameLists[0].currentFrame = 0;
+                        input.A.AnimationController.frameLists[0].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Earthworms[8 + frameListHeadIdle.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Earthworms[8 + frameListHeadIdle.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
             if (State.Rand.Next(600) == 0)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+                input.A.AnimationController.frameLists[0].currentlyActive = true;
             }
 
             output.Sprite(input.Sprites.Earthworms[8]);
@@ -88,7 +117,7 @@ internal static class Earthworms
         builder.RenderSingle(SpriteType.Mouth, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (!input.Actor.Targetable)
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Earthworms[12]);
                 return;
@@ -97,7 +126,7 @@ internal static class Earthworms
             switch (input.Params.Position)
             {
                 case Position.Underground:
-                    if (input.Actor.IsEating || input.Actor.IsAttacking)
+                    if (input.A.IsEating || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Earthworms[17]);
                         return;
@@ -105,13 +134,13 @@ internal static class Earthworms
 
                     return;
                 case Position.Aboveground:
-                    if (input.Actor.IsEating || input.Actor.IsAttacking)
+                    if (input.A.IsEating || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Earthworms[15]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Earthworms[12 + frameListHeadIdle.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Earthworms[12 + frameListHeadIdle.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                     return;
                 default:
                     return;
@@ -120,13 +149,13 @@ internal static class Earthworms
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EarthwormSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EarthwormSkin, input.U.SkinColor));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            if (!input.Actor.Targetable)
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Earthworms[4]);
                 return;
@@ -135,7 +164,7 @@ internal static class Earthworms
             switch (input.Params.Position)
             {
                 case Position.Underground:
-                    if (input.Actor.IsEating || input.Actor.IsAttacking)
+                    if (input.A.IsEating || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Earthworms[1]);
                         return;
@@ -148,22 +177,22 @@ internal static class Earthworms
                     return;
             }
 
-            int attackingOffset = input.Actor.IsAttacking ? 1 : 0;
-            if (input.Actor.Unit.BodySize == 0)
+            int attackingOffset = input.A.IsAttacking ? 1 : 0;
+            if (input.U.BodySize == 0)
             {
                 output.Sprite(input.Sprites.Bodies[attackingOffset]);
                 return;
             }
 
-            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 8;
+            int genderOffset = input.U.HasBreasts ? 0 : 8;
 
-            output.Sprite(input.Actor.HasBodyWeight ? input.Sprites.Legs[(input.Actor.Unit.BodySize - 1) * 2 + genderOffset + attackingOffset] : null);
+            output.Sprite(input.A.HasBodyWeight ? input.Sprites.Legs[(input.U.BodySize - 1) * 2 + genderOffset + attackingOffset] : null);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EarthwormSkin, input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EarthwormSkin, input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 return;
             }
@@ -176,14 +205,14 @@ internal static class Earthworms
 
         builder.RenderSingle(SpriteType.BodyAccent2, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EarthwormSkin, input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EarthwormSkin, input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Earthworms[7]);
                 return;
             }
 
-            if (input.Params.Position == Position.Aboveground && input.Actor.HasBelly == false)
+            if (input.Params.Position == Position.Aboveground && input.A.HasBelly == false)
             {
                 output.Sprite(input.Sprites.Earthworms[7]);
             }
@@ -191,8 +220,8 @@ internal static class Earthworms
 
         builder.RenderSingle(SpriteType.BodyAccent3, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EarthwormSkin, input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EarthwormSkin, input.U.SkinColor));
+            if (!input.A.Targetable)
             {
                 output.Sprite(input.Sprites.Earthworms[5]);
                 return;
@@ -207,7 +236,7 @@ internal static class Earthworms
         builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (!input.Actor.Targetable)
+            if (!input.A.Targetable)
             {
                 return;
             }
@@ -215,7 +244,7 @@ internal static class Earthworms
             switch (input.Params.Position)
             {
                 case Position.Underground:
-                    if (input.Actor.IsEating || input.Actor.IsAttacking)
+                    if (input.A.IsEating || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Earthworms[3]);
                         return;
@@ -232,49 +261,23 @@ internal static class Earthworms
 
         builder.RenderSingle(SpriteType.Belly, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EarthwormSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EarthwormSkin, input.U.SkinColor));
+            if (input.A.HasBelly == false)
             {
                 return;
             }
 
             if (input.Params.Position == Position.Aboveground)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
-                {
-                    output.Sprite(input.Sprites.Earthworms[43]);
-                    return;
-                }
 
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach))
-                {
-                    if (input.Actor.GetStomachSize(21, .76f) == 21)
-                    {
-                        output.Sprite(input.Sprites.Earthworms[42]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(21, .84f) == 21)
-                    {
-                        output.Sprite(input.Sprites.Earthworms[41]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(21, .92f) == 21)
-                    {
-                        output.Sprite(input.Sprites.Earthworms[40]);
-                        return;
-                    }
-                }
-
-                output.Sprite(input.Sprites.Earthworms[18 + input.Actor.GetStomachSize(21)]);
+                output.Sprite(input.Sprites.Earthworms[18 + input.A.GetStomachSize(21)]);
             }
         });
 
 
         builder.RunBefore((input, output) =>
         {
-            output.Params.Position = !input.Actor.HasAttackedThisCombat ? Position.Underground : Position.Aboveground;
+            output.Params.Position = !input.A.HasAttackedThisCombat ? Position.Underground : Position.Aboveground;
             //base.RunFirst(data.Actor);
 
             output.ChangeSprite(SpriteType.Belly).AddOffset(0, -48 * .625f);

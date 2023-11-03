@@ -11,6 +11,45 @@ internal static class FeralSharks
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Feral Shark", "Feral Sharks");        
+        builder.BonesInfo((unit) => new List<BoneInfo>()
+        {
+            new BoneInfo(BoneTypes.Shark, unit.Name)
+        });
+        builder.FlavorText(new FlavorText(
+            new Texts { "finned", "torpedo shaped", "chompy" },
+            new Texts { "large jawed", "rough scaled", "sharp finned" },
+            new Texts { "skyshark", "shark", "great fish" },
+            "Jaws"
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 16,
+            StomachSize = 20,
+            HasTail = true,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.75f,
+            PowerAdjustment = 1.75f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(8, 20),
+                Dexterity = new RaceStats.StatRange(4, 8),
+                Endurance = new RaceStats.StatRange(14, 24),
+                Mind = new RaceStats.StatRange(6, 10),
+                Will = new RaceStats.StatRange(6, 12),
+                Agility = new RaceStats.StatRange(8, 16),
+                Voracity = new RaceStats.StatRange(14, 22),
+                Stomach = new RaceStats.StatRange(6, 12),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Flight,
+                Traits.Biter
+            },
+            RaceDescription = "When the Scylla left their old realm the creatures that used to hunt them were left hungry. The Sharks, with their strong sense of smell, were able to track down the portals the Scylla used and followed close behind.",
+
+        });
         builder.Setup(output =>
         {
             output.CanBeGender = new List<Gender> { Gender.None };
@@ -24,8 +63,8 @@ internal static class FeralSharks
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSlimeColor(input.Actor.Unit.ExtraColor1));
-            if (input.Actor.Unit.Level > 15)
+            output.Coloring(ColorMap.GetSlimeColor(input.U.ExtraColor1));
+            if (input.U.Level > 15)
             {
                 output.Sprite(input.Sprites.Shark[29]);
             }
@@ -34,20 +73,20 @@ internal static class FeralSharks
         builder.RenderSingle(SpriteType.Eyes, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Shark[9 + input.Actor.Unit.EyeType]);
+            output.Sprite(input.Sprites.Shark[9 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsEating || input.Actor.IsAttacking)
+            if (input.A.IsEating || input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Shark[8]);
             }
         });
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSharkColor(input.Actor.Unit.SkinColor));
-            if (input.Actor.IsEating || input.Actor.IsAttacking)
+            output.Coloring(ColorMap.GetSharkColor(input.U.SkinColor));
+            if (input.A.IsEating || input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Shark[2]);
                 return;
@@ -58,8 +97,8 @@ internal static class FeralSharks
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSharkBellyColor(input.Actor.Unit.AccessoryColor));
-            if (input.Actor.IsEating || input.Actor.IsAttacking)
+            output.Coloring(ColorMap.GetSharkBellyColor(input.U.AccessoryColor));
+            if (input.A.IsEating || input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Shark[3]);
                 return;
@@ -70,56 +109,38 @@ internal static class FeralSharks
 
         builder.RenderSingle(SpriteType.BodyAccent2, 0, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSharkColor(input.Actor.Unit.SkinColor));
-            if (!input.Actor.Targetable)
+            output.Coloring(ColorMap.GetSharkColor(input.U.SkinColor));
+            if (!input.A.Targetable)
             {
-                output.Sprite(input.Sprites.Shark[4 + input.Actor.Unit.SpecialAccessoryType]);
+                output.Sprite(input.Sprites.Shark[4 + input.U.SpecialAccessoryType]);
                 return;
             }
 
             if (State.Rand.Next(200) == 0)
             {
-                input.Actor.SetAnimationMode(1, 1.5f);
+                input.A.SetAnimationMode(1, 1.5f);
             }
 
-            int specialMode = input.Actor.CheckAnimationFrame();
+            int specialMode = input.A.CheckAnimationFrame();
             if (specialMode == 1)
             {
-                output.Sprite(input.Sprites.Shark[6 + input.Actor.Unit.SpecialAccessoryType]);
+                output.Sprite(input.Sprites.Shark[6 + input.U.SpecialAccessoryType]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Shark[4 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Sprite(input.Sprites.Shark[4 + input.U.SpecialAccessoryType]);
         });
 
         builder.RenderSingle(SpriteType.Belly, 1, (input, output) =>
         {
-            output.Coloring(ColorMap.GetSharkBellyColor(input.Actor.Unit.AccessoryColor));
-            if (input.Actor.HasBelly == false)
+            output.Coloring(ColorMap.GetSharkBellyColor(input.U.AccessoryColor));
+            if (input.A.HasBelly == false)
             {
                 output.Sprite(input.Sprites.Shark[12]);
                 return;
             }
 
-            int size = input.Actor.GetStomachSize(22);
-
-            if (size >= 21 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true) ?? false))
-            {
-                output.Sprite(input.Sprites.Shark[30]);
-                return;
-            }
-
-            if (size >= 19 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false) ?? false))
-            {
-                output.Sprite(input.Sprites.Shark[31]);
-                return;
-            }
-
-            if (size >= 17 && (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false) ?? false))
-            {
-                output.Sprite(input.Sprites.Shark[32]);
-                return;
-            }
+            int size = input.A.GetStomachSize(22);
 
             if (size > 16)
             {

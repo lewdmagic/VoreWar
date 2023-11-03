@@ -22,7 +22,7 @@ namespace TaurusClothes
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                if (Config.AllowTopless && input.Actor.PredatorComponent?.VisibleFullness > 0f)
+                if (Config.AllowTopless && input.A.PredatorComponent?.VisibleFullness > 0f)
                 {
                     output.RevealsBreasts = true;
                     output["Clothing1"].Sprite(input.Sprites.CowClothing[10]);
@@ -33,9 +33,9 @@ namespace TaurusClothes
                 }
 
                 int spriteNum;
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    spriteNum = input.Actor.Unit.BreastSize;
+                    spriteNum = input.U.BreastSize;
                     output.ChangeSprite(SpriteType.Breasts).Sprite(input.Sprites.CowClothing[5 + spriteNum]);
                 }
                 else
@@ -83,17 +83,17 @@ namespace TaurusClothes
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(17);
-                if (input.Actor.Unit.HasBreasts == false)
+                if (input.U.HasBreasts == false)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.CowClothing[16 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.CowClothing[16 + input.U.BreastSize]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.CowClothing[16 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.CowClothing[16 + input.U.BreastSize]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-                input.Actor.SquishedBreasts = true;
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+                input.A.SquishedBreasts = true;
             });
         });
     }
@@ -117,18 +117,18 @@ namespace TaurusClothes
                 output["Clothing2"].Layer(11);
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     output["Clothing1"].Sprite(input.Sprites.CowClothing[36]);
                     output["Clothing2"].Sprite(input.Sprites.CowClothing[37]);
-                    output["Clothing3"].Sprite(input.Sprites.CowClothing[38 + input.Actor.Unit.BreastSize]);
+                    output["Clothing3"].Sprite(input.Sprites.CowClothing[38 + input.U.BreastSize]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.CowClothing[31 + (input.Actor.IsAttacking ? 1 : 0)]);
+                    output["Clothing1"].Sprite(input.Sprites.CowClothing[31 + (input.A.IsAttacking ? 1 : 0)]);
                     output["Clothing2"].Coloring(Color.white);
                     output["Clothing2"].Sprite(input.Sprites.CowClothing[35]);
-                    output["Clothing3"].Sprite(input.Sprites.CowClothing[33 + (input.Actor.IsAttacking ? 1 : 0)]);
+                    output["Clothing3"].Sprite(input.Sprites.CowClothing[33 + (input.A.IsAttacking ? 1 : 0)]);
                 }
             });
         });
@@ -148,9 +148,9 @@ namespace TaurusClothes
             builder.RenderAll((input, output) =>
             {
                 output["Clothing1"].Layer(17);
-                var spriteNum = input.Actor.Unit.HasBreasts ? input.Actor.Unit.BreastSize : 5;
+                var spriteNum = input.U.HasBreasts ? input.U.BreastSize : 5;
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
                 output["Clothing1"].Sprite(input.Sprites.CowClothing[23 + spriteNum]);
             });
         });
@@ -171,9 +171,9 @@ namespace TaurusClothes
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(11);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasDick)
+                if (input.U.HasDick)
                 {
-                    if (input.Actor.Unit.HasBreasts)
+                    if (input.U.HasBreasts)
                     {
                         output["Clothing1"].Sprite(input.Sprites.CowClothing[44]);
                     }
@@ -182,15 +182,15 @@ namespace TaurusClothes
                         output["Clothing1"].Sprite(input.Sprites.CowClothing[15]);
                     }
 
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
                 }
                 else
                 {
                     output["Clothing1"].Sprite(null);
                 }
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Sprite(input.Sprites.CowClothing[13 + (input.Actor.Unit.HasBreasts ? 0 : 1)]);
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+                output["Clothing2"].Sprite(input.Sprites.CowClothing[13 + (input.U.HasBreasts ? 0 : 1)]);
             });
         });
     }
@@ -210,8 +210,8 @@ namespace TaurusClothes
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, input.Actor.Unit.ClothingColor));
-                output["Clothing1"].Sprite(input.Sprites.CowClothing[21 + (input.Actor.Unit.HasBreasts ? 0 : 1)]);
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing, input.U.ClothingColor));
+                output["Clothing1"].Sprite(input.Sprites.CowClothing[21 + (input.U.HasBreasts ? 0 : 1)]);
             });
         });
     }
@@ -230,7 +230,7 @@ namespace TaurusClothes
             {
                 output["Clothing1"].Layer(18);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.CowClothing[29 + (input.Actor.Unit.HasBreasts ? 0 : 1)]);
+                output["Clothing1"].Sprite(input.Sprites.CowClothing[29 + (input.U.HasBreasts ? 0 : 1)]);
             });
         });
     }
@@ -290,17 +290,17 @@ namespace TaurusClothes
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     output["Clothing1"].Sprite(input.Sprites.CowHoliday[7]);
-                    output["Clothing2"].Sprite(input.Sprites.CowHoliday[1 + input.Actor.Unit.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.CowHoliday[1 + input.U.BreastSize]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.CowHoliday[8 + (input.Actor.IsAttacking ? 1 : 0)]);
+                    output["Clothing1"].Sprite(input.Sprites.CowHoliday[8 + (input.A.IsAttacking ? 1 : 0)]);
                     //output.Clothing2.GetColor = WhiteColored;
                     //output.Clothing2.GetSprite = (s) => Out.Update(State.GameManager.SpriteDictionary.CowClothing[6]);
-                    output["Clothing2"].Sprite(input.Sprites.CowHoliday[10 + (input.Actor.IsAttacking ? 1 : 0)]);
+                    output["Clothing2"].Sprite(input.Sprites.CowHoliday[10 + (input.A.IsAttacking ? 1 : 0)]);
                 }
             });
         });

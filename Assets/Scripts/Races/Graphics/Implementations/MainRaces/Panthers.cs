@@ -12,6 +12,66 @@ internal static class Panthers
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
     {
+        builder.Names("Panther", "Panthers");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts {  },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Karambit",
+                [WeaponNames.Axe]         = "Kukri",
+                [WeaponNames.SimpleBow]   = "Chakram",
+                [WeaponNames.CompoundBow] = "Onzil"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Strength,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.TasteForBlood,
+                Traits.Pounce
+            },
+            RaceDescription = "Long before \"elder races\" walked among the stars, the Panthers thrived. Long before first words of power were uttered, they have carved their homes into the lightning-struck bark, feeding off its power. And long after the last bastion of so-called civilization will fall to onslaught of wings, claws and fangs, they will thrive in the darkness, pouncing on unsuspecting prey.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.EyeType, "Face Type");
+            buttons.SetText(ButtonType.ClothingColor, "Innerwear Color");
+            buttons.SetText(ButtonType.ClothingColor2, "Outerwear Color");
+            buttons.SetText(ButtonType.ClothingColor3, "Clothing Accent Color");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Arm Bodypaint");
+            buttons.SetText(ButtonType.BodyAccentTypes2, "Shoulder Bodypaint");
+            buttons.SetText(ButtonType.BodyAccentTypes3, "Feet Bodypaint");
+            buttons.SetText(ButtonType.BodyAccentTypes4, "Thigh Bodypaint");
+            buttons.SetText(ButtonType.BodyAccentTypes5, "Face Bodypaint");
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Bodypaint Color");
+            buttons.SetText(ButtonType.ClothingExtraType1, "Over Tops");
+            buttons.SetText(ButtonType.ClothingExtraType2, "Over Bottoms");
+            buttons.SetText(ButtonType.ClothingExtraType3, "Hats");
+            buttons.SetText(ButtonType.ClothingExtraType4, "Gloves");
+            buttons.SetText(ButtonType.ClothingExtraType5, "Legs");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Panthera",
+            "Wakana",
+            "Therishi",
+            "Vogoma",
+            "Kwa-Duka",
+            "Hlobava",
+            "Plundi",
+            "Pumatra",
+            "Khangela",
+            "Qweni-Sho",
+            "Sitting Belly",
+            "Endless Feast",
+            "Gurgling Tents",
+        });
         builder.Setup(output =>
         {
             output.BreastSizes = () => 8;
@@ -27,11 +87,11 @@ internal static class Panthers
 
             output.ExtendedBreastSprites = true;
 
-            output.HairColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.PantherHair);
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.PantherSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.PantherBodyPaint);
+            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.PantherHair);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.PantherSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.PantherBodyPaint);
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.PantherClothes);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.PantherClothes);
 
             List<IClothing<IOverSizeParameters>> allowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>
             {
@@ -141,16 +201,16 @@ internal static class Panthers
 
         builder.RenderSingle(SpriteType.Head, 25, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
-            int attackingOffset = input.Actor.IsAttacking || input.Actor.IsEating ? 2 : 0;
-            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
-            output.Sprite(input.Sprites.PantherBase[4 + genderOffset + attackingOffset + 4 * input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherSkin, input.U.SkinColor));
+            int attackingOffset = input.A.IsAttacking || input.A.IsEating ? 2 : 0;
+            int genderOffset = input.U.HasBreasts ? 0 : 1;
+            output.Sprite(input.Sprites.PantherBase[4 + genderOffset + attackingOffset + 4 * input.U.EyeType]);
         });
 
         builder.RenderSingle(SpriteType.Hair, 27, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherHair, input.Actor.Unit.HairColor));
-            switch (input.Actor.Unit.HairStyle)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherHair, input.U.HairColor));
+            switch (input.U.HairStyle)
             {
                 case 0:
                     output.Sprite(input.Sprites.PantherBase[46]);
@@ -199,8 +259,8 @@ internal static class Panthers
 
         builder.RenderSingle(SpriteType.Hair2, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherHair, input.Actor.Unit.HairColor));
-            switch (input.Actor.Unit.HairStyle)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherHair, input.U.HairColor));
+            switch (input.U.HairStyle)
             {
                 case 0:
                     output.Sprite(input.Sprites.PantherBase[48]);
@@ -222,8 +282,8 @@ internal static class Panthers
 
         builder.RenderSingle(SpriteType.Hair3, 27, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor3));
-            switch (input.Actor.Unit.HairStyle)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherClothes, input.U.ClothingColor3));
+            switch (input.U.HairStyle)
             {
                 case 0:
                     output.Sprite(input.Sprites.PantherBase[47]);
@@ -257,113 +317,113 @@ internal static class Panthers
 
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
-            int attackingOffset = input.Actor.IsAttacking ? 2 : 0;
-            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherSkin, input.U.SkinColor));
+            int attackingOffset = input.A.IsAttacking ? 2 : 0;
+            int genderOffset = input.U.HasBreasts ? 0 : 1;
             output.Sprite(input.Sprites.PantherBase[genderOffset + attackingOffset]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherBodyPaint, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType1 == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherBodyPaint, input.U.AccessoryColor));
+            if (input.U.BodyAccentType1 == 0)
             {
                 return;
             }
 
-            if (input.Actor.Unit.BodyAccentType1 >= input.RaceData.BodyAccentTypes1)
+            if (input.U.BodyAccentType1 >= input.RaceData.BodyAccentTypes1)
             {
-                input.Actor.Unit.BodyAccentType1 = input.RaceData.BodyAccentTypes1 - 1;
+                input.U.BodyAccentType1 = input.RaceData.BodyAccentTypes1 - 1;
             }
 
-            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
-            int attackingOffset = input.Actor.IsAttacking ? 2 : 0;
-            output.Sprite(input.Sprites.PantherBase[74 + genderOffset + attackingOffset + 8 * (input.Actor.Unit.BodyAccentType1 - 1)]);
+            int genderOffset = input.U.HasBreasts ? 0 : 1;
+            int attackingOffset = input.A.IsAttacking ? 2 : 0;
+            output.Sprite(input.Sprites.PantherBase[74 + genderOffset + attackingOffset + 8 * (input.U.BodyAccentType1 - 1)]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent2, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherBodyPaint, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType2 == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherBodyPaint, input.U.AccessoryColor));
+            if (input.U.BodyAccentType2 == 0)
             {
                 return;
             }
 
-            if (input.Actor.Unit.BodyAccentType2 >= input.RaceData.BodyAccentTypes2)
+            if (input.U.BodyAccentType2 >= input.RaceData.BodyAccentTypes2)
             {
-                input.Actor.Unit.BodyAccentType2 = input.RaceData.BodyAccentTypes2 - 1;
+                input.U.BodyAccentType2 = input.RaceData.BodyAccentTypes2 - 1;
             }
 
-            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
-            int attackingOffset = input.Actor.IsAttacking ? 2 : 0;
-            output.Sprite(input.Sprites.PantherBase[78 + genderOffset + attackingOffset + 8 * (input.Actor.Unit.BodyAccentType2 - 1)]);
+            int genderOffset = input.U.HasBreasts ? 0 : 1;
+            int attackingOffset = input.A.IsAttacking ? 2 : 0;
+            output.Sprite(input.Sprites.PantherBase[78 + genderOffset + attackingOffset + 8 * (input.U.BodyAccentType2 - 1)]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent3, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherBodyPaint, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType3 == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherBodyPaint, input.U.AccessoryColor));
+            if (input.U.BodyAccentType3 == 0)
             {
                 return;
             }
 
-            if (input.Actor.Unit.BodyAccentType3 >= input.RaceData.BodyAccentTypes3)
+            if (input.U.BodyAccentType3 >= input.RaceData.BodyAccentTypes3)
             {
-                input.Actor.Unit.BodyAccentType3 = input.RaceData.BodyAccentTypes3 - 1;
+                input.U.BodyAccentType3 = input.RaceData.BodyAccentTypes3 - 1;
             }
 
-            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
-            output.Sprite(input.Sprites.PantherBase[98 + genderOffset + 2 * (input.Actor.Unit.BodyAccentType3 - 1)]);
+            int genderOffset = input.U.HasBreasts ? 0 : 1;
+            output.Sprite(input.Sprites.PantherBase[98 + genderOffset + 2 * (input.U.BodyAccentType3 - 1)]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent4, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherBodyPaint, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType4 == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherBodyPaint, input.U.AccessoryColor));
+            if (input.U.BodyAccentType4 == 0)
             {
                 return;
             }
 
-            if (input.Actor.Unit.BodyAccentType4 >= input.RaceData.BodyAccentTypes4)
+            if (input.U.BodyAccentType4 >= input.RaceData.BodyAccentTypes4)
             {
-                input.Actor.Unit.BodyAccentType4 = input.RaceData.BodyAccentTypes4 - 1;
+                input.U.BodyAccentType4 = input.RaceData.BodyAccentTypes4 - 1;
             }
 
-            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
-            output.Sprite(input.Sprites.PantherBase[102 + genderOffset + 2 * (input.Actor.Unit.BodyAccentType4 - 1)]);
+            int genderOffset = input.U.HasBreasts ? 0 : 1;
+            output.Sprite(input.Sprites.PantherBase[102 + genderOffset + 2 * (input.U.BodyAccentType4 - 1)]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent5, 26, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherBodyPaint, input.Actor.Unit.AccessoryColor));
-            if (input.Actor.Unit.BodyAccentType5 == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherBodyPaint, input.U.AccessoryColor));
+            if (input.U.BodyAccentType5 == 0)
             {
                 return;
             }
 
-            if (input.Actor.Unit.BodyAccentType5 >= input.RaceData.BodyAccentTypes5)
+            if (input.U.BodyAccentType5 >= input.RaceData.BodyAccentTypes5)
             {
-                input.Actor.Unit.BodyAccentType5 = input.RaceData.BodyAccentTypes5 - 1;
+                input.U.BodyAccentType5 = input.RaceData.BodyAccentTypes5 - 1;
             }
 
-            int genderOffset = input.Actor.Unit.HasBreasts ? 0 : 1;
-            int attackingOffset = input.Actor.IsAttacking ? 2 : 0;
-            output.Sprite(input.Sprites.PantherBase[110 + genderOffset + attackingOffset + 4 * (input.Actor.Unit.BodyAccentType5 - 1)]);
+            int genderOffset = input.U.HasBreasts ? 0 : 1;
+            int attackingOffset = input.A.IsAttacking ? 2 : 0;
+            output.Sprite(input.Sprites.PantherBase[110 + genderOffset + attackingOffset + 4 * (input.U.BodyAccentType5 - 1)]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent6, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.PantherBase[20 + (input.Actor.Unit.HasBreasts ? 0 : 1)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherSkin, input.U.SkinColor));
+            output.Sprite(input.Sprites.PantherBase[20 + (input.U.HasBreasts ? 0 : 1)]);
         });
 
         builder.RenderSingle(SpriteType.BodySize, 23, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                int weaponSprite = input.Actor.GetWeaponSprite();
-                int genderMod = input.Actor.Unit.HasBreasts ? 0 : 1;
+                int weaponSprite = input.A.GetWeaponSprite();
+                int genderMod = input.U.HasBreasts ? 0 : 1;
                 switch (weaponSprite)
                 {
                     case 1:
@@ -378,33 +438,15 @@ internal static class Panthers
 
         builder.RenderSingle(SpriteType.Breasts, 19, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[35]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[34]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[33]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
 
                 if (leftSize > 28)
                 {
@@ -416,51 +458,33 @@ internal static class Panthers
             }
             else
             {
-                if (input.Actor.Unit.DefaultBreastSize == 0)
+                if (input.U.DefaultBreastSize == 0)
                 {
                     output.Sprite(input.Sprites.PantherVoreParts[0]);
                     return;
                 }
 
-                if (input.Actor.SquishedBreasts && input.Actor.Unit.BreastSize < 6 && input.Actor.Unit.BreastSize >= 4)
+                if (input.A.SquishedBreasts && input.U.BreastSize < 6 && input.U.BreastSize >= 4)
                 {
-                    output.Sprite(input.Sprites.PantherVoreParts[-2 + input.Actor.Unit.BreastSize]);
+                    output.Sprite(input.Sprites.PantherVoreParts[-2 + input.U.BreastSize]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.PantherVoreParts[3 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.PantherVoreParts[3 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 19, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[70]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[69]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[68]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
 
                 if (rightSize > 28)
                 {
@@ -471,59 +495,30 @@ internal static class Panthers
             }
             else
             {
-                if (input.Actor.Unit.DefaultBreastSize == 0)
+                if (input.U.DefaultBreastSize == 0)
                 {
                     output.Sprite(input.Sprites.PantherVoreParts[140]);
                     return;
                 }
 
-                if (input.Actor.SquishedBreasts && input.Actor.Unit.BreastSize < 6 && input.Actor.Unit.BreastSize >= 4)
+                if (input.A.SquishedBreasts && input.U.BreastSize < 6 && input.U.BreastSize >= 4)
                 {
-                    output.Sprite(input.Sprites.PantherVoreParts[33 + input.Actor.Unit.BreastSize]);
+                    output.Sprite(input.Sprites.PantherVoreParts[33 + input.U.BreastSize]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.PantherVoreParts[38 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.PantherVoreParts[38 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherSkin, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(32, 1.2f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 32)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[145]).AddOffset(0, -22 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(32, 1.2f);
 
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 32)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[144]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[143]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[142]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.PantherVoreParts[141]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                size = input.Actor.GetStomachSize(29, 0.8f);
+                size = input.A.GetStomachSize(29, 0.8f);
                 switch (size)
                 {
                     case 24:
@@ -546,7 +541,7 @@ internal static class Panthers
                         break;
                 }
 
-                if (input.Actor.PredatorComponent.OnlyOnePreyAndLiving() && size >= 8 && size <= 13)
+                if (input.A.PredatorComponent.OnlyOnePreyAndLiving() && size >= 8 && size <= 13)
                 {
                     output.Sprite(input.Sprites.PantherVoreParts[71]);
                     return;
@@ -558,61 +553,42 @@ internal static class Panthers
 
         builder.RenderSingle(SpriteType.Dick, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f)
                 {
-                    output.Sprite(input.Sprites.PantherBase[16 + input.Actor.Unit.DickSize]).Layer(18);
+                    output.Sprite(input.Sprites.PantherBase[16 + input.U.DickSize]).Layer(18);
                     return;
                 }
 
-                output.Sprite(input.Sprites.PantherBase[16 + input.Actor.Unit.DickSize]).Layer(14);
+                output.Sprite(input.Sprites.PantherBase[16 + input.U.DickSize]).Layer(14);
                 return;
             }
 
-            output.Sprite(input.Sprites.PantherBase[12 + input.Actor.Unit.DickSize]).Layer(14);
+            output.Sprite(input.Sprites.PantherBase[12 + input.U.DickSize]).Layer(14);
         });
 
         builder.RenderSingle(SpriteType.Balls, 13, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.PantherSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.Unit.Predator == false)
+            if (input.U.Predator == false)
             {
-                output.Sprite(input.Sprites.PantherVoreParts[107 + input.Actor.Unit.BallsSize]);
+                output.Sprite(input.Sprites.PantherVoreParts[107 + input.U.BallsSize]);
                 return;
             }
 
-            int size = input.Actor.GetBallSize(31, .8f);
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) && size == 31)
-            {
-                output.Sprite(input.Sprites.PantherVoreParts[139]).AddOffset(0, -19 * .625f);
-                return;
-            }
-
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) &&
-                size == 31)
-            {
-                output.Sprite(input.Sprites.PantherVoreParts[138]).AddOffset(0, -16 * .625f);
-                return;
-            }
-
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) &&
-                size == 30)
-            {
-                output.Sprite(input.Sprites.PantherVoreParts[137]).AddOffset(0, -15 * .625f);
-                return;
-            }
+            int size = input.A.GetBallSize(31, .8f);
 
             if (size > 29)
             {
@@ -648,10 +624,10 @@ internal static class Panthers
         builder.RenderSingle(SpriteType.Weapon, 12, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                int weaponSprite = input.Actor.GetWeaponSprite();
-                int genderMod = input.Actor.Unit.HasBreasts ? 0 : 1;
+                int weaponSprite = input.A.GetWeaponSprite();
+                int genderMod = input.U.HasBreasts ? 0 : 1;
                 switch (weaponSprite)
                 {
                     case 0:
@@ -724,11 +700,11 @@ internal static class Panthers
         switch (style)
         {
             case ColorStyle.InnerWear:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, actor.Unit.ClothingColor);
+                return ColorPaletteMap.GetPalette(SwapType.PantherClothes, actor.Unit.ClothingColor);
             case ColorStyle.OuterWear:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, actor.Unit.ClothingColor2);
+                return ColorPaletteMap.GetPalette(SwapType.PantherClothes, actor.Unit.ClothingColor2);
             case ColorStyle.Other:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, actor.Unit.ClothingColor3);
+                return ColorPaletteMap.GetPalette(SwapType.PantherClothes, actor.Unit.ClothingColor3);
             case ColorStyle.None:
                 return null;
         }
@@ -1028,7 +1004,7 @@ internal static class Panthers
                 output["Clothing1"].Layer(layer);
                 output["Clothing1"].Coloring(CalcColor(color));
                 output["Clothing1"].Coloring(CalcPalette(color, input.Actor));
-                output["Clothing1"].Sprite(input.Actor.IsAttacking ? sheet[attacksprite] : sheet[spr]);
+                output["Clothing1"].Sprite(input.A.IsAttacking ? sheet[attacksprite] : sheet[spr]);
             });
         }
     }
@@ -1053,24 +1029,24 @@ internal static class Panthers
                 output["Clothing1"].Coloring(CalcColor(color));
 
                 output["Clothing1"].Coloring(CalcPalette(color, input.Actor));
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     if (input.Params.Oversize)
                     {
                         output["Clothing1"].Sprite(sheet[secondRowStart + 3]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 3)
+                    else if (input.U.BreastSize < 3)
                     {
-                        output["Clothing1"].Sprite(sheet[firstRowStart + input.Actor.Unit.BreastSize]);
+                        output["Clothing1"].Sprite(sheet[firstRowStart + input.U.BreastSize]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
-                        input.Actor.SquishedBreasts = true;
-                        output["Clothing1"].Sprite(sheet[secondRowStart + input.Actor.Unit.BreastSize - 3]);
+                        input.A.SquishedBreasts = true;
+                        output["Clothing1"].Sprite(sheet[secondRowStart + input.U.BreastSize - 3]);
                     }
-                    else // if (input.Actor.Unit.BreastSize < 8)
+                    else // if (input.U.BreastSize < 8)
                     {
-                        output["Clothing1"].Sprite(sheet[firstRowStart + input.Actor.Unit.BreastSize - 3]);
+                        output["Clothing1"].Sprite(sheet[firstRowStart + input.U.BreastSize - 3]);
                     }
                 }
                 else
@@ -1102,15 +1078,15 @@ internal static class Panthers
 
                 if (colored)
                 {
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor));
-                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor));
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.PantherClothes, input.U.ClothingColor));
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.PantherClothes, input.U.ClothingColor));
                 }
 
-                output["Clothing1"].Sprite(input.Actor.Unit.HasDick ? sheet[sprM] : sheet[sprF]);
+                output["Clothing1"].Sprite(input.U.HasDick ? sheet[sprM] : sheet[sprF]);
 
-                if (input.Actor.Unit.HasDick && bulge > 0)
+                if (input.U.HasDick && bulge > 0)
                 {
-                    if (input.Actor.Unit.DickSize > 2)
+                    if (input.U.DickSize > 2)
                     {
                         output["Clothing2"].Sprite(sheet[bulge + 1]);
                     }
@@ -1146,24 +1122,24 @@ internal static class Panthers
                 output["Clothing1"].Layer(layer);
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing2"].Layer(layer + 1);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     if (input.Params.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[31]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 3)
+                    else if (input.U.BreastSize < 3)
                     {
-                        output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[23 + input.Actor.Unit.BreastSize]);
+                        output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[23 + input.U.BreastSize]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
-                        input.Actor.SquishedBreasts = true;
-                        output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[28 + input.Actor.Unit.BreastSize - 3]);
+                        input.A.SquishedBreasts = true;
+                        output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[28 + input.U.BreastSize - 3]);
                     }
-                    else //if (input.Actor.Unit.BreastSize < 8)
+                    else //if (input.U.BreastSize < 8)
                     {
-                        output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[23 + input.Actor.Unit.BreastSize - 3]);
+                        output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[23 + input.U.BreastSize - 3]);
                     }
                 }
                 else
@@ -1171,9 +1147,9 @@ internal static class Panthers
                     output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[18]);
                 }
 
-                output["Clothing2"].Sprite(input.Actor.IsAttacking ? input.Sprites.PantherFOvertops[21] : input.Sprites.PantherFOvertops[20]);
+                output["Clothing2"].Sprite(input.A.IsAttacking ? input.Sprites.PantherFOvertops[21] : input.Sprites.PantherFOvertops[20]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor2));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.PantherClothes, input.U.ClothingColor2));
             });
         }
     }
@@ -1197,24 +1173,24 @@ internal static class Panthers
                 output["Clothing1"].Layer(layer);
                 output["Clothing1"].Coloring(Color.white);
 
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     if (input.Params.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }
-                    else if (input.Actor.Unit.BreastSize < 3)
+                    else if (input.U.BreastSize < 3)
                     {
-                        output["Clothing1"].Sprite(input.Sprites.PantherFTops[5 + input.Actor.Unit.BreastSize]);
+                        output["Clothing1"].Sprite(input.Sprites.PantherFTops[5 + input.U.BreastSize]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
-                        input.Actor.SquishedBreasts = true;
-                        output["Clothing1"].Sprite(input.Sprites.PantherFTops[15 + input.Actor.Unit.BreastSize - 3]);
+                        input.A.SquishedBreasts = true;
+                        output["Clothing1"].Sprite(input.Sprites.PantherFTops[15 + input.U.BreastSize - 3]);
                     }
-                    else //if (input.Actor.Unit.BreastSize < 8)
+                    else //if (input.U.BreastSize < 8)
                     {
-                        output["Clothing1"].Sprite(input.Sprites.PantherFTops[5 + input.Actor.Unit.BreastSize - 3]);
+                        output["Clothing1"].Sprite(input.Sprites.PantherFTops[5 + input.U.BreastSize - 3]);
                     }
                 }
                 else
@@ -1244,7 +1220,7 @@ internal static class Panthers
                 output["Clothing1"].Coloring(CalcColor(color));
 
                 output["Clothing1"].Coloring(CalcPalette(color, input.Actor));
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? sheet[sprF] : sheet[sprM]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF] : sheet[sprM]);
             });
         }
     }
@@ -1299,7 +1275,7 @@ internal static class Panthers
                 output["Clothing2"].Coloring(CalcPalette(ColorStyle.Other, input.Actor));
                 output["Clothing2"].Sprite(input.Sprites.PantherOverBottoms[secondSprite]);
 
-                output["Clothing1"].Sprite(input.Actor.HasBelly ? input.Sprites.PantherOverBottoms[sprB] : input.Sprites.PantherOverBottoms[spr]);
+                output["Clothing1"].Sprite(input.A.HasBelly ? input.Sprites.PantherOverBottoms[sprB] : input.Sprites.PantherOverBottoms[spr]);
             });
         }
     }
@@ -1321,13 +1297,13 @@ internal static class Panthers
             {
                 output["Clothing1"].Layer(14);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.PantherGloves[start + 1] : input.Sprites.PantherGloves[start]);
+                    output["Clothing1"].Sprite(input.A.IsAttacking ? input.Sprites.PantherGloves[start + 1] : input.Sprites.PantherGloves[start]);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Actor.IsAttacking ? input.Sprites.PantherGloves[start + 3] : input.Sprites.PantherGloves[start + 2]);
+                    output["Clothing1"].Sprite(input.A.IsAttacking ? input.Sprites.PantherGloves[start + 3] : input.Sprites.PantherGloves[start + 2]);
                 }
             });
         }
@@ -1350,13 +1326,13 @@ internal static class Panthers
             {
                 output["Clothing2"].Layer(14);
                 output["Clothing1"].Layer(14);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor2)); // output.Clothing1 was set to ClothingColor2 in original code
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor3)); // output.Clothing2 was set to ClothingColor3 in original code - these arent typos, at least not by LewdMagic
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.PantherClothes, input.U.ClothingColor2)); // output.Clothing1 was set to ClothingColor2 in original code
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.PantherClothes, input.U.ClothingColor3)); // output.Clothing2 was set to ClothingColor3 in original code - these arent typos, at least not by LewdMagic
 
 
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    if (input.Actor.IsAttacking)
+                    if (input.A.IsAttacking)
                     {
                         output["Clothing1"].Sprite(input.Sprites.PantherGloves[start + 1]);
                         output["Clothing2"].Sprite(input.Sprites.PantherGloves[start + 5]);
@@ -1369,7 +1345,7 @@ internal static class Panthers
                 }
                 else
                 {
-                    if (input.Actor.IsAttacking)
+                    if (input.A.IsAttacking)
                     {
                         output["Clothing1"].Sprite(input.Sprites.PantherGloves[start + 3]);
                         output["Clothing2"].Sprite(input.Sprites.PantherGloves[start + 7]);
@@ -1401,10 +1377,10 @@ internal static class Panthers
             {
                 output["Clothing2"].Layer(8);
                 output["Clothing1"].Layer(20);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.PantherClothes, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.PantherClothes, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.PantherClothes, input.U.ClothingColor));
 
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     if (input.Params.Oversize)
                     {
@@ -1413,18 +1389,18 @@ internal static class Panthers
                             output["Clothing1"].Sprite(input.Sprites.PantherOnePiece[secondRowStart + 3]);
                         }
                     }
-                    else if (input.Actor.Unit.BreastSize < 3)
+                    else if (input.U.BreastSize < 3)
                     {
-                        output["Clothing1"].Sprite(input.Sprites.PantherOnePiece[firstRowStart + input.Actor.Unit.BreastSize]);
+                        output["Clothing1"].Sprite(input.Sprites.PantherOnePiece[firstRowStart + input.U.BreastSize]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 6)
+                    else if (input.U.BreastSize < 6)
                     {
-                        input.Actor.SquishedBreasts = true;
-                        output["Clothing1"].Sprite(input.Sprites.PantherOnePiece[secondRowStart + input.Actor.Unit.BreastSize - 3]);
+                        input.A.SquishedBreasts = true;
+                        output["Clothing1"].Sprite(input.Sprites.PantherOnePiece[secondRowStart + input.U.BreastSize - 3]);
                     }
-                    else if (input.Actor.Unit.BreastSize < 8)
+                    else if (input.U.BreastSize < 8)
                     {
-                        output["Clothing1"].Sprite(input.Sprites.PantherOnePiece[firstRowStart + input.Actor.Unit.BreastSize - 3]);
+                        output["Clothing1"].Sprite(input.Sprites.PantherOnePiece[firstRowStart + input.U.BreastSize - 3]);
                     }
                 }
                 else
@@ -1432,9 +1408,9 @@ internal static class Panthers
                     output["Clothing1"].Sprite(input.Sprites.PantherOnePiece[firstRowStart]);
                 }
 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
-                    output["Clothing2"].Sprite(input.Sprites.PantherOnePiece[finalStart + 1 + input.Actor.GetStomachSize(32)]);
+                    output["Clothing2"].Sprite(input.Sprites.PantherOnePiece[finalStart + 1 + input.A.GetStomachSize(32)]);
                     output["Clothing2"].Layer(17);
                 }
                 else

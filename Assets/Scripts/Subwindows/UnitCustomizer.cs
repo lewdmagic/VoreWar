@@ -8,57 +8,12 @@ public class UnitCustomizer
 
     internal IRaceData RaceData;
 
-    protected CustomizerButton[] buttons;
+    //protected CustomizerButton[] buttons;
+    internal EnumIndexedArray<ButtonType, CustomizerButton> buttons = new EnumIndexedArray<ButtonType, CustomizerButton>();
 
     protected CustomizerPanel CustomizerUI;
 
-    enum ButtonTypes
-    {
-        Skintone,
-        HairColor,
-        HairStyle,
-        BeardStyle,
-        BodyAccessoryColor,
-        BodyAccessoryType,
-        HeadType,
-        EyeColor,
-        EyeType,
-        MouthType,
-        BreastSize,
-        CockSize,
-        BodyWeight,
-        ClothingType,
-        Clothing2Type,
-        ClothingExtraType1,
-        ClothingExtraType2,
-        ClothingExtraType3,
-        ClothingExtraType4,
-        ClothingExtraType5,
-        HatType,
-        ClothingAccessoryType,
-        ClothingColor,
-        ClothingColor2,
-        ClothingColor3,
-        ExtraColor1,
-        ExtraColor2,
-        ExtraColor3,
-        ExtraColor4,
-        Furry,
-        TailTypes,
-        FurTypes,
-        EarTypes,
-        BodyAccentTypes1,
-        BodyAccentTypes2,
-        BodyAccentTypes3,
-        BodyAccentTypes4,
-        BodyAccentTypes5,
-        BallsSizes,
-        VulvaTypes,
-        AltWeaponTypes,
-        LastIndex
-    }
-
-    public string HairColorLookup(int colorNumber)
+    internal static string HairColorLookup(int colorNumber)
     {
         switch (colorNumber)
         {
@@ -170,27 +125,27 @@ public class UnitCustomizer
     }
 
 
-    protected void Normal(Unit unit)
+    protected void Normal(Unit unit2)
     {
-        for (int i = 0; i < buttons.Length; i++)
+        foreach (ButtonType buttonType in EnumUtil.GetValues<ButtonType>())
         {
-            buttons[i].gameObject.SetActive(true);
-            buttons[i].Label.text = buttons[i].defaultText;
+            buttons[buttonType].gameObject.SetActive(true);
+            buttons[buttonType].Label.text = buttons[buttonType].defaultText;
         }
 
-        buttons[(int)ButtonTypes.BodyAccessoryType].gameObject.SetActive(RaceData.MiscRaceData.SpecialAccessoryCount > 1);
+        buttons[ButtonType.BodyAccessoryType].gameObject.SetActive(RaceData.MiscRaceData.SpecialAccessoryCount > 1);
 
-        buttons[(int)ButtonTypes.BodyAccessoryColor].gameObject.SetActive(RaceData.MiscRaceData.AccessoryColors > 1);
+        buttons[ButtonType.BodyAccessoryColor].gameObject.SetActive(RaceData.MiscRaceData.AccessoryColors > 1);
 
-        buttons[(int)ButtonTypes.ExtraColor1].gameObject.SetActive(false);
-        buttons[(int)ButtonTypes.EyeType].gameObject.SetActive(RaceData.MiscRaceData.EyeTypes > 1);
-        buttons[(int)ButtonTypes.Skintone].gameObject.SetActive(RaceData.MiscRaceData.SkinColors > 1);
-        buttons[(int)ButtonTypes.EyeColor].gameObject.SetActive(RaceData.MiscRaceData.EyeColors > 1);
-        buttons[(int)ButtonTypes.HairColor].gameObject.SetActive(RaceData.MiscRaceData.HairColors > 1);
-        buttons[(int)ButtonTypes.HairStyle].gameObject.SetActive(RaceData.MiscRaceData.HairStyles > 1);
-        buttons[(int)ButtonTypes.BeardStyle].gameObject.SetActive(RaceData.MiscRaceData.BeardStyles > 1);
-        buttons[(int)ButtonTypes.BreastSize].gameObject.SetActive(unit.HasBreasts && RaceData.MiscRaceData.BreastSizes() > 1);
-        buttons[(int)ButtonTypes.CockSize].gameObject.SetActive(unit.HasDick && RaceData.MiscRaceData.DickSizes() > 1);
+        buttons[ButtonType.ExtraColor1].gameObject.SetActive(false);
+        buttons[ButtonType.EyeType].gameObject.SetActive(RaceData.MiscRaceData.EyeTypes > 1);
+        buttons[ButtonType.Skintone].gameObject.SetActive(RaceData.MiscRaceData.SkinColors > 1);
+        buttons[ButtonType.EyeColor].gameObject.SetActive(RaceData.MiscRaceData.EyeColors > 1);
+        buttons[ButtonType.HairColor].gameObject.SetActive(RaceData.MiscRaceData.HairColors > 1);
+        buttons[ButtonType.HairStyle].gameObject.SetActive(RaceData.MiscRaceData.HairStyles > 1);
+        buttons[ButtonType.BeardStyle].gameObject.SetActive(RaceData.MiscRaceData.BeardStyles > 1);
+        buttons[ButtonType.BreastSize].gameObject.SetActive(unit2.HasBreasts && RaceData.MiscRaceData.BreastSizes() > 1);
+        buttons[ButtonType.CockSize].gameObject.SetActive(unit2.HasDick && RaceData.MiscRaceData.DickSizes() > 1);
         CustomizerUI.Gender.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
         CustomizerUI.Nominative.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
         CustomizerUI.Accusative.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
@@ -198,302 +153,308 @@ public class UnitCustomizer
         CustomizerUI.PredicativePossessive.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
         CustomizerUI.Reflexive.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
         CustomizerUI.Quantification.gameObject.SetActive(RaceData.MiscRaceData.CanBeGender.Count > 1);
-        RefreshGenderDropdown(unit);
-        RefreshPronouns(unit);
-        buttons[(int)ButtonTypes.BodyWeight].gameObject.SetActive(RaceData.MiscRaceData.BodySizes > 0);
-        buttons[(int)ButtonTypes.ClothingColor].gameObject.SetActive(RaceData.MiscRaceData.ClothingColors > 1 && (RaceData.MiscRaceData.MainClothingTypesCount > 1 || RaceData.MiscRaceData.WaistClothingTypesCount > 1 || RaceData.MiscRaceData.ClothingHatTypesCount > 1));
-        buttons[(int)ButtonTypes.ClothingType].gameObject.SetActive(RaceData.MiscRaceData.MainClothingTypesCount > 1);
-        buttons[(int)ButtonTypes.Clothing2Type].gameObject.SetActive(RaceData.MiscRaceData.WaistClothingTypesCount > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType1].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing1Count > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType2].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing2Count > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType3].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing3Count > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType4].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing4Count > 1);
-        buttons[(int)ButtonTypes.ClothingExtraType5].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing5Count > 1);
-        buttons[(int)ButtonTypes.HatType].gameObject.SetActive(RaceData.MiscRaceData.ClothingHatTypesCount > 1);
-        buttons[(int)ButtonTypes.ClothingAccessoryType].gameObject.SetActive(RaceData.MiscRaceData.ClothingAccessoryTypesCount > 1 || (unit.EarnedMask && Unit.Race <= Race.Goblins && Unit.Race != Race.Lizards));
+        RefreshGenderDropdown(unit2);
+        RefreshPronouns(unit2);
+        buttons[ButtonType.BodyWeight].gameObject.SetActive(RaceData.MiscRaceData.BodySizes > 0);
+        buttons[ButtonType.ClothingColor].gameObject.SetActive(RaceData.MiscRaceData.ClothingColors > 1 && (RaceData.MiscRaceData.MainClothingTypesCount > 1 || RaceData.MiscRaceData.WaistClothingTypesCount > 1 || RaceData.MiscRaceData.ClothingHatTypesCount > 1));
+        buttons[ButtonType.ClothingType].gameObject.SetActive(RaceData.MiscRaceData.MainClothingTypesCount > 1);
+        buttons[ButtonType.Clothing2Type].gameObject.SetActive(RaceData.MiscRaceData.WaistClothingTypesCount > 1);
+        buttons[ButtonType.ClothingExtraType1].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing1Count > 1);
+        buttons[ButtonType.ClothingExtraType2].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing2Count > 1);
+        buttons[ButtonType.ClothingExtraType3].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing3Count > 1);
+        buttons[ButtonType.ClothingExtraType4].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing4Count > 1);
+        buttons[ButtonType.ClothingExtraType5].gameObject.SetActive(RaceData.MiscRaceData.ExtraMainClothing5Count > 1);
+        buttons[ButtonType.HatType].gameObject.SetActive(RaceData.MiscRaceData.ClothingHatTypesCount > 1);
+        buttons[ButtonType.ClothingAccessoryType].gameObject.SetActive(RaceData.MiscRaceData.ClothingAccessoryTypesCount > 1 || (unit2.EarnedMask && RaceFuncs.isMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizards)));
         
         
         // TODO needs to be fixed, missing feature until there is a good way to achieve it. 
-        //buttons[(int)ButtonTypes.ClothingColor2].gameObject.SetActive(RaceData == Races.SlimeQueenInstance || RaceData == Races.PanthersInstance || RaceData == Races.ImpsInstance || RaceData == Races.GoblinsInstance); //The additional clothing colors are slime queen only for the moment // TODO imrpove comparison
-        //buttons[(int)ButtonTypes.ClothingColor3].gameObject.SetActive(RaceData == Races.SlimeQueenInstance || RaceData == Races.PanthersInstance);
-        buttons[(int)ButtonTypes.ClothingColor2].gameObject.SetActive(false); //The additional clothing colors are slime queen only for the moment // TODO imrpove comparison
-        buttons[(int)ButtonTypes.ClothingColor3].gameObject.SetActive(false);
+        //buttons[ButtonTypes.ClothingColor2].gameObject.SetActive(RaceData == Races.SlimeQueenInstance || RaceData == Races.PanthersInstance || RaceData == Races.ImpsInstance || RaceData == Races.GoblinsInstance); //The additional clothing colors are slime queen only for the moment // TODO imrpove comparison
+        //buttons[ButtonTypes.ClothingColor3].gameObject.SetActive(RaceData == Races.SlimeQueenInstance || RaceData == Races.PanthersInstance);
+        buttons[ButtonType.ClothingColor2].gameObject.SetActive(false); //The additional clothing colors are slime queen only for the moment // TODO imrpove comparison
+        buttons[ButtonType.ClothingColor3].gameObject.SetActive(false);
         
         
-        buttons[(int)ButtonTypes.MouthType].gameObject.SetActive(RaceData.MiscRaceData.MouthTypes > 1);
+        buttons[ButtonType.MouthType].gameObject.SetActive(RaceData.MiscRaceData.MouthTypes > 1);
 
-        buttons[(int)ButtonTypes.ExtraColor1].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors1 > 0);
-        buttons[(int)ButtonTypes.ExtraColor2].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors2 > 0);
-        buttons[(int)ButtonTypes.ExtraColor3].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors3 > 0);
-        buttons[(int)ButtonTypes.ExtraColor4].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors4 > 0);
+        buttons[ButtonType.ExtraColor1].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors1 > 0);
+        buttons[ButtonType.ExtraColor2].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors2 > 0);
+        buttons[ButtonType.ExtraColor3].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors3 > 0);
+        buttons[ButtonType.ExtraColor4].gameObject.SetActive(RaceData.MiscRaceData.ExtraColors4 > 0);
 
 
-        buttons[(int)ButtonTypes.Furry].gameObject.SetActive(RaceData.MiscRaceData.FurCapable);
-        buttons[(int)ButtonTypes.HeadType].gameObject.SetActive(RaceData.MiscRaceData.HeadTypes > 1);
-        buttons[(int)ButtonTypes.TailTypes].gameObject.SetActive(RaceData.MiscRaceData.TailTypes > 1);
-        buttons[(int)ButtonTypes.FurTypes].gameObject.SetActive(RaceData.MiscRaceData.FurTypes > 1);
-        buttons[(int)ButtonTypes.EarTypes].gameObject.SetActive(RaceData.MiscRaceData.EarTypes > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes1].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes1 > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes2].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes2 > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes3].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes3 > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes4].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes4 > 1);
-        buttons[(int)ButtonTypes.BodyAccentTypes5].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes5 > 1);
-        buttons[(int)ButtonTypes.BallsSizes].gameObject.SetActive(RaceData.MiscRaceData.BallsSizes > 1);
-        buttons[(int)ButtonTypes.VulvaTypes].gameObject.SetActive(RaceData.MiscRaceData.VulvaTypes > 1);
-        buttons[(int)ButtonTypes.AltWeaponTypes].gameObject.SetActive(RaceData.MiscRaceData.BasicMeleeWeaponTypes > 1 || RaceData.MiscRaceData.BasicRangedWeaponTypes > 1 || RaceData.MiscRaceData.AdvancedMeleeWeaponTypes > 1 || RaceData.MiscRaceData.AdvancedRangedWeaponTypes > 1);
+        buttons[ButtonType.Furry].gameObject.SetActive(RaceData.MiscRaceData.FurCapable);
+        buttons[ButtonType.HeadType].gameObject.SetActive(RaceData.MiscRaceData.HeadTypes > 1);
+        buttons[ButtonType.TailTypes].gameObject.SetActive(RaceData.MiscRaceData.TailTypes > 1);
+        buttons[ButtonType.FurTypes].gameObject.SetActive(RaceData.MiscRaceData.FurTypes > 1);
+        buttons[ButtonType.EarTypes].gameObject.SetActive(RaceData.MiscRaceData.EarTypes > 1);
+        buttons[ButtonType.BodyAccentTypes1].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes1 > 1);
+        buttons[ButtonType.BodyAccentTypes2].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes2 > 1);
+        buttons[ButtonType.BodyAccentTypes3].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes3 > 1);
+        buttons[ButtonType.BodyAccentTypes4].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes4 > 1);
+        buttons[ButtonType.BodyAccentTypes5].gameObject.SetActive(RaceData.MiscRaceData.BodyAccentTypes5 > 1);
+        buttons[ButtonType.BallsSizes].gameObject.SetActive(RaceData.MiscRaceData.BallsSizes > 1);
+        buttons[ButtonType.VulvaTypes].gameObject.SetActive(RaceData.MiscRaceData.VulvaTypes > 1);
+        buttons[ButtonType.AltWeaponTypes].gameObject.SetActive(RaceData.MiscRaceData.BasicMeleeWeaponTypes > 1 || RaceData.MiscRaceData.BasicRangedWeaponTypes > 1 || RaceData.MiscRaceData.AdvancedMeleeWeaponTypes > 1 || RaceData.MiscRaceData.AdvancedRangedWeaponTypes > 1);
 
-        switch (unit.Race)
-        {
-            case Race.Cats:
-            case Race.Dogs:
-            case Race.Foxes:
-            case Race.Wolves:
-            case Race.Bunnies:
-            case Race.Tigers:
-                buttons[(int)ButtonTypes.HairColor].Label.text = "Hair Color: " + HairColorLookup(Unit.HairColor);
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Fur Color: " + HairColorLookup(Unit.AccessoryColor);
-                break;
-            case Race.Imps:
-                Imp();
-                break;
-            case Race.Goblins:
-                Goblin();
-                break;
-            case Race.Lizards:
-                Lizard();
-                break;
-            case Race.Slimes:
-                Slime();
-                break;
-            case Race.Crypters:
-                buttons[(int)ButtonTypes.ClothingColor].gameObject.SetActive(false);
-                break;
-            case Race.Harpies:
-                Harpy();
-                break;
-            case Race.Lamia:
-                Lamia();
-                break;
-            case Race.Kangaroos:
-                buttons[(int)ButtonTypes.HairStyle].Label.text = "Ear Type";
-                break;
-            case Race.Taurus:
-                buttons[(int)ButtonTypes.EyeType].Label.text = "Face Expression";
-                break;
-            case Race.Crux:
-                Crux();
-                break;
-            case Race.Wyvern:
-                buttons[(int)ButtonTypes.BodyWeight].Label.text = "Horn Type";
-                break;
-            case Race.Succubi:
-                buttons[(int)ButtonTypes.ClothingColor2].gameObject.SetActive(true);
-                break;
-            case Race.Collectors:
-                buttons[(int)ButtonTypes.ExtraColor2].Label.text = "Mouth / Dick Color";
-                break;
-            case Race.Asura:
-                buttons[(int)ButtonTypes.ClothingAccessoryType].Label.text = "Mask";
-                break;
-            case Race.Kobolds:
-                buttons[(int)ButtonTypes.TailTypes].Label.text = "Preferred Facing";
-                break;
-            case Race.Fairies:
-                buttons[(int)ButtonTypes.HatType].Label.text = "Leg Accessory";
-                buttons[(int)ButtonTypes.ClothingAccessoryType].Label.text = "Arm Accessory";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Fairy Season";
-                break;
-            case Race.Equines:
-                buttons[(int)ButtonTypes.ClothingExtraType1].Label.text = "Overtop";
-                buttons[(int)ButtonTypes.ClothingExtraType2].Label.text = "Overbottom";
-                buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Skin Pattern";
-                buttons[(int)ButtonTypes.BodyAccentTypes4].Label.text = "Head Pattern";
-                buttons[(int)ButtonTypes.BodyAccentTypes5].Label.text = "Torso Color";
-                break;
-            case Race.Zera:
-                buttons[(int)ButtonTypes.TailTypes].Label.text = "Default Facing";
-                break;
-            case Race.Bees:
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Exoskeleton Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Antennae Type";
-                break;
-            case Race.Driders:
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Spider Half Color";
-                buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Spider Accent Color";
-                break;
-            case Race.Alraune:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Hair Accessory";
-                buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Plant Colors";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Inner Petals";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Outer Petals";
-                buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Plant Base";
-                break;
-            case Race.Gryphons:
-                buttons[(int)ButtonTypes.Skintone].Label.text = "Body Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Body Style";
-                break;
-            case Race.Bats:
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Fur Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Collar Fur Type";
-                break;
-            case Race.Panthers:
-                Panther();
-                break;
-            case Race.Salamanders:
-                buttons[(int)ButtonTypes.Skintone].Label.text = "Body Color";
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Spine Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Spine Type";
-                break;
-            case Race.Vipers:
-                buttons[(int)ButtonTypes.Skintone].Label.text = "Body Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Hood Type";
-                buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Accent Color";
-                buttons[(int)ButtonTypes.TailTypes].Label.text = "Tail Pattern";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Accent Pattern";
-                break;
-            case Race.Merfolk:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Head Fin";
-                buttons[(int)ButtonTypes.ClothingAccessoryType].Label.text = "Necklace / Hair Ornament";
-                buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Scale Color";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Tail Fin";
-                buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Arm Fin";
-                buttons[(int)ButtonTypes.BodyAccentTypes4].Label.text = "Eyebrow";
 
-                break;
-            case Race.Avians:
-                buttons[(int)ButtonTypes.HairStyle].Label.text = "Head Type";
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Beak Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Head Pattern";
-                buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Core Color";
-                buttons[(int)ButtonTypes.ExtraColor2].Label.text = "Feather Color";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Underwing Palettes";
-                break;
-            case Race.Hippos:
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Accent Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
-                buttons[(int)ButtonTypes.HatType].Label.text = "Headwear Type";
-                buttons[(int)ButtonTypes.ClothingAccessoryType].Label.text = "Necklace Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Left Arm Pattern";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Right Arm Pattern";
-                buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Head Pattern";
-                buttons[(int)ButtonTypes.BodyAccentTypes4].Label.text = "Leg Pattern";
-
-                break;
-            case Race.Mantis:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Antennae Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Wing Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Back Spines";
-
-                break;
-            case Race.Auri:
-                buttons[(int)ButtonTypes.ClothingType].Label.text = "Breast Wrap";
-                buttons[(int)ButtonTypes.ClothingExtraType1].Label.text = "Kimono";
-                buttons[(int)ButtonTypes.ClothingExtraType2].Label.text = "Socks";
-                buttons[(int)ButtonTypes.ClothingExtraType3].Label.text = "Hair Ornament";
-                buttons[(int)ButtonTypes.TailTypes].Label.text = "Tail Quantity";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Beast Mode";
-
-                break;
-            case Race.Catfish:
-                buttons[(int)ButtonTypes.Skintone].Label.text = "Body Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Barbel (Whisker) Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Dorsal Fin Type";
-
-                break;
-            case Race.Ants:
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Exoskeleton Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Antennae Type";
-                break;
-            case Race.WarriorAnts:
-                buttons[(int)ButtonTypes.Skintone].Label.text = "Body Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Antennae Type";
-                break;
-
-            case Race.Frogs:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Primary Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Secondary Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Extra Colors for Females";
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Secondary Pattern Colors";
-                break;
-
-            case Race.Gazelle:
-                buttons[(int)ButtonTypes.Skintone].Label.text = "Fur Color";
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Fur Pattern";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Horn Type (for males)";
-                break;
-
-            case Race.Sharks:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Body Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Secondary Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Nose Type";
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Secondary Pattern Colors";
-                buttons[(int)ButtonTypes.ClothingExtraType1].Label.text = "Hats";
-                break;
-
-            case Race.Komodos:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Body Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Head Shape";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Secondary Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Head Pattern on/off";
-                break;
-
-            case Race.FeralLizards:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Body Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Visible Teeth (during attacks)";
-                break;
-
-            case Race.Cockatrice:
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Feather Color";
-                break;
-
-            case Race.Monitors:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Body Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Body Pattern Colors";
-                break;
-
-            case Race.Deer:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Antlers Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Body Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Leg Type";
-                break;
-
-            case Race.Schiwardez:
-                buttons[(int)ButtonTypes.Skintone].Label.text = "Body Color";
-                break;
-
-            case Race.Terrorbird:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Head Plumage Type";
-                break;
-
-            case Race.Erin:
-                buttons[(int)ButtonTypes.ClothingExtraType1].Label.text = "Panties";
-                buttons[(int)ButtonTypes.ClothingExtraType2].Label.text = "Stockings";
-                buttons[(int)ButtonTypes.ClothingExtraType3].Label.text = "Shoes";
-                break;
-
-            case Race.Vargul:
-                buttons[(int)ButtonTypes.BodyAccessoryType].Label.text = "Body Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Ear Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Head Pattern Type";
-                buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Mask On/Off (for armors)";
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Body Pattern Colors";
-                buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Armor Details Color";
-                break;
-
-            case Race.FeralLions:
-                buttons[(int)ButtonTypes.Skintone].Label.text = "Fur Color";
-                buttons[(int)ButtonTypes.HairStyle].Label.text = "Mane Style";
-                buttons[(int)ButtonTypes.HairColor].Label.text = "Mane Color";
-                break;
-            case Race.Aabayx:
-                buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Head Color";
-                buttons[(int)ButtonTypes.ClothingExtraType1].Label.text = "Face Paint";
-                break;
-        }
+        Unit unit = Unit;
+        
+        Races.GetRace(unit.Race)?.CustomizeButtons(unit, buttons);
+        
+        
+        // switch (RaceFuncs.RaceToSwitch(unit2.Race))
+        // {
+        //     case RaceNumbers.Cats:
+        //     case RaceNumbers.Dogs:
+        //     case RaceNumbers.Foxes:
+        //     case RaceNumbers.Wolves:
+        //     case RaceNumbers.Bunnies:
+        //     case RaceNumbers.Tigers:
+        //         buttons[ButtonTypes.HairColor].Label.text = "Hair Color: " + HairColorLookup(unit.HairColor);
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Fur Color: " + HairColorLookup(unit.AccessoryColor);
+        //         break;
+        //     case RaceNumbers.Imps:
+        //         Imp();
+        //         break;
+        //     case RaceNumbers.Goblins:
+        //         Goblin();
+        //         break;
+        //     case RaceNumbers.Lizards:
+        //         Lizard();
+        //         break;
+        //     case RaceNumbers.Slimes:
+        //         Slime();
+        //         break;
+        //     case RaceNumbers.Crypters:
+        //         buttons[ButtonTypes.ClothingColor].gameObject.SetActive(false);
+        //         break;
+        //     case RaceNumbers.Harpies:
+        //         Harpy();
+        //         break;
+        //     case RaceNumbers.Lamia:
+        //         Lamia();
+        //         break;
+        //     case RaceNumbers.Kangaroos:
+        //         buttons[ButtonTypes.HairStyle].Label.text = "Ear Type";
+        //         break;
+        //     case RaceNumbers.Taurus:
+        //         buttons[ButtonTypes.EyeType].Label.text = "Face Expression";
+        //         break;
+        //     case RaceNumbers.Crux:
+        //         Crux();
+        //         break;
+        //     case RaceNumbers.Wyvern:
+        //         buttons[ButtonTypes.BodyWeight].Label.text = "Horn Type";
+        //         break;
+        //     case RaceNumbers.Succubi:
+        //         buttons[ButtonTypes.ClothingColor2].gameObject.SetActive(true);
+        //         break;
+        //     case RaceNumbers.Collectors:
+        //         buttons[ButtonTypes.ExtraColor2].Label.text = "Mouth / Dick Color";
+        //         break;
+        //     case RaceNumbers.Asura:
+        //         buttons[ButtonTypes.ClothingAccessoryType].Label.text = "Mask";
+        //         break;
+        //     case RaceNumbers.Kobolds:
+        //         buttons[ButtonTypes.TailTypes].Label.text = "Preferred Facing";
+        //         break;
+        //     case RaceNumbers.Fairies:
+        //         buttons[ButtonTypes.HatType].Label.text = "Leg Accessory";
+        //         buttons[ButtonTypes.ClothingAccessoryType].Label.text = "Arm Accessory";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Fairy Season";
+        //         break;
+        //     case RaceNumbers.Equines:
+        //         buttons[ButtonTypes.ClothingExtraType1].Label.text = "Overtop";
+        //         buttons[ButtonTypes.ClothingExtraType2].Label.text = "Overbottom";
+        //         buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Skin Pattern";
+        //         buttons[ButtonTypes.BodyAccentTypes4].Label.text = "Head Pattern";
+        //         buttons[ButtonTypes.BodyAccentTypes5].Label.text = "Torso Color";
+        //         break;
+        //     case RaceNumbers.Zera:
+        //         buttons[ButtonTypes.TailTypes].Label.text = "Default Facing";
+        //         break;
+        //     case RaceNumbers.Bees:
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Exoskeleton Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Antennae Type";
+        //         break;
+        //     case RaceNumbers.Driders:
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Spider Half Color";
+        //         buttons[ButtonTypes.ExtraColor1].Label.text = "Spider Accent Color";
+        //         break;
+        //     case RaceNumbers.Alraune:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Hair Accessory";
+        //         buttons[ButtonTypes.ExtraColor1].Label.text = "Plant Colors";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Inner Petals";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Outer Petals";
+        //         buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Plant Base";
+        //         break;
+        //     case RaceNumbers.Gryphons:
+        //         buttons[ButtonTypes.Skintone].Label.text = "Body Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Body Style";
+        //         break;
+        //     case RaceNumbers.Bats:
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Fur Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Collar Fur Type";
+        //         break;
+        //     case RaceNumbers.Panthers:
+        //         Panther();
+        //         break;
+        //     case RaceNumbers.Salamanders:
+        //         buttons[ButtonTypes.Skintone].Label.text = "Body Color";
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Spine Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Spine Type";
+        //         break;
+        //     case RaceNumbers.Vipers:
+        //         buttons[ButtonTypes.Skintone].Label.text = "Body Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Hood Type";
+        //         buttons[ButtonTypes.ExtraColor1].Label.text = "Accent Color";
+        //         buttons[ButtonTypes.TailTypes].Label.text = "Tail Pattern";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Accent Pattern";
+        //         break;
+        //     case RaceNumbers.Merfolk:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Head Fin";
+        //         buttons[ButtonTypes.ClothingAccessoryType].Label.text = "Necklace / Hair Ornament";
+        //         buttons[ButtonTypes.ExtraColor1].Label.text = "Scale Color";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Tail Fin";
+        //         buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Arm Fin";
+        //         buttons[ButtonTypes.BodyAccentTypes4].Label.text = "Eyebrow";
+        //
+        //         break;
+        //     case RaceNumbers.Avians:
+        //         buttons[ButtonTypes.HairStyle].Label.text = "Head Type";
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Beak Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Head Pattern";
+        //         buttons[ButtonTypes.ExtraColor1].Label.text = "Core Color";
+        //         buttons[ButtonTypes.ExtraColor2].Label.text = "Feather Color";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Underwing Palettes";
+        //         break;
+        //     case RaceNumbers.Hippos:
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Accent Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
+        //         buttons[ButtonTypes.HatType].Label.text = "Headwear Type";
+        //         buttons[ButtonTypes.ClothingAccessoryType].Label.text = "Necklace Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Left Arm Pattern";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Right Arm Pattern";
+        //         buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Head Pattern";
+        //         buttons[ButtonTypes.BodyAccentTypes4].Label.text = "Leg Pattern";
+        //
+        //         break;
+        //     case RaceNumbers.Mantis:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Antennae Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Wing Type";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Back Spines";
+        //
+        //         break;
+        //     case RaceNumbers.Auri:
+        //         buttons[ButtonTypes.ClothingType].Label.text = "Breast Wrap";
+        //         buttons[ButtonTypes.ClothingExtraType1].Label.text = "Kimono";
+        //         buttons[ButtonTypes.ClothingExtraType2].Label.text = "Socks";
+        //         buttons[ButtonTypes.ClothingExtraType3].Label.text = "Hair Ornament";
+        //         buttons[ButtonTypes.TailTypes].Label.text = "Tail Quantity";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Beast Mode";
+        //
+        //         break;
+        //     case RaceNumbers.Catfish:
+        //         buttons[ButtonTypes.Skintone].Label.text = "Body Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Barbel (Whisker) Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Dorsal Fin Type";
+        //
+        //         break;
+        //     case RaceNumbers.Ants:
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Exoskeleton Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Antennae Type";
+        //         break;
+        //     case RaceNumbers.WarriorAnts:
+        //         buttons[ButtonTypes.Skintone].Label.text = "Body Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Antennae Type";
+        //         break;
+        //
+        //     case RaceNumbers.Frogs:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Primary Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Secondary Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Extra Colors for Females";
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Secondary Pattern Colors";
+        //         break;
+        //
+        //     case RaceNumbers.Gazelle:
+        //         buttons[ButtonTypes.Skintone].Label.text = "Fur Color";
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Fur Pattern";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Horn Type (for males)";
+        //         break;
+        //
+        //     case RaceNumbers.Sharks:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Body Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Secondary Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Nose Type";
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Secondary Pattern Colors";
+        //         buttons[ButtonTypes.ClothingExtraType1].Label.text = "Hats";
+        //         break;
+        //
+        //     case RaceNumbers.Komodos:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Body Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Head Shape";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Secondary Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Head Pattern on/off";
+        //         break;
+        //
+        //     case RaceNumbers.FeralLizards:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Body Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Visible Teeth (during attacks)";
+        //         break;
+        //
+        //     case RaceNumbers.Cockatrice:
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Feather Color";
+        //         break;
+        //
+        //     case RaceNumbers.Monitors:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Body Pattern Type";
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Body Pattern Colors";
+        //         break;
+        //
+        //     case RaceNumbers.Deer:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Ear Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Antlers Type";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Body Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Leg Type";
+        //         break;
+        //
+        //     case RaceNumbers.Schiwardez:
+        //         buttons[ButtonTypes.Skintone].Label.text = "Body Color";
+        //         break;
+        //
+        //     case RaceNumbers.Terrorbird:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Head Plumage Type";
+        //         break;
+        //
+        //     case RaceNumbers.Erin:
+        //         buttons[ButtonTypes.ClothingExtraType1].Label.text = "Panties";
+        //         buttons[ButtonTypes.ClothingExtraType2].Label.text = "Stockings";
+        //         buttons[ButtonTypes.ClothingExtraType3].Label.text = "Shoes";
+        //         break;
+        //
+        //     case RaceNumbers.Vargul:
+        //         buttons[ButtonTypes.BodyAccessoryType].Label.text = "Body Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Ear Type";
+        //         buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Head Pattern Type";
+        //         buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Mask On/Off (for armors)";
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Body Pattern Colors";
+        //         buttons[ButtonTypes.ExtraColor1].Label.text = "Armor Details Color";
+        //         break;
+        //
+        //     case RaceNumbers.FeralLions:
+        //         buttons[ButtonTypes.Skintone].Label.text = "Fur Color";
+        //         buttons[ButtonTypes.HairStyle].Label.text = "Mane Style";
+        //         buttons[ButtonTypes.HairColor].Label.text = "Mane Color";
+        //         break;
+        //     case RaceNumbers.Aabayx:
+        //         buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Head Color";
+        //         buttons[ButtonTypes.ClothingExtraType1].Label.text = "Face Paint";
+        //         break;
+        // }
     }
 
     private void RefreshGenderDropdown(Unit unit)
@@ -556,112 +517,112 @@ public class UnitCustomizer
             CustomizerUI.Quantification.value = 1;
     }
 
-    void Panther()
-    {
-        buttons[(int)ButtonTypes.EyeType].Label.text = "Face Type";
-        buttons[(int)ButtonTypes.ClothingColor].Label.text = "Innerwear Color";
-        buttons[(int)ButtonTypes.ClothingColor2].Label.text = "Outerwear Color";
-        buttons[(int)ButtonTypes.ClothingColor3].Label.text = "Clothing Accent Color";
-        buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Arm Bodypaint";
-        buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Shoulder Bodypaint";
-        buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Feet Bodypaint";
-        buttons[(int)ButtonTypes.BodyAccentTypes4].Label.text = "Thigh Bodypaint";
-        buttons[(int)ButtonTypes.BodyAccentTypes5].Label.text = "Face Bodypaint";
-        buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Bodypaint Color";
-        buttons[(int)ButtonTypes.ClothingExtraType1].Label.text = "Over Tops";
-        buttons[(int)ButtonTypes.ClothingExtraType2].Label.text = "Over Bottoms";
-        buttons[(int)ButtonTypes.ClothingExtraType3].Label.text = "Hats";
-        buttons[(int)ButtonTypes.ClothingExtraType4].Label.text = "Gloves";
-        buttons[(int)ButtonTypes.ClothingExtraType5].Label.text = "Legs";
-    }
-
-    void Imp()
-    {
-        buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Body Accent Color";
-        buttons[(int)ButtonTypes.ClothingType].Label.text = "Under Tops";
-        buttons[(int)ButtonTypes.Clothing2Type].Label.text = "Under Bottoms";
-        buttons[(int)ButtonTypes.ClothingExtraType1].Label.text = "Over Bottoms";
-        buttons[(int)ButtonTypes.ClothingExtraType2].Label.text = "Over Tops";
-        buttons[(int)ButtonTypes.ClothingExtraType3].Label.text = "Legs";
-        buttons[(int)ButtonTypes.ClothingExtraType4].Label.text = "Gloves";
-        buttons[(int)ButtonTypes.ClothingExtraType5].Label.text = "Hats";
-        buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Center Pattern";
-        buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Outer Pattern";
-        buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Horn Type";
-        buttons[(int)ButtonTypes.BodyAccentTypes4].Label.text = "Special Type";
-    }
-
-    void Goblin()
-    {
-        buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Body Accent Color";
-        buttons[(int)ButtonTypes.ClothingType].Label.text = "Under Tops";
-        buttons[(int)ButtonTypes.Clothing2Type].Label.text = "Under Bottoms";
-        buttons[(int)ButtonTypes.ClothingExtraType1].Label.text = "Over Bottoms";
-        buttons[(int)ButtonTypes.ClothingExtraType2].Label.text = "Over Tops";
-        buttons[(int)ButtonTypes.ClothingExtraType3].Label.text = "Legs";
-        buttons[(int)ButtonTypes.ClothingExtraType4].Label.text = "Gloves";
-        buttons[(int)ButtonTypes.ClothingExtraType5].Label.text = "Hats";
-        buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Ear Type";
-        buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Eyebrow Type";
-    }
-
-    void Lizard()
-    {
-        buttons[(int)ButtonTypes.Skintone].gameObject.SetActive(false);
-        buttons[(int)ButtonTypes.HairColor].gameObject.SetActive(true);
-        buttons[(int)ButtonTypes.HairColor].Label.text = "Horn Color";
-        buttons[(int)ButtonTypes.HairStyle].Label.text = "Horn Style";
-        buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Body Color";
-        buttons[(int)ButtonTypes.ClothingExtraType1].Label.text = "Leg Guards";
-        buttons[(int)ButtonTypes.ClothingExtraType2].Label.text = "Armlets";
-        buttons[(int)ButtonTypes.HatType].Label.text = "Crown";
-    }
-
-    void Slime()
-    {
-        buttons[(int)ButtonTypes.HairColor].gameObject.SetActive(true);
-        buttons[(int)ButtonTypes.Skintone].gameObject.SetActive(false);
-        buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Body Color";
-        buttons[(int)ButtonTypes.HairColor].Label.text = "Secondary Color";
-        if (Unit.Type == UnitType.Leader)
-        {
-            buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Breast Covering";
-            buttons[(int)ButtonTypes.ExtraColor2].Label.text = "Cock Covering";
-        }
-
-    }
-
-    void Harpy()
-    {
-        buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Upper Feathers";
-        buttons[(int)ButtonTypes.ExtraColor2].Label.text = "Middle Feathers";
-        buttons[(int)ButtonTypes.ExtraColor3].Label.text = "Lower Feathers";
-        buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Lower Feather brightness";
-    }
-
-    void Crux()
-    {
-        buttons[(int)ButtonTypes.ClothingColor2].Label.text = "Pack / Boxer Color";
-        buttons[(int)ButtonTypes.ClothingColor2].gameObject.SetActive(true);
-        buttons[(int)ButtonTypes.BodyWeight].Label.text = "Body Type";
-        buttons[(int)ButtonTypes.EyeType].Label.text = "Face Expression";
-        buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Primary Color";
-        buttons[(int)ButtonTypes.ExtraColor2].Label.text = "Secondary Color";
-        buttons[(int)ButtonTypes.ExtraColor3].Label.text = "Flesh Color";
-        buttons[(int)ButtonTypes.ExtraColor4].gameObject.SetActive(Config.HideCocks == false && actor.Unit.GetBestMelee().Damage == 4);
-        buttons[(int)ButtonTypes.ExtraColor4].Label.text = "Dildo Color";
-        buttons[(int)ButtonTypes.FurTypes].Label.text = "Head Fluff";
-        buttons[(int)ButtonTypes.BodyAccentTypes1].Label.text = "Visible Areola";
-        buttons[(int)ButtonTypes.BodyAccentTypes2].Label.text = "Leg Stripes";
-        buttons[(int)ButtonTypes.BodyAccentTypes3].Label.text = "Arm Stripes";
-    }
-
-    void Lamia()
-    {
-        buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Scale Color";
-        buttons[(int)ButtonTypes.ExtraColor1].Label.text = "Accent Color";
-        buttons[(int)ButtonTypes.ExtraColor2].Label.text = "Tail Pattern Color";
-    }
+    // void Panther()
+    // {
+    //     buttons[ButtonTypes.EyeType].Label.text = "Face Type";
+    //     buttons[ButtonTypes.ClothingColor].Label.text = "Innerwear Color";
+    //     buttons[ButtonTypes.ClothingColor2].Label.text = "Outerwear Color";
+    //     buttons[ButtonTypes.ClothingColor3].Label.text = "Clothing Accent Color";
+    //     buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Arm Bodypaint";
+    //     buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Shoulder Bodypaint";
+    //     buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Feet Bodypaint";
+    //     buttons[ButtonTypes.BodyAccentTypes4].Label.text = "Thigh Bodypaint";
+    //     buttons[ButtonTypes.BodyAccentTypes5].Label.text = "Face Bodypaint";
+    //     buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Bodypaint Color";
+    //     buttons[ButtonTypes.ClothingExtraType1].Label.text = "Over Tops";
+    //     buttons[ButtonTypes.ClothingExtraType2].Label.text = "Over Bottoms";
+    //     buttons[ButtonTypes.ClothingExtraType3].Label.text = "Hats";
+    //     buttons[ButtonTypes.ClothingExtraType4].Label.text = "Gloves";
+    //     buttons[ButtonTypes.ClothingExtraType5].Label.text = "Legs";
+    // }
+    //
+    // void Imp()
+    // {
+    //     buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Body Accent Color";
+    //     buttons[ButtonTypes.ClothingType].Label.text = "Under Tops";
+    //     buttons[ButtonTypes.Clothing2Type].Label.text = "Under Bottoms";
+    //     buttons[ButtonTypes.ClothingExtraType1].Label.text = "Over Bottoms";
+    //     buttons[ButtonTypes.ClothingExtraType2].Label.text = "Over Tops";
+    //     buttons[ButtonTypes.ClothingExtraType3].Label.text = "Legs";
+    //     buttons[ButtonTypes.ClothingExtraType4].Label.text = "Gloves";
+    //     buttons[ButtonTypes.ClothingExtraType5].Label.text = "Hats";
+    //     buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Center Pattern";
+    //     buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Outer Pattern";
+    //     buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Horn Type";
+    //     buttons[ButtonTypes.BodyAccentTypes4].Label.text = "Special Type";
+    // }
+    //
+    // void Goblin()
+    // {
+    //     buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Body Accent Color";
+    //     buttons[ButtonTypes.ClothingType].Label.text = "Under Tops";
+    //     buttons[ButtonTypes.Clothing2Type].Label.text = "Under Bottoms";
+    //     buttons[ButtonTypes.ClothingExtraType1].Label.text = "Over Bottoms";
+    //     buttons[ButtonTypes.ClothingExtraType2].Label.text = "Over Tops";
+    //     buttons[ButtonTypes.ClothingExtraType3].Label.text = "Legs";
+    //     buttons[ButtonTypes.ClothingExtraType4].Label.text = "Gloves";
+    //     buttons[ButtonTypes.ClothingExtraType5].Label.text = "Hats";
+    //     buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Ear Type";
+    //     buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Eyebrow Type";
+    // }
+    //
+    // void Lizard()
+    // {
+    //     buttons[ButtonTypes.Skintone].gameObject.SetActive(false);
+    //     buttons[ButtonTypes.HairColor].gameObject.SetActive(true);
+    //     buttons[ButtonTypes.HairColor].Label.text = "Horn Color";
+    //     buttons[ButtonTypes.HairStyle].Label.text = "Horn Style";
+    //     buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Body Color";
+    //     buttons[ButtonTypes.ClothingExtraType1].Label.text = "Leg Guards";
+    //     buttons[ButtonTypes.ClothingExtraType2].Label.text = "Armlets";
+    //     buttons[ButtonTypes.HatType].Label.text = "Crown";
+    // }
+    //
+    // void Slime()
+    // {
+    //     buttons[ButtonTypes.HairColor].gameObject.SetActive(true);
+    //     buttons[ButtonTypes.Skintone].gameObject.SetActive(false);
+    //     buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Body Color";
+    //     buttons[ButtonTypes.HairColor].Label.text = "Secondary Color";
+    //     if (Unit.Type == UnitType.Leader)
+    //     {
+    //         buttons[ButtonTypes.ExtraColor1].Label.text = "Breast Covering";
+    //         buttons[ButtonTypes.ExtraColor2].Label.text = "Cock Covering";
+    //     }
+    //
+    // }
+    //
+    // void Harpy()
+    // {
+    //     buttons[ButtonTypes.ExtraColor1].Label.text = "Upper Feathers";
+    //     buttons[ButtonTypes.ExtraColor2].Label.text = "Middle Feathers";
+    //     buttons[ButtonTypes.ExtraColor3].Label.text = "Lower Feathers";
+    //     buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Lower Feather brightness";
+    // }
+    //
+    // void Crux()
+    // {
+    //     buttons[ButtonTypes.ClothingColor2].Label.text = "Pack / Boxer Color";
+    //     buttons[ButtonTypes.ClothingColor2].gameObject.SetActive(true);
+    //     buttons[ButtonTypes.BodyWeight].Label.text = "Body Type";
+    //     buttons[ButtonTypes.EyeType].Label.text = "Face Expression";
+    //     buttons[ButtonTypes.ExtraColor1].Label.text = "Primary Color";
+    //     buttons[ButtonTypes.ExtraColor2].Label.text = "Secondary Color";
+    //     buttons[ButtonTypes.ExtraColor3].Label.text = "Flesh Color";
+    //     buttons[ButtonTypes.ExtraColor4].gameObject.SetActive(Config.HideCocks == false && actor.Unit.GetBestMelee().Damage == 4);
+    //     buttons[ButtonTypes.ExtraColor4].Label.text = "Dildo Color";
+    //     buttons[ButtonTypes.FurTypes].Label.text = "Head Fluff";
+    //     buttons[ButtonTypes.BodyAccentTypes1].Label.text = "Visible Areola";
+    //     buttons[ButtonTypes.BodyAccentTypes2].Label.text = "Leg Stripes";
+    //     buttons[ButtonTypes.BodyAccentTypes3].Label.text = "Arm Stripes";
+    // }
+    //
+    // void Lamia()
+    // {
+    //     buttons[ButtonTypes.BodyAccessoryColor].Label.text = "Scale Color";
+    //     buttons[ButtonTypes.ExtraColor1].Label.text = "Accent Color";
+    //     buttons[ButtonTypes.ExtraColor2].Label.text = "Tail Pattern Color";
+    // }
 
 
     internal void RefreshGenderSelector()
@@ -716,48 +677,47 @@ public class UnitCustomizer
 
     void CreateButtons()
     {
-        buttons = new CustomizerButton[(int)ButtonTypes.LastIndex];
-        buttons[(int)ButtonTypes.Skintone] = CreateNewButton("Skintone", ChangeSkinTone);
-        buttons[(int)ButtonTypes.HairColor] = CreateNewButton("Hair Color", ChangeHairColor);
-        buttons[(int)ButtonTypes.HairStyle] = CreateNewButton("Hair Style", ChangeHairStyle);
-        buttons[(int)ButtonTypes.BeardStyle] = CreateNewButton("Beard Style", ChangeBeardStyle);
-        buttons[(int)ButtonTypes.BodyAccessoryColor] = CreateNewButton("Body Accessory Color", ChangeBodyAccessoryColor);
-        buttons[(int)ButtonTypes.BodyAccessoryType] = CreateNewButton("Body Accessory Type", ChangeBodyAccessoryType);
-        buttons[(int)ButtonTypes.HeadType] = CreateNewButton("Head Type", ChangeHeadType);
-        buttons[(int)ButtonTypes.EyeColor] = CreateNewButton("Eye Color", ChangeEyeColor);
-        buttons[(int)ButtonTypes.EyeType] = CreateNewButton("Eye Type", ChangeEyeType);
-        buttons[(int)ButtonTypes.MouthType] = CreateNewButton("Mouth Type", ChangeMouthType);
-        buttons[(int)ButtonTypes.BreastSize] = CreateNewButton("Breast Size", ChangeBreastSize);
-        buttons[(int)ButtonTypes.CockSize] = CreateNewButton("Cock Size", ChangeDickSize);
-        buttons[(int)ButtonTypes.BodyWeight] = CreateNewButton("Body Weight", ChangeBodyWeight);
-        buttons[(int)ButtonTypes.ClothingType] = CreateNewButton("Main Clothing Type", ChangeClothingType);
-        buttons[(int)ButtonTypes.Clothing2Type] = CreateNewButton("Waist Clothing Type", ChangeClothing2Type);
-        buttons[(int)ButtonTypes.ClothingExtraType1] = CreateNewButton("Extra Clothing Type 1", ChangeExtraClothing1Type);
-        buttons[(int)ButtonTypes.ClothingExtraType2] = CreateNewButton("Extra Clothing Type 2", ChangeExtraClothing2Type);
-        buttons[(int)ButtonTypes.ClothingExtraType3] = CreateNewButton("Extra Clothing Type 3", ChangeExtraClothing3Type);
-        buttons[(int)ButtonTypes.ClothingExtraType4] = CreateNewButton("Extra Clothing Type 4", ChangeExtraClothing4Type);
-        buttons[(int)ButtonTypes.ClothingExtraType5] = CreateNewButton("Extra Clothing Type 5", ChangeExtraClothing5Type);
-        buttons[(int)ButtonTypes.HatType] = CreateNewButton("Hat Type", ChangeClothingHatType);
-        buttons[(int)ButtonTypes.ClothingAccessoryType] = CreateNewButton("Clothing Accessory Type", ChangeClothingAccesoryType);
-        buttons[(int)ButtonTypes.ClothingColor] = CreateNewButton("Clothing Color", ChangeClothingColor);
-        buttons[(int)ButtonTypes.ClothingColor2] = CreateNewButton("Clothing Color 2", ChangeClothingColor2);
-        buttons[(int)ButtonTypes.ClothingColor3] = CreateNewButton("Clothing Color 3", ChangeClothingColor3);
-        buttons[(int)ButtonTypes.ExtraColor1] = CreateNewButton("Extra Color 1", ChangeExtraColor1);
-        buttons[(int)ButtonTypes.ExtraColor2] = CreateNewButton("Extra Color 2", ChangeExtraColor2);
-        buttons[(int)ButtonTypes.ExtraColor3] = CreateNewButton("Extra Color 3", ChangeExtraColor3);
-        buttons[(int)ButtonTypes.ExtraColor4] = CreateNewButton("Extra Color 4", ChangeExtraColor4);
-        buttons[(int)ButtonTypes.Furry] = CreateNewButton("Furry", ChangeFurriness);
-        buttons[(int)ButtonTypes.TailTypes] = CreateNewButton("Tail Types", ChangeTailType);
-        buttons[(int)ButtonTypes.FurTypes] = CreateNewButton("Fur Types", ChangeFurType);
-        buttons[(int)ButtonTypes.EarTypes] = CreateNewButton("Ear Types", ChangeEarType);
-        buttons[(int)ButtonTypes.BodyAccentTypes1] = CreateNewButton("BATypes1", ChangeBodyAccentTypes1Type);
-        buttons[(int)ButtonTypes.BodyAccentTypes2] = CreateNewButton("BATypes2", ChangeBodyAccentTypes2Type);
-        buttons[(int)ButtonTypes.BodyAccentTypes3] = CreateNewButton("BATypes3", ChangeBodyAccentTypes3Type);
-        buttons[(int)ButtonTypes.BodyAccentTypes4] = CreateNewButton("BATypes4", ChangeBodyAccentTypes4Type);
-        buttons[(int)ButtonTypes.BodyAccentTypes5] = CreateNewButton("BATypes5", ChangeBodyAccentTypes5Type);
-        buttons[(int)ButtonTypes.BallsSizes] = CreateNewButton("Ball Size", ChangeBallsSize);
-        buttons[(int)ButtonTypes.VulvaTypes] = CreateNewButton("Vulva Type", ChangeVulvaType);
-        buttons[(int)ButtonTypes.AltWeaponTypes] = CreateNewButton("Alt Weapon Sprite", ChangeWeaponSprite);
+        buttons[ButtonType.Skintone] = CreateNewButton("Skintone", ChangeSkinTone);
+        buttons[ButtonType.HairColor] = CreateNewButton("Hair Color", ChangeHairColor);
+        buttons[ButtonType.HairStyle] = CreateNewButton("Hair Style", ChangeHairStyle);
+        buttons[ButtonType.BeardStyle] = CreateNewButton("Beard Style", ChangeBeardStyle);
+        buttons[ButtonType.BodyAccessoryColor] = CreateNewButton("Body Accessory Color", ChangeBodyAccessoryColor);
+        buttons[ButtonType.BodyAccessoryType] = CreateNewButton("Body Accessory Type", ChangeBodyAccessoryType);
+        buttons[ButtonType.HeadType] = CreateNewButton("Head Type", ChangeHeadType);
+        buttons[ButtonType.EyeColor] = CreateNewButton("Eye Color", ChangeEyeColor);
+        buttons[ButtonType.EyeType] = CreateNewButton("Eye Type", ChangeEyeType);
+        buttons[ButtonType.MouthType] = CreateNewButton("Mouth Type", ChangeMouthType);
+        buttons[ButtonType.BreastSize] = CreateNewButton("Breast Size", ChangeBreastSize);
+        buttons[ButtonType.CockSize] = CreateNewButton("Cock Size", ChangeDickSize);
+        buttons[ButtonType.BodyWeight] = CreateNewButton("Body Weight", ChangeBodyWeight);
+        buttons[ButtonType.ClothingType] = CreateNewButton("Main Clothing Type", ChangeClothingType);
+        buttons[ButtonType.Clothing2Type] = CreateNewButton("Waist Clothing Type", ChangeClothing2Type);
+        buttons[ButtonType.ClothingExtraType1] = CreateNewButton("Extra Clothing Type 1", ChangeExtraClothing1Type);
+        buttons[ButtonType.ClothingExtraType2] = CreateNewButton("Extra Clothing Type 2", ChangeExtraClothing2Type);
+        buttons[ButtonType.ClothingExtraType3] = CreateNewButton("Extra Clothing Type 3", ChangeExtraClothing3Type);
+        buttons[ButtonType.ClothingExtraType4] = CreateNewButton("Extra Clothing Type 4", ChangeExtraClothing4Type);
+        buttons[ButtonType.ClothingExtraType5] = CreateNewButton("Extra Clothing Type 5", ChangeExtraClothing5Type);
+        buttons[ButtonType.HatType] = CreateNewButton("Hat Type", ChangeClothingHatType);
+        buttons[ButtonType.ClothingAccessoryType] = CreateNewButton("Clothing Accessory Type", ChangeClothingAccesoryType);
+        buttons[ButtonType.ClothingColor] = CreateNewButton("Clothing Color", ChangeClothingColor);
+        buttons[ButtonType.ClothingColor2] = CreateNewButton("Clothing Color 2", ChangeClothingColor2);
+        buttons[ButtonType.ClothingColor3] = CreateNewButton("Clothing Color 3", ChangeClothingColor3);
+        buttons[ButtonType.ExtraColor1] = CreateNewButton("Extra Color 1", ChangeExtraColor1);
+        buttons[ButtonType.ExtraColor2] = CreateNewButton("Extra Color 2", ChangeExtraColor2);
+        buttons[ButtonType.ExtraColor3] = CreateNewButton("Extra Color 3", ChangeExtraColor3);
+        buttons[ButtonType.ExtraColor4] = CreateNewButton("Extra Color 4", ChangeExtraColor4);
+        buttons[ButtonType.Furry] = CreateNewButton("Furry", ChangeFurriness);
+        buttons[ButtonType.TailTypes] = CreateNewButton("Tail Types", ChangeTailType);
+        buttons[ButtonType.FurTypes] = CreateNewButton("Fur Types", ChangeFurType);
+        buttons[ButtonType.EarTypes] = CreateNewButton("Ear Types", ChangeEarType);
+        buttons[ButtonType.BodyAccentTypes1] = CreateNewButton("BATypes1", ChangeBodyAccentTypes1Type);
+        buttons[ButtonType.BodyAccentTypes2] = CreateNewButton("BATypes2", ChangeBodyAccentTypes2Type);
+        buttons[ButtonType.BodyAccentTypes3] = CreateNewButton("BATypes3", ChangeBodyAccentTypes3Type);
+        buttons[ButtonType.BodyAccentTypes4] = CreateNewButton("BATypes4", ChangeBodyAccentTypes4Type);
+        buttons[ButtonType.BodyAccentTypes5] = CreateNewButton("BATypes5", ChangeBodyAccentTypes5Type);
+        buttons[ButtonType.BallsSizes] = CreateNewButton("Ball Size", ChangeBallsSize);
+        buttons[ButtonType.VulvaTypes] = CreateNewButton("Vulva Type", ChangeVulvaType);
+        buttons[ButtonType.AltWeaponTypes] = CreateNewButton("Alt Weapon Sprite", ChangeWeaponSprite);
     }
 
     CustomizerButton CreateNewButton(string text, Action<int> action)
@@ -784,9 +744,9 @@ public class UnitCustomizer
     void ChangeHairColor(int change)
     {
         Unit.HairColor = (RaceData.MiscRaceData.HairColors + Unit.HairColor + change) % RaceData.MiscRaceData.HairColors;
-        if (Unit.Race == Race.Cats | Unit.Race == Race.Dogs | Unit.Race == Race.Bunnies | Unit.Race == Race.Wolves | Unit.Race == Race.Foxes | Unit.Race == Race.Tigers)
+        if (Equals(Unit.Race, Race.Cats) | Equals(Unit.Race, Race.Dogs) | Equals(Unit.Race, Race.Bunnies) | Equals(Unit.Race, Race.Wolves) | Equals(Unit.Race, Race.Foxes) | Equals(Unit.Race, Race.Tigers))
         {
-            buttons[(int)ButtonTypes.HairColor].Label.text = "Hair Color: " + HairColorLookup(Unit.HairColor);
+            buttons[ButtonType.HairColor].Label.text = "Hair Color: " + HairColorLookup(Unit.HairColor);
         }
         RefreshView();
     }
@@ -842,8 +802,8 @@ public class UnitCustomizer
     void ChangeBodyAccessoryColor(int change)
     {
         Unit.AccessoryColor = (RaceData.MiscRaceData.AccessoryColors + Unit.AccessoryColor + change) % RaceData.MiscRaceData.AccessoryColors;
-        if (Unit.Race == Race.Cats | Unit.Race == Race.Dogs | Unit.Race == Race.Bunnies | Unit.Race == Race.Wolves | Unit.Race == Race.Foxes | Unit.Race == Race.Tigers)
-            buttons[(int)ButtonTypes.BodyAccessoryColor].Label.text = "Fur Color: " + HairColorLookup(Unit.AccessoryColor);
+        if (Equals(Unit.Race, Race.Cats) | Equals(Unit.Race, Race.Dogs) | Equals(Unit.Race, Race.Bunnies) | Equals(Unit.Race, Race.Wolves) | Equals(Unit.Race, Race.Foxes) | Equals(Unit.Race, Race.Tigers))
+            buttons[ButtonType.BodyAccessoryColor].Label.text = "Fur Color: " + HairColorLookup(Unit.AccessoryColor);
         RefreshView();
     }
 
@@ -939,8 +899,8 @@ public class UnitCustomizer
             Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.MiscRaceData.BreastSizes()));
         }
 
-        buttons[(int)ButtonTypes.BreastSize].gameObject.SetActive(Unit.HasBreasts && RaceData.MiscRaceData.BreastSizes() > 1);
-        buttons[(int)ButtonTypes.CockSize].gameObject.SetActive(Unit.HasDick && RaceData.MiscRaceData.DickSizes() > 1);
+        buttons[ButtonType.BreastSize].gameObject.SetActive(Unit.HasBreasts && RaceData.MiscRaceData.BreastSizes() > 1);
+        buttons[ButtonType.CockSize].gameObject.SetActive(Unit.HasDick && RaceData.MiscRaceData.DickSizes() > 1);
         if (changedGender)
         {
             if (CustomizerUI.Gender.value == 0 || CustomizerUI.Gender.value == 5)
@@ -1038,7 +998,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingType == 0)
                 break;
-            if (RaceData.MiscRaceData.AllowedMainClothingTypes[Unit.ClothingType - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedMainClothingTypesBasic[Unit.ClothingType - 1].CanWear(Unit))
                 break;
             Unit.ClothingType = (totalClothingTypes + Unit.ClothingType + change) % totalClothingTypes;
         }
@@ -1061,7 +1021,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingType2 == 0)
                 break;
-            if (RaceData.MiscRaceData.AllowedWaistTypes[Unit.ClothingType2 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedWaistTypesBasic[Unit.ClothingType2 - 1].CanWear(Unit))
                 break;
             Unit.ClothingType2 = (totalClothingTypes + Unit.ClothingType2 + change) % totalClothingTypes;
         }
@@ -1085,7 +1045,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType1 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing1Types[Unit.ClothingExtraType1 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing1TypesBasic[Unit.ClothingExtraType1 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType1 = (totalClothingTypes + Unit.ClothingExtraType1 + change) % totalClothingTypes;
         }
@@ -1109,7 +1069,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType2 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing2Types[Unit.ClothingExtraType2 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing2TypesBasic[Unit.ClothingExtraType2 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType2 = (totalClothingTypes + Unit.ClothingExtraType2 + change) % totalClothingTypes;
         }
@@ -1133,7 +1093,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType3 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing3Types[Unit.ClothingExtraType3 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing3TypesBasic[Unit.ClothingExtraType3 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType3 = (totalClothingTypes + Unit.ClothingExtraType3 + change) % totalClothingTypes;
         }
@@ -1157,7 +1117,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType4 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing4Types[Unit.ClothingExtraType4 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing4TypesBasic[Unit.ClothingExtraType4 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType4 = (totalClothingTypes + Unit.ClothingExtraType4 + change) % totalClothingTypes;
         }
@@ -1181,7 +1141,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType5 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing5Types[Unit.ClothingExtraType5 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing5TypesBasic[Unit.ClothingExtraType5 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType5 = (totalClothingTypes + Unit.ClothingExtraType5 + change) % totalClothingTypes;
         }
@@ -1191,7 +1151,7 @@ public class UnitCustomizer
     void ChangeClothingAccesoryType(int change)
     {
         int totalClothingTypes = RaceData.MiscRaceData.ClothingAccessoryTypesCount;
-        if (Unit.EarnedMask && Unit.Race <= Race.Goblins && Unit.Race != Race.Lizards)
+        if (Unit.EarnedMask && RaceFuncs.isMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizards))
             totalClothingTypes += 1;
         if (totalClothingTypes == 0)
         {
@@ -1209,7 +1169,7 @@ public class UnitCustomizer
                 break;
             if (Unit.ClothingAccessoryType == RaceData.MiscRaceData.ClothingAccessoryTypesCount && Unit.EarnedMask)
                 break;
-            if (RaceData.MiscRaceData.AllowedClothingAccessoryTypes[Unit.ClothingAccessoryType - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedClothingAccessoryTypesBasic[Unit.ClothingAccessoryType - 1].CanWear(Unit))
                 break;
             Unit.ClothingAccessoryType = (totalClothingTypes + Unit.ClothingAccessoryType + change) % totalClothingTypes;
         }
@@ -1233,7 +1193,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingHatType == 0)
                 break;
-            if (RaceData.MiscRaceData.AllowedClothingHatTypes[Unit.ClothingHatType - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedClothingHatTypesBasic[Unit.ClothingHatType - 1].CanWear(Unit))
                 break;
             Unit.ClothingHatType = (totalClothingTypes + Unit.ClothingHatType + change) % totalClothingTypes;
         }
@@ -1356,5 +1316,50 @@ public class UnitCustomizer
 
 
 
+}
+
+public enum ButtonType
+{
+    Skintone,
+    HairColor,
+    HairStyle,
+    BeardStyle,
+    BodyAccessoryColor,
+    BodyAccessoryType,
+    HeadType,
+    EyeColor,
+    EyeType,
+    MouthType,
+    BreastSize,
+    CockSize,
+    BodyWeight,
+    ClothingType,
+    Clothing2Type,
+    ClothingExtraType1,
+    ClothingExtraType2,
+    ClothingExtraType3,
+    ClothingExtraType4,
+    ClothingExtraType5,
+    HatType,
+    ClothingAccessoryType,
+    ClothingColor,
+    ClothingColor2,
+    ClothingColor3,
+    ExtraColor1,
+    ExtraColor2,
+    ExtraColor3,
+    ExtraColor4,
+    Furry,
+    TailTypes,
+    FurTypes,
+    EarTypes,
+    BodyAccentTypes1,
+    BodyAccentTypes2,
+    BodyAccentTypes3,
+    BodyAccentTypes4,
+    BodyAccentTypes5,
+    BallsSizes,
+    VulvaTypes,
+    AltWeaponTypes,
 }
 

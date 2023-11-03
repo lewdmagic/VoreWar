@@ -8,6 +8,34 @@ internal static class Voilin
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
+        builder.Names("Voilin", "Voilins");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 6,
+            StomachSize = 10,
+            HasTail = true,
+            FavoredStat = Stat.Stomach,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+            ExpMultiplier = 1.1f,
+            PowerAdjustment = 1.5f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(8, 12),
+                Dexterity = new RaceStats.StatRange(8, 12),
+                Endurance = new RaceStats.StatRange(10, 14),
+                Mind = new RaceStats.StatRange(4, 6),
+                Will = new RaceStats.StatRange(6, 10),
+                Agility = new RaceStats.StatRange(12, 16),
+                Voracity = new RaceStats.StatRange(8, 12),
+                Stomach = new RaceStats.StatRange(8, 12),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Resilient,
+                Traits.Disgusting
+            },
+            RaceDescription = "This small creature is the basic grunt of the Mass, a disposable, nearly mindless slave to throw at potential prey to tire them down for worthier beings to devour.",
+        });
         builder.Setup(output =>
         {
             output.EyeTypes = 3;
@@ -22,14 +50,14 @@ internal static class Voilin
 
         builder.RenderSingle(SpriteType.Eyes, 6, (input, output) =>
         {
-            output.Coloring(ColorMap.GetEyeColor(input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Voilin[9 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorMap.GetEyeColor(input.U.EyeColor));
+            output.Sprite(input.Sprites.Voilin[9 + input.U.EyeType]);
         }); // Eyes, Spines
 
         builder.RenderSingle(SpriteType.Hair, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Voilin[13]);
                 return;
@@ -40,8 +68,8 @@ internal static class Voilin
 
         builder.RenderSingle(SpriteType.Body, 0, (input, output) =>
         {
-            output.Coloring(ColorMap.GetExoticColor(input.Actor.Unit.ExtraColor2));
-            int size = input.Actor.GetStomachSize(23);
+            output.Coloring(ColorMap.GetExoticColor(input.U.ExtraColor2));
+            int size = input.A.GetStomachSize(23);
 
             if (size > 11)
             {
@@ -60,12 +88,12 @@ internal static class Voilin
 
         builder.RenderSingle(SpriteType.BodyAccent, 2, (input, output) =>
         {
-            output.Coloring(ColorMap.GetExoticColor(input.Actor.Unit.ExtraColor2));
-            int size = input.Actor.GetStomachSize(23);
+            output.Coloring(ColorMap.GetExoticColor(input.U.ExtraColor2));
+            int size = input.A.GetStomachSize(23);
 
             if (size > 11)
             {
-                if (input.Actor.IsAttacking || input.Actor.IsEating)
+                if (input.A.IsAttacking || input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Voilin[8]);
                     return;
@@ -77,7 +105,7 @@ internal static class Voilin
 
             if (size > 8)
             {
-                if (input.Actor.IsAttacking || input.Actor.IsEating)
+                if (input.A.IsAttacking || input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Voilin[5]);
                     return;
@@ -87,7 +115,7 @@ internal static class Voilin
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Voilin[2]);
                 return;
@@ -98,18 +126,18 @@ internal static class Voilin
 
         builder.RenderSingle(SpriteType.BodyAccent2, 3, (input, output) =>
         {
-            output.Coloring(ColorMap.GetExoticColor(input.Actor.Unit.ExtraColor1));
+            output.Coloring(ColorMap.GetExoticColor(input.U.ExtraColor1));
             output.Sprite(input.Sprites.Voilin[14]);
         }); // Back Plates
 
         builder.RenderSingle(SpriteType.BodyAccent3, 4, (input, output) =>
         {
-            output.Coloring(ColorMap.GetExoticColor(input.Actor.Unit.SkinColor));
-            int size = input.Actor.GetStomachSize(23);
+            output.Coloring(ColorMap.GetExoticColor(input.U.SkinColor));
+            int size = input.A.GetStomachSize(23);
 
             if (size > 11)
             {
-                if (input.Actor.IsAttacking || input.Actor.IsEating)
+                if (input.A.IsAttacking || input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Voilin[21]);
                     return;
@@ -121,7 +149,7 @@ internal static class Voilin
 
             if (size > 8)
             {
-                if (input.Actor.IsAttacking || input.Actor.IsEating)
+                if (input.A.IsAttacking || input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Voilin[19]);
                     return;
@@ -131,7 +159,7 @@ internal static class Voilin
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Voilin[16]);
                 return;
@@ -142,35 +170,11 @@ internal static class Voilin
 
         builder.RenderSingle(SpriteType.Belly, 1, (input, output) =>
         {
-            output.Coloring(ColorMap.GetExoticColor(input.Actor.Unit.SkinColor));
-            int size = input.Actor.GetStomachSize(23);
+            output.Coloring(ColorMap.GetExoticColor(input.U.SkinColor));
+            int size = input.A.GetStomachSize(23);
 
             if (size == 0)
             {
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false) && size >= 22)
-            {
-                output.Sprite(input.Sprites.Voilin[40]);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false) && size >= 20)
-            {
-                output.Sprite(input.Sprites.Voilin[39]);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false) && size >= 18)
-            {
-                output.Sprite(input.Sprites.Voilin[38]);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false) && size >= 16)
-            {
-                output.Sprite(input.Sprites.Voilin[37]);
                 return;
             }
 
@@ -185,7 +189,7 @@ internal static class Voilin
 
         builder.RunBefore((input, output) =>
         {
-            int size = input.Actor.GetStomachSize(23);
+            int size = input.A.GetStomachSize(23);
             if (size > 14)
             {
                 output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, (29 + (size - 15) * 2) * .625f);

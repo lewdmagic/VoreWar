@@ -29,7 +29,7 @@ public class HoveringRacePicture : MonoBehaviour
     {
         if (Actor == null)
             Actor = new Actor_Unit(new Unit(Race.Cats));
-        if (LastRace != race)
+        if (!Equals(LastRace, race))
         {
             Actor.Unit.Race = race;
             Actor.Unit.TotalRandomizeAppearance();

@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using AlrauneClothing;
 using UnityEngine;
 
@@ -10,6 +11,56 @@ internal static class Alraune
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Alraune", "Alraune");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "plant", "demi-plant", "flowery being" },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Vine Whip",
+                [WeaponNames.Axe]         = "Stem Blade",
+                [WeaponNames.SimpleBow]   = "Unbloomed Corolla",
+                [WeaponNames.CompoundBow] = "Blooming Flower"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 14,
+            StomachSize = 16,
+            HasTail = false,
+            FavoredStat = Stat.Endurance,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Tempered,
+                Traits.SlowAbsorption,
+                Traits.PollenProjector
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryType, "Hair Accessory");
+            buttons.SetText(ButtonType.ExtraColor1, "Plant Colors");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Inner Petals");
+            buttons.SetText(ButtonType.BodyAccentTypes2, "Outer Petals");
+            buttons.SetText(ButtonType.BodyAccentTypes3, "Plant Base");
+        });
+        builder.TownNames(new List<string>
+        {
+            "Yggdrasill",
+            "Evergarden",
+            "Rosewood",
+            "Apple Grove",
+            "Gracefields",
+            "Edenia",
+            "Ivydale",
+            "Magnolia",
+            "Cedarville",
+            "Fiore",
+            "Trees of Valinor",
+            "Green Haven",
+        });
         float yOffset = 10 * .625f;
         IClothing leaderClothes = AlrauneLeader.AlrauneLeaderInstance;
         IClothing rags = AlrauneRags.AlrauneRagsInstance;
@@ -24,7 +75,7 @@ internal static class Alraune
                 (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
                 unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(rags);
+                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(rags);
                 if (unit.ClothingType == -1) //Covers rags not in the list
                 {
                     unit.ClothingType = 1;
@@ -33,7 +84,7 @@ internal static class Alraune
 
             if (unit.Type == UnitType.Leader)
             {
-                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(leaderClothes);
+                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(leaderClothes);
             }
 
             if (unit.HasDick && unit.HasBreasts)
@@ -86,12 +137,12 @@ internal static class Alraune
             output.HairStyles = 12;
             output.SpecialAccessoryCount = 16;
             output.AccessoryColors =
-                ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType
+                ColorPaletteMap.GetPaletteCount(SwapType
                     .AlrauneFoliage); // head flower and upper petals
-            output.HairColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AlrauneHair);
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AlrauneSkin);
+            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.AlrauneHair);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.AlrauneSkin);
             output.ExtraColors1 =
-                ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AlrauneFoliage); // lower petals and base roots
+                ColorPaletteMap.GetPaletteCount(SwapType.AlrauneFoliage); // lower petals and base roots
             output.BodyAccentTypes1 = 9; // upper petals
             output.BodyAccentTypes2 = 10; // lower petals
             output.BodyAccentTypes3 = 8; // base roots
@@ -111,14 +162,14 @@ internal static class Alraune
 
             output.AllowedClothingHatTypes.Clear();
             output.AvoidedMainClothingTypes = 2;
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.AlrauneFoliage);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AlrauneFoliage);
         });
 
 
         builder.RenderSingle(SpriteType.Head, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Alraune[16]);
             }
@@ -126,76 +177,76 @@ internal static class Alraune
 
         builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Eyes].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
+            Defaults.SpriteGens3[SpriteType.Eyes].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
             output.AddOffset(0, yOffset);
         });
         builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
         {
-            Defaults.SpriteGens2[SpriteType.Mouth].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneSkin, input.Actor.Unit.SkinColor));
+            Defaults.SpriteGens3[SpriteType.Mouth].Invoke(input, output);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
             output.AddOffset(0, yOffset);
         });
         
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneHair, input.Actor.Unit.HairColor));
-            output.Sprite(input.Sprites.Alraune[60 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneHair, input.U.HairColor));
+            output.Sprite(input.Sprites.Alraune[60 + input.U.HairStyle]);
         });
         builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneSkin, input.Actor.Unit.SkinColor));
-                if (input.Actor.Unit.HasBreasts)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
+                if (input.U.HasBreasts)
                 {
                     output.Sprite(
-                        input.Sprites.Alraune[0 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
+                        input.Sprites.Alraune[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize]);
                 }
                 else
                 {
                     output.Sprite(
-                        input.Sprites.Alraune[8 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
+                        input.Sprites.Alraune[8 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize]);
                 }
             });
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.AccessoryColor));
-                if (input.Actor.Unit.ClothingType != 5)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.AccessoryColor));
+                if (input.U.ClothingType != 5)
                 {
-                    output.Sprite(input.Sprites.Alraune[17 + input.Actor.Unit.BodyAccentType1]);
+                    output.Sprite(input.Sprites.Alraune[17 + input.U.BodyAccentType1]);
                 }
             }); // upper petals
 
         builder.RenderSingle(SpriteType.BodyAccent2, 2, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ExtraColor1));
-                if (input.Actor.Unit.ClothingType != 5)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ExtraColor1));
+                if (input.U.ClothingType != 5)
                 {
-                    output.Sprite(input.Sprites.Alraune[26 + input.Actor.Unit.BodyAccentType2]);
+                    output.Sprite(input.Sprites.Alraune[26 + input.U.BodyAccentType2]);
                 }
             }); //lower petals
 
         builder.RenderSingle(SpriteType.BodyAccent3, 1, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ExtraColor1));
-                if (input.Actor.Unit.ClothingType != 5)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ExtraColor1));
+                if (input.U.ClothingType != 5)
                 {
-                    output.Sprite(input.Sprites.Alraune[36 + input.Actor.Unit.BodyAccentType3]);
+                    output.Sprite(input.Sprites.Alraune[36 + input.U.BodyAccentType3]);
                 }
             }); // base roots
 
         builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneHair, input.Actor.Unit.HairColor));
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneHair, input.U.HairColor));
                 output.Sprite(
-                    input.Sprites.Eyebrows[Math.Min(input.Actor.Unit.EyeType, input.Sprites.Eyebrows.Length - 1)]);
+                    input.Sprites.Eyebrows[Math.Min(input.U.EyeType, input.Sprites.Eyebrows.Length - 1)]);
                 output.AddOffset(0, yOffset);
             }); // eyebrows
 
         builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.ClothingType == 5)
+            if (input.U.ClothingType == 5)
             {
                 output.Sprite(input.Sprites.AlrauneChristmas[12]);
             }
@@ -204,7 +255,7 @@ internal static class Alraune
         builder.RenderSingle(SpriteType.BodyAccent6, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.ClothingType == 5)
+            if (input.U.ClothingType == 5)
             {
                 output.Sprite(input.Sprites.AlrauneChristmas[1]);
             }
@@ -213,7 +264,7 @@ internal static class Alraune
         builder.RenderSingle(SpriteType.BodyAccent7, 1, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.ClothingType == 5)
+            if (input.U.ClothingType == 5)
             {
                 output.Sprite(input.Sprites.AlrauneChristmas[0]);
             }
@@ -221,43 +272,43 @@ internal static class Alraune
 
         builder.RenderSingle(SpriteType.BodyAccessory, 7, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.AccessoryColor));
-                if (input.Actor.Unit.HasBreasts && input.Actor.Unit.ClothingType != 5)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.AccessoryColor));
+                if (input.U.HasBreasts && input.U.ClothingType != 5)
                 {
-                    output.Sprite(input.Sprites.Alraune[44 + input.Actor.Unit.SpecialAccessoryType]);
+                    output.Sprite(input.Sprites.Alraune[44 + input.U.SpecialAccessoryType]);
                 }
             }); // head flower
 
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
             {
-                Defaults.SpriteGens2[SpriteType.Breasts].Invoke(input, output);
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneSkin, input.Actor.Unit.SkinColor));
+                Defaults.SpriteGens3[SpriteType.Breasts].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 output.AddOffset(0, yOffset);
             });
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
             {
-                Defaults.SpriteGens2[SpriteType.Belly].Invoke(input, output);
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneSkin, input.Actor.Unit.SkinColor));
+                Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 output.AddOffset(0, yOffset);
             });
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
             {
-                Defaults.SpriteGens2[SpriteType.Dick].Invoke(input, output);
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneSkin, input.Actor.Unit.SkinColor));
+                Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 output.AddOffset(0, yOffset);
             });
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
             {
-                Defaults.SpriteGens2[SpriteType.Balls].Invoke(input, output);
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneSkin, input.Actor.Unit.SkinColor));
+                Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 output.AddOffset(0, yOffset);
             });
         builder.RenderSingle(SpriteType.Weapon, 12, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
-                if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
+                if (input.U.HasWeapon && input.A.Surrendered == false)
                 {
-                    output.Sprite(input.Sprites.Alraune[72 + input.Actor.GetWeaponSprite()]);
+                    output.Sprite(input.Sprites.Alraune[72 + input.A.GetWeaponSprite()]);
                 }
             });
     });
@@ -280,10 +331,10 @@ namespace AlrauneClothing
             {
                 output["Clothing2"].Layer(10);
                 output["Clothing1"].Layer(17);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Alraune[84 + input.Actor.Unit.BreastSize]);
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                    output["Clothing1"].Sprite(input.Sprites.Alraune[84 + input.U.BreastSize]);
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
                 }
                 else
                 {
@@ -291,13 +342,13 @@ namespace AlrauneClothing
                 }
 
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[80]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[82]);
                     }
@@ -311,7 +362,7 @@ namespace AlrauneClothing
                     output["Clothing2"].Sprite(input.Sprites.Alraune[83]);
                 }
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
             });
         });
     }
@@ -333,10 +384,10 @@ namespace AlrauneClothing
             {
                 output["Clothing2"].Layer(10);
                 output["Clothing1"].Layer(17);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Alraune[96 + input.Actor.Unit.BreastSize]);
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                    output["Clothing1"].Sprite(input.Sprites.Alraune[96 + input.U.BreastSize]);
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
                 }
                 else
                 {
@@ -344,13 +395,13 @@ namespace AlrauneClothing
                 }
 
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[92]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[94]);
                     }
@@ -364,7 +415,7 @@ namespace AlrauneClothing
                     output["Clothing2"].Sprite(input.Sprites.Alraune[95]);
                 }
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
             });
         });
     }
@@ -386,10 +437,10 @@ namespace AlrauneClothing
             {
                 output["Clothing2"].Layer(10);
                 output["Clothing1"].Layer(17);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Alraune[108 + input.Actor.Unit.BreastSize]);
-                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                    output["Clothing1"].Sprite(input.Sprites.Alraune[108 + input.U.BreastSize]);
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
                 }
                 else
                 {
@@ -397,13 +448,13 @@ namespace AlrauneClothing
                 }
 
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[104]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[106]);
                     }
@@ -417,7 +468,7 @@ namespace AlrauneClothing
                     output["Clothing2"].Sprite(input.Sprites.Alraune[107]);
                 }
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
             });
         });
     }
@@ -436,17 +487,17 @@ namespace AlrauneClothing
             {
                 output["Clothing2"].Layer(10);
                 output["Clothing1"].Layer(17);
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Alraune[120 + input.Actor.Unit.BreastSize] : input.Sprites.Alraune[120]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.Alraune[120 + input.U.BreastSize] : input.Sprites.Alraune[120]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[116]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[118]);
                     }
@@ -460,7 +511,7 @@ namespace AlrauneClothing
                     output["Clothing2"].Sprite(input.Sprites.Alraune[119]);
                 }
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
             });
         });
     }
@@ -485,9 +536,9 @@ namespace AlrauneClothing
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(17);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.AlrauneChristmas[2 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.AlrauneChristmas[2 + input.U.BreastSize]);
                 }
 
                 output["Clothing2"].Sprite(input.Sprites.AlrauneChristmas[10]);
@@ -517,18 +568,18 @@ namespace AlrauneClothing
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(17);
                 output["Clothing1"].Coloring(Color.white);
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Alraune[144 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Alraune[144 + input.U.BreastSize]);
                 }
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[140]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[142]);
                     }
@@ -563,17 +614,17 @@ namespace AlrauneClothing
             {
                 output["Clothing2"].Layer(10);
                 output["Clothing1"].Layer(17);
-                output["Clothing1"].Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Alraune[132 + input.Actor.Unit.BreastSize] : input.Sprites.Alraune[132]);
+                output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.Alraune[132 + input.U.BreastSize] : input.Sprites.Alraune[132]);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
 
-                if (input.Actor.Unit.DickSize > 0)
+                if (input.U.DickSize > 0)
                 {
-                    if (input.Actor.Unit.DickSize < 3)
+                    if (input.U.DickSize < 3)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[128]);
                     }
-                    else if (input.Actor.Unit.DickSize > 5)
+                    else if (input.U.DickSize > 5)
                     {
                         output["Clothing2"].Sprite(input.Sprites.Alraune[130]);
                     }
@@ -587,7 +638,7 @@ namespace AlrauneClothing
                     output["Clothing2"].Sprite(input.Sprites.Alraune[131]);
                 }
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.AlrauneFoliage, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
             });
         });
     }

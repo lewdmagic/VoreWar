@@ -84,7 +84,7 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
     
     public void NewSetSprite(ISpriteChangeReadable spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
     {
-        Sprite actualSprite = spriteChange.Sprite;
+        Sprite actualSprite = spriteChange.SpriteVal;
         
         if (actualSprite == null)
         {
@@ -110,9 +110,9 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
         }
         
         int usedLayer = 0;
-        if (spriteChange.Layer.HasValue)
+        if (spriteChange.LayerVal.HasValue)
         {
-            usedLayer = spriteChange.Layer.Value;
+            usedLayer = spriteChange.LayerVal.Value;
         }
         else
         {
@@ -186,7 +186,7 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
     
     public void NewSetSprite(ISpriteChangeReadable spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
     {
-        Sprite actualSprite = spriteChange.Sprite;
+        Sprite actualSprite = spriteChange.SpriteVal;
         
         if (actualSprite == null)
         {
@@ -203,9 +203,9 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
         }
         
         int usedLayer = 0;
-        if (spriteChange.Layer.HasValue)
+        if (spriteChange.LayerVal.HasValue)
         {
-            usedLayer = spriteChange.Layer.Value;
+            usedLayer = spriteChange.LayerVal.Value;
         }
         else
         {

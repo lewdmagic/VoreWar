@@ -13,8 +13,23 @@ public class WorldConfig
     internal Dictionary<Race, SpawnerInfo> SpawnerInfo = new Dictionary<Race, SpawnerInfo>();
 
     [OdinSerialize]
-    internal int[] VillagesPerEmpire = new int[Config.NumberOfRaces];
+    internal Dictionary<Race, int> VillagesPerEmpire = MakeVillagesPerEmpire();
 
+    internal void resetVillagesPerEmpire()
+    {
+        VillagesPerEmpire = MakeVillagesPerEmpire();
+    }
+
+    private static Dictionary<Race, int> MakeVillagesPerEmpire()
+    {
+        Dictionary<Race, int> villagesPerEmpire = new Dictionary<Race, int>();
+        foreach (Race race in RaceFuncs.MainRaceEnumerable())
+        {
+            villagesPerEmpire[race] = 0;
+        }
+
+        return villagesPerEmpire;
+    }
 
     [OdinSerialize]
     internal int StrategicWorldSizeX = 32;
@@ -253,10 +268,12 @@ public class WorldConfig
             if (value.SpawnAttempts == 0) value.SpawnAttempts = 1;
             return value;
         }
-
-        var obj = new SpawnerInfo(false, 4, .15f, 40, 900 + (int)race, 1, true, 6f, 8, 12, 40);
-        SpawnerInfo[race] = obj;
-        return obj;
+        else
+        {
+            var obj = new SpawnerInfo(false, 4, .15f, 40, 900 + RaceFuncs.RaceToIntForTeam(race), 1, true, 6f, 8, 12, 40);
+            SpawnerInfo[race] = obj;
+            return obj;
+        }
     }
 
     internal SpawnerInfo GetSpawnerWithoutGeneration(Race race)
@@ -274,12 +291,9 @@ public class WorldConfig
     internal void ResetSpawnerDictionary()
     {
         SpawnerInfo = new Dictionary<Race, SpawnerInfo>();
-        foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
+        foreach (Race race in RaceFuncs.AllMonstersRangeRaceEnumerable())
         {
-            if (race >= Race.Vagrants && race < Race.Selicia)
-            {
-                SpawnerInfo[race] = new SpawnerInfo(false, 4, .15f, 40, 900 + (int)race, 1, true, 6f, 8, 12, 40);
-            }
+            SpawnerInfo[race] = new SpawnerInfo(false, 4, .15f, 40, 900 + RaceFuncs.RaceToIntForTeam(race), 1, true, 6f, 8, 12, 40);
         }
     }
 
@@ -348,7 +362,7 @@ public class WorldConfig
             ["StatGraze"] = false,
         };
 
-        foreach (Race race in (Race[])Enum.GetValues(typeof(Race)))
+        foreach (Race race in RaceFuncs.RaceEnumerable())
         {
             Toggles[$"Merc {race}"] = true;
         }

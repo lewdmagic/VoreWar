@@ -58,9 +58,9 @@ class MiscDiscard
                 if (color != -1)
                 {
                     if (spriteNum == (int)BoneTypes.CrypterBonePile)
-                        sprite.GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.CrypterWeapon, color).colorSwapMaterial;
+                        sprite.GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.CrypterWeapon, color).colorSwapMaterial;
                     else if (spriteNum == (int)BoneTypes.SlimePile)
-                        sprite.GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.SlimeMain, color).colorSwapMaterial;
+                        sprite.GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.SlimeMain, color).colorSwapMaterial;
                 }
                 break;
             case MiscDiscardType.Cum:

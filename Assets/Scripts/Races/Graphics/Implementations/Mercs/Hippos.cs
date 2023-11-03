@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -9,6 +10,56 @@ internal static class Hippos
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Hippo", "Hippos");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "hippo", "hippopotamus", "pachyderm" },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Tribal Knife",
+                [WeaponNames.Axe]         = "WeaponNames.Axe",
+                [WeaponNames.SimpleBow]   = "Simple Bow",
+                [WeaponNames.CompoundBow] = "Compound Bow",
+                [WeaponNames.Claw]        = "Fist"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 20,
+            StomachSize = 22,
+            HasTail = true,
+            FavoredStat = Stat.Endurance,
+            PowerAdjustment = 1.3f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(12, 20),
+                Dexterity = new RaceStats.StatRange(6, 14),
+                Endurance = new RaceStats.StatRange(18, 28),
+                Mind = new RaceStats.StatRange(6, 12),
+                Will = new RaceStats.StatRange(8, 16),
+                Agility = new RaceStats.StatRange(8, 14),
+                Voracity = new RaceStats.StatRange(12, 20),
+                Stomach = new RaceStats.StatRange(12, 18),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.StrongMelee,
+                Traits.HardSkin,
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.BodyAccessoryColor, "Accent Color");
+            buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
+            buttons.SetText(ButtonType.HatType, "Headwear Type");
+            buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace Type");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Left Arm Pattern");
+            buttons.SetText(ButtonType.BodyAccentTypes2, "Right Arm Pattern");
+            buttons.SetText(ButtonType.BodyAccentTypes3, "Head Pattern");
+            buttons.SetText(ButtonType.BodyAccentTypes4, "Leg Pattern");
+        });
         builder.Setup(output =>
         {
             output.DickSizes = () => 8;
@@ -20,8 +71,8 @@ internal static class Hippos
             output.SpecialAccessoryCount = 8; // ears  
             output.HairStyles = 0;
             output.MouthTypes = 0;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.HippoSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.HippoSkin); // tattoo/warpaint colors
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.HippoSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.HippoSkin); // tattoo/warpaint colors
             output.BodyAccentTypes1 = 6; // left arm tattoo/warpaint
             output.BodyAccentTypes2 = 6; // right arm tattoo/warpaint
             output.BodyAccentTypes3 = 6; // head tattoo/warpaint
@@ -63,7 +114,7 @@ internal static class Hippos
                 HipposNecklace8.HipposNecklace8Instance
             );
             output.AvoidedMainClothingTypes = 0;
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.HippoSkin);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.HippoSkin);
         });
 
 
@@ -75,8 +126,8 @@ internal static class Hippos
 
         builder.RenderSingle(SpriteType.Head, 22, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.IsEating)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Hippos[21]);
                 return;
@@ -87,79 +138,61 @@ internal static class Hippos
 
         builder.RenderSingle(SpriteType.Eyes, 25, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Hippos[30 + (input.Actor.IsEating ? 1 : 0) + 2 * input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+            output.Sprite(input.Sprites.Hippos[30 + (input.A.IsEating ? 1 : 0) + 2 * input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.HasBreasts ? input.Sprites.Hippos[0 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize] : input.Sprites.Hippos[10 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodySize]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            output.Sprite(input.U.HasBreasts ? input.Sprites.Hippos[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize] : input.Sprites.Hippos[10 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize]);
         });
 
         builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Hippos2[0 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodyAccentType1]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Hippos2[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodyAccentType1]);
         }); // left arm tattoo/warpaint
         builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Hippos2[12 + input.Actor.Unit.BodyAccentType2]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Hippos2[12 + input.U.BodyAccentType2]);
         }); // right arm tattoo/warpaint
         builder.RenderSingle(SpriteType.BodyAccent3, 23, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Hippos2[18 + (input.Actor.IsEating ? 1 : 0) + 2 * input.Actor.Unit.BodyAccentType3]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Hippos2[18 + (input.A.IsEating ? 1 : 0) + 2 * input.U.BodyAccentType3]);
         }); // head tattoo/warpaint
         builder.RenderSingle(SpriteType.BodyAccent4, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.AccessoryColor));
-            output.Sprite(input.Sprites.Hippos2[30 + input.Actor.Unit.BodyAccentType4]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
+            output.Sprite(input.Sprites.Hippos2[30 + input.U.BodyAccentType4]);
         }); // legs tattoo/warpaint
         builder.RenderSingle(SpriteType.BodyAccent5, 24, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Hippos[40 + (input.Actor.IsEating ? 1 : 0) + 2 * input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            output.Sprite(input.Sprites.Hippos[40 + (input.A.IsEating ? 1 : 0) + 2 * input.U.EyeType]);
         }); // eyebrows
         builder.RenderSingle(SpriteType.BodyAccent6, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Hippos[120 + (input.Actor.IsAttacking ? 1 : 0)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            output.Sprite(input.Sprites.Hippos[120 + (input.A.IsAttacking ? 1 : 0)]);
         }); // left arm
         builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Hippos[22 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            output.Sprite(input.Sprites.Hippos[22 + input.U.SpecialAccessoryType]);
         }); // ears
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Hippos3[31]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Hippos3[30]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Hippos3[29]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
 
                 if (leftSize > 28)
                 {
@@ -170,39 +203,21 @@ internal static class Hippos
             }
             else
             {
-                output.Sprite(input.Sprites.Hippos3[0 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Hippos3[0 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.Hippos3[63]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Hippos3[62]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Hippos3[61]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
 
                 if (rightSize > 28)
                 {
@@ -213,39 +228,16 @@ internal static class Hippos
             }
             else
             {
-                output.Sprite(input.Sprites.Hippos3[32 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Hippos3[32 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.HasBelly)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(26, 0.7f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 26)
-                {
-                    output.Sprite(input.Sprites.Hippos3[94]).AddOffset(0, -9 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 26)
-                {
-                    output.Sprite(input.Sprites.Hippos3[93]).AddOffset(0, -9 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 25)
-                {
-                    output.Sprite(input.Sprites.Hippos3[92]).AddOffset(0, -9 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 24)
-                {
-                    output.Sprite(input.Sprites.Hippos3[91]).AddOffset(0, -9 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(26, 0.7f);
 
                 switch (size)
                 {
@@ -266,50 +258,50 @@ internal static class Hippos
 
         builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
                     output.Layer(18);
-                    if (input.Actor.IsCockVoring)
+                    if (input.A.IsCockVoring)
                     {
-                        output.Sprite(input.Sprites.Hippos[82 + input.Actor.Unit.DickSize]);
+                        output.Sprite(input.Sprites.Hippos[82 + input.U.DickSize]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Hippos[66 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Hippos[66 + input.U.DickSize]);
                     return;
                 }
 
                 output.Layer(12);
-                if (input.Actor.IsCockVoring)
+                if (input.A.IsCockVoring)
                 {
-                    output.Sprite(input.Sprites.Hippos[50 + input.Actor.Unit.DickSize]);
+                    output.Sprite(input.Sprites.Hippos[50 + input.U.DickSize]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Hippos[58 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Hippos[58 + input.U.DickSize]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Hippos[58 + input.Actor.Unit.DickSize]).Layer(9);
+            output.Sprite(input.Sprites.Hippos[58 + input.U.DickSize]).Layer(9);
         });
 
         builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(17);
             }
@@ -318,25 +310,8 @@ internal static class Hippos
                 output.Layer(8);
             }
 
-            int baseSize = (input.Actor.Unit.DickSize + 1) / 3;
-            int ballOffset = input.Actor.GetBallSize(26, .9f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && ballOffset == 26)
-            {
-                output.Sprite(input.Sprites.Hippos[119]).AddOffset(0, -26 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && ballOffset == 26)
-            {
-                output.Sprite(input.Sprites.Hippos[118]).AddOffset(0, -21 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && ballOffset >= 24)
-            {
-                output.Sprite(input.Sprites.Hippos[117]).AddOffset(0, -17 * .625f);
-                return;
-            }
+            int baseSize = (input.U.DickSize + 1) / 3;
+            int ballOffset = input.A.GetBallSize(26, .9f);
 
             int combined = Math.Min(baseSize + ballOffset + 2, 26);
             if (combined == 26)
@@ -364,9 +339,9 @@ internal static class Hippos
         builder.RenderSingle(SpriteType.Weapon, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Hippos[74 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Hippos[74 + input.A.GetWeaponSprite()]);
             }
         });
 
@@ -435,9 +410,9 @@ internal static class Hippos
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos2[52 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[52 + input.U.BreastSize]);
                 }
             });
         });
@@ -463,9 +438,9 @@ internal static class Hippos
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos2[79 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[79 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -495,9 +470,9 @@ internal static class Hippos
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos2[88 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[88 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -526,14 +501,14 @@ internal static class Hippos
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos3[96 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos3[96 + input.U.BreastSize]);
                     output["Clothing2"].Sprite(input.Sprites.Hippos3[95]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.SkinColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
             });
         });
     }
@@ -553,7 +528,7 @@ internal static class Hippos
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[61 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.Sprites.Hippos2[61 + input.U.BodySize]);
             });
         });
     }
@@ -573,7 +548,7 @@ internal static class Hippos
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[67 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.Sprites.Hippos2[67 + input.U.BodySize]);
             });
         });
     }
@@ -593,7 +568,7 @@ internal static class Hippos
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[73 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.Sprites.Hippos2[73 + input.U.BodySize]);
             });
         });
     }
@@ -613,7 +588,7 @@ internal static class Hippos
             {
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[97 + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(input.Sprites.Hippos2[97 + input.U.BodySize]);
             });
         });
     }
@@ -733,7 +708,7 @@ internal static class Hippos
             {
                 output["Clothing1"].Layer(26);
                 output["Clothing1"].Sprite(input.Sprites.Hippos2[51]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.ClothingColor));
             });
         });
     }
@@ -854,7 +829,7 @@ internal static class Hippos
             {
                 output["Clothing1"].Layer(21);
                 output["Clothing1"].Sprite(input.Sprites.Hippos2[43]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HippoSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.ClothingColor));
             });
         });
     }

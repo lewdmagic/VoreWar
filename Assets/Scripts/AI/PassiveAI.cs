@@ -3,9 +3,9 @@
 class PassiveAI : IStrategicAI
 {
     [OdinSerialize]
-    int AISide;
+    Side AISide;
 
-    public PassiveAI(int aISide)
+    public PassiveAI(Side aISide)
     {
         AISide = aISide;
     }
@@ -21,7 +21,7 @@ class PassiveAI : IStrategicAI
         Village[] villages = State.World.Villages;
         for (int i = 0; i < State.World.Villages.Length; i++)
         {
-            if (villages[i].Side == AISide)
+            if (Equals(villages[i].Side, AISide))
             {
                 StrategicUtilities.BuyBasicWeapons(villages[i]);
             }

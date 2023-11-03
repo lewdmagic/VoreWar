@@ -1,7 +1,7 @@
 ﻿public class Spawn : Unit
 {
 
-    public Spawn(int side, Race race, int startingXP) : base(side, race, startingXP, true, UnitType.Spawn)
+    public Spawn(Side side, Race race, int startingXP) : base(side, race, startingXP, true, UnitType.Spawn)
     {
         var raceStats = State.RaceSettings.GetRaceStats(Race);
 
@@ -15,11 +15,11 @@
         Stats[(int)Stat.Stomach] = 4 + raceStats.Stomach.Minimum;
 
         Health = MaxHealth;
-        if (race == Race.Lizards)
+        if (Equals(race, Race.Lizards))
             Races.GetRace(Race.Lizards).RandomCustomCall(this);
         ExpMultiplier = 2;
         Type = UnitType.Spawn;
-        if (race == Race.Slimes)
+        if (Equals(race, Race.Slimes))
         {
             if (Config.HermFraction >= 0.05)
             {

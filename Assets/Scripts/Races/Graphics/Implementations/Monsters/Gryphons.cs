@@ -1,10 +1,88 @@
-﻿internal static class Gryphons
+﻿using System.Collections.Generic;
+
+internal static class Gryphons
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<PositionParameters>, builder =>
     {
+        builder.Names("Gryphon", "Gryphons");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts { "gryphon", "griffin", "griffon" }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 20,
+            StomachSize = 22,
+            HasTail = true,
+            FavoredStat = Stat.Agility,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
+            ExpMultiplier = 1.75f,
+            PowerAdjustment = 2.5f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(8, 18),
+                Dexterity = new RaceStats.StatRange(8, 16),
+                Endurance = new RaceStats.StatRange(12, 16),
+                Mind = new RaceStats.StatRange(8, 16),
+                Will = new RaceStats.StatRange(8, 16),
+                Agility = new RaceStats.StatRange(12, 20),
+                Voracity = new RaceStats.StatRange(8, 16),
+                Stomach = new RaceStats.StatRange(8, 14),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.Flight,
+                Traits.Intimidating,
+                Traits.Charge,
+                Traits.Greedy,
+                Traits.Pathfinder,
+            },
+            RaceDescription = ""
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.Skintone, "Body Color");
+            buttons.SetText(ButtonType.BodyAccessoryType, "Body Style");
+        });
+        builder.IndividualNames(new List<string>
+        {
+            "Aquila",
+            "Harpia",
+            "Accipiter",
+            "Kirkos",
+            "Cathartes",
+            "Necrosyrtes",
+            "Neophron",
+            "Sarcogyps",
+            "Elanus",
+            "Milvus",
+            "Haliastur",
+            "Pandion",
+            "Buteo",
+            "Falco",
+            "Harpagus",
+            "Milvago",
+            "Caracara",
+            "Ibycter",
+            "Daptrius",
+            "Ictinia",
+            "Minerva",
+            "Aegolius",
+            "Sagittarius",
+            "Lanius",
+            "Vultur",
+            "Surnia",
+            "Strix",
+            "Pulsatrix",
+            "Ninox",
+            "Ealonides",
+            "Dryotriorchis",
+            "Casuarius",
+        });
         builder.Setup(output =>
         {
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.GryphonSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.GryphonSkin);
             output.GentleAnimation = true;
 
             output.SpecialAccessoryCount = 2;
@@ -14,12 +92,12 @@
         builder.RenderSingle(SpriteType.Head, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.SpecialAccessoryType == 0)
+            if (input.U.SpecialAccessoryType == 0)
             {
                 switch (input.Params.Position)
                 {
                     case Position.Standing:
-                        if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                        if (input.A.IsOralVoring || input.A.IsAttacking)
                         {
                             output.Sprite(input.Sprites.Gryphon[11]);
                             return;
@@ -28,7 +106,7 @@
                         output.Sprite(input.Sprites.Gryphon[10]);
                         return;
                     case Position.Sitting:
-                        if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                        if (input.A.IsOralVoring || input.A.IsAttacking)
                         {
                             output.Sprite(input.Sprites.Gryphon[13]);
                             return;
@@ -44,7 +122,7 @@
             switch (input.Params.Position)
             {
                 case Position.Standing:
-                    if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                    if (input.A.IsOralVoring || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Griffin[11]);
                         return;
@@ -53,7 +131,7 @@
                     output.Sprite(input.Sprites.Griffin[10]);
                     return;
                 case Position.Sitting:
-                    if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                    if (input.A.IsOralVoring || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Griffin[13]);
                         return;
@@ -66,13 +144,13 @@
 
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 0)
             {
                 switch (input.Params.Position)
                 {
                     case Position.Standing:
-                        if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                        if (input.A.IsOralVoring || input.A.IsAttacking)
                         {
                             output.Sprite(input.Sprites.Gryphon[1]);
                             return;
@@ -81,7 +159,7 @@
                         output.Sprite(input.Sprites.Gryphon[0]);
                         return;
                     case Position.Sitting:
-                        if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                        if (input.A.IsOralVoring || input.A.IsAttacking)
                         {
                             output.Sprite(input.Sprites.Gryphon[3]);
                             return;
@@ -97,7 +175,7 @@
             switch (input.Params.Position)
             {
                 case Position.Standing:
-                    if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                    if (input.A.IsOralVoring || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Griffin[1]);
                         return;
@@ -106,7 +184,7 @@
                     output.Sprite(input.Sprites.Griffin[0]);
                     return;
                 case Position.Sitting:
-                    if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                    if (input.A.IsOralVoring || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Griffin[3]);
                         return;
@@ -119,13 +197,13 @@
 
         builder.RenderSingle(SpriteType.BodyAccent, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 0)
             {
                 switch (input.Params.Position)
                 {
                     case Position.Standing:
-                        if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                        if (input.A.IsOralVoring || input.A.IsAttacking)
                         {
                             output.Sprite(input.Sprites.Gryphon[7]);
                             return;
@@ -145,7 +223,7 @@
             switch (input.Params.Position)
             {
                 case Position.Standing:
-                    if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                    if (input.A.IsOralVoring || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Griffin[7]);
                         return;
@@ -164,13 +242,13 @@
 
         builder.RenderSingle(SpriteType.BodyAccent2, 17, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 0)
             {
                 switch (input.Params.Position)
                 {
                     case Position.Standing:
-                        if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                        if (input.A.IsOralVoring || input.A.IsAttacking)
                         {
                             output.Sprite(input.Sprites.Gryphon[6]);
                             return;
@@ -190,7 +268,7 @@
             switch (input.Params.Position)
             {
                 case Position.Standing:
-                    if (input.Actor.IsOralVoring || input.Actor.IsAttacking)
+                    if (input.A.IsOralVoring || input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Griffin[6]);
                         return;
@@ -209,8 +287,8 @@
 
         builder.RenderSingle(SpriteType.BodyAccent3, 14, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 0)
             {
                 if (input.Params.Position == Position.Sitting)
                 {
@@ -230,7 +308,7 @@
         builder.RenderSingle(SpriteType.BodyAccent4, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.SpecialAccessoryType == 0)
+            if (input.U.SpecialAccessoryType == 0)
             {
                 switch (input.Params.Position)
                 {
@@ -263,7 +341,7 @@
         builder.RenderSingle(SpriteType.BodyAccent5, 15, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.SpecialAccessoryType == 0)
+            if (input.U.SpecialAccessoryType == 0)
             {
                 if (input.Params.Position == Position.Sitting)
                 {
@@ -282,24 +360,18 @@
 
         builder.RenderSingle(SpriteType.BodyAccent6, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick == false || input.Params.Position == Position.Standing)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            if (input.U.HasDick == false || input.Params.Position == Position.Standing)
             {
                 return;
             }
 
-            if (input.Actor.GetBallSize(10, 1.5f) > 5)
+            if (input.A.GetBallSize(10, 1.5f) > 5)
             {
                 output.Layer(1);
-                if (input.Actor.PredatorComponent?.BallsFullness > 0)
+                if (input.A.PredatorComponent?.BallsFullness > 0)
                 {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                    {
-                        output.Sprite(input.Sprites.Gryphon[47]);
-                        return;
-                    }
-
-                    output.Sprite(input.Sprites.Gryphon[36 + input.Actor.GetBallSize(10, 1.5f)]);
+                    output.Sprite(input.Sprites.Gryphon[36 + input.A.GetBallSize(10, 1.5f)]);
                     return;
                 }
 
@@ -307,18 +379,12 @@
                 return;
             }
 
-            if (input.Actor.GetStomachSize(16) < 3)
+            if (input.A.GetStomachSize(16) < 3)
             {
                 output.Layer(10);
-                if (input.Actor.PredatorComponent?.BallsFullness > 0)
+                if (input.A.PredatorComponent?.BallsFullness > 0)
                 {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                    {
-                        output.Sprite(input.Sprites.Gryphon[47]);
-                        return;
-                    }
-
-                    output.Sprite(input.Sprites.Gryphon[36 + input.Actor.GetBallSize(10, 1.5f)]);
+                    output.Sprite(input.Sprites.Gryphon[36 + input.A.GetBallSize(10, 1.5f)]);
                     return;
                 }
 
@@ -327,15 +393,9 @@
             }
 
             output.Layer(5);
-            if (input.Actor.PredatorComponent?.BallsFullness > 0)
+            if (input.A.PredatorComponent?.BallsFullness > 0)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                {
-                    output.Sprite(input.Sprites.Gryphon[47]);
-                    return;
-                }
-
-                output.Sprite(input.Sprites.Gryphon[36 + input.Actor.GetBallSize(10, 1.5f)]);
+                output.Sprite(input.Sprites.Gryphon[36 + input.A.GetBallSize(10, 1.5f)]);
                 return;
             }
 
@@ -344,8 +404,8 @@
 
         builder.RenderSingle(SpriteType.BodyAccent7, 11, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasDick)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            if (input.U.HasDick)
             {
                 output.Layer(11);
                 if (input.Params.Position == Position.Standing)
@@ -354,39 +414,39 @@
                     return;
                 }
 
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
-                    if (input.Actor.GetStomachSize(16) == 0)
+                    if (input.A.GetStomachSize(16) == 0)
                     {
                         output.Sprite(input.Sprites.Gryphon[49]);
                         return;
                     }
 
-                    if (input.Actor.GetStomachSize(16) == 1)
+                    if (input.A.GetStomachSize(16) == 1)
                     {
                         output.Sprite(input.Sprites.Gryphon[50]);
                         return;
                     }
 
-                    if (input.Actor.GetStomachSize(16) > 1 && input.Actor.GetStomachSize(16) < 4)
+                    if (input.A.GetStomachSize(16) > 1 && input.A.GetStomachSize(16) < 4)
                     {
                         output.Sprite(input.Sprites.Gryphon[51]);
                         return;
                     }
 
-                    if (input.Actor.GetStomachSize(16) >= 4 && input.Actor.GetStomachSize(16) < 7)
+                    if (input.A.GetStomachSize(16) >= 4 && input.A.GetStomachSize(16) < 7)
                     {
                         output.Sprite(input.Sprites.Gryphon[52]);
                         return;
                     }
 
-                    if (input.Actor.GetStomachSize(16) >= 7 && input.Actor.GetStomachSize(16) < 11)
+                    if (input.A.GetStomachSize(16) >= 7 && input.A.GetStomachSize(16) < 11)
                     {
                         output.Sprite(input.Sprites.Gryphon[53]);
                         return;
                     }
 
-                    if (input.Actor.GetStomachSize(16) >= 11)
+                    if (input.A.GetStomachSize(16) >= 11)
                     {
                         output.Sprite(input.Sprites.Gryphon[53]).Layer(6);
                         return;
@@ -401,8 +461,8 @@
 
         builder.RenderSingle(SpriteType.BodyAccent8, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.SpecialAccessoryType == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            if (input.U.SpecialAccessoryType == 0)
             {
                 return;
             }
@@ -423,8 +483,8 @@
 
         builder.RenderSingle(SpriteType.BodySize, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            if (input.Params.Position == Position.Sitting && input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            if (input.Params.Position == Position.Sitting && input.A.HasBelly == false)
             {
                 output.Sprite(input.Sprites.Gryphon[59]);
             }
@@ -432,81 +492,60 @@
 
         builder.RenderSingle(SpriteType.Belly, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.Predator == false || input.Actor.HasBelly == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            if (input.U.Predator == false || input.A.HasBelly == false)
             {
                 return;
             }
 
             if (input.Params.Position == Position.Sitting)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(16) == 16)
-                {
-                    output.Sprite(input.Sprites.Gryphon[35]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    if (input.Actor.GetStomachSize(16, .8f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Gryphon[61]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(16, .9f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Gryphon[60]);
-                        return;
-                    }
-                }
-
-                output.Sprite(input.Sprites.Gryphon[18 + input.Actor.GetStomachSize(16)]);
+                output.Sprite(input.Sprites.Gryphon[18 + input.A.GetStomachSize(16)]);
             }
         });
 
         builder.RenderSingle(SpriteType.Dick, 12, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false || input.Params.Position == Position.Standing)
+            if (input.U.HasDick == false || input.Params.Position == Position.Standing)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
                 output.Layer(12);
-                if (input.Actor.GetStomachSize(16) == 0)
+                if (input.A.GetStomachSize(16) == 0)
                 {
                     output.Sprite(input.Sprites.Gryphon[54]);
                     return;
                 }
 
-                if (input.Actor.GetStomachSize(16) == 1)
+                if (input.A.GetStomachSize(16) == 1)
                 {
                     output.Sprite(input.Sprites.Gryphon[55]);
                     return;
                 }
 
-                if (input.Actor.GetStomachSize(16) > 1 && input.Actor.GetStomachSize(16) < 4)
+                if (input.A.GetStomachSize(16) > 1 && input.A.GetStomachSize(16) < 4)
                 {
                     output.Sprite(input.Sprites.Gryphon[56]);
                     return;
                 }
 
-                if (input.Actor.GetStomachSize(16) >= 4 && input.Actor.GetStomachSize(16) < 7)
+                if (input.A.GetStomachSize(16) >= 4 && input.A.GetStomachSize(16) < 7)
                 {
                     output.Sprite(input.Sprites.Gryphon[57]);
                     return;
                 }
 
-                if (input.Actor.GetStomachSize(16) >= 7 && input.Actor.GetStomachSize(16) < 11)
+                if (input.A.GetStomachSize(16) >= 7 && input.A.GetStomachSize(16) < 11)
                 {
                     output.Sprite(input.Sprites.Gryphon[58]);
                     return;
                 }
 
-                if (input.Actor.GetStomachSize(16) >= 11)
+                if (input.A.GetStomachSize(16) >= 11)
                 {
                     output.Sprite(input.Sprites.Gryphon[58]).Layer(7);
                 }
@@ -515,26 +554,20 @@
 
         builder.RenderSingle(SpriteType.Balls, 13, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.GryphonSkin, input.Actor.Unit.SkinColor));
-            int sz = input.Actor.GetStomachSize(16);
-            int bz = input.Actor.GetBallSize(10, 1.5f);
-            if (input.Actor.Unit.HasDick == false || input.Params.Position == Position.Standing)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
+            int sz = input.A.GetStomachSize(16);
+            int bz = input.A.GetBallSize(10, 1.5f);
+            if (input.U.HasDick == false || input.Params.Position == Position.Standing)
             {
                 return;
             }
 
-            if (input.Actor.GetStomachSize(16) < 12 || sz < bz * 2)
+            if (input.A.GetStomachSize(16) < 12 || sz < bz * 2)
             {
                 output.Layer(13);
-                if (input.Actor.PredatorComponent?.BallsFullness > 0)
+                if (input.A.PredatorComponent?.BallsFullness > 0)
                 {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                    {
-                        output.Sprite(input.Sprites.Gryphon[47]);
-                        return;
-                    }
-
-                    output.Sprite(input.Sprites.Gryphon[36 + input.Actor.GetBallSize(10, 1.5f)]);
+                    output.Sprite(input.Sprites.Gryphon[36 + input.A.GetBallSize(10, 1.5f)]);
                     return;
                 }
 
@@ -543,15 +576,9 @@
             }
 
             output.Layer(8);
-            if (input.Actor.PredatorComponent?.BallsFullness > 0)
+            if (input.A.PredatorComponent?.BallsFullness > 0)
             {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                {
-                    output.Sprite(input.Sprites.Gryphon[47]);
-                    return;
-                }
-
-                output.Sprite(input.Sprites.Gryphon[36 + input.Actor.GetBallSize(10, 1.5f)]);
+                output.Sprite(input.Sprites.Gryphon[36 + input.A.GetBallSize(10, 1.5f)]);
                 return;
             }
 
@@ -561,7 +588,7 @@
 
         builder.RunBefore((input, output) =>
         {
-            if (input.Actor.HasBelly || input.Actor.PredatorComponent?.BallsFullness > 0)
+            if (input.A.HasBelly || input.A.PredatorComponent?.BallsFullness > 0)
             {
                 output.Params.Position = Position.Sitting;
             }
@@ -571,7 +598,7 @@
             }
             //base.RunFirst(data.Actor);
 
-            if (input.Actor.Unit.Predator && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(16) == 16)
+            if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.A.GetStomachSize(16) == 16)
             {
                 output.ChangeSprite(SpriteType.Body).AddOffset(0, 30 * .625f);
                 output.ChangeSprite(SpriteType.Head).AddOffset(0, 30 * .625f);
@@ -586,7 +613,7 @@
                 output.ChangeSprite(SpriteType.Dick).AddOffset(0, 30 * .625f);
                 output.ChangeSprite(SpriteType.Balls).AddOffset(20 * .625f, 10 * .625f);
             }
-            else if (input.Actor.Unit.Predator && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(16, .8f) == 16)
+            else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.A.GetStomachSize(16, .8f) == 16)
             {
                 output.ChangeSprite(SpriteType.Body).AddOffset(0, 20 * .625f);
                 output.ChangeSprite(SpriteType.Head).AddOffset(0, 20 * .625f);
@@ -601,7 +628,7 @@
                 output.ChangeSprite(SpriteType.Dick).AddOffset(0, 20 * .625f);
                 output.ChangeSprite(SpriteType.Balls).AddOffset(20 * .625f, 0);
             }
-            else if (input.Actor.Unit.Predator && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(16, .9f) == 16)
+            else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.A.GetStomachSize(16, .9f) == 16)
             {
                 output.ChangeSprite(SpriteType.Body).AddOffset(0, 10 * .625f);
                 output.ChangeSprite(SpriteType.Head).AddOffset(0, 10 * .625f);

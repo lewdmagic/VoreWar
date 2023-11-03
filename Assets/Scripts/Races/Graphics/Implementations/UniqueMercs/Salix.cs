@@ -10,6 +10,38 @@ internal static class Salix
 {
     internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Salix", "Salix");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 10,
+            StomachSize = 15,
+            HasTail = true,
+            FavoredStat = Stat.Dexterity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal, VoreType.CockVore },
+            ExpMultiplier = 2.4f,
+            PowerAdjustment = 5f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(6, 10),
+                Dexterity = new RaceStats.StatRange(10, 15),
+                Endurance = new RaceStats.StatRange(15, 20),
+                Mind = new RaceStats.StatRange(25, 30),
+                Will = new RaceStats.StatRange(20, 25),
+                Agility = new RaceStats.StatRange(24, 26),
+                Voracity = new RaceStats.StatRange(16, 20),
+                Stomach = new RaceStats.StatRange(11, 16),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.ArcaneMagistrate,
+                Traits.SpellBlade,
+                Traits.ManaAttuned,
+                Traits.ManaRich
+            },
+            InnateSpells = new List<SpellTypes>()
+                { SpellTypes.AmplifyMagic, SpellTypes.Evocation, SpellTypes.ManaFlux, SpellTypes.UnstableMana},
+            RaceDescription = "A demi-mouse mage from a different, mana rich dimension. Has had trouble adapting to the absence of mana here, but makes do.",
+        });
         builder.Setup(output =>
         {
             output.BreastSizes = () => 8;
@@ -79,15 +111,15 @@ internal static class Salix
         builder.RenderSingle(SpriteType.Head, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.BreastSize >= 0)
+            if (input.U.BreastSize >= 0)
             {
-                if (input.Actor.IsAttacking || input.Actor.IsEating)
+                if (input.A.IsAttacking || input.A.IsEating)
                 {
                     output.Sprite(input.Sprites.Salix[16]);
                     return;
                 }
 
-                if (input.Actor.Unit.IsDead && input.Actor.Unit.Items != null) //Second part checks for a not fully initialized unit, so that she doesn't have the dead face when you view her race info
+                if (input.U.IsDead && input.U.Items != null) //Second part checks for a not fully initialized unit, so that she doesn't have the dead face when you view her race info
                 {
                     output.Sprite(input.Sprites.Salix[17]);
                     return;
@@ -97,13 +129,13 @@ internal static class Salix
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating)
+            if (input.A.IsAttacking || input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Salix[13]);
                 return;
             }
 
-            if (input.Actor.Unit.IsDead && input.Actor.Unit.Items != null)
+            if (input.U.IsDead && input.U.Items != null)
             {
                 output.Sprite(input.Sprites.Salix[14]);
                 return;
@@ -127,8 +159,8 @@ internal static class Salix
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            int weightMod = input.Actor.Unit.BodySize * 4;
-            if (input.Actor.IsAttacking)
+            int weightMod = input.U.BodySize * 4;
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Salix[3 + weightMod]);
                 return;
@@ -162,32 +194,14 @@ internal static class Salix
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.SalixVore[31]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.SalixVore[30]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.SalixVore[29]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
 
                 if (leftSize > 28)
                 {
@@ -199,50 +213,32 @@ internal static class Salix
                 return;
             }
 
-            if (input.Actor.Unit.DefaultBreastSize == 0)
+            if (input.U.DefaultBreastSize == 0)
             {
                 output.Sprite(input.Sprites.SalixVore[0]);
                 return;
             }
 
-            if (input.Actor.SquishedBreasts && input.Actor.Unit.BreastSize < 7 && input.Actor.Unit.BreastSize >= 4)
+            if (input.A.SquishedBreasts && input.U.BreastSize < 7 && input.U.BreastSize >= 4)
             {
-                output.Sprite(input.Sprites.SalixVore[31 + input.Actor.Unit.BreastSize - 3]);
+                output.Sprite(input.Sprites.SalixVore[31 + input.U.BreastSize - 3]);
                 return;
             }
 
-            output.Sprite(input.Sprites.SalixVore[0 + input.Actor.Unit.BreastSize]);
+            output.Sprite(input.Sprites.SalixVore[0 + input.U.BreastSize]);
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 16, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.SalixVore[66]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.SalixVore[65]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.SalixVore[64]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
 
                 if (rightSize > 28)
                 {
@@ -253,56 +249,27 @@ internal static class Salix
                 return;
             }
 
-            if (input.Actor.Unit.DefaultBreastSize == 0)
+            if (input.U.DefaultBreastSize == 0)
             {
                 output.Sprite(input.Sprites.SalixVore[35]);
                 return;
             }
 
-            if (input.Actor.SquishedBreasts && input.Actor.Unit.BreastSize < 7 && input.Actor.Unit.BreastSize >= 4)
+            if (input.A.SquishedBreasts && input.U.BreastSize < 7 && input.U.BreastSize >= 4)
             {
-                output.Sprite(input.Sprites.SalixVore[66 + input.Actor.Unit.BreastSize - 3]);
+                output.Sprite(input.Sprites.SalixVore[66 + input.U.BreastSize - 3]);
                 return;
             }
 
-            output.Sprite(input.Sprites.SalixVore[35 + input.Actor.Unit.BreastSize]);
+            output.Sprite(input.Sprites.SalixVore[35 + input.U.BreastSize]);
         });
 
         builder.RenderSingle(SpriteType.Belly, 14, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize(32);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 32)
-                {
-                    output.Sprite(input.Sprites.SalixVore[105]).AddOffset(0, -34 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 32)
-                {
-                    output.Sprite(input.Sprites.SalixVore[104]).AddOffset(0, -34 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.SalixVore[103]).AddOffset(0, -34 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
-                {
-                    output.Sprite(input.Sprites.SalixVore[102]).AddOffset(0, -34 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.SalixVore[101]).AddOffset(0, -33 * .625f);
-                    return;
-                }
+                int size = input.A.GetStomachSize(32);
 
                 if (size > 30)
                 {
@@ -328,7 +295,7 @@ internal static class Salix
                         break;
                 }
 
-                if (input.Actor.PredatorComponent.OnlyOnePreyAndLiving() && size >= 9 && size <= 14)
+                if (input.A.PredatorComponent.OnlyOnePreyAndLiving() && size >= 9 && size <= 14)
                 {
                     output.Sprite(input.Sprites.SalixVore[106]);
                     return;
@@ -341,35 +308,35 @@ internal static class Salix
         builder.RenderSingle(SpriteType.Dick, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect())
+            if (input.A.IsErect())
             {
-                if (input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
-                    output.Sprite(input.Sprites.SalixGen[1 + input.Actor.Unit.DickSize * 2 + (input.Actor.Unit.BodySize > 1 ? 12 : 0) + (!input.Actor.Unit.HasBreasts ? 24 : 0)]).Layer(20);
+                    output.Sprite(input.Sprites.SalixGen[1 + input.U.DickSize * 2 + (input.U.BodySize > 1 ? 12 : 0) + (!input.U.HasBreasts ? 24 : 0)]).Layer(20);
                     return;
                 }
 
-                output.Sprite(input.Sprites.SalixGen[0 + input.Actor.Unit.DickSize * 2 + (input.Actor.Unit.BodySize > 1 ? 12 : 0) + (!input.Actor.Unit.HasBreasts ? 24 : 0)]).Layer(13);
+                output.Sprite(input.Sprites.SalixGen[0 + input.U.DickSize * 2 + (input.U.BodySize > 1 ? 12 : 0) + (!input.U.HasBreasts ? 24 : 0)]).Layer(13);
                 return;
             }
 
-            output.Sprite(input.Sprites.SalixGen[0 + input.Actor.Unit.DickSize * 2 + (input.Actor.Unit.BodySize > 1 ? 12 : 0) + (!input.Actor.Unit.HasBreasts ? 24 : 0)]).Layer(11);
+            output.Sprite(input.Sprites.SalixGen[0 + input.U.DickSize * 2 + (input.U.BodySize > 1 ? 12 : 0) + (!input.U.HasBreasts ? 24 : 0)]).Layer(11);
         });
 
         builder.RenderSingle(SpriteType.Balls, 3, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsErect() && input.Actor.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32)) < 16)
+            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
             {
                 output.Layer(19);
             }
@@ -378,25 +345,8 @@ internal static class Salix
                 output.Layer(10);
             }
 
-            int size = input.Actor.Unit.DickSize;
-            int offset = input.Actor.GetBallSize(28, 0.8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.SalixGen[83]).AddOffset(0, -22 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 28)
-            {
-                output.Sprite(input.Sprites.SalixGen[82]).AddOffset(0, -22 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.SalixGen[81]).AddOffset(0, -22 * .625f);
-                return;
-            }
+            int size = input.U.DickSize;
+            int offset = input.A.GetBallSize(28, 0.8f);
 
             if (offset >= 17)
             {
@@ -448,7 +398,7 @@ internal static class Salix
         builder.RenderSingle(SpriteType.Weapon, 13, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Salix[23]);
                 return;
@@ -490,14 +440,14 @@ internal static class Salix
                 {
                     output["Clothing1"].Sprite(null);
                 }
-                else if (input.Actor.Unit.BreastSize < 2)
+                else if (input.U.BreastSize < 2)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Salix[29]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    input.Actor.SquishedBreasts = true;
-                    output["Clothing1"].Sprite(input.Sprites.Salix[29 + input.Actor.Unit.BreastSize - 1]);
+                    input.A.SquishedBreasts = true;
+                    output["Clothing1"].Sprite(input.Sprites.Salix[29 + input.U.BreastSize - 1]);
                 }
                 else
                 {
@@ -529,7 +479,7 @@ internal static class Salix
             {
                 output["Clothing1"].Layer(layer);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(sheet[sprF + input.Actor.Unit.BodySize]);
+                output["Clothing1"].Sprite(sheet[sprF + input.U.BodySize]);
             });
         }
     }
@@ -568,15 +518,15 @@ internal static class Salix
 
                 output["Clothing1"].SetOffset(0, 0 * .625f);
                 output["Clothing2"].SetOffset(0, 0 * .625f);
-                input.Actor.SquishedBreasts = true;
-                int mod = input.Actor.Unit.BreastSize + (input.Actor.Unit.HasBreasts ? 0 : 1);
+                input.A.SquishedBreasts = true;
+                int mod = input.U.BreastSize + (input.U.HasBreasts ? 0 : 1);
                 if (whole) // Full cloak sleeves
                 {
                     output["Clothing1"].Sprite(input.Params.Oversize ? input.Sprites.Salix[59] : input.Sprites.Salix[52 + mod]); // Cloak Shirt
 
-                    output["Clothing2"].Sprite(input.Actor.IsAttacking ? input.Sprites.Salix[51] : input.Sprites.Salix[50]);
+                    output["Clothing2"].Sprite(input.A.IsAttacking ? input.Sprites.Salix[51] : input.Sprites.Salix[50]);
 
-                    output["Clothing3"].Sprite(input.Sprites.Salix[60 + input.Actor.Unit.BodySize]);
+                    output["Clothing3"].Sprite(input.Sprites.Salix[60 + input.U.BodySize]);
                 }
                 else // Shoulderless sleeves
                 {
@@ -592,7 +542,7 @@ internal static class Salix
                         sleeveMod = 0;
                     }
 
-                    output["Clothing2"].Sprite(input.Actor.IsAttacking ? input.Sprites.Salix[39 + sleeveMod] : input.Sprites.Salix[38 + sleeveMod]);
+                    output["Clothing2"].Sprite(input.A.IsAttacking ? input.Sprites.Salix[39 + sleeveMod] : input.Sprites.Salix[38 + sleeveMod]);
 
                     output["Clothing3"].Sprite(null);
                 }
@@ -614,7 +564,7 @@ internal static class Salix
             {
                 output["Clothing1"].Layer(1);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Actor.Unit.BodySize >= 2 ? input.Sprites.Salix[25] : input.Sprites.Salix[24]);
+                output["Clothing1"].Sprite(input.U.BodySize >= 2 ? input.Sprites.Salix[25] : input.Sprites.Salix[24]);
             });
         });
     }

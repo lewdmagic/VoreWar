@@ -1,6 +1,6 @@
 ﻿static class NotificationSystem
 {
-    internal static void VillageOwnerChanged(Village village, int previousSide, int newSide)
+    internal static void VillageOwnerChanged(Village village, Side previousSide, Side newSide)
     {
         string previousRace = State.World.GetEmpireOfSide(previousSide)?.Name ?? "Unknown Race";
         string newRace = State.World.GetEmpireOfSide(newSide)?.Name ?? "Unknown Race";

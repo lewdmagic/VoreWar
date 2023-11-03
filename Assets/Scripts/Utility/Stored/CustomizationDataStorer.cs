@@ -56,13 +56,13 @@ static class CustomizationDataStorer
         if (includeOtherRaces)
             return customizations.Where(s => IsCompatibleWithGraphics(s)).ToList();
         if (type == UnitType.Leader)
-            return customizations.Where(s => s.Race == race && (s.Type == type) && IsCompatibleWithGraphics(s)).ToList();
-        return customizations.Where(s => s.Race == race && (s.Type == type || s.Type != UnitType.Leader) && IsCompatibleWithGraphics(s)).ToList();
+            return customizations.Where(s => Equals(s.Race, race) && (s.Type == type) && IsCompatibleWithGraphics(s)).ToList();
+        return customizations.Where(s => Equals(s.Race, race) && (s.Type == type || s.Type != UnitType.Leader) && IsCompatibleWithGraphics(s)).ToList();
     }
 
     static bool IsCompatibleWithGraphics(CustomizerData data)
     {
-        if (data.Race != Race.Imps && data.Race != Race.Lamia && data.Race != Race.Tigers)
+        if (!Equals(data.Race, Race.Imps) && !Equals(data.Race, Race.Lamia) && !Equals(data.Race, Race.Tigers))
         {
             if (data.NewGraphics != Config.NewGraphics)
                 return false;

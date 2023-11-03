@@ -109,7 +109,7 @@ public class Actor_Unit
     public Race InfectedRace;
 
     [OdinSerialize]
-    public int InfectedSide;
+    public Side InfectedSide;
 
     [OdinSerialize]
     public bool KilledByDigestion;
@@ -169,7 +169,7 @@ public class Actor_Unit
     {
         get
         {
-            if (animationController == null || animationControllerRace != Unit.Race)
+            if (animationController == null || !Equals(animationControllerRace, Unit.Race))
             {
                 animationController = new AnimationController();
                 animationControllerRace = Unit.Race;
@@ -698,9 +698,21 @@ public class Actor_Unit
     public bool HasBelly => ((Config.LamiaUseTailAsSecondBelly || Unit.HasTrait(Traits.DualStomach) == false) && (PredatorComponent?.VisibleFullness ?? 0) > 0) || (!Config.LamiaUseTailAsSecondBelly && (PredatorComponent?.CombinedStomachFullness ?? 0) > 0);
 
     public bool HasPreyInBreasts => (PredatorComponent?.BreastFullness > 0 || PredatorComponent?.LeftBreastFullness > 0 || PredatorComponent?.RightBreastFullness > 0);
-    public bool HasBodyWeight => Unit.Race != Race.Lizards && Unit.Race != Race.Slimes && Unit.Race != Race.Scylla && Unit.Race != Race.Harpies && Unit.Race != Race.Imps;
+    public bool HasBodyWeight => !Equals(Unit.Race, Race.Lizards) && !Equals(Unit.Race, Race.Slimes) && !Equals(Unit.Race, Race.Scylla) && !Equals(Unit.Race, Race.Harpies) && !Equals(Unit.Race, Race.Imps);
 
     public int GetBodyWeight() => (Config.WeightGain || Unit.BodySizeManuallyChanged) ? Unit.BodySize : Mathf.Min(Config.DefaultStartingWeight, Races.GetRace(Unit).MiscRaceData.BodySizes);
+
+    /// <summary>
+    /// 0: Melee 1 hold
+    /// 1: Melee 1 attack
+    /// 2: Melee 2 hold
+    /// 3: Melee 2 attack
+    /// 4: Ranged 1 hold
+    /// 5: Ranged 1 attack
+    /// 6: Ranged 2 hold
+    /// 7: Ranged 2 attack
+    /// </summary>
+    /// <returns></returns>
     public int GetWeaponSprite()
     {
         if (BestRanged != null)
@@ -755,7 +767,7 @@ public class Actor_Unit
     public bool IsRubbing => Mode == DisplayMode.Rubbing;
     public bool IsBeingRubbed => Mode == DisplayMode.Rubbed;
     [OdinSerialize]
-    public List<int> sidesAttackedThisBattle { get; set; }
+    public List<Side> sidesAttackedThisBattle { get; set; }
 
     public float GetSpecialChance(SpecialAction action)
     {
@@ -1092,7 +1104,7 @@ public class Actor_Unit
             }
 
             Attack(target, false, damageMultiplier: multiplier);
-            if (Unit.Race == Race.FeralFrogs)
+            if (Equals(Unit.Race, Race.FeralFrogs))
                 Mode = DisplayMode.FrogPouncing;
             return true;
         }
@@ -1149,7 +1161,7 @@ public class Actor_Unit
             }
             State.GameManager.TacticalMode.Translator.SetTranslator(UnitSprite.transform, originalLoc, pounceLandingZone, 0.5f, State.GameManager.TacticalMode.IsPlayerTurn);
             State.GameManager.TacticalMode.DirtyPack = true;
-            if (Unit.Race == Race.FeralFrogs)
+            if (Equals(Unit.Race, Race.FeralFrogs))
                 Mode = DisplayMode.FrogPouncing;
             return true;
         }
@@ -1218,7 +1230,7 @@ public class Actor_Unit
         if (target.Position.GetNumberOfMovesDistance(Position) != 1)
             return false;
 
-        if (Unit.Race == Race.Zoey && animationController?.frameLists != null && animationController.frameLists.Count() > 0)
+        if (Equals(Unit.Race, Race.Zoey) && animationController?.frameLists != null && animationController.frameLists.Count() > 0)
         {
             animationController.frameLists[0].currentlyActive = true;
         }
@@ -1319,7 +1331,7 @@ public class Actor_Unit
         {
             if ((targetRange >= 2 || (targetRange >= 1 && weapon.Omni)) && targetRange <= weapon.Range)
             {
-                if (Unit.Race == Race.Succubi)
+                if (Equals(Unit.Race, Race.Succubi))
                     TacticalGraphicalEffects.SuccubusSwordEffect(target.Position);
                 animationUpdateTime = 1.0F;
                 Mode = DisplayMode.Attacking;
@@ -1353,7 +1365,7 @@ public class Actor_Unit
                     TacticalGraphicalEffects.CreateProjectile(this, target);
                     State.GameManager.TacticalMode.TacticalStats.RegisterHit(BestRanged, Mathf.Min(damage, remainingHealth), Unit.Side);
                     TacticalUtilities.Log.RegisterHit(Unit, target.Unit, weapon, damage, chance);
-                    if (Unit.FixedSide == TacticalUtilities.GetMindControlSide(target.Unit))
+                    if (Equals(Unit.FixedSide, TacticalUtilities.GetMindControlSide(target.Unit)))
                     {
                         StatusEffect charm = target.Unit.GetStatusEffect(StatusEffectType.Charmed);
                         if (charm != null)
@@ -1427,7 +1439,7 @@ public class Actor_Unit
                     State.GameManager.SoundManager.PlayMeleeHit(target);
                     State.GameManager.TacticalMode.TacticalStats.RegisterHit(BestMelee, Mathf.Min(damage, remainingHealth), Unit.Side);
                     TacticalUtilities.Log.RegisterHit(Unit, target.Unit, weapon, damage, chance);
-                    if (Unit.FixedSide == TacticalUtilities.GetMindControlSide(target.Unit))
+                    if (Equals(Unit.FixedSide, TacticalUtilities.GetMindControlSide(target.Unit)))
                     {
                         StatusEffect charm = target.Unit.GetStatusEffect(StatusEffectType.Charmed);
                         if (charm != null)
@@ -1466,7 +1478,7 @@ public class Actor_Unit
     void CreateHitEffects(Actor_Unit target)
     {
         State.GameManager.TacticalMode.CreateBloodHitEffect(target.Position);
-        if (Unit.Race == Race.Asura)
+        if (Equals(Unit.Race, Race.Asura))
             State.GameManager.TacticalMode.CreateSwipeHitEffect(target.Position);
     }
 
@@ -1475,7 +1487,7 @@ public class Actor_Unit
         TacticalUtilities.Log.RegisterKill(Unit, target.Unit, weapon);
         Unit.KilledUnits++;
         target.KilledByDigestion = false;
-        if (target.Unit.Race == Race.Asura)
+        if (Equals(target.Unit.Race, Race.Asura))
             Unit.EarnedMask = true;
         Unit.EnemiesKilledThisBattle++;
         target.Unit.KilledBy = Unit;
@@ -1493,7 +1505,7 @@ public class Actor_Unit
         TacticalUtilities.Log.RegisterSpellKill(Unit, target.Unit, spell.SpellType);
         Unit.KilledUnits++;
         target.KilledByDigestion = false;
-        if (target.Unit.Race == Race.Asura)
+        if (Equals(target.Unit.Race, Race.Asura))
             Unit.EarnedMask = true;
         Unit.EnemiesKilledThisBattle++;
         target.Unit.KilledBy = Unit;
@@ -1550,10 +1562,10 @@ public class Actor_Unit
             damage *= 3;
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{attacker.Unit.Name} sneak-attacked {Unit.Name}!</color>");
         }
-        if (attacker.Unit.GetApparentSide() != Unit.GetApparentSide())
+        if (!Equals(attacker.Unit.GetApparentSide(), Unit.GetApparentSide()))
         {
             if (attacker.sidesAttackedThisBattle == null)
-                attacker.sidesAttackedThisBattle = new List<int>();
+                attacker.sidesAttackedThisBattle = new List<Side>();
             attacker.sidesAttackedThisBattle.Add(Unit.GetApparentSide());
         }
         if (Unit.IsDead)
@@ -1564,7 +1576,7 @@ public class Actor_Unit
             State.GameManager.TacticalMode.TacticalStats.RegisterHit(spell, Mathf.Min(damage, Unit.Health), attacker.Unit.Side);
             Damage(damage, true, damageType: spell.DamageType);
             State.GameManager.TacticalMode.Log.RegisterSpellHit(attacker.Unit, Unit, spell.SpellType, damage, chance);
-            if (attacker.Unit.FixedSide == TacticalUtilities.GetMindControlSide(Unit))
+            if (Equals(attacker.Unit.FixedSide, TacticalUtilities.GetMindControlSide(Unit)))
             {
                 StatusEffect charm = Unit.GetStatusEffect(StatusEffectType.Charmed);
                 if (charm != null)
@@ -1595,7 +1607,7 @@ public class Actor_Unit
 
     internal bool DefendStatusSpell(StatusSpell spell, Actor_Unit attacker, Stat stat = Stat.Mind)
     {
-        if (spell.Id == "hypno-fart" && Unit.FixedSide == attacker.Unit.FixedSide)
+        if (spell.Id == "hypno-fart" && Equals(Unit.FixedSide, attacker.Unit.FixedSide))
         {
             return false;
         }
@@ -1606,22 +1618,22 @@ public class Actor_Unit
             sneakAttack = true;
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{attacker.Unit.Name} sneak-attacked {Unit.Name}!</color>");
         }
-        if (attacker.Unit.GetApparentSide() != Unit.GetApparentSide() && !spell.AcceptibleTargets.Contains(AbilityTargets.Ally))
+        if (!Equals(attacker.Unit.GetApparentSide(), Unit.GetApparentSide()) && !spell.AcceptibleTargets.Contains(AbilityTargets.Ally))
         {
             if (attacker.sidesAttackedThisBattle == null)
-                attacker.sidesAttackedThisBattle = new List<int>();
+                attacker.sidesAttackedThisBattle = new List<Side>();
             attacker.sidesAttackedThisBattle.Add(Unit.GetApparentSide());
         }
         if (DefendSpellCheck(spell, attacker, out float chance, sneakAttack ? -0.3f : 0f, stat))
         {
             State.GameManager.TacticalMode.Log.RegisterSpellHit(attacker.Unit, Unit, spell.SpellType, 0, chance);
-            Unit.ApplyStatusEffect(spell.Type, spell.Effect(attacker, this), spell.Duration(attacker, this));
+            Unit.ApplyStatusEffect(spell.Type, spell.Effect(attacker, this), spell.Duration(attacker, this), spell.EffectSide?.Invoke(attacker, this));
             if (spell.Id == "charm")
             {
                 UnitSprite.DisplayCharm();
                 if (attacker.Unit.HasTrait(Traits.Temptation))
                 {
-                    Unit.ApplyStatusEffect(StatusEffectType.Temptation, spell.Effect(attacker, this), spell.Duration(attacker, this));
+                    Unit.ApplyStatusEffect(StatusEffectType.Temptation, spell.Effect(attacker, this), spell.Duration(attacker, this), spell.EffectSide?.Invoke(attacker, this));
                 }
             }
             if (spell.Id == "hypno-fart")
@@ -1629,7 +1641,7 @@ public class Actor_Unit
                 UnitSprite.DisplayHypno();
                 if (attacker.Unit.HasTrait(Traits.Temptation))
                 {
-                    Unit.ApplyStatusEffect(StatusEffectType.Temptation, spell.Effect(attacker, this), spell.Duration(attacker, this));
+                    Unit.ApplyStatusEffect(StatusEffectType.Temptation, spell.Effect(attacker, this), spell.Duration(attacker, this), spell.EffectSide?.Invoke(attacker, this));
                 }
             }
             if (spell.Alraune)
@@ -1637,7 +1649,7 @@ public class Actor_Unit
                 if (Unit.HasTrait(Traits.PollenProjector) == false)
                 {
                     Unit.ApplyStatusEffect(StatusEffectType.Clumsiness, 1.5f, 3);
-                    Unit.ApplyStatusEffect(StatusEffectType.Poisoned, 2 + attacker.Unit.GetStat(Stat.Mind) / 10, 3);
+                    Unit.ApplyStatusEffect(StatusEffectType.Poisoned, 2 + attacker.Unit.GetStat(Stat.Mind) / 10f, 3);
                     Unit.ApplyStatusEffect(StatusEffectType.WillingPrey, 0, 3);
                 }
             }
@@ -1656,7 +1668,7 @@ public class Actor_Unit
         else
         {
             UnitSprite.DisplayDamage(0);
-            if (attacker.Unit.Side == Unit.Side)
+            if (Equals(attacker.Unit.Side, Unit.Side))
                 attacker.Unit.GiveScaledExp(.25f, attacker.Unit.Level - Unit.Level);
             else
             {
@@ -1677,10 +1689,10 @@ public class Actor_Unit
             attacker.Unit.hiddenFixedSide = false;
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{attacker.Unit.Name} sneak-attacked {Unit.Name}!</color>");
         }
-        if (attacker.Unit.GetApparentSide() != Unit.GetApparentSide())
+        if (!Equals(attacker.Unit.GetApparentSide(), Unit.GetApparentSide()))
         {
             if (attacker.sidesAttackedThisBattle == null)
-                attacker.sidesAttackedThisBattle = new List<int>();
+                attacker.sidesAttackedThisBattle = new List<Side>();
             attacker.sidesAttackedThisBattle.Add(Unit.GetApparentSide());
         }
         State.GameManager.TacticalMode.AITimer = Config.TacticalAttackDelay;
@@ -1711,7 +1723,8 @@ public class Actor_Unit
         {
             return 0;
         }
-        if (Surrendered || (attacker.Unit.HasTrait(Traits.Endosoma) && (Unit.FixedSide == attacker.Unit.GetApparentSide(Unit)) || Unit.GetStatusEffect(StatusEffectType.Hypnotized)?.Strength == attacker.Unit.FixedSide))
+        StatusEffect hypnotizedEffect = Unit.GetStatusEffect(StatusEffectType.Hypnotized);
+        if (Surrendered || (attacker.Unit.HasTrait(Traits.Endosoma) && (Equals(Unit.FixedSide, attacker.Unit.GetApparentSide(Unit)) || Equals(hypnotizedEffect.Side, attacker.Unit.FixedSide))))
             return 1f;
 
         float predVoracity = Mathf.Pow(15 + skillBoost + attacker.Unit.GetStat(Stat.Voracity), 1.5f);
@@ -1823,7 +1836,7 @@ public class Actor_Unit
             return false;
         if (target.ReceivedRub)
             return false;
-        if ((target.Unit.GetApparentSide() != Unit.GetApparentSide() && target.Unit.GetApparentSide() != Unit.FixedSide) && !(Unit.HasTrait(Traits.SeductiveTouch) || Config.CanUseStomachRubOnEnemies || TacticalUtilities.GetMindControlSide(Unit) != -1))
+        if ((!Equals(target.Unit.GetApparentSide(), Unit.GetApparentSide()) && !Equals(target.Unit.GetApparentSide(), Unit.FixedSide)) && !(Unit.HasTrait(Traits.SeductiveTouch) || Config.CanUseStomachRubOnEnemies || !Equals(TacticalUtilities.GetMindControlSide(Unit), Race.TrueNoneSide)))
             return false;
         target.ReceivedRub = true;
         int index = Random.Range(0, possible.Count - 1);
@@ -1869,7 +1882,7 @@ public class Actor_Unit
         else
             Movement = 0;
 
-        if (Unit.HasTrait(Traits.SeductiveTouch) && (target.Unit.FixedSide != Unit.FixedSide) && target.TurnsSinceLastDamage > 1)
+        if (Unit.HasTrait(Traits.SeductiveTouch) && (!Equals(target.Unit.FixedSide, Unit.FixedSide)) && target.TurnsSinceLastDamage > 1)
         {
             bool seduce = false;
             bool distract = false;
@@ -1897,13 +1910,13 @@ public class Actor_Unit
                             $"The way <b>{Unit.Name}</b> touches {LogUtilities.GPPHim(target.Unit)} moves something other than {LogUtilities.GPPHis(target.Unit)} prey-filled innards in <b>{target.Unit.Name}</b>, making {LogUtilities.GPPHim(target.Unit)} join {LogUtilities.GPPHim(Unit)}.",
                             $"<b>{Unit.Name}</b> makes <b>{target.Unit.Name}</b> feel incredible, rearranging {LogUtilities.GPPHis(target.Unit)} priorities in this conflict...",
                             $"<b>{target.Unit.Name}</b> slowly returns from a world of pure bliss and decides to stick with <b>{Unit.Name}</b> after all."};
-                if (target.Unit.Race == Race.Dogs)
+                if (Equals(target.Unit.Race, Race.Dogs))
                     strings.Append($"<b>{Unit.Name}</b>’s attentive massage of <b>{target.Unit.Name}</b>’s stuffed midsection convinces the voracious canine to make {LogUtilities.GPPHim(Unit)} {LogUtilities.GPPHis(target.Unit)} master no matter the cost.");
                 target.UnitSprite.DisplaySeduce();
                 State.GameManager.TacticalMode.Log.RegisterMiscellaneous(
                         LogUtilities.GetRandomStringFrom(strings)
                 );
-                if (target.Unit.Side != Unit.Side)
+                if (!Equals(target.Unit.Side, Unit.Side))
                     State.GameManager.TacticalMode.SwitchAlignment(target);
                 target.Unit.FixedSide = Unit.FixedSide;
                 target.Unit.hiddenFixedSide = true;
@@ -2223,7 +2236,7 @@ public class Actor_Unit
             State.GameManager.TacticalMode.DirtyPack = true;
             Targetable = false;
             Surrendered = true;
-            if (Config.VisibleCorpses && Unit.Race != Race.Erin)
+            if (Config.VisibleCorpses && !Equals(Unit.Race, Race.Erin))
             {
                 float angle = 40 + State.Rand.Next(280);
                 UnitSprite.transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -2564,7 +2577,7 @@ public class Actor_Unit
         if (t.Unit.Type != UnitType.Summon)
             return false;
         var binder = TacticalUtilities.Units.Where(a => a.Unit.BoundUnit?.Unit == t.Unit).FirstOrDefault();
-        if (binder?.Unit.FixedSide == Unit.FixedSide) return false;
+        if (Equals(binder?.Unit.FixedSide, Unit.FixedSide)) return false;
         if (Unit.SpendMana(spell.ManaCost) == false && spell.IsFree != true) return false;
 
 
@@ -2581,7 +2594,7 @@ public class Actor_Unit
                 binder.Unit.BoundUnit = null;
                 Unit.BoundUnit = t;
 
-                if (t.Unit.Side != Unit.Side) State.GameManager.TacticalMode.SwitchAlignment(t);
+                if (!Equals(t.Unit.Side, Unit.Side)) State.GameManager.TacticalMode.SwitchAlignment(t);
                 if (!t.Unit.HasTrait(Traits.Untamable))
                     t.Unit.FixedSide = Unit.FixedSide;
                 t.Movement = t.CurrentMaxMovement();
@@ -2593,6 +2606,8 @@ public class Actor_Unit
             }
             else
             {
+                // TODO this can't work with the changes to Sides and Races as it creates integer sides. Can be fixed later
+                /*
                 int outcome = State.Rand.Next(4);
                 State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{Unit.Name}</b> and <b>{binder.Unit.Name}</b> both exert their magic for control over the summoned <b>{t.Unit.Name}</b>, but they are evenly matched! The energy crackles...");
                 if (outcome == 3)
@@ -2618,9 +2633,9 @@ public class Actor_Unit
                     StrategicUtilities.SpendLevelUps(t.Unit);
                     t.Unit.Health = t.Unit.MaxHealth;
                     t.Unit.RestoreMana(t.Unit.MaxMana);
-                    if (binder.sidesAttackedThisBattle == null) binder.sidesAttackedThisBattle = new List<int>();
+                    if (binder.sidesAttackedThisBattle == null) binder.sidesAttackedThisBattle = new List<Side>();
                     binder.sidesAttackedThisBattle.Add(unusedSide);
-                    if (this.sidesAttackedThisBattle == null) this.sidesAttackedThisBattle = new List<int>();
+                    if (this.sidesAttackedThisBattle == null) this.sidesAttackedThisBattle = new List<Side>();
                     this.sidesAttackedThisBattle.Add(unusedSide);
                 }
                 else if (outcome == 2)
@@ -2657,6 +2672,7 @@ public class Actor_Unit
                     t.Visible = false;
                     t.Unit.Name += " The Banished";
                 }
+                */
 
             }
         }
@@ -2666,7 +2682,7 @@ public class Actor_Unit
 
             Unit.BoundUnit = t;
 
-            if (t.Unit.Side != Unit.Side) State.GameManager.TacticalMode.SwitchAlignment(t);
+            if (!Equals(t.Unit.Side, Unit.Side)) State.GameManager.TacticalMode.SwitchAlignment(t);
             if (!t.Unit.HasTrait(Traits.Untamable))
                 t.Unit.FixedSide = Unit.FixedSide;
             t.Movement = t.CurrentMaxMovement();
@@ -2746,7 +2762,7 @@ public class Actor_Unit
 
     public bool ChangeRaceAny(Unit template, bool permanent, bool isPrey)
     {
-        if (Unit.HiddenRace == Unit.Race)
+        if (Equals(Unit.HiddenRace, Unit.Race))
         {
             TacticalGraphicalEffects.CreateSmokeCloud(Position, Unit.GetScale() / 2);
             Unit.HideRace(template.Race, template);
@@ -2774,7 +2790,7 @@ public class Actor_Unit
 
     public void ChangeRacePrey()
     {
-        if (Unit.HiddenRace == Unit.Race)
+        if (Equals(Unit.HiddenRace, Unit.Race))
         {
             bool isDead = true;
             if (Unit.HasTrait(Traits.GreaterChangeling))
@@ -2787,14 +2803,14 @@ public class Actor_Unit
 
     public void RevertRace()
     {
-        if (Unit.HiddenRace != Unit.Race)
+        if (!Equals(Unit.HiddenRace, Unit.Race))
         {
             TacticalGraphicalEffects.CreateSmokeCloud(Position, Unit.GetScale() / 2);
             Unit.UnhideRace();
-            Unit.SpawnRace = Race.none;
+            Unit.SpawnRace = Race.TrueNone;
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{Unit.Name} shifted back to normal");
             Unit.Side = Unit.FixedSide;
-            Unit.FixedSide = -1;
+            Unit.FixedSide = Race.TrueNoneSide;
             Unit.hiddenFixedSide = false;
             PredatorComponent?.ResetTemplate();
             Unit.ResetPersistentSharedTraits();
@@ -2806,7 +2822,7 @@ public class Actor_Unit
         }
     }
     
-    internal void AddCorruption(int amount, int side)
+    internal void AddCorruption(int amount, Side side)
     {
         if (!Unit.HasTrait(Traits.Corruption)) { 
             Corruption += amount;
@@ -2817,7 +2833,7 @@ public class Actor_Unit
                 if (!Unit.HasTrait(Traits.Untamable))
                     Unit.FixedSide = side;
                 Unit.hiddenFixedSide = true;
-                sidesAttackedThisBattle = new List<int>();
+                sidesAttackedThisBattle = new List<Side>();
             }
         } else
             Corruption = 0;
@@ -2825,7 +2841,7 @@ public class Actor_Unit
 
     internal void AddPossession(Actor_Unit possessor)
     {
-        if (this.Unit.FixedSide != possessor.Unit.FixedSide)
+        if (!Equals(this.Unit.FixedSide, possessor.Unit.FixedSide))
         {
             this.Possessed = this.Possessed + possessor.Unit.GetStatTotal() + possessor.Unit.GetStat(Stat.Mind);
         }
@@ -2849,7 +2865,7 @@ public class Actor_Unit
                 if (!this.Unit.HasTrait(Traits.Untamable))
                     this.Unit.Controller = possessor.Unit;
                 this.Unit.hiddenFixedSide = true;
-                sidesAttackedThisBattle = new List<int>();
+                sidesAttackedThisBattle = new List<Side>();
             }
             return true;
         }

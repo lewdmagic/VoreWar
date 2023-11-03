@@ -46,13 +46,13 @@ internal static class FairyUtil
         switch (GetSeason(actor.Unit))
         {
             case FairyType.Spring:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairySpringClothes, actor.Unit.ClothingColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairySpringClothes, actor.Unit.ClothingColor);
             case FairyType.Summer:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairySummerClothes, actor.Unit.ClothingColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairySummerClothes, actor.Unit.ClothingColor);
             case FairyType.Fall:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairyFallClothes, actor.Unit.ClothingColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairyFallClothes, actor.Unit.ClothingColor);
             default:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairyWinterClothes, actor.Unit.ClothingColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairyWinterClothes, actor.Unit.ClothingColor);
         }
     }
 }
@@ -71,6 +71,43 @@ internal static class Fairies
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<FairyParameters>, builder =>
     {
+        builder.Names("Fairy", "Fairies");
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 7,
+            StomachSize = 10,
+            HasTail = false,
+            FavoredStat = Stat.Mind,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.CockVore, VoreType.Anal },
+            ExpMultiplier = 1.1f,
+            PowerAdjustment = 1.2f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(4, 8),
+                Dexterity = new RaceStats.StatRange(9, 14),
+                Endurance = new RaceStats.StatRange(6, 12),
+                Mind = new RaceStats.StatRange(14, 22),
+                Will = new RaceStats.StatRange(8, 14),
+                Agility = new RaceStats.StatRange(14, 22),
+                Voracity = new RaceStats.StatRange(8, 14),
+                Stomach = new RaceStats.StatRange(5, 10),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.ArtfulDodge,
+                Traits.Flight,
+                Traits.EscapeArtist,
+                Traits.KeenReflexes,
+                Traits.EasyToVore
+            },
+            RaceDescription = ""
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.HatType, "Leg Accessory");
+            buttons.SetText(ButtonType.ClothingAccessoryType, "Arm Accessory");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Fairy Season");
+        });
         RaceFrameList springWings = new RaceFrameList(new int[3] { 91, 92, 93 }, new float[3] { .2f, .2f, .2f });
         RaceFrameList summerWings = new RaceFrameList(new int[3] { 94, 95, 96 }, new float[3] { .2f, .2f, .2f });
         RaceFrameList fallWings = new RaceFrameList(new int[3] { 97, 98, 99 }, new float[3] { .2f, .2f, .2f });
@@ -125,15 +162,15 @@ internal static class Fairies
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
             output.Coloring(GetHairColor(input, input.Actor));
-            if (input.Actor.Unit.HairStyle < 3)
+            if (input.U.HairStyle < 3)
             {
-                output.Sprite(input.Sprites.Fairy[2 * input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Fairy[2 * input.U.HairStyle]);
                 return;
             }
 
-            if (input.Actor.Unit.HairStyle > 3)
+            if (input.U.HairStyle > 3)
             {
-                output.Sprite(input.Sprites.FairyExtraHair[Math.Min(input.Actor.Unit.HairStyle - 4, 3)]);
+                output.Sprite(input.Sprites.FairyExtraHair[Math.Min(input.U.HairStyle - 4, 3)]);
                 return;
             }
 
@@ -157,13 +194,13 @@ internal static class Fairies
         builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
         {
             output.Coloring(GetHairColor(input, input.Actor));
-            if (input.Actor.Unit.HairStyle < 3)
+            if (input.U.HairStyle < 3)
             {
-                output.Sprite(input.Sprites.Fairy[1 + 2 * input.Actor.Unit.HairStyle]);
+                output.Sprite(input.Sprites.Fairy[1 + 2 * input.U.HairStyle]);
                 return;
             }
 
-            if (input.Actor.Unit.HairStyle > 3)
+            if (input.U.HairStyle > 3)
             {
                 return;
             }
@@ -179,7 +216,7 @@ internal static class Fairies
             output.Coloring(GetSkinColor(input, input.Actor));
             if (input.Params.VeryEncumbered)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Fairy[205]);
                     return;
@@ -191,7 +228,7 @@ internal static class Fairies
 
             if (input.Params.Encumbered)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Fairy[87]);
                     return;
@@ -201,7 +238,7 @@ internal static class Fairies
                 return;
             }
 
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Fairy[85]);
                 return;
@@ -215,7 +252,7 @@ internal static class Fairies
             output.Coloring(GetSkinColor(input, input.Actor));
             if (input.Params.VeryEncumbered)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Fairy[206]);
                     return;
@@ -226,14 +263,14 @@ internal static class Fairies
 
             if (input.Params.Encumbered)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Fairy[88]);
                 }
             }
             else
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Fairy[86]);
                 }
@@ -243,13 +280,9 @@ internal static class Fairies
         builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
         {
             output.Coloring(GetSkinColor(input, input.Actor));
-            if (input.Params.VeryEncumbered && input.Actor.IsEating)
+            if (input.Params.VeryEncumbered && input.A.IsEating)
             {
-                if (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false)
-                {
-                    output.Sprite(input.Sprites.Fairy[207]);
-                    return;
-                }
+                
             }
 
             if (input.Params.Encumbered)
@@ -261,20 +294,20 @@ internal static class Fairies
         builder.RenderSingle(SpriteType.BodyAccent3, 0, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.AnimationController.frameLists == null)
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentTime >= springWings.Times[input.Actor.AnimationController.frameLists[0].currentFrame] && input.Actor.Unit.IsDead == false)
+            if (input.A.AnimationController.frameLists[0].currentTime >= springWings.Times[input.A.AnimationController.frameLists[0].currentFrame] && input.U.IsDead == false)
             {
-                input.Actor.AnimationController.frameLists[0].currentFrame++;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentFrame++;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                if (input.Actor.AnimationController.frameLists[0].currentFrame >= springWings.Frames.Length)
+                if (input.A.AnimationController.frameLists[0].currentFrame >= springWings.Frames.Length)
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame = 0;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
                 }
             }
 
@@ -283,16 +316,16 @@ internal static class Fairies
                 switch (input.Params.Season)
                 {
                     case FairyType.Spring:
-                        output.Sprite(input.Sprites.Fairy[springWingsEnc.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[springWingsEnc.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                         return;
                     case FairyType.Summer:
-                        output.Sprite(input.Sprites.Fairy[summerWingsEnc.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[summerWingsEnc.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                         return;
                     case FairyType.Fall:
-                        output.Sprite(input.Sprites.Fairy[fallWingsEnc.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[fallWingsEnc.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                         return;
                     default:
-                        output.Sprite(input.Sprites.Fairy[winterWingsEnc.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[winterWingsEnc.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                         return;
                 }
             }
@@ -300,16 +333,16 @@ internal static class Fairies
             switch (input.Params.Season)
             {
                 case FairyType.Spring:
-                    output.Sprite(input.Sprites.Fairy[springWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Fairy[springWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                     return;
                 case FairyType.Summer:
-                    output.Sprite(input.Sprites.Fairy[summerWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Fairy[summerWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                     return;
                 case FairyType.Fall:
-                    output.Sprite(input.Sprites.Fairy[fallWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Fairy[fallWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                     return;
                 default:
-                    output.Sprite(input.Sprites.Fairy[winterWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Fairy[winterWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                     return;
             }
         });
@@ -317,32 +350,14 @@ internal static class Fairies
         builder.RenderSingle(SpriteType.Breasts, 14, (input, output) =>
         {
             output.Coloring(GetSkinColor(input, input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.GetLeftBreastSize(21 * 21, GeneralSizeMod));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast))
-                {
-                    output.Sprite(input.Sprites.Fairy240[8]).AddOffset(-34 * .625f, -57 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize == 21)
-                {
-                    output.Sprite(input.Sprites.Fairy240[7]).AddOffset(-34 * .625f, -57 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize > 20)
-                {
-                    output.Sprite(input.Sprites.Fairy240[6]).AddOffset(-34 * .625f, -57 * .625f);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.A.GetLeftBreastSize(21 * 21, GeneralSizeMod));
 
 
                 if (leftSize == 21)
@@ -367,7 +382,7 @@ internal static class Fairies
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
                 output.Sprite(input.Sprites.Fairy[146]);
                 return;
@@ -375,41 +390,24 @@ internal static class Fairies
 
             if (input.Params.Encumbered)
             {
-                output.Sprite(input.Sprites.Fairy[140 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Fairy[140 + input.U.BreastSize]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Fairy[143 + input.Actor.Unit.BreastSize]);
+            output.Sprite(input.Sprites.Fairy[143 + input.U.BreastSize]);
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 14, (input, output) =>
         {
             output.Coloring(GetSkinColor(input, input.Actor));
-            if (input.Actor.Unit.HasBreasts == false)
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.GetRightBreastSize(21 * 21, GeneralSizeMod));
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast))
-                {
-                    output.Sprite(input.Sprites.Fairy240[13]).AddOffset(34 * .625f, -57 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize == 21)
-                {
-                    output.Sprite(input.Sprites.Fairy240[12]).AddOffset(34 * .625f, -57 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize > 20)
-                {
-                    output.Sprite(input.Sprites.Fairy240[11]).AddOffset(34 * .625f, -57 * .625f);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.A.GetRightBreastSize(21 * 21, GeneralSizeMod));
 
                 if (rightSize == 21)
                 {
@@ -433,7 +431,7 @@ internal static class Fairies
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
                 output.Sprite(input.Sprites.Fairy[166]);
             }
@@ -442,27 +440,9 @@ internal static class Fairies
         builder.RenderSingle(SpriteType.Belly, 13, (input, output) =>
         {
             output.Coloring(GetSkinColor(input, input.Actor));
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                int bellySprite = input.Actor.GetRootedStomachSize(18, GeneralSizeMod);
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    output.Sprite(input.Sprites.Fairy240[3]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && bellySprite == 18)
-                {
-                    output.Sprite(input.Sprites.Fairy240[2]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && bellySprite > 17)
-                {
-                    output.Sprite(input.Sprites.Fairy240[1]);
-                    return;
-                }
+                int bellySprite = input.A.GetRootedStomachSize(18, GeneralSizeMod);
 
                 if (bellySprite == 18)
                 {
@@ -470,62 +450,45 @@ internal static class Fairies
                     return;
                 }
 
-                output.Sprite(input.Sprites.Fairy[186 + input.Actor.GetRootedStomachSize(18, GeneralSizeMod)]);
+                output.Sprite(input.Sprites.Fairy[186 + input.A.GetRootedStomachSize(18, GeneralSizeMod)]);
             }
         });
 
         builder.RenderSingle(SpriteType.Dick, 12, (input, output) =>
         {
             output.Coloring(GetSkinColor(input, input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.GetBallSize(19, GeneralSizeMod) > 4)
+            if (input.A.GetBallSize(19, GeneralSizeMod) > 4)
             {
-                output.Sprite(input.Sprites.Fairy[119 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Fairy[119 + input.U.DickSize]);
                 return;
             }
 
             if (input.Params.Encumbered)
             {
-                output.Sprite(input.Sprites.Fairy[117 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Fairy[117 + input.U.DickSize]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Fairy[115 + input.Actor.Unit.DickSize]);
+            output.Sprite(input.Sprites.Fairy[115 + input.U.DickSize]);
         });
 
         builder.RenderSingle(SpriteType.Balls, 11, (input, output) =>
         {
             output.Coloring(GetSkinColor(input, input.Actor));
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.BallsFullness > 0)
+            if (input.A.PredatorComponent?.BallsFullness > 0)
             {
-                int ballSize = input.Actor.GetBallSize(17, GeneralSizeMod);
+                int ballSize = input.A.GetBallSize(17, GeneralSizeMod);
                 //AddOffset(Balls, 0, -10 * .625f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                {
-                    output.Sprite(input.Sprites.Fairy240[17]).AddOffset(0, -10 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) && ballSize == 17)
-                {
-                    output.Sprite(input.Sprites.Fairy240[16]).AddOffset(0, -10 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) && ballSize == 16)
-                {
-                    output.Sprite(input.Sprites.Fairy240[15]).AddOffset(0, -10 * .625f);
-                    return;
-                }
 
                 if (ballSize >= 16)
                 {
@@ -544,19 +507,19 @@ internal static class Fairies
 
             if (input.Params.Encumbered)
             {
-                output.Sprite(input.Sprites.Fairy[123 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Fairy[123 + input.U.DickSize]);
                 return;
             }
 
-            output.Sprite(input.Sprites.Fairy[121 + input.Actor.Unit.DickSize]);
+            output.Sprite(input.Sprites.Fairy[121 + input.U.DickSize]);
         });
 
 
         builder.RunBefore((input, output) =>
         {
-            output.Params.Season = (FairyType)input.Actor.Unit.BodyAccentType1; // TODO fix dirty enum casting
-            output.Params.Encumbered = input.Actor.PredatorComponent?.Fullness > 0; // Not 100% accurate, but saves effort
-            output.Params.VeryEncumbered = input.Actor.GetRootedStomachSize(19, GeneralSizeMod) > 16;
+            output.Params.Season = (FairyType)input.U.BodyAccentType1; // TODO fix dirty enum casting
+            output.Params.Encumbered = input.A.PredatorComponent?.Fullness > 0; // Not 100% accurate, but saves effort
+            output.Params.VeryEncumbered = input.A.GetRootedStomachSize(19, GeneralSizeMod) > 16;
             //base.RunFirst(data.Actor);
             Defaults.BasicBellyRunAfter.Invoke(input, output);
         });
@@ -577,13 +540,13 @@ internal static class Fairies
         switch (input.Params.Season)
         {
             case FairyType.Spring:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairySpringClothes, actor.Unit.HairColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairySpringClothes, actor.Unit.HairColor);
             case FairyType.Summer:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairySummerClothes, actor.Unit.HairColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairySummerClothes, actor.Unit.HairColor);
             case FairyType.Fall:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairyFallClothes, actor.Unit.HairColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairyFallClothes, actor.Unit.HairColor);
             default:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairyWinterClothes, actor.Unit.HairColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairyWinterClothes, actor.Unit.HairColor);
         }
     }
 
@@ -593,13 +556,13 @@ internal static class Fairies
         switch (input.Params.Season)
         {
             case FairyType.Spring:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairySpringSkin, actor.Unit.SkinColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairySpringSkin, actor.Unit.SkinColor);
             case FairyType.Summer:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairySummerSkin, actor.Unit.SkinColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairySummerSkin, actor.Unit.SkinColor);
             case FairyType.Fall:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairyFallSkin, actor.Unit.SkinColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairyFallSkin, actor.Unit.SkinColor);
             default:
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairyWinterSkin, actor.Unit.SkinColor);
+                return ColorPaletteMap.GetPalette(SwapType.FairyWinterSkin, actor.Unit.SkinColor);
         }
     }
 
@@ -631,7 +594,7 @@ internal static class Fairies
                 output["Clothing2"].Coloring(FairyUtil.GetClothesColor(input.Actor));
                 output["Clothing3"].Coloring(FairyUtil.GetClothesColor(input.Actor));
 
-                if (input.Actor.HasBelly || input.Actor.GetLeftBreastSize(19) > 2 || input.Actor.GetRightBreastSize(19) > 2)
+                if (input.A.HasBelly || input.A.GetLeftBreastSize(19) > 2 || input.A.GetRightBreastSize(19) > 2)
                 {
                     output["Clothing1"].Layer(5);
                     output["Clothing2"].Layer(6);
@@ -645,11 +608,11 @@ internal static class Fairies
                 }
 
                 int mainSprite;
-                if (input.Actor.HasBelly == false)
+                if (input.A.HasBelly == false)
                 {
                     mainSprite = 11;
                 }
-                else if (input.Actor.GetRootedStomachSize(19, GeneralSizeMod) == 0)
+                else if (input.A.GetRootedStomachSize(19, GeneralSizeMod) == 0)
                 {
                     mainSprite = 12;
                 }
@@ -658,16 +621,16 @@ internal static class Fairies
                     mainSprite = 13;
                 }
 
-                if (input.Actor.Unit.HasBreasts && (Math.Sqrt(input.Actor.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.Actor.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
+                if (input.U.HasBreasts && (Math.Sqrt(input.A.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.A.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
                 {
                     int encumMod = 0;
-                    if (input.Actor.PredatorComponent?.Fullness > 0)
+                    if (input.A.PredatorComponent?.Fullness > 0)
                     {
                         encumMod = 3;
                     }
 
-                    int leftSprite = 14 + input.Actor.Unit.BreastSize + encumMod;
-                    int rightSprite = 21 + input.Actor.Unit.BreastSize + encumMod;
+                    int leftSprite = 14 + input.U.BreastSize + encumMod;
+                    int rightSprite = 21 + input.U.BreastSize + encumMod;
                     output["Clothing2"].Sprite(input.Sprites.Fairy[leftSprite]);
                     output["Clothing3"].Sprite(input.Sprites.Fairy[rightSprite]);
                 }
@@ -700,7 +663,7 @@ internal static class Fairies
                 output["Clothing1"].Coloring(FairyUtil.GetClothesColor(input.Actor));
                 output["Clothing2"].Coloring(FairyUtil.GetClothesColor(input.Actor));
                 output["Clothing3"].Coloring(FairyUtil.GetClothesColor(input.Actor));
-                if (input.Actor.HasBelly || input.Actor.HasPreyInBreasts)
+                if (input.A.HasBelly || input.A.HasPreyInBreasts)
                 {
                     output["Clothing1"].Layer(5);
                     output["Clothing2"].Layer(6);
@@ -714,11 +677,11 @@ internal static class Fairies
                 }
 
                 int mainSprite;
-                if (input.Actor.HasBelly == false)
+                if (input.A.HasBelly == false)
                 {
                     mainSprite = 27;
                 }
-                else if (input.Actor.GetRootedStomachSize(19, GeneralSizeMod) == 0)
+                else if (input.A.GetRootedStomachSize(19, GeneralSizeMod) == 0)
                 {
                     mainSprite = 28;
                 }
@@ -727,22 +690,22 @@ internal static class Fairies
                     mainSprite = 29;
                 }
 
-                if (input.Actor.Unit.HasBreasts && (Math.Sqrt(input.Actor.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.Actor.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
+                if (input.U.HasBreasts && (Math.Sqrt(input.A.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.A.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
                 {
                     int encumMod = 0;
-                    if (input.Actor.PredatorComponent?.Fullness > 0)
+                    if (input.A.PredatorComponent?.Fullness > 0)
                     {
                         encumMod = 3;
                     }
 
-                    int leftSprite = 30 + input.Actor.Unit.BreastSize + encumMod;
-                    int rightSprite = 37 + input.Actor.Unit.BreastSize + encumMod;
-                    if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+                    int leftSprite = 30 + input.U.BreastSize + encumMod;
+                    int rightSprite = 37 + input.U.BreastSize + encumMod;
+                    if (input.A.PredatorComponent?.LeftBreastFullness > 0)
                     {
                         leftSprite = 36;
                     }
 
-                    if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+                    if (input.A.PredatorComponent?.RightBreastFullness > 0)
                     {
                         rightSprite = 43;
                     }
@@ -779,7 +742,7 @@ internal static class Fairies
                 output["Clothing1"].Coloring(FairyUtil.GetClothesColor(input.Actor));
                 output["Clothing2"].Coloring(FairyUtil.GetClothesColor(input.Actor));
                 output["Clothing3"].Coloring(FairyUtil.GetClothesColor(input.Actor));
-                if (input.Actor.HasBelly || input.Actor.HasPreyInBreasts)
+                if (input.A.HasBelly || input.A.HasPreyInBreasts)
                 {
                     output["Clothing1"].Layer(5);
                     output["Clothing2"].Layer(6);
@@ -792,22 +755,22 @@ internal static class Fairies
                     output["Clothing3"].Layer(18);
                 }
 
-                if (input.Actor.HasBelly == false)
+                if (input.A.HasBelly == false)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Fairy[44]);
                 }
 
-                if (input.Actor.Unit.HasBreasts && (Math.Sqrt(input.Actor.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.Actor.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
+                if (input.U.HasBreasts && (Math.Sqrt(input.A.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.A.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
                 {
                     int encumMod = 0;
-                    if (input.Actor.PredatorComponent?.Fullness > 0)
+                    if (input.A.PredatorComponent?.Fullness > 0)
                     {
                         encumMod = 3;
                     }
 
-                    int leftSprite = 45 + input.Actor.Unit.BreastSize + encumMod;
-                    int rightSprite = 52 + input.Actor.Unit.BreastSize + encumMod;
-                    if (input.Actor.PredatorComponent?.LeftBreastFullness > 0 || input.Actor.PredatorComponent?.RightBreastFullness > 0)
+                    int leftSprite = 45 + input.U.BreastSize + encumMod;
+                    int rightSprite = 52 + input.U.BreastSize + encumMod;
+                    if (input.A.PredatorComponent?.LeftBreastFullness > 0 || input.A.PredatorComponent?.RightBreastFullness > 0)
                     {
                         leftSprite = 51;
                         rightSprite = 0;
@@ -840,7 +803,7 @@ internal static class Fairies
                 output["Clothing1"].Coloring(FairyUtil.GetClothesColor(input.Actor));
                 output["Clothing2"].Coloring(FairyUtil.GetClothesColor(input.Actor));
                 output["Clothing3"].Coloring(FairyUtil.GetClothesColor(input.Actor));
-                if (input.Actor.HasBelly || input.Actor.HasPreyInBreasts)
+                if (input.A.HasBelly || input.A.HasPreyInBreasts)
                 {
                     output["Clothing1"].Layer(5);
                     output["Clothing2"].Layer(6);
@@ -851,31 +814,31 @@ internal static class Fairies
                     output["Clothing2"].Layer(18);
                 }
 
-                bool oversize = input.Actor.GetLeftBreastSize(19) > 2 || input.Actor.GetRightBreastSize(19) > 2 || input.Actor.GetRootedStomachSize(19) > 2;
+                bool oversize = input.A.GetLeftBreastSize(19) > 2 || input.A.GetRightBreastSize(19) > 2 || input.A.GetRootedStomachSize(19) > 2;
 
 
                 if (oversize)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Fairy[62]);
                 }
-                else if (input.Actor.HasBelly)
+                else if (input.A.HasBelly)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Fairy[60 + Math.Min(input.Actor.GetRootedStomachSize(19, GeneralSizeMod), 1)]);
+                    output["Clothing1"].Sprite(input.Sprites.Fairy[60 + Math.Min(input.A.GetRootedStomachSize(19, GeneralSizeMod), 1)]);
                 }
                 else
                 {
                     output["Clothing1"].Sprite(input.Sprites.Fairy[59]);
                 }
 
-                if (input.Actor.Unit.HasBreasts && (Math.Sqrt(input.Actor.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.Actor.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
+                if (input.U.HasBreasts && (Math.Sqrt(input.A.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.A.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
                 {
                     int encumMod = 0;
-                    if (input.Actor.PredatorComponent?.Fullness > 0)
+                    if (input.A.PredatorComponent?.Fullness > 0)
                     {
                         encumMod = 3;
                     }
 
-                    output["Clothing2"].Sprite(input.Sprites.Fairy[65 + input.Actor.Unit.BreastSize + encumMod]);
+                    output["Clothing2"].Sprite(input.Sprites.Fairy[65 + input.U.BreastSize + encumMod]);
                 }
                 else
                 {
@@ -903,7 +866,7 @@ internal static class Fairies
                 output["Clothing1"].Coloring(FairyUtil.GetClothesColor(input.Actor));
                 output["Clothing2"].Coloring(FairyUtil.GetClothesColor(input.Actor));
 
-                if (input.Actor.HasBelly || input.Actor.HasPreyInBreasts)
+                if (input.A.HasBelly || input.A.HasPreyInBreasts)
                 {
                     output["Clothing1"].Layer(5);
                     output["Clothing2"].Layer(6);
@@ -916,15 +879,15 @@ internal static class Fairies
 
                 output["Clothing1"].Sprite(input.Sprites.Fairy[63]);
 
-                if (input.Actor.Unit.HasBreasts && (Math.Sqrt(input.Actor.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.Actor.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
+                if (input.U.HasBreasts && (Math.Sqrt(input.A.GetLeftBreastSize(21 * 21, GeneralSizeMod)) > 3 || Math.Sqrt(input.A.GetRightBreastSize(21 * 21, GeneralSizeMod)) > 3) == false)
                 {
                     int encumMod = 0;
-                    if (input.Actor.PredatorComponent?.Fullness > 0)
+                    if (input.A.PredatorComponent?.Fullness > 0)
                     {
                         encumMod = 3;
                     }
 
-                    output["Clothing2"].Sprite(input.Sprites.Fairy[65 + input.Actor.Unit.BreastSize + encumMod]);
+                    output["Clothing2"].Sprite(input.Sprites.Fairy[65 + input.U.BreastSize + encumMod]);
                 }
                 else
                 {
@@ -946,9 +909,9 @@ internal static class Fairies
                 output["Clothing1"].Coloring(FairyUtil.GetClothesColor(input.Actor));
 
                 output["Clothing1"].Layer(10);
-                if (input.Actor.PredatorComponent?.Fullness > 0)
+                if (input.A.PredatorComponent?.Fullness > 0)
                 {
-                    if (input.Actor.IsAttacking)
+                    if (input.A.IsAttacking)
                     {
                         output["Clothing1"].Layer(18);
                         output["Clothing1"].Sprite(input.Sprites.Fairy[74]);
@@ -958,7 +921,7 @@ internal static class Fairies
                 }
                 else
                 {
-                    if (input.Actor.IsAttacking)
+                    if (input.A.IsAttacking)
                     {
                         output["Clothing1"].Layer(18);
                         output["Clothing1"].Sprite(input.Sprites.Fairy[73]);
@@ -981,9 +944,9 @@ internal static class Fairies
                 output["Clothing1"].Layer(10);
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing1"].Layer(10);
-                if (input.Actor.PredatorComponent?.Fullness > 0)
+                if (input.A.PredatorComponent?.Fullness > 0)
                 {
-                    if (input.Actor.IsAttacking)
+                    if (input.A.IsAttacking)
                     {
                         output["Clothing1"].Layer(18);
                         output["Clothing1"].Sprite(input.Sprites.Fairy[77]);
@@ -993,7 +956,7 @@ internal static class Fairies
                 }
                 else
                 {
-                    if (input.Actor.IsAttacking)
+                    if (input.A.IsAttacking)
                     {
                         output["Clothing1"].Layer(18);
                         output["Clothing1"].Sprite(input.Sprites.Fairy[77]);
@@ -1017,7 +980,7 @@ internal static class Fairies
                 output["Clothing1"].Coloring(Color.white);
                 output["Clothing1"].Coloring(FairyUtil.GetClothesColor(input.Actor));
 
-                output["Clothing1"].Sprite(input.Actor.PredatorComponent?.Fullness > 0 ? input.Sprites.Fairy[79] : input.Sprites.Fairy[78]);
+                output["Clothing1"].Sprite(input.A.PredatorComponent?.Fullness > 0 ? input.Sprites.Fairy[79] : input.Sprites.Fairy[78]);
             });
         });
     }
@@ -1032,7 +995,7 @@ internal static class Fairies
             {
                 output["Clothing1"].Layer(8);
                 output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Actor.PredatorComponent?.Fullness > 0 ? input.Sprites.Fairy[81] : input.Sprites.Fairy[80]);
+                output["Clothing1"].Sprite(input.A.PredatorComponent?.Fullness > 0 ? input.Sprites.Fairy[81] : input.Sprites.Fairy[80]);
             });
         });
     }

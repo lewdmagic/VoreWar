@@ -1,7 +1,7 @@
 ﻿public class Leader : Unit
 {
 
-    public Leader(int side, Race race, int startingXP) : base(side, race, startingXP, true, UnitType.Leader)
+    public Leader(Side side, Race race, int startingXP) : base(side, race, startingXP, true, UnitType.Leader)
     {
         var raceStats = State.RaceSettings.GetRaceStats(Race);
 
@@ -16,13 +16,13 @@
         Stats[(int)Stat.Leadership] = 10;
 
         Health = MaxHealth;
-        if (Race == Race.Lizards)
+        if (Equals(Race, Race.Lizards))
             Races.GetRace(Race.Lizards).RandomCustomCall(this);
         if (Config.LetterBeforeLeaderNames != "")
             Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;
         Type = UnitType.Leader;
-        if (Race == Race.Slimes)
+        if (Equals(Race, Race.Slimes))
         {
             if (Config.HermFraction >= 0.05)
             {

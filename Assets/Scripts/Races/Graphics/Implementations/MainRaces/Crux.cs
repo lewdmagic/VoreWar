@@ -1,5 +1,6 @@
 ﻿#region
 
+using System.Collections.Generic;
 using CruxClothing;
 
 #endregion
@@ -8,6 +9,70 @@ internal static class Crux
 {
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
     {
+        builder.Names("Crux", "Crux");
+        builder.WallType(WallType.Crux);
+        builder.FlavorText(new FlavorText(
+            new Texts { "crazy", "curly eared", "complaining" },
+            new Texts { "curly eared", "crazed", "eager" },
+            new Texts { "crux", "lab-critter", "gene-engineered creature" },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Bat",
+                [WeaponNames.Axe]         = "Machete",
+                [WeaponNames.SimpleBow]   = "Handbow",
+                [WeaponNames.CompoundBow] = "Compound Bow",
+                [WeaponNames.Claw]        = "Claws"
+            }
+            /* TODO special case?
+                         if (weapon.Name == "WeaponNames.Mace" && unit.BasicMeleeWeaponType == 0) return "Bat";
+                        else if (weapon.Name == "WeaponNames.Mace" && unit.BasicMeleeWeaponType == 1) return "Pipe";
+                        else if (weapon.Name == "WeaponNames.Mace" && unit.BasicMeleeWeaponType == 2) return "Dildo";
+                        else if (weapon.Name == "WeaponNames.Axe" && unit.AdvancedMeleeWeaponType == 0) return "Machete";
+                        else if (weapon.Name == "WeaponNames.Axe" && unit.AdvancedMeleeWeaponType == 1) return "WeaponNames.Axe";
+                        else if (weapon.Name == "Simple Bow") return "Handbow";
+                        else if (weapon.Name == "Compound Bow") return "Compound Bow";
+                        else if (weapon.Name == "WeaponNames.Claw") return "Claws";
+             */
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 9,
+            StomachSize = 14,
+            HasTail = true,
+            FavoredStat = Stat.Will,
+            RacialTraits = new List<Traits>()
+            {
+                Traits.KeenReflexes,
+                Traits.EscapeArtist,
+                Traits.MadScience
+            },
+            RaceDescription = "Their own world having risen and fallen, the Crux arrived to this one almost by accident. While they initially thought it rather a boring place, they soon realised its potential and were eager to try and shape it according to their own ever shifting ideals.",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.ClothingColor2, "Pack / Boxer Color");
+            buttons.SetActive(ButtonType.ClothingColor2, true);
+            buttons.SetText(ButtonType.BodyWeight, "Body Type");
+            buttons.SetText(ButtonType.EyeType, "Face Expression");
+            buttons.SetText(ButtonType.ExtraColor1, "Primary Color");
+            buttons.SetText(ButtonType.ExtraColor2, "Secondary Color");
+            buttons.SetText(ButtonType.ExtraColor3, "Flesh Color");
+            // TODO uhh, not sure what to do here
+            //buttons[UnitCustomizer.ButtonTypes.ExtraColor4].gameObject.SetActive(Config.HideCocks == false && actor.Unit.GetBestMelee().Damage == 4);
+            buttons.SetText(ButtonType.ExtraColor4, "Dildo Color");
+            buttons.SetText(ButtonType.FurTypes, "Head Fluff");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Visible Areola");
+            buttons.SetText(ButtonType.BodyAccentTypes2, "Leg Stripes");
+            buttons.SetText(ButtonType.BodyAccentTypes3, "Arm Stripes");
+        });
+        builder.TownNames(new List<string>
+        {
+            "The Gate",
+            "Facility 789",
+            "Ingenuity",
+            "Cruxus",
+            "Facility Ornd"
+        });
         RaceFrameList frameListDrool = new RaceFrameList(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, new[] { .8f, .6f, .5f, .4f, .4f, .4f, .4f, .4f, .4f });
         // currently unused
         //RaceFrameList frameListWet = new RaceFrameList(new [] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new [] { .4f, .8f, .8f, .7f, .6f, .5f, .4f, .4f, .4f, .4f });
@@ -84,23 +149,23 @@ internal static class Crux
 
         builder.RenderSingle(SpriteType.Head, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            output.Sprite(input.Sprites.Crux[6 + input.Actor.Unit.HeadType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            output.Sprite(input.Sprites.Crux[6 + input.U.HeadType]);
         }); // A coconut.
         builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
         {
-            output.Coloring(ColorMap.GetEyeColor(input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Crux[30 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorMap.GetEyeColor(input.U.EyeColor));
+            output.Sprite(input.Sprites.Crux[30 + input.U.EyeType]);
         }); // The whole expression.
 
         builder.RenderSingle(SpriteType.SecondaryEyes, 18, (input, output) =>
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-                if (input.Actor.Unit.BodySize <= 1)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+                if (input.U.BodySize <= 1)
                 {
-                    if (input.Actor.Unit.HasWeapon == false)
+                    if (input.U.HasWeapon == false)
                     {
-                        if (input.Actor.IsAttacking)
+                        if (input.A.IsAttacking)
                         {
                             output.Sprite(input.Sprites.Crux[401]);
                             return;
@@ -109,7 +174,7 @@ internal static class Crux
                         return;
                     }
 
-                    switch (input.Actor.GetWeaponSprite())
+                    switch (input.A.GetWeaponSprite())
                     {
                         case 0:
                             output.Sprite(input.Sprites.Crux[401]);
@@ -140,9 +205,9 @@ internal static class Crux
                     }
                 }
 
-                if (input.Actor.Unit.HasWeapon == false)
+                if (input.U.HasWeapon == false)
                 {
-                    if (input.Actor.IsAttacking)
+                    if (input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Crux[402]);
                         return;
@@ -151,7 +216,7 @@ internal static class Crux
                     return;
                 }
 
-                switch (input.Actor.GetWeaponSprite())
+                switch (input.A.GetWeaponSprite())
                 {
                     case 0:
                         output.Sprite(input.Sprites.Crux[402]);
@@ -185,10 +250,10 @@ internal static class Crux
 
         builder.RenderSingle(SpriteType.Mouth, 19, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            if (input.Actor.IsOralVoring)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            if (input.A.IsOralVoring)
             {
-                if (input.Actor.Unit.HeadType == 0 || input.Actor.Unit.HeadType == 2)
+                if (input.U.HeadType == 0 || input.U.HeadType == 2)
                 {
                     output.Sprite(input.Sprites.Crux[10]);
                     return;
@@ -200,53 +265,53 @@ internal static class Crux
 
         builder.RenderSingle(SpriteType.Hair, 22, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            output.Sprite(input.Sprites.Crux[76 + input.Actor.Unit.HairStyle]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            output.Sprite(input.Sprites.Crux[76 + input.U.HairStyle]);
         }); // Hair.
 
         builder.RenderSingle(SpriteType.Hair2, 7, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            output.Sprite(input.Sprites.Crux[13 + input.Actor.Unit.EarType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            output.Sprite(input.Sprites.Crux[13 + input.U.EarType]);
         }); // Ears.
 
         builder.RenderSingle(SpriteType.Hair3, 0, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            output.Sprite(input.Sprites.Crux[60 + input.Actor.Unit.TailType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            output.Sprite(input.Sprites.Crux[60 + input.U.TailType]);
         }); // Tail.
 
         builder.RenderSingle(SpriteType.Beard, 15, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            if (input.Actor.Unit.FurType == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            if (input.U.FurType == 0)
             {
                 return;
             }
 
-            output.Sprite(input.Sprites.Crux[49 + input.Actor.Unit.FurType]);
+            output.Sprite(input.Sprites.Crux[49 + input.U.FurType]);
         }); // Neck/Cheek fur.
 
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            if (input.Actor.AnimationController.frameLists == null)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            if (input.A.AnimationController.frameLists == null)
             {
                 SetUpAnimations(input.Actor);
             }
 
-            output.Sprite(input.Sprites.Crux[input.Actor.Unit.BodySize]);
+            output.Sprite(input.Sprites.Crux[input.U.BodySize]);
         }); // Main body.
 
 
         builder.RenderSingle(SpriteType.BodyAccent, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            if (input.Actor.Unit.BodySize <= 1)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            if (input.U.BodySize <= 1)
             {
-                if (input.Actor.Unit.HasWeapon == false)
+                if (input.U.HasWeapon == false)
                 {
-                    if (input.Actor.IsAttacking)
+                    if (input.A.IsAttacking)
                     {
                         output.Sprite(input.Sprites.Crux[351]);
                         return;
@@ -256,7 +321,7 @@ internal static class Crux
                     return;
                 }
 
-                switch (input.Actor.GetWeaponSprite())
+                switch (input.A.GetWeaponSprite())
                 {
                     case 0:
                         output.Sprite(input.Sprites.Crux[351]);
@@ -287,9 +352,9 @@ internal static class Crux
                 }
             }
 
-            if (input.Actor.Unit.HasWeapon == false)
+            if (input.U.HasWeapon == false)
             {
-                if (input.Actor.IsAttacking)
+                if (input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Crux[352]);
                     return;
@@ -299,7 +364,7 @@ internal static class Crux
                 return;
             }
 
-            switch (input.Actor.GetWeaponSprite())
+            switch (input.A.GetWeaponSprite())
             {
                 case 0:
                     output.Sprite(input.Sprites.Crux[352]);
@@ -333,30 +398,30 @@ internal static class Crux
 
         builder.RenderSingle(SpriteType.BodyAccent2, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            if (input.Actor.Unit.BodyAccentType2 == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            if (input.U.BodyAccentType2 == 0)
             {
                 return;
             }
 
-            output.Sprite(input.Sprites.Crux[271 + input.Actor.Unit.BodyAccentType2]);
+            output.Sprite(input.Sprites.Crux[271 + input.U.BodyAccentType2]);
         }); // Leg stripes.
 
         builder.RenderSingle(SpriteType.BodyAccent3, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Crux, input.Actor.Unit.ExtraColor1 * 56 + input.Actor.Unit.ExtraColor2 * 8 + input.Actor.Unit.ExtraColor3));
-            switch (input.Actor.Unit.BodyAccentType3)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
+            switch (input.U.BodyAccentType3)
             {
                 case 0: return;
                 case 1:
                 {
-                    if (input.Actor.Unit.HasWeapon == false || input.Actor.Surrendered)
+                    if (input.U.HasWeapon == false || input.A.Surrendered)
                     {
                         output.Sprite(input.Sprites.Crux[278]);
                         return;
                     }
 
-                    switch (input.Actor.GetWeaponSprite())
+                    switch (input.A.GetWeaponSprite())
                     {
                         case 0:
                             output.Sprite(input.Sprites.Crux[278]);
@@ -389,13 +454,13 @@ internal static class Crux
                 }
                 case 2:
                 {
-                    if (input.Actor.Unit.HasWeapon == false || input.Actor.Surrendered)
+                    if (input.U.HasWeapon == false || input.A.Surrendered)
                     {
                         output.Sprite(input.Sprites.Crux[279]);
                         return;
                     }
 
-                    switch (input.Actor.GetWeaponSprite())
+                    switch (input.A.GetWeaponSprite())
                     {
                         case 0:
                             output.Sprite(input.Sprites.Crux[279]);
@@ -428,13 +493,13 @@ internal static class Crux
                 }
                 case 3:
                 {
-                    if (input.Actor.Unit.HasWeapon == false || input.Actor.Surrendered)
+                    if (input.U.HasWeapon == false || input.A.Surrendered)
                     {
                         output.Sprite(input.Sprites.Crux[280]);
                         return;
                     }
 
-                    switch (input.Actor.GetWeaponSprite())
+                    switch (input.A.GetWeaponSprite())
                     {
                         case 0:
                             output.Sprite(input.Sprites.Crux[282]);
@@ -467,13 +532,13 @@ internal static class Crux
                 }
                 case 4:
                 {
-                    if (input.Actor.Unit.HasWeapon == false || input.Actor.Surrendered)
+                    if (input.U.HasWeapon == false || input.A.Surrendered)
                     {
                         output.Sprite(input.Sprites.Crux[281]);
                         return;
                     }
 
-                    switch (input.Actor.GetWeaponSprite())
+                    switch (input.A.GetWeaponSprite())
                     {
                         case 0:
                             output.Sprite(input.Sprites.Crux[281]);
@@ -511,7 +576,7 @@ internal static class Crux
         builder.RenderSingle(SpriteType.BodyAccent4, 20, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsOralVoring)
+            if (input.A.IsOralVoring)
             {
                 output.Sprite(input.Sprites.Crux[12]);
             }
@@ -520,42 +585,42 @@ internal static class Crux
         builder.RenderSingle(SpriteType.BodyAccent5, 16, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (!input.Actor.Targetable)
+            if (!input.A.Targetable)
             {
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsOralVoring)
+            if (input.A.IsAttacking || input.A.IsOralVoring)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                input.A.AnimationController.frameLists[0].currentlyActive = false;
+                input.A.AnimationController.frameLists[0].currentFrame = 0;
+                input.A.AnimationController.frameLists[0].currentTime = 0f;
                 return;
             }
 
-            if (input.Actor.AnimationController.frameLists[0].currentlyActive)
+            if (input.A.AnimationController.frameLists[0].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[0].currentTime >=
-                    frameListDrool.Times[input.Actor.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.frameLists[0].currentTime >=
+                    frameListDrool.Times[input.A.AnimationController.frameLists[0].currentFrame])
                 {
-                    input.Actor.AnimationController.frameLists[0].currentFrame++;
-                    input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.frameLists[0].currentFrame++;
+                    input.A.AnimationController.frameLists[0].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[0].currentFrame >= frameListDrool.Frames.Length)
+                    if (input.A.AnimationController.frameLists[0].currentFrame >= frameListDrool.Frames.Length)
                     {
-                        input.Actor.AnimationController.frameLists[0].currentlyActive = false;
-                        input.Actor.AnimationController.frameLists[0].currentFrame = 0;
-                        input.Actor.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.frameLists[0].currentlyActive = false;
+                        input.A.AnimationController.frameLists[0].currentFrame = 0;
+                        input.A.AnimationController.frameLists[0].currentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Crux[291 + frameListDrool.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Crux[291 + frameListDrool.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.VisibleFullness > 0 && State.Rand.Next(600) == 0)
+            if (input.A.PredatorComponent?.VisibleFullness > 0 && State.Rand.Next(600) == 0)
             {
-                input.Actor.AnimationController.frameLists[0].currentlyActive = true;
+                input.A.AnimationController.frameLists[0].currentlyActive = true;
             }
         }); // Drool animation.
 
@@ -563,14 +628,14 @@ internal static class Crux
         {
             output.Coloring(Defaults.WhiteColored);
             Accessory acc = null;
-            if (input.Actor.Unit.Items == null || input.Actor.Unit.Items.Length < 1)
+            if (input.U.Items == null || input.U.Items.Length < 1)
             {
                 return;
             }
 
-            if (input.Actor.Unit.Items[0] is Accessory)
+            if (input.U.Items[0] is Accessory)
             {
-                acc = (Accessory)input.Actor.Unit.Items[0];
+                acc = (Accessory)input.U.Items[0];
             }
 
             if (acc == null)
@@ -582,7 +647,7 @@ internal static class Crux
 
             if (acc == State.World.ItemRepository.GetItem(ItemType.Helmet))
             {
-                if (input.Actor.Unit.EarType >= 7)
+                if (input.U.EarType >= 7)
                 {
                     output.Sprite(input.Sprites.Crux[374]);
                     return;
@@ -606,13 +671,13 @@ internal static class Crux
 
             if (acc == State.World.ItemRepository.GetItem(ItemType.Gloves))
             {
-                if (input.Actor.Unit.HasWeapon == false || input.Actor.Surrendered)
+                if (input.U.HasWeapon == false || input.A.Surrendered)
                 {
                     output.Sprite(input.Sprites.Crux[376]);
                     return;
                 }
 
-                switch (input.Actor.GetWeaponSprite())
+                switch (input.A.GetWeaponSprite())
                 {
                     case 0:
                         output.Sprite(input.Sprites.Crux[377]);
@@ -646,13 +711,13 @@ internal static class Crux
 
             if (acc == State.World.ItemRepository.GetItem(ItemType.Gauntlet))
             {
-                if (input.Actor.Unit.HasWeapon == false || input.Actor.Surrendered)
+                if (input.U.HasWeapon == false || input.A.Surrendered)
                 {
                     output.Sprite(input.Sprites.Crux[381]);
                     return;
                 }
 
-                switch (input.Actor.GetWeaponSprite())
+                switch (input.A.GetWeaponSprite())
                 {
                     case 0:
                         output.Sprite(input.Sprites.Crux[382]);
@@ -719,7 +784,7 @@ internal static class Crux
 
             if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, CruxClothingTypes.RagsInstance);
+                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, CruxClothingTypes.RagsInstance);
                 if (unit.ClothingType == -1) //Covers rags not in the list
                 {
                     unit.ClothingType = 1;

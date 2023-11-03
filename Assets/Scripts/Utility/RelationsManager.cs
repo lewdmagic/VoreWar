@@ -10,12 +10,12 @@ static class RelationsManager
     static internal void ResetRelations()
     {
         var sides = State.World.MainEmpires.Select(s => s.Side).ToList();
-        sides.Add((int)Race.Goblins);
-        State.World.Relations = new Dictionary<int, Dictionary<int, Relationship>>();
-        foreach (int side in sides)
+        sides.Add(Race.Goblins.ToSide());
+        State.World.Relations = new Dictionary<Side, Dictionary<Side, Relationship>>();
+        foreach (Side side in sides)
         {
-            State.World.Relations[side] = new Dictionary<int, Relationship>();
-            foreach (int targetSide in sides)
+            State.World.Relations[side] = new Dictionary<Side, Relationship>();
+            foreach (Side targetSide in sides)
             {
                 State.World.Relations[side][targetSide] = new Relationship(State.World.GetEmpireOfSide(side)?.Team ?? -1, State.World.GetEmpireOfSide(targetSide)?.Team ?? -1);
             }
@@ -25,11 +25,11 @@ static class RelationsManager
     static internal void ResetMonsterRelations()
     {
         var sides = State.World.AllActiveEmpires.Select(s => s.Side).ToList();
-        foreach (int side in sides)
+        foreach (Side side in sides)
         {
-            foreach (int targetSide in sides)
+            foreach (Side targetSide in sides)
             {
-                if (side >= 100 || targetSide >= 100)
+                if (RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(side) || RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(targetSide))
                 {
                     if (State.World.Relations.ContainsKey(side))
                         State.World.Relations[side].Remove(targetSide);
@@ -45,9 +45,9 @@ static class RelationsManager
     static internal void ResetRelationTypes()
     {
         var sides = State.World.MainEmpires.Select(s => s.Side).ToList();
-        foreach (int side in sides)
+        foreach (Side side in sides)
         {
-            foreach (int targetSide in sides)
+            foreach (Side targetSide in sides)
             {
                 RelationState newType = State.World.GetEmpireOfSide(side).Team == State.World.GetEmpireOfSide(targetSide).Team ? RelationState.Allied : RelationState.Enemies;
                 GetRelation(side, targetSide).Type = newType;
@@ -79,13 +79,13 @@ static class RelationsManager
         }
     }
 
-    static internal Relationship GetRelation(int sideA, int sideB)
+    static internal Relationship GetRelation(Side sideA, Side sideB)
     {
         if (State.World.Relations == null)
             ResetRelations();
-        if (sideA >= 700 ||  sideB >= 700 )
+        if (RaceFuncs.IsRebelOrBandit(sideA) || RaceFuncs.IsRebelOrBandit(sideB))
         {
-            if (sideA == sideB)
+            if (Equals(sideA, sideB))
                 return new Relationship(0, 0);
             else
                 return new Relationship(-1, -1);
@@ -115,7 +115,7 @@ static class RelationsManager
             Debug.Log($"Invalid relationship returned between {sideA} and {sideB}");
             return new Relationship(0, 1);
         }
-        var newDict = new Dictionary<int, Relationship>();
+        var newDict = new Dictionary<Side, Relationship>();
         State.World.Relations[sideA] = newDict;
         Relationship newRel2 = new Relationship(empA.Team, empB.Team);
         newDict[sideB] = newRel2;

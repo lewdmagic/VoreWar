@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
@@ -11,6 +12,57 @@ internal static class Vipers
 
     internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
+        builder.Names("Viper", "Vipers");
+        builder.FlavorText(new FlavorText(
+            new Texts {  },
+            new Texts {  },
+            new Texts {  },
+            new Dictionary<string, string>
+            {
+                [WeaponNames.Mace]        = "Arc Blade",
+                [WeaponNames.Axe]         = "Fusion Blade",
+                [WeaponNames.SimpleBow]   = "Plasma Pistol",
+                [WeaponNames.CompoundBow] = "Plasma Rifle"
+            }
+        ));
+        builder.RaceTraits(new RaceTraits()
+        {
+            BodySize = 18,
+            StomachSize = 25,
+            HasTail = true,
+            FavoredStat = Stat.Voracity,
+            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
+            PowerAdjustment = 1.4f,
+            RaceStats = new RaceStats()
+            {
+                Strength = new RaceStats.StatRange(10, 16),
+                Dexterity = new RaceStats.StatRange(14, 20),
+                Endurance = new RaceStats.StatRange(8, 14),
+                Mind = new RaceStats.StatRange(10, 16),
+                Will = new RaceStats.StatRange(10, 16),
+                Agility = new RaceStats.StatRange(14, 20),
+                Voracity = new RaceStats.StatRange(18, 28),
+                Stomach = new RaceStats.StatRange(14, 20),
+            },
+            RacialTraits = new List<Traits>()
+            {
+                Traits.ArtfulDodge,
+                Traits.DualStomach,
+                Traits.RangedVore,
+                Traits.KeenShot,
+                Traits.SlowMetabolism,
+                Traits.PoisonSpit
+            },
+            RaceDescription = "",
+        });
+        builder.CustomizeButtons((unit, buttons) =>
+        {
+            buttons.SetText(ButtonType.Skintone, "Body Color");
+            buttons.SetText(ButtonType.BodyAccessoryType, "Hood Type");
+            buttons.SetText(ButtonType.ExtraColor1, "Accent Color");
+            buttons.SetText(ButtonType.TailTypes, "Tail Pattern");
+            buttons.SetText(ButtonType.BodyAccentTypes1, "Accent Pattern");
+        });
         builder.Setup(output =>
         {
             output.DickSizes = () => 8;
@@ -23,9 +75,9 @@ internal static class Vipers
             output.AccessoryColors = 0;
             output.HairColors = 0;
             output.MouthTypes = 0;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.ViperSkin);
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.ViperSkin);
-            output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.ViperSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.ViperSkin);
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.ViperSkin);
+            output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(SwapType.ViperSkin);
             output.BodyAccentTypes1 = 7; // extra pattern
             output.TailTypes = 2; // scale pattern on/off
 
@@ -66,7 +118,7 @@ internal static class Vipers
             output.AllowedClothingHatTypes.Clear();
 
             output.AvoidedMainClothingTypes = 0;
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.ViperSkin);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.ViperSkin);
         });
 
 
@@ -74,10 +126,10 @@ internal static class Vipers
 
         builder.RenderSingle(SpriteType.Head, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.TailType == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            if (input.U.TailType == 0)
             {
-                if (input.Actor.IsEating || input.Actor.IsAttacking)
+                if (input.A.IsEating || input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Vipers1[3]);
                     return;
@@ -87,7 +139,7 @@ internal static class Vipers
             }
             else
             {
-                if (input.Actor.IsEating || input.Actor.IsAttacking)
+                if (input.A.IsEating || input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Vipers4[3]);
                     return;
@@ -99,22 +151,22 @@ internal static class Vipers
 
         builder.RenderSingle(SpriteType.Eyes, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.EyeColor));
-            output.Sprite(input.Sprites.Vipers1[44 + input.Actor.Unit.EyeType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.EyeColor));
+            output.Sprite(input.Sprites.Vipers1[44 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.SecondaryEyes, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.Vipers1[40 + input.Actor.Unit.EyeType]);
+            output.Sprite(input.Sprites.Vipers1[40 + input.U.EyeType]);
         });
         builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.IsAttacking)
+            if (input.A.IsAttacking)
             {
                 output.Sprite(input.Sprites.Vipers1[5]);
             }
-            else if (input.Actor.IsEating)
+            else if (input.A.IsEating)
             {
                 output.Sprite(input.Sprites.Vipers1[4]);
             }
@@ -122,10 +174,10 @@ internal static class Vipers
 
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.TailType == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            if (input.U.TailType == 0)
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     output.Sprite(input.Sprites.Vipers1[0]);
                     return;
@@ -135,7 +187,7 @@ internal static class Vipers
             }
             else
             {
-                if (input.Actor.Unit.HasBreasts)
+                if (input.U.HasBreasts)
                 {
                     output.Sprite(input.Sprites.Vipers4[0]);
                     return;
@@ -147,77 +199,56 @@ internal static class Vipers
 
         builder.RenderSingle(SpriteType.BodyAccent, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ExtraColor1));
-            output.Sprite(input.Sprites.Vipers1[6 + (input.Actor.IsAttacking ? 1 : 0) + 2 * input.Actor.Unit.BodyAccentType1]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ExtraColor1));
+            output.Sprite(input.Sprites.Vipers1[6 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodyAccentType1]);
         }); // extra pattern
         builder.RenderSingle(SpriteType.BodyAccent2, 12, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.Predator == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            if (input.U.Predator == false)
             {
                 return;
             }
 
             int size2;
-            if (Config.LamiaUseTailAsSecondBelly && (input.Actor.PredatorComponent.Stomach2ndFullness > 0 || input.Actor.PredatorComponent.TailFullness > 0))
+            if (Config.LamiaUseTailAsSecondBelly && (input.A.PredatorComponent.Stomach2ndFullness > 0 || input.A.PredatorComponent.TailFullness > 0))
             {
-                size2 = Math.Min(input.Actor.GetStomach2Size(19, 0.9f) + input.Actor.GetTailSize(19, 0.9f), 19);
+                size2 = Math.Min(input.A.GetStomach2Size(19, 0.9f) + input.A.GetTailSize(19, 0.9f), 19);
             }
-            else if (input.Actor.PredatorComponent.TailFullness > 0)
+            else if (input.A.PredatorComponent.TailFullness > 0)
             {
-                size2 = input.Actor.GetTailSize(19, 0.9f);
+                size2 = input.A.GetTailSize(19, 0.9f);
             }
             else
             {
                 return;
             }
 
-            if (input.Actor.Unit.TailType == 0)
+            if (input.U.TailType == 0)
             {
-                if (size2 == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach2, PreyLocation.tail))
-                {
-                    output.Sprite(input.Sprites.Vipers3[1]);
-                }
-                else if (size2 == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach2, PreyLocation.tail))
-                {
-                    output.Sprite(input.Sprites.Vipers3[0]);
-                }
-                else
-                {
                     output.Sprite(input.Sprites.Vipers2[80 + size2]);
-                }
             }
             else
             {
-                if (size2 == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach2, PreyLocation.tail))
-                {
-                    output.Sprite(input.Sprites.Vipers4[47]);
-                }
-                else if (size2 == 19 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach2, PreyLocation.tail))
-                {
-                    output.Sprite(input.Sprites.Vipers4[46]);
-                }
-                else
-                {
                     output.Sprite(input.Sprites.Vipers4[48 + size2]);
-                }
+                
             }
         }); // second stomach
 
         builder.RenderSingle(SpriteType.BodyAccent3, 11, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.TailType == 0 ? input.Sprites.Vipers1[37] : input.Sprites.Vipers4[21]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            output.Sprite(input.U.TailType == 0 ? input.Sprites.Vipers1[37] : input.Sprites.Vipers4[21]);
         }); // default tail
 
         builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Sprites.Vipers1[38 + (input.Actor.IsAttacking ? 1 : 0)]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            output.Sprite(input.Sprites.Vipers1[38 + (input.A.IsAttacking ? 1 : 0)]);
         }); // arms
         builder.RenderSingle(SpriteType.BodyAccent5, 10, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
             if (Config.HideCocks)
             {
                 return;
@@ -229,9 +260,9 @@ internal static class Vipers
             }
 
 
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
-                if (input.Actor.IsUnbirthing)
+                if (input.A.IsUnbirthing)
                 {
                     output.Sprite(input.Sprites.Vipers1[49]);
                     return;
@@ -241,7 +272,7 @@ internal static class Vipers
             }
             else
             {
-                if (input.Actor.IsErect() || input.Actor.IsCockVoring)
+                if (input.A.IsErect() || input.A.IsCockVoring)
                 {
                     output.Sprite(input.Sprites.Vipers1[52]);
                     return;
@@ -264,16 +295,16 @@ internal static class Vipers
                 return;
             }
 
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
-                if (input.Actor.IsUnbirthing)
+                if (input.A.IsUnbirthing)
                 {
                     output.Sprite(input.Sprites.Vipers1[50]);
                 }
             }
             else
             {
-                if (input.Actor.IsErect() || input.Actor.IsCockVoring)
+                if (input.A.IsErect() || input.A.IsCockVoring)
                 {
                     output.Sprite(input.Sprites.Vipers1[53]);
                 }
@@ -282,41 +313,25 @@ internal static class Vipers
 
         builder.RenderSingle(SpriteType.BodyAccent7, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.TailType == 0)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            if (input.U.TailType == 0)
             {
-                if (input.Actor.GetStomachSize() == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    output.Sprite(input.Sprites.Vipers1[99]);
-                }
-                else if (input.Actor.GetStomachSize() == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    output.Sprite(input.Sprites.Vipers1[98]);
-                }
-                else if (input.Actor.GetStomachSize() >= 14)
+                if (input.A.GetStomachSize() >= 14)
                 {
                     output.Sprite(input.Sprites.Vipers1[97]);
                 }
-                else if (input.Actor.GetStomachSize() >= 12)
+                else if (input.A.GetStomachSize() >= 12)
                 {
                     output.Sprite(input.Sprites.Vipers1[96]);
                 }
             }
             else
             {
-                if (input.Actor.GetStomachSize() == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    output.Sprite(input.Sprites.Vipers4[27]);
-                }
-                else if (input.Actor.GetStomachSize() == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    output.Sprite(input.Sprites.Vipers4[26]);
-                }
-                else if (input.Actor.GetStomachSize() >= 14)
+                if (input.A.GetStomachSize() >= 14)
                 {
                     output.Sprite(input.Sprites.Vipers4[25]);
                 }
-                else if (input.Actor.GetStomachSize() >= 12)
+                else if (input.A.GetStomachSize() >= 12)
                 {
                     output.Sprite(input.Sprites.Vipers4[24]);
                 }
@@ -325,27 +340,27 @@ internal static class Vipers
 
         builder.RenderSingle(SpriteType.BodyAccent8, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.Predator == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            if (input.U.Predator == false)
             {
                 return;
             }
 
             int size2;
-            if (Config.LamiaUseTailAsSecondBelly && (input.Actor.PredatorComponent.Stomach2ndFullness > 0 || input.Actor.PredatorComponent.TailFullness > 0))
+            if (Config.LamiaUseTailAsSecondBelly && (input.A.PredatorComponent.Stomach2ndFullness > 0 || input.A.PredatorComponent.TailFullness > 0))
             {
-                size2 = Math.Min(input.Actor.GetStomach2Size(19, 0.9f) + input.Actor.GetTailSize(19, 0.9f), 19);
+                size2 = Math.Min(input.A.GetStomach2Size(19, 0.9f) + input.A.GetTailSize(19, 0.9f), 19);
             }
-            else if (input.Actor.PredatorComponent.TailFullness > 0)
+            else if (input.A.PredatorComponent.TailFullness > 0)
             {
-                size2 = input.Actor.GetTailSize(19, 0.9f);
+                size2 = input.A.GetTailSize(19, 0.9f);
             }
             else
             {
                 return;
             }
 
-            if (input.Actor.Unit.TailType == 0)
+            if (input.U.TailType == 0)
             {
                 if (size2 >= 19)
                 {
@@ -379,39 +394,21 @@ internal static class Vipers
 
         builder.RenderSingle(SpriteType.BodyAccessory, 3, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            output.Sprite(input.Actor.Unit.TailType == 0 ? input.Sprites.Vipers1[21 + input.Actor.Unit.SpecialAccessoryType] : input.Sprites.Vipers4[5 + input.Actor.Unit.SpecialAccessoryType]);
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            output.Sprite(input.U.TailType == 0 ? input.Sprites.Vipers1[21 + input.U.SpecialAccessoryType] : input.Sprites.Vipers4[5 + input.U.SpecialAccessoryType]);
         }); // hood
 
         builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
             {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(28 * 28));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Vipers2[27]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 26)
-                {
-                    output.Sprite(input.Sprites.Vipers2[26]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 24)
-                {
-                    output.Sprite(input.Sprites.Vipers2[25]);
-                    return;
-                }
+                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(28 * 28));
 
                 if (leftSize > 24)
                 {
@@ -422,39 +419,21 @@ internal static class Vipers
             }
             else
             {
-                output.Sprite(input.Sprites.Vipers2[0 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Vipers2[0 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 16, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
-            if (input.Actor.Unit.HasBreasts == false)
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
+            if (input.U.HasBreasts == false)
             {
                 return;
             }
 
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+            if (input.A.PredatorComponent?.RightBreastFullness > 0)
             {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(28 * 28));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Vipers2[55]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 26)
-                {
-                    output.Sprite(input.Sprites.Vipers2[54]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 24)
-                {
-                    output.Sprite(input.Sprites.Vipers2[53]);
-                    return;
-                }
+                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(28 * 28));
 
                 if (rightSize > 24)
                 {
@@ -465,50 +444,22 @@ internal static class Vipers
             }
             else
             {
-                output.Sprite(input.Sprites.Vipers2[28 + input.Actor.Unit.BreastSize]);
+                output.Sprite(input.Sprites.Vipers2[28 + input.U.BreastSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Belly, 9, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.SkinColor));
             if (!Config.LamiaUseTailAsSecondBelly)
             {
-                if (input.Actor.HasBelly)
+                if (input.A.HasBelly)
                 {
-                    int size0 = input.Actor.GetCombinedStomachSize();
+                    int size0 = input.A.GetCombinedStomachSize();
 
-                    if (input.Actor.Unit.TailType == 0)
+                    if (input.U.TailType == 0)
                     {
-                        if (size0 == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true,
-                                PreyLocation.stomach, PreyLocation.stomach2, PreyLocation.womb))
-                        {
-                            output.Sprite(input.Sprites.Vipers1[95]);
-                            return;
-                        }
-
-                        if (size0 == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false,
-                                PreyLocation.stomach, PreyLocation.stomach2, PreyLocation.womb))
-                        {
-                            output.Sprite(input.Sprites.Vipers1[94]);
-                            return;
-                        }
-
                         output.Sprite(input.Sprites.Vipers1[78 + size0]);
-                        return;
-                    }
-
-                    if (size0 == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true,
-                            PreyLocation.stomach, PreyLocation.stomach2, PreyLocation.womb))
-                    {
-                        output.Sprite(input.Sprites.Vipers4[45]);
-                        return;
-                    }
-
-                    if (size0 == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false,
-                            PreyLocation.stomach, PreyLocation.stomach2, PreyLocation.womb))
-                    {
-                        output.Sprite(input.Sprites.Vipers4[44]);
                         return;
                     }
 
@@ -519,43 +470,20 @@ internal static class Vipers
                 return;
             }
 
-            if (input.Actor.HasBelly)
+            if (input.A.HasBelly)
             {
-                int size = input.Actor.GetStomachSize();
+                int size = input.A.GetStomachSize();
 
-                if (input.Actor.Unit.TailType == 0)
+                if (input.U.TailType == 0)
                 {
-                    if (size == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true,
-                            PreyLocation.stomach, PreyLocation.womb))
-                    {
-                        output.Sprite(input.Sprites.Vipers1[95]);
-                    }
-                    else if (size == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false,
-                                 PreyLocation.stomach, PreyLocation.womb))
-                    {
-                        output.Sprite(input.Sprites.Vipers1[94]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Vipers1[78 + size]);
-                    }
+
+                    output.Sprite(input.Sprites.Vipers1[78 + size]);
                 }
                 else
                 {
-                    if (size == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true,
-                            PreyLocation.stomach, PreyLocation.womb))
-                    {
-                        output.Sprite(input.Sprites.Vipers4[45]);
-                    }
-                    else if (size == 15 && input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false,
-                                 PreyLocation.stomach, PreyLocation.womb))
-                    {
-                        output.Sprite(input.Sprites.Vipers4[44]);
-                    }
-                    else
-                    {
-                        output.Sprite(input.Sprites.Vipers4[28 + size]);
-                    }
+
+                    output.Sprite(input.Sprites.Vipers4[28 + size]);
+                    
                 }
             }
         });
@@ -563,44 +491,32 @@ internal static class Vipers
         builder.RenderSingle(SpriteType.Dick, 15, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            if (input.Actor.IsCockVoring)
+            if (input.A.IsCockVoring)
             {
-                output.Sprite(input.Sprites.Vipers1[62 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Vipers1[62 + input.U.DickSize]);
             }
-            else if (input.Actor.IsErect())
+            else if (input.A.IsErect())
             {
-                output.Sprite(input.Sprites.Vipers1[54 + input.Actor.Unit.DickSize]);
+                output.Sprite(input.Sprites.Vipers1[54 + input.U.DickSize]);
             }
         });
 
         builder.RenderSingle(SpriteType.Balls, 14, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasDick == false)
+            if (input.U.HasDick == false)
             {
                 return;
             }
 
-            int ballsize = input.Actor.GetBallSize(20, 1.5f);
+            int ballsize = input.A.GetBallSize(20, 1.5f);
 
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(20, 1.5f) == 20)
-            {
-                output.Sprite(input.Sprites.Vipers2[79]);
-            }
-            else if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(20, 1.2f) == 20)
-            {
-                output.Sprite(input.Sprites.Vipers2[78]);
-            }
-            else if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(20, 1.35f) == 20)
-            {
-                output.Sprite(input.Sprites.Vipers2[77]);
-            }
-            else if (input.Actor.PredatorComponent?.BallsFullness > 0)
+            if (input.A.PredatorComponent?.BallsFullness > 0)
             {
                 output.Sprite(input.Sprites.Vipers2[56 + ballsize]);
             }
@@ -609,9 +525,9 @@ internal static class Vipers
         builder.RenderSingle(SpriteType.Weapon, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
+            if (input.U.HasWeapon && input.A.Surrendered == false)
             {
-                output.Sprite(input.Sprites.Vipers1[70 + input.Actor.GetWeaponSprite()]);
+                output.Sprite(input.Sprites.Vipers1[70 + input.A.GetWeaponSprite()]);
             }
         });
 
@@ -620,7 +536,7 @@ internal static class Vipers
         {
             if (!Config.LamiaUseTailAsSecondBelly)
             {
-                if (input.Actor.GetCombinedStomachSize() > 14)
+                if (input.A.GetCombinedStomachSize() > 14)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -630,7 +546,7 @@ internal static class Vipers
                     output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -8 * .625f);
                     output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -8 * .625f);
                 }
-                else if (input.Actor.GetCombinedStomachSize() > 12)
+                else if (input.A.GetCombinedStomachSize() > 12)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -640,7 +556,7 @@ internal static class Vipers
                     output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -6 * .625f);
                     output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -6 * .625f);
                 }
-                else if (input.Actor.GetCombinedStomachSize() > 10)
+                else if (input.A.GetCombinedStomachSize() > 10)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -650,7 +566,7 @@ internal static class Vipers
                     output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -4 * .625f);
                     output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -4 * .625f);
                 }
-                else if (input.Actor.GetCombinedStomachSize() > 8)
+                else if (input.A.GetCombinedStomachSize() > 8)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -660,7 +576,7 @@ internal static class Vipers
                     output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -2 * .625f);
                     output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -2 * .625f);
                 }
-                else if (input.Actor.GetCombinedStomachSize() > 6)
+                else if (input.A.GetCombinedStomachSize() > 6)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -680,7 +596,7 @@ internal static class Vipers
             }
             else
             {
-                if (input.Actor.GetStomachSize() > 14)
+                if (input.A.GetStomachSize() > 14)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -690,7 +606,7 @@ internal static class Vipers
                     output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -8 * .625f);
                     output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -8 * .625f);
                 }
-                else if (input.Actor.GetStomachSize() > 12)
+                else if (input.A.GetStomachSize() > 12)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -700,7 +616,7 @@ internal static class Vipers
                     output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -6 * .625f);
                     output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -6 * .625f);
                 }
-                else if (input.Actor.GetStomachSize() > 10)
+                else if (input.A.GetStomachSize() > 10)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -710,7 +626,7 @@ internal static class Vipers
                     output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -4 * .625f);
                     output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -4 * .625f);
                 }
-                else if (input.Actor.GetStomachSize() > 8)
+                else if (input.A.GetStomachSize() > 8)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -720,7 +636,7 @@ internal static class Vipers
                     output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(0, -2 * .625f);
                     output.ChangeSprite(SpriteType.BodyAccent6).AddOffset(0, -2 * .625f);
                 }
-                else if (input.Actor.GetStomachSize() > 6)
+                else if (input.A.GetStomachSize() > 6)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, 0);
                     output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, 0);
@@ -781,9 +697,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[10]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[2 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[2 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -793,12 +709,12 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
                 output["Clothing5"].Sprite(input.Sprites.Vipers3[17]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[13 + (attacking ? 1 : 0)]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[15 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -827,9 +743,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[10]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[2 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[2 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -839,7 +755,7 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[17]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -869,9 +785,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[10]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[2 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[2 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -880,12 +796,12 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[13 + (attacking ? 1 : 0)]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[15 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -912,9 +828,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[10]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[2 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[2 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -923,7 +839,7 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -955,9 +871,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[18]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[20 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[20 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -967,12 +883,12 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
                 output["Clothing5"].Sprite(input.Sprites.Vipers3[30]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[28 + (attacking ? 1 : 0)]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[15 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1001,9 +917,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[18]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[20 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[20 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1013,7 +929,7 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[30]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1043,9 +959,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[18]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[20 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[20 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1054,12 +970,12 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[28 + (attacking ? 1 : 0)]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[15 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1086,9 +1002,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[18]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[20 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[20 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1097,7 +1013,7 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1129,9 +1045,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[40]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[31 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[31 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1141,12 +1057,12 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
                 output["Clothing5"].Sprite(input.Sprites.Vipers3[39]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[42 + (attacking ? 1 : 0)]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[15 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1175,9 +1091,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[40]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[31 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[31 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1187,7 +1103,7 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[39]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1217,9 +1133,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[40]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[31 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[31 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1228,12 +1144,12 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[42 + (attacking ? 1 : 0)]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[15 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1260,9 +1176,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[40]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[31 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[31 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1271,7 +1187,7 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[12]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1302,9 +1218,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[52]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[44 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[44 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1314,10 +1230,10 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[54]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[57]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[55 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1346,9 +1262,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[52]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[44 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[44 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1358,7 +1274,7 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[54]);
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[57]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1387,9 +1303,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[52]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[44 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[44 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1398,10 +1314,10 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[54]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[55 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1428,9 +1344,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[52]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[44 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[44 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1439,7 +1355,7 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[54]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1473,10 +1389,10 @@ internal static class Vipers
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[68]);
                     output["Clothing2"].Sprite(input.Sprites.Vipers3[78]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[60 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Vipers3[70 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[60 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Vipers3[70 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1487,13 +1403,13 @@ internal static class Vipers
                 output["Clothing5"].Sprite(input.Sprites.Vipers3[58]);
                 output["Clothing6"].Sprite(input.Sprites.Vipers3[59]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[80 + (attacking ? 1 : 0)]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[82 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing6"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing6"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1524,10 +1440,10 @@ internal static class Vipers
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[68]);
                     output["Clothing2"].Sprite(input.Sprites.Vipers3[78]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[60 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Vipers3[70 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[60 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Vipers3[70 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1538,8 +1454,8 @@ internal static class Vipers
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[58]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[59]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1570,10 +1486,10 @@ internal static class Vipers
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[68]);
                     output["Clothing2"].Sprite(input.Sprites.Vipers3[78]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[60 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Vipers3[70 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[60 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Vipers3[70 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1581,12 +1497,12 @@ internal static class Vipers
                     output["Clothing2"].Sprite(input.Sprites.Vipers3[79]);
                 }
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[80 + (attacking ? 1 : 0)]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[82 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
-                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
+                output["Clothing4"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1614,10 +1530,10 @@ internal static class Vipers
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[68]);
                     output["Clothing2"].Sprite(input.Sprites.Vipers3[78]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[60 + input.Actor.Unit.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Vipers3[70 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[60 + input.U.BreastSize]);
+                    output["Clothing2"].Sprite(input.Sprites.Vipers3[70 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1625,7 +1541,7 @@ internal static class Vipers
                     output["Clothing2"].Sprite(input.Sprites.Vipers3[79]);
                 }
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1656,9 +1572,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[92]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[84 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[84 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1668,10 +1584,10 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[54]);
                 output["Clothing4"].Sprite(input.Sprites.Vipers3[96]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[94 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1700,9 +1616,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[92]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[84 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[84 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1712,7 +1628,7 @@ internal static class Vipers
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[54]);
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[96]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1741,9 +1657,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[92]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[84 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[84 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1752,10 +1668,10 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[54]);
 
-                bool attacking = input.Actor.IsAttacking;
+                bool attacking = input.A.IsAttacking;
                 output["Clothing3"].Sprite(input.Sprites.Vipers3[94 + (attacking ? 1 : 0)]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }
@@ -1782,9 +1698,9 @@ internal static class Vipers
                 {
                     output["Clothing1"].Sprite(input.Sprites.Vipers3[92]);
                 }
-                else if (input.Actor.Unit.HasBreasts)
+                else if (input.U.HasBreasts)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Vipers3[84 + input.Actor.Unit.BreastSize]);
+                    output["Clothing1"].Sprite(input.Sprites.Vipers3[84 + input.U.BreastSize]);
                 }
                 else
                 {
@@ -1793,7 +1709,7 @@ internal static class Vipers
 
                 output["Clothing2"].Sprite(input.Sprites.Vipers3[54]);
 
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.ViperSkin, input.Actor.Unit.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ViperSkin, input.U.ClothingColor));
             });
         });
     }

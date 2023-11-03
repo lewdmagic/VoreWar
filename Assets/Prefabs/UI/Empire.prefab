@@ -495,6 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25cc434bb1f39954789c1a5861f466c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Text: {fileID: 114056218828014612}
   AIPlayer: {fileID: 114704201829855092}
   VillageCount: {fileID: 114355300531989516}
   StrategicAI: {fileID: 114440578527004190}

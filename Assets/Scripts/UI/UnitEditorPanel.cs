@@ -42,7 +42,7 @@ public class UnitEditorPanel : CustomizerPanel
     {
         raceDict = new Dictionary<Race, int>();
         int val = 0;
-        foreach (Race race in ((Race[])Enum.GetValues(typeof(Race))).OrderBy((s) => s.ToString()))
+        foreach (Race race in RaceFuncs.RaceEnumerable().OrderBy((s) => s.ToString()))
         {
             raceDict[race] = val;
             val++;
@@ -110,7 +110,7 @@ public class UnitEditorPanel : CustomizerPanel
             var mainEmps = State.World.MainEmpires;
             for (int i = 0; i < mainEmps.Count; i++)
             {
-                if (mainEmps[i].Side >= 700)
+                if (RaceFuncs.IsRebelOrBandit5(mainEmps[i].Side))
                     continue;
                 AlignmentDropdown.options.Add(new TMP_Dropdown.OptionData(mainEmps[i].Name));
                 empireDict[i + 1] = mainEmps[i];
@@ -121,7 +121,7 @@ public class UnitEditorPanel : CustomizerPanel
                 var monsterEmps = State.World.MonsterEmpires;
                 for (int i = 0; i < monsterEmps.Count(); i++)
                 {
-                    if (monsterEmps[i].Side >= 700)
+                    if (RaceFuncs.IsRebelOrBandit5(monsterEmps[i].Side))
                         continue;
                     AlignmentDropdown.options.Add(new TMP_Dropdown.OptionData(monsterEmps[i].Name));
                     empireDict[i + mainEmps.Count - 1] = monsterEmps[i];
@@ -206,7 +206,7 @@ public class UnitEditorPanel : CustomizerPanel
             return State.World.GetEmpireOfSide(unit.FixedSide)?.Name ?? unit.Race.ToString();
         }
         else
-            return unit.FixedSide == State.GameManager.TacticalMode.GetDefenderSide() ? "Defender" : "Attacker";
+            return Equals(unit.FixedSide, State.GameManager.TacticalMode.GetDefenderSide()) ? "Defender" : "Attacker";
     }
 
     public void Open(Unit unit)
@@ -299,9 +299,9 @@ public class UnitEditorPanel : CustomizerPanel
     {
         if (UnitEditor.Unit == null)
             return;
-        if (Enum.TryParse(RaceDropdown.options[RaceDropdown.value].text, out Race race))
+        if (RaceFuncs.TryParse(RaceDropdown.options[RaceDropdown.value].text, out Race race))
         {
-            if (UnitEditor.Unit.Race == race)
+            if (Equals(UnitEditor.Unit.Race, race))
                 return;
             UnitEditor.Unit.Race = race;
             UnitEditor.Unit.RandomizeGender(race, Races.GetRace(UnitEditor.Unit));
@@ -391,7 +391,7 @@ public class UnitEditorPanel : CustomizerPanel
             return;
 
         if (AlignmentDropdown.options[AlignmentDropdown.value].text == "Default")
-            UnitEditor.Unit.FixedSide = -1;
+            UnitEditor.Unit.FixedSide = Race.TrueNoneSide;
         else if (AlignmentDropdown.options[AlignmentDropdown.value].text == "Defender")
             UnitEditor.Unit.FixedSide = State.GameManager.TacticalMode.GetDefenderSide();
         else if (AlignmentDropdown.options[AlignmentDropdown.value].text == "Attacker")

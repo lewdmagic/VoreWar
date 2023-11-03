@@ -193,7 +193,7 @@ public class HoveringTooltip : MonoBehaviour
                     return $"Provides a stat boost for all friendly units\nStat value: {unit.GetStatBase(Stat.Leadership)}";
             }
         }
-        if (Enum.TryParse(words[2], out Race race))
+        if (RaceFuncs.TryParse(words[2], out Race race))
         {
             if (unit == null) //Protector for the add a race screen
                 return "";

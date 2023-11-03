@@ -49,42 +49,42 @@ internal class ClothingDiscards
             AllClothes.Add(KangarooClothes.Loincloth2.Loincloth2Instance); //3 and 4 are unneeded because they share with 2
             AllClothes.AddRange(Bees.DiscardData);
             AllClothes.AddRange(Panthers.AllClothing); // TODO move from global
-            AllClothes.AddRange(Races.GetRace(Race.Hippos).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Hippos).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Merfolk).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Merfolk).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Vipers).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Frogs).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Frogs).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing1Types);
-            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing2Types);
-            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing3Types);
-            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing4Types);
-            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing5Types);
-            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing1Types);
-            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing2Types);
-            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing3Types);
-            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing4Types);
-            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing5Types);
-            AllClothes.AddRange(Races.GetRace(Race.Sharks).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Sharks).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Sharks).MiscRaceData.ExtraMainClothing1Types);
-            AllClothes.AddRange(Races.GetRace(Race.Komodos).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Komodos).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Bats).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Cockatrice).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Cockatrice).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Deer).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Deer).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Deer).MiscRaceData.ExtraMainClothing1Types);
-            AllClothes.AddRange(Races.GetRace(Race.Humans).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Humans).MiscRaceData.AllowedWaistTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Vargul).MiscRaceData.AllowedMainClothingTypes);
-            AllClothes.AddRange(Races.GetRace(Race.Vargul).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races.GetRace(Race.Hippos).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Hippos).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Merfolk).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Merfolk).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Vipers).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Demifrogs).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Demifrogs).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing1TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing2TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing3TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing4TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing5TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing1TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing2TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing3TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing4TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing5TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Demisharks).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Demisharks).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Demisharks).MiscRaceData.ExtraMainClothing1TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Komodos).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Komodos).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.DemiBats).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Cockatrice).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Cockatrice).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Deer).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Deer).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Deer).MiscRaceData.ExtraMainClothing1TypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Humans).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Humans).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Vargul).MiscRaceData.AllowedMainClothingTypesBasic);
+            AllClothes.AddRange(Races.GetRace(Race.Vargul).MiscRaceData.AllowedWaistTypesBasic);
             AllClothes = AllClothes.Distinct().ToList();
         }
         var clothingType = AllClothes.Where(s => s.FixedData.Type == type).FirstOrDefault();
@@ -93,7 +93,7 @@ internal class ClothingDiscards
         if (clothingType.FixedData.FixedColor == false)
         {
             if (clothingType.FixedData.DiscardUsesPalettes)
-                sprite.GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing, color).colorSwapMaterial;
+                sprite.GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.Clothing, color).colorSwapMaterial;
             else
                 sprite.color = ColorMap.GetClothingColor(color);
         }
