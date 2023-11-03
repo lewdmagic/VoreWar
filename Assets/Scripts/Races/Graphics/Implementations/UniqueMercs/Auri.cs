@@ -8,7 +8,7 @@ using UnityEngine;
 
 internal static class Auri
 {
-    private const float StomachMult = 1.7f;
+    internal const float StomachMult = 1.7f;
 
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
     {
@@ -271,10 +271,6 @@ internal static class Auri
             if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
             {
                 int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-                if (leftSize > input.Actor.Unit.DefaultBreastSize)
-                {
-                    input.Params.Oversize = true;
-                }
 
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
                 {
@@ -330,11 +326,7 @@ internal static class Auri
             if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
             {
                 int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-                if (rightSize > input.Actor.Unit.DefaultBreastSize)
-                {
-                    input.Params.Oversize = true;
-                }
-
+                
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
                 {
                     output.Sprite(input.Sprites.AuriVore[66]);
@@ -460,7 +452,22 @@ internal static class Auri
         });
 
 
-        builder.RunBefore(Defaults.BasicBellyRunAfter);
+        builder.RunBefore((input, output) =>
+        {
+            Defaults.BasicBellyRunAfter.Invoke(input, output);
+            
+            int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
+            if (rightSize > input.Actor.Unit.DefaultBreastSize)
+            {
+                output.Params.Oversize = true;
+            }
+            
+            int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
+            if (leftSize > input.Actor.Unit.DefaultBreastSize)
+            {
+                output.Params.Oversize = true;
+            }
+        });
 
         builder.RandomCustom(data =>
         {

@@ -307,10 +307,7 @@ internal static class Bats
             if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
             {
                 int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-                if (rightSize > input.Actor.Unit.DefaultBreastSize)
-                {
-                    input.Params.Oversize = true;
-                }
+
 
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
                 {
@@ -329,7 +326,12 @@ internal static class Bats
                     output.Sprite(input.Sprites.Demibats3[61]);
                     return;
                 }
-
+                
+                if (rightSize > input.Actor.Unit.DefaultBreastSize)
+                {
+                    input.Params.Oversize = true;
+                }
+                
                 if (rightSize > 28)
                 {
                     rightSize = 28;

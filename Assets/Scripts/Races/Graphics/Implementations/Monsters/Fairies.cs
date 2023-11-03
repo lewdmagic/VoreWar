@@ -59,14 +59,17 @@ internal static class FairyUtil
 
 internal static class Fairies
 {
-    private const float GeneralSizeMod = 0.8f;
+    internal const float GeneralSizeMod = 0.8f;
 
 
-    private static bool _encumbered;
-    private static bool _veryEncumbered;
-    private static FairyType _season;
+    internal class FairyParameters : IParameters
+    {
+        internal bool Encumbered;
+        internal bool VeryEncumbered;
+        internal FairyType Season;
+    }
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<FairyParameters>, builder =>
     {
         RaceFrameList springWings = new RaceFrameList(new int[3] { 91, 92, 93 }, new float[3] { .2f, .2f, .2f });
         RaceFrameList summerWings = new RaceFrameList(new int[3] { 94, 95, 96 }, new float[3] { .2f, .2f, .2f });
@@ -121,7 +124,7 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
         {
-            output.Coloring(GetHairColor(input.Actor));
+            output.Coloring(GetHairColor(input, input.Actor));
             if (input.Actor.Unit.HairStyle < 3)
             {
                 output.Sprite(input.Sprites.Fairy[2 * input.Actor.Unit.HairStyle]);
@@ -134,7 +137,7 @@ internal static class Fairies
                 return;
             }
 
-            switch (_season)
+            switch (input.Params.Season)
             {
                 case FairyType.Spring:
                     output.Sprite(input.Sprites.Fairy[6]);
@@ -153,7 +156,7 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
         {
-            output.Coloring(GetHairColor(input.Actor));
+            output.Coloring(GetHairColor(input, input.Actor));
             if (input.Actor.Unit.HairStyle < 3)
             {
                 output.Sprite(input.Sprites.Fairy[1 + 2 * input.Actor.Unit.HairStyle]);
@@ -165,7 +168,7 @@ internal static class Fairies
                 return;
             }
 
-            if (_season == FairyType.Summer)
+            if (input.Params.Season == FairyType.Summer)
             {
                 output.Sprite(input.Sprites.Fairy[9]);
             }
@@ -173,8 +176,8 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
         {
-            output.Coloring(GetSkinColor(input.Actor));
-            if (_veryEncumbered)
+            output.Coloring(GetSkinColor(input, input.Actor));
+            if (input.Params.VeryEncumbered)
             {
                 if (input.Actor.IsAttacking)
                 {
@@ -186,7 +189,7 @@ internal static class Fairies
                 return;
             }
 
-            if (_encumbered)
+            if (input.Params.Encumbered)
             {
                 if (input.Actor.IsAttacking)
                 {
@@ -209,8 +212,8 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.BodyAccent, 16, (input, output) =>
         {
-            output.Coloring(GetSkinColor(input.Actor));
-            if (_veryEncumbered)
+            output.Coloring(GetSkinColor(input, input.Actor));
+            if (input.Params.VeryEncumbered)
             {
                 if (input.Actor.IsAttacking)
                 {
@@ -221,7 +224,7 @@ internal static class Fairies
                 return;
             }
 
-            if (_encumbered)
+            if (input.Params.Encumbered)
             {
                 if (input.Actor.IsAttacking)
                 {
@@ -239,8 +242,8 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
         {
-            output.Coloring(GetSkinColor(input.Actor));
-            if (_veryEncumbered && input.Actor.IsEating)
+            output.Coloring(GetSkinColor(input, input.Actor));
+            if (input.Params.VeryEncumbered && input.Actor.IsEating)
             {
                 if (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false)
                 {
@@ -249,7 +252,7 @@ internal static class Fairies
                 }
             }
 
-            if (_encumbered)
+            if (input.Params.Encumbered)
             {
                 output.Sprite(input.Sprites.Fairy[83]);
             }
@@ -275,9 +278,9 @@ internal static class Fairies
                 }
             }
 
-            if (_encumbered)
+            if (input.Params.Encumbered)
             {
-                switch (_season)
+                switch (input.Params.Season)
                 {
                     case FairyType.Spring:
                         output.Sprite(input.Sprites.Fairy[springWingsEnc.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
@@ -294,7 +297,7 @@ internal static class Fairies
                 }
             }
 
-            switch (_season)
+            switch (input.Params.Season)
             {
                 case FairyType.Spring:
                     output.Sprite(input.Sprites.Fairy[springWings.Frames[input.Actor.AnimationController.frameLists[0].currentFrame]]);
@@ -313,7 +316,7 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.Breasts, 14, (input, output) =>
         {
-            output.Coloring(GetSkinColor(input.Actor));
+            output.Coloring(GetSkinColor(input, input.Actor));
             if (input.Actor.Unit.HasBreasts == false)
             {
                 return;
@@ -370,7 +373,7 @@ internal static class Fairies
                 return;
             }
 
-            if (_encumbered)
+            if (input.Params.Encumbered)
             {
                 output.Sprite(input.Sprites.Fairy[140 + input.Actor.Unit.BreastSize]);
                 return;
@@ -381,7 +384,7 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.SecondaryBreasts, 14, (input, output) =>
         {
-            output.Coloring(GetSkinColor(input.Actor));
+            output.Coloring(GetSkinColor(input, input.Actor));
             if (input.Actor.Unit.HasBreasts == false)
             {
                 return;
@@ -438,7 +441,7 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.Belly, 13, (input, output) =>
         {
-            output.Coloring(GetSkinColor(input.Actor));
+            output.Coloring(GetSkinColor(input, input.Actor));
             if (input.Actor.HasBelly)
             {
                 int bellySprite = input.Actor.GetRootedStomachSize(18, GeneralSizeMod);
@@ -473,7 +476,7 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.Dick, 12, (input, output) =>
         {
-            output.Coloring(GetSkinColor(input.Actor));
+            output.Coloring(GetSkinColor(input, input.Actor));
             if (input.Actor.Unit.HasDick == false)
             {
                 return;
@@ -485,7 +488,7 @@ internal static class Fairies
                 return;
             }
 
-            if (_encumbered)
+            if (input.Params.Encumbered)
             {
                 output.Sprite(input.Sprites.Fairy[117 + input.Actor.Unit.DickSize]);
                 return;
@@ -496,7 +499,7 @@ internal static class Fairies
 
         builder.RenderSingle(SpriteType.Balls, 11, (input, output) =>
         {
-            output.Coloring(GetSkinColor(input.Actor));
+            output.Coloring(GetSkinColor(input, input.Actor));
             if (input.Actor.Unit.HasDick == false)
             {
                 return;
@@ -539,7 +542,7 @@ internal static class Fairies
                 return;
             }
 
-            if (_encumbered)
+            if (input.Params.Encumbered)
             {
                 output.Sprite(input.Sprites.Fairy[123 + input.Actor.Unit.DickSize]);
                 return;
@@ -551,9 +554,9 @@ internal static class Fairies
 
         builder.RunBefore((input, output) =>
         {
-            _season = (FairyType)input.Actor.Unit.BodyAccentType1; // TODO fix dirty enum casting
-            _encumbered = input.Actor.PredatorComponent?.Fullness > 0; // Not 100% accurate, but saves effort
-            _veryEncumbered = input.Actor.GetRootedStomachSize(19, GeneralSizeMod) > 16;
+            output.Params.Season = (FairyType)input.Actor.Unit.BodyAccentType1; // TODO fix dirty enum casting
+            output.Params.Encumbered = input.Actor.PredatorComponent?.Fullness > 0; // Not 100% accurate, but saves effort
+            output.Params.VeryEncumbered = input.Actor.GetRootedStomachSize(19, GeneralSizeMod) > 16;
             //base.RunFirst(data.Actor);
             Defaults.BasicBellyRunAfter.Invoke(input, output);
         });
@@ -569,9 +572,9 @@ internal static class Fairies
     });
 
 
-    private static ColorSwapPalette GetHairColor(Actor_Unit actor)
+    private static ColorSwapPalette GetHairColor(IRaceRenderInput<FairyParameters> input, Actor_Unit actor)
     {
-        switch (_season)
+        switch (input.Params.Season)
         {
             case FairyType.Spring:
                 return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairySpringClothes, actor.Unit.HairColor);
@@ -585,9 +588,9 @@ internal static class Fairies
     }
 
 
-    private static ColorSwapPalette GetSkinColor(Actor_Unit actor)
+    private static ColorSwapPalette GetSkinColor(IRaceRenderInput<FairyParameters> input, Actor_Unit actor)
     {
-        switch (_season)
+        switch (input.Params.Season)
         {
             case FairyType.Spring:
                 return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.FairySpringSkin, actor.Unit.SkinColor);

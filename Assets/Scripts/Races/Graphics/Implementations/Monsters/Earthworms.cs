@@ -6,10 +6,8 @@ using System.Collections.Generic;
 
 internal static class Earthworms
 {
-    // TODO
-    private static Position _position;
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<EarthWormParameters>, builder =>
     {
         RaceFrameList frameListHeadIdle = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .5f, .5f, 1.5f, .5f, .5f });
 
@@ -33,7 +31,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsEating || _position == Position.Underground)
+            if (input.Actor.IsAttacking || input.Actor.IsEating || input.Params.Position == Position.Underground)
             {
                 input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                 input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -41,7 +39,7 @@ internal static class Earthworms
 
                 if (input.Actor.IsEating || input.Actor.IsAttacking)
                 {
-                    if (_position == Position.Underground)
+                    if (input.Params.Position == Position.Underground)
                     {
                         output.Sprite(input.Sprites.Earthworms[16]);
                         return;
@@ -51,7 +49,7 @@ internal static class Earthworms
                     return;
                 }
 
-                if (_position == Position.Underground)
+                if (input.Params.Position == Position.Underground)
                 {
                     return;
                 }
@@ -96,7 +94,7 @@ internal static class Earthworms
                 return;
             }
 
-            switch (_position)
+            switch (input.Params.Position)
             {
                 case Position.Underground:
                     if (input.Actor.IsEating || input.Actor.IsAttacking)
@@ -134,7 +132,7 @@ internal static class Earthworms
                 return;
             }
 
-            switch (_position)
+            switch (input.Params.Position)
             {
                 case Position.Underground:
                     if (input.Actor.IsEating || input.Actor.IsAttacking)
@@ -170,7 +168,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (_position == Position.Aboveground)
+            if (input.Params.Position == Position.Aboveground)
             {
                 output.Sprite(input.Sprites.Earthworms[6]);
             }
@@ -185,7 +183,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (_position == Position.Aboveground && input.Actor.HasBelly == false)
+            if (input.Params.Position == Position.Aboveground && input.Actor.HasBelly == false)
             {
                 output.Sprite(input.Sprites.Earthworms[7]);
             }
@@ -200,7 +198,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (_position == Position.Aboveground)
+            if (input.Params.Position == Position.Aboveground)
             {
                 output.Sprite(input.Sprites.Earthworms[5]);
             }
@@ -214,7 +212,7 @@ internal static class Earthworms
                 return;
             }
 
-            switch (_position)
+            switch (input.Params.Position)
             {
                 case Position.Underground:
                     if (input.Actor.IsEating || input.Actor.IsAttacking)
@@ -240,7 +238,7 @@ internal static class Earthworms
                 return;
             }
 
-            if (_position == Position.Aboveground)
+            if (input.Params.Position == Position.Aboveground)
             {
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                 {
@@ -276,7 +274,7 @@ internal static class Earthworms
 
         builder.RunBefore((input, output) =>
         {
-            _position = !input.Actor.HasAttackedThisCombat ? Position.Underground : Position.Aboveground;
+            output.Params.Position = !input.Actor.HasAttackedThisCombat ? Position.Underground : Position.Aboveground;
             //base.RunFirst(data.Actor);
 
             output.ChangeSprite(SpriteType.Belly).AddOffset(0, -48 * .625f);
@@ -293,9 +291,14 @@ internal static class Earthworms
         }; // Index 0.
     }
 
-    private enum Position
+    internal enum Position
     {
         Underground,
         Aboveground
+    }
+    
+    internal class EarthWormParameters : IParameters
+    {
+        internal Position Position;
     }
 }

@@ -280,7 +280,7 @@ internal static class FeralLions
         });
     });
 
-    private class HindViewParameters : IParameters
+    internal class HindViewParameters : IParameters
     {
         internal bool HindView;
     }

@@ -627,12 +627,12 @@
         builder.RandomCustom(Defaults.RandomCustom);
     });
 
-    private class PositionParameters : IParameters
+    internal class PositionParameters : IParameters
     {
         internal Position Position;
     }
 
-    private enum Position
+    internal enum Position
     {
         Standing,
         Sitting

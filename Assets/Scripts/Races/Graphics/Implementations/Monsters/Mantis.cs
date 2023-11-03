@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 internal static class Mantis
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<MantisParameters>, builder =>
     {
         RaceFrameList frameListScythesDefault = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
         RaceFrameList frameListScythesEating = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
@@ -30,7 +30,7 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.Head, 8, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MantisSkin, input.Actor.Unit.SkinColor));
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     if (input.Actor.IsOralVoring)
@@ -56,7 +56,7 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.Eyes, 8, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MantisSkin, input.Actor.Unit.EyeColor));
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     output.Sprite(input.Sprites.Mantis[18 + input.Actor.Unit.EyeType]);
@@ -79,7 +79,7 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.SecondaryEyes, 8, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     output.Sprite(input.Sprites.Mantis[44]);
@@ -103,7 +103,7 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.Mouth, 9, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     if (input.Actor.IsOralVoring)
@@ -134,7 +134,7 @@ internal static class Mantis
                 SetUpAnimations(input.Actor);
             }
 
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     output.Sprite(input.Sprites.Mantis[64 + input.Actor.Unit.BodySize]);
@@ -148,7 +148,7 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.BodyAccent, 6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MantisSkin, input.Actor.Unit.SkinColor));
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     output.Sprite(input.Sprites.Mantis[75 + input.Actor.Unit.BodyAccentType1]).Layer(6);
@@ -165,11 +165,11 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.BodyAccent2, 5, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MantisSkin, input.Actor.Unit.SkinColor));
-            if (CalcPosition(input.Actor) == Position.Default)
+            if (input.Params.Position == Position.Default)
             {
                 output.Sprite(input.Sprites.Mantis[81 + input.Actor.Unit.BodyAccentType2]);
             }
-        }); // spine (only default CalcPosition(input.Actor))
+        }); // spine (only default input.Params.Position)
 
         builder.RenderSingle(SpriteType.BodyAccent3, 10, (input, output) =>
         {
@@ -180,7 +180,7 @@ internal static class Mantis
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsOralVoring || CalcPosition(input.Actor) == Position.Eating)
+            if (input.Actor.IsAttacking || input.Actor.IsOralVoring || input.Params.Position == Position.Eating)
             {
                 input.Actor.AnimationController.frameLists[0].currentlyActive = false;
                 input.Actor.AnimationController.frameLists[0].currentFrame = 0;
@@ -213,7 +213,7 @@ internal static class Mantis
             }
 
             output.Sprite(input.Sprites.Mantis[48]);
-        }); // scythes (default CalcPosition(input.Actor))
+        }); // scythes (default input.Params.Position)
 
         builder.RenderSingle(SpriteType.BodyAccent4, 10, (input, output) =>
         {
@@ -223,7 +223,7 @@ internal static class Mantis
                 return;
             }
 
-            if (input.Actor.IsAttacking || input.Actor.IsOralVoring || CalcPosition(input.Actor) == Position.Default)
+            if (input.Actor.IsAttacking || input.Actor.IsOralVoring || input.Params.Position == Position.Default)
             {
                 input.Actor.AnimationController.frameLists[1].currentlyActive = false;
                 input.Actor.AnimationController.frameLists[1].currentFrame = 0;
@@ -256,12 +256,12 @@ internal static class Mantis
             }
 
             output.Sprite(input.Sprites.Mantis[45]);
-        }); // scythes (eating CalcPosition(input.Actor))
+        }); // scythes (eating input.Params.Position)
 
         builder.RenderSingle(SpriteType.BodyAccent5, 10, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MantisSkin, input.Actor.Unit.SkinColor));
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     if (input.Actor.IsAttacking || input.Actor.IsOralVoring)
@@ -287,7 +287,7 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.BodyAccent6, 5, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MantisSkin, input.Actor.Unit.SkinColor));
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     output.Sprite(input.Sprites.Mantis[58]);
@@ -304,7 +304,7 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.BodyAccent7, 2, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MantisSkin, input.Actor.Unit.SkinColor));
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     output.Sprite(input.Sprites.Mantis[55]);
@@ -321,7 +321,7 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.BodyAccent8, 7, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MantisSkin, input.Actor.Unit.SkinColor));
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     output.Sprite(input.Sprites.Mantis[56]).Layer(7);
@@ -338,7 +338,7 @@ internal static class Mantis
         builder.RenderSingle(SpriteType.BodyAccessory, 9, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.MantisSkin, input.Actor.Unit.SkinColor));
-            switch (CalcPosition(input.Actor))
+            switch (input.Params.Position)
             {
                 case Position.Default:
                     output.Sprite(input.Sprites.Mantis[33 + input.Actor.Unit.SpecialAccessoryType]);
@@ -360,7 +360,7 @@ internal static class Mantis
                 return;
             }
 
-            if (CalcPosition(input.Actor) == Position.Eating)
+            if (input.Params.Position == Position.Eating)
             {
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(17) == 17)
                 {
@@ -389,6 +389,9 @@ internal static class Mantis
 
         builder.RunBefore((input, output) =>
         {
+            
+            output.Params.Position = input.Actor.HasBelly ? Position.Eating : Position.Default;
+            
             output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(-15 * .625f, 15 * .625f);
 
             if (input.Actor.GetStomachSize(17) > 16)
@@ -433,22 +436,17 @@ internal static class Mantis
     {
         actor.AnimationController.frameLists = new[]
         {
-            new AnimationController.FrameList(0, 0, false), // Scythes in Default CalcPosition(input.Actor) controller. Index 0.
+            new AnimationController.FrameList(0, 0, false), // Scythes in Default input.Params.Position controller. Index 0.
             new AnimationController.FrameList(0, 0, false)
-        }; // Scythes in Eating CalcPosition(input.Actor) controller. Index 1.
+        }; // Scythes in Eating input.Params.Position controller. Index 1.
     }
 
-    private static Position CalcPosition(Actor_Unit actor)
+    internal class MantisParameters : IParameters
     {
-        if (actor.HasBelly)
-        {
-            return Position.Eating;
-        }
-
-        return Position.Default;
+        internal Position Position;
     }
-
-    private enum Position
+    
+    internal enum Position
     {
         Default,
         Eating

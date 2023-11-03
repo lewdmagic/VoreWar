@@ -160,7 +160,7 @@ internal static class Vagrants
         builder.RandomCustom(Defaults.RandomCustom);
     });
 
-    private class VargantParameters : IParameters
+    internal class VargantParameters : IParameters
     {
         internal Sprite[] Sprites;
     }

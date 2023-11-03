@@ -383,15 +383,17 @@
         builder.RandomCustom(Defaults.RandomCustom);
     });
 
-    private enum Position
-    {
-        Down,
-        Standing,
-        StandingCrouch
-    }
 
-    private class DragonParameters : IParameters
-    {
-        internal Position Position;
-    }
+}    
+
+internal enum Position
+{
+    Down,
+    Standing,
+    StandingCrouch
+}
+
+internal class DragonParameters : IParameters
+{
+    internal Position Position;
 }

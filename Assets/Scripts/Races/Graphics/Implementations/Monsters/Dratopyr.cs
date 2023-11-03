@@ -6,11 +6,12 @@ using System.Collections.Generic;
 
 internal static class Dratopyr
 {
+    internal static RaceFrameList FrameListShake = new RaceFrameList(new int[5] { 0, 1, 0, 2, 0 }, new float[5] { 0.6f, 0.6f, 0.6f, 0.6f, 0.6f });
+
     internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
     {
         RaceFrameList frameListTail = new RaceFrameList(new int[8] { 2, 1, 0, 1, 2, 3, 4, 3 }, new float[8] { 0.55f, 0.55f, 0.75f, 0.55f, 0.55f, 0.55f, 0.75f, 0.55f });
         RaceFrameList frameListEyes = new RaceFrameList(new int[3] { 1, 2, 1 }, new float[3] { 0.3f, 0.3f, 0.3f });
-        RaceFrameList frameListShake = new RaceFrameList(new int[5] { 0, 1, 0, 2, 0 }, new float[5] { 0.6f, 0.6f, 0.6f, 0.6f, 0.6f });
         RaceFrameList frameListWings = new RaceFrameList(new int[4] { 0, 1, 2, 1 }, new float[4] { 0.3f, 0.3f, 0.3f, 0.3f });
         RaceFrameList frameListEars = new RaceFrameList(new int[18] { 0, 1, 2, 1, 0, 1, 0, 1, 2, 1, 2, 1, 0, 1, 2, 1, 2, 1 }, new float[18] { 2.2f, 0.3f, 0.5f, 0.2f, 0.8f, 0.3f, 1.5f, 0.9f, 1.3f, 0.6f, 0.4f, 0.3f, 2.2f, 1.5f, 0.6f, 0.3f, 0.8f, 0.2f });
 
@@ -168,12 +169,12 @@ internal static class Dratopyr
 
             if (input.Actor.AnimationController.frameLists[2].currentlyActive)
             {
-                if (input.Actor.AnimationController.frameLists[2].currentTime >= frameListShake.Times[input.Actor.AnimationController.frameLists[2].currentFrame])
+                if (input.Actor.AnimationController.frameLists[2].currentTime >= FrameListShake.Times[input.Actor.AnimationController.frameLists[2].currentFrame])
                 {
                     input.Actor.AnimationController.frameLists[2].currentFrame++;
                     input.Actor.AnimationController.frameLists[2].currentTime = 0f;
 
-                    if (input.Actor.AnimationController.frameLists[2].currentFrame >= frameListShake.Frames.Length)
+                    if (input.Actor.AnimationController.frameLists[2].currentFrame >= FrameListShake.Frames.Length)
                     {
                         input.Actor.AnimationController.frameLists[2].currentlyActive = false;
                         input.Actor.AnimationController.frameLists[2].currentFrame = 0;
@@ -181,7 +182,7 @@ internal static class Dratopyr
                     }
                 }
 
-                output.Sprite(input.Sprites.Dratopyr[17 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                output.Sprite(input.Sprites.Dratopyr[17 + FrameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
                 return;
             }
 
@@ -296,7 +297,7 @@ internal static class Dratopyr
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Dratopyr[34 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                    output.Sprite(input.Sprites.Dratopyr[34 + FrameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
                     return;
                 }
 
@@ -306,7 +307,7 @@ internal static class Dratopyr
                     return;
                 }
 
-                output.Sprite(input.Sprites.Dratopyr[31 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                output.Sprite(input.Sprites.Dratopyr[31 + FrameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
             }
         }); // Sheath
 
@@ -314,7 +315,7 @@ internal static class Dratopyr
         {
             output.Coloring(ColorMap.GetDratopyrMainColor(input.Actor.Unit.SkinColor));
             int bellySize = input.Actor.GetStomachSize(23, 0.7f);
-            int shake = frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame];
+            int shake = FrameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame];
 
             if (!input.Actor.Targetable)
             {
@@ -420,7 +421,7 @@ internal static class Dratopyr
 
                         if (input.Actor.AnimationController.frameLists[2].currentlyActive)
                         {
-                            output.Sprite(input.Sprites.Dratopyr[41 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                            output.Sprite(input.Sprites.Dratopyr[41 + FrameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
                             return;
                         }
 
@@ -448,7 +449,7 @@ internal static class Dratopyr
 
                         if (input.Actor.AnimationController.frameLists[2].currentlyActive)
                         {
-                            output.Sprite(input.Sprites.Dratopyr[37 + frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
+                            output.Sprite(input.Sprites.Dratopyr[37 + FrameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame]]);
                             return;
                         }
 
@@ -483,7 +484,7 @@ internal static class Dratopyr
                 return;
             }
 
-            int shake = frameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame];
+            int shake = FrameListShake.Frames[input.Actor.AnimationController.frameLists[2].currentFrame];
             int ballSize = input.Actor.GetBallSize(21, 0.6f);
 
             if (!input.Actor.Targetable)

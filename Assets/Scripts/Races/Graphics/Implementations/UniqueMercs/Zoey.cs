@@ -9,9 +9,20 @@ using UnityEngine;
 
 internal static class Zoey
 {
-    internal static BodyState bodyState = BodyState.Normal;
+    internal enum BodyState
+    {
+        Normal,
+        HighBelly,
+        SideBelly,
+        SpinAttack
+    }
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal class ZoeyParams : IParameters
+    {
+        internal BodyState BodyState = BodyState.Normal;
+    }
+    
+    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<ZoeyParams>, builder =>
     {
         RaceFrameList SpinEffect = new RaceFrameList(new int[2] { 25, 19 }, new float[2] { .375f, .375f });
         builder.Setup(output =>
@@ -31,7 +42,7 @@ internal static class Zoey
         builder.RenderSingle(SpriteType.Head, 5, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            switch (bodyState)
+            switch (input.Params.BodyState)
             {
                 case BodyState.SpinAttack:
                 case BodyState.SideBelly:
@@ -69,7 +80,7 @@ internal static class Zoey
         builder.RenderSingle(SpriteType.Hair, 7, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            switch (bodyState)
+            switch (input.Params.BodyState)
             {
                 case BodyState.SpinAttack:
                 case BodyState.SideBelly:
@@ -83,7 +94,7 @@ internal static class Zoey
         builder.RenderSingle(SpriteType.Hair2, 6, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            switch (bodyState)
+            switch (input.Params.BodyState)
             {
                 case BodyState.SpinAttack:
                 case BodyState.SideBelly:
@@ -98,7 +109,7 @@ internal static class Zoey
         {
             output.Coloring(Defaults.WhiteColored);
             output.Layer(1);
-            switch (bodyState)
+            switch (input.Params.BodyState)
             {
                 case BodyState.HighBelly:
                     if (input.Actor.IsAttacking == false)
@@ -130,7 +141,7 @@ internal static class Zoey
         builder.RenderSingle(SpriteType.BodyAccent, 0, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            switch (bodyState)
+            switch (input.Params.BodyState)
             {
                 case BodyState.HighBelly:
                     output.Sprite(input.Sprites.Zoey[11]);
@@ -170,7 +181,7 @@ internal static class Zoey
         builder.RenderSingle(SpriteType.Breasts, 10, (input, output) =>
         {
             output.Coloring(Defaults.WhiteColored);
-            if (bodyState == BodyState.SideBelly)
+            if (input.Params.BodyState == BodyState.SideBelly)
             {
                 output.Layer(3);
             }
@@ -179,7 +190,7 @@ internal static class Zoey
                 output.Layer(10);
             }
 
-            switch (bodyState)
+            switch (input.Params.BodyState)
             {
                 case BodyState.SpinAttack:
                 case BodyState.SideBelly:
@@ -202,7 +213,7 @@ internal static class Zoey
             output.Coloring(Defaults.WhiteColored);
             if (input.Actor.HasBelly)
             {
-                switch (bodyState)
+                switch (input.Params.BodyState)
                 {
                     case BodyState.SpinAttack:
                     case BodyState.SideBelly:
@@ -280,24 +291,24 @@ internal static class Zoey
             {
                 if (input.Actor.GetStomachSize(19) >= 17)
                 {
-                    bodyState = BodyState.SideBelly;
+                    output.Params.BodyState = BodyState.SideBelly;
                 }
                 else
                 {
-                    bodyState = BodyState.SpinAttack;
+                    output.Params.BodyState = BodyState.SpinAttack;
                 }
             }
             else if (input.Actor.GetStomachSize(19) >= 18)
             {
-                bodyState = BodyState.HighBelly;
+                output.Params.BodyState = BodyState.HighBelly;
             }
             else
             {
-                bodyState = BodyState.Normal;
+                output.Params.BodyState = BodyState.Normal;
             }
 
             output.ClothingShift = new Vector3(0, 0);
-            switch (bodyState)
+            switch (output.Params.BodyState)
             {
                 case BodyState.HighBelly:
                     if (input.Actor.GetStomachSize(19) == 19)
@@ -365,17 +376,10 @@ internal static class Zoey
     }
 
 
-    internal enum BodyState
-    {
-        Normal,
-        HighBelly,
-        SideBelly,
-        SpinAttack
-    }
 
     private static class ZoeyTop
     {
-        internal static IClothing ZoeyTopInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing<ZoeyParams> ZoeyTopInstance = ClothingBuilder.Create<ZoeyParams>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -396,7 +400,7 @@ internal static class Zoey
                 output["Clothing2"].Coloring(Color.white);
                 output["Clothing1"].Layer(11);
                 output["Clothing1"].Coloring(Color.white);
-                var state = bodyState;
+                var state = input.Params.BodyState;
                 //Sweater
                 switch (state)
                 {
