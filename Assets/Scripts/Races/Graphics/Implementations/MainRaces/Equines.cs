@@ -31,11 +31,11 @@ internal static class Equines
         });
         builder.CustomizeButtons((unit, buttons) =>
         {
-            buttons[(int)UnitCustomizer.ButtonTypes.ClothingExtraType1].Label.text = "Overtop";
-            buttons[(int)UnitCustomizer.ButtonTypes.ClothingExtraType2].Label.text = "Overbottom";
-            buttons[(int)UnitCustomizer.ButtonTypes.BodyAccentTypes3].Label.text = "Skin Pattern";
-            buttons[(int)UnitCustomizer.ButtonTypes.BodyAccentTypes4].Label.text = "Head Pattern";
-            buttons[(int)UnitCustomizer.ButtonTypes.BodyAccentTypes5].Label.text = "Torso Color";
+            buttons.SetText(ButtonType.ClothingExtraType1, "Overtop");
+            buttons.SetText(ButtonType.ClothingExtraType2, "Overbottom");
+            buttons.SetText(ButtonType.BodyAccentTypes3, "Skin Pattern");
+            buttons.SetText(ButtonType.BodyAccentTypes4, "Head Pattern");
+            buttons.SetText(ButtonType.BodyAccentTypes5, "Torso Color");
         });
         builder.TownNames(new List<string>
         {
@@ -55,12 +55,12 @@ internal static class Equines
             output.AvoidedEyeTypes = 0;
             output.AvoidedMouthTypes = 0;
 
-            output.HairColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.UniversalHair);
+            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.UniversalHair);
             output.HairStyles = 15;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.HorseSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.HorseSkin);
+            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.HorseSkin);
+            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.HorseSkin);
             output.EyeTypes = 4;
-            output.EyeColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.EyeColor);
+            output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.EyeColor);
             output.SecondaryEyeColors = 1;
             output.BodySizes = 0;
             output.AllowedMainClothingTypes.Clear();
@@ -74,7 +74,7 @@ internal static class Equines
             output.BodyAccentTypes5 = 2;
 
 
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.Clothing50Spaced);
+            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing50Spaced);
 
             output.ExtendedBreastSprites = true;
 
@@ -117,42 +117,42 @@ internal static class Equines
         {
             if (actor.Unit.BodyAccentType3 >= 2)
             {
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, actor.Unit.AccessoryColor);
+                return ColorPaletteMap.GetPalette(SwapType.HorseSkin, actor.Unit.AccessoryColor);
             }
 
-            return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, actor.Unit.SkinColor);
+            return ColorPaletteMap.GetPalette(SwapType.HorseSkin, actor.Unit.SkinColor);
         }
 
         ColorSwapPalette SpottedBelly(Actor_Unit actor)
         {
             if (actor.Unit.BodyAccentType5 == 1)
             {
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, actor.Unit.AccessoryColor);
+                return ColorPaletteMap.GetPalette(SwapType.HorseSkin, actor.Unit.AccessoryColor);
             }
 
-            return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, actor.Unit.SkinColor);
+            return ColorPaletteMap.GetPalette(SwapType.HorseSkin, actor.Unit.SkinColor);
         }
 
         ColorSwapPalette TailBit(Actor_Unit actor)
         {
             if (actor.Unit.BodyAccentType3 == 5)
             {
-                return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, actor.Unit.SkinColor);
+                return ColorPaletteMap.GetPalette(SwapType.HorseSkin, actor.Unit.SkinColor);
             }
 
-            return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, actor.Unit.ClothingColor);
+            return ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, actor.Unit.ClothingColor);
         }
 
         builder.RenderSingle(SpriteType.Head, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.SkinColor));
             string state = (input.A.IsAttacking || input.A.IsEating) ? "eat" : "still";
             output.Sprite(($"head_{input.Sex}_{state}"));
         }); //head
 
         builder.RenderSingle(SpriteType.Eyes, 6, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.EyeColor, input.U.EyeColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
             if (input.U.IsDead && input.U.Items != null)
             {
                 output.Sprite(($"eyes_{input.Sex}_dead"));
@@ -165,19 +165,19 @@ internal static class Equines
 
         builder.RenderSingle(SpriteType.Hair, 21, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.U.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
             output.Sprite0("hair_front", input.U.HairStyle);
         }); //forward hair;
 
         builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.U.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
             output.Sprite0("hair_back", input.U.HairStyle);
         }); //back hair
 
         builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.SkinColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.SkinColor));
             string name = input.U.HasBreasts ? "body_female" : "body_male";
             int index = input.A.IsAttacking ? 2 : (input.U.HasWeapon ? 1 : 0);
 
@@ -186,7 +186,7 @@ internal static class Equines
 
         builder.RenderSingle(SpriteType.BodyAccent3, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.AccessoryColor));
             if (input.U.BodyAccentType3 != 0)
             {
                 string sex = input.U.HasBreasts ? "female" : "male";
@@ -199,7 +199,7 @@ internal static class Equines
         {
             if (input.U.BodyAccentType4 != 0)
             {
-                output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.AccessoryColor));
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.AccessoryColor));
                 string state = (input.A.IsAttacking || input.A.IsEating) ? "eat" : "still";
                 output.Sprite0($"head_pattern_{input.Sex}_{state}", input.U.BodyAccentType4 - 1);
             }
@@ -207,7 +207,7 @@ internal static class Equines
 
         builder.RenderSingle(SpriteType.BodyAccent5, 5, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.HorseSkin, input.U.AccessoryColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.AccessoryColor));
             output.Sprite(($"torso_pattern_{input.Sex}"));
         }); //belly spots, also color breasts/belly/dick
 
@@ -226,7 +226,7 @@ internal static class Equines
 
         builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, input.U.HairColor));
+            output.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
             output.Sprite0("tail_1", input.U.TailType);
         }); //tail
         
@@ -438,7 +438,7 @@ internal static class Equines
                     output["Clothing1"].Sprite(sprite2(input.Actor));
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
             return builder.BuildClothing();
         }
@@ -495,7 +495,7 @@ internal static class Equines
                 int size = input.A.GetStomachSize(32, 1.2f);
                 output["Clothing1"].Sprite(size >= 6 ? sprite1 : sprite2);
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
             return builder.BuildClothing();
         }
@@ -536,10 +536,10 @@ internal static class Equines
             {
                 output["Clothing1"].Layer(21);
                 output["Clothing1"].Sprite(input.Sprites.HorseClothing[33]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 output["Clothing2"].Layer(3);
                 output["Clothing2"].Sprite(input.Sprites.HorseClothing[34]);
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
         
@@ -558,7 +558,7 @@ internal static class Equines
             {
                 output["Clothing1"].Layer(21);
                 output["Clothing1"].Sprite(input.Sprites.HorseClothing[35]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
         
@@ -620,8 +620,8 @@ internal static class Equines
                     }
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
             return builder.BuildClothing();
         }
@@ -650,7 +650,7 @@ internal static class Equines
                     output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.HorseClothing[12] : input.Sprites.HorseClothing[10]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
         
@@ -685,8 +685,8 @@ internal static class Equines
                     output["Clothing2"].Sprite(input.Sprites.HorseExtras1[Math.Min(14 + input.U.DickSize, 17)]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
         
@@ -714,7 +714,7 @@ internal static class Equines
                     output["Clothing1"].Sprite(input.U.HasBreasts ? input.Sprites.HorseClothing[71] : input.Sprites.HorseClothing[69]);
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.Clothing50Spaced, input.U.ClothingColor));
+                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
             });
         });
     }

@@ -80,14 +80,14 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
     [OdinSerialize]
     private Side _fixedSide = Race.TrueNoneSide;
 
-    internal bool HasFixedSide() => RaceFuncs.isNotNone(_fixedSide.ToRace());
+    internal bool HasFixedSide() => RaceFuncs.isNotNone(_fixedSide);
     public Side FixedSide
     {
         get
         {
             if (Controller != null)
                 return _controller.FixedSide;
-            return (RaceFuncs.isNone(_fixedSide.ToRace())) ? Side : _fixedSide;
+            return (RaceFuncs.isNone(_fixedSide)) ? Side : _fixedSide;
         }
         set => _fixedSide = value;
     }
@@ -1488,7 +1488,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     internal void InitializeFixedSide(Side side)
     {
         if (State.World?.ItemRepository == null) return; //protection for the create strat screen
-        if (RaceFuncs.isNotNone(_fixedSide.ToRace())) return;
+        if (RaceFuncs.isNotNone(_fixedSide)) return;
         if (HasTrait(Traits.Untamable))
         {
             FixedSide = State.World.GetEmpireOfRace(Race)?.Side ?? side;

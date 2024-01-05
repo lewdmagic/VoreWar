@@ -315,9 +315,19 @@ public static class RaceFuncs
         return !Equals(race, Race.TrueNone);
     }
     
+    internal static bool isNotNone(Side side)
+    {
+        return !Equals(side, Race.TrueNoneSide);
+    }
+    
     internal static bool isNone(Race race)
     {
         return Equals(race, Race.TrueNone);
+    }
+    
+    internal static bool isNone(Side side)
+    {
+        return Equals(side, Race.TrueNoneSide);
     }
     
     // RaceFuncs.RaceToIntForCompare(race) >= RaceFuncs.RaceToIntForCompare(Race.Vagrants) && RaceFuncs.RaceToIntForCompare(race) < RaceFuncs.RaceToIntForCompare(Race.Selicia)
