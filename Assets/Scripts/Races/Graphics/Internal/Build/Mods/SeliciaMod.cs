@@ -1257,7 +1257,7 @@ internal static class SeliciaMod
     
     internal static void ModEquines()
     {
-        var raceTyped = (RaceData<OverSizeParameters>) EquinesLua.Instance;
+        var raceTyped = (RaceData<OverSizeParameters>) EquinesImrpoved.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {

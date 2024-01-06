@@ -87,6 +87,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
     
     private readonly Action<IRandomCustomInput> _randomCustom;
     private readonly Action<IRunInput, IRunOutput<T>> _runBefore;
+    private readonly Action<IRunInput, IRaceRenderAllOutput<T>> _renderAllAction;
 
     public RaceData(
         SpriteTypeIndexed<SingleRenderFunc<T>> raceSpriteSet,
@@ -94,7 +95,8 @@ internal class RaceData<T> : IRaceData where T : IParameters
         Action<IRunInput, IRunOutput<T>> runBefore,
         Action<IRandomCustomInput> randomCustom,
         Func<T> makeTempState,
-        ExtraRaceInfo extraRaceInfo)
+        ExtraRaceInfo extraRaceInfo,
+        Action<IRunInput, IRaceRenderAllOutput<T>> renderAllAction)
     {
         RaceSpriteSet = raceSpriteSet;
         _miscRaceDataWritableReadable = miscRaceDataWritableReadable;
@@ -102,6 +104,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
         _randomCustom = randomCustom;
         _makeTempState = makeTempState;
         _extraRaceInfo = extraRaceInfo;
+        _renderAllAction = renderAllAction;
     }
 
     private SpriteTypeIndexed<SingleRenderFunc<T>> RaceSpriteSet { get; }
@@ -143,8 +146,11 @@ internal class RaceData<T> : IRaceData where T : IParameters
         RunOutput<T> runOutput = new RunOutput<T>(changeDict, state);
 
         IRunInput runInput = new RunInput(actor);
-
         _runBefore?.Invoke(runInput, runOutput);
+
+        IRaceRenderAllOutput<T> renderAllOutput = new RaceRenderAllOutput<T>(changeDict, state);
+        _renderAllAction?.Invoke(runInput, renderAllOutput);
+        
 
         foreach (KeyValuePair<SpriteType,SingleRenderFunc<T>> raceSprite in RaceSpriteSet.KeyValues)
         {

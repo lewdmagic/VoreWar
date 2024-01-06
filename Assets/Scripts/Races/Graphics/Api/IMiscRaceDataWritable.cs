@@ -8,6 +8,29 @@ using UnityEngine;
 
 public interface IMiscRaceData
 {
+    
+    void Names(string singularName, string pluralName);
+    void Names(string singularName, Func<INameInput, string> pluralName);
+    void Names(Func<INameInput, string> singularName, string pluralName);
+    void Names(Func<INameInput, string> singularName, Func<INameInput, string> pluralName);
+
+    void TownNames(List<string> nameList);
+    void PreyTownNames(List<string> nameList);
+    void IndividualNames(List<string> nameList);
+    
+    void WallType(WallType wallType);
+
+    void BonesInfo(Func<Unit, List<BoneInfo>> boneTypesGen);
+
+    void FlavorText(FlavorText flavorText);
+    void RaceTraits(RaceTraits raceTraits);
+    void SetRaceTraits(Action<RaceTraits> setRaceTraits);
+
+    //void CustomizeButtons(Action<Unit, EnumIndexedArray<ButtonType, CustomizerButton>> action);
+    void CustomizeButtons(Action<Unit, ButtonCustomizer> action);
+    
+    
+    
     Func<int> BreastSizes { get; set; }
     Func<int> DickSizes { get; set; }
 

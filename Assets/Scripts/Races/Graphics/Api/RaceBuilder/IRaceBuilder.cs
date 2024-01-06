@@ -17,6 +17,9 @@ internal interface IRaceBuilder<T> where T : IParameters
 
     void RenderSingle(SpriteType spriteType, SingleRenderFunc<T> render);
     
+    
+    void RenderAll(Action<IRunInput, IRaceRenderAllOutput<T>> generator);
+    
     void Names(string singularName, string pluralName);
     void Names(string singularName, Func<INameInput, string> pluralName);
     void Names(Func<INameInput, string> singularName, string pluralName);
@@ -36,4 +39,17 @@ internal interface IRaceBuilder<T> where T : IParameters
 
     //void CustomizeButtons(Action<Unit, EnumIndexedArray<ButtonType, CustomizerButton>> action);
     void CustomizeButtons(Action<Unit, ButtonCustomizer> action);
+}
+
+internal interface IRaceBuilderV2<T> where T : IParameters
+{
+    void Setup(Action<MiscRaceDataWritableReadable<T>> setupFunc);
+    void RandomCustom(Action<IRandomCustomInput> value);
+    void RunBefore(Action<IRunInput, IRunOutput<T>> value);
+    
+    void RenderSingle(SpriteType spriteType, int layer, Action<IRaceRenderInput<T>, IRaceRenderOutput> generator);
+
+    void RenderSingle(SpriteType spriteType, SingleRenderFunc<T> render);
+    
+    void RenderAll(Action<IRunInput, IRaceRenderAllOutput<T>> generator);
 }

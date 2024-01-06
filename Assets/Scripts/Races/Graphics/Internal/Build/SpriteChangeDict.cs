@@ -15,7 +15,7 @@ public class SpriteChangeDict : ISpriteChanger
         }
 
         return raceRenderOutput;
-    }    
+    }
     
     // public ISpriteChange changeSprites(IEnumerable<SpriteType> spriteTypes)
     // {

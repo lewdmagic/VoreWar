@@ -4535,7 +4535,7 @@ Turns: {currentTurn}
     }
 }
 
-internal enum WallType
+public enum WallType
 {
     Fence,
     Stone,

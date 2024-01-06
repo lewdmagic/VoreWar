@@ -133,6 +133,11 @@ public static class ScriptHelper
         UserData.RegisterType<Accessory>();
         UserData.RegisterType<SpellBook>();
         
+        UserData.RegisterType<IRaceRenderAllOutput<IParameters>>();
+        UserData.RegisterType<IRaceRenderAllOutput<OverSizeParameters>>();
+        UserData.RegisterType<RaceRenderAllOutput<OverSizeParameters>>();
+        UserData.RegisterType<RaceRenderAllOutput<OverSizeParameters>>();
+        
         ScriptHelper.RegisterSimpleAction<IRaceRenderInput<IParameters>, IRaceRenderOutput>();
         ScriptHelper.RegisterSimpleAction<IRaceRenderInput<OverSizeParameters>, IRaceRenderOutput>();
         ScriptHelper.RegisterSimpleAction<IRaceRenderInput<IOverSizeParameters>, IRaceRenderOutput>();
@@ -150,6 +155,8 @@ public static class ScriptHelper
         ScriptHelper.RegisterSimpleAction<Unit, EnumIndexedArray<ButtonType, CustomizerButton>>();
         ScriptHelper.RegisterSimpleAction<Unit, ButtonCustomizer>();
         ScriptHelper.RegisterSimpleAction<IRunInput,IRunOutput<OverSizeParameters>>();
+        ScriptHelper.RegisterSimpleAction<IRunInput, IRaceRenderAllOutput<IParameters>>();
+        ScriptHelper.RegisterSimpleAction<IRunInput, IRaceRenderAllOutput<OverSizeParameters>>();
         
         ScriptHelper.RegisterSimpleFunc<int>();
         
@@ -223,6 +230,83 @@ function ternary ( cond , T , F )
 end");
 		
         script.DoString(scriptCode);
+        
+    }
+    
+    internal static void ScriptPrep2(string path, IRaceBuilder<OverSizeParameters> builder)
+    {
+        string scriptCode = File.ReadAllText(path);
+        
+        Script script = new Script();
+        
+        
+        script.Globals["Log"] = (Action<string>) Debug.Log;
+
+        #region Enums
+        
+        // Traits should be later renamed to Train to follow naming conventions
+        // Set to Trait in script scrope to avoid breaking changes to scripts
+        script.Globals["Trait"] = UserData.CreateStatic<Traits>();
+        script.Globals["ButtonType"] = UserData.CreateStatic<ButtonType>();
+        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
+        script.Globals["Stat"] = UserData.CreateStatic<Stat>();
+        script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
+        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
+        script.Globals["SwapType"] = UserData.CreateStatic<SwapType>();
+
+        #endregion
+        
+        script.Globals["GetPaletteCount"] = (Func<SwapType, int>) ColorPaletteMap.GetPaletteCount;
+        script.Globals["GetPalette"] = (Func<SwapType, int, ColorSwapPalette>) ColorPaletteMap.GetPalette;
+        Func<float, float, float, Vector3> newVector3 = (x, y, z) => new Vector3(x, y, z);
+        script.Globals["newVector3"] = newVector3;
+        
+        Func<float, float, Vector2> newVector2 = (x, y) => new Vector2(x, y);
+        script.Globals["newVector2"] = newVector2;
+        
+        Func<TextsBasic> newTextsBasic = () => new TextsBasic();
+        script.Globals["newTextsBasic"] = newTextsBasic;
+        
+        Func<TextsBasic, TextsBasic, TextsBasic, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
+        script.Globals["newFlavorText"] = newFlavorText;
+
+        RegisterStatic(script, "Config", typeof(Config));
+        RegisterStatic(script, "Defaults", typeof(Defaults));
+        RegisterStatic(script, "CommonRaceCode", typeof(CommonRaceCode));
+        RegisterStaticFields(script, "HorseClothing", typeof(EquinesLua.HorseClothing));
+        
+
+        Dictionary<string, dynamic> defaults = new Dictionary<string, dynamic>
+        {
+            ["Finalize"] = Defaults.Finalize,
+            ["RandomCustom"] = Defaults.RandomCustom,
+            ["BasicBellyRunAfter"] = Defaults.BasicBellyRunAfter
+        };
+        
+        script.Globals["Defaults"] = defaults;
+        script.Globals["Finalize"] = Defaults.Finalize;
+
+        Func<int, int> RandomInt = (max) => State.Rand.Next(max);
+        script.Globals["RandomInt"] = RandomInt;
+        
+        script.Globals["builder"] = builder;
+        
+        script.DoString(@"
+function ternary ( cond , T , F )
+    if cond then return T else return F end
+end");
+		
+        script.DoString(scriptCode);
+
+        object render = script.Globals["render"];
+        
+        builder.RenderAll((input, output) =>
+        {
+            script.Call(render, input, output);
+        });
+        
+        
+        
     }
 	
 	

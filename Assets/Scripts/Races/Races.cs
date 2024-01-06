@@ -36,8 +36,12 @@ static class Races
         RegisterRace(Race.Lamia, Lamia.Instance);
         RegisterRace(Race.Kangaroos, Kangaroos.Instance);
         RegisterRace(Race.Taurus, Taurus.Instance);
+        
         RegisterRace(Race.Crux, Crux.Instance);
-        RegisterRace(Race.Equines, EquinesLua.Instance);
+        
+        //RegisterRace(Race.Equines, EquinesLua.Instance);
+        RegisterRace(Race.Equines, EquinesImrpoved.Instance);
+        
         RegisterRace(Race.Sergal, Sergal.Instance);
         RegisterRace(Race.Bees, Bees.Instance);
         RegisterRace(Race.Driders, Driders.Instance);

@@ -28,6 +28,9 @@ internal class MiscRaceDataWritableReadable<T> : IMiscRaceDataReadable<T>, IMisc
 
     private readonly WrappedList<IClothing<T>> _extraMainClothing5Types = new WrappedList<IClothing<T>>();
 
+    
+    internal readonly ExtraRaceInfo _extraRaceInfo = new ExtraRaceInfo();
+    
     public MiscRaceDataWritableReadable(
         Func<int> breastSizes,
         Func<int> dickSizes,
@@ -131,6 +134,82 @@ internal class MiscRaceDataWritableReadable<T> : IMiscRaceDataReadable<T>, IMisc
     public IWriteOnlyList<IClothing<T>> ExtraMainClothing3Types => _extraMainClothing3Types;
     public IWriteOnlyList<IClothing<T>> ExtraMainClothing4Types => _extraMainClothing4Types;
     public IWriteOnlyList<IClothing<T>> ExtraMainClothing5Types => _extraMainClothing5Types;
+
+    public void Names(string singularName, string pluralName)
+    {
+        _extraRaceInfo.SingularName = (input) => singularName;
+        _extraRaceInfo.PluralName = (input) => pluralName;
+    }
+
+    public void Names(string singularName, Func<INameInput, string> pluralName)
+    {
+        _extraRaceInfo.SingularName = (input) => singularName;
+        _extraRaceInfo.PluralName = pluralName;
+    }
+
+    public void Names(Func<INameInput, string> singularName, string pluralName)
+    {
+        _extraRaceInfo.SingularName = singularName;
+        _extraRaceInfo.PluralName = (input) => pluralName;
+    }
+    
+    public void Names(Func<INameInput, string> singularName, Func<INameInput, string> pluralName)
+    {
+        _extraRaceInfo.SingularName = singularName;
+        _extraRaceInfo.PluralName = pluralName;
+    }    
+    
+    public void WallType(WallType wallType)
+    {
+        _extraRaceInfo.WallType = wallType;
+    }
+
+    public void BonesInfo(Func<Unit, List<BoneInfo>> boneTypesGen)
+    {
+        _extraRaceInfo.BoneTypesGen = boneTypesGen;
+    }
+
+    public void FlavorText(FlavorText flavorText)
+    {
+        _extraRaceInfo.FlavorText = flavorText;
+    }
+
+    public void RaceTraits(RaceTraits raceTraits)
+    {
+        _extraRaceInfo.RaceTraits = raceTraits;
+    }
+
+    public void SetRaceTraits(Action<RaceTraits> setRaceTraits)
+    {
+        RaceTraits traits = new RaceTraits();
+        setRaceTraits.Invoke(traits);
+        _extraRaceInfo.RaceTraits = traits;
+    }
+
+    public void CustomizeButtons(Action<Unit, EnumIndexedArray<ButtonType, CustomizerButton>> action)
+    {
+        _extraRaceInfo.CustomizeButtonsAction = action;
+    }
+
+    public void CustomizeButtons(Action<Unit, ButtonCustomizer> action)
+    {
+        _extraRaceInfo.CustomizeButtonsAction2 = action;
+    }
+    
+    public void TownNames(List<string> nameList)
+    {
+        _extraRaceInfo.TownNames = nameList;
+    }
+
+    public void PreyTownNames(List<string> nameList)
+    {
+        _extraRaceInfo.PreyTownNames = nameList;
+    }
+
+    public void IndividualNames(List<string> nameList)
+    {
+        _extraRaceInfo.IndividualNames = nameList;
+    }
 
     public Func<int> BreastSizes { get; set; }
     public Func<int> DickSizes { get; set; }

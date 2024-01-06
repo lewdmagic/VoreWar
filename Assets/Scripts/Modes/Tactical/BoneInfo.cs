@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 using UnityEngine;
 
-class BoneInfo
+public class BoneInfo
 {
     [OdinSerialize]
     public BoneTypes boneTypes = BoneTypes.GenericBonePile;

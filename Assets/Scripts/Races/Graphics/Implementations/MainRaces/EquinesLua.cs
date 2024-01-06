@@ -27,7 +27,7 @@ internal static class EquinesLua
         //     data.Unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
         // });
         
-        ScriptHelper.ScriptPrep("GameData/CustomRaces/Equine/Equine.lua", builder);
+        ScriptHelper.ScriptPrep2("GameData/CustomRaces/Equine/EquineNeo.lua", builder);
     });
 
 

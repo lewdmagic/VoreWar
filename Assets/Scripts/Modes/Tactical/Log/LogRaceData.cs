@@ -120,7 +120,7 @@ internal static class LogRaceData
     );
 }
     
- internal class FlavorText
+ public class FlavorText
 {
     private readonly ITexts _preyDescriptions;
     private readonly ITexts _predDescriptions;
