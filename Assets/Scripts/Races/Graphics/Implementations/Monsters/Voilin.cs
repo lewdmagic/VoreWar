@@ -6,38 +6,38 @@ using System.Collections.Generic;
 
 internal static class Voilin
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Voilin", "Voilins");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 6,
-            StomachSize = 10,
-            HasTail = true,
-            FavoredStat = Stat.Stomach,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.1f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 12),
-                Dexterity = new RaceStats.StatRange(8, 12),
-                Endurance = new RaceStats.StatRange(10, 14),
-                Mind = new RaceStats.StatRange(4, 6),
-                Will = new RaceStats.StatRange(6, 10),
-                Agility = new RaceStats.StatRange(12, 16),
-                Voracity = new RaceStats.StatRange(8, 12),
-                Stomach = new RaceStats.StatRange(8, 12),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Resilient,
-                Traits.Disgusting
-            },
-            RaceDescription = "This small creature is the basic grunt of the Mass, a disposable, nearly mindless slave to throw at potential prey to tire them down for worthier beings to devour.",
-        });
         builder.Setup(output =>
         {
+            output.Names("Voilin", "Voilins");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 6,
+                StomachSize = 10,
+                HasTail = true,
+                FavoredStat = Stat.Stomach,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.1f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 12),
+                    Dexterity = new RaceStats.StatRange(8, 12),
+                    Endurance = new RaceStats.StatRange(10, 14),
+                    Mind = new RaceStats.StatRange(4, 6),
+                    Will = new RaceStats.StatRange(6, 10),
+                    Agility = new RaceStats.StatRange(12, 16),
+                    Voracity = new RaceStats.StatRange(8, 12),
+                    Stomach = new RaceStats.StatRange(8, 12),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Resilient,
+                    Traits.Disgusting
+                },
+                RaceDescription = "This small creature is the basic grunt of the Mass, a disposable, nearly mindless slave to throw at potential prey to tire them down for worthier beings to devour.",
+            });
             output.EyeTypes = 3;
             output.SkinColors = ColorMap.ExoticColorCount; // Under belly, head
             output.EyeColors = ColorMap.EyeColorCount; // Eye & Spine Colour

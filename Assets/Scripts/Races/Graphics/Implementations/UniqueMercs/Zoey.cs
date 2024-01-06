@@ -22,43 +22,43 @@ internal static class Zoey
         internal BodyState BodyState = BodyState.Normal;
     }
     
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<ZoeyParams>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<ZoeyParams>, builder =>
     {
-        builder.Names("Zoey", "Zoey");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 12,
-            StomachSize = 40,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal },
-            ExpMultiplier = 1.6f,
-            PowerAdjustment = 3f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(14, 20),
-                Dexterity = new RaceStats.StatRange(8, 10),
-                Endurance = new RaceStats.StatRange(18, 20),
-                Mind = new RaceStats.StatRange(6, 10),
-                Will = new RaceStats.StatRange(12, 18),
-                Agility = new RaceStats.StatRange(14, 18),
-                Voracity = new RaceStats.StatRange(14, 18),
-                Stomach = new RaceStats.StatRange(14, 18),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Maul,
-                Traits.StrongGullet,
-                Traits.Biter,
-                Traits.Greedy,
-                Traits.BornToMove,
-                Traits.TailStrike,
-            },
-            RaceDescription = "An anthropomorphic tiger shark from another world.  Zoey is typically a lazy girl who loves watching movies and being a general couch-potato.  However, upon realizing she'd been isekai'd into the realm, her gluttony left her interested in trying to stomach the local warriors and monsters with some basic martial arts, joining whichever side would pay her first.",
-        });
         RaceFrameList SpinEffect = new RaceFrameList(new int[2] { 25, 19 }, new float[2] { .375f, .375f });
         builder.Setup(output =>
         {
+            output.Names("Zoey", "Zoey");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 12,
+                StomachSize = 40,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal },
+                ExpMultiplier = 1.6f,
+                PowerAdjustment = 3f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(14, 20),
+                    Dexterity = new RaceStats.StatRange(8, 10),
+                    Endurance = new RaceStats.StatRange(18, 20),
+                    Mind = new RaceStats.StatRange(6, 10),
+                    Will = new RaceStats.StatRange(12, 18),
+                    Agility = new RaceStats.StatRange(14, 18),
+                    Voracity = new RaceStats.StatRange(14, 18),
+                    Stomach = new RaceStats.StatRange(14, 18),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Maul,
+                    Traits.StrongGullet,
+                    Traits.Biter,
+                    Traits.Greedy,
+                    Traits.BornToMove,
+                    Traits.TailStrike,
+                },
+                RaceDescription = "An anthropomorphic tiger shark from another world.  Zoey is typically a lazy girl who loves watching movies and being a general couch-potato.  However, upon realizing she'd been isekai'd into the realm, her gluttony left her interested in trying to stomach the local warriors and monsters with some basic martial arts, joining whichever side would pay her first.",
+            });
             output.BreastSizes = () => 5;
 
             output.CanBeGender = new List<Gender> { Gender.Female };

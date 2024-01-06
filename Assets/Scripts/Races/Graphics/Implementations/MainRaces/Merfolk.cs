@@ -8,68 +8,68 @@ using UnityEngine;
 
 internal static class Merfolk
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Merfolk", "Merfolk");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "walking fish", "merfolk", {"mermaid", Gender.Female}, {"merman", Gender.Male} },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Crude Trident",
-                [WeaponNames.Axe]         = "Royal Trident",
-                [WeaponNames.SimpleBow]   = "Scepter",
-                [WeaponNames.CompoundBow] = "Orb Staff"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 13,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Will,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.MagicResistance,
-                Traits.HealingBlood,
-                Traits.Slippery
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Head Fin");
-            buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace / Hair Ornament");
-            buttons.SetText(ButtonType.ExtraColor1, "Scale Color");
-            buttons.SetText(ButtonType.BodyAccentTypes2, "Tail Fin");
-            buttons.SetText(ButtonType.BodyAccentTypes3, "Arm Fin");
-            buttons.SetText(ButtonType.BodyAccentTypes4, "Eyebrow");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Neo Atlantis",
-            "Rapture",
-            "Templemer",
-            "Reefsong",
-            "Numenor",
-            "Thalassa",
-            "Amphitrite",
-            "Triton",
-            "Nautica",
-            "Poseidonia",
-            "Neptunia",
-            "Ulthuan",
-            "Nereidia",
-            "Pontus",
-            "Eurybia"
-        });
         IClothing leaderClothes = MermenLeader.MermenLeaderInstance;
         IClothing rags = MermenRags.MermenRagsInstance;
 
 
         builder.Setup(output =>
         {
+            output.Names("Merfolk", "Merfolk");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "walking fish", "merfolk", {"mermaid", Gender.Female}, {"merman", Gender.Male} },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Crude Trident",
+                    [WeaponNames.Axe]         = "Royal Trident",
+                    [WeaponNames.SimpleBow]   = "Scepter",
+                    [WeaponNames.CompoundBow] = "Orb Staff"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 13,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Will,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.MagicResistance,
+                    Traits.HealingBlood,
+                    Traits.Slippery
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Head Fin");
+                buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace / Hair Ornament");
+                buttons.SetText(ButtonType.ExtraColor1, "Scale Color");
+                buttons.SetText(ButtonType.BodyAccentTypes2, "Tail Fin");
+                buttons.SetText(ButtonType.BodyAccentTypes3, "Arm Fin");
+                buttons.SetText(ButtonType.BodyAccentTypes4, "Eyebrow");
+            });
+            output.TownNames(new List<string>
+            {
+                "Neo Atlantis",
+                "Rapture",
+                "Templemer",
+                "Reefsong",
+                "Numenor",
+                "Thalassa",
+                "Amphitrite",
+                "Triton",
+                "Nautica",
+                "Poseidonia",
+                "Neptunia",
+                "Ulthuan",
+                "Nereidia",
+                "Pontus",
+                "Eurybia"
+            });
             output.BreastSizes = () => 8;
 
             output.BodySizes = 4;

@@ -8,62 +8,63 @@ using UnityEngine;
 
 internal static class Ants
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Ant", "Ants");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts {  },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Barbed Spear",
-                [WeaponNames.Axe]         = "Quad Blades",
-                [WeaponNames.SimpleBow]   = "Simple Bow",
-                [WeaponNames.CompoundBow] = "Compound Bow"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 9,
-            StomachSize = 12,
-            HasTail = false,
-            FavoredStat = Stat.Strength,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.PackStrength,
-                Traits.RangedIneptitude,
-                Traits.AntPheromones
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Exoskeleton Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Queen's Mound",
-            "Formicia",
-            "Antville",
-            "Red Hill",
-            "Leafcutter Heap",
-            "Sugar Farm",
-            "Paraponera City",
-            "Myrmidon Point",
-            "Bivouac Nest",
-            "Fire Ant Fort",
-            "Larvaburg",
-            "Needlefields",
-            "Flik's Town",
-            "Lasius Rock"
-        });
+
         IClothing rags = DemiantRags.DemiantRagsInstance;
 
 
         builder.Setup(output =>
-        {
+        {        
+            output.Names("Ant", "Ants");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts {  },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Barbed Spear",
+                    [WeaponNames.Axe]         = "Quad Blades",
+                    [WeaponNames.SimpleBow]   = "Simple Bow",
+                    [WeaponNames.CompoundBow] = "Compound Bow"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 9,
+                StomachSize = 12,
+                HasTail = false,
+                FavoredStat = Stat.Strength,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.PackStrength,
+                    Traits.RangedIneptitude,
+                    Traits.AntPheromones
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Exoskeleton Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
+            });
+            output.TownNames(new List<string>
+            {
+                "Queen's Mound",
+                "Formicia",
+                "Antville",
+                "Red Hill",
+                "Leafcutter Heap",
+                "Sugar Farm",
+                "Paraponera City",
+                "Myrmidon Point",
+                "Bivouac Nest",
+                "Fire Ant Fort",
+                "Larvaburg",
+                "Needlefields",
+                "Flik's Town",
+                "Lasius Rock"
+            });
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
 

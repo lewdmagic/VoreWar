@@ -8,68 +8,68 @@ using UnityEngine;
 
 internal static class Avians
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Avian", "Avians");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts {  },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Knife",
-                [WeaponNames.Axe]         = "Sword",
-                [WeaponNames.SimpleBow]   = "Short Bow",
-                [WeaponNames.CompoundBow] = "Crossbow"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 14,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.KeenShot,
-                Traits.Featherweight
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.HairStyle, "Head Type");
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Beak Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Head Pattern");
-            buttons.SetText(ButtonType.ExtraColor1, "Core Color");
-            buttons.SetText(ButtonType.ExtraColor2, "Feather Color");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Underwing Palettes");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Phoenix Nest",
-            "Thunderbird City",
-            "Swallow Falls",
-            "Dovechester",
-            "Garuda Rapids",
-            "Duck Pond",
-            "Cockatricefields",
-            "Horus Springs",
-            "Rocville",
-            "Thothland",
-            "Fort Aethon",
-            "Siren Song",
-            "Tengu Hills",
-            "Strixport",
-            "Eagleburg",
-            "Flamingo Bay"
-        });
         IClothing<IOverSizeParameters> leaderClothes = AvianLeader.AvianLeaderInstance;
         IClothing rags = AvianRags.AvianRagsInstance;
 
 
         builder.Setup(output =>
         {
+            output.Names("Avian", "Avians");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts {  },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Knife",
+                    [WeaponNames.Axe]         = "Sword",
+                    [WeaponNames.SimpleBow]   = "Short Bow",
+                    [WeaponNames.CompoundBow] = "Crossbow"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 14,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.KeenShot,
+                    Traits.Featherweight
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.HairStyle, "Head Type");
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Beak Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Head Pattern");
+                buttons.SetText(ButtonType.ExtraColor1, "Core Color");
+                buttons.SetText(ButtonType.ExtraColor2, "Feather Color");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Underwing Palettes");
+            });
+            output.TownNames(new List<string>
+            {
+                "Phoenix Nest",
+                "Thunderbird City",
+                "Swallow Falls",
+                "Dovechester",
+                "Garuda Rapids",
+                "Duck Pond",
+                "Cockatricefields",
+                "Horus Springs",
+                "Rocville",
+                "Thothland",
+                "Fort Aethon",
+                "Siren Song",
+                "Tengu Hills",
+                "Strixport",
+                "Eagleburg",
+                "Flamingo Bay"
+            });
             output.BodySizes = 4;
             output.HairStyles = 12;
             output.EyeTypes = 6;

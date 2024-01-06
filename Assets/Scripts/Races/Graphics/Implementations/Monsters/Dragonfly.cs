@@ -6,40 +6,40 @@ using System.Collections.Generic;
 
 internal static class Dragonfly
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Dragonfly", "Dragonflies");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 9,
-            StomachSize = 9,
-            HasTail = false,
-            FavoredStat = Stat.Dexterity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.2f,
-            PowerAdjustment = 1.4f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 10),
-                Dexterity = new RaceStats.StatRange(15, 20),
-                Endurance = new RaceStats.StatRange(8, 10),
-                Mind = new RaceStats.StatRange(6, 8),
-                Will = new RaceStats.StatRange(8, 12),
-                Agility = new RaceStats.StatRange(15, 20),
-                Voracity = new RaceStats.StatRange(8, 12),
-                Stomach = new RaceStats.StatRange(8, 10),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-                Traits.Tempered
-            },
-            RaceDescription = "The ambient energies that abound in this world sometimes cause normal creatures to grow to abnormal sizes. These dragonflies have adapted their diet to suit their new size and abilities, and are a terror to face unprepared."
-        });
         RaceFrameList frameListWings = new RaceFrameList(new int[3] { 0, 1, 2 }, new float[3] { .02f, .02f, .02f });
 
         builder.Setup(output =>
         {
+            output.Names("Dragonfly", "Dragonflies");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 9,
+                StomachSize = 9,
+                HasTail = false,
+                FavoredStat = Stat.Dexterity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.2f,
+                PowerAdjustment = 1.4f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 10),
+                    Dexterity = new RaceStats.StatRange(15, 20),
+                    Endurance = new RaceStats.StatRange(8, 10),
+                    Mind = new RaceStats.StatRange(6, 8),
+                    Will = new RaceStats.StatRange(8, 12),
+                    Agility = new RaceStats.StatRange(15, 20),
+                    Voracity = new RaceStats.StatRange(8, 12),
+                    Stomach = new RaceStats.StatRange(8, 10),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                    Traits.Tempered
+                },
+                RaceDescription = "The ambient energies that abound in this world sometimes cause normal creatures to grow to abnormal sizes. These dragonflies have adapted their diet to suit their new size and abilities, and are a terror to face unprepared."
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
 
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.Dragonfly);

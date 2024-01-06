@@ -2,57 +2,8 @@
 
 internal static class Wyvern
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Wyvern", "Wyverns");
-        builder.BonesInfo((unit) => new List<BoneInfo>()
-        {
-            new BoneInfo(BoneTypes.Wyvern, unit.Name)
-        });
-        builder.FlavorText(new FlavorText(
-            new Texts { "winged", "horned", "wiry" },
-            new Texts { "mighty", "spined", "great-winged" },
-            new Texts { "wyvern", "lesser draconic being", "drake" },
-            "Claws"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 18,
-            StomachSize = 18,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.Anal },
-            ExpMultiplier = 1.5f,
-            PowerAdjustment = 2f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 20),
-                Dexterity = new RaceStats.StatRange(6, 14),
-                Endurance = new RaceStats.StatRange(12, 20),
-                Mind = new RaceStats.StatRange(12, 28),
-                Will = new RaceStats.StatRange(6, 14),
-                Agility = new RaceStats.StatRange(10, 22),
-                Voracity = new RaceStats.StatRange(10, 18),
-                Stomach = new RaceStats.StatRange(8, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-            },
-            RaceDescription = "Fast, winged and ravenous. These lesser cousins of dragons do not have the magical abilities of true dragons, but they are still a dangerous force. They are often followed by their younger kin, but their care only extends as far as not snacking on the weaklings themselves. ",
-
-        });
-        builder.IndividualNames(new List<string>
-        {
-            "Swiftwing",
-            "Deathtalon",
-            "Sharpbeak",
-            "Spineback",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyWeight, "Horn Type");
-        });
         
         RaceFrameList frameListTail = new RaceFrameList(new int[6] { 2, 1, 0, 5, 4, 3 }, new float[6] { 0.55f, 0.55f, 0.55f, 0.55f, 0.55f, 0.55f });
         RaceFrameList frameListTongue = new RaceFrameList(new int[6] { 0, 1, 2, 3, 4, 5 }, new float[6] { 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f });
@@ -60,6 +11,55 @@ internal static class Wyvern
 
         builder.Setup(output =>
         {
+            output.Names("Wyvern", "Wyverns");
+            output.BonesInfo((unit) => new List<BoneInfo>()
+            {
+                new BoneInfo(BoneTypes.Wyvern, unit.Name)
+            });
+            output.FlavorText(new FlavorText(
+                new Texts { "winged", "horned", "wiry" },
+                new Texts { "mighty", "spined", "great-winged" },
+                new Texts { "wyvern", "lesser draconic being", "drake" },
+                "Claws"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 18,
+                StomachSize = 18,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.Anal },
+                ExpMultiplier = 1.5f,
+                PowerAdjustment = 2f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 20),
+                    Dexterity = new RaceStats.StatRange(6, 14),
+                    Endurance = new RaceStats.StatRange(12, 20),
+                    Mind = new RaceStats.StatRange(12, 28),
+                    Will = new RaceStats.StatRange(6, 14),
+                    Agility = new RaceStats.StatRange(10, 22),
+                    Voracity = new RaceStats.StatRange(10, 18),
+                    Stomach = new RaceStats.StatRange(8, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                },
+                RaceDescription = "Fast, winged and ravenous. These lesser cousins of dragons do not have the magical abilities of true dragons, but they are still a dangerous force. They are often followed by their younger kin, but their care only extends as far as not snacking on the weaklings themselves. ",
+
+            });
+            output.IndividualNames(new List<string>
+            {
+                "Swiftwing",
+                "Deathtalon",
+                "Sharpbeak",
+                "Spineback",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyWeight, "Horn Type");
+            });
             output.BreastSizes = () => 1;
             output.DickSizes = () => 1;
 

@@ -6,84 +6,84 @@ using System.Collections.Generic;
 
 internal static class Compy
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Compy", "Compy");        
-        
-        builder.BonesInfo((unit) => new List<BoneInfo>()
-        {
-            new BoneInfo(BoneTypes.Compy, unit.Name)
-        });
-        builder.FlavorText(new FlavorText(
-            new Texts { "tiny", "chirping", "overambitious" },
-            new Texts { "energetic", "tanuki shaming", "ambitious" },
-            new Texts { "compy", "compsognathus", "dinosaur", "tiny dino" }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 3,
-            StomachSize = 13,
-            HasTail = false,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.CockVore },
-            ExpMultiplier = .75f,
-            PowerAdjustment = .5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(2, 6),
-                Dexterity = new RaceStats.StatRange(2, 4),
-                Endurance = new RaceStats.StatRange(6, 10),
-                Mind = new RaceStats.StatRange(2, 6),
-                Will = new RaceStats.StatRange(4, 8),
-                Agility = new RaceStats.StatRange(8, 18),
-                Voracity = new RaceStats.StatRange(6, 14),
-                Stomach = new RaceStats.StatRange(8, 20),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ArtfulDodge,
-            },
-            RaceDescription = "No-one is certain where these tiny beings appeared from, but everyone agrees that they aren't much of a threat, though not for a lack of trying from their part. All travelers should be aware though, a small dinosaur humping your leg likely means there are more nearby.",
-
-        });
-        builder.IndividualNames(new List<string>
-        {
-            "Chicky",
-            "Pippi",
-            "Peep",
-            "Smiley",
-            "Micky",
-            "Dingy",
-            "Dongy",
-            "Wonky",
-            "Wanky",
-            "Ashby",
-            "Pop",
-            "Pin",
-            "Sticky",
-            "Smelly",
-            "Stinky",
-            "Chirp",
-            "Chip",
-            "Smore",
-            "Burpy",
-            "Scummy",
-            "Donny",
-            "Whin",
-            "Musti",
-            "Reksi",
-            "Rexy",
-            "Snack",
-            "Spot",
-            "Rip",
-            "Poopy",
-        });
         
         
         RaceFrameList frameListTail = new RaceFrameList(new[] { 2, 1, 0, 1, 2, 3, 4, 3 }, new[] { 0.5f, 0.4f, 0.8f, 0.4f, 0.4f, 0.4f, 0.8f, 0.4f });
 
         builder.Setup(output =>
         {
+            output.Names("Compy", "Compy");        
+        
+            output.BonesInfo((unit) => new List<BoneInfo>()
+            {
+                new BoneInfo(BoneTypes.Compy, unit.Name)
+            });
+            output.FlavorText(new FlavorText(
+                new Texts { "tiny", "chirping", "overambitious" },
+                new Texts { "energetic", "tanuki shaming", "ambitious" },
+                new Texts { "compy", "compsognathus", "dinosaur", "tiny dino" }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 3,
+                StomachSize = 13,
+                HasTail = false,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.CockVore },
+                ExpMultiplier = .75f,
+                PowerAdjustment = .5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(2, 6),
+                    Dexterity = new RaceStats.StatRange(2, 4),
+                    Endurance = new RaceStats.StatRange(6, 10),
+                    Mind = new RaceStats.StatRange(2, 6),
+                    Will = new RaceStats.StatRange(4, 8),
+                    Agility = new RaceStats.StatRange(8, 18),
+                    Voracity = new RaceStats.StatRange(6, 14),
+                    Stomach = new RaceStats.StatRange(8, 20),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ArtfulDodge,
+                },
+                RaceDescription = "No-one is certain where these tiny beings appeared from, but everyone agrees that they aren't much of a threat, though not for a lack of trying from their part. All travelers should be aware though, a small dinosaur humping your leg likely means there are more nearby.",
+
+            });
+            output.IndividualNames(new List<string>
+            {
+                "Chicky",
+                "Pippi",
+                "Peep",
+                "Smiley",
+                "Micky",
+                "Dingy",
+                "Dongy",
+                "Wonky",
+                "Wanky",
+                "Ashby",
+                "Pop",
+                "Pin",
+                "Sticky",
+                "Smelly",
+                "Stinky",
+                "Chirp",
+                "Chip",
+                "Smore",
+                "Burpy",
+                "Scummy",
+                "Donny",
+                "Whin",
+                "Musti",
+                "Reksi",
+                "Rexy",
+                "Snack",
+                "Spot",
+                "Rip",
+                "Poopy",
+            });
             output.CanBeGender = new List<Gender> { Gender.Male };
             output.SkinColors = ColorMap.WyvernColorCount;
         });

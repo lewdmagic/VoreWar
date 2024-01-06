@@ -8,63 +8,65 @@ using UnityEngine;
 
 internal static class Aabayx
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Aabayx", "Aabayx");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 6,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Strength,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.Anal },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ViralDigestion,
-                Traits.AwkwardShape,
-                Traits.SlowAbsorption,
-                Traits.SlowBreeder,
-            },
-            RaceDescription = "The Aabayx are a species of virosapiens who recently revealed themselves to the world and were quick to commit to the stage of war.  Strangely enough, they are not new arrivals to the realm, but rather have been in extreme isolation in an unknown location and were waiting for the exact right time to resurface and conquer the masses.  That time is now.",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Head Color");
-            buttons.SetText(ButtonType.ClothingExtraType1, "Face Paint");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Akaryocyte",  ///(this one is the capital, by the way)
-            "Infection Site Zero",
-            "Arenai",
-            "Temple of Twenty",
-            "Adnaviria",
-            "Ysynsr aaz Lextrnl's Domain",
-            "Duplodnaviria",
-            "Bacteriophage",
-            "Monodnaviria",
-            "Aychkaynienteeseven",
-            "Riboviria",
-            "Capsid",
-            "Ribozyviria",
-            "Lipid Envelope",
-            "Varidnaviria",
-            "Mimi",
-            "Tevenvirinae",
-            "Myoviridae",
-            "Podoviridae",
-            "Autographiviridae",
-        });
 
-        builder.RandomCustom(data =>
-        {
-            Defaults.RandomCustom(data);
-            Unit unit = data.Unit;
-
-            unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
-        });
         builder.Setup(output =>
         {
+            output.Names("Aabayx", "Aabayx");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 6,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Strength,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.Anal },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ViralDigestion,
+                    Traits.AwkwardShape,
+                    Traits.SlowAbsorption,
+                    Traits.SlowBreeder,
+                },
+                RaceDescription = "The Aabayx are a species of virosapiens who recently revealed themselves to the world and were quick to commit to the stage of war.  Strangely enough, they are not new arrivals to the realm, but rather have been in extreme isolation in an unknown location and were waiting for the exact right time to resurface and conquer the masses.  That time is now.",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Head Color");
+                buttons.SetText(ButtonType.ClothingExtraType1, "Face Paint");
+            });
+            output.TownNames(new List<string>
+            {
+                "Akaryocyte",  ///(this one is the capital, by the way)
+                "Infection Site Zero",
+                "Arenai",
+                "Temple of Twenty",
+                "Adnaviria",
+                "Ysynsr aaz Lextrnl's Domain",
+                "Duplodnaviria",
+                "Bacteriophage",
+                "Monodnaviria",
+                "Aychkaynienteeseven",
+                "Riboviria",
+                "Capsid",
+                "Ribozyviria",
+                "Lipid Envelope",
+                "Varidnaviria",
+                "Mimi",
+                "Tevenvirinae",
+                "Myoviridae",
+                "Podoviridae",
+                "Autographiviridae",
+            });
+
+            builder.RandomCustom(data =>
+            {
+                Defaults.RandomCustom(data);
+                Unit unit = data.Unit;
+
+                unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
+            });
+            
             output.DickSizes = () => 6;
             output.BreastSizes = () => 1;
 

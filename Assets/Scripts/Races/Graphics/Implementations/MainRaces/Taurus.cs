@@ -9,52 +9,52 @@ using UnityEngine;
 
 internal static class Taurus
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Cow", "Cows");
-        builder.WallType(WallType.WoodenPallisade);
-        builder.FlavorText(new FlavorText(
-            new Texts { "mooing", "bulky", "hooved" },
-            new Texts { "multi-stomached", "heavy", "strong legged" },
-            new Texts { "bovine", "taurus", {"cow", Gender.Female}, {"bull", Gender.Male} },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Hammer",
-                [WeaponNames.Axe]         = "Glaive",
-                [WeaponNames.SimpleBow]   = "Revolver",
-                [WeaponNames.CompoundBow] = "Shotgun",
-                [WeaponNames.Claw]        = "Fist"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 15,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Strength,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.StrongMelee,
-                Traits.ForcefulBlow
-            },
-            RaceDescription = "Once mere cattle, a drop of minotaur blood slumbered in their veins. Rising and butchering their \"masters\", the Taurus took what they could from their old ranches and fled through mysterious portals that had heralded their rise. While intelligent, the Taurus trust in their physical might and great size, tossing their enemies aside as they trample on.",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.EyeType, "Face Expression");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Minos",
-            "Fourbelly",
-            "Beefsburg",
-            "Udderlife",
-            "Rangeton",
-            "Salisbury",
-            "Cuddington",
-        });
         builder.Setup(output =>
         {
+            output.Names("Cow", "Cows");
+            output.WallType(WallType.WoodenPallisade);
+            output.FlavorText(new FlavorText(
+                new Texts { "mooing", "bulky", "hooved" },
+                new Texts { "multi-stomached", "heavy", "strong legged" },
+                new Texts { "bovine", "taurus", {"cow", Gender.Female}, {"bull", Gender.Male} },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Hammer",
+                    [WeaponNames.Axe]         = "Glaive",
+                    [WeaponNames.SimpleBow]   = "Revolver",
+                    [WeaponNames.CompoundBow] = "Shotgun",
+                    [WeaponNames.Claw]        = "Fist"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 15,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Strength,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.StrongMelee,
+                    Traits.ForcefulBlow
+                },
+                RaceDescription = "Once mere cattle, a drop of minotaur blood slumbered in their veins. Rising and butchering their \"masters\", the Taurus took what they could from their old ranches and fled through mysterious portals that had heralded their rise. While intelligent, the Taurus trust in their physical might and great size, tossing their enemies aside as they trample on.",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.EyeType, "Face Expression");
+            });
+            output.TownNames(new List<string>
+            {
+                "Minos",
+                "Fourbelly",
+                "Beefsburg",
+                "Udderlife",
+                "Rangeton",
+                "Salisbury",
+                "Cuddington",
+            });
             output.BreastSizes = () => 5;
             output.DickSizes = () => 5;
 

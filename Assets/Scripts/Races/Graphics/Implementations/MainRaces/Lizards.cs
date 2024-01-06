@@ -18,11 +18,14 @@ internal class FacingFrontParameters : IFacingFrontParameters
 
 internal static class Lizards
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<FacingFrontParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<FacingFrontParameters>, builder =>
     {
-        builder.Names("Lizard", "Lizards");
-        builder.WallType(WallType.Lizard);
-        builder.BonesInfo((unit) => 
+        
+        builder.Setup(output =>
+        {
+        output.Names("Lizard", "Lizards");
+        output.WallType(WallType.Lizard);
+        output.BonesInfo((unit) => 
         {
             if (unit.Furry)
             {
@@ -40,12 +43,12 @@ internal static class Lizards
                 };
             }
         });
-        builder.FlavorText(new FlavorText(
+        output.FlavorText(new FlavorText(
             new Texts { "hairless", "cold-blooded", "wiry" },
             new Texts { "thick-scaled", "cold-blooded", "tough" },
             new Texts { "lizard", "reptile", "reptilian" }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 12,
             StomachSize = 18,
@@ -59,7 +62,7 @@ internal static class Lizards
 
             RaceDescription = "Emerging from dense jungles, the Lizards are eager to expand their presence in the universe. Their hard scales offered them great protection from the thorns and insects of their former home, and still offer natural resistance from harm.",
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "Lizotetca",
             "Reptula",
@@ -74,7 +77,7 @@ internal static class Lizards
             "Cult of the Wyrm",
             "Dragon Tongue",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetActive(ButtonType.Skintone, false);
             buttons.SetActive(ButtonType.HairColor, true);
@@ -85,9 +88,6 @@ internal static class Lizards
             buttons.SetText(ButtonType.ClothingExtraType2, "Armlets");
             buttons.SetText(ButtonType.HatType, "Crown");
         });
-        
-        builder.Setup(output =>
-        {
             output.BreastSizes = () => Config.AllowHugeBreasts ? 8 : 5;
 
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.LizardMain);

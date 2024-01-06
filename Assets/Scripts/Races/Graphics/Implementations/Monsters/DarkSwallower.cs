@@ -6,46 +6,8 @@ using System.Collections.Generic;
 
 internal static class DarkSwallower
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Dark Swallower", "Dark Swallowers");
-        builder.BonesInfo((unit) => new List<BoneInfo>()
-        {
-            new BoneInfo(BoneTypes.DarkSwallower, unit.Name)
-        });
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts {  },
-            "Jaws"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 20,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(6, 14),
-                Dexterity = new RaceStats.StatRange(4, 8),
-                Endurance = new RaceStats.StatRange(10, 16),
-                Mind = new RaceStats.StatRange(6, 10),
-                Will = new RaceStats.StatRange(8, 14),
-                Agility = new RaceStats.StatRange(8, 12),
-                Voracity = new RaceStats.StatRange(12, 20),
-                Stomach = new RaceStats.StatRange(6, 12),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-                Traits.Ravenous
-            },
-            RaceDescription = "As the Scylla arrived in the new lands they brought some of their pets along. Not a year later the strange properties of the new realm had caused the fish to breed out of control, soon escaping and going wild.",
-
-        });
         
         
         RaceFrameList frameListTail = new RaceFrameList(new int[8] { 0, 1, 2, 3, 4, 3, 2, 1 }, new float[8] { 1.2f, 1f, 1f, 1f, 1.2f, 1f, 1f, 1f });
@@ -54,6 +16,44 @@ internal static class DarkSwallower
 
         builder.Setup(output =>
         {
+            output.Names("Dark Swallower", "Dark Swallowers");
+            output.BonesInfo((unit) => new List<BoneInfo>()
+            {
+                new BoneInfo(BoneTypes.DarkSwallower, unit.Name)
+            });
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts {  },
+                "Jaws"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 20,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(6, 14),
+                    Dexterity = new RaceStats.StatRange(4, 8),
+                    Endurance = new RaceStats.StatRange(10, 16),
+                    Mind = new RaceStats.StatRange(6, 10),
+                    Will = new RaceStats.StatRange(8, 14),
+                    Agility = new RaceStats.StatRange(8, 12),
+                    Voracity = new RaceStats.StatRange(12, 20),
+                    Stomach = new RaceStats.StatRange(6, 12),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                    Traits.Ravenous
+                },
+                RaceDescription = "As the Scylla arrived in the new lands they brought some of their pets along. Not a year later the strange properties of the new realm had caused the fish to breed out of control, soon escaping and going wild.",
+
+            });
             output.EyeTypes = 6;
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SkinColors = ColorMap.SharkColorCount;

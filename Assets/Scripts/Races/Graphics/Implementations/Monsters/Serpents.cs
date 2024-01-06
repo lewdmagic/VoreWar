@@ -7,57 +7,57 @@ using System.Collections.Generic;
 
 internal static class Serpents
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Serpent", "Serpents");
-        builder.FlavorText(new FlavorText(
-            new Texts { "limbless", "noodly", "slithery" },
-            new Texts { "scaly", "long bodied", "slithering" },
-            new Texts { "serpent", "snake", "slitherer" },
-            "Tail Blade"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 12,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.25f,
-            PowerAdjustment = .9f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 20),
-                Dexterity = new RaceStats.StatRange(6, 14),
-                Endurance = new RaceStats.StatRange(10, 18),
-                Mind = new RaceStats.StatRange(6, 14),
-                Will = new RaceStats.StatRange(4, 8),
-                Agility = new RaceStats.StatRange(6, 12),
-                Voracity = new RaceStats.StatRange(8, 16),
-                Stomach = new RaceStats.StatRange(8, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.SlowAbsorption,
-                Traits.Biter
-            },
-            RaceDescription = "When the lizard folk emerged from their portal to this land, some young snakes from their old world managed to slip along. Growing fast under the effect of this new realm, the Serpents soon emerged as a ravenous horde.",
-        });
-        builder.IndividualNames(new List<string>
-        {
-            "Snaky",
-            "Snoot",
-            "Snek",
-            "Slither",
-            "Viper",
-            "Tongy",
-            "Bity",
-            "Bulgy",
-            "Huggy",
-            "Nippy",
-        });
         builder.Setup(output =>
         {
+            output.Names("Serpent", "Serpents");
+            output.FlavorText(new FlavorText(
+                new Texts { "limbless", "noodly", "slithery" },
+                new Texts { "scaly", "long bodied", "slithering" },
+                new Texts { "serpent", "snake", "slitherer" },
+                "Tail Blade"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 12,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.25f,
+                PowerAdjustment = .9f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 20),
+                    Dexterity = new RaceStats.StatRange(6, 14),
+                    Endurance = new RaceStats.StatRange(10, 18),
+                    Mind = new RaceStats.StatRange(6, 14),
+                    Will = new RaceStats.StatRange(4, 8),
+                    Agility = new RaceStats.StatRange(6, 12),
+                    Voracity = new RaceStats.StatRange(8, 16),
+                    Stomach = new RaceStats.StatRange(8, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.SlowAbsorption,
+                    Traits.Biter
+                },
+                RaceDescription = "When the lizard folk emerged from their portal to this land, some young snakes from their old world managed to slip along. Growing fast under the effect of this new realm, the Serpents soon emerged as a ravenous horde.",
+            });
+            output.IndividualNames(new List<string>
+            {
+                "Snaky",
+                "Snoot",
+                "Snek",
+                "Slither",
+                "Viper",
+                "Tongy",
+                "Bity",
+                "Bulgy",
+                "Huggy",
+                "Nippy",
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.EyeColors = ColorPaletteMap.GetPaletteCount(SwapType.EyeColor);
             output.EyeTypes = 4;

@@ -8,51 +8,51 @@ using UnityEngine;
 
 internal static class Komodos
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Komodo", "Komodos");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "komodo", "komodo dragon", "komodo lizard" }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 18,
-            StomachSize = 18,
-            HasTail = true,
-            FavoredStat = Stat.Strength,
-            CanUseRangedWeapons = false,
-            PowerAdjustment = 1.4f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(16, 24),
-                Dexterity = new RaceStats.StatRange(6, 10),
-                Endurance = new RaceStats.StatRange(14, 24),
-                Mind = new RaceStats.StatRange(6, 12),
-                Will = new RaceStats.StatRange(8, 16),
-                Agility = new RaceStats.StatRange(10, 16),
-                Voracity = new RaceStats.StatRange(16, 24),
-                Stomach = new RaceStats.StatRange(12, 18),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Biter,
-                Traits.VenomousBite,
-                Traits.Intimidating,
-                Traits.Resilient,
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Head Shape");
-            buttons.SetText(ButtonType.BodyAccentTypes2, "Secondary Pattern Type");
-            buttons.SetText(ButtonType.BodyAccentTypes3, "Head Pattern on/off");
-        });
         builder.Setup(output =>
         {
+            output.Names("Komodo", "Komodos");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "komodo", "komodo dragon", "komodo lizard" }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 18,
+                StomachSize = 18,
+                HasTail = true,
+                FavoredStat = Stat.Strength,
+                CanUseRangedWeapons = false,
+                PowerAdjustment = 1.4f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(16, 24),
+                    Dexterity = new RaceStats.StatRange(6, 10),
+                    Endurance = new RaceStats.StatRange(14, 24),
+                    Mind = new RaceStats.StatRange(6, 12),
+                    Will = new RaceStats.StatRange(8, 16),
+                    Agility = new RaceStats.StatRange(10, 16),
+                    Voracity = new RaceStats.StatRange(16, 24),
+                    Stomach = new RaceStats.StatRange(12, 18),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Biter,
+                    Traits.VenomousBite,
+                    Traits.Intimidating,
+                    Traits.Resilient,
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Head Shape");
+                buttons.SetText(ButtonType.BodyAccentTypes2, "Secondary Pattern Type");
+                buttons.SetText(ButtonType.BodyAccentTypes3, "Head Pattern on/off");
+            });
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
 

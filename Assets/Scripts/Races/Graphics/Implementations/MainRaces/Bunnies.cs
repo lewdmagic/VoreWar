@@ -2,12 +2,16 @@
 
 internal static class Bunnies
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Bunny", "Bunnies");
-        builder.WallType(WallType.Bunny);
         
-        builder.BonesInfo((unit) => 
+        builder.Setup((output) =>
+        {
+            
+        output.Names("Bunny", "Bunnies");
+        output.WallType(WallType.Bunny);
+        
+        output.BonesInfo((unit) => 
         {
             if (unit.Furry)
             {
@@ -24,12 +28,12 @@ internal static class Bunnies
                 };
             }
         });
-        builder.FlavorText(new FlavorText(
+        output.FlavorText(new FlavorText(
             new Texts { "long eared", "bushy tailed", "leaf biting" },
             new Texts { "sharp eared", "strong footed", "chisel-toothed" },
             new Texts { "bunny", "rabbit", "lagomorph", {"doe", Gender.Female}, {"buck", Gender.Male} } // This is correct. Apparently thats what they are called
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 10,
             StomachSize = 15,
@@ -44,7 +48,7 @@ internal static class Bunnies
             },
             RaceDescription = "Among the weaker but more numerous of the native sapient species, the Bunnies are on the verge of turning predators themselves. While lacking in sheer strength they make up for it with agility and numbers, having much fun ensuring the latter.",
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "Hoppington",
             "Lopdon",
@@ -54,7 +58,7 @@ internal static class Bunnies
             "Watershed",
             "Cottontail Cove",
         });
-        builder.PreyTownNames(new List<string>
+        output.PreyTownNames(new List<string>
         {
             "The Warren",
             "Underbrush Shelter",
@@ -65,12 +69,12 @@ internal static class Bunnies
             "Felt Burrow",
             "Carrot Burrow",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.HairColor, "Hair Color: " + UnitCustomizer.HairColorLookup(unit.HairColor));
             buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color: " + UnitCustomizer.HairColorLookup(unit.AccessoryColor));
         });
-        
+        });
         
         builder.RandomCustom(Defaults.RandomCustom);
 

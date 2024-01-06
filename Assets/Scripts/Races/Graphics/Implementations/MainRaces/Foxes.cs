@@ -2,16 +2,18 @@
 
 internal static class Foxes
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
-    {        
-        builder.Names("Fox", "Foxes");
-        builder.WallType(WallType.Fox);
-        builder.FlavorText(new FlavorText(
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+    {
+        builder.Setup(output =>
+        {        
+        output.Names("Fox", "Foxes");
+        output.WallType(WallType.Fox);
+        output.FlavorText(new FlavorText(
             new Texts { "fluffy tailed", "squirming", "whimpering" },
             new Texts { "cunning", "grinning", "sly" },
             new Texts { "fox", "vulpine", "canid", {"vixen", Gender.Female}, {"tod", Gender.Male} }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 10,
             StomachSize = 15,
@@ -25,12 +27,12 @@ internal static class Foxes
             LeaderRace = Race.Youko,
             RaceDescription = "Natives of this realm, the Foxes seem unable of taking danger seriously. They dodge attacks at the last second and only seem to grow ever bolder as death approaches them. Entire armies have fallen exhausted as a group of foxes dances among them, ready to be devoured once the time is right.",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.HairColor, "Hair Color: " + UnitCustomizer.HairColorLookup(unit.HairColor));
             buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color: " + UnitCustomizer.HairColorLookup(unit.AccessoryColor));
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "Vulpeska",
             "Trickster's Den",
@@ -46,8 +48,6 @@ internal static class Foxes
             "Den of the Ruthless",
             "Den of Gnarling",
         });
-        builder.Setup(output =>
-        {
             output.FurCapable = true;
             output.BaseBody = true;
         });

@@ -6,45 +6,8 @@ using System.Collections.Generic;
 
 internal static class Catfish
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Catfish", "Catfish");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 16,
-            StomachSize = 16,
-            HasTail = true,
-            FavoredStat = Stat.Stomach,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.2f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 12),
-                Dexterity = new RaceStats.StatRange(6, 10),
-                Endurance = new RaceStats.StatRange(16, 24),
-                Mind = new RaceStats.StatRange(8, 12),
-                Will = new RaceStats.StatRange(8, 12),
-                Agility = new RaceStats.StatRange(10, 16),
-                Voracity = new RaceStats.StatRange(20, 28),
-                Stomach = new RaceStats.StatRange(12, 20),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Slippery,
-                Traits.Ravenous,
-                Traits.Nauseous,
-                Traits.SlowDigestion
-            },
-            RaceDescription = ""
-        });
-        
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.Skintone, "Body Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Barbel (Whisker) Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Dorsal Fin Type");
-        });
         
         RaceFrameList frameListMouth = new RaceFrameList(new[] { 0, 1, 2, 1, 0, 1, 2, 1, 0 }, new[] { 1.2f, .6f, 1.2f, .6f, 1.2f, .6f, 1.2f, .6f, 1.2f });
         RaceFrameList frameListTail = new RaceFrameList(new[] { 0, 1, 2, 1, 0, 1, 2, 1, 0 }, new[] { .5f, .3f, .5f, .3f, .5f, .3f, .5f, .3f, .5f });
@@ -52,6 +15,43 @@ internal static class Catfish
 
         builder.Setup(output =>
         {
+            output.Names("Catfish", "Catfish");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 16,
+                StomachSize = 16,
+                HasTail = true,
+                FavoredStat = Stat.Stomach,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.2f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 12),
+                    Dexterity = new RaceStats.StatRange(6, 10),
+                    Endurance = new RaceStats.StatRange(16, 24),
+                    Mind = new RaceStats.StatRange(8, 12),
+                    Will = new RaceStats.StatRange(8, 12),
+                    Agility = new RaceStats.StatRange(10, 16),
+                    Voracity = new RaceStats.StatRange(20, 28),
+                    Stomach = new RaceStats.StatRange(12, 20),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Slippery,
+                    Traits.Ravenous,
+                    Traits.Nauseous,
+                    Traits.SlowDigestion
+                },
+                RaceDescription = ""
+            });
+        
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.Skintone, "Body Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Barbel (Whisker) Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Dorsal Fin Type");
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SpecialAccessoryCount = 6; // barbels
             output.BodyAccentTypes1 = 8; // dorsal fins

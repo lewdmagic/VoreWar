@@ -8,9 +8,8 @@ using UnityEngine;
 
 internal static class AntQueen
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("AntQueen", "AntQueens");
         IClothing<IOverSizeParameters> LeaderClothes = AntLeaderClothes.AntLeaderClothesInstance;
 
 
@@ -30,6 +29,7 @@ internal static class AntQueen
 
         builder.Setup(output =>
         {
+            output.Names("AntQueen", "AntQueens");
             output.CanBeGender = new List<Gender> { Gender.Female, Gender.Hermaphrodite };
             output.BodySizes = 3;
             output.EyeTypes = 8;

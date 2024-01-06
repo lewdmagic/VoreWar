@@ -6,44 +6,44 @@ using System.Collections.Generic;
 
 internal static class CoralSlugs
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Coral Slug", "Coral Slugs");
-        builder.BonesInfo(null);
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 16,
-            HasTail = false,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.2f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 12),
-                Dexterity = new RaceStats.StatRange(6, 8),
-                Endurance = new RaceStats.StatRange(10, 15),
-                Mind = new RaceStats.StatRange(4, 6),
-                Will = new RaceStats.StatRange(8, 12),
-                Agility = new RaceStats.StatRange(4, 6),
-                Voracity = new RaceStats.StatRange(16, 24),
-                Stomach = new RaceStats.StatRange(8, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Paralyzer,
-                Traits.Stinger,
-                Traits.GelatinousBody, // or resilient
-                Traits.SoftBody,
-                Traits.SlowMovement,
-                Traits.Toxic
-            },
-            InnateSpells = new List<SpellTypes>() { SpellTypes.Poison },
-            RaceDescription = ""
-        });
         builder.Setup(output =>
         {
+            output.Names("Coral Slug", "Coral Slugs");
+            output.BonesInfo(null);
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 16,
+                HasTail = false,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.2f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 12),
+                    Dexterity = new RaceStats.StatRange(6, 8),
+                    Endurance = new RaceStats.StatRange(10, 15),
+                    Mind = new RaceStats.StatRange(4, 6),
+                    Will = new RaceStats.StatRange(8, 12),
+                    Agility = new RaceStats.StatRange(4, 6),
+                    Voracity = new RaceStats.StatRange(16, 24),
+                    Stomach = new RaceStats.StatRange(8, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Paralyzer,
+                    Traits.Stinger,
+                    Traits.GelatinousBody, // or resilient
+                    Traits.SoftBody,
+                    Traits.SlowMovement,
+                    Traits.Toxic
+                },
+                InnateSpells = new List<SpellTypes>() { SpellTypes.Poison },
+                RaceDescription = ""
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.SlugSkin);
             output.GentleAnimation = true;

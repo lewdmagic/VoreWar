@@ -6,48 +6,48 @@ using System.Collections.Generic;
 
 internal static class Salamanders
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Salamander", "Salamanders");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 20,
-            StomachSize = 18,
-            HasTail = true,
-            FavoredStat = Stat.Mind,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.2f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(10, 16),
-                Dexterity = new RaceStats.StatRange(8, 14),
-                Endurance = new RaceStats.StatRange(8, 14),
-                Mind = new RaceStats.StatRange(12, 20),
-                Will = new RaceStats.StatRange(8, 16),
-                Agility = new RaceStats.StatRange(8, 14),
-                Voracity = new RaceStats.StatRange(12, 20),
-                Stomach = new RaceStats.StatRange(10, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Biter,
-                Traits.HotBlooded
-            },
-            InnateSpells = new List<SpellTypes>() { SpellTypes.Fireball },
-            RaceDescription = ""
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.Skintone, "Body Color");
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Spine Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Spine Type");
-        });
         RaceFrameList frameListSalamanderFlame = new RaceFrameList(new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new float[10] { .1f, .1f, .1f, .1f, .1f, .1f, .1f, .1f, .1f, .1f });
 
 
         builder.Setup(output =>
         {
+            output.Names("Salamander", "Salamanders");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 20,
+                StomachSize = 18,
+                HasTail = true,
+                FavoredStat = Stat.Mind,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.2f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(10, 16),
+                    Dexterity = new RaceStats.StatRange(8, 14),
+                    Endurance = new RaceStats.StatRange(8, 14),
+                    Mind = new RaceStats.StatRange(12, 20),
+                    Will = new RaceStats.StatRange(8, 16),
+                    Agility = new RaceStats.StatRange(8, 14),
+                    Voracity = new RaceStats.StatRange(12, 20),
+                    Stomach = new RaceStats.StatRange(10, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Biter,
+                    Traits.HotBlooded
+                },
+                InnateSpells = new List<SpellTypes>() { SpellTypes.Fireball },
+                RaceDescription = ""
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.Skintone, "Body Color");
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Spine Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Spine Type");
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.EyeTypes = 6;
             output.SpecialAccessoryCount = 12; // Backside spikes/patterns

@@ -2,53 +2,53 @@
 
 internal static class Dogs
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Dog", "Dogs");
-        builder.FlavorText(new FlavorText(
-            new Texts { "yelping", "curly tailed", "whining", "domesticated" },
-            new Texts { "wagging", "panting" },
-            new Texts { "dog", "canine", {"bitch", Gender.Female}, {"dog", Gender.Male} }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.PackWill,
-                Traits.PackDefense
-            },
-            RaceDescription = "Natives to the realm, the Dogs embody the principle of standing together. Ranked up, they guard each other's backs, making it harder for any enemy to land a strike at them or succeed at eating them.",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.HairColor, "Hair Color: " + UnitCustomizer.HairColorLookup(unit.HairColor));
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color: " + UnitCustomizer.HairColorLookup(unit.AccessoryColor));
-        });
-        builder.TownNames(new List<string>
-        {
-            "The Seat",
-            "Flockgard",
-            "Doggendorf",
-            "Barkburg",
-            "Mongrelheim",
-            "Heel",
-            "Loyalgard",
-            "Shibustein",
-            "Labberdoodle",
-            "Pitgard",
-            "Doberia",
-            "Dogville",
-            "Inutown",
-            "Dogington",
-            "Doghouse",
-        });
         
         builder.Setup(output =>
         {
+            output.Names("Dog", "Dogs");
+            output.FlavorText(new FlavorText(
+                new Texts { "yelping", "curly tailed", "whining", "domesticated" },
+                new Texts { "wagging", "panting" },
+                new Texts { "dog", "canine", {"bitch", Gender.Female}, {"dog", Gender.Male} }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.PackWill,
+                    Traits.PackDefense
+                },
+                RaceDescription = "Natives to the realm, the Dogs embody the principle of standing together. Ranked up, they guard each other's backs, making it harder for any enemy to land a strike at them or succeed at eating them.",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.HairColor, "Hair Color: " + UnitCustomizer.HairColorLookup(unit.HairColor));
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color: " + UnitCustomizer.HairColorLookup(unit.AccessoryColor));
+            });
+            output.TownNames(new List<string>
+            {
+                "The Seat",
+                "Flockgard",
+                "Doggendorf",
+                "Barkburg",
+                "Mongrelheim",
+                "Heel",
+                "Loyalgard",
+                "Shibustein",
+                "Labberdoodle",
+                "Pitgard",
+                "Doberia",
+                "Dogville",
+                "Inutown",
+                "Dogington",
+                "Doghouse",
+            });
             output.FurCapable = true;
             output.BaseBody = true;
         });

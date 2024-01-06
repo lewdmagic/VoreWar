@@ -16,62 +16,62 @@ internal static class Bees
         Cuirass.CuirassInstance, LeaderClothes
     };
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Bee", "Bees");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "apid", "bee", {"worker bee", Gender.Female}, {"drone", Gender.Male} },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Honeycomb WeaponNames.Mace",
-                [WeaponNames.Axe]         = "Quad Punch Claws",
-                [WeaponNames.SimpleBow]   = "Javelin",
-                [WeaponNames.CompoundBow] = "War Javelin"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 14,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-                Traits.KeenReflexes,
-                Traits.PackDefense,
-                Traits.Stinger
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Exoskeleton Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Queen's Hive",
-            "Honeycomb",
-            "Buzzytown",
-            "Golden Orchard",
-            "Waxville",
-            "Bumblebee Grove",
-            "Beepolis",
-            "Maya's Meadow",
-            "Sweet Pollen",
-            "Black Swarm",
-            "Royal Jelly",
-            "Workers Hive",
-            "Apiarist Respite"
-        });
         RaceFrameList frameListWings = new RaceFrameList(new[] { 0, 1, 2, 3, 2, 1 }, new[] { .05f, .05f, .05f, .05f, .05f, .05f });
 
         builder.Setup(output =>
         {
+            output.Names("Bee", "Bees");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "apid", "bee", {"worker bee", Gender.Female}, {"drone", Gender.Male} },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Honeycomb WeaponNames.Mace",
+                    [WeaponNames.Axe]         = "Quad Punch Claws",
+                    [WeaponNames.SimpleBow]   = "Javelin",
+                    [WeaponNames.CompoundBow] = "War Javelin"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 14,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                    Traits.KeenReflexes,
+                    Traits.PackDefense,
+                    Traits.Stinger
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Exoskeleton Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
+            });
+            output.TownNames(new List<string>
+            {
+                "Queen's Hive",
+                "Honeycomb",
+                "Buzzytown",
+                "Golden Orchard",
+                "Waxville",
+                "Bumblebee Grove",
+                "Beepolis",
+                "Maya's Meadow",
+                "Sweet Pollen",
+                "Black Swarm",
+                "Royal Jelly",
+                "Workers Hive",
+                "Apiarist Respite"
+            });
             output.BreastSizes = () => 8;
             output.DickSizes = () => 8;
 

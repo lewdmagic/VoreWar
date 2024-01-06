@@ -7,16 +7,21 @@ using UnityEngine;
 
 internal static class Crypters
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Crypter", "Crypters");
-        builder.WallType(WallType.Crypter);
-        builder.BonesInfo((unit) => new List<BoneInfo>()
+        
+        
+        Color bellyColor = new Color(.2519f, .2519f, .3584f);
+        builder.Setup(output =>
+        {
+        output.Names("Crypter", "Crypters");
+        output.WallType(WallType.Crypter);
+        output.BonesInfo((unit) => new List<BoneInfo>()
         {
             new BoneInfo(BoneTypes.CrypterBonePile, unit.Name, unit.AccessoryColor),
             new BoneInfo(BoneTypes.CrypterSkull, unit.Name)
         });
-        builder.FlavorText(new FlavorText(
+        output.FlavorText(new FlavorText(
             new Texts { "mechanical", "artifical", "whirring" },
             new Texts { "mechanical", "artifical", "rumbling" },
             new Texts { "crypter", "machinoid", "synthetic", "robotic", "metallic", "futuristic", "fabricated" }, //added "synthetic", "robotic", "metallic", "futuristic", "fabricated" thanks to Flame_Valxsarion
@@ -29,7 +34,7 @@ internal static class Crypters
                 [WeaponNames.Claw]        = "Metal Fist"
             } 
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 10,
             StomachSize = 18,
@@ -43,11 +48,11 @@ internal static class Crypters
             },
             RaceDescription = "Arriving from a realm long dead, the Crypters shambled forth when the smell of the living beckoned them from their ancient tombs. Cold, hard metal resists both damage and attempts to eat it, but the strange powers of this realm provide no aid in crafting new automatons for the ancient spirits to inhabit.",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetActive(ButtonType.ClothingColor, false);
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "The Eternal Palace",
             "Citadel of Divine Purpose",
@@ -66,11 +71,6 @@ internal static class Crypters
             "Ruins of Ur-Babel",
             "Tomb of Talmund",
         });
-        
-        
-        Color bellyColor = new Color(.2519f, .2519f, .3584f);
-        builder.Setup(output =>
-        {
             output.DickSizes = () => 1;
             output.BreastSizes = () => 1;
 

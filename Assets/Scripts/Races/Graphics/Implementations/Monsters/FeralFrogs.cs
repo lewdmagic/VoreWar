@@ -6,40 +6,40 @@ using System.Collections.Generic;
 
 internal static class FeralFrogs
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<PositionParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<PositionParameters>, builder =>
     {
-        builder.Names("Feral Frog", "Feral Frogs");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 15,
-            StomachSize = 14,
-            HasTail = false,
-            FavoredStat = Stat.Stomach,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth },
-            ExpMultiplier = 1.2f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(12, 16),
-                Dexterity = new RaceStats.StatRange(4, 8),
-                Endurance = new RaceStats.StatRange(12, 16),
-                Mind = new RaceStats.StatRange(6, 8),
-                Will = new RaceStats.StatRange(8, 12),
-                Agility = new RaceStats.StatRange(12, 16),
-                Voracity = new RaceStats.StatRange(10, 14),
-                Stomach = new RaceStats.StatRange(8, 12),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.RangedVore,
-                Traits.Pounce,
-                Traits.HeavyPounce,
-                Traits.Clumsy,
-            },
-            RaceDescription = ""
-        });
         builder.Setup(output =>
         {
+            output.Names("Feral Frog", "Feral Frogs");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 15,
+                StomachSize = 14,
+                HasTail = false,
+                FavoredStat = Stat.Stomach,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth },
+                ExpMultiplier = 1.2f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(12, 16),
+                    Dexterity = new RaceStats.StatRange(4, 8),
+                    Endurance = new RaceStats.StatRange(12, 16),
+                    Mind = new RaceStats.StatRange(6, 8),
+                    Will = new RaceStats.StatRange(8, 12),
+                    Agility = new RaceStats.StatRange(12, 16),
+                    Voracity = new RaceStats.StatRange(10, 14),
+                    Stomach = new RaceStats.StatRange(8, 12),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.RangedVore,
+                    Traits.Pounce,
+                    Traits.HeavyPounce,
+                    Traits.Clumsy,
+                },
+                RaceDescription = ""
+            });
             output.CanBeGender = new List<Gender> { Gender.Female };
             output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.Frog);
 

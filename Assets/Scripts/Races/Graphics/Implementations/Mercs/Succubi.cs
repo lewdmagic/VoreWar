@@ -8,9 +8,13 @@ using UnityEngine;
 
 internal static class Succubi
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names((input) =>
+        
+        
+        builder.Setup(output =>
+        {
+        output.Names((input) =>
         {
             if (input.GetGender() == Gender.Female)
             {
@@ -39,12 +43,12 @@ internal static class Succubi
                 return "Concubi";
             }
         });
-        builder.FlavorText(new FlavorText(
+        output.FlavorText(new FlavorText(
             new Texts { "devilishly tasty", "beguiling", "batty" },
             new Texts { "demonic", "beguiling", "bat-winged" },
             new Texts { "succubus", "demon", "hellish being" }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 10,
             StomachSize = 12,
@@ -71,14 +75,10 @@ internal static class Succubi
                 Stomach = new RaceStats.StatRange(8, 14),
             },
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetActive(ButtonType.ClothingColor2, true);
         });
-        
-        
-        builder.Setup(output =>
-        {
             output.BreastSizes = () => 4;
             output.WeightGainDisabled = true;
             output.SpecialAccessoryCount = 3;

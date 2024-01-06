@@ -8,37 +8,37 @@ using UnityEngine;
 
 internal static class Puca
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Puca", "Puca");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "puca", "bunny", "lagomorph", "digger" },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Shovel",
-                [WeaponNames.Axe]         = "Shovel",
-                [WeaponNames.SimpleBow]   = "Slingshot",
-                [WeaponNames.CompoundBow] = "Heavy Slingshot"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 7,
-            StomachSize = 14,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ArtfulDodge,
-                Traits.Pounce,
-            },
-            RaceDescription = "A race of burrowers very true to their heritage, the Puca trust their shovels and feet above advanced technology. Many a foe has found themselves swallowed up by their deep dark tunnels.",
-        });
         
         builder.Setup(output =>
         {
+            output.Names("Puca", "Puca");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "puca", "bunny", "lagomorph", "digger" },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Shovel",
+                    [WeaponNames.Axe]         = "Shovel",
+                    [WeaponNames.SimpleBow]   = "Slingshot",
+                    [WeaponNames.CompoundBow] = "Heavy Slingshot"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 7,
+                StomachSize = 14,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ArtfulDodge,
+                    Traits.Pounce,
+                },
+                RaceDescription = "A race of burrowers very true to their heritage, the Puca trust their shovels and feet above advanced technology. Many a foe has found themselves swallowed up by their deep dark tunnels.",
+            });
             IClothing vest = Vest.VestInstance;
             IClothing loinCloth = LoinCloth.LoinClothInstance;
             IClothing shorts = Shorts.ShortsInstance;

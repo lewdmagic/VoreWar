@@ -7,7 +7,7 @@ using UnityEngine;
 
 internal static class EquinesLua
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
     {
         // builder.RunBefore((input, output) =>
         // {

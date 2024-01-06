@@ -7,58 +7,58 @@ using UnityEngine;
 
 internal static class Vagrants
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<VargantParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<VargantParameters>, builder =>
     {
-        builder.Names("Vagrant", "Vagrants");
-        builder.BonesInfo(null);
-        builder.FlavorText(new FlavorText(
-            new Texts { "tentacled", "rubbery", "alien" },
-            new Texts { "alien", "stretchy", "translucent" },
-            new Texts { "vagrant", "jellyfish", "medusa" },
-            "Stinger"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 8,
-            StomachSize = 13,
-            HasTail = false,
-            FavoredStat = Stat.Agility,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.25f,
-            PowerAdjustment = 1f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(10, 26),
-                Dexterity = new RaceStats.StatRange(6, 14),
-                Endurance = new RaceStats.StatRange(12, 20),
-                Mind = new RaceStats.StatRange(10, 22),
-                Will = new RaceStats.StatRange(4, 12),
-                Agility = new RaceStats.StatRange(8, 20),
-                Voracity = new RaceStats.StatRange(10, 18),
-                Stomach = new RaceStats.StatRange(20, 30),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.DoubleAttack,
-                Traits.Paralyzer
-            },
-            RaceDescription = "It is a matter of argument whether these beings emerged from the ocean or fell from the skies, or are even a mix of both, but they are among the first and oldest native threats the people who settled this realm faced. Their many tentacles paralyze those they touch and their rubbery bodies easily expand to engulf their prey.",
-        });
-        builder.IndividualNames(new List<string>
-        {
-            "Tenty",
-            "Stingy",
-            "Rubby",
-            "Gulfy",
-            "Weedy",
-            "Squishy",
-            "Waddle",
-            "Waddly",
-            "Domy",
-        });
         
         builder.Setup(output =>
         {
+            output.Names("Vagrant", "Vagrants");
+            output.BonesInfo(null);
+            output.FlavorText(new FlavorText(
+                new Texts { "tentacled", "rubbery", "alien" },
+                new Texts { "alien", "stretchy", "translucent" },
+                new Texts { "vagrant", "jellyfish", "medusa" },
+                "Stinger"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 8,
+                StomachSize = 13,
+                HasTail = false,
+                FavoredStat = Stat.Agility,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.25f,
+                PowerAdjustment = 1f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(10, 26),
+                    Dexterity = new RaceStats.StatRange(6, 14),
+                    Endurance = new RaceStats.StatRange(12, 20),
+                    Mind = new RaceStats.StatRange(10, 22),
+                    Will = new RaceStats.StatRange(4, 12),
+                    Agility = new RaceStats.StatRange(8, 20),
+                    Voracity = new RaceStats.StatRange(10, 18),
+                    Stomach = new RaceStats.StatRange(20, 30),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.DoubleAttack,
+                    Traits.Paralyzer
+                },
+                RaceDescription = "It is a matter of argument whether these beings emerged from the ocean or fell from the skies, or are even a mix of both, but they are among the first and oldest native threats the people who settled this realm faced. Their many tentacles paralyze those they touch and their rubbery bodies easily expand to engulf their prey.",
+            });
+            output.IndividualNames(new List<string>
+            {
+                "Tenty",
+                "Stingy",
+                "Rubby",
+                "Gulfy",
+                "Weedy",
+                "Squishy",
+                "Waddle",
+                "Waddly",
+                "Domy",
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SkinColors = 3;
         });

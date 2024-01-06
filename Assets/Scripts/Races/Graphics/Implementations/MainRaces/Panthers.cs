@@ -10,10 +10,12 @@ internal static class Panthers
 {
     internal static List<IClothingDataSimple> AllClothing;
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
     {
-        builder.Names("Panther", "Panthers");
-        builder.FlavorText(new FlavorText(
+        builder.Setup(output =>
+        {
+        output.Names("Panther", "Panthers");
+        output.FlavorText(new FlavorText(
             new Texts {  },
             new Texts {  },
             new Texts {  },
@@ -25,7 +27,7 @@ internal static class Panthers
                 [WeaponNames.CompoundBow] = "Onzil"
             }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 10,
             StomachSize = 15,
@@ -38,7 +40,7 @@ internal static class Panthers
             },
             RaceDescription = "Long before \"elder races\" walked among the stars, the Panthers thrived. Long before first words of power were uttered, they have carved their homes into the lightning-struck bark, feeding off its power. And long after the last bastion of so-called civilization will fall to onslaught of wings, claws and fangs, they will thrive in the darkness, pouncing on unsuspecting prey.",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.EyeType, "Face Type");
             buttons.SetText(ButtonType.ClothingColor, "Innerwear Color");
@@ -56,7 +58,7 @@ internal static class Panthers
             buttons.SetText(ButtonType.ClothingExtraType4, "Gloves");
             buttons.SetText(ButtonType.ClothingExtraType5, "Legs");
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "Panthera",
             "Wakana",
@@ -72,8 +74,6 @@ internal static class Panthers
             "Endless Feast",
             "Gurgling Tents",
         });
-        builder.Setup(output =>
-        {
             output.BreastSizes = () => 8;
             output.DickSizes = () => 4;
             output.EyeTypes = 2;

@@ -2,51 +2,51 @@
 
 internal static class Dragon
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<DragonParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<DragonParameters>, builder =>
     {
-        builder.Names("Dragon", "Dragons");
-        builder.BonesInfo((unit) => new List<BoneInfo>()
-        {
-            new BoneInfo(BoneTypes.WyvernBonesWithoutHead, unit.Name)
-        });
-        builder.FlavorText(new FlavorText(
-            new Texts { "formerly apex predator", "delicious dragon", "ex-predator" },
-            new Texts { "apex predator", "hungry dragon", "voracious dragon" },
-            new Texts { "dragon", "draconian", {"dragoness", Gender.Female}, {"drakon", Gender.Male} }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 100,
-            StomachSize = 80,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
-            ExpMultiplier = 6f,
-            PowerAdjustment = 12f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(24, 32),
-                Dexterity = new RaceStats.StatRange(10, 18),
-                Endurance = new RaceStats.StatRange(30, 42),
-                Mind = new RaceStats.StatRange(24, 32),
-                Will = new RaceStats.StatRange(12, 24),
-                Agility = new RaceStats.StatRange(16, 22),
-                Voracity = new RaceStats.StatRange(20, 28),
-                Stomach = new RaceStats.StatRange(12, 24),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-                Traits.Maul,
-                Traits.Greedy,
-                Traits.Cruel,
-                Traits.AdeptLearner,
-
-            },
-            RaceDescription = ""
-        });
         builder.Setup(output =>
         {
+            output.Names("Dragon", "Dragons");
+            output.BonesInfo((unit) => new List<BoneInfo>()
+            {
+                new BoneInfo(BoneTypes.WyvernBonesWithoutHead, unit.Name)
+            });
+            output.FlavorText(new FlavorText(
+                new Texts { "formerly apex predator", "delicious dragon", "ex-predator" },
+                new Texts { "apex predator", "hungry dragon", "voracious dragon" },
+                new Texts { "dragon", "draconian", {"dragoness", Gender.Female}, {"drakon", Gender.Male} }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 100,
+                StomachSize = 80,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
+                ExpMultiplier = 6f,
+                PowerAdjustment = 12f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(24, 32),
+                    Dexterity = new RaceStats.StatRange(10, 18),
+                    Endurance = new RaceStats.StatRange(30, 42),
+                    Mind = new RaceStats.StatRange(24, 32),
+                    Will = new RaceStats.StatRange(12, 24),
+                    Agility = new RaceStats.StatRange(16, 22),
+                    Voracity = new RaceStats.StatRange(20, 28),
+                    Stomach = new RaceStats.StatRange(12, 24),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                    Traits.Maul,
+                    Traits.Greedy,
+                    Traits.Cruel,
+                    Traits.AdeptLearner,
+
+                },
+                RaceDescription = ""
+            });
             output.GentleAnimation = true;
             output.SpecialAccessoryCount = 3;
 

@@ -8,70 +8,70 @@ using UnityEngine;
 
 internal static class Demifrogs
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("DemiFrog", "DemiFrogs");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "demi-frog", "amphibian", "frog" }, //new, many thanks to Flame_Valxsarion
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "WeaponNames.Mace",
-                [WeaponNames.Axe]         = "WeaponNames.Axe",
-                [WeaponNames.SimpleBow]   = "Slingshot",
-                [WeaponNames.CompoundBow] = "Feathered Bow",
-                [WeaponNames.Claw]        = "Fist"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 14,
-            StomachSize = 18,
-            HasTail = false,
-            FavoredStat = Stat.Voracity,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Pounce,
-                Traits.HeavyPounce,
-                Traits.RangedVore,
-                Traits.Clumsy
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Primary Pattern Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Secondary Pattern Type");
-            buttons.SetText(ButtonType.BodyAccentTypes2, "Extra Colors for Females");
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Secondary Pattern Colors");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Frogpolis",
-            "Buzzing Bog",
-            "Lily Pond",
-            "Evermire",
-            "Green Lake",
-            "Toadburg",
-            "Muddy Pool",
-            "Flycatcher Swamp",
-            "Tadpole City",
-            "Misty Tarn",
-            "Froppyville",
-            "Willow Wetlands",
-            "Loch Bufo",
-            "Murky Puddle",
-            "Soggy Marsh",
-            "Backwater Borough",
-            "Sawgrass Slough"
-        });
         IClothing<IOverSizeParameters> LeaderClothes = DemifrogLeader.DemifrogLeaderInstance;
         IClothing Rags = DemifrogRags.DemifrogRagsInstance;
 
 
         builder.Setup(output =>
         {
+            output.Names("DemiFrog", "DemiFrogs");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "demi-frog", "amphibian", "frog" }, //new, many thanks to Flame_Valxsarion
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "WeaponNames.Mace",
+                    [WeaponNames.Axe]         = "WeaponNames.Axe",
+                    [WeaponNames.SimpleBow]   = "Slingshot",
+                    [WeaponNames.CompoundBow] = "Feathered Bow",
+                    [WeaponNames.Claw]        = "Fist"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 14,
+                StomachSize = 18,
+                HasTail = false,
+                FavoredStat = Stat.Voracity,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Pounce,
+                    Traits.HeavyPounce,
+                    Traits.RangedVore,
+                    Traits.Clumsy
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Primary Pattern Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Secondary Pattern Type");
+                buttons.SetText(ButtonType.BodyAccentTypes2, "Extra Colors for Females");
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Secondary Pattern Colors");
+            });
+            output.TownNames(new List<string>
+            {
+                "Frogpolis",
+                "Buzzing Bog",
+                "Lily Pond",
+                "Evermire",
+                "Green Lake",
+                "Toadburg",
+                "Muddy Pool",
+                "Flycatcher Swamp",
+                "Tadpole City",
+                "Misty Tarn",
+                "Froppyville",
+                "Willow Wetlands",
+                "Loch Bufo",
+                "Murky Puddle",
+                "Soggy Marsh",
+                "Backwater Borough",
+                "Sawgrass Slough"
+            });
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
 

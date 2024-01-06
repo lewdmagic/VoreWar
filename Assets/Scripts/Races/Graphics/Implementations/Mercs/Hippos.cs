@@ -8,60 +8,60 @@ using UnityEngine;
 
 internal static class Hippos
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Hippo", "Hippos");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "hippo", "hippopotamus", "pachyderm" },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Tribal Knife",
-                [WeaponNames.Axe]         = "WeaponNames.Axe",
-                [WeaponNames.SimpleBow]   = "Simple Bow",
-                [WeaponNames.CompoundBow] = "Compound Bow",
-                [WeaponNames.Claw]        = "Fist"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 20,
-            StomachSize = 22,
-            HasTail = true,
-            FavoredStat = Stat.Endurance,
-            PowerAdjustment = 1.3f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(12, 20),
-                Dexterity = new RaceStats.StatRange(6, 14),
-                Endurance = new RaceStats.StatRange(18, 28),
-                Mind = new RaceStats.StatRange(6, 12),
-                Will = new RaceStats.StatRange(8, 16),
-                Agility = new RaceStats.StatRange(8, 14),
-                Voracity = new RaceStats.StatRange(12, 20),
-                Stomach = new RaceStats.StatRange(12, 18),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.StrongMelee,
-                Traits.HardSkin,
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Accent Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
-            buttons.SetText(ButtonType.HatType, "Headwear Type");
-            buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Left Arm Pattern");
-            buttons.SetText(ButtonType.BodyAccentTypes2, "Right Arm Pattern");
-            buttons.SetText(ButtonType.BodyAccentTypes3, "Head Pattern");
-            buttons.SetText(ButtonType.BodyAccentTypes4, "Leg Pattern");
-        });
         builder.Setup(output =>
         {
+            output.Names("Hippo", "Hippos");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "hippo", "hippopotamus", "pachyderm" },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Tribal Knife",
+                    [WeaponNames.Axe]         = "WeaponNames.Axe",
+                    [WeaponNames.SimpleBow]   = "Simple Bow",
+                    [WeaponNames.CompoundBow] = "Compound Bow",
+                    [WeaponNames.Claw]        = "Fist"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 20,
+                StomachSize = 22,
+                HasTail = true,
+                FavoredStat = Stat.Endurance,
+                PowerAdjustment = 1.3f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(12, 20),
+                    Dexterity = new RaceStats.StatRange(6, 14),
+                    Endurance = new RaceStats.StatRange(18, 28),
+                    Mind = new RaceStats.StatRange(6, 12),
+                    Will = new RaceStats.StatRange(8, 16),
+                    Agility = new RaceStats.StatRange(8, 14),
+                    Voracity = new RaceStats.StatRange(12, 20),
+                    Stomach = new RaceStats.StatRange(12, 18),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.StrongMelee,
+                    Traits.HardSkin,
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Accent Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
+                buttons.SetText(ButtonType.HatType, "Headwear Type");
+                buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Left Arm Pattern");
+                buttons.SetText(ButtonType.BodyAccentTypes2, "Right Arm Pattern");
+                buttons.SetText(ButtonType.BodyAccentTypes3, "Head Pattern");
+                buttons.SetText(ButtonType.BodyAccentTypes4, "Leg Pattern");
+            });
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
 

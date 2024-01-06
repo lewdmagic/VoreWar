@@ -6,45 +6,8 @@ using System.Collections.Generic;
 
 internal static class Harvesters
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Harvester", "Harvesters");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "alien", "harvester" },
-            "Scythes"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 18,
-            StomachSize = 30,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.5f,
-            PowerAdjustment = 2.2f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(12, 22),
-                Dexterity = new RaceStats.StatRange(6, 14),
-                Endurance = new RaceStats.StatRange(18, 24),
-                Mind = new RaceStats.StatRange(6, 10),
-                Will = new RaceStats.StatRange(10, 22),
-                Agility = new RaceStats.StatRange(18, 28),
-                Voracity = new RaceStats.StatRange(18, 24),
-                Stomach = new RaceStats.StatRange(10, 14),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.SlowDigestion,
-                Traits.Intimidating,
-                Traits.BornToMove,
-                Traits.NimbleClimber,
-            },
-            RaceDescription = "A lifeform from far beyond the stars, the Harvesters saw the empty lands fill and felt rising hunger. How they made their way here is unknown, but their mission is readily understood. They are here to feed until the land is empty once more.",
-
-        });
         RaceFrameList frameListEyes = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .2f, .3f, .2f, .2f });
         RaceFrameList frameListArms = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
         RaceFrameList frameListDick = new RaceFrameList(new int[6] { 0, 1, 0, 1, 0, 1 }, new float[6] { .2f, .2f, .2f, .2f, .3f, .4f });
@@ -53,6 +16,43 @@ internal static class Harvesters
 
         builder.Setup(output =>
         {
+            output.Names("Harvester", "Harvesters");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "alien", "harvester" },
+                "Scythes"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 18,
+                StomachSize = 30,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.5f,
+                PowerAdjustment = 2.2f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(12, 22),
+                    Dexterity = new RaceStats.StatRange(6, 14),
+                    Endurance = new RaceStats.StatRange(18, 24),
+                    Mind = new RaceStats.StatRange(6, 10),
+                    Will = new RaceStats.StatRange(10, 22),
+                    Agility = new RaceStats.StatRange(18, 28),
+                    Voracity = new RaceStats.StatRange(18, 24),
+                    Stomach = new RaceStats.StatRange(10, 14),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.SlowDigestion,
+                    Traits.Intimidating,
+                    Traits.BornToMove,
+                    Traits.NimbleClimber,
+                },
+                RaceDescription = "A lifeform from far beyond the stars, the Harvesters saw the empty lands fill and felt rising hunger. How they made their way here is unknown, but their mission is readily understood. They are here to feed until the land is empty once more.",
+
+            });
             output.DickSizes = () => 1;
             output.BreastSizes = () => 1;
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.Harvester);

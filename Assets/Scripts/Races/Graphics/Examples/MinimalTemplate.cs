@@ -2,7 +2,7 @@
 
 internal static class MinimalTemplate
 {
-    internal static IRaceData MyRace = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static IRaceData MyRace = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
         builder.Setup(output =>
         {

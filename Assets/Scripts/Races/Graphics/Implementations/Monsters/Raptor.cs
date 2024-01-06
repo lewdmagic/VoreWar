@@ -6,43 +6,43 @@ using System.Collections.Generic;
 
 internal static class Raptor
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Raptor", "Raptors");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 5,
-            StomachSize = 12,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore },
-            ExpMultiplier = .85f,
-            PowerAdjustment = .75f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(3, 7),
-                Dexterity = new RaceStats.StatRange(3, 5),
-                Endurance = new RaceStats.StatRange(6, 10),
-                Mind = new RaceStats.StatRange(5, 8),
-                Will = new RaceStats.StatRange(5, 8),
-                Agility = new RaceStats.StatRange(8, 16),
-                Voracity = new RaceStats.StatRange(6, 14),
-                Stomach = new RaceStats.StatRange(8, 20),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ArtfulDodge,
-                Traits.Pounce,
-                Traits.SlowDigestion
-            },
-            RaceDescription = "Bigger cousins of the Compy, these rarer creatures often appear in smaller numbers among their lesser kin. While still relatively harmless compared to most monsters, the Raptors are at the edge of being a real danger to unprepared travelers, not least because they are at times known to be clever.",
-
-        });
         RaceFrameList frameListTail = new RaceFrameList(new int[24] { 0, 4, 5, 6, 5, 4, 0, 3, 2, 1, 2, 3, 0, 4, 5, 6, 5, 4, 0, 3, 2, 1, 2, 3 }, new float[24] { 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f, 0.8f, 0.5f, 0.5f });
 
 
         builder.Setup(output =>
         {
+            output.Names("Raptor", "Raptors");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 5,
+                StomachSize = 12,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore },
+                ExpMultiplier = .85f,
+                PowerAdjustment = .75f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(3, 7),
+                    Dexterity = new RaceStats.StatRange(3, 5),
+                    Endurance = new RaceStats.StatRange(6, 10),
+                    Mind = new RaceStats.StatRange(5, 8),
+                    Will = new RaceStats.StatRange(5, 8),
+                    Agility = new RaceStats.StatRange(8, 16),
+                    Voracity = new RaceStats.StatRange(6, 14),
+                    Stomach = new RaceStats.StatRange(8, 20),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ArtfulDodge,
+                    Traits.Pounce,
+                    Traits.SlowDigestion
+                },
+                RaceDescription = "Bigger cousins of the Compy, these rarer creatures often appear in smaller numbers among their lesser kin. While still relatively harmless compared to most monsters, the Raptors are at the edge of being a real danger to unprepared travelers, not least because they are at times known to be clever.",
+
+            });
             output.GentleAnimation = true;
             output.CanBeGender = new List<Gender> { Gender.Male };
             output.SkinColors = ColorMap.LizardColorCount;

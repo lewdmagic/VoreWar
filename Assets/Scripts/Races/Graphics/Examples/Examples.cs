@@ -33,7 +33,7 @@ internal static class Examples
     // builder => {} labmda syntax.
     // Inside the builder block, we define the behavior of the race renderer by using 
     // builder.Setup, builder.RunBefore, builder.RenderSingle, builder.RandomCustom
-    internal static IRaceData MyRace = RaceBuilder.Create<FacingFrontParameters>(Defaults.Blank<FacingFrontParameters>, builder =>
+    internal static IRaceData MyRace = RaceBuilder.CreateV2<FacingFrontParameters>(Defaults.Blank<FacingFrontParameters>, builder =>
     {
         // Setup is only ran once. Think of it as a constructor.
         // It's not required, but it's almost always needed

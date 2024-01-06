@@ -7,42 +7,42 @@ using System.Collections.Generic;
 internal static class Earthworms
 {
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<EarthWormParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<EarthWormParameters>, builder =>
     {
-        builder.Names("Earthworm", "Earthworms");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 12,
-            StomachSize = 16,
-            HasTail = false,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.0f,
-            PowerAdjustment = 1.0f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 12),
-                Dexterity = new RaceStats.StatRange(8, 12),
-                Endurance = new RaceStats.StatRange(10, 16),
-                Mind = new RaceStats.StatRange(6, 10),
-                Will = new RaceStats.StatRange(6, 10),
-                Agility = new RaceStats.StatRange(10, 16),
-                Voracity = new RaceStats.StatRange(20, 28),
-                Stomach = new RaceStats.StatRange(16, 24),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.EasyToVore,
-                Traits.SteadyStomach,
-                Traits.AllOutFirstStrike
-            },
-            RaceDescription = ""
-        });
         RaceFrameList frameListHeadIdle = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .5f, .5f, 1.5f, .5f, .5f });
 
 
         builder.Setup(output =>
         {
+            output.Names("Earthworm", "Earthworms");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 12,
+                StomachSize = 16,
+                HasTail = false,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.0f,
+                PowerAdjustment = 1.0f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 12),
+                    Dexterity = new RaceStats.StatRange(8, 12),
+                    Endurance = new RaceStats.StatRange(10, 16),
+                    Mind = new RaceStats.StatRange(6, 10),
+                    Will = new RaceStats.StatRange(6, 10),
+                    Agility = new RaceStats.StatRange(10, 16),
+                    Voracity = new RaceStats.StatRange(20, 28),
+                    Stomach = new RaceStats.StatRange(16, 24),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.EasyToVore,
+                    Traits.SteadyStomach,
+                    Traits.AllOutFirstStrike
+                },
+                RaceDescription = ""
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.ClothingColors = 0;
             output.GentleAnimation = true;

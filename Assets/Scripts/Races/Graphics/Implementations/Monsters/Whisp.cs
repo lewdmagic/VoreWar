@@ -6,30 +6,30 @@ using System.Collections.Generic;
 
 internal static class Whisp
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Whisp", "Whisps");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 7,
-            StomachSize = 10,
-            HasTail = false,
-            FavoredStat = Stat.Mind,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.CockVore, VoreType.Anal },
-            ExpMultiplier = 1.1f,
-            PowerAdjustment = 1.2f,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Whispers,
-                Traits.ForceFeeder,
-                Traits.ForcedMetamorphosis,
-                Traits.GreaterChangeling,
-            },
-            SpawnRace = Race.Youko,
-            RaceDescription = ""
-        });
         builder.Setup(output =>
         {
+            output.Names("Whisp", "Whisps");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 7,
+                StomachSize = 10,
+                HasTail = false,
+                FavoredStat = Stat.Mind,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.CockVore, VoreType.Anal },
+                ExpMultiplier = 1.1f,
+                PowerAdjustment = 1.2f,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Whispers,
+                    Traits.ForceFeeder,
+                    Traits.ForcedMetamorphosis,
+                    Traits.GreaterChangeling,
+                },
+                SpawnRace = Race.Youko,
+                RaceDescription = ""
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin);
         });

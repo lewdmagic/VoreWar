@@ -6,47 +6,47 @@ using System.Collections.Generic;
 
 internal static class EasternDragon
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Eastern Dragon", "Eastern Dragons");
-        builder.FlavorText(new FlavorText(
-            new Texts { "tasty noodle", "noodle derg", "spaghetti-like", "easily-slurpable" },
-            new Texts {  }, // Missing in original
-            new Texts { "oriental dragon", "serpentine dragon", {"eastern dragoness", Gender.Female}, {"eastern dragon", Gender.Male} }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 20,
-            StomachSize = 20,
-            HasTail = true,
-            FavoredStat = Stat.Mind,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore, VoreType.Unbirth },
-            ExpMultiplier = 1.6f,
-            PowerAdjustment = 1.9f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(12, 22),
-                Dexterity = new RaceStats.StatRange(8, 16),
-                Endurance = new RaceStats.StatRange(12, 18),
-                Mind = new RaceStats.StatRange(14, 30),
-                Will = new RaceStats.StatRange(8, 18),
-                Agility = new RaceStats.StatRange(14, 28),
-                Voracity = new RaceStats.StatRange(12, 22),
-                Stomach = new RaceStats.StatRange(12, 22),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-                Traits.Ravenous
-            },
-            RaceDescription = "A variety of dragons especially attuned to magic, the Eastern Dragons, or Lung Dragons as they are also known as, are able to fly without wings. Reminiscent of snakes, the Eastern Dragons are readily able to prove that the resemblance is more than skin deep, devouring large prey with ease.",
-
-        });
         RaceFrameList frameListEyes = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .2f, .3f, .2f, .2f });
         RaceFrameList frameListTongue = new RaceFrameList(new int[8] { 0, 1, 2, 3, 4, 5, 6, 7 }, new float[8] { 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f });
 
         builder.Setup(output =>
         {
+            output.Names("Eastern Dragon", "Eastern Dragons");
+            output.FlavorText(new FlavorText(
+                new Texts { "tasty noodle", "noodle derg", "spaghetti-like", "easily-slurpable" },
+                new Texts {  }, // Missing in original
+                new Texts { "oriental dragon", "serpentine dragon", {"eastern dragoness", Gender.Female}, {"eastern dragon", Gender.Male} }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 20,
+                StomachSize = 20,
+                HasTail = true,
+                FavoredStat = Stat.Mind,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore, VoreType.Unbirth },
+                ExpMultiplier = 1.6f,
+                PowerAdjustment = 1.9f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(12, 22),
+                    Dexterity = new RaceStats.StatRange(8, 16),
+                    Endurance = new RaceStats.StatRange(12, 18),
+                    Mind = new RaceStats.StatRange(14, 30),
+                    Will = new RaceStats.StatRange(8, 18),
+                    Agility = new RaceStats.StatRange(14, 28),
+                    Voracity = new RaceStats.StatRange(12, 22),
+                    Stomach = new RaceStats.StatRange(12, 22),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                    Traits.Ravenous
+                },
+                RaceDescription = "A variety of dragons especially attuned to magic, the Eastern Dragons, or Lung Dragons as they are also known as, are able to fly without wings. Reminiscent of snakes, the Eastern Dragons are readily able to prove that the resemblance is more than skin deep, devouring large prey with ease.",
+
+            });
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.EasternDragon); // Main body, legs, head, tail upper
             output.GentleAnimation = true;
             output.WeightGainDisabled = true;

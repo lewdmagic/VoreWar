@@ -8,45 +8,46 @@ using UnityEngine;
 
 internal static class Equines
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
     {
-        builder.Names("Equine", "Equines");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "equine", "bronco", {"mare", Gender.Female}, {"stallion", Gender.Male} }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 16,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Charge,
-                Traits.StrongMelee
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.ClothingExtraType1, "Overtop");
-            buttons.SetText(ButtonType.ClothingExtraType2, "Overbottom");
-            buttons.SetText(ButtonType.BodyAccentTypes3, "Skin Pattern");
-            buttons.SetText(ButtonType.BodyAccentTypes4, "Head Pattern");
-            buttons.SetText(ButtonType.BodyAccentTypes5, "Torso Color");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Cataphracta",
-            "Equus",
-            "The Ranch",
-            "Haciendo",
-            "Alfarsan"
-        });
         builder.Setup(output =>
         {
+            output.Names("Equine", "Equines");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "equine", "bronco", {"mare", Gender.Female}, {"stallion", Gender.Male} }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 16,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Charge,
+                    Traits.StrongMelee
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.ClothingExtraType1, "Overtop");
+                buttons.SetText(ButtonType.ClothingExtraType2, "Overbottom");
+                buttons.SetText(ButtonType.BodyAccentTypes3, "Skin Pattern");
+                buttons.SetText(ButtonType.BodyAccentTypes4, "Head Pattern");
+                buttons.SetText(ButtonType.BodyAccentTypes5, "Torso Color");
+            });
+            output.TownNames(new List<string>
+            {
+                "Cataphracta",
+                "Equus",
+                "The Ranch",
+                "Haciendo",
+                "Alfarsan"
+            });
+            
             output.DickSizes = () => 3;
             output.BreastSizes = () => 7;
 

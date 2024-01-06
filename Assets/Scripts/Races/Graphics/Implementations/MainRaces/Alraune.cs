@@ -9,58 +9,9 @@ using UnityEngine;
 
 internal static class Alraune
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Alraune", "Alraune");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "plant", "demi-plant", "flowery being" },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Vine Whip",
-                [WeaponNames.Axe]         = "Stem Blade",
-                [WeaponNames.SimpleBow]   = "Unbloomed Corolla",
-                [WeaponNames.CompoundBow] = "Blooming Flower"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 14,
-            StomachSize = 16,
-            HasTail = false,
-            FavoredStat = Stat.Endurance,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Tempered,
-                Traits.SlowAbsorption,
-                Traits.PollenProjector
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Hair Accessory");
-            buttons.SetText(ButtonType.ExtraColor1, "Plant Colors");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Inner Petals");
-            buttons.SetText(ButtonType.BodyAccentTypes2, "Outer Petals");
-            buttons.SetText(ButtonType.BodyAccentTypes3, "Plant Base");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Yggdrasill",
-            "Evergarden",
-            "Rosewood",
-            "Apple Grove",
-            "Gracefields",
-            "Edenia",
-            "Ivydale",
-            "Magnolia",
-            "Cedarville",
-            "Fiore",
-            "Trees of Valinor",
-            "Green Haven",
-        });
+
         float yOffset = 10 * .625f;
         IClothing leaderClothes = AlrauneLeader.AlrauneLeaderInstance;
         IClothing rags = AlrauneRags.AlrauneRagsInstance;
@@ -133,6 +84,57 @@ internal static class Alraune
 
         builder.Setup(output =>
         {
+            output.Names("Alraune", "Alraune");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "plant", "demi-plant", "flowery being" },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Vine Whip",
+                    [WeaponNames.Axe]         = "Stem Blade",
+                    [WeaponNames.SimpleBow]   = "Unbloomed Corolla",
+                    [WeaponNames.CompoundBow] = "Blooming Flower"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 14,
+                StomachSize = 16,
+                HasTail = false,
+                FavoredStat = Stat.Endurance,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Tempered,
+                    Traits.SlowAbsorption,
+                    Traits.PollenProjector
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Hair Accessory");
+                buttons.SetText(ButtonType.ExtraColor1, "Plant Colors");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Inner Petals");
+                buttons.SetText(ButtonType.BodyAccentTypes2, "Outer Petals");
+                buttons.SetText(ButtonType.BodyAccentTypes3, "Plant Base");
+            });
+            output.TownNames(new List<string>
+            {
+                "Yggdrasill",
+                "Evergarden",
+                "Rosewood",
+                "Apple Grove",
+                "Gracefields",
+                "Edenia",
+                "Ivydale",
+                "Magnolia",
+                "Cedarville",
+                "Fiore",
+                "Trees of Valinor",
+                "Green Haven",
+            });
+            
             output.BodySizes = 4;
             output.HairStyles = 12;
             output.SpecialAccessoryCount = 16;

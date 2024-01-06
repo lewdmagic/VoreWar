@@ -8,61 +8,61 @@ using UnityEngine;
 
 internal static class Driders
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Drider", "Driders");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts {  },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Dagger",
-                [WeaponNames.Axe]         = "Short Sword",
-                [WeaponNames.SimpleBow]   = "Pistol Crossbow",
-                [WeaponNames.CompoundBow] = "Crossbow"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 20,
-            StomachSize = 20,
-            HasTail = false,
-            FavoredStat = Stat.Strength,
-            RacialTraits = new List<Traits>()
-            {
-                //Traits.StrongMelee,
-                Traits.NimbleClimber,
-                Traits.Webber,
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Spider Half Color");
-            buttons.SetText(ButtonType.ExtraColor1, "Spider Accent Color");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Arachnos",
-            "Weaverville",
-            "Silkroad",
-            "Tarantulos",
-            "Shelob's Lair",
-            "Araneae",
-            "Webbington",
-            "Dark Caves",
-            "Flytrap",
-            "Net town",
-            "Aragog Forest",
-            "Spiderverse",
-        });
         float yOffset = 30 * .625f;
         IClothing leaderClothes = DriderLeader.DriderLeaderInstance;
 
 
         builder.Setup(output =>
         {
+            output.Names("Drider", "Driders");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts {  },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Dagger",
+                    [WeaponNames.Axe]         = "Short Sword",
+                    [WeaponNames.SimpleBow]   = "Pistol Crossbow",
+                    [WeaponNames.CompoundBow] = "Crossbow"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 20,
+                StomachSize = 20,
+                HasTail = false,
+                FavoredStat = Stat.Strength,
+                RacialTraits = new List<Traits>()
+                {
+                    //Traits.StrongMelee,
+                    Traits.NimbleClimber,
+                    Traits.Webber,
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Spider Half Color");
+                buttons.SetText(ButtonType.ExtraColor1, "Spider Accent Color");
+            });
+            output.TownNames(new List<string>
+            {
+                "Arachnos",
+                "Weaverville",
+                "Silkroad",
+                "Tarantulos",
+                "Shelob's Lair",
+                "Araneae",
+                "Webbington",
+                "Dark Caves",
+                "Flytrap",
+                "Net town",
+                "Aragog Forest",
+                "Spiderverse",
+            });
             output.BodySizes = 5;
             output.EyeTypes = 8;
             output.HairStyles = 10;

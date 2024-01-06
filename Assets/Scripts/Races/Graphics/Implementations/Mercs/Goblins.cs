@@ -15,10 +15,23 @@ internal static class Goblins
 {
     private static List<IClothingDataSimple> _allClothing;
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
     {
-        builder.Names("Goblin", "Goblins");
-        builder.BonesInfo((unit) => 
+        // Havent been implemented
+        // Sprite[] SpritesGloves = State.GameManager.SpriteDictionary.Gobbglove;
+        // Sprite[] SpritesLegs = State.GameManager.SpriteDictionary.Gobleggo;
+        // Sprite[] SpritesUBottoms = State.GameManager.SpriteDictionary.Gobbunderbottoms;
+        // Sprite[] SpritesUTops = State.GameManager.SpriteDictionary.Gobundertops;
+        // Sprite[] SpritesOBottoms = State.GameManager.SpriteDictionary.Gobboverbottoms;
+        // Sprite[] SpritesOTops = State.GameManager.SpriteDictionary.Gobbovertops;
+        // Sprite[] SpritesOnePieces = State.GameManager.SpriteDictionary.Gobbunderonepieces;
+        // Sprite[] SpritesOverOnePieces = State.GameManager.SpriteDictionary.Gobboveronepieces;
+
+
+        builder.Setup(output =>
+        {
+        output.Names("Goblin", "Goblins");
+        output.BonesInfo((unit) => 
         {
             if (unit.Furry)
             {
@@ -36,7 +49,7 @@ internal static class Goblins
                 };
             }
         });
-        builder.FlavorText(new FlavorText(
+        output.FlavorText(new FlavorText(
             new Texts { "diminutive", "cursing", "short" },
             new Texts { "stronger than looks", "knee kicking", "smart" },
             new Texts { "goblin", "goblinoid", "humanoid" },
@@ -49,7 +62,7 @@ internal static class Goblins
                 [WeaponNames.Claw]        = "Fist",
             }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 7,
             StomachSize = 14,
@@ -75,7 +88,7 @@ internal static class Goblins
             },
             RaceDescription = "Small and physically unintimidating, the Goblins came from a realm far ahead in technology. Were it not for the lack of materials to replicate their greatest inventions and the small size of their weapons, the Goblins might have claimed the entire land. As it is, they learned to be good at dodging and escaping the maws and guts of predators, through one end or another.",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.BodyAccessoryColor, "Body Accent Color");
             buttons.SetText(ButtonType.ClothingType, "Under Tops");
@@ -88,19 +101,6 @@ internal static class Goblins
             buttons.SetText(ButtonType.BodyAccentTypes1, "Ear Type");
             buttons.SetText(ButtonType.BodyAccentTypes2, "Eyebrow Type");
         });
-        // Havent been implemented
-        // Sprite[] SpritesGloves = State.GameManager.SpriteDictionary.Gobbglove;
-        // Sprite[] SpritesLegs = State.GameManager.SpriteDictionary.Gobleggo;
-        // Sprite[] SpritesUBottoms = State.GameManager.SpriteDictionary.Gobbunderbottoms;
-        // Sprite[] SpritesUTops = State.GameManager.SpriteDictionary.Gobundertops;
-        // Sprite[] SpritesOBottoms = State.GameManager.SpriteDictionary.Gobboverbottoms;
-        // Sprite[] SpritesOTops = State.GameManager.SpriteDictionary.Gobbovertops;
-        // Sprite[] SpritesOnePieces = State.GameManager.SpriteDictionary.Gobbunderonepieces;
-        // Sprite[] SpritesOverOnePieces = State.GameManager.SpriteDictionary.Gobboveronepieces;
-
-
-        builder.Setup(output =>
-        {
             output.BreastSizes = () => 7;
             output.DickSizes = () => 4;
 

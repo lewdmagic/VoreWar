@@ -28,44 +28,44 @@ internal static class Kangaroos
     //Open mouth. Will occlude part of the expression, some of the Fatness patch, some of Leader's necklace and a sliver of the Body Armor, so has to go after those.
 
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Kangaroo", "Kangaroos");
-        builder.WallType(WallType.WoodenPallisade);        
-        builder.BonesInfo((unit) => new List<BoneInfo>()
-        {
-            new BoneInfo(BoneTypes.Kangaroo, unit.Name)
-        });
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.BornToMove,
-                Traits.Resourceful,
-            },
-            RaceDescription = "Their old home turning ever drier and hotter, the Kangaroo tribes did not hesitate when mysterious portals opened and granted them passage to greener lands. Nomadic by nature, the Kangaroos are very adept at carrying plenty of gear with them and aren't unused to traveling with a full belly either.",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.HairStyle, "Ear Type");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Roostadt",
-            "Pouchbottom",
-            "Over'under",
-            "Red-dust",
-            "Sidney",
-            "Marsupia",
-            "Ayer",
-            "Guardia",
-        });
         builder.Setup(output =>
         {
+            output.Names("Kangaroo", "Kangaroos");
+            output.WallType(WallType.WoodenPallisade);        
+            output.BonesInfo((unit) => new List<BoneInfo>()
+            {
+                new BoneInfo(BoneTypes.Kangaroo, unit.Name)
+            });
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.BornToMove,
+                    Traits.Resourceful,
+                },
+                RaceDescription = "Their old home turning ever drier and hotter, the Kangaroo tribes did not hesitate when mysterious portals opened and granted them passage to greener lands. Nomadic by nature, the Kangaroos are very adept at carrying plenty of gear with them and aren't unused to traveling with a full belly either.",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.HairStyle, "Ear Type");
+            });
+            output.TownNames(new List<string>
+            {
+                "Roostadt",
+                "Pouchbottom",
+                "Over'under",
+                "Red-dust",
+                "Sidney",
+                "Marsupia",
+                "Ayer",
+                "Guardia",
+            });
             output.DickSizes = () => 6;
             output.BreastSizes = () => 1;
 

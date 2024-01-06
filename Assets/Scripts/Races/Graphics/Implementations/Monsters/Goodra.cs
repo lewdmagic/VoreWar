@@ -2,10 +2,12 @@
 
 internal static class Goodra
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Goodra", "Goodras");
-        builder.RaceTraits(new RaceTraits()
+        builder.Setup(output =>
+        {
+        output.Names("Goodra", "Goodras");
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 32,
             StomachSize = 50,
@@ -36,7 +38,7 @@ internal static class Goodra
             },
             RaceDescription = "Goodra, the Slug Dragon Pokemon. Goodra are large soft dragon type pokemon coated in slime. They love to give hugs and often confuse friends from food."
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "Goodra",
             "Sligoo",
@@ -60,8 +62,6 @@ internal static class Goodra
             "Dragoo",
             "Gooigi",
         });
-        builder.Setup(output =>
-        {
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.GoodraSkin);
             output.EyeTypes = 4;
             output.GentleAnimation = true;

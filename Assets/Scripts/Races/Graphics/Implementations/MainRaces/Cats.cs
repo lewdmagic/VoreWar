@@ -2,52 +2,8 @@
 
 internal static class Cats
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Cat", "Cats");
-        builder.WallType(WallType.Cat);
-        builder.FlavorText(new FlavorText(
-            new Texts { "whiskered", "hissing", "bristle tailed" },
-            new Texts { "purring", "sharp-toothed", "whiskered" },
-            new Texts { "cat", "whiskered", {"queen", Gender.Female}, {"tom", Gender.Male} }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Pounce,
-                Traits.EscapeArtist
-            },
-            RaceDescription = "Natives to the realm, the Cats are skilled at pouncing on their enemy with a sudden burst of speed. Many a wounded warrior has found themselves devoured by a feline jumping over a wall of their fellow warriors, while the Cat's allies defy their enemies by somehow squirming out of their stomach's.",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.HairColor, "Hair Color: " + UnitCustomizer.HairColorLookup(unit.HairColor));
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color: " + UnitCustomizer.HairColorLookup(unit.AccessoryColor));
-        });
-        builder.TownNames(new List<string>
-        {
-            "Pyramid of Indulgence",
-            "Catro",
-            "Meowixandria",
-            "Feliyum",
-            "Al Bastet",
-            "Catazig",
-            "Pursia",
-            "Palace of Decedance",
-            "Yarnodos",
-            "Meopolis",
-            "Catolomeic Palace",
-            "Catopolis",
-            "Catville",
-            "Nekotown",
-            "Meowscow",
-            "Caturdayton",
-        });
         
         builder.RandomCustom(data =>
         {
@@ -61,6 +17,50 @@ internal static class Cats
 
         builder.Setup(output =>
         {
+            output.Names("Cat", "Cats");
+            output.WallType(WallType.Cat);
+            output.FlavorText(new FlavorText(
+                new Texts { "whiskered", "hissing", "bristle tailed" },
+                new Texts { "purring", "sharp-toothed", "whiskered" },
+                new Texts { "cat", "whiskered", {"queen", Gender.Female}, {"tom", Gender.Male} }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Pounce,
+                    Traits.EscapeArtist
+                },
+                RaceDescription = "Natives to the realm, the Cats are skilled at pouncing on their enemy with a sudden burst of speed. Many a wounded warrior has found themselves devoured by a feline jumping over a wall of their fellow warriors, while the Cat's allies defy their enemies by somehow squirming out of their stomach's.",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.HairColor, "Hair Color: " + UnitCustomizer.HairColorLookup(unit.HairColor));
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color: " + UnitCustomizer.HairColorLookup(unit.AccessoryColor));
+            });
+            output.TownNames(new List<string>
+            {
+                "Pyramid of Indulgence",
+                "Catro",
+                "Meowixandria",
+                "Feliyum",
+                "Al Bastet",
+                "Catazig",
+                "Pursia",
+                "Palace of Decedance",
+                "Yarnodos",
+                "Meopolis",
+                "Catolomeic Palace",
+                "Catopolis",
+                "Catville",
+                "Nekotown",
+                "Meowscow",
+                "Caturdayton",
+            });
             output.FurCapable = true;
             output.BaseBody = true;
             output.AllowedMainClothingTypes.Add(RaceSpecificClothing.CatLeaderInstance);

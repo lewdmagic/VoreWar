@@ -2,15 +2,17 @@
 
 internal static class Wolves
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Wolf", "Wolves");
-        builder.FlavorText(new FlavorText(
+        builder.Setup(output =>
+        {
+        output.Names("Wolf", "Wolves");
+        output.FlavorText(new FlavorText(
             new Texts { "wild", "growling", "wet furred" },
             new Texts { "spirited", "panting", "long furred" },
             new Texts { "feral", "canine", {"wolfess", Gender.Female}, {"wolf", Gender.Male} }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 10,
             StomachSize = 15,
@@ -23,12 +25,12 @@ internal static class Wolves
             },
             RaceDescription = "Natives of this realm, the Wolves have a history of hunting in packs extending beyond the crafting of their first weapons. While a lone Wolf can still be a worthy adversary, their true strength comes from working with their kin.",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.HairColor, "Hair Color: " + UnitCustomizer.HairColorLookup(unit.HairColor));
             buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color: " + UnitCustomizer.HairColorLookup(unit.AccessoryColor));
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "Pax Lupus",
             "Fort Fang",
@@ -47,8 +49,6 @@ internal static class Wolves
             "Wailing Gut Tribe",
             "Famine's End",
         });
-        builder.Setup(output =>
-        {
             output.FurCapable = true;
             output.BaseBody = true;
         });

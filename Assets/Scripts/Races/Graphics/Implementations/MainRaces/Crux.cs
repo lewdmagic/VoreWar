@@ -7,11 +7,18 @@ using CruxClothing;
 
 internal static class Crux
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Crux", "Crux");
-        builder.WallType(WallType.Crux);
-        builder.FlavorText(new FlavorText(
+        RaceFrameList frameListDrool = new RaceFrameList(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, new[] { .8f, .6f, .5f, .4f, .4f, .4f, .4f, .4f, .4f });
+        // currently unused
+        //RaceFrameList frameListWet = new RaceFrameList(new [] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new [] { .4f, .8f, .8f, .7f, .6f, .5f, .4f, .4f, .4f, .4f });
+
+
+        builder.Setup(output =>
+        {
+        output.Names("Crux", "Crux");
+        output.WallType(WallType.Crux);
+        output.FlavorText(new FlavorText(
             new Texts { "crazy", "curly eared", "complaining" },
             new Texts { "curly eared", "crazed", "eager" },
             new Texts { "crux", "lab-critter", "gene-engineered creature" },
@@ -34,7 +41,7 @@ internal static class Crux
                         else if (weapon.Name == "WeaponNames.Claw") return "Claws";
              */
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 9,
             StomachSize = 14,
@@ -48,7 +55,7 @@ internal static class Crux
             },
             RaceDescription = "Their own world having risen and fallen, the Crux arrived to this one almost by accident. While they initially thought it rather a boring place, they soon realised its potential and were eager to try and shape it according to their own ever shifting ideals.",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.ClothingColor2, "Pack / Boxer Color");
             buttons.SetActive(ButtonType.ClothingColor2, true);
@@ -65,7 +72,7 @@ internal static class Crux
             buttons.SetText(ButtonType.BodyAccentTypes2, "Leg Stripes");
             buttons.SetText(ButtonType.BodyAccentTypes3, "Arm Stripes");
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "The Gate",
             "Facility 789",
@@ -73,13 +80,6 @@ internal static class Crux
             "Cruxus",
             "Facility Ornd"
         });
-        RaceFrameList frameListDrool = new RaceFrameList(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, new[] { .8f, .6f, .5f, .4f, .4f, .4f, .4f, .4f, .4f });
-        // currently unused
-        //RaceFrameList frameListWet = new RaceFrameList(new [] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new [] { .4f, .8f, .8f, .7f, .6f, .5f, .4f, .4f, .4f, .4f });
-
-
-        builder.Setup(output =>
-        {
             output.BreastSizes = () => 7;
             output.DickSizes = () => 9;
 

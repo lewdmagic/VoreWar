@@ -8,54 +8,8 @@ using UnityEngine;
 
 internal static class Bats
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Bat", "Bats");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "bat", "chiropter", "demi-bat" },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Push Dagger",
-                [WeaponNames.Axe]         = "WeaponNames.Claw Katar",
-                [WeaponNames.SimpleBow]   = "Iron Throwing Knife",
-                [WeaponNames.CompoundBow] = "Steel Throwing Knife",
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 8,
-            StomachSize = 13,
-            HasTail = false,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-                Traits.ArtfulDodge,
-                Traits.Vampirism
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Collar Fur Type");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Dark Grotto",
-            "Black Hollow",
-            "Nightpoint",
-            "Echoing Cavern",
-            "Gotham",
-            "Batville",
-            "Crystal Cave",
-            "Deep Den",
-            "Sylvania",
-            "Strygos",
-        });
         RaceFrameList frameListDemibatWings = new RaceFrameList(new[] { 0, 1, 0, 2 }, new[] { .15f, .25f, .15f, .25f });
 
         IClothing<IOverSizeParameters> LeaderClothes = DemibatLeader.DemibatLeaderInstance;
@@ -64,6 +18,52 @@ internal static class Bats
 
         builder.Setup(output =>
         {
+            output.Names("Bat", "Bats");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "bat", "chiropter", "demi-bat" },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Push Dagger",
+                    [WeaponNames.Axe]         = "WeaponNames.Claw Katar",
+                    [WeaponNames.SimpleBow]   = "Iron Throwing Knife",
+                    [WeaponNames.CompoundBow] = "Steel Throwing Knife",
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 8,
+                StomachSize = 13,
+                HasTail = false,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                    Traits.ArtfulDodge,
+                    Traits.Vampirism
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Collar Fur Type");
+            });
+            output.TownNames(new List<string>
+            {
+                "Dark Grotto",
+                "Black Hollow",
+                "Nightpoint",
+                "Echoing Cavern",
+                "Gotham",
+                "Batville",
+                "Crystal Cave",
+                "Deep Den",
+                "Sylvania",
+                "Strygos",
+            });
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
 

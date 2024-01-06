@@ -7,46 +7,46 @@ using System.Collections.Generic;
 
 internal static class Monitors
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Monitor", "Monitors");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 17,
-            StomachSize = 17,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
-            PowerAdjustment = 1.3f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(12, 20),
-                Dexterity = new RaceStats.StatRange(6, 10),
-                Endurance = new RaceStats.StatRange(12, 20),
-                Mind = new RaceStats.StatRange(6, 12),
-                Will = new RaceStats.StatRange(8, 16),
-                Agility = new RaceStats.StatRange(10, 16),
-                Voracity = new RaceStats.StatRange(16, 24),
-                Stomach = new RaceStats.StatRange(12, 18),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.HardSkin,
-                Traits.Resilient,
-                Traits.VenomShock,
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Body Pattern Colors");
-        });
         RaceFrameList frameListTongue = new RaceFrameList(new int[7] { 0, 1, 2, 1, 2, 1, 0 }, new float[7] { 0.1f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.3f });
 
 
         builder.Setup(output =>
         {
+            output.Names("Monitor", "Monitors");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 17,
+                StomachSize = 17,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
+                PowerAdjustment = 1.3f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(12, 20),
+                    Dexterity = new RaceStats.StatRange(6, 10),
+                    Endurance = new RaceStats.StatRange(12, 20),
+                    Mind = new RaceStats.StatRange(6, 12),
+                    Will = new RaceStats.StatRange(8, 16),
+                    Agility = new RaceStats.StatRange(10, 16),
+                    Voracity = new RaceStats.StatRange(16, 24),
+                    Stomach = new RaceStats.StatRange(12, 18),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.HardSkin,
+                    Traits.Resilient,
+                    Traits.VenomShock,
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Body Pattern Colors");
+            });
             output.DickSizes = () => 6;
             output.BreastSizes = () => 1; // (no breasts)
 

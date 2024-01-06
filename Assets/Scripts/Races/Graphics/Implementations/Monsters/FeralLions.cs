@@ -6,62 +6,62 @@ using System.Collections.Generic;
 
 internal static class FeralLions
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<HindViewParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<HindViewParameters>, builder =>
     {
-        builder.Names("Feral Lion", "Feral Lions");
-        builder.FlavorText(new FlavorText(
-            new Texts { "roaring", "once-vicious", "formerly-fearsome" },
-            new Texts { "indulgent", "greedily snarling", "voracious", "capacious", "insatiable", "dominant", "pleased" },
-            new Texts { "feline", "leonine", "kitty", {"lioness", Gender.Female}, {"lion", Gender.Male} }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 20,
-            StomachSize = 20,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
-            ExpMultiplier = 1.75f,
-            PowerAdjustment = 3f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(14, 20),
-                Dexterity = new RaceStats.StatRange(8, 16),
-                Endurance = new RaceStats.StatRange(16, 24),
-                Mind = new RaceStats.StatRange(6, 12),
-                Will = new RaceStats.StatRange(12, 18),
-                Agility = new RaceStats.StatRange(14, 20),
-                Voracity = new RaceStats.StatRange(18, 24),
-                Stomach = new RaceStats.StatRange(18, 24),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Biter,
-                Traits.Pounce,
-                Traits.Ravenous,
-                Traits.TasteForBlood,
-                Traits.PleasurableTouch,
-            },
-            RaceDescription = $"Big hedonistic felines. They were probably following a migration of gazelle before they came upon this land.\nMuch older texts claim they are the children of Raha, another world's godess of pleasure. She spread her blessing to this realm, and in exchange, these kitties are feeling right at home digesting the natives.",
-            RaceAI = RaceAI.Hedonist,
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.Skintone, "Fur Color");
-            buttons.SetText(ButtonType.HairStyle, "Mane Style");
-            buttons.SetText(ButtonType.HairColor, "Mane Color");
-        });
-        builder.IndividualNames(new List<string>
-        {
-            "Kalahari",
-            "Okavangu",
-            "Zenobia"
-        });
         RaceFrameList frameListRumpVore = new RaceFrameList(new int[2] { 0, 1 }, new float[2] { .75f, .5f });
 
 
         builder.Setup(output =>
         {
+            output.Names("Feral Lion", "Feral Lions");
+            output.FlavorText(new FlavorText(
+                new Texts { "roaring", "once-vicious", "formerly-fearsome" },
+                new Texts { "indulgent", "greedily snarling", "voracious", "capacious", "insatiable", "dominant", "pleased" },
+                new Texts { "feline", "leonine", "kitty", {"lioness", Gender.Female}, {"lion", Gender.Male} }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 20,
+                StomachSize = 20,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
+                ExpMultiplier = 1.75f,
+                PowerAdjustment = 3f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(14, 20),
+                    Dexterity = new RaceStats.StatRange(8, 16),
+                    Endurance = new RaceStats.StatRange(16, 24),
+                    Mind = new RaceStats.StatRange(6, 12),
+                    Will = new RaceStats.StatRange(12, 18),
+                    Agility = new RaceStats.StatRange(14, 20),
+                    Voracity = new RaceStats.StatRange(18, 24),
+                    Stomach = new RaceStats.StatRange(18, 24),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Biter,
+                    Traits.Pounce,
+                    Traits.Ravenous,
+                    Traits.TasteForBlood,
+                    Traits.PleasurableTouch,
+                },
+                RaceDescription = $"Big hedonistic felines. They were probably following a migration of gazelle before they came upon this land.\nMuch older texts claim they are the children of Raha, another world's godess of pleasure. She spread her blessing to this realm, and in exchange, these kitties are feeling right at home digesting the natives.",
+                RaceAI = RaceAI.Hedonist,
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.Skintone, "Fur Color");
+                buttons.SetText(ButtonType.HairStyle, "Mane Style");
+                buttons.SetText(ButtonType.HairColor, "Mane Color");
+            });
+            output.IndividualNames(new List<string>
+            {
+                "Kalahari",
+                "Okavangu",
+                "Zenobia"
+            });
             output.CanBeGender = new List<Gender> { Gender.Male, Gender.Female, Gender.Hermaphrodite, Gender.Maleherm };
             output.HairStyles = 10; // Manes
             output.GentleAnimation = true;

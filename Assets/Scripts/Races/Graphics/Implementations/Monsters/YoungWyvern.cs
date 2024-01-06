@@ -8,54 +8,54 @@ internal static class YoungWyvern
 {
     internal const float StomachGainDivisor = 1.2f; //Higher is faster, should be balanced with stomach size to max out at 80-100 capacity
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Young Wyvern", "Young Wyverns");
-        builder.BonesInfo((unit) => new List<BoneInfo>()
-        {
-            new BoneInfo(BoneTypes.YoungWyvern, unit.Name)
-        });
-        builder.FlavorText(new FlavorText(
-            new Texts { "plumb", "soft scaled", "stretchy" },
-            new Texts { "grinning", "expansive", "rubbery" },
-            new Texts { "young wyvern", "wyverling", "small wyvern" },
-            "Beak"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 6,
-            StomachSize = 20,
-            HasTail = true,
-            FavoredStat = Stat.Stomach,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.25f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(4, 8),
-                Dexterity = new RaceStats.StatRange(6, 14),
-                Endurance = new RaceStats.StatRange(8, 16),
-                Mind = new RaceStats.StatRange(6, 14),
-                Will = new RaceStats.StatRange(4, 12),
-                Agility = new RaceStats.StatRange(10, 22),
-                Voracity = new RaceStats.StatRange(12, 20),
-                Stomach = new RaceStats.StatRange(8, 14),
-            },
-            RacialTraits = new List<Traits>()
-            {
-
-            },
-            RaceDescription = "When young the Wyverns aren't good predators. They do have a healthy appetite though, and follow older Wyverns in hope of getting the better of prey weakened by the adults.",
-
-        });
-        builder.IndividualNames(new List<string>
-        {
-            "Smallwing",
-            "Greedytalon",
-            "Widebeak",
-            "Lazyback",
-        });
         builder.Setup(output =>
         {
+            output.Names("Young Wyvern", "Young Wyverns");
+            output.BonesInfo((unit) => new List<BoneInfo>()
+            {
+                new BoneInfo(BoneTypes.YoungWyvern, unit.Name)
+            });
+            output.FlavorText(new FlavorText(
+                new Texts { "plumb", "soft scaled", "stretchy" },
+                new Texts { "grinning", "expansive", "rubbery" },
+                new Texts { "young wyvern", "wyverling", "small wyvern" },
+                "Beak"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 6,
+                StomachSize = 20,
+                HasTail = true,
+                FavoredStat = Stat.Stomach,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.25f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(4, 8),
+                    Dexterity = new RaceStats.StatRange(6, 14),
+                    Endurance = new RaceStats.StatRange(8, 16),
+                    Mind = new RaceStats.StatRange(6, 14),
+                    Will = new RaceStats.StatRange(4, 12),
+                    Agility = new RaceStats.StatRange(10, 22),
+                    Voracity = new RaceStats.StatRange(12, 20),
+                    Stomach = new RaceStats.StatRange(8, 14),
+                },
+                RacialTraits = new List<Traits>()
+                {
+
+                },
+                RaceDescription = "When young the Wyverns aren't good predators. They do have a healthy appetite though, and follow older Wyverns in hope of getting the better of prey weakened by the adults.",
+
+            });
+            output.IndividualNames(new List<string>
+            {
+                "Smallwing",
+                "Greedytalon",
+                "Widebeak",
+                "Lazyback",
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.GentleAnimation = true;
             output.SkinColors = ColorMap.SlimeColorCount;

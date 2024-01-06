@@ -9,49 +9,49 @@ using System.Collections.Generic;
 /// </summary>
 internal static class FeralSharks
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Feral Shark", "Feral Sharks");        
-        builder.BonesInfo((unit) => new List<BoneInfo>()
-        {
-            new BoneInfo(BoneTypes.Shark, unit.Name)
-        });
-        builder.FlavorText(new FlavorText(
-            new Texts { "finned", "torpedo shaped", "chompy" },
-            new Texts { "large jawed", "rough scaled", "sharp finned" },
-            new Texts { "skyshark", "shark", "great fish" },
-            "Jaws"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 16,
-            StomachSize = 20,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.75f,
-            PowerAdjustment = 1.75f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 20),
-                Dexterity = new RaceStats.StatRange(4, 8),
-                Endurance = new RaceStats.StatRange(14, 24),
-                Mind = new RaceStats.StatRange(6, 10),
-                Will = new RaceStats.StatRange(6, 12),
-                Agility = new RaceStats.StatRange(8, 16),
-                Voracity = new RaceStats.StatRange(14, 22),
-                Stomach = new RaceStats.StatRange(6, 12),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-                Traits.Biter
-            },
-            RaceDescription = "When the Scylla left their old realm the creatures that used to hunt them were left hungry. The Sharks, with their strong sense of smell, were able to track down the portals the Scylla used and followed close behind.",
-
-        });
         builder.Setup(output =>
         {
+            output.Names("Feral Shark", "Feral Sharks");        
+            output.BonesInfo((unit) => new List<BoneInfo>()
+            {
+                new BoneInfo(BoneTypes.Shark, unit.Name)
+            });
+            output.FlavorText(new FlavorText(
+                new Texts { "finned", "torpedo shaped", "chompy" },
+                new Texts { "large jawed", "rough scaled", "sharp finned" },
+                new Texts { "skyshark", "shark", "great fish" },
+                "Jaws"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 16,
+                StomachSize = 20,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.75f,
+                PowerAdjustment = 1.75f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 20),
+                    Dexterity = new RaceStats.StatRange(4, 8),
+                    Endurance = new RaceStats.StatRange(14, 24),
+                    Mind = new RaceStats.StatRange(6, 10),
+                    Will = new RaceStats.StatRange(6, 12),
+                    Agility = new RaceStats.StatRange(8, 16),
+                    Voracity = new RaceStats.StatRange(14, 22),
+                    Stomach = new RaceStats.StatRange(6, 12),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                    Traits.Biter
+                },
+                RaceDescription = "When the Scylla left their old realm the creatures that used to hunt them were left hungry. The Sharks, with their strong sense of smell, were able to track down the portals the Scylla used and followed close behind.",
+
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SkinColors = ColorMap.SharkColorCount;
             output.AccessoryColors = ColorMap.SharkBellyColorCount;

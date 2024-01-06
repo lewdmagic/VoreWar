@@ -8,58 +8,8 @@ using UnityEngine;
 
 internal static class Deer
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Deer", "Deer");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "faun", "deer", {"doe", 0.5/5, Gender.Female}, {"roe", 0.5/5, Gender.Female}, {"buck", 0.5/5, Gender.Male}, {"stag", 0.5/5, Gender.Male}, {"hart", 0.5/5, Gender.Male} } 
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.EvasiveBattler,
-                Traits.ArtfulDodge,
-                Traits.PackDefense,
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Antlers Type");
-            buttons.SetText(ButtonType.BodyAccentTypes2, "Body Pattern Type");
-            buttons.SetText(ButtonType.BodyAccentTypes3, "Leg Type");
-        });
-        builder.TownNames(new List<string>
-        {
-            "Artemis Woods",
-            "The Golden Stag",
-            "Elkfurt",
-            "Hoovechester",
-            "Buckville",
-            "The White Doe",
-            "Cernunnos",
-            "Dappled Hide",
-            "Ceryneia",
-            "Hindburg",
-            "Peryton",
-            "Antlertown",
-            "Swiftbrook",
-            "Red Hart",
-            "Eikthyrnir",
-            "Actaeon",
-            "Darbywood",
-            "Rohit",
-            "Furfur",
-            "Achlis"
-        });
         IClothing<IOverSizeParameters> leaderClothes1 = DeerLeader1.DeerLeader1Instance;
         IClothing leaderClothes2 = DeerLeader2.DeerLeader2Instance;
         IClothing leaderClothes3 = DeerLeader3.DeerLeader3Instance;
@@ -68,6 +18,56 @@ internal static class Deer
 
         builder.Setup(output =>
         {
+            output.Names("Deer", "Deer");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "faun", "deer", {"doe", 0.5/5, Gender.Female}, {"roe", 0.5/5, Gender.Female}, {"buck", 0.5/5, Gender.Male}, {"stag", 0.5/5, Gender.Male}, {"hart", 0.5/5, Gender.Male} } 
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.EvasiveBattler,
+                    Traits.ArtfulDodge,
+                    Traits.PackDefense,
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Antlers Type");
+                buttons.SetText(ButtonType.BodyAccentTypes2, "Body Pattern Type");
+                buttons.SetText(ButtonType.BodyAccentTypes3, "Leg Type");
+            });
+            output.TownNames(new List<string>
+            {
+                "Artemis Woods",
+                "The Golden Stag",
+                "Elkfurt",
+                "Hoovechester",
+                "Buckville",
+                "The White Doe",
+                "Cernunnos",
+                "Dappled Hide",
+                "Ceryneia",
+                "Hindburg",
+                "Peryton",
+                "Antlertown",
+                "Swiftbrook",
+                "Red Hart",
+                "Eikthyrnir",
+                "Actaeon",
+                "Darbywood",
+                "Rohit",
+                "Furfur",
+                "Achlis"
+            });
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
 

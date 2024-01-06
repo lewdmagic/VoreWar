@@ -8,58 +8,58 @@ internal static class Youko // TODO extend humans
 {
     // TODO Whisp used as placeholder
     // Recode Youko to extend (not inheritance) human behavior 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Whisp", "Whisps");
-        builder.WallType(WallType.Fox);
-        builder.FlavorText(new FlavorText(
-            new Texts { "fluffy tailed", "squirming", "whimpering" },
-            new Texts { "cunning", "grinning", "sly" },
-            new Texts { "fox", "vulpine", "canid", {"vixen", Gender.Female}, {"tod", Gender.Male} }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Mind,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Charmer,
-                Traits.Temptation,
-                Traits.Possession,
-                Traits.ForceFeeder,
-                Traits.ManaDrain,
-                Traits.CreateSpawn,
-            },
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(6, 14),
-                Dexterity = new RaceStats.StatRange(6, 14),
-                Endurance = new RaceStats.StatRange(6, 14),
-                Mind = new RaceStats.StatRange(14, 22),
-                Will = new RaceStats.StatRange(8, 16),
-                Agility = new RaceStats.StatRange(8, 18),
-                Voracity = new RaceStats.StatRange(12, 18),
-                Stomach = new RaceStats.StatRange(12, 18),
-            },
-            SpawnRace = Race.Whisp,
-            ConversionRace = Race.Foxes,
-            RaceDescription = "Foxes that were changed by spirit energy",
-        });
-        builder.TownNames(new List<string>
-        {
-            "Takama-ga-hara",
-            "Yamato-no-shi",
-            "Inari-no-shi",
-            "Zenko-no-machi",
-            "Yakan-no-machi",
-            "Ooji-no-machi",
-            "Onji-no-machi",
-        });
         builder.Setup(output =>
         {
+            output.Names("Whisp", "Whisps");
+            output.WallType(WallType.Fox);
+            output.FlavorText(new FlavorText(
+                new Texts { "fluffy tailed", "squirming", "whimpering" },
+                new Texts { "cunning", "grinning", "sly" },
+                new Texts { "fox", "vulpine", "canid", {"vixen", Gender.Female}, {"tod", Gender.Male} }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Mind,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Charmer,
+                    Traits.Temptation,
+                    Traits.Possession,
+                    Traits.ForceFeeder,
+                    Traits.ManaDrain,
+                    Traits.CreateSpawn,
+                },
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(6, 14),
+                    Dexterity = new RaceStats.StatRange(6, 14),
+                    Endurance = new RaceStats.StatRange(6, 14),
+                    Mind = new RaceStats.StatRange(14, 22),
+                    Will = new RaceStats.StatRange(8, 16),
+                    Agility = new RaceStats.StatRange(8, 18),
+                    Voracity = new RaceStats.StatRange(12, 18),
+                    Stomach = new RaceStats.StatRange(12, 18),
+                },
+                SpawnRace = Race.Whisp,
+                ConversionRace = Race.Foxes,
+                RaceDescription = "Foxes that were changed by spirit energy",
+            });
+            output.TownNames(new List<string>
+            {
+                "Takama-ga-hara",
+                "Yamato-no-shi",
+                "Inari-no-shi",
+                "Zenko-no-machi",
+                "Yakan-no-machi",
+                "Ooji-no-machi",
+                "Onji-no-machi",
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin);
         });

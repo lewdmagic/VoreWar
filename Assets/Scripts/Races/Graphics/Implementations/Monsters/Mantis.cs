@@ -6,50 +6,50 @@ using System.Collections.Generic;
 
 internal static class Mantis
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<MantisParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<MantisParameters>, builder =>
     {
-        builder.Names("Mantis", "Mantises");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 12,
-            StomachSize = 12,
-            HasTail = false,
-            FavoredStat = Stat.Strength,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth },
-            ExpMultiplier = 1.2f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(20, 28),
-                Dexterity = new RaceStats.StatRange(12, 20),
-                Endurance = new RaceStats.StatRange(8, 12),
-                Mind = new RaceStats.StatRange(6, 10),
-                Will = new RaceStats.StatRange(6, 10),
-                Agility = new RaceStats.StatRange(12, 20),
-                Voracity = new RaceStats.StatRange(6, 10),
-                Stomach = new RaceStats.StatRange(6, 10),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Pounce,
-                Traits.SenseWeakness,
-                Traits.BladeDance,
-                Traits.LightFrame
-            },
-            RaceDescription = ""
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Wing Type");
-            buttons.SetText(ButtonType.BodyAccentTypes2, "Back Spines");
-        });
         RaceFrameList frameListScythesDefault = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
         RaceFrameList frameListScythesEating = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
 
 
         builder.Setup(output =>
         {
+            output.Names("Mantis", "Mantises");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 12,
+                StomachSize = 12,
+                HasTail = false,
+                FavoredStat = Stat.Strength,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth },
+                ExpMultiplier = 1.2f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(20, 28),
+                    Dexterity = new RaceStats.StatRange(12, 20),
+                    Endurance = new RaceStats.StatRange(8, 12),
+                    Mind = new RaceStats.StatRange(6, 10),
+                    Will = new RaceStats.StatRange(6, 10),
+                    Agility = new RaceStats.StatRange(12, 20),
+                    Voracity = new RaceStats.StatRange(6, 10),
+                    Stomach = new RaceStats.StatRange(6, 10),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Pounce,
+                    Traits.SenseWeakness,
+                    Traits.BladeDance,
+                    Traits.LightFrame
+                },
+                RaceDescription = ""
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Wing Type");
+                buttons.SetText(ButtonType.BodyAccentTypes2, "Back Spines");
+            });
             output.CanBeGender = new List<Gender> { Gender.Female, Gender.Male };
             output.BodySizes = 5;
             output.EyeTypes = 6;

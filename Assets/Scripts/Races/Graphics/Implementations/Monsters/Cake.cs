@@ -6,51 +6,51 @@ using System.Collections.Generic;
 
 internal static class Cake
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Cake", "Cakes");
-        builder.BonesInfo((unit) => new List<BoneInfo>()
-        {
-            new BoneInfo(BoneTypes.Cake, unit.Name)
-        });
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "cake", "baked good", "ghostly confectionary", "delicious dessert" }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 30,
-            StomachSize = 20,
-            HasTail = false,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 2.5f,
-            PowerAdjustment = 2.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(10, 26),
-                Dexterity = new RaceStats.StatRange(4, 8),
-                Endurance = new RaceStats.StatRange(20, 30),
-                Mind = new RaceStats.StatRange(4, 10),
-                Will = new RaceStats.StatRange(6, 12),
-                Agility = new RaceStats.StatRange(6, 10),
-                Voracity = new RaceStats.StatRange(10, 18),
-                Stomach = new RaceStats.StatRange(8, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Frenzy,
-                Traits.Tasty,
-                Traits.SoftBody,
-                Traits.SlowDigestion
-
-            },
-            RaceDescription = "A wizard baking a cake cut his hand and a drop of blood fell in the batter. His guests arrived while the cake was in the oven, eagerly waiting for their treat. But having got a taste of him, the Cake, once baked, ate the wizard and his guests instead.",
-
-        });
         builder.Setup(output =>
         {
+            output.Names("Cake", "Cakes");
+            output.BonesInfo((unit) => new List<BoneInfo>()
+            {
+                new BoneInfo(BoneTypes.Cake, unit.Name)
+            });
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "cake", "baked good", "ghostly confectionary", "delicious dessert" }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 30,
+                StomachSize = 20,
+                HasTail = false,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 2.5f,
+                PowerAdjustment = 2.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(10, 26),
+                    Dexterity = new RaceStats.StatRange(4, 8),
+                    Endurance = new RaceStats.StatRange(20, 30),
+                    Mind = new RaceStats.StatRange(4, 10),
+                    Will = new RaceStats.StatRange(6, 12),
+                    Agility = new RaceStats.StatRange(6, 10),
+                    Voracity = new RaceStats.StatRange(10, 18),
+                    Stomach = new RaceStats.StatRange(8, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Frenzy,
+                    Traits.Tasty,
+                    Traits.SoftBody,
+                    Traits.SlowDigestion
+
+                },
+                RaceDescription = "A wizard baking a cake cut his hand and a drop of blood fell in the batter. His guests arrived while the cake was in the oven, eagerly waiting for their treat. But having got a taste of him, the Cake, once baked, ate the wizard and his guests instead.",
+
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.ExtraColors1 = ColorMap.PastelColorCount;
             output.ExtraColors2 = ColorMap.PastelColorCount;

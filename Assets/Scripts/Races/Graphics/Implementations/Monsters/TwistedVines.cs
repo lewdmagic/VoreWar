@@ -6,38 +6,38 @@ using System.Collections.Generic;
 
 internal static class TwistedVines
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Twisted Vine", "Twisted Vines");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 8,
-            StomachSize = 11,
-            HasTail = false,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.2f,
-            PowerAdjustment = 1.4f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(10, 16),
-                Dexterity = new RaceStats.StatRange(6, 8),
-                Endurance = new RaceStats.StatRange(8, 14),
-                Mind = new RaceStats.StatRange(4, 6),
-                Will = new RaceStats.StatRange(6, 12),
-                Agility = new RaceStats.StatRange(4, 8),
-                Voracity = new RaceStats.StatRange(8, 15),
-                Stomach = new RaceStats.StatRange(8, 13),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Tempered,
-                Traits.SlowDigestion
-            },
-            RaceDescription = ""
-        });
         builder.Setup(output =>
         {
+            output.Names("Twisted Vine", "Twisted Vines");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 8,
+                StomachSize = 11,
+                HasTail = false,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.2f,
+                PowerAdjustment = 1.4f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(10, 16),
+                    Dexterity = new RaceStats.StatRange(6, 8),
+                    Endurance = new RaceStats.StatRange(8, 14),
+                    Mind = new RaceStats.StatRange(4, 6),
+                    Will = new RaceStats.StatRange(6, 12),
+                    Agility = new RaceStats.StatRange(4, 8),
+                    Voracity = new RaceStats.StatRange(8, 15),
+                    Stomach = new RaceStats.StatRange(8, 13),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Tempered,
+                    Traits.SlowDigestion
+                },
+                RaceDescription = ""
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.EyeTypes = 2;
         });

@@ -10,43 +10,8 @@ internal static class Ki
     private const float PixelOffset = .3125f;
 
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Ki", "Ki");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "small creature", "furry critter" },
-            "Jaws"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 22,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore },
-            ExpMultiplier = 1.2f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(5, 7),
-                Dexterity = new RaceStats.StatRange(5, 7),
-                Endurance = new RaceStats.StatRange(9, 11),
-                Mind = new RaceStats.StatRange(8, 12),
-                Will = new RaceStats.StatRange(18, 22),
-                Agility = new RaceStats.StatRange(20, 24),
-                Voracity = new RaceStats.StatRange(18, 22),
-                Stomach = new RaceStats.StatRange(18, 22),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ArtfulDodge,
-                Traits.KeenReflexes,
-                Traits.StrongGullet,
-            },
-            RaceDescription = "A member of a race that uses its small size and unthreathening appearance to lure in potential prey, Ki decided that becoming a mercenary suited him fine. After all, he'd be paid for getting free meals!",
-        });
         RaceFrameList frameListTail = new RaceFrameList(new int[9] { 1, 2, 0, 3, 4, 3, 0, 2, 1 },
             new float[9] { 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f });
         RaceFrameList frameListFap = new RaceFrameList(
@@ -60,6 +25,41 @@ internal static class Ki
 
         builder.Setup(output =>
         {
+            output.Names("Ki", "Ki");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "small creature", "furry critter" },
+                "Jaws"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 22,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.CockVore },
+                ExpMultiplier = 1.2f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(5, 7),
+                    Dexterity = new RaceStats.StatRange(5, 7),
+                    Endurance = new RaceStats.StatRange(9, 11),
+                    Mind = new RaceStats.StatRange(8, 12),
+                    Will = new RaceStats.StatRange(18, 22),
+                    Agility = new RaceStats.StatRange(20, 24),
+                    Voracity = new RaceStats.StatRange(18, 22),
+                    Stomach = new RaceStats.StatRange(18, 22),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ArtfulDodge,
+                    Traits.KeenReflexes,
+                    Traits.StrongGullet,
+                },
+                RaceDescription = "A member of a race that uses its small size and unthreathening appearance to lure in potential prey, Ki decided that becoming a mercenary suited him fine. After all, he'd be paid for getting free meals!",
+            });
             output.DickSizes = () => 1;
 
             output.GentleAnimation = true;

@@ -7,15 +7,19 @@ using UnityEngine;
 
 internal static class Slimes
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Slime", "Slimes");
-        builder.WallType(WallType.Slime);
-        builder.BonesInfo((unit) => new List<BoneInfo>()
+        
+        
+        builder.Setup(output =>
+        {
+        output.Names("Slime", "Slimes");
+        output.WallType(WallType.Slime);
+        output.BonesInfo((unit) => new List<BoneInfo>()
         {
             new BoneInfo(BoneTypes.SlimePile, unit.Name, unit.AccessoryColor)
         });
-        builder.FlavorText(new FlavorText(
+        output.FlavorText(new FlavorText(
             new Texts { "amorphous", "sludgy", "juicy" },
             new Texts { "amorphous", "flowing", "hard-cored" },
             new Texts { "slime", "ooze", "jelly" },
@@ -28,7 +32,7 @@ internal static class Slimes
                 [WeaponNames.Claw]        = "Hardened Lump"
             }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 7,
             StomachSize = 20,
@@ -42,7 +46,7 @@ internal static class Slimes
             },
             RaceDescription = "A puddle of goo given form by the power of their core, the Slimes have a need to act as if they had solid bodies. Their true from is still almost liquid though, lacking organs or other features of note, and thus very hard to damage by normal means.",
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "The Nucleus",
             "Gootopia",
@@ -52,7 +56,7 @@ internal static class Slimes
             "Petri Town",
             "Splaton",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {       
             buttons.SetActive(ButtonType.HairColor, true);
             buttons.SetActive(ButtonType.Skintone, false);
@@ -64,10 +68,6 @@ internal static class Slimes
                 buttons.SetText(ButtonType.ExtraColor2, "Cock Covering");
             }
         });
-        
-        
-        builder.Setup(output =>
-        {
             output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.SlimeMain);
             output.EyeTypes = 3;
             output.EyeColors = 1;

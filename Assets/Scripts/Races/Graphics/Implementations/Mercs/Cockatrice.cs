@@ -8,46 +8,46 @@ using UnityEngine;
 
 internal static class Cockatrice
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Cockatrice", "Cockatrice");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "cockatrice", "terror chicken", "danger chicken", {"scary hen", Gender.Female}, {"scary hen", Gender.Male}} ////new, blame Flame_Valxsarion for encouraging me. Actually don't, I came up with "monster cock" 
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 14,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Mind,
-            ExpMultiplier = 1.25f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(10, 16),
-                Dexterity = new RaceStats.StatRange(8, 14),
-                Endurance = new RaceStats.StatRange(8, 14),
-                Mind = new RaceStats.StatRange(12, 20),
-                Will = new RaceStats.StatRange(8, 14),
-                Agility = new RaceStats.StatRange(8, 14),
-                Voracity = new RaceStats.StatRange(8, 14),
-                Stomach = new RaceStats.StatRange(12, 15),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Intimidating,
-                Traits.Petrifier,
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Feather Color");
-        });
         builder.Setup(output =>
         {
+            output.Names("Cockatrice", "Cockatrice");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "cockatrice", "terror chicken", "danger chicken", {"scary hen", Gender.Female}, {"scary hen", Gender.Male}} ////new, blame Flame_Valxsarion for encouraging me. Actually don't, I came up with "monster cock" 
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 14,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Mind,
+                ExpMultiplier = 1.25f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(10, 16),
+                    Dexterity = new RaceStats.StatRange(8, 14),
+                    Endurance = new RaceStats.StatRange(8, 14),
+                    Mind = new RaceStats.StatRange(12, 20),
+                    Will = new RaceStats.StatRange(8, 14),
+                    Agility = new RaceStats.StatRange(8, 14),
+                    Voracity = new RaceStats.StatRange(8, 14),
+                    Stomach = new RaceStats.StatRange(12, 15),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Intimidating,
+                    Traits.Petrifier,
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Feather Color");
+            });
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
             output.BodySizes = 4;

@@ -8,42 +8,42 @@ using UnityEngine;
 
 internal static class Salix
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Salix", "Salix");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Dexterity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal, VoreType.CockVore },
-            ExpMultiplier = 2.4f,
-            PowerAdjustment = 5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(6, 10),
-                Dexterity = new RaceStats.StatRange(10, 15),
-                Endurance = new RaceStats.StatRange(15, 20),
-                Mind = new RaceStats.StatRange(25, 30),
-                Will = new RaceStats.StatRange(20, 25),
-                Agility = new RaceStats.StatRange(24, 26),
-                Voracity = new RaceStats.StatRange(16, 20),
-                Stomach = new RaceStats.StatRange(11, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ArcaneMagistrate,
-                Traits.SpellBlade,
-                Traits.ManaAttuned,
-                Traits.ManaRich
-            },
-            InnateSpells = new List<SpellTypes>()
-                { SpellTypes.AmplifyMagic, SpellTypes.Evocation, SpellTypes.ManaFlux, SpellTypes.UnstableMana},
-            RaceDescription = "A demi-mouse mage from a different, mana rich dimension. Has had trouble adapting to the absence of mana here, but makes do.",
-        });
         builder.Setup(output =>
         {
+            output.Names("Salix", "Salix");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Dexterity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal, VoreType.CockVore },
+                ExpMultiplier = 2.4f,
+                PowerAdjustment = 5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(6, 10),
+                    Dexterity = new RaceStats.StatRange(10, 15),
+                    Endurance = new RaceStats.StatRange(15, 20),
+                    Mind = new RaceStats.StatRange(25, 30),
+                    Will = new RaceStats.StatRange(20, 25),
+                    Agility = new RaceStats.StatRange(24, 26),
+                    Voracity = new RaceStats.StatRange(16, 20),
+                    Stomach = new RaceStats.StatRange(11, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ArcaneMagistrate,
+                    Traits.SpellBlade,
+                    Traits.ManaAttuned,
+                    Traits.ManaRich
+                },
+                InnateSpells = new List<SpellTypes>()
+                    { SpellTypes.AmplifyMagic, SpellTypes.Evocation, SpellTypes.ManaFlux, SpellTypes.UnstableMana},
+                RaceDescription = "A demi-mouse mage from a different, mana rich dimension. Has had trouble adapting to the absence of mana here, but makes do.",
+            });
             output.BreastSizes = () => 8;
             output.DickSizes = () => 6;
             //CanBeGender = new List<Gender>() { Gender.Male, Gender.Female, Gender.Hermaphrodite};

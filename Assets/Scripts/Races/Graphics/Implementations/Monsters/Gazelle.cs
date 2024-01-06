@@ -2,45 +2,45 @@
 
 internal static class Gazelle
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Gazelle", "Gazelles");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 18,
-            StomachSize = 16,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
-            ExpMultiplier = 1.1f,
-            PowerAdjustment = 1.3f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 12),
-                Dexterity = new RaceStats.StatRange(10, 16),
-                Endurance = new RaceStats.StatRange(10, 16),
-                Mind = new RaceStats.StatRange(6, 10),
-                Will = new RaceStats.StatRange(6, 10),
-                Agility = new RaceStats.StatRange(16, 24),
-                Voracity = new RaceStats.StatRange(10, 16),
-                Stomach = new RaceStats.StatRange(10, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Charge,
-                Traits.ForcefulBlow,
-            },
-            RaceDescription = ""
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.Skintone, "Fur Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Fur Pattern");
-            buttons.SetText(ButtonType.BodyAccentTypes2, "Horn Type (for males)");
-        });
         builder.Setup(output =>
         {
+            output.Names("Gazelle", "Gazelles");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 18,
+                StomachSize = 16,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
+                ExpMultiplier = 1.1f,
+                PowerAdjustment = 1.3f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 12),
+                    Dexterity = new RaceStats.StatRange(10, 16),
+                    Endurance = new RaceStats.StatRange(10, 16),
+                    Mind = new RaceStats.StatRange(6, 10),
+                    Will = new RaceStats.StatRange(6, 10),
+                    Agility = new RaceStats.StatRange(16, 24),
+                    Voracity = new RaceStats.StatRange(10, 16),
+                    Stomach = new RaceStats.StatRange(10, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Charge,
+                    Traits.ForcefulBlow,
+                },
+                RaceDescription = ""
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.Skintone, "Fur Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Fur Pattern");
+                buttons.SetText(ButtonType.BodyAccentTypes2, "Horn Type (for males)");
+            });
             output.SpecialAccessoryCount = 8; // ears
             output.BodyAccentTypes1 = 8; // fur patterns
             output.BodyAccentTypes2 = 10; // horns (for males)

@@ -2,53 +2,53 @@
 
 internal static class Scylla
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Scylla", "Scylla");
-        builder.WallType(WallType.Scylla);
-        builder.FlavorText(new FlavorText(
-            new Texts { "loose limbed", "aquatic", "ten-limbed" },
-            new Texts { "tentacled", "aquatic", "ten-limbed" },
-            new Texts { "scylla", "octopod", "aquanoid" },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Knife",
-                [WeaponNames.Axe]         = "Trident",
-                [WeaponNames.SimpleBow]   = "Javelin",
-                [WeaponNames.CompoundBow] = "Medusa Launcher",
-                [WeaponNames.Claw]        = "Tentacle"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 15,
-            StomachSize = 15,
-            HasTail = false,
-            FavoredStat = Stat.Will,
-            RacialTraits = new List<Traits>()
-            {
-                //Traits.Aquatic,
-                Traits.TentacleHarassment
-            },
-            RaceDescription = "Trapped under the surface at their old world, the Scylla surged forth when the appearance of mystical portals gave them passage to lands above water. Their many tentacles seem to act as if having minds of their own, hindering and harassing their enemies.",
-        });
-        builder.TownNames(new List<string>
-        {
-            "City of the Conch",
-            "Lost City of Vorantis",
-            "The Trident",
-            "Seafoama",
-            "The Tidepool",
-            "Clamonia",
-            "Baiae",
-            "Olous",
-            "Heracleion",
-            "Pavlopetri",
-            "Ravenser",
-            "Atlit Yum",
-        });
         builder.Setup(output =>
         {
+            output.Names("Scylla", "Scylla");
+            output.WallType(WallType.Scylla);
+            output.FlavorText(new FlavorText(
+                new Texts { "loose limbed", "aquatic", "ten-limbed" },
+                new Texts { "tentacled", "aquatic", "ten-limbed" },
+                new Texts { "scylla", "octopod", "aquanoid" },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Knife",
+                    [WeaponNames.Axe]         = "Trident",
+                    [WeaponNames.SimpleBow]   = "Javelin",
+                    [WeaponNames.CompoundBow] = "Medusa Launcher",
+                    [WeaponNames.Claw]        = "Tentacle"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 15,
+                StomachSize = 15,
+                HasTail = false,
+                FavoredStat = Stat.Will,
+                RacialTraits = new List<Traits>()
+                {
+                    //Traits.Aquatic,
+                    Traits.TentacleHarassment
+                },
+                RaceDescription = "Trapped under the surface at their old world, the Scylla surged forth when the appearance of mystical portals gave them passage to lands above water. Their many tentacles seem to act as if having minds of their own, hindering and harassing their enemies.",
+            });
+            output.TownNames(new List<string>
+            {
+                "City of the Conch",
+                "Lost City of Vorantis",
+                "The Trident",
+                "Seafoama",
+                "The Tidepool",
+                "Clamonia",
+                "Baiae",
+                "Olous",
+                "Heracleion",
+                "Pavlopetri",
+                "Ravenser",
+                "Atlit Yum",
+            });
             output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.LizardMain);
             output.BodySizes = 4;
             output.AvoidedMainClothingTypes = 1;

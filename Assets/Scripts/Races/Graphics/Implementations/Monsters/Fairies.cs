@@ -69,45 +69,8 @@ internal static class Fairies
         internal FairyType Season;
     }
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<FairyParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<FairyParameters>, builder =>
     {
-        builder.Names("Fairy", "Fairies");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 7,
-            StomachSize = 10,
-            HasTail = false,
-            FavoredStat = Stat.Mind,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.CockVore, VoreType.Anal },
-            ExpMultiplier = 1.1f,
-            PowerAdjustment = 1.2f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(4, 8),
-                Dexterity = new RaceStats.StatRange(9, 14),
-                Endurance = new RaceStats.StatRange(6, 12),
-                Mind = new RaceStats.StatRange(14, 22),
-                Will = new RaceStats.StatRange(8, 14),
-                Agility = new RaceStats.StatRange(14, 22),
-                Voracity = new RaceStats.StatRange(8, 14),
-                Stomach = new RaceStats.StatRange(5, 10),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ArtfulDodge,
-                Traits.Flight,
-                Traits.EscapeArtist,
-                Traits.KeenReflexes,
-                Traits.EasyToVore
-            },
-            RaceDescription = ""
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.HatType, "Leg Accessory");
-            buttons.SetText(ButtonType.ClothingAccessoryType, "Arm Accessory");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Fairy Season");
-        });
         RaceFrameList springWings = new RaceFrameList(new int[3] { 91, 92, 93 }, new float[3] { .2f, .2f, .2f });
         RaceFrameList summerWings = new RaceFrameList(new int[3] { 94, 95, 96 }, new float[3] { .2f, .2f, .2f });
         RaceFrameList fallWings = new RaceFrameList(new int[3] { 97, 98, 99 }, new float[3] { .2f, .2f, .2f });
@@ -119,6 +82,43 @@ internal static class Fairies
 
         builder.Setup(output =>
         {
+            output.Names("Fairy", "Fairies");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 7,
+                StomachSize = 10,
+                HasTail = false,
+                FavoredStat = Stat.Mind,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.CockVore, VoreType.Anal },
+                ExpMultiplier = 1.1f,
+                PowerAdjustment = 1.2f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(4, 8),
+                    Dexterity = new RaceStats.StatRange(9, 14),
+                    Endurance = new RaceStats.StatRange(6, 12),
+                    Mind = new RaceStats.StatRange(14, 22),
+                    Will = new RaceStats.StatRange(8, 14),
+                    Agility = new RaceStats.StatRange(14, 22),
+                    Voracity = new RaceStats.StatRange(8, 14),
+                    Stomach = new RaceStats.StatRange(5, 10),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ArtfulDodge,
+                    Traits.Flight,
+                    Traits.EscapeArtist,
+                    Traits.KeenReflexes,
+                    Traits.EasyToVore
+                },
+                RaceDescription = ""
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.HatType, "Leg Accessory");
+                buttons.SetText(ButtonType.ClothingAccessoryType, "Arm Accessory");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Fairy Season");
+            });
             output.BreastSizes = () => 3;
             output.DickSizes = () => 2;
             output.GentleAnimation = true;

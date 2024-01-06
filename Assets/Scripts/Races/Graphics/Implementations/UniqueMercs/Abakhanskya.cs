@@ -6,42 +6,42 @@ using System.Collections.Generic;
 
 internal static class Abakhanskya
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Abakhanskya", "Abakhanskya");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 90,
-            StomachSize = 40,
-            HasTail = true,
-            FavoredStat = Stat.Stomach,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth },
-            ExpMultiplier = 3.2f,
-            PowerAdjustment = 7f,
-            RaceStats = new RaceStats()
+        builder.Setup(output => { 
+            output.Names("Abakhanskya", "Abakhanskya");
+            output.RaceTraits(new RaceTraits()
             {
-                Strength = new RaceStats.StatRange(24, 28),
-                Dexterity = new RaceStats.StatRange(18, 22),
-                Endurance = new RaceStats.StatRange(36, 42),
-                Mind = new RaceStats.StatRange(12, 16),
-                Will = new RaceStats.StatRange(16, 20),
-                Agility = new RaceStats.StatRange(20, 24),
-                Voracity = new RaceStats.StatRange(16, 20),
-                Stomach = new RaceStats.StatRange(24, 28),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ForcefulBlow,
-                Traits.StrongGullet,
-                Traits.Pounce,
-                Traits.HeavyPounce,
-            },
-            RaceDescription = "This girthy dragoness hails from a far away arid land, and excels at pressing the attack, with a great pair of skewers in place of where most dragons would have wings. With considerable grace despite her size, she exercises vigilance on the battlefield. ",
+                BodySize = 90,
+                StomachSize = 40,
+                HasTail = true,
+                FavoredStat = Stat.Stomach,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth },
+                ExpMultiplier = 3.2f,
+                PowerAdjustment = 7f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(24, 28),
+                    Dexterity = new RaceStats.StatRange(18, 22),
+                    Endurance = new RaceStats.StatRange(36, 42),
+                    Mind = new RaceStats.StatRange(12, 16),
+                    Will = new RaceStats.StatRange(16, 20),
+                    Agility = new RaceStats.StatRange(20, 24),
+                    Voracity = new RaceStats.StatRange(16, 20),
+                    Stomach = new RaceStats.StatRange(24, 28),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ForcefulBlow,
+                    Traits.StrongGullet,
+                    Traits.Pounce,
+                    Traits.HeavyPounce,
+                },
+                RaceDescription = "This girthy dragoness hails from a far away arid land, and excels at pressing the attack, with a great pair of skewers in place of where most dragons would have wings. With considerable grace despite her size, she exercises vigilance on the battlefield. ",
+            });
+            
+            output.CanBeGender = new List<Gender> { Gender.Female }; 
         });
-        builder.Setup(output => { output.CanBeGender = new List<Gender>
-        {
-            Gender.Female
-        }; });
 
 
         builder.RenderSingle(SpriteType.Head, 6, (input, output) =>

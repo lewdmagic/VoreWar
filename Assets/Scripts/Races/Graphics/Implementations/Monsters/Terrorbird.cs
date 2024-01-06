@@ -2,43 +2,43 @@
 
 internal static class Terrorbird
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Terrorbird", "Terrorbirds");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 18,
-            StomachSize = 18,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.TailVore },
-            ExpMultiplier = 1.5f,
-            PowerAdjustment = 1.75f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(12, 20),
-                Dexterity = new RaceStats.StatRange(8, 16),
-                Endurance = new RaceStats.StatRange(8, 16),
-                Mind = new RaceStats.StatRange(6, 12),
-                Will = new RaceStats.StatRange(6, 12),
-                Agility = new RaceStats.StatRange(12, 20),
-                Voracity = new RaceStats.StatRange(10, 18),
-                Stomach = new RaceStats.StatRange(8, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Intimidating,
-                Traits.ArtfulDodge,
-                Traits.Tenacious
-            },
-            RaceDescription = ""
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Head Plumage Type");
-        });
         builder.Setup(output =>
         {
+            output.Names("Terrorbird", "Terrorbirds");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 18,
+                StomachSize = 18,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.TailVore },
+                ExpMultiplier = 1.5f,
+                PowerAdjustment = 1.75f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(12, 20),
+                    Dexterity = new RaceStats.StatRange(8, 16),
+                    Endurance = new RaceStats.StatRange(8, 16),
+                    Mind = new RaceStats.StatRange(6, 12),
+                    Will = new RaceStats.StatRange(6, 12),
+                    Agility = new RaceStats.StatRange(12, 20),
+                    Voracity = new RaceStats.StatRange(10, 18),
+                    Stomach = new RaceStats.StatRange(8, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Intimidating,
+                    Traits.ArtfulDodge,
+                    Traits.Tenacious
+                },
+                RaceDescription = ""
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Head Plumage Type");
+            });
             output.SpecialAccessoryCount = 8; // head plumage type
             output.ClothingColors = 0;
             output.GentleAnimation = true;

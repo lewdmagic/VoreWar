@@ -8,53 +8,53 @@ internal static class Selicia
 {
     private const float BellyScale = 0.9f;
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Selicia", "Selicia");
-        builder.FlavorText(new FlavorText(
-            new Texts { "mighty tasty", "smooth scaled", "huge", "flexible", "formerly mighty", "surprisingly edible" },
-            new Texts { "wide mawed", "smooth scaled", "stretchy", "huge", "impressive", "all-too-eager", "mighty" },
-            new Texts { "dragon", "salamander dragon", "derg" },
-            "Claws"
-        ));
-        builder.BonesInfo((unit) => new List<BoneInfo>()
-        {
-            new BoneInfo(BoneTypes.WyvernBonesWithoutHead, unit.Name),
-            new BoneInfo(BoneTypes.SeliciaSkull, unit.Name)
-        });
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 60,
-            StomachSize = 30,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth },
-            ExpMultiplier = 4f,
-            PowerAdjustment = 7f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(22, 26),
-                Dexterity = new RaceStats.StatRange(10, 14),
-                Endurance = new RaceStats.StatRange(30, 36),
-                Mind = new RaceStats.StatRange(16, 20),
-                Will = new RaceStats.StatRange(6, 8),
-                Agility = new RaceStats.StatRange(20, 24),
-                Voracity = new RaceStats.StatRange(14, 18),
-                Stomach = new RaceStats.StatRange(12, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.KeenReflexes,
-                Traits.StrongGullet,
-                Traits.NimbleClimber,
-
-            },
-            InnateSpells = new List<SpellTypes>() { SpellTypes.IceBlast },
-            RaceDescription = "A hybrid between a dragon and salamander whom excels in climbing and swimming but lacks any wings for flight.",
-
-        });
         builder.Setup(output =>
         {
+            output.Names("Selicia", "Selicia");
+            output.FlavorText(new FlavorText(
+                new Texts { "mighty tasty", "smooth scaled", "huge", "flexible", "formerly mighty", "surprisingly edible" },
+                new Texts { "wide mawed", "smooth scaled", "stretchy", "huge", "impressive", "all-too-eager", "mighty" },
+                new Texts { "dragon", "salamander dragon", "derg" },
+                "Claws"
+            ));
+            output.BonesInfo((unit) => new List<BoneInfo>()
+            {
+                new BoneInfo(BoneTypes.WyvernBonesWithoutHead, unit.Name),
+                new BoneInfo(BoneTypes.SeliciaSkull, unit.Name)
+            });
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 60,
+                StomachSize = 30,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth },
+                ExpMultiplier = 4f,
+                PowerAdjustment = 7f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(22, 26),
+                    Dexterity = new RaceStats.StatRange(10, 14),
+                    Endurance = new RaceStats.StatRange(30, 36),
+                    Mind = new RaceStats.StatRange(16, 20),
+                    Will = new RaceStats.StatRange(6, 8),
+                    Agility = new RaceStats.StatRange(20, 24),
+                    Voracity = new RaceStats.StatRange(14, 18),
+                    Stomach = new RaceStats.StatRange(12, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.KeenReflexes,
+                    Traits.StrongGullet,
+                    Traits.NimbleClimber,
+
+                },
+                InnateSpells = new List<SpellTypes>() { SpellTypes.IceBlast },
+                RaceDescription = "A hybrid between a dragon and salamander whom excels in climbing and swimming but lacks any wings for flight.",
+
+            });
             output.CanBeGender = new List<Gender> { Gender.Female };
             output.GentleAnimation = true;
         });

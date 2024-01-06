@@ -8,43 +8,43 @@ using UnityEngine;
 
 internal static class Kobolds
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<FacingFrontParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<FacingFrontParameters>, builder =>
     {
-        builder.Names("Kobold", "Kobolds");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "kobold", "little lizard", "little reptile" },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Pickax",
-                [WeaponNames.Axe]         = "Pickax",
-                [WeaponNames.SimpleBow]   = "Dart",
-                [WeaponNames.CompoundBow] = "Dart",
-                [WeaponNames.Claw]        = "Fist"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 9,
-            StomachSize = 12,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ProlificBreeder,
-                Traits.EasyToVore,
-                Traits.Replaceable,
-            },
-            RaceDescription = "",
-            RaceAI = RaceAI.ServantRace
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.TailTypes, "Preferred Facing");
-        });
         builder.Setup(output =>
         {
+            output.Names("Kobold", "Kobolds");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "kobold", "little lizard", "little reptile" },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Pickax",
+                    [WeaponNames.Axe]         = "Pickax",
+                    [WeaponNames.SimpleBow]   = "Dart",
+                    [WeaponNames.CompoundBow] = "Dart",
+                    [WeaponNames.Claw]        = "Fist"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 9,
+                StomachSize = 12,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ProlificBreeder,
+                    Traits.EasyToVore,
+                    Traits.Replaceable,
+                },
+                RaceDescription = "",
+                RaceAI = RaceAI.ServantRace
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.TailTypes, "Preferred Facing");
+            });
             output.BreastSizes = () => 3;
             output.DickSizes = () => 3;
             output.GentleAnimation = true;

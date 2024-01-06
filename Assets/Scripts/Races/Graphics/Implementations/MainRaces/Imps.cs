@@ -15,11 +15,13 @@ internal static class Imps
 {
     private static List<IClothingDataSimple> _allClothing;
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Imp", "Imps");
-        builder.WallType(WallType.Imp);
-        builder.BonesInfo((unit) => 
+        builder.Setup(output =>
+        {
+        output.Names("Imp", "Imps");
+        output.WallType(WallType.Imp);
+        output.BonesInfo((unit) => 
         {
             if (unit.Furry)
             {
@@ -56,7 +58,7 @@ internal static class Imps
                 }
             }
         });
-        builder.FlavorText(new FlavorText(
+        output.FlavorText(new FlavorText(
             new Texts { "infernal", "diminutive", "sized" },
             new Texts { "infernal", "deceptive", "devious" },
             new Texts { "imp", "infernal being", "small demon" },
@@ -69,7 +71,7 @@ internal static class Imps
                 [WeaponNames.Claw]        = "Fist"
             }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 6,
             StomachSize = 12,
@@ -82,7 +84,7 @@ internal static class Imps
             },
             RaceDescription = "Following the scent of new lands to torment, these beings erupted forth from the underworld. So eager are they that at the promise of battle some of the Imps still in the infernal realm may manifest just for a chance at carnage.",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.BodyAccessoryColor, "Body Accent Color");
             buttons.SetText(ButtonType.ClothingType, "Under Tops");
@@ -97,7 +99,7 @@ internal static class Imps
             buttons.SetText(ButtonType.BodyAccentTypes3, "Horn Type");
             buttons.SetText(ButtonType.BodyAccentTypes4, "Special Type");
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "Demongate",
             "Cinderpool",
@@ -108,8 +110,6 @@ internal static class Imps
             "Gehenna",
             "Funtown",
         });
-        builder.Setup(output =>
-        {
             output.DickSizes = () => 4;
             output.BreastSizes = () => 7;
 

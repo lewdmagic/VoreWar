@@ -6,41 +6,41 @@ using System.Collections.Generic;
 
 internal static class RockSlugs
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Rock Slug", "Rock Slugs");
-        builder.BonesInfo(null);
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 32,
-            StomachSize = 50,
-            HasTail = false,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 2.5f,
-            PowerAdjustment = 3.0f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(16, 24),
-                Dexterity = new RaceStats.StatRange(6, 8),
-                Endurance = new RaceStats.StatRange(32, 40),
-                Mind = new RaceStats.StatRange(4, 6),
-                Will = new RaceStats.StatRange(8, 12),
-                Agility = new RaceStats.StatRange(4, 6),
-                Voracity = new RaceStats.StatRange(32, 40),
-                Stomach = new RaceStats.StatRange(12, 24),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Resilient,
-                Traits.SoftBody,
-                Traits.VerySlowMovement,
-                Traits.HardSkin
-            },
-            RaceDescription = ""
-        });
         builder.Setup(output =>
         {
+            output.Names("Rock Slug", "Rock Slugs");
+            output.BonesInfo(null);
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 32,
+                StomachSize = 50,
+                HasTail = false,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 2.5f,
+                PowerAdjustment = 3.0f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(16, 24),
+                    Dexterity = new RaceStats.StatRange(6, 8),
+                    Endurance = new RaceStats.StatRange(32, 40),
+                    Mind = new RaceStats.StatRange(4, 6),
+                    Will = new RaceStats.StatRange(8, 12),
+                    Agility = new RaceStats.StatRange(4, 6),
+                    Voracity = new RaceStats.StatRange(32, 40),
+                    Stomach = new RaceStats.StatRange(12, 24),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Resilient,
+                    Traits.SoftBody,
+                    Traits.VerySlowMovement,
+                    Traits.HardSkin
+                },
+                RaceDescription = ""
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.SlugSkin);
             output.GentleAnimation = true;

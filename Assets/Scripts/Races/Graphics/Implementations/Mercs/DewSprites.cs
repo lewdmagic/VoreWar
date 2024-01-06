@@ -7,26 +7,26 @@ using UnityEngine;
 
 internal static class DewSprites
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("DewSprite", "DewSprites");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 14,
-            StomachSize = 16,
-            HasTail = false,
-            FavoredStat = Stat.Endurance,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Resilient,
-                Traits.IronGut,
-                Traits.EnthrallingDepths
-            },
-            RaceDescription = "",
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal },
-        });
         builder.Setup(output =>
         {
+            output.Names("DewSprite", "DewSprites");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 14,
+                StomachSize = 16,
+                HasTail = false,
+                FavoredStat = Stat.Endurance,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Resilient,
+                    Traits.IronGut,
+                    Traits.EnthrallingDepths
+                },
+                RaceDescription = "",
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal },
+            });
             output.BreastSizes = () => 9;
 
             output.BodySizes = 3;

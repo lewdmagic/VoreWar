@@ -8,48 +8,48 @@ using UnityEngine;
 
 internal static class Vargul
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Vargul", "Vargul");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 17,
-            StomachSize = 17,
-            HasTail = true,
-            FavoredStat = Stat.Strength,
-            ExpMultiplier = 1.25f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(14, 20),
-                Dexterity = new RaceStats.StatRange(14, 20),
-                Endurance = new RaceStats.StatRange(14, 20),
-                Mind = new RaceStats.StatRange(8, 16),
-                Will = new RaceStats.StatRange(8, 16),
-                Agility = new RaceStats.StatRange(14, 20),
-                Voracity = new RaceStats.StatRange(14, 20),
-                Stomach = new RaceStats.StatRange(12, 18),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Intimidating,
-                Traits.SenseWeakness,
-                Traits.StrongGullet,
-                Traits.Berserk,
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Ear Type");
-            buttons.SetText(ButtonType.BodyAccentTypes2, "Head Pattern Type");
-            buttons.SetText(ButtonType.BodyAccentTypes3, "Mask On/Off (for armors)");
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Body Pattern Colors");
-            buttons.SetText(ButtonType.ExtraColor1, "Armor Details Color");
-        });
         builder.Setup(output =>
         {
+            output.Names("Vargul", "Vargul");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 17,
+                StomachSize = 17,
+                HasTail = true,
+                FavoredStat = Stat.Strength,
+                ExpMultiplier = 1.25f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(14, 20),
+                    Dexterity = new RaceStats.StatRange(14, 20),
+                    Endurance = new RaceStats.StatRange(14, 20),
+                    Mind = new RaceStats.StatRange(8, 16),
+                    Will = new RaceStats.StatRange(8, 16),
+                    Agility = new RaceStats.StatRange(14, 20),
+                    Voracity = new RaceStats.StatRange(14, 20),
+                    Stomach = new RaceStats.StatRange(12, 18),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Intimidating,
+                    Traits.SenseWeakness,
+                    Traits.StrongGullet,
+                    Traits.Berserk,
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Ear Type");
+                buttons.SetText(ButtonType.BodyAccentTypes2, "Head Pattern Type");
+                buttons.SetText(ButtonType.BodyAccentTypes3, "Mask On/Off (for armors)");
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Body Pattern Colors");
+                buttons.SetText(ButtonType.ExtraColor1, "Armor Details Color");
+            });
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
 

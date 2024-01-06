@@ -2,86 +2,86 @@
 
 internal static class Gryphons
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank<PositionParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<PositionParameters>, builder =>
     {
-        builder.Names("Gryphon", "Gryphons");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "gryphon", "griffin", "griffon" }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 20,
-            StomachSize = 22,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
-            ExpMultiplier = 1.75f,
-            PowerAdjustment = 2.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 18),
-                Dexterity = new RaceStats.StatRange(8, 16),
-                Endurance = new RaceStats.StatRange(12, 16),
-                Mind = new RaceStats.StatRange(8, 16),
-                Will = new RaceStats.StatRange(8, 16),
-                Agility = new RaceStats.StatRange(12, 20),
-                Voracity = new RaceStats.StatRange(8, 16),
-                Stomach = new RaceStats.StatRange(8, 14),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-                Traits.Intimidating,
-                Traits.Charge,
-                Traits.Greedy,
-                Traits.Pathfinder,
-            },
-            RaceDescription = ""
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.Skintone, "Body Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Body Style");
-        });
-        builder.IndividualNames(new List<string>
-        {
-            "Aquila",
-            "Harpia",
-            "Accipiter",
-            "Kirkos",
-            "Cathartes",
-            "Necrosyrtes",
-            "Neophron",
-            "Sarcogyps",
-            "Elanus",
-            "Milvus",
-            "Haliastur",
-            "Pandion",
-            "Buteo",
-            "Falco",
-            "Harpagus",
-            "Milvago",
-            "Caracara",
-            "Ibycter",
-            "Daptrius",
-            "Ictinia",
-            "Minerva",
-            "Aegolius",
-            "Sagittarius",
-            "Lanius",
-            "Vultur",
-            "Surnia",
-            "Strix",
-            "Pulsatrix",
-            "Ninox",
-            "Ealonides",
-            "Dryotriorchis",
-            "Casuarius",
-        });
         builder.Setup(output =>
         {
+            output.Names("Gryphon", "Gryphons");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "gryphon", "griffin", "griffon" }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 20,
+                StomachSize = 22,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
+                ExpMultiplier = 1.75f,
+                PowerAdjustment = 2.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 18),
+                    Dexterity = new RaceStats.StatRange(8, 16),
+                    Endurance = new RaceStats.StatRange(12, 16),
+                    Mind = new RaceStats.StatRange(8, 16),
+                    Will = new RaceStats.StatRange(8, 16),
+                    Agility = new RaceStats.StatRange(12, 20),
+                    Voracity = new RaceStats.StatRange(8, 16),
+                    Stomach = new RaceStats.StatRange(8, 14),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                    Traits.Intimidating,
+                    Traits.Charge,
+                    Traits.Greedy,
+                    Traits.Pathfinder,
+                },
+                RaceDescription = ""
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.Skintone, "Body Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Body Style");
+            });
+            output.IndividualNames(new List<string>
+            {
+                "Aquila",
+                "Harpia",
+                "Accipiter",
+                "Kirkos",
+                "Cathartes",
+                "Necrosyrtes",
+                "Neophron",
+                "Sarcogyps",
+                "Elanus",
+                "Milvus",
+                "Haliastur",
+                "Pandion",
+                "Buteo",
+                "Falco",
+                "Harpagus",
+                "Milvago",
+                "Caracara",
+                "Ibycter",
+                "Daptrius",
+                "Ictinia",
+                "Minerva",
+                "Aegolius",
+                "Sagittarius",
+                "Lanius",
+                "Vultur",
+                "Surnia",
+                "Strix",
+                "Pulsatrix",
+                "Ninox",
+                "Ealonides",
+                "Dryotriorchis",
+                "Casuarius",
+            });
             output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.GryphonSkin);
             output.GentleAnimation = true;
 

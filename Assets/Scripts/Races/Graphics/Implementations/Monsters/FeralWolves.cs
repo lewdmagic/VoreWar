@@ -6,44 +6,44 @@ using System.Collections.Generic;
 
 internal static class FeralWolves
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Feral Wolf", "Feral Wolves");
-        builder.FlavorText(new FlavorText(
-            new Texts { "shaggy", "gamey", "growling" },
-            new Texts { "long furred", "spirited", "panting" },
-            new Texts { "feral", "canine", {"wolfess", Gender.Female}, {"wolf", Gender.Male} },
-            "Fangs"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 15,
-            StomachSize = 18,
-            HasTail = true,
-            FavoredStat = Stat.Strength,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal },
-            ExpMultiplier = 1.75f,
-            PowerAdjustment = 1.75f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(10, 22),
-                Dexterity = new RaceStats.StatRange(4, 8),
-                Endurance = new RaceStats.StatRange(12, 22),
-                Mind = new RaceStats.StatRange(6, 12),
-                Will = new RaceStats.StatRange(6, 12),
-                Agility = new RaceStats.StatRange(8, 16),
-                Voracity = new RaceStats.StatRange(8, 16),
-                Stomach = new RaceStats.StatRange(6, 14),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Biter,
-                Traits.PackStrength,
-            },
-            RaceDescription = "Natives of this realm, the wolves were more than happy for a chance to welcome the newcomers to their bellies. While likely related to their bipedal cousins, the ferals only consider them as familiar smelling food.",
-        });
         builder.Setup(output =>
         {
+            output.Names("Feral Wolf", "Feral Wolves");
+            output.FlavorText(new FlavorText(
+                new Texts { "shaggy", "gamey", "growling" },
+                new Texts { "long furred", "spirited", "panting" },
+                new Texts { "feral", "canine", {"wolfess", Gender.Female}, {"wolf", Gender.Male} },
+                "Fangs"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 15,
+                StomachSize = 18,
+                HasTail = true,
+                FavoredStat = Stat.Strength,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal },
+                ExpMultiplier = 1.75f,
+                PowerAdjustment = 1.75f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(10, 22),
+                    Dexterity = new RaceStats.StatRange(4, 8),
+                    Endurance = new RaceStats.StatRange(12, 22),
+                    Mind = new RaceStats.StatRange(6, 12),
+                    Will = new RaceStats.StatRange(6, 12),
+                    Agility = new RaceStats.StatRange(8, 16),
+                    Voracity = new RaceStats.StatRange(8, 16),
+                    Stomach = new RaceStats.StatRange(6, 14),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Biter,
+                    Traits.PackStrength,
+                },
+                RaceDescription = "Natives of this realm, the wolves were more than happy for a chance to welcome the newcomers to their bellies. While likely related to their bipedal cousins, the ferals only consider them as familiar smelling food.",
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SkinColors = 6;
             output.HairColors = 6;

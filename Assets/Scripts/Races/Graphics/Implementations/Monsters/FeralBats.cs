@@ -6,40 +6,40 @@ using System.Collections.Generic;
 
 internal static class FeralBats
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Feral Bat", "Feral Bats");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 12,
-            StomachSize = 12,
-            HasTail = false,
-            FavoredStat = Stat.Agility,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
-            ExpMultiplier = 1.2f,
-            PowerAdjustment = 1.5f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 12),
-                Dexterity = new RaceStats.StatRange(12, 16),
-                Endurance = new RaceStats.StatRange(8, 12),
-                Mind = new RaceStats.StatRange(6, 8),
-                Will = new RaceStats.StatRange(8, 12),
-                Agility = new RaceStats.StatRange(12, 16),
-                Voracity = new RaceStats.StatRange(10, 14),
-                Stomach = new RaceStats.StatRange(8, 12),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Flight,
-                Traits.EvasiveBattler
-            },
-            RaceDescription = "A species with large difference in size between genders, the male bats being barely half the female's size. This has led many to believe that the tendency of the females to hunt both for sustenance and pleasure is due to the males being unable to satisfy some of the female's needs."
-        });
         RaceFrameList frameListWings = new RaceFrameList(new int[2] { 0, 1 }, new float[2] { .2f, .2f });
 
         builder.Setup(output =>
         {
+            output.Names("Feral Bat", "Feral Bats");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 12,
+                StomachSize = 12,
+                HasTail = false,
+                FavoredStat = Stat.Agility,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
+                ExpMultiplier = 1.2f,
+                PowerAdjustment = 1.5f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 12),
+                    Dexterity = new RaceStats.StatRange(12, 16),
+                    Endurance = new RaceStats.StatRange(8, 12),
+                    Mind = new RaceStats.StatRange(6, 8),
+                    Will = new RaceStats.StatRange(8, 12),
+                    Agility = new RaceStats.StatRange(12, 16),
+                    Voracity = new RaceStats.StatRange(10, 14),
+                    Stomach = new RaceStats.StatRange(8, 12),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Flight,
+                    Traits.EvasiveBattler
+                },
+                RaceDescription = "A species with large difference in size between genders, the male bats being barely half the female's size. This has led many to believe that the tendency of the females to hunt both for sustenance and pleasure is due to the males being unable to satisfy some of the female's needs."
+            });
             output.DickSizes = () => 1;
             output.BreastSizes = () => 1;
 

@@ -8,43 +8,43 @@ using UnityEngine;
 
 internal static class Humans
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Human", "Humans");
-        builder.FlavorText(new FlavorText(
-            new Texts { "bare skinned", "soft", "shouting" },
-            new Texts { "adaptive", "clever", "resourceful" },
-            new Texts { "human", "humanoid", {"woman", Gender.Female}, {"man", Gender.Male} }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 15,
-            HasTail = false,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.AdeptLearner,
-                Traits.Clever
-            },
-            RaceDescription = "These nearly hairless, soft skinned creatures suffer from a lack in the way of physical abilities, but have proven capable of improving their skills at a great speed.",
-        });
-        builder.TownNames(new List<string>
-        {
-            "Bastion",
-            "Bulwark",
-            "The Iron Stronghold",
-            "Forlorn Citadel",
-            "Fort Dauntless",
-            "Homestead",
-            "The Partition",
-            "Gold Hand Redoubt",
-            "Fort Hera",
-            "Boldenholm",
-            "Grace",
-        });
         builder.Setup(output =>
         {
+            output.Names("Human", "Humans");
+            output.FlavorText(new FlavorText(
+                new Texts { "bare skinned", "soft", "shouting" },
+                new Texts { "adaptive", "clever", "resourceful" },
+                new Texts { "human", "humanoid", {"woman", Gender.Female}, {"man", Gender.Male} }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 15,
+                HasTail = false,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.AdeptLearner,
+                    Traits.Clever
+                },
+                RaceDescription = "These nearly hairless, soft skinned creatures suffer from a lack in the way of physical abilities, but have proven capable of improving their skills at a great speed.",
+            });
+            output.TownNames(new List<string>
+            {
+                "Bastion",
+                "Bulwark",
+                "The Iron Stronghold",
+                "Forlorn Citadel",
+                "Fort Dauntless",
+                "Homestead",
+                "The Partition",
+                "Gold Hand Redoubt",
+                "Fort Hera",
+                "Boldenholm",
+                "Grace",
+            });
             output.DickSizes = () => 6;
             output.BreastSizes = () => 8;
 

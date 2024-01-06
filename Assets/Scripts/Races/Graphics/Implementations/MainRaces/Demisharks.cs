@@ -8,10 +8,16 @@ using UnityEngine;
 
 internal static class Demisharks
 {
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Demishark", "Demisharks");
-        builder.FlavorText(new FlavorText(
+        IClothing<IOverSizeParameters> leaderClothes = DemisharkLeader.DemisharkLeaderInstance;
+        IClothing rags = DemisharkRags.DemisharkRagsInstance;
+
+
+        builder.Setup(output =>
+        {
+        output.Names("Demishark", "Demisharks");
+        output.FlavorText(new FlavorText(
             new Texts {  },
             new Texts {  },
             new Texts { "demi-shark", "shark", "landshark" },
@@ -23,7 +29,7 @@ internal static class Demisharks
                 [WeaponNames.CompoundBow] = "Speargun"
             }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 12,
             StomachSize = 15,
@@ -37,7 +43,7 @@ internal static class Demisharks
             },
             RaceDescription = "",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
             buttons.SetText(ButtonType.BodyAccentTypes1, "Body Pattern Type");
@@ -46,7 +52,7 @@ internal static class Demisharks
             buttons.SetText(ButtonType.BodyAccessoryColor, "Secondary Pattern Colors");
             buttons.SetText(ButtonType.ClothingExtraType1, "Hats");
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "Port Royal",
             "Tortuga",
@@ -69,12 +75,6 @@ internal static class Demisharks
             "Wanderer's Hideout",
             "Blackened Den"
         });
-        IClothing<IOverSizeParameters> leaderClothes = DemisharkLeader.DemisharkLeaderInstance;
-        IClothing rags = DemisharkRags.DemisharkRagsInstance;
-
-
-        builder.Setup(output =>
-        {
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
 

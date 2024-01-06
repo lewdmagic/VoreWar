@@ -10,61 +10,61 @@ internal static class Vipers
 {
     private static readonly float XOffset = -7.5f; //12 pixels * 5/8
 
-    internal static IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Viper", "Vipers");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts {  },
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Arc Blade",
-                [WeaponNames.Axe]         = "Fusion Blade",
-                [WeaponNames.SimpleBow]   = "Plasma Pistol",
-                [WeaponNames.CompoundBow] = "Plasma Rifle"
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 18,
-            StomachSize = 25,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
-            PowerAdjustment = 1.4f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(10, 16),
-                Dexterity = new RaceStats.StatRange(14, 20),
-                Endurance = new RaceStats.StatRange(8, 14),
-                Mind = new RaceStats.StatRange(10, 16),
-                Will = new RaceStats.StatRange(10, 16),
-                Agility = new RaceStats.StatRange(14, 20),
-                Voracity = new RaceStats.StatRange(18, 28),
-                Stomach = new RaceStats.StatRange(14, 20),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ArtfulDodge,
-                Traits.DualStomach,
-                Traits.RangedVore,
-                Traits.KeenShot,
-                Traits.SlowMetabolism,
-                Traits.PoisonSpit
-            },
-            RaceDescription = "",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.Skintone, "Body Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Hood Type");
-            buttons.SetText(ButtonType.ExtraColor1, "Accent Color");
-            buttons.SetText(ButtonType.TailTypes, "Tail Pattern");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Accent Pattern");
-        });
         builder.Setup(output =>
         {
+            output.Names("Viper", "Vipers");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts {  },
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Arc Blade",
+                    [WeaponNames.Axe]         = "Fusion Blade",
+                    [WeaponNames.SimpleBow]   = "Plasma Pistol",
+                    [WeaponNames.CompoundBow] = "Plasma Rifle"
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 18,
+                StomachSize = 25,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
+                PowerAdjustment = 1.4f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(10, 16),
+                    Dexterity = new RaceStats.StatRange(14, 20),
+                    Endurance = new RaceStats.StatRange(8, 14),
+                    Mind = new RaceStats.StatRange(10, 16),
+                    Will = new RaceStats.StatRange(10, 16),
+                    Agility = new RaceStats.StatRange(14, 20),
+                    Voracity = new RaceStats.StatRange(18, 28),
+                    Stomach = new RaceStats.StatRange(14, 20),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ArtfulDodge,
+                    Traits.DualStomach,
+                    Traits.RangedVore,
+                    Traits.KeenShot,
+                    Traits.SlowMetabolism,
+                    Traits.PoisonSpit
+                },
+                RaceDescription = "",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.Skintone, "Body Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Hood Type");
+                buttons.SetText(ButtonType.ExtraColor1, "Accent Color");
+                buttons.SetText(ButtonType.TailTypes, "Tail Pattern");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Accent Pattern");
+            });
             output.DickSizes = () => 8;
             output.BreastSizes = () => 8;
 
@@ -226,11 +226,11 @@ internal static class Vipers
 
             if (input.U.TailType == 0)
             {
-                    output.Sprite(input.Sprites.Vipers2[80 + size2]);
+                output.Sprite(input.Sprites.Vipers2[80 + size2]);
             }
             else
             {
-                    output.Sprite(input.Sprites.Vipers4[48 + size2]);
+                output.Sprite(input.Sprites.Vipers4[48 + size2]);
                 
             }
         }); // second stomach

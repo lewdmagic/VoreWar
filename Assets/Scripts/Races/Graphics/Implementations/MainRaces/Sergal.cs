@@ -8,52 +8,52 @@ using UnityEngine;
 
 internal static class Sergal
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Sergal", "Sergals");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "furred", "sergal", "Eltussian" }, //new, many thanks to Flame_Valxsarion
-            new Dictionary<string, string>
-            {
-                [WeaponNames.Mace]        = "Lance",
-                [WeaponNames.Axe]         = "Twin Glaive",
-                [WeaponNames.SimpleBow]   = "Speargun",
-                [WeaponNames.CompoundBow] = "Prototype Railgun" //changed to "prototype railgun", thanks to Flame_Valxsarion
-            }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 11,
-            StomachSize = 14,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            RacialTraits = new List<Traits>()
-            {
-                Traits.KeenReflexes,
-                Traits.StrongMelee,
-                Traits.EscapeArtist
-            },
-            RaceDescription = "",
-        });
-        builder.TownNames(new List<string>
-        {
-            "Glorious City of Eltus",
-            "Gold Ring",
-            "Astna",
-            "Tesae",
-            "Col Hazma",
-            "Adzma",
-            "Nihazama",
-            "Lon Sodd",
-            "Reono",
-            "Etai",
-            "Magoe",
-            "Salt Outpost"
-        });
         builder.Setup(output =>
         {
+            output.Names("Sergal", "Sergals");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "furred", "sergal", "Eltussian" }, //new, many thanks to Flame_Valxsarion
+                new Dictionary<string, string>
+                {
+                    [WeaponNames.Mace]        = "Lance",
+                    [WeaponNames.Axe]         = "Twin Glaive",
+                    [WeaponNames.SimpleBow]   = "Speargun",
+                    [WeaponNames.CompoundBow] = "Prototype Railgun" //changed to "prototype railgun", thanks to Flame_Valxsarion
+                }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 11,
+                StomachSize = 14,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.KeenReflexes,
+                    Traits.StrongMelee,
+                    Traits.EscapeArtist
+                },
+                RaceDescription = "",
+            });
+            output.TownNames(new List<string>
+            {
+                "Glorious City of Eltus",
+                "Gold Ring",
+                "Astna",
+                "Tesae",
+                "Col Hazma",
+                "Adzma",
+                "Nihazama",
+                "Lon Sodd",
+                "Reono",
+                "Etai",
+                "Magoe",
+                "Salt Outpost"
+            });
             output.BreastSizes = () => 10;
 
             output.EyeTypes = 4;

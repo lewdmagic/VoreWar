@@ -2,10 +2,12 @@
 
 internal static class Alligators
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Alligator", "Alligators");
-        builder.FlavorText(new FlavorText(
+        builder.Setup(output =>
+        {
+        output.Names("Alligator", "Alligators");
+        output.FlavorText(new FlavorText(
             new Texts { "crocodilian", "lumbering", "swampy" },
             new Texts { "armoured", "large jawed", "swampy", {"interior crocodile alligator", 0.005} },
             new Texts { "gator", "alligator", "crocodilian", "reptile" },
@@ -18,7 +20,7 @@ internal static class Alligators
                 [WeaponNames.Claw]        = "Claws"
             }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 15,
             StomachSize = 20,
@@ -48,8 +50,6 @@ internal static class Alligators
             },
             RaceDescription = "Natives to great swamps on another dimension, the Alligators emerge sporadically from portals across the land. Either unwilling or unable to settle this realm, they instead work as mercenaries for hire. Large, tough and intimidating, they make great bruisers, but seem totally unable to understand the principle of ranged weapons.",
         });
-        builder.Setup(output =>
-        {
             // Alligators have three different dick sizes and no breasts.
             output.DickSizes = () => 3;
             output.BreastSizes = () => 1;

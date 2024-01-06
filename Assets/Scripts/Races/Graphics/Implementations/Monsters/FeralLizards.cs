@@ -2,47 +2,47 @@
 
 internal static class FeralLizards
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Feral Lizard", "Feral Lizards");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 17,
-            StomachSize = 16,
-            HasTail = true,
-            FavoredStat = Stat.Strength,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
-            ExpMultiplier = 1.5f,
-            PowerAdjustment = 1.75f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(12, 20),
-                Dexterity = new RaceStats.StatRange(8, 16),
-                Endurance = new RaceStats.StatRange(10, 18),
-                Mind = new RaceStats.StatRange(8, 16),
-                Will = new RaceStats.StatRange(8, 16),
-                Agility = new RaceStats.StatRange(8, 16),
-                Voracity = new RaceStats.StatRange(10, 18),
-                Stomach = new RaceStats.StatRange(8, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Intimidating,
-                Traits.Biter,
-                Traits.Resilient
-            },
-            RaceDescription = ""
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
-            buttons.SetText(ButtonType.BodyAccentTypes1, "Visible Teeth (during attacks)");
-        });
         RaceFrameList frameListTongue = new RaceFrameList(new int[3] { 0, 1, 2 }, new float[3] { 0.5f, 0.2f, 0.3f });
 
 
         builder.Setup(output =>
         {
+            output.Names("Feral Lizard", "Feral Lizards");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 17,
+                StomachSize = 16,
+                HasTail = true,
+                FavoredStat = Stat.Strength,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Anal, VoreType.Unbirth, VoreType.CockVore },
+                ExpMultiplier = 1.5f,
+                PowerAdjustment = 1.75f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(12, 20),
+                    Dexterity = new RaceStats.StatRange(8, 16),
+                    Endurance = new RaceStats.StatRange(10, 18),
+                    Mind = new RaceStats.StatRange(8, 16),
+                    Will = new RaceStats.StatRange(8, 16),
+                    Agility = new RaceStats.StatRange(8, 16),
+                    Voracity = new RaceStats.StatRange(10, 18),
+                    Stomach = new RaceStats.StatRange(8, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Intimidating,
+                    Traits.Biter,
+                    Traits.Resilient
+                },
+                RaceDescription = ""
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryType, "Body Pattern Type");
+                buttons.SetText(ButtonType.BodyAccentTypes1, "Visible Teeth (during attacks)");
+            });
             output.SpecialAccessoryCount = 10; // body pattern
             output.BodyAccentTypes1 = 2; // teeths on/off
             output.ClothingColors = 0;

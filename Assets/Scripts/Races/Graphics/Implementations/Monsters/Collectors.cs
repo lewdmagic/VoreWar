@@ -6,51 +6,51 @@ using System.Collections.Generic;
 
 internal static class Collectors
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Collector", "Collectors");
-        builder.FlavorText(new FlavorText(
-            new Texts {  },
-            new Texts {  },
-            new Texts { "alien", "quadpod" },
-            "Maw"
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 20,
-            StomachSize = 30,
-            HasTail = true,
-            FavoredStat = Stat.Stomach,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.5f,
-            PowerAdjustment = 2.2f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(11, 20),
-                Dexterity = new RaceStats.StatRange(8, 16),
-                Endurance = new RaceStats.StatRange(16, 22),
-                Mind = new RaceStats.StatRange(6, 12),
-                Will = new RaceStats.StatRange(8, 16),
-                Agility = new RaceStats.StatRange(12, 20),
-                Voracity = new RaceStats.StatRange(14, 18),
-                Stomach = new RaceStats.StatRange(16, 24),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.SlowDigestion,
-                Traits.SlowAbsorption,
-                Traits.BornToMove,
-                Traits.NimbleClimber,
-            },
-            RaceDescription = "These large, long limbed creatures seem to be pets or beasts of burden for the Harvesters. While very capable of hunting on their own, they mostly collect the prey the Harvesters have already brought low, filling their low hanging saggy bellies with dozens of prey.",
-
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.ExtraColor2, "Mouth / Dick Color");
-        });
         builder.Setup(output =>
         {
+            output.Names("Collector", "Collectors");
+            output.FlavorText(new FlavorText(
+                new Texts {  },
+                new Texts {  },
+                new Texts { "alien", "quadpod" },
+                "Maw"
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 20,
+                StomachSize = 30,
+                HasTail = true,
+                FavoredStat = Stat.Stomach,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.5f,
+                PowerAdjustment = 2.2f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(11, 20),
+                    Dexterity = new RaceStats.StatRange(8, 16),
+                    Endurance = new RaceStats.StatRange(16, 22),
+                    Mind = new RaceStats.StatRange(6, 12),
+                    Will = new RaceStats.StatRange(8, 16),
+                    Agility = new RaceStats.StatRange(12, 20),
+                    Voracity = new RaceStats.StatRange(14, 18),
+                    Stomach = new RaceStats.StatRange(16, 24),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.SlowDigestion,
+                    Traits.SlowAbsorption,
+                    Traits.BornToMove,
+                    Traits.NimbleClimber,
+                },
+                RaceDescription = "These large, long limbed creatures seem to be pets or beasts of burden for the Harvesters. While very capable of hunting on their own, they mostly collect the prey the Harvesters have already brought low, filling their low hanging saggy bellies with dozens of prey.",
+
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.ExtraColor2, "Mouth / Dick Color");
+            });
             output.SkinColors = ColorMap.LizardColorCount; // Majority of the body
             output.EyeColors = ColorMap.EyeColorCount; // Eyes
             output.ExtraColors1 = ColorMap.LizardColorCount; // Plates, claws

@@ -6,42 +6,42 @@ using System.Collections.Generic;
 
 internal static class Schiwardez
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Schiwardez", "Schiwardez");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 10,
-            StomachSize = 10,
-            HasTail = true,
-            FavoredStat = Stat.Endurance,
-            AllowedVoreTypes = new List<VoreType> { VoreType.CockVore },
-            ExpMultiplier = 1.3f,
-            PowerAdjustment = 1.6f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(10, 14),
-                Dexterity = new RaceStats.StatRange(8, 12),
-                Endurance = new RaceStats.StatRange(12, 16),
-                Mind = new RaceStats.StatRange(4, 6),
-                Will = new RaceStats.StatRange(8, 12),
-                Agility = new RaceStats.StatRange(10, 14),
-                Voracity = new RaceStats.StatRange(10, 14),
-                Stomach = new RaceStats.StatRange(10, 14),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Resilient,
-                Traits.Disgusting
-            },
-            RaceDescription = "A tough, twisted creature. Hunts for pleasure rather than sustenance.",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.Skintone, "Body Color");
-        });
         builder.Setup(output =>
         {
+            output.Names("Schiwardez", "Schiwardez");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 10,
+                StomachSize = 10,
+                HasTail = true,
+                FavoredStat = Stat.Endurance,
+                AllowedVoreTypes = new List<VoreType> { VoreType.CockVore },
+                ExpMultiplier = 1.3f,
+                PowerAdjustment = 1.6f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(10, 14),
+                    Dexterity = new RaceStats.StatRange(8, 12),
+                    Endurance = new RaceStats.StatRange(12, 16),
+                    Mind = new RaceStats.StatRange(4, 6),
+                    Will = new RaceStats.StatRange(8, 12),
+                    Agility = new RaceStats.StatRange(10, 14),
+                    Voracity = new RaceStats.StatRange(10, 14),
+                    Stomach = new RaceStats.StatRange(10, 14),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Resilient,
+                    Traits.Disgusting
+                },
+                RaceDescription = "A tough, twisted creature. Hunts for pleasure rather than sustenance.",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.Skintone, "Body Color");
+            });
             output.GentleAnimation = true;
             output.CanBeGender = new List<Gender> { Gender.Male };
             output.SkinColors = ColorMap.SchiwardezColorCount;

@@ -6,40 +6,40 @@ using System.Collections.Generic;
 
 internal static class DRACO
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("D.R.A.C.O.", "D.R.A.C.O.");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 22,
-            StomachSize = 30,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 2.4f,
-            PowerAdjustment = 4f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(20, 24),
-                Dexterity = new RaceStats.StatRange(6, 10),
-                Endurance = new RaceStats.StatRange(16, 24),
-                Mind = new RaceStats.StatRange(16, 20),
-                Will = new RaceStats.StatRange(12, 18),
-                Agility = new RaceStats.StatRange(16, 28),
-                Voracity = new RaceStats.StatRange(16, 24),
-                Stomach = new RaceStats.StatRange(18, 26),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.MetalBody,
-                Traits.KeenReflexes,
-                Traits.BornToMove,
-                Traits.Intimidating,
-            },
-            RaceDescription = "A corrupted D.r.a.c.o unit. Unlike other units from his line 008 has tampered with his coding and removed the safety on his stomach allowing him to digest his prisoners.",
-        });
         builder.Setup(output =>
         {
+            output.Names("D.R.A.C.O.", "D.R.A.C.O.");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 22,
+                StomachSize = 30,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 2.4f,
+                PowerAdjustment = 4f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(20, 24),
+                    Dexterity = new RaceStats.StatRange(6, 10),
+                    Endurance = new RaceStats.StatRange(16, 24),
+                    Mind = new RaceStats.StatRange(16, 20),
+                    Will = new RaceStats.StatRange(12, 18),
+                    Agility = new RaceStats.StatRange(16, 28),
+                    Voracity = new RaceStats.StatRange(16, 24),
+                    Stomach = new RaceStats.StatRange(18, 26),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.MetalBody,
+                    Traits.KeenReflexes,
+                    Traits.BornToMove,
+                    Traits.Intimidating,
+                },
+                RaceDescription = "A corrupted D.r.a.c.o unit. Unlike other units from his line 008 has tampered with his coding and removed the safety on his stomach allowing him to digest his prisoners.",
+            });
             output.CanBeGender = new List<Gender> { Gender.Male };
             output.GentleAnimation = true;
             output.ClothingColors = 0;

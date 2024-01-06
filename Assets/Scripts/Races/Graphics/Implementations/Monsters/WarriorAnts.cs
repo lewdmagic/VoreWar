@@ -6,44 +6,44 @@ using System.Collections.Generic;
 
 internal static class WarriorAnts
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Warrior Ant", "Warrior Ants");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 8,
-            StomachSize = 14,
-            HasTail = false,
-            FavoredStat = Stat.Strength,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
-            ExpMultiplier = 1.1f,
-            PowerAdjustment = 1.3f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 12),
-                Dexterity = new RaceStats.StatRange(12, 15),
-                Endurance = new RaceStats.StatRange(8, 12),
-                Mind = new RaceStats.StatRange(16, 20),
-                Will = new RaceStats.StatRange(6, 10),
-                Agility = new RaceStats.StatRange(8, 12),
-                Voracity = new RaceStats.StatRange(8, 12),
-                Stomach = new RaceStats.StatRange(8, 12),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.AcidResistant,
-                Traits.PackStrength,
-                Traits.SlowDigestion
-            },
-            RaceDescription = ""
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.Skintone, "Body Color");
-            buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
-        });
         builder.Setup(output =>
         {
+            output.Names("Warrior Ant", "Warrior Ants");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 8,
+                StomachSize = 14,
+                HasTail = false,
+                FavoredStat = Stat.Strength,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral },
+                ExpMultiplier = 1.1f,
+                PowerAdjustment = 1.3f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 12),
+                    Dexterity = new RaceStats.StatRange(12, 15),
+                    Endurance = new RaceStats.StatRange(8, 12),
+                    Mind = new RaceStats.StatRange(16, 20),
+                    Will = new RaceStats.StatRange(6, 10),
+                    Agility = new RaceStats.StatRange(8, 12),
+                    Voracity = new RaceStats.StatRange(8, 12),
+                    Stomach = new RaceStats.StatRange(8, 12),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.AcidResistant,
+                    Traits.PackStrength,
+                    Traits.SlowDigestion
+                },
+                RaceDescription = ""
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.Skintone, "Body Color");
+                buttons.SetText(ButtonType.BodyAccessoryType, "Antennae Type");
+            });
             output.CanBeGender = new List<Gender> { Gender.None };
             output.SpecialAccessoryCount = 9; // antennae
             output.ClothingColors = 0;

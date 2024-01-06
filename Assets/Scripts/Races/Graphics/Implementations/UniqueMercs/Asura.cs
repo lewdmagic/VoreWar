@@ -16,43 +16,43 @@ internal static class Asura
         new RaceFrameList(new int[7] { 95, 96, 97, 98, 99, 100, 101 }, new float[7] { .15f, .15f, .15f, .15f, .15f, .15f, .15f })
     };
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Asura", "Asura");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 18,
-            StomachSize = 30,
-            HasTail = true,
-            FavoredStat = Stat.Strength,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal },
-            ExpMultiplier = 2.4f,
-            PowerAdjustment = 3f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(20, 24),
-                Dexterity = new RaceStats.StatRange(6, 10),
-                Endurance = new RaceStats.StatRange(16, 20),
-                Mind = new RaceStats.StatRange(8, 12),
-                Will = new RaceStats.StatRange(12, 16),
-                Agility = new RaceStats.StatRange(10, 16),
-                Voracity = new RaceStats.StatRange(18, 24),
-                Stomach = new RaceStats.StatRange(8, 12),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Maul,
-                Traits.Frenzy,
-                Traits.ShunGokuSatsu
-            },
-            CanUseRangedWeapons = false,
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.ClothingAccessoryType, "Mask");
-        });
         builder.Setup(output =>
         {
+            output.Names("Asura", "Asura");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 18,
+                StomachSize = 30,
+                HasTail = true,
+                FavoredStat = Stat.Strength,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal },
+                ExpMultiplier = 2.4f,
+                PowerAdjustment = 3f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(20, 24),
+                    Dexterity = new RaceStats.StatRange(6, 10),
+                    Endurance = new RaceStats.StatRange(16, 20),
+                    Mind = new RaceStats.StatRange(8, 12),
+                    Will = new RaceStats.StatRange(12, 16),
+                    Agility = new RaceStats.StatRange(10, 16),
+                    Voracity = new RaceStats.StatRange(18, 24),
+                    Stomach = new RaceStats.StatRange(8, 12),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Maul,
+                    Traits.Frenzy,
+                    Traits.ShunGokuSatsu
+                },
+                CanUseRangedWeapons = false,
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.ClothingAccessoryType, "Mask");
+            });
             IClothing outfit = BaseOutfit.BaseOutfitInstance;
             IClothing horns = ReindeerHorns.ReindeerHornsInstance;
             output.BreastSizes = () => 1;

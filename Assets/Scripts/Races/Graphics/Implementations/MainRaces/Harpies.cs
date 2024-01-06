@@ -7,10 +7,12 @@ using UnityEngine;
 
 internal static class Harpies
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("Harpy", "Harpies");
-        builder.FlavorText(new FlavorText(
+        builder.Setup(output =>
+        {
+        output.Names("Harpy", "Harpies");
+        output.FlavorText(new FlavorText(
             new Texts { "feathered", "keening", "grounded" },
             new Texts { "winged", "screeching", "taloned" },
             new Texts { "harpy", "raptor", "harpyia" },
@@ -23,7 +25,7 @@ internal static class Harpies
                 [WeaponNames.Claw]        = "Talons"
             }
         ));
-        builder.RaceTraits(new RaceTraits()
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 8,
             StomachSize = 15,
@@ -37,14 +39,14 @@ internal static class Harpies
             },
             RaceDescription = "Emerging from a portal high in the sky, the Harpyia saw a whole new land beneath them and descended looking for fresh prey. While unable to fly and hold weapons at their claws at the same time, the harpy are quite adept at fighting with their strong talons, as well as at dropping things from high above instead of using more prevalent ranged weapons.",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.ExtraColor1, "Upper Feathers");
             buttons.SetText(ButtonType.ExtraColor2, "Middle Feathers");
             buttons.SetText(ButtonType.ExtraColor3, "Lower Feathers");
             buttons.SetText(ButtonType.BodyAccentTypes1, "Lower Feather brightness");
         });
-        builder.TownNames(new List<string>
+        output.TownNames(new List<string>
         {
             "The Erinyes",
             "Strophades",
@@ -61,8 +63,6 @@ internal static class Harpies
             "Cave of Argo",
             "Cave of Orcus",
         });
-        builder.Setup(output =>
-        {
             output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.Fur);
             output.SpecialAccessoryCount = 3;
             output.BodySizes = 0;

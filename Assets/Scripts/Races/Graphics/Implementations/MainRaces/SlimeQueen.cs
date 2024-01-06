@@ -9,9 +9,8 @@ using UnityEngine;
 
 internal static class SlimeQueen
 {
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
     {
-        builder.Names("SlimeQueen", "SlimeQueens");
         //////////////////////// SLIMES ///////////////////////////////////////////////////////////////
         //////////////////// TO BE REMOVED LATER //////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,6 +110,7 @@ internal static class SlimeQueen
 
         builder.Setup(output =>
         {
+            output.Names("SlimeQueen", "SlimeQueens");
             output.AvoidedMainClothingTypes = 1;
 
             output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.SlimeMain);

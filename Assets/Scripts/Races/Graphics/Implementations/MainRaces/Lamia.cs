@@ -21,50 +21,50 @@ internal static class Lamia
     private static readonly float xOffset = -1.875f; //3 pixels * 5/8
     private static readonly float yOffset = 3.75f;
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<SeliciaParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<SeliciaParameters>, builder =>
     {
-        builder.Names("Lamia", "Lamia");
-        builder.WallType(WallType.Lamia);
-        builder.FlavorText(new FlavorText(
-            new Texts { "scaly", "noodly", "double-tasty" },
-            new Texts { "scaly", "long bodied", "sizeable" },
-            new Texts { "lamia", "serpent", "half-snake" }
-        ));
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 15,
-            StomachSize = 25,
-            HasTail = true,
-            FavoredStat = Stat.Voracity,
-            AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.Ravenous,
-                Traits.Biter,
-                Traits.DualStomach
-            },
-            RaceDescription = "Natives to this realm, these legless beings were once the strongest and largest hunters of the land. The sudden emergence of many new species left the Lamia uncertain at first, but soon their dual stomachs won and they focused on testing the taste of the new arrivals.",
-        });
-        builder.CustomizeButtons((unit, buttons) =>
-        {
-            buttons.SetText(ButtonType.BodyAccessoryColor, "Scale Color");
-            buttons.SetText(ButtonType.ExtraColor1, "Accent Color");
-            buttons.SetText(ButtonType.ExtraColor2, "Tail Pattern Color");
-        });
-        builder.TownNames(new List<string>
-        {
-            "City of Brass",
-            "Sthenopoli",
-            "Poena",
-            "Fields of Elysium",
-            "Cult of Bronze",
-            "Lair of Gorgon",
-            "Echidnadon",
-            "Nagapolis",
-            "Fountain of Woe"
-        });
         builder.Setup(output =>
         {
+            output.Names("Lamia", "Lamia");
+            output.WallType(WallType.Lamia);
+            output.FlavorText(new FlavorText(
+                new Texts { "scaly", "noodly", "double-tasty" },
+                new Texts { "scaly", "long bodied", "sizeable" },
+                new Texts { "lamia", "serpent", "half-snake" }
+            ));
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 15,
+                StomachSize = 25,
+                HasTail = true,
+                FavoredStat = Stat.Voracity,
+                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.Ravenous,
+                    Traits.Biter,
+                    Traits.DualStomach
+                },
+                RaceDescription = "Natives to this realm, these legless beings were once the strongest and largest hunters of the land. The sudden emergence of many new species left the Lamia uncertain at first, but soon their dual stomachs won and they focused on testing the taste of the new arrivals.",
+            });
+            output.CustomizeButtons((unit, buttons) =>
+            {
+                buttons.SetText(ButtonType.BodyAccessoryColor, "Scale Color");
+                buttons.SetText(ButtonType.ExtraColor1, "Accent Color");
+                buttons.SetText(ButtonType.ExtraColor2, "Tail Pattern Color");
+            });
+            output.TownNames(new List<string>
+            {
+                "City of Brass",
+                "Sthenopoli",
+                "Poena",
+                "Fields of Elysium",
+                "Cult of Bronze",
+                "Lair of Gorgon",
+                "Echidnadon",
+                "Nagapolis",
+                "Fountain of Woe"
+            });
             output.EyeTypes = 3;
             output.BodySizes = 4;
             output.SpecialAccessoryCount = 2;

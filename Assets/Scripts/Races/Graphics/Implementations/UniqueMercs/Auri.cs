@@ -10,10 +10,17 @@ internal static class Auri
 {
     internal const float StomachMult = 1.7f;
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Default<OverSizeParameters>, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
     {
-        builder.Names("Auri", "Auri");
-        builder.RaceTraits(new RaceTraits()
+        List<IClothingDataSimple> allClothing;
+
+        RaceFrameList earAnimation = new RaceFrameList(new int[3] { 22, 23, 22 }, new float[3] { .2f, .2f, .2f });
+        RaceFrameList faceAnimation = new RaceFrameList(new int[3] { 18, 19, 18 }, new float[3] { .25f, .25f, .25f });
+
+        builder.Setup(output =>
+        {
+        output.Names("Auri", "Auri");
+        output.RaceTraits(new RaceTraits()
         {
             BodySize = 16,
             StomachSize = 30,
@@ -43,13 +50,13 @@ internal static class Auri
                 { SpellTypes.Mending, SpellTypes.Summon },
             RaceDescription = "A fox-woman priestess and self-proclaimed avatar of a creator of the world.",
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.Skintone, "Body Color");
             buttons.SetText(ButtonType.BodyAccessoryType, "Barbel (Whisker) Type");
             buttons.SetText(ButtonType.BodyAccentTypes1, "Dorsal Fin Type");
         });
-        builder.CustomizeButtons((unit, buttons) =>
+        output.CustomizeButtons((unit, buttons) =>
         {
             buttons.SetText(ButtonType.ClothingType, "Breast Wrap");
             buttons.SetText(ButtonType.ClothingExtraType1, "Kimono");
@@ -58,13 +65,6 @@ internal static class Auri
             buttons.SetText(ButtonType.TailTypes, "Tail Quantity");
             buttons.SetText(ButtonType.BodyAccentTypes1, "Beast Mode");
         });
-        List<IClothingDataSimple> allClothing;
-
-        RaceFrameList earAnimation = new RaceFrameList(new int[3] { 22, 23, 22 }, new float[3] { .2f, .2f, .2f });
-        RaceFrameList faceAnimation = new RaceFrameList(new int[3] { 18, 19, 18 }, new float[3] { .25f, .25f, .25f });
-
-        builder.Setup(output =>
-        {
             output.BreastSizes = () => 7;
             output.DickSizes = () => 1;
 

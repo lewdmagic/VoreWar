@@ -8,37 +8,8 @@ internal static class Dratopyr
 {
     internal static RaceFrameList FrameListShake = new RaceFrameList(new int[5] { 0, 1, 0, 2, 0 }, new float[5] { 0.6f, 0.6f, 0.6f, 0.6f, 0.6f });
 
-    internal static readonly IRaceData Instance = RaceBuilder.Create(Defaults.Blank, builder =>
+    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Names("Dratopyr", "Dratopyrs");
-        builder.RaceTraits(new RaceTraits()
-        {
-            BodySize = 9,
-            StomachSize = 15,
-            HasTail = true,
-            FavoredStat = Stat.Agility,
-            AllowedVoreTypes = new List<VoreType> { VoreType.CockVore, VoreType.Oral, VoreType.Unbirth },
-            ExpMultiplier = .95f,
-            PowerAdjustment = .95f,
-            RaceStats = new RaceStats()
-            {
-                Strength = new RaceStats.StatRange(8, 12),
-                Dexterity = new RaceStats.StatRange(6, 8),
-                Endurance = new RaceStats.StatRange(8, 12),
-                Mind = new RaceStats.StatRange(7, 9),
-                Will = new RaceStats.StatRange(10, 15),
-                Agility = new RaceStats.StatRange(9, 17),
-                Voracity = new RaceStats.StatRange(8, 14),
-                Stomach = new RaceStats.StatRange(8, 16),
-            },
-            RacialTraits = new List<Traits>()
-            {
-                Traits.ArtfulDodge,
-                Traits.Flight,
-                Traits.Cruel
-            },
-            RaceDescription = "With an appearance reminiscent of a reptilian bat, the Dratopyr are likely a hybrid race. Smaller than most monsters but just as fierce, the Dratopyr specialize in weakening their prey while avoiding attempts to fend them off. Dratopyr are very fast breeders and would thus be a major threat to everyone, were it not for their tendency toward cannibalism.",
-        });
         RaceFrameList frameListTail = new RaceFrameList(new int[8] { 2, 1, 0, 1, 2, 3, 4, 3 }, new float[8] { 0.55f, 0.55f, 0.75f, 0.55f, 0.55f, 0.55f, 0.75f, 0.55f });
         RaceFrameList frameListEyes = new RaceFrameList(new int[3] { 1, 2, 1 }, new float[3] { 0.3f, 0.3f, 0.3f });
         RaceFrameList frameListWings = new RaceFrameList(new int[4] { 0, 1, 2, 1 }, new float[4] { 0.3f, 0.3f, 0.3f, 0.3f });
@@ -47,6 +18,35 @@ internal static class Dratopyr
 
         builder.Setup(output =>
         {
+            output.Names("Dratopyr", "Dratopyrs");
+            output.RaceTraits(new RaceTraits()
+            {
+                BodySize = 9,
+                StomachSize = 15,
+                HasTail = true,
+                FavoredStat = Stat.Agility,
+                AllowedVoreTypes = new List<VoreType> { VoreType.CockVore, VoreType.Oral, VoreType.Unbirth },
+                ExpMultiplier = .95f,
+                PowerAdjustment = .95f,
+                RaceStats = new RaceStats()
+                {
+                    Strength = new RaceStats.StatRange(8, 12),
+                    Dexterity = new RaceStats.StatRange(6, 8),
+                    Endurance = new RaceStats.StatRange(8, 12),
+                    Mind = new RaceStats.StatRange(7, 9),
+                    Will = new RaceStats.StatRange(10, 15),
+                    Agility = new RaceStats.StatRange(9, 17),
+                    Voracity = new RaceStats.StatRange(8, 14),
+                    Stomach = new RaceStats.StatRange(8, 16),
+                },
+                RacialTraits = new List<Traits>()
+                {
+                    Traits.ArtfulDodge,
+                    Traits.Flight,
+                    Traits.Cruel
+                },
+                RaceDescription = "With an appearance reminiscent of a reptilian bat, the Dratopyr are likely a hybrid race. Smaller than most monsters but just as fierce, the Dratopyr specialize in weakening their prey while avoiding attempts to fend them off. Dratopyr are very fast breeders and would thus be a major threat to everyone, were it not for their tendency toward cannibalism.",
+            });
             output.BreastSizes = () => 2;
             output.DickSizes = () => 2;
 
