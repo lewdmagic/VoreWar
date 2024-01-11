@@ -1,4 +1,4 @@
-internal interface IClothingSetupInput
+public interface IClothingSetupInput
 {
     SpriteDictionary Sprites { get; }
 }

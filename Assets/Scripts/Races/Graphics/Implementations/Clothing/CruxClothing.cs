@@ -12,9 +12,9 @@ namespace CruxClothing
         internal static readonly IClothing NecklaceGoldInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { };
-});
+            {
+                { };
+            });
 
             builder.RenderAll((input, output) =>
             {
@@ -33,9 +33,9 @@ namespace CruxClothing
         internal static readonly IClothing NecklaceCruxInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { };
-});
+            {
+                { };
+            });
 
             builder.RenderAll((input, output) =>
             {

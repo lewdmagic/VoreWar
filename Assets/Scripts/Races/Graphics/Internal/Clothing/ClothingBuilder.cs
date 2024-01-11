@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-internal abstract class ClothingBuilderShared
+public abstract class ClothingBuilderShared
 {
     private protected ClothingMiscData Misc;
 
@@ -22,7 +22,7 @@ internal abstract class ClothingBuilderShared
     }
 }
 
-internal class ClothingRenderInputImpl : RenderInput, IClothingRenderInput
+public class ClothingRenderInputImpl : RenderInput, IClothingRenderInput
 {
     public ClothingRenderInputImpl(Actor_Unit actor) : base(actor)
     {
@@ -73,7 +73,7 @@ internal class ClothingSetupInput : IClothingSetupInput
 }
 
 
-internal class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
+public class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
 {
     internal static readonly ClothingMiscData DefaultMisc = new ClothingMiscData();
     private Action<IClothingRenderInput, IClothingRenderOutput> _completeGen;

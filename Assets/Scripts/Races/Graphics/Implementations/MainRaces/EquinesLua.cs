@@ -71,6 +71,14 @@ internal static class EquinesLua
 
     public static class HorseClothing
     {
+        
+        
+        public static readonly IClothing<IOverSizeParameters> HorseUndertop1Instance2 = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            {
+                ScriptHelper.ScriptPrepClothing("GameData/CustomRaces/Equine/Clothing/horseBottom1/clothing.lua", builder);
+            }
+        );
+        
         public static IClothing<IOverSizeParameters> HorseUndertop1Instance = HorseUndertops.MakeCommon(
             76147,
             State.GameManager.SpriteDictionary.HorseClothing[47],

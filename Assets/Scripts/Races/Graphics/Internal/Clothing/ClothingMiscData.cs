@@ -39,7 +39,7 @@ public interface IClothingDataFixed
 }
 
 
-internal interface IClothingSetupOutput : IClothingDataFixed
+public interface IClothingSetupOutput : IClothingDataFixed
 {
     /// <summary>If false lowers breast layer to 8 so that it will be under clothing</summary>
     bool RevealsBreasts { set; }

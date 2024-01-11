@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using MoonSharp.Interpreter;
 using UnityEngine;
 
 #endregion
@@ -149,8 +150,15 @@ internal class RaceData<T> : IRaceData where T : IParameters
         _runBefore?.Invoke(runInput, runOutput);
 
         IRaceRenderAllOutput<T> renderAllOutput = new RaceRenderAllOutput<T>(changeDict, state);
-        _renderAllAction?.Invoke(runInput, renderAllOutput);
         
+        try
+        {
+            _renderAllAction?.Invoke(runInput, renderAllOutput);
+        }
+        catch (ScriptRuntimeException ex)
+        {
+            Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
+        }
 
         foreach (KeyValuePair<SpriteType,SingleRenderFunc<T>> raceSprite in RaceSpriteSet.KeyValues)
         {

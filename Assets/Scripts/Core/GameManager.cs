@@ -117,10 +117,6 @@ public class GameManager : MonoBehaviour
 
         State.SpriteManager = new SpriteManager();
         State.SpriteManager.Process2();
-        
-        //LuaTest.MoonSharpTest();
-        float res = (0f - 0.2f + 1f) / (2f * 0f);
-        Debug.Log(res);
     }
 
     void Quit()

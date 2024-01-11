@@ -5,7 +5,27 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using MoonSharp.Interpreter;
+using MoonSharp.Interpreter.Loaders;
 using UnityEngine;
+
+
+// public class Loader : ScriptLoaderBase
+// {
+//     public object LoadFile(string file, Table globalContext)
+//     {
+//         throw new NotImplementedException();
+//     }
+//
+//     public string ResolveFileName(string filename, Table globalContext)
+//     {
+//         throw new NotImplementedException();
+//     }
+//
+//     public string ResolveModuleName(string modname, Table globalContext)
+//     {
+//         throw new NotImplementedException();
+//     }
+// }
 
 public static class LuaTest
 {
@@ -72,6 +92,9 @@ end
 
 public static class ScriptHelper
 {
+    
+    public static bool initted = false;
+    
     static ScriptHelper()
     {
         // Register Types
@@ -94,7 +117,6 @@ public static class ScriptHelper
         UserData.RegisterType<ColorSwapPalette>();
         UserData.RegisterType<IRandomCustomInput>();
         UserData.RegisterType<IRunInput>();
-        UserData.RegisterType<IRunOutput>();
         UserData.RegisterType<IRenderInput>();
         UserData.RegisterType<Gender>();
         UserData.RegisterType<IOverSizeParameters>();
@@ -136,12 +158,23 @@ public static class ScriptHelper
         UserData.RegisterType<IRaceRenderAllOutput<IParameters>>();
         UserData.RegisterType<IRaceRenderAllOutput<OverSizeParameters>>();
         UserData.RegisterType<RaceRenderAllOutput<OverSizeParameters>>();
-        UserData.RegisterType<RaceRenderAllOutput<OverSizeParameters>>();
+            
+            
+        UserData.RegisterType<IClothingSetupInput>();
+        UserData.RegisterType<IClothingSetupOutput>();
+        UserData.RegisterType<ClothingMiscData>();
+        
+        
+        UserData.RegisterType<IClothingRenderInput>();
+        UserData.RegisterType<IClothingRenderOutput>();
+        UserData.RegisterType<ClothingRenderOutput>();
+        UserData.RegisterType<ClothingRenderInputImpl>();
+        UserData.RegisterType<ClothingRenderInputImpl<OverSizeParameters>>();
+        UserData.RegisterType<ClothingRenderInputImpl<IOverSizeParameters>>();
         
         ScriptHelper.RegisterSimpleAction<IRaceRenderInput<IParameters>, IRaceRenderOutput>();
         ScriptHelper.RegisterSimpleAction<IRaceRenderInput<OverSizeParameters>, IRaceRenderOutput>();
         ScriptHelper.RegisterSimpleAction<IRaceRenderInput<IOverSizeParameters>, IRaceRenderOutput>();
-        ScriptHelper.RegisterSimpleAction<IRunInput,IRunOutput>();
         
         ScriptHelper.RegisterSimpleAction<IRandomCustomInput>();
         ScriptHelper.RegisterSimpleAction<RaceTraits>();
@@ -150,13 +183,17 @@ public static class ScriptHelper
         ScriptHelper.RegisterSimpleAction<MiscRaceDataWritableReadable<IOverSizeParameters>>();
         ScriptHelper.RegisterSimpleAction<MiscRaceDataWritableReadable<OverSizeParameters>>();
         
-        ScriptHelper.RegisterSimpleAction<IRunInput,IRunOutput>();
         
         ScriptHelper.RegisterSimpleAction<Unit, EnumIndexedArray<ButtonType, CustomizerButton>>();
         ScriptHelper.RegisterSimpleAction<Unit, ButtonCustomizer>();
-        ScriptHelper.RegisterSimpleAction<IRunInput,IRunOutput<OverSizeParameters>>();
         ScriptHelper.RegisterSimpleAction<IRunInput, IRaceRenderAllOutput<IParameters>>();
         ScriptHelper.RegisterSimpleAction<IRunInput, IRaceRenderAllOutput<OverSizeParameters>>();
+        ScriptHelper.RegisterSimpleAction<IClothingSetupInput, IClothingSetupOutput>();
+        ScriptHelper.RegisterSimpleAction<IClothingSetupInput, ClothingMiscData>();
+        
+        ScriptHelper.RegisterSimpleAction<ClothingBuilder<OverSizeParameters>>();
+        ScriptHelper.RegisterSimpleAction<IClothingRenderInput<OverSizeParameters>, IClothingRenderOutput>();
+        ScriptHelper.RegisterSimpleAction<IClothingBuilder<OverSizeParameters>>();
         
         ScriptHelper.RegisterSimpleFunc<int>();
         
@@ -164,6 +201,8 @@ public static class ScriptHelper
         ScriptHelper.RegisterSimpleFunc<float, float, float, Vector3>();
         
         ScriptHelper.RegisterSimpleAction<string>();
+
+        initted = true;
     }
     
     internal static void ScriptPrep(string path, IRaceBuilder<OverSizeParameters> builder)
@@ -299,10 +338,108 @@ end");
         script.DoString(scriptCode);
 
         object render = script.Globals["render"];
-        
         builder.RenderAll((input, output) =>
         {
             script.Call(render, input, output);
+        });
+
+        object setup = script.Globals["setup"];
+        builder.Setup((output) =>
+        {
+            script.Call(setup, output);
+        });
+
+        object randomCustom = script.Globals["randomCustom"];
+        builder.RandomCustom((output) =>
+        {
+            script.Call(randomCustom, output);
+        });
+        
+        
+        
+    }
+	
+	
+    internal static void ScriptPrepClothing(string path, IClothingBuilder<IOverSizeParameters> builder)
+    {
+        string scriptCode = File.ReadAllText(path);
+        
+        Script script = new Script();
+        
+        
+        script.Globals["Log"] = (Action<string>) Debug.Log;
+
+        #region Enums
+        
+        // Traits should be later renamed to Train to follow naming conventions
+        // Set to Trait in script scrope to avoid breaking changes to scripts
+        script.Globals["Trait"] = UserData.CreateStatic<Traits>();
+        script.Globals["ButtonType"] = UserData.CreateStatic<ButtonType>();
+        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
+        script.Globals["Stat"] = UserData.CreateStatic<Stat>();
+        script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
+        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
+        script.Globals["SwapType"] = UserData.CreateStatic<SwapType>();
+
+        #endregion
+        
+        script.Globals["GetPaletteCount"] = (Func<SwapType, int>) ColorPaletteMap.GetPaletteCount;
+        script.Globals["GetPalette"] = (Func<SwapType, int, ColorSwapPalette>) ColorPaletteMap.GetPalette;
+        Func<float, float, float, Vector3> newVector3 = (x, y, z) => new Vector3(x, y, z);
+        script.Globals["newVector3"] = newVector3;
+        
+        Func<float, float, Vector2> newVector2 = (x, y) => new Vector2(x, y);
+        script.Globals["newVector2"] = newVector2;
+        
+        Func<TextsBasic> newTextsBasic = () => new TextsBasic();
+        script.Globals["newTextsBasic"] = newTextsBasic;
+        
+        Func<TextsBasic, TextsBasic, TextsBasic, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
+        script.Globals["newFlavorText"] = newFlavorText;
+
+        RegisterStatic(script, "Config", typeof(Config));
+        RegisterStatic(script, "Defaults", typeof(Defaults));
+        RegisterStatic(script, "CommonRaceCode", typeof(CommonRaceCode));
+        RegisterStaticFields(script, "HorseClothing", typeof(EquinesLua.HorseClothing));
+        
+
+        Dictionary<string, dynamic> defaults = new Dictionary<string, dynamic>
+        {
+            ["Finalize"] = Defaults.Finalize,
+            ["RandomCustom"] = Defaults.RandomCustom,
+            ["BasicBellyRunAfter"] = Defaults.BasicBellyRunAfter
+        };
+        
+        script.Globals["Defaults"] = defaults;
+        script.Globals["Finalize"] = Defaults.Finalize;
+
+        Func<int, int> RandomInt = (max) => State.Rand.Next(max);
+        script.Globals["RandomInt"] = RandomInt;
+        
+        script.DoString(@"
+function ternary ( cond , T , F )
+    if cond then return T else return F end
+end");
+		
+        script.DoString(scriptCode);
+
+        object render = script.Globals["render"];
+        builder.RenderAll((input, output) =>
+        {
+            try
+            {
+                script.Call(render, input, output);
+            }
+            catch (ScriptRuntimeException ex)
+            {
+                Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
+            }
+        });
+
+        object setup = script.Globals["setup"];
+        builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+        {
+            script.Call(setup, input, output);
         });
         
         
