@@ -117,6 +117,10 @@ public class GameManager : MonoBehaviour
 
         State.SpriteManager = new SpriteManager();
         State.SpriteManager.Process2();
+
+        CustomManager customManager = new CustomManager();
+        customManager.LoadAllCustom();
+
     }
 
     void Quit()

@@ -834,7 +834,7 @@ public class Race : IComparable<Race>
     public static Race WarriorAnts = new Race("warriorAnts",     new[]{ RaceTag.Monster });
     public static Race Gazelle = new Race("gazelle",             new[]{ RaceTag.Monster });
     public static Race Earthworms = new Race("earthworms",       new[]{ RaceTag.Monster });
-    public static Race FeralLizards = new Race("feralLizards",    new[]{ RaceTag.Monster });
+    public static Race FeralLizards = new Race("feralLizards",   new[]{ RaceTag.Monster });
     public static Race Monitors = new Race("monitors",           new[]{ RaceTag.Monster });
     public static Race Schiwardez = new Race("schiwardez",       new[]{ RaceTag.Monster });
     public static Race Terrorbird = new Race("terrorbird",       new[]{ RaceTag.Monster });
