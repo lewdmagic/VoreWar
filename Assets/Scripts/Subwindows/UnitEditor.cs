@@ -20,7 +20,7 @@ class UnitEditor : UnitCustomizer
 
     internal void RefreshActor()
     {
-        RaceData = Races.GetRace(actor.Unit);
+        RaceData = Races2.GetRace(actor.Unit);
         Normal(actor.Unit);
         RefreshStats();
     }

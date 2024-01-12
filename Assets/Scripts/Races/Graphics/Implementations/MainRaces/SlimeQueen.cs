@@ -2,29 +2,31 @@
 
 using System;
 using System.Collections.Generic;
-using SlimeQueenClothes;
 using UnityEngine;
 
-#endregion
-
-internal static class SlimeQueen
+namespace Races.Graphics.Implementations.MainRaces
 {
-    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+
+    #endregion
+
+    internal static class SlimeQueen
     {
-        //////////////////////// SLIMES ///////////////////////////////////////////////////////////////
-        //////////////////// TO BE REMOVED LATER //////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-
-        builder.RenderSingle(SpriteType.BodyAccessory, 7, (input, output) =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
-            output.Sprite(input.Sprites.Slimes[18]);
-        });
+            //////////////////////// SLIMES ///////////////////////////////////////////////////////////////
+            //////////////////// TO BE REMOVED LATER //////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////
 
-        // TODO I think this isnt used by queen
-        /*
+            builder.RenderSingle(SpriteType.BodyAccessory, 7, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
+                output.Sprite(input.Sprites.Slimes[18]);
+            });
+
+            // TODO I think this isnt used by queen
+            /*
         Action<RunAfterData> RunAfter = (data) =>
         {
             if (data.Actor.HasBelly)
@@ -63,203 +65,201 @@ internal static class SlimeQueen
         };
         */
 
-        Action<IRandomCustomInput> RandomCustom = data =>
-        {
-            Defaults.RandomCustom(data);
-            Unit unit = data.Unit;
-
-            if (unit.HasDick && unit.HasBreasts)
+            Action<IRandomCustomInput> RandomCustom = data =>
             {
-                if (Config.HermsOnlyUseFemaleHair)
+                Defaults.RandomCustom(data);
+                Unit unit = data.Unit;
+
+                if (unit.HasDick && unit.HasBreasts)
                 {
-                    unit.HairStyle = State.Rand.Next(8);
+                    if (Config.HermsOnlyUseFemaleHair)
+                    {
+                        unit.HairStyle = State.Rand.Next(8);
+                    }
+                    else
+                    {
+                        unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    }
                 }
-                else
+                else if (unit.HasDick && Config.FemaleHairForMales)
                 {
                     unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
                 }
-            }
-            else if (unit.HasDick && Config.FemaleHairForMales)
-            {
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-            }
-            else if (unit.HasDick == false && Config.MaleHairForFemales)
-            {
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-            }
-            else
-            {
-                if (unit.HasDick)
+                else if (unit.HasDick == false && Config.MaleHairForFemales)
                 {
-                    unit.HairStyle = 5 + State.Rand.Next(7);
+                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
                 }
                 else
                 {
-                    unit.HairStyle = State.Rand.Next(8);
+                    if (unit.HasDick)
+                    {
+                        unit.HairStyle = 5 + State.Rand.Next(7);
+                    }
+                    else
+                    {
+                        unit.HairStyle = State.Rand.Next(8);
+                    }
                 }
-            }
-        };
+            };
 
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////////////////////////
 
-        builder.Setup(output =>
-        {
-            output.Names("SlimeQueen", "SlimeQueens");
-            output.AvoidedMainClothingTypes = 1;
-
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.SlimeMain);
-            output.EyeColors = 1;
-            output.HairColors = 3;
-
-
-            output.BreastSizes = () => 4;
-            output.DickSizes = () => 1;
-
-            output.EyeTypes = 1;
-            output.HairStyles = 2;
-            output.CanBeGender = new List<Gender> { Gender.Female, Gender.Hermaphrodite };
-            output.AllowedMainClothingTypes.Set(
-                SlimeWithCrown.SlimeWithCrownInstance
-            );
-
-            output.AllowedWaistTypes.Clear();
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
-            output.ExtraColors1 = 2;
-            output.ExtraColors2 = 2;
-            output.BodySizes = 0;
-        });
-
-
-        builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
-            if (input.U.HasDick == false)
+            builder.Setup(output =>
             {
-                return;
-            }
+                output.Names("SlimeQueen", "SlimeQueens");
+                output.AvoidedMainClothingTypes = 1;
 
-            output.AddOffset(0, 0);
-            int baseSize = 6;
-            int ballOffset = input.A.GetBallSize(21);
+                output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.SlimeMain);
+                output.EyeColors = 1;
+                output.HairColors = 3;
 
-            int combined = Math.Min(baseSize + ballOffset + 3, 20);
-            // Always false
-            // if (combined == 21)
-            // {
-            //     output.AddOffset(0, -14 * .625f);
-            // }
-            // else if (combined == 20)
-            if (combined == 20)
+
+                output.BreastSizes = () => 4;
+                output.DickSizes = () => 1;
+
+                output.EyeTypes = 1;
+                output.HairStyles = 2;
+                output.CanBeGender = new List<Gender> { Gender.Female, Gender.Hermaphrodite };
+                output.AllowedMainClothingTypes.Set(
+                    SlimeWithCrown.SlimeWithCrownInstance
+                );
+
+                output.AllowedWaistTypes.Clear();
+                output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
+                output.ExtraColors1 = 2;
+                output.ExtraColors2 = 2;
+                output.BodySizes = 0;
+            });
+
+
+            builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
             {
-                output.AddOffset(0, -12 * .625f);
-            }
-            else if (combined >= 17)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+                if (input.U.HasDick == false)
+                {
+                    return;
+                }
+
+                output.AddOffset(0, 0);
+                int baseSize = 6;
+                int ballOffset = input.A.GetBallSize(21);
+
+                int combined = Math.Min(baseSize + ballOffset + 3, 20);
+                // Always false
+                // if (combined == 21)
+                // {
+                //     output.AddOffset(0, -14 * .625f);
+                // }
+                // else if (combined == 20)
+                if (combined == 20)
+                {
+                    output.AddOffset(0, -12 * .625f);
+                }
+                else if (combined >= 17)
+                {
+                    output.AddOffset(0, -8 * .625f);
+                }
+
+                if (ballOffset > 0)
+                {
+                    output.Sprite(input.Sprites.Balls[combined]);
+                    return;
+                }
+
+                output.Sprite(input.Sprites.Balls[baseSize]);
+            });
+
+            builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
-                output.AddOffset(0, -8 * .625f);
-            }
-
-            if (ballOffset > 0)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+                output.Sprite(input.Sprites.SlimeQueen[input.A.GetSimpleBodySprite()]);
+            });
+            builder.RenderSingle(SpriteType.BodyAccent, 7, (input, output) =>
             {
-                output.Sprite(input.Sprites.Balls[combined]);
-                return;
-            }
-
-            output.Sprite(input.Sprites.Balls[baseSize]);
-        });
-
-        builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
-            output.Sprite(input.Sprites.SlimeQueen[input.A.GetSimpleBodySprite()]);
-        });
-        builder.RenderSingle(SpriteType.BodyAccent, 7, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
-            output.Sprite(input.Sprites.SlimeQueen[3 + (input.A.IsAttacking ? 1 : 0)]);
-        });
-        builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
-            output.Sprite(input.Sprites.SlimeQueen[5 + input.U.BreastSize]);
-        });
-
-        builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
-            output.Sprite(input.U.HasDick ? input.Sprites.SlimeQueen[9] : null);
-        });
-
-        builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
-            output.Sprite(input.Sprites.SlimeQueen[10 + input.U.HairStyle]);
-        });
-        builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
-            output.Sprite(input.Sprites.SlimeQueen[12]);
-        });
-
-
-        builder.RenderSingle(SpriteType.Eyes, 4, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
-            output.Sprite(input.Sprites.SlimeQueen[27]);
-        });
-
-
-        builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
-        {
-            Defaults.SpriteGens3[SpriteType.Mouth].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.Mouth, input.U.SkinColor));
-        });
-
-
-        builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
-            if (input.A.HasBelly)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
+                output.Sprite(input.Sprites.SlimeQueen[3 + (input.A.IsAttacking ? 1 : 0)]);
+            });
+            builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
             {
-                output.Sprite(input.Sprites.Slimes[51 + input.A.GetStomachSize()]);
-            }
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+                output.Sprite(input.Sprites.SlimeQueen[5 + input.U.BreastSize]);
+            });
+
+            builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+                output.Sprite(input.U.HasDick ? input.Sprites.SlimeQueen[9] : null);
+            });
+
+            builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
+                output.Sprite(input.Sprites.SlimeQueen[10 + input.U.HairStyle]);
+            });
+            builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * input.U.AccessoryColor + input.U.HairColor));
+                output.Sprite(input.Sprites.SlimeQueen[12]);
+            });
+
+
+            builder.RenderSingle(SpriteType.Eyes, 4, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+                output.Sprite(input.Sprites.SlimeQueen[27]);
+            });
+
+
+            builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
+            {
+                Defaults.SpriteGens3[SpriteType.Mouth].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.Mouth, input.U.SkinColor));
+            });
+
+
+            builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.SlimeMain, input.U.AccessoryColor));
+                if (input.A.HasBelly)
+                {
+                    output.Sprite(input.Sprites.Slimes[51 + input.A.GetStomachSize()]);
+                }
+            });
+
+
+            builder.RenderSingle(SpriteType.Weapon, 12, (input, output) =>
+            {
+                output.Coloring(Defaults.WhiteColored);
+                output.Sprite(input.Sprites.SlimeQueen[23 + (input.A.IsAttacking ? 1 : 0)]);
+            });
+
+            builder.RunBefore((input, output) =>
+            {
+                output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 8.125f);
+                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 2 * .625f);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(0, 6 * .625f);
+            });
+
+
+            Action<IRandomCustomInput> ParentRandomCustom = RandomCustom;
+            builder.RandomCustom(data =>
+            {
+                ParentRandomCustom(data);
+                Unit unit = data.Unit;
+
+                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                unit.ExtraColor1 = 0;
+                unit.ExtraColor2 = 0;
+            });
         });
+    }
 
-
-        builder.RenderSingle(SpriteType.Weapon, 12, (input, output) =>
-        {
-            output.Coloring(Defaults.WhiteColored);
-            output.Sprite(input.Sprites.SlimeQueen[23 + (input.A.IsAttacking ? 1 : 0)]);
-        });
-
-        builder.RunBefore((input, output) =>
-        {
-            output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 8.125f);
-            output.ChangeSprite(SpriteType.Belly).AddOffset(0, 2 * .625f);
-            output.ChangeSprite(SpriteType.Balls).AddOffset(0, 6 * .625f);
-        });
-
-
-        Action<IRandomCustomInput> ParentRandomCustom = RandomCustom;
-        builder.RandomCustom(data =>
-        {
-            ParentRandomCustom(data);
-            Unit unit = data.Unit;
-
-            unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-            unit.ExtraColor1 = 0;
-            unit.ExtraColor2 = 0;
-        });
-    });
-}
-
-namespace SlimeQueenClothes
-{
     internal static class SlimeWithCrown
     {
         internal static readonly IClothing SlimeWithCrownInstance = ClothingBuilder.Create(builder =>

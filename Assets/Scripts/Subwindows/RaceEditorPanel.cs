@@ -286,7 +286,7 @@ public class RaceEditorPanel : MonoBehaviour
             {
                 RaceSettingsItem item = State.RaceSettings.Get(PreviousRace);
                 var racePar = RaceParameters.GetRaceTraits(PreviousRace);
-                var raceData = Races.GetRace(PreviousRace);
+                var raceData = Races2.GetRace(PreviousRace);
                 item.OverrideGender = OverrideGender.isOn;
                 item.OverrideFurry = OverrideFurry.isOn;
                 item.maleFraction = 1 - MaleFraction.value;
@@ -476,7 +476,7 @@ public class RaceEditorPanel : MonoBehaviour
             PreviousRace = race;
             RaceSettingsItem item = State.RaceSettings.Get(race);
             var racePar = RaceParameters.GetRaceTraits(race);
-            var raceData = Races.GetRace(race);
+            var raceData = Races2.GetRace(race);
             OverrideGender.isOn = item.OverrideGender;
             OverrideFurry.isOn = item.OverrideFurry;
             MaleFraction.value = 1 - item.maleFraction;
@@ -599,7 +599,7 @@ public class RaceEditorPanel : MonoBehaviour
 
     public void UpdateInteractable()
     {
-        var raceData = Races.GetRace(PreviousRace);
+        var raceData = Races2.GetRace(PreviousRace);
 
         if (raceData == null)
         {

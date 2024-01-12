@@ -600,7 +600,7 @@ public static class State
             {
                 if (World.AllActiveEmpires != null)
                 {
-                    var raceData = Races.GetRace(Race.Bees);
+                    var raceData = Races2.GetRace(Race.Bees);
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
                         if (Equals(unit.Race, Race.Bees))

@@ -978,7 +978,7 @@ Turns: {currentTurn}
 
         if (village != null)
         {
-            wallType = Races.GetRace(village.Race).WallType();
+            wallType = Races2.GetRace(village.Race).WallType();
         }
 
         RebuildInfo();
@@ -3991,7 +3991,7 @@ Turns: {currentTurn}
                 else
                     break;
             }
-            var raceData = Races.GetRace(actor.Unit);
+            var raceData = Races2.GetRace(actor.Unit);
             actor.Unit.RandomizeNameAndGender(actor.Unit.Race, raceData);
             raceData.RandomCustomCall(actor.Unit);
             actor.Unit.DigestedUnits = 0;

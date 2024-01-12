@@ -24,7 +24,7 @@ public class TutorialScript
         var allUnits = StrategicUtilities.GetAllUnits();
         foreach (Unit unit in allUnits)
         {
-            var race = Races.GetRace(unit);
+            var race = Races2.GetRace(unit);
             race.RandomCustomCall(unit);
         }
         State.GameManager.TacticalMode.AttackerName = "Cats";

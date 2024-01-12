@@ -107,7 +107,7 @@ public class UnitCustomizer
     {
         Vec2i noLoc = new Vec2i(0, 0);
         actor = new Actor_Unit(noLoc, unit);
-        RaceData = Races.GetRace(unit);
+        RaceData = Races2.GetRace(unit);
         Unit = unit;
         Normal(unit);
         SetUpNameChangeButton(Unit, CustomizerUI);
@@ -117,7 +117,7 @@ public class UnitCustomizer
     public void SetActor(Actor_Unit actor)
     {
         this.actor = actor;
-        RaceData = Races.GetRace(actor.Unit);
+        RaceData = Races2.GetRace(actor.Unit);
         Unit = actor.Unit;
         Normal(actor.Unit);
         SetUpNameChangeButton(Unit, CustomizerUI);
@@ -200,7 +200,7 @@ public class UnitCustomizer
 
         Unit unit = Unit;
         
-        Races.GetRace(unit.Race)?.CustomizeButtons(unit, buttons);
+        Races2.GetRace(unit.Race)?.CustomizeButtons(unit, buttons);
         
         
         // switch (RaceFuncs.RaceToSwitch(unit2.Race))

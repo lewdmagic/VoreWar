@@ -17,7 +17,7 @@
 
         Health = MaxHealth;
         if (Equals(Race, Race.Lizards))
-            Races.GetRace(Race.Lizards).RandomCustomCall(this);
+            Races2.GetRace(Race.Lizards).RandomCustomCall(this);
         if (Config.LetterBeforeLeaderNames != "")
             Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;

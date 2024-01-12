@@ -166,15 +166,15 @@ class Prey
         }
 
         Predator.PredatorComponent.OnRemoveCallbacks(this, false);
-        HashSet<Gender> set = new HashSet<Gender>(Races.GetRace(Unit.Race).MiscRaceData.CanBeGender);
-        bool equals = set.SetEquals(Races.GetRace(race).MiscRaceData.CanBeGender);
+        HashSet<Gender> set = new HashSet<Gender>(Races2.GetRace(Unit.Race).MiscRaceData.CanBeGender);
+        bool equals = set.SetEquals(Races2.GetRace(race).MiscRaceData.CanBeGender);
         Unit.ChangeRace(race);
         Unit.SetGear(race);
         if (equals == false || Config.AlwaysRandomizeConverted)
             Unit.TotalRandomizeAppearance();
         else
         {
-            var raceAppearance = Races.GetRace(race);
+            var raceAppearance = Races2.GetRace(race);
             raceAppearance.RandomCustomCall(Unit);
         }
         Actor.Movement = 0;
@@ -205,7 +205,7 @@ class Prey
     
     public List<BoneInfo> GetBoneTypes()
     {
-        return Races.GetRace(Unit.Race).BoneInfo(Unit);
+        return Races2.GetRace(Unit.Race).BoneInfo(Unit);
     }
     
     // public List<BoneInfo> GetBoneTypes()

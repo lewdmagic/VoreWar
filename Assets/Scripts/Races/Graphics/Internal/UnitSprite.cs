@@ -339,7 +339,7 @@ public class UnitSprite : MonoBehaviour
             animator = CompleteSprite.GetSpriteOfType(SpriteType.Belly)?.GameObject.GetComponentInParent<Animator>();
             if (animator != null)
             {
-                var raceData = Races.GetRace(actor.Unit);
+                var raceData = Races2.GetRace(actor.Unit);
                 if (raceData.MiscRaceData.GentleAnimation)
                 {
                     animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
@@ -355,7 +355,7 @@ public class UnitSprite : MonoBehaviour
             ballsAnimator = CompleteSprite.GetSpriteOfType(SpriteType.Balls)?.GameObject.GetComponentInParent<Animator>();
             if (ballsAnimator != null)
             {
-                var raceData = Races.GetRace(actor.Unit);
+                var raceData = Races2.GetRace(actor.Unit);
                 if (raceData.MiscRaceData.GentleAnimation)
                 {
                     ballsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
@@ -371,7 +371,7 @@ public class UnitSprite : MonoBehaviour
             boobsAnimator = CompleteSprite.GetSpriteOfType(SpriteType.Breasts)?.GameObject.GetComponentInParent<Animator>();
             if (boobsAnimator != null)
             {
-                var raceData = Races.GetRace(actor.Unit);
+                var raceData = Races2.GetRace(actor.Unit);
                 if (raceData.MiscRaceData.GentleAnimation)
                 {
                     boobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
@@ -387,7 +387,7 @@ public class UnitSprite : MonoBehaviour
             SecondBoobsAnimator = CompleteSprite.GetSpriteOfType(SpriteType.SecondaryBreasts)?.GameObject.GetComponentInParent<Animator>();
             if (SecondBoobsAnimator != null)
             {
-                var raceData = Races.GetRace(actor.Unit);
+                var raceData = Races2.GetRace(actor.Unit);
                 if (raceData.MiscRaceData.GentleAnimation)
                 {
                     SecondBoobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");

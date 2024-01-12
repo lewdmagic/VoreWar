@@ -1,4 +1,8 @@
 using System;
+using Races.Graphics.Implementations.MainRaces;
+using Races.Graphics.Implementations.Mercs;
+using Races.Graphics.Implementations.Monsters;
+using Races.Graphics.Implementations.UniqueMercs;
 using UnityEngine;
 
 internal static class SeliciaMod
@@ -513,7 +517,7 @@ internal static class SeliciaMod
     
     private static void ModBats()
     {
-        var raceTyped = (RaceData<OverSizeParameters>) Bats.Instance;
+        var raceTyped = (RaceData<OverSizeParameters>) DemiBats.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {

@@ -1209,7 +1209,7 @@ public class Recruit_Mode : SceneBase
 
     public void RandomizeUnit()
     {
-        Races.GetRace(Customizer.Unit).RandomCustomCall(Customizer.Unit);
+        Races2.GetRace(Customizer.Unit).RandomCustomCall(Customizer.Unit);
         Customizer.RefreshView();
         Customizer.RefreshGenderSelector();
     }

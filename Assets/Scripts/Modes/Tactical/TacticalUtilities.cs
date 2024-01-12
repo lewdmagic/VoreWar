@@ -668,7 +668,7 @@ static class TacticalUtilities
         {
             if (!Equals(actor.Unit.Race, Race.Imps) && !Equals(actor.Unit.Race, Race.Lamia) && !Equals(actor.Unit.Race, Race.Tigers))
             {
-                Races.GetRace(actor.Unit).RandomCustomCall(actor.Unit);
+                Races2.GetRace(actor.Unit).RandomCustomCall(actor.Unit);
             }
         }
     }

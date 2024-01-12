@@ -298,7 +298,7 @@ static class LogUtilities
     /// <returns></returns>
     internal static string GetPreyDesc(Unit unit)
     {
-        return Races.GetRace(unit.Race).FlavorText().GetPreyDescription(unit);
+        return Races2.GetRace(unit.Race).FlavorText().GetPreyDescription(unit);
     }
 
     /// <summary>
@@ -309,7 +309,7 @@ static class LogUtilities
     /// <returns></returns>
     internal static string GetPredDesc(Unit unit)
     {
-        return Races.GetRace(unit.Race).FlavorText().GetPredDescription(unit);
+        return Races2.GetRace(unit.Race).FlavorText().GetPredDescription(unit);
     }
 
     /// <summary>
@@ -320,7 +320,7 @@ static class LogUtilities
     /// <returns></returns>
     internal static string GetRaceDescSingl(Unit unit)
     {
-        return Races.GetRace(unit.Race).FlavorText().GetRaceSingleDescription(unit);
+        return Races2.GetRace(unit.Race).FlavorText().GetRaceSingleDescription(unit);
     }
 
     /// <summary>
@@ -331,7 +331,7 @@ static class LogUtilities
     /// <returns></returns>
     internal static string GetWeaponTrueName(Weapon weapon, Unit unit)
     {
-        return Races.GetRace(unit.Race).FlavorText().GetWeaponTrueName(weapon, unit);
+        return Races2.GetRace(unit.Race).FlavorText().GetWeaponTrueName(weapon, unit);
     }
     
     /*

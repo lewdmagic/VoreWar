@@ -145,7 +145,7 @@ public class CreateStrategicGame : MonoBehaviour
         int i = 0;
         foreach (Race race in RaceFuncs.MainRaceEnumerable())
         {
-            IRaceData raceData = Races.GetRace(race);
+            IRaceData raceData = Races2.GetRace(race);
             StartEmpireUI empire = Instantiate(BasicEmpire, ScrollViewContent);
             empire.name = raceData.SingularName(Gender.Male);
             empire.Text.text = raceData.SingularName(Gender.Male);

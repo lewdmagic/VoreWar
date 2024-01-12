@@ -100,7 +100,7 @@ class UniformData
         unit.ClothingExtraType5 = ClothingExtraType5;
 
 
-        var race = Races.GetRace(unit);
+        var race = Races2.GetRace(unit);
         if (ClothingType > race.MiscRaceData.AllowedMainClothingTypesBasic.Count) unit.ClothingType = 0;
         if (ClothingType2 > race.MiscRaceData.AllowedWaistTypesBasic.Count) unit.ClothingType2 = 0;
         if (ClothingExtraType1 > race.MiscRaceData.ExtraMainClothing1TypesBasic.Count) unit.ClothingExtraType1 = 0;

@@ -4,78 +4,80 @@ using System.Collections.Generic;
 
 #endregion
 
-internal static class Youko // TODO extend humans
+namespace Races.Graphics.Implementations.Mercs
 {
-    // TODO Whisp used as placeholder
-    // Recode Youko to extend (not inheritance) human behavior 
-    internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
+    internal static class Youko // TODO extend humans
     {
-        builder.Setup(output =>
+        // TODO Whisp used as placeholder
+        // Recode Youko to extend (not inheritance) human behavior 
+        internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
-            output.Names("Whisp", "Whisps");
-            output.WallType(WallType.Fox);
-            output.FlavorText(new FlavorText(
-                new Texts { "fluffy tailed", "squirming", "whimpering" },
-                new Texts { "cunning", "grinning", "sly" },
-                new Texts { "fox", "vulpine", "canid", {"vixen", Gender.Female}, {"tod", Gender.Male} }
-            ));
-            output.RaceTraits(new RaceTraits()
+            builder.Setup(output =>
             {
-                BodySize = 10,
-                StomachSize = 15,
-                HasTail = true,
-                FavoredStat = Stat.Mind,
-                AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
-                RacialTraits = new List<Traits>()
+                output.Names("Whisp", "Whisps");
+                output.WallType(WallType.Fox);
+                output.FlavorText(new FlavorText(
+                    new Texts { "fluffy tailed", "squirming", "whimpering" },
+                    new Texts { "cunning", "grinning", "sly" },
+                    new Texts { "fox", "vulpine", "canid", {"vixen", Gender.Female}, {"tod", Gender.Male} }
+                ));
+                output.RaceTraits(new RaceTraits()
                 {
-                    Traits.Charmer,
-                    Traits.Temptation,
-                    Traits.Possession,
-                    Traits.ForceFeeder,
-                    Traits.ManaDrain,
-                    Traits.CreateSpawn,
-                },
-                RaceStats = new RaceStats()
+                    BodySize = 10,
+                    StomachSize = 15,
+                    HasTail = true,
+                    FavoredStat = Stat.Mind,
+                    AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
+                    RacialTraits = new List<Traits>()
+                    {
+                        Traits.Charmer,
+                        Traits.Temptation,
+                        Traits.Possession,
+                        Traits.ForceFeeder,
+                        Traits.ManaDrain,
+                        Traits.CreateSpawn,
+                    },
+                    RaceStats = new RaceStats()
+                    {
+                        Strength = new RaceStats.StatRange(6, 14),
+                        Dexterity = new RaceStats.StatRange(6, 14),
+                        Endurance = new RaceStats.StatRange(6, 14),
+                        Mind = new RaceStats.StatRange(14, 22),
+                        Will = new RaceStats.StatRange(8, 16),
+                        Agility = new RaceStats.StatRange(8, 18),
+                        Voracity = new RaceStats.StatRange(12, 18),
+                        Stomach = new RaceStats.StatRange(12, 18),
+                    },
+                    SpawnRace = Race.Whisp,
+                    ConversionRace = Race.Foxes,
+                    RaceDescription = "Foxes that were changed by spirit energy",
+                });
+                output.TownNames(new List<string>
                 {
-                    Strength = new RaceStats.StatRange(6, 14),
-                    Dexterity = new RaceStats.StatRange(6, 14),
-                    Endurance = new RaceStats.StatRange(6, 14),
-                    Mind = new RaceStats.StatRange(14, 22),
-                    Will = new RaceStats.StatRange(8, 16),
-                    Agility = new RaceStats.StatRange(8, 18),
-                    Voracity = new RaceStats.StatRange(12, 18),
-                    Stomach = new RaceStats.StatRange(12, 18),
-                },
-                SpawnRace = Race.Whisp,
-                ConversionRace = Race.Foxes,
-                RaceDescription = "Foxes that were changed by spirit energy",
+                    "Takama-ga-hara",
+                    "Yamato-no-shi",
+                    "Inari-no-shi",
+                    "Zenko-no-machi",
+                    "Yakan-no-machi",
+                    "Ooji-no-machi",
+                    "Onji-no-machi",
+                });
+                output.CanBeGender = new List<Gender> { Gender.None };
+                output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin);
             });
-            output.TownNames(new List<string>
+
+
+            builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
             {
-                "Takama-ga-hara",
-                "Yamato-no-shi",
-                "Inari-no-shi",
-                "Zenko-no-machi",
-                "Yakan-no-machi",
-                "Ooji-no-machi",
-                "Onji-no-machi",
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+                output.Sprite(input.Sprites.Whisp[0]);
             });
-            output.CanBeGender = new List<Gender> { Gender.None };
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin);
+
+            builder.RunBefore(Defaults.Finalize);
+            builder.RandomCustom(Defaults.RandomCustom);
         });
 
-
-        builder.RenderSingle(SpriteType.Body, 1, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
-            output.Sprite(input.Sprites.Whisp[0]);
-        });
-
-        builder.RunBefore(Defaults.Finalize);
-        builder.RandomCustom(Defaults.RandomCustom);
-    });
-
-    /*
+        /*
     readonly Sprite[] Sprites2 = State.GameManager.SpriteDictionary.HumansBodySprites2;
     readonly Sprite[] Sprites3 = State.GameManager.SpriteDictionary.HumansBodySprites3;
     readonly Sprite[] Tails = State.GameManager.SpriteDictionary.YoukoTails;
@@ -248,4 +250,5 @@ internal static class Youko // TODO extend humans
         return true;
     }
     */
+    }
 }

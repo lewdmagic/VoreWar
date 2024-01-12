@@ -2,200 +2,202 @@
 
 using System;
 using System.Collections.Generic;
-using AlrauneClothing;
 using UnityEngine;
 
-#endregion
-
-internal static class Alraune
+namespace Races.Graphics.Implementations.MainRaces
 {
-    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+
+    #endregion
+
+    internal static class Alraune
     {
-
-        float yOffset = 10 * .625f;
-        IClothing leaderClothes = AlrauneLeader.AlrauneLeaderInstance;
-        IClothing rags = AlrauneRags.AlrauneRagsInstance;
-
-
-        builder.RandomCustom(data =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
-            Unit unit = data.Unit;
-            Defaults.RandomCustom(data);
 
-            if (Config.RagsForSlaves && State.World?.MainEmpires != null &&
-                (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
-                unit.ImmuneToDefections == false)
+            float yOffset = 10 * .625f;
+            IClothing leaderClothes = AlrauneLeader.AlrauneLeaderInstance;
+            IClothing rags = AlrauneRags.AlrauneRagsInstance;
+
+
+            builder.RandomCustom(data =>
             {
-                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(rags);
-                if (unit.ClothingType == -1) //Covers rags not in the list
+                Unit unit = data.Unit;
+                Defaults.RandomCustom(data);
+
+                if (Config.RagsForSlaves && State.World?.MainEmpires != null &&
+                    (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
+                    unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1;
+                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(rags);
+                    if (unit.ClothingType == -1) //Covers rags not in the list
+                    {
+                        unit.ClothingType = 1;
+                    }
                 }
-            }
 
-            if (unit.Type == UnitType.Leader)
-            {
-                unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(leaderClothes);
-            }
-
-            if (unit.HasDick && unit.HasBreasts)
-            {
-                if (Config.HermsOnlyUseFemaleHair)
+                if (unit.Type == UnitType.Leader)
                 {
-                    unit.HairStyle = State.Rand.Next(5);
+                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(leaderClothes);
                 }
-                else
+
+                if (unit.HasDick && unit.HasBreasts)
+                {
+                    if (Config.HermsOnlyUseFemaleHair)
+                    {
+                        unit.HairStyle = State.Rand.Next(5);
+                    }
+                    else
+                    {
+                        unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    }
+                }
+                else if (unit.HasDick && Config.FemaleHairForMales)
                 {
                     unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
                 }
-            }
-            else if (unit.HasDick && Config.FemaleHairForMales)
-            {
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-            }
-            else if (unit.HasDick == false && Config.MaleHairForFemales)
-            {
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-            }
-            else
-            {
-                if (unit.HasDick)
+                else if (unit.HasDick == false && Config.MaleHairForFemales)
                 {
-                    unit.HairStyle = 5 + State.Rand.Next(7);
+                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
                 }
                 else
                 {
-                    unit.HairStyle = State.Rand.Next(5);
+                    if (unit.HasDick)
+                    {
+                        unit.HairStyle = 5 + State.Rand.Next(7);
+                    }
+                    else
+                    {
+                        unit.HairStyle = State.Rand.Next(5);
+                    }
                 }
-            }
 
-            if (State.Rand.Next(2) == 0)
-            {
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1 - 1);
-            }
-            else
-            {
-                unit.BodyAccentType1 = data.MiscRaceData.BodyAccentTypes1 - 1;
-            }
-
-            unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2);
-            unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3);
-        });
-
-        builder.Setup(output =>
-        {
-            output.Names("Alraune", "Alraune");
-            output.FlavorText(new FlavorText(
-                new Texts {  },
-                new Texts {  },
-                new Texts { "plant", "demi-plant", "flowery being" },
-                new Dictionary<string, string>
+                if (State.Rand.Next(2) == 0)
                 {
-                    [WeaponNames.Mace]        = "Vine Whip",
-                    [WeaponNames.Axe]         = "Stem Blade",
-                    [WeaponNames.SimpleBow]   = "Unbloomed Corolla",
-                    [WeaponNames.CompoundBow] = "Blooming Flower"
+                    unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1 - 1);
                 }
-            ));
-            output.RaceTraits(new RaceTraits()
-            {
-                BodySize = 14,
-                StomachSize = 16,
-                HasTail = false,
-                FavoredStat = Stat.Endurance,
-                RacialTraits = new List<Traits>()
+                else
                 {
-                    Traits.Tempered,
-                    Traits.SlowAbsorption,
-                    Traits.PollenProjector
-                },
-                RaceDescription = "",
+                    unit.BodyAccentType1 = data.MiscRaceData.BodyAccentTypes1 - 1;
+                }
+
+                unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2);
+                unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3);
             });
-            output.CustomizeButtons((unit, buttons) =>
+
+            builder.Setup(output =>
             {
-                buttons.SetText(ButtonType.BodyAccessoryType, "Hair Accessory");
-                buttons.SetText(ButtonType.ExtraColor1, "Plant Colors");
-                buttons.SetText(ButtonType.BodyAccentTypes1, "Inner Petals");
-                buttons.SetText(ButtonType.BodyAccentTypes2, "Outer Petals");
-                buttons.SetText(ButtonType.BodyAccentTypes3, "Plant Base");
-            });
-            output.TownNames(new List<string>
-            {
-                "Yggdrasill",
-                "Evergarden",
-                "Rosewood",
-                "Apple Grove",
-                "Gracefields",
-                "Edenia",
-                "Ivydale",
-                "Magnolia",
-                "Cedarville",
-                "Fiore",
-                "Trees of Valinor",
-                "Green Haven",
-            });
+                output.Names("Alraune", "Alraune");
+                output.FlavorText(new FlavorText(
+                    new Texts {  },
+                    new Texts {  },
+                    new Texts { "plant", "demi-plant", "flowery being" },
+                    new Dictionary<string, string>
+                    {
+                        [WeaponNames.Mace]        = "Vine Whip",
+                        [WeaponNames.Axe]         = "Stem Blade",
+                        [WeaponNames.SimpleBow]   = "Unbloomed Corolla",
+                        [WeaponNames.CompoundBow] = "Blooming Flower"
+                    }
+                ));
+                output.RaceTraits(new RaceTraits()
+                {
+                    BodySize = 14,
+                    StomachSize = 16,
+                    HasTail = false,
+                    FavoredStat = Stat.Endurance,
+                    RacialTraits = new List<Traits>()
+                    {
+                        Traits.Tempered,
+                        Traits.SlowAbsorption,
+                        Traits.PollenProjector
+                    },
+                    RaceDescription = "",
+                });
+                output.CustomizeButtons((unit, buttons) =>
+                {
+                    buttons.SetText(ButtonType.BodyAccessoryType, "Hair Accessory");
+                    buttons.SetText(ButtonType.ExtraColor1, "Plant Colors");
+                    buttons.SetText(ButtonType.BodyAccentTypes1, "Inner Petals");
+                    buttons.SetText(ButtonType.BodyAccentTypes2, "Outer Petals");
+                    buttons.SetText(ButtonType.BodyAccentTypes3, "Plant Base");
+                });
+                output.TownNames(new List<string>
+                {
+                    "Yggdrasill",
+                    "Evergarden",
+                    "Rosewood",
+                    "Apple Grove",
+                    "Gracefields",
+                    "Edenia",
+                    "Ivydale",
+                    "Magnolia",
+                    "Cedarville",
+                    "Fiore",
+                    "Trees of Valinor",
+                    "Green Haven",
+                });
             
-            output.BodySizes = 4;
-            output.HairStyles = 12;
-            output.SpecialAccessoryCount = 16;
-            output.AccessoryColors =
-                ColorPaletteMap.GetPaletteCount(SwapType
-                    .AlrauneFoliage); // head flower and upper petals
-            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.AlrauneHair);
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.AlrauneSkin);
-            output.ExtraColors1 =
-                ColorPaletteMap.GetPaletteCount(SwapType.AlrauneFoliage); // lower petals and base roots
-            output.BodyAccentTypes1 = 9; // upper petals
-            output.BodyAccentTypes2 = 10; // lower petals
-            output.BodyAccentTypes3 = 8; // base roots
+                output.BodySizes = 4;
+                output.HairStyles = 12;
+                output.SpecialAccessoryCount = 16;
+                output.AccessoryColors =
+                    ColorPaletteMap.GetPaletteCount(SwapType
+                        .AlrauneFoliage); // head flower and upper petals
+                output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.AlrauneHair);
+                output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.AlrauneSkin);
+                output.ExtraColors1 =
+                    ColorPaletteMap.GetPaletteCount(SwapType.AlrauneFoliage); // lower petals and base roots
+                output.BodyAccentTypes1 = 9; // upper petals
+                output.BodyAccentTypes2 = 10; // lower petals
+                output.BodyAccentTypes3 = 8; // base roots
 
-            output.AllowedMainClothingTypes.Set(
-                AlrauneLeafs.AlrauneLeafsInstance,
-                AlrauneVines1.AlrauneVines1Instance,
-                AlrauneVines2.AlrauneVines2Instance,
-                AlrauneMoss.AlrauneMossInstance,
-                AlrauneChristmas.AlrauneChristmasInstance,
-                rags,
-                leaderClothes
-            );
+                output.AllowedMainClothingTypes.Set(
+                    AlrauneLeafs.AlrauneLeafsInstance,
+                    AlrauneVines1.AlrauneVines1Instance,
+                    AlrauneVines2.AlrauneVines2Instance,
+                    AlrauneMoss.AlrauneMossInstance,
+                    AlrauneChristmas.AlrauneChristmasInstance,
+                    rags,
+                    leaderClothes
+                );
 
-            output.AllowedWaistTypes.Set(
-            );
+                output.AllowedWaistTypes.Set(
+                );
 
-            output.AllowedClothingHatTypes.Clear();
-            output.AvoidedMainClothingTypes = 2;
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AlrauneFoliage);
-        });
+                output.AllowedClothingHatTypes.Clear();
+                output.AvoidedMainClothingTypes = 2;
+                output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.AlrauneFoliage);
+            });
 
 
-        builder.RenderSingle(SpriteType.Head, 7, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
-            if (input.A.IsEating)
+            builder.RenderSingle(SpriteType.Head, 7, (input, output) =>
             {
-                output.Sprite(input.Sprites.Alraune[16]);
-            }
-        });
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
+                if (input.A.IsEating)
+                {
+                    output.Sprite(input.Sprites.Alraune[16]);
+                }
+            });
 
-        builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
-        {
-            Defaults.SpriteGens3[SpriteType.Eyes].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
-            output.AddOffset(0, yOffset);
-        });
-        builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
-        {
-            Defaults.SpriteGens3[SpriteType.Mouth].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
-            output.AddOffset(0, yOffset);
-        });
+            builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
+            {
+                Defaults.SpriteGens3[SpriteType.Eyes].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+                output.AddOffset(0, yOffset);
+            });
+            builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
+            {
+                Defaults.SpriteGens3[SpriteType.Mouth].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
+                output.AddOffset(0, yOffset);
+            });
         
-        builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneHair, input.U.HairColor));
-            output.Sprite(input.Sprites.Alraune[60 + input.U.HairStyle]);
-        });
-        builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
+            builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneHair, input.U.HairColor));
+                output.Sprite(input.Sprites.Alraune[60 + input.U.HairStyle]);
+            });
+            builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 if (input.U.HasBreasts)
@@ -210,7 +212,7 @@ internal static class Alraune
                 }
             });
 
-        builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
+            builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.AccessoryColor));
                 if (input.U.ClothingType != 5)
@@ -219,7 +221,7 @@ internal static class Alraune
                 }
             }); // upper petals
 
-        builder.RenderSingle(SpriteType.BodyAccent2, 2, (input, output) =>
+            builder.RenderSingle(SpriteType.BodyAccent2, 2, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ExtraColor1));
                 if (input.U.ClothingType != 5)
@@ -228,7 +230,7 @@ internal static class Alraune
                 }
             }); //lower petals
 
-        builder.RenderSingle(SpriteType.BodyAccent3, 1, (input, output) =>
+            builder.RenderSingle(SpriteType.BodyAccent3, 1, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ExtraColor1));
                 if (input.U.ClothingType != 5)
@@ -237,7 +239,7 @@ internal static class Alraune
                 }
             }); // base roots
 
-        builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
+            builder.RenderSingle(SpriteType.BodyAccent4, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneHair, input.U.HairColor));
                 output.Sprite(
@@ -245,34 +247,34 @@ internal static class Alraune
                 output.AddOffset(0, yOffset);
             }); // eyebrows
 
-        builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
-        {
-            output.Coloring(Defaults.WhiteColored);
-            if (input.U.ClothingType == 5)
+            builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
             {
-                output.Sprite(input.Sprites.AlrauneChristmas[12]);
-            }
-        }); // christmas head flower
+                output.Coloring(Defaults.WhiteColored);
+                if (input.U.ClothingType == 5)
+                {
+                    output.Sprite(input.Sprites.AlrauneChristmas[12]);
+                }
+            }); // christmas head flower
 
-        builder.RenderSingle(SpriteType.BodyAccent6, 2, (input, output) =>
-        {
-            output.Coloring(Defaults.WhiteColored);
-            if (input.U.ClothingType == 5)
+            builder.RenderSingle(SpriteType.BodyAccent6, 2, (input, output) =>
             {
-                output.Sprite(input.Sprites.AlrauneChristmas[1]);
-            }
-        }); // christmas lower petals
+                output.Coloring(Defaults.WhiteColored);
+                if (input.U.ClothingType == 5)
+                {
+                    output.Sprite(input.Sprites.AlrauneChristmas[1]);
+                }
+            }); // christmas lower petals
 
-        builder.RenderSingle(SpriteType.BodyAccent7, 1, (input, output) =>
-        {
-            output.Coloring(Defaults.WhiteColored);
-            if (input.U.ClothingType == 5)
+            builder.RenderSingle(SpriteType.BodyAccent7, 1, (input, output) =>
             {
-                output.Sprite(input.Sprites.AlrauneChristmas[0]);
-            }
-        }); // christmas base roots
+                output.Coloring(Defaults.WhiteColored);
+                if (input.U.ClothingType == 5)
+                {
+                    output.Sprite(input.Sprites.AlrauneChristmas[0]);
+                }
+            }); // christmas base roots
 
-        builder.RenderSingle(SpriteType.BodyAccessory, 7, (input, output) =>
+            builder.RenderSingle(SpriteType.BodyAccessory, 7, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.AccessoryColor));
                 if (input.U.HasBreasts && input.U.ClothingType != 5)
@@ -281,31 +283,31 @@ internal static class Alraune
                 }
             }); // head flower
 
-        builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
+            builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Breasts].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 output.AddOffset(0, yOffset);
             });
-        builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
+            builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 output.AddOffset(0, yOffset);
             });
-        builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
+            builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 output.AddOffset(0, yOffset);
             });
-        builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
+            builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 output.AddOffset(0, yOffset);
             });
-        builder.RenderSingle(SpriteType.Weapon, 12, (input, output) =>
+            builder.RenderSingle(SpriteType.Weapon, 12, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneFoliage, input.U.ClothingColor));
                 if (input.U.HasWeapon && input.A.Surrendered == false)
@@ -313,11 +315,9 @@ internal static class Alraune
                     output.Sprite(input.Sprites.Alraune[72 + input.A.GetWeaponSprite()]);
                 }
             });
-    });
-}
+        });
+    }
 
-namespace AlrauneClothing
-{
     internal static class AlrauneLeafs
     {
         internal static readonly IClothing AlrauneLeafsInstance = ClothingBuilder.Create(builder =>

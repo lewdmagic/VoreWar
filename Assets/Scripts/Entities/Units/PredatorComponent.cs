@@ -163,7 +163,7 @@ public class PredatorComponent
             if(_voreRestrictions == null)
             {
                 _voreRestrictions = new List<IVoreRestrictions>();
-                if (Races.GetRace(unit.Race) is IVoreRestrictions restriction1)
+                if (Races2.GetRace(unit.Race) is IVoreRestrictions restriction1)
                     _voreRestrictions.Add(restriction1);
                 foreach (Traits trait in unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is IVoreRestrictions))
                 {
@@ -1536,7 +1536,7 @@ public class PredatorComponent
                     {
                         if (unit.HasDick)
                         {
-                            unit.DickSize = Math.Min(unit.DickSize + 1, Races.GetRace(unit).MiscRaceData.DickSizes() - 1);
+                            unit.DickSize = Math.Min(unit.DickSize + 1, Races2.GetRace(unit).MiscRaceData.DickSizes() - 1);
                             if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideDick(unit.Race))
                                 unit.DickSize = Math.Min(unit.DickSize, State.RaceSettings.Get(unit.Race).MaxDick);
                         }
@@ -1545,7 +1545,7 @@ public class PredatorComponent
                     {
                         if (unit.HasBreasts)
                         {
-                            unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races.GetRace(unit).MiscRaceData.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
+                            unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races2.GetRace(unit).MiscRaceData.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
                             if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideBreasts(unit.Race))
                                 unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize, State.RaceSettings.Get(unit.Race).MaxBoob));
                         }
@@ -1556,7 +1556,7 @@ public class PredatorComponent
                         {
                             if (unit.HasDick)
                             {
-                                unit.DickSize = Math.Min(unit.DickSize + 1, Races.GetRace(unit).MiscRaceData.DickSizes() - 1);
+                                unit.DickSize = Math.Min(unit.DickSize + 1, Races2.GetRace(unit).MiscRaceData.DickSizes() - 1);
                                 if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideDick(unit.Race))
                                     unit.DickSize = Math.Min(unit.DickSize, State.RaceSettings.Get(unit.Race).MaxDick);
                             }
@@ -1566,15 +1566,15 @@ public class PredatorComponent
                         {
                             if (unit.HasBreasts)
                             {
-                                unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races.GetRace(unit).MiscRaceData.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
+                                unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races2.GetRace(unit).MiscRaceData.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
                                 if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideBreasts(unit.Race))
                                     unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize, State.RaceSettings.Get(unit.Race).MaxBoob));
                             }
                         }
 
-                        if (State.Rand.NextDouble() < .5 && Races.GetRace(unit).MiscRaceData.WeightGainDisabled == false)
+                        if (State.Rand.NextDouble() < .5 && Races2.GetRace(unit).MiscRaceData.WeightGainDisabled == false)
                         {
-                            unit.BodySize = Math.Max(Math.Min(unit.BodySize + 1, Races.GetRace(unit).MiscRaceData.BodySizes - 1), 0);
+                            unit.BodySize = Math.Max(Math.Min(unit.BodySize + 1, Races2.GetRace(unit).MiscRaceData.BodySizes - 1), 0);
                             if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideWeight(unit.Race))
                                 unit.BodySize = Math.Min(unit.BodySize, State.RaceSettings.Get(unit.Race).MaxWeight);
                         }
@@ -1892,7 +1892,7 @@ public class PredatorComponent
             State.GameManager.SoundManager.PlayDigest(Location(preyUnit), actor);
         }
 
-        IRaceData preyRace = Races.GetRace(preyUnit.Unit);
+        IRaceData preyRace = Races2.GetRace(preyUnit.Unit);
 
         if (Config.ClothingDiscards)
         {
@@ -2182,7 +2182,7 @@ public class PredatorComponent
             RightBreastFullness = 0;
         }
 
-        var data = Races.GetRace(unit.Race);
+        var data = Races2.GetRace(unit.Race);
         if (data.MiscRaceData.ExtendedBreastSprites == false)
             actor.Unit.SetBreastSize(unit.DefaultBreastSize + (int)(BreastFullness * 8));
         //actor.Unit.SetDickSize(unit.DefaultDickSize + (int)(BallsFullness * 8));
@@ -2636,7 +2636,7 @@ public class PredatorComponent
                 AddToStomach(preyref, 1f);
                 break;
             case PreyLocation.breasts:
-                var data = Races.GetRace(unit.Race);
+                var data = Races2.GetRace(unit.Race);
                 if (data.MiscRaceData.ExtendedBreastSprites)
                 {
                     if (Config.FairyBVType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
@@ -2681,7 +2681,7 @@ public class PredatorComponent
     {
         State.GameManager.SoundManager.PlaySwallow(PreyLocation.breasts, actor);
         TacticalUtilities.Log.RegisterBreastVore(unit, target.Unit, v);
-        var data = Races.GetRace(unit.Race);
+        var data = Races2.GetRace(unit.Race);
         if (data.MiscRaceData.ExtendedBreastSprites)
         {
             if (Config.FairyBVType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
@@ -2724,7 +2724,7 @@ public class PredatorComponent
     {
         if (Config.KuroTenkoEnabled && (Config.FeedingType == FeedingType.Both || Config.FeedingType == FeedingType.BreastfeedOnly))
         {
-            var race = Races.GetRace(actor.Unit.Race);
+            var race = Races2.GetRace(actor.Unit.Race);
             if (race.MiscRaceData.ExtendedBreastSprites)
             {
                 foreach (Prey preyUnit in leftBreast)
@@ -3019,7 +3019,7 @@ public class PredatorComponent
             }
 
         }
-        var data = Races.GetRace(target.Unit.Race);
+        var data = Races2.GetRace(target.Unit.Race);
         if (State.RaceSettings.GetVoreTypes(actor.Unit.Race).Contains(VoreType.Oral))
         {
             if (data.MiscRaceData.ExtendedBreastSprites)
@@ -3098,7 +3098,7 @@ public class PredatorComponent
         var deadPrey = new List<Prey>();
         if (feedType == "breast" || feedType == "any")
         {
-            var data = Races.GetRace(unit.Race);
+            var data = Races2.GetRace(unit.Race);
             if (data.MiscRaceData.ExtendedBreastSprites)
             {
                 int leftBreastHealth = 0;
@@ -3579,7 +3579,7 @@ public class PredatorComponent
                 break;
             case PreyLocation.breasts:
                 TacticalUtilities.Log.RegisterMiscellaneous($"In just a few deft movements, <b>{forcePrey.Unit.Name}</b> crams {LogUtilities.GPPHimself(forcePrey.Unit)} into <b>{LogUtilities.ApostrophizeWithOrWithoutS(unit.Name)}</b> tits.");
-                var data = Races.GetRace(unit.Race);
+                var data = Races2.GetRace(unit.Race);
                 if (data.MiscRaceData.ExtendedBreastSprites)
                 {
                     if (Config.FairyBVType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)

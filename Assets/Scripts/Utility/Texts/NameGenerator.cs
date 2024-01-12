@@ -194,7 +194,7 @@ public class NameGenerator
             return list[State.Rand.Next(list.Count)];
         }
         list = null;
-        list = Races.GetRace(race).ExtraRaceInfo().IndividualNames;
+        list = Races2.GetRace(race).ExtraRaceInfo().IndividualNames;
         
         if (list != null)
         {
@@ -239,7 +239,7 @@ public class NameGenerator
     public string GetTownName(Race race, int i)
     {
 
-        List<string> raceTownNames = Races.GetRace(race).ExtraRaceInfo().TownNames;
+        List<string> raceTownNames = Races2.GetRace(race).ExtraRaceInfo().TownNames;
 
         if (raceTownNames != null)
         {
@@ -254,12 +254,12 @@ public class NameGenerator
             return $"Abandoned town {i + 1}";
         }
 
-        return $"{Races.GetRace(race).SingularName(Gender.Male)} town {i + 1}";
+        return $"{Races2.GetRace(race).SingularName(Gender.Male)} town {i + 1}";
     }
 
     public string GetAlternateTownName(Race race, int i)
     {
-        List<string> racePreyTownNames = Races.GetRace(race).ExtraRaceInfo().PreyTownNames;
+        List<string> racePreyTownNames = Races2.GetRace(race).ExtraRaceInfo().PreyTownNames;
 
         if (racePreyTownNames != null)
         {
@@ -269,7 +269,7 @@ public class NameGenerator
             }
         }
 
-        return $"{Races.GetRace(race).SingularName(Gender.Male)} town {i + 1}";
+        return $"{Races2.GetRace(race).SingularName(Gender.Male)} town {i + 1}";
     }
 
 }

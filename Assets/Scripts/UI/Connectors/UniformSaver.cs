@@ -20,7 +20,7 @@ public class UniformSaver : MonoBehaviour
             unit = State.GameManager.Recruit_Mode.Customizer.Unit;
 
         Text.text = unit.Name;
-        var raceData = Races.GetRace(unit.Race);
+        var raceData = Races2.GetRace(unit.Race);
         if (raceData.MiscRaceData.AllowedClothingHatTypesBasic.Count > 0)
         {
             IncludeHat.interactable = true;

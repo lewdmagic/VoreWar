@@ -3,6 +3,7 @@ using OdinSerializer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Races.Graphics.Implementations.Monsters;
 using UnityEngine;
 
 public enum UnitType
@@ -635,7 +636,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
         ImmuneToDefections = immuneToDefectons;
 
 
-        var raceData = Races.GetRace(this);
+        var raceData = Races2.GetRace(this);
         RandomizeNameAndGender(race, raceData, true);
 
         DefaultBreastSize = BreastSize;
@@ -996,7 +997,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
 
 internal void SetGenderRandomizeName(Race race, Gender gender)
     {
-        var raceData = Races.GetRace(this);
+        var raceData = Races2.GetRace(this);
         var isMale = false;
         if (raceData.MiscRaceData.CanBeGender.Count == 0 || (raceData.MiscRaceData.CanBeGender.Contains(Gender.None) && raceData.MiscRaceData.CanBeGender.Count == 1))
         {
@@ -1041,7 +1042,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     internal void TotalRandomizeAppearance()
     {
-        var raceData = Races.GetRace(this);
+        var raceData = Races2.GetRace(this);
         RandomizeNameAndGender(Race, raceData, true);
         raceData.RandomCustomCall(this);
 
@@ -1049,7 +1050,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     internal void RandomizeAppearance()
     {
-        var raceData = Races.GetRace(this);
+        var raceData = Races2.GetRace(this);
         raceData.RandomCustomCall(this);
     }
 
@@ -1968,7 +1969,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             CopyAppearance(appearance);
         else
         {
-            var NewRace = Races.GetRace(race);
+            var NewRace = Races2.GetRace(race);
             NewRace.RandomCustomCall(this);
         }
 
@@ -2064,8 +2065,8 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     public void SetBreastSize(int size)
     {
-        if (size > Races.GetRace(this).MiscRaceData.BreastSizes() - 1)
-            size = Races.GetRace(this).MiscRaceData.BreastSizes() - 1;
+        if (size > Races2.GetRace(this).MiscRaceData.BreastSizes() - 1)
+            size = Races2.GetRace(this).MiscRaceData.BreastSizes() - 1;
         if (size <= DefaultBreastSize)
             size = DefaultBreastSize;
         BreastSize = size;
@@ -2619,7 +2620,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         {
             shape.AddPermanentTrait(trait);
         }
-        if (Races.GetRace(shape.Race).MiscRaceData.CanBeGender.Contains(GetGender()))
+        if (Races2.GetRace(shape.Race).MiscRaceData.CanBeGender.Contains(GetGender()))
         {
             shape.SetGenderRandomizeName(race,GetGender());
         }

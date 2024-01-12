@@ -1,342 +1,342 @@
 ﻿#region
 
 using System.Collections.Generic;
-using MermenClothing;
 using UnityEngine;
 
-#endregion
-
-internal static class Merfolk
+namespace Races.Graphics.Implementations.MainRaces
 {
-    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+
+    #endregion
+
+    internal static class Merfolk
     {
-        IClothing leaderClothes = MermenLeader.MermenLeaderInstance;
-        IClothing rags = MermenRags.MermenRagsInstance;
-
-
-        builder.Setup(output =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
-            output.Names("Merfolk", "Merfolk");
-            output.FlavorText(new FlavorText(
-                new Texts {  },
-                new Texts {  },
-                new Texts { "walking fish", "merfolk", {"mermaid", Gender.Female}, {"merman", Gender.Male} },
-                new Dictionary<string, string>
+            IClothing leaderClothes = MermenLeader.MermenLeaderInstance;
+            IClothing rags = MermenRags.MermenRagsInstance;
+
+
+            builder.Setup(output =>
+            {
+                output.Names("Merfolk", "Merfolk");
+                output.FlavorText(new FlavorText(
+                    new Texts {  },
+                    new Texts {  },
+                    new Texts { "walking fish", "merfolk", {"mermaid", Gender.Female}, {"merman", Gender.Male} },
+                    new Dictionary<string, string>
+                    {
+                        [WeaponNames.Mace]        = "Crude Trident",
+                        [WeaponNames.Axe]         = "Royal Trident",
+                        [WeaponNames.SimpleBow]   = "Scepter",
+                        [WeaponNames.CompoundBow] = "Orb Staff"
+                    }
+                ));
+                output.RaceTraits(new RaceTraits()
                 {
-                    [WeaponNames.Mace]        = "Crude Trident",
-                    [WeaponNames.Axe]         = "Royal Trident",
-                    [WeaponNames.SimpleBow]   = "Scepter",
-                    [WeaponNames.CompoundBow] = "Orb Staff"
+                    BodySize = 13,
+                    StomachSize = 15,
+                    HasTail = true,
+                    FavoredStat = Stat.Will,
+                    RacialTraits = new List<Traits>()
+                    {
+                        Traits.MagicResistance,
+                        Traits.HealingBlood,
+                        Traits.Slippery
+                    },
+                    RaceDescription = "",
+                });
+                output.CustomizeButtons((unit, buttons) =>
+                {
+                    buttons.SetText(ButtonType.BodyAccessoryType, "Head Fin");
+                    buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace / Hair Ornament");
+                    buttons.SetText(ButtonType.ExtraColor1, "Scale Color");
+                    buttons.SetText(ButtonType.BodyAccentTypes2, "Tail Fin");
+                    buttons.SetText(ButtonType.BodyAccentTypes3, "Arm Fin");
+                    buttons.SetText(ButtonType.BodyAccentTypes4, "Eyebrow");
+                });
+                output.TownNames(new List<string>
+                {
+                    "Neo Atlantis",
+                    "Rapture",
+                    "Templemer",
+                    "Reefsong",
+                    "Numenor",
+                    "Thalassa",
+                    "Amphitrite",
+                    "Triton",
+                    "Nautica",
+                    "Poseidonia",
+                    "Neptunia",
+                    "Ulthuan",
+                    "Nereidia",
+                    "Pontus",
+                    "Eurybia"
+                });
+                output.BreastSizes = () => 8;
+
+                output.BodySizes = 4;
+                output.EyeTypes = 8;
+                output.HairStyles = 12;
+                output.SpecialAccessoryCount = 12; //ears
+                output.MouthTypes = 8;
+                output.AccessoryColors = 0;
+                output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenHair);
+                output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin);
+                output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin); // fish parts colors
+                output.BodyAccentTypes2 = 12; // tail fins
+                output.BodyAccentTypes3 = 7; // arm fins
+                output.BodyAccentTypes4 = 4; // eyebrows
+
+                output.AllowedMainClothingTypes.Set(
+                    MermenTop1.MermenTop1Instance,
+                    MermenTop2.MermenTop2Instance,
+                    MermenTop3.MermenTop3Instance,
+                    MermenBodySuit.MermenBodySuitInstance,
+                    MermenArmour.MermenArmourInstance,
+                    rags,
+                    leaderClothes
+                );
+                output.AvoidedMainClothingTypes = 2;
+                output.AllowedWaistTypes.Set(
+                    MermenFishTailLink1.MermenFishTailLink1Instance,
+                    MermenFishTailLink2.MermenFishTailLink2Instance,
+                    MermenFishTailLink3.MermenFishTailLink3Instance,
+                    MermenLoincloth.MermenLoinclothInstance,
+                    MermenBot.MermenBotInstance
+                );
+                output.AllowedClothingAccessoryTypes.Set(
+                    MermenShell1.MermenShell1Instance,
+                    MermenTiara.MermenTiaraInstance,
+                    MermenStarfish.MermenStarfishInstance,
+                    MermenShell2.MermenShell2Instance,
+                    MermenHairpin.MermenHairpinInstance,
+                    MermenNecklace1.MermenNecklace1Instance,
+                    MermenNecklace2.MermenNecklace2Instance,
+                    MermenNecklace3.MermenNecklace3Instance,
+                    MermenNecklace4.MermenNecklace4Instance,
+                    MermenNecklace5.MermenNecklace5Instance,
+                    MermenNecklace6.MermenNecklace6Instance,
+                    MermenNecklace7.MermenNecklace7Instance,
+                    MermenNecklace8.MermenNecklace8Instance
+                );
+                output.ClothingColors = 0;
+            });
+
+
+            builder.RenderSingle(SpriteType.Head, 8, (input, output) =>
+            {
+                output.Coloring(Defaults.WhiteColored);
+                if (input.A.IsEating)
+                {
+                    output.Sprite(input.Sprites.Mermen[20]);
+                    return;
                 }
-            ));
-            output.RaceTraits(new RaceTraits()
-            {
-                BodySize = 13,
-                StomachSize = 15,
-                HasTail = true,
-                FavoredStat = Stat.Will,
-                RacialTraits = new List<Traits>()
+
+                if (input.A.IsAttacking)
                 {
-                    Traits.MagicResistance,
-                    Traits.HealingBlood,
-                    Traits.Slippery
-                },
-                RaceDescription = "",
-            });
-            output.CustomizeButtons((unit, buttons) =>
-            {
-                buttons.SetText(ButtonType.BodyAccessoryType, "Head Fin");
-                buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace / Hair Ornament");
-                buttons.SetText(ButtonType.ExtraColor1, "Scale Color");
-                buttons.SetText(ButtonType.BodyAccentTypes2, "Tail Fin");
-                buttons.SetText(ButtonType.BodyAccentTypes3, "Arm Fin");
-                buttons.SetText(ButtonType.BodyAccentTypes4, "Eyebrow");
-            });
-            output.TownNames(new List<string>
-            {
-                "Neo Atlantis",
-                "Rapture",
-                "Templemer",
-                "Reefsong",
-                "Numenor",
-                "Thalassa",
-                "Amphitrite",
-                "Triton",
-                "Nautica",
-                "Poseidonia",
-                "Neptunia",
-                "Ulthuan",
-                "Nereidia",
-                "Pontus",
-                "Eurybia"
-            });
-            output.BreastSizes = () => 8;
-
-            output.BodySizes = 4;
-            output.EyeTypes = 8;
-            output.HairStyles = 12;
-            output.SpecialAccessoryCount = 12; //ears
-            output.MouthTypes = 8;
-            output.AccessoryColors = 0;
-            output.HairColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenHair);
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin);
-            output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(SwapType.MermenSkin); // fish parts colors
-            output.BodyAccentTypes2 = 12; // tail fins
-            output.BodyAccentTypes3 = 7; // arm fins
-            output.BodyAccentTypes4 = 4; // eyebrows
-
-            output.AllowedMainClothingTypes.Set(
-                MermenTop1.MermenTop1Instance,
-                MermenTop2.MermenTop2Instance,
-                MermenTop3.MermenTop3Instance,
-                MermenBodySuit.MermenBodySuitInstance,
-                MermenArmour.MermenArmourInstance,
-                rags,
-                leaderClothes
-            );
-            output.AvoidedMainClothingTypes = 2;
-            output.AllowedWaistTypes.Set(
-                MermenFishTailLink1.MermenFishTailLink1Instance,
-                MermenFishTailLink2.MermenFishTailLink2Instance,
-                MermenFishTailLink3.MermenFishTailLink3Instance,
-                MermenLoincloth.MermenLoinclothInstance,
-                MermenBot.MermenBotInstance
-            );
-            output.AllowedClothingAccessoryTypes.Set(
-                MermenShell1.MermenShell1Instance,
-                MermenTiara.MermenTiaraInstance,
-                MermenStarfish.MermenStarfishInstance,
-                MermenShell2.MermenShell2Instance,
-                MermenHairpin.MermenHairpinInstance,
-                MermenNecklace1.MermenNecklace1Instance,
-                MermenNecklace2.MermenNecklace2Instance,
-                MermenNecklace3.MermenNecklace3Instance,
-                MermenNecklace4.MermenNecklace4Instance,
-                MermenNecklace5.MermenNecklace5Instance,
-                MermenNecklace6.MermenNecklace6Instance,
-                MermenNecklace7.MermenNecklace7Instance,
-                MermenNecklace8.MermenNecklace8Instance
-            );
-            output.ClothingColors = 0;
-        });
-
-
-        builder.RenderSingle(SpriteType.Head, 8, (input, output) =>
-        {
-            output.Coloring(Defaults.WhiteColored);
-            if (input.A.IsEating)
-            {
-                output.Sprite(input.Sprites.Mermen[20]);
-                return;
-            }
-
-            if (input.A.IsAttacking)
-            {
-                output.Sprite(input.Sprites.Mermen[21]);
-            }
-        });
-
-        builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
-            output.Sprite(input.Sprites.Mermen[108 + input.U.EyeType]);
-        });
-        builder.RenderSingle(SpriteType.Mouth, 5, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
-            if (input.A.IsEating)
-            {
-                output.Sprite(input.Sprites.Mermen[22]);
-                return;
-            }
-
-            if (input.A.IsAttacking)
-            {
-                output.Sprite(input.Sprites.Mermen[23]);
-                return;
-            }
-
-            output.Sprite(input.Sprites.Mermen[24 + input.U.MouthType]);
-        });
-
-        builder.RenderSingle(SpriteType.Hair, 7, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenHair, input.U.HairColor));
-            output.Sprite(input.Sprites.Mermen[84 + input.U.HairStyle]);
-        });
-        builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenHair, input.U.HairColor));
-            output.Sprite(input.Sprites.Mermen[96 + input.U.HairStyle]);
-        });
-        builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
-            output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[0 + input.U.BodySize] : input.Sprites.Mermen[4 + input.U.BodySize]);
-        });
-
-        builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
-            output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[12 + input.U.BodySize] : input.Sprites.Mermen[16 + input.U.BodySize]);
-        }); // fish tail
-
-        builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
-            output.Sprite(input.Sprites.Mermen[60 + input.U.BodyAccentType2]);
-        }); //tail fins
-        builder.RenderSingle(SpriteType.BodyAccent3, 5, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
-            if (input.U.HasBreasts)
-            {
-                output.Sprite(input.Sprites.Mermen[32 + (input.A.IsAttacking ? 1 : 0) + 4 * input.U.BodyAccentType3]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Mermen[34 + (input.A.IsAttacking ? 1 : 0) + 4 * input.U.BodyAccentType3]);
-            }
-        }); // arm fins
-
-        builder.RenderSingle(SpriteType.BodyAccent4, 6, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenHair, input.U.HairColor));
-            output.Sprite(input.Sprites.Mermen[116 + input.U.BodyAccentType4]);
-        }); // eyebrows
-        builder.RenderSingle(SpriteType.BodyAccent5, 2, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
-            output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[8 + (input.A.IsAttacking ? 1 : 0)] : input.Sprites.Mermen[10 + (input.A.IsAttacking ? 1 : 0)]);
-        }); // arms
-
-        builder.RenderSingle(SpriteType.BodyAccessory, 4, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
-            output.Sprite(input.Sprites.Mermen[72 + input.U.SpecialAccessoryType]);
-        }); // ears
-        builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
-            output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[120 + input.U.BreastSize] : null);
-        });
-        builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
-        {
-            Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
-        });
-
-        builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
-        {
-            Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
-        });
-
-        builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
-        {
-            Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
-        });
-        
-        builder.RenderSingle(SpriteType.Weapon, 3, (input, output) =>
-        {
-            output.Coloring(Defaults.WhiteColored);
-            if (input.U.HasWeapon && input.A.Surrendered == false)
-            {
-                output.Sprite(input.Sprites.Mermen[128 + input.A.GetWeaponSprite()]);
-                output.Layer(input.A.IsAttacking ? 20 : 3);
-            }
-        });
-
-
-        builder.RunBefore((input, output) =>
-        {
-            if (input.U.Predator && input.A.GetStomachSize(16) > 5)
-            {
-                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 13);
-                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
-                output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
-            }
-            else if (input.U.Predator && input.A.GetStomachSize(16) > 3)
-            {
-                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 12);
-                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
-                output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
-            }
-            else if (input.U.Predator && input.A.GetStomachSize(16) > 2)
-            {
-                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 11);
-                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
-                output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
-            }
-            else
-            {
-                output.ChangeSprite(SpriteType.Belly).AddOffset(0, 10);
-                output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
-                output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
-            }
-        });
-
-        builder.RandomCustom(data =>
-        {
-            Defaults.RandomCustom(data);
-            Unit unit = data.Unit;
-
-            if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
-            {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, rags);
-                if (unit.ClothingType == -1) //Covers rags not in the list
-                {
-                    unit.ClothingType = 1;
+                    output.Sprite(input.Sprites.Mermen[21]);
                 }
-            }
+            });
 
-            if (unit.Type == UnitType.Leader)
+            builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
             {
-                unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, leaderClothes);
-            }
-
-            if (unit.HasDick && unit.HasBreasts)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+                output.Sprite(input.Sprites.Mermen[108 + input.U.EyeType]);
+            });
+            builder.RenderSingle(SpriteType.Mouth, 5, (input, output) =>
             {
-                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 6 : data.MiscRaceData.HairStyles);
-            }
-            else if (unit.HasDick && Config.FemaleHairForMales)
-            {
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-            }
-            else if (unit.HasDick == false && Config.MaleHairForFemales)
-            {
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-            }
-            else
-            {
-                if (unit.HasDick)
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+                if (input.A.IsEating)
                 {
-                    unit.HairStyle = 6 + State.Rand.Next(6);
+                    output.Sprite(input.Sprites.Mermen[22]);
+                    return;
+                }
+
+                if (input.A.IsAttacking)
+                {
+                    output.Sprite(input.Sprites.Mermen[23]);
+                    return;
+                }
+
+                output.Sprite(input.Sprites.Mermen[24 + input.U.MouthType]);
+            });
+
+            builder.RenderSingle(SpriteType.Hair, 7, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenHair, input.U.HairColor));
+                output.Sprite(input.Sprites.Mermen[84 + input.U.HairStyle]);
+            });
+            builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenHair, input.U.HairColor));
+                output.Sprite(input.Sprites.Mermen[96 + input.U.HairStyle]);
+            });
+            builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+                output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[0 + input.U.BodySize] : input.Sprites.Mermen[4 + input.U.BodySize]);
+            });
+
+            builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
+                output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[12 + input.U.BodySize] : input.Sprites.Mermen[16 + input.U.BodySize]);
+            }); // fish tail
+
+            builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
+                output.Sprite(input.Sprites.Mermen[60 + input.U.BodyAccentType2]);
+            }); //tail fins
+            builder.RenderSingle(SpriteType.BodyAccent3, 5, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
+                if (input.U.HasBreasts)
+                {
+                    output.Sprite(input.Sprites.Mermen[32 + (input.A.IsAttacking ? 1 : 0) + 4 * input.U.BodyAccentType3]);
                 }
                 else
                 {
-                    unit.HairStyle = State.Rand.Next(6);
+                    output.Sprite(input.Sprites.Mermen[34 + (input.A.IsAttacking ? 1 : 0) + 4 * input.U.BodyAccentType3]);
                 }
-            }
+            }); // arm fins
 
-            unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2);
-            unit.BodyAccentType4 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes4);
+            builder.RenderSingle(SpriteType.BodyAccent4, 6, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenHair, input.U.HairColor));
+                output.Sprite(input.Sprites.Mermen[116 + input.U.BodyAccentType4]);
+            }); // eyebrows
+            builder.RenderSingle(SpriteType.BodyAccent5, 2, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+                output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[8 + (input.A.IsAttacking ? 1 : 0)] : input.Sprites.Mermen[10 + (input.A.IsAttacking ? 1 : 0)]);
+            }); // arms
 
-            if (State.Rand.Next(2) == 0)
+            builder.RenderSingle(SpriteType.BodyAccessory, 4, (input, output) =>
             {
-                unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3 - 1);
-            }
-            else
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.ExtraColor1));
+                output.Sprite(input.Sprites.Mermen[72 + input.U.SpecialAccessoryType]);
+            }); // ears
+            builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
             {
-                unit.BodyAccentType3 = data.MiscRaceData.BodyAccentTypes3 - 1;
-            }
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+                output.Sprite(input.U.HasBreasts ? input.Sprites.Mermen[120 + input.U.BreastSize] : null);
+            });
+            builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
+            {
+                Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+            });
+
+            builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
+            {
+                Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+            });
+
+            builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
+            {
+                Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
+            });
+        
+            builder.RenderSingle(SpriteType.Weapon, 3, (input, output) =>
+            {
+                output.Coloring(Defaults.WhiteColored);
+                if (input.U.HasWeapon && input.A.Surrendered == false)
+                {
+                    output.Sprite(input.Sprites.Mermen[128 + input.A.GetWeaponSprite()]);
+                    output.Layer(input.A.IsAttacking ? 20 : 3);
+                }
+            });
+
+
+            builder.RunBefore((input, output) =>
+            {
+                if (input.U.Predator && input.A.GetStomachSize(16) > 5)
+                {
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(0, 13);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
+                }
+                else if (input.U.Predator && input.A.GetStomachSize(16) > 3)
+                {
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(0, 12);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
+                }
+                else if (input.U.Predator && input.A.GetStomachSize(16) > 2)
+                {
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(0, 11);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
+                }
+                else
+                {
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(0, 10);
+                    output.ChangeSprite(SpriteType.Dick).AddOffset(0, 7);
+                    output.ChangeSprite(SpriteType.Balls).AddOffset(0, 7);
+                }
+            });
+
+            builder.RandomCustom(data =>
+            {
+                Defaults.RandomCustom(data);
+                Unit unit = data.Unit;
+
+                if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
+                {
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, rags);
+                    if (unit.ClothingType == -1) //Covers rags not in the list
+                    {
+                        unit.ClothingType = 1;
+                    }
+                }
+
+                if (unit.Type == UnitType.Leader)
+                {
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, leaderClothes);
+                }
+
+                if (unit.HasDick && unit.HasBreasts)
+                {
+                    unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 6 : data.MiscRaceData.HairStyles);
+                }
+                else if (unit.HasDick && Config.FemaleHairForMales)
+                {
+                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                }
+                else if (unit.HasDick == false && Config.MaleHairForFemales)
+                {
+                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                }
+                else
+                {
+                    if (unit.HasDick)
+                    {
+                        unit.HairStyle = 6 + State.Rand.Next(6);
+                    }
+                    else
+                    {
+                        unit.HairStyle = State.Rand.Next(6);
+                    }
+                }
+
+                unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2);
+                unit.BodyAccentType4 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes4);
+
+                if (State.Rand.Next(2) == 0)
+                {
+                    unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3 - 1);
+                }
+                else
+                {
+                    unit.BodyAccentType3 = data.MiscRaceData.BodyAccentTypes3 - 1;
+                }
+            });
         });
-    });
-}
+    }
 
-namespace MermenClothing
-{
     internal static class MermenTop1
     {
         internal static readonly IClothing MermenTop1Instance = ClothingBuilder.Create(builder =>

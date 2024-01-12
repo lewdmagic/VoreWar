@@ -215,7 +215,7 @@ class CustomizerData
 
         unit.Pronouns = Pronouns;
 
-        var race = Races.GetRace(unit);
+        var race = Races2.GetRace(unit);
         if (HairColor >= race.MiscRaceData.HairColors) unit.HairColor = 0;
         if (HairStyle >= race.MiscRaceData.HairStyles) unit.HairStyle = 0;
         if (SkinColor >= race.MiscRaceData.SkinColors) unit.SkinColor = 0;

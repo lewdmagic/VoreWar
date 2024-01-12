@@ -388,7 +388,7 @@ class RaceSettingsItem
         furryFraction = Config.FurryFraction;
 
         var racePar = RaceParameters.GetRaceTraits(race);
-        var raceData = Races.GetRace(race);
+        var raceData = Races2.GetRace(race);
 
         BodySize = racePar.BodySize;
         StomachSize = racePar.StomachSize;

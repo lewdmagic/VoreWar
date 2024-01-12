@@ -55,7 +55,7 @@ internal class CompleteSprite
         return _clothingSprites.GetOrAdd(index, () => SpriteContainer.MakeContainer(_type, _folder));
     }
     
-    private IRaceData GetRace => Races.GetRace(_actor.Unit);
+    private IRaceData GetRace => Races2.GetRace(_actor.Unit);
 
     internal void Destroy()
     {

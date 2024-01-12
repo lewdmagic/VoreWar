@@ -6,831 +6,834 @@ using UnityEngine;
 
 #endregion
 
-internal static class Hippos
+namespace Races.Graphics.Implementations.Mercs
 {
-    internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
+    internal static class Hippos
     {
-        builder.Setup(output =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
         {
-            output.Names("Hippo", "Hippos");
-            output.FlavorText(new FlavorText(
-                new Texts {  },
-                new Texts {  },
-                new Texts { "hippo", "hippopotamus", "pachyderm" },
-                new Dictionary<string, string>
-                {
-                    [WeaponNames.Mace]        = "Tribal Knife",
-                    [WeaponNames.Axe]         = "WeaponNames.Axe",
-                    [WeaponNames.SimpleBow]   = "Simple Bow",
-                    [WeaponNames.CompoundBow] = "Compound Bow",
-                    [WeaponNames.Claw]        = "Fist"
-                }
-            ));
-            output.RaceTraits(new RaceTraits()
+            builder.Setup(output =>
             {
-                BodySize = 20,
-                StomachSize = 22,
-                HasTail = true,
-                FavoredStat = Stat.Endurance,
-                PowerAdjustment = 1.3f,
-                RaceStats = new RaceStats()
-                {
-                    Strength = new RaceStats.StatRange(12, 20),
-                    Dexterity = new RaceStats.StatRange(6, 14),
-                    Endurance = new RaceStats.StatRange(18, 28),
-                    Mind = new RaceStats.StatRange(6, 12),
-                    Will = new RaceStats.StatRange(8, 16),
-                    Agility = new RaceStats.StatRange(8, 14),
-                    Voracity = new RaceStats.StatRange(12, 20),
-                    Stomach = new RaceStats.StatRange(12, 18),
-                },
-                RacialTraits = new List<Traits>()
-                {
-                    Traits.StrongMelee,
-                    Traits.HardSkin,
-                },
-                RaceDescription = "",
-            });
-            output.CustomizeButtons((unit, buttons) =>
-            {
-                buttons.SetText(ButtonType.BodyAccessoryColor, "Accent Color");
-                buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
-                buttons.SetText(ButtonType.HatType, "Headwear Type");
-                buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace Type");
-                buttons.SetText(ButtonType.BodyAccentTypes1, "Left Arm Pattern");
-                buttons.SetText(ButtonType.BodyAccentTypes2, "Right Arm Pattern");
-                buttons.SetText(ButtonType.BodyAccentTypes3, "Head Pattern");
-                buttons.SetText(ButtonType.BodyAccentTypes4, "Leg Pattern");
-            });
-            output.DickSizes = () => 8;
-            output.BreastSizes = () => 8;
-
-            output.BodySizes = 5;
-            output.HairStyles = 0;
-            output.EyeTypes = 5;
-            output.SpecialAccessoryCount = 8; // ears  
-            output.HairStyles = 0;
-            output.MouthTypes = 0;
-            output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.HippoSkin);
-            output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.HippoSkin); // tattoo/warpaint colors
-            output.BodyAccentTypes1 = 6; // left arm tattoo/warpaint
-            output.BodyAccentTypes2 = 6; // right arm tattoo/warpaint
-            output.BodyAccentTypes3 = 6; // head tattoo/warpaint
-            output.BodyAccentTypes4 = 6; // legs tattoo/warpaint
-            output.ClothingColors = 0;
-
-            output.ExtendedBreastSprites = true;
-
-            output.AllowedMainClothingTypes.Set(
-                HipposTop1.HipposTop1Instance,
-                HipposTop2.HipposTop2Instance,
-                HipposTop3.HipposTop3Instance,
-                Natural.NaturalInstance
-            );
-            output.AllowedWaistTypes.Set(
-                HipposBot1.HipposBot1Instance,
-                HipposBot2.HipposBot2Instance,
-                HipposBot3.HipposBot3Instance,
-                HipposBot4.HipposBot4Instance
-            );
-            output.AllowedClothingHatTypes.Set(
-                HipposHeadband1.HipposHeadband1Instance,
-                HipposHeadband2.HipposHeadband2Instance,
-                HipposHeadband3.HipposHeadband3Instance,
-                HipposHeadband4.HipposHeadband4Instance,
-                HipposHeadband5.HipposHeadband5Instance,
-                HipposHeadband6.HipposHeadband6Instance,
-                HipposHeadband7.HipposHeadband7Instance,
-                HipposHeadband8.HipposHeadband8Instance
-            );
-            output.AllowedClothingAccessoryTypes.Set(
-                HipposNecklace1.HipposNecklace1Instance,
-                HipposNecklace2.HipposNecklace2Instance,
-                HipposNecklace3.HipposNecklace3Instance,
-                HipposNecklace4.HipposNecklace4Instance,
-                HipposNecklace5.HipposNecklace5Instance,
-                HipposNecklace6.HipposNecklace6Instance,
-                HipposNecklace7.HipposNecklace7Instance,
-                HipposNecklace8.HipposNecklace8Instance
-            );
-            output.AvoidedMainClothingTypes = 0;
-            output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.HippoSkin);
-        });
-
-
-        builder.RunBefore((input, output) =>
-        {
-            CommonRaceCode.MakeBreastOversize(32 * 32).Invoke(input, output);
-            Defaults.Finalize.Invoke(input, output);
-        });
-
-        builder.RenderSingle(SpriteType.Head, 22, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            if (input.A.IsEating)
-            {
-                output.Sprite(input.Sprites.Hippos[21]);
-                return;
-            }
-
-            output.Sprite(input.Sprites.Hippos[20]);
-        });
-
-        builder.RenderSingle(SpriteType.Eyes, 25, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
-            output.Sprite(input.Sprites.Hippos[30 + (input.A.IsEating ? 1 : 0) + 2 * input.U.EyeType]);
-        });
-        builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            output.Sprite(input.U.HasBreasts ? input.Sprites.Hippos[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize] : input.Sprites.Hippos[10 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize]);
-        });
-
-        builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
-            output.Sprite(input.Sprites.Hippos2[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodyAccentType1]);
-        }); // left arm tattoo/warpaint
-        builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
-            output.Sprite(input.Sprites.Hippos2[12 + input.U.BodyAccentType2]);
-        }); // right arm tattoo/warpaint
-        builder.RenderSingle(SpriteType.BodyAccent3, 23, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
-            output.Sprite(input.Sprites.Hippos2[18 + (input.A.IsEating ? 1 : 0) + 2 * input.U.BodyAccentType3]);
-        }); // head tattoo/warpaint
-        builder.RenderSingle(SpriteType.BodyAccent4, 4, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
-            output.Sprite(input.Sprites.Hippos2[30 + input.U.BodyAccentType4]);
-        }); // legs tattoo/warpaint
-        builder.RenderSingle(SpriteType.BodyAccent5, 24, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            output.Sprite(input.Sprites.Hippos[40 + (input.A.IsEating ? 1 : 0) + 2 * input.U.EyeType]);
-        }); // eyebrows
-        builder.RenderSingle(SpriteType.BodyAccent6, 1, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            output.Sprite(input.Sprites.Hippos[120 + (input.A.IsAttacking ? 1 : 0)]);
-        }); // left arm
-        builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            output.Sprite(input.Sprites.Hippos[22 + input.U.SpecialAccessoryType]);
-        }); // ears
-        builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            if (input.U.HasBreasts == false)
-            {
-                return;
-            }
-
-            if (input.A.PredatorComponent?.LeftBreastFullness > 0)
-            {
-                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
-
-                if (leftSize > 28)
-                {
-                    leftSize = 28;
-                }
-
-                output.Sprite(input.Sprites.Hippos3[0 + leftSize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Hippos3[0 + input.U.BreastSize]);
-            }
-        });
-
-        builder.RenderSingle(SpriteType.SecondaryBreasts, 16, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            if (input.U.HasBreasts == false)
-            {
-                return;
-            }
-
-            if (input.A.PredatorComponent?.RightBreastFullness > 0)
-            {
-                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
-
-                if (rightSize > 28)
-                {
-                    rightSize = 28;
-                }
-
-                output.Sprite(input.Sprites.Hippos3[32 + rightSize]);
-            }
-            else
-            {
-                output.Sprite(input.Sprites.Hippos3[32 + input.U.BreastSize]);
-            }
-        });
-
-        builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            if (input.A.HasBelly)
-            {
-                int size = input.A.GetStomachSize(26, 0.7f);
-
-                switch (size)
-                {
-                    case 24:
-                        output.AddOffset(0, -3 * .625f);
-                        break;
-                    case 25:
-                        output.AddOffset(0, -6 * .625f);
-                        break;
-                    case 26:
-                        output.AddOffset(0, -9 * .625f);
-                        break;
-                }
-
-                output.Sprite(input.Sprites.Hippos3[64 + size]);
-            }
-        });
-
-        builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            if (input.U.HasDick == false)
-            {
-                return;
-            }
-
-            if (input.A.IsErect())
-            {
-                if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
-                {
-                    output.Layer(18);
-                    if (input.A.IsCockVoring)
+                output.Names("Hippo", "Hippos");
+                output.FlavorText(new FlavorText(
+                    new Texts {  },
+                    new Texts {  },
+                    new Texts { "hippo", "hippopotamus", "pachyderm" },
+                    new Dictionary<string, string>
                     {
-                        output.Sprite(input.Sprites.Hippos[82 + input.U.DickSize]);
+                        [WeaponNames.Mace]        = "Tribal Knife",
+                        [WeaponNames.Axe]         = "WeaponNames.Axe",
+                        [WeaponNames.SimpleBow]   = "Simple Bow",
+                        [WeaponNames.CompoundBow] = "Compound Bow",
+                        [WeaponNames.Claw]        = "Fist"
+                    }
+                ));
+                output.RaceTraits(new RaceTraits()
+                {
+                    BodySize = 20,
+                    StomachSize = 22,
+                    HasTail = true,
+                    FavoredStat = Stat.Endurance,
+                    PowerAdjustment = 1.3f,
+                    RaceStats = new RaceStats()
+                    {
+                        Strength = new RaceStats.StatRange(12, 20),
+                        Dexterity = new RaceStats.StatRange(6, 14),
+                        Endurance = new RaceStats.StatRange(18, 28),
+                        Mind = new RaceStats.StatRange(6, 12),
+                        Will = new RaceStats.StatRange(8, 16),
+                        Agility = new RaceStats.StatRange(8, 14),
+                        Voracity = new RaceStats.StatRange(12, 20),
+                        Stomach = new RaceStats.StatRange(12, 18),
+                    },
+                    RacialTraits = new List<Traits>()
+                    {
+                        Traits.StrongMelee,
+                        Traits.HardSkin,
+                    },
+                    RaceDescription = "",
+                });
+                output.CustomizeButtons((unit, buttons) =>
+                {
+                    buttons.SetText(ButtonType.BodyAccessoryColor, "Accent Color");
+                    buttons.SetText(ButtonType.BodyAccessoryType, "Ear Type");
+                    buttons.SetText(ButtonType.HatType, "Headwear Type");
+                    buttons.SetText(ButtonType.ClothingAccessoryType, "Necklace Type");
+                    buttons.SetText(ButtonType.BodyAccentTypes1, "Left Arm Pattern");
+                    buttons.SetText(ButtonType.BodyAccentTypes2, "Right Arm Pattern");
+                    buttons.SetText(ButtonType.BodyAccentTypes3, "Head Pattern");
+                    buttons.SetText(ButtonType.BodyAccentTypes4, "Leg Pattern");
+                });
+                output.DickSizes = () => 8;
+                output.BreastSizes = () => 8;
+
+                output.BodySizes = 5;
+                output.HairStyles = 0;
+                output.EyeTypes = 5;
+                output.SpecialAccessoryCount = 8; // ears  
+                output.HairStyles = 0;
+                output.MouthTypes = 0;
+                output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.HippoSkin);
+                output.AccessoryColors = ColorPaletteMap.GetPaletteCount(SwapType.HippoSkin); // tattoo/warpaint colors
+                output.BodyAccentTypes1 = 6; // left arm tattoo/warpaint
+                output.BodyAccentTypes2 = 6; // right arm tattoo/warpaint
+                output.BodyAccentTypes3 = 6; // head tattoo/warpaint
+                output.BodyAccentTypes4 = 6; // legs tattoo/warpaint
+                output.ClothingColors = 0;
+
+                output.ExtendedBreastSprites = true;
+
+                output.AllowedMainClothingTypes.Set(
+                    HipposTop1.HipposTop1Instance,
+                    HipposTop2.HipposTop2Instance,
+                    HipposTop3.HipposTop3Instance,
+                    Natural.NaturalInstance
+                );
+                output.AllowedWaistTypes.Set(
+                    HipposBot1.HipposBot1Instance,
+                    HipposBot2.HipposBot2Instance,
+                    HipposBot3.HipposBot3Instance,
+                    HipposBot4.HipposBot4Instance
+                );
+                output.AllowedClothingHatTypes.Set(
+                    HipposHeadband1.HipposHeadband1Instance,
+                    HipposHeadband2.HipposHeadband2Instance,
+                    HipposHeadband3.HipposHeadband3Instance,
+                    HipposHeadband4.HipposHeadband4Instance,
+                    HipposHeadband5.HipposHeadband5Instance,
+                    HipposHeadband6.HipposHeadband6Instance,
+                    HipposHeadband7.HipposHeadband7Instance,
+                    HipposHeadband8.HipposHeadband8Instance
+                );
+                output.AllowedClothingAccessoryTypes.Set(
+                    HipposNecklace1.HipposNecklace1Instance,
+                    HipposNecklace2.HipposNecklace2Instance,
+                    HipposNecklace3.HipposNecklace3Instance,
+                    HipposNecklace4.HipposNecklace4Instance,
+                    HipposNecklace5.HipposNecklace5Instance,
+                    HipposNecklace6.HipposNecklace6Instance,
+                    HipposNecklace7.HipposNecklace7Instance,
+                    HipposNecklace8.HipposNecklace8Instance
+                );
+                output.AvoidedMainClothingTypes = 0;
+                output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.HippoSkin);
+            });
+
+
+            builder.RunBefore((input, output) =>
+            {
+                CommonRaceCode.MakeBreastOversize(32 * 32).Invoke(input, output);
+                Defaults.Finalize.Invoke(input, output);
+            });
+
+            builder.RenderSingle(SpriteType.Head, 22, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                if (input.A.IsEating)
+                {
+                    output.Sprite(input.Sprites.Hippos[21]);
+                    return;
+                }
+
+                output.Sprite(input.Sprites.Hippos[20]);
+            });
+
+            builder.RenderSingle(SpriteType.Eyes, 25, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
+                output.Sprite(input.Sprites.Hippos[30 + (input.A.IsEating ? 1 : 0) + 2 * input.U.EyeType]);
+            });
+            builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                output.Sprite(input.U.HasBreasts ? input.Sprites.Hippos[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize] : input.Sprites.Hippos[10 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodySize]);
+            });
+
+            builder.RenderSingle(SpriteType.BodyAccent, 4, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
+                output.Sprite(input.Sprites.Hippos2[0 + (input.A.IsAttacking ? 1 : 0) + 2 * input.U.BodyAccentType1]);
+            }); // left arm tattoo/warpaint
+            builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
+                output.Sprite(input.Sprites.Hippos2[12 + input.U.BodyAccentType2]);
+            }); // right arm tattoo/warpaint
+            builder.RenderSingle(SpriteType.BodyAccent3, 23, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
+                output.Sprite(input.Sprites.Hippos2[18 + (input.A.IsEating ? 1 : 0) + 2 * input.U.BodyAccentType3]);
+            }); // head tattoo/warpaint
+            builder.RenderSingle(SpriteType.BodyAccent4, 4, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.AccessoryColor));
+                output.Sprite(input.Sprites.Hippos2[30 + input.U.BodyAccentType4]);
+            }); // legs tattoo/warpaint
+            builder.RenderSingle(SpriteType.BodyAccent5, 24, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                output.Sprite(input.Sprites.Hippos[40 + (input.A.IsEating ? 1 : 0) + 2 * input.U.EyeType]);
+            }); // eyebrows
+            builder.RenderSingle(SpriteType.BodyAccent6, 1, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                output.Sprite(input.Sprites.Hippos[120 + (input.A.IsAttacking ? 1 : 0)]);
+            }); // left arm
+            builder.RenderSingle(SpriteType.BodyAccessory, 2, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                output.Sprite(input.Sprites.Hippos[22 + input.U.SpecialAccessoryType]);
+            }); // ears
+            builder.RenderSingle(SpriteType.Breasts, 16, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                if (input.U.HasBreasts == false)
+                {
+                    return;
+                }
+
+                if (input.A.PredatorComponent?.LeftBreastFullness > 0)
+                {
+                    int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
+
+                    if (leftSize > 28)
+                    {
+                        leftSize = 28;
+                    }
+
+                    output.Sprite(input.Sprites.Hippos3[0 + leftSize]);
+                }
+                else
+                {
+                    output.Sprite(input.Sprites.Hippos3[0 + input.U.BreastSize]);
+                }
+            });
+
+            builder.RenderSingle(SpriteType.SecondaryBreasts, 16, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                if (input.U.HasBreasts == false)
+                {
+                    return;
+                }
+
+                if (input.A.PredatorComponent?.RightBreastFullness > 0)
+                {
+                    int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
+
+                    if (rightSize > 28)
+                    {
+                        rightSize = 28;
+                    }
+
+                    output.Sprite(input.Sprites.Hippos3[32 + rightSize]);
+                }
+                else
+                {
+                    output.Sprite(input.Sprites.Hippos3[32 + input.U.BreastSize]);
+                }
+            });
+
+            builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                if (input.A.HasBelly)
+                {
+                    int size = input.A.GetStomachSize(26, 0.7f);
+
+                    switch (size)
+                    {
+                        case 24:
+                            output.AddOffset(0, -3 * .625f);
+                            break;
+                        case 25:
+                            output.AddOffset(0, -6 * .625f);
+                            break;
+                        case 26:
+                            output.AddOffset(0, -9 * .625f);
+                            break;
+                    }
+
+                    output.Sprite(input.Sprites.Hippos3[64 + size]);
+                }
+            });
+
+            builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                if (input.U.HasDick == false)
+                {
+                    return;
+                }
+
+                if (input.A.IsErect())
+                {
+                    if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
+                    {
+                        output.Layer(18);
+                        if (input.A.IsCockVoring)
+                        {
+                            output.Sprite(input.Sprites.Hippos[82 + input.U.DickSize]);
+                            return;
+                        }
+
+                        output.Sprite(input.Sprites.Hippos[66 + input.U.DickSize]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Hippos[66 + input.U.DickSize]);
+                    output.Layer(12);
+                    if (input.A.IsCockVoring)
+                    {
+                        output.Sprite(input.Sprites.Hippos[50 + input.U.DickSize]);
+                        return;
+                    }
+
+                    output.Sprite(input.Sprites.Hippos[58 + input.U.DickSize]);
                     return;
                 }
 
-                output.Layer(12);
-                if (input.A.IsCockVoring)
+                output.Sprite(input.Sprites.Hippos[58 + input.U.DickSize]).Layer(9);
+            });
+
+            builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
+            {
+                output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                if (input.U.HasDick == false)
                 {
-                    output.Sprite(input.Sprites.Hippos[50 + input.U.DickSize]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.Hippos[58 + input.U.DickSize]);
-                return;
-            }
-
-            output.Sprite(input.Sprites.Hippos[58 + input.U.DickSize]).Layer(9);
-        });
-
-        builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
-        {
-            output.Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-            if (input.U.HasDick == false)
-            {
-                return;
-            }
-
-            if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
-            {
-                output.Layer(17);
-            }
-            else
-            {
-                output.Layer(8);
-            }
-
-            int baseSize = (input.U.DickSize + 1) / 3;
-            int ballOffset = input.A.GetBallSize(26, .9f);
-
-            int combined = Math.Min(baseSize + ballOffset + 2, 26);
-            if (combined == 26)
-            {
-                output.AddOffset(0, -13 * .625f);
-            }
-            else if (combined == 25)
-            {
-                output.AddOffset(0, -8 * .625f);
-            }
-            else if (combined == 24)
-            {
-                output.AddOffset(0, -4 * .625f);
-            }
-
-            if (ballOffset > 0)
-            {
-                output.Sprite(input.Sprites.Hippos[90 + combined]);
-                return;
-            }
-
-            output.Sprite(input.Sprites.Hippos[90 + baseSize]);
-        });
-
-        builder.RenderSingle(SpriteType.Weapon, 2, (input, output) =>
-        {
-            output.Coloring(Defaults.WhiteColored);
-            if (input.U.HasWeapon && input.A.Surrendered == false)
-            {
-                output.Sprite(input.Sprites.Hippos[74 + input.A.GetWeaponSprite()]);
-            }
-        });
-
-        builder.RandomCustom(data =>
-        {
-            Defaults.RandomCustom(data);
-            Unit unit = data.Unit;
-
-            if (State.Rand.Next(5) == 0)
-            {
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1 - 1);
-            }
-            else
-            {
-                unit.BodyAccentType1 = data.MiscRaceData.BodyAccentTypes1 - 1;
-            }
-
-            if (State.Rand.Next(5) == 0)
-            {
-                unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2 - 1);
-            }
-            else
-            {
-                unit.BodyAccentType2 = data.MiscRaceData.BodyAccentTypes2 - 1;
-            }
-
-            if (State.Rand.Next(5) == 0)
-            {
-                unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3 - 1);
-            }
-            else
-            {
-                unit.BodyAccentType3 = data.MiscRaceData.BodyAccentTypes3 - 1;
-            }
-
-            if (State.Rand.Next(5) == 0)
-            {
-                unit.BodyAccentType4 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes4 - 1);
-            }
-            else
-            {
-                unit.BodyAccentType4 = data.MiscRaceData.BodyAccentTypes4 - 1;
-            }
-        });
-    });
-
-
-    private static class HipposTop1
-    {
-        internal static readonly IClothing<IOverSizeParameters> HipposTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
-        {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.DiscardSprite = input.Sprites.Hippos2[60];
-                output.FemaleOnly = true;
-                output.RevealsBreasts = true;
-                output.RevealsDick = true;
-                output.Type = 84260;
-                output.FixedColor = true;
-            });
-            builder.RenderAll((input, output) =>
-            {
-                output["Clothing1"].Layer(17);
-                output["Clothing1"].Coloring(Color.white);
-                if (input.Params.Oversize)
+                if (input.A.IsErect() && input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
                 {
-                    output["Clothing1"].Sprite(null);
-                }
-                else if (input.U.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos2[52 + input.U.BreastSize]);
-                }
-            });
-        });
-    }
-
-    private static class HipposTop2
-    {
-        internal static readonly IClothing<IOverSizeParameters> HipposTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
-        {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.DiscardSprite = input.Sprites.Hippos2[87];
-                output.RevealsBreasts = true;
-                output.RevealsDick = true;
-                output.Type = 84287;
-                output.FixedColor = true;
-            });
-            builder.RenderAll((input, output) =>
-            {
-                output["Clothing1"].Layer(17);
-                output["Clothing1"].Coloring(Color.white);
-                if (input.Params.Oversize)
-                {
-                    output["Clothing1"].Sprite(null);
-                }
-                else if (input.U.HasBreasts)
-                {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos2[79 + input.U.BreastSize]);
+                    output.Layer(17);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos2[103]);
+                    output.Layer(8);
                 }
-            });
-        });
-    }
 
-    private static class HipposTop3
-    {
-        internal static readonly IClothing<IOverSizeParameters> HipposTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
-        {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.DiscardSprite = input.Sprites.Hippos2[96];
-                output.RevealsBreasts = true;
-                output.RevealsDick = true;
-                output.Type = 84296;
-                output.FixedColor = true;
-            });
-            builder.RenderAll((input, output) =>
-            {
-                output["Clothing1"].Layer(17);
-                output["Clothing1"].Coloring(Color.white);
-                if (input.Params.Oversize)
+                int baseSize = (input.U.DickSize + 1) / 3;
+                int ballOffset = input.A.GetBallSize(26, .9f);
+
+                int combined = Math.Min(baseSize + ballOffset + 2, 26);
+                if (combined == 26)
                 {
-                    output["Clothing1"].Sprite(null);
+                    output.AddOffset(0, -13 * .625f);
                 }
-                else if (input.U.HasBreasts)
+                else if (combined == 25)
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos2[88 + input.U.BreastSize]);
+                    output.AddOffset(0, -8 * .625f);
+                }
+                else if (combined == 24)
+                {
+                    output.AddOffset(0, -4 * .625f);
+                }
+
+                if (ballOffset > 0)
+                {
+                    output.Sprite(input.Sprites.Hippos[90 + combined]);
+                    return;
+                }
+
+                output.Sprite(input.Sprites.Hippos[90 + baseSize]);
+            });
+
+            builder.RenderSingle(SpriteType.Weapon, 2, (input, output) =>
+            {
+                output.Coloring(Defaults.WhiteColored);
+                if (input.U.HasWeapon && input.A.Surrendered == false)
+                {
+                    output.Sprite(input.Sprites.Hippos[74 + input.A.GetWeaponSprite()]);
+                }
+            });
+
+            builder.RandomCustom(data =>
+            {
+                Defaults.RandomCustom(data);
+                Unit unit = data.Unit;
+
+                if (State.Rand.Next(5) == 0)
+                {
+                    unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1 - 1);
                 }
                 else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos2[104]);
+                    unit.BodyAccentType1 = data.MiscRaceData.BodyAccentTypes1 - 1;
                 }
-            });
-        });
-    }
 
-    private static class Natural
-    {
-        internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
-        {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.RevealsBreasts = true;
-                output.OccupiesAllSlots = true;
-                output.FixedColor = true;
-            });
-
-            builder.RenderAll((input, output) =>
-            {
-                output["Clothing2"].Layer(10);
-                output["Clothing1"].Layer(17);
-                if (input.Params.Oversize)
+                if (State.Rand.Next(5) == 0)
                 {
-                    output["Clothing1"].Sprite(null);
+                    unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2 - 1);
                 }
-                else if (input.U.HasBreasts)
+                else
                 {
-                    output["Clothing1"].Sprite(input.Sprites.Hippos3[96 + input.U.BreastSize]);
-                    output["Clothing2"].Sprite(input.Sprites.Hippos3[95]);
+                    unit.BodyAccentType2 = data.MiscRaceData.BodyAccentTypes2 - 1;
                 }
 
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
-                output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                if (State.Rand.Next(5) == 0)
+                {
+                    unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3 - 1);
+                }
+                else
+                {
+                    unit.BodyAccentType3 = data.MiscRaceData.BodyAccentTypes3 - 1;
+                }
+
+                if (State.Rand.Next(5) == 0)
+                {
+                    unit.BodyAccentType4 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes4 - 1);
+                }
+                else
+                {
+                    unit.BodyAccentType4 = data.MiscRaceData.BodyAccentTypes4 - 1;
+                }
             });
         });
-    }
 
-    private static class HipposBot1
-    {
-        internal static readonly IClothing HipposBot1Instance = ClothingBuilder.Create(builder =>
+
+        private static class HipposTop1
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            internal static readonly IClothing<IOverSizeParameters> HipposTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
             {
-                output.DiscardSprite = input.Sprites.Hippos2[66];
-                output.RevealsBreasts = true;
-                output.Type = 84266;
-                output.FixedColor = true;
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                {
+                    output.DiscardSprite = input.Sprites.Hippos2[60];
+                    output.FemaleOnly = true;
+                    output.RevealsBreasts = true;
+                    output.RevealsDick = true;
+                    output.Type = 84260;
+                    output.FixedColor = true;
+                });
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(17);
+                    output["Clothing1"].Coloring(Color.white);
+                    if (input.Params.Oversize)
+                    {
+                        output["Clothing1"].Sprite(null);
+                    }
+                    else if (input.U.HasBreasts)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Hippos2[52 + input.U.BreastSize]);
+                    }
+                });
             });
-            builder.RenderAll((input, output) =>
-            {
-                output["Clothing1"].Layer(10);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[61 + input.U.BodySize]);
-            });
-        });
-    }
+        }
 
-    private static class HipposBot2
-    {
-        internal static readonly IClothing HipposBot2Instance = ClothingBuilder.Create(builder =>
+        private static class HipposTop2
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            internal static readonly IClothing<IOverSizeParameters> HipposTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
             {
-                output.DiscardSprite = input.Sprites.Hippos2[72];
-                output.RevealsBreasts = true;
-                output.Type = 84272;
-                output.FixedColor = true;
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                {
+                    output.DiscardSprite = input.Sprites.Hippos2[87];
+                    output.RevealsBreasts = true;
+                    output.RevealsDick = true;
+                    output.Type = 84287;
+                    output.FixedColor = true;
+                });
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(17);
+                    output["Clothing1"].Coloring(Color.white);
+                    if (input.Params.Oversize)
+                    {
+                        output["Clothing1"].Sprite(null);
+                    }
+                    else if (input.U.HasBreasts)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Hippos2[79 + input.U.BreastSize]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Hippos2[103]);
+                    }
+                });
             });
-            builder.RenderAll((input, output) =>
-            {
-                output["Clothing1"].Layer(10);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[67 + input.U.BodySize]);
-            });
-        });
-    }
+        }
 
-    private static class HipposBot3
-    {
-        internal static readonly IClothing HipposBot3Instance = ClothingBuilder.Create(builder =>
+        private static class HipposTop3
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            internal static readonly IClothing<IOverSizeParameters> HipposTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
             {
-                output.DiscardSprite = input.Sprites.Hippos2[78];
-                output.RevealsBreasts = true;
-                output.Type = 84278;
-                output.FixedColor = true;
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                {
+                    output.DiscardSprite = input.Sprites.Hippos2[96];
+                    output.RevealsBreasts = true;
+                    output.RevealsDick = true;
+                    output.Type = 84296;
+                    output.FixedColor = true;
+                });
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(17);
+                    output["Clothing1"].Coloring(Color.white);
+                    if (input.Params.Oversize)
+                    {
+                        output["Clothing1"].Sprite(null);
+                    }
+                    else if (input.U.HasBreasts)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Hippos2[88 + input.U.BreastSize]);
+                    }
+                    else
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Hippos2[104]);
+                    }
+                });
             });
-            builder.RenderAll((input, output) =>
-            {
-                output["Clothing1"].Layer(10);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[73 + input.U.BodySize]);
-            });
-        });
-    }
+        }
 
-    private static class HipposBot4
-    {
-        internal static readonly IClothing HipposBot4Instance = ClothingBuilder.Create(builder =>
+        private static class Natural
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+            internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
             {
-                output.DiscardSprite = input.Sprites.Hippos2[102];
-                output.RevealsBreasts = true;
-                output.Type = 84302;
-                output.FixedColor = true;
-            });
-            builder.RenderAll((input, output) =>
-            {
-                output["Clothing1"].Layer(10);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[97 + input.U.BodySize]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                {
+                    output.RevealsBreasts = true;
+                    output.OccupiesAllSlots = true;
+                    output.FixedColor = true;
+                });
 
-    private static class HipposHeadband1
-    {
-        internal static readonly IClothing HipposHeadband1Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing2"].Layer(10);
+                    output["Clothing1"].Layer(17);
+                    if (input.Params.Oversize)
+                    {
+                        output["Clothing1"].Sprite(null);
+                    }
+                    else if (input.U.HasBreasts)
+                    {
+                        output["Clothing1"].Sprite(input.Sprites.Hippos3[96 + input.U.BreastSize]);
+                        output["Clothing2"].Sprite(input.Sprites.Hippos3[95]);
+                    }
+
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                    output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.SkinColor));
+                });
+            });
+        }
+
+        private static class HipposBot1
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposBot1Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(26);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[44]);
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                {
+                    output.DiscardSprite = input.Sprites.Hippos2[66];
+                    output.RevealsBreasts = true;
+                    output.Type = 84266;
+                    output.FixedColor = true;
+                });
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(10);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[61 + input.U.BodySize]);
+                });
             });
-        });
-    }
+        }
 
-    private static class HipposHeadband2
-    {
-        internal static readonly IClothing HipposHeadband2Instance = ClothingBuilder.Create(builder =>
+        private static class HipposBot2
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposBot2Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(26);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[45]);
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                {
+                    output.DiscardSprite = input.Sprites.Hippos2[72];
+                    output.RevealsBreasts = true;
+                    output.Type = 84272;
+                    output.FixedColor = true;
+                });
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(10);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[67 + input.U.BodySize]);
+                });
             });
-        });
-    }
+        }
 
-    private static class HipposHeadband3
-    {
-        internal static readonly IClothing HipposHeadband3Instance = ClothingBuilder.Create(builder =>
+        private static class HipposBot3
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposBot3Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(26);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[46]);
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                {
+                    output.DiscardSprite = input.Sprites.Hippos2[78];
+                    output.RevealsBreasts = true;
+                    output.Type = 84278;
+                    output.FixedColor = true;
+                });
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(10);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[73 + input.U.BodySize]);
+                });
             });
-        });
-    }
+        }
 
-    private static class HipposHeadband4
-    {
-        internal static readonly IClothing HipposHeadband4Instance = ClothingBuilder.Create(builder =>
+        private static class HipposBot4
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposBot4Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(26);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[47]);
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                {
+                    output.DiscardSprite = input.Sprites.Hippos2[102];
+                    output.RevealsBreasts = true;
+                    output.Type = 84302;
+                    output.FixedColor = true;
+                });
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(10);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[97 + input.U.BodySize]);
+                });
             });
-        });
-    }
+        }
 
-    private static class HipposHeadband5
-    {
-        internal static readonly IClothing HipposHeadband5Instance = ClothingBuilder.Create(builder =>
+        private static class HipposHeadband1
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposHeadband1Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(26);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[48]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposHeadband6
-    {
-        internal static readonly IClothing HipposHeadband6Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(26);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[44]);
+                });
+            });
+        }
+
+        private static class HipposHeadband2
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposHeadband2Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(26);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[49]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposHeadband7
-    {
-        internal static readonly IClothing HipposHeadband7Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(26);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[45]);
+                });
+            });
+        }
+
+        private static class HipposHeadband3
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposHeadband3Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(26);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[50]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposHeadband8
-    {
-        internal static readonly IClothing HipposHeadband8Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(26);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[46]);
+                });
+            });
+        }
+
+        private static class HipposHeadband4
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposHeadband4Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(26);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[51]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.ClothingColor));
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
+
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(26);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[47]);
+                });
             });
-        });
-    }
+        }
 
-
-    private static class HipposNecklace1
-    {
-        internal static readonly IClothing HipposNecklace1Instance = ClothingBuilder.Create(builder =>
+        private static class HipposHeadband5
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposHeadband5Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(21);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[36]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposNecklace2
-    {
-        internal static readonly IClothing HipposNecklace2Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(26);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[48]);
+                });
+            });
+        }
+
+        private static class HipposHeadband6
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposHeadband6Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(21);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[37]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposNecklace3
-    {
-        internal static readonly IClothing HipposNecklace3Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(26);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[49]);
+                });
+            });
+        }
+
+        private static class HipposHeadband7
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposHeadband7Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(21);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[38]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposNecklace4
-    {
-        internal static readonly IClothing HipposNecklace4Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(26);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[50]);
+                });
+            });
+        }
+
+        private static class HipposHeadband8
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposHeadband8Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(21);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[39]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposNecklace5
-    {
-        internal static readonly IClothing HipposNecklace5Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(26);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[51]);
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.ClothingColor));
+                });
+            });
+        }
+
+
+        private static class HipposNecklace1
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposNecklace1Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(21);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[40]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposNecklace6
-    {
-        internal static readonly IClothing HipposNecklace6Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(21);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[36]);
+                });
+            });
+        }
+
+        private static class HipposNecklace2
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposNecklace2Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(21);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[41]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposNecklace7
-    {
-        internal static readonly IClothing HipposNecklace7Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(21);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[37]);
+                });
+            });
+        }
+
+        private static class HipposNecklace3
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposNecklace3Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(21);
-                output["Clothing1"].Coloring(Color.white);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[42]);
-            });
-        });
-    }
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
-    private static class HipposNecklace8
-    {
-        internal static readonly IClothing HipposNecklace8Instance = ClothingBuilder.Create(builder =>
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(21);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[38]);
+                });
+            });
+        }
+
+        private static class HipposNecklace4
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
-
-            builder.RenderAll((input, output) =>
+            internal static readonly IClothing HipposNecklace4Instance = ClothingBuilder.Create(builder =>
             {
-                output["Clothing1"].Layer(21);
-                output["Clothing1"].Sprite(input.Sprites.Hippos2[43]);
-                output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.ClothingColor));
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
+
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(21);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[39]);
+                });
             });
-        });
+        }
+
+        private static class HipposNecklace5
+        {
+            internal static readonly IClothing HipposNecklace5Instance = ClothingBuilder.Create(builder =>
+            {
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
+
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(21);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[40]);
+                });
+            });
+        }
+
+        private static class HipposNecklace6
+        {
+            internal static readonly IClothing HipposNecklace6Instance = ClothingBuilder.Create(builder =>
+            {
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
+
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(21);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[41]);
+                });
+            });
+        }
+
+        private static class HipposNecklace7
+        {
+            internal static readonly IClothing HipposNecklace7Instance = ClothingBuilder.Create(builder =>
+            {
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
+
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(21);
+                    output["Clothing1"].Coloring(Color.white);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[42]);
+                });
+            });
+        }
+
+        private static class HipposNecklace8
+        {
+            internal static readonly IClothing HipposNecklace8Instance = ClothingBuilder.Create(builder =>
+            {
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
+
+                builder.RenderAll((input, output) =>
+                {
+                    output["Clothing1"].Layer(21);
+                    output["Clothing1"].Sprite(input.Sprites.Hippos2[43]);
+                    output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.HippoSkin, input.U.ClothingColor));
+                });
+            });
+        }
     }
 }
