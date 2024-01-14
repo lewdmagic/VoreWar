@@ -141,12 +141,12 @@ public class World
         }
 
 
-        Empire rebelsEmpire = new Empire(new Empire.ConstructionArgs(null, Race.RebelSide, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 700, 16, 16));
+        Empire rebelsEmpire = new Empire(new Empire.ConstructionArgs(null, Side.RebelSide, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 700, 16, 16));
         rebelsEmpire.Name = "Rebels";
         rebelsEmpire.ReplacedRace = Race.Tigers;
         MainEmpiresWritable.Add(rebelsEmpire);
 
-        Empire banditsEmpire = new Empire(new Empire.ConstructionArgs(null, Race.BanditSide, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16));
+        Empire banditsEmpire = new Empire(new Empire.ConstructionArgs(null, Side.BanditSide, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16));
         banditsEmpire.Name = "Bandits";
         MainEmpiresWritable.Add(banditsEmpire);
         

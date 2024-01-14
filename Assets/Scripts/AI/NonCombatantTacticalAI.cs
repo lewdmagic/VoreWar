@@ -14,7 +14,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
 
         path = null;
         List<Actor_Unit> masters = actors.Where(a => RaceAIType.Dict[State.RaceSettings.GetRaceAI(a.Unit.Race)] != typeof(NonCombatantTacticalAI) && !TacticalUtilities.TreatAsHostile(actor, a)).ToList();
-        if ((retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Race.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide))
+        if ((retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide))
             || masters.Count == 0)
         {
             int retreatY;
@@ -72,11 +72,11 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
     {
         List<PotentialTarget> targets = new List<PotentialTarget>();
 
-        List<Actor_Unit> masters = actors.Where(a => RaceAIType.Dict[State.RaceSettings.GetRaceAI(a.Unit.Race)] != typeof(NonCombatantTacticalAI) && Equals(TacticalUtilities.GetMindControlSide(a.Unit), Race.TrueNoneSide)).ToList();
+        List<Actor_Unit> masters = actors.Where(a => RaceAIType.Dict[State.RaceSettings.GetRaceAI(a.Unit.Race)] != typeof(NonCombatantTacticalAI) && Equals(TacticalUtilities.GetMindControlSide(a.Unit), Side.TrueNoneSide)).ToList();
 
         foreach (Actor_Unit unit in masters)
         {
-            if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Race.TrueNoneSide) && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub)
+            if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Side.TrueNoneSide) && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub)
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(position);
                 if (distance - 1 + (actor.MaxMovement() / 3) <= moves)
@@ -104,7 +104,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
 
         Spell spell = friendlySpells[State.Rand.Next(friendlySpells.Count())];
 
-        if ((spell == SpellList.Charm || spell == SpellList.HypnoGas) && !Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Race.TrueNoneSide)) // Charmed units should not use charm. Trust me.
+        if ((spell == SpellList.Charm || spell == SpellList.HypnoGas) && !Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide)) // Charmed units should not use charm. Trust me.
             return;
         if (spell.ManaCost > actor.Unit.Mana)
             return;

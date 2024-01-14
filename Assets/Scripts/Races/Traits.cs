@@ -774,7 +774,7 @@ internal class SpiritPossession : Possession
             //TODO: This game needs some form of true fusion mechanic. 
             //this is an approximation of fusion with the result taking the appearance of the pred, and the side of the prey
             if (Equals(predUnit.Unit.Side, preyUnit.Unit.Side))
-                predUnit.Unit.FixedSide = Race.TrueNoneSide;
+                predUnit.Unit.FixedSide = Side.TrueNoneSide;
             predUnit.Unit.Name = preyUnit.Unit.Name;
             predUnit.Unit.GiveExp(preyUnit.Unit.Experience);
         }

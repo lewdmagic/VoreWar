@@ -29,7 +29,7 @@ namespace Races.Graphics.Implementations.MainRaces
             //     data.Unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
             // });
         
-            ScriptHelper.ScriptPrep2("GameData/CustomRaces/Equine/EquineNeo.lua", builder);
+            ScriptHelper.ScriptPrep2("GameData/CustomRaces/Equinezz/EquineNeo.lua", "equines_lua", builder);
         });
 
 
@@ -77,7 +77,7 @@ namespace Races.Graphics.Implementations.MainRaces
         
             public static readonly IClothing<IOverSizeParameters> HorseUndertop1Instance2 = ClothingBuilder.Create<IOverSizeParameters>(builder =>
                 {
-                    ScriptHelper.ScriptPrepClothing("GameData/CustomRaces/Equine/Clothing/horseBottom1/clothing.lua", builder);
+                    ScriptHelper.ScriptPrepClothing("GameData/CustomRaces/Equinezz/Clothing/horsetop1/clothing.lua", builder);
                 }
             );
         

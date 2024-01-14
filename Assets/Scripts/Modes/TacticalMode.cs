@@ -870,7 +870,7 @@ Turns: {currentTurn}
         Type desiredAIType;
         if (nextUnit != null)
         {
-            desiredAIType = !Equals(TacticalUtilities.GetMindControlSide(nextUnit.Unit), Race.TrueNoneSide) ? GetAITypeForMindControledUnit(nextUnit.Unit) : RaceAIType.Dict[State.RaceSettings.GetRaceAI(nextUnit.Unit.Race)];
+            desiredAIType = !Equals(TacticalUtilities.GetMindControlSide(nextUnit.Unit), Side.TrueNoneSide) ? GetAITypeForMindControledUnit(nextUnit.Unit) : RaceAIType.Dict[State.RaceSettings.GetRaceAI(nextUnit.Unit.Race)];
         }
         else
             desiredAIType = typeof(StandardTacticalAI);
@@ -2613,7 +2613,7 @@ Turns: {currentTurn}
             {
                 Type desiredAIType;
                 if (foreignUnits.Count() > 0)
-                    desiredAIType = !Equals(TacticalUtilities.GetMindControlSide(foreignUnits[0].Unit), Race.TrueNoneSide) ? GetAITypeForMindControledUnit(foreignUnits[0].Unit) : RaceAIType.Dict[State.RaceSettings.GetRaceAI(foreignUnits[0].Unit.Race)];
+                    desiredAIType = !Equals(TacticalUtilities.GetMindControlSide(foreignUnits[0].Unit), Side.TrueNoneSide) ? GetAITypeForMindControledUnit(foreignUnits[0].Unit) : RaceAIType.Dict[State.RaceSettings.GetRaceAI(foreignUnits[0].Unit.Race)];
                 else
                     desiredAIType = typeof(StandardTacticalAI);
                 if (foreignAI == null || (foreignAI.GetType() != desiredAIType))
@@ -3225,7 +3225,7 @@ Turns: {currentTurn}
     private bool unitControllableBySide(Actor_Unit unit, Side side)
     {
         bool correctSide = Equals(unit.Unit.Side, side);
-        bool controlOverridden = !Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Race.TrueNoneSide) || (!Equals(unit.Unit.FixedSide, side) && !unit.Unit.IsInfiltratingSide(side));
+        bool controlOverridden = !Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Side.TrueNoneSide) || (!Equals(unit.Unit.FixedSide, side) && !unit.Unit.IsInfiltratingSide(side));
         return correctSide && !controlOverridden;
     }
 

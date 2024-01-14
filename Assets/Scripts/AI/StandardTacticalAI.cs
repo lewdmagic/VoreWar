@@ -13,7 +13,7 @@ public class StandardTacticalAI : TacticalAI
         didAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
 
         path = null;
-        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Race.TrueNoneSide) && (Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide) || onlyForeignTroopsLeft))
+        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && (Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide) || onlyForeignTroopsLeft))
         {
             int retreatY;
             if (State.GameManager.TacticalMode.IsDefender(actor) == false)

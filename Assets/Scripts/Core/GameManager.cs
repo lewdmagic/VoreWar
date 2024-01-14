@@ -107,19 +107,28 @@ public class GameManager : MonoBehaviour
     internal PreviewSkip CurrentPreviewSkip;
 
 
+    public static CustomManager customManager;
+    
     void Start()
     {
+        State.CarefulIntatntiate();
+        
         Start_Mode.UI.SetActive(true);
         currentScene = Start_Mode;
         State.GameManager = this;
         Application.wantsToQuit += () => WantsToQuit();
+
+        Race.LoadHardcodedRaces();
+        
         SeliciaMod.ModAll();
 
         State.SpriteManager = new SpriteManager();
         State.SpriteManager.Process2();
 
-        CustomManager customManager = new CustomManager();
+        customManager = new CustomManager();
         customManager.LoadAllCustom();
+
+        IClothing test = customManager.GetRaceClothing("equinezz", "horsebotto1");
 
     }
 

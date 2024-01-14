@@ -1125,7 +1125,7 @@ public class PredatorComponent
                 preyUnit.Unit.InitializeTraits();
 
             }
-            else if (Config.FriendlyRegurgitation && unit.HasTrait(Traits.Greedy) == false && Equals(preyUnit.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && Equals(TacticalUtilities.GetMindControlSide(preyUnit.Unit), Race.TrueNoneSide) && preyUnit.Unit.Health > 0 && preyUnit.Actor.Surrendered == false && PreyCanAutoEscape(preyUnit))
+            else if (Config.FriendlyRegurgitation && unit.HasTrait(Traits.Greedy) == false && Equals(preyUnit.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && Equals(TacticalUtilities.GetMindControlSide(preyUnit.Unit), Side.TrueNoneSide) && preyUnit.Unit.Health > 0 && preyUnit.Actor.Surrendered == false && PreyCanAutoEscape(preyUnit))
             {
                 State.GameManager.TacticalMode.TacticalStats.RegisterRegurgitation(unit.Side);
                 TacticalUtilities.Log.RegisterRegurgitated(unit, preyUnit.Unit, Location(preyUnit));

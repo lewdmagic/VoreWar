@@ -391,7 +391,7 @@ public class UnitEditorPanel : CustomizerPanel
             return;
 
         if (AlignmentDropdown.options[AlignmentDropdown.value].text == "Default")
-            UnitEditor.Unit.FixedSide = Race.TrueNoneSide;
+            UnitEditor.Unit.FixedSide = Side.TrueNoneSide;
         else if (AlignmentDropdown.options[AlignmentDropdown.value].text == "Defender")
             UnitEditor.Unit.FixedSide = State.GameManager.TacticalMode.GetDefenderSide();
         else if (AlignmentDropdown.options[AlignmentDropdown.value].text == "Attacker")

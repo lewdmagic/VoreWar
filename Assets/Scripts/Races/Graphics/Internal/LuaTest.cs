@@ -197,6 +197,7 @@ public static class ScriptHelper
         ScriptHelper.RegisterSimpleAction<IClothingBuilder<OverSizeParameters>>();
         
         ScriptHelper.RegisterSimpleFunc<int>();
+        ScriptHelper.RegisterSimpleFunc<string, IClothing>();
         
         ScriptHelper.RegisterSimpleFunc<float, float, Vector2>();
         ScriptHelper.RegisterSimpleFunc<float, float, float, Vector3>();
@@ -273,19 +274,29 @@ end");
         
     }
     
-    internal static void ScriptPrep2(string path, IRaceBuilder<OverSizeParameters> builder)
+    internal static void ScriptPrep2(string path, string raceId, IRaceBuilder<OverSizeParameters> builder)
     {
         string scriptCode = File.ReadAllText(path);
-        ScriptPrep2FromCode(scriptCode, builder);
+        ScriptPrep2FromCode(scriptCode, raceId, builder);
     }
     
-    internal static void ScriptPrep2FromCode(string scriptCode, IRaceBuilder<OverSizeParameters> builder)
+    internal static void ScriptPrep2FromCode(string scriptCode, string raceId, IRaceBuilder<OverSizeParameters> builder)
     {
         
         Script script = new Script();
         
         
         script.Globals["Log"] = (Action<string>) Debug.Log;
+
+
+        Func<string, IClothing> getClothing = (id) =>
+        {
+            return GameManager.customManager.GetRaceClothing(raceId, id);
+        };
+
+        script.Globals["GetClothing"] = getClothing;
+        
+        
 
         #region Enums
         

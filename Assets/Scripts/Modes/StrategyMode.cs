@@ -220,7 +220,7 @@ public class StrategyMode : SceneBase
         State.World.RefreshTurnOrder();
         for (int i = 0; i < State.World.EmpireOrder.Count; i++)
         {
-            if (State.World.EmpireOrder[i].KnockedOut == false || (Equals(State.World.EmpireOrder[i].Side, Race.BanditSide) && State.World.EmpireOrder[i].Armies.Any()))
+            if (State.World.EmpireOrder[i].KnockedOut == false || (Equals(State.World.EmpireOrder[i].Side, Side.BanditSide) && State.World.EmpireOrder[i].Armies.Any()))
             {
                 ActingEmpire = State.World.EmpireOrder[i];
                 break;

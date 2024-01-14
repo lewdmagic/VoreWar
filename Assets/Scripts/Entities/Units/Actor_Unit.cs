@@ -1836,7 +1836,7 @@ public class Actor_Unit
             return false;
         if (target.ReceivedRub)
             return false;
-        if ((!Equals(target.Unit.GetApparentSide(), Unit.GetApparentSide()) && !Equals(target.Unit.GetApparentSide(), Unit.FixedSide)) && !(Unit.HasTrait(Traits.SeductiveTouch) || Config.CanUseStomachRubOnEnemies || !Equals(TacticalUtilities.GetMindControlSide(Unit), Race.TrueNoneSide)))
+        if ((!Equals(target.Unit.GetApparentSide(), Unit.GetApparentSide()) && !Equals(target.Unit.GetApparentSide(), Unit.FixedSide)) && !(Unit.HasTrait(Traits.SeductiveTouch) || Config.CanUseStomachRubOnEnemies || !Equals(TacticalUtilities.GetMindControlSide(Unit), Side.TrueNoneSide)))
             return false;
         target.ReceivedRub = true;
         int index = Random.Range(0, possible.Count - 1);
@@ -2810,7 +2810,7 @@ public class Actor_Unit
             Unit.SpawnRace = Race.TrueNone;
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{Unit.Name} shifted back to normal");
             Unit.Side = Unit.FixedSide;
-            Unit.FixedSide = Race.TrueNoneSide;
+            Unit.FixedSide = Side.TrueNoneSide;
             Unit.hiddenFixedSide = false;
             PredatorComponent?.ResetTemplate();
             Unit.ResetPersistentSharedTraits();

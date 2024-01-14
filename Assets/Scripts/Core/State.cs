@@ -8,6 +8,7 @@ using System.Text;
 using DaVikingCode.AssetPacker;
 using UnityEngine;
 
+// Todo evil global is evil
 public static class State
 {
     static int saveErrors = 0;
@@ -35,6 +36,18 @@ public static class State
     public static int RaceSlot;
     public static string RaceSaveDataName;
 
+    /// <summary>
+    /// Initiate that's called from a thread in a controlled manner.
+    /// Static initiation can (and did) lead to circular refference in static initialization
+    /// which creates a hard to diagnose exception such as TypeInitializationException
+    /// and overall unpredictable and inconsistent order of execution
+    /// https://stackoverflow.com/questions/47160605/why-would-my-initialized-static-property-be-null-when-i-access-it
+    /// As the stackoverflow answer nicely put it: Nuke it from orbit
+    /// </summary>
+    internal static void CarefulIntatntiate()
+    {
+        NameGen = new NameGenerator();
+    }
     static State()
     {
         if (Application.platform == RuntimePlatform.OSXPlayer)
@@ -96,7 +109,6 @@ public static class State
 
         FlagLoader.FlagLoader flagLoader = new FlagLoader.FlagLoader();
         flagLoader.LoadFlags();
-        NameGen = new NameGenerator();
         EventList = new EventList();
         AssimilateList = new AssimilateList();
 
@@ -325,25 +337,25 @@ public static class State
             //Always runs for new versions           
             if (World.SaveVersion != Version && World.AllActiveEmpires != null)
             {
-                if (World.GetEmpireOfSide(Race.RebelSide) == null)
+                if (World.GetEmpireOfSide(Side.RebelSide) == null)
                 {
-                    World.MainEmpiresWritable.Add(new Empire(new Empire.ConstructionArgs(null, Race.RebelSide, Color.red, new Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 700, 16, 16)));
+                    World.MainEmpiresWritable.Add(new Empire(new Empire.ConstructionArgs(null, Side.RebelSide, Color.red, new Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 700, 16, 16)));
                     World.RefreshEmpires();
                 }
                 else
                 {
-                    World.GetEmpireOfSide(Race.RebelSide).Name = "Rebels";
-                    if (World.EmpireOrder.Where(s => Equals(s.Side, Race.RebelSide)).Any() == false)
-                        World.EmpireOrder.Add(World.GetEmpireOfSide(Race.RebelSide));
+                    World.GetEmpireOfSide(Side.RebelSide).Name = "Rebels";
+                    if (World.EmpireOrder.Where(s => Equals(s.Side, Side.RebelSide)).Any() == false)
+                        World.EmpireOrder.Add(World.GetEmpireOfSide(Side.RebelSide));
                 }
-                if (World.GetEmpireOfSide(Race.BanditSide) == null)
+                if (World.GetEmpireOfSide(Side.BanditSide) == null)
                 {
-                    World.MainEmpiresWritable.Add(new Empire(new Empire.ConstructionArgs(null, Race.BanditSide, Color.red, new Color(.6f, 0, 0), 7, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16)));
+                    World.MainEmpiresWritable.Add(new Empire(new Empire.ConstructionArgs(null, Side.BanditSide, Color.red, new Color(.6f, 0, 0), 7, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16)));
                     World.RefreshEmpires();
                 }
                 else
                 {
-                    World.GetEmpireOfSide(Race.BanditSide).Name = "Bandits";
+                    World.GetEmpireOfSide(Side.BanditSide).Name = "Bandits";
                 }
                 /*         if (World.GetEmpireOfSide(702) == null)
                         {
@@ -771,7 +783,7 @@ public static class State
                     foreach (var unit in World.TacticalData.units)
                     {
                         unit.modeQueue = new List<KeyValuePair<int, float>>();
-                        unit.Unit.FixedSide = Race.TrueNoneSide;
+                        unit.Unit.FixedSide = Side.TrueNoneSide;
                     }
                 }
 
@@ -779,7 +791,7 @@ public static class State
                 {
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        unit.FixedSide = Race.TrueNoneSide;
+                        unit.FixedSide = Side.TrueNoneSide;
                     }
 
                 }

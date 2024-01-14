@@ -437,7 +437,7 @@ internal class EventList
                             if (State.Rand.Next(3) == 0 && StrategicUtilities.ArmyAt(vill.Position) == null)
                             {
                                 CreateRebels(RebelDifficulty.Medium, vill);
-                                vill.ChangeOwner(Race.RebelSide);
+                                vill.ChangeOwner(Side.RebelSide);
                             }
                             else vill.SubtractPopulation(vill.Population / 2);
                         }
@@ -1993,7 +1993,7 @@ internal class EventList
             return;
         if (count >= village.Empire.MaxArmySize)
             count = village.Empire.MaxArmySize;
-        Empire banditEmp = State.World.GetEmpireOfSide(Race.BanditSide);
+        Empire banditEmp = State.World.GetEmpireOfSide(Side.BanditSide);
         if (banditEmp == null)
         {
             Debug.Log("Bandit empire doesn't exist");
@@ -2064,7 +2064,7 @@ internal class EventList
             count = village.Empire.MaxArmySize;
         if (count == 0)
             return;
-        Empire rebelEmp = State.World.GetEmpireOfSide(Race.RebelSide);
+        Empire rebelEmp = State.World.GetEmpireOfSide(Side.RebelSide);
         if (rebelEmp == null)
         {
             Debug.Log("Rebel empire doesn't exist");

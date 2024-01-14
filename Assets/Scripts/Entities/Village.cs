@@ -469,12 +469,12 @@ public class Village
                     if (State.Rand.Next(2) == 0 && army == null)
                         ChangeOwner(emp.Side);
                     else
-                        ChangeOwner(Race.RebelSide);
+                        ChangeOwner(Side.RebelSide);
 
                 }
                 else
                 {
-                    ChangeOwner(Race.RebelSide);
+                    ChangeOwner(Side.RebelSide);
                 }
 
                 if (army != null && !Equals(Side, army.Side) && Garrison > 0)

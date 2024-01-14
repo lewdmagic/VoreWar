@@ -72,6 +72,10 @@ public class Side : IComparable<Side>
     {
         return Id.ToString();
     }
+
+    public static Side TrueNoneSide = null;
+    public static Side RebelSide = new Side("Rebels", null);
+    public static Side BanditSide = new Side("Bandits", null);
 }
 
 

@@ -106,7 +106,7 @@ public abstract class TacticalAI : ITacticalAI
             actors = TacticalUtilities.Units;
         path = null;
         var actorsThatMatter = actors.Where(a => a.Targetable && a.Unit.IsDead == false && a.Surrendered == false && Equals(a.Unit.Side, AISide));
-        onlyForeignTroopsLeft = actorsThatMatter.All(a => Equals(TacticalUtilities.GetMindControlSide(a.Unit), Race.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(a.Unit, enemySide, AISide), enemySide));
+        onlyForeignTroopsLeft = actorsThatMatter.All(a => Equals(TacticalUtilities.GetMindControlSide(a.Unit), Side.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(a.Unit, enemySide, AISide), enemySide));
         onlySurrenderedEnemies = actors.Where(s => !Equals(s.Unit.Side, AISide) && s.Unit.IsDead == false && s.Surrendered == false && !s.Fled).Any() == false;
         var preds = actors.Where(s => Equals(s.Unit.Side, AISide) && s.Unit.IsDead == false && s.Unit.Predator);
         lackPredators = preds.Any() == false;
@@ -376,7 +376,7 @@ public abstract class TacticalAI : ITacticalAI
 
         foreach (Actor_Unit unit in actors)
         {
-            if (unit.Targetable == true && unit.Unit.Predator && Equals(unit.Unit.FixedSide, temptation.Side) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Race.TrueNoneSide) && !unit.Surrendered)
+            if (unit.Targetable == true && unit.Unit.Predator && Equals(unit.Unit.FixedSide, temptation.Side) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Side.TrueNoneSide) && !unit.Surrendered)
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(position);
                 if (distance < ap)
@@ -421,7 +421,7 @@ public abstract class TacticalAI : ITacticalAI
 
         foreach (Actor_Unit unit in actors)
         {
-            if (unit.Targetable == true && unit.Unit.Predator && Equals(unit.Unit.FixedSide, temptation.Side) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Race.TrueNoneSide) && !unit.Surrendered)
+            if (unit.Targetable == true && unit.Unit.Predator && Equals(unit.Unit.FixedSide, temptation.Side) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Side.TrueNoneSide) && !unit.Surrendered)
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                 if (distance < actor.Movement)
@@ -564,7 +564,7 @@ public abstract class TacticalAI : ITacticalAI
 
         foreach (Actor_Unit unit in actors)
         {
-            if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Race.TrueNoneSide) && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub) // includes self
+            if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Side.TrueNoneSide) && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub) // includes self
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(position);
                 if (distance - 1 + (actor.MaxMovement() / 3) <= moves)
@@ -1550,7 +1550,7 @@ public abstract class TacticalAI : ITacticalAI
 
         Spell spell = availableSpells[State.Rand.Next(availableSpells.Count())];
 
-        if ((spell == SpellList.Charm || spell == SpellList.HypnoGas) && !Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Race.TrueNoneSide)) // Charmed units should not use charm. Trust me.
+        if ((spell == SpellList.Charm || spell == SpellList.HypnoGas) && !Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide)) // Charmed units should not use charm. Trust me.
             return;
 
         if (State.GameManager.TacticalMode.IsOnlyOneSideVisible())

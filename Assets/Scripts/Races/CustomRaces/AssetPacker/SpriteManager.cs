@@ -13,7 +13,7 @@ namespace DaVikingCode.AssetPacker
 
         public void Process2()
         {
-            var files = Directory.GetFiles("GameData/CustomRaces/Equine/Sprites", "*.png");
+            var files = Directory.GetFiles("GameData/CustomRaces/Equinezz/Sprites", "*.png");
             
             
             

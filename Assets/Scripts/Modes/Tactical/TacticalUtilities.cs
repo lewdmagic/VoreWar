@@ -250,7 +250,7 @@ static class TacticalUtilities
     }
     internal static bool IsUnitControlledByPlayer(Unit unit)
     {
-        if (!Equals(GetMindControlSide(unit), Race.TrueNoneSide))  // Charmed units may fight for the player, but they are always AI controlled
+        if (!Equals(GetMindControlSide(unit), Side.TrueNoneSide))  // Charmed units may fight for the player, but they are always AI controlled
             return false;
         Side defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
         Side attackerSide = State.GameManager.TacticalMode.GetAttackerSide();
@@ -283,7 +283,7 @@ static class TacticalUtilities
             return false;
         if (Equals(pred.Unit.Side, prey.Unit.Side))
         {
-            if (prey.Surrendered || pred.Unit.HasTrait(Traits.Cruel) || Config.AllowInfighting || pred.Unit.HasTrait(Traits.Endosoma) || !(Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.FixedSide) && Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.GetApparentSide())) || !Equals(GetMindControlSide(prey.Unit), Race.TrueNoneSide) || !Equals(GetMindControlSide(pred.Unit), Race.TrueNoneSide) )
+            if (prey.Surrendered || pred.Unit.HasTrait(Traits.Cruel) || Config.AllowInfighting || pred.Unit.HasTrait(Traits.Endosoma) || !(Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.FixedSide) && Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.GetApparentSide())) || !Equals(GetMindControlSide(prey.Unit), Side.TrueNoneSide) || !Equals(GetMindControlSide(pred.Unit), Side.TrueNoneSide) )
                 return true;
             return false;
         }
@@ -292,7 +292,7 @@ static class TacticalUtilities
 
     static public Side GetPreferredSide(Unit actor, Side sideA, Side sideB) // If equally aligned with both, should default to A
     {
-        Side effectiveActorSide = !Equals(GetMindControlSide(actor), Race.TrueNoneSide) ? GetMindControlSide(actor) : actor.FixedSide;
+        Side effectiveActorSide = !Equals(GetMindControlSide(actor), Side.TrueNoneSide) ? GetMindControlSide(actor) : actor.FixedSide;
         if (State.GameManager.PureTactical)
         {
             return effectiveActorSide;
@@ -352,13 +352,13 @@ static class TacticalUtilities
     static public bool TreatAsHostile(Actor_Unit actor, Actor_Unit target)
     {
         if (actor == target) return false;
-        if (ReferenceEquals(actor.Unit.Side, actor.Unit.FixedSide) && !(target.sidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false) && Equals(target.Unit.Side, actor.Unit.Side) && Equals(GetMindControlSide(actor.Unit), Race.TrueNoneSide))
+        if (ReferenceEquals(actor.Unit.Side, actor.Unit.FixedSide) && !(target.sidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false) && Equals(target.Unit.Side, actor.Unit.Side) && Equals(GetMindControlSide(actor.Unit), Side.TrueNoneSide))
             return false;
         Side friendlySide = actor.Unit.Side;
         Side defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
         Side opponentSide = Equals(friendlySide, defenderSide) ? State.GameManager.TacticalMode.GetAttackerSide() : defenderSide;
         Side effectiveTargetSide = target.Unit.GetApparentSide(actor.Unit);
-        Side effectiveActorSide = !Equals(GetMindControlSide(actor.Unit), Race.TrueNoneSide) ? GetMindControlSide(actor.Unit) : actor.Unit.FixedSide;
+        Side effectiveActorSide = !Equals(GetMindControlSide(actor.Unit), Side.TrueNoneSide) ? GetMindControlSide(actor.Unit) : actor.Unit.FixedSide;
         if (Equals(GetMindControlSide(target.Unit), effectiveActorSide))
             return false;
         if (State.GameManager.PureTactical)
@@ -472,7 +472,7 @@ static class TacticalUtilities
 
     static public bool SneakAttackCheck(Unit attacker, Unit target)
     {
-        if (!Equals(GetMindControlSide(attacker), Race.TrueNoneSide)) return false;
+        if (!Equals(GetMindControlSide(attacker), Side.TrueNoneSide)) return false;
         return Equals(attacker.GetApparentSide(target), target.GetApparentSide()) && attacker.IsInfiltratingSide(target.GetApparentSide());
     }
 
@@ -482,7 +482,7 @@ static class TacticalUtilities
             return unit.GetStatusEffect(StatusEffectType.Hypnotized).Side;
         if (unit.GetStatusEffect(StatusEffectType.Charmed) != null)
             return unit.GetStatusEffect(StatusEffectType.Charmed).Side;
-        return Race.TrueNoneSide;
+        return Side.TrueNoneSide;
         
     }
     // static public Side GetMindControlSide(Unit unit)
@@ -928,7 +928,7 @@ static class TacticalUtilities
 
     static public bool IsUnitControlledBySide(Unit unit, Side side)
     {
-        if (!Equals(GetMindControlSide(unit), Race.TrueNoneSide))  // Charmed units may fight for a specific side, but for targeting purposes we'll consider them driven by separate forces
+        if (!Equals(GetMindControlSide(unit), Side.TrueNoneSide))  // Charmed units may fight for a specific side, but for targeting purposes we'll consider them driven by separate forces
             return false;
         if (Equals(side, unit.FixedSide))
             return true;

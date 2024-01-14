@@ -1,6 +1,6 @@
 --- Core function: called once to set up the race.
 function setup(output)
-    output.Names("Equine", "Equines");
+    output.Names("Equinezz", "Equinezzs");
 
     output.SetRaceTraits(function (traits)
         traits.BodySize = 10;
@@ -68,7 +68,8 @@ function setup(output)
 
     output.AllowedMainClothingTypes.Set( -- undertops
             --HorseClothing.HorseUndertop1Instance,
-            HorseClothing.HorseUndertop1Instance2,
+            --HorseClothing.HorseUndertop1Instance2,
+            GetClothing("horsetop1"),
             HorseClothing.HorseUndertop2Instance,
             HorseClothing.HorseUndertop3Instance,
             HorseClothing.HorseUndertop4Instance,

@@ -79,7 +79,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
         }
     }
     [OdinSerialize]
-    private Side _fixedSide = Race.TrueNoneSide;
+    private Side _fixedSide = Side.TrueNoneSide;
 
     internal bool HasFixedSide() => RaceFuncs.isNotNone(_fixedSide);
     public Side FixedSide
@@ -1500,7 +1500,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             FixedSide = side;
             return;
         }
-        FixedSide = Race.TrueNoneSide;
+        FixedSide = Side.TrueNoneSide;
     }
 
     public bool HasTrait(Traits tag)

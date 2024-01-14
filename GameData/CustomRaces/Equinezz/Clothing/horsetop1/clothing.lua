@@ -9,9 +9,12 @@ end
 
 function render(input, output)
     output["Clothing1"].Layer(20);
-    if (input.Params.Oversize) then
-        output["Clothing1"].Sprite(input.Sprites.HorseClothing[47]);
-    elseif (input.U.HasBreasts) then
+    --if (input.Params.Oversize) then
+    --    output["Clothing1"].Sprite(input.Sprites.HorseClothing[47]);
+    --elseif (input.U.HasBreasts) then
+    --    output["Clothing1"].Sprite(input.Sprites.HorseClothing[40 + input.U.BreastSize]);
+    --end
+    if (input.U.HasBreasts) then
         output["Clothing1"].Sprite(input.Sprites.HorseClothing[40 + input.U.BreastSize]);
     end
 

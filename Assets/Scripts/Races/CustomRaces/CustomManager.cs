@@ -92,9 +92,6 @@ public class CustomManager
         
         foreach (FSRaceData fsRaceData in races)
         {
-            IRaceData raceData = RaceFromFSData(fsRaceData);
-            _races[fsRaceData.RaceId] = raceData;
-
             foreach (FileInfo raceSpriteFileInfo in fsRaceData.Sprites)
             {
                 string pureName = raceSpriteFileInfo.Name.Substring(0, raceSpriteFileInfo.Name.Length - raceSpriteFileInfo.Extension.Length).ToLower();
@@ -116,6 +113,8 @@ public class CustomManager
                     spriteToLoadList.Add(new SpriteToLoad(key, path, clothingSpriteFileInfo.LastWriteTimeUtc.ToFileTimeUtc()));
                 }
             }
+            
+            RaceFromFSData(fsRaceData);
         }
 
         (string, Sprite)[] sprites = SpritePacker.LoadOrUpdateTextures(spriteToLoadList);
@@ -163,12 +162,14 @@ public class CustomManager
     }
 
 
-    private IRaceData RaceFromFSData(FSRaceData fsRaceData)
+    private void RaceFromFSData(FSRaceData fsRaceData)
     {
-        return RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
+        IRaceData raceData = RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
         {
-            ScriptHelper.ScriptPrep2FromCode(fsRaceData.RaceLuaCode, builder);
+            ScriptHelper.ScriptPrep2FromCode(fsRaceData.RaceLuaCode, fsRaceData.RaceId, builder);
         });
+
+        Race.RegisterRace(fsRaceData.RaceId, () => raceData, new[] { RaceTag.MainRace });
     }
     private IClothing ClothingFromFSData(FSClothingData fsClothingData)
     {
@@ -184,12 +185,17 @@ public class CustomManager
     private Dictionary<string, SpriteCollection> _raceSpriteCollections = new Dictionary<string, SpriteCollection>();
     private Dictionary<(string, string), SpriteCollection> _clothingSpriteCollection = new Dictionary<(string, string), SpriteCollection>();
 
-    private Dictionary<string, IRaceData> _races = new Dictionary<string, IRaceData>();
     private Dictionary<(string, string), IClothing> _clothings = new Dictionary<(string, string), IClothing>();
 
     internal ClothingCollection GetClothingCollectionForRace(string raceId)
     {
         return _raceClothingCollections.GetOrNull(raceId);
+    }
+    
+    internal IClothing GetRaceClothing(string raceId, string clothingId)
+    {
+        
+        return _clothings.GetOrNull((raceId, clothingId));
     }
 
 
@@ -203,29 +209,6 @@ public class CustomManager
         return _clothingSpriteCollection.GetOrNull((raceId, clothingId));
     }
     
-    
-    
-    
-    
-
-    private Dictionary<string, SpriteCollection> _collections = new Dictionary<string, SpriteCollection>();
-
-
-    public SpriteCollection GetCollection(string[] path)
-    {
-        string key = String.Join("*", path);
-
-        if (_collections.TryGetValue(key, out SpriteCollection collection))
-        {
-            return collection;
-        }
-        else
-        {
-            return null;
-        }
-    }
-    
-
 
 
 
