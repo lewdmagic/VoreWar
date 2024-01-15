@@ -103,7 +103,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 output.AllowedMainClothingTypes.Clear();
 
-                List<IClothing<IParameters>> allowedWaistTypes = new List<IClothing<IParameters>>() //Bottoms
+                List<IClothing> allowedWaistTypes = new List<IClothing>() //Bottoms
                 {
                     GenericBottom.GenericBottom1,
                     GenericBottom.GenericBottom2
@@ -121,13 +121,13 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 };
                 output.ExtraMainClothing1Types.Set(extraMainClothing1Types);
 
-                List<IClothing<IParameters>> extraMainClothing2Types = new List<IClothing<IParameters>>() //Stocking
+                List<IClothing> extraMainClothing2Types = new List<IClothing>() //Stocking
                 {
                     Stocking.Stocking1
                 };
                 output.ExtraMainClothing2Types.Clear();
 
-                List<IClothing<IParameters>> extraMainClothing3Types = new List<IClothing<IParameters>>() //Hat
+                List<IClothing> extraMainClothing3Types = new List<IClothing>() //Hat
                 {
                     Hat.Hat1
                 };

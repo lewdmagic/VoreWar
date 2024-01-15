@@ -17,7 +17,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
 {
     private readonly Func<T> _makeTempState;
 
-    private readonly IMiscRaceDataReadable<T> _miscRaceDataWritableReadable;
+    private readonly MiscRaceDataWritableReadable _miscRaceDataWritableReadable;
 
 
 
@@ -92,7 +92,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
 
     public RaceData(
         SpriteTypeIndexed<SingleRenderFunc> raceSpriteSet,
-        MiscRaceDataWritableReadable<T> miscRaceDataWritableReadable,
+        MiscRaceDataWritableReadable miscRaceDataWritableReadable,
         Action<IRunInput, IRunOutput> runBefore,
         Action<IRandomCustomInput> randomCustom,
         Func<T> makeTempState,
@@ -143,7 +143,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
         T state = _makeTempState();
 
         SpriteChangeDict changeDict = new SpriteChangeDict();
-        RunOutput<T> runOutput = new RunOutput<T>(changeDict, state);
+        RunOutput runOutput = new RunOutput(changeDict);
 
         IRunInput runInput = new RunInput(actor);
         _runBefore?.Invoke(runInput, runOutput);
@@ -159,11 +159,11 @@ internal class RaceData<T> : IRaceData where T : IParameters
             Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
         }
 
-        foreach (KeyValuePair<SpriteType,SingleRenderFunc> raceSprite in RaceSpriteSet.KeyValues)
+        foreach (KeyValuePair<SpriteType, SingleRenderFunc> raceSprite in RaceSpriteSet.KeyValues)
         {
             SpriteType spriteType = raceSprite.Key;
             SingleRenderFunc renderFunc = raceSprite.Value;
-            IRaceRenderInput input = new RaceRenderInput<T>(actor, _miscRaceDataWritableReadable, MiscRaceData.BaseBody, state);
+            IRaceRenderInput input = new RaceRenderInput(actor, _miscRaceDataWritableReadable, MiscRaceData.BaseBody);
             IRaceRenderOutput raceRenderOutput = changeDict.ChangeSprite(spriteType);
             raceRenderOutput.Layer(renderFunc.Layer); // Set the default layer
             try
@@ -205,17 +205,17 @@ internal class RaceData<T> : IRaceData where T : IParameters
 
         if (actorUnit.Unit.ClothingType > 0)
         {
-            if (actorUnit.Unit.ClothingType <= _miscRaceDataWritableReadable.AllowedMainClothingTypesRead.Count)
+            if (actorUnit.Unit.ClothingType <= _miscRaceDataWritableReadable.AllowedMainClothingTypes.Count)
             {
-                clothingResults.Add(_miscRaceDataWritableReadable.AllowedMainClothingTypesRead[actorUnit.Unit.ClothingType - 1]
-                    .Configure(actorUnit, state, changeDict));
+                clothingResults.Add(_miscRaceDataWritableReadable.AllowedMainClothingTypes[actorUnit.Unit.ClothingType - 1]
+                    .Configure(actorUnit, changeDict));
 
                 if (actorUnit.Unit.ClothingType2 > 0 &&
-                    actorUnit.Unit.ClothingType2 <= _miscRaceDataWritableReadable.AllowedWaistTypesRead.Count && _miscRaceDataWritableReadable
-                        .AllowedMainClothingTypesRead[actorUnit.Unit.ClothingType - 1].FixedData.OccupiesAllSlots == false)
+                    actorUnit.Unit.ClothingType2 <= _miscRaceDataWritableReadable.AllowedWaistTypes.Count && _miscRaceDataWritableReadable
+                        .AllowedMainClothingTypes[actorUnit.Unit.ClothingType - 1].FixedData.OccupiesAllSlots == false)
                 {
-                    clothingResults.Add(_miscRaceDataWritableReadable.AllowedWaistTypesRead[actorUnit.Unit.ClothingType2 - 1]
-                        .Configure(actorUnit, state, changeDict));
+                    clothingResults.Add(_miscRaceDataWritableReadable.AllowedWaistTypes[actorUnit.Unit.ClothingType2 - 1]
+                        .Configure(actorUnit, changeDict));
                 }
             }
             else
@@ -226,63 +226,63 @@ internal class RaceData<T> : IRaceData where T : IParameters
         }
         else
         {
-            if (actorUnit.Unit.ClothingType2 > 0 && actorUnit.Unit.ClothingType2 <= _miscRaceDataWritableReadable.AllowedWaistTypesRead.Count)
+            if (actorUnit.Unit.ClothingType2 > 0 && actorUnit.Unit.ClothingType2 <= _miscRaceDataWritableReadable.AllowedWaistTypes.Count)
             {
-                clothingResults.Add(_miscRaceDataWritableReadable.AllowedWaistTypesRead[actorUnit.Unit.ClothingType2 - 1]
-                    .Configure(actorUnit, state, changeDict));
+                clothingResults.Add(_miscRaceDataWritableReadable.AllowedWaistTypes[actorUnit.Unit.ClothingType2 - 1]
+                    .Configure(actorUnit, changeDict));
             }
         }
 
         if (actorUnit.Unit.ClothingExtraType1 > 0 &&
-            actorUnit.Unit.ClothingExtraType1 <= _miscRaceDataWritableReadable.ExtraMainClothing1TypesRead.Count)
+            actorUnit.Unit.ClothingExtraType1 <= _miscRaceDataWritableReadable.ExtraMainClothing1Types.Count)
         {
-            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing1TypesRead[actorUnit.Unit.ClothingExtraType1 - 1]
-                .Configure(actorUnit, state, changeDict));
+            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing1Types[actorUnit.Unit.ClothingExtraType1 - 1]
+                .Configure(actorUnit, changeDict));
         }
 
         if (actorUnit.Unit.ClothingExtraType2 > 0 &&
-            actorUnit.Unit.ClothingExtraType2 <= _miscRaceDataWritableReadable.ExtraMainClothing2TypesRead.Count)
+            actorUnit.Unit.ClothingExtraType2 <= _miscRaceDataWritableReadable.ExtraMainClothing2Types.Count)
         {
-            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing2TypesRead[actorUnit.Unit.ClothingExtraType2 - 1]
-                .Configure(actorUnit, state, changeDict));
+            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing2Types[actorUnit.Unit.ClothingExtraType2 - 1]
+                .Configure(actorUnit, changeDict));
         }
 
         if (actorUnit.Unit.ClothingExtraType3 > 0 &&
-            actorUnit.Unit.ClothingExtraType3 <= _miscRaceDataWritableReadable.ExtraMainClothing3TypesRead.Count)
+            actorUnit.Unit.ClothingExtraType3 <= _miscRaceDataWritableReadable.ExtraMainClothing3Types.Count)
         {
-            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing3TypesRead[actorUnit.Unit.ClothingExtraType3 - 1]
-                .Configure(actorUnit, state, changeDict));
+            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing3Types[actorUnit.Unit.ClothingExtraType3 - 1]
+                .Configure(actorUnit, changeDict));
         }
 
         if (actorUnit.Unit.ClothingExtraType4 > 0 &&
-            actorUnit.Unit.ClothingExtraType4 <= _miscRaceDataWritableReadable.ExtraMainClothing4TypesRead.Count)
+            actorUnit.Unit.ClothingExtraType4 <= _miscRaceDataWritableReadable.ExtraMainClothing4Types.Count)
         {
-            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing4TypesRead[actorUnit.Unit.ClothingExtraType4 - 1]
-                .Configure(actorUnit, state, changeDict));
+            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing4Types[actorUnit.Unit.ClothingExtraType4 - 1]
+                .Configure(actorUnit, changeDict));
         }
 
         if (actorUnit.Unit.ClothingExtraType5 > 0 &&
-            actorUnit.Unit.ClothingExtraType5 <= _miscRaceDataWritableReadable.ExtraMainClothing5TypesRead.Count)
+            actorUnit.Unit.ClothingExtraType5 <= _miscRaceDataWritableReadable.ExtraMainClothing5Types.Count)
         {
-            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing5TypesRead[actorUnit.Unit.ClothingExtraType5 - 1]
-                .Configure(actorUnit, state, changeDict));
+            clothingResults.Add(_miscRaceDataWritableReadable.ExtraMainClothing5Types[actorUnit.Unit.ClothingExtraType5 - 1]
+                .Configure(actorUnit, changeDict));
         }
 
         if (actorUnit.Unit.ClothingHatType > 0 &&
-            actorUnit.Unit.ClothingHatType <= _miscRaceDataWritableReadable.AllowedClothingHatTypesRead.Count)
+            actorUnit.Unit.ClothingHatType <= _miscRaceDataWritableReadable.AllowedClothingHatTypes.Count)
         {
-            clothingResults.Add(_miscRaceDataWritableReadable.AllowedClothingHatTypesRead[actorUnit.Unit.ClothingHatType - 1]
-                .Configure(actorUnit, state, changeDict));
+            clothingResults.Add(_miscRaceDataWritableReadable.AllowedClothingHatTypes[actorUnit.Unit.ClothingHatType - 1]
+                .Configure(actorUnit, changeDict));
         }
 
         if (actorUnit.Unit.ClothingAccessoryType > 0 &&
-            actorUnit.Unit.ClothingAccessoryType <= _miscRaceDataWritableReadable.AllowedClothingAccessoryTypesRead.Count)
+            actorUnit.Unit.ClothingAccessoryType <= _miscRaceDataWritableReadable.AllowedClothingAccessoryTypes.Count)
         {
             clothingResults.Add(_miscRaceDataWritableReadable
-                .AllowedClothingAccessoryTypesRead[actorUnit.Unit.ClothingAccessoryType - 1].Configure(actorUnit, state, changeDict));
+                .AllowedClothingAccessoryTypes[actorUnit.Unit.ClothingAccessoryType - 1].Configure(actorUnit, changeDict));
         }
         else if (actorUnit.Unit.EarnedMask && actorUnit.Unit.ClothingAccessoryType > 0 && actorUnit.Unit.ClothingAccessoryType - 1 ==
-                 _miscRaceDataWritableReadable.AllowedClothingAccessoryTypesRead.Count)
+                 _miscRaceDataWritableReadable.AllowedClothingAccessoryTypes.Count)
         {
             IClothing asuraMask;
             // switch (RaceFuncs.RaceToSwitch(actorUnit.Unit.Race))
@@ -312,7 +312,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
                 asuraMask = AsuraMask.AsuraMaskInstanceNormal;
             }
             
-            clothingResults.Add(asuraMask.Configure(actorUnit, state, changeDict));
+            clothingResults.Add(asuraMask.Configure(actorUnit, changeDict));
         }
 
         return clothingResults;
@@ -376,9 +376,9 @@ internal class RaceData<T> : IRaceData where T : IParameters
         }
     }
 
-    private abstract class RaceRenderInput : RenderInput, IRaceRenderInput
+    internal class RaceRenderInput : RenderInput, IRaceRenderInput
     {
-        protected RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody) : base(actor)
+        internal RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody) : base(actor)
         {
             RaceData = miscRaceData;
             BaseBody = baseBody;
@@ -387,18 +387,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
         public IMiscRaceData RaceData { get; private set; }
         public bool BaseBody { get; private set; }
     }
-
-
-    private class RaceRenderInput<TU> : RaceRenderInput, IRaceRenderInput where TU : IParameters
-    {
-        internal RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody, TU state)
-            : base(actor, miscRaceData, baseBody)
-        {
-            Params = state;
-        }
-
-        public TU Params { get; private set; }
-    }
+    
 
 
 
@@ -412,23 +401,5 @@ internal class RaceData<T> : IRaceData where T : IParameters
 
         public Unit Unit { get; }
         public IMiscRaceData MiscRaceData { get; }
-    }
-
-
-    private class RunOutput : RunOutputShared
-    {
-        protected RunOutput(SpriteChangeDict spriteChangeDict) : base(spriteChangeDict)
-        {
-        }
-    }
-
-    private class RunOutput<TU> : RunOutput where TU : IParameters
-    {
-        public RunOutput(SpriteChangeDict spriteChangeDict, TU state) : base(spriteChangeDict)
-        {
-            Params = state;
-        }
-
-        public TU Params { get; }
     }
 }

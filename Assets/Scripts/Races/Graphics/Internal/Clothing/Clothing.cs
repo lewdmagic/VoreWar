@@ -9,7 +9,7 @@ internal class Clothing : ClothingDataShared, IClothing
         _completeGen = completeGen;
     }
 
-    public ClothingRenderOutput Configure(Actor_Unit actor, IParameters parameters, SpriteChangeDict changeDict)
+    public ClothingRenderOutput Configure(Actor_Unit actor, SpriteChangeDict changeDict)
     {
         IClothingRenderInput input = new ClothingRenderInputImpl(actor);
         ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc);
@@ -18,22 +18,24 @@ internal class Clothing : ClothingDataShared, IClothing
     }
 }
 
-public class Clothing<TS> : ClothingDataShared, IClothing<TS> where TS : IParameters
+internal class Clothing<T> : ClothingDataShared, IClothing where T : IParameters
 {
-    private readonly Action<IClothingRenderInput<TS>, IClothingRenderOutput> _completeGen;
+    private readonly Action<IClothingRenderInput<T>, IClothingRenderOutput> _completeGen;
+    private readonly Func<IClothingRenderInput, T> _calcParams;
 
-    public Clothing(ClothingMiscData misc, Action<IClothingRenderInput<TS>, IClothingRenderOutput> completeGen) : base(misc)
+    public Clothing(ClothingMiscData fixedData, Action<IClothingRenderInput<T>, IClothingRenderOutput> completeGen, Func<IClothingRenderInput, T> calcParams) : base(fixedData)
     {
         _completeGen = completeGen;
+        _calcParams = calcParams;
     }
 
-    public ClothingRenderOutput Configure(Actor_Unit actor, TS state, SpriteChangeDict changeDict)
+    public ClothingRenderOutput Configure(Actor_Unit actor, SpriteChangeDict changeDict)
     {
-        IClothingRenderInput<TS> input = new ClothingRenderInputImpl<TS>(actor, state);
+        IClothingRenderInput inputBasic = new ClothingRenderInputImpl(actor);
+        T calcdParameters = _calcParams.Invoke(inputBasic);
+        ClothingRenderInputImpl<T> input = new ClothingRenderInputImpl<T>(actor, calcdParameters);
         ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc);
-
         _completeGen.Invoke(input, renderOutput);
-
         return renderOutput;
     }
 }

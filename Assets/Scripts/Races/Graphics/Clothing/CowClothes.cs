@@ -321,7 +321,7 @@ namespace TaurusClothes
         internal static readonly IClothing LeaderOutfitInstance = LeaderOutfit.LeaderOutfitInstance;
 
 
-        internal static readonly List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
+        internal static readonly List<IClothing> All = new List<IClothing>
         {
             OverallInstance, OverallBottomInstance, ShirtInstance, BikiniInstance, BikiniBottomInstance, LoinclothInstance, HolidayOutfitInstance, LeaderOutfitInstance
         };

@@ -1569,7 +1569,7 @@ internal static class RaceSpecificClothing
     internal static readonly IClothing SuccubusLeotardInstance = SuccubusLeotard.SuccubusLeotardInstance;
 
 
-    internal static readonly List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
+    internal static readonly List<IClothing> All = new List<IClothing>
     {
         LizardPeasantInstance,
         LizardBlackTopInstance,
@@ -1605,7 +1605,7 @@ internal static class RaceSpecificClothing
         SuccubusLeotardInstance
     };
 
-    internal static List<IClothing<IParameters>> Accessories = new List<IClothing<IParameters>>
+    internal static List<IClothing> Accessories = new List<IClothing>
     {
         LizardLeaderCrownInstance,
         LizardBoneCrownInstance,

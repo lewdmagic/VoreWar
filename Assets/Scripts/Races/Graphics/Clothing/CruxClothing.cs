@@ -470,12 +470,12 @@ namespace CruxClothing
         internal static readonly IClothing SlaveCollarInstance = SlaveCollar.SlaveCollarInstance;
 
 
-        internal static readonly List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
+        internal static readonly List<IClothing> All = new List<IClothing>
         {
             TShirtInstance, NetShirtInstance, RaggedBraInstance, LabCoatInstance, Boxers1Instance, Boxers2Instance, CruxJeansInstance, FannyBagInstance, BeltBagsInstance, RagsInstance, SlaveCollarInstance
         };
 
-        internal static List<IClothing<IParameters>> Accessories = new List<IClothing<IParameters>>
+        internal static List<IClothing> Accessories = new List<IClothing>
         {
             NecklaceGoldInstance, NecklaceCruxInstance
         };

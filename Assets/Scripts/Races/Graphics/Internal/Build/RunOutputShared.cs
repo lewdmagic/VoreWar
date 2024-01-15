@@ -6,7 +6,7 @@ using UnityEngine;
 #endregion
 
 
-internal abstract class RunOutputShared : IRunOutput, IRunOutputReadable
+internal class RunOutput : IRunOutput, IRunOutputReadable
 {
     // Interal fields
     public Vector3? ClothingShift { get; set; }
@@ -17,7 +17,7 @@ internal abstract class RunOutputShared : IRunOutput, IRunOutputReadable
     private readonly SpriteChangeDict _changeDict;
     
     //
-    protected RunOutputShared(SpriteChangeDict changeDict)
+    internal RunOutput(SpriteChangeDict changeDict)
     {
         _changeDict = changeDict;
     }

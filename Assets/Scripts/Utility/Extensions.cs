@@ -45,6 +45,17 @@ public static class Extensions
         }
     }
 
+    public static void Set<T>(this List<T> self, IEnumerable<T> values)
+    {
+        self.Clear();
+        self.AddRange(values);
+    }
+    public static void Set<T>(this List<T> self, params T[] values)
+    {
+        self.Clear();
+        self.AddRange(values);
+    }
+
     public static T GetOrNull<T>(this IList<T> self, int index) where T : class
     {
         if (self.HasIndex(index))

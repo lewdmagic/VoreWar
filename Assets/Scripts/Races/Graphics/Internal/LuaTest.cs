@@ -74,7 +74,7 @@ end
             UserData.RegisterType<IRaceRenderOutput>();
             UserData.RegisterType<Sprite>();
             UserData.RegisterType<SpriteType>();
-            UserData.RegisterType<IRaceBuilder<IParameters>>();
+            UserData.RegisterType<IRaceBuilder>();
 		    
             ScriptHelper.RegisterSimpleAction<string, string>();
             ScriptHelper.RegisterSimpleAction<IRaceRenderInput, IRaceRenderOutput>();
@@ -100,7 +100,6 @@ public static class ScriptHelper
     {
         // Register Types
         UserData.RegisterType<OverSizeParameters>();
-        UserData.RegisterType<MiscRaceDataWritableReadable<OverSizeParameters>>();
         
         UserData.RegisterType<Action>();
         UserData.RegisterType<IParameters>();
@@ -109,9 +108,7 @@ public static class ScriptHelper
         UserData.RegisterType<Sprite>();
         UserData.RegisterType<SpriteType>();
         UserData.RegisterType<SpriteDictionary>();
-        UserData.RegisterType<IRaceBuilder<IParameters>>();
-        UserData.RegisterType<IRaceBuilder<IOverSizeParameters>>();
-        UserData.RegisterType<IRaceBuilder<OverSizeParameters>>();
+        UserData.RegisterType<IRaceBuilder>();
         UserData.RegisterType<SwapType>();
         UserData.RegisterType<Actor_Unit>();
         UserData.RegisterType<Unit>();
@@ -128,20 +125,8 @@ public static class ScriptHelper
         UserData.RegisterType<Traits>();
         UserData.RegisterType<Stat>();
         UserData.RegisterType<RaceTraits>();
-        UserData.RegisterType<IWriteOnlyList<IClothing<IParameters>>>();
-        UserData.RegisterType<IWriteOnlyList<IClothing<IOverSizeParameters>>>();
-        UserData.RegisterType<IWriteOnlyList<IClothing<OverSizeParameters>>>();
-        UserData.RegisterType<WrappedList<IClothing<OverSizeParameters>>>();
-        UserData.RegisterType<WrappedList<IClothing<IOverSizeParameters>>>();
-        UserData.RegisterType<MiscRaceDataWritableReadable<IParameters>>();
-        UserData.RegisterType<MiscRaceDataWritableReadable<IOverSizeParameters>>();
         
         UserData.RegisterType<IClothing>();
-        UserData.RegisterType<IClothing<IOverSizeParameters>>();
-        UserData.RegisterType<IClothing<OverSizeParameters>>();
-        
-        UserData.RegisterType<Clothing<IOverSizeParameters>>();
-        UserData.RegisterType<Clothing<OverSizeParameters>>();
         
         UserData.RegisterType<ButtonType>();
         UserData.RegisterType<CustomizerButton>();
@@ -171,17 +156,11 @@ public static class ScriptHelper
         ScriptHelper.RegisterSimpleAction<IRandomCustomInput>();
         ScriptHelper.RegisterSimpleAction<RaceTraits>();
         
-        ScriptHelper.RegisterSimpleAction<MiscRaceDataWritableReadable<IParameters>>();
-        ScriptHelper.RegisterSimpleAction<MiscRaceDataWritableReadable<IOverSizeParameters>>();
-        ScriptHelper.RegisterSimpleAction<MiscRaceDataWritableReadable<OverSizeParameters>>();
-        
-        
         ScriptHelper.RegisterSimpleAction<Unit, EnumIndexedArray<ButtonType, CustomizerButton>>();
         ScriptHelper.RegisterSimpleAction<Unit, ButtonCustomizer>();
         ScriptHelper.RegisterSimpleAction<IClothingSetupInput, IClothingSetupOutput>();
         ScriptHelper.RegisterSimpleAction<IClothingSetupInput, ClothingMiscData>();
         
-        ScriptHelper.RegisterSimpleAction<ClothingBuilder<OverSizeParameters>>();
         ScriptHelper.RegisterSimpleAction<IClothingRenderInput<OverSizeParameters>, IClothingRenderOutput>();
         ScriptHelper.RegisterSimpleAction<IClothingBuilder<OverSizeParameters>>();
         
@@ -196,7 +175,7 @@ public static class ScriptHelper
         initted = true;
     }
     
-    internal static void ScriptPrep(string path, IRaceBuilder<OverSizeParameters> builder)
+    internal static void ScriptPrep(string path, IRaceBuilder builder)
     {
         string scriptCode = File.ReadAllText(path);
         
@@ -260,16 +239,15 @@ function ternary ( cond , T , F )
 end");
 		
         script.DoString(scriptCode);
-        
     }
     
-    internal static void ScriptPrep2(string path, string raceId, IRaceBuilder<IParameters> builder)
+    internal static void ScriptPrep2(string path, string raceId, IRaceBuilder builder)
     {
         string scriptCode = File.ReadAllText(path);
         ScriptPrep2FromCode(scriptCode, raceId, builder);
     }
     
-    internal static void ScriptPrep2FromCode(string scriptCode, string raceId, IRaceBuilder<IParameters> builder)
+    internal static void ScriptPrep2FromCode(string scriptCode, string raceId, IRaceBuilder builder)
     {
         
         Script script = new Script();

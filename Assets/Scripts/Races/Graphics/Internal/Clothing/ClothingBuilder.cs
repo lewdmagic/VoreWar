@@ -77,19 +77,12 @@ public class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
 {
     internal static readonly ClothingMiscData DefaultMisc = new ClothingMiscData();
     private Action<IClothingRenderInput, IClothingRenderOutput> _completeGen;
-
     
     internal static ClothingBuilder New()
     {
         return new ClothingBuilder();
     }
-
-    internal static ClothingBuilder<T> New<T>() where T : IParameters
-    {
-        return new ClothingBuilder<T>();
-    }
-
-
+    
     public void RenderAll(Action<IClothingRenderInput, IClothingRenderOutput> completeGen)
     {
         _completeGen = completeGen;
@@ -116,22 +109,6 @@ public class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
     
 }
 
-internal class ClothingBuilder<T> : ClothingBuilderShared, IClothingBuilder<T> where T : IParameters
-{
-    private Action<IClothingRenderInput<T>, IClothingRenderOutput> _completeGen;
-
-    public void RenderAll(Action<IClothingRenderInput<T>, IClothingRenderOutput> completeGen)
-    {
-        _completeGen = completeGen;
-    }
-
-    [Obsolete("Old way of building.")]
-    internal IClothing<T> BuildClothing()
-    {
-        return new Clothing<T>(Misc, _completeGen);
-    }
-}
-
 internal class ClothingBuilderV2<T> : ClothingBuilderShared, IClothingBuilder<T> where T : IParameters
 {
     private Action<IClothingRenderInput<T>, IClothingRenderOutput> _completeGen;
@@ -149,6 +126,6 @@ internal class ClothingBuilderV2<T> : ClothingBuilderShared, IClothingBuilder<T>
     
     internal IClothing BuildClothing()
     {
-        return new ClothingV2<T>(Misc, _completeGen, _paramsCalc);
+        return new Clothing<T>(Misc, _completeGen, _paramsCalc);
     }
 }

@@ -173,7 +173,7 @@ namespace Races.Graphics.Implementations.Mercs
                     GobboOverTop4.GobboOverTop4Instance
                 );
 
-                List<IClothing<IParameters>> extraMainClothing3Types = new List<IClothing<IParameters>>() //Legs
+                List<IClothing> extraMainClothing3Types = new List<IClothing>() //Legs
                 {
                     All.GenericLegs1,
                     All.GenericLegs2,
@@ -190,7 +190,7 @@ namespace Races.Graphics.Implementations.Mercs
                 };
                 output.ExtraMainClothing3Types.Set(extraMainClothing3Types);
 
-                List<IClothing<IParameters>> extraMainClothing4Types = new List<IClothing<IParameters>>() //Gloves
+                List<IClothing> extraMainClothing4Types = new List<IClothing>() //Gloves
                 {
                     All.GenericGloves1,
                     All.GenericGlovesPlusSecond1,
@@ -202,7 +202,7 @@ namespace Races.Graphics.Implementations.Mercs
 
                 output.ExtraMainClothing4Types.Set(extraMainClothing4Types);
 
-                List<IClothing<IParameters>> extraMainClothing5Types = new List<IClothing<IParameters>>() //Hats
+                List<IClothing> extraMainClothing5Types = new List<IClothing>() //Hats
                 {
                     All.GoblinHat1,
                     All.GoblinHat2,

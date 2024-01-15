@@ -115,35 +115,3 @@ public interface IMiscRaceData
     IReadOnlyList<IClothingDataSimple> ExtraMainClothing4TypesBasic { get; }
     IReadOnlyList<IClothingDataSimple> ExtraMainClothing5TypesBasic { get; }
 }
-
-///
-/// To anyone reading this, yes it's a total mess of nonsense that should be improved
-/// It's the result of the absolute pain of dealing with covarience and contravarience
-/// The reason it exists is because it works, kinda.
-/// 
-
-internal interface IMiscRaceDataWritable<out T> : IMiscRaceData where T : IParameters
-{
-    IWriteOnlyList<IClothing<T>> AllowedMainClothingTypes { get; }
-    IWriteOnlyList<IClothing<T>> AllowedWaistTypes { get; }
-    IWriteOnlyList<IClothing<T>> AllowedClothingHatTypes { get; }
-    IWriteOnlyList<IClothing<T>> AllowedClothingAccessoryTypes { get; }
-    IWriteOnlyList<IClothing<T>> ExtraMainClothing1Types { get; }
-    IWriteOnlyList<IClothing<T>> ExtraMainClothing2Types { get; }
-    IWriteOnlyList<IClothing<T>> ExtraMainClothing3Types { get; }
-    IWriteOnlyList<IClothing<T>> ExtraMainClothing4Types { get; }
-    IWriteOnlyList<IClothing<T>> ExtraMainClothing5Types { get; }
-}
-
-internal interface IMiscRaceDataReadable<in T> : IMiscRaceData where T : IParameters
-{
-    IReadOnlyList<IClothing<T>> AllowedMainClothingTypesRead { get; }
-    IReadOnlyList<IClothing<T>> AllowedWaistTypesRead { get; }
-    IReadOnlyList<IClothing<T>> AllowedClothingHatTypesRead { get; }
-    IReadOnlyList<IClothing<T>> AllowedClothingAccessoryTypesRead { get; }
-    IReadOnlyList<IClothing<T>> ExtraMainClothing1TypesRead { get; }
-    IReadOnlyList<IClothing<T>> ExtraMainClothing2TypesRead { get; }
-    IReadOnlyList<IClothing<T>> ExtraMainClothing3TypesRead { get; }
-    IReadOnlyList<IClothing<T>> ExtraMainClothing4TypesRead { get; }
-    IReadOnlyList<IClothing<T>> ExtraMainClothing5TypesRead { get; }
-}

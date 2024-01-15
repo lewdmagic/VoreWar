@@ -5,9 +5,9 @@ using System;
 #endregion
 
 
-internal interface IRaceBuilder<T> where T : IParameters
+internal interface IRaceBuilder
 {
-    void Setup(Action<MiscRaceDataWritableReadable<T>> setupFunc);
+    void Setup(Action<MiscRaceDataWritableReadable> setupFunc);
     void RandomCustom(Action<IRandomCustomInput> value);
     void RunBefore(Action<IRunInput, IRunOutput> value);
     

@@ -7,26 +7,17 @@ using UnityEngine;
 
 #endregion
 
-internal class MiscRaceDataWritableReadable<T> : IMiscRaceDataReadable<T>, IMiscRaceDataWritable<T> where T : IParameters
+internal class MiscRaceDataWritableReadable : IMiscRaceData
 {
-    private readonly WrappedList<IClothing<T>> _allowedClothingAccessoryTypes = new WrappedList<IClothing<T>>();
-
-    private readonly WrappedList<IClothing<T>> _allowedClothingHatTypes = new WrappedList<IClothing<T>>();
-
-
-    private readonly WrappedList<IClothing<T>> _allowedMainClothingTypes = new WrappedList<IClothing<T>>();
-
-    private readonly WrappedList<IClothing<T>> _allowedWaistTypes = new WrappedList<IClothing<T>>();
-
-    private readonly WrappedList<IClothing<T>> _extraMainClothing1Types = new WrappedList<IClothing<T>>();
-
-    private readonly WrappedList<IClothing<T>> _extraMainClothing2Types = new WrappedList<IClothing<T>>();
-
-    private readonly WrappedList<IClothing<T>> _extraMainClothing3Types = new WrappedList<IClothing<T>>();
-
-    private readonly WrappedList<IClothing<T>> _extraMainClothing4Types = new WrappedList<IClothing<T>>();
-
-    private readonly WrappedList<IClothing<T>> _extraMainClothing5Types = new WrappedList<IClothing<T>>();
+    public readonly List<IClothing> AllowedClothingAccessoryTypes = new List<IClothing>();
+    public readonly List<IClothing> AllowedClothingHatTypes = new List<IClothing>();
+    public readonly List<IClothing> AllowedMainClothingTypes = new List<IClothing>();
+    public readonly List<IClothing> AllowedWaistTypes = new List<IClothing>();
+    public readonly List<IClothing> ExtraMainClothing1Types = new List<IClothing>();
+    public readonly List<IClothing> ExtraMainClothing2Types = new List<IClothing>();
+    public readonly List<IClothing> ExtraMainClothing3Types = new List<IClothing>();
+    public readonly List<IClothing> ExtraMainClothing4Types = new List<IClothing>();
+    public readonly List<IClothing> ExtraMainClothing5Types = new List<IClothing>();
 
     
     internal readonly ExtraRaceInfo _extraRaceInfo = new ExtraRaceInfo();
@@ -125,16 +116,6 @@ internal class MiscRaceDataWritableReadable<T> : IMiscRaceDataReadable<T>, IMisc
 
     public int TestVal { get; set; }
     
-    public IWriteOnlyList<IClothing<T>> AllowedMainClothingTypes => _allowedMainClothingTypes;
-    public IWriteOnlyList<IClothing<T>> AllowedWaistTypes => _allowedWaistTypes;
-    public IWriteOnlyList<IClothing<T>> AllowedClothingHatTypes => _allowedClothingHatTypes;
-    public IWriteOnlyList<IClothing<T>> AllowedClothingAccessoryTypes => _allowedClothingAccessoryTypes;
-    public IWriteOnlyList<IClothing<T>> ExtraMainClothing1Types => _extraMainClothing1Types;
-    public IWriteOnlyList<IClothing<T>> ExtraMainClothing2Types => _extraMainClothing2Types;
-    public IWriteOnlyList<IClothing<T>> ExtraMainClothing3Types => _extraMainClothing3Types;
-    public IWriteOnlyList<IClothing<T>> ExtraMainClothing4Types => _extraMainClothing4Types;
-    public IWriteOnlyList<IClothing<T>> ExtraMainClothing5Types => _extraMainClothing5Types;
-
     public void Names(string singularName, string pluralName)
     {
         _extraRaceInfo.SingularName = (input) => singularName;
@@ -275,45 +256,34 @@ internal class MiscRaceDataWritableReadable<T> : IMiscRaceDataReadable<T>, IMisc
     public Vector2 WholeBodyOffset { get; set; }
     public Vector3 ClothingShift { get; set; }
 
-
-    IReadOnlyList<IClothing<T>> IMiscRaceDataReadable<T>.AllowedWaistTypesRead => _allowedWaistTypes.List;
-    IReadOnlyList<IClothing<T>> IMiscRaceDataReadable<T>.AllowedClothingHatTypesRead => _allowedClothingHatTypes.List;
-    IReadOnlyList<IClothing<T>> IMiscRaceDataReadable<T>.AllowedClothingAccessoryTypesRead => _allowedClothingAccessoryTypes.List;
-    IReadOnlyList<IClothing<T>> IMiscRaceDataReadable<T>.ExtraMainClothing1TypesRead => _extraMainClothing1Types.List;
-    IReadOnlyList<IClothing<T>> IMiscRaceDataReadable<T>.ExtraMainClothing2TypesRead => _extraMainClothing2Types.List;
-    IReadOnlyList<IClothing<T>> IMiscRaceDataReadable<T>.ExtraMainClothing3TypesRead => _extraMainClothing3Types.List;
-    IReadOnlyList<IClothing<T>> IMiscRaceDataReadable<T>.ExtraMainClothing4TypesRead => _extraMainClothing4Types.List;
-    IReadOnlyList<IClothing<T>> IMiscRaceDataReadable<T>.ExtraMainClothing5TypesRead => _extraMainClothing5Types.List;
-    IReadOnlyList<IClothing<T>> IMiscRaceDataReadable<T>.AllowedMainClothingTypesRead => _allowedMainClothingTypes.List;
-
-    IReadOnlyList<IClothingDataSimple> IMiscRaceData.AllowedMainClothingTypesBasic => _allowedMainClothingTypes.List;
+    IReadOnlyList<IClothingDataSimple> IMiscRaceData.AllowedMainClothingTypesBasic => AllowedMainClothingTypes;
 
     /// <summary>The total number of main clothing types plus one additional number for the blank clothing slot</summary>
-    public int MainClothingTypesCount => _allowedMainClothingTypes.List.Count() + 1;
+    public int MainClothingTypesCount => AllowedMainClothingTypes.Count() + 1;
 
-    IReadOnlyList<IClothingDataSimple> IMiscRaceData.AllowedWaistTypesBasic => _allowedWaistTypes.List;
+    IReadOnlyList<IClothingDataSimple> IMiscRaceData.AllowedWaistTypesBasic => AllowedWaistTypes;
 
     /// <summary>The total number of waist clothing types plus one additional number for the blank clothing slot</summary>
-    public int WaistClothingTypesCount => _allowedWaistTypes.List.Count() + 1;
+    public int WaistClothingTypesCount => AllowedWaistTypes.Count() + 1;
 
-    IReadOnlyList<IClothingDataSimple> IMiscRaceData.AllowedClothingHatTypesBasic => _allowedClothingHatTypes.List;
+    IReadOnlyList<IClothingDataSimple> IMiscRaceData.AllowedClothingHatTypesBasic => AllowedClothingHatTypes;
 
     /// <summary>The total number of hat types plus one additional number for the blank clothing slot</summary>
-    public int ClothingHatTypesCount => _allowedClothingHatTypes.List.Count() + 1;
+    public int ClothingHatTypesCount => AllowedClothingHatTypes.Count() + 1;
 
-    IReadOnlyList<IClothingDataSimple> IMiscRaceData.AllowedClothingAccessoryTypesBasic => _allowedClothingAccessoryTypes.List;
+    IReadOnlyList<IClothingDataSimple> IMiscRaceData.AllowedClothingAccessoryTypesBasic => AllowedClothingAccessoryTypes;
 
     /// <summary>The total number of accessory types plus one additional number for the blank clothing slot</summary>
-    public int ClothingAccessoryTypesCount => _allowedClothingAccessoryTypes.List.Count() + 1;
+    public int ClothingAccessoryTypesCount => AllowedClothingAccessoryTypes.Count() + 1;
 
-    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing1TypesBasic => _extraMainClothing1Types.List;
-    public int ExtraMainClothing1Count => _extraMainClothing1Types.List.Count() + 1;
-    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing2TypesBasic => _extraMainClothing2Types.List;
-    public int ExtraMainClothing2Count => _extraMainClothing2Types.List.Count() + 1;
-    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing3TypesBasic => _extraMainClothing3Types.List;
-    public int ExtraMainClothing3Count => _extraMainClothing3Types.List.Count() + 1;
-    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing4TypesBasic => _extraMainClothing4Types.List;
-    public int ExtraMainClothing4Count => _extraMainClothing4Types.List.Count() + 1;
-    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing5TypesBasic => _extraMainClothing5Types.List;
-    public int ExtraMainClothing5Count => _extraMainClothing5Types.List.Count() + 1;
+    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing1TypesBasic => ExtraMainClothing1Types;
+    public int ExtraMainClothing1Count => ExtraMainClothing1Types.Count() + 1;
+    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing2TypesBasic => ExtraMainClothing2Types;
+    public int ExtraMainClothing2Count => ExtraMainClothing2Types.Count() + 1;
+    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing3TypesBasic => ExtraMainClothing3Types;
+    public int ExtraMainClothing3Count => ExtraMainClothing3Types.Count() + 1;
+    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing4TypesBasic => ExtraMainClothing4Types;
+    public int ExtraMainClothing4Count => ExtraMainClothing4Types.Count() + 1;
+    IReadOnlyList<IClothingDataSimple> IMiscRaceData.ExtraMainClothing5TypesBasic => ExtraMainClothing5Types;
+    public int ExtraMainClothing5Count => ExtraMainClothing5Types.Count() + 1;
 }

@@ -677,7 +677,7 @@ internal static class ClothingTypes
     internal static readonly IClothing FemaleVillagerInstance = FemaleVillager.FemaleVillagerInstance;
     internal static readonly IClothing MaleVillagerInstance = MaleVillager.MaleVillagerInstance;
 
-    internal static readonly List<IClothing<IParameters>> All = new List<IClothing<IParameters>>
+    internal static readonly List<IClothing> All = new List<IClothing>
     {
         BikiniTopInstance,
         BikiniBottomInstance,

@@ -76,7 +76,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 };
                 output.AllowedMainClothingTypes.Set(allowedMainClothingTypes);
 
-                List<IClothing<IParameters>> allowedWaistTypes = new List<IClothing<IParameters>>() //Bottoms
+                List<IClothing> allowedWaistTypes = new List<IClothing>() //Bottoms
                 {
                     GenericBottom.GenericBottom1
                 };
@@ -91,7 +91,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 };
                 output.ExtraMainClothing1Types.Set(extraMainClothing1Types);
 
-                List<IClothing<IParameters>> extraMainClothing2Types = new List<IClothing<IParameters>>() //Shoes
+                List<IClothing> extraMainClothing2Types = new List<IClothing>() //Shoes
                 {
                     SalixShoes.SalixShoesInstance
                 };

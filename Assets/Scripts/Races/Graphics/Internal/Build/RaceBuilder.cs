@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 internal static class RaceBuilder
 {
-    internal static IRaceData CreateV2(Func<MiscRaceDataWritableReadable<IParameters>> template, Action<IRaceBuilder<IParameters>> builderUser)
+    internal static IRaceData CreateV2(Func<MiscRaceDataWritableReadable> template, Action<IRaceBuilder> builderUser)
     {
         Func<IParameters> basic = () => new EmptyParameters();
         RaceBuilder<IParameters> builder = new RaceBuilder<IParameters>(template);
@@ -15,7 +15,7 @@ internal static class RaceBuilder
         return builder.Build(basic);
     }
 
-    internal static IRaceData CreateV2<T>(Func<MiscRaceDataWritableReadable<T>> template, Action<IRaceBuilder<T>> builderUser) where T : IParameters, new()
+    internal static IRaceData CreateV2<T>(Func<MiscRaceDataWritableReadable> template, Action<IRaceBuilder> builderUser) where T : IParameters, new()
     {
         Func<T> makeTempState = () => new T();
         RaceBuilder<T> builder = new RaceBuilder<T>(template);
@@ -82,24 +82,23 @@ internal class ExtraRaceInfo
     internal List<string> PreyTownNames;
 }
 
-
-internal class RaceBuilder<T> : IRaceBuilder<T> where T : IParameters
+internal class RaceBuilder<T> : IRaceBuilder where T : IParameters
 {
     private readonly SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc>();
 
     private Action<IRandomCustomInput> _randomCustom;
 
     private Action<IRunInput, IRunOutput> _runBefore;
-    private Action<MiscRaceDataWritableReadable<T>> _setupFunc;
+    private Action<MiscRaceDataWritableReadable> _setupFunc;
     private Action<IRunInput, IRaceRenderAllOutput> _renderAllAction;
-    private readonly Func<MiscRaceDataWritableReadable<T>> _template;
+    private readonly Func<MiscRaceDataWritableReadable> _template;
 
-    internal RaceBuilder(Func<MiscRaceDataWritableReadable<T>> template)
+    internal RaceBuilder(Func<MiscRaceDataWritableReadable> template)
     {
         _template = template;
     }
     
-    public void Setup(Action<MiscRaceDataWritableReadable<T>> setupFunc)
+    public void Setup(Action<MiscRaceDataWritableReadable> setupFunc)
     {
         _setupFunc = setupFunc;
     }
@@ -133,7 +132,7 @@ internal class RaceBuilder<T> : IRaceBuilder<T> where T : IParameters
 
     public IRaceData Build(Func<T> makeTempState)
     {
-        MiscRaceDataWritableReadable<T> dataWritableReadable = _template();
+        MiscRaceDataWritableReadable dataWritableReadable = _template();
         _setupFunc?.Invoke(dataWritableReadable);
         
         return new RaceData<T>(RaceSpriteSet, dataWritableReadable, _runBefore, _randomCustom, makeTempState, dataWritableReadable._extraRaceInfo, _renderAllAction);
