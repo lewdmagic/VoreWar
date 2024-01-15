@@ -9,12 +9,12 @@ using UnityEngine;
 
 public static class Defaults
 {
-    internal static readonly SpriteTypeIndexed<SingleRenderFunc<IParameters>> SpriteGens3 = new SpriteTypeIndexed<SingleRenderFunc<IParameters>>();
+    internal static readonly SpriteTypeIndexed<SingleRenderFunc> SpriteGens3 = new SpriteTypeIndexed<SingleRenderFunc>();
 
     
-    internal static void ModifySingleRender(SpriteType spriteType, ModdingMode mode, Action<IRaceRenderInput<IParameters>, IRaceRenderOutput> generator)
+    internal static void ModifySingleRender(SpriteType spriteType, ModdingMode mode, Action<IRaceRenderInput, IRaceRenderOutput> generator)
     {
-        SingleRenderFunc<IParameters> current = SpriteGens3[spriteType];
+        SingleRenderFunc current = SpriteGens3[spriteType];
         if (current != null)
         {
             if (mode == ModdingMode.Before)
@@ -526,7 +526,7 @@ public static class Defaults
     static Defaults()
     {
 
-        SpriteGens3[SpriteType.Body] = new SingleRenderFunc<IParameters>(2, (input, output) =>
+        SpriteGens3[SpriteType.Body] = new SingleRenderFunc(2, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
             int attackingOffset = input.Actor.IsAttacking ? 1 : 0;
@@ -542,7 +542,7 @@ public static class Defaults
         });
 
 
-        SpriteGens3[SpriteType.Head] = new SingleRenderFunc<IParameters>(4, (input, output) =>
+        SpriteGens3[SpriteType.Head] = new SingleRenderFunc(4, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
             int eatingOffset = input.Actor.IsEating ? 1 : 0;
@@ -561,13 +561,13 @@ public static class Defaults
             }
         });
 
-        SpriteGens3[SpriteType.Hair] = new SingleRenderFunc<IParameters>(6, (input, output) =>
+        SpriteGens3[SpriteType.Hair] = new SingleRenderFunc(6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.Actor.Unit.HairColor));
             output.Sprite(State.GameManager.SpriteDictionary.Hair[input.Actor.Unit.HairStyle]);
         });
 
-        SpriteGens3[SpriteType.Hair2] = new SingleRenderFunc<IParameters>(1, (input, output) =>
+        SpriteGens3[SpriteType.Hair2] = new SingleRenderFunc(1, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.Actor.Unit.HairColor));
             if (input.Actor.Unit.HairStyle == 1)
@@ -594,7 +594,7 @@ public static class Defaults
             }
         });
 
-        SpriteGens3[SpriteType.Mouth] = new SingleRenderFunc<IParameters>(5, (input, output) =>
+        SpriteGens3[SpriteType.Mouth] = new SingleRenderFunc(5, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.Mouth, input.Actor.Unit.SkinColor));
             if (input.BaseBody)
@@ -612,7 +612,7 @@ public static class Defaults
             output.Sprite(input.Actor.IsEating == false ? State.GameManager.SpriteDictionary.Mouths[input.Actor.Unit.MouthType] : null);
         });
 
-        SpriteGens3[SpriteType.Belly] = new SingleRenderFunc<IParameters>(15, (input, output) =>
+        SpriteGens3[SpriteType.Belly] = new SingleRenderFunc(15, (input, output) =>
         {
             output.Coloring(FurryBellyColor(input.Actor));
             if (input.Actor.HasBelly)
@@ -621,7 +621,7 @@ public static class Defaults
             }
         });
 
-        SpriteGens3[SpriteType.Weapon] = new SingleRenderFunc<IParameters>(1, (input, output) =>
+        SpriteGens3[SpriteType.Weapon] = new SingleRenderFunc(1, (input, output) =>
         {
             output.Coloring(Color.white);
             if (input.Actor.Unit.HasWeapon && input.Actor.Surrendered == false)
@@ -630,20 +630,20 @@ public static class Defaults
             }
         });
 
-        SpriteGens3[SpriteType.BodySize] = new SingleRenderFunc<IParameters>(3, (input, output) =>
+        SpriteGens3[SpriteType.BodySize] = new SingleRenderFunc(3, (input, output) =>
         {    
             output.Coloring(ColorPaletteMap.FurryBellySwap);
             output.Sprite(input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryTorsos[Mathf.Clamp(input.Actor.GetBodyWeight(), 0, 3)] : null);
         });
 
-        SpriteGens3[SpriteType.Eyes] = new SingleRenderFunc<IParameters>(5, (input, output) =>
+        SpriteGens3[SpriteType.Eyes] = new SingleRenderFunc(5, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.Actor.Unit.EyeColor));
             output.Sprite(State.GameManager.SpriteDictionary.Eyes[Math.Min(input.Actor.Unit.EyeType, input.RaceData.EyeTypes - 1)]);
 
         });
 
-        SpriteGens3[SpriteType.Breasts] = new SingleRenderFunc<IParameters>(16, (input, output) =>
+        SpriteGens3[SpriteType.Breasts] = new SingleRenderFunc(16, (input, output) =>
         {
             output.Coloring(FurryBellyColor(input.Actor));
             if (input.Actor.Unit.HasBreasts == false)
@@ -660,7 +660,7 @@ public static class Defaults
             output.Sprite(State.GameManager.SpriteDictionary.Breasts[input.Actor.Unit.BreastSize]);
         });
 
-        SpriteGens3[SpriteType.Dick] = new SingleRenderFunc<IParameters>(9, (input, output) =>
+        SpriteGens3[SpriteType.Dick] = new SingleRenderFunc(9, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
             if (input.Actor.Unit.HasDick == false)
@@ -718,7 +718,7 @@ public static class Defaults
             }
         });
 
-        SpriteGens3[SpriteType.Balls] = new SingleRenderFunc<IParameters>(8, (input, output) =>
+        SpriteGens3[SpriteType.Balls] = new SingleRenderFunc(8, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
             if (input.Actor.Unit.HasDick == false)
@@ -795,7 +795,7 @@ public static class Defaults
             output.Sprite(State.GameManager.SpriteDictionary.Balls[baseSize]);
         });
 
-        SpriteGens3[SpriteType.BodyAccent] = new SingleRenderFunc<IParameters>(6, (input, output) =>
+        SpriteGens3[SpriteType.BodyAccent] = new SingleRenderFunc(6, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.Actor.Unit.AccessoryColor));
             int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
@@ -803,7 +803,7 @@ public static class Defaults
 
         });
 
-        SpriteGens3[SpriteType.BodyAccent2] = new SingleRenderFunc<IParameters>(6, (input, output) =>
+        SpriteGens3[SpriteType.BodyAccent2] = new SingleRenderFunc(6, (input, output) =>
         {
             output.Coloring(Color.white);
             int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
@@ -811,7 +811,7 @@ public static class Defaults
 
         });
 
-        SpriteGens3[SpriteType.BodyAccent3] = new SingleRenderFunc<IParameters>(7, (input, output) =>
+        SpriteGens3[SpriteType.BodyAccent3] = new SingleRenderFunc(7, (input, output) =>
         {
             output.Coloring(Color.white);
             if (Config.FurryFluff == false)
@@ -824,13 +824,13 @@ public static class Defaults
 
         });
 
-        SpriteGens3[SpriteType.BodyAccent4] = new SingleRenderFunc<IParameters>(5, (input, output) =>
+        SpriteGens3[SpriteType.BodyAccent4] = new SingleRenderFunc(5, (input, output) =>
         {
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.Actor.Unit.HairColor));
             output.Sprite(State.GameManager.SpriteDictionary.Eyebrows[Math.Min(input.Actor.Unit.EyeType, State.GameManager.SpriteDictionary.Eyebrows.Length - 1)]);
         });
     }
-
+    
 
     internal static MiscRaceDataWritableReadable<IParameters> Default()
     {

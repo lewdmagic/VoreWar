@@ -85,13 +85,13 @@ internal class ExtraRaceInfo
 
 internal class RaceBuilder<T> : IRaceBuilder<T> where T : IParameters
 {
-    private readonly SpriteTypeIndexed<SingleRenderFunc<T>> RaceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc<T>>();
+    private readonly SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc>();
 
     private Action<IRandomCustomInput> _randomCustom;
 
-    private Action<IRunInput, IRunOutput<T>> _runBefore;
+    private Action<IRunInput, IRunOutput> _runBefore;
     private Action<MiscRaceDataWritableReadable<T>> _setupFunc;
-    private Action<IRunInput, IRaceRenderAllOutput<T>> _renderAllAction;
+    private Action<IRunInput, IRaceRenderAllOutput> _renderAllAction;
     private readonly Func<MiscRaceDataWritableReadable<T>> _template;
 
     internal RaceBuilder(Func<MiscRaceDataWritableReadable<T>> template)
@@ -109,24 +109,24 @@ internal class RaceBuilder<T> : IRaceBuilder<T> where T : IParameters
         _randomCustom = value;
     }
 
-    public void RunBefore(Action<IRunInput, IRunOutput<T>> value)
+    public void RunBefore(Action<IRunInput, IRunOutput> value)
     {
         _runBefore = value;
     }
 
     [Obsolete("RenderSingle is deprecated, use RenderAll when writing new races.")]
-    public void RenderSingle(SpriteType spriteType, int layer, Action<IRaceRenderInput<T>, IRaceRenderOutput> generator)
+    public void RenderSingle(SpriteType spriteType, int layer, Action<IRaceRenderInput, IRaceRenderOutput> generator)
     {
-        RaceSpriteSet[spriteType] = new SingleRenderFunc<T>(layer, generator);
+        RaceSpriteSet[spriteType] = new SingleRenderFunc(layer, generator);
     }
 
     [Obsolete("RenderSingle is deprecated, use RenderAll when writing new races.")]
-    public void RenderSingle(SpriteType spriteType, SingleRenderFunc<T> render)
+    public void RenderSingle(SpriteType spriteType, SingleRenderFunc render)
     {
         RaceSpriteSet[spriteType] = render;
     }
 
-    public void RenderAll(Action<IRunInput, IRaceRenderAllOutput<T>> generator)
+    public void RenderAll(Action<IRunInput, IRaceRenderAllOutput> generator)
     {
         _renderAllAction = generator;
     }

@@ -87,17 +87,17 @@ internal class RaceData<T> : IRaceData where T : IParameters
 
     
     private readonly Action<IRandomCustomInput> _randomCustom;
-    private readonly Action<IRunInput, IRunOutput<T>> _runBefore;
-    private readonly Action<IRunInput, IRaceRenderAllOutput<T>> _renderAllAction;
+    private readonly Action<IRunInput, IRunOutput> _runBefore;
+    private readonly Action<IRunInput, IRaceRenderAllOutput> _renderAllAction;
 
     public RaceData(
-        SpriteTypeIndexed<SingleRenderFunc<T>> raceSpriteSet,
+        SpriteTypeIndexed<SingleRenderFunc> raceSpriteSet,
         MiscRaceDataWritableReadable<T> miscRaceDataWritableReadable,
-        Action<IRunInput, IRunOutput<T>> runBefore,
+        Action<IRunInput, IRunOutput> runBefore,
         Action<IRandomCustomInput> randomCustom,
         Func<T> makeTempState,
         ExtraRaceInfo extraRaceInfo,
-        Action<IRunInput, IRaceRenderAllOutput<T>> renderAllAction)
+        Action<IRunInput, IRaceRenderAllOutput> renderAllAction)
     {
         RaceSpriteSet = raceSpriteSet;
         _miscRaceDataWritableReadable = miscRaceDataWritableReadable;
@@ -108,14 +108,13 @@ internal class RaceData<T> : IRaceData where T : IParameters
         _renderAllAction = renderAllAction;
     }
 
-    private SpriteTypeIndexed<SingleRenderFunc<T>> RaceSpriteSet { get; }
+    private SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; }
 
     public IMiscRaceData MiscRaceData => _miscRaceDataWritableReadable;
-
     
-    internal void ModifySingleRender(SpriteType spriteType, ModdingMode mode, Action<IRaceRenderInput<T>, IRaceRenderOutput> generator)
+    internal void ModifySingleRender(SpriteType spriteType, ModdingMode mode, Action<IRaceRenderInput, IRaceRenderOutput> generator)
     {
-        SingleRenderFunc<T> current = RaceSpriteSet[spriteType];
+        SingleRenderFunc current = RaceSpriteSet[spriteType];
         if (current != null)
         {
             if (mode == ModdingMode.Before)
@@ -134,9 +133,9 @@ internal class RaceData<T> : IRaceData where T : IParameters
         }
     }
 
-    internal void ReplaceSingleRender(SpriteType spriteType, int layer, Action<IRaceRenderInput<T>, IRaceRenderOutput> generator)
+    internal void ReplaceSingleRender(SpriteType spriteType, int layer, Action<IRaceRenderInput, IRaceRenderOutput> generator)
     {
-        RaceSpriteSet[spriteType] = new SingleRenderFunc<T>(layer, generator);
+        RaceSpriteSet[spriteType] = new SingleRenderFunc(layer, generator);
     }
 
     public FullSpriteProcessOut NewUpdate(Actor_Unit actor)
@@ -149,7 +148,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
         IRunInput runInput = new RunInput(actor);
         _runBefore?.Invoke(runInput, runOutput);
 
-        IRaceRenderAllOutput<T> renderAllOutput = new RaceRenderAllOutput<T>(changeDict, state);
+        IRaceRenderAllOutput renderAllOutput = new RaceRenderAllOutput(changeDict);
         
         try
         {
@@ -160,11 +159,11 @@ internal class RaceData<T> : IRaceData where T : IParameters
             Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
         }
 
-        foreach (KeyValuePair<SpriteType,SingleRenderFunc<T>> raceSprite in RaceSpriteSet.KeyValues)
+        foreach (KeyValuePair<SpriteType,SingleRenderFunc> raceSprite in RaceSpriteSet.KeyValues)
         {
             SpriteType spriteType = raceSprite.Key;
-            SingleRenderFunc<T> renderFunc = raceSprite.Value;
-            IRaceRenderInput<T> input = new RaceRenderInput<T>(actor, _miscRaceDataWritableReadable, MiscRaceData.BaseBody, state);
+            SingleRenderFunc renderFunc = raceSprite.Value;
+            IRaceRenderInput input = new RaceRenderInput<T>(actor, _miscRaceDataWritableReadable, MiscRaceData.BaseBody, state);
             IRaceRenderOutput raceRenderOutput = changeDict.ChangeSprite(spriteType);
             raceRenderOutput.Layer(renderFunc.Layer); // Set the default layer
             try
@@ -390,7 +389,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
     }
 
 
-    private class RaceRenderInput<TU> : RaceRenderInput, IRaceRenderInput<TU> where TU : IParameters
+    private class RaceRenderInput<TU> : RaceRenderInput, IRaceRenderInput where TU : IParameters
     {
         internal RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody, TU state)
             : base(actor, miscRaceData, baseBody)
@@ -423,7 +422,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
         }
     }
 
-    private class RunOutput<TU> : RunOutput, IRunOutput<TU> where TU : IParameters
+    private class RunOutput<TU> : RunOutput where TU : IParameters
     {
         public RunOutput(SpriteChangeDict spriteChangeDict, TU state) : base(spriteChangeDict)
         {

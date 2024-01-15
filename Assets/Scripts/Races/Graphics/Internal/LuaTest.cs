@@ -77,7 +77,7 @@ end
             UserData.RegisterType<IRaceBuilder<IParameters>>();
 		    
             ScriptHelper.RegisterSimpleAction<string, string>();
-            ScriptHelper.RegisterSimpleAction<IRaceRenderInput<IParameters>, IRaceRenderOutput>();
+            ScriptHelper.RegisterSimpleAction<IRaceRenderInput, IRaceRenderOutput>();
 		    
             Script script = new Script();
             script.Globals["builder"] = builder;
@@ -155,11 +155,6 @@ public static class ScriptHelper
         UserData.RegisterType<Weapon>();
         UserData.RegisterType<Accessory>();
         UserData.RegisterType<SpellBook>();
-        
-        UserData.RegisterType<IRaceRenderAllOutput<IParameters>>();
-        UserData.RegisterType<IRaceRenderAllOutput<OverSizeParameters>>();
-        UserData.RegisterType<RaceRenderAllOutput<OverSizeParameters>>();
-            
             
         UserData.RegisterType<IClothingSetupInput>();
         UserData.RegisterType<IClothingSetupOutput>();
@@ -173,10 +168,6 @@ public static class ScriptHelper
         UserData.RegisterType<ClothingRenderInputImpl<OverSizeParameters>>();
         UserData.RegisterType<ClothingRenderInputImpl<IOverSizeParameters>>();
         
-        ScriptHelper.RegisterSimpleAction<IRaceRenderInput<IParameters>, IRaceRenderOutput>();
-        ScriptHelper.RegisterSimpleAction<IRaceRenderInput<OverSizeParameters>, IRaceRenderOutput>();
-        ScriptHelper.RegisterSimpleAction<IRaceRenderInput<IOverSizeParameters>, IRaceRenderOutput>();
-        
         ScriptHelper.RegisterSimpleAction<IRandomCustomInput>();
         ScriptHelper.RegisterSimpleAction<RaceTraits>();
         
@@ -187,8 +178,6 @@ public static class ScriptHelper
         
         ScriptHelper.RegisterSimpleAction<Unit, EnumIndexedArray<ButtonType, CustomizerButton>>();
         ScriptHelper.RegisterSimpleAction<Unit, ButtonCustomizer>();
-        ScriptHelper.RegisterSimpleAction<IRunInput, IRaceRenderAllOutput<IParameters>>();
-        ScriptHelper.RegisterSimpleAction<IRunInput, IRaceRenderAllOutput<OverSizeParameters>>();
         ScriptHelper.RegisterSimpleAction<IClothingSetupInput, IClothingSetupOutput>();
         ScriptHelper.RegisterSimpleAction<IClothingSetupInput, ClothingMiscData>();
         

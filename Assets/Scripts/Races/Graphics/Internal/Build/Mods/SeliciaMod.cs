@@ -1721,118 +1721,118 @@ internal static class SeliciaMod
     {
         var raceTyped = (RaceData<FacingFrontParameters>) Lizards.Instance;
         
-        raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
-        {
-            if (input.Params.FacingFront)
-            {
-                if (input.Actor.HasBelly)
-                {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                    {
-                        output.Sprite(input.Sprites.Bellies[17]).AddOffset(0, -30 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                    {
-                        output.Sprite(input.Sprites.Bellies[16]).AddOffset(0, -30 * .625f);
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                if (input.Actor.HasBelly)
-                {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                    {
-                        output.Sprite(input.Sprites.Bellies[17]).AddOffset(0, -30 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                    {
-                        output.Sprite(input.Sprites.Bellies[16]).AddOffset(0, -30 * .625f);
-                        return;
-                    }
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
-        {
-            if (input.Params.FacingFront)
-            {
-                if (input.Actor.Unit.HasDick == false)
-                {
-                    return;
-                }
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) &&
-                    input.Actor.GetBallSize(21, .9f) == 21)
-                {
-                    output.Sprite(input.Sprites.Balls[24]).AddOffset(0, -18 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
-                    input.Actor.GetBallSize(21, .9f) == 21)
-                {
-                    output.Sprite(input.Sprites.Balls[23]).AddOffset(0, -18 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
-                    input.Actor.GetBallSize(21, .9f) == 20)
-                {
-                    output.Sprite(input.Sprites.Balls[22]).AddOffset(0, -15 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
-                    input.Actor.GetBallSize(21, .9f) == 19)
-                {
-                    output.Sprite(input.Sprites.Balls[21]).AddOffset(0, -14 * .625f);
-                    return;
-                }
-            }
-            else
-            {
-                if (input.Actor.Unit.HasDick == false)
-                {
-                    return;
-                }
-
-                output.Layer(20);
-                output.AddOffset(0, 0);
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) &&
-                    input.Actor.GetBallSize(21, .9f) == 21)
-                {
-                    output.Sprite(input.Sprites.LizardsBooty[42]).AddOffset(0, -18 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
-                    input.Actor.GetBallSize(21, .9f) == 21)
-                {
-                    output.Sprite(input.Sprites.LizardsBooty[41]).AddOffset(0, -18 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
-                    input.Actor.GetBallSize(21, .9f) == 20)
-                {
-                    output.Sprite(input.Sprites.LizardsBooty[40]).AddOffset(0, -15 * .625f);
-                    return;
-                }
-
-                if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
-                    input.Actor.GetBallSize(21, .9f) == 19)
-                {
-                    output.Sprite(input.Sprites.LizardsBooty[39]).AddOffset(0, -14 * .625f);
-                    return;
-                }
-            }
-        });
+        // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Params.FacingFront)
+        //     {
+        //         if (input.Actor.HasBelly)
+        //         {
+        //             if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
+        //             {
+        //                 output.Sprite(input.Sprites.Bellies[17]).AddOffset(0, -30 * .625f);
+        //                 return;
+        //             }
+        //
+        //             if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
+        //             {
+        //                 output.Sprite(input.Sprites.Bellies[16]).AddOffset(0, -30 * .625f);
+        //                 return;
+        //             }
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (input.Actor.HasBelly)
+        //         {
+        //             if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
+        //             {
+        //                 output.Sprite(input.Sprites.Bellies[17]).AddOffset(0, -30 * .625f);
+        //                 return;
+        //             }
+        //
+        //             if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
+        //             {
+        //                 output.Sprite(input.Sprites.Bellies[16]).AddOffset(0, -30 * .625f);
+        //                 return;
+        //             }
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Params.FacingFront)
+        //     {
+        //         if (input.Actor.Unit.HasDick == false)
+        //         {
+        //             return;
+        //         }
+        //         if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) &&
+        //             input.Actor.GetBallSize(21, .9f) == 21)
+        //         {
+        //             output.Sprite(input.Sprites.Balls[24]).AddOffset(0, -18 * .625f);
+        //             return;
+        //         }
+        //
+        //         if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
+        //             input.Actor.GetBallSize(21, .9f) == 21)
+        //         {
+        //             output.Sprite(input.Sprites.Balls[23]).AddOffset(0, -18 * .625f);
+        //             return;
+        //         }
+        //
+        //         if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
+        //             input.Actor.GetBallSize(21, .9f) == 20)
+        //         {
+        //             output.Sprite(input.Sprites.Balls[22]).AddOffset(0, -15 * .625f);
+        //             return;
+        //         }
+        //
+        //         if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
+        //             input.Actor.GetBallSize(21, .9f) == 19)
+        //         {
+        //             output.Sprite(input.Sprites.Balls[21]).AddOffset(0, -14 * .625f);
+        //             return;
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (input.Actor.Unit.HasDick == false)
+        //         {
+        //             return;
+        //         }
+        //
+        //         output.Layer(20);
+        //         output.AddOffset(0, 0);
+        //         if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) &&
+        //             input.Actor.GetBallSize(21, .9f) == 21)
+        //         {
+        //             output.Sprite(input.Sprites.LizardsBooty[42]).AddOffset(0, -18 * .625f);
+        //             return;
+        //         }
+        //
+        //         if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
+        //             input.Actor.GetBallSize(21, .9f) == 21)
+        //         {
+        //             output.Sprite(input.Sprites.LizardsBooty[41]).AddOffset(0, -18 * .625f);
+        //             return;
+        //         }
+        //
+        //         if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
+        //             input.Actor.GetBallSize(21, .9f) == 20)
+        //         {
+        //             output.Sprite(input.Sprites.LizardsBooty[40]).AddOffset(0, -15 * .625f);
+        //             return;
+        //         }
+        //
+        //         if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) &&
+        //             input.Actor.GetBallSize(21, .9f) == 19)
+        //         {
+        //             output.Sprite(input.Sprites.LizardsBooty[39]).AddOffset(0, -14 * .625f);
+        //             return;
+        //         }
+        //     }
+        // });
     }
     
     private static void ModPanthers()
@@ -2785,137 +2785,137 @@ internal static class SeliciaMod
     
     private static void ModVargul()
     {
-        var raceTyped = (RaceData<OverSizeParameters>) Vargul.Instance;
-        
-        raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasBreasts == false)
-            {
-                return;
-            }
-
-            input.Params.Oversize = false;
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
-            {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(30 * 30));
-                if (leftSize > input.Actor.Unit.DefaultBreastSize)
-                {
-                    input.Params.Oversize = true;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Vargul3[29]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Vargul3[28]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 26)
-                {
-                    output.Sprite(input.Sprites.Vargul3[27]);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.SecondaryBreasts, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasBreasts == false)
-            {
-                return;
-            }
-
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
-            {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(30 * 30));
-                if (rightSize > input.Actor.Unit.DefaultBreastSize)
-                {
-                    input.Params.Oversize = true;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.Vargul3[59]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.Vargul3[58]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 26)
-                {
-                    output.Sprite(input.Sprites.Vargul3[57]);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.HasBelly)
-            {
-                int size = input.Actor.GetStomachSize(26, 0.7f);
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 26)
-                {
-                    output.Sprite(input.Sprites.Vargul3[90]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 26)
-                {
-                    output.Sprite(input.Sprites.Vargul3[89]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 25)
-                {
-                    output.Sprite(input.Sprites.Vargul3[88]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 24)
-                {
-                    output.Sprite(input.Sprites.Vargul3[87]).AddOffset(0, -22 * .625f);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasDick == false)
-            {
-                return;
-            }
-
-            int offset = input.Actor.GetBallSize(27, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Vargul3[127]).AddOffset(0, -24 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
-            {
-                output.Sprite(input.Sprites.Vargul3[126]).AddOffset(0, -19 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 26)
-            {
-                output.Sprite(input.Sprites.Vargul3[125]).AddOffset(0, -15 * .625f);
-                return;
-            }
-        });
+        // var raceTyped = (RaceData<OverSizeParameters>) Vargul.Instance;
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasBreasts == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     input.Params.Oversize = false;
+        //     if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+        //     {
+        //         int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(30 * 30));
+        //         if (leftSize > input.Actor.Unit.DefaultBreastSize)
+        //         {
+        //             input.Params.Oversize = true;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 30)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[29]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[28]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 26)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[27]);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.SecondaryBreasts, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasBreasts == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+        //     {
+        //         int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(30 * 30));
+        //         if (rightSize > input.Actor.Unit.DefaultBreastSize)
+        //         {
+        //             input.Params.Oversize = true;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 30)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[59]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[58]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 26)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[57]);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.HasBelly)
+        //     {
+        //         int size = input.Actor.GetStomachSize(26, 0.7f);
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 26)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[90]).AddOffset(0, -22 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 26)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[89]).AddOffset(0, -22 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 25)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[88]).AddOffset(0, -22 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 24)
+        //         {
+        //             output.Sprite(input.Sprites.Vargul3[87]).AddOffset(0, -22 * .625f);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasDick == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     int offset = input.Actor.GetBallSize(27, .8f);
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offset == 27)
+        //     {
+        //         output.Sprite(input.Sprites.Vargul3[127]).AddOffset(0, -24 * .625f);
+        //         return;
+        //     }
+        //
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 27)
+        //     {
+        //         output.Sprite(input.Sprites.Vargul3[126]).AddOffset(0, -19 * .625f);
+        //         return;
+        //     }
+        //
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offset == 26)
+        //     {
+        //         output.Sprite(input.Sprites.Vargul3[125]).AddOffset(0, -15 * .625f);
+        //         return;
+        //     }
+        // });
     }
     
     private static void ModVipers()
@@ -3730,137 +3730,137 @@ internal static class SeliciaMod
     
     private static void ModFairies()
     {
-        var raceTyped = (RaceData<Fairies.FairyParameters>) Fairies.Instance;
-        
-        raceTyped.ModifySingleRender(SpriteType.BodyAccent2, ModdingMode.After, (input, output) =>
-        {
-            if (input.Params.VeryEncumbered && input.Actor.IsEating)
-            {
-                if (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false)
-                {
-                    output.Sprite(input.Sprites.Fairy[207]);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasBreasts == false)
-            {
-                return;
-            }
-
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
-            {
-                int leftSize = (int)Math.Sqrt(input.Actor.GetLeftBreastSize(21 * 21, Fairies.GeneralSizeMod));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast))
-                {
-                    output.Sprite(input.Sprites.Fairy240[8]).AddOffset(-34 * .625f, -57 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize == 21)
-                {
-                    output.Sprite(input.Sprites.Fairy240[7]).AddOffset(-34 * .625f, -57 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize > 20)
-                {
-                    output.Sprite(input.Sprites.Fairy240[6]).AddOffset(-34 * .625f, -57 * .625f);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.SecondaryBreasts, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasBreasts == false)
-            {
-                return;
-            }
-
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
-            {
-                int rightSize = (int)Math.Sqrt(input.Actor.GetRightBreastSize(21 * 21, Fairies.GeneralSizeMod));
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast))
-                {
-                    output.Sprite(input.Sprites.Fairy240[13]).AddOffset(34 * .625f, -57 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize == 21)
-                {
-                    output.Sprite(input.Sprites.Fairy240[12]).AddOffset(34 * .625f, -57 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize > 20)
-                {
-                    output.Sprite(input.Sprites.Fairy240[11]).AddOffset(34 * .625f, -57 * .625f);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.HasBelly)
-            {
-                int bellySprite = input.Actor.GetRootedStomachSize(18, Fairies.GeneralSizeMod);
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    output.Sprite(input.Sprites.Fairy240[3]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && bellySprite == 18)
-                {
-                    output.Sprite(input.Sprites.Fairy240[2]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && bellySprite > 17)
-                {
-                    output.Sprite(input.Sprites.Fairy240[1]);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasDick == false)
-            {
-                return;
-            }
-
-            if (input.Actor.PredatorComponent?.BallsFullness > 0)
-            {
-                int ballSize = input.Actor.GetBallSize(17, Fairies.GeneralSizeMod);
-                //AddOffset(Balls, 0, -10 * .625f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                {
-                    output.Sprite(input.Sprites.Fairy240[17]).AddOffset(0, -10 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) && ballSize == 17)
-                {
-                    output.Sprite(input.Sprites.Fairy240[16]).AddOffset(0, -10 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) && ballSize == 16)
-                {
-                    output.Sprite(input.Sprites.Fairy240[15]).AddOffset(0, -10 * .625f);
-                    return;
-                }
-            }
-        });
+        // var raceTyped = (RaceData<Fairies.FairyParameters>) Fairies.Instance;
+        //
+        // raceTyped.ModifySingleRender(SpriteType.BodyAccent2, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Params.VeryEncumbered && input.Actor.IsEating)
+        //     {
+        //         if (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false)
+        //         {
+        //             output.Sprite(input.Sprites.Fairy[207]);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasBreasts == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+        //     {
+        //         int leftSize = (int)Math.Sqrt(input.Actor.GetLeftBreastSize(21 * 21, Fairies.GeneralSizeMod));
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast))
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[8]).AddOffset(-34 * .625f, -57 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize == 21)
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[7]).AddOffset(-34 * .625f, -57 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize > 20)
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[6]).AddOffset(-34 * .625f, -57 * .625f);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.SecondaryBreasts, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasBreasts == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+        //     {
+        //         int rightSize = (int)Math.Sqrt(input.Actor.GetRightBreastSize(21 * 21, Fairies.GeneralSizeMod));
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast))
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[13]).AddOffset(34 * .625f, -57 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize == 21)
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[12]).AddOffset(34 * .625f, -57 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize > 20)
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[11]).AddOffset(34 * .625f, -57 * .625f);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.HasBelly)
+        //     {
+        //         int bellySprite = input.Actor.GetRootedStomachSize(18, Fairies.GeneralSizeMod);
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[3]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && bellySprite == 18)
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[2]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && bellySprite > 17)
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[1]);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasDick == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent?.BallsFullness > 0)
+        //     {
+        //         int ballSize = input.Actor.GetBallSize(17, Fairies.GeneralSizeMod);
+        //         //AddOffset(Balls, 0, -10 * .625f);
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[17]).AddOffset(0, -10 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) && ballSize == 17)
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[16]).AddOffset(0, -10 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) && ballSize == 16)
+        //         {
+        //             output.Sprite(input.Sprites.Fairy240[15]).AddOffset(0, -10 * .625f);
+        //             return;
+        //         }
+        //     }
+        // });
     }
     
     
@@ -4201,128 +4201,128 @@ internal static class SeliciaMod
     
     private static void ModGryphons()
     {
-        var raceTyped = (RaceData<Gryphons.PositionParameters>) Gryphons.Instance;
-        
-        raceTyped.ModifySingleRender(SpriteType.BodyAccent6, ModdingMode.After, (input, output) =>
-        {
-                        
-            if (input.Actor.Unit.HasDick == false || input.Params.Position == Gryphons.Position.Standing)
-            {
-                return;
-            }
-
-            if (input.Actor.GetBallSize(10, 1.5f) > 5)
-            {
-                output.Layer(1);
-                if (input.Actor.PredatorComponent?.BallsFullness > 0)
-                {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                    {
-                        output.Sprite(input.Sprites.Gryphon[47]);
-                        return;
-                    }
-
-                    output.Sprite(input.Sprites.Gryphon[36 + input.Actor.GetBallSize(10, 1.5f)]);
-                    return;
-                }
-                return;
-            }
-
-            if (input.Actor.GetStomachSize(16) < 3)
-            {
-                output.Layer(10);
-                if (input.Actor.PredatorComponent?.BallsFullness > 0)
-                {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                    {
-                        output.Sprite(input.Sprites.Gryphon[47]);
-                        return;
-                    }
-
-                    output.Sprite(input.Sprites.Gryphon[36 + input.Actor.GetBallSize(10, 1.5f)]);
-                    return;
-                }
-                return;
-            }
-
-            if (input.Actor.PredatorComponent?.BallsFullness > 0)
-            {
-                output.Layer(5);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                {
-                    output.Sprite(input.Sprites.Gryphon[47]);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.Predator == false || input.Actor.HasBelly == false)
-            {
-                return;
-            }
-
-            if (input.Params.Position == Gryphons.Position.Sitting)
-            {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(16) == 16)
-                {
-                    output.Sprite(input.Sprites.Gryphon[35]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    if (input.Actor.GetStomachSize(16, .8f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Gryphon[61]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(16, .9f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Gryphon[60]);
-                        return;
-                    }
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
-        {
-            int sz = input.Actor.GetStomachSize(16);
-            int bz = input.Actor.GetBallSize(10, 1.5f);
-            if (input.Actor.Unit.HasDick == false || input.Params.Position == Gryphons.Position.Standing)
-            {
-                return;
-            }
-
-            if (input.Actor.GetStomachSize(16) < 12 || sz < bz * 2)
-            {
-                output.Layer(13);
-                if (input.Actor.PredatorComponent?.BallsFullness > 0)
-                {
-                    if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                    {
-                        output.Sprite(input.Sprites.Gryphon[47]);
-                        return;
-                    }
-                    return;
-                }
-                return;
-            }
-
-            if (input.Actor.PredatorComponent?.BallsFullness > 0)
-            {
-                output.Layer(8);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
-                {
-                    output.Sprite(input.Sprites.Gryphon[47]);
-                    return;
-                }
-                return;
-            }
-        });
+        // var raceTyped = (RaceData<Gryphons.PositionParameters>) Gryphons.Instance;
+        //
+        // raceTyped.ModifySingleRender(SpriteType.BodyAccent6, ModdingMode.After, (input, output) =>
+        // {
+        //                 
+        //     if (input.Actor.Unit.HasDick == false || input.Params.Position == Gryphons.Position.Standing)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.GetBallSize(10, 1.5f) > 5)
+        //     {
+        //         output.Layer(1);
+        //         if (input.Actor.PredatorComponent?.BallsFullness > 0)
+        //         {
+        //             if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
+        //             {
+        //                 output.Sprite(input.Sprites.Gryphon[47]);
+        //                 return;
+        //             }
+        //
+        //             output.Sprite(input.Sprites.Gryphon[36 + input.Actor.GetBallSize(10, 1.5f)]);
+        //             return;
+        //         }
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.GetStomachSize(16) < 3)
+        //     {
+        //         output.Layer(10);
+        //         if (input.Actor.PredatorComponent?.BallsFullness > 0)
+        //         {
+        //             if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
+        //             {
+        //                 output.Sprite(input.Sprites.Gryphon[47]);
+        //                 return;
+        //             }
+        //
+        //             output.Sprite(input.Sprites.Gryphon[36 + input.Actor.GetBallSize(10, 1.5f)]);
+        //             return;
+        //         }
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent?.BallsFullness > 0)
+        //     {
+        //         output.Layer(5);
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
+        //         {
+        //             output.Sprite(input.Sprites.Gryphon[47]);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.Predator == false || input.Actor.HasBelly == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Params.Position == Gryphons.Position.Sitting)
+        //     {
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(16) == 16)
+        //         {
+        //             output.Sprite(input.Sprites.Gryphon[35]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+        //         {
+        //             if (input.Actor.GetStomachSize(16, .8f) == 16)
+        //             {
+        //                 output.Sprite(input.Sprites.Gryphon[61]);
+        //                 return;
+        //             }
+        //
+        //             if (input.Actor.GetStomachSize(16, .9f) == 16)
+        //             {
+        //                 output.Sprite(input.Sprites.Gryphon[60]);
+        //                 return;
+        //             }
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
+        // {
+        //     int sz = input.Actor.GetStomachSize(16);
+        //     int bz = input.Actor.GetBallSize(10, 1.5f);
+        //     if (input.Actor.Unit.HasDick == false || input.Params.Position == Gryphons.Position.Standing)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.GetStomachSize(16) < 12 || sz < bz * 2)
+        //     {
+        //         output.Layer(13);
+        //         if (input.Actor.PredatorComponent?.BallsFullness > 0)
+        //         {
+        //             if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
+        //             {
+        //                 output.Sprite(input.Sprites.Gryphon[47]);
+        //                 return;
+        //             }
+        //             return;
+        //         }
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent?.BallsFullness > 0)
+        //     {
+        //         output.Layer(8);
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
+        //         {
+        //             output.Sprite(input.Sprites.Gryphon[47]);
+        //             return;
+        //         }
+        //         return;
+        //     }
+        // });
     }
     
     
@@ -4369,117 +4369,117 @@ internal static class SeliciaMod
     
     private static void ModKobolds()
     {
-        var raceTyped = (RaceData<FacingFrontParameters>) Kobolds.Instance;
-        
-        raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
-        {
-                        
-            if (input.Actor.Unit.Predator == false || input.Actor.HasBelly == false)
-            {
-                return;
-            }
-
-            if (input.Params.FacingFront)
-            {
-                output.Layer(15);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(12) == 12)
-                {
-                    output.Sprite(input.Sprites.Kobolds[84]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    if (input.Actor.GetStomachSize(12, 0.7f) == 12)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[110]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(12, 0.8f) == 12)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[109]);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(12, 0.9f) == 12)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[108]);
-                        return;
-                    }
-                }
-
-                output.Sprite(input.Sprites.Kobolds[71 + input.Actor.GetStomachSize(12)]);
-                return;
-            }
-
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(12) == 12)
-            {
-                output.Layer(2);
-                output.Sprite(input.Sprites.Kobolds[102]);
-                return;
-            }
-
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-            {
-                output.Layer(2);
-                if (input.Actor.GetStomachSize(12, 0.7f) == 12)
-                {
-                    output.Sprite(input.Sprites.Kobolds[116]);
-                    return;
-                }
-
-                if (input.Actor.GetStomachSize(12, 0.8f) == 12)
-                {
-                    output.Sprite(input.Sprites.Kobolds[115]);
-                    return;
-                }
-
-                if (input.Actor.GetStomachSize(12, 0.9f) == 12)
-                {
-                    output.Sprite(input.Sprites.Kobolds[114]);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasDick == false)
-            {
-                return;
-            }
-            
-            if (input.Actor.PredatorComponent?.BallsFullness > 0)
-            {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) && input.Actor.GetBallSize(16) == 16)
-                {
-                    output.Sprite(input.Sprites.Kobolds[62]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls))
-                {
-                    if (input.Actor.GetBallSize(16, 0.7f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[113]);
-                        return;
-                    }
-
-                    if (input.Actor.GetBallSize(16, 0.8f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[112]);
-                        return;
-                    }
-
-                    if (input.Actor.GetBallSize(16, 0.9f) == 16)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[111]);
-                        return;
-                    }
-                }
-            }
-        });
+        // var raceTyped = (RaceData<FacingFrontParameters>) Kobolds.Instance;
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
+        // {
+        //                 
+        //     if (input.Actor.Unit.Predator == false || input.Actor.HasBelly == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Params.FacingFront)
+        //     {
+        //         output.Layer(15);
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(12) == 12)
+        //         {
+        //             output.Sprite(input.Sprites.Kobolds[84]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+        //         {
+        //             if (input.Actor.GetStomachSize(12, 0.7f) == 12)
+        //             {
+        //                 output.Sprite(input.Sprites.Kobolds[110]);
+        //                 return;
+        //             }
+        //
+        //             if (input.Actor.GetStomachSize(12, 0.8f) == 12)
+        //             {
+        //                 output.Sprite(input.Sprites.Kobolds[109]);
+        //                 return;
+        //             }
+        //
+        //             if (input.Actor.GetStomachSize(12, 0.9f) == 12)
+        //             {
+        //                 output.Sprite(input.Sprites.Kobolds[108]);
+        //                 return;
+        //             }
+        //         }
+        //
+        //         output.Sprite(input.Sprites.Kobolds[71 + input.Actor.GetStomachSize(12)]);
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(12) == 12)
+        //     {
+        //         output.Layer(2);
+        //         output.Sprite(input.Sprites.Kobolds[102]);
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+        //     {
+        //         output.Layer(2);
+        //         if (input.Actor.GetStomachSize(12, 0.7f) == 12)
+        //         {
+        //             output.Sprite(input.Sprites.Kobolds[116]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.GetStomachSize(12, 0.8f) == 12)
+        //         {
+        //             output.Sprite(input.Sprites.Kobolds[115]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.GetStomachSize(12, 0.9f) == 12)
+        //         {
+        //             output.Sprite(input.Sprites.Kobolds[114]);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasDick == false)
+        //     {
+        //         return;
+        //     }
+        //     
+        //     if (input.Actor.PredatorComponent?.BallsFullness > 0)
+        //     {
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) && input.Actor.GetBallSize(16) == 16)
+        //         {
+        //             output.Sprite(input.Sprites.Kobolds[62]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls))
+        //         {
+        //             if (input.Actor.GetBallSize(16, 0.7f) == 16)
+        //             {
+        //                 output.Sprite(input.Sprites.Kobolds[113]);
+        //                 return;
+        //             }
+        //
+        //             if (input.Actor.GetBallSize(16, 0.8f) == 16)
+        //             {
+        //                 output.Sprite(input.Sprites.Kobolds[112]);
+        //                 return;
+        //             }
+        //
+        //             if (input.Actor.GetBallSize(16, 0.9f) == 16)
+        //             {
+        //                 output.Sprite(input.Sprites.Kobolds[111]);
+        //                 return;
+        //             }
+        //         }
+        //     }
+        // });
     }
     
     
@@ -5172,110 +5172,110 @@ internal static class SeliciaMod
     
     private static void ModAuri()
     {
-        var raceTyped = (RaceData<OverSizeParameters>) Auri.Instance;
-        
-        raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasBreasts == false)
-            {
-                return;
-            }
-
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
-            {
-                int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
-                if (leftSize > input.Actor.Unit.DefaultBreastSize)
-                {
-                    input.Params.Oversize = true;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
-                {
-                    output.Sprite(input.Sprites.AuriVore[31]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
-                {
-                    output.Sprite(input.Sprites.AuriVore[30]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
-                {
-                    output.Sprite(input.Sprites.AuriVore[29]);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.SecondaryBreasts, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasBreasts == false)
-            {
-                return;
-            }
-
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
-            {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
-                
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
-                {
-                    output.Sprite(input.Sprites.AuriVore[66]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
-                {
-                    output.Sprite(input.Sprites.AuriVore[65]);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
-                {
-                    output.Sprite(input.Sprites.AuriVore[64]);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.HasBelly)
-            {
-                int size = input.Actor.GetStomachSize(32, Auri.StomachMult);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 32)
-                {
-                    output.Sprite(input.Sprites.AuriVore[105]).AddOffset(0, -34 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 32)
-                {
-                    output.Sprite(input.Sprites.AuriVore[104]).AddOffset(0, -34 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
-                {
-                    output.Sprite(input.Sprites.AuriVore[103]).AddOffset(0, -34 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
-                {
-                    output.Sprite(input.Sprites.AuriVore[102]).AddOffset(0, -34 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.AuriVore[101]).AddOffset(0, -33 * .625f);
-                    return;
-                }
-            }
-        });
+        // var raceTyped = (RaceData<OverSizeParameters>) Auri.Instance;
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasBreasts == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent?.LeftBreastFullness > 0)
+        //     {
+        //         int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(32 * 32));
+        //         if (leftSize > input.Actor.Unit.DefaultBreastSize)
+        //         {
+        //             input.Params.Oversize = true;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 32)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[31]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 30)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[30]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 28)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[29]);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.SecondaryBreasts, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasBreasts == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+        //     {
+        //         int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(32 * 32));
+        //         
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 32)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[66]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 30)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[65]);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 28)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[64]);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.HasBelly)
+        //     {
+        //         int size = input.Actor.GetStomachSize(32, Auri.StomachMult);
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 32)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[105]).AddOffset(0, -34 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 32)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[104]).AddOffset(0, -34 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 31)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[103]).AddOffset(0, -34 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 30)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[102]).AddOffset(0, -34 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
+        //         {
+        //             output.Sprite(input.Sprites.AuriVore[101]).AddOffset(0, -33 * .625f);
+        //             return;
+        //         }
+        //     }
+        // });
     }
     
     private static void ModDRACO()
@@ -5522,74 +5522,74 @@ internal static class SeliciaMod
     
     private static void ModZoey()
     {
-        var raceTyped = (RaceData<Zoey.ZoeyParams>) Zoey.Instance;
-        
-        raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.HasBelly)
-            {
-                switch (input.Params.BodyState)
-                {
-                    case Zoey.BodyState.SpinAttack:
-                    case Zoey.BodyState.SideBelly:
-                        if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(19) == 19)
-                        {
-                            output.Sprite(input.Sprites.Zoey[72]);
-                            return;
-                        }
-
-                        if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                        {
-                            if (input.Actor.GetStomachSize(19, 0.7f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[78]);
-                                return;
-                            }
-
-                            if (input.Actor.GetStomachSize(19, 0.8f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[77]);
-                                return;
-                            }
-
-                            if (input.Actor.GetStomachSize(19, 0.9f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[76]);
-                                return;
-                            }
-                        }
-                        return;
-                    default:
-                        if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(19) == 19)
-                        {
-                            output.Sprite(input.Sprites.Zoey[51]);
-                            return;
-                        }
-
-                        if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                        {
-                            if (input.Actor.GetStomachSize(19, 0.7f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[75]);
-                                return;
-                            }
-
-                            if (input.Actor.GetStomachSize(19, 0.8f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[74]);
-                                return;
-                            }
-
-                            if (input.Actor.GetStomachSize(19, 0.9f) == 19)
-                            {
-                                output.Sprite(input.Sprites.Zoey[73]);
-                                return;
-                            }
-                        }
-                        return;
-                }
-            }
-        });
+        // var raceTyped = (RaceData<Zoey.ZoeyParams>) Zoey.Instance;
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.HasBelly)
+        //     {
+        //         switch (input.Params.BodyState)
+        //         {
+        //             case Zoey.BodyState.SpinAttack:
+        //             case Zoey.BodyState.SideBelly:
+        //                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(19) == 19)
+        //                 {
+        //                     output.Sprite(input.Sprites.Zoey[72]);
+        //                     return;
+        //                 }
+        //
+        //                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+        //                 {
+        //                     if (input.Actor.GetStomachSize(19, 0.7f) == 19)
+        //                     {
+        //                         output.Sprite(input.Sprites.Zoey[78]);
+        //                         return;
+        //                     }
+        //
+        //                     if (input.Actor.GetStomachSize(19, 0.8f) == 19)
+        //                     {
+        //                         output.Sprite(input.Sprites.Zoey[77]);
+        //                         return;
+        //                     }
+        //
+        //                     if (input.Actor.GetStomachSize(19, 0.9f) == 19)
+        //                     {
+        //                         output.Sprite(input.Sprites.Zoey[76]);
+        //                         return;
+        //                     }
+        //                 }
+        //                 return;
+        //             default:
+        //                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(19) == 19)
+        //                 {
+        //                     output.Sprite(input.Sprites.Zoey[51]);
+        //                     return;
+        //                 }
+        //
+        //                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+        //                 {
+        //                     if (input.Actor.GetStomachSize(19, 0.7f) == 19)
+        //                     {
+        //                         output.Sprite(input.Sprites.Zoey[75]);
+        //                         return;
+        //                     }
+        //
+        //                     if (input.Actor.GetStomachSize(19, 0.8f) == 19)
+        //                     {
+        //                         output.Sprite(input.Sprites.Zoey[74]);
+        //                         return;
+        //                     }
+        //
+        //                     if (input.Actor.GetStomachSize(19, 0.9f) == 19)
+        //                     {
+        //                         output.Sprite(input.Sprites.Zoey[73]);
+        //                         return;
+        //                     }
+        //                 }
+        //                 return;
+        //         }
+        //     }
+        // });
     }
     
 
@@ -5601,7 +5601,7 @@ internal static class SeliciaMod
     
     
     
-    private static bool SelLeftBreast( IRaceRenderInput<IParameters> input, IRaceRenderOutput output, int rightSize, Sprite spr1, Sprite spr2, Sprite spr3, int size1, int size2,  int size3)
+    private static bool SelLeftBreast(IRaceRenderInput input, IRaceRenderOutput output, int rightSize, Sprite spr1, Sprite spr2, Sprite spr3, int size1, int size2,  int size3)
     {
         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && rightSize >= size1)
         {
@@ -5624,7 +5624,7 @@ internal static class SeliciaMod
         return false;
     }
 
-    private static bool SelRightBreast( IRaceRenderInput<IParameters> input, IRaceRenderOutput output, int leftSize, Sprite spr1, Sprite spr2, Sprite spr3, int size1, int size2,  int size3)
+    private static bool SelRightBreast( IRaceRenderInput input, IRaceRenderOutput output, int leftSize, Sprite spr1, Sprite spr2, Sprite spr3, int size1, int size2,  int size3)
     {
 
         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && leftSize >= size1)

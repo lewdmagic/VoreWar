@@ -11,22 +11,16 @@ public interface IRaceRenderAllOutput
     IRaceRenderOutput ChangeSprite(SpriteType spriteType);
 }
 
-public interface IRaceRenderAllOutput<out T> : IRaceRenderAllOutput where T : IParameters
-{
-    T Params { get; }
-}
 
-
-public class RaceRenderAllOutput<T> : IRaceRenderAllOutput<T> where T : IParameters
+public class RaceRenderAllOutput : IRaceRenderAllOutput
 {
     
     private readonly SpriteChangeDict _changeDict;
     
     //
-    public RaceRenderAllOutput(SpriteChangeDict changeDict, T parameters)
+    public RaceRenderAllOutput(SpriteChangeDict changeDict)
     {
         _changeDict = changeDict;
-        Params = parameters;
     }
 
     public IRaceRenderOutput NewSprite(SpriteType spriteType, int layer)
@@ -35,12 +29,8 @@ public class RaceRenderAllOutput<T> : IRaceRenderAllOutput<T> where T : IParamet
         sprite.Layer(layer);
         return sprite;
     }
-    
-
-    public T Params { get; }
 
     public IRaceRenderOutput ChangeSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
-    
 }
 
 //  private readonly SpriteTypeIndexed<SingleRenderFunc<T>> RaceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc<T>>();
