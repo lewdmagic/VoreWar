@@ -1694,7 +1694,7 @@ internal static class SeliciaMod
     // TODO
     private static void ModLamia()
     {
-        var raceTyped = (RaceData<SeliciaParameters>) Lamia.Instance;
+        var raceTyped = (RaceData<IParameters>) Lamia.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -3355,7 +3355,10 @@ internal static class SeliciaMod
     
     private static void ModDragon()
     {
-        var raceTyped = (RaceData<DragonParameters>) Dragon.Instance;
+        var raceTyped = (RaceData<IParameters>) Dragon.Instance;
+        // TODO Add Calcule
+        Dragon.Position position = Dragon.Position.StandingCrouch;
+        
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3364,7 +3367,7 @@ internal static class SeliciaMod
                 return;
             }
 
-            if (input.Params.Position == Position.Standing || input.Params.Position == Position.StandingCrouch)
+            if (position == Dragon.Position.Standing || position == Dragon.Position.StandingCrouch)
             {
                 output.Layer(16);
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
@@ -3392,7 +3395,7 @@ internal static class SeliciaMod
         
         raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
         {
-            if (input.Actor.Unit.HasDick == false || input.Params.Position == Position.Down)
+            if (input.Actor.Unit.HasDick == false || position == Dragon.Position.Down)
             {
                 return;
             }
@@ -3586,7 +3589,9 @@ internal static class SeliciaMod
     
     private static void ModEarthworms()
     {
-        var raceTyped = (RaceData<Earthworms.EarthWormParameters>) Earthworms.Instance;
+        var raceTyped = (RaceData<IParameters>) Earthworms.Instance;
+        // TODO Add position calc
+        var position = Earthworms.Position.Underground;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3595,7 +3600,7 @@ internal static class SeliciaMod
                 return;
             }
 
-            if (input.Params.Position == Earthworms.Position.Aboveground)
+            if (position == Earthworms.Position.Aboveground)
             {
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                 {
@@ -3976,7 +3981,9 @@ internal static class SeliciaMod
     
     private static void ModFeralLions()
     {
-        var raceTyped = (RaceData<FeralLions.HindViewParameters>) FeralLions.Instance;
+        var raceTyped = (RaceData<IParameters>) FeralLions.Instance;
+        // TODO Add calculate
+        bool hindView = false;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3985,10 +3992,10 @@ internal static class SeliciaMod
                 return;
             }
 
-            output.Layer(input.Params.HindView ? 14 : 4);
+            output.Layer(hindView ? 14 : 4);
             if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
             {
-                output.Sprite(input.Params.HindView ? input.Sprites.FeralLions[75] : input.Sprites.FeralLions[10]);
+                output.Sprite(hindView ? input.Sprites.FeralLions[75] : input.Sprites.FeralLions[10]);
                 return;
             }
         });
@@ -4478,7 +4485,9 @@ internal static class SeliciaMod
     
     private static void ModMantis()
     {
-        var raceTyped = (RaceData<Mantis.MantisParameters>) Mantis.Instance;
+        var raceTyped = (RaceData<IParameters>) Mantis.Instance;
+        // TODO
+        var position = Mantis.Position.Default;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4487,7 +4496,7 @@ internal static class SeliciaMod
                 return;
             }
 
-            if (input.Params.Position == Mantis.Position.Eating)
+            if (position == Mantis.Position.Eating)
             {
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize(17) == 17)
                 {
@@ -4875,17 +4884,21 @@ internal static class SeliciaMod
     
     private static void ModVagrants()
     {
-        var raceTyped = (RaceData<Vagrants.VargantParameters>) Vagrants.Instance;
+        var raceTyped = (RaceData<IParameters>) Vagrants.Instance;
+        
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
+            var Sprites = Vagrants.CalcSprites(input.A);
+            
+            
             if (input.Actor.HasBelly)
             {
                 if (input.Actor.IsAttacking || input.Actor.IsEating)
                 {
                     if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                     {
-                        output.Sprite(input.Params.Sprites[50]);
+                        output.Sprite(Sprites[50]);
                         return;
                     }
 
@@ -4893,25 +4906,25 @@ internal static class SeliciaMod
                     {
                         if (input.Actor.GetStomachSize(16, .60f) == 16)
                         {
-                            output.Sprite(input.Params.Sprites[49]);
+                            output.Sprite(Sprites[49]);
                             return;
                         }
 
                         if (input.Actor.GetStomachSize(16, .70f) == 16)
                         {
-                            output.Sprite(input.Params.Sprites[48]);
+                            output.Sprite(Sprites[48]);
                             return;
                         }
 
                         if (input.Actor.GetStomachSize(16, .80f) == 16)
                         {
-                            output.Sprite(input.Params.Sprites[47]);
+                            output.Sprite(Sprites[47]);
                             return;
                         }
 
                         if (input.Actor.GetStomachSize(16, .90f) == 16)
                         {
-                            output.Sprite(input.Params.Sprites[46]);
+                            output.Sprite(Sprites[46]);
                             return;
                         }
                     }
@@ -4920,7 +4933,7 @@ internal static class SeliciaMod
 
                 if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                 {
-                    output.Sprite(input.Params.Sprites[27]);
+                    output.Sprite(Sprites[27]);
                     return;
                 }
 
@@ -4928,25 +4941,25 @@ internal static class SeliciaMod
                 {
                     if (input.Actor.GetStomachSize(16, .60f) == 16)
                     {
-                        output.Sprite(input.Params.Sprites[26]);
+                        output.Sprite(Sprites[26]);
                         return;
                     }
 
                     if (input.Actor.GetStomachSize(16, .70f) == 16)
                     {
-                        output.Sprite(input.Params.Sprites[25]);
+                        output.Sprite(Sprites[25]);
                         return;
                     }
 
                     if (input.Actor.GetStomachSize(16, .80f) == 16)
                     {
-                        output.Sprite(input.Params.Sprites[24]);
+                        output.Sprite(Sprites[24]);
                         return;
                     }
 
                     if (input.Actor.GetStomachSize(16, .90f) == 16)
                     {
-                        output.Sprite(input.Params.Sprites[23]);
+                        output.Sprite(Sprites[23]);
                         return;
                     }
                 }

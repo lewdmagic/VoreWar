@@ -18,10 +18,29 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         public bool FacingFront { get; set; }
     }
+    
+    
 
     internal static class Lizards
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<FacingFrontParameters>, builder =>
+        
+        private static bool IsFacingFront(Actor_Unit actor)
+        {
+            if (actor.IsAnalVoring || actor.IsUnbirthing)
+            {
+                return false;
+            }
+            else if (actor.Unit.TailType == 0 || actor.IsOralVoring || actor.IsAttacking || actor.IsCockVoring || actor.IsBreastVoring)
+            {
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
         
             builder.Setup(output =>
@@ -159,7 +178,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Head, 2, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
-                if (!input.Params.FacingFront)
+                if (!IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.LizardsBooty[0]);
                 }
@@ -168,7 +187,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Eyes, 4, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.Lizards[13 + input.U.EyeType]);
                 }
@@ -177,7 +196,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.Lizards[input.A.GetSimpleBodySprite()]).Layer(2);
                     return;
@@ -189,7 +208,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccent, 7, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardLight, input.U.AccessoryColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.Lizards[5 + (input.A.IsOralVoring ? 1 : 0)]).Layer(7);
                     return;
@@ -201,7 +220,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccent2, 7, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.Lizards[3 + (input.A.IsAttacking ? 1 : 0)]).Layer(7);
                 }
@@ -229,7 +248,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccent3, 14, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
-                if (!input.Params.FacingFront)
+                if (!IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.LizardsBooty[2]);
                 }
@@ -238,7 +257,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccent4, 14, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
-                if (!input.Params.FacingFront)
+                if (!IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.LizardsBooty[3]);
                 }
@@ -247,7 +266,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccent5, 24, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
-                if (!input.Params.FacingFront)
+                if (!IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.LizardsBooty[4]);
                 }
@@ -256,7 +275,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccent6, 19, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.AccessoryColor));
-                if (!input.Params.FacingFront)
+                if (!IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.LizardsBooty[5]);
                 }
@@ -265,7 +284,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardMain, input.U.HairColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.Lizards[7 + input.U.HairStyle]);
                     return;
@@ -277,7 +296,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Breasts, 17, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardLight, input.U.AccessoryColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Layer(16);
                     if (Config.LizardsHaveNoBreasts)
@@ -326,7 +345,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Belly, 16, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardLight, input.U.AccessoryColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     if (input.A.HasBelly)
                     {
@@ -345,7 +364,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardLight, input.U.AccessoryColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     if (input.U.HasDick == false)
                     {
@@ -380,7 +399,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardLight, input.U.AccessoryColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     if (input.U.HasDick == false)
                     {
@@ -458,7 +477,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Pussy, 21, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardLight, input.U.AccessoryColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     return;
                 }
@@ -515,7 +534,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.PussyIn, 22, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     return;
                 }
@@ -577,7 +596,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Anus, 21, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.LizardLight, input.U.AccessoryColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     return;
                 }
@@ -597,7 +616,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.AnusIn, 22, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     return;
                 }
@@ -616,7 +635,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Weapon, 1, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.FacingFront == false)
+                if (IsFacingFront(input.A) == false)
                 {
                     return;
                 }
@@ -642,23 +661,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RunBefore((input, output) =>
             {
-                bool facingFront;
-                if (input.A.IsAnalVoring || input.A.IsUnbirthing)
-                {
-                    facingFront = false;
-                }
-                else if (input.U.TailType == 0 || input.A.IsOralVoring || input.A.IsAttacking || input.A.IsCockVoring || input.A.IsBreastVoring)
-                {
-                    facingFront = true;
-                }
-                else
-                {
-                    facingFront = true;
-                }
-
-                output.Params.FacingFront = facingFront;
-
-                if (facingFront)
+                if (IsFacingFront(input.A))
                 {
                     if (input.A.HasBelly)
                     {

@@ -108,12 +108,12 @@ public class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
         return builder.BuildClothing();
     }
 
-    internal static IClothing<T> Create<T>(Action<IClothingBuilder<T>> builderUser) where T : IParameters
+    internal static BindableClothing<T> CreateV2<T>(Action<IClothingBuilder<T>> builderUser) where T : IParameters
     {
-        ClothingBuilder<T> builder = new ClothingBuilder<T>();
-        builderUser.Invoke(builder);
-        return builder.BuildClothing();
+        return new BindableClothing<T>(builderUser);
     }
+    
+    
 }
 
 internal class ClothingBuilder<T> : ClothingBuilderShared, IClothingBuilder<T> where T : IParameters
@@ -129,5 +129,26 @@ internal class ClothingBuilder<T> : ClothingBuilderShared, IClothingBuilder<T> w
     internal IClothing<T> BuildClothing()
     {
         return new Clothing<T>(Misc, _completeGen);
+    }
+}
+
+internal class ClothingBuilderV2<T> : ClothingBuilderShared, IClothingBuilder<T> where T : IParameters
+{
+    private Action<IClothingRenderInput<T>, IClothingRenderOutput> _completeGen;
+    private readonly Func<IClothingRenderInput, T> _paramsCalc;
+    
+    public ClothingBuilderV2(Func<IClothingRenderInput, T> paramsCalc)
+    {
+        _paramsCalc = paramsCalc;
+    }
+
+    public void RenderAll(Action<IClothingRenderInput<T>, IClothingRenderOutput> completeGen)
+    {
+        _completeGen = completeGen;
+    }
+    
+    internal IClothing BuildClothing()
+    {
+        return new ClothingV2<T>(Misc, _completeGen, _paramsCalc);
     }
 }

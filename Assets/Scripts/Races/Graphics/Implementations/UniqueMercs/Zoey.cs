@@ -11,6 +11,38 @@ namespace Races.Graphics.Implementations.UniqueMercs
 {
     internal static class Zoey
     {
+
+        private static BodyState CalcBodyState(Actor_Unit actor)
+        {
+            if (actor.AnimationController?.frameLists[0].currentlyActive ?? false)
+            {
+                if (actor.GetStomachSize(19) >= 17)
+                {
+                    return BodyState.SideBelly;
+                }
+                else
+                {
+                    return BodyState.SpinAttack;
+                }
+            }
+            else if (actor.GetStomachSize(19) >= 18)
+            {
+                return BodyState.HighBelly;
+            }
+            else
+            {
+                return BodyState.Normal;
+            }
+        }
+        
+        private static readonly Func<IRenderInput, ZoeyParams> ZoeyCalc = renderInput =>
+        {
+            return new ZoeyParams()
+            {
+                BodyState = CalcBodyState(renderInput.A)
+            };
+        };
+        
         internal enum BodyState
         {
             Normal,
@@ -24,7 +56,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             internal BodyState BodyState = BodyState.Normal;
         }
     
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<ZoeyParams>, builder =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList SpinEffect = new RaceFrameList(new int[2] { 25, 19 }, new float[2] { .375f, .375f });
             builder.Setup(output =>
@@ -68,7 +100,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 output.ClothingColors = 0;
 
                 output.AllowedMainClothingTypes.Set(
-                    ZoeyTop.ZoeyTopInstance
+                    ZoeyTop.ZoeyTopInstance.Create(ZoeyCalc)
                 );
             });
 
@@ -76,7 +108,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.Head, 5, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcBodyState(input.A))
                 {
                     case BodyState.SpinAttack:
                     case BodyState.SideBelly:
@@ -114,7 +146,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.Hair, 7, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcBodyState(input.A))
                 {
                     case BodyState.SpinAttack:
                     case BodyState.SideBelly:
@@ -128,7 +160,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.Hair2, 6, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcBodyState(input.A))
                 {
                     case BodyState.SpinAttack:
                     case BodyState.SideBelly:
@@ -143,7 +175,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             {
                 output.Coloring(Defaults.WhiteColored);
                 output.Layer(1);
-                switch (input.Params.BodyState)
+                switch (CalcBodyState(input.A))
                 {
                     case BodyState.HighBelly:
                         if (input.A.IsAttacking == false)
@@ -175,7 +207,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccent, 0, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcBodyState(input.A))
                 {
                     case BodyState.HighBelly:
                         output.Sprite(input.Sprites.Zoey[11]);
@@ -215,7 +247,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.Breasts, 10, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.BodyState == BodyState.SideBelly)
+                if (CalcBodyState(input.A) == BodyState.SideBelly)
                 {
                     output.Layer(3);
                 }
@@ -224,7 +256,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.Layer(10);
                 }
 
-                switch (input.Params.BodyState)
+                switch (CalcBodyState(input.A))
                 {
                     case BodyState.SpinAttack:
                     case BodyState.SideBelly:
@@ -247,7 +279,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 output.Coloring(Defaults.WhiteColored);
                 if (input.A.HasBelly)
                 {
-                    switch (input.Params.BodyState)
+                    switch (CalcBodyState(input.A))
                     {
                         case BodyState.SpinAttack:
                         case BodyState.SideBelly:
@@ -267,28 +299,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     SetUpAnimations(input.Actor);
                 }
 
-                if (input.A.AnimationController?.frameLists[0].currentlyActive ?? false)
-                {
-                    if (input.A.GetStomachSize(19) >= 17)
-                    {
-                        output.Params.BodyState = BodyState.SideBelly;
-                    }
-                    else
-                    {
-                        output.Params.BodyState = BodyState.SpinAttack;
-                    }
-                }
-                else if (input.A.GetStomachSize(19) >= 18)
-                {
-                    output.Params.BodyState = BodyState.HighBelly;
-                }
-                else
-                {
-                    output.Params.BodyState = BodyState.Normal;
-                }
-
                 output.ClothingShift = new Vector3(0, 0);
-                switch (output.Params.BodyState)
+                switch (CalcBodyState(input.A))
                 {
                     case BodyState.HighBelly:
                         if (input.A.GetStomachSize(19) == 19)
@@ -359,7 +371,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         private static class ZoeyTop
         {
-            internal static readonly IClothing<ZoeyParams> ZoeyTopInstance = ClothingBuilder.Create<ZoeyParams>(builder =>
+            internal static readonly BindableClothing<ZoeyParams> ZoeyTopInstance = ClothingBuilder.CreateV2<ZoeyParams>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -380,7 +392,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output["Clothing2"].Coloring(Color.white);
                     output["Clothing1"].Layer(11);
                     output["Clothing1"].Coloring(Color.white);
-                    var state = input.Params.BodyState;
+                    var state = CalcBodyState(input.A);
                     //Sweater
                     switch (state)
                     {

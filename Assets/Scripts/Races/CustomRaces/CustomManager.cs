@@ -164,7 +164,7 @@ public class CustomManager
 
     private void RaceFromFSData(FSRaceData fsRaceData)
     {
-        IRaceData raceData = RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
+        IRaceData raceData = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             ScriptHelper.ScriptPrep2FromCode(fsRaceData.RaceLuaCode, fsRaceData.RaceId, builder);
         });

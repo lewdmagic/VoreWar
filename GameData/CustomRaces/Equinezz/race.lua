@@ -102,7 +102,7 @@ end
 
 --- Core function: called each frame to render the unit. 
 function render(input, output)
-    output.Params.Oversize = CommonRaceCode.AreBreastsOverside(input, 29 * 29);
+    output.Params.Oversize = CommonRaceCode.AreBreastsOverside(input.A, 29 * 29);
 
     local headSprite = output.NewSprite(SpriteType.Head, 5);
     headSprite.Coloring(SwapType.HorseSkin, input.U.SkinColor);

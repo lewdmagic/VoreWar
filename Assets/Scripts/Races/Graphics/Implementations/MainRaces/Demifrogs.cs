@@ -10,9 +10,10 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Demifrogs
     {
-        internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
+        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(31 * 31);
+        internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
-            IClothing<IOverSizeParameters> LeaderClothes = DemifrogLeader.DemifrogLeaderInstance;
+            IClothing LeaderClothes = DemifrogLeader.DemifrogLeaderInstance.Create(paramsCalc);
             IClothing Rags = DemifrogRags.DemifrogRagsInstance;
 
 
@@ -92,16 +93,16 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.ExtendedBreastSprites = true;
 
                 output.AllowedMainClothingTypes.Set(
-                    GenericTop1.GenericTop1Instance,
-                    GenericTop2.GenericTop2Instance,
-                    GenericTop3.GenericTop3Instance,
-                    GenericTop4.GenericTop4Instance,
-                    GenericTop5.GenericTop5Instance,
-                    GenericTop6.GenericTop6Instance,
+                    GenericTop1.GenericTop1Instance.Create(paramsCalc),
+                    GenericTop2.GenericTop2Instance.Create(paramsCalc),
+                    GenericTop3.GenericTop3Instance.Create(paramsCalc),
+                    GenericTop4.GenericTop4Instance.Create(paramsCalc),
+                    GenericTop5.GenericTop5Instance.Create(paramsCalc),
+                    GenericTop6.GenericTop6Instance.Create(paramsCalc),
                     MaleTop.MaleTopInstance,
                     MaleTop2.MaleTop2Instance,
-                    Natural.NaturalInstance,
-                    Tribal.TribalInstance,
+                    Natural.NaturalInstance.Create(paramsCalc),
+                    Tribal.TribalInstance.Create(paramsCalc),
                     Rags,
                     LeaderClothes
                 );
@@ -121,7 +122,6 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RunBefore((input, output) =>
             {
-                CommonRaceCode.MakeBreastOversize(31 * 31).Invoke(input, output);
                 Defaults.BasicBellyRunAfter.Invoke(input, output);
             });
 
@@ -636,7 +636,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericTop1
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -667,7 +667,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericTop2
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -698,7 +698,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericTop3
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -729,7 +729,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericTop4
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -763,7 +763,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericTop5
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -798,7 +798,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericTop6
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop6Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -877,7 +877,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class Natural
         {
-            internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -916,7 +916,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class Tribal
         {
-            internal static readonly IClothing<IOverSizeParameters> TribalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> TribalInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -995,7 +995,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class DemifrogLeader
         {
-            internal static readonly IClothing<IOverSizeParameters> DemifrogLeaderInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> DemifrogLeaderInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {

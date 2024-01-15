@@ -10,9 +10,10 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Vipers
     {
+        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(28 * 28);
         private static readonly float XOffset = -7.5f; //12 pixels * 5/8
 
-        internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
+        internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
@@ -88,30 +89,30 @@ namespace Races.Graphics.Implementations.Mercs
 
                 output.ExtendedBreastSprites = true;
                 output.AllowedMainClothingTypes.Set(
-                    ViperArmour1TypeFull.ViperArmour1TypeFullInstance,
-                    ViperArmour1TypeNoGloves.ViperArmour1TypeNoGlovesInstance,
-                    ViperArmour1TypeNoCap.ViperArmour1TypeNoCapInstance,
-                    ViperArmour1TypeBare.ViperArmour1TypeBareInstance,
-                    ViperArmour2TypeFull.ViperArmour2TypeFullInstance,
-                    ViperArmour2TypeNoGloves.ViperArmour2TypeNoGlovesInstance,
-                    ViperArmour2TypeNoCap.ViperArmour2TypeNoCapInstance,
-                    ViperArmour2TypeBare.ViperArmour2TypeBareInstance,
-                    ViperArmour3TypeFull.ViperArmour3TypeFullInstance,
-                    ViperArmour3TypeNoGloves.ViperArmour3TypeNoGlovesInstance,
-                    ViperArmour3TypeNoCap.ViperArmour3TypeNoCapInstance,
-                    ViperArmour3TypeBare.ViperArmour3TypeBareInstance,
-                    ViperArmour4TypeFull.ViperArmour4TypeFullInstance,
-                    ViperArmour4TypeNoGloves.ViperArmour4TypeNoGlovesInstance,
-                    ViperArmour4TypeNoCap.ViperArmour4TypeNoCapInstance,
-                    ViperArmour4TypeBare.ViperArmour4TypeBareInstance,
-                    ViperRuler1TypeFull.ViperRuler1TypeFullInstance,
-                    ViperRuler1TypeNoGloves.ViperRuler1TypeNoGlovesInstance,
-                    ViperRuler1TypeNoCap.ViperRuler1TypeNoCapInstance,
-                    ViperRuler1TypeBare.ViperRuler1TypeBareInstance,
-                    ViperRuler2TypeFull.ViperRuler2TypeFullInstance,
-                    ViperRuler2TypeNoGloves.ViperRuler2TypeNoGlovesInstance,
-                    ViperRuler2TypeNoCap.ViperRuler2TypeNoCapInstance,
-                    ViperRuler2TypeBare.ViperRuler2TypeBareInstance
+                    ViperArmour1TypeFull.ViperArmour1TypeFullInstance.Create(paramsCalc),
+                    ViperArmour1TypeNoGloves.ViperArmour1TypeNoGlovesInstance.Create(paramsCalc),
+                    ViperArmour1TypeNoCap.ViperArmour1TypeNoCapInstance.Create(paramsCalc),
+                    ViperArmour1TypeBare.ViperArmour1TypeBareInstance.Create(paramsCalc),
+                    ViperArmour2TypeFull.ViperArmour2TypeFullInstance.Create(paramsCalc),
+                    ViperArmour2TypeNoGloves.ViperArmour2TypeNoGlovesInstance.Create(paramsCalc),
+                    ViperArmour2TypeNoCap.ViperArmour2TypeNoCapInstance.Create(paramsCalc),
+                    ViperArmour2TypeBare.ViperArmour2TypeBareInstance.Create(paramsCalc),
+                    ViperArmour3TypeFull.ViperArmour3TypeFullInstance.Create(paramsCalc),
+                    ViperArmour3TypeNoGloves.ViperArmour3TypeNoGlovesInstance.Create(paramsCalc),
+                    ViperArmour3TypeNoCap.ViperArmour3TypeNoCapInstance.Create(paramsCalc),
+                    ViperArmour3TypeBare.ViperArmour3TypeBareInstance.Create(paramsCalc),
+                    ViperArmour4TypeFull.ViperArmour4TypeFullInstance.Create(paramsCalc),
+                    ViperArmour4TypeNoGloves.ViperArmour4TypeNoGlovesInstance.Create(paramsCalc),
+                    ViperArmour4TypeNoCap.ViperArmour4TypeNoCapInstance.Create(paramsCalc),
+                    ViperArmour4TypeBare.ViperArmour4TypeBareInstance.Create(paramsCalc),
+                    ViperRuler1TypeFull.ViperRuler1TypeFullInstance.Create(paramsCalc),
+                    ViperRuler1TypeNoGloves.ViperRuler1TypeNoGlovesInstance.Create(paramsCalc),
+                    ViperRuler1TypeNoCap.ViperRuler1TypeNoCapInstance.Create(paramsCalc),
+                    ViperRuler1TypeBare.ViperRuler1TypeBareInstance.Create(paramsCalc),
+                    ViperRuler2TypeFull.ViperRuler2TypeFullInstance.Create(paramsCalc),
+                    ViperRuler2TypeNoGloves.ViperRuler2TypeNoGlovesInstance.Create(paramsCalc),
+                    ViperRuler2TypeNoCap.ViperRuler2TypeNoCapInstance.Create(paramsCalc),
+                    ViperRuler2TypeBare.ViperRuler2TypeBareInstance.Create(paramsCalc)
                 );
 
                 output.AllowedWaistTypes.Set(
@@ -124,7 +125,10 @@ namespace Races.Graphics.Implementations.Mercs
             });
 
 
-            builder.RunBefore(CommonRaceCode.MakeBreastOversize(28 * 28));
+            builder.RunBefore((input, output) =>
+            {
+                
+            });
 
             builder.RenderSingle(SpriteType.Head, 3, (input, output) =>
             {
@@ -675,7 +679,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour1TypeFull
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour1TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour1TypeFullInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -724,7 +728,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour1TypeNoGloves
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour1TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour1TypeNoGlovesInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -765,7 +769,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour1TypeNoCap
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour1TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour1TypeNoCapInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -811,7 +815,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour1TypeBare
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour1TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour1TypeBareInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -849,7 +853,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour2TypeFull
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour2TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour2TypeFullInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -898,7 +902,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour2TypeNoGloves
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour2TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour2TypeNoGlovesInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -939,7 +943,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour2TypeNoCap
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour2TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour2TypeNoCapInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -985,7 +989,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour2TypeBare
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour2TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour2TypeBareInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1023,7 +1027,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour3TypeFull
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour3TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour3TypeFullInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1072,7 +1076,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour3TypeNoGloves
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour3TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour3TypeNoGlovesInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1113,7 +1117,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour3TypeNoCap
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour3TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour3TypeNoCapInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1159,7 +1163,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour3TypeBare
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour3TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour3TypeBareInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1197,7 +1201,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperRuler1TypeFull
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperRuler1TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperRuler1TypeFullInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1243,7 +1247,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperRuler1TypeNoGloves
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperRuler1TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperRuler1TypeNoGlovesInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1284,7 +1288,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperRuler1TypeNoCap
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperRuler1TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperRuler1TypeNoCapInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1327,7 +1331,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperRuler1TypeBare
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperRuler1TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperRuler1TypeBareInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1365,7 +1369,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour4TypeFull
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour4TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour4TypeFullInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1419,7 +1423,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour4TypeNoGloves
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour4TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour4TypeNoGlovesInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1465,7 +1469,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour4TypeNoCap
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour4TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour4TypeNoCapInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1512,7 +1516,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperArmour4TypeBare
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperArmour4TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperArmour4TypeBareInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1551,7 +1555,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperRuler2TypeFull
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperRuler2TypeFullInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperRuler2TypeFullInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1597,7 +1601,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperRuler2TypeNoGloves
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperRuler2TypeNoGlovesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperRuler2TypeNoGlovesInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1638,7 +1642,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperRuler2TypeNoCap
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperRuler2TypeNoCapInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperRuler2TypeNoCapInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1681,7 +1685,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class ViperRuler2TypeBare
         {
-            internal static readonly IClothing<IOverSizeParameters> ViperRuler2TypeBareInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> ViperRuler2TypeBareInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {

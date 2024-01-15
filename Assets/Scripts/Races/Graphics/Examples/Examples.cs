@@ -33,7 +33,7 @@ internal static class Examples
     // builder => {} labmda syntax.
     // Inside the builder block, we define the behavior of the race renderer by using 
     // builder.Setup, builder.RunBefore, builder.RenderSingle, builder.RandomCustom
-    internal static IRaceData MyRace = RaceBuilder.CreateV2<FacingFrontParameters>(Defaults.Blank<FacingFrontParameters>, builder =>
+    internal static IRaceData MyRace = RaceBuilder.CreateV2(Defaults.Blank, builder =>
     {
         // Setup is only ran once. Think of it as a constructor.
         // It's not required, but it's almost always needed
@@ -55,11 +55,11 @@ internal static class Examples
         {
             if (input.Actor.IsAnalVoring || input.Actor.IsUnbirthing || input.Actor.IsCockVoring)
             {
-                output.Params.FacingFront = false;
+                //output.Params.FacingFront = false;
             }
             else
             {
-                output.Params.FacingFront = true;
+                //output.Params.FacingFront = true;
             }
         });
         
@@ -76,7 +76,7 @@ internal static class Examples
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.Actor.Unit.AccessoryColor));
             
             // Access FacingFront we set inside RunBefore
-            if (input.Params.FacingFront)
+            if (true) //input.Params.FacingFront)
             {
                 if (input.Actor.IsAttacking)
                 {
@@ -164,7 +164,7 @@ internal static class Examples
     // This allows the clothing item's RenderFull function to have access to an instance implementing IFacingFrontParameters
     // Which has been updated in the RunBefore function of the Race that's wearing it.
     // TL;DR: It's a way to pass values from Race's rander cycle to clothing items.  
-    private static IClothing<IFacingFrontParameters> RagsInstance = ClothingBuilder.Create<IFacingFrontParameters>(builder =>
+    private static BindableClothing<IFacingFrontParameters> RagsInstance = ClothingBuilder.CreateV2<IFacingFrontParameters>(builder =>
     {
         // Similar to setup in Race
         // Setup is only ran once. Think of it as a constructor.

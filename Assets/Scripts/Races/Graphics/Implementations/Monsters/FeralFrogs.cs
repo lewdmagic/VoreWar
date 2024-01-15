@@ -8,7 +8,30 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class FeralFrogs
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<PositionParameters>, builder =>
+        private enum Position
+        {
+            Front,
+            Pouncing,
+            Standing
+        }
+
+        private static Position CalcPosition(Actor_Unit actor)
+        {
+            if (actor.IsPouncingFrog)
+            {
+                return Position.Pouncing;
+            }
+            else if (actor.IsEating)
+            {
+                return Position.Standing;
+            }
+            else
+            {
+                return Position.Front;
+            }
+        }
+        
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
             {
@@ -53,7 +76,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Eyes, 4, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Front:
                         output.Sprite(input.Sprites.Frogs[1 + input.U.EyeType]);
@@ -69,7 +92,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Mouth, 4, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Frog, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Front:
                         output.Sprite(input.Sprites.Frogs[5 + input.U.MouthType]);
@@ -85,7 +108,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Frog, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Front:
                         output.Sprite(input.Sprites.Frogs[0]);
@@ -102,7 +125,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent, 6, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Frog, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Front:
                         return;
@@ -121,7 +144,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent2, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Frog, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Front:
                         if (input.A.HasBelly)
@@ -160,7 +183,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Front:
                         if (input.A.HasBelly)
@@ -184,7 +207,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent4, 8, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.Position == Position.Front && input.A.IsAttacking)
+                if (CalcPosition(input.A) == Position.Front && input.A.IsAttacking)
                 {
                     output.Sprite(input.Sprites.Frogs[38]);
                     return;
@@ -200,7 +223,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Front:
                         if (input.A.HasBelly)
@@ -224,35 +247,12 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) =>
             {
-                if (input.A.IsPouncingFrog)
-                {
-                    output.Params.Position = Position.Pouncing;
-                }
-                else if (input.A.IsEating)
-                {
-                    output.Params.Position = Position.Standing;
-                }
-                else
-                {
-                    output.Params.Position = Position.Front;
-                }
-
                 Defaults.Finalize.Invoke(input, output);
             });
 
             builder.RandomCustom(Defaults.RandomCustom);
         });
 
-        private class PositionParameters : IParameters
-        {
-            internal Position Position;
-        }
 
-        private enum Position
-        {
-            Front,
-            Pouncing,
-            Standing
-        }
     }
 }

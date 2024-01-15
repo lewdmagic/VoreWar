@@ -16,9 +16,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class Imps
     {
+        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(22 * 22);
         private static List<IClothingDataSimple> _allClothing;
 
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
@@ -141,15 +142,15 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 output.ExtendedBreastSprites = true;
 
-                List<IClothing<IOverSizeParameters>> allowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>() //undertops
+                List<IClothing> allowedMainClothingTypes = new List<IClothing>() //undertops
                 {
                     NewImpLeotard.NewImpLeotardInstance,
                     NewImpCasinoBunny.NewImpCasinoBunnyInstance,
-                    NewImpUndertop1.NewImpUndertop1Instance,
-                    NewImpUndertop2.NewImpUndertop2Instance,
-                    NewImpUndertop3.NewImpUndertop3Instance,
-                    NewImpUndertop4.NewImpUndertop4Instance,
-                    NewImpUndertop5.NewImpUndertop5Instance
+                    NewImpUndertop1.NewImpUndertop1Instance.Create(paramsCalc),
+                    NewImpUndertop2.NewImpUndertop2Instance.Create(paramsCalc),
+                    NewImpUndertop3.NewImpUndertop3Instance.Create(paramsCalc),
+                    NewImpUndertop4.NewImpUndertop4Instance.Create(paramsCalc),
+                    NewImpUndertop5.NewImpUndertop5Instance.Create(paramsCalc)
                 };
                 output.AllowedMainClothingTypes.Clear();
 
@@ -174,7 +175,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 );
 
                 output.ExtraMainClothing2Types.Set( //Special clothing
-                    NewImpOverOPFem.NewImpOverOPFemInstance,
+                    NewImpOverOPFem.NewImpOverOPFemInstance.Create(paramsCalc),
                     NewImpOverOpm.NewImpOverOpmInstance,
                     NewImpOverTop1.NewImpOverTop1Instance,
                     NewImpOverTop2.NewImpOverTop2Instance,
@@ -182,7 +183,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     NewImpOverTop4.NewImpOverTop4Instance
                 );
 
-                List<IClothing<IOverSizeParameters>> extraMainClothing3Types = new List<IClothing<IOverSizeParameters>>() //Legs
+                List<IClothing> extraMainClothing3Types = new List<IClothing>() //Legs
                 {
                     GenericLegs.GenericLegs1,
                     GenericLegs.GenericLegs2,
@@ -201,7 +202,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 };
                 output.ExtraMainClothing3Types.Set(extraMainClothing3Types);
 
-                List<IClothing<IOverSizeParameters>> extraMainClothing4Types = new List<IClothing<IOverSizeParameters>>() //Gloves
+                List<IClothing> extraMainClothing4Types = new List<IClothing>() //Gloves
                 {
                     GenericGloves.GenericGloves1,
                     GenericGlovesPlusSecond.GenericGlovesPlusSecond1,
@@ -212,7 +213,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 };
                 output.ExtraMainClothing4Types.Set(extraMainClothing4Types);
 
-                List<IClothing<IOverSizeParameters>> extraMainClothing5Types = new List<IClothing<IOverSizeParameters>>() //Hats
+                List<IClothing> extraMainClothing5Types = new List<IClothing>() //Hats
                 {
                     Hat.Hat1,
                     Hat.Hat2,
@@ -231,8 +232,6 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RunBefore((input, output) =>
             {
-                CommonRaceCode.MakeBreastOversize(22 * 22).Invoke(input, output);
-
                 if (input.A.HasBelly)
                 {
                     output.ChangeSprite(SpriteType.Belly).SetActive(true).SetLocalScale(new Vector3(1, 1, 1));
@@ -1367,7 +1366,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class NewImpUndertop1
     {
-        internal static readonly IClothing<IOverSizeParameters> NewImpUndertop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> NewImpUndertop1Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1398,7 +1397,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class NewImpUndertop2
     {
-        internal static readonly IClothing<IOverSizeParameters> NewImpUndertop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> NewImpUndertop2Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1429,7 +1428,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class NewImpUndertop3
     {
-        internal static readonly IClothing<IOverSizeParameters> NewImpUndertop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> NewImpUndertop3Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1460,7 +1459,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class NewImpUndertop4
     {
-        internal static readonly IClothing<IOverSizeParameters> NewImpUndertop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> NewImpUndertop4Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1491,7 +1490,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class NewImpUndertop5
     {
-        internal static readonly IClothing<IOverSizeParameters> NewImpUndertop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> NewImpUndertop5Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1533,7 +1532,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class NewImpOverOPFem
     {
-        internal static readonly IClothing<IOverSizeParameters> NewImpOverOPFemInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> NewImpOverOPFemInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

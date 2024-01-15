@@ -4,27 +4,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+#endregion
+
 namespace Races.Graphics.Implementations.MainRaces
 {
 
-    #endregion
-
-    internal interface ISeliciaParameters : IParameters
-    {
-        bool Selicia { get; }
-    }
-
-    internal class SeliciaParameters : ISeliciaParameters
-    {
-        public bool Selicia { get; set; }
-    }
 
     internal static class Lamia
     {
         private static readonly float xOffset = -1.875f; //3 pixels * 5/8
         private static readonly float yOffset = 3.75f;
 
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<SeliciaParameters>, builder =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
@@ -311,8 +302,6 @@ namespace Races.Graphics.Implementations.MainRaces
                                || input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach2))
                               && input.A.GetCombinedStomachSize() == 15;
                 }
-
-                output.Params.Selicia = Selicia;
 
                 output.ChangeSprite(SpriteType.Body).AddOffset(xOffset, yOffset);
                 output.ChangeSprite(SpriteType.Head).AddOffset(xOffset, yOffset);

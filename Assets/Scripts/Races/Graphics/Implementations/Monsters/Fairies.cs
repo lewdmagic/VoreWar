@@ -64,6 +64,15 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal const float GeneralSizeMod = 0.8f;
 
+        private static FairyParameters CalcFairyParameters(Actor_Unit actor)
+        {
+            return new FairyParameters()
+            {
+                Season = (FairyType)actor.Unit.BodyAccentType1, // TODO fix dirty enum casting
+                Encumbered = actor.PredatorComponent?.Fullness > 0, // Not 100% accurate, but saves effort
+                VeryEncumbered = actor.GetRootedStomachSize(19, GeneralSizeMod) > 16
+            };
+        }
 
         internal class FairyParameters : IParameters
         {
@@ -72,7 +81,7 @@ namespace Races.Graphics.Implementations.Monsters
             internal FairyType Season;
         }
 
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<FairyParameters>, builder =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList springWings = new RaceFrameList(new int[3] { 91, 92, 93 }, new float[3] { .2f, .2f, .2f });
             RaceFrameList summerWings = new RaceFrameList(new int[3] { 94, 95, 96 }, new float[3] { .2f, .2f, .2f });
@@ -177,7 +186,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                switch (input.Params.Season)
+                switch (CalcFairyParameters(input.A).Season)
                 {
                     case FairyType.Spring:
                         output.Sprite(input.Sprites.Fairy[6]);
@@ -208,7 +217,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Season == FairyType.Summer)
+                if (CalcFairyParameters(input.A).Season == FairyType.Summer)
                 {
                     output.Sprite(input.Sprites.Fairy[9]);
                 }
@@ -217,7 +226,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
                 output.Coloring(GetSkinColor(input, input.Actor));
-                if (input.Params.VeryEncumbered)
+                if (CalcFairyParameters(input.A).VeryEncumbered)
                 {
                     if (input.A.IsAttacking)
                     {
@@ -229,7 +238,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Encumbered)
+                if (CalcFairyParameters(input.A).Encumbered)
                 {
                     if (input.A.IsAttacking)
                     {
@@ -253,7 +262,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent, 16, (input, output) =>
             {
                 output.Coloring(GetSkinColor(input, input.Actor));
-                if (input.Params.VeryEncumbered)
+                if (CalcFairyParameters(input.A).VeryEncumbered)
                 {
                     if (input.A.IsAttacking)
                     {
@@ -264,7 +273,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Encumbered)
+                if (CalcFairyParameters(input.A).Encumbered)
                 {
                     if (input.A.IsAttacking)
                     {
@@ -283,12 +292,12 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent2, 4, (input, output) =>
             {
                 output.Coloring(GetSkinColor(input, input.Actor));
-                if (input.Params.VeryEncumbered && input.A.IsEating)
+                if (CalcFairyParameters(input.A).VeryEncumbered && input.A.IsEating)
                 {
                 
                 }
 
-                if (input.Params.Encumbered)
+                if (CalcFairyParameters(input.A).Encumbered)
                 {
                     output.Sprite(input.Sprites.Fairy[83]);
                 }
@@ -314,9 +323,9 @@ namespace Races.Graphics.Implementations.Monsters
                     }
                 }
 
-                if (input.Params.Encumbered)
+                if (CalcFairyParameters(input.A).Encumbered)
                 {
-                    switch (input.Params.Season)
+                    switch (CalcFairyParameters(input.A).Season)
                     {
                         case FairyType.Spring:
                             output.Sprite(input.Sprites.Fairy[springWingsEnc.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
@@ -333,7 +342,7 @@ namespace Races.Graphics.Implementations.Monsters
                     }
                 }
 
-                switch (input.Params.Season)
+                switch (CalcFairyParameters(input.A).Season)
                 {
                     case FairyType.Spring:
                         output.Sprite(input.Sprites.Fairy[springWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
@@ -391,7 +400,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Encumbered)
+                if (CalcFairyParameters(input.A).Encumbered)
                 {
                     output.Sprite(input.Sprites.Fairy[140 + input.U.BreastSize]);
                     return;
@@ -471,7 +480,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Encumbered)
+                if (CalcFairyParameters(input.A).Encumbered)
                 {
                     output.Sprite(input.Sprites.Fairy[117 + input.U.DickSize]);
                     return;
@@ -508,7 +517,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Encumbered)
+                if (CalcFairyParameters(input.A).Encumbered)
                 {
                     output.Sprite(input.Sprites.Fairy[123 + input.U.DickSize]);
                     return;
@@ -520,10 +529,6 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) =>
             {
-                output.Params.Season = (FairyType)input.U.BodyAccentType1; // TODO fix dirty enum casting
-                output.Params.Encumbered = input.A.PredatorComponent?.Fullness > 0; // Not 100% accurate, but saves effort
-                output.Params.VeryEncumbered = input.A.GetRootedStomachSize(19, GeneralSizeMod) > 16;
-                //base.RunFirst(data.Actor);
                 Defaults.BasicBellyRunAfter.Invoke(input, output);
             });
 
@@ -538,9 +543,9 @@ namespace Races.Graphics.Implementations.Monsters
         });
 
 
-        private static ColorSwapPalette GetHairColor(IRaceRenderInput<FairyParameters> input, Actor_Unit actor)
+        private static ColorSwapPalette GetHairColor(IRaceRenderInput input, Actor_Unit actor)
         {
-            switch (input.Params.Season)
+            switch (CalcFairyParameters(input.A).Season)
             {
                 case FairyType.Spring:
                     return ColorPaletteMap.GetPalette(SwapType.FairySpringClothes, actor.Unit.HairColor);
@@ -554,9 +559,9 @@ namespace Races.Graphics.Implementations.Monsters
         }
 
 
-        private static ColorSwapPalette GetSkinColor(IRaceRenderInput<FairyParameters> input, Actor_Unit actor)
+        private static ColorSwapPalette GetSkinColor(IRaceRenderInput input, Actor_Unit actor)
         {
-            switch (input.Params.Season)
+            switch (CalcFairyParameters(input.A).Season)
             {
                 case FairyType.Spring:
                     return ColorPaletteMap.GetPalette(SwapType.FairySpringSkin, actor.Unit.SkinColor);

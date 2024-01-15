@@ -10,9 +10,10 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class AntQueen
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
+        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(31 * 31);
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
-            IClothing<IOverSizeParameters> LeaderClothes = AntLeaderClothes.AntLeaderClothesInstance;
+            IClothing LeaderClothes = AntLeaderClothes.AntLeaderClothesInstance.Create(paramsCalc);
 
 
             builder.RandomCustom(data =>
@@ -366,7 +367,6 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RunBefore((input, output) =>
             {
-                CommonRaceCode.MakeBreastOversize(31 * 31).Invoke(input, output);
                 Defaults.BasicBellyRunAfter.Invoke(input, output);
             });
         });
@@ -374,7 +374,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class AntLeaderClothes
         {
-            internal static readonly IClothing<IOverSizeParameters> AntLeaderClothesInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> AntLeaderClothesInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {

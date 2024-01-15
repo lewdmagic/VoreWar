@@ -11,7 +11,32 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Kobolds
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<FacingFrontParameters>, builder =>
+
+        private static bool IsFacingFront(Actor_Unit actor)
+        {
+            if (actor.IsAnalVoring || actor.IsUnbirthing || actor.IsCockVoring)
+            {
+                return false;
+            }
+            else if (actor.Unit.TailType == 0 || actor.IsOralVoring || actor.IsAttacking)
+            {
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private static readonly Func<IRenderInput, FacingFrontParameters> FacingFrontCalc = renderInput =>
+        {
+            return new FacingFrontParameters()
+            {
+                FacingFront = IsFacingFront(renderInput.A)
+            };
+        };
+        
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
@@ -52,14 +77,14 @@ namespace Races.Graphics.Implementations.Mercs
                 output.DickSizes = () => 3;
                 output.GentleAnimation = true;
                 output.AllowedMainClothingTypes.Set(
-                    BeltTop.BeltTopInstance,
-                    Tabard.TabardInstance,
-                    Rags.RagsInstance
+                    BeltTop.BeltTopInstance.Create(FacingFrontCalc),
+                    Tabard.TabardInstance.Create(FacingFrontCalc),
+                    Rags.RagsInstance.Create(FacingFrontCalc)
                 );
                 output.AvoidedMainClothingTypes = 1;
                 output.AllowedWaistTypes.Set(
-                    BikiniBottom.BikiniBottomInstance,
-                    LoinCloth.LoinClothInstance
+                    BikiniBottom.BikiniBottomInstance.Create(FacingFrontCalc),
+                    LoinCloth.LoinClothInstance.Create(FacingFrontCalc)
                 );
 
 
@@ -74,7 +99,7 @@ namespace Races.Graphics.Implementations.Mercs
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
                 int spr = 7 + 3 * input.U.HeadType;
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Layer(4);
                     if (input.A.IsOralVoring)
@@ -93,7 +118,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     if (input.A.IsAttacking)
                     {
@@ -111,12 +136,12 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RenderSingle(SpriteType.BodyAccent, 0, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
-                output.Sprite(input.Params.FacingFront ? null : input.Sprites.Kobolds[3]);
+                output.Sprite(IsFacingFront(input.A) ? null : input.Sprites.Kobolds[3]);
             });
             builder.RenderSingle(SpriteType.BodyAccent2, 1, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Layer(4);
                     if (input.A.IsAttacking)
@@ -135,7 +160,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RenderSingle(SpriteType.BodyAccent3, -2, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.FacingFront == false)
+                if (IsFacingFront(input.A) == false)
                 {
                     return;
                 }
@@ -150,7 +175,7 @@ namespace Races.Graphics.Implementations.Mercs
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
                 int spr = 21 + 2 * input.U.SpecialAccessoryType;
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Sprite(input.A.IsOralVoring ? input.Sprites.Kobolds[spr + 1] : input.Sprites.Kobolds[spr]);
                 }
@@ -164,7 +189,7 @@ namespace Races.Graphics.Implementations.Mercs
                     return;
                 }
 
-                if (input.U.HasBreasts && input.Params.FacingFront)
+                if (input.U.HasBreasts && IsFacingFront(input.A))
                 {
                     output.Sprite(input.Sprites.Kobolds[42 + input.U.BreastSize]);
                 }
@@ -178,7 +203,7 @@ namespace Races.Graphics.Implementations.Mercs
                     return;
                 }
 
-                if (input.Params.FacingFront)
+                if (IsFacingFront(input.A))
                 {
                     output.Layer(15);
                     output.Sprite(input.Sprites.Kobolds[71 + input.A.GetStomachSize(12)]);
@@ -192,16 +217,16 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.U.AccessoryColor));
-                output.Layer(input.Params.FacingFront ? 9 : 17);
+                output.Layer(IsFacingFront(input.A) ? 9 : 17);
                 if (input.A.GetBallSize(10) > 2)
                 {
-                    output.Layer(input.Params.FacingFront ? 7 : 15);
+                    output.Layer(IsFacingFront(input.A) ? 7 : 15);
                 }
 
                 if (input.U.DickSize >= 0)
                 {
                     int spr = 33 + 3 * input.U.DickSize;
-                    if (input.Params.FacingFront == false)
+                    if (IsFacingFront(input.A) == false)
                     {
                         output.Sprite(input.Sprites.Kobolds[spr + 2]);
                         return;
@@ -213,7 +238,7 @@ namespace Races.Graphics.Implementations.Mercs
 
                 //if (input.State.FacingFront == false)
                 //    Dick.layer = 4;
-                output.Sprite(input.Sprites.Kobolds[input.Params.FacingFront ? 31 : 32]);
+                output.Sprite(input.Sprites.Kobolds[IsFacingFront(input.A) ? 31 : 32]);
             });
 
             builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
@@ -225,7 +250,7 @@ namespace Races.Graphics.Implementations.Mercs
                 }
 
                 int baseSize = input.U.DickSize;
-                output.Layer(input.Params.FacingFront ? 8 : 18);
+                output.Layer(IsFacingFront(input.A) ? 8 : 18);
                 if (input.A.PredatorComponent?.BallsFullness > 0)
                 {
                     output.Sprite(input.Sprites.Kobolds[45 + baseSize + input.A.GetBallSize(16 - baseSize)]);
@@ -238,7 +263,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RenderSingle(SpriteType.Weapon, 14, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.FacingFront == false)
+                if (IsFacingFront(input.A) == false)
                 {
                     return;
                 }
@@ -258,19 +283,6 @@ namespace Races.Graphics.Implementations.Mercs
 
             builder.RunBefore((input, output) =>
             {
-                if (input.A.IsAnalVoring || input.A.IsUnbirthing || input.A.IsCockVoring)
-                {
-                    output.Params.FacingFront = false;
-                }
-                else if (input.U.TailType == 0 || input.A.IsOralVoring || input.A.IsAttacking)
-                {
-                    output.Params.FacingFront = true;
-                }
-                else
-                {
-                    output.Params.FacingFront = true;
-                }
-
                 if (input.U.Predator)
                 {
                     float ballsYOffset = 0;
@@ -363,7 +375,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class BikiniBottom
         {
-            internal static readonly IClothing<FacingFrontParameters> BikiniBottomInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+            internal static readonly BindableClothing<FacingFrontParameters> BikiniBottomInstance = ClothingBuilder.CreateV2<FacingFrontParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output ) =>
                 {
@@ -395,7 +407,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class Tabard
         {
-            internal static readonly IClothing<FacingFrontParameters> TabardInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+            internal static readonly BindableClothing<FacingFrontParameters> TabardInstance = ClothingBuilder.CreateV2<FacingFrontParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -434,7 +446,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class LoinCloth
         {
-            internal static readonly IClothing<FacingFrontParameters> LoinClothInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+            internal static readonly BindableClothing<FacingFrontParameters> LoinClothInstance = ClothingBuilder.CreateV2<FacingFrontParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output ) =>
                 {
@@ -462,7 +474,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class Rags
         {
-            internal static readonly IClothing<FacingFrontParameters> RagsInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+            internal static readonly BindableClothing<FacingFrontParameters> RagsInstance = ClothingBuilder.CreateV2<FacingFrontParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output ) =>
                 {
@@ -489,7 +501,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class BeltTop
         {
-            internal static readonly IClothing<FacingFrontParameters> BeltTopInstance = ClothingBuilder.Create<FacingFrontParameters>(builder =>
+            internal static readonly BindableClothing<FacingFrontParameters> BeltTopInstance = ClothingBuilder.CreateV2<FacingFrontParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {

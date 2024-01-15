@@ -10,9 +10,10 @@ namespace Races.Graphics.Implementations.UniqueMercs
 {
     internal static class Auri
     {
+        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
         internal const float StomachMult = 1.7f;
 
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
             List<IClothingDataSimple> allClothing;
 
@@ -95,9 +96,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 output.BodyAccentTypes1 = 2;
                 output.ClothingColors = 1;
 
-                List<IClothing<IOverSizeParameters>> allowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>
+                List<IClothing> allowedMainClothingTypes = new List<IClothing>
                 {
-                    AuriTop.AuriTopInstance
+                    AuriTop.AuriTopInstance.Create(paramsCalc)
                 };
 
                 output.AllowedMainClothingTypes.Clear();
@@ -111,12 +112,12 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 output.AllowedClothingHatTypes.Clear();
 
-                List<IClothing<IOverSizeParameters>> extraMainClothing1Types = new List<IClothing<IOverSizeParameters>>() //Over
+                List<IClothing> extraMainClothing1Types = new List<IClothing>() //Over
                 {
-                    Kimono.Kimono1,
-                    Kimono.Kimono2,
-                    KimonoHoliday.KimonoHoliday1,
-                    KimonoHoliday.KimonoHoliday2
+                    Kimono.Kimono1.Create(paramsCalc),
+                    Kimono.Kimono2.Create(paramsCalc),
+                    KimonoHoliday.KimonoHoliday1.Create(paramsCalc),
+                    KimonoHoliday.KimonoHoliday2.Create(paramsCalc)
                 };
                 output.ExtraMainClothing1Types.Set(extraMainClothing1Types);
 
@@ -435,22 +436,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            
-                int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
-                if (rightSize > input.U.DefaultBreastSize)
-                {
-                    output.Params.Oversize = true;
-                }
-            
-                int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32));
-                if (leftSize > input.U.DefaultBreastSize)
-                {
-                    output.Params.Oversize = true;
-                }
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
             builder.RandomCustom(data =>
             {
@@ -481,9 +467,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
             actor.AnimationController.frameLists[1].currentlyActive = false;
         }
 
-        private static class AuriTop
+                private static class AuriTop
         {
-            internal static readonly IClothing<IOverSizeParameters> AuriTopInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> AuriTopInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -561,256 +547,259 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         private static class Kimono
         {
-            internal static readonly IClothing<IOverSizeParameters> Kimono1 = MakeKimono(true);
-            internal static readonly IClothing<IOverSizeParameters> Kimono2 = MakeKimono(false);
+            internal static readonly BindableClothing<IOverSizeParameters> Kimono1 = MakeKimono(true);
+            internal static readonly BindableClothing<IOverSizeParameters> Kimono2 = MakeKimono(false);
 
-            private static IClothing<IOverSizeParameters> MakeKimono(bool skirt)
+            private static BindableClothing<IOverSizeParameters> MakeKimono(bool skirt)
             {
-                ClothingBuilder<IOverSizeParameters> builder = ClothingBuilder.New<IOverSizeParameters>();
 
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                return ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
-                    output.RevealsDick = true;
-                    output.RevealsBreasts = true;
-                    output.DiscardSprite = input.Sprites.Auri[95];
-                    output.DiscardUsesPalettes = true;
-                    output.Type = 444;
-                    output.OccupiesAllSlots = true;
-                });
-
-                builder.RenderAll((input, output) =>
-                {
-                    output["Clothing3"].Layer(11);
-                    output["Clothing3"].Coloring(Color.white);
-                    output["Clothing2"].Layer(20);
-                    output["Clothing2"].Coloring(Color.white);
-                    output["Clothing1"].Layer(12);
-                    output["Clothing1"].Coloring(Color.white);
-                    output["Clothing1"].SetOffset(0, 0 * .625f);
-                    output["Clothing2"].SetOffset(0, 0 * .625f);
-                    input.A.SquishedBreasts = true;
-                    if (skirt)
+                    builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                     {
-                        int skirtMod = 0;
-                        if (input.U.BodySize > 0 || input.U.BodyAccentType1 == 1)
+                        output.RevealsDick = true;
+                        output.RevealsBreasts = true;
+                        output.DiscardSprite = input.Sprites.Auri[95];
+                        output.DiscardUsesPalettes = true;
+                        output.Type = 444;
+                        output.OccupiesAllSlots = true;
+                    });
+                    
+                    builder.RenderAll((input, output) =>
+                    {
+                        output["Clothing3"].Layer(11);
+                        output["Clothing3"].Coloring(Color.white);
+                        output["Clothing2"].Layer(20);
+                        output["Clothing2"].Coloring(Color.white);
+                        output["Clothing1"].Layer(12);
+                        output["Clothing1"].Coloring(Color.white);
+                        output["Clothing1"].SetOffset(0, 0 * .625f);
+                        output["Clothing2"].SetOffset(0, 0 * .625f);
+                        input.A.SquishedBreasts = true;
+                        if (skirt)
                         {
-                            skirtMod = 26;
-                        }
-
-                        if (input.A.IsUnbirthing || input.A.IsAnalVoring)
-                        {
-                            output["Clothing1"].Sprite(input.Sprites.Auri[86 + skirtMod]);
-                        }
-                        else
-                        {
-                            if (input.A.GetStomachSize(32, StomachMult) < 8)
+                            int skirtMod = 0;
+                            if (input.U.BodySize > 0 || input.U.BodyAccentType1 == 1)
                             {
-                                output["Clothing1"].Sprite(input.Sprites.Auri[80 + skirtMod + input.A.GetStomachSize(32, StomachMult)]);
+                                skirtMod = 26;
+                            }
+
+                            if (input.A.IsUnbirthing || input.A.IsAnalVoring)
+                            {
+                                output["Clothing1"].Sprite(input.Sprites.Auri[86 + skirtMod]);
                             }
                             else
                             {
-                                output["Clothing1"].Sprite(input.Sprites.Auri[88]);
+                                if (input.A.GetStomachSize(32, StomachMult) < 8)
+                                {
+                                    output["Clothing1"].Sprite(input.Sprites.Auri[80 + skirtMod + input.A.GetStomachSize(32, StomachMult)]);
+                                }
+                                else
+                                {
+                                    output["Clothing1"].Sprite(input.Sprites.Auri[88]);
+                                }
                             }
-                        }
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(null);
-                    }
-
-                    int kimMod = skirt ? 0 : 7;
-                    if (input.Params.Oversize)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Auri[93 + kimMod]);
-                    }
-                    else if (input.U.BreastSize < 3)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Auri[89 + kimMod]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.Auri[89 + kimMod + input.U.BreastSize - 2]);
-                    }
-
-                    int mod = input.U.BodySize * 4;
-                    if (mod > 4)
-                    {
-                        mod = 4;
-                    }
-
-                    if (input.U.BodyAccentType1 == 1)
-                    {
-                        mod += 8;
-                    }
-
-                    output["Clothing3"].Sprite(input.A.IsAttacking ? input.Sprites.Auri[67 + mod] : input.Sprites.Auri[64 + mod]);
-                });
-                return builder.BuildClothing();
-            }
-        }
-
-        private static class KimonoHoliday
-        {
-            internal static readonly IClothing<IOverSizeParameters> KimonoHoliday1 = MakeKimonoHoliday(true);
-            internal static readonly IClothing<IOverSizeParameters> KimonoHoliday2 = MakeKimonoHoliday(false);
-
-            private static IClothing<IOverSizeParameters> MakeKimonoHoliday(bool skirt)
-            {
-                ClothingBuilder<IOverSizeParameters> builder = ClothingBuilder.New<IOverSizeParameters>();
-
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-                {
-                    output.RevealsDick = true;
-                    output.RevealsBreasts = true;
-                    output.DiscardSprite = input.Sprites.Auri[95];
-                    output.DiscardUsesPalettes = true;
-                    output.Type = 444;
-                    output.ReqWinterHoliday = true;
-                    output.OccupiesAllSlots = true;
-                });
-
-                builder.RenderAll((input, output) =>
-                {
-                    output["Clothing5"].Layer(15);
-                    output["Clothing5"].Coloring(Color.white);
-                    output["Clothing4"].Layer(0);
-                    output["Clothing4"].Coloring(Color.white);
-                    output["Clothing3"].Layer(11);
-                    output["Clothing3"].Coloring(Color.white);
-                    output["Clothing2"].Layer(20);
-                    output["Clothing2"].Coloring(Color.white);
-                    output["Clothing1"].Layer(12);
-                    output["Clothing1"].Coloring(Color.white);
-                    output["Clothing1"].SetOffset(0, 0 * .625f);
-                    output["Clothing2"].SetOffset(0, 0 * .625f);
-                    input.A.SquishedBreasts = true;
-                    if (skirt)
-                    {
-                        int skirtMod = 0;
-                        if (input.U.BodySize > 0 || input.U.BodyAccentType1 == 1)
-                        {
-                            skirtMod = 2;
-                        }
-
-                        if (input.A.IsUnbirthing || input.A.IsAnalVoring)
-                        {
-                            output["Clothing1"].Sprite(input.Sprites.AuriHoliday[23 + skirtMod]);
                         }
                         else
                         {
-                            if (input.A.GetStomachSize(32, StomachMult) < 4 && input.U.BodyAccentType1 == 0)
+                            output["Clothing1"].Sprite(null);
+                        }
+
+                        int kimMod = skirt ? 0 : 7;
+                        if (input.Params.Oversize)
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Auri[93 + kimMod]);
+                        }
+                        else if (input.U.BreastSize < 3)
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Auri[89 + kimMod]);
+                        }
+                        else
+                        {
+                            output["Clothing2"].Sprite(input.Sprites.Auri[89 + kimMod + input.U.BreastSize - 2]);
+                        }
+
+                        int mod = input.U.BodySize * 4;
+                        if (mod > 4)
+                        {
+                            mod = 4;
+                        }
+
+                        if (input.U.BodyAccentType1 == 1)
+                        {
+                            mod += 8;
+                        }
+
+                        output["Clothing3"].Sprite(input.A.IsAttacking ? input.Sprites.Auri[67 + mod] : input.Sprites.Auri[64 + mod]);
+                    });
+                });
+            }
+
+
+        }
+                    private static class KimonoHoliday
+            {
+                internal static readonly BindableClothing<IOverSizeParameters> KimonoHoliday1 = MakeKimonoHoliday(true);
+                internal static readonly BindableClothing<IOverSizeParameters> KimonoHoliday2 = MakeKimonoHoliday(false);
+
+                private static BindableClothing<IOverSizeParameters> MakeKimonoHoliday(bool skirt)
+                {
+                    return ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
+                    {
+                        builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                        {
+                            output.RevealsDick = true;
+                            output.RevealsBreasts = true;
+                            output.DiscardSprite = input.Sprites.Auri[95];
+                            output.DiscardUsesPalettes = true;
+                            output.Type = 444;
+                            output.ReqWinterHoliday = true;
+                            output.OccupiesAllSlots = true;
+                        });
+                        
+                        builder.RenderAll((input, output) =>
+                        {
+                            output["Clothing5"].Layer(15);
+                            output["Clothing5"].Coloring(Color.white);
+                            output["Clothing4"].Layer(0);
+                            output["Clothing4"].Coloring(Color.white);
+                            output["Clothing3"].Layer(11);
+                            output["Clothing3"].Coloring(Color.white);
+                            output["Clothing2"].Layer(20);
+                            output["Clothing2"].Coloring(Color.white);
+                            output["Clothing1"].Layer(12);
+                            output["Clothing1"].Coloring(Color.white);
+                            output["Clothing1"].SetOffset(0, 0 * .625f);
+                            output["Clothing2"].SetOffset(0, 0 * .625f);
+                            input.A.SquishedBreasts = true;
+                            if (skirt)
                             {
-                                output["Clothing1"].Sprite(input.Sprites.AuriHoliday[22 + skirtMod]);
+                                int skirtMod = 0;
+                                if (input.U.BodySize > 0 || input.U.BodyAccentType1 == 1)
+                                {
+                                    skirtMod = 2;
+                                }
+
+                                if (input.A.IsUnbirthing || input.A.IsAnalVoring)
+                                {
+                                    output["Clothing1"].Sprite(input.Sprites.AuriHoliday[23 + skirtMod]);
+                                }
+                                else
+                                {
+                                    if (input.A.GetStomachSize(32, StomachMult) < 4 && input.U.BodyAccentType1 == 0)
+                                    {
+                                        output["Clothing1"].Sprite(input.Sprites.AuriHoliday[22 + skirtMod]);
+                                    }
+                                    else
+                                    {
+                                        output["Clothing1"].Sprite(input.Sprites.AuriHoliday[26 + skirtMod]);
+                                    }
+                                }
                             }
                             else
                             {
-                                output["Clothing1"].Sprite(input.Sprites.AuriHoliday[26 + skirtMod]);
+                                output["Clothing1"].Sprite(null);
                             }
+
+                            if (input.Params.Oversize)
+                            {
+                                output["Clothing2"].Sprite(input.Sprites.AuriHoliday[20]);
+                            }
+                            else if (input.U.BreastSize < 3)
+                            {
+                                output["Clothing2"].Sprite(input.Sprites.AuriHoliday[16]);
+                            }
+                            else
+                            {
+                                output["Clothing2"].Sprite(input.Sprites.AuriHoliday[16 + input.U.BreastSize - 2]);
+                            }
+
+                            int mod = input.U.BodySize * 4;
+                            if (mod > 4)
+                            {
+                                mod = 4;
+                            }
+
+                            if (input.U.BodyAccentType1 == 1)
+                            {
+                                mod += 8;
+                            }
+
+                            output["Clothing3"].Sprite(input.A.IsAttacking ? input.Sprites.AuriHoliday[3 + mod] : input.Sprites.AuriHoliday[0 + mod]);
+
+                            output["Clothing4"].Sprite(input.Sprites.AuriHoliday[21]);
+                            if (input.A.GetStomachSize(32, StomachMult) >= 4)
+                            {
+                                output["Clothing5"].Sprite(input.Sprites.AuriHoliday[32]);
+                            }
+                        });
+                    });
+                }
+            }
+
+            private static class Stocking
+            {
+                internal static readonly IClothing Stocking1 = MakeStocking(48, 0, 48, 3, State.GameManager.SpriteDictionary.Auri, 901);
+
+                private static IClothing MakeStocking(int sprF, int sprM, int discard, int layer, Sprite[] sheet, int type)
+                {
+                    ClothingBuilder builder = ClothingBuilder.New();
+
+
+                    builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                    {
+                        output.RevealsBreasts = true;
+                        output.RevealsDick = true;
+                        output.DiscardSprite = sheet[discard];
+                        output.Type = type;
+                    });
+
+                    builder.RenderAll((input, output) =>
+                    {
+                        output["Clothing1"].Layer(layer);
+                        output["Clothing1"].Coloring(Color.white);
+                        if (input.U.BodyAccentType1 == 1)
+                        {
+                            output["Clothing1"].Sprite(null);
                         }
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(null);
-                    }
-
-                    if (input.Params.Oversize)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.AuriHoliday[20]);
-                    }
-                    else if (input.U.BreastSize < 3)
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.AuriHoliday[16]);
-                    }
-                    else
-                    {
-                        output["Clothing2"].Sprite(input.Sprites.AuriHoliday[16 + input.U.BreastSize - 2]);
-                    }
-
-                    int mod = input.U.BodySize * 4;
-                    if (mod > 4)
-                    {
-                        mod = 4;
-                    }
-
-                    if (input.U.BodyAccentType1 == 1)
-                    {
-                        mod += 8;
-                    }
-
-                    output["Clothing3"].Sprite(input.A.IsAttacking ? input.Sprites.AuriHoliday[3 + mod] : input.Sprites.AuriHoliday[0 + mod]);
-
-                    output["Clothing4"].Sprite(input.Sprites.AuriHoliday[21]);
-                    if (input.A.GetStomachSize(32, StomachMult) >= 4)
-                    {
-                        output["Clothing5"].Sprite(input.Sprites.AuriHoliday[32]);
-                    }
-                });
-                return builder.BuildClothing();
+                        else if (input.U.HasBreasts)
+                        {
+                            output["Clothing1"].Sprite(sheet[sprF + input.U.BodySize]);
+                        }
+                        else
+                        {
+                            output["Clothing1"].Sprite(sheet[sprM]);
+                        }
+                    });
+                    return builder.BuildClothing();
+                }
             }
-        }
 
-        private static class Stocking
-        {
-            internal static readonly IClothing Stocking1 = MakeStocking(48, 0, 48, 3, State.GameManager.SpriteDictionary.Auri, 901);
-
-            private static IClothing MakeStocking(int sprF, int sprM, int discard, int layer, Sprite[] sheet, int type)
+            private static class Hat
             {
-                ClothingBuilder builder = ClothingBuilder.New();
+                internal static readonly IClothing Hat1 = MakeHat(50, 0, 50, 20, State.GameManager.SpriteDictionary.Auri, 903);
 
-
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                private static IClothing MakeHat(int sprF, int sprM, int discard, int layer, Sprite[] sheet, int type)
                 {
-                    output.RevealsBreasts = true;
-                    output.RevealsDick = true;
-                    output.DiscardSprite = sheet[discard];
-                    output.Type = type;
-                });
+                    ClothingBuilder builder = ClothingBuilder.New();
 
-                builder.RenderAll((input, output) =>
-                {
-                    output["Clothing1"].Layer(layer);
-                    output["Clothing1"].Coloring(Color.white);
-                    if (input.U.BodyAccentType1 == 1)
+                    builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                     {
-                        output["Clothing1"].Sprite(null);
-                    }
-                    else if (input.U.HasBreasts)
+                        output.RevealsBreasts = true;
+                        output.RevealsDick = true;
+                        output.DiscardSprite = sheet[discard];
+                        output.Type = type;
+                    });
+
+                    builder.RenderAll((input, output) =>
                     {
-                        output["Clothing1"].Sprite(sheet[sprF + input.U.BodySize]);
-                    }
-                    else
-                    {
-                        output["Clothing1"].Sprite(sheet[sprM]);
-                    }
-                });
-                return builder.BuildClothing();
+                        output["Clothing1"].Layer(layer);
+                        output["Clothing1"].Coloring(Color.white);
+                        output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF] : sheet[sprM]);
+                    });
+                    return builder.BuildClothing();
+                }
             }
-        }
 
-        private static class Hat
-        {
-            internal static readonly IClothing Hat1 = MakeHat(50, 0, 50, 20, State.GameManager.SpriteDictionary.Auri, 903);
-
-            private static IClothing MakeHat(int sprF, int sprM, int discard, int layer, Sprite[] sheet, int type)
-            {
-                ClothingBuilder builder = ClothingBuilder.New();
-
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-                {
-                    output.RevealsBreasts = true;
-                    output.RevealsDick = true;
-                    output.DiscardSprite = sheet[discard];
-                    output.Type = type;
-                });
-
-                builder.RenderAll((input, output) =>
-                {
-                    output["Clothing1"].Layer(layer);
-                    output["Clothing1"].Coloring(Color.white);
-                    output["Clothing1"].Sprite(input.U.HasBreasts ? sheet[sprF] : sheet[sprM]);
-                });
-                return builder.BuildClothing();
-            }
-        }
     }
 }

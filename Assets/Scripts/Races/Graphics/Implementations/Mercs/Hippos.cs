@@ -10,7 +10,8 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Hippos
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
+        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
@@ -84,10 +85,10 @@ namespace Races.Graphics.Implementations.Mercs
                 output.ExtendedBreastSprites = true;
 
                 output.AllowedMainClothingTypes.Set(
-                    HipposTop1.HipposTop1Instance,
-                    HipposTop2.HipposTop2Instance,
-                    HipposTop3.HipposTop3Instance,
-                    Natural.NaturalInstance
+                    HipposTop1.HipposTop1Instance.Create(paramsCalc),
+                    HipposTop2.HipposTop2Instance.Create(paramsCalc),
+                    HipposTop3.HipposTop3Instance.Create(paramsCalc),
+                    Natural.NaturalInstance.Create(paramsCalc)
                 );
                 output.AllowedWaistTypes.Set(
                     HipposBot1.HipposBot1Instance,
@@ -122,7 +123,6 @@ namespace Races.Graphics.Implementations.Mercs
 
             builder.RunBefore((input, output) =>
             {
-                CommonRaceCode.MakeBreastOversize(32 * 32).Invoke(input, output);
                 Defaults.Finalize.Invoke(input, output);
             });
 
@@ -393,7 +393,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class HipposTop1
         {
-            internal static readonly IClothing<IOverSizeParameters> HipposTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> HipposTop1Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -422,7 +422,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class HipposTop2
         {
-            internal static readonly IClothing<IOverSizeParameters> HipposTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> HipposTop2Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -454,7 +454,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class HipposTop3
         {
-            internal static readonly IClothing<IOverSizeParameters> HipposTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> HipposTop3Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -486,7 +486,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class Natural
         {
-            internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {

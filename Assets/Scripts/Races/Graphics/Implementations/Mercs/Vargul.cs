@@ -10,7 +10,8 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Vargul
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default<OverSizeParameters>, builder =>
+        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(30 * 30);
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
@@ -73,16 +74,16 @@ namespace Races.Graphics.Implementations.Mercs
                 output.AllowedClothingHatTypes.Clear();
 
                 output.AllowedMainClothingTypes.Set(
-                    GenericTop1.GenericTop1Instance,
-                    GenericTop2.GenericTop2Instance,
-                    GenericTop3.GenericTop3Instance,
-                    GenericTop4.GenericTop4Instance,
-                    GenericTop5.GenericTop5Instance,
-                    Natural.NaturalInstance,
-                    Tribal.TribalInstance,
-                    LightArmour.LightArmourInstance,
-                    MediumArmour.MediumArmourInstance,
-                    HeavyArmour.HeavyArmourInstance
+                    GenericTop1.GenericTop1Instance.Create(paramsCalc),
+                    GenericTop2.GenericTop2Instance.Create(paramsCalc),
+                    GenericTop3.GenericTop3Instance.Create(paramsCalc),
+                    GenericTop4.GenericTop4Instance.Create(paramsCalc),
+                    GenericTop5.GenericTop5Instance.Create(paramsCalc),
+                    Natural.NaturalInstance.Create(paramsCalc),
+                    Tribal.TribalInstance.Create(paramsCalc),
+                    LightArmour.LightArmourInstance.Create(paramsCalc),
+                    MediumArmour.MediumArmourInstance.Create(paramsCalc),
+                    HeavyArmour.HeavyArmourInstance.Create(paramsCalc)
                 );
                 output.AvoidedMainClothingTypes = 0;
                 output.AvoidedEyeTypes = 0;
@@ -101,7 +102,6 @@ namespace Races.Graphics.Implementations.Mercs
 
             builder.RunBefore((input, output) =>
             {
-                CommonRaceCode.MakeBreastOversize(30 * 30).Invoke(input, output);
                 Defaults.BasicBellyRunAfter.Invoke(input, output);
             });
 
@@ -369,14 +369,9 @@ namespace Races.Graphics.Implementations.Mercs
                     return;
                 }
 
-                input.Params.Oversize = false;
                 if (input.A.PredatorComponent?.LeftBreastFullness > 0)
                 {
                     int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(30 * 30));
-                    if (leftSize > input.U.DefaultBreastSize)
-                    {
-                        input.Params.Oversize = true;
-                    }
 
                     if (leftSize > 26)
                     {
@@ -402,10 +397,6 @@ namespace Races.Graphics.Implementations.Mercs
                 if (input.A.PredatorComponent?.RightBreastFullness > 0)
                 {
                     int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(30 * 30));
-                    if (rightSize > input.U.DefaultBreastSize)
-                    {
-                        input.Params.Oversize = true;
-                    }
 
                     if (rightSize > 26)
                     {
@@ -542,7 +533,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class GenericTop1
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop1Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -573,7 +564,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class GenericTop2
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop2Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -604,7 +595,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class GenericTop3
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop3Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -638,7 +629,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class GenericTop4
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop4Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -672,7 +663,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class GenericTop5
         {
-            internal static readonly IClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> GenericTop5Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -703,7 +694,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class Natural
         {
-            internal static readonly IClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> NaturalInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -735,7 +726,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class Tribal
         {
-            internal static readonly IClothing<IOverSizeParameters> TribalInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> TribalInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -772,7 +763,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class LightArmour
         {
-            internal static readonly IClothing<IOverSizeParameters> LightArmourInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> LightArmourInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -894,7 +885,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class MediumArmour
         {
-            internal static readonly IClothing<IOverSizeParameters> MediumArmourInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> MediumArmourInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
@@ -1085,7 +1076,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class HeavyArmour
         {
-            internal static readonly IClothing<IOverSizeParameters> HeavyArmourInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> HeavyArmourInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {

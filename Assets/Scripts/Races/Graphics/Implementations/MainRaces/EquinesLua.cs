@@ -9,7 +9,7 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class EquinesLua
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             // builder.RunBefore((input, output) =>
             // {
@@ -75,7 +75,7 @@ namespace Races.Graphics.Implementations.MainRaces
         {
         
         
-            public static readonly IClothing<IOverSizeParameters> HorseUndertop1Instance2 = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            public static readonly BindableClothing<IOverSizeParameters> HorseUndertop1Instance2 = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     ScriptHelper.ScriptPrepClothing("GameData/CustomRaces/Equinezz/Clothing/horsetop1/clothing.lua", builder);
                 }

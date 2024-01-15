@@ -8,7 +8,20 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class FeralLions
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<HindViewParameters>, builder =>
+
+        private static bool IsHindView(Actor_Unit actor)
+        {
+            if (actor.IsAnalVoring || actor.IsUnbirthing || actor.IsCockVoring)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList frameListRumpVore = new RaceFrameList(new int[2] { 0, 1 }, new float[2] { .75f, .5f });
 
@@ -76,7 +89,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsFur, input.U.SkinColor));
-                if (input.Params.HindView)
+                if (IsHindView(input.A))
                 {
                     output.Sprite(input.Sprites.FeralLions[48]);
                     return;
@@ -94,7 +107,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Eyes, 8, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsEyes, input.U.EyeColor));
-                if (input.A.IsOralVoring || input.A.IsAttacking || input.Params.HindView || input.A.IsAbsorbing || input.A.IsDigesting || input.A.HasJustVored || input.A.IsSuckling || input.A.IsBeingSuckled || input.A.IsBeingRubbed)
+                if (input.A.IsOralVoring || input.A.IsAttacking || IsHindView(input.A) || input.A.IsAbsorbing || input.A.IsDigesting || input.A.HasJustVored || input.A.IsSuckling || input.A.IsBeingSuckled || input.A.IsBeingRubbed)
                 {
                     return;
                 }
@@ -110,7 +123,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsFur, input.U.SkinColor));
-                if (input.Params.HindView)
+                if (IsHindView(input.A))
                 {
                     output.Sprite(input.Sprites.FeralLions[59]).Layer(15);
                     return;
@@ -122,7 +135,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent, 8, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsFur, input.U.SkinColor));
-                if (input.Params.HindView)
+                if (IsHindView(input.A))
                 {
                     output.Sprite(input.Sprites.FeralLions[49]).Layer(1);
                 }
@@ -135,7 +148,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent2, 10, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsFur, input.U.SkinColor));
-                if (input.A.IsOralVoring || input.A.IsAttacking || input.Params.HindView)
+                if (input.A.IsOralVoring || input.A.IsAttacking || IsHindView(input.A))
                 {
                     return;
                 }
@@ -169,7 +182,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.HindView)
+                if (IsHindView(input.A))
                 {
                     output.Sprite(input.Sprites.FeralLions[50 + input.U.HairStyle - 1]);
                     return;
@@ -181,7 +194,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent4, 11, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsMane, input.U.HairColor));
-                if (input.Params.HindView)
+                if (IsHindView(input.A))
                 {
                     return;
                 }
@@ -192,7 +205,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsMane, input.U.HairColor));
-                output.Sprite(input.Params.HindView ? input.Sprites.FeralLions[90] : input.Sprites.FeralLions[12]);
+                output.Sprite(IsHindView(input.A) ? input.Sprites.FeralLions[90] : input.Sprites.FeralLions[12]);
             }); // Tail tip
             builder.RenderSingle(SpriteType.BodyAccent6, 13, (input, output) =>
             {
@@ -207,13 +220,13 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                output.Sprite(input.Params.HindView ? input.Sprites.FeralLions[88] : null);
+                output.Sprite(IsHindView(input.A) ? input.Sprites.FeralLions[88] : null);
             }); // Pussy
 
             builder.RenderSingle(SpriteType.BodyAccessory, 10, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsFur, input.U.SkinColor));
-                if (!input.Params.HindView)
+                if (!IsHindView(input.A))
                 {
                     if (input.A.IsAttacking || input.A.IsOralVoring || input.A.IsAbsorbing ||
                         input.A.IsBeingSuckled || input.A.DamagedColors)
@@ -248,16 +261,16 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                output.Layer(input.Params.HindView ? 14 : 4);
+                output.Layer(IsHindView(input.A) ? 14 : 4);
 
-                output.Sprite(input.Params.HindView ? input.Sprites.FeralLions[60 + input.A.GetStomachSize(13)] : input.Sprites.FeralLions[1 + input.A.GetStomachSize(8)]);
+                output.Sprite(IsHindView(input.A) ? input.Sprites.FeralLions[60 + input.A.GetStomachSize(13)] : input.Sprites.FeralLions[1 + input.A.GetStomachSize(8)]);
             });
 
             builder.RenderSingle(SpriteType.Dick, 8, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsFur, input.U.SkinColor));
                 //if ((input.State.HindView ? input.A.GetBallSize(8) : input.A.GetBallSize(9)) > 2)
-                output.Layer(input.Params.HindView ? 15 : 6);
+                output.Layer(IsHindView(input.A) ? 15 : 6);
                 //else 
                 //Dick.layer = input.State.HindView ? 19 : 6;
                 if (input.U.HasDick == false)
@@ -267,14 +280,14 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsErect())
                 {
-                    output.Sprite(input.Params.HindView ? input.Sprites.FeralLions[76] : input.Sprites.FeralLions[13]);
+                    output.Sprite(IsHindView(input.A) ? input.Sprites.FeralLions[76] : input.Sprites.FeralLions[13]);
                 }
             });
 
             builder.RenderSingle(SpriteType.Balls, 7, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.FeralLionsFur, input.U.SkinColor));
-                output.Layer(input.Params.HindView ? 18 : 7);
+                output.Layer(IsHindView(input.A) ? 18 : 7);
                 if (input.U.HasDick == false)
                 {
                     return;
@@ -282,24 +295,15 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.PredatorComponent?.BallsFullness > 0)
                 {
-                    output.Sprite(input.Params.HindView ? input.Sprites.FeralLions[78 + input.A.GetBallSize(7)] : input.Sprites.FeralLions[15 + input.A.GetBallSize(9)]);
+                    output.Sprite(IsHindView(input.A) ? input.Sprites.FeralLions[78 + input.A.GetBallSize(7)] : input.Sprites.FeralLions[15 + input.A.GetBallSize(9)]);
                     return;
                 }
 
-                output.Sprite(input.Params.HindView ? input.Sprites.FeralLions[77] : input.Sprites.FeralLions[14]);
+                output.Sprite(IsHindView(input.A) ? input.Sprites.FeralLions[77] : input.Sprites.FeralLions[14]);
             });
 
             builder.RunBefore((input, output) =>
             {
-                if (input.A.IsAnalVoring || input.A.IsUnbirthing || input.A.IsCockVoring)
-                {
-                    output.Params.HindView = true;
-                }
-                else
-                {
-                    output.Params.HindView = false;
-                }
-
                 Defaults.Finalize.Invoke(input, output);
             });
 
@@ -319,10 +323,5 @@ namespace Races.Graphics.Implementations.Monsters
                 }
             });
         });
-
-        internal class HindViewParameters : IParameters
-        {
-            internal bool HindView;
-        }
     }
 }

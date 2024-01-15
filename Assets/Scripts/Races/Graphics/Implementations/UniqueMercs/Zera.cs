@@ -16,9 +16,99 @@ namespace Races.Graphics.Implementations.UniqueMercs
             internal int StomachSize;
             internal BodyStateType BodyState;
         }
+
+        // TODO Performance can be dramatically improved by combining renderSingle into renderAll
+        private static ZeraParameters CalcZeraParameters(Actor_Unit actor)
+        {
+            return new ZeraParameters()
+            {
+                BodyState = CalcBodyStateType(actor),
+                StomachSize = CalcStomachSize(actor),
+            };
+        }
+
+        private static int CalcStomachSize(Actor_Unit actor)
+        {
+            BodyStateType bodyState = CalcBodyStateType(actor);
+            
+            int stomachSize = actor.GetStomachSize(19);
+            /////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////
+
+            if (!(bodyState == BodyStateType.Third && stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach)))
+            {
+                if (bodyState == BodyStateType.Third)
+                {
+                    if (stomachSize > 16 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                    {
+                        stomachSize = 16;
+                    }
+                }
+            
+                if (stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                {
+                    // Nothing ? I think
+                }
+
+                if (stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
+                {
+                    stomachSize = 18;
+                }
+
+                if (stomachSize > 17 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                {
+                    stomachSize = 17;
+                }
+            }
+
+            return stomachSize;
+
+            // TODO removed from belly. Not sure if redundant or not, prob needs testing
+            /*
+
+            if (input.Params.BodyState == BodyStateType.Third)
+            {
+                if (input.Params.StomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                {
+                    input.Params.StomachSize = 16;
+                }
+            }
+
+            if (input.Params.StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
+            {
+                input.Params.StomachSize = 18;
+            }
+
+
+            if (input.Params.StomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+            {
+                input.Params.StomachSize = 17;
+            }
+
+             */
+        }
+        
+        private static BodyStateType CalcBodyStateType(Actor_Unit actor)
+        {
+            int stomachSize = actor.GetStomachSize(19);
+            //input.Params.StomachSize = actor.Unit.BodyAccentType1;
+            if (stomachSize >= 7 && actor.PredatorComponent?.BallsFullness == 0)
+            {
+                return BodyStateType.Third;
+            }
+            else if (stomachSize >= 7 || actor.Unit.TailType == 1 || actor.PredatorComponent?.BallsFullness > 0)
+            {
+                return BodyStateType.Second;
+            }
+            else
+            {
+                return BodyStateType.First;
+            }
+        }
     
 
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<ZeraParameters>, builder =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             int[] BallsLow = { 0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 17, 18, 19, 20, 21, 22, 35, 34, 33, 32 }; //8 is cut out so the lengths match
             int[] BallsMedium = { 0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 15, 16, 23, 24, 25, 20, 21, 22, 35, 34, 33, 32 };
@@ -76,7 +166,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.Head, 5, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcZeraParameters(input.A).BodyState)
                 {
                     case BodyStateType.Third:
                         if (input.A.IsOralVoring)
@@ -111,7 +201,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.Body, -1, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcZeraParameters(input.A).BodyState)
                 {
                     case BodyStateType.Third:
                         return;
@@ -126,7 +216,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccent, 7, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcZeraParameters(input.A).BodyState)
                 {
                     case BodyStateType.Third:
                         return;
@@ -142,13 +232,13 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccent2, 6, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcZeraParameters(input.A).BodyState)
                 {
                     case BodyStateType.Third:
                         output.Sprite(input.Sprites.Zera240[38]);
                         return;
                     case BodyStateType.Second:
-                        if (input.Params.StomachSize > 10)
+                        if (CalcZeraParameters(input.A).StomachSize > 10)
                         {
                             output.Sprite(input.Sprites.Zera240[24]).AddOffset(0, -23 * .41666f);
                             return;
@@ -165,13 +255,13 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccent3, 4, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcZeraParameters(input.A).BodyState)
                 {
                     case BodyStateType.Third:
                         output.Sprite(input.Sprites.Zera240[34]);
                         return;
                     case BodyStateType.Second:
-                        if (input.Params.StomachSize > 10)
+                        if (CalcZeraParameters(input.A).StomachSize > 10)
                         {
                             return;
                         }
@@ -187,7 +277,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccent4, 3, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcZeraParameters(input.A).BodyState)
                 {
                     case BodyStateType.Third:
                         output.Sprite(input.Sprites.Zera240[37]);
@@ -203,7 +293,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccent5, 1, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcZeraParameters(input.A).BodyState)
                 {
                     case BodyStateType.Third:
                         return;
@@ -219,7 +309,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccent6, 0, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcZeraParameters(input.A).BodyState)
                 {
                     case BodyStateType.Third:
                         return;
@@ -235,7 +325,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccent7, 1, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.BodyState)
+                switch (CalcZeraParameters(input.A).BodyState)
                 {
                     case BodyStateType.Third:
                         return;
@@ -256,76 +346,62 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 }
 
 
-                if (input.Params.StomachSize < 7 && input.Params.BodyState == BodyStateType.Second)
+                if (CalcZeraParameters(input.A).StomachSize < 7 && CalcZeraParameters(input.A).BodyState == BodyStateType.Second)
                 {
-                    if (input.Params.StomachSize < 2)
+                    if (CalcZeraParameters(input.A).StomachSize < 2)
                     {
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Zera240[27 + input.Params.StomachSize]);
+                    output.Sprite(input.Sprites.Zera240[27 + CalcZeraParameters(input.A).StomachSize]);
                     return;
                 }
 
-                if (input.Params.BodyState == BodyStateType.Third)
+                if (CalcZeraParameters(input.A).BodyState == BodyStateType.Third)
                 {
-                    if (input.Params.StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                    if (CalcZeraParameters(input.A).StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                     {
                         output.Sprite(input.Sprites.ZeraFrontBelly[12]);
                         return;
                     }
 
-                    if (input.Params.StomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
-                    {
-                        input.Params.StomachSize = 16;
-                    }
-
-                    if (input.Params.StomachSize > 11)
+                    if (CalcZeraParameters(input.A).StomachSize > 11)
                     {
                     }
                     else
                     {
-                        output.Sprite(input.Sprites.ZeraFrontBelly[Math.Min(input.Params.StomachSize - 7, 11)]).AddOffset(0, -80 * .625f);
+                        output.Sprite(input.Sprites.ZeraFrontBelly[Math.Min(CalcZeraParameters(input.A).StomachSize - 7, 11)]).AddOffset(0, -80 * .625f);
                         return;
                     }
                 }
 
-                if (input.Params.StomachSize < 7)
+                if (CalcZeraParameters(input.A).StomachSize < 7)
                 {
-                    output.Sprite(input.Sprites.Zera240[10 + input.Params.StomachSize]);
+                    output.Sprite(input.Sprites.Zera240[10 + CalcZeraParameters(input.A).StomachSize]);
                     return;
                 }
 
-                if (input.Params.StomachSize < 10)
+                if (CalcZeraParameters(input.A).StomachSize < 10)
                 {
-                    output.Sprite(input.Sprites.Zera240[18 + input.Params.StomachSize]);
+                    output.Sprite(input.Sprites.Zera240[18 + CalcZeraParameters(input.A).StomachSize]);
                     return;
                 }
 
-                if (input.Params.StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                if (CalcZeraParameters(input.A).StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                 {
                     output.Sprite(input.Sprites.ZeraBelly[9]);
                     return;
                 }
 
-                if (input.Params.StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
-                {
-                    input.Params.StomachSize = 18;
-                }
 
 
-                if (input.Params.StomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
-                {
-                    input.Params.StomachSize = 17;
-                }
-
-                output.Sprite(input.Sprites.ZeraBelly[input.Params.StomachSize - 10]);
+                output.Sprite(input.Sprites.ZeraBelly[CalcZeraParameters(input.A).StomachSize - 10]);
             });
 
             builder.RenderSingle(SpriteType.Dick, 8, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.BodyState != BodyStateType.Second)
+                if (CalcZeraParameters(input.A).BodyState != BodyStateType.Second)
                 {
                     return;
                 }
@@ -336,7 +412,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.Balls, 9, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.BodyState != BodyStateType.Second)
+                if (CalcZeraParameters(input.A).BodyState != BodyStateType.Second)
                 {
                     return;
                 }
@@ -359,11 +435,11 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 }
 
 
-                if (input.Params.StomachSize >= 10)
+                if (CalcZeraParameters(input.A).StomachSize >= 10)
                 {
                     ballSprite = BallsHigh[ballIndex];
                 }
-                else if (input.Params.StomachSize >= 7)
+                else if (CalcZeraParameters(input.A).StomachSize >= 7)
                 {
                     ballSprite = BallsMedium[ballIndex];
                 }
@@ -400,64 +476,11 @@ namespace Races.Graphics.Implementations.UniqueMercs
             // TODO this is disaster. 
             builder.RunBefore((input, output) =>
             {
-                int stomachSize = input.A.GetStomachSize(19);
-                BodyStateType bodyState;
-                //input.Params.StomachSize = actor.Unit.BodyAccentType1;
-                if (stomachSize >= 7 && input.A.PredatorComponent?.BallsFullness == 0)
-                {
-                    bodyState = BodyStateType.Third;
-                }
-                else if (stomachSize >= 7 || input.U.TailType == 1 || input.A.PredatorComponent?.BallsFullness > 0)
-                {
-                    bodyState = BodyStateType.Second;
-                }
-                else
-                {
-                    bodyState = BodyStateType.First;
-                }
+                ZeraParameters zeraParameters = CalcZeraParameters(input.A);
+            
+                AdjustBodyOffsets(input, output, zeraParameters.BodyState, zeraParameters.StomachSize);
 
-                /////////////////////////////////////////////////////////////////////////////////////////
-                /////////////////////////////////////////////////////////////////////////////////////////
-                /////////////////////////////////////////////////////////////////////////////////////////
-
-                if (!(bodyState == BodyStateType.Third && stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach)))
-                {
-                    if (bodyState == BodyStateType.Third)
-                    {
-                        if (stomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
-                        {
-                            stomachSize = 16;
-                        }
-                    }
-            
-                    if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
-                    {
-                        // Nothing ? I think
-                    }
-
-                    if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
-                    {
-                        stomachSize = 18;
-                    }
-
-                    if (stomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
-                    {
-                        stomachSize = 17;
-                    }
-                }
-            
-                /////////////////////////////////////////////////////////////////////////////////////////
-                /////////////////////////////////////////////////////////////////////////////////////////
-                /////////////////////////////////////////////////////////////////////////////////////////
-            
-                output.Params.BodyState = bodyState;
-                output.Params.StomachSize = stomachSize;
-            
-            
-            
-                AdjustBodyOffsets(input, output, bodyState, stomachSize);
-
-                if (stomachSize >= 10 && bodyState == BodyStateType.Second)
+                if (zeraParameters.StomachSize >= 10 && zeraParameters.BodyState == BodyStateType.Second)
                 {
                     float offset = 110 * .41666667f;
                     output.ChangeSprite(SpriteType.Head).AddOffset(0, offset);
@@ -472,7 +495,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.ChangeSprite(SpriteType.Balls).AddOffset(0, offset);
                     output.ChangeSprite(SpriteType.Dick).AddOffset(0, offset);
                 }
-                else if (stomachSize >= 7 && bodyState == BodyStateType.Second)
+                else if (zeraParameters.StomachSize >= 7 && zeraParameters.BodyState == BodyStateType.Second)
                 {
                     output.ChangeSprite(SpriteType.Belly).AddOffset(0, -62 * .41666667f);
                 }

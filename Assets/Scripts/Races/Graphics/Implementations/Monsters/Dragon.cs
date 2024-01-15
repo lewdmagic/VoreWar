@@ -2,9 +2,19 @@
 
 namespace Races.Graphics.Implementations.Monsters
 {
+    
+
+    
     internal static class Dragon
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<DragonParameters>, builder =>
+        internal enum Position
+        {
+            Down,
+            Standing,
+            StandingCrouch
+        }
+        
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
             {
@@ -59,7 +69,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Head, 8, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Down:
                         output.Sprite(input.Sprites.Dragon[3]);
@@ -88,7 +98,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Down:
                         output.Sprite(input.Sprites.Dragon[0]);
@@ -105,7 +115,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent, 5, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Down:
                         output.Sprite(input.Sprites.Dragon[11]);
@@ -122,7 +132,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent2, 17, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         if (input.A.IsAttacking)
@@ -150,7 +160,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent3, 3, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.Params.Position == Position.Down)
+                if (CalcPosition(input.A) == Position.Down)
                 {
                     output.Sprite(input.Sprites.Dragon[10]);
                 }
@@ -159,12 +169,12 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent4, 17, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                if (input.Params.Position == Position.Down)
+                if (CalcPosition(input.A) == Position.Down)
                 {
                     return;
                 }
 
-                if (input.Params.Position == Position.Standing)
+                if (CalcPosition(input.A) == Position.Standing)
                 {
                     if (input.A.IsAttacking)
                     {
@@ -188,7 +198,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent5, 6, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         if (input.A.IsAttacking)
@@ -217,7 +227,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent6, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         output.Sprite(input.Sprites.Dragon[41]);
@@ -234,7 +244,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent7, 4, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         output.Sprite(input.Sprites.Dragon[44]);
@@ -250,7 +260,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent8, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                if (input.Params.Position == Position.Standing)
+                if (CalcPosition(input.A) == Position.Standing)
                 {
                     output.Sprite(input.Sprites.Dragon[49]);
                 }
@@ -260,7 +270,7 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
                 int sprite = 20 + 5 * input.U.SpecialAccessoryType;
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         if (input.A.IsOralVoring)
@@ -289,7 +299,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodySize, 7, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         output.Sprite(input.Sprites.Dragon[47]);
@@ -311,7 +321,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Position == Position.Standing || input.Params.Position == Position.StandingCrouch)
+                if (CalcPosition(input.A) == Position.Standing || CalcPosition(input.A) == Position.StandingCrouch)
                 {
                     output.Layer(16);
 
@@ -322,7 +332,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Dick, 15, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                if (input.Params.Position == Position.Down)
+                if (CalcPosition(input.A) == Position.Down)
                 {
                     return;
                 }
@@ -350,7 +360,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Balls, 11, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Dragon, input.U.AccessoryColor));
-                if (input.U.HasDick == false || input.Params.Position == Position.Down)
+                if (input.U.HasDick == false || CalcPosition(input.A) == Position.Down)
                 {
                     return;
                 }
@@ -371,35 +381,31 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 if (input.A.IsAttacking || input.A.IsEating)
                 {
-                    output.Params.Position = Position.StandingCrouch;
                     output.ChangeSprite(SpriteType.Belly).AddOffset(0, 14 * .625f);
                 }
-                else if (input.A.HasBelly || input.A.PredatorComponent?.BallsFullness > 0)
-                {
-                    output.Params.Position = Position.Standing;
-                }
-                else
-                {
-                    output.Params.Position = Position.Down;
-                }
-                //base.RunFirst(actor);
             });
 
             builder.RandomCustom(Defaults.RandomCustom);
         });
 
+        private static Position CalcPosition(Actor_Unit actor)
+        {
+            if (actor.IsAttacking || actor.IsEating)
+            {
+                return Position.StandingCrouch;
+            }
+            else if (actor.HasBelly || actor.PredatorComponent?.BallsFullness > 0)
+            {
+                return Position.Standing;
+            }
+            else
+            {
+                return Position.Down;
+            }
+        }
+
 
     }    
 
-    internal enum Position
-    {
-        Down,
-        Standing,
-        StandingCrouch
-    }
 
-    internal class DragonParameters : IParameters
-    {
-        internal Position Position;
-    }
 }

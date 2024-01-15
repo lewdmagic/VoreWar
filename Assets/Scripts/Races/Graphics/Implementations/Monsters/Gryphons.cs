@@ -4,7 +4,31 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Gryphons
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<PositionParameters>, builder =>
+        
+        internal class PositionParameters : IParameters
+        {
+            internal Position Position;
+        }
+
+        internal enum Position
+        {
+            Standing,
+            Sitting
+        }
+
+        private static Position CalcPosition(Actor_Unit actor)
+        {
+            if (actor.HasBelly || actor.PredatorComponent?.BallsFullness > 0)
+            {
+                return Position.Sitting;
+            }
+            else
+            {
+                return Position.Standing;
+            }
+        }
+        
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
             {
@@ -96,7 +120,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(Defaults.WhiteColored);
                 if (input.U.SpecialAccessoryType == 0)
                 {
-                    switch (input.Params.Position)
+                    switch (CalcPosition(input.A))
                     {
                         case Position.Standing:
                             if (input.A.IsOralVoring || input.A.IsAttacking)
@@ -121,7 +145,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         if (input.A.IsOralVoring || input.A.IsAttacking)
@@ -149,7 +173,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
                 if (input.U.SpecialAccessoryType == 0)
                 {
-                    switch (input.Params.Position)
+                    switch (CalcPosition(input.A))
                     {
                         case Position.Standing:
                             if (input.A.IsOralVoring || input.A.IsAttacking)
@@ -174,7 +198,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         if (input.A.IsOralVoring || input.A.IsAttacking)
@@ -202,7 +226,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
                 if (input.U.SpecialAccessoryType == 0)
                 {
-                    switch (input.Params.Position)
+                    switch (CalcPosition(input.A))
                     {
                         case Position.Standing:
                             if (input.A.IsOralVoring || input.A.IsAttacking)
@@ -222,7 +246,7 @@ namespace Races.Graphics.Implementations.Monsters
                     }
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         if (input.A.IsOralVoring || input.A.IsAttacking)
@@ -247,7 +271,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
                 if (input.U.SpecialAccessoryType == 0)
                 {
-                    switch (input.Params.Position)
+                    switch (CalcPosition(input.A))
                     {
                         case Position.Standing:
                             if (input.A.IsOralVoring || input.A.IsAttacking)
@@ -267,7 +291,7 @@ namespace Races.Graphics.Implementations.Monsters
                     }
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         if (input.A.IsOralVoring || input.A.IsAttacking)
@@ -292,7 +316,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
                 if (input.U.SpecialAccessoryType == 0)
                 {
-                    if (input.Params.Position == Position.Sitting)
+                    if (CalcPosition(input.A) == Position.Sitting)
                     {
                         output.Sprite(input.Sprites.Gryphon[14]);
                         return;
@@ -301,7 +325,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Position == Position.Sitting)
+                if (CalcPosition(input.A) == Position.Sitting)
                 {
                     output.Sprite(input.Sprites.Griffin[14]);
                 }
@@ -312,7 +336,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(Defaults.WhiteColored);
                 if (input.U.SpecialAccessoryType == 0)
                 {
-                    switch (input.Params.Position)
+                    switch (CalcPosition(input.A))
                     {
                         case Position.Standing:
                             output.Sprite(input.Sprites.Gryphon[15]);
@@ -326,7 +350,7 @@ namespace Races.Graphics.Implementations.Monsters
                     }
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         output.Sprite(input.Sprites.Griffin[15]);
@@ -345,7 +369,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(Defaults.WhiteColored);
                 if (input.U.SpecialAccessoryType == 0)
                 {
-                    if (input.Params.Position == Position.Sitting)
+                    if (CalcPosition(input.A) == Position.Sitting)
                     {
                         output.Sprite(input.Sprites.Gryphon[16]);
                         return;
@@ -354,7 +378,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Position == Position.Sitting)
+                if (CalcPosition(input.A) == Position.Sitting)
                 {
                     output.Sprite(input.Sprites.Griffin[16]);
                 }
@@ -363,7 +387,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent6, 10, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
-                if (input.U.HasDick == false || input.Params.Position == Position.Standing)
+                if (input.U.HasDick == false || CalcPosition(input.A) == Position.Standing)
                 {
                     return;
                 }
@@ -410,7 +434,7 @@ namespace Races.Graphics.Implementations.Monsters
                 if (input.U.HasDick)
                 {
                     output.Layer(11);
-                    if (input.Params.Position == Position.Standing)
+                    if (CalcPosition(input.A) == Position.Standing)
                     {
                         output.Sprite(input.Sprites.Gryphon[48]);
                         return;
@@ -469,7 +493,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Standing:
                         output.Sprite(input.Sprites.Griffin[18]);
@@ -486,7 +510,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodySize, 7, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
-                if (input.Params.Position == Position.Sitting && input.A.HasBelly == false)
+                if (CalcPosition(input.A) == Position.Sitting && input.A.HasBelly == false)
                 {
                     output.Sprite(input.Sprites.Gryphon[59]);
                 }
@@ -500,7 +524,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Position == Position.Sitting)
+                if (CalcPosition(input.A) == Position.Sitting)
                 {
                     output.Sprite(input.Sprites.Gryphon[18 + input.A.GetStomachSize(16)]);
                 }
@@ -509,7 +533,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Dick, 12, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.U.HasDick == false || input.Params.Position == Position.Standing)
+                if (input.U.HasDick == false || CalcPosition(input.A) == Position.Standing)
                 {
                     return;
                 }
@@ -559,7 +583,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.GryphonSkin, input.U.SkinColor));
                 int sz = input.A.GetStomachSize(16);
                 int bz = input.A.GetBallSize(10, 1.5f);
-                if (input.U.HasDick == false || input.Params.Position == Position.Standing)
+                if (input.U.HasDick == false || CalcPosition(input.A) == Position.Standing)
                 {
                     return;
                 }
@@ -590,16 +614,6 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) =>
             {
-                if (input.A.HasBelly || input.A.PredatorComponent?.BallsFullness > 0)
-                {
-                    output.Params.Position = Position.Sitting;
-                }
-                else
-                {
-                    output.Params.Position = Position.Standing;
-                }
-                //base.RunFirst(data.Actor);
-
                 if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.A.GetStomachSize(16) == 16)
                 {
                     output.ChangeSprite(SpriteType.Body).AddOffset(0, 30 * .625f);
@@ -656,15 +670,5 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(Defaults.RandomCustom);
         });
 
-        internal class PositionParameters : IParameters
-        {
-            internal Position Position;
-        }
-
-        internal enum Position
-        {
-            Standing,
-            Sitting
-        }
     }
 }

@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+#endregion
 namespace Races.Graphics.Implementations.MainRaces
 {
 
-    #endregion
 
     internal static class Alraune
     {

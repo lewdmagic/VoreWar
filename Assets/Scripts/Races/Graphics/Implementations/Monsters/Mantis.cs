@@ -8,7 +8,19 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Mantis
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<MantisParameters>, builder =>
+    
+        internal enum Position
+        {
+            Default,
+            Eating
+        }
+
+        private static Position CalcPosition(Actor_Unit actor)
+        {
+            return actor.HasBelly ? Position.Eating : Position.Default;
+        }
+        
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList frameListScythesDefault = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
             RaceFrameList frameListScythesEating = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
@@ -68,7 +80,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Head, 8, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.SkinColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         if (input.A.IsOralVoring)
@@ -94,7 +106,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Eyes, 8, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.EyeColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         output.Sprite(input.Sprites.Mantis[18 + input.U.EyeType]);
@@ -117,7 +129,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.SecondaryEyes, 8, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         output.Sprite(input.Sprites.Mantis[44]);
@@ -141,7 +153,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Mouth, 9, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         if (input.A.IsOralVoring)
@@ -172,7 +184,7 @@ namespace Races.Graphics.Implementations.Monsters
                     SetUpAnimations(input.Actor);
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         output.Sprite(input.Sprites.Mantis[64 + input.U.BodySize]);
@@ -186,7 +198,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent, 6, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.SkinColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         output.Sprite(input.Sprites.Mantis[75 + input.U.BodyAccentType1]).Layer(6);
@@ -203,11 +215,11 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent2, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.SkinColor));
-                if (input.Params.Position == Position.Default)
+                if (CalcPosition(input.A) == Position.Default)
                 {
                     output.Sprite(input.Sprites.Mantis[81 + input.U.BodyAccentType2]);
                 }
-            }); // spine (only default input.Params.Position)
+            }); // spine (only default CalcPosition(input.A))
 
             builder.RenderSingle(SpriteType.BodyAccent3, 10, (input, output) =>
             {
@@ -218,7 +230,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.IsAttacking || input.A.IsOralVoring || input.Params.Position == Position.Eating)
+                if (input.A.IsAttacking || input.A.IsOralVoring || CalcPosition(input.A) == Position.Eating)
                 {
                     input.A.AnimationController.frameLists[0].currentlyActive = false;
                     input.A.AnimationController.frameLists[0].currentFrame = 0;
@@ -251,7 +263,7 @@ namespace Races.Graphics.Implementations.Monsters
                 }
 
                 output.Sprite(input.Sprites.Mantis[48]);
-            }); // scythes (default input.Params.Position)
+            }); // scythes (default CalcPosition(input.A))
 
             builder.RenderSingle(SpriteType.BodyAccent4, 10, (input, output) =>
             {
@@ -261,7 +273,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.IsAttacking || input.A.IsOralVoring || input.Params.Position == Position.Default)
+                if (input.A.IsAttacking || input.A.IsOralVoring || CalcPosition(input.A) == Position.Default)
                 {
                     input.A.AnimationController.frameLists[1].currentlyActive = false;
                     input.A.AnimationController.frameLists[1].currentFrame = 0;
@@ -294,12 +306,12 @@ namespace Races.Graphics.Implementations.Monsters
                 }
 
                 output.Sprite(input.Sprites.Mantis[45]);
-            }); // scythes (eating input.Params.Position)
+            }); // scythes (eating CalcPosition(input.A))
 
             builder.RenderSingle(SpriteType.BodyAccent5, 10, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.SkinColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         if (input.A.IsAttacking || input.A.IsOralVoring)
@@ -325,7 +337,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent6, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.SkinColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         output.Sprite(input.Sprites.Mantis[58]);
@@ -342,7 +354,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent7, 2, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.SkinColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         output.Sprite(input.Sprites.Mantis[55]);
@@ -359,7 +371,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent8, 7, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.SkinColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         output.Sprite(input.Sprites.Mantis[56]).Layer(7);
@@ -376,7 +388,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccessory, 9, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.SkinColor));
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Default:
                         output.Sprite(input.Sprites.Mantis[33 + input.U.SpecialAccessoryType]);
@@ -398,7 +410,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Position == Position.Eating)
+                if (CalcPosition(input.A) == Position.Eating)
                 {
                     output.Sprite(input.Sprites.Mantis[87 + input.A.GetStomachSize(17)]);
                 }
@@ -406,9 +418,6 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) =>
             {
-            
-                output.Params.Position = input.A.HasBelly ? Position.Eating : Position.Default;
-            
                 output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(-15 * .625f, 15 * .625f);
 
                 if (input.A.GetStomachSize(17) > 16)
@@ -458,15 +467,5 @@ namespace Races.Graphics.Implementations.Monsters
             }; // Scythes in Eating input.Params.Position controller. Index 1.
         }
 
-        internal class MantisParameters : IParameters
-        {
-            internal Position Position;
-        }
-    
-        internal enum Position
-        {
-            Default,
-            Eating
-        }
     }
 }

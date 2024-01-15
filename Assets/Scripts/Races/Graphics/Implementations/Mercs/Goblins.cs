@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+#endregion
 namespace Races.Graphics.Implementations.Mercs
 {
 
-    #endregion
 
 //TODO:
 // recolor bulges on clothes
@@ -16,9 +16,10 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class Goblins
     {
+        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(22 * 22);
         private static List<IClothingDataSimple> _allClothing;
 
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             // Havent been implemented
             // Sprite[] SpritesGloves = State.GameManager.SpriteDictionary.Gobbglove;
@@ -131,15 +132,15 @@ namespace Races.Graphics.Implementations.Mercs
 
                 output.ExtendedBreastSprites = true;
 
-                List<IClothing<IOverSizeParameters>> allowedMainClothingTypes = new List<IClothing<IOverSizeParameters>>() //undertops
+                List<IClothing> allowedMainClothingTypes = new List<IClothing>() //undertops
                 {
                     GobboLeotard.GobboLeotardInstance,
                     GobboCasinoBunny.GobboCasinoBunnyInstance,
-                    GobboUndertop1.GobboUndertop1Instance,
-                    GobboUndertop2.GobboUndertop2Instance,
-                    GobboUndertop3.GobboUndertop3Instance,
-                    GobboUndertop4.GobboUndertop4Instance,
-                    GobboUndertop5.GobboUndertop5Instance
+                    GobboUndertop1.GobboUndertop1Instance.Create(paramsCalc),
+                    GobboUndertop2.GobboUndertop2Instance.Create(paramsCalc),
+                    GobboUndertop3.GobboUndertop3Instance.Create(paramsCalc),
+                    GobboUndertop4.GobboUndertop4Instance.Create(paramsCalc),
+                    GobboUndertop5.GobboUndertop5Instance.Create(paramsCalc)
                 };
                 output.AllowedMainClothingTypes.Set(allowedMainClothingTypes); //undertops
 
@@ -164,9 +165,9 @@ namespace Races.Graphics.Implementations.Mercs
                 );
 
                 output.ExtraMainClothing2Types.Set( //Special clothing
-                    GobboOverOpFem.GobboOverOpFemInstance,
+                    GobboOverOpFem.GobboOverOpFemInstance.Create(paramsCalc),
                     //GobboOverOPM.GobboOverOPMInstance,
-                    GobboOverTop1.GobboOverTop1Instance,
+                    GobboOverTop1.GobboOverTop1Instance.Create(paramsCalc),
                     GobboOverTop2.GobboOverTop2Instance,
                     GobboOverTop3.GobboOverTop3Instance,
                     GobboOverTop4.GobboOverTop4Instance
@@ -219,7 +220,6 @@ namespace Races.Graphics.Implementations.Mercs
 
             builder.RunBefore((input, output) =>
             {
-                CommonRaceCode.MakeBreastOversize(22 * 22).Invoke(input, output);
                 Defaults.Finalize.Invoke(input, output);
             });
 
@@ -1366,7 +1366,7 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class GobboUndertop1
     {
-        internal static readonly IClothing<IOverSizeParameters> GobboUndertop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> GobboUndertop1Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1397,7 +1397,7 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class GobboUndertop2
     {
-        internal static readonly IClothing<IOverSizeParameters> GobboUndertop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> GobboUndertop2Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1428,7 +1428,7 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class GobboUndertop3
     {
-        internal static readonly IClothing<IOverSizeParameters> GobboUndertop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> GobboUndertop3Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1459,7 +1459,7 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class GobboUndertop4
     {
-        internal static readonly IClothing<IOverSizeParameters> GobboUndertop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> GobboUndertop4Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1490,7 +1490,7 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class GobboUndertop5
     {
-        internal static readonly IClothing<IOverSizeParameters> GobboUndertop5Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> GobboUndertop5Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1532,7 +1532,7 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class GobboOverOpFem
     {
-        internal static readonly IClothing<IOverSizeParameters> GobboOverOpFemInstance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> GobboOverOpFemInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -1615,7 +1615,7 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class GobboOverTop1
     {
-        internal static readonly IClothing<IOverSizeParameters> GobboOverTop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> GobboOverTop1Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

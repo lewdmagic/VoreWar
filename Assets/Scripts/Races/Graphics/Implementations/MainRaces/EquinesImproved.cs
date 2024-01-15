@@ -10,6 +10,7 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class EquinesImrpoved
     {
+        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(29 * 29);
         static ColorSwapPalette LegTuft(Actor_Unit actor)
         {
             if (actor.Unit.BodyAccentType3 >= 2)
@@ -39,8 +40,8 @@ namespace Races.Graphics.Implementations.MainRaces
 
             return ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, actor.Unit.ClothingColor);
         }
-    
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<OverSizeParameters>, builder =>
+        
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
 
             builder.Setup(output =>
@@ -123,10 +124,10 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.ExtendedBreastSprites = true;
 
                 output.AllowedMainClothingTypes.Set( //undertops
-                    HorseClothing.HorseUndertop1Instance,
-                    HorseClothing.HorseUndertop2Instance,
-                    HorseClothing.HorseUndertop3Instance,
-                    HorseClothing.HorseUndertop4Instance,
+                    HorseClothing.HorseUndertop1Instance.Create(paramsCalc),
+                    HorseClothing.HorseUndertop2Instance.Create(paramsCalc),
+                    HorseClothing.HorseUndertop3Instance.Create(paramsCalc),
+                    HorseClothing.HorseUndertop4Instance.Create(paramsCalc),
                     HorseClothing.HorseUndertopM1Instance,
                     HorseClothing.HorseUndertopM2Instance,
                     HorseClothing.HorseUndertopM3Instance
@@ -156,9 +157,6 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RenderAll((input, output) =>
             {
-                CommonRaceCode.MakeBreastOversize2(29 * 29).Invoke(input, output);
-            
-            
                 string headState = (input.A.IsAttacking || input.A.IsEating) ? "eat" : "still";
                 output.NewSprite(SpriteType.Head, 5)
                     .Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.SkinColor))
@@ -404,7 +402,7 @@ namespace Races.Graphics.Implementations.MainRaces
         public static class HorseClothing
         {
         
-            internal static readonly IClothing<IOverSizeParameters> HorseUndertop1Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop1Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     HorseUndertops.MakeCommon(builder, 76147,
                         State.GameManager.SpriteDictionary.HorseClothing[47],
@@ -412,9 +410,46 @@ namespace Races.Graphics.Implementations.MainRaces
                         actor => State.GameManager.SpriteDictionary.HorseClothing[40 + actor.Unit.BreastSize]);
                 }
             );
-        
-            internal static readonly IClothing<IOverSizeParameters> HorseUndertop1Instance2 = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+
+
+
+            internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop1Instance3 = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
+                    builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
+                    {
+                        output.DiscardSprite = null;
+                        output.Type = 76147;
+                        output.FemaleOnly = true;
+                        output.RevealsBreasts = true;
+                        output.RevealsDick = true;
+                        output.DiscardUsesPalettes = true;
+                    });
+
+                    builder.RenderAll((input, output) =>
+                    {
+                        output["Clothing1"].Layer(20);
+                        if (input.Params.Oversize)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.HorseClothing[47]); 
+                        }
+                        else if (input.U.HasBreasts)
+                        {
+                            output["Clothing1"].Sprite(input.Sprites.HorseClothing[40 + input.U.BreastSize]);
+                        }
+
+                        output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+                    });
+                }
+            );
+
+
+
+            internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop1Instance2 = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
+                {
+                    
+                    
+                    
+                    
                     builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                     {
                         output.DiscardSprite = null;
@@ -445,7 +480,7 @@ namespace Races.Graphics.Implementations.MainRaces
         
         
         
-            internal static readonly IClothing<IOverSizeParameters> HorseUndertop2Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop2Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     HorseUndertops.MakeCommon(builder, 76148,
                         State.GameManager.SpriteDictionary.HorseClothing[48],
@@ -454,7 +489,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             );
         
-            internal static readonly IClothing<IOverSizeParameters> HorseUndertop3Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop3Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     HorseUndertops.MakeCommon(builder, 76156,
                         State.GameManager.SpriteDictionary.HorseClothing[56],
@@ -463,7 +498,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             );
         
-            internal static readonly IClothing<IOverSizeParameters> HorseUndertop4Instance = ClothingBuilder.Create<IOverSizeParameters>(builder =>
+            internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop4Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     HorseUndertops.MakeCommon(builder, 76208,
                         State.GameManager.SpriteDictionary.HorseExtras1[8],
@@ -647,6 +682,15 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 });
             });
+            
+            
+            
+            
+            
+            
+            
+            
+            
         
             internal static readonly IClothing HorseOBottom2Instance = ClothingBuilder.Create(builder =>
             {

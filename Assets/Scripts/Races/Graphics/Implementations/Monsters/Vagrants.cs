@@ -9,7 +9,20 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Vagrants
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<VargantParameters>, builder =>
+
+        public static Sprite[] CalcSprites(Actor_Unit actor)
+        {
+            Sprite[][] vagrantSprites =
+            {
+                State.GameManager.SpriteDictionary.Vagrants,
+                State.GameManager.SpriteDictionary.Vagrants2,
+                State.GameManager.SpriteDictionary.Vagrants3
+            };
+
+            return vagrantSprites[Mathf.Clamp(actor.Unit.SkinColor, 0, 2)];
+        }
+        
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
         
             builder.Setup(output =>
@@ -71,11 +84,11 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(Defaults.WhiteColored);
                 if (input.A.IsAttacking || input.A.IsEating)
                 {
-                    output.Sprite(input.Params.Sprites[28]);
+                    output.Sprite(CalcSprites(input.A)[28]);
                     return;
                 }
 
-                output.Sprite(input.Params.Sprites[5]);
+                output.Sprite(CalcSprites(input.A)[5]);
             });
 
             builder.RenderSingle(SpriteType.BodyAccessory, 4, (input, output) =>
@@ -83,17 +96,17 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(Defaults.WhiteColored);
                 if (input.A.IsEating)
                 {
-                    output.Sprite(input.Params.Sprites[3]);
+                    output.Sprite(CalcSprites(input.A)[3]);
                     return;
                 }
 
                 if (input.A.IsAttacking)
                 {
-                    output.Sprite(input.Params.Sprites[4]);
+                    output.Sprite(CalcSprites(input.A)[4]);
                     return;
                 }
 
-                output.Sprite(input.Params.Sprites[2]);
+                output.Sprite(CalcSprites(input.A)[2]);
             }); // tentacles
 
             builder.RenderSingle(SpriteType.SecondaryAccessory, 3, (input, output) =>
@@ -101,11 +114,11 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(Defaults.WhiteColored);
                 if (input.A.IsAttacking || input.A.IsEating)
                 {
-                    output.Sprite(input.Params.Sprites[1]);
+                    output.Sprite(CalcSprites(input.A)[1]);
                     return;
                 }
 
-                output.Sprite(input.Params.Sprites[0]);
+                output.Sprite(CalcSprites(input.A)[0]);
             }); // underneath
 
             builder.RenderSingle(SpriteType.Belly, 2, (input, output) =>
@@ -115,26 +128,17 @@ namespace Races.Graphics.Implementations.Monsters
                 {
                     if (input.A.IsAttacking || input.A.IsEating)
                     {
-                        output.Sprite(input.Params.Sprites[29 + input.A.GetStomachSize(16)]);
+                        output.Sprite(CalcSprites(input.A)[29 + input.A.GetStomachSize(16)]);
                         return;
                     }
 
-                    output.Sprite(input.Params.Sprites[6 + input.A.GetStomachSize(16)]);
+                    output.Sprite(CalcSprites(input.A)[6 + input.A.GetStomachSize(16)]);
                 }
             });
 
 
             builder.RunBefore((input, output) =>
             {
-                Sprite[][] vagrantSprites =
-                {
-                    State.GameManager.SpriteDictionary.Vagrants,
-                    State.GameManager.SpriteDictionary.Vagrants2,
-                    State.GameManager.SpriteDictionary.Vagrants3
-                };
-
-                output.Params.Sprites = vagrantSprites[Mathf.Clamp(input.U.SkinColor, 0, 2)];
-
                 output.ChangeSprite(SpriteType.Body).AddOffset(0, 60 * .625f);
                 output.ChangeSprite(SpriteType.BodyAccessory).AddOffset(0, 60 * .625f);
                 output.ChangeSprite(SpriteType.SecondaryAccessory).AddOffset(0, 60 * .625f);
@@ -144,9 +148,6 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(Defaults.RandomCustom);
         });
 
-        internal class VargantParameters : IParameters
-        {
-            internal Sprite[] Sprites;
-        }
+
     }
 }

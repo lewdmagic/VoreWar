@@ -8,8 +8,19 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Earthworms
     {
+        
+        internal enum Position
+        {
+            Underground,
+            Aboveground
+        }
 
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank<EarthWormParameters>, builder =>
+        private static Position CalcPosition(Actor_Unit actor)
+        {
+            return !actor.HasAttackedThisCombat ? Position.Underground : Position.Aboveground;
+        }
+
+        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList frameListHeadIdle = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .5f, .5f, 1.5f, .5f, .5f });
 
@@ -62,7 +73,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.IsAttacking || input.A.IsEating || input.Params.Position == Position.Underground)
+                if (input.A.IsAttacking || input.A.IsEating || CalcPosition(input.A) == Position.Underground)
                 {
                     input.A.AnimationController.frameLists[0].currentlyActive = false;
                     input.A.AnimationController.frameLists[0].currentFrame = 0;
@@ -70,7 +81,7 @@ namespace Races.Graphics.Implementations.Monsters
 
                     if (input.A.IsEating || input.A.IsAttacking)
                     {
-                        if (input.Params.Position == Position.Underground)
+                        if (CalcPosition(input.A) == Position.Underground)
                         {
                             output.Sprite(input.Sprites.Earthworms[16]);
                             return;
@@ -80,7 +91,7 @@ namespace Races.Graphics.Implementations.Monsters
                         return;
                     }
 
-                    if (input.Params.Position == Position.Underground)
+                    if (CalcPosition(input.A) == Position.Underground)
                     {
                         return;
                     }
@@ -125,7 +136,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Underground:
                         if (input.A.IsEating || input.A.IsAttacking)
@@ -163,7 +174,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Underground:
                         if (input.A.IsEating || input.A.IsAttacking)
@@ -199,7 +210,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Position == Position.Aboveground)
+                if (CalcPosition(input.A) == Position.Aboveground)
                 {
                     output.Sprite(input.Sprites.Earthworms[6]);
                 }
@@ -214,7 +225,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Position == Position.Aboveground && input.A.HasBelly == false)
+                if (CalcPosition(input.A) == Position.Aboveground && input.A.HasBelly == false)
                 {
                     output.Sprite(input.Sprites.Earthworms[7]);
                 }
@@ -229,7 +240,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Position == Position.Aboveground)
+                if (CalcPosition(input.A) == Position.Aboveground)
                 {
                     output.Sprite(input.Sprites.Earthworms[5]);
                 }
@@ -243,7 +254,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                switch (input.Params.Position)
+                switch (CalcPosition(input.A))
                 {
                     case Position.Underground:
                         if (input.A.IsEating || input.A.IsAttacking)
@@ -269,7 +280,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.Params.Position == Position.Aboveground)
+                if (CalcPosition(input.A) == Position.Aboveground)
                 {
 
                     output.Sprite(input.Sprites.Earthworms[18 + input.A.GetStomachSize(21)]);
@@ -279,9 +290,6 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) =>
             {
-                output.Params.Position = !input.A.HasAttackedThisCombat ? Position.Underground : Position.Aboveground;
-                //base.RunFirst(data.Actor);
-
                 output.ChangeSprite(SpriteType.Belly).AddOffset(0, -48 * .625f);
             });
 
@@ -296,15 +304,6 @@ namespace Races.Graphics.Implementations.Monsters
             }; // Index 0.
         }
 
-        internal enum Position
-        {
-            Underground,
-            Aboveground
-        }
-    
-        internal class EarthWormParameters : IParameters
-        {
-            internal Position Position;
-        }
+
     }
 }
