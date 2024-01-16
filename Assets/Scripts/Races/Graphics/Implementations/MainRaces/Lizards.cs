@@ -131,8 +131,8 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.AvoidedMainClothingTypes = 3;
                 output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.LizardLight);
                 output.AllowedMainClothingTypes.Set(
-                    ClothingTypes.BeltTopInstance,
-                    ClothingTypes.LeotardInstance,
+                    CommonClothing.BeltTopInstance,
+                    CommonClothing.LeotardInstance,
                     RaceSpecificClothing.LizardBlackTopInstance,
                     RaceSpecificClothing.LizardBikiniTopInstance,
                     RaceSpecificClothing.LizardStrapTopInstance,
@@ -140,13 +140,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     RaceSpecificClothing.LizardLeatherTopInstance,
                     RaceSpecificClothing.LizardClothTopInstance,
                     RaceSpecificClothing.LizardPeasantInstance,
-                    ClothingTypes.RagsInstance,
+                    CommonClothing.RagsInstance,
                     RaceSpecificClothing.LizardLeaderTopInstance
                 );
                 output.AllowedWaistTypes.Set(
-                    ClothingTypes.BikiniBottomInstance,
-                    ClothingTypes.LoinclothInstance,
-                    ClothingTypes.ShortsInstance,
+                    CommonClothing.BikiniBottomInstance,
+                    CommonClothing.LoinclothInstance,
+                    CommonClothing.ShortsInstance,
                     RaceSpecificClothing.LizardLeaderSkirtInstance,
                     RaceSpecificClothing.LizardBoneLoinsInstance,
                     RaceSpecificClothing.LizardLeatherLoinsInstance,

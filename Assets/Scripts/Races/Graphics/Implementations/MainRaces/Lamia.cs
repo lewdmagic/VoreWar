@@ -70,17 +70,17 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.AvoidedMainClothingTypes = 2;
                 output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
                 output.AllowedMainClothingTypes.Set(
-                    ClothingTypes.BikiniTopInstance,
-                    ClothingTypes.BeltTopInstance,
-                    ClothingTypes.StrapTopInstance,
-                    ClothingTypes.LeotardInstance,
-                    ClothingTypes.BlackTopInstance,
-                    ClothingTypes.RagsInstance,
+                    CommonClothing.BikiniTopInstance,
+                    CommonClothing.BeltTopInstance,
+                    CommonClothing.StrapTopInstance,
+                    CommonClothing.LeotardInstance,
+                    CommonClothing.BlackTopInstance,
+                    CommonClothing.RagsInstance,
                     RaceSpecificClothing.TogaInstance
                 );
                 output.AllowedWaistTypes.Set(
-                    ClothingTypes.BikiniBottomInstance,
-                    ClothingTypes.LoinclothInstance
+                    CommonClothing.BikiniBottomInstance,
+                    CommonClothing.LoinclothInstance
                 );
             });
 

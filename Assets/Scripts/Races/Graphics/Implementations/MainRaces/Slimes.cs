@@ -80,14 +80,14 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.AvoidedMainClothingTypes = 1;
                 output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
                 output.AllowedMainClothingTypes.Set(
-                    ClothingTypes.BeltTopInstance,
-                    ClothingTypes.LeotardInstance,
-                    ClothingTypes.BlackTopInstance,
+                    CommonClothing.BeltTopInstance,
+                    CommonClothing.LeotardInstance,
+                    CommonClothing.BlackTopInstance,
                     RaceSpecificClothing.RainCoatInstance,
-                    ClothingTypes.RagsInstance
+                    CommonClothing.RagsInstance
                 );
                 output.AllowedWaistTypes.Set(
-                    ClothingTypes.LoinclothInstance
+                    CommonClothing.LoinclothInstance
                 );
             });
 

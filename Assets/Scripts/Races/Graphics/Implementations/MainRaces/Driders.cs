@@ -76,15 +76,15 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.AvoidedMainClothingTypes = 2;
                 output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
                 output.AllowedMainClothingTypes.Set(
-                    ClothingTypes.BikiniTopInstance,
-                    ClothingTypes.BeltTopInstance,
-                    ClothingTypes.StrapTopInstance,
-                    ClothingTypes.BlackTopInstance,
-                    ClothingTypes.RagsInstance,
+                    CommonClothing.BikiniTopInstance,
+                    CommonClothing.BeltTopInstance,
+                    CommonClothing.StrapTopInstance,
+                    CommonClothing.BlackTopInstance,
+                    CommonClothing.RagsInstance,
                     leaderClothes
                 );
                 output.AllowedWaistTypes.Set(
-                    ClothingTypes.LoinclothInstance
+                    CommonClothing.LoinclothInstance
                 );
             });
 

@@ -96,18 +96,18 @@ namespace Races.Graphics.Implementations.Mercs
 
                 output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
                 output.AllowedMainClothingTypes.Set(
-                    ClothingTypes.BikiniTopInstance,
-                    ClothingTypes.BeltTopInstance,
-                    ClothingTypes.StrapTopInstance,
-                    ClothingTypes.BlackTopInstance,
+                    CommonClothing.BikiniTopInstance,
+                    CommonClothing.BeltTopInstance,
+                    CommonClothing.StrapTopInstance,
+                    CommonClothing.BlackTopInstance,
                     RaceSpecificClothing.SuccubusDressInstance,
                     RaceSpecificClothing.SuccubusLeotardInstance
                 );
 
 
                 output.AllowedWaistTypes.Set(
-                    ClothingTypes.BikiniBottomInstance,
-                    ClothingTypes.LoinclothInstance
+                    CommonClothing.BikiniBottomInstance,
+                    CommonClothing.LoinclothInstance
                 );
             });
 

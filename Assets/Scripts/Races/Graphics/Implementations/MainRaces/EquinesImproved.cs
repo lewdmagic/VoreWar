@@ -446,10 +446,6 @@ namespace Races.Graphics.Implementations.MainRaces
 
             internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop1Instance2 = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
-                    
-                    
-                    
-                    
                     builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                     {
                         output.DiscardSprite = null;
@@ -511,6 +507,9 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 ClothingBuilder builder = ClothingBuilder.New();
 
+                
+                
+                
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.DiscardSprite = discard;

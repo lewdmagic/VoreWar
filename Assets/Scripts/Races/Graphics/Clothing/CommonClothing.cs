@@ -663,7 +663,7 @@ internal static class MaleVillager
     });
 }
 
-internal static class ClothingTypes
+internal static class CommonClothing
 {
     internal static readonly IClothing BikiniTopInstance = BikiniTop.BikiniTopInstance;
     internal static readonly IClothing BikiniBottomInstance = BikiniBottom.BikiniBottomInstance;

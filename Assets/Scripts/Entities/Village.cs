@@ -1014,13 +1014,13 @@ public class Village
                     {
                         if (unit.HasBreasts)
                         {
-                            if (race.MiscRaceData.AllowedMainClothingTypesBasic.Contains(ClothingTypes.FemaleVillagerInstance))
-                                unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(ClothingTypes.FemaleVillagerInstance);
+                            if (race.MiscRaceData.AllowedMainClothingTypesBasic.Contains(CommonClothing.FemaleVillagerInstance))
+                                unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(CommonClothing.FemaleVillagerInstance);
                         }
                         else
                         {
-                            if (race.MiscRaceData.AllowedMainClothingTypesBasic.Contains(ClothingTypes.MaleVillagerInstance))
-                                unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(ClothingTypes.MaleVillagerInstance);
+                            if (race.MiscRaceData.AllowedMainClothingTypesBasic.Contains(CommonClothing.MaleVillagerInstance))
+                                unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(CommonClothing.MaleVillagerInstance);
                         }
                     }
 

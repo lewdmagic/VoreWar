@@ -42,7 +42,7 @@ internal class ClothingDiscards
         if (AllClothes.Any() == false)
         {
             AllClothes = new List<IClothingDataSimple>();
-            AllClothes.AddRange(ClothingTypes.All);
+            AllClothes.AddRange(CommonClothing.All);
             AllClothes.AddRange(RaceSpecificClothing.All);
             AllClothes.AddRange(TaurusClothes.TaurusClothingTypes.All);
             AllClothes.AddRange(CruxClothing.CruxClothingTypes.All);

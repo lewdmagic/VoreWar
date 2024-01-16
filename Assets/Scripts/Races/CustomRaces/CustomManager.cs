@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MoonSharp.Interpreter;
 using UnityEngine;
 
 public class CustomManager
@@ -173,11 +174,9 @@ public class CustomManager
     }
     private IClothing ClothingFromFSData(FSClothingData fsClothingData)
     {
-        return ClothingBuilder.Create(builder =>
-            {
-                ScriptHelper.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, builder);
-            }
-        );
+        ClothingBuilder builder = new ClothingBuilder();
+        ScriptHelper.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, builder);
+        return builder.BuildClothing();
     }
 
 
@@ -195,6 +194,12 @@ public class CustomManager
     internal IClothing GetRaceClothing(string raceId, string clothingId)
     {
         
+        return _clothings.GetOrNull((raceId, clothingId));
+    }
+    
+    internal IClothing GetRaceClothing(string raceId, string clothingId, Func<IClothingRenderInput, DynValue> calcFunc)
+    {
+        // TODO 
         return _clothings.GetOrNull((raceId, clothingId));
     }
 

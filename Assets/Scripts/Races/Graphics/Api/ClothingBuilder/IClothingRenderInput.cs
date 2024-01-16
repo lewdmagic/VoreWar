@@ -3,12 +3,12 @@ public interface IClothingRenderInput : IRunInput
 
 }
 
-public interface IClothingRenderInput<out T> : IClothingRenderInput where T : IParameters
+public interface IClothingRenderInput<out T> : IClothingRenderInput
 {
     T Params { get; }
 }
 
-public class ClothingRenderInputImpl<TU> : ClothingRenderInputImpl, IClothingRenderInput<TU> where TU : IParameters
+public class ClothingRenderInputImpl<TU> : ClothingRenderInputImpl, IClothingRenderInput<TU>
 {
     public ClothingRenderInputImpl(Actor_Unit actor, TU state) : base(actor)
     {

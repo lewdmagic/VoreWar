@@ -1,4 +1,42 @@
 using System;
+using MoonSharp.Interpreter;
+
+public abstract class ClothingDataShared : IClothingDataSimple
+{
+    private protected readonly ClothingMiscData Misc;
+    public IClothingDataFixed FixedData { get; set; }
+
+    protected ClothingDataShared(ClothingMiscData fixedData)
+    {
+        Misc = fixedData;
+        FixedData = fixedData;
+    }
+
+    public bool CanWear(Unit unit)
+    {
+        if (FixedData.MaleOnly && (unit.HasBreasts || unit.HasDick == false))
+        {
+            return false;
+        }
+
+        if (FixedData.FemaleOnly && unit.HasDick && unit.HasBreasts == false)
+        {
+            return false;
+        }
+
+        if (FixedData.LeaderOnly && unit.Type != UnitType.Leader)
+        {
+            return false;
+        }
+
+        if (FixedData.ReqWinterHoliday && Config.WinterActive() == false)
+        {
+            return false;
+        }
+
+        return true;
+    }
+}
 
 internal class Clothing : ClothingDataShared, IClothing
 {

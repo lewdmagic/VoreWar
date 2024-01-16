@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class ClothingRenderOutput : IClothingRenderOutput
 {
-
-    
     private readonly SpriteChangeDict _changeDict;
     public IRaceRenderOutput ChangeSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
     

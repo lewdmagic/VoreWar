@@ -430,7 +430,7 @@ public static class Defaults
                 (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
                 unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + input.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(ClothingTypes.RagsInstance);
+                unit.ClothingType = 1 + input.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(CommonClothing.RagsInstance);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
                     if (input.MiscRaceData.AllowedMainClothingTypesBasic.Last()?.FixedData.ReqWinterHoliday ==
@@ -936,20 +936,20 @@ public static class Defaults
         );
 
         miscRaceDataWritableReadable.AllowedMainClothingTypes.Set(
-            ClothingTypes.BikiniTopInstance,
-            ClothingTypes.BeltTopInstance,
-            ClothingTypes.StrapTopInstance,
-            ClothingTypes.LeotardInstance,
-            ClothingTypes.BlackTopInstance,
-            ClothingTypes.RagsInstance,
-            ClothingTypes.FemaleVillagerInstance,
-            ClothingTypes.MaleVillagerInstance
+            CommonClothing.BikiniTopInstance,
+            CommonClothing.BeltTopInstance,
+            CommonClothing.StrapTopInstance,
+            CommonClothing.LeotardInstance,
+            CommonClothing.BlackTopInstance,
+            CommonClothing.RagsInstance,
+            CommonClothing.FemaleVillagerInstance,
+            CommonClothing.MaleVillagerInstance
         );
 
         miscRaceDataWritableReadable.AllowedWaistTypes.Set(
-            ClothingTypes.BikiniBottomInstance,
-            ClothingTypes.LoinclothInstance,
-            ClothingTypes.ShortsInstance
+            CommonClothing.BikiniBottomInstance,
+            CommonClothing.LoinclothInstance,
+            CommonClothing.ShortsInstance
         );
 
         miscRaceDataWritableReadable.AllowedClothingHatTypes.Set(
