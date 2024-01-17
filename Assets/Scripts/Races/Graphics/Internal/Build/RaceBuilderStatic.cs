@@ -6,24 +6,29 @@ using System.Collections.Generic;
 #endregion
 
 
-internal class IRaceDataMaker
+internal class RaceDataMaker
 {
 
+    private readonly RaceBuilder _builder;
 
+    public RaceDataMaker(RaceBuilder builder)
+    {
+        _builder = builder;
+    }
 
     internal IRaceData Create(Race race)
     {
-        return null;
+        return _builder.Build(race);
     }
 }
 
 internal static class RaceBuilderStatic
 {
-    internal static IRaceData CreateV2(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser)
+    internal static RaceDataMaker CreateV2(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser)
     {
         RaceBuilder builder = new RaceBuilder(template);
         builderUser.Invoke(builder);
-        return builder.Build();
+        return new RaceDataMaker(builder);
     }
 }
 
@@ -129,11 +134,11 @@ internal class RaceBuilder : IRaceBuilder
         _renderAllAction = generator;
     }
 
-    public IRaceData Build()
+    public IRaceData Build(Race race)
     {
         MiscRaceData data = _template();
         _setupFunc?.Invoke(data);
         
-        return new RaceData(RaceSpriteSet, data, _runBefore, _randomCustom, data._extraRaceInfo, _renderAllAction);
+        return new RaceData(RaceSpriteSet, data, _runBefore, _randomCustom, data._extraRaceInfo, _renderAllAction, race);
     }
 }

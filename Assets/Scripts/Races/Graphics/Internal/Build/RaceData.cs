@@ -88,13 +88,16 @@ internal class RaceData : IRaceData
     private readonly Action<IRunInput, IRunOutput> _runBefore;
     private readonly Action<IRunInput, IRaceRenderAllOutput> _renderAllAction;
 
+    internal readonly Race Race;
+    
     public RaceData(
         SpriteTypeIndexed<SingleRenderFunc> raceSpriteSet,
         MiscRaceData miscRaceData,
         Action<IRunInput, IRunOutput> runBefore,
         Action<IRandomCustomInput> randomCustom,
         ExtraRaceInfo extraRaceInfo,
-        Action<IRunInput, IRaceRenderAllOutput> renderAllAction)
+        Action<IRunInput, IRaceRenderAllOutput> renderAllAction,
+        Race race)
     {
         RaceSpriteSet = raceSpriteSet;
         _miscRaceData = miscRaceData;
@@ -102,6 +105,7 @@ internal class RaceData : IRaceData
         _randomCustom = randomCustom;
         _extraRaceInfo = extraRaceInfo;
         _renderAllAction = renderAllAction;
+        Race = race;
     }
 
     private SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; }

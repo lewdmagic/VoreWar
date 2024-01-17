@@ -66,28 +66,6 @@ end
         
         ScriptHelper.RegisterSimpleAction();  
         
-        IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
-        {
-
-            UserData.RegisterType<Action>();
-            UserData.RegisterType<IParameters>();
-            UserData.RegisterType<IRaceRenderInput>();
-            UserData.RegisterType<IRaceRenderOutput>();
-            UserData.RegisterType<Sprite>();
-            UserData.RegisterType<SpriteType>();
-            UserData.RegisterType<IRaceBuilder>();
-		    
-            ScriptHelper.RegisterSimpleAction<string, string>();
-            ScriptHelper.RegisterSimpleAction<IRaceRenderInput, IRaceRenderOutput>();
-		    
-            Script script = new Script();
-            script.Globals["builder"] = builder;
-            script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
-            script.DoString(scriptCode);
-		    
-            builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(Defaults.RandomCustom);
-        });
     }
 }
 
