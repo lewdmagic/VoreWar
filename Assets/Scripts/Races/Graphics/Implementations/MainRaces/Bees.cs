@@ -18,7 +18,7 @@ namespace Races.Graphics.Implementations.MainRaces
             Cuirass.CuirassInstance, LeaderClothes
         };
 
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             RaceFrameList frameListWings = new RaceFrameList(new[] { 0, 1, 2, 3, 2, 1 }, new[] { .05f, .05f, .05f, .05f, .05f, .05f });
 

@@ -11,7 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class Humans
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {

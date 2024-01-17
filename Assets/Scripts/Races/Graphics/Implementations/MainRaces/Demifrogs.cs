@@ -11,7 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class Demifrogs
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(31 * 31);
-        internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+        internal static IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             IClothing LeaderClothes = DemifrogLeader.DemifrogLeaderInstance.Create(paramsCalc);
             IClothing Rags = DemifrogRags.DemifrogRagsInstance;

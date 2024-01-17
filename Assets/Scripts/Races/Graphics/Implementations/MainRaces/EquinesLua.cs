@@ -9,7 +9,7 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class EquinesLua
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
+        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             // builder.RunBefore((input, output) =>
             // {

@@ -66,7 +66,7 @@ end
         
         ScriptHelper.RegisterSimpleAction();  
         
-        IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
+        IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
 
             UserData.RegisterType<Action>();

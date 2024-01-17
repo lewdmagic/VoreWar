@@ -4,7 +4,7 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Wyvern
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
+        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
         
             RaceFrameList frameListTail = new RaceFrameList(new int[6] { 2, 1, 0, 5, 4, 3 }, new float[6] { 0.55f, 0.55f, 0.55f, 0.55f, 0.55f, 0.55f });

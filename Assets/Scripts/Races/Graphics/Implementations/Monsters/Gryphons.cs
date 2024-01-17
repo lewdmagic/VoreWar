@@ -28,7 +28,7 @@ namespace Races.Graphics.Implementations.Monsters
             }
         }
         
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
+        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
             {

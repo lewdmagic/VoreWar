@@ -184,7 +184,7 @@ internal static class SeliciaMod
     
     private static void ModAabayx()
     {
-        var raceTyped = (RaceData<IParameters>) Aabayx.Instance;
+        var raceTyped = (RaceData) Aabayx.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
         {
@@ -212,7 +212,7 @@ internal static class SeliciaMod
 
     private static void ModAntQueen()
     {
-        var raceTyped = (RaceData<IParameters>) AntQueen.Instance;
+        var raceTyped = (RaceData) AntQueen.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -329,7 +329,7 @@ internal static class SeliciaMod
     
     private static void ModAnts()
     {
-        var raceTyped = (RaceData<IParameters>) Ants.Instance;
+        var raceTyped = (RaceData) Ants.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -386,7 +386,7 @@ internal static class SeliciaMod
     
     private static void ModAvians()
     {
-        var raceTyped = (RaceData<IParameters>) Avians.Instance;
+        var raceTyped = (RaceData) Avians.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -517,7 +517,7 @@ internal static class SeliciaMod
     
     private static void ModBats()
     {
-        var raceTyped = (RaceData<IParameters>) DemiBats.Instance;
+        var raceTyped = (RaceData) DemiBats.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -644,7 +644,7 @@ internal static class SeliciaMod
     
     private static void ModBees()
     {
-        var raceTyped = (RaceData<IParameters>) Bees.Instance;
+        var raceTyped = (RaceData) Bees.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -769,7 +769,7 @@ internal static class SeliciaMod
     
     private static void ModDeer()
     {
-        var raceTyped = (RaceData<IParameters>) Deer.Instance;
+        var raceTyped = (RaceData) Deer.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -895,7 +895,7 @@ internal static class SeliciaMod
     
     private static void ModDemifrogs()
     {
-        var raceTyped = (RaceData<IParameters>) Demifrogs.Instance;
+        var raceTyped = (RaceData) Demifrogs.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1136,7 +1136,7 @@ internal static class SeliciaMod
     
     private static void ModDemisharks()
     {
-        var raceTyped = (RaceData<IParameters>) Demisharks.Instance;
+        var raceTyped = (RaceData) Demisharks.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1261,7 +1261,7 @@ internal static class SeliciaMod
     
     internal static void ModEquines()
     {
-        var raceTyped = (RaceData<IParameters>) EquinesImrpoved.Instance;
+        var raceTyped = (RaceData) EquinesImrpoved.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -1359,7 +1359,7 @@ internal static class SeliciaMod
     
     private static void ModHumans()
     {
-        var raceTyped = (RaceData<IParameters>) Humans.Instance;
+        var raceTyped = (RaceData) Humans.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1484,7 +1484,7 @@ internal static class SeliciaMod
     
     private static void ModImps()
     {
-        var raceTyped = (RaceData<IParameters>) Imps.Instance;
+        var raceTyped = (RaceData) Imps.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent6, ModdingMode.After, (input, output) =>
         {
@@ -1646,7 +1646,7 @@ internal static class SeliciaMod
     
     private static void ModKangarros()
     {
-        var raceTyped = (RaceData<IParameters>) Kangaroos.Instance;
+        var raceTyped = (RaceData) Kangaroos.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -1694,7 +1694,7 @@ internal static class SeliciaMod
     // TODO
     private static void ModLamia()
     {
-        var raceTyped = (RaceData<IParameters>) Lamia.Instance;
+        var raceTyped = (RaceData) Lamia.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1719,7 +1719,7 @@ internal static class SeliciaMod
     
     private static void ModLizards()
     {
-        var raceTyped = (RaceData<IParameters>) Lizards.Instance;
+        var raceTyped = (RaceData) Lizards.Instance;
         
         // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         // {
@@ -1837,7 +1837,7 @@ internal static class SeliciaMod
     
     private static void ModPanthers()
     {
-        var raceTyped = (RaceData<IParameters>) Panthers.Instance;
+        var raceTyped = (RaceData) Panthers.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1975,7 +1975,7 @@ internal static class SeliciaMod
     
     private static void ModSergal()
     {
-        var raceTyped = (RaceData<IParameters>) Sergal.Instance;
+        var raceTyped = (RaceData) Sergal.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -1996,7 +1996,7 @@ internal static class SeliciaMod
     
     private static void ModSlimeQueen()
     {
-        var raceTyped = (RaceData<IParameters>) SlimeQueen.Instance;
+        var raceTyped = (RaceData) SlimeQueen.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -2060,7 +2060,7 @@ internal static class SeliciaMod
     
     private static void ModSlimes()
     {
-        var raceTyped = (RaceData<IParameters>) Slimes.Instance;
+        var raceTyped = (RaceData) Slimes.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -2092,7 +2092,7 @@ internal static class SeliciaMod
     
     private static void ModTaurus()
     {
-        var raceTyped = (RaceData<IParameters>) Taurus.Instance;
+        var raceTyped = (RaceData) Taurus.Instance;
 
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -2147,7 +2147,7 @@ internal static class SeliciaMod
     
     private static void ModCockatrice()
     {
-        var raceTyped = (RaceData<IParameters>) Cockatrice.Instance;
+        var raceTyped = (RaceData) Cockatrice.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -2273,7 +2273,7 @@ internal static class SeliciaMod
     
     private static void ModGoblins()
     {
-        var raceTyped = (RaceData<IParameters>) Goblins.Instance;
+        var raceTyped = (RaceData) Goblins.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -2405,7 +2405,7 @@ internal static class SeliciaMod
     
     private static void ModHippos()
     {
-        var raceTyped = (RaceData<IParameters>) Hippos.Instance;
+        var raceTyped = (RaceData) Hippos.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -2531,7 +2531,7 @@ internal static class SeliciaMod
     
     private static void ModKomodos()
     {
-        var raceTyped = (RaceData<IParameters>) Komodos.Instance;
+        var raceTyped = (RaceData) Komodos.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -2657,7 +2657,7 @@ internal static class SeliciaMod
     
     private static void ModPuca()
     {
-        var raceTyped = (RaceData<IParameters>) Puca.Instance;
+        var raceTyped = (RaceData) Puca.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -2715,7 +2715,7 @@ internal static class SeliciaMod
     
     private static void ModSuccubi()
     {
-        var raceTyped = (RaceData<IParameters>) Succubi.Instance;
+        var raceTyped = (RaceData) Succubi.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -2785,7 +2785,7 @@ internal static class SeliciaMod
     
     private static void ModVargul()
     {
-        // var raceTyped = (RaceData<OverSizeParameters>) Vargul.Instance;
+        // var raceTyped = (RaceData) Vargul.Instance;
         //
         // raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         // {
@@ -2920,7 +2920,7 @@ internal static class SeliciaMod
     
     private static void ModVipers()
     {
-        var raceTyped = (RaceData<IParameters>) Vipers.Instance;
+        var raceTyped = (RaceData) Vipers.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent2, ModdingMode.After, (input, output) =>
         {
@@ -3158,7 +3158,7 @@ internal static class SeliciaMod
     
     private static void ModCatfish()
     {
-        var raceTyped = (RaceData<IParameters>) Catfish.Instance;
+        var raceTyped = (RaceData) Catfish.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Body, ModdingMode.After, (input, output) =>
         {
@@ -3223,7 +3223,7 @@ internal static class SeliciaMod
     
     private static void ModCollectors()
     {
-        var raceTyped = (RaceData<IParameters>) Collectors.Instance;
+        var raceTyped = (RaceData) Collectors.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3242,7 +3242,7 @@ internal static class SeliciaMod
     
     private static void ModCompy()
     {
-        var raceTyped = (RaceData<IParameters>) Compy.Instance;
+        var raceTyped = (RaceData) Compy.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
         {
@@ -3288,7 +3288,7 @@ internal static class SeliciaMod
     
     private static void ModCoralSlugs()
     {
-        var raceTyped = (RaceData<IParameters>) CoralSlugs.Instance;
+        var raceTyped = (RaceData) CoralSlugs.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3314,7 +3314,7 @@ internal static class SeliciaMod
     
     private static void ModDarkSwallower()
     {
-        var raceTyped = (RaceData<IParameters>) DarkSwallower.Instance;
+        var raceTyped = (RaceData) DarkSwallower.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3355,7 +3355,7 @@ internal static class SeliciaMod
     
     private static void ModDragon()
     {
-        var raceTyped = (RaceData<IParameters>) Dragon.Instance;
+        var raceTyped = (RaceData) Dragon.Instance;
         // TODO Add Calcule
         Dragon.Position position = Dragon.Position.StandingCrouch;
         
@@ -3430,7 +3430,7 @@ internal static class SeliciaMod
     
     private static void ModDragonfly()
     {
-        var raceTyped = (RaceData<IParameters>) Dragonfly.Instance;
+        var raceTyped = (RaceData) Dragonfly.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3453,7 +3453,7 @@ internal static class SeliciaMod
     
     private static void ModDratopyr()
     {
-        var raceTyped = (RaceData<IParameters>) Dratopyr.Instance;
+        var raceTyped = (RaceData) Dratopyr.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3589,7 +3589,7 @@ internal static class SeliciaMod
     
     private static void ModEarthworms()
     {
-        var raceTyped = (RaceData<IParameters>) Earthworms.Instance;
+        var raceTyped = (RaceData) Earthworms.Instance;
         // TODO Add position calc
         var position = Earthworms.Position.Underground;
         
@@ -3635,7 +3635,7 @@ internal static class SeliciaMod
     
     private static void ModEasternDragon()
     {
-        var raceTyped = (RaceData<IParameters>) EasternDragon.Instance;
+        var raceTyped = (RaceData) EasternDragon.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent4, ModdingMode.After, (input, output) =>
         {
@@ -3866,7 +3866,7 @@ internal static class SeliciaMod
     
     private static void ModFeralAnts()
     {
-        var raceTyped = (RaceData<IParameters>) FeralAnts.Instance;
+        var raceTyped = (RaceData) FeralAnts.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3894,7 +3894,7 @@ internal static class SeliciaMod
     
     private static void ModFeralBats()
     {
-        var raceTyped = (RaceData<IParameters>) FeralBats.Instance;
+        var raceTyped = (RaceData) FeralBats.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3981,7 +3981,7 @@ internal static class SeliciaMod
     
     private static void ModFeralLions()
     {
-        var raceTyped = (RaceData<IParameters>) FeralLions.Instance;
+        var raceTyped = (RaceData) FeralLions.Instance;
         // TODO Add calculate
         bool hindView = false;
         
@@ -4004,7 +4004,7 @@ internal static class SeliciaMod
     
     private static void ModFeralLizards()
     {
-        var raceTyped = (RaceData<IParameters>) FeralLizards.Instance;
+        var raceTyped = (RaceData) FeralLizards.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4070,7 +4070,7 @@ internal static class SeliciaMod
     
     private static void ModFeralSharks()
     {
-        var raceTyped = (RaceData<IParameters>) FeralSharks.Instance;
+        var raceTyped = (RaceData) FeralSharks.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4105,7 +4105,7 @@ internal static class SeliciaMod
     
     private static void ModFeralWolves()
     {
-        var raceTyped = (RaceData<IParameters>) FeralWolves.Instance;
+        var raceTyped = (RaceData) FeralWolves.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccessory, ModdingMode.After, (input, output) =>
         {
@@ -4133,7 +4133,7 @@ internal static class SeliciaMod
     
     private static void ModGazelle()
     {
-        var raceTyped = (RaceData<IParameters>) Gazelle.Instance;
+        var raceTyped = (RaceData) Gazelle.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4329,7 +4329,7 @@ internal static class SeliciaMod
     
     private static void ModHarvesters()
     {
-        var raceTyped = (RaceData<IParameters>) Harvesters.Instance;
+        var raceTyped = (RaceData) Harvesters.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4369,7 +4369,7 @@ internal static class SeliciaMod
     
     private static void ModKobolds()
     {
-        // var raceTyped = (RaceData<FacingFrontParameters>) Kobolds.Instance;
+        // var raceTyped = (RaceData) Kobolds.Instance;
         //
         // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         // {
@@ -4485,7 +4485,7 @@ internal static class SeliciaMod
     
     private static void ModMantis()
     {
-        var raceTyped = (RaceData<IParameters>) Mantis.Instance;
+        var raceTyped = (RaceData) Mantis.Instance;
         // TODO
         var position = Mantis.Position.Default;
         
@@ -4527,7 +4527,7 @@ internal static class SeliciaMod
     
     private static void ModMonitors()
     {
-        var raceTyped = (RaceData<IParameters>) Monitors.Instance;
+        var raceTyped = (RaceData) Monitors.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4591,7 +4591,7 @@ internal static class SeliciaMod
     
     private static void ModRaptor()
     {
-        var raceTyped = (RaceData<IParameters>) Raptor.Instance;
+        var raceTyped = (RaceData) Raptor.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent6, ModdingMode.After, (input, output) =>
         {
@@ -4653,7 +4653,7 @@ internal static class SeliciaMod
     
     private static void ModRockSlugs()
     {
-        var raceTyped = (RaceData<IParameters>) RockSlugs.Instance;
+        var raceTyped = (RaceData) RockSlugs.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4679,7 +4679,7 @@ internal static class SeliciaMod
     
     private static void ModSalamanders()
     {
-        var raceTyped = (RaceData<IParameters>) Salamanders.Instance;
+        var raceTyped = (RaceData) Salamanders.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4714,7 +4714,7 @@ internal static class SeliciaMod
     
     private static void ModSchiwardez()
     {
-        var raceTyped = (RaceData<IParameters>) Schiwardez.Instance;
+        var raceTyped = (RaceData) Schiwardez.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
         {
@@ -4762,7 +4762,7 @@ internal static class SeliciaMod
     
     private static void ModSpitterSlugs()
     {
-        var raceTyped = (RaceData<IParameters>) SpitterSlugs.Instance;
+        var raceTyped = (RaceData) SpitterSlugs.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4788,7 +4788,7 @@ internal static class SeliciaMod
     
     private static void ModSpringSlugs()
     {
-        var raceTyped = (RaceData<IParameters>) SpringSlugs.Instance;
+        var raceTyped = (RaceData) SpringSlugs.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Body, ModdingMode.After, (input, output) =>
         {
@@ -4834,7 +4834,7 @@ internal static class SeliciaMod
     
     private static void ModTerrorbird()
     {
-        var raceTyped = (RaceData<IParameters>) Terrorbird.Instance;
+        var raceTyped = (RaceData) Terrorbird.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4864,7 +4864,7 @@ internal static class SeliciaMod
     
     private static void ModTwistedVines()
     {
-        var raceTyped = (RaceData<IParameters>) TwistedVines.Instance;
+        var raceTyped = (RaceData) TwistedVines.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4884,7 +4884,7 @@ internal static class SeliciaMod
     
     private static void ModVagrants()
     {
-        var raceTyped = (RaceData<IParameters>) Vagrants.Instance;
+        var raceTyped = (RaceData) Vagrants.Instance;
         
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
@@ -4970,7 +4970,7 @@ internal static class SeliciaMod
     
     private static void ModVoilin()
     {
-        var raceTyped = (RaceData<IParameters>) Voilin.Instance;
+        var raceTyped = (RaceData) Voilin.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5010,7 +5010,7 @@ internal static class SeliciaMod
     
     private static void ModWarriorAnts()
     {
-        var raceTyped = (RaceData<IParameters>) WarriorAnts.Instance;
+        var raceTyped = (RaceData) WarriorAnts.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5045,7 +5045,7 @@ internal static class SeliciaMod
     
     private static void ModWyvern()
     {
-        var raceTyped = (RaceData<IParameters>) Wyvern.Instance;
+        var raceTyped = (RaceData) Wyvern.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5063,7 +5063,7 @@ internal static class SeliciaMod
     
     private static void ModYoungWyvern()
     {
-        var raceTyped = (RaceData<IParameters>) YoungWyvern.Instance;
+        var raceTyped = (RaceData) YoungWyvern.Instance;
 
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5125,7 +5125,7 @@ internal static class SeliciaMod
     
     private static void ModAbakhanskya()
     {
-        var raceTyped = (RaceData<IParameters>) Abakhanskya.Instance;
+        var raceTyped = (RaceData) Abakhanskya.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent4, ModdingMode.After, (input, output) =>
         {
@@ -5140,7 +5140,7 @@ internal static class SeliciaMod
     
     private static void ModAsura()
     {
-        var raceTyped = (RaceData<IParameters>) Asura.Instance;
+        var raceTyped = (RaceData) Asura.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5172,7 +5172,7 @@ internal static class SeliciaMod
     
     private static void ModAuri()
     {
-        // var raceTyped = (RaceData<OverSizeParameters>) Auri.Instance;
+        // var raceTyped = (RaceData) Auri.Instance;
         //
         // raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         // {
@@ -5280,7 +5280,7 @@ internal static class SeliciaMod
     
     private static void ModDRACO()
     {
-        var raceTyped = (RaceData<IParameters>) DRACO.Instance;
+        var raceTyped = (RaceData) DRACO.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5302,7 +5302,7 @@ internal static class SeliciaMod
     
     private static void ModKi()
     {
-        var raceTyped = (RaceData<IParameters>) Ki.Instance;
+        var raceTyped = (RaceData) Ki.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
         {
@@ -5322,7 +5322,7 @@ internal static class SeliciaMod
     
     private static void ModSalix()
     {
-        var raceTyped = (RaceData<IParameters>) Salix.Instance;
+        var raceTyped = (RaceData) Salix.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -5453,7 +5453,7 @@ internal static class SeliciaMod
     
     private static void ModScorch()
     {
-        var raceTyped = (RaceData<IParameters>) Scorch.Instance;
+        var raceTyped = (RaceData) Scorch.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {            
@@ -5475,7 +5475,7 @@ internal static class SeliciaMod
     
     private static void ModVision()
     {
-        var raceTyped = (RaceData<IParameters>) Vision.Instance;
+        var raceTyped = (RaceData) Vision.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5497,7 +5497,7 @@ internal static class SeliciaMod
     
     private static void ModZera()
     {
-        var raceTyped = (RaceData<IParameters>) Zera.Instance;
+        var raceTyped = (RaceData) Zera.Instance;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {

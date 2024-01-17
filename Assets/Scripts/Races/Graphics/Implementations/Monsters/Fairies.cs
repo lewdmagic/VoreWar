@@ -81,7 +81,7 @@ namespace Races.Graphics.Implementations.Monsters
             internal FairyType Season;
         }
 
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
+        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList springWings = new RaceFrameList(new int[3] { 91, 92, 93 }, new float[3] { .2f, .2f, .2f });
             RaceFrameList summerWings = new RaceFrameList(new int[3] { 94, 95, 96 }, new float[3] { .2f, .2f, .2f });

@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Succubi
     {
-        internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
         
         

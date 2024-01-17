@@ -13,7 +13,7 @@ namespace Races.Graphics.Implementations.Mercs
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(28 * 28);
         private static readonly float XOffset = -7.5f; //12 pixels * 5/8
 
-        internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+        internal static IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {

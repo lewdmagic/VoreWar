@@ -5,26 +5,25 @@ using System.Collections.Generic;
 
 #endregion
 
-internal static class RaceBuilder
+
+internal class IRaceDataMaker
+{
+
+
+
+    internal IRaceData Create(Race race)
+    {
+        return null;
+    }
+}
+
+internal static class RaceBuilderStatic
 {
     internal static IRaceData CreateV2(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser)
     {
-        Func<IParameters> basic = () => new EmptyParameters();
-        RaceBuilder<IParameters> builder = new RaceBuilder<IParameters>(template);
+        RaceBuilder builder = new RaceBuilder(template);
         builderUser.Invoke(builder);
-        return builder.Build(basic);
-    }
-
-    internal static IRaceData CreateV2<T>(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser) where T : IParameters, new()
-    {
-        Func<T> makeTempState = () => new T();
-        RaceBuilder<T> builder = new RaceBuilder<T>(template);
-        builderUser.Invoke(builder);
-        return builder.Build(makeTempState);
-    }
-
-    private class EmptyParameters : IParameters
-    {
+        return builder.Build();
     }
 }
 
@@ -82,7 +81,7 @@ internal class ExtraRaceInfo
     internal List<string> PreyTownNames;
 }
 
-internal class RaceBuilder<T> : IRaceBuilder where T : IParameters
+internal class RaceBuilder : IRaceBuilder
 {
     private readonly SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc>();
 
@@ -130,11 +129,11 @@ internal class RaceBuilder<T> : IRaceBuilder where T : IParameters
         _renderAllAction = generator;
     }
 
-    public IRaceData Build(Func<T> makeTempState)
+    public IRaceData Build()
     {
         MiscRaceData data = _template();
         _setupFunc?.Invoke(data);
         
-        return new RaceData<T>(RaceSpriteSet, data, _runBefore, _randomCustom, makeTempState, data._extraRaceInfo, _renderAllAction);
+        return new RaceData(RaceSpriteSet, data, _runBefore, _randomCustom, data._extraRaceInfo, _renderAllAction);
     }
 }

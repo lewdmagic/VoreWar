@@ -11,7 +11,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
     internal static class Salix
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
-        internal static IRaceData Instance = RaceBuilder.CreateV2(Defaults.Default, builder =>
+        internal static IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {

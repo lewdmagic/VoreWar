@@ -13,10 +13,8 @@ enum ModdingMode
     After
 }
 
-internal class RaceData<T> : IRaceData where T : IParameters
+internal class RaceData : IRaceData
 {
-    private readonly Func<T> _makeTempState;
-
     private readonly MiscRaceData _miscRaceData;
 
 
@@ -95,7 +93,6 @@ internal class RaceData<T> : IRaceData where T : IParameters
         MiscRaceData miscRaceData,
         Action<IRunInput, IRunOutput> runBefore,
         Action<IRandomCustomInput> randomCustom,
-        Func<T> makeTempState,
         ExtraRaceInfo extraRaceInfo,
         Action<IRunInput, IRaceRenderAllOutput> renderAllAction)
     {
@@ -103,7 +100,6 @@ internal class RaceData<T> : IRaceData where T : IParameters
         _miscRaceData = miscRaceData;
         _runBefore = runBefore;
         _randomCustom = randomCustom;
-        _makeTempState = makeTempState;
         _extraRaceInfo = extraRaceInfo;
         _renderAllAction = renderAllAction;
     }
@@ -140,8 +136,6 @@ internal class RaceData<T> : IRaceData where T : IParameters
 
     public FullSpriteProcessOut NewUpdate(Actor_Unit actor)
     {
-        T state = _makeTempState();
-
         SpriteChangeDict changeDict = new SpriteChangeDict(State.SpriteManager);
         RunOutput runOutput = new RunOutput(changeDict);
 
@@ -187,7 +181,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
 
         // Advanced, slightly different behavior; 
             
-        List<ClothingRenderOutput> results = ClothingResults(actor, state, changeDict);
+        List<ClothingRenderOutput> results = ClothingResults(actor, changeDict);
         AccumulatedClothes accumulatedClothes = Accumulate(results, actor);
             
         return new FullSpriteProcessOut(runOutput, changeDict.ReusedChangesDict, accumulatedClothes);
@@ -199,7 +193,7 @@ internal class RaceData<T> : IRaceData where T : IParameters
         _randomCustom(new RandomCustomInput(unit, _miscRaceData));
     }
 
-    private List<ClothingRenderOutput> ClothingResults(Actor_Unit actorUnit, T state, SpriteChangeDict changeDict)
+    private List<ClothingRenderOutput> ClothingResults(Actor_Unit actorUnit, SpriteChangeDict changeDict)
     {
         List<ClothingRenderOutput> clothingResults = new List<ClothingRenderOutput>();
 

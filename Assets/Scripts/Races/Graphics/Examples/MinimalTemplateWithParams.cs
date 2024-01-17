@@ -7,7 +7,7 @@ internal static class MinimalTemplateWithParams
         public bool AProperty { get; set; }
     }
     
-    internal static IRaceData MyRace = RaceBuilder.CreateV2(Defaults.Blank, builder =>
+    internal static IRaceData MyRace = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
     {
         builder.Setup(output =>
         {
