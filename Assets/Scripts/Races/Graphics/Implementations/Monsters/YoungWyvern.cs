@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal const float StomachGainDivisor = 1.2f; //Higher is faster, should be balanced with stomach size to max out at 80-100 capacity
 
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
             {

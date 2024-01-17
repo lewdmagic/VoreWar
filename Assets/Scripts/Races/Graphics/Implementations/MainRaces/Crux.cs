@@ -9,7 +9,7 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Crux
     {
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             RaceFrameList frameListDrool = new RaceFrameList(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }, new[] { .8f, .6f, .5f, .4f, .4f, .4f, .4f, .4f, .4f });
             // currently unused

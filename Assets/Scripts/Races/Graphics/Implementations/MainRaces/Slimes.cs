@@ -9,7 +9,7 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Slimes
     {
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
         
         

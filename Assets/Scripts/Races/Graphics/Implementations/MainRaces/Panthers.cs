@@ -13,7 +13,7 @@ namespace Races.Graphics.Implementations.MainRaces
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
         internal static List<IClothingDataSimple> AllClothing;
 
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
             {

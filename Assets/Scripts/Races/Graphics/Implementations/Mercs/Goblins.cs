@@ -19,7 +19,7 @@ namespace Races.Graphics.Implementations.Mercs
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(22 * 22);
         private static List<IClothingDataSimple> _allClothing;
 
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             // Havent been implemented
             // Sprite[] SpritesGloves = State.GameManager.SpriteDictionary.Gobbglove;

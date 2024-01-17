@@ -11,7 +11,7 @@ namespace Races.Graphics.Implementations.Mercs
     internal static class Vargul
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(30 * 30);
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {

@@ -166,14 +166,14 @@ public class CustomManager
     private void RaceFromFSData(FSRaceData fsRaceData)
     {
         RaceScriptUsable raceScriptUsable = ScriptHelper.ScriptPrep2FromCode(fsRaceData.RaceLuaCode, fsRaceData.RaceId);
-        IRaceData raceData = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        RaceDataMaker raceData = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.RenderAll(raceScriptUsable.Generator);
             builder.Setup(raceScriptUsable.SetupFunc);
             builder.RandomCustom(raceScriptUsable.Value);
         });
 
-        Race.RegisterRace(fsRaceData.RaceId, () => raceData, new[] { RaceTag.MainRace });
+        Race.RegisterRace(fsRaceData.RaceId, raceData, new[] { RaceTag.MainRace });
     }
     
     private LuaBindableClothing ClothingFromFSData(FSClothingData fsClothingData)

@@ -30,7 +30,7 @@ namespace Races.Graphics.Implementations.MainRaces
         //Open mouth. Will occlude part of the expression, some of the Fatness patch, some of Leader's necklace and a sliver of the Body Armor, so has to go after those.
 
 
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {

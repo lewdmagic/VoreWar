@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static RaceFrameList FrameListShake = new RaceFrameList(new int[5] { 0, 1, 0, 2, 0 }, new float[5] { 0.6f, 0.6f, 0.6f, 0.6f, 0.6f });
 
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList frameListTail = new RaceFrameList(new int[8] { 2, 1, 0, 1, 2, 3, 4, 3 }, new float[8] { 0.55f, 0.55f, 0.75f, 0.55f, 0.55f, 0.55f, 0.75f, 0.55f });
             RaceFrameList frameListEyes = new RaceFrameList(new int[3] { 1, 2, 1 }, new float[3] { 0.3f, 0.3f, 0.3f });

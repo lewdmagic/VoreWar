@@ -4,7 +4,7 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Tigers
     {
-        internal static IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {

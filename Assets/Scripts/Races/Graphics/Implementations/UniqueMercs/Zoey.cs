@@ -56,7 +56,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             internal BodyState BodyState = BodyState.Normal;
         }
     
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList SpinEffect = new RaceFrameList(new int[2] { 25, 19 }, new float[2] { .375f, .375f });
             builder.Setup(output =>

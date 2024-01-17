@@ -184,7 +184,7 @@ internal static class SeliciaMod
     
     private static void ModAabayx()
     {
-        var raceTyped = (RaceData) Aabayx.Instance;
+        var raceTyped = (RaceData) Race.Aabayx.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
         {
@@ -212,116 +212,117 @@ internal static class SeliciaMod
 
     private static void ModAntQueen()
     {
-        var raceTyped = (RaceData) AntQueen.Instance;
-        
-        raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasBreasts == false)
-            {
-                return;
-            }
-            
-            int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(31 * 31));
-
-            if (input.Actor.PredatorComponent?.LeftBreastFullness > 0) {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 31)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[30]);
-                }
-                else if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 29)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[29]);
-                }
-                else if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 27)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[28]);
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.SecondaryBreasts, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasBreasts == false)
-            {
-                return;
-            }
-
-            if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
-            {
-                int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(31 * 31));
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 31)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[61]);
-                }
-                else if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 29)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[60]);
-                }
-                else if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 27)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[59]);
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.HasBelly)
-            {
-                int size = input.Actor.GetStomachSize(29, 0.8f);
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[95]).AddOffset(0, -26 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[94]).AddOffset(0, -26 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 28)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[93]).AddOffset(0, -26 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 27)
-                {
-                    output.Sprite(input.Sprites.AntQueen2[92]).AddOffset(0, -26 * .625f);
-                    return;
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasDick == false)
-            {
-                return;
-            }
-
-            int offsetI = input.Actor.GetBallSize(27, .8f);
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offsetI == 27)
-            {
-                output.Sprite(input.Sprites.AntQueen2[132]).AddOffset(0, -17 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offsetI == 27)
-            {
-                output.Sprite(input.Sprites.AntQueen2[131]).AddOffset(0, -15 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offsetI == 26)
-            {
-                output.Sprite(input.Sprites.AntQueen2[130]).AddOffset(0, -13 * .625f);
-                return;
-            }
-        });
+        // TODO 
+        // var raceTyped = (RaceData) Race.AntQueen.RaceData;
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasBreasts == false)
+        //     {
+        //         return;
+        //     }
+        //     
+        //     int leftSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetLeftBreastSize(31 * 31));
+        //
+        //     if (input.Actor.PredatorComponent?.LeftBreastFullness > 0) {
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.leftBreast) && leftSize >= 31)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[30]);
+        //         }
+        //         else if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 29)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[29]);
+        //         }
+        //         else if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.leftBreast) && leftSize >= 27)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[28]);
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.SecondaryBreasts, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasBreasts == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (input.Actor.PredatorComponent?.RightBreastFullness > 0)
+        //     {
+        //         int rightSize = (int)Math.Sqrt(input.Actor.Unit.DefaultBreastSize * input.Actor.Unit.DefaultBreastSize + input.Actor.GetRightBreastSize(31 * 31));
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.rightBreast) && rightSize >= 31)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[61]);
+        //         }
+        //         else if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 29)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[60]);
+        //         }
+        //         else if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.rightBreast) && rightSize >= 27)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[59]);
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.HasBelly)
+        //     {
+        //         int size = input.Actor.GetStomachSize(29, 0.8f);
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && size == 29)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[95]).AddOffset(0, -26 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 29)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[94]).AddOffset(0, -26 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 28)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[93]).AddOffset(0, -26 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && size == 27)
+        //         {
+        //             output.Sprite(input.Sprites.AntQueen2[92]).AddOffset(0, -26 * .625f);
+        //             return;
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasDick == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     int offsetI = input.Actor.GetBallSize(27, .8f);
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && offsetI == 27)
+        //     {
+        //         output.Sprite(input.Sprites.AntQueen2[132]).AddOffset(0, -17 * .625f);
+        //         return;
+        //     }
+        //
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offsetI == 27)
+        //     {
+        //         output.Sprite(input.Sprites.AntQueen2[131]).AddOffset(0, -15 * .625f);
+        //         return;
+        //     }
+        //
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls) ?? false) && offsetI == 26)
+        //     {
+        //         output.Sprite(input.Sprites.AntQueen2[130]).AddOffset(0, -13 * .625f);
+        //         return;
+        //     }
+        // });
     }
 
     
@@ -329,7 +330,7 @@ internal static class SeliciaMod
     
     private static void ModAnts()
     {
-        var raceTyped = (RaceData) Ants.Instance;
+        var raceTyped = (RaceData) Race.Ants.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -386,7 +387,7 @@ internal static class SeliciaMod
     
     private static void ModAvians()
     {
-        var raceTyped = (RaceData) Avians.Instance;
+        var raceTyped = (RaceData) Race.Avians.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -517,7 +518,7 @@ internal static class SeliciaMod
     
     private static void ModBats()
     {
-        var raceTyped = (RaceData) DemiBats.Instance;
+        var raceTyped = (RaceData) Race.DemiBats.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -644,7 +645,7 @@ internal static class SeliciaMod
     
     private static void ModBees()
     {
-        var raceTyped = (RaceData) Bees.Instance;
+        var raceTyped = (RaceData) Race.Bees.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -769,7 +770,7 @@ internal static class SeliciaMod
     
     private static void ModDeer()
     {
-        var raceTyped = (RaceData) Deer.Instance;
+        var raceTyped = (RaceData) Race.Deer.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -895,7 +896,7 @@ internal static class SeliciaMod
     
     private static void ModDemifrogs()
     {
-        var raceTyped = (RaceData) Demifrogs.Instance;
+        var raceTyped = (RaceData) Race.Demifrogs.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1136,7 +1137,7 @@ internal static class SeliciaMod
     
     private static void ModDemisharks()
     {
-        var raceTyped = (RaceData) Demisharks.Instance;
+        var raceTyped = (RaceData) Race.Demisharks.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1261,7 +1262,7 @@ internal static class SeliciaMod
     
     internal static void ModEquines()
     {
-        var raceTyped = (RaceData) EquinesImrpoved.Instance;
+        var raceTyped = (RaceData) Race.Equines.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -1359,7 +1360,7 @@ internal static class SeliciaMod
     
     private static void ModHumans()
     {
-        var raceTyped = (RaceData) Humans.Instance;
+        var raceTyped = (RaceData) Race.Humans.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1484,7 +1485,7 @@ internal static class SeliciaMod
     
     private static void ModImps()
     {
-        var raceTyped = (RaceData) Imps.Instance;
+        var raceTyped = (RaceData) Race.Imps.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent6, ModdingMode.After, (input, output) =>
         {
@@ -1646,7 +1647,7 @@ internal static class SeliciaMod
     
     private static void ModKangarros()
     {
-        var raceTyped = (RaceData) Kangaroos.Instance;
+        var raceTyped = (RaceData) Race.Kangaroos.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -1694,7 +1695,7 @@ internal static class SeliciaMod
     // TODO
     private static void ModLamia()
     {
-        var raceTyped = (RaceData) Lamia.Instance;
+        var raceTyped = (RaceData) Race.Lamia.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1719,7 +1720,7 @@ internal static class SeliciaMod
     
     private static void ModLizards()
     {
-        var raceTyped = (RaceData) Lizards.Instance;
+        var raceTyped = (RaceData) Race.Lizards.RaceData;
         
         // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         // {
@@ -1837,7 +1838,7 @@ internal static class SeliciaMod
     
     private static void ModPanthers()
     {
-        var raceTyped = (RaceData) Panthers.Instance;
+        var raceTyped = (RaceData) Race.Panthers.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -1975,7 +1976,7 @@ internal static class SeliciaMod
     
     private static void ModSergal()
     {
-        var raceTyped = (RaceData) Sergal.Instance;
+        var raceTyped = (RaceData) Race.Sergal.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -1996,71 +1997,71 @@ internal static class SeliciaMod
     
     private static void ModSlimeQueen()
     {
-        var raceTyped = (RaceData) SlimeQueen.Instance;
-        
-        raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.HasBelly)
-            {
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
-                {
-                    output.Sprite(input.Sprites.Slimes[69]).AddOffset(0, -25 * .625f);
-                    return;
-                }
-
-                if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
-                {
-                    if (input.Actor.GetStomachSize(15, .75f) == 15)
-                    {
-                        output.Sprite(input.Sprites.Slimes[68]).AddOffset(0, -25 * .625f);
-                        return;
-                    }
-
-                    if (input.Actor.GetStomachSize(15, .875f) == 15)
-                    {
-                        output.Sprite(input.Sprites.Slimes[67]).AddOffset(0, -25 * .625f);
-                        return;
-                    }
-                }
-            }
-        });
-        
-        raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
-        {
-            if (input.Actor.Unit.HasDick == false)
-            {
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[24]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
-            {
-                output.Sprite(input.Sprites.Balls[23]).AddOffset(0, -18 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 20)
-            {
-                output.Sprite(input.Sprites.Balls[22]).AddOffset(0, -15 * .625f);
-                return;
-            }
-
-            if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 19)
-            {
-                output.Sprite(input.Sprites.Balls[21]).AddOffset(0, -14 * .625f);
-                return;
-            }
-        });
+        // var raceTyped = (RaceData) Race.SlimeQueen.RaceData;
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.HasBelly)
+        //     {
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.Actor.GetStomachSize() == 15)
+        //         {
+        //             output.Sprite(input.Sprites.Slimes[69]).AddOffset(0, -25 * .625f);
+        //             return;
+        //         }
+        //
+        //         if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+        //         {
+        //             if (input.Actor.GetStomachSize(15, .75f) == 15)
+        //             {
+        //                 output.Sprite(input.Sprites.Slimes[68]).AddOffset(0, -25 * .625f);
+        //                 return;
+        //             }
+        //
+        //             if (input.Actor.GetStomachSize(15, .875f) == 15)
+        //             {
+        //                 output.Sprite(input.Sprites.Slimes[67]).AddOffset(0, -25 * .625f);
+        //                 return;
+        //             }
+        //         }
+        //     }
+        // });
+        //
+        // raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
+        // {
+        //     if (input.Actor.Unit.HasDick == false)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
+        //     {
+        //         output.Sprite(input.Sprites.Balls[24]).AddOffset(0, -18 * .625f);
+        //         return;
+        //     }
+        //
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 21)
+        //     {
+        //         output.Sprite(input.Sprites.Balls[23]).AddOffset(0, -18 * .625f);
+        //         return;
+        //     }
+        //
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 20)
+        //     {
+        //         output.Sprite(input.Sprites.Balls[22]).AddOffset(0, -15 * .625f);
+        //         return;
+        //     }
+        //
+        //     if ((input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) ?? false) && input.Actor.GetBallSize(21, .9f) == 19)
+        //     {
+        //         output.Sprite(input.Sprites.Balls[21]).AddOffset(0, -14 * .625f);
+        //         return;
+        //     }
+        // });
     }
     
     private static void ModSlimes()
     {
-        var raceTyped = (RaceData) Slimes.Instance;
+        var raceTyped = (RaceData) Race.Slimes.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -2092,7 +2093,7 @@ internal static class SeliciaMod
     
     private static void ModTaurus()
     {
-        var raceTyped = (RaceData) Taurus.Instance;
+        var raceTyped = (RaceData) Race.Taurus.RaceData;
 
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -2147,7 +2148,7 @@ internal static class SeliciaMod
     
     private static void ModCockatrice()
     {
-        var raceTyped = (RaceData) Cockatrice.Instance;
+        var raceTyped = (RaceData) Race.Cockatrice.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -2273,7 +2274,7 @@ internal static class SeliciaMod
     
     private static void ModGoblins()
     {
-        var raceTyped = (RaceData) Goblins.Instance;
+        var raceTyped = (RaceData) Race.Goblins.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -2405,7 +2406,7 @@ internal static class SeliciaMod
     
     private static void ModHippos()
     {
-        var raceTyped = (RaceData) Hippos.Instance;
+        var raceTyped = (RaceData) Race.Hippos.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -2531,7 +2532,7 @@ internal static class SeliciaMod
     
     private static void ModKomodos()
     {
-        var raceTyped = (RaceData) Komodos.Instance;
+        var raceTyped = (RaceData) Race.Komodos.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -2657,7 +2658,7 @@ internal static class SeliciaMod
     
     private static void ModPuca()
     {
-        var raceTyped = (RaceData) Puca.Instance;
+        var raceTyped = (RaceData) Race.Puca.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -2715,7 +2716,7 @@ internal static class SeliciaMod
     
     private static void ModSuccubi()
     {
-        var raceTyped = (RaceData) Succubi.Instance;
+        var raceTyped = (RaceData) Race.Succubi.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -2785,7 +2786,7 @@ internal static class SeliciaMod
     
     private static void ModVargul()
     {
-        // var raceTyped = (RaceData) Vargul.Instance;
+        // var raceTyped = (RaceData) Race.Vargul.RaceData;
         //
         // raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         // {
@@ -2920,7 +2921,7 @@ internal static class SeliciaMod
     
     private static void ModVipers()
     {
-        var raceTyped = (RaceData) Vipers.Instance;
+        var raceTyped = (RaceData) Race.Vipers.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent2, ModdingMode.After, (input, output) =>
         {
@@ -3158,7 +3159,7 @@ internal static class SeliciaMod
     
     private static void ModCatfish()
     {
-        var raceTyped = (RaceData) Catfish.Instance;
+        var raceTyped = (RaceData) Race.Catfish.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Body, ModdingMode.After, (input, output) =>
         {
@@ -3223,7 +3224,7 @@ internal static class SeliciaMod
     
     private static void ModCollectors()
     {
-        var raceTyped = (RaceData) Collectors.Instance;
+        var raceTyped = (RaceData) Race.Collectors.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3242,7 +3243,7 @@ internal static class SeliciaMod
     
     private static void ModCompy()
     {
-        var raceTyped = (RaceData) Compy.Instance;
+        var raceTyped = (RaceData) Race.Compy.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
         {
@@ -3288,7 +3289,7 @@ internal static class SeliciaMod
     
     private static void ModCoralSlugs()
     {
-        var raceTyped = (RaceData) CoralSlugs.Instance;
+        var raceTyped = (RaceData) Race.CoralSlugs.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3314,7 +3315,7 @@ internal static class SeliciaMod
     
     private static void ModDarkSwallower()
     {
-        var raceTyped = (RaceData) DarkSwallower.Instance;
+        var raceTyped = (RaceData) Race.DarkSwallower.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3355,7 +3356,7 @@ internal static class SeliciaMod
     
     private static void ModDragon()
     {
-        var raceTyped = (RaceData) Dragon.Instance;
+        var raceTyped = (RaceData) Race.Dragon.RaceData;
         // TODO Add Calcule
         Dragon.Position position = Dragon.Position.StandingCrouch;
         
@@ -3430,7 +3431,7 @@ internal static class SeliciaMod
     
     private static void ModDragonfly()
     {
-        var raceTyped = (RaceData) Dragonfly.Instance;
+        var raceTyped = (RaceData) Race.Dragonfly.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3453,7 +3454,7 @@ internal static class SeliciaMod
     
     private static void ModDratopyr()
     {
-        var raceTyped = (RaceData) Dratopyr.Instance;
+        var raceTyped = (RaceData) Race.Dratopyr.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3589,7 +3590,7 @@ internal static class SeliciaMod
     
     private static void ModEarthworms()
     {
-        var raceTyped = (RaceData) Earthworms.Instance;
+        var raceTyped = (RaceData) Race.Earthworms.RaceData;
         // TODO Add position calc
         var position = Earthworms.Position.Underground;
         
@@ -3635,7 +3636,7 @@ internal static class SeliciaMod
     
     private static void ModEasternDragon()
     {
-        var raceTyped = (RaceData) EasternDragon.Instance;
+        var raceTyped = (RaceData) Race.EasternDragon.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent4, ModdingMode.After, (input, output) =>
         {
@@ -3730,7 +3731,7 @@ internal static class SeliciaMod
     
     private static void ModFairies()
     {
-        // var raceTyped = (RaceData<Fairies.FairyParameters>) Fairies.Instance;
+        // var raceTyped = (RaceData<Fairies.FairyParameters>) Race.Fairies.RaceData;
         //
         // raceTyped.ModifySingleRender(SpriteType.BodyAccent2, ModdingMode.After, (input, output) =>
         // {
@@ -3866,7 +3867,7 @@ internal static class SeliciaMod
     
     private static void ModFeralAnts()
     {
-        var raceTyped = (RaceData) FeralAnts.Instance;
+        var raceTyped = (RaceData) Race.FeralAnts.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3894,7 +3895,7 @@ internal static class SeliciaMod
     
     private static void ModFeralBats()
     {
-        var raceTyped = (RaceData) FeralBats.Instance;
+        var raceTyped = (RaceData) Race.FeralBats.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -3981,7 +3982,7 @@ internal static class SeliciaMod
     
     private static void ModFeralLions()
     {
-        var raceTyped = (RaceData) FeralLions.Instance;
+        var raceTyped = (RaceData) Race.FeralLions.RaceData;
         // TODO Add calculate
         bool hindView = false;
         
@@ -4004,7 +4005,7 @@ internal static class SeliciaMod
     
     private static void ModFeralLizards()
     {
-        var raceTyped = (RaceData) FeralLizards.Instance;
+        var raceTyped = (RaceData) Race.FeralLizards.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4070,7 +4071,7 @@ internal static class SeliciaMod
     
     private static void ModFeralSharks()
     {
-        var raceTyped = (RaceData) FeralSharks.Instance;
+        var raceTyped = (RaceData) Race.FeralSharks.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4105,7 +4106,7 @@ internal static class SeliciaMod
     
     private static void ModFeralWolves()
     {
-        var raceTyped = (RaceData) FeralWolves.Instance;
+        var raceTyped = (RaceData) Race.FeralWolves.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccessory, ModdingMode.After, (input, output) =>
         {
@@ -4133,7 +4134,7 @@ internal static class SeliciaMod
     
     private static void ModGazelle()
     {
-        var raceTyped = (RaceData) Gazelle.Instance;
+        var raceTyped = (RaceData) Race.Gazelle.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4201,7 +4202,7 @@ internal static class SeliciaMod
     
     private static void ModGryphons()
     {
-        // var raceTyped = (RaceData<Gryphons.PositionParameters>) Gryphons.Instance;
+        // var raceTyped = (RaceData<Gryphons.PositionParameters>) Race.Gryphons.RaceData;
         //
         // raceTyped.ModifySingleRender(SpriteType.BodyAccent6, ModdingMode.After, (input, output) =>
         // {
@@ -4329,7 +4330,7 @@ internal static class SeliciaMod
     
     private static void ModHarvesters()
     {
-        var raceTyped = (RaceData) Harvesters.Instance;
+        var raceTyped = (RaceData) Race.Harvesters.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4369,7 +4370,7 @@ internal static class SeliciaMod
     
     private static void ModKobolds()
     {
-        // var raceTyped = (RaceData) Kobolds.Instance;
+        // var raceTyped = (RaceData) Race.Kobolds.RaceData;
         //
         // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         // {
@@ -4485,7 +4486,7 @@ internal static class SeliciaMod
     
     private static void ModMantis()
     {
-        var raceTyped = (RaceData) Mantis.Instance;
+        var raceTyped = (RaceData) Race.Mantis.RaceData;
         // TODO
         var position = Mantis.Position.Default;
         
@@ -4527,7 +4528,7 @@ internal static class SeliciaMod
     
     private static void ModMonitors()
     {
-        var raceTyped = (RaceData) Monitors.Instance;
+        var raceTyped = (RaceData) Race.Monitors.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4591,7 +4592,7 @@ internal static class SeliciaMod
     
     private static void ModRaptor()
     {
-        var raceTyped = (RaceData) Raptor.Instance;
+        var raceTyped = (RaceData) Race.Raptor.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent6, ModdingMode.After, (input, output) =>
         {
@@ -4653,7 +4654,7 @@ internal static class SeliciaMod
     
     private static void ModRockSlugs()
     {
-        var raceTyped = (RaceData) RockSlugs.Instance;
+        var raceTyped = (RaceData) Race.RockSlugs.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4679,7 +4680,7 @@ internal static class SeliciaMod
     
     private static void ModSalamanders()
     {
-        var raceTyped = (RaceData) Salamanders.Instance;
+        var raceTyped = (RaceData) Race.Salamanders.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4714,7 +4715,7 @@ internal static class SeliciaMod
     
     private static void ModSchiwardez()
     {
-        var raceTyped = (RaceData) Schiwardez.Instance;
+        var raceTyped = (RaceData) Race.Schiwardez.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
         {
@@ -4762,7 +4763,7 @@ internal static class SeliciaMod
     
     private static void ModSpitterSlugs()
     {
-        var raceTyped = (RaceData) SpitterSlugs.Instance;
+        var raceTyped = (RaceData) Race.SpitterSlugs.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4788,7 +4789,7 @@ internal static class SeliciaMod
     
     private static void ModSpringSlugs()
     {
-        var raceTyped = (RaceData) SpringSlugs.Instance;
+        var raceTyped = (RaceData) Race.SpringSlugs.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Body, ModdingMode.After, (input, output) =>
         {
@@ -4834,7 +4835,7 @@ internal static class SeliciaMod
     
     private static void ModTerrorbird()
     {
-        var raceTyped = (RaceData) Terrorbird.Instance;
+        var raceTyped = (RaceData) Race.Terrorbird.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4864,7 +4865,7 @@ internal static class SeliciaMod
     
     private static void ModTwistedVines()
     {
-        var raceTyped = (RaceData) TwistedVines.Instance;
+        var raceTyped = (RaceData) Race.TwistedVines.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -4884,7 +4885,7 @@ internal static class SeliciaMod
     
     private static void ModVagrants()
     {
-        var raceTyped = (RaceData) Vagrants.Instance;
+        var raceTyped = (RaceData) Race.Vagrants.RaceData;
         
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
@@ -4970,7 +4971,7 @@ internal static class SeliciaMod
     
     private static void ModVoilin()
     {
-        var raceTyped = (RaceData) Voilin.Instance;
+        var raceTyped = (RaceData) Race.Voilin.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5010,7 +5011,7 @@ internal static class SeliciaMod
     
     private static void ModWarriorAnts()
     {
-        var raceTyped = (RaceData) WarriorAnts.Instance;
+        var raceTyped = (RaceData) Race.WarriorAnts.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5045,7 +5046,7 @@ internal static class SeliciaMod
     
     private static void ModWyvern()
     {
-        var raceTyped = (RaceData) Wyvern.Instance;
+        var raceTyped = (RaceData) Race.Wyvern.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5063,7 +5064,7 @@ internal static class SeliciaMod
     
     private static void ModYoungWyvern()
     {
-        var raceTyped = (RaceData) YoungWyvern.Instance;
+        var raceTyped = (RaceData) Race.YoungWyvern.RaceData;
 
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5125,7 +5126,7 @@ internal static class SeliciaMod
     
     private static void ModAbakhanskya()
     {
-        var raceTyped = (RaceData) Abakhanskya.Instance;
+        var raceTyped = (RaceData) Race.Abakhanskya.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.BodyAccent4, ModdingMode.After, (input, output) =>
         {
@@ -5140,7 +5141,7 @@ internal static class SeliciaMod
     
     private static void ModAsura()
     {
-        var raceTyped = (RaceData) Asura.Instance;
+        var raceTyped = (RaceData) Race.Asura.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5172,7 +5173,7 @@ internal static class SeliciaMod
     
     private static void ModAuri()
     {
-        // var raceTyped = (RaceData) Auri.Instance;
+        // var raceTyped = (RaceData) Race.Auri.RaceData;
         //
         // raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         // {
@@ -5280,7 +5281,7 @@ internal static class SeliciaMod
     
     private static void ModDRACO()
     {
-        var raceTyped = (RaceData) DRACO.Instance;
+        var raceTyped = (RaceData) Race.DRACO.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5302,7 +5303,7 @@ internal static class SeliciaMod
     
     private static void ModKi()
     {
-        var raceTyped = (RaceData) Ki.Instance;
+        var raceTyped = (RaceData) Race.Ki.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Balls, ModdingMode.After, (input, output) =>
         {
@@ -5322,7 +5323,7 @@ internal static class SeliciaMod
     
     private static void ModSalix()
     {
-        var raceTyped = (RaceData) Salix.Instance;
+        var raceTyped = (RaceData) Race.Salix.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -5453,7 +5454,7 @@ internal static class SeliciaMod
     
     private static void ModScorch()
     {
-        var raceTyped = (RaceData) Scorch.Instance;
+        var raceTyped = (RaceData) Race.Scorch.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {            
@@ -5475,7 +5476,7 @@ internal static class SeliciaMod
     
     private static void ModVision()
     {
-        var raceTyped = (RaceData) Vision.Instance;
+        var raceTyped = (RaceData) Race.Vision.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
@@ -5497,7 +5498,7 @@ internal static class SeliciaMod
     
     private static void ModZera()
     {
-        var raceTyped = (RaceData) Zera.Instance;
+        var raceTyped = (RaceData) Race.Zera.RaceData;
         
         raceTyped.ModifySingleRender(SpriteType.Breasts, ModdingMode.After, (input, output) =>
         {
@@ -5522,7 +5523,7 @@ internal static class SeliciaMod
     
     private static void ModZoey()
     {
-        // var raceTyped = (RaceData<Zoey.ZoeyParams>) Zoey.Instance;
+        // var raceTyped = (RaceData<Zoey.ZoeyParams>) Race.Zoey.RaceData;
         //
         // raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         // {

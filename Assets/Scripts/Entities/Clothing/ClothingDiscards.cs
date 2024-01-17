@@ -41,6 +41,12 @@ internal class ClothingDiscards
 
         if (AllClothes.Any() == false)
         {
+            // TODO this while thing needs to be improved
+            List<IClothing> BeesDiscardData = new List<IClothing>
+            {
+                BeesClothing.Cuirass.CuirassInstance, BeesClothing.BeeLeaderInstance
+            };
+            
             AllClothes = new List<IClothingDataSimple>();
             AllClothes.AddRange(CommonClothing.All);
             AllClothes.AddRange(RaceSpecificClothing.All);
@@ -48,7 +54,7 @@ internal class ClothingDiscards
             AllClothes.AddRange(CruxClothing.CruxClothingTypes.All);
             AllClothes.Add(Loincloth1.Loincloth1Instance);
             AllClothes.Add(Loincloth2.Loincloth2Instance); //3 and 4 are unneeded because they share with 2
-            AllClothes.AddRange(Bees.DiscardData);
+            AllClothes.AddRange(BeesDiscardData);
             AllClothes.AddRange(Panthers.AllClothing); // TODO move from global
             AllClothes.AddRange(Races2.GetRace(Race.Hippos).MiscRaceData.AllowedMainClothingTypesBasic);
             AllClothes.AddRange(Races2.GetRace(Race.Hippos).MiscRaceData.AllowedWaistTypesBasic);

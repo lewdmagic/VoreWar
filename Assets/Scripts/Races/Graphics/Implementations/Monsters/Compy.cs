@@ -8,7 +8,7 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Compy
     {
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
         
         

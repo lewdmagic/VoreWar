@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Mercs
     {
         // TODO Whisp used as placeholder
         // Recode Youko to extend (not inheritance) human behavior 
-        internal static IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
             {

@@ -8,7 +8,7 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Salamanders
     {
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList frameListSalamanderFlame = new RaceFrameList(new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new float[10] { .1f, .1f, .1f, .1f, .1f, .1f, .1f, .1f, .1f, .1f });
 

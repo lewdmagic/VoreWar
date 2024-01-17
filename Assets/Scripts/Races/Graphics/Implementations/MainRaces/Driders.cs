@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class Driders
     {
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             float yOffset = 30 * .625f;
             IClothing leaderClothes = DriderLeader.DriderLeaderInstance;

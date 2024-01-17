@@ -8,17 +8,21 @@ using System.Collections.Generic;
 
 internal class RaceDataMaker
 {
+    private readonly Func<MiscRaceData> _template;
+    private readonly Action<IRaceBuilder> _builderUser;
 
-    private readonly RaceBuilder _builder;
-
-    public RaceDataMaker(RaceBuilder builder)
+    public RaceDataMaker(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser)
     {
-        _builder = builder;
+        _template = template;
+        _builderUser = builderUser;
     }
 
     internal IRaceData Create(Race race)
     {
-        return _builder.Build(race);
+        
+        RaceBuilder builder = new RaceBuilder(_template);
+        _builderUser.Invoke(builder);
+        return builder.Build(race);
     }
 }
 
@@ -26,9 +30,7 @@ internal static class RaceBuilderStatic
 {
     internal static RaceDataMaker CreateV2(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser)
     {
-        RaceBuilder builder = new RaceBuilder(template);
-        builderUser.Invoke(builder);
-        return new RaceDataMaker(builder);
+        return new RaceDataMaker(template, builderUser);
     }
 }
 

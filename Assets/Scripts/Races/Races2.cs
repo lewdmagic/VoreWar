@@ -13,11 +13,12 @@ static class Races2
         // TODO not sure how to improve this. 
         if (Equals(unit.Race, Race.Slimes) && unit.Type == UnitType.Leader)
         {
-            return SlimeQueen.Instance;
+            // TODO come up with a way to implement this neatly
+            //return SlimeQueen.Instance;
         }
         if (Equals(unit.Race, Race.Ants) && unit.Type == UnitType.Leader)
         {
-            return AntQueen.Instance;
+            //return AntQueen.Instance;
         }
         return GetRace(unit.Race);
     }

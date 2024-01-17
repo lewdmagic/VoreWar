@@ -8,7 +8,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 {
     internal static class Abakhanskya
     {
-        internal static IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output => { 
                 output.Names("Abakhanskya", "Abakhanskya");

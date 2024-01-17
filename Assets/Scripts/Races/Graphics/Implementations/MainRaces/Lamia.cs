@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.MainRaces
         private static readonly float xOffset = -1.875f; //3 pixels * 5/8
         private static readonly float yOffset = 3.75f;
 
-        internal static readonly IRaceData Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
+        internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
