@@ -5,12 +5,18 @@ using UnityEngine;
 public class SpriteChangeDict : ISpriteChanger
 {
     internal readonly Dictionary<SpriteType, RaceRenderOutput> ReusedChangesDict = new Dictionary<SpriteType, RaceRenderOutput>();
+    private readonly ISpriteCollection _spriteCollection;
+
+    public SpriteChangeDict(ISpriteCollection spriteCollection)
+    {
+        _spriteCollection = spriteCollection;
+    }
     
     public IRaceRenderOutput ChangeSprite(SpriteType spriteType)
     {
         if (!ReusedChangesDict.TryGetValue(spriteType, out var raceRenderOutput))
         {
-            raceRenderOutput = new RaceRenderOutput();
+            raceRenderOutput = new RaceRenderOutput(_spriteCollection);
             ReusedChangesDict.Add(spriteType, raceRenderOutput);
         }
 
@@ -36,6 +42,13 @@ public class SpriteChangeDict : ISpriteChanger
 
 internal class RaceRenderOutput : IRaceRenderOutput, ISpriteChangeReadable
 {
+    private readonly ISpriteCollection _spriteCollection;
+    
+    internal RaceRenderOutput(ISpriteCollection spriteCollection)
+    {
+        _spriteCollection = spriteCollection;
+    }
+    
     public Sprite SpriteVal { get; private set; }
     public Vector2 Offset { get; private set; } = new Vector2(0, 0);
 
@@ -48,7 +61,31 @@ internal class RaceRenderOutput : IRaceRenderOutput, ISpriteChangeReadable
         
     public Color? Color { get; private set; }
     public ColorSwapPalette Palette { get; private set; }
+
+    private Sprite GetSpriteInternal(string id, bool returnNull)
+    {
+        return State.SpriteManager.GetSprite(id, returnNull);
         
+        Sprite sprite = _spriteCollection.GetSprite(id);
+        if (sprite == null && !returnNull) throw new Exception($"Sprite {id} not found");
+
+        return sprite;
+    }
+    
+    public Sprite GetSpriteInternal(string id, int number, bool returnNull = false)
+    {
+        string usedId = id + "_" + number.ToString("D3");
+        return GetSpriteInternal(usedId, returnNull);
+    }
+    
+    public Sprite GetSprite0Internal(string id, int number, bool returnNull = false)
+    {
+        return GetSpriteInternal(id, number + 1, returnNull);
+    }
+
+
+    
+    
     public IRaceRenderOutput Sprite(Sprite sprite)
     {
         SpriteVal = sprite;
@@ -57,76 +94,76 @@ internal class RaceRenderOutput : IRaceRenderOutput, ISpriteChangeReadable
     
     public IRaceRenderOutput Sprite(string id, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite(id, returnNull);
+        SpriteVal = GetSpriteInternal(id, returnNull);
         return this;
     }
     
     public IRaceRenderOutput Sprite(string id, string word1, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite($"{id}_{word1}", returnNull);
+        SpriteVal = GetSpriteInternal($"{id}_{word1}", returnNull);
         return this;
     }
     
     public IRaceRenderOutput Sprite(string id, string word1, string word2, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite($"{id}_{word1}_{word2}", returnNull);
+        SpriteVal = GetSpriteInternal($"{id}_{word1}_{word2}", returnNull);
         return this;
     }
     
     public IRaceRenderOutput Sprite(string id, string word1, string word2, string word3, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite($"{id}_{word1}_{word2}_{word3}", returnNull);
+        SpriteVal = GetSpriteInternal($"{id}_{word1}_{word2}_{word3}", returnNull);
         return this;
     }
     
     public IRaceRenderOutput Sprite(string id, string word1, string word2, string word3, string word4, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite($"{id}_{word1}_{word2}_{word3}_{word4}", returnNull);
+        SpriteVal = GetSpriteInternal($"{id}_{word1}_{word2}_{word3}_{word4}", returnNull);
         return this;
     }
     
     public IRaceRenderOutput Sprite(string id, string word1, string word2, string word3, string word4, string word5, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite($"{id}_{word1}_{word2}_{word3}_{word4}_{word5}", returnNull);
+        SpriteVal = GetSpriteInternal($"{id}_{word1}_{word2}_{word3}_{word4}_{word5}", returnNull);
         return this;
     }
 
     public IRaceRenderOutput Sprite0(string id, int number, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite0(id, number, returnNull);
+        SpriteVal = GetSprite0Internal(id, number, returnNull);
         return this;
     }
 
     public IRaceRenderOutput Sprite0(string id, string word1, int number, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite0($"{id}_{word1}", number, returnNull);
+        SpriteVal = GetSprite0Internal($"{id}_{word1}", number, returnNull);
         return this;
     }
     public IRaceRenderOutput Sprite0(string id, string word1, string word2, int number, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite0($"{id}_{word1}_{word2}", number, returnNull);
+        SpriteVal = GetSprite0Internal($"{id}_{word1}_{word2}", number, returnNull);
         return this;
     }
     public IRaceRenderOutput Sprite0(string id, string word1, string word2, string word3, int number, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite0($"{id}_{word1}_{word2}_{word3}", number, returnNull);
+        SpriteVal = GetSprite0Internal($"{id}_{word1}_{word2}_{word3}", number, returnNull);
         return this;
     }
     public IRaceRenderOutput Sprite0(string id, string word1, string word2, string word3, string word4, int number, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite0($"{id}_{word1}_{word2}_{word3}_{word4}", number, returnNull);
+        SpriteVal = GetSprite0Internal($"{id}_{word1}_{word2}_{word3}_{word4}", number, returnNull);
         return this;
     }
     
     public IRaceRenderOutput Sprite0(string id, string word1, string word2, string word3, string word4, string word5, int number, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite0($"{id}_{word1}_{word2}_{word3}_{word4}_{word5}", number, returnNull);
+        SpriteVal = GetSprite0Internal($"{id}_{word1}_{word2}_{word3}_{word4}_{word5}", number, returnNull);
         return this;
     }
 
     public IRaceRenderOutput Sprite(string id, int number, bool returnNull = false)
     {
-        SpriteVal = State.SpriteManager.GetSprite(id, number, returnNull);
+        SpriteVal = GetSpriteInternal(id, number, returnNull);
         return this;
     }
 

@@ -382,13 +382,13 @@ namespace Races.Graphics.Implementations.Mercs
                 
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(11);
                     output["Clothing1"].Layer(10);
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
                     output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
-                    if (input.Params.FacingFront)
+                    if (extra.FacingFront)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Kobolds[105]);
                         if (input.U.HasDick)
@@ -415,11 +415,11 @@ namespace Races.Graphics.Implementations.Mercs
                     output.RevealsBreasts = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(20);
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
-                    if (input.Params.FacingFront)
+                    if (extra.FacingFront)
                     {
                         output["Clothing1"].Layer(20);
                         if (input.U.BreastSize > 1)
@@ -453,11 +453,11 @@ namespace Races.Graphics.Implementations.Mercs
                 
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(10);
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.ClothingStrict, input.U.ClothingColor));
-                    if (input.Params.FacingFront)
+                    if (extra.FacingFront)
                     {
                         output["Clothing1"].Layer(10);
                         output["Clothing1"].Sprite(input.Sprites.Kobolds[68]);
@@ -481,11 +481,11 @@ namespace Races.Graphics.Implementations.Mercs
                     output.RevealsDick = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(11);
                     output["Clothing1"].Layer(10);
-                    if (input.Params.FacingFront)
+                    if (extra.FacingFront)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Kobolds[63]);
                         output["Clothing2"].Sprite(input.Sprites.Kobolds[66]);
@@ -509,10 +509,10 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(10);
-                    if (input.Params.FacingFront)
+                    if (extra.FacingFront)
                     {
                         output["Clothing1"].Layer(10);
                         output["Clothing1"].Sprite(input.Sprites.Kobolds[103]);

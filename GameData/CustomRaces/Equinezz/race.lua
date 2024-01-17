@@ -53,9 +53,12 @@ function setup(output)
     output.SecondaryEyeColors = 1;
     output.BodySizes = 0;
 
-    output.AllowedMainClothingTypes.Clear();
-    output.AllowedWaistTypes.Clear();
-    output.AllowedClothingHatTypes.Clear();
+    Log(output.AllowedMainClothingTypes);
+    Log(output.AllowedMainClothingTypes.Clear);
+    
+    --output.AllowedMainClothingTypes.Clear();
+    --output.AllowedWaistTypes.Clear();
+    --output.AllowedClothingHatTypes.Clear();
     output.MouthTypes = 0;
     output.AvoidedMainClothingTypes = 0;
     output.TailTypes = 6;
@@ -66,18 +69,21 @@ function setup(output)
     output.ClothingColors = GetPaletteCount(SwapType.Clothing50Spaced);
     output.ExtendedBreastSprites = true;
 
-    output.AllowedMainClothingTypes.Set( -- undertops
-            --HorseClothing.HorseUndertop1Instance,
-            --HorseClothing.HorseUndertop1Instance2,
-            GetClothing("horsetop1"),
-            HorseClothing.HorseUndertop2Instance,
-            HorseClothing.HorseUndertop3Instance,
-            HorseClothing.HorseUndertop4Instance,
-            HorseClothing.HorseUndertopM1Instance,
-            HorseClothing.HorseUndertopM2Instance,
-            HorseClothing.HorseUndertopM3Instance
-    );
+    output.AllowedMainClothingTypes.Add(GetClothing("horsetop1"));
+    
+    output.AllowedMainClothingTypes.AddRange({-- undertops
+        --HorseClothing.HorseUndertop1Instance,
+        --HorseClothing.HorseUndertop1Instance2,
+        GetClothing("horsetop1")--,
+        --HorseClothing.HorseUndertop2Instance,
+        --HorseClothing.HorseUndertop3Instance,
+        --HorseClothing.HorseUndertop4Instance,
+        --HorseClothing.HorseUndertopM1Instance,
+        --HorseClothing.HorseUndertopM2Instance,
+        --HorseClothing.HorseUndertopM3Instance
+    });
 
+    --[[
     output.AllowedWaistTypes.Set( -- underbottoms
             HorseClothing.HorseUBottom1,
             HorseClothing.HorseUBottom2,
@@ -96,13 +102,13 @@ function setup(output)
             HorseClothing.HorseOBottom2Instance,
             HorseClothing.HorseOBottom3Instance
     );
+    ]]--
 
     output.WholeBodyOffset = newVector2(0, 16 * 0.625);
 end
 
 --- Core function: called each frame to render the unit. 
 function render(input, output)
-
     local headSprite = output.NewSprite(SpriteType.Head, 5);
     headSprite.Coloring(SwapType.HorseSkin, input.U.SkinColor);
     headSprite.Sprite("head", input.Sex, ternary(input.A.IsAttacking or input.A.IsEating, "eat", "still"));

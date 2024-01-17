@@ -7,7 +7,7 @@ using UnityEngine;
 namespace DaVikingCode.AssetPacker
 {
     
-    public class SpriteManager
+    public class SpriteManager : ISpriteCollection
     {
         private readonly Dictionary<string, Sprite> _mSprites = new Dictionary<string, Sprite>();
 
@@ -233,6 +233,12 @@ namespace DaVikingCode.AssetPacker
             _mSprites.TryGetValue(id, out var sprite);
             if (sprite == null && !returnNull) throw new Exception($"Sprite {id} not found");
 
+            return sprite;
+        }
+
+        public Sprite GetSprite(string id)
+        {
+            _mSprites.TryGetValue(id, out var sprite);
             return sprite;
         }
 

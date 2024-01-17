@@ -721,7 +721,7 @@ namespace Races.Graphics.Implementations.MainRaces
         });
 
 
-        private static void ClothingShared1(IClothingRenderInput<IOverSizeParameters> input, IRaceRenderOutput clothing4)
+        private static void ClothingShared1(IClothingRenderInput input, IRaceRenderOutput clothing4)
         {
             if (input.U.BodySize == 2)
             {
@@ -883,12 +883,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenFundertops[56]);
                         output.BlocksBreasts = false;
@@ -946,13 +946,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.Type = 60002;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                         output.BlocksBreasts = false;
@@ -1010,12 +1010,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenFundertops[59]);
                         output.BlocksBreasts = false;
@@ -1073,13 +1073,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.Type = 60004;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenFundertops[61]);
                         output.BlocksBreasts = false;
@@ -1137,12 +1137,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenFundertops[63]);
                         output.BlocksBreasts = false;
@@ -1201,12 +1201,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenFundertops[65]);
                         output.BlocksBreasts = false;
@@ -1264,13 +1264,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.Type = 60007;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenFundertops[67]);
                         output.BlocksBreasts = false;
@@ -1471,12 +1471,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing3"].Layer(5);
                     output["Clothing2"].Layer(15);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenUniform2[6]);
                     }
@@ -1563,13 +1563,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(15);
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[51]);
                         output.BlocksBreasts = false;
@@ -1694,13 +1694,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(15);
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                         output.BlocksBreasts = false;
@@ -1762,13 +1762,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(15);
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[69]);
                         output.BlocksBreasts = false;
@@ -1830,13 +1830,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(15);
                     output["Clothing3"].Layer(17);
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.HumenFOnePieces[78]);
                         output.BlocksBreasts = false;

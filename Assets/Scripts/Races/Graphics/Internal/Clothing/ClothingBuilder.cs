@@ -76,7 +76,7 @@ public class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
 
 internal class ClothingBuilderV2<T> : ClothingBuilderShared, IClothingBuilder<T> where T : IParameters
 {
-    private Action<IClothingRenderInput<T>, IClothingRenderOutput> _completeGen;
+    private Action<IClothingRenderInput, IClothingRenderOutput, T> _completeGen;
     private readonly Func<IClothingRenderInput, T> _paramsCalc;
     
     public ClothingBuilderV2(Func<IClothingRenderInput, T> paramsCalc)
@@ -84,7 +84,7 @@ internal class ClothingBuilderV2<T> : ClothingBuilderShared, IClothingBuilder<T>
         _paramsCalc = paramsCalc;
     }
 
-    public void RenderAll(Action<IClothingRenderInput<T>, IClothingRenderOutput> completeGen)
+    public void RenderAll(Action<IClothingRenderInput, IClothingRenderOutput, T> completeGen)
     {
         _completeGen = completeGen;
     }

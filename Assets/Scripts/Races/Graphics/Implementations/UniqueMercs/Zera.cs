@@ -67,23 +67,23 @@ namespace Races.Graphics.Implementations.UniqueMercs
             // TODO removed from belly. Not sure if redundant or not, prob needs testing
             /*
 
-            if (input.Params.BodyState == BodyStateType.Third)
+            if (extra.BodyState == BodyStateType.Third)
             {
-                if (input.Params.StomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                if (extra.StomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
                 {
-                    input.Params.StomachSize = 16;
+                    extra.StomachSize = 16;
                 }
             }
 
-            if (input.Params.StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
+            if (extra.StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
             {
-                input.Params.StomachSize = 18;
+                extra.StomachSize = 18;
             }
 
 
-            if (input.Params.StomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+            if (extra.StomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
             {
-                input.Params.StomachSize = 17;
+                extra.StomachSize = 17;
             }
 
              */
@@ -92,7 +92,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
         private static BodyStateType CalcBodyStateType(Actor_Unit actor)
         {
             int stomachSize = actor.GetStomachSize(19);
-            //input.Params.StomachSize = actor.Unit.BodyAccentType1;
+            //extra.StomachSize = actor.Unit.BodyAccentType1;
             if (stomachSize >= 7 && actor.PredatorComponent?.BallsFullness == 0)
             {
                 return BodyStateType.Third;

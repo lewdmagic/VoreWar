@@ -1378,10 +1378,10 @@ namespace Races.Graphics.Implementations.Mercs
                 output.DiscardUsesPalettes = true;
             });
 
-            builder.RenderAll((input, output) =>
+            builder.RenderAll((input, output, extra) =>
             {
                 output["Clothing1"].Layer(20);
-                if (input.Params.Oversize)
+                if (extra.Oversize)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Gobundertops[7]);
                 }
@@ -1409,10 +1409,10 @@ namespace Races.Graphics.Implementations.Mercs
                 output.DiscardUsesPalettes = true;
             });
 
-            builder.RenderAll((input, output) =>
+            builder.RenderAll((input, output, extra) =>
             {
                 output["Clothing1"].Layer(20);
-                if (input.Params.Oversize)
+                if (extra.Oversize)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Gobundertops[16]);
                 }
@@ -1440,10 +1440,10 @@ namespace Races.Graphics.Implementations.Mercs
                 output.DiscardUsesPalettes = true;
             });
 
-            builder.RenderAll((input, output) =>
+            builder.RenderAll((input, output, extra) =>
             {
                 output["Clothing1"].Layer(20);
-                if (input.Params.Oversize)
+                if (extra.Oversize)
                 {
                     output["Clothing1"].Sprite(null);
                 }
@@ -1471,10 +1471,10 @@ namespace Races.Graphics.Implementations.Mercs
                 output.DiscardUsesPalettes = true;
             });
 
-            builder.RenderAll((input, output) =>
+            builder.RenderAll((input, output, extra) =>
             {
                 output["Clothing1"].Layer(20);
-                if (input.Params.Oversize)
+                if (extra.Oversize)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Gobundertops[34]);
                 }
@@ -1502,7 +1502,7 @@ namespace Races.Graphics.Implementations.Mercs
                 output.DiscardUsesPalettes = true;
             });
 
-            builder.RenderAll((input, output) =>
+            builder.RenderAll((input, output, extra) =>
             {
                 output["Clothing2"].Layer(16);
                 output["Clothing1"].Layer(20);
@@ -1513,7 +1513,7 @@ namespace Races.Graphics.Implementations.Mercs
                     size = 5;
                 }
 
-                if (input.Params.Oversize)
+                if (extra.Oversize)
                 {
                     output["Clothing1"].Sprite(input.Sprites.Gobundertops[48 + 13 * weightMod]);
                 }
@@ -1543,7 +1543,7 @@ namespace Races.Graphics.Implementations.Mercs
                 output.DiscardUsesPalettes = true;
             });
 
-            builder.RenderAll((input, output) =>
+            builder.RenderAll((input, output, extra) =>
             {
                 output["Clothing2"].Layer(18);
                 output["Clothing1"].Layer(20);
@@ -1561,7 +1561,7 @@ namespace Races.Graphics.Implementations.Mercs
                 }
 
                 {
-                    if (input.Params.Oversize || input.U.HasBreasts == false)
+                    if (extra.Oversize || input.U.HasBreasts == false)
                     {
                         output["Clothing1"].Sprite(null);
                     }
@@ -1626,7 +1626,7 @@ namespace Races.Graphics.Implementations.Mercs
                 output.DiscardUsesPalettes = true;
             });
 
-            builder.RenderAll((input, output) =>
+            builder.RenderAll((input, output, extra) =>
             {
                 output["Clothing2"].Layer(3);
                 output["Clothing1"].Layer(21);

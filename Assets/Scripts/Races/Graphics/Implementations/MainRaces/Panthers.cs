@@ -1025,7 +1025,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FixedColor = CalcColor(color) != null;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(layer);
                     output["Clothing1"].Coloring(CalcColor(color));
@@ -1033,7 +1033,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(CalcPalette(color, input.Actor));
                     if (input.U.HasBreasts)
                     {
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             output["Clothing1"].Sprite(sheet[secondRowStart + 3]);
                         }
@@ -1119,14 +1119,14 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(layer);
                     output["Clothing1"].Coloring(Color.white);
                     output["Clothing2"].Layer(layer + 1);
                     if (input.U.HasBreasts)
                     {
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             output["Clothing1"].Sprite(input.Sprites.PantherFOvertops[31]);
                         }
@@ -1170,14 +1170,14 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(layer);
                     output["Clothing1"].Coloring(Color.white);
 
                     if (input.U.HasBreasts)
                     {
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             output["Clothing1"].Sprite(null);
                         }
@@ -1375,7 +1375,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FixedColor = false;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(8);
                     output["Clothing1"].Layer(20);
@@ -1384,7 +1384,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                     if (input.U.HasBreasts)
                     {
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             if (!noPlusBreast)
                             {

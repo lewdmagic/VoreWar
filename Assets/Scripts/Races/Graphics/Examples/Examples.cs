@@ -179,12 +179,12 @@ internal static class Examples
         // The names cannot conflict with names of other clothing pieces, and there are no naming rules.
         // "Clothing1" "Clothing2" are legacy names from old code. I recommend using more descriptive naming (e.g. Torso, Belly, Bra, Sleeves) 
         // There is no limitation on the number of sprites. 
-        builder.RenderAll((input, output) =>
+        builder.RenderAll((input, output, extra) =>
         {
             output["Clothing2"].Layer(11);
             output["Clothing1"].Layer(10);
 
-            if (input.Params.FacingFront)
+            if (extra.FacingFront)
             {
                 output["Clothing1"].Sprite(input.Sprites.Kobolds[63]);
                 output["Clothing2"].Sprite(input.Sprites.Kobolds[66]);

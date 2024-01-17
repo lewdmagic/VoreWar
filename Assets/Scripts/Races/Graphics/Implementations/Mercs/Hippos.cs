@@ -404,11 +404,11 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 84260;
                     output.FixedColor = true;
                 });
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }
@@ -432,11 +432,11 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 84287;
                     output.FixedColor = true;
                 });
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }
@@ -464,11 +464,11 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 84296;
                     output.FixedColor = true;
                 });
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }
@@ -495,11 +495,11 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(10);
                     output["Clothing1"].Layer(17);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }

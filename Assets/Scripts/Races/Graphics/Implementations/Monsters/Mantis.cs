@@ -462,9 +462,9 @@ namespace Races.Graphics.Implementations.Monsters
         {
             actor.AnimationController.frameLists = new[]
             {
-                new AnimationController.FrameList(0, 0, false), // Scythes in Default input.Params.Position controller. Index 0.
+                new AnimationController.FrameList(0, 0, false), // Scythes in Default extra.Position controller. Index 0.
                 new AnimationController.FrameList(0, 0, false)
-            }; // Scythes in Eating input.Params.Position controller. Index 1.
+            }; // Scythes in Eating extra.Position controller. Index 1.
         }
 
     }

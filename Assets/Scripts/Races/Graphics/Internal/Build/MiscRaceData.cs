@@ -7,7 +7,7 @@ using UnityEngine;
 
 #endregion
 
-internal class MiscRaceDataWritableReadable : IMiscRaceData
+public class MiscRaceData : IMiscRaceData
 {
     public readonly List<IClothing> AllowedClothingAccessoryTypes = new List<IClothing>();
     public readonly List<IClothing> AllowedClothingHatTypes = new List<IClothing>();
@@ -22,7 +22,7 @@ internal class MiscRaceDataWritableReadable : IMiscRaceData
     
     internal readonly ExtraRaceInfo _extraRaceInfo = new ExtraRaceInfo();
     
-    public MiscRaceDataWritableReadable(
+    public MiscRaceData(
         Func<int> breastSizes,
         Func<int> dickSizes,
         bool furCapable,

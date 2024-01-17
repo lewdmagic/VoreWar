@@ -832,12 +832,12 @@ public static class Defaults
     }
     
 
-    internal static MiscRaceDataWritableReadable Default()
+    internal static MiscRaceData Default()
     {
         return Default<IParameters>();
     }
 
-    internal static MiscRaceDataWritableReadable Default<T>() where T : IParameters
+    internal static MiscRaceData Default<T>() where T : IParameters
     {
         
         /*
@@ -888,7 +888,7 @@ public static class Defaults
     Vector3 clothingShift)
          * 
          */
-        MiscRaceDataWritableReadable miscRaceDataWritableReadable = new MiscRaceDataWritableReadable(
+        MiscRaceData miscRaceData = new MiscRaceData(
             breastSizes: () => Config.AllowHugeBreasts ? State.GameManager.SpriteDictionary.Breasts.Length : State.GameManager.SpriteDictionary.Breasts.Length - 3,
             dickSizes: () => Config.AllowHugeDicks ? State.GameManager.SpriteDictionary.Dicks.Length : State.GameManager.SpriteDictionary.Dicks.Length - 3,
             furCapable: false,
@@ -935,7 +935,7 @@ public static class Defaults
             clothingShift: new Vector3()
         );
 
-        miscRaceDataWritableReadable.AllowedMainClothingTypes.Set(
+        miscRaceData.AllowedMainClothingTypes.Set(
             CommonClothing.BikiniTopInstance,
             CommonClothing.BeltTopInstance,
             CommonClothing.StrapTopInstance,
@@ -946,27 +946,27 @@ public static class Defaults
             CommonClothing.MaleVillagerInstance
         );
 
-        miscRaceDataWritableReadable.AllowedWaistTypes.Set(
+        miscRaceData.AllowedWaistTypes.Set(
             CommonClothing.BikiniBottomInstance,
             CommonClothing.LoinclothInstance,
             CommonClothing.ShortsInstance
         );
 
-        miscRaceDataWritableReadable.AllowedClothingHatTypes.Set(
+        miscRaceData.AllowedClothingHatTypes.Set(
             MainAccessories.SantaHatInstance
         );
 
-        return miscRaceDataWritableReadable;
+        return miscRaceData;
     }
 
-    internal static MiscRaceDataWritableReadable Blank()
+    internal static MiscRaceData Blank()
     {
         return Blank<IParameters>();
     }
 
-    internal static MiscRaceDataWritableReadable Blank<T>() where T : IParameters
+    internal static MiscRaceData Blank<T>() where T : IParameters
     {
-        MiscRaceDataWritableReadable miscRaceDataWritableReadable = new MiscRaceDataWritableReadable(
+        MiscRaceData miscRaceData = new MiscRaceData(
             () => Config.AllowHugeBreasts ? State.GameManager.SpriteDictionary.Breasts.Length : State.GameManager.SpriteDictionary.Breasts.Length - 3,
             () => Config.AllowHugeDicks ? State.GameManager.SpriteDictionary.Dicks.Length : State.GameManager.SpriteDictionary.Dicks.Length - 3,
             false,
@@ -1013,7 +1013,7 @@ public static class Defaults
             new Vector3()
         );
 
-        return miscRaceDataWritableReadable;
+        return miscRaceData;
     }
 
 

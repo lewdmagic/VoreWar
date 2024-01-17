@@ -545,10 +545,10 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vargul4[61]);
                     }
@@ -576,10 +576,10 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vargul4[70]);
                     }
@@ -607,12 +607,12 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(18);
                     output["Clothing2"].Layer(18);
                     output["Clothing2"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vargul4[79]);
                     }
@@ -640,12 +640,12 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 61404;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(18);
                     output["Clothing2"].Layer(18);
                     output["Clothing2"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                         output["Clothing2"].Sprite(input.Sprites.Vargul4[89]);
@@ -675,10 +675,10 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vargul4[106]);
                     }
@@ -703,11 +703,11 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(7);
                     output["Clothing1"].Layer(18);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }
@@ -737,13 +737,13 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(12);
                     output["Clothing2"].Coloring(Color.white);
                     output["Clothing1"].Layer(18);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vargul4[52]);
                         output["Clothing2"].Sprite(input.Sprites.Vargul4[36 + input.U.BodySize]);
@@ -774,7 +774,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.OccupiesAllSlots = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing8"].Layer(18);
                     output["Clothing6"].Layer(12);
@@ -808,7 +808,7 @@ namespace Races.Graphics.Implementations.Mercs
                         }
                     }
 
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         if (input.U.BodySize < 2)
                         {
@@ -896,7 +896,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.OccupiesAllSlots = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing8"].Layer(12);
                     output["Clothing6"].Layer(15);
@@ -926,7 +926,7 @@ namespace Races.Graphics.Implementations.Mercs
                         output["Clothing6"].Layer(15);
                     }
 
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         if (input.U.BodySize < 2)
                         {
@@ -1087,7 +1087,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.OccupiesAllSlots = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing8"].Layer(20);
 
@@ -1127,7 +1127,7 @@ namespace Races.Graphics.Implementations.Mercs
                         }
                     }
 
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         if (input.U.BodySize < 2)
                         {

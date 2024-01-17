@@ -123,12 +123,12 @@ public class GameManager : MonoBehaviour
         SeliciaMod.ModAll();
 
         State.SpriteManager = new SpriteManager();
-        //State.SpriteManager.Process2();
+        State.SpriteManager.Process2();
 
-        // customManager = new CustomManager();
-        // customManager.LoadAllCustom();
-        //
-        // IClothing test = customManager.GetRaceClothing("equinezz", "horsebotto1");
+        customManager = new CustomManager();
+        customManager.LoadAllCustom();
+
+        IClothing test = customManager.GetRaceClothing("equinezz", "horsebotto1");
 
     }
 

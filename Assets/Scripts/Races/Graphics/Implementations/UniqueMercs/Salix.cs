@@ -434,11 +434,11 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.Type = 1301;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }
@@ -509,7 +509,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.OccupiesAllSlots = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(20);
                     output["Clothing1"].Coloring(Color.white);
@@ -524,7 +524,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     int mod = input.U.BreastSize + (input.U.HasBreasts ? 0 : 1);
                     if (whole) // Full cloak sleeves
                     {
-                        output["Clothing1"].Sprite(input.Params.Oversize ? input.Sprites.Salix[59] : input.Sprites.Salix[52 + mod]); // Cloak Shirt
+                        output["Clothing1"].Sprite(extra.Oversize ? input.Sprites.Salix[59] : input.Sprites.Salix[52 + mod]); // Cloak Shirt
 
                         output["Clothing2"].Sprite(input.A.IsAttacking ? input.Sprites.Salix[51] : input.Sprites.Salix[50]);
 
@@ -533,7 +533,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     else // Shoulderless sleeves
                     {
                         output["Clothing1"].Sprite(null);
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             mod = 8;
                         }

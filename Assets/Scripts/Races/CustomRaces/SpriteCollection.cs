@@ -1,6 +1,11 @@
 using UnityEngine;
 
-public class SpriteCollection
+public interface ISpriteCollection
+{
+     Sprite GetSprite(string name);
+}
+
+public class SpriteCollection : ISpriteCollection
 {
 
     

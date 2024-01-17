@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -91,6 +92,32 @@ end
 }
 
 
+internal class RaceScriptUsable
+{
+    internal Action<MiscRaceData> SetupFunc;
+    internal Action<IRunInput, IRaceRenderAllOutput> Generator;
+    internal Action<IRandomCustomInput> Value;
+
+    internal RaceScriptUsable(Action<MiscRaceData> setupFunc, Action<IRunInput, IRaceRenderAllOutput> generator, Action<IRandomCustomInput> value)
+    {
+        SetupFunc = setupFunc;
+        Generator = generator;
+        Value = value;
+    }
+}
+
+internal class ClothingScriptUsable
+{
+    internal Action<IClothingSetupInput, IClothingSetupOutput> SetMisc;
+    internal Action<IClothingRenderInput, IClothingRenderOutput, DynValue> CompleteGen;
+
+    public ClothingScriptUsable(Action<IClothingSetupInput, IClothingSetupOutput> setMisc, Action<IClothingRenderInput, IClothingRenderOutput, DynValue> completeGen)
+    {
+        SetMisc = setMisc;
+        CompleteGen = completeGen;
+    }
+}
+
 public static class ScriptHelper
 {
     
@@ -152,6 +179,16 @@ public static class ScriptHelper
         UserData.RegisterType<ClothingRenderInputImpl>();
         UserData.RegisterType<ClothingRenderInputImpl<OverSizeParameters>>();
         UserData.RegisterType<ClothingRenderInputImpl<IOverSizeParameters>>();
+        
+        
+        UserData.RegisterType<BindableClothing<IOverSizeParameters>>();
+        UserData.RegisterType<BindableClothing<OverSizeParameters>>();
+        UserData.RegisterType<MiscRaceData>();
+        
+        UserData.RegisterType<IList>();
+        UserData.RegisterType<IList<IClothing>>();
+        UserData.RegisterType<List<IClothing>>();
+        UserData.RegisterType<IRaceRenderAllOutput>();
         
         ScriptHelper.RegisterSimpleAction<IRandomCustomInput>();
         ScriptHelper.RegisterSimpleAction<RaceTraits>();
@@ -241,13 +278,13 @@ end");
         script.DoString(scriptCode);
     }
     
-    internal static void ScriptPrep2(string path, string raceId, IRaceBuilder builder)
+    internal static void ScriptPrep2(string path, string raceId)
     {
         string scriptCode = File.ReadAllText(path);
-        ScriptPrep2FromCode(scriptCode, raceId, builder);
+        ScriptPrep2FromCode(scriptCode, raceId);
     }
     
-    internal static void ScriptPrep2FromCode(string scriptCode, string raceId, IRaceBuilder builder)
+    internal static RaceScriptUsable ScriptPrep2FromCode(string scriptCode, string raceId)
     {
         
         Script script = new Script();
@@ -319,50 +356,60 @@ end");
         Func<int, int> RandomInt = (max) => State.Rand.Next(max);
         script.Globals["RandomInt"] = RandomInt;
         
-        script.Globals["builder"] = builder;
-        
         script.DoString(@"
 function ternary ( cond , T , F )
     if cond then return T else return F end
 end");
 		
-        script.DoString(scriptCode, null, "race.lua");
+        script.DoString(scriptCode, null, raceId + " - race.lua");
 
         object render = script.Globals["render"];
-        builder.RenderAll((input, output) =>
-        {
-            script.Call(render, input, output);
-        });
-
         object setup = script.Globals["setup"];
-        builder.Setup((output) =>
-        {
-            script.Call(setup, output);
-        });
-
         object randomCustom = script.Globals["randomCustom"];
-        builder.RandomCustom((output) =>
-        {
-            script.Call(randomCustom, output);
-        });
         
-        
-        
+        RaceScriptUsable scriptUsable = new RaceScriptUsable(
+            (output) =>
+            {
+                try
+                {
+                    script.Call(setup, output);
+                }
+                catch (ScriptRuntimeException ex)
+                {
+                    Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
+                }
+            },
+            (input, output) =>
+            {
+                try
+                {
+                    script.Call(render, input, output);
+                }
+                catch (ScriptRuntimeException ex)
+                {
+                    Debug.Log("Doh! An error occured! " + ex.Message);
+                    Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
+                }
+            },
+            (output) =>
+            {
+                script.Call(randomCustom, output);
+            }
+        );
+
+        return scriptUsable;
     }
 	
 	
-    internal static void ScriptPrepClothing(string path, IClothingBuilder<IOverSizeParameters> builder)
+    internal static ClothingScriptUsable ScriptPrepClothingFromCode(string scriptCode)
     {
-        string scriptCode = File.ReadAllText(path);
-        
         Script script = new Script();
-        
         
         script.Globals["Log"] = (Action<string>) Debug.Log;
 
         #region Enums
         
-        // Traits should be later renamed to Train to follow naming conventions
+        // TODO Traits should be later renamed to Trait to follow naming conventions
         // Set to Trait in script scrope to avoid breaking changes to scripts
         script.Globals["Trait"] = UserData.CreateStatic<Traits>();
         script.Globals["ButtonType"] = UserData.CreateStatic<ButtonType>();
@@ -413,192 +460,31 @@ function ternary ( cond , T , F )
 end");
 		
         script.DoString(scriptCode);
-
+        
         object render = script.Globals["render"];
-        builder.RenderAll((input, output) =>
-        {
-            try
-            {
-                script.Call(render, input, output);
-            }
-            catch (ScriptRuntimeException ex)
-            {
-                Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
-            }
-        });
-
         object setup = script.Globals["setup"];
-        builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-        {
-            script.Call(setup, input, output);
-        });
         
-        
-        
-    }
-	
-	
-    internal static void ScriptPrepClothingFromCode(string scriptCode, IClothingBuilder builder)
-    {
-        Script script = new Script();
-        
-        script.Globals["Log"] = (Action<string>) Debug.Log;
-
-        #region Enums
-        
-        // Traits should be later renamed to Train to follow naming conventions
-        // Set to Trait in script scrope to avoid breaking changes to scripts
-        script.Globals["Trait"] = UserData.CreateStatic<Traits>();
-        script.Globals["ButtonType"] = UserData.CreateStatic<ButtonType>();
-        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
-        script.Globals["Stat"] = UserData.CreateStatic<Stat>();
-        script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
-        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
-        script.Globals["SwapType"] = UserData.CreateStatic<SwapType>();
-
-        #endregion
-        
-        script.Globals["GetPaletteCount"] = (Func<SwapType, int>) ColorPaletteMap.GetPaletteCount;
-        script.Globals["GetPalette"] = (Func<SwapType, int, ColorSwapPalette>) ColorPaletteMap.GetPalette;
-        Func<float, float, float, Vector3> newVector3 = (x, y, z) => new Vector3(x, y, z);
-        script.Globals["newVector3"] = newVector3;
-        
-        Func<float, float, Vector2> newVector2 = (x, y) => new Vector2(x, y);
-        script.Globals["newVector2"] = newVector2;
-        
-        Func<TextsBasic> newTextsBasic = () => new TextsBasic();
-        script.Globals["newTextsBasic"] = newTextsBasic;
-        
-        Func<TextsBasic, TextsBasic, TextsBasic, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
-        script.Globals["newFlavorText"] = newFlavorText;
-
-        RegisterStatic(script, "Config", typeof(Config));
-        RegisterStatic(script, "Defaults", typeof(Defaults));
-        RegisterStatic(script, "CommonRaceCode", typeof(CommonRaceCode));
-        RegisterStaticFields(script, "HorseClothing", typeof(EquinesLua.HorseClothing));
-        
-
-        Dictionary<string, dynamic> defaults = new Dictionary<string, dynamic>
-        {
-            ["Finalize"] = Defaults.Finalize,
-            ["RandomCustom"] = Defaults.RandomCustom,
-            ["BasicBellyRunAfter"] = Defaults.BasicBellyRunAfter
-        };
-        
-        script.Globals["Defaults"] = defaults;
-        script.Globals["Finalize"] = Defaults.Finalize;
-
-        Func<int, int> RandomInt = (max) => State.Rand.Next(max);
-        script.Globals["RandomInt"] = RandomInt;
-        
-        script.DoString(@"
-function ternary ( cond , T , F )
-    if cond then return T else return F end
-end");
-		
-        script.DoString(scriptCode);
-
-        object render = script.Globals["render"];
-        builder.RenderAll((input, output) =>
-        {
-            try
+        ClothingScriptUsable clothingScriptUsable = new ClothingScriptUsable(
+            (input, output) =>
             {
-                script.Call(render, input, output);
-            }
-            catch (ScriptRuntimeException ex)
+                script.Call(setup, input, output);
+            },
+            (input, output, extra) =>
             {
-                Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
+                try
+                {
+                    script.Call(render, input, output, extra);
+                }
+                catch (ScriptRuntimeException ex)
+                {
+                    Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
+                }
             }
-        });
+        );
 
-        object setup = script.Globals["setup"];
-        builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-        {
-            script.Call(setup, input, output);
-        });
+        return clothingScriptUsable;
     }
     
-	
-    internal static void ScriptPrepClothingFromCodeWithParams(string scriptCode, IClothingBuilder builder)
-    {
-        Script script = new Script();
-        
-        script.Globals["Log"] = (Action<string>) Debug.Log;
-
-        #region Enums
-        
-        // Traits should be later renamed to Train to follow naming conventions
-        // Set to Trait in script scrope to avoid breaking changes to scripts
-        script.Globals["Trait"] = UserData.CreateStatic<Traits>();
-        script.Globals["ButtonType"] = UserData.CreateStatic<ButtonType>();
-        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
-        script.Globals["Stat"] = UserData.CreateStatic<Stat>();
-        script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
-        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
-        script.Globals["SwapType"] = UserData.CreateStatic<SwapType>();
-
-        #endregion
-        
-        script.Globals["GetPaletteCount"] = (Func<SwapType, int>) ColorPaletteMap.GetPaletteCount;
-        script.Globals["GetPalette"] = (Func<SwapType, int, ColorSwapPalette>) ColorPaletteMap.GetPalette;
-        Func<float, float, float, Vector3> newVector3 = (x, y, z) => new Vector3(x, y, z);
-        script.Globals["newVector3"] = newVector3;
-        
-        Func<float, float, Vector2> newVector2 = (x, y) => new Vector2(x, y);
-        script.Globals["newVector2"] = newVector2;
-        
-        Func<TextsBasic> newTextsBasic = () => new TextsBasic();
-        script.Globals["newTextsBasic"] = newTextsBasic;
-        
-        Func<TextsBasic, TextsBasic, TextsBasic, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
-        script.Globals["newFlavorText"] = newFlavorText;
-
-        RegisterStatic(script, "Config", typeof(Config));
-        RegisterStatic(script, "Defaults", typeof(Defaults));
-        RegisterStatic(script, "CommonRaceCode", typeof(CommonRaceCode));
-        RegisterStaticFields(script, "HorseClothing", typeof(EquinesLua.HorseClothing));
-        
-
-        Dictionary<string, dynamic> defaults = new Dictionary<string, dynamic>
-        {
-            ["Finalize"] = Defaults.Finalize,
-            ["RandomCustom"] = Defaults.RandomCustom,
-            ["BasicBellyRunAfter"] = Defaults.BasicBellyRunAfter
-        };
-        
-        script.Globals["Defaults"] = defaults;
-        script.Globals["Finalize"] = Defaults.Finalize;
-
-        Func<int, int> RandomInt = (max) => State.Rand.Next(max);
-        script.Globals["RandomInt"] = RandomInt;
-        
-        script.DoString(@"
-function ternary ( cond , T , F )
-    if cond then return T else return F end
-end");
-		
-        script.DoString(scriptCode);
-
-        object render = script.Globals["render"];
-        builder.RenderAll((input, output) =>
-        {
-            try
-            {
-                script.Call(render, input, output);
-            }
-            catch (ScriptRuntimeException ex)
-            {
-                Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
-            }
-        });
-
-        object setup = script.Globals["setup"];
-        builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-        {
-            script.Call(setup, input, output);
-        });
-    }
-	
 	
     public static void RegisterStatic(Script script, string staticName, Type type)
     {

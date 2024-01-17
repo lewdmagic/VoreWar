@@ -103,7 +103,7 @@ public class CustomManager
 
             foreach (FSClothingData fsClothingData in fsRaceData.Clothing)
             {
-                IClothing clothing = ClothingFromFSData(fsClothingData);
+                LuaBindableClothing clothing = ClothingFromFSData(fsClothingData);
                 _clothings[(fsClothingData.RaceId, fsClothingData.ClothingId)] = clothing;
                 
                 foreach (FileInfo clothingSpriteFileInfo in fsRaceData.Sprites)
@@ -165,18 +165,21 @@ public class CustomManager
 
     private void RaceFromFSData(FSRaceData fsRaceData)
     {
+        RaceScriptUsable raceScriptUsable = ScriptHelper.ScriptPrep2FromCode(fsRaceData.RaceLuaCode, fsRaceData.RaceId);
         IRaceData raceData = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
-            ScriptHelper.ScriptPrep2FromCode(fsRaceData.RaceLuaCode, fsRaceData.RaceId, builder);
+            builder.RenderAll(raceScriptUsable.Generator);
+            builder.Setup(raceScriptUsable.SetupFunc);
+            builder.RandomCustom(raceScriptUsable.Value);
         });
 
         Race.RegisterRace(fsRaceData.RaceId, () => raceData, new[] { RaceTag.MainRace });
     }
-    private IClothing ClothingFromFSData(FSClothingData fsClothingData)
+    
+    private LuaBindableClothing ClothingFromFSData(FSClothingData fsClothingData)
     {
-        ClothingBuilder builder = new ClothingBuilder();
-        ScriptHelper.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, builder);
-        return builder.BuildClothing();
+        ClothingScriptUsable clothingScriptUsable = ScriptHelper.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode);
+        return new LuaBindableClothing(clothingScriptUsable.SetMisc, clothingScriptUsable.CompleteGen);
     }
 
 
@@ -184,7 +187,7 @@ public class CustomManager
     private Dictionary<string, SpriteCollection> _raceSpriteCollections = new Dictionary<string, SpriteCollection>();
     private Dictionary<(string, string), SpriteCollection> _clothingSpriteCollection = new Dictionary<(string, string), SpriteCollection>();
 
-    private Dictionary<(string, string), IClothing> _clothings = new Dictionary<(string, string), IClothing>();
+    private Dictionary<(string, string), LuaBindableClothing> _clothings = new Dictionary<(string, string), LuaBindableClothing>();
 
     internal ClothingCollection GetClothingCollectionForRace(string raceId)
     {
@@ -194,15 +197,14 @@ public class CustomManager
     internal IClothing GetRaceClothing(string raceId, string clothingId)
     {
         
-        return _clothings.GetOrNull((raceId, clothingId));
+        // TODO the null returning func can be improved replacing it with a simple null
+        return _clothings.GetOrNull((raceId, clothingId))?.Create((it) => null);
     }
     
     internal IClothing GetRaceClothing(string raceId, string clothingId, Func<IClothingRenderInput, DynValue> calcFunc)
     {
-        // TODO 
-        return _clothings.GetOrNull((raceId, clothingId));
+        return _clothings.GetOrNull((raceId, clothingId))?.Create(calcFunc);
     }
-
 
     internal SpriteCollection GetRaceSpriteCollection(string raceId)
     {

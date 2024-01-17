@@ -479,11 +479,11 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.Type = 1422;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Auri[62]);
                     }
@@ -565,7 +565,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         output.OccupiesAllSlots = true;
                     });
                     
-                    builder.RenderAll((input, output) =>
+                    builder.RenderAll((input, output, extra) =>
                     {
                         output["Clothing3"].Layer(11);
                         output["Clothing3"].Coloring(Color.white);
@@ -606,7 +606,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         }
 
                         int kimMod = skirt ? 0 : 7;
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             output["Clothing2"].Sprite(input.Sprites.Auri[93 + kimMod]);
                         }
@@ -657,7 +657,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                             output.OccupiesAllSlots = true;
                         });
                         
-                        builder.RenderAll((input, output) =>
+                        builder.RenderAll((input, output, extra) =>
                         {
                             output["Clothing5"].Layer(15);
                             output["Clothing5"].Coloring(Color.white);
@@ -701,7 +701,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                                 output["Clothing1"].Sprite(null);
                             }
 
-                            if (input.Params.Oversize)
+                            if (extra.Oversize)
                             {
                                 output["Clothing2"].Sprite(input.Sprites.AuriHoliday[20]);
                             }

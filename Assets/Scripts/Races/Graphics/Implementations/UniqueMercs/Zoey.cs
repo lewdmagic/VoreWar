@@ -382,7 +382,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.ReqWinterHoliday = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(7);
                     output["Clothing4"].Coloring(Color.white);

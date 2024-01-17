@@ -689,7 +689,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1422;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(7);
                     output["Clothing2"].Layer(17);
@@ -699,7 +699,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[10]);
                     }
@@ -738,14 +738,14 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1422;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing3"].Layer(7);
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[10]);
                     }
@@ -779,7 +779,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1422;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(7);
                     output["Clothing2"].Layer(17);
@@ -787,7 +787,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[10]);
                     }
@@ -825,12 +825,12 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1422;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[10]);
                     }
@@ -863,7 +863,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1497;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(7);
                     output["Clothing2"].Layer(17);
@@ -873,7 +873,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[18]);
                     }
@@ -912,14 +912,14 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1497;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing3"].Layer(7);
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[18]);
                     }
@@ -953,7 +953,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1497;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(7);
                     output["Clothing2"].Layer(17);
@@ -961,7 +961,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[18]);
                     }
@@ -999,12 +999,12 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1497;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[18]);
                     }
@@ -1037,7 +1037,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1423;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(7);
                     output["Clothing2"].Layer(17);
@@ -1047,7 +1047,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[40]);
                     }
@@ -1086,14 +1086,14 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1423;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing3"].Layer(7);
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[40]);
                     }
@@ -1127,7 +1127,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1423;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(7);
                     output["Clothing2"].Layer(17);
@@ -1135,7 +1135,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[40]);
                     }
@@ -1173,12 +1173,12 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1423;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[40]);
                     }
@@ -1211,7 +1211,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1498;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing4"].Layer(7);
@@ -1220,7 +1220,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[52]);
                     }
@@ -1257,14 +1257,14 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1498;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing3"].Layer(7);
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[52]);
                     }
@@ -1298,14 +1298,14 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1498;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing3"].Layer(7);
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[52]);
                     }
@@ -1341,12 +1341,12 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1498;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[52]);
                     }
@@ -1379,7 +1379,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1497;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing6"].Layer(7);
                     output["Clothing4"].Layer(7);
@@ -1390,7 +1390,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[68]);
                         output["Clothing2"].Sprite(input.Sprites.Vipers3[78]);
@@ -1433,7 +1433,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1497;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(7);
                     output["Clothing2"].Layer(17);
@@ -1441,7 +1441,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[68]);
                         output["Clothing2"].Sprite(input.Sprites.Vipers3[78]);
@@ -1479,7 +1479,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1497;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(7);
                     output["Clothing2"].Layer(17);
@@ -1487,7 +1487,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[68]);
                         output["Clothing2"].Sprite(input.Sprites.Vipers3[78]);
@@ -1526,12 +1526,12 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1497;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[68]);
                         output["Clothing2"].Sprite(input.Sprites.Vipers3[78]);
@@ -1565,7 +1565,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1499;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing4"].Layer(7);
@@ -1574,7 +1574,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[92]);
                     }
@@ -1611,14 +1611,14 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1499;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing3"].Layer(7);
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[92]);
                     }
@@ -1652,14 +1652,14 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1499;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing3"].Layer(7);
                     output["Clothing3"].Coloring(Color.white);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[92]);
                     }
@@ -1695,12 +1695,12 @@ namespace Races.Graphics.Implementations.Mercs
                     output.Type = 1499;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(17);
                     output["Clothing1"].Layer(17);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Vipers3[92]);
                     }

@@ -37,7 +37,7 @@ internal static class MinimalTemplateWithParams
                 
         });
             
-        builder.RenderAll((input, output) =>
+        builder.RenderAll((input, output, extra) =>
         {
                 
         });

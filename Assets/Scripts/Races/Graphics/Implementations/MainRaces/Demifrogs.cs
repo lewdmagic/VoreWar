@@ -648,10 +648,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(19);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[56]);
                     }
@@ -679,10 +679,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(19);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[65]);
                     }
@@ -710,10 +710,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(19);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[74]);
                     }
@@ -741,12 +741,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(19);
                     output["Clothing2"].Layer(19);
                     output["Clothing2"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[83]);
                     }
@@ -775,12 +775,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(19);
                     output["Clothing2"].Layer(19);
                     output["Clothing2"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[93]);
                         output["Clothing2"].Sprite(input.Sprites.Demifrogs4[102]);
@@ -810,10 +810,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(19);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }
@@ -886,11 +886,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(7);
                     output["Clothing1"].Layer(19);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }
@@ -927,13 +927,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(12);
                     output["Clothing2"].Coloring(Color.white);
                     output["Clothing1"].Layer(19);
                     output["Clothing1"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Demifrogs4[138]);
                     }
@@ -1007,7 +1007,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing6"].Layer(9);
                     output["Clothing6"].Coloring(Color.white);
@@ -1029,7 +1029,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                     if (input.U.HasBreasts)
                     {
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             output["Clothing3"].Sprite(null);
                         }

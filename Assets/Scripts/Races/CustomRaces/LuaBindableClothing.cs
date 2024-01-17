@@ -31,17 +31,24 @@ internal class ClothingLua : ClothingDataShared, IClothing
 
 internal class LuaBindableClothing
 {
+    private Action<IClothingSetupInput, IClothingSetupOutput> _setMisc;
+    private Action<IClothingRenderInput, IClothingRenderOutput, DynValue> _renderAll;
+
+    public LuaBindableClothing(Action<IClothingSetupInput, IClothingSetupOutput> setMisc, Action<IClothingRenderInput, IClothingRenderOutput, DynValue> renderAll)
+    {
+        _setMisc = setMisc;
+        _renderAll = renderAll;
+    }
+
     internal IClothing Create(
-        Action<IClothingSetupInput, IClothingSetupOutput> setMisc,
-        Action<IClothingRenderInput, IClothingRenderOutput, DynValue> renderAll,
         Func<IClothingRenderInput, DynValue> paramsCalc
         )
     {
         IClothingSetupInput input = new ClothingSetupInput();
         ClothingMiscData copy = ClothingBuilder.DefaultMisc.ShallowCopy();
-        setMisc?.Invoke(input, copy);
+        _setMisc?.Invoke(input, copy);
 
-        ClothingLua clothingLua = new ClothingLua(copy, renderAll, paramsCalc);
+        ClothingLua clothingLua = new ClothingLua(copy, _renderAll, paramsCalc);
         return clothingLua;
     }
 }

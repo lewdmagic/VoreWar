@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class ClothingRenderOutput : IClothingRenderOutput
 {
+    private readonly SpriteCollection _spriteCollection;
+
+    public ClothingRenderOutput(SpriteCollection spriteCollection)
+    {
+        _spriteCollection = spriteCollection;
+    }
+
     private readonly SpriteChangeDict _changeDict;
     public IRaceRenderOutput ChangeSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
     
@@ -22,7 +29,7 @@ public class ClothingRenderOutput : IClothingRenderOutput
         {
             if (!ClothingSpriteChanges.TryGetValue(key, out var clothing))
             {
-                clothing = new RaceRenderOutput();
+                clothing = new RaceRenderOutput(_spriteCollection);
                 ClothingSpriteChanges.Add(key, clothing);
             }
 

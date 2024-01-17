@@ -123,6 +123,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 output.ExtendedBreastSprites = true;
 
+                
                 output.AllowedMainClothingTypes.Set( //undertops
                     HorseClothing.HorseUndertop1Instance.Create(paramsCalc),
                     HorseClothing.HorseUndertop2Instance.Create(paramsCalc),
@@ -318,7 +319,6 @@ namespace Races.Graphics.Implementations.MainRaces
                         {
                             cock.Sprite0(useErectSprite ? "penis_erect_up" : "penis_flaccid", input.U.DickSize);
                         }
-                    
                     }
                 }
             
@@ -381,10 +381,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(20);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(sprite1);
                     }
@@ -425,10 +425,10 @@ namespace Races.Graphics.Implementations.MainRaces
                         output.DiscardUsesPalettes = true;
                     });
 
-                    builder.RenderAll((input, output) =>
+                    builder.RenderAll((input, output, extra) =>
                     {
                         output["Clothing1"].Layer(20);
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             output["Clothing1"].Sprite(input.Sprites.HorseClothing[47]); 
                         }
@@ -456,10 +456,10 @@ namespace Races.Graphics.Implementations.MainRaces
                         output.DiscardUsesPalettes = true;
                     });
 
-                    builder.RenderAll((input, output) =>
+                    builder.RenderAll((input, output, extra) =>
                     {
                         output["Clothing1"].Layer(20);
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             output["Clothing1"].Sprite(input.Sprites.HorseClothing[47]); 
                         }

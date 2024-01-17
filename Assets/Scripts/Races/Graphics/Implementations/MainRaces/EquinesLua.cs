@@ -52,10 +52,10 @@ namespace Races.Graphics.Implementations.MainRaces
                         output.DiscardUsesPalettes = true;
                     });
 
-                    builder.RenderAll((input, output) =>
+                    builder.RenderAll((input, output, extra) =>
                     {
                         output["Clothing1"].Layer(20);
-                        if (input.Params.Oversize)
+                        if (extra.Oversize)
                         {
                             output["Clothing1"].Sprite(sprite1);
                         }

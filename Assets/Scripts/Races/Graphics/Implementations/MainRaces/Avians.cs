@@ -472,10 +472,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(13);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Avians4[23]);
                     }
@@ -503,10 +503,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(13);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Avians4[33]);
                     }
@@ -534,10 +534,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(13);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Avians4[43]);
                     }
@@ -565,12 +565,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(13);
                     output["Clothing2"].Layer(13);
                     output["Clothing2"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Avians4[53]);
                     }
@@ -599,12 +599,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(13);
                     output["Clothing2"].Layer(13);
                     output["Clothing2"].Coloring(Color.white);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(input.Sprites.Avians4[64]);
                         output["Clothing2"].Sprite(input.Sprites.Avians4[73]);
@@ -634,10 +634,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardUsesPalettes = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing1"].Layer(13);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                     }
@@ -685,11 +685,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing2"].Layer(9);
                     output["Clothing1"].Layer(13);
-                    if (input.Params.Oversize)
+                    if (extra.Oversize)
                     {
                         output["Clothing1"].Sprite(null);
                         output["Clothing2"].Sprite(input.Sprites.Avians3[105]);
@@ -775,7 +775,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FixedColor = true;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(10);
                     output["Clothing4"].Coloring(Color.white);
@@ -787,7 +787,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(Color.white);
                     if (input.U.HasBreasts)
                     {
-                        output["Clothing1"].Sprite(input.Params.Oversize ? input.Sprites.Avians4[111] : input.Sprites.Avians4[103 + input.U.BreastSize]);
+                        output["Clothing1"].Sprite(extra.Oversize ? input.Sprites.Avians4[111] : input.Sprites.Avians4[103 + input.U.BreastSize]);
                         output["Clothing2"].Sprite(input.Sprites.Avians4[112 + input.U.BodySize]);
                         output["Clothing3"].Sprite(input.Sprites.Avians4[120 + input.U.HairStyle]);
                     }

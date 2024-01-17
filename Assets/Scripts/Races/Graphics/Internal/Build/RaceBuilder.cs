@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 internal static class RaceBuilder
 {
-    internal static IRaceData CreateV2(Func<MiscRaceDataWritableReadable> template, Action<IRaceBuilder> builderUser)
+    internal static IRaceData CreateV2(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser)
     {
         Func<IParameters> basic = () => new EmptyParameters();
         RaceBuilder<IParameters> builder = new RaceBuilder<IParameters>(template);
@@ -15,7 +15,7 @@ internal static class RaceBuilder
         return builder.Build(basic);
     }
 
-    internal static IRaceData CreateV2<T>(Func<MiscRaceDataWritableReadable> template, Action<IRaceBuilder> builderUser) where T : IParameters, new()
+    internal static IRaceData CreateV2<T>(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser) where T : IParameters, new()
     {
         Func<T> makeTempState = () => new T();
         RaceBuilder<T> builder = new RaceBuilder<T>(template);
@@ -89,16 +89,16 @@ internal class RaceBuilder<T> : IRaceBuilder where T : IParameters
     private Action<IRandomCustomInput> _randomCustom;
 
     private Action<IRunInput, IRunOutput> _runBefore;
-    private Action<MiscRaceDataWritableReadable> _setupFunc;
+    private Action<MiscRaceData> _setupFunc;
     private Action<IRunInput, IRaceRenderAllOutput> _renderAllAction;
-    private readonly Func<MiscRaceDataWritableReadable> _template;
+    private readonly Func<MiscRaceData> _template;
 
-    internal RaceBuilder(Func<MiscRaceDataWritableReadable> template)
+    internal RaceBuilder(Func<MiscRaceData> template)
     {
         _template = template;
     }
     
-    public void Setup(Action<MiscRaceDataWritableReadable> setupFunc)
+    public void Setup(Action<MiscRaceData> setupFunc)
     {
         _setupFunc = setupFunc;
     }
@@ -132,9 +132,9 @@ internal class RaceBuilder<T> : IRaceBuilder where T : IParameters
 
     public IRaceData Build(Func<T> makeTempState)
     {
-        MiscRaceDataWritableReadable dataWritableReadable = _template();
-        _setupFunc?.Invoke(dataWritableReadable);
+        MiscRaceData data = _template();
+        _setupFunc?.Invoke(data);
         
-        return new RaceData<T>(RaceSpriteSet, dataWritableReadable, _runBefore, _randomCustom, makeTempState, dataWritableReadable._extraRaceInfo, _renderAllAction);
+        return new RaceData<T>(RaceSpriteSet, data, _runBefore, _randomCustom, makeTempState, data._extraRaceInfo, _renderAllAction);
     }
 }

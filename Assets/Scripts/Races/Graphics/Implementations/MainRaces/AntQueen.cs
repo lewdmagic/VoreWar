@@ -385,7 +385,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.Type = 199;
                 });
 
-                builder.RenderAll((input, output) =>
+                builder.RenderAll((input, output, extra) =>
                 {
                     output["Clothing4"].Layer(6);
                     output["Clothing4"].Coloring(Color.white);
@@ -395,7 +395,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing2"].Coloring(Color.white);
                     output["Clothing1"].Layer(18);
                     output["Clothing1"].Coloring(Color.white);
-                    output["Clothing1"].Sprite(input.Params.Oversize ? input.Sprites.AntQueen1[96] : input.Sprites.AntQueen1[Mathf.Min(88 + input.U.BreastSize, 96)]);
+                    output["Clothing1"].Sprite(extra.Oversize ? input.Sprites.AntQueen1[96] : input.Sprites.AntQueen1[Mathf.Min(88 + input.U.BreastSize, 96)]);
 
                     output["Clothing2"].Sprite(input.Sprites.AntQueen1[97 + input.U.BodySize]);
 
