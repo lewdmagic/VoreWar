@@ -19,7 +19,6 @@ internal class RaceDataMaker
 
     internal IRaceData Create(Race race)
     {
-        
         RaceBuilder builder = new RaceBuilder(_template);
         _builderUser.Invoke(builder);
         return builder.Build(race);

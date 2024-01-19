@@ -29,6 +29,13 @@ using UnityEngine;
 //     }
 // }
 
+
+public static class Colors
+{
+    public static readonly Color white = Color.white;
+}
+
+
 public static class LuaTest
 {
 
@@ -154,9 +161,9 @@ public static class ScriptHelper
         UserData.RegisterType<IClothingRenderInput>();
         UserData.RegisterType<IClothingRenderOutput>();
         UserData.RegisterType<ClothingRenderOutput>();
-        UserData.RegisterType<ClothingRenderInputImpl>();
-        UserData.RegisterType<ClothingRenderInputImpl<OverSizeParameters>>();
-        UserData.RegisterType<ClothingRenderInputImpl<IOverSizeParameters>>();
+        UserData.RegisterType<ClothingRenderInput>();
+        UserData.RegisterType<ClothingRenderInput>();
+        UserData.RegisterType<ClothingRenderInput>();
         
         
         UserData.RegisterType<BindableClothing<IOverSizeParameters>>();
@@ -176,7 +183,7 @@ public static class ScriptHelper
         ScriptHelper.RegisterSimpleAction<IClothingSetupInput, IClothingSetupOutput>();
         ScriptHelper.RegisterSimpleAction<IClothingSetupInput, ClothingMiscData>();
         
-        ScriptHelper.RegisterSimpleAction<IClothingRenderInput<OverSizeParameters>, IClothingRenderOutput>();
+        ScriptHelper.RegisterSimpleAction<IClothingRenderInput, IClothingRenderOutput>();
         ScriptHelper.RegisterSimpleAction<IClothingBuilder<OverSizeParameters>>();
         
         ScriptHelper.RegisterSimpleFunc<int>();
@@ -379,7 +386,7 @@ end");
     }
 	
 	
-    internal static ClothingScriptUsable ScriptPrepClothingFromCode(string scriptCode)
+    internal static ClothingScriptUsable ScriptPrepClothingFromCode(string scriptCode, string clothingId)
     {
         Script script = new Script();
         
@@ -413,7 +420,9 @@ end");
         Func<TextsBasic, TextsBasic, TextsBasic, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
         script.Globals["newFlavorText"] = newFlavorText;
 
+        
         RegisterStatic(script, "Config", typeof(Config));
+        RegisterStatic(script, "Color", typeof(Colors));
         RegisterStatic(script, "Defaults", typeof(Defaults));
         RegisterStatic(script, "CommonRaceCode", typeof(CommonRaceCode));
         RegisterStaticFields(script, "HorseClothing", typeof(EquinesLua.HorseClothing));
@@ -437,7 +446,7 @@ function ternary ( cond , T , F )
     if cond then return T else return F end
 end");
 		
-        script.DoString(scriptCode);
+        script.DoString(scriptCode, null, clothingId + " - clothing.lua");
         
         object render = script.Globals["render"];
         object setup = script.Globals["setup"];

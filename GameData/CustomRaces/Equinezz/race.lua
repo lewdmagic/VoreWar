@@ -52,9 +52,6 @@ function setup(output)
     output.EyeColors = GetPaletteCount(SwapType.EyeColor);
     output.SecondaryEyeColors = 1;
     output.BodySizes = 0;
-
-    Log(output.AllowedMainClothingTypes);
-    Log(output.AllowedMainClothingTypes.Clear);
     
     --output.AllowedMainClothingTypes.Clear();
     --output.AllowedWaistTypes.Clear();
@@ -83,15 +80,16 @@ function setup(output)
         --HorseClothing.HorseUndertopM3Instance
     });
 
-    --[[
-    output.AllowedWaistTypes.Set( -- underbottoms
-            HorseClothing.HorseUBottom1,
-            HorseClothing.HorseUBottom2,
-            HorseClothing.HorseUBottom3,
-            HorseClothing.HorseUBottom4,
-            HorseClothing.HorseUBottom5
-    );
+    output.AllowedWaistTypes.AddRange({ -- underbottoms
+        GetClothing("under_bottom_1")
+        --HorseClothing.HorseUBottom1,
+        --HorseClothing.HorseUBottom2,
+        --HorseClothing.HorseUBottom3,
+        --HorseClothing.HorseUBottom4,
+        --HorseClothing.HorseUBottom5
+    });
 
+    --[[
     output.ExtraMainClothing1Types.Set( -- Overtops
             HorseClothing.HorsePonchoInstance,
             HorseClothing.HorseNecklaceInstance

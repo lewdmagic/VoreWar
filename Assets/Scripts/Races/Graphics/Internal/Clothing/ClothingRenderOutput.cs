@@ -5,17 +5,13 @@ public class ClothingRenderOutput : IClothingRenderOutput
 {
     private readonly SpriteCollection _spriteCollection;
 
-    public ClothingRenderOutput(SpriteCollection spriteCollection)
-    {
-        _spriteCollection = spriteCollection;
-    }
-
     private readonly SpriteChangeDict _changeDict;
     public IRaceRenderOutput ChangeSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
     
     internal readonly Dictionary<string, RaceRenderOutput> ClothingSpriteChanges = new Dictionary<string, RaceRenderOutput>();
-    public ClothingRenderOutput(SpriteChangeDict changeDict, ClothingMiscData miscData)
+    public ClothingRenderOutput(SpriteChangeDict changeDict, ClothingMiscData miscData, SpriteCollection spriteCollection)
     {
+        _spriteCollection = spriteCollection; 
         _changeDict = changeDict;
         RevealsBreasts = miscData.RevealsBreasts;
         BlocksBreasts = miscData.BlocksBreasts;

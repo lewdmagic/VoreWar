@@ -242,6 +242,8 @@ namespace DaVikingCode.AssetPacker
             return sprite;
         }
 
+        public string Description => "Hardcoded sprite manager";
+
         public Sprite GetSprite0(string id, int number, bool returnNull = false)
         {
             return GetSprite(id, number + 1, returnNull);

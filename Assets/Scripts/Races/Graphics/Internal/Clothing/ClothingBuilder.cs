@@ -21,13 +21,6 @@ public abstract class ClothingBuilderShared
     }
 }
 
-public class ClothingRenderInputImpl : RenderInput, IClothingRenderInput
-{
-    public ClothingRenderInputImpl(Actor_Unit actor) : base(actor)
-    {
-            
-    }
-}
 
 
 

@@ -64,10 +64,12 @@ internal class RaceRenderOutput : IRaceRenderOutput, ISpriteChangeReadable
 
     private Sprite GetSpriteInternal(string id, bool returnNull)
     {
-        return State.SpriteManager.GetSprite(id, returnNull);
-        
+        //return State.SpriteManager.GetSprite(id, returnNull);
         Sprite sprite = _spriteCollection.GetSprite(id);
-        if (sprite == null && !returnNull) throw new Exception($"Sprite {id} not found");
+        if (sprite == null && !returnNull)
+        {
+            throw new Exception($"Sprite {id} not found in {_spriteCollection.Description}");
+        }
 
         return sprite;
     }

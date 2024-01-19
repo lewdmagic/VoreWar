@@ -140,7 +140,10 @@ internal class RaceData : IRaceData
 
     public FullSpriteProcessOut NewUpdate(Actor_Unit actor)
     {
-        SpriteChangeDict changeDict = new SpriteChangeDict(State.SpriteManager);
+        
+        
+        
+        SpriteChangeDict changeDict = new SpriteChangeDict(GameManager.customManager.GetRaceSpriteCollection(Race.Id));
         RunOutput runOutput = new RunOutput(changeDict);
 
         IRunInput runInput = new RunInput(actor);

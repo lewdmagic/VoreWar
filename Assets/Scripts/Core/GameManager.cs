@@ -127,9 +127,6 @@ public class GameManager : MonoBehaviour
 
         customManager = new CustomManager();
         customManager.LoadAllCustom();
-
-        IClothing test = customManager.GetRaceClothing("equinezz", "horsebotto1");
-
     }
 
     void Quit()
