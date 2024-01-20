@@ -468,14 +468,14 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
             //internal static IClothingData MakeGenericBottom(int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, int type)
             // sprM and bulge were not used. The values were 26 and 0
-            private static void MakeGenericBottom(IClothingBuilder builder, int sprF, int discard, int layer, Sprite[] sheet, ClothingId type)
+            private static void MakeGenericBottom(IClothingBuilder builder, int sprF, int discard, int layer, Sprite[] sheet, ClothingId clothingId)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = sheet[discard];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                 });
                 builder.RenderAll((input, output) =>
                 {

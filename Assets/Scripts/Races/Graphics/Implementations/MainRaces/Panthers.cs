@@ -946,13 +946,13 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class Simple
         {
-            internal static void MakeSimple(IClothingBuilder builder, int sprite, int discard, int layer, Sprite[] sheet,ClothingId type, ColorStyle color, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false)
+            internal static void MakeSimple(IClothingBuilder builder, int sprite, int discard, int layer, Sprite[] sheet,ClothingId clothingId, ColorStyle color, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = sheet[discard];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     output.RevealsDick = !blocksDick;
 
                     if (maleOnly)
@@ -980,14 +980,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class SimpleAttack
         {
-            internal static void MakeSimpleAttack(IClothingBuilder builder, int spr, int attacksprite, int discard, int layer, Sprite[] sheet,ClothingId type, ColorStyle color, bool maleOnly = false, bool femaleOnly = false)
+            internal static void MakeSimpleAttack(IClothingBuilder builder, int spr, int attacksprite, int discard, int layer, Sprite[] sheet,ClothingId clothingId, ColorStyle color, bool maleOnly = false, bool femaleOnly = false)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = sheet[discard];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     if (maleOnly)
                     {
                         output.MaleOnly = true;
@@ -1013,14 +1013,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericFemaleTop
         {
-            internal static void MakeGenericFemaleTop(IClothingBuilder<IOverSizeParameters> builder, int firstRowStart, int secondRowStart, int layer, Sprite[] sheet,ClothingId type, ColorStyle color)
+            internal static void MakeGenericFemaleTop(IClothingBuilder<IOverSizeParameters> builder, int firstRowStart, int secondRowStart, int layer, Sprite[] sheet,ClothingId clothingId, ColorStyle color)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = sheet[firstRowStart + 4];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     output.FemaleOnly = true;
                     output.FixedColor = CalcColor(color) != null;
                 });
@@ -1061,13 +1061,13 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericBottom
         {
-            internal static void MakeGenericBottom(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet,ClothingId type, bool colored)
+            internal static void MakeGenericBottom(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet,ClothingId clothingId, bool colored)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = sheet[discard];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     output.FixedColor = !colored;
                 });
 
@@ -1205,14 +1205,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericItem
         {
-            internal static void MakeGenericItem(IClothingBuilder builder, int sprF, int sprM, int discard, int layer, Sprite[] sheet,ClothingId type, ColorStyle color)
+            internal static void MakeGenericItem(IClothingBuilder builder, int sprF, int sprM, int discard, int layer, Sprite[] sheet,ClothingId clothingId, ColorStyle color)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = sheet[discard];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     output.FixedColor = CalcColor(color) != null;
                 });
 
@@ -1254,13 +1254,13 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class OverbottomTwoTone
         {
-            internal static void MakeOverbottomTwoTone(IClothingBuilder builder, int spr, int sprB, int secondSprite, int discard, int layer,ClothingId type, bool blocksDick = false)
+            internal static void MakeOverbottomTwoTone(IClothingBuilder builder, int spr, int sprB, int secondSprite, int discard, int layer,ClothingId clothingId, bool blocksDick = false)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = input.Sprites.PantherOverBottoms[discard];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     output.RevealsDick = !blocksDick;
 
                     output.FixedColor = CalcColor(ColorStyle.OuterWear) != null;
@@ -1284,14 +1284,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericGloves
         {
-            internal static void MakeGenericGloves(IClothingBuilder builder, int start,ClothingId type)
+            internal static void MakeGenericGloves(IClothingBuilder builder, int start,ClothingId clothingId)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.PantherGloves[start + 4];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     output.FixedColor = true;
                 });
 
@@ -1313,14 +1313,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericGlovesPlusSecond
         {
-            internal static void MakeGenericGlovesPlusSecond(IClothingBuilder builder, int start,ClothingId type)
+            internal static void MakeGenericGlovesPlusSecond(IClothingBuilder builder, int start,ClothingId clothingId)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.PantherGloves[start + 4];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     output.FixedColor = false;
                 });
 

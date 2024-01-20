@@ -65,13 +65,12 @@ function setup(output)
 
     output.ClothingColors = GetPaletteCount(SwapType.Clothing50Spaced);
     output.ExtendedBreastSprites = true;
-
-    output.AllowedMainClothingTypes.Add(GetClothing("horsetop1"));
     
     output.AllowedMainClothingTypes.AddRange({-- undertops
         --HorseClothing.HorseUndertop1Instance,
         --HorseClothing.HorseUndertop1Instance2,
-        GetClothing("horsetop1")--,
+        --GetClothing("horsetop1"),
+        GetClothing("under_top_male_1")--,
         --HorseClothing.HorseUndertop2Instance,
         --HorseClothing.HorseUndertop3Instance,
         --HorseClothing.HorseUndertop4Instance,

@@ -1,6 +1,4 @@
 function setup(input, output)
-    output.DiscardSprite = null;
-    output.Type = 76129;
     output.RevealsBreasts = true;
     output.DiscardUsesPalettes = true;
 end

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ClothingRenderOutput : IClothingRenderOutput
@@ -9,7 +10,11 @@ public class ClothingRenderOutput : IClothingRenderOutput
     private readonly SpriteChangeDict _changeDict;
     public IRaceRenderOutput ChangeRaceSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
     
-    internal readonly Dictionary<string, RaceRenderOutput> ClothingSpriteChanges = new Dictionary<string, RaceRenderOutput>();
+    private readonly Dictionary<string, RaceRenderOutput> _namedClothingSpriteChanges = new Dictionary<string, RaceRenderOutput>();
+    private readonly List<RaceRenderOutput> _clothingSpriteChanges = new List<RaceRenderOutput>();
+
+    internal IEnumerable<RaceRenderOutput> ClothingSpriteChanges => _clothingSpriteChanges.Concat(_namedClothingSpriteChanges.Values);
+    
     public ClothingRenderOutput(SpriteChangeDict changeDict, ClothingMiscData miscData, SpriteCollection spriteCollection)
     {
         _spriteCollection = spriteCollection; 
@@ -24,10 +29,10 @@ public class ClothingRenderOutput : IClothingRenderOutput
     {
         get
         {
-            if (!ClothingSpriteChanges.TryGetValue(key, out var clothing))
+            if (!_namedClothingSpriteChanges.TryGetValue(key, out var clothing))
             {
                 clothing = new RaceRenderOutput(_spriteCollection);
-                ClothingSpriteChanges.Add(key, clothing);
+                _namedClothingSpriteChanges.Add(key, clothing);
             }
 
             return clothing;
@@ -36,7 +41,7 @@ public class ClothingRenderOutput : IClothingRenderOutput
         
     public IRaceRenderOutput NewSprite(string name, int layer)
     {
-        if (ClothingSpriteChanges.TryGetValue(name, out var clothing))
+        if (_namedClothingSpriteChanges.TryGetValue(name, out var clothing))
         {
             throw new Exception($"Sprite with {name} already exists");
         }
@@ -44,9 +49,17 @@ public class ClothingRenderOutput : IClothingRenderOutput
         {
             clothing = new RaceRenderOutput(_spriteCollection);
             clothing.Layer(layer);
-            ClothingSpriteChanges.Add(name, clothing);
+            _namedClothingSpriteChanges.Add(name, clothing);
             return clothing;
         }
+    }
+        
+    public IRaceRenderOutput NewSprite(int layer)
+    {
+        var clothing = new RaceRenderOutput(_spriteCollection);
+        clothing.Layer(layer);
+        _clothingSpriteChanges.Add(clothing);
+        return clothing;
     }
 
     public bool RevealsBreasts { get; set; }

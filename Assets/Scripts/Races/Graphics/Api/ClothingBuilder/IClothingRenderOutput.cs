@@ -8,6 +8,7 @@ public interface IClothingRenderOutput
 {
     IRaceRenderOutput this[string key] { get; }
     IRaceRenderOutput NewSprite(string name, int layer);
+    IRaceRenderOutput NewSprite(int layer);
     
     IRaceRenderOutput ChangeRaceSprite(SpriteType spriteType);
 

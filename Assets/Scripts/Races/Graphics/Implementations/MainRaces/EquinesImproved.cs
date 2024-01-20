@@ -368,13 +368,13 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class HorseUndertops
         {
-            internal static void MakeCommon(IClothingBuilder<IOverSizeParameters> builder, ClothingId type, Sprite discard, Sprite sprite1, Func<Actor_Unit, Sprite> sprite2)
+            internal static void MakeCommon(IClothingBuilder<IOverSizeParameters> builder, ClothingId clothingId, Sprite discard, Sprite sprite1, Func<Actor_Unit, Sprite> sprite2)
             {
 
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.DiscardSprite = discard;
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
@@ -503,7 +503,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             );
         
-            private static IClothing MakeCommon(ClothingId type, Sprite discard, Sprite sprite1, Sprite sprite2)
+            private static IClothing MakeCommon(ClothingId clothingId, Sprite discard, Sprite sprite1, Sprite sprite2)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
 
@@ -513,7 +513,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.DiscardSprite = discard;
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
@@ -599,13 +599,13 @@ namespace Races.Graphics.Implementations.MainRaces
             internal static readonly IClothing HorseUBottom4 = ClothingBuilder.Create(builder => MakeHorseUBottomV2(builder, 22, 20, 30, 24, 9, State.GameManager.SpriteDictionary.HorseClothing, new ClothingId("base.equines/76124"), false));
             internal static readonly IClothing HorseUBottom5 = ClothingBuilder.Create(builder => MakeHorseUBottomV2(builder, 27, 25, 14, 29, 9, State.GameManager.SpriteDictionary.HorseClothing, new ClothingId("base.equines/76129"), true));
 
-            private static void MakeHorseUBottomV2(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, ClothingId type, bool black)
+            private static void MakeHorseUBottomV2(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, ClothingId clothingId, bool black)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = sheet[discard];
-                    output.ClothingId = type;
+                    output.ClothingId = clothingId;
                 });
 
                 builder.RenderAll((input, output) =>

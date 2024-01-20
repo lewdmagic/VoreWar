@@ -1,6 +1,4 @@
 function setup(input, output)
-    output.DiscardSprite = null;
-    output.Type = 76109;
     output.RevealsBreasts = true;
     output.DiscardUsesPalettes = true;
 end
@@ -8,8 +6,10 @@ end
 function render(input, output)
     
     output.NewSprite("main", 9)
-            .Sprite(input.Sex, ternary(input.A.HasBelly, "hasbelly", "nobelly"))
-            .Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            .Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor))
+            .Sprite(input.Sex, ternary(input.A.HasBelly, "hasbelly", "nobelly"));
+
+    --output["main"].Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
 
     if (input.U.HasDick) then
         output.NewSprite("bulge", 10)

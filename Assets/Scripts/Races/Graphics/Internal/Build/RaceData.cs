@@ -358,7 +358,7 @@ internal class RaceData : IRaceData
                 accumulatedClothes.InFrontOfDick = true;
             }
 
-            accumulatedClothes.SpritesInfos.AddRange(clothingOut.ClothingSpriteChanges.Values);
+            accumulatedClothes.SpritesInfos.AddRange(clothingOut.ClothingSpriteChanges);
         }
 
         accumulatedClothes.RevealsBreasts = revealsBreasts;
