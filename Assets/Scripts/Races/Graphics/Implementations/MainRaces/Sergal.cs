@@ -215,7 +215,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 else if (input.U.BreastSize >= 7)
                 {
                     output.RevealsBreasts = true;
-                    output.ChangeSprite(SpriteType.Breasts).Layer(16);
+                    output.ChangeRaceSprite(SpriteType.Breasts).Layer(16);
                     output["Clothing1"].Sprite(input.Sprites.Sergal[64]);
                 }
 

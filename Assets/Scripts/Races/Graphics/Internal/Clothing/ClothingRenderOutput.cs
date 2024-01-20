@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ public class ClothingRenderOutput : IClothingRenderOutput
     private readonly SpriteCollection _spriteCollection;
 
     private readonly SpriteChangeDict _changeDict;
-    public IRaceRenderOutput ChangeSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
+    public IRaceRenderOutput ChangeRaceSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
     
     internal readonly Dictionary<string, RaceRenderOutput> ClothingSpriteChanges = new Dictionary<string, RaceRenderOutput>();
     public ClothingRenderOutput(SpriteChangeDict changeDict, ClothingMiscData miscData, SpriteCollection spriteCollection)
@@ -29,6 +30,21 @@ public class ClothingRenderOutput : IClothingRenderOutput
                 ClothingSpriteChanges.Add(key, clothing);
             }
 
+            return clothing;
+        }
+    }
+        
+    public IRaceRenderOutput NewSprite(string name, int layer)
+    {
+        if (ClothingSpriteChanges.TryGetValue(name, out var clothing))
+        {
+            throw new Exception($"Sprite with {name} already exists");
+        }
+        else
+        {
+            clothing = new RaceRenderOutput(_spriteCollection);
+            clothing.Layer(layer);
+            ClothingSpriteChanges.Add(name, clothing);
             return clothing;
         }
     }

@@ -89,6 +89,8 @@ internal class RaceData : IRaceData
     private readonly Action<IRunInput, IRaceRenderAllOutput> _renderAllAction;
 
     internal readonly Race Race;
+
+    private readonly SpriteCollection _raceSpriteCollection;
     
     public RaceData(
         SpriteTypeIndexed<SingleRenderFunc> raceSpriteSet,
@@ -106,6 +108,8 @@ internal class RaceData : IRaceData
         _extraRaceInfo = extraRaceInfo;
         _renderAllAction = renderAllAction;
         Race = race;
+
+        _raceSpriteCollection = GameManager.customManager.GetRaceSpriteCollection(Race.Id);
     }
 
     private SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; }
@@ -140,10 +144,7 @@ internal class RaceData : IRaceData
 
     public FullSpriteProcessOut NewUpdate(Actor_Unit actor)
     {
-        
-        
-        
-        SpriteChangeDict changeDict = new SpriteChangeDict(GameManager.customManager.GetRaceSpriteCollection(Race.Id));
+        SpriteChangeDict changeDict = new SpriteChangeDict(_raceSpriteCollection);
         RunOutput runOutput = new RunOutput(changeDict);
 
         IRunInput runInput = new RunInput(actor);

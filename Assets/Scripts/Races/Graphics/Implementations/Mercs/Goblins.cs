@@ -1069,7 +1069,7 @@ namespace Races.Graphics.Implementations.Mercs
                             input.U.ClothingColor2));
                         output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced,
                             input.U.ClothingColor2));
-                        output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+                        output.ChangeRaceSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
                     }
                     else
                     {
@@ -1093,7 +1093,7 @@ namespace Races.Graphics.Implementations.Mercs
                         output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
                         output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
                         output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
-                        output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.SkinToClothing, input.U.ClothingColor));
+                        output.ChangeRaceSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.SkinToClothing, input.U.ClothingColor));
                     }
                 });
             });
@@ -1160,7 +1160,7 @@ namespace Races.Graphics.Implementations.Mercs
                         input.U.ClothingColor2));
                     output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced,
                         input.U.ClothingColor2));
-                    output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
+                    output.ChangeRaceSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.Goblins, input.U.SkinColor));
                 }
                 else
                 {
@@ -1182,7 +1182,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
                     output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
                     output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor2));
-                    output.ChangeSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.SkinToClothing, input.U.ClothingColor));
+                    output.ChangeRaceSprite(SpriteType.Belly).Coloring(ColorPaletteMap.GetPalette(SwapType.SkinToClothing, input.U.ClothingColor));
                 }
             });
         });

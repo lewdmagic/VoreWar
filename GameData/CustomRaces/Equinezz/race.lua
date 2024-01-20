@@ -81,12 +81,11 @@ function setup(output)
     });
 
     output.AllowedWaistTypes.AddRange({ -- underbottoms
-        GetClothing("under_bottom_1")
-        --HorseClothing.HorseUBottom1,
-        --HorseClothing.HorseUBottom2,
-        --HorseClothing.HorseUBottom3,
-        --HorseClothing.HorseUBottom4,
-        --HorseClothing.HorseUBottom5
+        GetClothing("under_bottom_1"),
+        GetClothing("under_bottom_2"),
+        GetClothing("under_bottom_3"),
+        GetClothing("under_bottom_4"),
+        GetClothing("under_bottom_5")
     });
 
     --[[

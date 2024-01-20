@@ -36,7 +36,7 @@ namespace TaurusClothes
                 if (input.U.HasBreasts)
                 {
                     spriteNum = input.U.BreastSize;
-                    output.ChangeSprite(SpriteType.Breasts).Sprite(input.Sprites.CowClothing[5 + spriteNum]);
+                    output.ChangeRaceSprite(SpriteType.Breasts).Sprite(input.Sprites.CowClothing[5 + spriteNum]);
                 }
                 else
                 {

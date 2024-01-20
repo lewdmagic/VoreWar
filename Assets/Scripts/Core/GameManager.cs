@@ -118,15 +118,15 @@ public class GameManager : MonoBehaviour
         State.GameManager = this;
         Application.wantsToQuit += () => WantsToQuit();
 
-        Race.LoadHardcodedRaces();
         
-        SeliciaMod.ModAll();
 
         State.SpriteManager = new SpriteManager();
         State.SpriteManager.Process2();
 
         customManager = new CustomManager();
         customManager.LoadAllCustom();
+        Race.LoadHardcodedRaces();
+        SeliciaMod.ModAll();
     }
 
     void Quit()

@@ -7,7 +7,9 @@ using UnityEngine;
 public interface IClothingRenderOutput
 {
     IRaceRenderOutput this[string key] { get; }
-    IRaceRenderOutput ChangeSprite(SpriteType spriteType);
+    IRaceRenderOutput NewSprite(string name, int layer);
+    
+    IRaceRenderOutput ChangeRaceSprite(SpriteType spriteType);
 
     bool RevealsBreasts { set; }
     bool BlocksBreasts { set; }
