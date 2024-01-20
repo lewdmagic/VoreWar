@@ -14,7 +14,7 @@ namespace TaurusClothes
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.CowClothing[12];
-                output.Type = 81;
+                output.ClothingId = new ClothingId("common/81");
                 output.OccupiesAllSlots = true;
             });
 
@@ -56,7 +56,7 @@ namespace TaurusClothes
             {
                 output.DiscardSprite = input.Sprites.CowClothing[12];
                 output.RevealsBreasts = true;
-                output.Type = 80;
+                output.ClothingId = new ClothingId("common/80");
             });
 
             builder.RenderAll((input, output) =>
@@ -77,7 +77,7 @@ namespace TaurusClothes
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 82;
+                output.ClothingId = new ClothingId("common/82");
             });
 
             builder.RenderAll((input, output) =>
@@ -104,7 +104,7 @@ namespace TaurusClothes
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                output.Type = 87;
+                output.ClothingId = new ClothingId("common/87");
                 output.RevealsBreasts = true;
                 output.OccupiesAllSlots = true;
                 output.LeaderOnly = true;
@@ -142,7 +142,7 @@ namespace TaurusClothes
             {
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 84;
+                output.ClothingId = new ClothingId("common/84");
             });
 
             builder.RenderAll((input, output) =>
@@ -162,7 +162,7 @@ namespace TaurusClothes
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                output.Type = 85;
+                output.ClothingId = new ClothingId("common/85");
                 output.RevealsBreasts = true;
             });
             builder.RenderAll((input, output) =>
@@ -201,7 +201,7 @@ namespace TaurusClothes
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                output.Type = 86;
+                output.ClothingId = new ClothingId("common/86");
                 output.RevealsDick = true;
                 output.RevealsBreasts = true;
             });
@@ -277,7 +277,7 @@ namespace TaurusClothes
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                output.Type = 0;
+                output.ClothingId = new ClothingId("common/0");
                 output.RevealsBreasts = true;
                 output.OccupiesAllSlots = true;
                 output.ReqWinterHoliday = true;

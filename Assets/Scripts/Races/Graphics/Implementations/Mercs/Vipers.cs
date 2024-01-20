@@ -686,7 +686,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers4[22];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1422;
+                    output.ClothingId = new ClothingId("base.vipers/1422");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -735,7 +735,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers4[22];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1422;
+                    output.ClothingId = new ClothingId("base.vipers/1422");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -776,7 +776,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers4[22];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1422;
+                    output.ClothingId = new ClothingId("base.vipers/1422");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -822,7 +822,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers4[22];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1422;
+                    output.ClothingId = new ClothingId("base.vipers/1422");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -860,7 +860,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[97];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1497;
+                    output.ClothingId = new ClothingId("base.vipers/1497");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -909,7 +909,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[97];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1497;
+                    output.ClothingId = new ClothingId("base.vipers/1497");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -950,7 +950,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[97];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1497;
+                    output.ClothingId = new ClothingId("base.vipers/1497");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -996,7 +996,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[97];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1497;
+                    output.ClothingId = new ClothingId("base.vipers/1497");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1034,7 +1034,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers4[23];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1423;
+                    output.ClothingId = new ClothingId("base.vipers/1423");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1083,7 +1083,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers4[23];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1423;
+                    output.ClothingId = new ClothingId("base.vipers/1423");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1124,7 +1124,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers4[23];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1423;
+                    output.ClothingId = new ClothingId("base.vipers/1423");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1170,7 +1170,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers4[23];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1423;
+                    output.ClothingId = new ClothingId("base.vipers/1423");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1208,7 +1208,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[98];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1498;
+                    output.ClothingId = new ClothingId("base.vipers/1498");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1254,7 +1254,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[98];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1498;
+                    output.ClothingId = new ClothingId("base.vipers/1498");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1295,7 +1295,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[98];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1498;
+                    output.ClothingId = new ClothingId("base.vipers/1498");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1338,7 +1338,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[98];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1498;
+                    output.ClothingId = new ClothingId("base.vipers/1498");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1376,7 +1376,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[97];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1497;
+                    output.ClothingId = new ClothingId("base.vipers/1497");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1430,7 +1430,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[97];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1497;
+                    output.ClothingId = new ClothingId("base.vipers/1497");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1476,7 +1476,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[97];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1497;
+                    output.ClothingId = new ClothingId("base.vipers/1497");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1523,7 +1523,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[97];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1497;
+                    output.ClothingId = new ClothingId("base.vipers/1497");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1562,7 +1562,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[99];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1499;
+                    output.ClothingId = new ClothingId("base.vipers/1499");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1608,7 +1608,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[99];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1499;
+                    output.ClothingId = new ClothingId("base.vipers/1499");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1649,7 +1649,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[99];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1499;
+                    output.ClothingId = new ClothingId("base.vipers/1499");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1692,7 +1692,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Vipers3[99];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1499;
+                    output.ClothingId = new ClothingId("base.vipers/1499");
                 });
 
                 builder.RenderAll((input, output, extra) =>

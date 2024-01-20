@@ -1547,9 +1547,9 @@ Turns: {currentTurn}
         }
     }
 
-    internal void CreateDiscardedClothing(Vec2i location, Race race, int type, int color, string name)
+    internal void CreateDiscardedClothing(Vec2i location, Race race, ClothingId type, int color, string name)
     {
-        if (type == 0 || turboMode)
+        if (type == null || turboMode)
             return;
         if (location == null)
             return;

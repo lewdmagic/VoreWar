@@ -382,7 +382,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.OccupiesAllSlots = true;
                     output.FixedColor = true;
-                    output.Type = 199;
+                    output.ClothingId = new ClothingId("base.antqueen/199");
                 });
 
                 builder.RenderAll((input, output, extra) =>

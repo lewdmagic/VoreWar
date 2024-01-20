@@ -817,7 +817,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1524;
+                    output.ClothingId = new ClothingId("base.deer/1524");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -845,7 +845,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1524;
+                    output.ClothingId = new ClothingId("base.deer/1524");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -876,7 +876,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1534;
+                    output.ClothingId = new ClothingId("base.deer/1534");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -907,7 +907,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1544;
+                    output.ClothingId = new ClothingId("base.deer/1544");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -938,7 +938,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1555;
+                    output.ClothingId = new ClothingId("base.deer/1555");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -975,7 +975,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1574;
+                    output.ClothingId = new ClothingId("base.deer/1574");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1013,7 +1013,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1588;
+                    output.ClothingId = new ClothingId("base.deer/1588");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1046,7 +1046,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1544;
+                    output.ClothingId = new ClothingId("base.deer/1544");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1077,7 +1077,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1579;
+                    output.ClothingId = new ClothingId("base.deer/1579");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1102,7 +1102,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1579;
+                    output.ClothingId = new ClothingId("base.deer/1579");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1163,7 +1163,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.OccupiesAllSlots = true;
                     output.FixedColor = true;
-                    output.Type = 61701;
+                    output.ClothingId = new ClothingId("base.deer/61701");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1231,7 +1231,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.RevealsDick = true;
-                    output.Type = 61708;
+                    output.ClothingId = new ClothingId("base.deer/61708");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1293,7 +1293,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61709;
+                    output.ClothingId = new ClothingId("base.deer/61709");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -1315,7 +1315,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsDick = true;
                     output.InFrontOfDick = true;
                     output.RevealsBreasts = true;
-                    output.Type = 207;
+                    output.ClothingId = new ClothingId("base.deer/207");
                     output.OccupiesAllSlots = true;
                     output.FixedColor = true;
                 });
@@ -1364,7 +1364,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.RevealsDick = true;
-                    output.Type = 61702;
+                    output.ClothingId = new ClothingId("base.deer/61702");
                     output.FixedColor = true;
                 });
 
@@ -1424,7 +1424,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61703;
+                    output.ClothingId = new ClothingId("base.deer/61703");
                     output.FixedColor = true;
                 });
 
@@ -1445,7 +1445,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians3[121];
                     output.RevealsBreasts = true;
-                    output.Type = 1521;
+                    output.ClothingId = new ClothingId("base.deer/1521");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1489,7 +1489,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians3[137];
                     output.RevealsBreasts = true;
-                    output.Type = 1537;
+                    output.ClothingId = new ClothingId("base.deer/1537");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1536,7 +1536,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians3[140];
                     output.RevealsBreasts = true;
-                    output.Type = 1540;
+                    output.ClothingId = new ClothingId("base.deer/1540");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1562,7 +1562,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Cockatrice3[47];
                     output.RevealsBreasts = true;
-                    output.Type = 61602;
+                    output.ClothingId = new ClothingId("base.deer/61602");
                     output.FixedColor = true;
                 });
 
@@ -1609,7 +1609,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians3[121];
                     output.RevealsBreasts = true;
-                    output.Type = 1521;
+                    output.ClothingId = new ClothingId("base.deer/1521");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1656,7 +1656,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.DeerLeaderClothes[66];
                     output.RevealsBreasts = true;
-                    output.Type = 61705;
+                    output.ClothingId = new ClothingId("base.deer/61705");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1686,7 +1686,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.LeaderOnly = true;
                     output.DiscardSprite = input.Sprites.DeerLeaderClothes[48];
                     output.RevealsBreasts = true;
-                    output.Type = 61704;
+                    output.ClothingId = new ClothingId("base.deer/61704");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -1759,7 +1759,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = input.Sprites.Deer4[106];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61706;
+                    output.ClothingId = new ClothingId("base.deer/61706");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1781,7 +1781,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = input.Sprites.Deer4[11];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61707;
+                    output.ClothingId = new ClothingId("base.deer/61707");
                 });
 
                 builder.RenderAll((input, output) =>

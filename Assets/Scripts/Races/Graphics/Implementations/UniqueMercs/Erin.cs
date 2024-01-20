@@ -189,7 +189,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             {
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 9764;
+                output.ClothingId = new ClothingId("base.erin/9764");
             });
 
             builder.RenderAll((input, output) =>
@@ -212,7 +212,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.RevealsBreasts = true;
-                output.Type = 9764;
+                output.ClothingId = new ClothingId("base.erin/9764");
             });
             builder.RenderAll((input, output) =>
             {
@@ -230,7 +230,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.RevealsBreasts = true;
-                output.Type = 9764;
+                output.ClothingId = new ClothingId("base.erin/9764");
             });
             builder.RenderAll((input, output) =>
             {
@@ -249,7 +249,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             {
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 9764;
+                output.ClothingId = new ClothingId("base.erin/9764");
             });
             builder.RenderAll((input, output) =>
             {
@@ -268,7 +268,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             {
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 9764;
+                output.ClothingId = new ClothingId("base.erin/9764");
             });
             builder.RenderAll((input, output) =>
             {

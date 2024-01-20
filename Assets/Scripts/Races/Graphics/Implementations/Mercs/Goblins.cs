@@ -590,124 +590,124 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly IClothing GoblinOBottom1 = ClothingBuilder.Create( b =>
             {
-                GoblinOBottom.MakeImpOBottom(b, 0, 2, false, 45, 8, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12050);
+                GoblinOBottom.MakeImpOBottom(b, 0, 2, false, 45, 8, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, new ClothingId("base.goblins/12050"));
             });
             internal static readonly IClothing GoblinOBottom2 = ClothingBuilder.Create( b =>
             {
-                GoblinOBottom.MakeImpOBottom(b, 9, 11, false, 45, 17, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12051);
+                GoblinOBottom.MakeImpOBottom(b, 9, 11, false, 45, 17, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, new ClothingId("base.goblins/12051"));
             });
             internal static readonly IClothing GoblinOBottom3 = ClothingBuilder.Create( b =>
             {
-                GoblinOBottom.MakeImpOBottom(b, 18, 20, true, 45, 26, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12052);
+                GoblinOBottom.MakeImpOBottom(b, 18, 20, true, 45, 26, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, new ClothingId("base.goblins/12052"));
             });
             internal static readonly IClothing GoblinOBottom4 = ClothingBuilder.Create( b =>
             {
-                GoblinOBottom.MakeImpOBottom(b, 27, 29, true, 49, 35, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12053);
+                GoblinOBottom.MakeImpOBottom(b, 27, 29, true, 49, 35, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, new ClothingId("base.goblins/12053"));
             });
             internal static readonly IClothing GoblinOBottomAlt1 = ClothingBuilder.Create( b =>
             {
-                GoblinOBottomAlt.MakeImpOBottomAlt(b, 27, 29, true, 49, 35, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12053);
+                GoblinOBottomAlt.MakeImpOBottomAlt(b, 27, 29, true, 49, 35, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, new ClothingId("base.goblins/12053"));
             });
             internal static readonly IClothing GoblinOBottom5 = ClothingBuilder.Create( b =>
             {
-                GoblinOBottom.MakeImpOBottom(b, 36, 38, false, 45, 44, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, 12054);
+                GoblinOBottom.MakeImpOBottom(b, 36, 38, false, 45, 44, 14, State.GameManager.SpriteDictionary.Gobboverbottoms, new ClothingId("base.goblins/12054"));
             });
 
             internal static readonly IClothing GenericLegs1 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 0, 4, 45, 12055, femaleOnly: true, blocksDick: false);
+                GenericLegs.MakeGenericLegs(b, 0, 4, 45, new ClothingId("base.goblins/12055"), femaleOnly: true, blocksDick: false);
             });
             internal static readonly IClothing GenericLegs2 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 5, 9, 45, 12056, femaleOnly: true, blocksDick: false);
+                GenericLegs.MakeGenericLegs(b, 5, 9, 45, new ClothingId("base.goblins/12056"), femaleOnly: true, blocksDick: false);
             });
             internal static readonly IClothing GenericLegs3 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 10, 14, 45, 12057, femaleOnly: true, blocksDick: false);
+                GenericLegs.MakeGenericLegs(b, 10, 14, 45, new ClothingId("base.goblins/12057"), femaleOnly: true, blocksDick: false);
             });
             internal static readonly IClothing GenericLegsAlt1 = ClothingBuilder.Create( b =>
             {
-                GenericLegsAlt.MakeGenericLegsAlt(b, 10, 14, 45, 12057, femaleOnly: true, blocksDick: false);
+                GenericLegsAlt.MakeGenericLegsAlt(b, 10, 14, 45, new ClothingId("base.goblins/12057"), femaleOnly: true, blocksDick: false);
             });
             internal static readonly IClothing GenericLegs4 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 15, 19, 45, 12058, femaleOnly: true, blocksDick: false);
+                GenericLegs.MakeGenericLegs(b, 15, 19, 45, new ClothingId("base.goblins/12058"), femaleOnly: true, blocksDick: false);
             });
             internal static readonly IClothing GenericLegsAlt2 = ClothingBuilder.Create( b =>
             {
-                GenericLegsAlt.MakeGenericLegsAlt(b, 15, 19, 45, 12058, femaleOnly: true, blocksDick: false);
+                GenericLegsAlt.MakeGenericLegsAlt(b, 15, 19, 45, new ClothingId("base.goblins/12058"), femaleOnly: true, blocksDick: false);
             });
             internal static readonly IClothing GenericLegs5 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 20, 24, 45, 12059, femaleOnly: true, blocksDick: false);
+                GenericLegs.MakeGenericLegs(b, 20, 24, 45, new ClothingId("base.goblins/12059"), femaleOnly: true, blocksDick: false);
             });
             internal static readonly IClothing GenericLegs6 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 2, 4, 45, 12060, true, blocksDick: true, black: true);
+                GenericLegs.MakeGenericLegs(b, 2, 4, 45, new ClothingId("base.goblins/12060"), true, blocksDick: true, black: true);
             });
             internal static readonly IClothing GenericLegs7 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 7, 9, 45, 12061, true, blocksDick: true, black: true);
+                GenericLegs.MakeGenericLegs(b, 7, 9, 45, new ClothingId("base.goblins/12061"), true, blocksDick: true, black: true);
             });
             internal static readonly IClothing GenericLegs8 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 12, 14, 45, 12062, true, blocksDick: true);
+                GenericLegs.MakeGenericLegs(b, 12, 14, 45, new ClothingId("base.goblins/12062"), true, blocksDick: true);
             });
             internal static readonly IClothing GenericLegs9 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 17, 19, 45, 12063, true, blocksDick: true);
+                GenericLegs.MakeGenericLegs(b, 17, 19, 45, new ClothingId("base.goblins/12063"), true, blocksDick: true);
             });
             internal static readonly IClothing GenericLegs10 = ClothingBuilder.Create( b =>
             {
-                GenericLegs.MakeGenericLegs(b, 22, 24, 45, 12064, true, blocksDick: false);
+                GenericLegs.MakeGenericLegs(b, 22, 24, 45, new ClothingId("base.goblins/12064"), true, blocksDick: false);
             });
 
             internal static readonly IClothing GenericGloves1 = ClothingBuilder.Create( b =>
             {
-                GenericGloves.MakeGenericGloves(b, 0, 8, 12065);
+                GenericGloves.MakeGenericGloves(b, 0, 8, new ClothingId("base.goblins/12065"));
             });
             internal static readonly IClothing GenericGlovesPlusSecond1 = ClothingBuilder.Create( b =>
             {
-                GenericGlovesPlusSecond.MakeGenericGlovesPlusSecond(b, 9, 17, 12066);
+                GenericGlovesPlusSecond.MakeGenericGlovesPlusSecond(b, 9, 17, new ClothingId("base.goblins/12066"));
             });
             internal static readonly IClothing GenericGlovesPlusSecondAlt1 = ClothingBuilder.Create( b =>
             {
-                GenericGlovesPlusSecondAlt.MakeGenericGlovesPlusSecondAlt(b, 9, 17, 12066);
+                GenericGlovesPlusSecondAlt.MakeGenericGlovesPlusSecondAlt(b, 9, 17, new ClothingId("base.goblins/12066"));
             });
             internal static readonly IClothing GenericGlovesPlusSecond2 = ClothingBuilder.Create( b =>
             {
-                GenericGlovesPlusSecond.MakeGenericGlovesPlusSecond(b, 18, 26, 12067);
+                GenericGlovesPlusSecond.MakeGenericGlovesPlusSecond(b, 18, 26, new ClothingId("base.goblins/12067"));
             });
             internal static readonly IClothing GenericGlovesPlusSecondAlt2 = ClothingBuilder.Create( b =>
             {
-                GenericGlovesPlusSecondAlt.MakeGenericGlovesPlusSecondAlt(b, 18, 26, 12067);
+                GenericGlovesPlusSecondAlt.MakeGenericGlovesPlusSecondAlt(b, 18, 26, new ClothingId("base.goblins/12067"));
             });
             internal static readonly IClothing GenericGloves2 = ClothingBuilder.Create( b =>
             {
-                GenericGloves.MakeGenericGloves(b, 27, 35, 12068);
+                GenericGloves.MakeGenericGloves(b, 27, 35, new ClothingId("base.goblins/12068"));
             });
 
             internal static readonly IClothing GoblinHat1 = ClothingBuilder.Create( b =>
             {
-                GoblinHat.MakeHat(b, 0, 0, State.GameManager.SpriteDictionary.Gobbohat, 12069);
+                GoblinHat.MakeHat(b, 0, 0, State.GameManager.SpriteDictionary.Gobbohat, new ClothingId("base.goblins/12069"));
             });
             internal static readonly IClothing GoblinHat2 = ClothingBuilder.Create( b =>
             {
-                GoblinHat.MakeHat(b, 34, 0, State.GameManager.SpriteDictionary.Gobbohat, 12070);
+                GoblinHat.MakeHat(b, 34, 0, State.GameManager.SpriteDictionary.Gobbohat, new ClothingId("base.goblins/12070"));
             });
         }
 
 
         private static class GenericGloves
         {
-            internal static void MakeGenericGloves(IClothingBuilder builder, int start, int discard, int type)
+            internal static void MakeGenericGloves(IClothingBuilder builder, int start, int discard,ClothingId type)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.Gobbglove[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FixedColor = false;
                 });
 
@@ -732,14 +732,14 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class GenericGlovesPlusSecond
         {
-            internal static void MakeGenericGlovesPlusSecond(IClothingBuilder builder, int start, int discard, int type)
+            internal static void MakeGenericGlovesPlusSecond(IClothingBuilder builder, int start, int discard,ClothingId type)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.Gobbglove[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FixedColor = false;
                 });
 
@@ -764,14 +764,14 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class GenericGlovesPlusSecondAlt
         {
-            internal static void MakeGenericGlovesPlusSecondAlt(IClothingBuilder builder, int start, int discard, int type)
+            internal static void MakeGenericGlovesPlusSecondAlt(IClothingBuilder builder, int start, int discard,ClothingId type)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.Gobbglove[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     //output.ClothingDefaults1 = SpriteExtraInfo.MakeSpriteExtraInfo(5, null, (s) => ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.UniversalHair, s.Unit.ClothingColor), null); // seems to be overwritten always
                     output.FixedColor = false;
                 });
@@ -797,13 +797,13 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class GenericLegs
         {
-            internal static void MakeGenericLegs(IClothingBuilder builder, int start, int discard, int bulge, int type, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false, bool black = false)
+            internal static void MakeGenericLegs(IClothingBuilder builder, int start, int discard, int bulge,ClothingId type, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false, bool black = false)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = !blocksDick;
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.DiscardSprite = input.Sprites.Gobleggo[discard];
                     if (maleOnly)
                     {
@@ -859,13 +859,13 @@ namespace Races.Graphics.Implementations.Mercs
 
         private static class GenericLegsAlt
         {
-            internal static void MakeGenericLegsAlt(IClothingBuilder builder, int start, int discard, int bulge, int type, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false, bool black = false)
+            internal static void MakeGenericLegsAlt(IClothingBuilder builder, int start, int discard, int bulge,ClothingId type, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false, bool black = false)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = !blocksDick;
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.DiscardSprite = input.Sprites.Gobleggo[discard];
                     if (maleOnly)
                     {
@@ -923,32 +923,32 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly IClothing ImpUBottom1 = ClothingBuilder.Create( b =>
             {
-                MakeImpUBottom(b, 0, 2, 45, 8, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12045);
+                MakeImpUBottom(b, 0, 2, 45, 8, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, new ClothingId("base.goblins/12045"));
             });
             internal static readonly IClothing ImpUBottom2 = ClothingBuilder.Create( b =>
             {
-                MakeImpUBottom(b, 9, 11, 45, 17, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12046);
+                MakeImpUBottom(b, 9, 11, 45, 17, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, new ClothingId("base.goblins/12046"));
             });
             internal static readonly IClothing ImpUBottom3 = ClothingBuilder.Create( b =>
             {
-                MakeImpUBottom(b, 18, 20, 45, 26, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12047, true);
+                MakeImpUBottom(b, 18, 20, 45, 26, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, new ClothingId("base.goblins/12047"), true);
             });
             internal static readonly IClothing ImpUBottom4 = ClothingBuilder.Create( b =>
             {
-                MakeImpUBottom(b, 27, 29, 45, 35, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12048);
+                MakeImpUBottom(b, 27, 29, 45, 35, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, new ClothingId("base.goblins/12048"));
             });
             internal static readonly IClothing ImpUBottom5 = ClothingBuilder.Create( b =>
             {
-                MakeImpUBottom(b, 36, 38, 45, 44, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, 12049);
+                MakeImpUBottom(b, 36, 38, 45, 44, 9, State.GameManager.SpriteDictionary.Gobbunderbottoms, new ClothingId("base.goblins/12049"));
             });
 
-            private static void MakeImpUBottom(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, int type, bool black = false)
+            private static void MakeImpUBottom(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet,ClothingId type, bool black = false)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = sheet[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                 });
 
                 builder.RenderAll((input, output) =>
@@ -1020,7 +1020,7 @@ namespace Races.Graphics.Implementations.Mercs
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.DiscardSprite = input.Sprites.Gobbunderonepieces[74];
-                    output.Type = 12071;
+                    output.ClothingId = new ClothingId("base.goblins/12071");
                     output.OccupiesAllSlots = true;
                     output.DiscardUsesPalettes = true;
                 });
@@ -1107,7 +1107,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobbunderonepieces[74];
-                output.Type = 12072;
+                output.ClothingId = new ClothingId("base.goblins/12072");
                 output.OccupiesAllSlots = true;
                 output.DiscardUsesPalettes = true;
             });
@@ -1192,13 +1192,13 @@ namespace Races.Graphics.Implementations.Mercs
     internal static class GoblinOBottom
     {
         internal static void MakeImpOBottom(IClothingBuilder builder, int sprF, int sprM, bool showbulge, int bulge, int discard, int layer,
-            Sprite[] sheet, int type)
+            Sprite[] sheet,ClothingId type)
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.RevealsBreasts = true;
                 output.DiscardSprite = sheet[discard];
-                output.Type = type;
+                output.ClothingId = type;
             });
 
             builder.RenderAll((input, output) =>
@@ -1268,13 +1268,13 @@ namespace Races.Graphics.Implementations.Mercs
     internal static class GoblinOBottomAlt
     {
         internal static void MakeImpOBottomAlt(IClothingBuilder builder, int sprF, int sprM, bool showbulge, int bulge, int discard,
-            int layer, Sprite[] sheet, int type)
+            int layer, Sprite[] sheet,ClothingId type)
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.RevealsBreasts = true;
                 output.DiscardSprite = sheet[discard];
-                output.Type = type;
+                output.ClothingId = type;
             });
 
             builder.RenderAll((input, output) =>
@@ -1341,14 +1341,14 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class GoblinHat
     {
-        internal static void MakeHat(IClothingBuilder builder, int start, int discard, Sprite[] sheet, int type)
+        internal static void MakeHat(IClothingBuilder builder, int start, int discard, Sprite[] sheet,ClothingId type)
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardSprite = sheet[discard];
-                output.Type = type;
+                output.ClothingId = type;
             });
 
             builder.RenderAll((input, output) =>
@@ -1371,7 +1371,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobundertops[8];
-                output.Type = 12073;
+                output.ClothingId = new ClothingId("base.goblins/12073");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1402,7 +1402,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobundertops[17];
-                output.Type = 12074;
+                output.ClothingId = new ClothingId("base.goblins/12074");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1433,7 +1433,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobundertops[26];
-                output.Type = 12075;
+                output.ClothingId = new ClothingId("base.goblins/12075");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1464,7 +1464,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobundertops[35];
-                output.Type = 12076;
+                output.ClothingId = new ClothingId("base.goblins/12076");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1495,7 +1495,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobundertops[75];
-                output.Type = 12077;
+                output.ClothingId = new ClothingId("base.goblins/12077");
                 output.FemaleOnly = false;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1537,7 +1537,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobboveronepieces[23];
-                output.Type = 12078;
+                output.ClothingId = new ClothingId("base.goblins/12078");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.DiscardUsesPalettes = true;
@@ -1585,7 +1585,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobboveronepieces[40];
-                output.Type = 12079;
+                output.ClothingId = new ClothingId("base.goblins/12079");
                 output.MaleOnly = true;
                 output.RevealsBreasts = true;
                 output.DiscardUsesPalettes = true;
@@ -1620,7 +1620,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobbovertops[3];
-                output.Type = 12080;
+                output.ClothingId = new ClothingId("base.goblins/12080");
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardUsesPalettes = true;
@@ -1656,7 +1656,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobbovertops[7];
-                output.Type = 12081;
+                output.ClothingId = new ClothingId("base.goblins/12081");
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardUsesPalettes = true;
@@ -1692,7 +1692,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobbovertops[11];
-                output.Type = 12082;
+                output.ClothingId = new ClothingId("base.goblins/12082");
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardUsesPalettes = true;
@@ -1729,7 +1729,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Gobbovertops[15];
-                output.Type = 12083;
+                output.ClothingId = new ClothingId("base.goblins/12083");
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardUsesPalettes = true;
@@ -1768,7 +1768,7 @@ namespace Races.Graphics.Implementations.Mercs
                 output.RevealsDick = true;
                 output.ReqWinterHoliday = true;
                 output.DiscardSprite = null;
-                output.Type = 0;
+                output.ClothingId = new ClothingId("base.goblins/0");
             });
 
             builder.RenderAll((input, output) =>

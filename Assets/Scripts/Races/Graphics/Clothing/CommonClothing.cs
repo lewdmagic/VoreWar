@@ -16,7 +16,7 @@ internal static class BikiniTop
             output.FemaleOnly = true;
             output.RevealsBreasts = true;
             output.RevealsDick = true;
-            output.Type = 205;
+            output.ClothingId = new ClothingId("common/205");
             output.DiscardUsesPalettes = true;
         });
 
@@ -50,7 +50,7 @@ internal static class StrapTop
             output.FemaleOnly = true;
             output.RevealsBreasts = true;
             output.RevealsDick = true;
-            output.Type = 204;
+            output.ClothingId = new ClothingId("common/204");
             output.DiscardUsesPalettes = true;
         });
 
@@ -84,7 +84,7 @@ internal static class BeltTop
             output.FemaleOnly = true;
             output.RevealsBreasts = true;
             output.RevealsDick = true;
-            output.Type = 203;
+            output.ClothingId = new ClothingId("common/203");
             output.FixedColor = true;
         });
 
@@ -120,7 +120,7 @@ internal static class BikiniBottom
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
             output.DiscardSprite = input.Sprites.BikiniBottom[12];
-            output.Type = 201;
+            output.ClothingId = new ClothingId("common/201");
             output.RevealsBreasts = true;
             output.DiscardUsesPalettes = true;
         });
@@ -197,7 +197,7 @@ internal static class Shorts
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
             output.DiscardSprite = input.Sprites.Shorts[12];
-            output.Type = 202;
+            output.ClothingId = new ClothingId("common/202");
             output.FixedColor = true;
             output.RevealsBreasts = true;
         });
@@ -256,7 +256,7 @@ internal static class Loincloth
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
             output.DiscardSprite = input.Sprites.Loincloths[10];
-            output.Type = 200;
+            output.ClothingId = new ClothingId("common/200");
             output.RevealsDick = true;
             output.InFrontOfDick = true;
             output.DiscardUsesPalettes = true;
@@ -311,7 +311,7 @@ internal static class Leotard
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
             output.DiscardSprite = input.Sprites.Leotards[9];
-            output.Type = 206;
+            output.ClothingId = new ClothingId("common/206");
             //blocksBreasts = true;
             output.OccupiesAllSlots = true;
             output.DiscardUsesPalettes = true;
@@ -410,7 +410,7 @@ internal static class Rags
             output.RevealsDick = true;
             output.InFrontOfDick = true;
             output.RevealsBreasts = true;
-            output.Type = 207;
+            output.ClothingId = new ClothingId("common/207");
             output.OccupiesAllSlots = true;
             output.FixedColor = true;
         });
@@ -507,7 +507,7 @@ internal static class BlackTop
             output.DiscardSprite = null;
             output.BlocksBreasts = true;
             output.RevealsDick = true;
-            output.Type = 208;
+            output.ClothingId = new ClothingId("common/208");
             output.FixedColor = true;
         });
 
@@ -606,7 +606,7 @@ internal static class FemaleVillager
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
             output.DiscardSprite = null;
-            output.Type = 209;
+            output.ClothingId = new ClothingId("common/209");
             output.BlocksBreasts = true;
             output.FemaleOnly = true;
             output.OccupiesAllSlots = true;
@@ -639,7 +639,7 @@ internal static class MaleVillager
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
             output.DiscardSprite = null;
-            output.Type = 210;
+            output.ClothingId = new ClothingId("common/210");
             output.BlocksBreasts = true;
             output.OccupiesAllSlots = true;
             output.MaleOnly = true;

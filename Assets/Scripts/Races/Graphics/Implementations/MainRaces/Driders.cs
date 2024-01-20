@@ -2,11 +2,11 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+#endregion
 
 namespace Races.Graphics.Implementations.MainRaces
 {
 
-    #endregion
 
     internal static class Driders
     {
@@ -295,7 +295,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.RevealsBreasts = true;
                 output.OccupiesAllSlots = true;
                 output.DiscardSprite = input.Sprites.Driders[96];
-                output.Type = 236;
+                output.ClothingId = new ClothingId("base.driders/236");
             });
 
             builder.RenderAll((input, output) =>
@@ -315,7 +315,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 if (input.U.HasBreasts)
                 {
                     // output.DiscardSprite = input.Sprites.Driders[97];
-                    // output.Type = 237;
+                    // output.Type = new ClothingId("base.driders/237");
                     // TODO this was not a robust way of doing this. Changing discards dynamically isnt currently supported 
                     output["Clothing1"].Sprite(input.Sprites.Driders[76]);
                     output["Clothing2"].Sprite(input.Sprites.Driders[87 + input.U.BreastSize]);

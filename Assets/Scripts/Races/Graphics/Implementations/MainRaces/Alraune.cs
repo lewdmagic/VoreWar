@@ -558,7 +558,7 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.DiscardSprite = input.Sprites.Rags[23];
                 output.OccupiesAllSlots = true;
-                output.Type = 207;
+                output.ClothingId = new ClothingId("base.alraune/207");
                 output.FixedColor = true;
             });
 

@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+#endregion
 namespace Races.Graphics.Implementations.MainRaces
 {
 
-    #endregion
 
     internal static class Kangaroos
     {
@@ -499,7 +499,7 @@ namespace Races.Graphics.Implementations.MainRaces
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                output.Type = 755;
+                output.ClothingId = new ClothingId("base.kangaroos/755");
                 output.OccupiesAllSlots = true;
                 output.DiscardSprite = input.Sprites.Kangaroos[123];
             });
@@ -519,7 +519,7 @@ namespace Races.Graphics.Implementations.MainRaces
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                output.Type = 756;
+                output.ClothingId = new ClothingId("base.kangaroos/756");
                 output.OccupiesAllSlots = true;
                 output.DiscardSprite = input.Sprites.Kangaroos[124];
             });
@@ -539,7 +539,7 @@ namespace Races.Graphics.Implementations.MainRaces
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                output.Type = 756;
+                output.ClothingId = new ClothingId("base.kangaroos/756");
                 output.OccupiesAllSlots = true;
                 output.DiscardSprite = input.Sprites.Kangaroos[124];
             });
@@ -559,7 +559,7 @@ namespace Races.Graphics.Implementations.MainRaces
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                output.Type = 756;
+                output.ClothingId = new ClothingId("base.kangaroos/756");
                 output.OccupiesAllSlots = true;
                 output.FixedColor = true;
                 output.DiscardSprite = input.Sprites.Kangaroos[124];

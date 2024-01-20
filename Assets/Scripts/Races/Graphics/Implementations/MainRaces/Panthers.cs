@@ -728,7 +728,7 @@ namespace Races.Graphics.Implementations.MainRaces
         {
             internal static readonly BindableClothing<IOverSizeParameters> GenericFemaleTop1 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
-                GenericFemaleTop.MakeGenericFemaleTop(b, 0, 10, 20, State.GameManager.SpriteDictionary.PantherFTops, 801, ColorStyle.InnerWear);
+                GenericFemaleTop.MakeGenericFemaleTop(b, 0, 10, 20, State.GameManager.SpriteDictionary.PantherFTops, new ClothingId("base.panthers/801"), ColorStyle.InnerWear);
             });
             internal static readonly BindableClothing<IOverSizeParameters> BeltTop1 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
@@ -736,43 +736,43 @@ namespace Races.Graphics.Implementations.MainRaces
             });
             internal static readonly BindableClothing<IOverSizeParameters> GenericFemaleTop2 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
-                GenericFemaleTop.MakeGenericFemaleTop(b, 19, 29, 20, State.GameManager.SpriteDictionary.PantherFTops, 803, ColorStyle.InnerWear);
+                GenericFemaleTop.MakeGenericFemaleTop(b, 19, 29, 20, State.GameManager.SpriteDictionary.PantherFTops, new ClothingId("base.panthers/803"), ColorStyle.InnerWear);
             });
             internal static readonly BindableClothing<IOverSizeParameters> GenericFemaleTop3 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
-                GenericFemaleTop.MakeGenericFemaleTop(b, 24, 34, 20, State.GameManager.SpriteDictionary.PantherFTops, 804, ColorStyle.None);
+                GenericFemaleTop.MakeGenericFemaleTop(b, 24, 34, 20, State.GameManager.SpriteDictionary.PantherFTops, new ClothingId("base.panthers/804"), ColorStyle.None);
             });
             internal static readonly BindableClothing<IOverSizeParameters> GenericFemaleTop4 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
-                GenericFemaleTop.MakeGenericFemaleTop(b, 39, 49, 20, State.GameManager.SpriteDictionary.PantherFTops, 805, ColorStyle.InnerWear);
+                GenericFemaleTop.MakeGenericFemaleTop(b, 39, 49, 20, State.GameManager.SpriteDictionary.PantherFTops, new ClothingId("base.panthers/805"), ColorStyle.InnerWear);
             });
             internal static readonly BindableClothing<IOverSizeParameters> GenericFemaleTop5 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
-                GenericFemaleTop.MakeGenericFemaleTop(b, 44, 54, 20, State.GameManager.SpriteDictionary.PantherFTops, 806, ColorStyle.None);
+                GenericFemaleTop.MakeGenericFemaleTop(b, 44, 54, 20, State.GameManager.SpriteDictionary.PantherFTops, new ClothingId("base.panthers/806"), ColorStyle.None);
             });
             internal static readonly BindableClothing<IOverSizeParameters> GenericFemaleTop6 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
-                GenericFemaleTop.MakeGenericFemaleTop(b, 59, 64, 20, State.GameManager.SpriteDictionary.PantherFTops, 807, ColorStyle.InnerWear);
+                GenericFemaleTop.MakeGenericFemaleTop(b, 59, 64, 20, State.GameManager.SpriteDictionary.PantherFTops, new ClothingId("base.panthers/807"), ColorStyle.InnerWear);
             });
             internal static readonly IClothing Simple1 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 0, 5, 20, State.GameManager.SpriteDictionary.PantherMTops, 808, ColorStyle.None, true);
+                Simple.MakeSimple(b, 0, 5, 20, State.GameManager.SpriteDictionary.PantherMTops, new ClothingId("base.panthers/808"), ColorStyle.None, true);
             });
             internal static readonly IClothing Simple2 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 1, 6, 20, State.GameManager.SpriteDictionary.PantherMTops, 809, ColorStyle.InnerWear, true);
+                Simple.MakeSimple(b, 1, 6, 20, State.GameManager.SpriteDictionary.PantherMTops, new ClothingId("base.panthers/809"), ColorStyle.InnerWear, true);
             });
             internal static readonly IClothing Simple3 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 2, 7, 20, State.GameManager.SpriteDictionary.PantherMTops, 810, ColorStyle.InnerWear, true);
+                Simple.MakeSimple(b, 2, 7, 20, State.GameManager.SpriteDictionary.PantherMTops, new ClothingId("base.panthers/810"), ColorStyle.InnerWear, true);
             });
             internal static readonly IClothing Simple4 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 3, 8, 20, State.GameManager.SpriteDictionary.PantherMTops, 811, ColorStyle.None, true);
+                Simple.MakeSimple(b, 3, 8, 20, State.GameManager.SpriteDictionary.PantherMTops, new ClothingId("base.panthers/811"), ColorStyle.None, true);
             });
             internal static readonly IClothing Simple5 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 4, 9, 20, State.GameManager.SpriteDictionary.PantherMTops, 812, ColorStyle.None, true);
+                Simple.MakeSimple(b, 4, 9, 20, State.GameManager.SpriteDictionary.PantherMTops, new ClothingId("base.panthers/812"), ColorStyle.None, true);
             });
             internal static readonly BindableClothing<IOverSizeParameters> GenericOnepiece1 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
@@ -794,41 +794,41 @@ namespace Races.Graphics.Implementations.MainRaces
 
             internal static readonly IClothing GenericBottom1 = ClothingBuilder.Create( b =>
             {
-                GenericBottom.MakeGenericBottom(b, 0, 0, 12, 6, 8, State.GameManager.SpriteDictionary.PantherBottoms, 840, true);
+                GenericBottom.MakeGenericBottom(b, 0, 0, 12, 6, 8, State.GameManager.SpriteDictionary.PantherBottoms, new ClothingId("base.panthers/840"), true);
             });
             internal static readonly IClothing GenericBottom2 = ClothingBuilder.Create( b =>
             {
-                GenericBottom.MakeGenericBottom(b, 1, 1, 12, 7, 8, State.GameManager.SpriteDictionary.PantherBottoms, 841, true);
+                GenericBottom.MakeGenericBottom(b, 1, 1, 12, 7, 8, State.GameManager.SpriteDictionary.PantherBottoms, new ClothingId("base.panthers/841"), true);
             });
             internal static readonly IClothing GenericBottom3 = ClothingBuilder.Create( b =>
             {
-                GenericBottom.MakeGenericBottom(b, 2, 2, -2, 8, 8, State.GameManager.SpriteDictionary.PantherBottoms, 842, true);
+                GenericBottom.MakeGenericBottom(b, 2, 2, -2, 8, 8, State.GameManager.SpriteDictionary.PantherBottoms, new ClothingId("base.panthers/842"), true);
             });
             internal static readonly IClothing GenericBottom4 = ClothingBuilder.Create( b =>
             {
-                GenericBottom.MakeGenericBottom(b, 3, 17, 14, 9, 8, State.GameManager.SpriteDictionary.PantherBottoms, 843, false);
+                GenericBottom.MakeGenericBottom(b, 3, 17, 14, 9, 8, State.GameManager.SpriteDictionary.PantherBottoms, new ClothingId("base.panthers/843"), false);
             });
             internal static readonly IClothing GenericBottom5 = ClothingBuilder.Create( b =>
             {
-                GenericBottom.MakeGenericBottom(b, 16, 4, 12, 10, 8, State.GameManager.SpriteDictionary.PantherBottoms, 844, true);
+                GenericBottom.MakeGenericBottom(b, 16, 4, 12, 10, 8, State.GameManager.SpriteDictionary.PantherBottoms, new ClothingId("base.panthers/844"), true);
             });
             internal static readonly IClothing GenericBottom6 = ClothingBuilder.Create( b =>
             {
-                GenericBottom.MakeGenericBottom(b, 5, 5, 12, 11, 8, State.GameManager.SpriteDictionary.PantherBottoms, 845, true);
+                GenericBottom.MakeGenericBottom(b, 5, 5, 12, 11, 8, State.GameManager.SpriteDictionary.PantherBottoms, new ClothingId("base.panthers/845"), true);
             });
 
 
             internal static readonly BindableClothing<IOverSizeParameters> GenericFemaleTop7 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
-                GenericFemaleTop.MakeGenericFemaleTop(b, 0, 5, 21, State.GameManager.SpriteDictionary.PantherFOvertops, 830, ColorStyle.OuterWear);
+                GenericFemaleTop.MakeGenericFemaleTop(b, 0, 5, 21, State.GameManager.SpriteDictionary.PantherFOvertops, new ClothingId("base.panthers/830"), ColorStyle.OuterWear);
             });
             internal static readonly IClothing SimpleAttack1 = ClothingBuilder.Create( b =>
             {
-                SimpleAttack.MakeSimpleAttack(b, 20, 21, 22, 21, State.GameManager.SpriteDictionary.PantherFOvertops, 831, ColorStyle.OuterWear, femaleOnly: true);
+                SimpleAttack.MakeSimpleAttack(b, 20, 21, 22, 21, State.GameManager.SpriteDictionary.PantherFOvertops, new ClothingId("base.panthers/831"), ColorStyle.OuterWear, femaleOnly: true);
             });
             internal static readonly BindableClothing<IOverSizeParameters> GenericFemaleTop8 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
-                GenericFemaleTop.MakeGenericFemaleTop(b, 10, 15, 21, State.GameManager.SpriteDictionary.PantherFOvertops, 832, ColorStyle.OuterWear);
+                GenericFemaleTop.MakeGenericFemaleTop(b, 10, 15, 21, State.GameManager.SpriteDictionary.PantherFOvertops, new ClothingId("base.panthers/832"), ColorStyle.OuterWear);
             });
             internal static readonly BindableClothing<IOverSizeParameters> BoneTop1 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
             {
@@ -836,123 +836,123 @@ namespace Races.Graphics.Implementations.MainRaces
             });
             internal static readonly IClothing Simple6 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 0, 6, 21, State.GameManager.SpriteDictionary.PantherMOvertops, 834, ColorStyle.None, true);
+                Simple.MakeSimple(b, 0, 6, 21, State.GameManager.SpriteDictionary.PantherMOvertops, new ClothingId("base.panthers/834"), ColorStyle.None, true);
             });
             internal static readonly IClothing Simple7 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 1, 7, 21, State.GameManager.SpriteDictionary.PantherMOvertops, 835, ColorStyle.OuterWear, true);
+                Simple.MakeSimple(b, 1, 7, 21, State.GameManager.SpriteDictionary.PantherMOvertops, new ClothingId("base.panthers/835"), ColorStyle.OuterWear, true);
             });
             internal static readonly IClothing SimpleAttack2 = ClothingBuilder.Create( b =>
             {
-                SimpleAttack.MakeSimpleAttack(b, 2, 4, 8, 21, State.GameManager.SpriteDictionary.PantherMOvertops, 836, ColorStyle.OuterWear, true);
+                SimpleAttack.MakeSimpleAttack(b, 2, 4, 8, 21, State.GameManager.SpriteDictionary.PantherMOvertops, new ClothingId("base.panthers/836"), ColorStyle.OuterWear, true);
             });
             internal static readonly IClothing SimpleAttack3 = ClothingBuilder.Create( b =>
             {
-                SimpleAttack.MakeSimpleAttack(b, 3, 5, 9, 21, State.GameManager.SpriteDictionary.PantherMOvertops, 837, ColorStyle.OuterWear, true);
+                SimpleAttack.MakeSimpleAttack(b, 3, 5, 9, 21, State.GameManager.SpriteDictionary.PantherMOvertops, new ClothingId("base.panthers/837"), ColorStyle.OuterWear, true);
             });
 
 
             internal static readonly IClothing Simple8 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 0, 10, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, 860, ColorStyle.OuterWear, blocksDick: true);
+                Simple.MakeSimple(b, 0, 10, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, new ClothingId("base.panthers/860"), ColorStyle.OuterWear, blocksDick: true);
             });
             internal static readonly IClothing OverbottomTwoTone1 = ClothingBuilder.Create( b =>
             {
-                OverbottomTwoTone.MakeOverbottomTwoTone(b, 1, 2, 3, 11, 11, 861);
+                OverbottomTwoTone.MakeOverbottomTwoTone(b, 1, 2, 3, 11, 11, new ClothingId("base.panthers/861"));
             });
             internal static readonly IClothing Simple9 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 4, 12, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, 862, ColorStyle.OuterWear, blocksDick: true);
+                Simple.MakeSimple(b, 4, 12, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, new ClothingId("base.panthers/862"), ColorStyle.OuterWear, blocksDick: true);
             });
             internal static readonly IClothing OverbottomTwoTone2 = ClothingBuilder.Create( b =>
             {
-                OverbottomTwoTone.MakeOverbottomTwoTone(b, 5, 5, 6, 13, 11, 863, true);
+                OverbottomTwoTone.MakeOverbottomTwoTone(b, 5, 5, 6, 13, 11, new ClothingId("base.panthers/863"), true);
             });
             internal static readonly IClothing Simple10 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 7, 14, 15, State.GameManager.SpriteDictionary.PantherOverBottoms, 864, ColorStyle.None, blocksDick: false);
+                Simple.MakeSimple(b, 7, 14, 15, State.GameManager.SpriteDictionary.PantherOverBottoms, new ClothingId("base.panthers/864"), ColorStyle.None, blocksDick: false);
             });
             internal static readonly IClothing Simple11 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 8, 15, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, 865, ColorStyle.None, femaleOnly: true, blocksDick: true);
+                Simple.MakeSimple(b, 8, 15, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, new ClothingId("base.panthers/865"), ColorStyle.None, femaleOnly: true, blocksDick: true);
             });
             internal static readonly IClothing Simple12 = ClothingBuilder.Create( b =>
             {
-                Simple.MakeSimple(b, 9, 16, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, 866, ColorStyle.None, true, blocksDick: true);
+                Simple.MakeSimple(b, 9, 16, 11, State.GameManager.SpriteDictionary.PantherOverBottoms, new ClothingId("base.panthers/866"), ColorStyle.None, true, blocksDick: true);
             });
 
 
             internal static readonly IClothing GenericItem1 = ClothingBuilder.Create( b =>
             {
-                GenericItem.MakeGenericItem(b, 0, 2, 4, 28, State.GameManager.SpriteDictionary.PantherHats, 888, ColorStyle.None);
+                GenericItem.MakeGenericItem(b, 0, 2, 4, 28, State.GameManager.SpriteDictionary.PantherHats, new ClothingId("base.panthers/888"), ColorStyle.None);
             });
             internal static readonly IClothing GenericItem2 = ClothingBuilder.Create( b =>
             {
-                GenericItem.MakeGenericItem(b, 1, 3, 5, 28, State.GameManager.SpriteDictionary.PantherHats, 889, ColorStyle.Other);
+                GenericItem.MakeGenericItem(b, 1, 3, 5, 28, State.GameManager.SpriteDictionary.PantherHats, new ClothingId("base.panthers/889"), ColorStyle.Other);
             });
 
 
             internal static readonly IClothing GenericGlovesPlusSecond1 = ClothingBuilder.Create( b =>
             {
-                GenericGlovesPlusSecond.MakeGenericGlovesPlusSecond(b, 0, 890);
+                GenericGlovesPlusSecond.MakeGenericGlovesPlusSecond(b, 0, new ClothingId("base.panthers/890"));
             });
             internal static readonly IClothing GenericGloves1 = ClothingBuilder.Create( b =>
             {
-                GenericGloves.MakeGenericGloves(b, 9, 891);
+                GenericGloves.MakeGenericGloves(b, 9, new ClothingId("base.panthers/891"));
             });
             internal static readonly IClothing GenericGloves2 = ClothingBuilder.Create( b =>
             {
-                GenericGloves.MakeGenericGloves(b, 14, 892);
+                GenericGloves.MakeGenericGloves(b, 14, new ClothingId("base.panthers/892"));
             });
             internal static readonly IClothing GenericGloves3 = ClothingBuilder.Create( b =>
             {
-                GenericGloves.MakeGenericGloves(b, 19, 893);
+                GenericGloves.MakeGenericGloves(b, 19, new ClothingId("base.panthers/893"));
             });
             internal static readonly IClothing GenericGloves4 = ClothingBuilder.Create( b =>
             {
-                GenericGloves.MakeGenericGloves(b, 24, 894);
+                GenericGloves.MakeGenericGloves(b, 24, new ClothingId("base.panthers/894"));
             });
             internal static readonly IClothing GenericGloves5 = ClothingBuilder.Create( b =>
             {
-                GenericGloves.MakeGenericGloves(b, 29, 895);
+                GenericGloves.MakeGenericGloves(b, 29, new ClothingId("base.panthers/895"));
             });
             internal static readonly IClothing GenericGloves6 = ClothingBuilder.Create( b =>
             {
-                GenericGloves.MakeGenericGloves(b, 34, 896);
+                GenericGloves.MakeGenericGloves(b, 34, new ClothingId("base.panthers/896"));
             });
 
 
             internal static readonly IClothing GenericItem3 = ClothingBuilder.Create( b =>
             {
-                GenericItem.MakeGenericItem(b, 0, 1, 2, 9, State.GameManager.SpriteDictionary.PantherLegs, 901, ColorStyle.None);
+                GenericItem.MakeGenericItem(b, 0, 1, 2, 9, State.GameManager.SpriteDictionary.PantherLegs, new ClothingId("base.panthers/901"), ColorStyle.None);
             });
             internal static readonly IClothing GenericItem4 = ClothingBuilder.Create( b =>
             {
-                GenericItem.MakeGenericItem(b, 3, 4, 5, 9, State.GameManager.SpriteDictionary.PantherLegs, 902, ColorStyle.None);
+                GenericItem.MakeGenericItem(b, 3, 4, 5, 9, State.GameManager.SpriteDictionary.PantherLegs, new ClothingId("base.panthers/902"), ColorStyle.None);
             });
             internal static readonly IClothing GenericItem5 = ClothingBuilder.Create( b =>
             {
-                GenericItem.MakeGenericItem(b, 6, 7, 8, 9, State.GameManager.SpriteDictionary.PantherLegs, 903, ColorStyle.None);
+                GenericItem.MakeGenericItem(b, 6, 7, 8, 9, State.GameManager.SpriteDictionary.PantherLegs, new ClothingId("base.panthers/903"), ColorStyle.None);
             });
             internal static readonly IClothing GenericItem6 = ClothingBuilder.Create( b =>
             {
-                GenericItem.MakeGenericItem(b, 9, 10, 11, 9, State.GameManager.SpriteDictionary.PantherLegs, 904, ColorStyle.None);
+                GenericItem.MakeGenericItem(b, 9, 10, 11, 9, State.GameManager.SpriteDictionary.PantherLegs, new ClothingId("base.panthers/904"), ColorStyle.None);
             });
             internal static readonly IClothing GenericItem7 = ClothingBuilder.Create( b =>
             {
-                GenericItem.MakeGenericItem(b, 12, 13, 14, 9, State.GameManager.SpriteDictionary.PantherLegs, 905, ColorStyle.None);
+                GenericItem.MakeGenericItem(b, 12, 13, 14, 9, State.GameManager.SpriteDictionary.PantherLegs, new ClothingId("base.panthers/905"), ColorStyle.None);
             });
         }
 
         private static class Simple
         {
-            internal static void MakeSimple(IClothingBuilder builder, int sprite, int discard, int layer, Sprite[] sheet, int type, ColorStyle color, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false)
+            internal static void MakeSimple(IClothingBuilder builder, int sprite, int discard, int layer, Sprite[] sheet,ClothingId type, ColorStyle color, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = sheet[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.RevealsDick = !blocksDick;
 
                     if (maleOnly)
@@ -980,14 +980,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class SimpleAttack
         {
-            internal static void MakeSimpleAttack(IClothingBuilder builder, int spr, int attacksprite, int discard, int layer, Sprite[] sheet, int type, ColorStyle color, bool maleOnly = false, bool femaleOnly = false)
+            internal static void MakeSimpleAttack(IClothingBuilder builder, int spr, int attacksprite, int discard, int layer, Sprite[] sheet,ClothingId type, ColorStyle color, bool maleOnly = false, bool femaleOnly = false)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = sheet[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     if (maleOnly)
                     {
                         output.MaleOnly = true;
@@ -1013,14 +1013,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericFemaleTop
         {
-            internal static void MakeGenericFemaleTop(IClothingBuilder<IOverSizeParameters> builder, int firstRowStart, int secondRowStart, int layer, Sprite[] sheet, int type, ColorStyle color)
+            internal static void MakeGenericFemaleTop(IClothingBuilder<IOverSizeParameters> builder, int firstRowStart, int secondRowStart, int layer, Sprite[] sheet,ClothingId type, ColorStyle color)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = sheet[firstRowStart + 4];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FemaleOnly = true;
                     output.FixedColor = CalcColor(color) != null;
                 });
@@ -1061,13 +1061,13 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericBottom
         {
-            internal static void MakeGenericBottom(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, int type, bool colored)
+            internal static void MakeGenericBottom(IClothingBuilder builder, int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet,ClothingId type, bool colored)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = sheet[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FixedColor = !colored;
                 });
 
@@ -1115,7 +1115,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.PantherFOvertops[22];
                     output.FemaleOnly = true;
-                    output.Type = 870;
+                    output.ClothingId = new ClothingId("base.panthers/870");
                     output.FixedColor = true;
                 });
 
@@ -1165,7 +1165,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.PantherFTops[15 + 3];
-                    output.Type = 802;
+                    output.ClothingId = new ClothingId("base.panthers/802");
                     output.FemaleOnly = true;
                     output.FixedColor = true;
                 });
@@ -1205,14 +1205,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericItem
         {
-            internal static void MakeGenericItem(IClothingBuilder builder, int sprF, int sprM, int discard, int layer, Sprite[] sheet, int type, ColorStyle color)
+            internal static void MakeGenericItem(IClothingBuilder builder, int sprF, int sprM, int discard, int layer, Sprite[] sheet,ClothingId type, ColorStyle color)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = sheet[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FixedColor = CalcColor(color) != null;
                 });
 
@@ -1236,7 +1236,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = null;
-                    output.Type = 484841;
+                    output.ClothingId = new ClothingId("base.panthers/484841");
                     output.FixedColor = true;
                     output.ReqWinterHoliday = true;
                 });
@@ -1254,13 +1254,13 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class OverbottomTwoTone
         {
-            internal static void MakeOverbottomTwoTone(IClothingBuilder builder, int spr, int sprB, int secondSprite, int discard, int layer, int type, bool blocksDick = false)
+            internal static void MakeOverbottomTwoTone(IClothingBuilder builder, int spr, int sprB, int secondSprite, int discard, int layer,ClothingId type, bool blocksDick = false)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = input.Sprites.PantherOverBottoms[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.RevealsDick = !blocksDick;
 
                     output.FixedColor = CalcColor(ColorStyle.OuterWear) != null;
@@ -1284,14 +1284,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericGloves
         {
-            internal static void MakeGenericGloves(IClothingBuilder builder, int start, int type)
+            internal static void MakeGenericGloves(IClothingBuilder builder, int start,ClothingId type)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.PantherGloves[start + 4];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FixedColor = true;
                 });
 
@@ -1313,14 +1313,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericGlovesPlusSecond
         {
-            internal static void MakeGenericGlovesPlusSecond(IClothingBuilder builder, int start, int type)
+            internal static void MakeGenericGlovesPlusSecond(IClothingBuilder builder, int start,ClothingId type)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.PantherGloves[start + 4];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FixedColor = false;
                 });
 

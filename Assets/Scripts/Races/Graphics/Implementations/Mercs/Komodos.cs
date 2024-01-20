@@ -510,7 +510,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61401;
+                    output.ClothingId = new ClothingId("base.komodos/61401");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -541,7 +541,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61402;
+                    output.ClothingId = new ClothingId("base.komodos/61402");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -572,7 +572,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61403;
+                    output.ClothingId = new ClothingId("base.komodos/61403");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -606,7 +606,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61404;
+                    output.ClothingId = new ClothingId("base.komodos/61404");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -640,7 +640,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61405;
+                    output.ClothingId = new ClothingId("base.komodos/61405");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -709,7 +709,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Komodos4[38];
                     output.RevealsBreasts = true;
-                    output.Type = 61406;
+                    output.ClothingId = new ClothingId("base.komodos/61406");
                     output.OccupiesAllSlots = true;
                     output.FixedColor = true;
                 });
@@ -742,7 +742,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Komodos4[9];
                     output.RevealsBreasts = true;
-                    output.Type = 61407;
+                    output.ClothingId = new ClothingId("base.komodos/61407");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -788,7 +788,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Komodos4[19];
                     output.RevealsBreasts = true;
-                    output.Type = 61408;
+                    output.ClothingId = new ClothingId("base.komodos/61408");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -813,7 +813,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Komodos4[24];
                     output.RevealsBreasts = true;
-                    output.Type = 61409;
+                    output.ClothingId = new ClothingId("base.komodos/61409");
                     output.FixedColor = true;
                 });
 

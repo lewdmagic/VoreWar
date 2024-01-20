@@ -57,7 +57,7 @@ namespace CruxClothing
             {
                 output.DiscardUsesPalettes = false;
                 output.DiscardSprite = input.Sprites.Crux[389];
-                output.Type = 102;
+                output.ClothingId = new ClothingId("common/102");
                 output.OccupiesAllSlots = false;
                 output.RevealsDick = true;
             });
@@ -144,7 +144,7 @@ namespace CruxClothing
                 output.MaleOnly = true;
                 output.DiscardUsesPalettes = false;
                 output.DiscardSprite = input.Sprites.Crux[390];
-                output.Type = 103;
+                output.ClothingId = new ClothingId("common/103");
                 output.OccupiesAllSlots = false;
                 output.RevealsDick = true;
             });
@@ -168,7 +168,7 @@ namespace CruxClothing
                 output.FemaleOnly = true;
                 output.DiscardUsesPalettes = false;
                 output.DiscardSprite = input.Sprites.Crux[391];
-                output.Type = 104;
+                output.ClothingId = new ClothingId("common/104");
                 output.OccupiesAllSlots = false;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -203,7 +203,7 @@ namespace CruxClothing
             {
                 output.DiscardUsesPalettes = false;
                 output.DiscardSprite = input.Sprites.Crux[397];
-                output.Type = 105;
+                output.ClothingId = new ClothingId("common/105");
                 output.OccupiesAllSlots = false;
                 output.RevealsDick = true;
                 output.RevealsBreasts = true;
@@ -245,7 +245,7 @@ namespace CruxClothing
             {
                 output.DiscardUsesPalettes = false;
                 output.DiscardSprite = input.Sprites.Crux[392];
-                output.Type = 106;
+                output.ClothingId = new ClothingId("common/106");
                 output.OccupiesAllSlots = false;
                 output.RevealsBreasts = true;
                 output.DiscardUsesColor2 = true;
@@ -284,7 +284,7 @@ namespace CruxClothing
             {
                 output.DiscardUsesPalettes = false;
                 output.DiscardSprite = input.Sprites.Crux[393];
-                output.Type = 107;
+                output.ClothingId = new ClothingId("common/107");
                 output.OccupiesAllSlots = false;
                 output.RevealsBreasts = true;
                 output.DiscardUsesColor2 = true;
@@ -323,7 +323,7 @@ namespace CruxClothing
             {
                 output.DiscardUsesPalettes = false;
                 output.DiscardSprite = input.Sprites.Crux[396];
-                output.Type = 108;
+                output.ClothingId = new ClothingId("common/108");
                 output.OccupiesAllSlots = false;
                 output.RevealsBreasts = true;
                 output.FixedColor = true;
@@ -347,7 +347,7 @@ namespace CruxClothing
                 output.DiscardUsesPalettes = false;
                 output.DiscardUsesColor2 = true;
                 output.DiscardSprite = input.Sprites.Crux[395];
-                output.Type = 109;
+                output.ClothingId = new ClothingId("common/109");
                 output.OccupiesAllSlots = false;
                 output.RevealsDick = true;
                 output.RevealsBreasts = true;
@@ -372,7 +372,7 @@ namespace CruxClothing
                 output.DiscardUsesPalettes = false;
                 output.DiscardUsesColor2 = true;
                 output.DiscardSprite = input.Sprites.Crux[394];
-                output.Type = 110;
+                output.ClothingId = new ClothingId("common/110");
                 output.OccupiesAllSlots = false;
                 output.RevealsDick = true;
                 output.RevealsBreasts = true;
@@ -396,7 +396,7 @@ namespace CruxClothing
             {
                 output.DiscardUsesPalettes = false;
                 output.DiscardSprite = input.Sprites.Crux[399];
-                output.Type = 111;
+                output.ClothingId = new ClothingId("common/111");
                 output.OccupiesAllSlots = true;
                 output.RevealsBreasts = true;
                 output.FixedColor = true;
@@ -437,7 +437,7 @@ namespace CruxClothing
             {
                 output.DiscardUsesPalettes = false;
                 output.DiscardSprite = input.Sprites.Crux[400];
-                output.Type = 112;
+                output.ClothingId = new ClothingId("common/112");
                 output.OccupiesAllSlots = true;
                 output.RevealsDick = true;
                 output.RevealsBreasts = true;

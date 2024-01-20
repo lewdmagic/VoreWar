@@ -310,7 +310,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -330,7 +330,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -350,7 +350,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -370,7 +370,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -390,7 +390,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -410,7 +410,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -430,7 +430,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -449,7 +449,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -469,7 +469,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -489,7 +489,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -508,7 +508,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -527,7 +527,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.aabayx/60018");
                 });
 
                 builder.RenderAll((input, output) =>

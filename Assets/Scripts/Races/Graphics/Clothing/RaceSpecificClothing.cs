@@ -14,7 +14,7 @@ internal static class LizardPeasant
             output.BlocksBreasts = true;
             output.RevealsDick = true;
             output.DiscardSprite = null;
-            output.Type = 78;
+            output.ClothingId = new ClothingId("common/78");
             output.OccupiesAllSlots = true;
         });
 
@@ -156,7 +156,7 @@ internal static class LizardLeaderTop
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 117;
+            output.ClothingId = new ClothingId("common/117");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = true;
@@ -192,7 +192,7 @@ internal static class LizardLeaderSkirt
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6010;
+            output.ClothingId = new ClothingId("common/6010");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = true;
@@ -244,7 +244,7 @@ internal static class LizardLeaderLegguards
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6002;
+            output.ClothingId = new ClothingId("common/6002");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = true;
@@ -299,7 +299,7 @@ internal static class LizardLeaderArmbands
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6002;
+            output.ClothingId = new ClothingId("common/6002");
             output.RevealsBreasts = true;
             output.LeaderOnly = true;
             output.FixedColor = true;
@@ -358,7 +358,7 @@ internal static class LizardBoneTop
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6000;
+            output.ClothingId = new ClothingId("common/6000");
             output.RevealsDick = true;
             output.LeaderOnly = false;
             output.FixedColor = true;
@@ -455,7 +455,7 @@ internal static class LizardBoneLoins
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6001;
+            output.ClothingId = new ClothingId("common/6001");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = false;
@@ -493,7 +493,7 @@ internal static class LizardBoneLegguards
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6002;
+            output.ClothingId = new ClothingId("common/6002");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = false;
@@ -548,7 +548,7 @@ internal static class LizardBoneArmbands
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6002;
+            output.ClothingId = new ClothingId("common/6002");
             output.RevealsBreasts = true;
             output.LeaderOnly = false;
             output.FixedColor = true;
@@ -622,7 +622,7 @@ internal static class LizardLeatherTop
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6000;
+            output.ClothingId = new ClothingId("common/6000");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = false;
@@ -708,7 +708,7 @@ internal static class LizardLeatherLoins
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6001;
+            output.ClothingId = new ClothingId("common/6001");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = false;
@@ -747,7 +747,7 @@ internal static class LizardLeatherLegguards
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6002;
+            output.ClothingId = new ClothingId("common/6002");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = false;
@@ -802,7 +802,7 @@ internal static class LizardLeatherArmbands
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6002;
+            output.ClothingId = new ClothingId("common/6002");
             output.RevealsBreasts = true;
             output.LeaderOnly = false;
             output.FixedColor = true;
@@ -876,7 +876,7 @@ internal static class LizardClothTop
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6000;
+            output.ClothingId = new ClothingId("common/6000");
             output.RevealsDick = true;
             output.LeaderOnly = false;
             output.FixedColor = true;
@@ -945,7 +945,7 @@ internal static class LizardClothLoins
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6001;
+            output.ClothingId = new ClothingId("common/6001");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = false;
@@ -983,7 +983,7 @@ internal static class LizardClothShorts
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6002;
+            output.ClothingId = new ClothingId("common/6002");
             output.RevealsBreasts = true;
             output.RevealsDick = true;
             output.LeaderOnly = false;
@@ -1034,7 +1034,7 @@ internal static class LizardClothArmbands
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
         {
-            output.Type = 6002;
+            output.ClothingId = new ClothingId("common/6002");
             output.RevealsBreasts = true;
             output.LeaderOnly = false;
             output.FixedColor = true;
@@ -1088,7 +1088,7 @@ internal static class RainCoat
         {
             output.RevealsDick = true;
             output.BlocksBreasts = true;
-            output.Type = 79;
+            output.ClothingId = new ClothingId("common/79");
             output.DiscardSprite = input.Sprites.RainCoats[4];
             output.FixedColor = true;
         });
@@ -1150,7 +1150,7 @@ internal static class TigerSpecial
             output.RevealsBreasts = true;
             output.BlocksBreasts = true;
             output.OccupiesAllSlots = true;
-            output.Type = 90;
+            output.ClothingId = new ClothingId("common/90");
             output.DiscardSprite = input.Sprites.TigerSpecial[22];
             output.DiscardUsesPalettes = true;
         });
@@ -1201,7 +1201,7 @@ internal static class CatLeader
             output.LeaderOnly = true;
             output.OccupiesAllSlots = true;
             output.RevealsBreasts = true;
-            output.Type = 91;
+            output.ClothingId = new ClothingId("common/91");
             output.DiscardSprite = input.Sprites.CatLeader[4];
         });
 
@@ -1262,7 +1262,7 @@ internal static class Toga
         {
             output.DiscardSprite = input.Sprites.Togas[10];
             output.DiscardUsesPalettes = true;
-            output.Type = 230;
+            output.ClothingId = new ClothingId("common/230");
             output.OccupiesAllSlots = true;
         });
 
@@ -1293,7 +1293,7 @@ internal static class SuccubusDress
             output.RevealsBreasts = true;
             output.DiscardSprite = input.Sprites.SuccubusDress[22];
             output.DiscardUsesPalettes = true;
-            output.Type = 233;
+            output.ClothingId = new ClothingId("common/233");
             output.OccupiesAllSlots = true;
         });
 
@@ -1348,7 +1348,7 @@ internal static class SuccubusLeotard
             output.RevealsBreasts = true;
             output.DiscardSprite = input.Sprites.SuccubusLeotard[36];
             output.DiscardUsesPalettes = true;
-            output.Type = 234;
+            output.ClothingId = new ClothingId("common/234");
             output.OccupiesAllSlots = true;
         });
 
@@ -1423,7 +1423,7 @@ internal static class LizardBlackTop
             output.DiscardSprite = null;
             output.BlocksBreasts = true;
             output.RevealsDick = true;
-            output.Type = 208;
+            output.ClothingId = new ClothingId("common/208");
             output.FixedColor = true;
         });
 
@@ -1458,7 +1458,7 @@ internal static class LizardBikiniTop
             output.FemaleOnly = true;
             output.RevealsBreasts = true;
             output.RevealsDick = true;
-            output.Type = 205;
+            output.ClothingId = new ClothingId("common/205");
             output.DiscardUsesPalettes = true;
         });
 
@@ -1495,7 +1495,7 @@ internal static class LizardStrapTop
             output.FemaleOnly = true;
             output.RevealsBreasts = true;
             output.RevealsDick = true;
-            output.Type = 204;
+            output.ClothingId = new ClothingId("common/204");
             output.DiscardUsesPalettes = true;
         });
 

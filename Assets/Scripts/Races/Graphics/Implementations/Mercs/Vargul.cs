@@ -541,7 +541,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61401;
+                    output.ClothingId = new ClothingId("base.vargul/61401");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -572,7 +572,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61402;
+                    output.ClothingId = new ClothingId("base.vargul/61402");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -603,7 +603,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61403;
+                    output.ClothingId = new ClothingId("base.vargul/61403");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -637,7 +637,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61404;
+                    output.ClothingId = new ClothingId("base.vargul/61404");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -671,7 +671,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 61405;
+                    output.ClothingId = new ClothingId("base.vargul/61405");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -732,7 +732,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Komodos4[38];
                     output.RevealsBreasts = true;
-                    output.Type = 61406;
+                    output.ClothingId = new ClothingId("base.vargul/61406");
                     output.OccupiesAllSlots = true;
                     output.FixedColor = true;
                 });
@@ -769,7 +769,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Vargul5[38];
                     output.RevealsBreasts = true;
-                    output.Type = 61802;
+                    output.ClothingId = new ClothingId("base.vargul/61802");
                     output.FixedColor = true;
                     output.OccupiesAllSlots = true;
                 });
@@ -891,7 +891,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Vargul5[39];
                     output.RevealsBreasts = true;
-                    output.Type = 61803;
+                    output.ClothingId = new ClothingId("base.vargul/61803");
                     output.FixedColor = true;
                     output.OccupiesAllSlots = true;
                 });
@@ -1082,7 +1082,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Vargul5[159];
                     output.RevealsBreasts = true;
-                    output.Type = 61804;
+                    output.ClothingId = new ClothingId("base.vargul/61804");
                     output.FixedColor = true;
                     output.OccupiesAllSlots = true;
                 });
@@ -1228,7 +1228,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Komodos4[9];
                     output.RevealsBreasts = true;
-                    output.Type = 61407;
+                    output.ClothingId = new ClothingId("base.vargul/61407");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -1299,7 +1299,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Komodos4[19];
                     output.RevealsBreasts = true;
-                    output.Type = 61408;
+                    output.ClothingId = new ClothingId("base.vargul/61408");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1328,7 +1328,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Komodos4[24];
                     output.RevealsBreasts = true;
-                    output.Type = 61409;
+                    output.ClothingId = new ClothingId("base.vargul/61409");
                     output.FixedColor = true;
                 });
 
@@ -1351,7 +1351,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Vargul5[41];
                     output.RevealsBreasts = true;
-                    output.Type = 61801;
+                    output.ClothingId = new ClothingId("base.vargul/61801");
                     output.FixedColor = true;
                 });
 
@@ -1387,7 +1387,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Vargul5[41];
                     output.RevealsBreasts = true;
-                    output.Type = 61801;
+                    output.ClothingId = new ClothingId("base.vargul/61801");
                     output.FixedColor = true;
                 });
 

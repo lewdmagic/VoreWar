@@ -476,7 +476,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.DiscardSprite = input.Sprites.Auri[64];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1422;
+                    output.ClothingId = new ClothingId("base.auri/1422");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -503,10 +503,10 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         private static class GenericBottom
         {
-            internal static readonly IClothing GenericBottom1 = MakeGenericBottom(52, 52, 0, 56, 8, State.GameManager.SpriteDictionary.Auri, 840);
-            internal static readonly IClothing GenericBottom2 = MakeGenericBottom(101, 101, 0, 101, 8, State.GameManager.SpriteDictionary.Auri, 841);
+            internal static readonly IClothing GenericBottom1 = MakeGenericBottom(52, 52, 0, 56, 8, State.GameManager.SpriteDictionary.Auri, new ClothingId("base.auri/840"));
+            internal static readonly IClothing GenericBottom2 = MakeGenericBottom(101, 101, 0, 101, 8, State.GameManager.SpriteDictionary.Auri, new ClothingId("base.auri/841"));
 
-            private static IClothing MakeGenericBottom(int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, int type)
+            private static IClothing MakeGenericBottom(int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet,ClothingId type)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
 
@@ -514,7 +514,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = sheet[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                 });
 
                 builder.RenderAll((input, output) =>
@@ -561,7 +561,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         output.RevealsBreasts = true;
                         output.DiscardSprite = input.Sprites.Auri[95];
                         output.DiscardUsesPalettes = true;
-                        output.Type = 444;
+                        output.ClothingId = new ClothingId("base.auri/444");
                         output.OccupiesAllSlots = true;
                     });
                     
@@ -652,7 +652,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                             output.RevealsBreasts = true;
                             output.DiscardSprite = input.Sprites.Auri[95];
                             output.DiscardUsesPalettes = true;
-                            output.Type = 444;
+                            output.ClothingId = new ClothingId("base.auri/444");
                             output.ReqWinterHoliday = true;
                             output.OccupiesAllSlots = true;
                         });
@@ -739,9 +739,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
             private static class Stocking
             {
-                internal static readonly IClothing Stocking1 = MakeStocking(48, 0, 48, 3, State.GameManager.SpriteDictionary.Auri, 901);
+                internal static readonly IClothing Stocking1 = MakeStocking(48, 0, 48, 3, State.GameManager.SpriteDictionary.Auri, new ClothingId("base.auri/901"));
 
-                private static IClothing MakeStocking(int sprF, int sprM, int discard, int layer, Sprite[] sheet, int type)
+                private static IClothing MakeStocking(int sprF, int sprM, int discard, int layer, Sprite[] sheet,ClothingId type)
                 {
                     ClothingBuilder builder = ClothingBuilder.New();
 
@@ -751,7 +751,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         output.RevealsBreasts = true;
                         output.RevealsDick = true;
                         output.DiscardSprite = sheet[discard];
-                        output.Type = type;
+                        output.ClothingId = type;
                     });
 
                     builder.RenderAll((input, output) =>
@@ -777,9 +777,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
             private static class Hat
             {
-                internal static readonly IClothing Hat1 = MakeHat(50, 0, 50, 20, State.GameManager.SpriteDictionary.Auri, 903);
+                internal static readonly IClothing Hat1 = MakeHat(50, 0, 50, 20, State.GameManager.SpriteDictionary.Auri, new ClothingId("base.auri/903"));
 
-                private static IClothing MakeHat(int sprF, int sprM, int discard, int layer, Sprite[] sheet, int type)
+                private static IClothing MakeHat(int sprF, int sprM, int discard, int layer, Sprite[] sheet,ClothingId type)
                 {
                     ClothingBuilder builder = ClothingBuilder.New();
 
@@ -788,7 +788,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         output.RevealsBreasts = true;
                         output.RevealsDick = true;
                         output.DiscardSprite = sheet[discard];
-                        output.Type = type;
+                        output.ClothingId = type;
                     });
 
                     builder.RenderAll((input, output) =>

@@ -631,7 +631,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1524;
+                    output.ClothingId = new ClothingId("base.bees/1524");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -662,7 +662,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1534;
+                    output.ClothingId = new ClothingId("base.bees/1534");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -693,7 +693,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1544;
+                    output.ClothingId = new ClothingId("base.bees/1544");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -724,7 +724,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1555;
+                    output.ClothingId = new ClothingId("base.bees/1555");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -755,7 +755,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1574;
+                    output.ClothingId = new ClothingId("base.bees/1574");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -790,7 +790,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1588;
+                    output.ClothingId = new ClothingId("base.bees/1588");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -821,7 +821,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1579;
+                    output.ClothingId = new ClothingId("base.bees/1579");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -846,7 +846,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1579;
+                    output.ClothingId = new ClothingId("base.bees/1579");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -900,7 +900,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.FixedColor = true;
-                    output.Type = 391;
+                    output.ClothingId = new ClothingId("base.bees/391");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -933,7 +933,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.FixedColor = true;
-                    output.Type = 391;
+                    output.ClothingId = new ClothingId("base.bees/391");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -966,7 +966,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsDick = true;
                     output.InFrontOfDick = true;
                     output.RevealsBreasts = true;
-                    output.Type = 207;
+                    output.ClothingId = new ClothingId("base.bees/207");
                     output.OccupiesAllSlots = true;
                     output.FixedColor = true;
                 });
@@ -1014,7 +1014,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians3[121];
                     output.RevealsBreasts = true;
-                    output.Type = 1521;
+                    output.ClothingId = new ClothingId("base.bees/1521");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1058,7 +1058,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians3[137];
                     output.RevealsBreasts = true;
-                    output.Type = 1537;
+                    output.ClothingId = new ClothingId("base.bees/1537");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1103,7 +1103,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians3[140];
                     output.RevealsBreasts = true;
-                    output.Type = 1540;
+                    output.ClothingId = new ClothingId("base.bees/1540");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1128,7 +1128,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians4[14];
                     output.RevealsBreasts = true;
-                    output.Type = 1514;
+                    output.ClothingId = new ClothingId("base.bees/1514");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1174,7 +1174,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.DiscardSprite = input.Sprites.Bees3[114];
                 output.RevealsBreasts = true;
                 output.OccupiesAllSlots = true;
-                output.Type = 390;
+                output.ClothingId = new ClothingId("base.bees/390");
                 output.FixedColor = true;
             });
 

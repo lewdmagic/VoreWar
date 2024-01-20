@@ -378,7 +378,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.DiscardSprite = null;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1417;
+                    output.ClothingId = new ClothingId("base.zoey/1417");
                     output.ReqWinterHoliday = true;
                 });
 

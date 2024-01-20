@@ -401,7 +401,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 84260;
+                    output.ClothingId = new ClothingId("base.hippos/84260");
                     output.FixedColor = true;
                 });
                 builder.RenderAll((input, output, extra) =>
@@ -429,7 +429,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Hippos2[87];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 84287;
+                    output.ClothingId = new ClothingId("base.hippos/84287");
                     output.FixedColor = true;
                 });
                 builder.RenderAll((input, output, extra) =>
@@ -461,7 +461,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.DiscardSprite = input.Sprites.Hippos2[96];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 84296;
+                    output.ClothingId = new ClothingId("base.hippos/84296");
                     output.FixedColor = true;
                 });
                 builder.RenderAll((input, output, extra) =>
@@ -523,7 +523,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Hippos2[66];
                     output.RevealsBreasts = true;
-                    output.Type = 84266;
+                    output.ClothingId = new ClothingId("base.hippos/84266");
                     output.FixedColor = true;
                 });
                 builder.RenderAll((input, output) =>
@@ -543,7 +543,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Hippos2[72];
                     output.RevealsBreasts = true;
-                    output.Type = 84272;
+                    output.ClothingId = new ClothingId("base.hippos/84272");
                     output.FixedColor = true;
                 });
                 builder.RenderAll((input, output) =>
@@ -563,7 +563,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Hippos2[78];
                     output.RevealsBreasts = true;
-                    output.Type = 84278;
+                    output.ClothingId = new ClothingId("base.hippos/84278");
                     output.FixedColor = true;
                 });
                 builder.RenderAll((input, output) =>
@@ -583,7 +583,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Hippos2[102];
                     output.RevealsBreasts = true;
-                    output.Type = 84302;
+                    output.ClothingId = new ClothingId("base.hippos/84302");
                     output.FixedColor = true;
                 });
                 builder.RenderAll((input, output) =>

@@ -743,10 +743,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericGloves
         {
-            internal static readonly IClothing GenericGloves1 = MakeGenericGloves(0, 8, 9108);
-            internal static readonly IClothing GenericGloves2 = MakeGenericGloves(27, 35, 9135);
+            internal static readonly IClothing GenericGloves1 = MakeGenericGloves(0, 8, new ClothingId("base.imps/9108"));
+            internal static readonly IClothing GenericGloves2 = MakeGenericGloves(27, 35, new ClothingId("base.imps/9135"));
 
-            private static IClothing MakeGenericGloves(int start, int discard, int type)
+            private static IClothing MakeGenericGloves(int start, int discard, ClothingId type)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
 
@@ -755,7 +755,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.NewimpGloves[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FixedColor = false;
                 });
 
@@ -781,10 +781,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericGlovesPlusSecond
         {
-            internal static readonly IClothing GenericGlovesPlusSecond1 = MakeGenericGlovesPlusSecond(9, 17, 9117);
-            internal static readonly IClothing GenericGlovesPlusSecond2 = MakeGenericGlovesPlusSecond(18, 26, 9126);
+            internal static readonly IClothing GenericGlovesPlusSecond1 = MakeGenericGlovesPlusSecond(9, 17, new ClothingId("base.imps/9117"));
+            internal static readonly IClothing GenericGlovesPlusSecond2 = MakeGenericGlovesPlusSecond(18, 26, new ClothingId("base.imps/9126"));
 
-            private static IClothing MakeGenericGlovesPlusSecond(int start, int discard, int type)
+            private static IClothing MakeGenericGlovesPlusSecond(int start, int discard, ClothingId type)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
 
@@ -793,7 +793,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.NewimpGloves[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FixedColor = false;
                 });
 
@@ -819,10 +819,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericGlovesPlusSecondAlt
         {
-            internal static readonly IClothing GenericGlovesPlusSecondAlt1 = MakeGenericGlovesPlusSecondAlt(9, 17, 9117);
-            internal static readonly IClothing GenericGlovesPlusSecondAlt2 = MakeGenericGlovesPlusSecondAlt(18, 26, 9126);
+            internal static readonly IClothing GenericGlovesPlusSecondAlt1 = MakeGenericGlovesPlusSecondAlt(9, 17, new ClothingId("base.imps/9117"));
+            internal static readonly IClothing GenericGlovesPlusSecondAlt2 = MakeGenericGlovesPlusSecondAlt(18, 26, new ClothingId("base.imps/9126"));
 
-            private static IClothing MakeGenericGlovesPlusSecondAlt(int start, int discard, int type)
+            private static IClothing MakeGenericGlovesPlusSecondAlt(int start, int discard, ClothingId type)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
 
@@ -831,7 +831,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = input.Sprites.NewimpGloves[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.FixedColor = false;
                 });
 
@@ -857,18 +857,18 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericLegs
         {
-            internal static readonly IClothing GenericLegs1 = MakeGenericLegs(0, 4, 45, 9004, femaleOnly: true, blocksDick: false);
-            internal static readonly IClothing GenericLegs2 = MakeGenericLegs(5, 9, 45, 9009, femaleOnly: true, blocksDick: false);
-            internal static readonly IClothing GenericLegs3 = MakeGenericLegs(10, 14, 45, 9019, femaleOnly: true, blocksDick: false);
-            internal static readonly IClothing GenericLegs4 = MakeGenericLegs(15, 19, 45, 9015, femaleOnly: true, blocksDick: false);
-            internal static readonly IClothing GenericLegs5 = MakeGenericLegs(20, 24, 45, 9020, femaleOnly: true, blocksDick: false);
-            internal static readonly IClothing GenericLegs6 = MakeGenericLegs(2, 4, 45, 9002, true, blocksDick: true, black: true);
-            internal static readonly IClothing GenericLegs7 = MakeGenericLegs(7, 9, 45, 9007, true, blocksDick: true, black: true);
-            internal static readonly IClothing GenericLegs8 = MakeGenericLegs(12, 14, 45, 9012, true, blocksDick: true);
-            internal static readonly IClothing GenericLegs9 = MakeGenericLegs(17, 19, 45, 9017, true, blocksDick: true);
-            internal static readonly IClothing GenericLegs10 = MakeGenericLegs(22, 24, 45, 9022, true, blocksDick: false);
+            internal static readonly IClothing GenericLegs1 = MakeGenericLegs(0, 4, 45, new ClothingId("base.imps/9004"), femaleOnly: true, blocksDick: false);
+            internal static readonly IClothing GenericLegs2 = MakeGenericLegs(5, 9, 45, new ClothingId("base.imps/9009"), femaleOnly: true, blocksDick: false);
+            internal static readonly IClothing GenericLegs3 = MakeGenericLegs(10, 14, 45, new ClothingId("base.imps/9019"), femaleOnly: true, blocksDick: false);
+            internal static readonly IClothing GenericLegs4 = MakeGenericLegs(15, 19, 45, new ClothingId("base.imps/9015"), femaleOnly: true, blocksDick: false);
+            internal static readonly IClothing GenericLegs5 = MakeGenericLegs(20, 24, 45, new ClothingId("base.imps/9020"), femaleOnly: true, blocksDick: false);
+            internal static readonly IClothing GenericLegs6 = MakeGenericLegs(2, 4, 45, new ClothingId("base.imps/9002"), true, blocksDick: true, black: true);
+            internal static readonly IClothing GenericLegs7 = MakeGenericLegs(7, 9, 45, new ClothingId("base.imps/9007"), true, blocksDick: true, black: true);
+            internal static readonly IClothing GenericLegs8 = MakeGenericLegs(12, 14, 45, new ClothingId("base.imps/9012"), true, blocksDick: true);
+            internal static readonly IClothing GenericLegs9 = MakeGenericLegs(17, 19, 45, new ClothingId("base.imps/9017"), true, blocksDick: true);
+            internal static readonly IClothing GenericLegs10 = MakeGenericLegs(22, 24, 45, new ClothingId("base.imps/9022"), true, blocksDick: false);
 
-            private static IClothing MakeGenericLegs(int start, int discard, int bulge, int type, bool maleOnly = false,
+            private static IClothing MakeGenericLegs(int start, int discard, int bulge, ClothingId type, bool maleOnly = false,
                 bool femaleOnly = false, bool blocksDick = false, bool black = false)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
@@ -876,7 +876,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.DiscardSprite = input.Sprites.NewimpLegs[discard];
                     if (maleOnly)
                     {
@@ -936,19 +936,19 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class GenericLegsAlt
         {
-            internal static readonly IClothing GenericLegsAlts1 = MakeGenericLegsAlt(10, 14, 45, 9019, femaleOnly: true, blocksDick: false);
-            internal static readonly IClothing GenericLegsAlts2 = MakeGenericLegsAlt(15, 19, 45, 9015, femaleOnly: true, blocksDick: false);
-            internal static readonly IClothing GenericLegsAlts3 = MakeGenericLegsAlt(12, 14, 45, 9012, true, blocksDick: true);
-            internal static readonly IClothing GenericLegsAlts4 = MakeGenericLegsAlt(17, 19, 45, 9017, true, blocksDick: true);
+            internal static readonly IClothing GenericLegsAlts1 = MakeGenericLegsAlt(10, 14, 45, new ClothingId("base.imps/9019"), femaleOnly: true, blocksDick: false);
+            internal static readonly IClothing GenericLegsAlts2 = MakeGenericLegsAlt(15, 19, 45, new ClothingId("base.imps/9015"), femaleOnly: true, blocksDick: false);
+            internal static readonly IClothing GenericLegsAlts3 = MakeGenericLegsAlt(12, 14, 45, new ClothingId("base.imps/9012"), true, blocksDick: true);
+            internal static readonly IClothing GenericLegsAlts4 = MakeGenericLegsAlt(17, 19, 45, new ClothingId("base.imps/9017"), true, blocksDick: true);
 
-            private static IClothing MakeGenericLegsAlt(int start, int discard, int bulge, int type, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false, bool black = false)
+            private static IClothing MakeGenericLegsAlt(int start, int discard, int bulge, ClothingId type, bool maleOnly = false, bool femaleOnly = false, bool blocksDick = false, bool black = false)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
 
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
-                    output.Type = type;
+                    output.ClothingId = type;
                     output.DiscardSprite = input.Sprites.NewimpLegs[discard];
                     if (maleOnly)
                     {
@@ -999,14 +999,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class ImpUBottom
         {
-            internal static readonly IClothing ImpUBottom1 = MakeImpUBottom(0, 2, 45, 8, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8808);
-            internal static readonly IClothing ImpUBottom2 = MakeImpUBottom(9, 11, 45, 17, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8817);
-            internal static readonly IClothing ImpUBottom3 = MakeImpUBottom(18, 20, 45, 26, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8826, true);
-            internal static readonly IClothing ImpUBottom4 = MakeImpUBottom(27, 29, 45, 35, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8835);
-            internal static readonly IClothing ImpUBottom5 = MakeImpUBottom(36, 38, 45, 44, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, 8844);
+            internal static readonly IClothing ImpUBottom1 = MakeImpUBottom(0, 2, 45, 8, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, new ClothingId("base.imps/8808"));
+            internal static readonly IClothing ImpUBottom2 = MakeImpUBottom(9, 11, 45, 17, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, new ClothingId("base.imps/8817"));
+            internal static readonly IClothing ImpUBottom3 = MakeImpUBottom(18, 20, 45, 26, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, new ClothingId("base.imps/8826"), true);
+            internal static readonly IClothing ImpUBottom4 = MakeImpUBottom(27, 29, 45, 35, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, new ClothingId("base.imps/8835"));
+            internal static readonly IClothing ImpUBottom5 = MakeImpUBottom(36, 38, 45, 44, 9, State.GameManager.SpriteDictionary.NewimpUBottoms, new ClothingId("base.imps/8844"));
 
             private static IClothing MakeImpUBottom(int sprF, int sprM, int bulge, int discard, int layer,
-                Sprite[] sheet, int type, bool black = false)
+                Sprite[] sheet, ClothingId type, bool black = false)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
 
@@ -1014,7 +1014,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.RevealsBreasts = true;
                     output.DiscardSprite = sheet[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                 });
 
                 builder.RenderAll((input, output) =>
@@ -1080,7 +1080,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.DiscardSprite = input.Sprites.NewimpOnePieces[74];
-                    output.Type = 11001;
+                    output.ClothingId = new ClothingId("base.imps/11001");
                     output.RevealsBreasts = true;
                     output.OccupiesAllSlots = true;
                     output.DiscardUsesPalettes = true;
@@ -1148,7 +1148,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewimpOnePieces[74];
-                output.Type = 11011;
+                output.ClothingId = new ClothingId("base.imps/11011");
                 output.OccupiesAllSlots = true;
                 output.DiscardUsesPalettes = true;
                 output.RevealsBreasts = true;
@@ -1206,14 +1206,14 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class ImpOBottom
     {
-        internal static readonly IClothing GenericBottom1 = MakeImpOBottom(0, 2, false, 45, 8, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8908);
-        internal static readonly IClothing GenericBottom2 = MakeImpOBottom(9, 11, false, 45, 17, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8917);
-        internal static readonly IClothing GenericBottom3 = MakeImpOBottom(18, 20, true, 45, 26, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8926);
-        internal static readonly IClothing GenericBottom4 = MakeImpOBottom(27, 29, true, 49, 35, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8935);
-        internal static readonly IClothing GenericBottom5 = MakeImpOBottom(36, 38, false, 45, 44, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8944);
+        internal static readonly IClothing GenericBottom1 = MakeImpOBottom(0, 2, false, 45, 8, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, new ClothingId("base.imps/8908"));
+        internal static readonly IClothing GenericBottom2 = MakeImpOBottom(9, 11, false, 45, 17, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, new ClothingId("base.imps/8917"));
+        internal static readonly IClothing GenericBottom3 = MakeImpOBottom(18, 20, true, 45, 26, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, new ClothingId("base.imps/8926"));
+        internal static readonly IClothing GenericBottom4 = MakeImpOBottom(27, 29, true, 49, 35, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, new ClothingId("base.imps/8935"));
+        internal static readonly IClothing GenericBottom5 = MakeImpOBottom(36, 38, false, 45, 44, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, new ClothingId("base.imps/8944"));
 
         private static IClothing MakeImpOBottom(int sprF, int sprM, bool showbulge, int bulge, int discard, int layer,
-            Sprite[] sheet, int type)
+            Sprite[] sheet, ClothingId type)
         {
             ClothingBuilder builder = ClothingBuilder.New();
 
@@ -1221,7 +1221,7 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.RevealsBreasts = true;
                 output.DiscardSprite = sheet[discard];
-                output.Type = type;
+                output.ClothingId = type;
             });
 
             builder.RenderAll((input, output) =>
@@ -1272,10 +1272,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class ImpOBottomAlt
     {
-        internal static readonly IClothing ImpOBottomAlt1 = MakeImpOBottomAlt(27, 29, true, 49, 35, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, 8935);
+        internal static readonly IClothing ImpOBottomAlt1 = MakeImpOBottomAlt(27, 29, true, 49, 35, 15, State.GameManager.SpriteDictionary.NewimpOBottoms, new ClothingId("base.imps/8935"));
 
         private static IClothing MakeImpOBottomAlt(int sprF, int sprM, bool showbulge, int bulge, int discard,
-            int layer, Sprite[] sheet, int type)
+            int layer, Sprite[] sheet, ClothingId type)
         {
             ClothingBuilder builder = ClothingBuilder.New();
 
@@ -1284,7 +1284,7 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.RevealsBreasts = true;
                 output.DiscardSprite = sheet[discard];
-                output.Type = type;
+                output.ClothingId = type;
             });
 
             builder.RenderAll((input, output) =>
@@ -1335,10 +1335,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class Hat
     {
-        internal static readonly IClothing Hat1 = MakeHat(0, 0, State.GameManager.SpriteDictionary.NewimpHats, 666);
-        internal static readonly IClothing Hat2 = MakeHat(34, 0, State.GameManager.SpriteDictionary.NewimpHats, 666);
+        internal static readonly IClothing Hat1 = MakeHat(0, 0, State.GameManager.SpriteDictionary.NewimpHats, new ClothingId("base.imps/666"));
+        internal static readonly IClothing Hat2 = MakeHat(34, 0, State.GameManager.SpriteDictionary.NewimpHats, new ClothingId("base.imps/666"));
 
-        private static IClothing MakeHat(int start, int discard, Sprite[] sheet, int type)
+        private static IClothing MakeHat(int start, int discard, Sprite[] sheet, ClothingId type)
         {
             ClothingBuilder builder = ClothingBuilder.New();
 
@@ -1347,7 +1347,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardSprite = sheet[discard];
-                output.Type = type;
+                output.ClothingId = type;
             });
 
             builder.RenderAll((input, output) =>
@@ -1371,7 +1371,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewimpUTops[8];
-                output.Type = 11012;
+                output.ClothingId = new ClothingId("base.imps/11012");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1402,7 +1402,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewimpUTops[17];
-                output.Type = 11013;
+                output.ClothingId = new ClothingId("base.imps/11013");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1433,7 +1433,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewimpUTops[26];
-                output.Type = 11014;
+                output.ClothingId = new ClothingId("base.imps/11014");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1464,7 +1464,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewimpUTops[35];
-                output.Type = 11015;
+                output.ClothingId = new ClothingId("base.imps/11015");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1495,7 +1495,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewimpUTops[75];
-                output.Type = 11016;
+                output.ClothingId = new ClothingId("base.imps/11016");
                 output.FemaleOnly = false;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
@@ -1537,7 +1537,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewImpOverOnePieces[23];
-                output.Type = 11017;
+                output.ClothingId = new ClothingId("base.imps/11017");
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.DiscardUsesPalettes = true;
@@ -1585,7 +1585,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewImpOverOnePieces[40];
-                output.Type = 11018;
+                output.ClothingId = new ClothingId("base.imps/11018");
                 output.MaleOnly = true;
                 output.RevealsBreasts = true;
                 output.DiscardUsesPalettes = true;
@@ -1620,7 +1620,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewImpOTops[3];
-                output.Type = 11019;
+                output.ClothingId = new ClothingId("base.imps/11019");
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardUsesPalettes = true;
@@ -1649,7 +1649,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewImpOTops[7];
-                output.Type = 11020;
+                output.ClothingId = new ClothingId("base.imps/11020");
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardUsesPalettes = true;
@@ -1678,7 +1678,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewImpOTops[11];
-                output.Type = 11021;
+                output.ClothingId = new ClothingId("base.imps/11021");
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardUsesPalettes = true;
@@ -1707,7 +1707,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.NewImpOTops[15];
-                output.Type = 11022;
+                output.ClothingId = new ClothingId("base.imps/11022");
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.DiscardUsesPalettes = true;
@@ -1740,7 +1740,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.RevealsDick = true;
                 output.ReqWinterHoliday = true;
                 output.DiscardSprite = null;
-                output.Type = 0;
+                output.ClothingId = new ClothingId("base.imps/0");
             });
 
             builder.RenderAll((input, output) =>

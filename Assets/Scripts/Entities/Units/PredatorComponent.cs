@@ -1898,7 +1898,7 @@ public class PredatorComponent
         {
             if (preyRace.MiscRaceData.AllowedMainClothingTypesBasic.Count >= preyUnit.Unit.ClothingType && preyUnit.Unit.ClothingType > 0)
             {
-                int clothingType = preyRace.MiscRaceData.AllowedMainClothingTypesBasic[preyUnit.Unit.ClothingType - 1].FixedData.Type;
+                ClothingId clothingType = preyRace.MiscRaceData.AllowedMainClothingTypesBasic[preyUnit.Unit.ClothingType - 1].FixedData.ClothingId;
                 int color;
                 if (preyRace.MiscRaceData.AllowedMainClothingTypesBasic[preyUnit.Unit.ClothingType - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
@@ -1908,7 +1908,7 @@ public class PredatorComponent
             }
             if (preyRace.MiscRaceData.AllowedWaistTypesBasic.Count >= preyUnit.Unit.ClothingType2 && preyUnit.Unit.ClothingType2 > 0)
             {
-                int clothingType2 = preyRace.MiscRaceData.AllowedWaistTypesBasic[preyUnit.Unit.ClothingType2 - 1].FixedData.Type;
+                ClothingId clothingType2 = preyRace.MiscRaceData.AllowedWaistTypesBasic[preyUnit.Unit.ClothingType2 - 1].FixedData.ClothingId;
                 int color;
                 if (preyRace.MiscRaceData.AllowedWaistTypesBasic[preyUnit.Unit.ClothingType2 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
@@ -1918,7 +1918,7 @@ public class PredatorComponent
             }
             if (preyRace.MiscRaceData.ExtraMainClothing1TypesBasic.Count >= preyUnit.Unit.ClothingExtraType1 && preyUnit.Unit.ClothingExtraType1 > 0)
             {
-                int clothingType = preyRace.MiscRaceData.ExtraMainClothing1TypesBasic[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.Type;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing1TypesBasic[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.ClothingId;
                 int color;
                 if (preyRace.MiscRaceData.ExtraMainClothing1TypesBasic[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
@@ -1928,7 +1928,7 @@ public class PredatorComponent
             }
             if (preyRace.MiscRaceData.ExtraMainClothing2TypesBasic.Count >= preyUnit.Unit.ClothingExtraType2 && preyUnit.Unit.ClothingExtraType2 > 0)
             {
-                int clothingType = preyRace.MiscRaceData.ExtraMainClothing2TypesBasic[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.Type;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing2TypesBasic[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.ClothingId;
                 int color;
                 if (preyRace.MiscRaceData.ExtraMainClothing2TypesBasic[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
@@ -1938,7 +1938,7 @@ public class PredatorComponent
             }
             if (preyRace.MiscRaceData.ExtraMainClothing3TypesBasic.Count >= preyUnit.Unit.ClothingExtraType3 && preyUnit.Unit.ClothingExtraType3 > 0)
             {
-                int clothingType = preyRace.MiscRaceData.ExtraMainClothing3TypesBasic[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.Type;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing3TypesBasic[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.ClothingId;
                 int color;
                 if (preyRace.MiscRaceData.ExtraMainClothing3TypesBasic[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
@@ -1948,7 +1948,7 @@ public class PredatorComponent
             }
             if (preyRace.MiscRaceData.ExtraMainClothing4TypesBasic.Count >= preyUnit.Unit.ClothingExtraType4 && preyUnit.Unit.ClothingExtraType4 > 0)
             {
-                int clothingType = preyRace.MiscRaceData.ExtraMainClothing4TypesBasic[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.Type;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing4TypesBasic[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.ClothingId;
                 int color;
                 if (preyRace.MiscRaceData.ExtraMainClothing4TypesBasic[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
@@ -1958,7 +1958,7 @@ public class PredatorComponent
             }
             if (preyRace.MiscRaceData.ExtraMainClothing5TypesBasic.Count >= preyUnit.Unit.ClothingExtraType5 && preyUnit.Unit.ClothingExtraType5 > 0)
             {
-                int clothingType = preyRace.MiscRaceData.ExtraMainClothing5TypesBasic[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.Type;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing5TypesBasic[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.ClothingId;
                 int color;
                 if (preyRace.MiscRaceData.ExtraMainClothing5TypesBasic[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;

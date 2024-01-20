@@ -18,7 +18,7 @@ public interface IClothingDataFixed
     /// <summary>
     /// A unique type number, only used in relation to discarded sprites
     /// </summary>
-    int Type { get; set; }
+    ClothingId ClothingId { get; set; }
 
     /// <summary>Discarded sprite uses palettes instead of the solid color</summary>
     bool DiscardUsesPalettes { get; set; }

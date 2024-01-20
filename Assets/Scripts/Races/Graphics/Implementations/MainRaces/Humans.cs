@@ -879,7 +879,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.RevealsDick = true;
-                    output.Type = 60001;
+                    output.ClothingId = new ClothingId("base.humans/60001");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -943,7 +943,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.RevealsDick = true;
-                    output.Type = 60002;
+                    output.ClothingId = new ClothingId("base.humans/60002");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1006,7 +1006,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.RevealsDick = true;
-                    output.Type = 60003;
+                    output.ClothingId = new ClothingId("base.humans/60003");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1070,7 +1070,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.RevealsDick = true;
-                    output.Type = 60004;
+                    output.ClothingId = new ClothingId("base.humans/60004");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1133,7 +1133,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.RevealsDick = true;
-                    output.Type = 60005;
+                    output.ClothingId = new ClothingId("base.humans/60005");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1197,7 +1197,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.RevealsDick = true;
-                    output.Type = 60006;
+                    output.ClothingId = new ClothingId("base.humans/60006");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1261,7 +1261,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.RevealsDick = true;
-                    output.Type = 60007;
+                    output.ClothingId = new ClothingId("base.humans/60007");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -1323,7 +1323,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60008;
+                    output.ClothingId = new ClothingId("base.humans/60008");
                     output.FixedColor = true;
                 });
 
@@ -1346,7 +1346,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60009;
+                    output.ClothingId = new ClothingId("base.humans/60009");
                     output.FixedColor = true;
                 });
 
@@ -1371,7 +1371,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60010;
+                    output.ClothingId = new ClothingId("base.humans/60010");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1394,7 +1394,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60011;
+                    output.ClothingId = new ClothingId("base.humans/60011");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1419,7 +1419,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60012;
+                    output.ClothingId = new ClothingId("base.humans/60012");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1444,7 +1444,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 60013;
+                    output.ClothingId = new ClothingId("base.humans/60013");
                     output.FixedColor = true;
                 });
 
@@ -1467,7 +1467,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenUniform1[42];
                     output.RevealsBreasts = true;
-                    output.Type = 60025;
+                    output.ClothingId = new ClothingId("base.humans/60025");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1559,7 +1559,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.OccupiesAllSlots = true;
-                    output.Type = 60014;
+                    output.ClothingId = new ClothingId("base.humans/60014");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1690,7 +1690,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.OccupiesAllSlots = true;
-                    output.Type = 60015;
+                    output.ClothingId = new ClothingId("base.humans/60015");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1758,7 +1758,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.OccupiesAllSlots = true;
-                    output.Type = 60016;
+                    output.ClothingId = new ClothingId("base.humans/60016");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1826,7 +1826,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.FemaleOnly = true;
                     output.OccupiesAllSlots = true;
-                    output.Type = 60017;
+                    output.ClothingId = new ClothingId("base.humans/60017");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1954,7 +1954,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenUnderbottoms[6];
                     output.RevealsBreasts = true;
-                    output.Type = 60018;
+                    output.ClothingId = new ClothingId("base.humans/60018");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1987,7 +1987,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenUnderbottoms[13];
                     output.RevealsBreasts = true;
-                    output.Type = 60019;
+                    output.ClothingId = new ClothingId("base.humans/60019");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -2027,7 +2027,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenUnderbottoms[26];
                     output.RevealsBreasts = true;
-                    output.Type = 60020;
+                    output.ClothingId = new ClothingId("base.humans/60020");
                     output.FixedColor = true;
                 });
 
@@ -2059,7 +2059,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenUnderbottoms[39];
                     output.RevealsBreasts = true;
-                    output.Type = 60021;
+                    output.ClothingId = new ClothingId("base.humans/60021");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -2092,7 +2092,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenUnderbottoms[52];
                     output.RevealsBreasts = true;
-                    output.Type = 60022;
+                    output.ClothingId = new ClothingId("base.humans/60022");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -2125,7 +2125,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenUnderbottoms[59];
                     output.RevealsBreasts = true;
-                    output.Type = 60023;
+                    output.ClothingId = new ClothingId("base.humans/60023");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -2158,7 +2158,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenUniform1[43];
                     output.RevealsBreasts = true;
-                    output.Type = 60024;
+                    output.ClothingId = new ClothingId("base.humans/60024");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -2180,7 +2180,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenBigLoin[12];
                     output.RevealsBreasts = true;
-                    output.Type = 60026;
+                    output.ClothingId = new ClothingId("base.humans/60026");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -2209,7 +2209,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenPants[28];
                     output.RevealsBreasts = true;
-                    output.Type = 60027;
+                    output.ClothingId = new ClothingId("base.humans/60027");
                     output.FixedColor = true;
                 });
 
@@ -2245,7 +2245,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenPants[33];
                     output.RevealsBreasts = true;
-                    output.Type = 60028;
+                    output.ClothingId = new ClothingId("base.humans/60028");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -2282,7 +2282,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.HumenSkirt[6];
                     output.RevealsBreasts = true;
-                    output.Type = 60029;
+                    output.ClothingId = new ClothingId("base.humans/60029");
                     output.FemaleOnly = true;
                     output.DiscardUsesPalettes = true;
                 });

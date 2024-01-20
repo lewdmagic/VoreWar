@@ -44,7 +44,7 @@ public class ClothingMiscData : IClothingSetupOutput
     /// <summary>
     /// A unique type number, only used in relation to discarded sprites
     /// </summary>
-    public int Type { get; set; } = 0;
+    public ClothingId ClothingId { get; set; } = null;
     
     public bool DiscardUsesColor2 { get; set; }
 

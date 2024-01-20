@@ -431,7 +431,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.DiscardSprite = input.Sprites.Salix[64];
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1301;
+                    output.ClothingId = new ClothingId("base.salix/1301");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -463,19 +463,19 @@ namespace Races.Graphics.Implementations.UniqueMercs
         {
             internal static readonly IClothing GenericBottom1 = ClothingBuilder.Create( b =>
             {
-                MakeGenericBottom(b, 26, 63, 13, State.GameManager.SpriteDictionary.Salix, 1300);
+                MakeGenericBottom(b, 26, 63, 13, State.GameManager.SpriteDictionary.Salix, new ClothingId("base.salix/1300"));
             });
 
             //internal static IClothingData MakeGenericBottom(int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, int type)
             // sprM and bulge were not used. The values were 26 and 0
-            private static void MakeGenericBottom(IClothingBuilder builder, int sprF, int discard, int layer, Sprite[] sheet, int type)
+            private static void MakeGenericBottom(IClothingBuilder builder, int sprF, int discard, int layer, Sprite[] sheet, ClothingId type)
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.DiscardSprite = sheet[discard];
-                    output.Type = type;
+                    output.ClothingId = type;
                 });
                 builder.RenderAll((input, output) =>
                 {
@@ -505,7 +505,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     output.RevealsBreasts = true;
                     output.DiscardSprite = input.Sprites.Salix[65 + (whole ? 1 : 0)];
                     output.DiscardUsesPalettes = false;
-                    output.Type = 1302;
+                    output.ClothingId = new ClothingId("base.salix/1302");
                     output.OccupiesAllSlots = true;
                 });
 
@@ -560,7 +560,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 {
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 9764;
+                    output.ClothingId = new ClothingId("base.salix/9764");
                 });
                 builder.RenderAll((input, output) =>
                 {

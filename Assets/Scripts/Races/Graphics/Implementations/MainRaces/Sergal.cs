@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+#endregion
 namespace Races.Graphics.Implementations.MainRaces
 {
 
-    #endregion
 
     internal static class Sergal
     {
@@ -250,7 +250,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 205;
+                output.ClothingId = new ClothingId("base.sergal/205");
                 output.DiscardUsesPalettes = true;
             });
 
@@ -276,7 +276,7 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.DiscardSprite = null;
                 output.RevealsDick = true;
-                output.Type = 208;
+                output.ClothingId = new ClothingId("base.sergal/208");
                 output.FixedColor = true;
             });
 
@@ -299,7 +299,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 204;
+                output.ClothingId = new ClothingId("base.sergal/204");
                 output.DiscardUsesPalettes = true;
             });
 
@@ -335,7 +335,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.BikiniBottom[12];
-                output.Type = 201;
+                output.ClothingId = new ClothingId("base.sergal/201");
                 output.RevealsBreasts = true;
                 output.DiscardUsesPalettes = true;
             });
@@ -357,7 +357,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Shorts[12];
-                output.Type = 202;
+                output.ClothingId = new ClothingId("base.sergal/202");
                 output.FixedColor = true;
                 output.RevealsBreasts = true;
             });
@@ -383,7 +383,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
                 output.DiscardSprite = input.Sprites.Loincloths[10];
-                output.Type = 200;
+                output.ClothingId = new ClothingId("base.sergal/200");
                 output.RevealsDick = true;
                 output.InFrontOfDick = true;
                 output.DiscardUsesPalettes = true;
@@ -411,7 +411,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.RevealsDick = true;
                 output.InFrontOfDick = true;
                 output.RevealsBreasts = true;
-                output.Type = 207;
+                output.ClothingId = new ClothingId("base.sergal/207");
                 output.OccupiesAllSlots = true;
                 output.FixedColor = true;
             });

@@ -584,7 +584,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1524;
+                    output.ClothingId = new ClothingId("base.cockatrice/1524");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -615,7 +615,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1534;
+                    output.ClothingId = new ClothingId("base.cockatrice/1534");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -646,7 +646,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1544;
+                    output.ClothingId = new ClothingId("base.cockatrice/1544");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -677,7 +677,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1555;
+                    output.ClothingId = new ClothingId("base.cockatrice/1555");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -714,7 +714,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1574;
+                    output.ClothingId = new ClothingId("base.cockatrice/1574");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -752,7 +752,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1588;
+                    output.ClothingId = new ClothingId("base.cockatrice/1588");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -785,7 +785,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1544;
+                    output.ClothingId = new ClothingId("base.cockatrice/1544");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -816,7 +816,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1579;
+                    output.ClothingId = new ClothingId("base.cockatrice/1579");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -841,7 +841,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1579;
+                    output.ClothingId = new ClothingId("base.cockatrice/1579");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -901,7 +901,7 @@ namespace Races.Graphics.Implementations.Mercs
                     output.RevealsBreasts = true;
                     output.OccupiesAllSlots = true;
                     output.FixedColor = true;
-                    output.Type = 61601;
+                    output.ClothingId = new ClothingId("base.cockatrice/61601");
                 });
 
                 builder.RenderAll((input, output, extra) =>
@@ -966,7 +966,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Avians3[121];
                     output.RevealsBreasts = true;
-                    output.Type = 1521;
+                    output.ClothingId = new ClothingId("base.cockatrice/1521");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1010,7 +1010,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Avians3[137];
                     output.RevealsBreasts = true;
-                    output.Type = 1537;
+                    output.ClothingId = new ClothingId("base.cockatrice/1537");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1057,7 +1057,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Avians3[140];
                     output.RevealsBreasts = true;
-                    output.Type = 1540;
+                    output.ClothingId = new ClothingId("base.cockatrice/1540");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -1083,7 +1083,7 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     output.DiscardSprite = input.Sprites.Cockatrice3[47];
                     output.RevealsBreasts = true;
-                    output.Type = 61602;
+                    output.ClothingId = new ClothingId("base.cockatrice/61602");
                     output.FixedColor = true;
                 });
 

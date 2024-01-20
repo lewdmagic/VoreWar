@@ -468,7 +468,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1524;
+                    output.ClothingId = new ClothingId("base.avians/1524");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -499,7 +499,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1534;
+                    output.ClothingId = new ClothingId("base.avians/1534");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -530,7 +530,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1544;
+                    output.ClothingId = new ClothingId("base.avians/1544");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -561,7 +561,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1555;
+                    output.ClothingId = new ClothingId("base.avians/1555");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -595,7 +595,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1574;
+                    output.ClothingId = new ClothingId("base.avians/1574");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -630,7 +630,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.FemaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1588;
+                    output.ClothingId = new ClothingId("base.avians/1588");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -661,7 +661,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.MaleOnly = true;
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
-                    output.Type = 1579;
+                    output.ClothingId = new ClothingId("base.avians/1579");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -720,7 +720,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsDick = true;
                     output.InFrontOfDick = true;
                     output.RevealsBreasts = true;
-                    output.Type = 207;
+                    output.ClothingId = new ClothingId("base.avians/207");
                     output.OccupiesAllSlots = true;
                     output.FixedColor = true;
                 });
@@ -771,7 +771,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.DiscardSprite = input.Sprites.Avians4[139];
                     output.RevealsBreasts = true;
                     output.OccupiesAllSlots = true;
-                    output.Type = 1539;
+                    output.ClothingId = new ClothingId("base.avians/1539");
                     output.FixedColor = true;
                 });
 
@@ -821,7 +821,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians3[121];
                     output.RevealsBreasts = true;
-                    output.Type = 1521;
+                    output.ClothingId = new ClothingId("base.avians/1521");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -887,7 +887,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians3[137];
                     output.RevealsBreasts = true;
-                    output.Type = 1537;
+                    output.ClothingId = new ClothingId("base.avians/1537");
                 });
 
                 builder.RenderAll((input, output) =>
@@ -955,7 +955,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.RevealsBreasts = true;
                     output.RevealsDick = true;
                     output.InFrontOfDick = true;
-                    output.Type = 1540;
+                    output.ClothingId = new ClothingId("base.avians/1540");
                     output.DiscardUsesPalettes = true;
                 });
 
@@ -991,7 +991,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     output.DiscardSprite = input.Sprites.Avians4[14];
                     output.RevealsBreasts = true;
-                    output.Type = 1514;
+                    output.ClothingId = new ClothingId("base.avians/1514");
                     output.DiscardUsesPalettes = true;
                 });
 

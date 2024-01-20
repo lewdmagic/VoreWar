@@ -9,7 +9,7 @@ internal class ClothingDiscards
     [OdinSerialize]
     internal Vec2i location;
     [OdinSerialize]
-    internal int type;
+    internal ClothingId type;
     [OdinSerialize]
     internal Race race;
     [OdinSerialize]
@@ -23,7 +23,7 @@ internal class ClothingDiscards
 
     static List<IClothingDataSimple> AllClothes = new List<IClothingDataSimple>();
 
-    public ClothingDiscards(Vec2i location, Race race, int type, int color, int sortOrder, string name)
+    public ClothingDiscards(Vec2i location, Race race, ClothingId type, int color, int sortOrder, string name)
     {
         this.location = location;
         this.race = race;
@@ -94,7 +94,7 @@ internal class ClothingDiscards
             AllClothes.AddRange(Races2.GetRace(Race.Vargul).MiscRaceData.AllowedWaistTypesBasic);
             AllClothes = AllClothes.Distinct().ToList();
         }
-        var clothingType = AllClothes.Where(s => s.FixedData.Type == type).FirstOrDefault();
+        var clothingType = AllClothes.Where(s => s.FixedData.ClothingId == type).FirstOrDefault();
         if (clothingType == null)
             return;
         if (clothingType.FixedData.FixedColor == false)

@@ -2,11 +2,11 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+#endregion
 
 namespace Races.Graphics.Implementations.MainRaces
 {
 
-    #endregion
 
     internal static class Merfolk
     {
@@ -347,7 +347,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 680;
+                output.ClothingId = new ClothingId("base.merfolk/680");
                 output.FixedColor = true;
             });
 
@@ -373,7 +373,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 681;
+                output.ClothingId = new ClothingId("base.merfolk/681");
                 output.FixedColor = true;
             });
 
@@ -399,7 +399,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
-                output.Type = 682;
+                output.ClothingId = new ClothingId("base.merfolk/682");
                 output.FixedColor = true;
             });
 
@@ -458,7 +458,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.OccupiesAllSlots = true;
                 output.RevealsDick = true;
                 output.InFrontOfDick = true;
-                output.Type = 683;
+                output.ClothingId = new ClothingId("base.merfolk/683");
                 output.FixedColor = true;
             });
 
@@ -493,7 +493,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.OccupiesAllSlots = true;
                 output.RevealsDick = true;
                 output.InFrontOfDick = true;
-                output.Type = 685;
+                output.ClothingId = new ClothingId("base.merfolk/685");
                 output.FixedColor = true;
             });
 
@@ -541,7 +541,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.OccupiesAllSlots = true;
                 output.RevealsDick = true;
                 output.InFrontOfDick = true;
-                output.Type = 686;
+                output.ClothingId = new ClothingId("base.merfolk/686");
                 output.FixedColor = true;
             });
 
@@ -639,7 +639,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.RevealsBreasts = true;
                 output.RevealsDick = true;
                 output.InFrontOfDick = true;
-                output.Type = 687;
+                output.ClothingId = new ClothingId("base.merfolk/687");
                 output.FixedColor = true;
             });
 
@@ -661,7 +661,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.DiscardSprite = input.Sprites.Mermen2[139];
                 output.FemaleOnly = true;
                 output.RevealsBreasts = true;
-                output.Type = 688;
+                output.ClothingId = new ClothingId("base.merfolk/688");
                 output.FixedColor = true;
             });
 
