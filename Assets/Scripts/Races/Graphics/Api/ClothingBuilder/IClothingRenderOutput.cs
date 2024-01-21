@@ -17,4 +17,9 @@ public interface IClothingRenderOutput
     bool RevealsDick { set; }
     bool SkipCheck { set; }
     bool InFrontOfDick { set; }
+
+    void DisableBreasts();
+
+    void DisableDick();
+
 }

@@ -117,11 +117,9 @@ public class GameManager : MonoBehaviour
         currentScene = Start_Mode;
         State.GameManager = this;
         Application.wantsToQuit += () => WantsToQuit();
-
         
-
-        State.SpriteManager = new SpriteManager();
-        State.SpriteManager.Process2();
+        //State.SpriteManager = new SpriteManager();
+        //State.SpriteManager.Process2();
 
         customManager = new CustomManager();
         customManager.LoadAllCustom();

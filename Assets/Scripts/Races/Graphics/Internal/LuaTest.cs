@@ -94,9 +94,9 @@ internal class RaceScriptUsable
 internal class ClothingScriptUsable
 {
     internal Action<IClothingSetupInput, IClothingSetupOutput> SetMisc;
-    internal Action<IClothingRenderInput, IClothingRenderOutput, DynValue> CompleteGen;
+    internal Action<IClothingRenderInput, IClothingRenderOutput, Table> CompleteGen;
 
-    public ClothingScriptUsable(Action<IClothingSetupInput, IClothingSetupOutput> setMisc, Action<IClothingRenderInput, IClothingRenderOutput, DynValue> completeGen)
+    public ClothingScriptUsable(Action<IClothingSetupInput, IClothingSetupOutput> setMisc, Action<IClothingRenderInput, IClothingRenderOutput, Table> completeGen)
     {
         SetMisc = setMisc;
         CompleteGen = completeGen;
@@ -188,6 +188,8 @@ public static class ScriptHelper
         
         ScriptHelper.RegisterSimpleFunc<int>();
         ScriptHelper.RegisterSimpleFunc<string, IClothing>();
+        ScriptHelper.RegisterSimpleFunc<string, Func<IClothingRenderInput, Table>, IClothing>();
+        ScriptHelper.RegisterSimpleFunc<IClothingRenderInput, Table>();
         
         ScriptHelper.RegisterSimpleFunc<float, float, Vector2>();
         ScriptHelper.RegisterSimpleFunc<float, float, float, Vector3>();
@@ -285,10 +287,39 @@ end");
 
         script.Globals["GetClothing"] = getClothing;
         
-        Func<string, Func<IClothingRenderInput, DynValue>, IClothing> getClothing2 = (id, calcFunc) =>
+        Func<string, Func<IClothingRenderInput, Table>, IClothing> getClothing2 = (id, calcFunc) =>
         {
-            return GameManager.customManager.GetRaceClothing(raceId, id);
+            Func<IClothingRenderInput, Table> realCalcFunc = (input) =>
+            {
+                try
+                {
+                    Table calculatedTable = calcFunc.Invoke(input);
+                    // Passing null as script parameter makes this table usable in any script
+                    Table detachedFromScriptTable = new Table(null);
+
+                    // TODO likely possible to optimize.
+                    // This is done to detach the result table from race script
+                    // so it can be passed to clothing
+                    foreach (var pair in calculatedTable.Pairs)
+                    {
+                        detachedFromScriptTable.Set(pair.Key, pair.Value);
+                    }
+                    return detachedFromScriptTable;
+                }
+                catch (ScriptRuntimeException ex)
+                {
+                    Debug.Log("Doh! An error occured! " + ex.Message);
+                    Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
+                    throw;
+                }
+            };
+            
+            return GameManager.customManager.GetRaceClothing(raceId, id, realCalcFunc);
         };
+
+        //Table table = Table();
+        
+        //DynValue
 
         script.Globals["GetClothing2"] = getClothing2;
         
@@ -445,7 +476,7 @@ end");
 function ternary ( cond , T , F )
     if cond then return T else return F end
 end");
-		
+        
         script.DoString(scriptCode, null, clothingId + " - clothing.lua");
         
         object render = script.Globals["render"];
@@ -464,6 +495,7 @@ end");
                 }
                 catch (ScriptRuntimeException ex)
                 {
+                    Debug.Log("Doh! An error occured! " + ex.Message);
                     Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
                 }
             }

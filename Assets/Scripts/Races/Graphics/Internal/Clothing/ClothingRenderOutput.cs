@@ -67,4 +67,14 @@ public class ClothingRenderOutput : IClothingRenderOutput
     public bool RevealsDick { get; set; }
     public bool InFrontOfDick { get; set; }
     public bool SkipCheck { get; set; }
+
+    public void DisableBreasts()
+    {
+        BlocksBreasts = true;
+    }
+
+    public void DisableDick()
+    {
+        RevealsDick = false;
+    }
 }

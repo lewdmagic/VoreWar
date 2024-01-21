@@ -121,7 +121,7 @@ public class CustomManager
             Sprite sprite = namedSprite.Item2;
             string[] split = key.Split('/');
             
-            Debug.Log(key);
+            //Debug.Log(key);
             
             if (split[0] == "race")
             {
@@ -204,7 +204,7 @@ public class CustomManager
         return GetRaceClothing(raceId, clothingId, (it) => null);
     }
     
-    internal IClothing GetRaceClothing(string raceId, string clothingId, Func<IClothingRenderInput, DynValue> calcFunc)
+    internal IClothing GetRaceClothing(string raceId, string clothingId, Func<IClothingRenderInput, Table> calcFunc)
     {
         SpriteCollection spriteCollection = GetClothingSpriteCollection(raceId, clothingId);
         return _clothings.GetOrNull((raceId, clothingId))?.Create(calcFunc, spriteCollection);
@@ -218,7 +218,6 @@ public class CustomManager
         }
         else
         {
-            Debug.Log("dfdf");
             return null;
         }
     }

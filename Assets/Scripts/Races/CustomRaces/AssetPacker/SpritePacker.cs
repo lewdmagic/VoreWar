@@ -65,7 +65,7 @@ public static class SpritePacker
         }
             
             
-        Debug.Log("");
+        //Debug.Log("");
 
         var rectangles = new List<Rect>();
         for (var i = 0; i < textures.Count; i++)
@@ -164,7 +164,7 @@ public static class SpritePacker
             }
         }
         watch1.Stop();
-        Debug.Log(watch1.ElapsedMilliseconds);
+        //Debug.Log(watch1.ElapsedMilliseconds);
 
         return entries;
     }
