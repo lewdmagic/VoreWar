@@ -28,7 +28,7 @@ static class Races2
     /// </summary>    
     static internal IRaceData GetRace(Race race)
     {
-        return race.RaceData;
+        return Race2.GetBasic(race).RaceData;
     }
 
 }

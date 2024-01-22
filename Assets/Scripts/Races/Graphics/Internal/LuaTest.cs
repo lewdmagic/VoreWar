@@ -6,74 +6,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using MoonSharp.Interpreter;
-using MoonSharp.Interpreter.Loaders;
 using Races.Graphics.Implementations.MainRaces;
 using UnityEngine;
 
-
-// public class Loader : ScriptLoaderBase
-// {
-//     public object LoadFile(string file, Table globalContext)
-//     {
-//         throw new NotImplementedException();
-//     }
-//
-//     public string ResolveFileName(string filename, Table globalContext)
-//     {
-//         throw new NotImplementedException();
-//     }
-//
-//     public string ResolveModuleName(string modname, Table globalContext)
-//     {
-//         throw new NotImplementedException();
-//     }
-// }
-
-
+// Workaround for statics in stucts
 public static class Colors
 {
     public static readonly Color white = Color.white;
-}
-
-
-public static class LuaTest
-{
-
-    internal static void MoonSharpTest()
-    {
-        string scriptCode = @"    
---builder.Setup(function (input, output)
-    --output.SkinColors = ColorPaletteMap.GetPaletteCount(ColorPaletteMap.SwapType.MermenSkin);
---end);
-
-builder.RenderSingle(SpriteType.Body, 1, function (input, output)
-    output.Sprite(input.Sprites.Whisp[1]);
-end
-);
-
---[[
-builder.RenderSingle2(""Body"", 1, function (input, output)
-	aValue = SpriteType.Body;
-    --output.Sprite(input.Sprites.Whisp[1]);
-end
-);
-]]--
-
---builder.RenderSingle(SpriteType.Body, 1, function (input, output)
-    --output.Sprite(input.Sprites.Whisp[1]);
---end
---);
-
---builder.RunBefore(Defaults.Finalize);
---builder.RandomCustom(Defaults.RandomCustom);
-
-		";
-
-        //DynValue res = Script.RunString(scriptCode);
-        
-        ScriptHelper.RegisterSimpleAction();  
-        
-    }
 }
 
 
@@ -105,12 +44,8 @@ internal class ClothingScriptUsable
 
 public static class ScriptHelper
 {
-    
-    public static bool initted = false;
-    
     static ScriptHelper()
     {
-        // Register Types
         UserData.RegisterType<OverSizeParameters>();
         
         UserData.RegisterType<Action>();
@@ -195,91 +130,13 @@ public static class ScriptHelper
         ScriptHelper.RegisterSimpleFunc<float, float, float, Vector3>();
         
         ScriptHelper.RegisterSimpleAction<string>();
-
-        initted = true;
-    }
-    
-    internal static void ScriptPrep(string path, IRaceBuilder builder)
-    {
-        string scriptCode = File.ReadAllText(path);
-        
-        Script script = new Script();
-        
-        
-        script.Globals["Log"] = (Action<string>) Debug.Log;
-
-        #region Enums
-        
-        // Traits should be later renamed to Train to follow naming conventions
-        // Set to Trait in script scrope to avoid breaking changes to scripts
-        script.Globals["Trait"] = UserData.CreateStatic<Traits>();
-        script.Globals["ButtonType"] = UserData.CreateStatic<ButtonType>();
-        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
-        script.Globals["Stat"] = UserData.CreateStatic<Stat>();
-        script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
-        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
-        script.Globals["SwapType"] = UserData.CreateStatic<SwapType>();
-
-        #endregion
-        
-        script.Globals["GetPaletteCount"] = (Func<SwapType, int>) ColorPaletteMap.GetPaletteCount;
-        script.Globals["GetPalette"] = (Func<SwapType, int, ColorSwapPalette>) ColorPaletteMap.GetPalette;
-        Func<float, float, float, Vector3> newVector3 = (x, y, z) => new Vector3(x, y, z);
-        script.Globals["newVector3"] = newVector3;
-        
-        Func<float, float, Vector2> newVector2 = (x, y) => new Vector2(x, y);
-        script.Globals["newVector2"] = newVector2;
-        
-        Func<TextsBasic> newTextsBasic = () => new TextsBasic();
-        script.Globals["newTextsBasic"] = newTextsBasic;
-        
-        Func<TextsBasic, TextsBasic, TextsBasic, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
-        script.Globals["newFlavorText"] = newFlavorText;
-
-        RegisterStatic(script, "Config", typeof(Config));
-        RegisterStatic(script, "Defaults", typeof(Defaults));
-        RegisterStatic(script, "CommonRaceCode", typeof(CommonRaceCode));
-        RegisterStaticFields(script, "HorseClothing", typeof(EquinesLua.HorseClothing));
-        
-
-        Dictionary<string, dynamic> defaults = new Dictionary<string, dynamic>
-        {
-            ["Finalize"] = Defaults.Finalize,
-            ["RandomCustom"] = Defaults.RandomCustom,
-            ["BasicBellyRunAfter"] = Defaults.BasicBellyRunAfter
-        };
-        
-        script.Globals["Defaults"] = defaults;
-        script.Globals["Finalize"] = Defaults.Finalize;
-
-        Func<int, int> RandomInt = (max) => State.Rand.Next(max);
-        script.Globals["RandomInt"] = RandomInt;
-        
-        script.Globals["builder"] = builder;
-        
-        script.DoString(@"
-function ternary ( cond , T , F )
-    if cond then return T else return F end
-end");
-		
-        script.DoString(scriptCode);
-    }
-    
-    internal static void ScriptPrep2(string path, string raceId)
-    {
-        string scriptCode = File.ReadAllText(path);
-        ScriptPrep2FromCode(scriptCode, raceId);
     }
     
     internal static RaceScriptUsable ScriptPrep2FromCode(string scriptCode, string raceId)
     {
-        
         Script script = new Script();
-        
-        
         script.Globals["Log"] = (Action<string>) Debug.Log;
-
-
+        
         Func<string, IClothing> getClothing = (id) =>
         {
             return GameManager.customManager.GetRaceClothing(raceId, id);
@@ -316,10 +173,6 @@ end");
             
             return GameManager.customManager.GetRaceClothing(raceId, id, realCalcFunc);
         };
-
-        //Table table = Table();
-        
-        //DynValue
 
         script.Globals["GetClothing2"] = getClothing2;
         

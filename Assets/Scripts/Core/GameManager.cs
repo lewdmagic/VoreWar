@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 
         customManager = new CustomManager();
         customManager.LoadAllCustom();
-        Race.LoadHardcodedRaces();
+        Race2.LoadHardcodedRaces();
         SeliciaMod.ModAll();
     }
 

@@ -189,7 +189,10 @@ public class ItemRepository
 
     public Item GetItem(int i) => items[i];
 
-    public Item GetMonsterItem(Race i) => monsterItems[i];
+    public Item GetMonsterItem(Race i)
+    {
+        return monsterItems[i];
+    }
 
     public Item GetSpecialItem(SpecialItems i) => specialItems[(int)i];
 

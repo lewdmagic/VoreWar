@@ -180,7 +180,7 @@ public class CustomManager
             builder.RandomCustom(raceScriptUsable.Value);
         });
 
-        Race.RegisterRace(fsRaceData.RaceId, raceData, new[] { RaceTag.MainRace });
+        Race.CreateRace(fsRaceData.RaceId, raceData, new[] { RaceTag.MainRace });
     }
     
     private LuaBindableClothing ClothingFromFSData(FSClothingData fsClothingData)

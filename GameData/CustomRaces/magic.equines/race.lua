@@ -170,7 +170,7 @@ function render(input, output)
     if input.U.HasBreasts then
         local breastLeftSprite = output.NewSprite(SpriteType.Breasts, 19);
         breastLeftSprite.Coloring(SpottedBelly(input.Actor));
-        if (input.A.PredatorComponent.LeftBreastFullness > 0) then
+        if (input.A.PredatorComponent and input.A.PredatorComponent.LeftBreastFullness > 0) then
             local leftSize = math.sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(29 * 29));
 
             if (leftSize > 26) then leftSize = 26; end
@@ -188,7 +188,7 @@ function render(input, output)
     if (input.U.HasBreasts) then
         local rightLeftSprite = output.NewSprite(SpriteType.SecondaryBreasts, 19);
         rightLeftSprite.Coloring(SpottedBelly(input.Actor));
-        if (input.A.PredatorComponent.RightBreastFullness > 0) then
+        if (input.A.PredatorComponent and input.A.PredatorComponent.RightBreastFullness > 0) then
             local rightSize = math.sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(29 * 29));
 
             if (rightSize > 26) then rightSize = 26; end
@@ -287,13 +287,13 @@ end
 function BreastsOversizeCalc(actor, highestBreastSprite)
     local def = actor.Unit.DefaultBreastSize;
 
-    if (actor.PredatorComponent ~= nil and actor.PredatorComponent.LeftBreastFullness > 0) then
+    if (actor.PredatorComponent and actor.PredatorComponent.LeftBreastFullness > 0) then
         if (math.floor(math.sqrt(def * def + actor.GetLeftBreastSize(highestBreastSprite))) > def) then
             return true;
         end
     end
 
-    if (actor.PredatorComponent ~= nil and actor.PredatorComponent.RightBreastFullness > 0) then
+    if (actor.PredatorComponent and actor.PredatorComponent.RightBreastFullness > 0) then
         if (math.floor(math.sqrt(def * def + actor.GetRightBreastSize(highestBreastSprite))) > def) then
             return true;
         end

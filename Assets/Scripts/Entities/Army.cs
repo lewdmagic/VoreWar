@@ -122,8 +122,10 @@ public class Army
         JustCreated = true;
 
         NameArmy(empire);
-        if (RaceFuncs.IsPlayableRace(empire.Side.ToRace()))
+        if (empire.Side != null && RaceFuncs.IsPlayableRace(empire.Side.ToRace()))
+        {
             BannerStyle = empire.BannerType;
+        }
 
         if (State.World.Turn == 1 && Config.FirstTurnArmiesIdle)
             RemainingMP = 0;

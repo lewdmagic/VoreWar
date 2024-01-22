@@ -1,34 +1,35 @@
 using System;
-using System.Collections.Generic;
+using OdinSerializer;
 
 public class Side : IComparable<Side>
 {
+    [OdinSerialize]
     public readonly string Id;
-    private readonly HashSet<RaceTag> _tags = new HashSet<RaceTag>();
 
-    internal Side(string id, RaceTag[] tags)
+    internal Side(string id)
     {
         Id = id;
-        
-        if (tags != null)
-        {
-            foreach (RaceTag tag in tags)
-            {
-                _tags.Add(tag);
-            }
-        }
     }
     
+    // This is very scuffed because Sides should not have tags in the first place
+    // This will need to be eventually removed. 
     public bool HasTag(RaceTag tag)
     {
-        return _tags.Contains(tag);
+        if (Race2.RaceSideMap.Reverse.ContainsKey(this))
+        {
+            return Race2.GetBasic(ToRace())._tags.Contains(tag);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     internal Race ToRace()
     {
-        if (Race.RaceSideMap.Reverse.ContainsKey(this))
+        if (Race2.RaceSideMap.Reverse.ContainsKey(this))
         {
-            return Race.RaceSideMap.Reverse[this];
+            return Race2.RaceSideMap.Reverse[this];
         }
         else
         {
@@ -49,7 +50,7 @@ public class Side : IComparable<Side>
             return 1;
         }
 
-        return Id.CompareTo(other.Id);
+        return String.Compare(Id, other.Id, StringComparison.Ordinal);
     }
     
     public override bool Equals(object obj)
@@ -70,12 +71,12 @@ public class Side : IComparable<Side>
 
     public override string ToString()
     {
-        return Id.ToString();
+        return Id;
     }
 
     public static Side TrueNoneSide = null;
-    public static Side RebelSide = new Side("Rebels", null);
-    public static Side BanditSide = new Side("Bandits", null);
+    public static Side RebelSide = new Side("Rebels");
+    public static Side BanditSide = new Side("Bandits");
 }
 
 

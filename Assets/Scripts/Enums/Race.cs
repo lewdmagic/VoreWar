@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BidirectionalMap;
+using OdinSerializer;
 using UnityEngine;
 
 public static class RaceFuncs
@@ -256,12 +257,12 @@ public static class RaceFuncs
     
     internal static int RaceToTempNumber(Race race)
     {
-        return race.RaceNumber;
+        return Race2.GetBasic(race).RaceNumber;
     }
     
     internal static int RaceToIntForTeam(Race race)
     {
-        return TeamNumberOffset + race.RaceNumber;
+        return TeamNumberOffset + Race2.GetBasic(race).RaceNumber;
     }
 
     internal static bool isHumanoid(Race race)
@@ -665,30 +666,85 @@ public enum RaceTag
     Humanoid,
 }
 
-public class Race : IComparable<Race>
+
+
+public static class Race2
 {
-    private static int NextRaceNumber = 0;
-    internal readonly string Id;
-    private readonly RaceDataMaker _raceDataMaker;
+    internal static int NextRaceNumber = 0;
+    internal static List<Race> RaceIdList = new List<Race>();
+    internal static Dictionary<string, Race> StringMap = new Dictionary<string, Race>();
+    public static BiMap<Race, Side> RaceSideMap = new BiMap<Race, Side>();
+
+    internal static readonly Dictionary<Race, VeryBasicRaceData> BasicDataMap = new Dictionary<Race, VeryBasicRaceData>();
+
+    internal static VeryBasicRaceData GetBasic(Race race)
+    {
+        return BasicDataMap[race];
+    }
+
+    public static void LoadHardcodedRaces()
+    {
+        foreach (Race race in Race2.RaceIdList)
+        {
+            race.Init();
+        }
+    }
+}
+
+public class VeryBasicRaceData
+{
+    internal RaceDataMaker RaceDataMaker;
     internal IRaceData RaceData;
+    internal readonly HashSet<RaceTag> _tags = new HashSet<RaceTag>();
     
-    private readonly HashSet<RaceTag> _tags = new HashSet<RaceTag>();
-
-    
-
     /// <summary>
     /// THIS IS NOT AN ID. 
     /// This is just an incremental number assigned to each Race.
     /// IT IS ABSOLUTELY NOT GUARANTEED TO STAY THE SAME ACROSS VERSIONS
     /// OR EVEN GAME LAUNCHES. NOT TO BE USED AS AN ID. 
     /// </summary>
-    public readonly int RaceNumber;
+    public int RaceNumber;
+}
+
+
+public class Race : IComparable<Race>
+{
+    [OdinSerialize]
+    internal readonly string Id;
+
+    internal IRaceData RaceData => Race2.GetBasic(this).RaceData;
+
+    internal static Race RegisterRace(string id, RaceDataMaker raceDataMaker, RaceTag[] tags)
+    {
+        Race race = new Race(id);
+
+        VeryBasicRaceData basicRaceData = new VeryBasicRaceData();
+        
+        if (tags != null)
+        {
+            foreach (RaceTag tag in tags)
+            {
+                basicRaceData._tags.Add(tag);
+            }
+        }
+
+        basicRaceData.RaceDataMaker = raceDataMaker;
+        basicRaceData.RaceNumber = Race2.NextRaceNumber++;
+
+        Race2.BasicDataMap[race] = basicRaceData;
+        
+        Race2.RaceIdList.Add(race);
+        Race2.StringMap[id] = race;
+        Race2.RaceSideMap.Add(race, new Side(id));
+        
+        return race;
+    }
     
     public Side ToSide()
     {
-        if (RaceSideMap.Forward.ContainsKey(this))
+        if (Race2.RaceSideMap.Forward.ContainsKey(this))
         {
-            return RaceSideMap.Forward[this];
+            return Race2.RaceSideMap.Forward[this];
         }
         else
         {
@@ -733,156 +789,130 @@ public class Race : IComparable<Race>
     }
 
 
-    private Race(string id, RaceDataMaker raceDataMaker, RaceTag[] tags = null)
+    internal Race(string id)
     {
-        if (tags != null)
-        {
-            foreach (RaceTag tag in tags)
-            {
-                _tags.Add(tag);
-            }
-        }
-
-        _raceDataMaker = raceDataMaker;
-        
         Id = id;
-        Race2.RaceIdList.Add(this);
-        Race2.StringMap[id] = this;
-        RaceSideMap.Add(this, new Side(id, tags));
-        RaceNumber = NextRaceNumber++;
     }
 
     internal void Init()
     {
-        RaceData = _raceDataMaker.Create(this);
+        Race2.GetBasic(this).RaceData = Race2.GetBasic(this).RaceDataMaker.Create(this);
     }
 
-    internal static void RegisterRace(string id, RaceDataMaker raceDataMaker, RaceTag[] tags = null)
+    internal static void CreateRace(string id, RaceDataMaker raceDataMaker, RaceTag[] tags = null)
     {
-        Race race = new Race(id, raceDataMaker, tags);
+        Race race = RegisterRace(id, raceDataMaker, tags);
         race.Init();
     }
     
-    
-
     public bool HasTag(RaceTag tag)
     {
-        return _tags.Contains(tag);
+        return Race2.GetBasic(this)._tags.Contains(tag);
     }
-
-    public static BiMap<Race, Side> RaceSideMap = new BiMap<Race, Side>();
         
     public static Race TrueNone = null;
 
     // FIX Circular referrence static initialization
-    public static Race Cats = new Race("cat", Races.Graphics.Implementations.MainRaces.Cats.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Dogs = new Race("dog", Races.Graphics.Implementations.MainRaces.Dogs.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Foxes = new Race("fox", Races.Graphics.Implementations.MainRaces.Foxes.Instance,                  new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Wolves = new Race("wolf", Races.Graphics.Implementations.MainRaces.Wolves.Instance,               new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Bunnies = new Race("bunny", Races.Graphics.Implementations.MainRaces.Bunnies.Instance,            new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Lizards = new Race("lizard", Races.Graphics.Implementations.MainRaces.Lizards.Instance,           new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Slimes = new Race("slime", Races.Graphics.Implementations.MainRaces.Slimes.Instance,              new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Scylla = new Race("scylla", Races.Graphics.Implementations.MainRaces.Scylla.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Harpies = new Race("harpy", Races.Graphics.Implementations.MainRaces.Harpies.Instance,            new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Imps = new Race("imp", Races.Graphics.Implementations.MainRaces.Imps.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Humans = new Race("human", Races.Graphics.Implementations.MainRaces.Humans.Instance,              new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Crypters = new Race("crypter", Races.Graphics.Implementations.MainRaces.Crypters.Instance,        new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Lamia = new Race("lamia", Races.Graphics.Implementations.MainRaces.Lamia.Instance,                new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Kangaroos = new Race("kangaroo", Races.Graphics.Implementations.MainRaces.Kangaroos.Instance,     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Taurus = new Race("taurus", Races.Graphics.Implementations.MainRaces.Taurus.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Crux = new Race("crux", Races.Graphics.Implementations.MainRaces.Crux.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Equines = null; // new Race("equines", Races.Graphics.Implementations.MainRaces.EquinesImrpoved.Instance,       new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Sergal = new Race("sergal", Races.Graphics.Implementations.MainRaces.Sergal.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Bees = new Race("bees", Races.Graphics.Implementations.MainRaces.Bees.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Driders = new Race("driders", Races.Graphics.Implementations.MainRaces.Driders.Instance,          new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Alraune = new Race("alraune", Races.Graphics.Implementations.MainRaces.Alraune.Instance,          new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race DemiBats = new Race("demiBats", Races.Graphics.Implementations.MainRaces.DemiBats.Instance,       new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Panthers = new Race("panthers", Races.Graphics.Implementations.MainRaces.Panthers.Instance,       new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Merfolk = new Race("merfolk", Races.Graphics.Implementations.MainRaces.Merfolk.Instance,          new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Avians = new Race("avians", Races.Graphics.Implementations.MainRaces.Avians.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Ants = new Race("ants", Races.Graphics.Implementations.MainRaces.Ants.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Demifrogs = new Race("frogs", Races.Graphics.Implementations.MainRaces.Demifrogs.Instance,        new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Demisharks = new Race("sharks", Races.Graphics.Implementations.MainRaces.Demisharks.Instance,     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Deer = new Race("deer", Races.Graphics.Implementations.MainRaces.Deer.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Aabayx = new Race("aabayx", Races.Graphics.Implementations.MainRaces.Aabayx.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Cats = RegisterRace("cat", Races.Graphics.Implementations.MainRaces.Cats.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Dogs = RegisterRace("dog", Races.Graphics.Implementations.MainRaces.Dogs.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Foxes = RegisterRace("fox", Races.Graphics.Implementations.MainRaces.Foxes.Instance,                  new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Wolves = RegisterRace("wolf", Races.Graphics.Implementations.MainRaces.Wolves.Instance,               new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Bunnies = RegisterRace("bunny", Races.Graphics.Implementations.MainRaces.Bunnies.Instance,            new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Lizards = RegisterRace("lizard", Races.Graphics.Implementations.MainRaces.Lizards.Instance,           new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Slimes = RegisterRace("slime", Races.Graphics.Implementations.MainRaces.Slimes.Instance,              new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Scylla = RegisterRace("scylla", Races.Graphics.Implementations.MainRaces.Scylla.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Harpies = RegisterRace("harpy", Races.Graphics.Implementations.MainRaces.Harpies.Instance,            new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Imps = RegisterRace("imp", Races.Graphics.Implementations.MainRaces.Imps.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Humans = RegisterRace("human", Races.Graphics.Implementations.MainRaces.Humans.Instance,              new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Crypters = RegisterRace("crypter", Races.Graphics.Implementations.MainRaces.Crypters.Instance,        new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Lamia = RegisterRace("lamia", Races.Graphics.Implementations.MainRaces.Lamia.Instance,                new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Kangaroos = RegisterRace("kangaroo", Races.Graphics.Implementations.MainRaces.Kangaroos.Instance,     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Taurus = RegisterRace("taurus", Races.Graphics.Implementations.MainRaces.Taurus.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Crux = RegisterRace("crux", Races.Graphics.Implementations.MainRaces.Crux.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Equines = null; // RegisterRace("equines", Races.Graphics.Implementations.MainRaces.EquinesImrpoved.Instance,       new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Sergal = RegisterRace("sergal", Races.Graphics.Implementations.MainRaces.Sergal.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Bees = RegisterRace("bees", Races.Graphics.Implementations.MainRaces.Bees.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Driders = RegisterRace("driders", Races.Graphics.Implementations.MainRaces.Driders.Instance,          new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Alraune = RegisterRace("alraune", Races.Graphics.Implementations.MainRaces.Alraune.Instance,          new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race DemiBats = RegisterRace("demiBats", Races.Graphics.Implementations.MainRaces.DemiBats.Instance,       new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Panthers = RegisterRace("panthers", Races.Graphics.Implementations.MainRaces.Panthers.Instance,       new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Merfolk = RegisterRace("merfolk", Races.Graphics.Implementations.MainRaces.Merfolk.Instance,          new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Avians = RegisterRace("avians", Races.Graphics.Implementations.MainRaces.Avians.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Ants = RegisterRace("ants", Races.Graphics.Implementations.MainRaces.Ants.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Demifrogs = RegisterRace("frogs", Races.Graphics.Implementations.MainRaces.Demifrogs.Instance,        new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Demisharks = RegisterRace("sharks", Races.Graphics.Implementations.MainRaces.Demisharks.Instance,     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Deer = RegisterRace("deer", Races.Graphics.Implementations.MainRaces.Deer.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Aabayx = RegisterRace("aabayx", Races.Graphics.Implementations.MainRaces.Aabayx.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
 
-    public static Race Succubi = new Race("succubus", Races.Graphics.Implementations.Mercs.Succubi.Instance,         new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Tigers = new Race("tiger", Races.Graphics.Implementations.Mercs.Tigers.Instance,              new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Goblins = new Race("goblin", Races.Graphics.Implementations.Mercs.Goblins.Instance,           new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Alligators = new Race("alligator", Races.Graphics.Implementations.Mercs.Alligators.Instance,  new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Puca = new Race("puca", Races.Graphics.Implementations.Mercs.Puca.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Kobolds = new Race("Kobold", Races.Graphics.Implementations.Mercs.Kobolds.Instance,           new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race DewSprites = new Race("dewSprite", Races.Graphics.Implementations.Mercs.DewSprites.Instance,  new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Hippos = new Race("hippos", Races.Graphics.Implementations.Mercs.Hippos.Instance,             new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Vipers = new Race("vipers", Races.Graphics.Implementations.Mercs.Vipers.Instance,             new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Komodos = new Race("komodos", Races.Graphics.Implementations.Mercs.Komodos.Instance,          new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Cockatrice = new Race("cockatrice", Races.Graphics.Implementations.Mercs.Cockatrice.Instance, new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Vargul = new Race("vargul", Races.Graphics.Implementations.Mercs.Vargul.Instance,             new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Youko = new Race("youko", Races.Graphics.Implementations.Mercs.Youko.Instance,                new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Succubi = RegisterRace("succubus", Races.Graphics.Implementations.Mercs.Succubi.Instance,         new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Tigers = RegisterRace("tiger", Races.Graphics.Implementations.Mercs.Tigers.Instance,              new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Goblins = RegisterRace("goblin", Races.Graphics.Implementations.Mercs.Goblins.Instance,           new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Alligators = RegisterRace("alligator", Races.Graphics.Implementations.Mercs.Alligators.Instance,  new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Puca = RegisterRace("puca", Races.Graphics.Implementations.Mercs.Puca.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Kobolds = RegisterRace("Kobold", Races.Graphics.Implementations.Mercs.Kobolds.Instance,           new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race DewSprites = RegisterRace("dewSprite", Races.Graphics.Implementations.Mercs.DewSprites.Instance,  new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Hippos = RegisterRace("hippos", Races.Graphics.Implementations.Mercs.Hippos.Instance,             new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Vipers = RegisterRace("vipers", Races.Graphics.Implementations.Mercs.Vipers.Instance,             new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Komodos = RegisterRace("komodos", Races.Graphics.Implementations.Mercs.Komodos.Instance,          new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Cockatrice = RegisterRace("cockatrice", Races.Graphics.Implementations.Mercs.Cockatrice.Instance, new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Vargul = RegisterRace("vargul", Races.Graphics.Implementations.Mercs.Vargul.Instance,             new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Youko = RegisterRace("youko", Races.Graphics.Implementations.Mercs.Youko.Instance,                new[]{ RaceTag.Humanoid, RaceTag.Merc });
 
-    public static Race Vagrants = new Race("vagrants", Races.Graphics.Implementations.Monsters.Vagrants.Instance,                new[]{ RaceTag.Monster });
-    public static Race Serpents = new Race("serpents", Races.Graphics.Implementations.Monsters.Serpents.Instance,                new[]{ RaceTag.Monster });
-    public static Race Wyvern = new Race("wyvern", Races.Graphics.Implementations.Monsters.Wyvern.Instance,                      new[]{ RaceTag.Monster });
-    public static Race YoungWyvern = new Race("youngWyvern", Races.Graphics.Implementations.Monsters.YoungWyvern.Instance,       new[]{ RaceTag.Monster });
-    public static Race Compy = new Race("compy", Races.Graphics.Implementations.Monsters.Compy.Instance,                         new[]{ RaceTag.Monster });
-    public static Race FeralSharks = new Race("feralSharks", Races.Graphics.Implementations.Monsters.FeralSharks.Instance,       new[]{ RaceTag.Monster });
-    public static Race FeralWolves = new Race("feralWolves", Races.Graphics.Implementations.Monsters.FeralWolves.Instance,       new[]{ RaceTag.Monster });
-    public static Race DarkSwallower = new Race("darkSwallower", Races.Graphics.Implementations.Monsters.DarkSwallower.Instance, new[]{ RaceTag.Monster });
-    public static Race Cake = new Race("cake", Races.Graphics.Implementations.Monsters.Cake.Instance,                            new[]{ RaceTag.Monster });
-    public static Race Harvesters = new Race("harvesters", Races.Graphics.Implementations.Monsters.Harvesters.Instance,          new[]{ RaceTag.Monster });
-    public static Race Collectors = new Race("collectors", Races.Graphics.Implementations.Monsters.Collectors.Instance,          new[]{ RaceTag.Monster });
-    public static Race Voilin = new Race("voilin", Races.Graphics.Implementations.Monsters.Voilin.Instance,                      new[]{ RaceTag.Monster });
-    public static Race FeralBats = new Race("feralBats", Races.Graphics.Implementations.Monsters.FeralBats.Instance,             new[]{ RaceTag.Monster });
-    public static Race FeralFrogs = new Race("feralFrogs", Races.Graphics.Implementations.Monsters.FeralFrogs.Instance,          new[]{ RaceTag.Monster });
-    public static Race Dragon = new Race("dragon", Races.Graphics.Implementations.Monsters.Dragon.Instance,                      new[]{ RaceTag.Monster });
-    public static Race Dragonfly = new Race("dragonfly", Races.Graphics.Implementations.Monsters.Dragonfly.Instance,             new[]{ RaceTag.Monster });
-    public static Race TwistedVines = new Race("twistedVines", Races.Graphics.Implementations.Monsters.TwistedVines.Instance,    new[]{ RaceTag.Monster });
-    public static Race Fairies = new Race("fairies", Races.Graphics.Implementations.Monsters.Fairies.Instance,                   new[]{ RaceTag.Monster });
-    public static Race FeralAnts = new Race("feralAnts", Races.Graphics.Implementations.Monsters.FeralAnts.Instance,             new[]{ RaceTag.Monster });
-    public static Race Gryphons = new Race("gryphons", Races.Graphics.Implementations.Monsters.Gryphons.Instance,                new[]{ RaceTag.Monster });
-    public static Race SpitterSlugs = new Race("spitterSlugs", Races.Graphics.Implementations.Monsters.SpitterSlugs.Instance,    new[]{ RaceTag.Monster });
-    public static Race SpringSlugs = new Race("springSlugs", Races.Graphics.Implementations.Monsters.SpringSlugs.Instance,       new[]{ RaceTag.Monster });
-    public static Race RockSlugs = new Race("rockSlugs", Races.Graphics.Implementations.Monsters.RockSlugs.Instance,             new[]{ RaceTag.Monster });
-    public static Race CoralSlugs = new Race("coralSlugs", Races.Graphics.Implementations.Monsters.CoralSlugs.Instance,          new[]{ RaceTag.Monster });
-    public static Race Salamanders = new Race("salamanders", Races.Graphics.Implementations.Monsters.Salamanders.Instance,       new[]{ RaceTag.Monster });
-    public static Race Mantis = new Race("mantis", Races.Graphics.Implementations.Monsters.Mantis.Instance,                      new[]{ RaceTag.Monster });
-    public static Race EasternDragon = new Race("easternDragon", Races.Graphics.Implementations.Monsters.EasternDragon.Instance, new[]{ RaceTag.Monster });
-    public static Race Catfish = new Race("catfish", Races.Graphics.Implementations.Monsters.Catfish.Instance,                   new[]{ RaceTag.Monster });
-    public static Race Raptor = new Race("raptor", Races.Graphics.Implementations.Monsters.Raptor.Instance,                      new[]{ RaceTag.Monster });
-    public static Race WarriorAnts = new Race("warriorAnts", Races.Graphics.Implementations.Monsters.WarriorAnts.Instance,       new[]{ RaceTag.Monster });
-    public static Race Gazelle = new Race("gazelle", Races.Graphics.Implementations.Monsters.Gazelle.Instance,                   new[]{ RaceTag.Monster });
-    public static Race Earthworms = new Race("earthworms", Races.Graphics.Implementations.Monsters.Earthworms.Instance,          new[]{ RaceTag.Monster });
-    public static Race FeralLizards = new Race("feralLizards", Races.Graphics.Implementations.Monsters.FeralLizards.Instance,    new[]{ RaceTag.Monster });
-    public static Race Monitors = new Race("monitors", Races.Graphics.Implementations.Monsters.Monitors.Instance,                new[]{ RaceTag.Monster });
-    public static Race Schiwardez = new Race("schiwardez", Races.Graphics.Implementations.Monsters.Schiwardez.Instance,          new[]{ RaceTag.Monster });
-    public static Race Terrorbird = new Race("terrorbird", Races.Graphics.Implementations.Monsters.Terrorbird.Instance,          new[]{ RaceTag.Monster });
-    public static Race Dratopyr = new Race("dratopyr", Races.Graphics.Implementations.Monsters.Dratopyr.Instance,                new[]{ RaceTag.Monster });
-    public static Race FeralLions = new Race("feralLions", Races.Graphics.Implementations.Monsters.FeralLions.Instance,          new[]{ RaceTag.Monster });
-    public static Race Goodra = new Race("goodra", Races.Graphics.Implementations.Monsters.Goodra.Instance,                      new[]{ RaceTag.Monster });
-    public static Race Whisp = new Race("whisp", Races.Graphics.Implementations.Monsters.Whisp.Instance,                         new[]{ RaceTag.Monster });
+    public static Race Vagrants = RegisterRace("vagrants", Races.Graphics.Implementations.Monsters.Vagrants.Instance,                new[]{ RaceTag.Monster });
+    public static Race Serpents = RegisterRace("serpents", Races.Graphics.Implementations.Monsters.Serpents.Instance,                new[]{ RaceTag.Monster });
+    public static Race Wyvern = RegisterRace("wyvern", Races.Graphics.Implementations.Monsters.Wyvern.Instance,                      new[]{ RaceTag.Monster });
+    public static Race YoungWyvern = RegisterRace("youngWyvern", Races.Graphics.Implementations.Monsters.YoungWyvern.Instance,       new[]{ RaceTag.Monster });
+    public static Race Compy = RegisterRace("compy", Races.Graphics.Implementations.Monsters.Compy.Instance,                         new[]{ RaceTag.Monster });
+    public static Race FeralSharks = RegisterRace("feralSharks", Races.Graphics.Implementations.Monsters.FeralSharks.Instance,       new[]{ RaceTag.Monster });
+    public static Race FeralWolves = RegisterRace("feralWolves", Races.Graphics.Implementations.Monsters.FeralWolves.Instance,       new[]{ RaceTag.Monster });
+    public static Race DarkSwallower = RegisterRace("darkSwallower", Races.Graphics.Implementations.Monsters.DarkSwallower.Instance, new[]{ RaceTag.Monster });
+    public static Race Cake = RegisterRace("cake", Races.Graphics.Implementations.Monsters.Cake.Instance,                            new[]{ RaceTag.Monster });
+    public static Race Harvesters = RegisterRace("harvesters", Races.Graphics.Implementations.Monsters.Harvesters.Instance,          new[]{ RaceTag.Monster });
+    public static Race Collectors = RegisterRace("collectors", Races.Graphics.Implementations.Monsters.Collectors.Instance,          new[]{ RaceTag.Monster });
+    public static Race Voilin = RegisterRace("voilin", Races.Graphics.Implementations.Monsters.Voilin.Instance,                      new[]{ RaceTag.Monster });
+    public static Race FeralBats = RegisterRace("feralBats", Races.Graphics.Implementations.Monsters.FeralBats.Instance,             new[]{ RaceTag.Monster });
+    public static Race FeralFrogs = RegisterRace("feralFrogs", Races.Graphics.Implementations.Monsters.FeralFrogs.Instance,          new[]{ RaceTag.Monster });
+    public static Race Dragon = RegisterRace("dragon", Races.Graphics.Implementations.Monsters.Dragon.Instance,                      new[]{ RaceTag.Monster });
+    public static Race Dragonfly = RegisterRace("dragonfly", Races.Graphics.Implementations.Monsters.Dragonfly.Instance,             new[]{ RaceTag.Monster });
+    public static Race TwistedVines = RegisterRace("twistedVines", Races.Graphics.Implementations.Monsters.TwistedVines.Instance,    new[]{ RaceTag.Monster });
+    public static Race Fairies = RegisterRace("fairies", Races.Graphics.Implementations.Monsters.Fairies.Instance,                   new[]{ RaceTag.Monster });
+    public static Race FeralAnts = RegisterRace("feralAnts", Races.Graphics.Implementations.Monsters.FeralAnts.Instance,             new[]{ RaceTag.Monster });
+    public static Race Gryphons = RegisterRace("gryphons", Races.Graphics.Implementations.Monsters.Gryphons.Instance,                new[]{ RaceTag.Monster });
+    public static Race SpitterSlugs = RegisterRace("spitterSlugs", Races.Graphics.Implementations.Monsters.SpitterSlugs.Instance,    new[]{ RaceTag.Monster });
+    public static Race SpringSlugs = RegisterRace("springSlugs", Races.Graphics.Implementations.Monsters.SpringSlugs.Instance,       new[]{ RaceTag.Monster });
+    public static Race RockSlugs = RegisterRace("rockSlugs", Races.Graphics.Implementations.Monsters.RockSlugs.Instance,             new[]{ RaceTag.Monster });
+    public static Race CoralSlugs = RegisterRace("coralSlugs", Races.Graphics.Implementations.Monsters.CoralSlugs.Instance,          new[]{ RaceTag.Monster });
+    public static Race Salamanders = RegisterRace("salamanders", Races.Graphics.Implementations.Monsters.Salamanders.Instance,       new[]{ RaceTag.Monster });
+    public static Race Mantis = RegisterRace("mantis", Races.Graphics.Implementations.Monsters.Mantis.Instance,                      new[]{ RaceTag.Monster });
+    public static Race EasternDragon = RegisterRace("easternDragon", Races.Graphics.Implementations.Monsters.EasternDragon.Instance, new[]{ RaceTag.Monster });
+    public static Race Catfish = RegisterRace("catfish", Races.Graphics.Implementations.Monsters.Catfish.Instance,                   new[]{ RaceTag.Monster });
+    public static Race Raptor = RegisterRace("raptor", Races.Graphics.Implementations.Monsters.Raptor.Instance,                      new[]{ RaceTag.Monster });
+    public static Race WarriorAnts = RegisterRace("warriorAnts", Races.Graphics.Implementations.Monsters.WarriorAnts.Instance,       new[]{ RaceTag.Monster });
+    public static Race Gazelle = RegisterRace("gazelle", Races.Graphics.Implementations.Monsters.Gazelle.Instance,                   new[]{ RaceTag.Monster });
+    public static Race Earthworms = RegisterRace("earthworms", Races.Graphics.Implementations.Monsters.Earthworms.Instance,          new[]{ RaceTag.Monster });
+    public static Race FeralLizards = RegisterRace("feralLizards", Races.Graphics.Implementations.Monsters.FeralLizards.Instance,    new[]{ RaceTag.Monster });
+    public static Race Monitors = RegisterRace("monitors", Races.Graphics.Implementations.Monsters.Monitors.Instance,                new[]{ RaceTag.Monster });
+    public static Race Schiwardez = RegisterRace("schiwardez", Races.Graphics.Implementations.Monsters.Schiwardez.Instance,          new[]{ RaceTag.Monster });
+    public static Race Terrorbird = RegisterRace("terrorbird", Races.Graphics.Implementations.Monsters.Terrorbird.Instance,          new[]{ RaceTag.Monster });
+    public static Race Dratopyr = RegisterRace("dratopyr", Races.Graphics.Implementations.Monsters.Dratopyr.Instance,                new[]{ RaceTag.Monster });
+    public static Race FeralLions = RegisterRace("feralLions", Races.Graphics.Implementations.Monsters.FeralLions.Instance,          new[]{ RaceTag.Monster });
+    public static Race Goodra = RegisterRace("goodra", Races.Graphics.Implementations.Monsters.Goodra.Instance,                      new[]{ RaceTag.Monster });
+    public static Race Whisp = RegisterRace("whisp", Races.Graphics.Implementations.Monsters.Whisp.Instance,                         new[]{ RaceTag.Monster });
  
-    public static Race Selicia = new Race("selicia", Races.Graphics.Implementations.UniqueMercs.Selicia.Instance,             new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Vision = new Race("vision", Races.Graphics.Implementations.UniqueMercs.Vision.Instance,                new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Ki = new Race("ki", Races.Graphics.Implementations.UniqueMercs.Ki.Instance,                            new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Scorch = new Race("scorch", Races.Graphics.Implementations.UniqueMercs.Scorch.Instance,                new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Asura = new Race("asura", Races.Graphics.Implementations.UniqueMercs.Asura.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race DRACO = new Race("draco", Races.Graphics.Implementations.UniqueMercs.DRACO.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Zoey = new Race("zoey", Races.Graphics.Implementations.UniqueMercs.Zoey.Instance,                      new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Abakhanskya = new Race("abakhanskya", Races.Graphics.Implementations.UniqueMercs.Abakhanskya.Instance, new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Zera = new Race("zera", Races.Graphics.Implementations.UniqueMercs.Zera.Instance,                      new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Auri = new Race("auri", Races.Graphics.Implementations.UniqueMercs.Auri.Instance,                      new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Erin = new Race("erin", Races.Graphics.Implementations.UniqueMercs.Erin.Instance,                      new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
-    public static Race Salix = new Race("salix", Races.Graphics.Implementations.UniqueMercs.Salix.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Selicia = RegisterRace("selicia", Races.Graphics.Implementations.UniqueMercs.Selicia.Instance,             new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Vision = RegisterRace("vision", Races.Graphics.Implementations.UniqueMercs.Vision.Instance,                new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Ki = RegisterRace("ki", Races.Graphics.Implementations.UniqueMercs.Ki.Instance,                            new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Scorch = RegisterRace("scorch", Races.Graphics.Implementations.UniqueMercs.Scorch.Instance,                new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Asura = RegisterRace("asura", Races.Graphics.Implementations.UniqueMercs.Asura.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race DRACO = RegisterRace("draco", Races.Graphics.Implementations.UniqueMercs.DRACO.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Zoey = RegisterRace("zoey", Races.Graphics.Implementations.UniqueMercs.Zoey.Instance,                      new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Abakhanskya = RegisterRace("abakhanskya", Races.Graphics.Implementations.UniqueMercs.Abakhanskya.Instance, new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Zera = RegisterRace("zera", Races.Graphics.Implementations.UniqueMercs.Zera.Instance,                      new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Auri = RegisterRace("auri", Races.Graphics.Implementations.UniqueMercs.Auri.Instance,                      new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Erin = RegisterRace("erin", Races.Graphics.Implementations.UniqueMercs.Erin.Instance,                      new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
+    public static Race Salix = RegisterRace("salix", Races.Graphics.Implementations.UniqueMercs.Salix.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.UniqueMerc });
 
-    public static void LoadHardcodedRaces()
-    {
-        foreach (Race race in Race2.RaceIdList)
-        {
-            race.Init();
-        }
-    }
-    
-    
+
     /*
 
 
@@ -1090,12 +1120,4 @@ public class Race : IComparable<Race>
 
      */
     
-}
-
-public static class Race2
-{
-    internal static List<Race> RaceIdList = new List<Race>();
-    internal static Dictionary<string, Race> StringMap = new Dictionary<string, Race>();
-    internal static Dictionary<int, Race> IntMap = new Dictionary<int, Race>();
-
 }

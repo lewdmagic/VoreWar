@@ -116,7 +116,7 @@ public class NameGenerator
     {
         if (State.Rand.Next(10) == 0)
         {
-            if (ArmyNames.ContainsKey(race)) // race key is null because it has been changed from int to Race.
+            if (race != null && ArmyNames.ContainsKey(race)) // race key is null because it has been changed from int to Race.
             {
                 List<string> items = new List<string>();
                 foreach (var item in ArmyNames[race])
@@ -130,7 +130,7 @@ public class NameGenerator
                 }
             }
         }
-        if (village != null && ArmyNameDefault.ContainsKey(race))
+        if (village != null && race != null && ArmyNameDefault.ContainsKey(race))
         {
             for (int i = 0; i < 9; i++)
             {
