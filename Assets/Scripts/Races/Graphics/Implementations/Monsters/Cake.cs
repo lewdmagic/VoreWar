@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Names("Cake", "Cakes");
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.Cake, unit.Name)
+                    new BoneInfo(BoneType.Cake, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
                     new Texts {  },

@@ -67,7 +67,7 @@ public class TacticalMessageLog
     class SpellLog : EventLog
     {
         [OdinSerialize]
-        internal SpellTypes SpellType;
+        internal SpellType SpellType;
     }
 
     internal enum MessageLogEvent
@@ -377,42 +377,42 @@ public class TacticalMessageLog
         var spell = SpellList.SpellDict[action.SpellType];
         switch (action.SpellType)
         {
-            case SpellTypes.Shield:
+            case SpellType.Shield:
                 return $"<b>{action.Unit.Name}</b> buffed <b>{action.Target.Name}</b> with the {spell.Name} spell.";
             //$"<b>{action.Target.Name}</b> feels <b>{action.Unit.Name}</b>'s protective spell enveloping {GPPHim(action.Unit)}"
-            case SpellTypes.Mending:
+            case SpellType.Mending:
                 return $"<b>{action.Unit.Name}</b> buffed <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.Speed:
+            case SpellType.Speed:
                 return $"<b>{action.Unit.Name}</b> buffed <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.Valor:
+            case SpellType.Valor:
                 return $"<b>{action.Unit.Name}</b> buffed <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.Predation:
+            case SpellType.Predation:
                 return $"<b>{action.Unit.Name}</b> buffed <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.Poison:
+            case SpellType.Poison:
                 return $"<b>{action.Unit.Name}</b> inflicted <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.PreysCurse:
+            case SpellType.PreysCurse:
                 return $"<b>{action.Unit.Name}</b> debuffed <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.Maw:
+            case SpellType.Maw:
                 return $"<b>{action.Unit.Name}</b> consumed <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.Diminishment:
+            case SpellType.Diminishment:
                 return $"<b>{action.Unit.Name}</b> shrunk <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.GateMaw:
+            case SpellType.GateMaw:
                 return $"<b>{action.Unit.Name}</b> consumed <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.Enlarge:
+            case SpellType.Enlarge:
                 return $"<b>{action.Unit.Name}</b> enlarged <b>{action.Target.Name}</b> with the {spell.Name} spell.";
-            case SpellTypes.Resurrection:
+            case SpellType.Resurrection:
                 return $"<b>{action.Unit.Name}</b> resurrected <b>{action.Target.Name}</b>.";
-            case SpellTypes.AlraunePuff:
+            case SpellType.AlraunePuff:
                 return $"<b>{action.Unit.Name}</b>'s pollen cloud affected <b>{action.Target.Name}</b>.";
-            case SpellTypes.ViperPoison:
+            case SpellType.ViperPoison:
                 return $"<b>{action.Unit.Name}</b>'s poison spot poisoned <b>{action.Target.Name}</b>.";
-            case SpellTypes.Web:
+            case SpellType.Web:
                 return $"<b>{action.Unit.Name}</b> webbed <b>{action.Target.Name}</b>.";
-            case SpellTypes.GlueBomb:
+            case SpellType.GlueBomb:
                 return $"<b>{action.Unit.Name}</b>'s glue bomb affected <b>{action.Target.Name}</b>.";
-            case SpellTypes.Petrify:
+            case SpellType.Petrify:
                 return $"<b>{action.Unit.Name}</b> petrified <b>{action.Target.Name}</b>.";
-            case SpellTypes.DivinitysEmbrace:
+            case SpellType.DivinitysEmbrace:
                 return $"<b>{action.Unit.Name}</b> buffed <b>{action.Target.Name}</b> with the {spell.Name} spell.";
             default:
                 return $"<b>{action.Unit.Name}</b> hit <b>{action.Target.Name}</b> with the {spell.Name} spell, dealing <color=red>{action.Damage}</color> damage.";
@@ -421,7 +421,7 @@ public class TacticalMessageLog
 
     string GenerateSpellMissMessage(SpellLog action)
     {
-        if (action.SpellType == SpellTypes.None)
+        if (action.SpellType == SpellType.None)
             return "";
         var spell = SpellList.SpellDict[action.SpellType];
         return $"<b>{action.Unit.Name}</b> failed to affect <b>{action.Target.Name}</b> with the {spell.Name} spell.";
@@ -1134,7 +1134,7 @@ public class TacticalMessageLog
         UpdateListing();
     }
 
-    public void RegisterSpellHit(Unit attacker, Unit target, SpellTypes type, int damage, float odds)
+    public void RegisterSpellHit(Unit attacker, Unit target, SpellType type, int damage, float odds)
     {
         events.Add(new SpellLog
         {
@@ -1148,7 +1148,7 @@ public class TacticalMessageLog
         UpdateListing();
     }
 
-    public void RegisterSpellMiss(Unit attacker, Unit target, SpellTypes type, float odds)
+    public void RegisterSpellMiss(Unit attacker, Unit target, SpellType type, float odds)
     {
         events.Add(new SpellLog
         {
@@ -1161,7 +1161,7 @@ public class TacticalMessageLog
         UpdateListing();
     }
 
-    public void RegisterSpellKill(Unit attacker, Unit target, SpellTypes type)
+    public void RegisterSpellKill(Unit attacker, Unit target, SpellType type)
     {
         events.Add(new SpellLog
         {

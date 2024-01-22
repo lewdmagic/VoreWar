@@ -25,16 +25,16 @@ namespace Races.Graphics.Implementations.Monsters
             switch (season)
             {
                 case FairyType.Spring:
-                    unit.InnateSpells = new List<SpellTypes> { SpellTypes.Speed };
+                    unit.InnateSpells = new List<SpellType> { SpellType.Speed };
                     break;
                 case FairyType.Summer:
-                    unit.InnateSpells = new List<SpellTypes> { SpellTypes.Valor };
+                    unit.InnateSpells = new List<SpellType> { SpellType.Valor };
                     break;
                 case FairyType.Fall:
-                    unit.InnateSpells = new List<SpellTypes> { SpellTypes.Predation };
+                    unit.InnateSpells = new List<SpellType> { SpellType.Predation };
                     break;
                 case FairyType.Winter:
-                    unit.InnateSpells = new List<SpellTypes> { SpellTypes.Shield };
+                    unit.InnateSpells = new List<SpellType> { SpellType.Shield };
                     break;
             }
         }

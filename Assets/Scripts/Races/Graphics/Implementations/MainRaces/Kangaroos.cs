@@ -38,7 +38,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.WallType(WallType.WoodenPallisade);        
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.Kangaroo, unit.Name)
+                    new BoneInfo(BoneType.Kangaroo, unit.Name)
                 });
                 output.RaceTraits(new RaceTraits()
                 {

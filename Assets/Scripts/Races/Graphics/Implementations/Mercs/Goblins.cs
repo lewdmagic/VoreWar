@@ -41,15 +41,15 @@ namespace Races.Graphics.Implementations.Mercs
                     {
                         return new List<BoneInfo>
                         {
-                            new BoneInfo(BoneTypes.FurryBones, unit.Name)
+                            new BoneInfo(BoneType.FurryBones, unit.Name)
                         };
                     }
                     else
                     {
                         return new List<BoneInfo>
                         {
-                            new BoneInfo(BoneTypes.GenericBonePile, unit.Name),
-                            new BoneInfo(BoneTypes.Imp2EyeSkull, "")
+                            new BoneInfo(BoneType.GenericBonePile, unit.Name),
+                            new BoneInfo(BoneType.Imp2EyeSkull, "")
                         };
                     }
                 });

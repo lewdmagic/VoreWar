@@ -178,13 +178,13 @@ class RaceSettings
         return RaceParameters.GetRaceTraits(race).FavoredStat;
     }
 
-    internal SpellTypes GetInnateSpell(Race race)
+    internal SpellType GetInnateSpell(Race race)
     {
         if (Races.ContainsKey(race))
         {
             return Get(race).InnateSpell;
         }
-        return SpellTypes.None;
+        return SpellType.None;
     }
 
     internal RaceAI GetRaceAI(Race race)
@@ -366,7 +366,7 @@ class RaceSettingsItem
     internal Stat FavoredStat;
 
     [OdinSerialize]
-    internal SpellTypes InnateSpell;
+    internal SpellType InnateSpell;
 
     [OdinSerialize]
     internal RaceAI RaceAI;

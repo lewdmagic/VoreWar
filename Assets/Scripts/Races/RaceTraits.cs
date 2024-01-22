@@ -22,7 +22,7 @@ public class RaceTraits
     public Race SpawnRace = Race.TrueNone;
     public Race ConversionRace = Race.TrueNone;
     public Race LeaderRace = Race.TrueNone;
-    public List<SpellTypes> InnateSpells = new List<SpellTypes>();
+    public List<SpellType> InnateSpells = new List<SpellType>();
     public RaceStats RaceStats = new RaceStats();
     /// <summary>
     /// Attacks against this race will have their experience gained modified by this ratio

@@ -1,4 +1,4 @@
-﻿public enum DamageTypes
+﻿public enum DamageType
 {
     Generic,
     Fire,

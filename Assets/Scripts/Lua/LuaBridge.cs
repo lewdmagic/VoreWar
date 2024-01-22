@@ -97,11 +97,8 @@ public static class LuaBridge
 
     private static void RegisterShared(Script script)
     {
-        
         script.Globals["Log"] = (Action<string>) Debug.Log;
         
-        // TODO Traits should be later renamed to Trait to follow naming conventions
-        // Set to Trait in script scrope to avoid breaking changes to scripts
         script.Globals["Gender"] = UserData.CreateStatic<Gender>();
         script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
         script.Globals["Gender"] = UserData.CreateStatic<Gender>();

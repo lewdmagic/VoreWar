@@ -49,8 +49,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         TraitType.ThrillSeeker,
                         TraitType.FastCaster
                     },
-                    InnateSpells = new List<SpellTypes>()
-                        { SpellTypes.Mending, SpellTypes.Summon },
+                    InnateSpells = new List<SpellType>()
+                        { SpellType.Mending, SpellType.Summon },
                     RaceDescription = "A fox-woman priestess and self-proclaimed avatar of a creator of the world.",
                 });
                 output.CustomizeButtons((unit, buttons) =>

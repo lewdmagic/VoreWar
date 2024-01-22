@@ -41,7 +41,7 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.Biter,
                         TraitType.HotBlooded
                     },
-                    InnateSpells = new List<SpellTypes>() { SpellTypes.Fireball },
+                    InnateSpells = new List<SpellType>() { SpellType.Fireball },
                     RaceDescription = ""
                 });
                 output.CustomizeButtons((unit, buttons) =>

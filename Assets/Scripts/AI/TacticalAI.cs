@@ -1201,7 +1201,7 @@ public abstract class TacticalAI : ITacticalAI
 
 
 
-        Spell spell = actor.Unit.UseableSpells.Where(s => s.SpellType == SpellTypes.Resurrection).FirstOrDefault();
+        Spell spell = actor.Unit.UseableSpells.Where(s => s.SpellType == SpellType.Resurrection).FirstOrDefault();
         if (spell == null)
             return;
 
@@ -1235,7 +1235,7 @@ public abstract class TacticalAI : ITacticalAI
 
 
 
-        Spell spell = actor.Unit.UseableSpells.Where(s => s.SpellType == SpellTypes.Reanimate).FirstOrDefault();
+        Spell spell = actor.Unit.UseableSpells.Where(s => s.SpellType == SpellType.Reanimate).FirstOrDefault();
         if (spell == null)
             return;
 
@@ -1269,7 +1269,7 @@ public abstract class TacticalAI : ITacticalAI
 
 
 
-        Spell spell = actor.Unit.UseableSpells.Where(s => s.SpellType == SpellTypes.Resurrection).FirstOrDefault();
+        Spell spell = actor.Unit.UseableSpells.Where(s => s.SpellType == SpellType.Resurrection).FirstOrDefault();
         if (spell == null)
             return -1;
 
@@ -1304,7 +1304,7 @@ public abstract class TacticalAI : ITacticalAI
 
 
 
-        Spell spell = actor.Unit.UseableSpells.Where(s => s.SpellType == SpellTypes.Reanimate).FirstOrDefault();
+        Spell spell = actor.Unit.UseableSpells.Where(s => s.SpellType == SpellType.Reanimate).FirstOrDefault();
         if (spell == null)
             return -1;
 
@@ -1333,7 +1333,7 @@ public abstract class TacticalAI : ITacticalAI
 
     protected virtual void RunBind(Actor_Unit actor)
     {
-        var spell = actor.Unit.UseableSpells.Find(s => s.SpellType == SpellTypes.Bind);
+        var spell = actor.Unit.UseableSpells.Find(s => s.SpellType == SpellType.Bind);
         if (spell == null || actor.Unit.Mana < spell.ManaCost) return;
 
         if (!actors.Any(a => a.Unit.Type == UnitType.Summon) && actor.Unit.BoundUnit == null)
@@ -1421,7 +1421,7 @@ public abstract class TacticalAI : ITacticalAI
 
     protected virtual int CheckBind(Actor_Unit actor, Vec2i position, int ap)
     {
-        var spell = actor.Unit.UseableSpells.Find(s => s.SpellType == SpellTypes.Bind);
+        var spell = actor.Unit.UseableSpells.Find(s => s.SpellType == SpellType.Bind);
         if (spell == null || actor.Unit.Mana < spell.ManaCost) return -1;
 
         if (!actors.Any(a => a.Unit.Type == UnitType.Summon) && actor.Unit.BoundUnit == null)

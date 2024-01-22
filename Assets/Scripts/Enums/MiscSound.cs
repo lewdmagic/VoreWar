@@ -1,4 +1,4 @@
-﻿public enum MiscSounds
+﻿public enum MiscSound
 {
     GenericSpell,
     IceBlastMain,

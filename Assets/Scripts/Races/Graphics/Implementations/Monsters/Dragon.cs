@@ -21,7 +21,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Names("Dragon", "Dragons");
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.WyvernBonesWithoutHead, unit.Name)
+                    new BoneInfo(BoneType.WyvernBonesWithoutHead, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
                     new Texts { "formerly apex predator", "delicious dragon", "ex-predator" },

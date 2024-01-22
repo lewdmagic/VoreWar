@@ -53,15 +53,15 @@ namespace Races.Graphics.Implementations.MainRaces
                     {
                         return new List<BoneInfo>
                         {
-                            new BoneInfo(BoneTypes.FurryBones, unit.Name)
+                            new BoneInfo(BoneType.FurryBones, unit.Name)
                         };
                     }
                     else
                     {
                         return new List<BoneInfo>
                         {
-                            new BoneInfo(BoneTypes.GenericBonePile, unit.Name),
-                            new BoneInfo(BoneTypes.LizardSkull, "")
+                            new BoneInfo(BoneType.GenericBonePile, unit.Name),
+                            new BoneInfo(BoneType.LizardSkull, "")
                         };
                     }
                 });

@@ -21,7 +21,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Names("Dark Swallower", "Dark Swallowers");
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.DarkSwallower, unit.Name)
+                    new BoneInfo(BoneType.DarkSwallower, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
                     new Texts {  },

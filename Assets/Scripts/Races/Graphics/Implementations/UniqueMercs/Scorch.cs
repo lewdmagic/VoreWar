@@ -39,7 +39,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         TraitType.Biter,
                         TraitType.FastAbsorption
                     },
-                    InnateSpells = new List<SpellTypes>() { SpellTypes.Pyre },
+                    InnateSpells = new List<SpellType>() { SpellType.Pyre },
                     RaceDescription = "A cruel gluttonous red wyvern",
                 });
                 output.CanBeGender = new List<Gender> { Gender.Male };

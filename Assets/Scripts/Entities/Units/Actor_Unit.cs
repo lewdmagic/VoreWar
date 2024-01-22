@@ -328,8 +328,8 @@ public class Actor_Unit
 
     public void ReloadSpellTraits()
     {
-        Unit.SingleUseSpells = new List<SpellTypes>();
-        Unit.MultiUseSpells = new List<SpellTypes>();
+        Unit.SingleUseSpells = new List<SpellType>();
+        Unit.MultiUseSpells = new List<SpellType>();
         if (Unit.HasTrait(TraitType.MadScience) && State.World?.ItemRepository != null) //protection for the create strat screen
         {
             Unit.SingleUseSpells.Add(((SpellBook)State.World.ItemRepository.GetRandomBook(1, 4)).ContainedSpell);
@@ -391,13 +391,13 @@ public class Actor_Unit
             foreach (TraitType trait in Unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is IProvidesSingleSpell))
             {
                 IProvidesSingleSpell callback = (IProvidesSingleSpell)TraitList.GetTrait(trait);
-                foreach(SpellTypes spell in callback.GetSingleSpells(Unit))
+                foreach(SpellType spell in callback.GetSingleSpells(Unit))
                     Unit.SingleUseSpells.Add(spell);
             }
             foreach (TraitType trait in Unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is IProvidesMultiSpell))
             {
                 IProvidesMultiSpell callback = (IProvidesMultiSpell)TraitList.GetTrait(trait);
-                foreach (SpellTypes spell in callback.GetMultiSpells(Unit))
+                foreach (SpellType spell in callback.GetMultiSpells(Unit))
                     Unit.MultiUseSpells.Add(spell);
             }
             Unit.UpdateSpells();
@@ -2171,14 +2171,14 @@ public class Actor_Unit
         TurnsSinceLastDamage = -1;
     }
 
-    public int CalculateDamageWithResistance(int damage, DamageTypes damageType)
+    public int CalculateDamageWithResistance(int damage, DamageType damageType)
     {
         switch (damageType)
         {
-            case DamageTypes.Fire:
+            case DamageType.Fire:
                 damage = (int)Mathf.Round(damage * Unit.TraitBoosts.FireDamageTaken);
                 break;
-            case DamageTypes.Poison:
+            case DamageType.Poison:
                 if (Unit.HasTrait(TraitType.PoisonSpit))
                     damage = 0;
                 break;
@@ -2188,7 +2188,7 @@ public class Actor_Unit
         return damage;
     }
 
-    public bool Damage(int damage, bool spellDamage = false, bool canKill = true, DamageTypes damageType = DamageTypes.Generic)
+    public bool Damage(int damage, bool spellDamage = false, bool canKill = true, DamageType damageType = DamageType.Generic)
     {
         if (Unit.IsDead)
         {

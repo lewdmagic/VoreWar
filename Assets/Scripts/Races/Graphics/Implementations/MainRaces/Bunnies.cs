@@ -19,14 +19,14 @@ namespace Races.Graphics.Implementations.MainRaces
                     {
                         return new List<BoneInfo>
                         {
-                            new BoneInfo(BoneTypes.FurryRabbitBones, unit.Name)
+                            new BoneInfo(BoneType.FurryRabbitBones, unit.Name)
                         };
                     }
                     else
                     {
                         return new List<BoneInfo>
                         {
-                            new BoneInfo(BoneTypes.GenericBonePile, unit.Name)
+                            new BoneInfo(BoneType.GenericBonePile, unit.Name)
                         };
                     }
                 });

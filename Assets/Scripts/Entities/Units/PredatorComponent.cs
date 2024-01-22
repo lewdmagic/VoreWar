@@ -1995,7 +1995,7 @@ public class PredatorComponent
                 State.GameManager.SoundManager.PlayAbsorb(location, actor);
                 if (Equals(preyUnit.Unit.Race, Race.Slimes))
                 {
-                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneTypes.SlimePile, preyUnit.Unit.Name, preyUnit.Unit.AccessoryColor);
+                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.SlimePile, preyUnit.Unit.Name, preyUnit.Unit.AccessoryColor);
                 }
                 else
                     State.GameManager.TacticalMode.CreateScat(GetCurrentLocation(), new ScatInfo(unit, preyUnit));
@@ -2011,11 +2011,11 @@ public class PredatorComponent
             if (Config.Cumstains)
             {
                 if (Equals(unit.Race, Race.Selicia))
-                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneTypes.CumPuddle, preyUnit.Unit.Name, 0);
+                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.CumPuddle, preyUnit.Unit.Name, 0);
                 else if (Config.CondomsForCV)
-                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneTypes.DisposedCondom, preyUnit.Unit.Name);
+                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.DisposedCondom, preyUnit.Unit.Name);
                 else 
-                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneTypes.CumPuddle, preyUnit.Unit.Name);
+                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.CumPuddle, preyUnit.Unit.Name);
             }
         }
         else if (location == PreyLocation.womb || location == PreyLocation.breasts || location == PreyLocation.leftBreast || location == PreyLocation.rightBreast)
@@ -2024,9 +2024,9 @@ public class PredatorComponent
             if (Config.Cumstains)
             {
                 if (Equals(unit.Race, Race.Selicia))
-                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneTypes.CumPuddle, preyUnit.Unit.Name, 0);
+                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.CumPuddle, preyUnit.Unit.Name, 0);
                 else
-                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneTypes.CumPuddle, preyUnit.Unit.Name);
+                    State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.CumPuddle, preyUnit.Unit.Name);
             }
         }
     }
@@ -2038,7 +2038,7 @@ public class PredatorComponent
             List<BoneInfo> bonesInfos = preyUnit.GetBoneTypes();
             foreach (BoneInfo bonesInfo in bonesInfos)
             {
-                State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), bonesInfo.boneTypes, bonesInfo.name, bonesInfo.accessoryColor);
+                State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), bonesInfo.BoneType, bonesInfo.name, bonesInfo.accessoryColor);
             }
         }
     }

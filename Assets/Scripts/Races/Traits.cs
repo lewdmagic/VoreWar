@@ -116,12 +116,12 @@ interface IPhysicalDefenseOdds
 
 interface IProvidesSingleSpell
 {
-    List<SpellTypes> GetSingleSpells(Unit unit);
+    List<SpellType> GetSingleSpells(Unit unit);
 }
 
 interface IProvidesMultiSpell
 {
-    List<SpellTypes> GetMultiSpells(Unit unit);
+    List<SpellType> GetMultiSpells(Unit unit);
 }
 
 interface INoAutoEscape
@@ -481,7 +481,7 @@ internal class Whispers : VoreTrait, IProvidesSingleSpell
 
     public override bool IsPredTrait => false;
 
-    public List<SpellTypes> GetSingleSpells(Unit unit) => new List<SpellTypes> { SpellList.Whispers.SpellType };
+    public List<SpellType> GetSingleSpells(Unit unit) => new List<SpellType> { SpellList.Whispers.SpellType };
 
     public override bool OnDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
     {
@@ -641,7 +641,7 @@ internal class Changeling : VoreTrait, IProvidesMultiSpell
         return true;
     }
 
-    public List<SpellTypes> GetMultiSpells(Unit unit) => new List<SpellTypes> { SpellList.AssumeForm.SpellType, SpellList.RevertForm.SpellType };
+    public List<SpellType> GetMultiSpells(Unit unit) => new List<SpellType> { SpellList.AssumeForm.SpellType, SpellList.RevertForm.SpellType };
 }
 
 internal class GreaterChangeling : Changeling

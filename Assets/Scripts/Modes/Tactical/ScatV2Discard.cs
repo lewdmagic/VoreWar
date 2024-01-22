@@ -74,12 +74,12 @@ class ScatV2Discard : MiscDiscard
             boneSprites.Add(Object.Instantiate(State.GameManager.DiscardedClothing, bonesInfo.GetBonePosForScat(loc), new Quaternion(), folder).GetComponent<SpriteRenderer>());
             boneSprites.Last().transform.localScale = Vector3.Scale(bonesInfo.GetBoneScalingForScat(), scatSpriteScalingGloble);
             boneSprites.Last().sortingOrder = sortOrder + boneSprites.Count;
-            boneSprites.Last().sprite = State.GameManager.SpriteDictionary.Bones[(int)bonesInfo.boneTypes];
+            boneSprites.Last().sprite = State.GameManager.SpriteDictionary.Bones[(int)bonesInfo.BoneType];
             if (color != -1)
             {
-                if (bonesInfo.boneTypes == BoneTypes.CrypterBonePile)
+                if (bonesInfo.BoneType == BoneType.CrypterBonePile)
                     boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.CrypterWeapon, color).colorSwapMaterial;
-                else if (bonesInfo.boneTypes == BoneTypes.SlimePile)
+                else if (bonesInfo.BoneType == BoneType.SlimePile)
                     boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.SlimeMain, color).colorSwapMaterial;
             }
         }

@@ -20,7 +20,7 @@ namespace Races.Graphics.Implementations.Monsters
         
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.Compy, unit.Name)
+                    new BoneInfo(BoneType.Compy, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
                     new Texts { "tiny", "chirping", "overambitious" },

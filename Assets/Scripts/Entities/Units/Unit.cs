@@ -342,15 +342,15 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
     }
 
     [OdinSerialize]
-    public List<SpellTypes> InnateSpells;
+    public List<SpellType> InnateSpells;
 
     private List<Spell> _useableSpells;
 
     [OdinSerialize]
-    internal List<SpellTypes> SingleUseSpells = new List<SpellTypes>();
+    internal List<SpellType> SingleUseSpells = new List<SpellType>();
 
     [OdinSerialize]
-    internal List<SpellTypes> MultiUseSpells = new List<SpellTypes>();  // This is so much more straightforward than adding Special Actions
+    internal List<SpellType> MultiUseSpells = new List<SpellType>();  // This is so much more straightforward than adding Special Actions
 
     [OdinSerialize]
     internal Unit _hiddenUnit = null;
@@ -656,15 +656,15 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
 
         SetGear(race);
 
-        InnateSpells = new List<SpellTypes>();
+        InnateSpells = new List<SpellType>();
         ShifterShapes = new List<Unit>();
 
         if (ReferenceEquals(race, Race.Dragon))
         {
             int rand = State.Rand.Next(3);
-            if (rand == 0) InnateSpells.Add(SpellTypes.IceBlast);
-            if (rand == 1) InnateSpells.Add(SpellTypes.Pyre);
-            if (rand == 2) InnateSpells.Add(SpellTypes.LightningBolt);
+            if (rand == 0) InnateSpells.Add(SpellType.IceBlast);
+            if (rand == 1) InnateSpells.Add(SpellType.Pyre);
+            if (rand == 2) InnateSpells.Add(SpellType.LightningBolt);
         }
         if (Equals(race, Race.Fairies))
         {
@@ -921,7 +921,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
         {
             foreach (int t in tiers)
             {
-                SpellTypes spell = ((SpellBook)State.World.ItemRepository.GetRandomBook(t, t == 3 ? 4 : t, true)).ContainedSpell;
+                SpellType spell = ((SpellBook)State.World.ItemRepository.GetRandomBook(t, t == 3 ? 4 : t, true)).ContainedSpell;
                 if (!InnateSpells.Contains(spell))
                     InnateSpells.Add(spell);
             }
@@ -2490,7 +2490,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         UseableSpells = new List<Spell>();
         if (InnateSpells != null)
         {
-            foreach (SpellTypes type in InnateSpells)
+            foreach (SpellType type in InnateSpells)
             {
                 if (SpellList.SpellDict.TryGetValue(type, out Spell spell))
                 {
@@ -2527,11 +2527,11 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
         if (racePar.InnateSpells?.Any() ?? false)
         {
-            foreach (SpellTypes type in racePar.InnateSpells)
+            foreach (SpellType type in racePar.InnateSpells)
             {
                 var thisType = type;
-                if (thisType > SpellTypes.Resurrection)
-                    thisType = thisType - SpellTypes.Resurrection + SpellTypes.AlraunePuff - 1;
+                if (thisType > SpellType.Resurrection)
+                    thisType = thisType - SpellType.Resurrection + SpellType.AlraunePuff - 1;
                 if (SpellList.SpellDict.TryGetValue(thisType, out Spell spell))
                 {
                     UseableSpells.Add(spell);
@@ -2540,7 +2540,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         }
 
         var grantedSpell = State.RaceSettings.GetInnateSpell(Race);
-        if (grantedSpell != SpellTypes.None)
+        if (grantedSpell != SpellType.None)
         {
             if (SpellList.SpellDict.TryGetValue(grantedSpell, out Spell spell))
             {

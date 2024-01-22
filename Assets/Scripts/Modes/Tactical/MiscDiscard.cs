@@ -57,9 +57,9 @@ class MiscDiscard
                 sprite.sprite = State.GameManager.SpriteDictionary.Bones[spriteNum];
                 if (color != -1)
                 {
-                    if (spriteNum == (int)BoneTypes.CrypterBonePile)
+                    if (spriteNum == (int)BoneType.CrypterBonePile)
                         sprite.GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.CrypterWeapon, color).colorSwapMaterial;
-                    else if (spriteNum == (int)BoneTypes.SlimePile)
+                    else if (spriteNum == (int)BoneType.SlimePile)
                         sprite.GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.SlimeMain, color).colorSwapMaterial;
                 }
                 break;

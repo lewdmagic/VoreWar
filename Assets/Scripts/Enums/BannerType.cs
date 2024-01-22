@@ -1,4 +1,4 @@
-﻿public enum BannerTypes
+﻿public enum BannerType
 {
     Default,
     CenterStripe,

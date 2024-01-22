@@ -92,7 +92,7 @@ public class UnitEditorPanel : CustomizerPanel
         }
         for (int i = 0; i < SpellDropdown.Length; i++)
         {
-            foreach (SpellTypes type in ((SpellTypes[])Enum.GetValues(typeof(SpellTypes))).Where(s => (int)s < 100))
+            foreach (SpellType type in ((SpellType[])Enum.GetValues(typeof(SpellType))).Where(s => (int)s < 100))
             {
                 SpellDropdown[i].options.Add(new TMP_Dropdown.OptionData(type.ToString()));
             }
@@ -250,10 +250,10 @@ public class UnitEditorPanel : CustomizerPanel
         for (int i = 0; i < SpellDropdown.Length; i++)
         {
             int spellIndex = SpellDropdown[i].value;
-            SpellTypes spell = (SpellTypes)Enum.GetValues(typeof(SpellTypes)).GetValue(spellIndex);
+            SpellType spell = (SpellType)Enum.GetValues(typeof(SpellType)).GetValue(spellIndex);
             //if (spell > SpellTypes.Resurrection)
             //    spell = spell - SpellTypes.Resurrection + SpellTypes.AlraunePuff - 1;
-            if (spell != SpellTypes.None)
+            if (spell != SpellType.None)
             {
                 if (UnitEditor.Unit.InnateSpells.Count > i)
                     UnitEditor.Unit.InnateSpells[i] = (spell);
@@ -353,10 +353,10 @@ public class UnitEditorPanel : CustomizerPanel
         for (int i = 0; i < SpellDropdown.Length; i++)
         {
             if (UnitEditor.Unit.InnateSpells == null)
-                UnitEditor.Unit.InnateSpells = new List<SpellTypes>();
+                UnitEditor.Unit.InnateSpells = new List<SpellType>();
             if (UnitEditor.Unit.InnateSpells.Count > i)
             {
-                var value = Array.IndexOf(Enum.GetValues(typeof(SpellTypes)), UnitEditor.Unit.InnateSpells[i]);
+                var value = Array.IndexOf(Enum.GetValues(typeof(SpellType)), UnitEditor.Unit.InnateSpells[i]);
                 //if (value > SpellTypes.Resurrection)
                 //    value = value - SpellTypes.AlraunePuff + SpellTypes.Resurrection + 1;
                 SpellDropdown[i].value = (int)value;

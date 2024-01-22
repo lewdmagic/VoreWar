@@ -18,7 +18,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Names("Feral Shark", "Feral Sharks");        
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.Shark, unit.Name)
+                    new BoneInfo(BoneType.Shark, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
                     new Texts { "finned", "torpedo shaped", "chompy" },

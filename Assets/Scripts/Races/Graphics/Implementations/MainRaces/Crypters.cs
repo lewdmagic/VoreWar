@@ -20,8 +20,8 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.WallType(WallType.Crypter);
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.CrypterBonePile, unit.Name, unit.AccessoryColor),
-                    new BoneInfo(BoneTypes.CrypterSkull, unit.Name)
+                    new BoneInfo(BoneType.CrypterBonePile, unit.Name, unit.AccessoryColor),
+                    new BoneInfo(BoneType.CrypterSkull, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
                     new Texts { "mechanical", "artifical", "whirring" },

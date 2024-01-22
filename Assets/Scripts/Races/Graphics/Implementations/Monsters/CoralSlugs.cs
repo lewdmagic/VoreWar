@@ -43,7 +43,7 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.SlowMovement,
                         TraitType.Toxic
                     },
-                    InnateSpells = new List<SpellTypes>() { SpellTypes.Poison },
+                    InnateSpells = new List<SpellType>() { SpellType.Poison },
                     RaceDescription = ""
                 });
                 output.CanBeGender = new List<Gender> { Gender.None };

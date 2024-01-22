@@ -138,7 +138,7 @@ public class HoveringTooltip : MonoBehaviour
 
     string GetSpellDescription(string[] words)
     {
-        if (Enum.TryParse(words[2], out SpellTypes spell))
+        if (Enum.TryParse(words[2], out SpellType spell))
         {
             List<Spell> AllSpells = SpellList.SpellDict.Select(s => s.Value).ToList();
             string complete = $"{words[0]} {words[1]} {words[2]} {words[3]} {words[4]}";

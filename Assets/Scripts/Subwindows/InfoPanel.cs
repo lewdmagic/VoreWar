@@ -348,7 +348,7 @@ public class InfoPanel
                     }
                 }
                 var grantedSpell = State.RaceSettings.GetInnateSpell(unit.Race);
-                if (grantedSpell != SpellTypes.None)
+                if (grantedSpell != SpellType.None)
                 {
                     if (SpellList.SpellDict.TryGetValue(grantedSpell, out Spell spell))
                     {

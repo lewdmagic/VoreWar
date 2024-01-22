@@ -512,7 +512,7 @@ public class MapEditor : SceneBase
             {
                 if (RaceFuncs.IsMainRace3(army.Side))
                 {
-                    if (army.BannerStyle > (int)BannerTypes.VoreWar && CustomBannerTest.Sprites[army.BannerStyle - 23] != null)
+                    if (army.BannerStyle > (int)BannerType.VoreWar && CustomBannerTest.Sprites[army.BannerStyle - 23] != null)
                     {
                         army.Sprite = Instantiate(SpriteCategories[1], new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
                         army.Sprite.sprite = CustomBannerTest.Sprites[army.BannerStyle - 23];

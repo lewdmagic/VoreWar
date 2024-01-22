@@ -43,8 +43,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         TraitType.ManaAttuned,
                         TraitType.ManaRich
                     },
-                    InnateSpells = new List<SpellTypes>()
-                        { SpellTypes.AmplifyMagic, SpellTypes.Evocation, SpellTypes.ManaFlux, SpellTypes.UnstableMana},
+                    InnateSpells = new List<SpellType>()
+                        { SpellType.AmplifyMagic, SpellType.Evocation, SpellType.ManaFlux, SpellType.UnstableMana},
                     RaceDescription = "A demi-mouse mage from a different, mana rich dimension. Has had trouble adapting to the absence of mana here, but makes do.",
                 });
                 output.BreastSizes = () => 8;

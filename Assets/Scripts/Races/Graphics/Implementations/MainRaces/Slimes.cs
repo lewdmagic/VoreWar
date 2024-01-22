@@ -19,7 +19,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.WallType(WallType.Slime);
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.SlimePile, unit.Name, unit.AccessoryColor)
+                    new BoneInfo(BoneType.SlimePile, unit.Name, unit.AccessoryColor)
                 });
                 output.FlavorText(new FlavorText(
                     new Texts { "amorphous", "sludgy", "juicy" },

@@ -16,7 +16,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Names("Wyvern", "Wyverns");
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.Wyvern, unit.Name)
+                    new BoneInfo(BoneType.Wyvern, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
                     new Texts { "winged", "horned", "wiry" },

@@ -1,4 +1,4 @@
-﻿public enum BoneTypes
+﻿public enum BoneType
 {
     GenericBonePile,
     SlimePile,

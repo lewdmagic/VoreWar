@@ -15,8 +15,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 output.Names("Vision", "Vision");
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.WyvernBonesWithoutHead, unit.Name),
-                    new BoneInfo(BoneTypes.VisionSkull, unit.Name)
+                    new BoneInfo(BoneType.WyvernBonesWithoutHead, unit.Name),
+                    new BoneInfo(BoneType.VisionSkull, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
                     new Texts {  },

@@ -133,7 +133,7 @@ public class RaceEditorPanel : MonoBehaviour
 
         if (InnateSpellDropdown.options?.Any() == false)
         {
-            foreach (SpellTypes type in ((SpellTypes[])Enum.GetValues(typeof(SpellTypes))).Where(s => (int)s < 100))
+            foreach (SpellType type in ((SpellType[])Enum.GetValues(typeof(SpellType))).Where(s => (int)s < 100))
             {
                 InnateSpellDropdown.options.Add(new TMP_Dropdown.OptionData(type.ToString()));
             }
@@ -169,7 +169,7 @@ public class RaceEditorPanel : MonoBehaviour
 
         if (BannerType.options.Count < 4)
         {
-            foreach (BannerTypes type in (BannerTypes[])Enum.GetValues(typeof(BannerTypes)))
+            foreach (BannerType type in (BannerType[])Enum.GetValues(typeof(BannerType)))
             {
                 BannerType.options.Add(new TMP_Dropdown.OptionData(type.ToString()));
             }
@@ -307,7 +307,7 @@ public class RaceEditorPanel : MonoBehaviour
                 item.FavoredStatSet = true;
 
                 int spellIndex = InnateSpellDropdown.value;
-                var value = (SpellTypes)Enum.GetValues(typeof(SpellTypes)).GetValue(spellIndex);
+                var value = (SpellType)Enum.GetValues(typeof(SpellType)).GetValue(spellIndex);
 
                 //if (value > SpellTypes.Resurrection)
                 //    value = value - SpellTypes.Resurrection + SpellTypes.AlraunePuff - 1;
@@ -510,7 +510,7 @@ public class RaceEditorPanel : MonoBehaviour
             FavoredStat.value = (int)State.RaceSettings.GetFavoredStat(race);
             FavoredStat.RefreshShownValue();
 
-            var spell = Array.IndexOf(Enum.GetValues(typeof(SpellTypes)), State.RaceSettings.GetInnateSpell(race));
+            var spell = Array.IndexOf(Enum.GetValues(typeof(SpellType)), State.RaceSettings.GetInnateSpell(race));
             //if (spell > SpellTypes.Resurrection)
             //    spell = spell - SpellTypes.AlraunePuff + SpellTypes.Resurrection + 1;
 

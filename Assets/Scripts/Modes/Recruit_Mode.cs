@@ -180,7 +180,7 @@ public class Recruit_Mode : SceneBase
         {
             if (BannerType.options.Count < 4)
             {
-                foreach (BannerTypes type in (BannerTypes[])Enum.GetValues(typeof(BannerTypes)))
+                foreach (BannerType type in (BannerType[])Enum.GetValues(typeof(BannerType)))
                 {
                     BannerType.options.Add(new TMP_Dropdown.OptionData(type.ToString()));
                 }

@@ -1594,7 +1594,7 @@ Turns: {currentTurn}
         miscDiscards.Last().GenerateSpritePrefab(ActorFolder);
     }
 
-    internal void CreateMiscDiscard(Vec2i location, BoneTypes type, string name, int color = -1)
+    internal void CreateMiscDiscard(Vec2i location, BoneType type, string name, int color = -1)
     {
         if (turboMode)
             return;
@@ -1606,9 +1606,9 @@ Turns: {currentTurn}
 
 
         string description = $"Remains of {name}";
-        if (type == BoneTypes.CumPuddle)
+        if (type == BoneType.CumPuddle)
             miscDiscards.Add(new MiscDiscard(location, MiscDiscardType.Cum, spriteNum, sortOrder, color, description));
-        else if (type == BoneTypes.DisposedCondom)
+        else if (type == BoneType.DisposedCondom)
             miscDiscards.Add(new MiscDiscard(location, MiscDiscardType.DisposedCondom, spriteNum, sortOrder, color, description));
         else
             miscDiscards.Add(new MiscDiscard(location, MiscDiscardType.Bones, spriteNum, sortOrder, color, description));

@@ -23,8 +23,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 ));
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
-                    new BoneInfo(BoneTypes.WyvernBonesWithoutHead, unit.Name),
-                    new BoneInfo(BoneTypes.SeliciaSkull, unit.Name)
+                    new BoneInfo(BoneType.WyvernBonesWithoutHead, unit.Name),
+                    new BoneInfo(BoneType.SeliciaSkull, unit.Name)
                 });
                 output.RaceTraits(new RaceTraits()
                 {
@@ -53,7 +53,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         TraitType.NimbleClimber,
 
                     },
-                    InnateSpells = new List<SpellTypes>() { SpellTypes.IceBlast },
+                    InnateSpells = new List<SpellType>() { SpellType.IceBlast },
                     RaceDescription = "A hybrid between a dragon and salamander whom excels in climbing and swimming but lacks any wings for flight.",
 
                 });
