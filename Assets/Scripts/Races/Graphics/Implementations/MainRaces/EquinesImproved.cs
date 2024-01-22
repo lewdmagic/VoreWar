@@ -58,10 +58,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 16,
                     HasTail = true,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Charge,
-                        Traits.StrongMelee
+                        TraitType.Charge,
+                        TraitType.StrongMelee
                     },
                     RaceDescription = "",
                 });

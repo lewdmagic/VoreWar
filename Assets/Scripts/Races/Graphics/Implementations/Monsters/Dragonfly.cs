@@ -35,10 +35,10 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(8, 12),
                         Stomach = new RaceStats.StatRange(8, 10),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Flight,
-                        Traits.Tempered
+                        TraitType.Flight,
+                        TraitType.Tempered
                     },
                     RaceDescription = "The ambient energies that abound in this world sometimes cause normal creatures to grow to abnormal sizes. These dragonflies have adapted their diet to suit their new size and abilities, and are a terror to face unprepared."
                 });

@@ -81,10 +81,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 12,
                     HasTail = true,
                     FavoredStat = Stat.Will,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.PackStomach,
-                        Traits.AstralCall,
+                        TraitType.PackStomach,
+                        TraitType.AstralCall,
                     },
                     RaceDescription = "Following the scent of new lands to torment, these beings erupted forth from the underworld. So eager are they that at the promise of battle some of the Imps still in the infernal realm may manifest just for a chance at carnage.",
                 });

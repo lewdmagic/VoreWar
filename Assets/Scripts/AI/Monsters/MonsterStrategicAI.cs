@@ -366,7 +366,7 @@ class MonsterStrategicAI : IStrategicAI
 
         foreach (Army hostileArmy in StrategicUtilities.GetAllHostileArmies(empire, true))
         {
-            if (!hostileArmy.Units.All(u => u.HasTrait(Traits.Infiltrator)) && StrategicUtilities.ArmyPower(hostileArmy) < MaxDefenderStrength * StrategicUtilities.ArmyPower(army) && hostileArmy.InVillageIndex == -1)
+            if (!hostileArmy.Units.All(u => u.HasTrait(TraitType.Infiltrator)) && StrategicUtilities.ArmyPower(hostileArmy) < MaxDefenderStrength * StrategicUtilities.ArmyPower(army) && hostileArmy.InVillageIndex == -1)
             {
                 potentialTargets.Add(hostileArmy.Position);
                 potentialTargetValue.Add(0);

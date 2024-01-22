@@ -44,11 +44,11 @@ namespace Races.Graphics.Implementations.Mercs
                             Voracity = new RaceStats.StatRange(7, 14),
                             Stomach = new RaceStats.StatRange(8, 14),
                         },
-                    RacialTraits = new List<Traits>() // Alligator = Lizard+
+                    RacialTraits = new List<TraitType>() // Alligator = Lizard+
                     {
-                        Traits.Ravenous, // Bonus to voracity before eating
-                        Traits.Resilient, // Damage decrease
-                        Traits.Intimidating, // Penalty to enemies in melee range
+                        TraitType.Ravenous, // Bonus to voracity before eating
+                        TraitType.Resilient, // Damage decrease
+                        TraitType.Intimidating, // Penalty to enemies in melee range
                     },
                     RaceDescription = "Natives to great swamps on another dimension, the Alligators emerge sporadically from portals across the land. Either unwilling or unable to settle this realm, they instead work as mercenaries for hire. Large, tough and intimidating, they make great bruisers, but seem totally unable to understand the principle of ranged weapons.",
                 });

@@ -13,7 +13,7 @@ public class StandardTacticalAI : TacticalAI
         didAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
 
         path = null;
-        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && (Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide) || onlyForeignTroopsLeft))
+        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(TraitType.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && (Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide) || onlyForeignTroopsLeft))
         {
             int retreatY;
             if (State.GameManager.TacticalMode.IsDefender(actor) == false)
@@ -39,7 +39,7 @@ public class StandardTacticalAI : TacticalAI
         //do action
 
 
-        if (actor.Unit.HasTrait(Traits.Pounce) && actor.Movement >= 2)
+        if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             RunVorePounce(actor);
             if (path != null)
@@ -61,7 +61,7 @@ public class StandardTacticalAI : TacticalAI
             RunSpells(actor);
         if (path != null)
             return;
-        if (actor.Unit.HasTrait(Traits.Pounce) && actor.Movement >= 2)
+        if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             if (IsRanged(actor) == false)
             {

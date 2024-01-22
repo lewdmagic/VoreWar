@@ -37,11 +37,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 20,
                     HasTail = false,
                     FavoredStat = Stat.Strength,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
                         //Traits.StrongMelee,
-                        Traits.NimbleClimber,
-                        Traits.Webber,
+                        TraitType.NimbleClimber,
+                        TraitType.Webber,
                     },
                     RaceDescription = "",
                 });

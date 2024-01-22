@@ -19,9 +19,9 @@ public class Reincarnator
     {
         PastLife = Unit;
         PastLife.FixedSide = PastLife.FixedSide;
-        PastLife.RemoveTrait(Traits.Diseased);
-        PastLife.RemoveTrait(Traits.Illness);
-        PastLife.RemoveTrait(Traits.Infertile);
+        PastLife.RemoveTrait(TraitType.Diseased);
+        PastLife.RemoveTrait(TraitType.Illness);
+        PastLife.RemoveTrait(TraitType.Infertile);
         Race = race;
         RaceLocked = raceLocked;
     }

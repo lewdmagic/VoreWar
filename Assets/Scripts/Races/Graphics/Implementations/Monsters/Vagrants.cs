@@ -55,10 +55,10 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(10, 18),
                         Stomach = new RaceStats.StatRange(20, 30),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.DoubleAttack,
-                        Traits.Paralyzer
+                        TraitType.DoubleAttack,
+                        TraitType.Paralyzer
                     },
                     RaceDescription = "It is a matter of argument whether these beings emerged from the ocean or fell from the skies, or are even a mix of both, but they are among the first and oldest native threats the people who settled this realm faced. Their many tentacles paralyze those they touch and their rubbery bodies easily expand to engulf their prey.",
                 });

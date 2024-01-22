@@ -192,7 +192,7 @@ public class Empire
         var raceFlags = State.RaceSettings.GetRaceTraits(Race);
         if (raceFlags != null)
         {
-            if (raceFlags.Contains(Traits.Prey))
+            if (raceFlags.Contains(TraitType.Prey))
                 CanVore = false;
         }
     }

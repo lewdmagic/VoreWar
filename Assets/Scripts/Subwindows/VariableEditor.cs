@@ -21,7 +21,7 @@ public class VariableEditor : MonoBehaviour
 
     public TextMeshProUGUI TooltipText;
 
-    internal Dictionary<Traits, bool> TempDictionary;
+    internal Dictionary<TraitType, bool> TempDictionary;
     internal List<Toggle> DictToggleList;
 
     internal const BindingFlags Bindings = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
@@ -170,9 +170,9 @@ public class VariableEditor : MonoBehaviour
                 }
             }
 
-            if (field.FieldType == typeof(Dictionary<Traits, bool>))
+            if (field.FieldType == typeof(Dictionary<TraitType, bool>))
             {
-                TempDictionary = (Dictionary<Traits, bool>)field.GetValue(obj);
+                TempDictionary = (Dictionary<TraitType, bool>)field.GetValue(obj);
                 if (TempDictionary != null)
                 {
                     var newObject = Instantiate(Toggle, Folder);
@@ -182,16 +182,16 @@ public class VariableEditor : MonoBehaviour
                     DictToggleList = new List<Toggle>();
                     foreach (var entry in TempDictionary.OrderBy(s =>
                     {
-                        if (s.Key >= (Traits)1000)
+                        if (s.Key >= (TraitType)1000)
                             return "AAA" + s.Key.ToString();
-                           return s.Key >= Traits.LightningSpeed ? "ZZZ" + s.Key.ToString() : s.Key.ToString();
+                           return s.Key >= TraitType.LightningSpeed ? "ZZZ" + s.Key.ToString() : s.Key.ToString();
                        }))
                     {
                         var newObj = Instantiate(Toggle, Folder);
                         var toggle = newObj.GetComponent<Toggle>();
-                        if (entry.Key >= (Traits)1000)
+                        if (entry.Key >= (TraitType)1000)
                         {
-                            var rlName = State.RandomizeLists.Find(r => (Traits)r.id == entry.Key)?.name ?? entry.Key.ToString();
+                            var rlName = State.RandomizeLists.Find(r => (TraitType)r.id == entry.Key)?.name ?? entry.Key.ToString();
                             newObj.name = $"UsingDictionary^{rlName}";
                             toggle.GetComponentInChildren<Text>().text = rlName;
                             toggle.gameObject.AddComponent<VariableScreenTooltip>();
@@ -384,14 +384,14 @@ public class VariableEditor : MonoBehaviour
                 if (obj.name.Contains("UsingDictionary"))
                 {
                     var split = obj.name.Split('^');
-                    if (Enum.TryParse(split[1], out Traits trait))
+                    if (Enum.TryParse(split[1], out TraitType trait))
                     {
                         TempDictionary[trait] = obj.GetComponentInChildren<Toggle>().isOn;
                     } else
                     {
                         var match = State.RandomizeLists.Find(r => r.name == split[1]);
                         if (match != null)
-                            TempDictionary[(Traits)match.id] = obj.GetComponentInChildren<Toggle>().isOn;
+                            TempDictionary[(TraitType)match.id] = obj.GetComponentInChildren<Toggle>().isOn;
                     }
                     needSave = true;
                 }

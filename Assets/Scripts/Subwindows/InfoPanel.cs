@@ -188,7 +188,7 @@ public class InfoPanel
 
             EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = unit.GetItem(0)?.Name;
             EquipRow.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = unit.GetItem(1)?.Name;
-            if (unit.HasTrait(Traits.Resourceful))
+            if (unit.HasTrait(TraitType.Resourceful))
             {
                 EquipRow.transform.GetChild(2).gameObject.SetActive(true);
                 EquipRow.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = unit.GetItem(2)?.Name;
@@ -287,9 +287,9 @@ public class InfoPanel
                 sb.AppendLine("Traits:\n" + traits);
             StringBuilder sbSecond = new StringBuilder();
             sbSecond.AppendLine("Status:");
-            if (unit.HasTrait(Traits.Frenzy) && unit.EnemiesKilledThisBattle > 0)
+            if (unit.HasTrait(TraitType.Frenzy) && unit.EnemiesKilledThisBattle > 0)
                 sbSecond.AppendLine($"Frenzy ({unit.EnemiesKilledThisBattle})");
-            if (unit.HasTrait(Traits.Growth) && unit.BaseScale > 1)
+            if (unit.HasTrait(TraitType.Growth) && unit.BaseScale > 1)
                 sbSecond.AppendLine($"Growth ({Math.Round(unit.BaseScale, 2)}x)");
             if (actor?.Slimed ?? false)
                 sbSecond.AppendLine("Slimed");

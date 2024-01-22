@@ -76,10 +76,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 18,
                     HasTail = true,
                     FavoredStat = Stat.Voracity,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Resilient,
-                        Traits.Intimidating
+                        TraitType.Resilient,
+                        TraitType.Intimidating
                     },
 
                     RaceDescription = "Emerging from dense jungles, the Lizards are eager to expand their presence in the universe. Their hard scales offered them great protection from the thorns and insects of their former home, and still offer natural resistance from harm.",

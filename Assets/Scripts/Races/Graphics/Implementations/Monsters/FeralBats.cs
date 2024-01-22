@@ -35,10 +35,10 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(10, 14),
                         Stomach = new RaceStats.StatRange(8, 12),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Flight,
-                        Traits.EvasiveBattler
+                        TraitType.Flight,
+                        TraitType.EvasiveBattler
                     },
                     RaceDescription = "A species with large difference in size between genders, the male bats being barely half the female's size. This has led many to believe that the tendency of the females to hunt both for sustenance and pleasure is due to the males being unable to satisfy some of the female's needs."
                 });

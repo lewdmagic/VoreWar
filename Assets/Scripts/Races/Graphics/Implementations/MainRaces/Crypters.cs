@@ -42,11 +42,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 18,
                     HasTail = false,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.SlowBreeder,
-                        Traits.MetalBody,
-                        Traits.Resilient
+                        TraitType.SlowBreeder,
+                        TraitType.MetalBody,
+                        TraitType.Resilient
                     },
                     RaceDescription = "Arriving from a realm long dead, the Crypters shambled forth when the smell of the living beckoned them from their ancient tombs. Cold, hard metal resists both damage and attempts to eat it, but the strange powers of this realm provide no aid in crafting new automatons for the ancient spirits to inhabit.",
                 });

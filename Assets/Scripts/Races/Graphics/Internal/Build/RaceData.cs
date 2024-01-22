@@ -152,14 +152,7 @@ internal class RaceData : IRaceData
 
         IRaceRenderAllOutput renderAllOutput = new RaceRenderAllOutput(changeDict);
         
-        try
-        {
-            _renderAllAction?.Invoke(runInput, renderAllOutput);
-        }
-        catch (ScriptRuntimeException ex)
-        {
-            Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
-        }
+        _renderAllAction?.Invoke(runInput, renderAllOutput);
 
         foreach (KeyValuePair<SpriteType, SingleRenderFunc> raceSprite in RaceSpriteSet.KeyValues)
         {

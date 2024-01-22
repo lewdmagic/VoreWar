@@ -49,12 +49,12 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(6, 10),
                         Stomach = new RaceStats.StatRange(6, 10),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Pounce,
-                        Traits.SenseWeakness,
-                        Traits.BladeDance,
-                        Traits.LightFrame
+                        TraitType.Pounce,
+                        TraitType.SenseWeakness,
+                        TraitType.BladeDance,
+                        TraitType.LightFrame
                     },
                     RaceDescription = ""
                 });

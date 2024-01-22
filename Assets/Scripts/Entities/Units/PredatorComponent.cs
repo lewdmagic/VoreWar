@@ -165,7 +165,7 @@ public class PredatorComponent
                 _voreRestrictions = new List<IVoreRestrictions>();
                 if (Races2.GetRace(unit.Race) is IVoreRestrictions restriction1)
                     _voreRestrictions.Add(restriction1);
-                foreach (Traits trait in unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is IVoreRestrictions))
+                foreach (TraitType trait in unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is IVoreRestrictions))
                 {
                     IVoreRestrictions restriction = (IVoreRestrictions)TraitList.GetTrait(trait);
                     _voreRestrictions.Add(restriction);
@@ -238,13 +238,13 @@ public class PredatorComponent
     private List<IVoreCallback> PopulateCallbacks(Prey preyUnit)
     {
         List<IVoreCallback> Callbacks = new List<IVoreCallback>();
-        foreach (Traits trait in unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is IVoreCallback))
+        foreach (TraitType trait in unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is IVoreCallback))
         {
             IVoreCallback callback = (IVoreCallback)TraitList.GetTrait(trait);
             if (callback.IsPredTrait == true)
                 Callbacks.Add(callback);
         }
-        foreach (Traits trait in preyUnit.Unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is IVoreCallback))
+        foreach (TraitType trait in preyUnit.Unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is IVoreCallback))
         {
             IVoreCallback callback = (IVoreCallback)TraitList.GetTrait(trait);
             if (callback.IsPredTrait == false)
@@ -457,7 +457,7 @@ public class PredatorComponent
     {
         get
         {
-            if (unit.HasTrait(Traits.Endosoma))
+            if (unit.HasTrait(TraitType.Endosoma))
                 return prey.Where(s => !Equals(actor.Unit.GetApparentSide(s.Unit), s.Unit.FixedSide) || s.Unit.IsDead).Count();
             return prey.Count;
         }
@@ -790,7 +790,7 @@ public class PredatorComponent
         var target = alives[State.Rand.Next(alives.Length)];
         if (TacticalUtilities.OpenTile(location, target.Actor) == false)
             return null;
-        if (!unit.HasTrait(Traits.Endosoma) || !(Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit))))
+        if (!unit.HasTrait(TraitType.Endosoma) || !(Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit))))
             unit.GiveScaledExp(-4, unit.Level - target.Unit.Level, true);
         target.Actor.SetPos(location);
         target.Actor.Visible = true;
@@ -866,14 +866,14 @@ public class PredatorComponent
 
     }
 
-    internal void ShareTrait(Traits trait, Prey preyUnit, Traits maxTrait = Traits.Infiltrator)
+    internal void ShareTrait(TraitType traitType, Prey preyUnit, TraitType maxTraitType = TraitType.Infiltrator)
     {
-        if (trait < maxTrait && !TraitsMethods.IsRaceModifying(trait))
+        if (traitType < maxTraitType && !TraitsMethods.IsRaceModifying(traitType))
         {
-            if (!unit.HasTrait(trait))
-                unit.AddSharedTrait(trait);
-            if (!preyUnit.SharedTraits.Contains(trait) && unit.HasSharedTrait(trait))
-                preyUnit.SharedTraits.Add(trait);
+            if (!unit.HasTrait(traitType))
+                unit.AddSharedTrait(traitType);
+            if (!preyUnit.SharedTraits.Contains(traitType) && unit.HasSharedTrait(traitType))
+                preyUnit.SharedTraits.Add(traitType);
         }
     }
 
@@ -881,7 +881,7 @@ public class PredatorComponent
     {
         unit.ResetSharedTraits();
         foreach (Prey preyUnit in prey)
-            foreach(Traits trait in preyUnit.SharedTraits)
+            foreach(TraitType trait in preyUnit.SharedTraits)
                 if (!unit.HasTrait(trait))
                     unit.AddSharedTrait(trait);
     }
@@ -960,7 +960,7 @@ public class PredatorComponent
         {
             return PreyLocation.tail;
         }
-        if (stomach2.Contains(preyUnit) && unit.HasTrait(Traits.DualStomach))
+        if (stomach2.Contains(preyUnit) && unit.HasTrait(TraitType.DualStomach))
         {
             return PreyLocation.stomach2;
         }
@@ -1009,7 +1009,7 @@ public class PredatorComponent
 
     private bool PreyCanAutoEscape(Prey preyUnit)
     {
-        foreach (Traits trait in preyUnit.Unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is INoAutoEscape))
+        foreach (TraitType trait in preyUnit.Unit.GetTraits.Where(t => (TraitList.GetTrait(t) != null) && TraitList.GetTrait(t) is INoAutoEscape))
         {
             INoAutoEscape callback = (INoAutoEscape)TraitList.GetTrait(trait);
             if(!callback.CanEscape(preyUnit, actor))
@@ -1030,12 +1030,12 @@ public class PredatorComponent
             }
 
             StatusEffect hypnotizedEffect = preyUnit.Unit.GetStatusEffect(StatusEffectType.Hypnotized);
-            if (unit.HasTrait(Traits.EnthrallingDepths) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, unit.FixedSide)))
+            if (unit.HasTrait(TraitType.EnthrallingDepths) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, unit.FixedSide)))
             {
                 preyUnit.Unit.ApplyStatusEffect(StatusEffectType.WillingPrey, 0, 3);
             }
             int preyDamage = CalculateDigestionDamage(preyUnit);
-            if (preyUnit.Predator.Unit.HasTrait(Traits.Honeymaker) && preyUnit.Unit.IsDead && (preyUnit.Location == PreyLocation.breasts || preyUnit.Location == PreyLocation.leftBreast || preyUnit.Location == PreyLocation.rightBreast))
+            if (preyUnit.Predator.Unit.HasTrait(TraitType.Honeymaker) && preyUnit.Unit.IsDead && (preyUnit.Location == PreyLocation.breasts || preyUnit.Location == PreyLocation.leftBreast || preyUnit.Location == PreyLocation.rightBreast))
                 preyDamage /= 2;
             if (preyUnit.TurnsDigested < preyUnit.Unit.TraitBoosts.DigestionImmunityTurns)
                 preyDamage = 0;
@@ -1054,7 +1054,7 @@ public class PredatorComponent
                 }
             }
 
-            if (unit.HasTrait(Traits.DualStomach))
+            if (unit.HasTrait(TraitType.DualStomach))
             {
                 if (stomach.Contains(preyUnit))
                 {
@@ -1089,11 +1089,11 @@ public class PredatorComponent
             }
             if (TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, unit))
             {
-                if (unit.HasTrait(Traits.HealingBelly))
+                if (unit.HasTrait(TraitType.HealingBelly))
                     preyDamage = Math.Min(unit.MaxHealth / -10, -1);
                 else
                     preyDamage = 0;
-                if (unit.HasTrait(Traits.Extraction))
+                if (unit.HasTrait(TraitType.Extraction))
                 {
                     var possibleTraits = unit.GetTraits.Where(s => !preyUnit.Unit.GetTraits.Contains(s) && State.AssimilateList.CanGet(s)).ToArray();
 
@@ -1103,16 +1103,16 @@ public class PredatorComponent
                         preyUnit.Unit.AddPermanentTrait(trait);
                     }
                 }
-                if (unit.HasTrait(Traits.InfiniteAssimilation) && !preyUnit.Unit.HasTrait(Traits.InfiniteAssimilation) && Config.KuroTenkoEnabled)
-                    preyUnit.Unit.AddPermanentTrait(Traits.InfiniteAssimilation);
-                if (unit.HasTrait(Traits.Assimilate) && !preyUnit.Unit.HasTrait(Traits.Assimilate) && Config.KuroTenkoEnabled)
-                    preyUnit.Unit.AddPermanentTrait(Traits.Assimilate);
-                if (unit.HasTrait(Traits.AdaptiveBiology) && !preyUnit.Unit.HasTrait(Traits.AdaptiveBiology) && Config.KuroTenkoEnabled)
-                    preyUnit.Unit.AddPermanentTrait(Traits.AdaptiveBiology);
-                if (unit.HasTrait(Traits.Corruption) && !preyUnit.Unit.HasTrait(Traits.Corruption))
+                if (unit.HasTrait(TraitType.InfiniteAssimilation) && !preyUnit.Unit.HasTrait(TraitType.InfiniteAssimilation) && Config.KuroTenkoEnabled)
+                    preyUnit.Unit.AddPermanentTrait(TraitType.InfiniteAssimilation);
+                if (unit.HasTrait(TraitType.Assimilate) && !preyUnit.Unit.HasTrait(TraitType.Assimilate) && Config.KuroTenkoEnabled)
+                    preyUnit.Unit.AddPermanentTrait(TraitType.Assimilate);
+                if (unit.HasTrait(TraitType.AdaptiveBiology) && !preyUnit.Unit.HasTrait(TraitType.AdaptiveBiology) && Config.KuroTenkoEnabled)
+                    preyUnit.Unit.AddPermanentTrait(TraitType.AdaptiveBiology);
+                if (unit.HasTrait(TraitType.Corruption) && !preyUnit.Unit.HasTrait(TraitType.Corruption))
                 {
-                    preyUnit.Unit.AddPermanentTrait(Traits.Corruption);
-                    if (!preyUnit.Unit.HasTrait(Traits.Untamable))
+                    preyUnit.Unit.AddPermanentTrait(TraitType.Corruption);
+                    if (!preyUnit.Unit.HasTrait(TraitType.Untamable))
                         preyUnit.Unit.FixedSide = unit.FixedSide;
                     preyUnit.Unit.hiddenFixedSide = true;
                     preyUnit.Actor.sidesAttackedThisBattle = new List<Side>();
@@ -1125,7 +1125,7 @@ public class PredatorComponent
                 preyUnit.Unit.InitializeTraits();
 
             }
-            else if (Config.FriendlyRegurgitation && unit.HasTrait(Traits.Greedy) == false && Equals(preyUnit.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && Equals(TacticalUtilities.GetMindControlSide(preyUnit.Unit), Side.TrueNoneSide) && preyUnit.Unit.Health > 0 && preyUnit.Actor.Surrendered == false && PreyCanAutoEscape(preyUnit))
+            else if (Config.FriendlyRegurgitation && unit.HasTrait(TraitType.Greedy) == false && Equals(preyUnit.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && Equals(TacticalUtilities.GetMindControlSide(preyUnit.Unit), Side.TrueNoneSide) && preyUnit.Unit.Health > 0 && preyUnit.Actor.Surrendered == false && PreyCanAutoEscape(preyUnit))
             {
                 State.GameManager.TacticalMode.TacticalStats.RegisterRegurgitation(unit.Side);
                 TacticalUtilities.Log.RegisterRegurgitated(unit, preyUnit.Unit, Location(preyUnit));
@@ -1137,7 +1137,7 @@ public class PredatorComponent
                 totalHeal += DigestOneUnit(preyUnit, preyDamage);
             else
                 DigestOneUnit(preyUnit, preyDamage);
-            if (unit.HasTrait(Traits.Growth))
+            if (unit.HasTrait(TraitType.Growth))
             {
                 unit.BaseScale += ((float)totalHeal / preyUnit.Unit.MaxHealth * .2d) * CalculateGrowthValue(preyUnit);
                 if (unit.BaseScale > Config.GrowthCap)
@@ -1169,7 +1169,7 @@ public class PredatorComponent
 
     int CalculateDigestionDamage(Prey preyUnit)
     {
-        if (preyUnit.TurnsDigested < preyUnit.Unit.TraitBoosts.DigestionImmunityTurns || preyUnit.Unit.HasTrait(Traits.TheGreatEscape))
+        if (preyUnit.TurnsDigested < preyUnit.Unit.TraitBoosts.DigestionImmunityTurns || preyUnit.Unit.HasTrait(TraitType.TheGreatEscape))
             return 0;
 
         float usedCapacity = TotalCapacity() - FreeCap();
@@ -1226,7 +1226,7 @@ public class PredatorComponent
     {
         if (template == null)
             return;
-        foreach (Traits trait in template.SharedTraits)
+        foreach (TraitType trait in template.SharedTraits)
             unit.RemoveSharedTrait(trait);
         RefreshSharedTraits();
         template = null;
@@ -1283,11 +1283,11 @@ public class PredatorComponent
     {
         if (CheckChangeRace(preyUnit))
         {
-            if (unit.HasTrait(Traits.Changeling) && !preyUnit.Unit.IsDead)
+            if (unit.HasTrait(TraitType.Changeling) && !preyUnit.Unit.IsDead)
                 return false;
             actor.ChangeRaceAny(preyUnit.Unit, false, true);
             template = preyUnit;
-            foreach (Traits trait in preyUnit.Unit.GetTraits)
+            foreach (TraitType trait in preyUnit.Unit.GetTraits)
             {
                 ShareTrait(trait, preyUnit);
             }
@@ -1302,7 +1302,7 @@ public class PredatorComponent
         var location = preyUnit.Location;
         int totalHeal = 0;
         bool freshKill = false;
-        if (unit.HasTrait(Traits.Extraction) && !TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, unit))
+        if (unit.HasTrait(TraitType.Extraction) && !TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, unit))
         {
             var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
@@ -1328,16 +1328,16 @@ public class PredatorComponent
                 actor.UnitSprite.DisplayDamage(5, false, true);
             }
         }
-        if (unit.HasTrait(Traits.Annihilation) && !TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, unit))
+        if (unit.HasTrait(TraitType.Annihilation) && !TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, unit))
         {
            
         }
         if (preyUnit.Unit.IsThisCloseToDeath(preyDamage))
         {
-            if (preyUnit.Unit.HasTrait(Traits.Corruption))
+            if (preyUnit.Unit.HasTrait(TraitType.Corruption))
             {
                 actor.AddCorruption(preyUnit.Unit.GetStatTotal(), preyUnit.Unit.FixedSide);
-                preyUnit.Unit.RemoveTrait(Traits.Corruption);
+                preyUnit.Unit.RemoveTrait(TraitType.Corruption);
             }
             foreach (IVoreCallback callback in Callbacks)
             {
@@ -1346,9 +1346,9 @@ public class PredatorComponent
             }
             if (preyUnit.Unit.CanBeConverted() &&
              (Location(preyUnit) == PreyLocation.womb || Config.KuroTenkoConvertsAllTypes) &&
-             (Config.KuroTenkoEnabled && (Config.UBConversion == UBConversion.Both || Config.UBConversion == UBConversion.ConversionOnly) || unit.HasTrait(Traits.PredConverter)) &&
-             !unit.HasTrait(Traits.PredRebirther) &&
-             !unit.HasTrait(Traits.PredGusher))
+             (Config.KuroTenkoEnabled && (Config.UBConversion == UBConversion.Both || Config.UBConversion == UBConversion.ConversionOnly) || unit.HasTrait(TraitType.PredConverter)) &&
+             !unit.HasTrait(TraitType.PredRebirther) &&
+             !unit.HasTrait(TraitType.PredGusher))
             {
                 preyUnit.Unit.Health = preyUnit.Unit.MaxHealth / 2;
                 preyUnit.Actor.Movement = 0;
@@ -1367,7 +1367,7 @@ public class PredatorComponent
                 GameObject.Instantiate(State.GameManager.TacticalMode.SkullPrefab, new Vector3(actor.Position.x + UnityEngine.Random.Range(-0.2F, 0.2F), actor.Position.y + 0.1F + UnityEngine.Random.Range(-0.1F, 0.1F)), new Quaternion());
             Actor_Unit existingPredator = actor;
             freshKill = true;
-            if (unit.HasTrait(Traits.DigestionConversion) && State.Rand.Next(2) == 0 && preyUnit.Unit.CanBeConverted())
+            if (unit.HasTrait(TraitType.DigestionConversion) && State.Rand.Next(2) == 0 && preyUnit.Unit.CanBeConverted())
             {
                 preyUnit.Unit.Health = preyUnit.Unit.MaxHealth / 2;
                 preyUnit.Actor.Movement = 0;
@@ -1379,11 +1379,11 @@ public class PredatorComponent
                 State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{preyUnit.Unit.Name} converted from one side to another thanks to {unit.Name}'s digestion conversion trait.");
                 return 0;
             }
-            if (unit.HasTrait(Traits.DigestionRebirth) && State.Rand.Next(2) == 0 && preyUnit.Unit.CanBeConverted() && (Config.SpecialMercsCanConvert || RaceFuncs.isNotUniqueMerc(unit.DetermineConversionRace())))
+            if (unit.HasTrait(TraitType.DigestionRebirth) && State.Rand.Next(2) == 0 && preyUnit.Unit.CanBeConverted() && (Config.SpecialMercsCanConvert || RaceFuncs.isNotUniqueMerc(unit.DetermineConversionRace())))
             {
                 //HandleShapeshifterRebirth(preyUnit);
                 Race conversionRace = unit.DetermineConversionRace();
-                if(unit.HasTrait(Traits.DigestionRebirth) && !unit.HasSharedTrait(Traits.DigestionRebirth))
+                if(unit.HasTrait(TraitType.DigestionRebirth) && !unit.HasSharedTrait(TraitType.DigestionRebirth))
                     conversionRace = unit.HiddenUnit.DetermineConversionRace();
                 // use source race IF changeling already had this ability before transforming
                 preyUnit.Unit.Health = preyUnit.Unit.MaxHealth / 2;
@@ -1395,17 +1395,17 @@ public class PredatorComponent
                 return 0;
             }
             preyUnit.Actor.KilledByDigestion = true;
-            if (preyUnit.Unit.HasTrait(Traits.CursedMark))
+            if (preyUnit.Unit.HasTrait(TraitType.CursedMark))
             {
-                unit.AddPermanentTrait(Traits.CursedMark);
-                preyUnit.Unit.RemoveTrait(Traits.CursedMark);
+                unit.AddPermanentTrait(TraitType.CursedMark);
+                preyUnit.Unit.RemoveTrait(TraitType.CursedMark);
             }
             unit.DigestedUnits++;
-            if (unit.HasTrait(Traits.EssenceAbsorption) && unit.DigestedUnits % 4 == 0)
+            if (unit.HasTrait(TraitType.EssenceAbsorption) && unit.DigestedUnits % 4 == 0)
                 unit.GeneralStatIncrease(1);
             if (Equals(preyUnit.Unit.Race, Race.Asura))
                 unit.EarnedMask = true;
-            if (unit.HasTrait(Traits.TasteForBlood))
+            if (unit.HasTrait(TraitType.TasteForBlood))
                 actor.GiveRandomBoost();
             unit.EnemiesKilledThisBattle++;
             preyUnit.Unit.KilledBy = unit;
@@ -1419,7 +1419,7 @@ public class PredatorComponent
             }
             DigestionEffect(preyUnit, existingPredator);
 
-            if (unit.HasTrait(Traits.MetabolicSurge))
+            if (unit.HasTrait(TraitType.MetabolicSurge))
             {
                 unit.ApplyStatusEffect(StatusEffectType.Empowered, 1.0f, 5);
             }
@@ -1450,7 +1450,7 @@ public class PredatorComponent
         {
             TacticalUtilities.Log.LogDigestionRandom(unit, preyUnit.Unit, Location(preyUnit));
         }
-        else if (preyUnit.Unit.IsDead == false && State.Rand.Next(6) == 0 && preyDamage == 0 && preyUnit.Unit.HasTrait(Traits.TheGreatEscape))
+        else if (preyUnit.Unit.IsDead == false && State.Rand.Next(6) == 0 && preyDamage == 0 && preyUnit.Unit.HasTrait(TraitType.TheGreatEscape))
         {
             TacticalUtilities.Log.LogGreatEscapeKeep(unit, preyUnit.Unit, Location(preyUnit));
         }
@@ -1503,12 +1503,12 @@ public class PredatorComponent
                 }
                 if (preyUnit.Unit.CanBeConverted() &&
                  (Location(preyUnit) == PreyLocation.womb || Config.KuroTenkoConvertsAllTypes) &&
-                 ((Config.KuroTenkoEnabled && (Config.UBConversion == UBConversion.Both || Config.UBConversion == UBConversion.RebirthOnly)) || unit.HasTrait(Traits.PredRebirther)) &&
+                 ((Config.KuroTenkoEnabled && (Config.UBConversion == UBConversion.Both || Config.UBConversion == UBConversion.RebirthOnly)) || unit.HasTrait(TraitType.PredRebirther)) &&
                  (Config.SpecialMercsCanConvert || RaceFuncs.isNotUniqueMerc(unit.DetermineConversionRace())) &&
-                 !unit.HasTrait(Traits.PredGusher))
+                 !unit.HasTrait(TraitType.PredGusher))
                 {
                     Race conversionRace = unit.DetermineConversionRace();
-                    if(unit.HasTrait(Traits.PredRebirther) && !unit.HasSharedTrait(Traits.PredRebirther))
+                    if(unit.HasTrait(TraitType.PredRebirther) && !unit.HasSharedTrait(TraitType.PredRebirther))
                         conversionRace = unit.HiddenUnit.DetermineConversionRace();
                     // use source race IF changeling already had this ability before transforming
                     preyUnit.Unit.Health = preyUnit.Unit.MaxHealth / 2;
@@ -1727,42 +1727,42 @@ public class PredatorComponent
     {
         bool updated = false;
         bool raceUpdated = true;
-        if (unit.HasTrait(Traits.Extraction))
+        if (unit.HasTrait(TraitType.Extraction))
         {
             var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
-            foreach (Traits trait in possibleTraits)
+            foreach (TraitType trait in possibleTraits)
             {
                 unit.AddPermanentTrait(trait);
                 preyUnit.Unit.RemoveTrait(trait);
                 updated = true;
             }
-            foreach (Traits trait in preyUnit.Unit.GetTraits)
+            foreach (TraitType trait in preyUnit.Unit.GetTraits)
             {
                 preyUnit.Unit.RemoveTrait(trait);
                 unit.GiveRawExp(5);
             }
         }
-        if (preyUnit.Unit.HasTrait(Traits.Donor))
+        if (preyUnit.Unit.HasTrait(TraitType.Donor))
         {
-            int donorIndex = preyUnit.Unit.GetTraits.IndexOf(Traits.Donor);
+            int donorIndex = preyUnit.Unit.GetTraits.IndexOf(TraitType.Donor);
             var donorTraits = preyUnit.Unit.GetTraits.SkipWhile((t, index) => index <= donorIndex);
             var possibleTraits = donorTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
-            foreach (Traits trait in possibleTraits)
+            foreach (TraitType trait in possibleTraits)
             {
                     unit.AddPermanentTrait(trait);
                     preyUnit.Unit.RemoveTrait(trait);
                     updated = true;
             }
         }
-        if (unit.HasTrait(Traits.InfiniteAssimilation))
+        if (unit.HasTrait(TraitType.InfiniteAssimilation))
         {
             var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
             if (possibleTraits.Any())
             {
-                if (unit.HasTrait(Traits.SynchronizedEvolution))
+                if (unit.HasTrait(TraitType.SynchronizedEvolution))
                 {
                     RaceSettingsItem item = State.RaceSettings.Get(unit.Race);
                     item.RaceTraits.Add(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
@@ -1775,7 +1775,7 @@ public class PredatorComponent
                 }
             }
         }
-        else if (unit.HasTrait(Traits.Assimilate))
+        else if (unit.HasTrait(TraitType.Assimilate))
         {
             if (unit.BaseTraitsCount < 5)
             {
@@ -1783,7 +1783,7 @@ public class PredatorComponent
 
                 if (possibleTraits.Any())
                 {
-                    if (unit.HasTrait(Traits.SynchronizedEvolution))
+                    if (unit.HasTrait(TraitType.SynchronizedEvolution))
                     {
                         RaceSettingsItem item = State.RaceSettings.Get(unit.Race);
                         item.RaceTraits.Add(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
@@ -1802,8 +1802,8 @@ public class PredatorComponent
 
                 if (possibleTraits.Any())
                 {
-                    unit.RemoveTrait(Traits.Assimilate);
-                    if (unit.HasTrait(Traits.SynchronizedEvolution))
+                    unit.RemoveTrait(TraitType.Assimilate);
+                    if (unit.HasTrait(TraitType.SynchronizedEvolution))
                     {
                         RaceSettingsItem item = State.RaceSettings.Get(unit.Race);
                         item.RaceTraits.Add(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
@@ -1817,7 +1817,7 @@ public class PredatorComponent
                 }
             }
         }
-        if (unit.HasTrait(Traits.AdaptiveBiology) && updated == false)
+        if (unit.HasTrait(TraitType.AdaptiveBiology) && updated == false)
         {
             var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
@@ -1860,7 +1860,7 @@ public class PredatorComponent
                     var raceFlags = State.RaceSettings.GetRaceTraits(emp.ReplacedRace);
                     if (raceFlags != null)
                     {
-                        if (raceFlags.Contains(Traits.Prey))
+                        if (raceFlags.Contains(TraitType.Prey))
                             emp.CanVore = false;
                         else
                             emp.CanVore = true;
@@ -2235,7 +2235,7 @@ public class PredatorComponent
         var loc = prey.Location.ToString();
         if (Equals(unit.Race, Race.Terrorbird) && prey.Location == PreyLocation.tail)
             loc = "Crop";
-        if (prey.Unit.IsDead == false && unit.HasTrait(Traits.DualStomach) && stomach.Contains(prey))
+        if (prey.Unit.IsDead == false && unit.HasTrait(TraitType.DualStomach) && stomach.Contains(prey))
         {
             if (indent > 0) ret += $"L:{indent} ";
             ret += $"Pushing {prey.Unit.Name} deeper\n";
@@ -2325,9 +2325,9 @@ public class PredatorComponent
         List<VoreType> voreTypes = new List<VoreType>();
         if (allowedVoreTypes.Contains(VoreType.Oral) && Config.OralWeight > 0)
             options.Add(VoreType.Oral, Config.OralWeight);
-        if (allowedVoreTypes.Contains(VoreType.Unbirth) && CanUnbirth(target) && Config.UnbirthWeight > 0 && (actor.BodySize() >= target.BodySize() * 3 || !actor.Unit.HasTrait(Traits.TightNethers)))
+        if (allowedVoreTypes.Contains(VoreType.Unbirth) && CanUnbirth(target) && Config.UnbirthWeight > 0 && (actor.BodySize() >= target.BodySize() * 3 || !actor.Unit.HasTrait(TraitType.TightNethers)))
             options.Add(VoreType.Unbirth, Config.UnbirthWeight);
-        if (allowedVoreTypes.Contains(VoreType.CockVore) && CanCockVore(target) && Config.CockWeight > 0 && (actor.BodySize() >= target.BodySize() * 3 || !actor.Unit.HasTrait(Traits.TightNethers)))
+        if (allowedVoreTypes.Contains(VoreType.CockVore) && CanCockVore(target) && Config.CockWeight > 0 && (actor.BodySize() >= target.BodySize() * 3 || !actor.Unit.HasTrait(TraitType.TightNethers)))
             options.Add(VoreType.CockVore, Config.CockWeight);
         if (allowedVoreTypes.Contains(VoreType.BreastVore) && CanBreastVore(target) && Config.BreastWeight > 0)
             options.Add(VoreType.BreastVore, Config.BreastWeight);
@@ -2390,7 +2390,7 @@ public class PredatorComponent
     internal bool MagicConsume(Spell spell, Actor_Unit target, PreyLocation preyLocation = PreyLocation.stomach)
     {
         bool sneakAttack = false;
-        if (TacticalUtilities.SneakAttackCheck(actor.Unit, target.Unit) && !actor.Unit.HasTrait(Traits.Endosoma))
+        if (TacticalUtilities.SneakAttackCheck(actor.Unit, target.Unit) && !actor.Unit.HasTrait(TraitType.Endosoma))
         {
             actor.Unit.hiddenFixedSide = false;
             sneakAttack = true;
@@ -2426,7 +2426,7 @@ public class PredatorComponent
 
                 if (Equals(target.Unit.Side, unit.Side))
                     State.GameManager.TacticalMode.TacticalStats.RegisterAllyVore(unit.Side);
-                if (!(Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit))) || !unit.HasTrait(Traits.Endosoma))
+                if (!(Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit))) || !unit.HasTrait(TraitType.Endosoma))
                 {
                     unit.GiveScaledExp(4 * target.Unit.ExpMultiplier, unit.Level - target.Unit.Level, true);
                 }
@@ -2465,7 +2465,7 @@ public class PredatorComponent
         {
             return false;
         }
-        if (unit.HasTrait(Traits.RangedVore))
+        if (unit.HasTrait(TraitType.RangedVore))
         {
             int dist = target.Position.GetNumberOfMovesDistance(actor.Position);
             if (dist > 4)
@@ -2484,10 +2484,10 @@ public class PredatorComponent
             return false;
         if (unit.CanVore(preyType) != CanVore(preyType, target))
             return false;
-        if (target.Bulk() <= FreeCap() && (actor.BodySize() >= target.BodySize() * 3 || !actor.Unit.HasTrait(Traits.TightNethers) || (preyType != PreyLocation.womb && preyType != PreyLocation.balls)))
+        if (target.Bulk() <= FreeCap() && (actor.BodySize() >= target.BodySize() * 3 || !actor.Unit.HasTrait(TraitType.TightNethers) || (preyType != PreyLocation.womb && preyType != PreyLocation.balls)))
         {
             bool bit = false;
-            if (target.Unit.HasTrait(Traits.Dazzle) && target.Surrendered == false)
+            if (target.Unit.HasTrait(TraitType.Dazzle) && target.Surrendered == false)
             {
                 float chance = actor.WillCheckOdds(actor, target);
                 if (State.Rand.NextDouble() < chance)
@@ -2500,7 +2500,7 @@ public class PredatorComponent
                 }
             }
             actor.SetPredMode(preyType);
-            if (TacticalUtilities.SneakAttackCheck(unit, target.Unit) && !actor.Unit.HasTrait(Traits.Endosoma))
+            if (TacticalUtilities.SneakAttackCheck(unit, target.Unit) && !actor.Unit.HasTrait(TraitType.Endosoma))
             {
                 actor.Unit.hiddenFixedSide = false;
                 boost += 3;
@@ -2527,9 +2527,9 @@ public class PredatorComponent
                 }
                 if (!State.GameManager.TacticalMode.turboMode)
                     actor.SetVoreSuccessMode();
-                if (unit.HasTrait(Traits.Tenacious))
+                if (unit.HasTrait(TraitType.Tenacious))
                     unit.RemoveTenacious();
-                if (unit.HasTrait(Traits.FearsomeAppetite))
+                if (unit.HasTrait(TraitType.FearsomeAppetite))
                 {
                     foreach (Actor_Unit victim in TacticalUtilities.UnitsWithinTiles(actor.Position, 3).Where(s => s.Unit.IsEnemyOfSide(unit.Side)))
                     {
@@ -2541,7 +2541,7 @@ public class PredatorComponent
             {
                 if (!State.GameManager.TacticalMode.turboMode)
                     actor.SetVoreFailMode();
-                if (actor.Unit.HasTrait(Traits.Biter))
+                if (actor.Unit.HasTrait(TraitType.Biter))
                 {
                     int oldMP = actor.Movement;
                     actor.Attack(target, false, true, canKill: false);
@@ -2551,14 +2551,14 @@ public class PredatorComponent
                 else
                 {
                     target.UnitSprite.DisplayResist();
-                    if (unit.HasTrait(Traits.Tenacious))
+                    if (unit.HasTrait(TraitType.Tenacious))
                         unit.AddTenacious();
                 }
 
             }
 
             StatusEffect hypnotized = target.Unit.GetStatusEffect(StatusEffectType.Hypnotized);
-            if (bit == false && (target.Surrendered || (unit.HasTrait(Traits.Endosoma) && (Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit)))) || (hypnotized != null && Equals(hypnotized.Side, actor.Unit.FixedSide))))
+            if (bit == false && (target.Surrendered || (unit.HasTrait(TraitType.Endosoma) && (Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit)))) || (hypnotized != null && Equals(hypnotized.Side, actor.Unit.FixedSide))))
                 actor.Movement = Math.Max(actor.Movement - 2, 0);
             else
             {
@@ -2597,7 +2597,7 @@ public class PredatorComponent
         target.Visible = false;
         target.Targetable = false;
         State.GameManager.TacticalMode.DirtyPack = true;
-        if (!(Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit))) || !unit.HasTrait(Traits.Endosoma))
+        if (!(Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit))) || !unit.HasTrait(TraitType.Endosoma))
         {
             unit.GiveScaledExp(4 * target.Unit.ExpMultiplier, unit.Level - target.Unit.Level, true);
         }
@@ -2610,7 +2610,7 @@ public class PredatorComponent
 
     void MagicDevour(Actor_Unit target, float v, Prey preyref, PreyLocation preyLocation)
     {
-        if (Equals(actor.Unit.Side, target.Unit.GetApparentSide()) && !actor.Unit.HasTrait(Traits.Endosoma))
+        if (Equals(actor.Unit.Side, target.Unit.GetApparentSide()) && !actor.Unit.HasTrait(TraitType.Endosoma))
         {
             actor.Unit.hiddenFixedSide = false;
         }
@@ -2827,7 +2827,7 @@ public class PredatorComponent
 
         if (includeSecondaries)
         {
-            if (target.Unit.HasTrait(Traits.Dazzle))
+            if (target.Unit.HasTrait(TraitType.Dazzle))
             {
                 odds *= 1 - target.WillCheckOdds(actor, target);
             }
@@ -2910,17 +2910,17 @@ public class PredatorComponent
             {
                 case 0:
                     TacticalUtilities.Log.RegisterSuckle(unit, target.Unit, PreyLocation.breasts, v);
-                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(Traits.Honeymaker) ? "honey" : "none");
+                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
                     target.DigestCheck("breastfeed");
                     break;
                 case 1:
                     TacticalUtilities.Log.RegisterSuckle(unit, target.Unit, PreyLocation.leftBreast, v);
-                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(Traits.Honeymaker) ? "honey" : "none");
+                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
                     target.DigestCheck("breastfeed");
                     break;
                 case 2:
                     TacticalUtilities.Log.RegisterSuckle(unit, target.Unit, PreyLocation.rightBreast, v);
-                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(Traits.Honeymaker) ? "honey" : "none");
+                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
                     target.DigestCheck("breastfeed");
                     break;
                 case 3:
@@ -2930,7 +2930,7 @@ public class PredatorComponent
                     break;
             }
             actor.Unit.Heal(suckle[0]);
-            if (target.Unit.HasTrait(Traits.Corruption))
+            if (target.Unit.HasTrait(TraitType.Corruption))
             {
                 actor.AddCorruption(unit.GetStatTotal() / 10, unit.FixedSide);
             }
@@ -2957,7 +2957,7 @@ public class PredatorComponent
         if (actor.Surrendered || Equals(actor.Unit.FixedSide, attacker.Unit.GetApparentSide(actor.Unit)))
             return 1f;
 
-        if (prey.Unit.HasTrait(Traits.Irresistable))
+        if (prey.Unit.HasTrait(TraitType.Irresistable))
             return 1f;
 
         float recipientVoracity = Mathf.Pow(15 + attacker.Unit.GetStat(Stat.Voracity), 1.5f);
@@ -2972,16 +2972,16 @@ public class PredatorComponent
         defenderScore /= actor.Unit.TraitBoosts.Incoming.VoreOddsMult;
         attackerScore *= attacker.Unit.TraitBoosts.Outgoing.VoreOddsMult;
 
-        if (prey.Unit.HasTrait(Traits.GelatinousBody))
+        if (prey.Unit.HasTrait(TraitType.GelatinousBody))
             attackerScore *= 1.15f;
 
-        if (prey.Unit.HasTrait(Traits.MetalBody))
+        if (prey.Unit.HasTrait(TraitType.MetalBody))
             attackerScore *= .7f;
 
-        if (prey.Unit.HasTrait(Traits.Slippery))
+        if (prey.Unit.HasTrait(TraitType.Slippery))
             attackerScore *= 1.5f;
 
-        if (attacker.Unit.HasTrait(Traits.AllOutFirstStrike) && attacker.HasAttackedThisCombat == false)
+        if (attacker.Unit.HasTrait(TraitType.AllOutFirstStrike) && attacker.HasAttackedThisCombat == false)
             attackerScore *= 3.25f;
 
         float odds = attackerScore / (attackerScore + defenderScore) * 100;
@@ -2990,7 +2990,7 @@ public class PredatorComponent
 
         if (includeSecondaries)
         {
-            if (actor.Unit.HasTrait(Traits.Dazzle))
+            if (actor.Unit.HasTrait(TraitType.Dazzle))
             {
                 odds *= 1 - actor.WillCheckOdds(attacker, actor);
             }
@@ -3210,14 +3210,14 @@ public class PredatorComponent
 
     private int heatlhBoostCalc(Prey preyUnit, Actor_Unit target)
     {
-        return Mathf.RoundToInt((preyUnit.Unit.MaxHealth / 10 + (((preyUnit.Unit.MaxHealth / 10) * 9) / 20) * Math.Max(0, preyUnit.Unit.Level - target.Unit.Level / (actor.Unit.HasTrait(Traits.WetNurse) ? 2 : 1)) * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition));
+        return Mathf.RoundToInt((preyUnit.Unit.MaxHealth / 10 + (((preyUnit.Unit.MaxHealth / 10) * 9) / 20) * Math.Max(0, preyUnit.Unit.Level - target.Unit.Level / (actor.Unit.HasTrait(TraitType.WetNurse) ? 2 : 1)) * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition));
     }
 
     private int expBoostCalc(Prey preyUnit)
     {
         int cap = State.RaceSettings.GetBodySize(preyUnit.Actor.Unit.Race);
         int bonus = Mathf.Clamp(preyUnit.Unit.Level, 1, cap);
-        if (preyUnit.Predator.Unit.HasTrait(Traits.Honeymaker))
+        if (preyUnit.Predator.Unit.HasTrait(TraitType.Honeymaker))
             bonus = Mathf.RoundToInt(bonus * (1f + (Mathf.Min((float)preyUnit.Unit.Level, (float)cap) / cap)));
         return bonus;
         // return Mathf.RoundToInt(Mathf.Clamp(preyUnit.Unit.Experience / 20, 0, (State.RaceSettings.GetBodySize(preyUnit.Actor.Unit.Race) * ((preyUnit.Predator.Unit.HasTrait(Traits.Honeymaker) ? 1 : 0) + 1))) * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition);
@@ -3243,13 +3243,13 @@ public class PredatorComponent
         }
         target.UnitSprite.UpdateSprites(actor, true);
         if (nurseHeal[0] + nurseHeal[1] > 0)
-            TacticalUtilities.Log.RegisterHeal(target.Unit, nurseHeal, "breastfeeding", actor.Unit.HasTrait(Traits.Honeymaker) ? "honey" : "none");
+            TacticalUtilities.Log.RegisterHeal(target.Unit, nurseHeal, "breastfeeding", actor.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
         actor.DigestCheck("breastfeed");
-        if (unit.HasTrait(Traits.Corruption))
+        if (unit.HasTrait(TraitType.Corruption))
         {
             target.AddCorruption(unit.GetStatTotal() / 10, unit.FixedSide);
         }
-        int halfMovement = 1 + actor.MaxMovement() / (2 + (actor.Unit.HasTrait(Traits.WetNurse) ? 1 : 0));
+        int halfMovement = 1 + actor.MaxMovement() / (2 + (actor.Unit.HasTrait(TraitType.WetNurse) ? 1 : 0));
         if (actor.Movement > halfMovement)
             actor.Movement -= halfMovement;
         else
@@ -3280,11 +3280,11 @@ public class PredatorComponent
         if (nurseHeal[0] + nurseHeal[1] > 0)
             TacticalUtilities.Log.RegisterHeal(target.Unit, nurseHeal, "cumfeeding");
         actor.DigestCheck("cumfeed");
-        if (unit.HasTrait(Traits.Corruption))
+        if (unit.HasTrait(TraitType.Corruption))
         {
             target.AddCorruption(unit.GetStatTotal()/10, unit.FixedSide);
         }
-        int quarterMovement = 1 + actor.MaxMovement() / (4 + (actor.Unit.HasTrait(Traits.WetNurse) ? 1 : 0));
+        int quarterMovement = 1 + actor.MaxMovement() / (4 + (actor.Unit.HasTrait(TraitType.WetNurse) ? 1 : 0));
         if (actor.Movement > quarterMovement)
             actor.Movement -= quarterMovement;
         else
@@ -3349,14 +3349,14 @@ public class PredatorComponent
                 recipient.PredatorComponent.RemovePrey(preyUnit);
                 actor.PredatorComponent.RemovePrey(preyUnit);
                 State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{actor.Unit.Name}</b> pumps what remains of <b>{preyUnit.Unit.Name}</b> into <b>{recipient.Unit.Name}</b>'s womb, providing nutrients to strengthen <b>{alreadyChild.Unit.Name}</b>.");
-                if (unit.HasTrait(Traits.Corruption) || preyUnit.Unit.HasTrait(Traits.Corruption))
+                if (unit.HasTrait(TraitType.Corruption) || preyUnit.Unit.HasTrait(TraitType.Corruption))
                 {
                     alreadyChild.Unit.hiddenFixedSide = true;
                     alreadyChild.sidesAttackedThisBattle = new List<Side>();
-                    alreadyChild.Unit.RemoveTrait(Traits.Corruption);
-                    alreadyChild.Unit.AddPermanentTrait(Traits.Corruption);
+                    alreadyChild.Unit.RemoveTrait(TraitType.Corruption);
+                    alreadyChild.Unit.AddPermanentTrait(TraitType.Corruption);
                 }
-                if (!alreadyChild.Unit.HasTrait(Traits.Corruption))
+                if (!alreadyChild.Unit.HasTrait(TraitType.Corruption))
                     alreadyChild.Unit.FixedSide = unit.FixedSide;
                 UpdateFullness();
                 unit.UpdateSpells();
@@ -3367,11 +3367,11 @@ public class PredatorComponent
         {
             recipient.PredatorComponent.AlivePrey++;
             actor.PredatorComponent.AlivePrey--;
-        } else if (unit.HasTrait(Traits.Corruption))
+        } else if (unit.HasTrait(TraitType.Corruption))
         {
             recipient.AddCorruption(preyUnit.Unit.GetStatTotal()/2, unit.FixedSide);
         }
-        else if (preyUnit.Unit.HasTrait(Traits.Corruption))
+        else if (preyUnit.Unit.HasTrait(TraitType.Corruption))
             recipient.AddCorruption(preyUnit.Unit.GetStatTotal() / 2, preyUnit.Unit.FixedSide);
         switch (destination)
         {
@@ -3554,7 +3554,7 @@ public class PredatorComponent
         forcePrey.Visible = false;
         forcePrey.Targetable = false;
         State.GameManager.TacticalMode.DirtyPack = true;
-        if (!(Equals(forcePrey.Unit.FixedSide, unit.GetApparentSide(forcePrey.Unit))) || !unit.HasTrait(Traits.Endosoma))
+        if (!(Equals(forcePrey.Unit.FixedSide, unit.GetApparentSide(forcePrey.Unit))) || !unit.HasTrait(TraitType.Endosoma))
         {
             unit.GiveScaledExp(4 * forcePrey.Unit.ExpMultiplier, unit.Level - forcePrey.Unit.Level, true);
         }

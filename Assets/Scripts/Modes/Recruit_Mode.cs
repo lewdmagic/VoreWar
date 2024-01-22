@@ -219,7 +219,7 @@ public class Recruit_Mode : SceneBase
         if (selectedIndex != -1 && army?.Units.Count() > selectedIndex)
             unit = army?.Units[selectedIndex];
         ArmyUI.Rename.interactable = validUnit && unit.Type != UnitType.SpecialMercenary;
-        ArmyUI.Shop.interactable = activatingEmpire < ActivatingEmpire.Observer && validUnit && unit != null && (unit.FixedGear == false || unit.HasTrait(Traits.BookEater));
+        ArmyUI.Shop.interactable = activatingEmpire < ActivatingEmpire.Observer && validUnit && unit != null && (unit.FixedGear == false || unit.HasTrait(TraitType.BookEater));
         var dismissText = ArmyUI.Dismiss.gameObject.GetComponentInChildren(typeof(Text)) as Text;
 
         if (unit != null && Equals(unit.FixedSide, empire.Side) && unit.IsInfiltratingSide(unit.Side) && activatingEmpire > ActivatingEmpire.Ally)
@@ -1290,7 +1290,7 @@ public class Recruit_Mode : SceneBase
 
             EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = merc.Unit.GetItem(0)?.Name;
             EquipRow.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = merc.Unit.GetItem(1)?.Name;
-            if (actor.Unit.HasTrait(Traits.Resourceful))
+            if (actor.Unit.HasTrait(TraitType.Resourceful))
             {
                 EquipRow.transform.GetChild(2).gameObject.SetActive(true);
                 EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = merc.Unit.GetItem(0)?.Name;
@@ -1402,7 +1402,7 @@ public class Recruit_Mode : SceneBase
             }
             TraitList.text = RaceEditorPanel.TraitListToText(merc.Unit.GetTraits, true).Replace(", ","\n");
             EXPText.text = $"Level {merc.Unit.Level} ({(int)merc.Unit.Experience} EXP)";
-            if (actor.Unit.HasTrait(Traits.Resourceful))
+            if (actor.Unit.HasTrait(TraitType.Resourceful))
             {
                 EquipRow.transform.GetChild(2).gameObject.SetActive(true);
                 EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = merc.Unit.GetItem(0)?.Name;
@@ -1503,7 +1503,7 @@ public class Recruit_Mode : SceneBase
                 GenderText.text = $"{gender}";
             }
             EXPText.text = $"Level {unit.Level} ({(int)unit.Experience} EXP)";
-            if (actor.Unit.HasTrait(Traits.Resourceful))
+            if (actor.Unit.HasTrait(TraitType.Resourceful))
             {
                 EquipRow.transform.GetChild(2).gameObject.SetActive(true);
                 EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = unit.GetItem(0)?.Name;
@@ -1553,7 +1553,7 @@ public class Recruit_Mode : SceneBase
     {
         if (village.HireUnit(empire, army, unit))
         {
-            if (unit.HasTrait(Traits.Infiltrator) && !unit.IsInfiltratingSide(unit.Side))
+            if (unit.HasTrait(TraitType.Infiltrator) && !unit.IsInfiltratingSide(unit.Side))
             {
                 unit.OnDiscard = () =>
                 {
@@ -1836,7 +1836,7 @@ public class Recruit_Mode : SceneBase
             {
                 if (unit != null)
                 {
-                    if (unit.HasTrait(Traits.Infiltrator) && !unit.IsInfiltratingSide(unit.Side))
+                    if (unit.HasTrait(TraitType.Infiltrator) && !unit.IsInfiltratingSide(unit.Side))
                     {
                         unit.OnDiscard = () =>
                         {
@@ -1857,7 +1857,7 @@ public class Recruit_Mode : SceneBase
             Unit unit = village.RecruitPlayerUnit(empire, army, race);
             if ( unit != null)
             {
-                if (unit.HasTrait(Traits.Infiltrator) && !unit.IsInfiltratingSide(unit.Side))
+                if (unit.HasTrait(TraitType.Infiltrator) && !unit.IsInfiltratingSide(unit.Side))
                 {
                     unit.OnDiscard = () =>
                     {

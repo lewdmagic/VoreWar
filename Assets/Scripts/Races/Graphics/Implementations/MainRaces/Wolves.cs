@@ -20,10 +20,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = true,
                     FavoredStat = Stat.Strength,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.PackStrength,
-                        Traits.PackVoracity
+                        TraitType.PackStrength,
+                        TraitType.PackVoracity
                     },
                     RaceDescription = "Natives of this realm, the Wolves have a history of hunting in packs extending beyond the crafting of their first weapons. While a lone Wolf can still be a worthy adversary, their true strength comes from working with their kin.",
                 });

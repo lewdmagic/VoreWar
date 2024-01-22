@@ -33,11 +33,11 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(16, 24),
                         Stomach = new RaceStats.StatRange(16, 24),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Flight,
-                        Traits.Biter,
-                        Traits.FastAbsorption
+                        TraitType.Flight,
+                        TraitType.Biter,
+                        TraitType.FastAbsorption
                     },
                     InnateSpells = new List<SpellTypes>() { SpellTypes.Pyre },
                     RaceDescription = "A cruel gluttonous red wyvern",

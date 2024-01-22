@@ -72,12 +72,12 @@ namespace Races.Graphics.Implementations.Mercs
                     StomachSize = 14,
                     HasTail = false,
                     FavoredStat = Stat.Mind,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Clever,
-                        Traits.Tempered,
-                        Traits.ArtfulDodge,
-                        Traits.EscapeArtist,
+                        TraitType.Clever,
+                        TraitType.Tempered,
+                        TraitType.ArtfulDodge,
+                        TraitType.EscapeArtist,
                     },
                     RaceStats = new RaceStats()
                     {

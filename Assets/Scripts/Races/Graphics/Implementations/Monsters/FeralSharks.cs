@@ -46,10 +46,10 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(14, 22),
                         Stomach = new RaceStats.StatRange(6, 12),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Flight,
-                        Traits.Biter
+                        TraitType.Flight,
+                        TraitType.Biter
                     },
                     RaceDescription = "When the Scylla left their old realm the creatures that used to hunt them were left hungry. The Sharks, with their strong sense of smell, were able to track down the portals the Scylla used and followed close behind.",
 

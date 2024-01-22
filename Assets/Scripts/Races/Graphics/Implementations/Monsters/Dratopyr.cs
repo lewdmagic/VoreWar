@@ -41,11 +41,11 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(8, 14),
                         Stomach = new RaceStats.StatRange(8, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ArtfulDodge,
-                        Traits.Flight,
-                        Traits.Cruel
+                        TraitType.ArtfulDodge,
+                        TraitType.Flight,
+                        TraitType.Cruel
                     },
                     RaceDescription = "With an appearance reminiscent of a reptilian bat, the Dratopyr are likely a hybrid race. Smaller than most monsters but just as fierce, the Dratopyr specialize in weakening their prey while avoiding attempts to fend them off. Dratopyr are very fast breeders and would thus be a major threat to everyone, were it not for their tendency toward cannibalism.",
                 });

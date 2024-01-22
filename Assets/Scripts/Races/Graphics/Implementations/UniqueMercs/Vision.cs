@@ -43,11 +43,11 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(14, 20),
                         Stomach = new RaceStats.StatRange(12, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Ravenous,
-                        Traits.StrongGullet,
-                        Traits.Intimidating,
+                        TraitType.Ravenous,
+                        TraitType.StrongGullet,
+                        TraitType.Intimidating,
 
                     },
                     RaceDescription = "A Xeno-Spinosaurid about the size of a small horse or large dog. They eat about half or even double their body weight at minimum a day, but have been known to eat things larger than themselves. Because of their huge appetite, their digestive tract is mostly stomach, what they can't digest they regurgitate as an owl-like pellet",

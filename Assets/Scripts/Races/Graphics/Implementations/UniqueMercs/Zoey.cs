@@ -82,14 +82,14 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(14, 18),
                         Stomach = new RaceStats.StatRange(14, 18),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Maul,
-                        Traits.StrongGullet,
-                        Traits.Biter,
-                        Traits.Greedy,
-                        Traits.BornToMove,
-                        Traits.TailStrike,
+                        TraitType.Maul,
+                        TraitType.StrongGullet,
+                        TraitType.Biter,
+                        TraitType.Greedy,
+                        TraitType.BornToMove,
+                        TraitType.TailStrike,
                     },
                     RaceDescription = "An anthropomorphic tiger shark from another world.  Zoey is typically a lazy girl who loves watching movies and being a general couch-potato.  However, upon realizing she'd been isekai'd into the realm, her gluttony left her interested in trying to stomach the local warriors and monsters with some basic martial arts, joining whichever side would pay her first.",
                 });

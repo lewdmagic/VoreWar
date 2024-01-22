@@ -54,11 +54,11 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(18, 22),
                         Stomach = new RaceStats.StatRange(18, 22),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ArtfulDodge,
-                        Traits.KeenReflexes,
-                        Traits.StrongGullet,
+                        TraitType.ArtfulDodge,
+                        TraitType.KeenReflexes,
+                        TraitType.StrongGullet,
                     },
                     RaceDescription = "A member of a race that uses its small size and unthreathening appearance to lure in potential prey, Ki decided that becoming a mercenary suited him fine. After all, he'd be paid for getting free meals!",
                 });

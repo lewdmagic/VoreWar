@@ -33,11 +33,11 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(8, 12),
                         Stomach = new RaceStats.StatRange(8, 12),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.AcidResistant,
-                        Traits.PackStrength,
-                        Traits.SlowDigestion
+                        TraitType.AcidResistant,
+                        TraitType.PackStrength,
+                        TraitType.SlowDigestion
                     },
                     RaceDescription = ""
                 });

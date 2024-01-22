@@ -33,12 +33,12 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(16, 24),
                         Stomach = new RaceStats.StatRange(18, 26),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.MetalBody,
-                        Traits.KeenReflexes,
-                        Traits.BornToMove,
-                        Traits.Intimidating,
+                        TraitType.MetalBody,
+                        TraitType.KeenReflexes,
+                        TraitType.BornToMove,
+                        TraitType.Intimidating,
                     },
                     RaceDescription = "A corrupted D.r.a.c.o unit. Unlike other units from his line 008 has tampered with his coding and removed the safety on his stomach allowing him to digest his prisoners.",
                 });

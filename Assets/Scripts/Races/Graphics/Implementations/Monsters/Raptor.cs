@@ -36,11 +36,11 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(6, 14),
                         Stomach = new RaceStats.StatRange(8, 20),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ArtfulDodge,
-                        Traits.Pounce,
-                        Traits.SlowDigestion
+                        TraitType.ArtfulDodge,
+                        TraitType.Pounce,
+                        TraitType.SlowDigestion
                     },
                     RaceDescription = "Bigger cousins of the Compy, these rarer creatures often appear in smaller numbers among their lesser kin. While still relatively harmless compared to most monsters, the Raptors are at the edge of being a real danger to unprepared travelers, not least because they are at times known to be clever.",
 

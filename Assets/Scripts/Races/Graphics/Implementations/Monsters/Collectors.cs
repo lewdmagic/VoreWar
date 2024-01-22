@@ -39,12 +39,12 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(14, 18),
                         Stomach = new RaceStats.StatRange(16, 24),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.SlowDigestion,
-                        Traits.SlowAbsorption,
-                        Traits.BornToMove,
-                        Traits.NimbleClimber,
+                        TraitType.SlowDigestion,
+                        TraitType.SlowAbsorption,
+                        TraitType.BornToMove,
+                        TraitType.NimbleClimber,
                     },
                     RaceDescription = "These large, long limbed creatures seem to be pets or beasts of burden for the Harvesters. While very capable of hunting on their own, they mostly collect the prey the Harvesters have already brought low, filling their low hanging saggy bellies with dozens of prey.",
 

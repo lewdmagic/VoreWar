@@ -45,12 +45,12 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(18, 24),
                         Stomach = new RaceStats.StatRange(10, 14),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.SlowDigestion,
-                        Traits.Intimidating,
-                        Traits.BornToMove,
-                        Traits.NimbleClimber,
+                        TraitType.SlowDigestion,
+                        TraitType.Intimidating,
+                        TraitType.BornToMove,
+                        TraitType.NimbleClimber,
                     },
                     RaceDescription = "A lifeform from far beyond the stars, the Harvesters saw the empty lands fill and felt rising hunger. How they made their way here is unknown, but their mission is readily understood. They are here to feed until the land is empty once more.",
 

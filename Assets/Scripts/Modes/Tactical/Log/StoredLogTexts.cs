@@ -148,11 +148,11 @@ static class StoredLogTexts
         bool FirstTimeAbsorption(EventLog s) => s.Unit.DigestedUnits == 1 && s.Unit.Level < 10 && s.Unit.Type != UnitType.Mercenary && s.Unit.Type != UnitType.SpecialMercenary && State.GameManager.PureTactical == false;
         bool TargetFirstTime(EventLog s) => s.Target.DigestedUnits == 0 && s.Target.Level < 10 && s.Target.Type != UnitType.Mercenary && s.Target.Type != UnitType.SpecialMercenary && State.GameManager.PureTactical == false;
         bool Friendly(EventLog s) => Equals(s.Unit.Side, s.Target.Side);
-        bool Endo(EventLog s) => s.Unit.HasTrait(Traits.Endosoma);
-        bool HealingEndo(EventLog s) => s.Unit.HasTrait(Traits.Endosoma) && s.Unit.HasTrait(Traits.HealingBelly);
+        bool Endo(EventLog s) => s.Unit.HasTrait(TraitType.Endosoma);
+        bool HealingEndo(EventLog s) => s.Unit.HasTrait(TraitType.Endosoma) && s.Unit.HasTrait(TraitType.HealingBelly);
         bool FriendlyPrey(EventLog s) => Equals(s.Unit.Side, s.Prey.Side);
         bool ActorHumanoid(EventLog s) => RaceFuncs.isHumanoid(s.Unit.Race);
-        bool HasGreatEscape(EventLog s) => s.Target.HasTrait(Traits.TheGreatEscape);
+        bool HasGreatEscape(EventLog s) => s.Target.HasTrait(TraitType.TheGreatEscape);
         bool Cursed(EventLog s) => s.Target.GetStatusEffect(StatusEffectType.WillingPrey) != null;
         bool Shrunk(EventLog s) => s.Target.GetStatusEffect(StatusEffectType.Diminished) != null;
         bool SizeDiff(EventLog s, float ratio) => State.RaceSettings.GetBodySize(s.Unit.Race) * s.Unit.GetScale(1) >= State.RaceSettings.GetBodySize(s.Target.Race) * s.Target.GetScale(1) * ratio;
@@ -909,7 +909,7 @@ static class StoredLogTexts
             new EventString((i) => $"<b>{i.Target.Name}</b> offers <b>{i.Unit.Name}</b> a bribe. <b>{i.Unit.Name}</b> considers it for a moment but politely declines.",
             priority: 8),
             new EventString((i) => $"<b>{i.Unit.Name}</b> asks <b>{i.Target.Name}</b> if {GPPHeIsAbbr(i.Unit)} eaten {GPPHim(i.Target)} before. <b>{i.Target.Name}</b> says {GPPHe(i.Unit)} do{EsIfSingular(i.Unit)}n’t think so.",
-            priority: 8, conditional: (s) => s.Target.HasTrait(Traits.Eternal)),
+            priority: 8, conditional: (s) => s.Target.HasTrait(TraitType.Eternal)),
             new EventString((i) => $"<b>{i.Target.Name}</b> promises that {GPPHe(i.Target)} will eat <b>{i.Unit.Name}</b> once {GPPHe(i.Target)} escapes. <b>{i.Unit.Name}</b> laughs and pats {GPPHis(i.Unit)} belly.",
             priority: 8),
             new EventString((i) => $"<b>{i.Unit.Name}</b> winces in pain as <b>{i.Target.Name}</b> tries to claw {GPPHis(i.Target)} way out.",
@@ -1335,7 +1335,7 @@ static class StoredLogTexts
             new EventString((i) => $"\"Who’s a good {BoyGirl(i.Target)}?\" <b>{i.Unit.Name}</b> asks while pressing {GPPHis(i.Unit)} fingers into {GPPHis(i.Target)} belly. <b>{i.Target.Name}</b> cocks {GPPHis(i.Target)} head to the side, wondering to the answer. \"You are!\" The answer sends the canine into an excited, jiggling jumping spree.",
             targetRace: Race.Dogs, priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && ActorHumanoid(s)),
             new EventString((i) => $"<b>{i.Unit.Name}</b>’s attentive massage of <b>{i.Target.Name}</b>’s stuffed midsection convinces the voracious canine to make {GPPHim(i.Unit)} {GPPHis(i.Target)} master no matter the cost.",
-            targetRace: Race.Dogs, priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) || (s.Unit.HasTrait(Traits.SeductiveTouch) && TacticalUtilities.Units.Where(actor => actor.Unit == s.Target)?.FirstOrDefault().TurnsSinceLastParalysis <= 0) ),
+            targetRace: Race.Dogs, priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) || (s.Unit.HasTrait(TraitType.SeductiveTouch) && TacticalUtilities.Units.Where(actor => actor.Unit == s.Target)?.FirstOrDefault().TurnsSinceLastParalysis <= 0) ),
             new EventString((i) => $"<b>{i.Target.Name}</b> just loves <b>{i.Unit.Name}</b> so much! {GPPHe(i.Target)} can’t help {GPPHimself(i.Target)} from using {GPPHis(i.Target)} sloshing belly weight to push {GPPHim(i.Unit)} over and assaulting {GPPHim(i.Unit)} in a flurry of licks.",
             targetRace: Race.Dogs, priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && ReqTargetCompatible(s)),
             new EventString((i) => $"<b>{i.Target.Name}</b> lolls out {GPPHis(i.Target)} tongue and gently starts to lick <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> face as {GPPHe(i.Unit)} work{SIfSingular(i.Unit)} to satisfy {GPPHis(i.Target)} gurgling tummy.",
@@ -2188,30 +2188,30 @@ static class StoredLogTexts
 
             //The instant digestion ones haven't been fully tested. They should work but if something's wrong with them just take them out and tell me
             new EventString((i) => $"A loud shriek is silenced by a crunch as <b>{i.Target.Name}</b> is instantly digested in the belly of <b>{i.Unit.Name}</b>.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InStomach(s) && HardVore(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InStomach(s) && HardVore(s)),
             new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> belly goes soft as <b>{i.Target.Name}</b> is instantly digested.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InStomach(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InStomach(s)),
             new EventString((i) => $"<b>{i.Unit.Name}</b> contracts {GPPHis(i.Unit)} abs and <b>{i.Target.Name}</b> is digested instanlty.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InStomach(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InStomach(s)),
             new EventString((i) => $"A loud scream, a gutteral crunch, and a soft belly describes what <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> belly did to <b>{i.Target.Name}</b> in such a short time.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InStomach(s) && HardVore(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InStomach(s) && HardVore(s)),
             new EventString((i) => $"As quickly as <b>{i.Unit.Name}</b> swallowed <b>{i.Target.Name}</b>, {GPPHis(i.Unit)} belly turned <b>{i.Target.Name}</b> into mush.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InStomach(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InStomach(s)),
             new EventString((i) => $"The solid mass of <b>{i.Target.Name}</b> turns to mush in <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> belly within seconds of being swallowed.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InStomach(s) && HardVore(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InStomach(s) && HardVore(s)),
 
             new EventString((i) => $"<b>{i.Target.Name}</b> doesn't spend more than five seconds in the {PreyLocStrings.ToSyn(i.preyLocation)} of <b>{i.Unit.Name}</b> before being turned into {PreyLocStrings.ToFluid(PreyLocation.balls)}.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InBalls(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InBalls(s)),
             new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> balls stop wiggling as <b>{i.Target.Name}</b> is instantly digested.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InBalls(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InBalls(s)),
             new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> balls squeeze in on <b>{i.Target.Name}</b>, instantly digesting {GPPHim(i.Target)}.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InBalls(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InBalls(s)),
             new EventString((i) => $"<b>{i.Target.Name}</b> cries out in horror as {GPPHe(i.Target)} realize{SIfSingular(i.Target)} that within seconds of being sucked into <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> balls, {GPPHeIs(i.Target)} already melting.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InBalls(s) && HardVore(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InBalls(s) && HardVore(s)),
             new EventString((i) => $"As quickly as <b>{i.Unit.Name}</b> sucked in <b>{i.Target.Name}</b>, {GPPHis(i.Unit)} balls turned <b>{i.Target.Name}</b> into {PreyLocStrings.ToFluid(PreyLocation.balls)}.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InBalls(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InBalls(s)),
             new EventString((i) => $"The solid mass of <b>{i.Target.Name}</b> turns into {PreyLocStrings.ToFluid(PreyLocation.balls)} in <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> balls within seconds of being sucked down.",
-            priority: 10, conditional: s => s.Unit.HasTrait(Traits.InstantDigestion) && InBalls(s)),
+            priority: 10, conditional: s => s.Unit.HasTrait(TraitType.InstantDigestion) && InBalls(s)),
 
 
             //Content Warning: the below are incredibly lewd

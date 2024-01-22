@@ -40,11 +40,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 20,
                     HasTail = false,
                     FavoredStat = Stat.Stomach,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.BoggingSlime,
-                        Traits.GelatinousBody,
-                        Traits.SoftBody,
+                        TraitType.BoggingSlime,
+                        TraitType.GelatinousBody,
+                        TraitType.SoftBody,
                     },
                     RaceDescription = "A puddle of goo given form by the power of their core, the Slimes have a need to act as if they had solid bodies. Their true from is still almost liquid though, lacking organs or other features of note, and thus very hard to damage by normal means.",
                 });

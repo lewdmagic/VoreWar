@@ -129,15 +129,15 @@ public class WorldConfig
     internal int StartingPopulation = 99999;
 
     [OdinSerialize]
-    internal List<Traits> LeaderTraits;
+    internal List<TraitType> LeaderTraits;
     [OdinSerialize]
-    internal List<Traits> MaleTraits;
+    internal List<TraitType> MaleTraits;
     [OdinSerialize]
-    internal List<Traits> FemaleTraits;
+    internal List<TraitType> FemaleTraits;
     [OdinSerialize]
-    internal List<Traits> HermTraits;
+    internal List<TraitType> HermTraits;
     [OdinSerialize]
-    internal List<Traits> SpawnTraits;
+    internal List<TraitType> SpawnTraits;
 
     [OdinSerialize]
     internal float CustomEventFrequency = 0;

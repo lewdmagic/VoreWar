@@ -36,10 +36,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = true,
                     FavoredStat = Stat.Strength,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.TasteForBlood,
-                        Traits.Pounce
+                        TraitType.TasteForBlood,
+                        TraitType.Pounce
                     },
                     RaceDescription = "Long before \"elder races\" walked among the stars, the Panthers thrived. Long before first words of power were uttered, they have carved their homes into the lightning-struck bark, feeding off its power. And long after the last bastion of so-called civilization will fall to onslaught of wings, claws and fangs, they will thrive in the darkness, pouncing on unsuspecting prey.",
                 });

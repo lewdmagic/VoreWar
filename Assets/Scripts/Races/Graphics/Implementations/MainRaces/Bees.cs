@@ -38,12 +38,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     HasTail = true,
                     FavoredStat = Stat.Agility,
                     AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Flight,
-                        Traits.KeenReflexes,
-                        Traits.PackDefense,
-                        Traits.Stinger
+                        TraitType.Flight,
+                        TraitType.KeenReflexes,
+                        TraitType.PackDefense,
+                        TraitType.Stinger
                     },
                     RaceDescription = "",
                 });

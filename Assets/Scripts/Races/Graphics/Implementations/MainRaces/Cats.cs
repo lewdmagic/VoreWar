@@ -32,10 +32,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = true,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Pounce,
-                        Traits.EscapeArtist
+                        TraitType.Pounce,
+                        TraitType.EscapeArtist
                     },
                     RaceDescription = "Natives to the realm, the Cats are skilled at pouncing on their enemy with a sudden burst of speed. Many a wounded warrior has found themselves devoured by a feline jumping over a wall of their fellow warriors, while the Cat's allies defy their enemies by somehow squirming out of their stomach's.",
                 });

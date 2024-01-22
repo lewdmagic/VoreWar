@@ -21,10 +21,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = true,
                     FavoredStat = Stat.Mind,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ArtfulDodge,
-                        Traits.ThrillSeeker
+                        TraitType.ArtfulDodge,
+                        TraitType.ThrillSeeker
                     },
                     LeaderRace = Race.Youko,
                     RaceDescription = "Natives of this realm, the Foxes seem unable of taking danger seriously. They dodge attacks at the last second and only seem to grow ever bolder as death approaches them. Entire armies have fallen exhausted as a group of foxes dances among them, ready to be devoured once the time is right.",

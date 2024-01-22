@@ -60,11 +60,11 @@ namespace Races.Graphics.Implementations.Mercs
                     StomachSize = 12,
                     HasTail = true,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ProlificBreeder,
-                        Traits.EasyToVore,
-                        Traits.Replaceable,
+                        TraitType.ProlificBreeder,
+                        TraitType.EasyToVore,
+                        TraitType.Replaceable,
                     },
                     RaceDescription = "",
                     RaceAI = RaceAI.ServantRace

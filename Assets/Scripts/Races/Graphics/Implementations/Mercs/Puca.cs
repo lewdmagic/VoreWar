@@ -34,10 +34,10 @@ namespace Races.Graphics.Implementations.Mercs
                     StomachSize = 14,
                     HasTail = true,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ArtfulDodge,
-                        Traits.Pounce,
+                        TraitType.ArtfulDodge,
+                        TraitType.Pounce,
                     },
                     RaceDescription = "A race of burrowers very true to their heritage, the Puca trust their shovels and feet above advanced technology. Many a foe has found themselves swallowed up by their deep dark tunnels.",
                 });

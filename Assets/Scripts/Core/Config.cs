@@ -241,11 +241,11 @@ static class Config
     internal static bool VisibleCorpses => World.GetValue("VisibleCorpses");
     internal static bool EdibleCorpses => World.GetValue("EdibleCorpses");
 
-    internal static List<Traits> LeaderTraits => World.LeaderTraits;
-    internal static List<Traits> MaleTraits => World.MaleTraits;
-    internal static List<Traits> FemaleTraits => World.FemaleTraits;
-    internal static List<Traits> HermTraits => World.HermTraits;
-    internal static List<Traits> SpawnTraits => World.SpawnTraits;
+    internal static List<TraitType> LeaderTraits => World.LeaderTraits;
+    internal static List<TraitType> MaleTraits => World.MaleTraits;
+    internal static List<TraitType> FemaleTraits => World.FemaleTraits;
+    internal static List<TraitType> HermTraits => World.HermTraits;
+    internal static List<TraitType> SpawnTraits => World.SpawnTraits;
 
     internal static bool NoAIRetreat => World.GetValue("NoAIRetreat");
     internal static bool AICanCheatSpecialMercs => World.GetValue("AICanCheatSpecialMercs");

@@ -175,7 +175,7 @@ static class TacticalActionList
         TargetedActions.Add(new TargetedTacticalAction(
             name: "Melee Pounce",
             requiresPred: false,
-            conditional: (a) => a.Unit.HasTrait(Traits.Pounce),
+            conditional: (a) => a.Unit.HasTrait(TraitType.Pounce),
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.PounceMelee),
             onExecute: (a, t) => a.MeleePounce(t),
             minimumMp: 2));
@@ -185,7 +185,7 @@ static class TacticalActionList
         TargetedActions.Add(new TargetedTacticalAction(
             name: "Vore Pounce",
             requiresPred: true,
-            conditional: (a) => a.Unit.HasTrait(Traits.Pounce) && a.Unit.Predator,
+            conditional: (a) => a.Unit.HasTrait(TraitType.Pounce) && a.Unit.Predator,
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.PounceVore),
             onExecute: (a, t) => a.VorePounce(t),
             minimumMp: 2));
@@ -194,7 +194,7 @@ static class TacticalActionList
         TargetedActions.Add(new TargetedTacticalAction(
            name: "Shun Goku Satsu",
            requiresPred: false,
-           conditional: (a) => a.Unit.HasTrait(Traits.ShunGokuSatsu) && a.TurnUsedShun + 3 <= State.GameManager.TacticalMode.currentTurn,
+           conditional: (a) => a.Unit.HasTrait(TraitType.ShunGokuSatsu) && a.TurnUsedShun + 3 <= State.GameManager.TacticalMode.currentTurn,
            onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.ShunGokuSatsu),
            onExecute: (a, t) => a.ShunGokuSatsu(t),
            minimumMp: 1));
@@ -203,7 +203,7 @@ static class TacticalActionList
         TargetedActions.Add(new TargetedTacticalAction(
             name: "Regurgitate",
             requiresPred: true,
-            conditional: (a) => a.PredatorComponent?.AlivePrey > 0 && a.Unit.HasTrait(Traits.Greedy) == false,
+            conditional: (a) => a.PredatorComponent?.AlivePrey > 0 && a.Unit.HasTrait(TraitType.Greedy) == false,
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.Regurgitate),
             onExecute: null,
             onExecuteLocation: (a, l) => a.Regurgitate(a, l),
@@ -213,7 +213,7 @@ static class TacticalActionList
         TargetedActions.Add(new TargetedTacticalAction(
           name: "Tail Strike",
           requiresPred: false,
-          conditional: (a) => a.Unit.HasTrait(Traits.TailStrike),
+          conditional: (a) => a.Unit.HasTrait(TraitType.TailStrike),
           onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.TailStrike),
           onExecute: (a, t) => a.TailStrike(t),
           minimumMp: 1));

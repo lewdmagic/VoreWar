@@ -54,13 +54,13 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(18, 24),
                         Stomach = new RaceStats.StatRange(18, 24),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Biter,
-                        Traits.Pounce,
-                        Traits.Ravenous,
-                        Traits.TasteForBlood,
-                        Traits.PleasurableTouch,
+                        TraitType.Biter,
+                        TraitType.Pounce,
+                        TraitType.Ravenous,
+                        TraitType.TasteForBlood,
+                        TraitType.PleasurableTouch,
                     },
                     RaceDescription = $"Big hedonistic felines. They were probably following a migration of gazelle before they came upon this land.\nMuch older texts claim they are the children of Raha, another world's godess of pleasure. She spread her blessing to this realm, and in exchange, these kitties are feeling right at home digesting the natives.",
                     RaceAI = RaceAI.Hedonist,

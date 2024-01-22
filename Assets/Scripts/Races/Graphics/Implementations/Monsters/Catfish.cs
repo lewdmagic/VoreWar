@@ -38,12 +38,12 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(20, 28),
                         Stomach = new RaceStats.StatRange(12, 20),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Slippery,
-                        Traits.Ravenous,
-                        Traits.Nauseous,
-                        Traits.SlowDigestion
+                        TraitType.Slippery,
+                        TraitType.Ravenous,
+                        TraitType.Nauseous,
+                        TraitType.SlowDigestion
                     },
                     RaceDescription = ""
                 });

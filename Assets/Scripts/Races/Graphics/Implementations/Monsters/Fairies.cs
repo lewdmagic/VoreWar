@@ -115,13 +115,13 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(8, 14),
                         Stomach = new RaceStats.StatRange(5, 10),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ArtfulDodge,
-                        Traits.Flight,
-                        Traits.EscapeArtist,
-                        Traits.KeenReflexes,
-                        Traits.EasyToVore
+                        TraitType.ArtfulDodge,
+                        TraitType.Flight,
+                        TraitType.EscapeArtist,
+                        TraitType.KeenReflexes,
+                        TraitType.EasyToVore
                     },
                     RaceDescription = ""
                 });

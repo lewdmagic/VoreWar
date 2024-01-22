@@ -48,11 +48,11 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(20, 28),
                         Stomach = new RaceStats.StatRange(16, 24),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.EasyToVore,
-                        Traits.SteadyStomach,
-                        Traits.AllOutFirstStrike
+                        TraitType.EasyToVore,
+                        TraitType.SteadyStomach,
+                        TraitType.AllOutFirstStrike
                     },
                     RaceDescription = ""
                 });

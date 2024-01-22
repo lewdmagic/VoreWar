@@ -21,10 +21,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = true,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.PackWill,
-                        Traits.PackDefense
+                        TraitType.PackWill,
+                        TraitType.PackDefense
                     },
                     RaceDescription = "Natives to the realm, the Dogs embody the principle of standing together. Ranked up, they guard each other's backs, making it harder for any enemy to land a strike at them or succeed at eating them.",
                 });

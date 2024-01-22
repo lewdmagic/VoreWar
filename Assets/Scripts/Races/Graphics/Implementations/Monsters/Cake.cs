@@ -42,12 +42,12 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(10, 18),
                         Stomach = new RaceStats.StatRange(8, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Frenzy,
-                        Traits.Tasty,
-                        Traits.SoftBody,
-                        Traits.SlowDigestion
+                        TraitType.Frenzy,
+                        TraitType.Tasty,
+                        TraitType.SoftBody,
+                        TraitType.SlowDigestion
 
                     },
                     RaceDescription = "A wizard baking a cake cut his hand and a drop of blood fell in the batter. His guests arrived while the cake was in the oven, eagerly waiting for their treat. But having got a taste of him, the Cake, once baked, ate the wizard and his guests instead.",

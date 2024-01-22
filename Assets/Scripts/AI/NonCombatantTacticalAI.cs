@@ -14,7 +14,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
 
         path = null;
         List<Actor_Unit> masters = actors.Where(a => RaceAIType.Dict[State.RaceSettings.GetRaceAI(a.Unit.Race)] != typeof(NonCombatantTacticalAI) && !TacticalUtilities.TreatAsHostile(actor, a)).ToList();
-        if ((retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide))
+        if ((retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(TraitType.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide))
             || masters.Count == 0)
         {
             int retreatY;

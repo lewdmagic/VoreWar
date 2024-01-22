@@ -110,7 +110,7 @@ class StrategicArmyCommander
             foreach (Unit unit in army.Units)
             {
                 StrategicUtilities.SpendLevelUps(unit);
-                if (unit.HasTrait(Traits.Infiltrator) && unit.Type != UnitType.Leader && Equals(unit.FixedSide, army.Side))
+                if (unit.HasTrait(TraitType.Infiltrator) && unit.Type != UnitType.Leader && Equals(unit.FixedSide, army.Side))
                     infiltrators.Add(unit);
             }
             infiltrators.ForEach(u => StrategicUtilities.TryInfiltrateRandom(army, u));
@@ -330,7 +330,7 @@ class StrategicArmyCommander
 
     void Attack(Army army, float MaxDefenderStrength)
     {
-        foreach (Army hostileArmy in StrategicUtilities.GetAllHostileArmies(empire).Where(s => s.ArmyPower > 2 * army.ArmyPower).Where(s => s.Position.GetNumberOfMovesDistance(army.Position) < 4 && !s.Units.All(u => u.HasTrait(Traits.Infiltrator))))
+        foreach (Army hostileArmy in StrategicUtilities.GetAllHostileArmies(empire).Where(s => s.ArmyPower > 2 * army.ArmyPower).Where(s => s.Position.GetNumberOfMovesDistance(army.Position) < 4 && !s.Units.All(u => u.HasTrait(TraitType.Infiltrator))))
         {
             Vec2i[] closeVillagePositions = Villages.Where(s => s.Position.GetNumberOfMovesDistance(army.Position) < 7 && StrategicUtilities.ArmyAt(s.Position) == null).Select(s => s.Position).ToArray();
             if (closeVillagePositions != null && closeVillagePositions.Length > 0)
@@ -367,7 +367,7 @@ class StrategicArmyCommander
 
         foreach (Army hostileArmy in StrategicUtilities.GetAllHostileArmies(empire))
         {
-            if (!hostileArmy.Units.All(u => u.HasTrait(Traits.Infiltrator)) && StrategicUtilities.ArmyPower(hostileArmy) < MaxDefenderStrength * StrategicUtilities.ArmyPower(army) && hostileArmy.InVillageIndex == -1)
+            if (!hostileArmy.Units.All(u => u.HasTrait(TraitType.Infiltrator)) && StrategicUtilities.ArmyPower(hostileArmy) < MaxDefenderStrength * StrategicUtilities.ArmyPower(army) && hostileArmy.InVillageIndex == -1)
             {
                 potentialTargets.Add(hostileArmy.Position);
                 if (RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(hostileArmy.Side) || Equals(hostileArmy.Side, Race.Goblins.ToSide())) //If Monster
@@ -532,7 +532,7 @@ class StrategicArmyCommander
         Unit unit = village.RecruitAIUnit(empire, army);
         if (unit == null) //Catches army size
             return null;
-        if (unit.HasTrait(Traits.Infiltrator) && !unit.IsInfiltratingSide(unit.Side))
+        if (unit.HasTrait(TraitType.Infiltrator) && !unit.IsInfiltratingSide(unit.Side))
         {
             unit.OnDiscard = () =>
             {
@@ -542,7 +542,7 @@ class StrategicArmyCommander
         }
         if (unit.FixedGear == false)
         {
-            if (unit.HasTrait(Traits.Feral))
+            if (unit.HasTrait(TraitType.Feral))
             {
                 Shop.BuyItem(empire, unit, State.World.ItemRepository.GetItem(ItemType.Gauntlet));
             }

@@ -69,9 +69,9 @@ public class Village
         {
             int usefulRecruitables = 0;
             if (VillagePopulation.GetRecruitables() != null)
-                usefulRecruitables = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(Traits.Feral)).Count();
+                usefulRecruitables = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(TraitType.Feral)).Count();
             var majority = VillagePopulation.GetMostPopulousRace();
-            if (RaceParameters.GetRaceTraits(majority).RacialTraits.Contains(Traits.Feral))
+            if (RaceParameters.GetRaceTraits(majority).RacialTraits.Contains(TraitType.Feral))
                 usefulRecruitables += VillagePopulation.GetRacePop(majority);
             return Math.Min(Math.Min(VillagePopulation.GetTotalPop(), usefulRecruitables + Weapons.Count), MaxGarrisonSize);
         }
@@ -541,14 +541,14 @@ public class Village
         {
             army.Units.ForEach(u =>
             {
-                if (!u.HasTrait(Traits.Infertile))
+                if (!u.HasTrait(TraitType.Infertile))
                 {
                     namedBreeders += 1;
-                    if (u.HasTrait(Traits.ProlificBreeder))
+                    if (u.HasTrait(TraitType.ProlificBreeder))
                     {
                         namedBreeders += 0.75;
                     }
-                    if (u.HasTrait(Traits.SlowBreeder))
+                    if (u.HasTrait(TraitType.SlowBreeder))
                     {
                         namedBreeders -= 0.30;
                     }
@@ -557,13 +557,13 @@ public class Village
             });
             GetRecruitables().ForEach(u =>
             {
-                if (!u.HasTrait(Traits.Infertile))
+                if (!u.HasTrait(TraitType.Infertile))
                 {
-                    if (u.HasTrait(Traits.ProlificBreeder))
+                    if (u.HasTrait(TraitType.ProlificBreeder))
                     {
                         namedBreeders += 0.75;
                     }
-                    if (u.HasTrait(Traits.SlowBreeder))
+                    if (u.HasTrait(TraitType.SlowBreeder))
                     {
                         namedBreeders -= 0.30;
                     }
@@ -582,7 +582,7 @@ public class Village
                   
                     if (RaceFuncs.isNotUniqueMerc(unit.Race) && !Equals(Empire.ReplacedRace, unit.Race))
                         continue;
-                    if (State.RaceSettings.GetRaceTraits(unit.Race).Contains(Traits.Infertile))
+                    if (State.RaceSettings.GetRaceTraits(unit.Race).Contains(TraitType.Infertile))
                         continue;
                     if (count.ContainsKey(unit.Race) == false)
                         count[unit.Race] = 1;
@@ -600,7 +600,7 @@ public class Village
                 else if (State.World.GetEmpireOfSide(army.Side)?.ReplacedRace != null)
                 {
                     Race = State.World.GetEmpireOfSide(army.Side).ReplacedRace;
-                    if (!State.RaceSettings.GetRaceTraits(Race).Contains(Traits.Infertile))
+                    if (!State.RaceSettings.GetRaceTraits(Race).Contains(TraitType.Infertile))
                         VillagePopulation.AddRacePop(Race, 0);
                 }
 
@@ -630,11 +630,11 @@ public class Village
             {
                 var traits = State.RaceSettings.GetRaceTraits(pop.Race);
                 double breedingContrib = 1;
-                if (traits.Contains(Traits.ProlificBreeder))
+                if (traits.Contains(TraitType.ProlificBreeder))
                     breedingContrib *= 1.75f;
-                if (traits.Contains(Traits.SlowBreeder))
+                if (traits.Contains(TraitType.SlowBreeder))
                     breedingContrib *= .7f;
-                if (traits.Contains(Traits.Infertile))
+                if (traits.Contains(TraitType.Infertile))
                     breedingContrib *= 0;
                 unnamedBreeders += (pop.Population-pop.Hireables) * breedingContrib;
             });
@@ -923,10 +923,10 @@ public class Village
         return total;
     }
 
-    public List<Traits> GetTraitsToAdd()
+    public List<TraitType> GetTraitsToAdd()
     {
         if (NetBoosts == null || NetBoosts.AddTraits == null)
-            return new List<Traits>();
+            return new List<TraitType>();
 
         return NetBoosts.AddTraits;
     }
@@ -949,8 +949,8 @@ public class Village
 
             unit.AddTraits(GetTraitsToAdd());
         }
-        List<Unit> ActiveGarrison = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(Traits.Feral)).OrderByDescending(s => s.Level).Take(Math.Min(MaxGarrisonSize, VillagePopulation.GetTotalPop())).ToList();
-        List<Unit> InactiveGarrison = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon == false && s.HasBook == false && s.HasTrait(Traits.Feral) == false).OrderByDescending(s => s.Level).ToList();
+        List<Unit> ActiveGarrison = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(TraitType.Feral)).OrderByDescending(s => s.Level).Take(Math.Min(MaxGarrisonSize, VillagePopulation.GetTotalPop())).ToList();
+        List<Unit> InactiveGarrison = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon == false && s.HasBook == false && s.HasTrait(TraitType.Feral) == false).OrderByDescending(s => s.Level).ToList();
         for (int i = 0; i < 48; i++)
         {
             if (ActiveGarrison.Count >= VillagePopulation.GetTotalPop())
@@ -970,7 +970,7 @@ public class Village
                 else
                 {
                     Race nextRace = VillagePopulation.RandomRaceByWeight();
-                    if (Weapons.Count == 0 && State.RaceSettings.GetRaceTraits(nextRace).Contains(Traits.Feral) == false && (RaceFuncs.isMonster(nextRace)) == false)
+                    if (Weapons.Count == 0 && State.RaceSettings.GetRaceTraits(nextRace).Contains(TraitType.Feral) == false && (RaceFuncs.isMonster(nextRace)) == false)
                         continue;
                     bool found = false;
                     for (int j = 0; j < 15; j++)
@@ -1073,7 +1073,7 @@ public class Village
             if (unit.HasEnoughExpToLevelUp())
                 StrategicUtilities.SpendLevelUps(unit);
         }
-        List<Unit> ActiveGarrison = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(Traits.Feral)).OrderByDescending(s => s.Level).Take(Math.Min(MaxGarrisonSize, VillagePopulation.GetTotalPop())).ToList();
+        List<Unit> ActiveGarrison = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(TraitType.Feral)).OrderByDescending(s => s.Level).Take(Math.Min(MaxGarrisonSize, VillagePopulation.GetTotalPop())).ToList();
 
         for (int i = 0; i < 48; i++)
         {

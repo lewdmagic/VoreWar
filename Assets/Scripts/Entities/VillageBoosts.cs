@@ -40,7 +40,7 @@ public class VillageBoosts
     internal int SpellLevels = 0;
 
 
-    internal List<Traits> AddTraits = new List<Traits>();
+    internal List<TraitType> AddTraits = new List<TraitType>();
 
     public void ResetValues()
     {
@@ -65,7 +65,7 @@ public class VillageBoosts
         MaxAdventurersAdd = 0;
         SpellLevels = 0;
         MaxHappinessAdd = 0;
-        AddTraits = new List<Traits>();
+        AddTraits = new List<TraitType>();
     }
 
     public VillageBoosts MergeBoosts(VillageBoosts otherBoost)

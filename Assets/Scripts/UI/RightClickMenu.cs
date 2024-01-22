@@ -213,9 +213,9 @@ public class RightClickMenu : MonoBehaviour
             rubCreated = true;
             currentButton++;
 
-            if (target.Surrendered == false && actor.Unit.HasTrait(Traits.Cruel) == false && Config.AllowInfighting == false)
+            if (target.Surrendered == false && actor.Unit.HasTrait(TraitType.Cruel) == false && Config.AllowInfighting == false)
             {
-                if (actor.Unit.HasTrait(Traits.Endosoma))
+                if (actor.Unit.HasTrait(TraitType.Endosoma))
                 {
                     float devChance;
                     if (actor.Unit.Predator)
@@ -287,7 +287,7 @@ public class RightClickMenu : MonoBehaviour
             }
 
 
-            if (actor.Unit.HasTrait(Traits.Pounce))
+            if (actor.Unit.HasTrait(TraitType.Pounce))
             {
                 Buttons[currentButton].onClick.AddListener(() => CreatePounceButtons(actor, target));
                 if (actor.Movement > 1)
@@ -322,7 +322,7 @@ public class RightClickMenu : MonoBehaviour
 
         if ((!Equals(target.Unit.GetApparentSide(actor.Unit), actor.Unit.GetApparentSide()) && !Equals(target.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide)) &&
             !rubCreated &&
-            (Config.CanUseStomachRubOnEnemies || actor.Unit.HasTrait(Traits.SeductiveTouch)))
+            (Config.CanUseStomachRubOnEnemies || actor.Unit.HasTrait(TraitType.SeductiveTouch)))
         {
             Buttons[currentButton].onClick.AddListener(() => actor.BellyRub(target));
             Buttons[currentButton].onClick.AddListener(FinishAction);
@@ -332,7 +332,7 @@ public class RightClickMenu : MonoBehaviour
                 Buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub\nAlready rubbed";
             }
             else
-                Buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub" + (actor.Unit.HasTrait(Traits.SeductiveTouch) ? " (Seduce " + Math.Round(100 * target.GetPureStatClashChance(actor.Unit.GetStat(Stat.Dexterity), target.Unit.GetStat(Stat.Will), .1f)) + "%)" : "");
+                Buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub" + (actor.Unit.HasTrait(TraitType.SeductiveTouch) ? " (Seduce " + Math.Round(100 * target.GetPureStatClashChance(actor.Unit.GetStat(Stat.Dexterity), target.Unit.GetStat(Stat.Will), .1f)) + "%)" : "");
             if (range != 1 || !(target.PredatorComponent?.Fullness > 0))                                     // Still can't rub empty bellies
                 Buttons[currentButton].interactable = false;
             currentButton++;
@@ -340,7 +340,7 @@ public class RightClickMenu : MonoBehaviour
 
         currentButton = AddVore(actor, currentButton, data);
 
-        if (actor.Unit.HasTrait(Traits.ShunGokuSatsu))
+        if (actor.Unit.HasTrait(TraitType.ShunGokuSatsu))
         {
             if (TacticalActionList.TargetedDictionary.TryGetValue(SpecialAction.ShunGokuSatsu, out var targetedAction))
             {
@@ -379,7 +379,7 @@ public class RightClickMenu : MonoBehaviour
                 Buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.VoreAttack(data.Actor, data.Target));
                 Buttons[currentButton].onClick.AddListener(FinishAction);
                 Buttons[currentButton].GetComponentInChildren<Text>().text = $"Oral Vore {data.DevourChance}%";
-                if (actor.Unit.HasTrait(Traits.RangedVore))
+                if (actor.Unit.HasTrait(TraitType.RangedVore))
                 {
                     if (data.Range > 4)
                         Buttons[currentButton].interactable = false;
@@ -422,7 +422,7 @@ public class RightClickMenu : MonoBehaviour
                     Buttons[currentButton].GetComponentInChildren<Text>().text = $"Pouch Vore {data.DevourChance}%";
                 else
                     Buttons[currentButton].GetComponentInChildren<Text>().text = $"{targetedAction.Name} {data.DevourChance}%";
-                if (actor.Unit.HasTrait(Traits.RangedVore))
+                if (actor.Unit.HasTrait(TraitType.RangedVore))
                 {
                     if (data.Range > 4)
                         Buttons[currentButton].interactable = false;
@@ -438,7 +438,7 @@ public class RightClickMenu : MonoBehaviour
                     Buttons[currentButton].interactable = false;
 
                 }
-                else if (data.Actor.BodySize() < data.Target.BodySize() * 3 && actor.Unit.HasTrait(Traits.TightNethers) && (actionType == SpecialAction.CockVore || actionType == SpecialAction.Unbirth))
+                else if (data.Actor.BodySize() < data.Target.BodySize() * 3 && actor.Unit.HasTrait(TraitType.TightNethers) && (actionType == SpecialAction.CockVore || actionType == SpecialAction.Unbirth))
                 {
                     Buttons[currentButton].GetComponentInChildren<Text>().text = $"Too large to {targetedAction.Name}";
                     Buttons[currentButton].interactable = false;
@@ -585,7 +585,7 @@ public class RightClickMenu : MonoBehaviour
                     PounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to {targetedAction.Name}";
                     PounceButtons[currentButton].interactable = false;
                 }
-                else if (data.Actor.BodySize() < data.Target.BodySize() * 3 && data.Actor.Unit.HasTrait(Traits.TightNethers) && (type == SpecialAction.CockVore || type == SpecialAction.Unbirth))
+                else if (data.Actor.BodySize() < data.Target.BodySize() * 3 && data.Actor.Unit.HasTrait(TraitType.TightNethers) && (type == SpecialAction.CockVore || type == SpecialAction.Unbirth))
                 {
                     PounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Too large to {targetedAction.Name}";
                     PounceButtons[currentButton].interactable = false;

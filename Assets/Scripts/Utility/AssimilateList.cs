@@ -6,14 +6,14 @@ public class AssimilateList
 {
     public bool Initialized = false;
     [AllowEditing]
-    internal Dictionary<Traits, bool> CanAssimilate;
+    internal Dictionary<TraitType, bool> CanAssimilate;
 
 
-    internal bool CanGet(Traits trait)
+    internal bool CanGet(TraitType traitType)
     {
         if (Initialized == false)
             Initialize();
-        if (CanAssimilate.TryGetValue(trait, out bool value))
+        if (CanAssimilate.TryGetValue(traitType, out bool value))
         {
             return value;
         }
@@ -23,10 +23,10 @@ public class AssimilateList
     internal void Initialize()
     {
         Initialized = true;
-        CanAssimilate = new Dictionary<Traits, bool>();
-        foreach (Traits trait in (Traits[])Enum.GetValues(typeof(Traits)))
+        CanAssimilate = new Dictionary<TraitType, bool>();
+        foreach (TraitType trait in (TraitType[])Enum.GetValues(typeof(TraitType)))
         {
-            if (trait == Traits.Prey)
+            if (trait == TraitType.Prey)
                 continue;
             CanAssimilate[trait] = PlayerPrefs.GetInt($"A{trait}", 1) == 1;
         }

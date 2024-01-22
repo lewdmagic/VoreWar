@@ -28,14 +28,14 @@ namespace Races.Graphics.Implementations.Mercs
                     HasTail = true,
                     FavoredStat = Stat.Mind,
                     AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Charmer,
-                        Traits.Temptation,
-                        Traits.Possession,
-                        Traits.ForceFeeder,
-                        Traits.ManaDrain,
-                        Traits.CreateSpawn,
+                        TraitType.Charmer,
+                        TraitType.Temptation,
+                        TraitType.Possession,
+                        TraitType.ForceFeeder,
+                        TraitType.ManaDrain,
+                        TraitType.CreateSpawn,
                     },
                     RaceStats = new RaceStats()
                     {

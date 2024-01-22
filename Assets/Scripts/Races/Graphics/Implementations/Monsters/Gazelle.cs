@@ -29,10 +29,10 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(10, 16),
                         Stomach = new RaceStats.StatRange(10, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Charge,
-                        Traits.ForcefulBlow,
+                        TraitType.Charge,
+                        TraitType.ForcefulBlow,
                     },
                     RaceDescription = ""
                 });

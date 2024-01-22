@@ -134,7 +134,7 @@ public static class State
                         custom.id = int.Parse(strings[0]);
                         custom.name = strings[1];
                         custom.chance = float.Parse(strings[2], new CultureInfo("en-US"));
-                        custom.RandomTraits = strings[3].Split('|').ToList().ConvertAll(s => (Traits)int.Parse(s));
+                        custom.RandomTraits = strings[3].Split('|').ToList().ConvertAll(s => (TraitType)int.Parse(s));
                         RandomizeLists.Add(custom);
                     }
                 });
@@ -832,7 +832,7 @@ public static class State
                     var raceFlags = RaceSettings.GetRaceTraits(emp.Race);
                     if (raceFlags != null)
                     {
-                        if (raceFlags.Contains(Traits.Prey))
+                        if (raceFlags.Contains(TraitType.Prey))
                             emp.CanVore = false;
                     }
                 }

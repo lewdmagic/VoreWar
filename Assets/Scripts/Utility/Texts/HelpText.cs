@@ -164,7 +164,7 @@ Allies can win the game as a team, but sides with simply a peace treaty can't.  
     public static string Traits()
     {
         StringBuilder sb = new StringBuilder();
-        foreach (Traits trait in Enum.GetValues(typeof(Traits)))
+        foreach (TraitType trait in Enum.GetValues(typeof(TraitType)))
         {
             sb.AppendLine($"{trait} - {HoveringTooltip.GetTraitData(trait).Replace('\n', ' ')}");
         }

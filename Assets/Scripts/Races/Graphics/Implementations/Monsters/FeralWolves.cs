@@ -39,10 +39,10 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(8, 16),
                         Stomach = new RaceStats.StatRange(6, 14),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Biter,
-                        Traits.PackStrength,
+                        TraitType.Biter,
+                        TraitType.PackStrength,
                     },
                     RaceDescription = "Natives of this realm, the wolves were more than happy for a chance to welcome the newcomers to their bellies. While likely related to their bipedal cousins, the ferals only consider them as familiar smelling food.",
                 });

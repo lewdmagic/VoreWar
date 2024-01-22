@@ -70,9 +70,9 @@ static class TacticalTileInfo
             case TacticalTileType.grass:
                 return true;
             case TacticalTileType.tree1:
-                return actor?.Unit.HasTrait(Traits.NimbleClimber) ?? false;
+                return actor?.Unit.HasTrait(TraitType.NimbleClimber) ?? false;
             case TacticalTileType.tree2:
-                return actor?.Unit.HasTrait(Traits.NimbleClimber) ?? false;
+                return actor?.Unit.HasTrait(TraitType.NimbleClimber) ?? false;
             case TacticalTileType.CobbleComplete:
                 return true;
             case TacticalTileType.CobbleVertical:

@@ -36,11 +36,11 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(16, 24),
                         Stomach = new RaceStats.StatRange(12, 18),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.HardSkin,
-                        Traits.Resilient,
-                        Traits.VenomShock,
+                        TraitType.HardSkin,
+                        TraitType.Resilient,
+                        TraitType.VenomShock,
                     },
                     RaceDescription = "",
                 });

@@ -40,10 +40,10 @@ namespace Races.Graphics.Implementations.Mercs
                         Voracity = new RaceStats.StatRange(8, 14),
                         Stomach = new RaceStats.StatRange(12, 15),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Intimidating,
-                        Traits.Petrifier,
+                        TraitType.Intimidating,
+                        TraitType.Petrifier,
                     },
                     RaceDescription = "",
                 });

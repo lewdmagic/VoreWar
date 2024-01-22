@@ -137,7 +137,7 @@ public class VillagePopulation
     {
         if (Population.Count == 0)
         {
-            if (!State.RaceSettings.GetRaceTraits(Village.Race).Contains(Traits.Infertile))
+            if (!State.RaceSettings.GetRaceTraits(Village.Race).Contains(TraitType.Infertile))
                 AddRacePop(Village.Race, 1);
         }
         else
@@ -226,7 +226,7 @@ public class VillagePopulation
         var BreedablePop = Population.Where(pop =>
         {
             var traits = State.RaceSettings.GetRaceTraits(pop.Race);
-            return !traits.Contains(Traits.Infertile);
+            return !traits.Contains(TraitType.Infertile);
         }).ToList();
         for (int x = 0; x < BreedablePop.Count; x++)
         { 

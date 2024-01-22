@@ -614,14 +614,14 @@ public class TacticalMode : SceneBase
             }
             else if (empire != null && empire is MonsterEmpire)
             {
-                if (fighters.Where(s => s.Unit.HasTrait(Traits.EvasiveBattler)).Count() / (float)fighters.Count > .8f) //If more than 80% has fast flee
+                if (fighters.Where(s => s.Unit.HasTrait(TraitType.EvasiveBattler)).Count() / (float)fighters.Count > .8f) //If more than 80% has fast flee
                     AI.RetreatPlan = new TacticalAI.RetreatConditions(.05f, 0);
                 else
                     AI.RetreatPlan = new TacticalAI.RetreatConditions(.025f, 0);
             }
             else if (nonPlayer) //Don't set retreat for players
             {
-                if (fighters.Where(s => s.Unit.HasTrait(Traits.EvasiveBattler)).Count() / (float)fighters.Count > .8f) //If more than 80% has fast flee
+                if (fighters.Where(s => s.Unit.HasTrait(TraitType.EvasiveBattler)).Count() / (float)fighters.Count > .8f) //If more than 80% has fast flee
                     AI.RetreatPlan = new TacticalAI.RetreatConditions(.3f, 0);
                 else
                     AI.RetreatPlan = new TacticalAI.RetreatConditions(.15f, 0);
@@ -644,7 +644,7 @@ public class TacticalMode : SceneBase
         {
 
 
-            if (actor.Unit.HasTrait(Traits.AstralCall))
+            if (actor.Unit.HasTrait(TraitType.AstralCall))
             {
                 if (Equals(actor.Unit.Side, defenderSide))
                 {
@@ -720,7 +720,7 @@ public class TacticalMode : SceneBase
         {
 
 
-            if (actor.Unit.HasTrait(Traits.AntPheromones))
+            if (actor.Unit.HasTrait(TraitType.AntPheromones))
             {
                 if (Equals(actor.Unit.Side, defenderSide))
                 {
@@ -1230,9 +1230,9 @@ Turns: {currentTurn}
         }
         void ApplyEnemyTags(Actor_Unit source, Actor_Unit target)
         {
-            if (source.Unit.HasTrait(Traits.Intimidating))
+            if (source.Unit.HasTrait(TraitType.Intimidating))
                 target.Intimidated = true;
-            if (source.Unit.HasTrait(Traits.TentacleHarassment))
+            if (source.Unit.HasTrait(TraitType.TentacleHarassment))
                 target.Unit.Harassed = true;
         }
 
@@ -1626,16 +1626,16 @@ Turns: {currentTurn}
                 continue;
             Vec2i pos = target.Position;
             target.UnitSprite.HitPercentagesDisplayed(true);
-            if (actor.PredatorComponent.FreeCap() < target.Bulk() || (actor.BodySize() < target.BodySize() * 3 && actor.Unit.HasTrait(Traits.TightNethers) && PreyLocationMethods.IsGenital(location)))
+            if (actor.PredatorComponent.FreeCap() < target.Bulk() || (actor.BodySize() < target.BodySize() * 3 && actor.Unit.HasTrait(TraitType.TightNethers) && PreyLocationMethods.IsGenital(location)))
                 target.UnitSprite.DisplayHitPercentage(target.GetDevourChance(actor, true), Color.yellow);
             else if (actor.Unit.CanVore(location) != actor.PredatorComponent.CanVore(location,target))
                 target.UnitSprite.DisplayHitPercentage(target.GetDevourChance(actor, true), Color.yellow);
             else if (actor.Position.GetNumberOfMovesDistance(target.Position) < 2)
                 target.UnitSprite.DisplayHitPercentage(target.GetDevourChance(actor, true), Color.red);
-            else if (actor.Unit.HasTrait(Traits.RangedVore) && actor.Position.GetNumberOfMovesDistance(target.Position) < 5)
+            else if (actor.Unit.HasTrait(TraitType.RangedVore) && actor.Position.GetNumberOfMovesDistance(target.Position) < 5)
             {
                 int dist = target.Position.GetNumberOfMovesDistance(actor.Position);
-                if (target.Unit.HasTrait(Traits.Flight))
+                if (target.Unit.HasTrait(TraitType.Flight))
                     dist = 1;
                 int boost = -3 * (dist - 1);
                 target.UnitSprite.DisplayHitPercentage(target.GetDevourChance(actor, true, skillBoost: boost), Color.red);
@@ -1748,7 +1748,7 @@ Turns: {currentTurn}
         foreach (Actor_Unit target in units)
         {
             if (!Equals(target.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(target.Unit.GetApparentSide(actor.Unit), actor.Unit.GetApparentSide()) &&
-                !(actor.Unit.HasTrait(Traits.SeductiveTouch) || Config.CanUseStomachRubOnEnemies))
+                !(actor.Unit.HasTrait(TraitType.SeductiveTouch) || Config.CanUseStomachRubOnEnemies))
                 continue;
             if ((target.Targetable == false && target.Visible) || target.Visible == false)
                 continue;
@@ -1758,7 +1758,7 @@ Turns: {currentTurn}
                 continue;
             Vec2i pos = target.Position;
             target.UnitSprite.HitPercentagesDisplayed(true);
-            if (actor.Unit.HasTrait(Traits.SeductiveTouch) && !Equals(target.Unit.Side, actor.Unit.Side))
+            if (actor.Unit.HasTrait(TraitType.SeductiveTouch) && !Equals(target.Unit.Side, actor.Unit.Side))
             {
                 float charmChance = target.GetPureStatClashChance(actor.Unit.GetStat(Stat.Dexterity), target.Unit.GetStat(Stat.Will), .1f);
                 if (actor.Position.GetNumberOfMovesDistance(target.Position) < 2)
@@ -1887,7 +1887,7 @@ Turns: {currentTurn}
             if (TacticalUtilities.FreeSpaceAroundTarget(target.Position, actor) == false)
                 continue;
             int weaponDamage = actor.WeaponDamageAgainstTarget(target, false);
-            if (actor.Unit.HasTrait(Traits.HeavyPounce))
+            if (actor.Unit.HasTrait(TraitType.HeavyPounce))
                 weaponDamage = (int)Mathf.Min((weaponDamage + ((weaponDamage * actor.PredatorComponent?.Fullness ?? 0) / 4)), weaponDamage * 2);
             Vec2i pos = target.Position;
             if (actor.Position.GetNumberOfMovesDistance(target.Position) <= 4 && actor.Position.GetNumberOfMovesDistance(target.Position) >= 2)
@@ -2003,7 +2003,7 @@ Turns: {currentTurn}
 
     void CreateMovementGrid()
     {
-        Walkable = TacticalPathfinder.GetGrid(SelectedUnit.Position, SelectedUnit.Unit.HasTrait(Traits.Flight), SelectedUnit.Movement, SelectedUnit);
+        Walkable = TacticalPathfinder.GetGrid(SelectedUnit.Position, SelectedUnit.Unit.HasTrait(TraitType.Flight), SelectedUnit.Movement, SelectedUnit);
         UpdateMovementGrid();
     }
 
@@ -2424,7 +2424,7 @@ Turns: {currentTurn}
             return;
         }
 
-        if (actor.Unit.HasTrait(Traits.Fearless))
+        if (actor.Unit.HasTrait(TraitType.Fearless))
         {
             if (silent == false) State.GameManager.CreateMessageBox("A unit with the fearless trait can not flee");
             return;
@@ -2793,7 +2793,7 @@ Turns: {currentTurn}
                             else if (specialType == SpecialAction.PounceMelee)
                             {
                                 int weaponDamage = SelectedUnit.WeaponDamageAgainstTarget(actor, false);
-                                if (SelectedUnit.Unit.HasTrait(Traits.HeavyPounce))
+                                if (SelectedUnit.Unit.HasTrait(TraitType.HeavyPounce))
                                     weaponDamage = (int)Mathf.Min((weaponDamage + ((weaponDamage * SelectedUnit.PredatorComponent?.Fullness ?? 0) / 4)), weaponDamage * 2);
                                 string str = System.Math.Round(actor.GetAttackChance(SelectedUnit, false) * 100, 1) + "%\n-" + weaponDamage;
                                 StatusUI.HitRate.text = str;
@@ -3558,7 +3558,7 @@ Turns: {currentTurn}
                 {
                     RetreatedDigestors[i].DigestCheck();
                 }
-                if (RetreatedDigestors[i].Unit.HasTrait(Traits.Endosoma))
+                if (RetreatedDigestors[i].Unit.HasTrait(TraitType.Endosoma))
                 {
                     foreach (var prey in RetreatedDigestors[i].PredatorComponent.GetAllPrey())
                     {
@@ -3663,7 +3663,7 @@ Turns: {currentTurn}
                 if (actor.Targetable && actor.Visible && !actor.Fled && !actor.Surrendered && !actor.Unit.hiddenFixedSide && units.Any(u => u.Targetable && !u.Fled && u.Visible && TacticalUtilities.TreatAsHostile(actor, u))) return false;
                 if (actor.Unit.Predator == false)
                     continue;
-                foreach (var prey in actor.PredatorComponent.GetDirectPrey().Where(s => s.Unit.HasTrait(Traits.TheGreatEscape)).ToList())
+                foreach (var prey in actor.PredatorComponent.GetDirectPrey().Where(s => s.Unit.HasTrait(TraitType.TheGreatEscape)).ToList())
                 {
                     actor.PredatorComponent.FreeGreatEscapePrey(prey);
                     RetreatUnit(prey.Actor, Equals(prey.Unit.Side, defenderSide));
@@ -3750,9 +3750,9 @@ Turns: {currentTurn}
                 actor.Unit.SetSizeToDefault();
                 actor.Unit.EnemiesKilledThisBattle = 0;
                 if (actor.Unit.IsDead && actor.Unit.Type != UnitType.Summon &&
-                    (actor.Unit.HasTrait(Traits.Eternal) || (actor.Unit.HasTrait(Traits.LuckySurvival) && State.Rand.Next(5) != 0) ||
-                    (actor.Unit.HasTrait(Traits.Reformer) && actor.KilledByDigestion) ||
-                    (actor.Unit.HasTrait(Traits.Revenant) && actor.KilledByDigestion == false)
+                    (actor.Unit.HasTrait(TraitType.Eternal) || (actor.Unit.HasTrait(TraitType.LuckySurvival) && State.Rand.Next(5) != 0) ||
+                    (actor.Unit.HasTrait(TraitType.Reformer) && actor.KilledByDigestion) ||
+                    (actor.Unit.HasTrait(TraitType.Revenant) && actor.KilledByDigestion == false)
                     ))
                 {
                     actor.Surrendered = false;
@@ -3779,7 +3779,7 @@ Turns: {currentTurn}
                     actor.PredatorComponent?.PurgePrey();
                     units.Remove(actor);
                 }
-                else if ((actor.Unit.HasTrait(Traits.Transmigration) || actor.Unit.HasTrait(Traits.InfiniteTransmigration)) && actor.KilledByDigestion && actor.Unit.IsDead
+                else if ((actor.Unit.HasTrait(TraitType.Transmigration) || actor.Unit.HasTrait(TraitType.InfiniteTransmigration)) && actor.KilledByDigestion && actor.Unit.IsDead
                     && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.Leader && actor.Unit.Type != UnitType.SpecialMercenary)
                 {
                     if (State.World.MainEmpires != null)
@@ -3789,14 +3789,14 @@ Turns: {currentTurn}
                             State.World.Reincarnators = new List<Reincarnator>();
                         if (!State.World.Reincarnators.Any(rc => rc.PastLife == actor.Unit))
                         {
-                            actor.Unit.RemoveTrait(Traits.Transmigration);
+                            actor.Unit.RemoveTrait(TraitType.Transmigration);
                             State.World.Reincarnators.Add(new Reincarnator(actor.Unit, race, true));
                             State.World.GetEmpireOfSide(actor.Unit.Side)?.Reports.Add(new StrategicReport($"{actor.Unit.Name} will reincarnate as a {InfoPanel.RaceSingular(actor.Unit.KilledBy)}.", new Vec2(0, 0)));
 
                         }
                     }
                 }
-                else if ((actor.Unit.HasTrait(Traits.Reincarnation) || actor.Unit.HasTrait(Traits.InfiniteReincarnation)) && actor.Unit.IsDead 
+                else if ((actor.Unit.HasTrait(TraitType.Reincarnation) || actor.Unit.HasTrait(TraitType.InfiniteReincarnation)) && actor.Unit.IsDead 
                     && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.Leader && actor.Unit.Type != UnitType.SpecialMercenary)
                 {
                     if (State.World.MainEmpires != null)
@@ -3810,7 +3810,7 @@ Turns: {currentTurn}
                                 State.World.Reincarnators = new List<Reincarnator>();
                             if (!State.World.Reincarnators.Any(rc => rc.PastLife == actor.Unit))
                             {
-                                actor.Unit.RemoveTrait(Traits.Reincarnation);
+                                actor.Unit.RemoveTrait(TraitType.Reincarnation);
                                 State.World.Reincarnators.Add(new Reincarnator(actor.Unit, race));
                                 State.World.GetEmpireOfSide(actor.Unit.Side)?.Reports.Add(new StrategicReport($"{actor.Unit.Name} will reincarnate as a random race.", new Vec2(0, 0)));
                         }
@@ -3958,7 +3958,7 @@ Turns: {currentTurn}
         {
             foreach (Actor_Unit actor in units.Where(s => !Equals(s.Unit.Side, defenderSide)))
             {
-                if (actor.Unit.HasTrait(Traits.Replaceable) && actor.Unit.IsDead)
+                if (actor.Unit.HasTrait(TraitType.Replaceable) && actor.Unit.IsDead)
                 {
                     actor.Unit.SetExp(actor.Unit.Experience * .5f);
                     if (actor.Unit.Experience < armies[0].Empire.StartingXP)
@@ -3971,7 +3971,7 @@ Turns: {currentTurn}
         {
             foreach (Actor_Unit actor in units.Where(s => Equals(s.Unit.Side, defenderSide)))
             {
-                if (actor.Unit.HasTrait(Traits.Replaceable) && actor.Unit.IsDead)
+                if (actor.Unit.HasTrait(TraitType.Replaceable) && actor.Unit.IsDead)
                 {
                     actor.Unit.SetExp(actor.Unit.Experience * .5f);
                     var defEmp = State.World.GetEmpireOfSide(defenderSide);
@@ -4095,7 +4095,7 @@ Turns: {currentTurn}
                     //    actor.Visible = true;
                     //    actor.Targetable = true;
                     //}
-                    if ((actor.SelfPrey?.Predator == null || actor.SelfPrey?.Predator.PredatorComponent?.IsActorInPrey(actor) == false || actor.SelfPrey.TurnsSinceLastDamage > 3 && actor.SelfPrey.Predator.Unit.HasTrait(Traits.Endosoma)) && actor.Unit.IsDead == false && actor.Visible == false && actor.Targetable == false)
+                    if ((actor.SelfPrey?.Predator == null || actor.SelfPrey?.Predator.PredatorComponent?.IsActorInPrey(actor) == false || actor.SelfPrey.TurnsSinceLastDamage > 3 && actor.SelfPrey.Predator.Unit.HasTrait(TraitType.Endosoma)) && actor.Unit.IsDead == false && actor.Visible == false && actor.Targetable == false)
                     {
                         actor.SelfPrey = null;
                         Debug.Log("Prey orphan found, fixing");
@@ -4109,7 +4109,7 @@ Turns: {currentTurn}
                     if (Equals(actor.Unit.Side, armies[0].Side))
                     {
                         remainingAttackers++;
-                        if (actor.SelfPrey != null && actor.Unit.HasTrait(Traits.TheGreatEscape))
+                        if (actor.SelfPrey != null && actor.Unit.HasTrait(TraitType.TheGreatEscape))
                             remainingAttackers--;
                         if (actor.Surrendered)
                             surrenderedAttackers++;
@@ -4117,13 +4117,13 @@ Turns: {currentTurn}
                         if (preyCount > 0)
                         {
                             remainingDefenders += preyCount;
-                            if (actor.Unit.HasTrait(Traits.Endosoma))
+                            if (actor.Unit.HasTrait(TraitType.Endosoma))
                             {
-                                remainingDefenders -= actor.PredatorComponent.GetDirectPrey().Where(s => Equals(actor.Unit.Side, s.Unit.Side) || s.Unit.HasTrait(Traits.TheGreatEscape)).Count();
+                                remainingDefenders -= actor.PredatorComponent.GetDirectPrey().Where(s => Equals(actor.Unit.Side, s.Unit.Side) || s.Unit.HasTrait(TraitType.TheGreatEscape)).Count();
                             }
                             else
                             {
-                                remainingDefenders -= actor.PredatorComponent.GetDirectPrey().Where(s => s.Unit.HasTrait(Traits.TheGreatEscape)).Count(); 
+                                remainingDefenders -= actor.PredatorComponent.GetDirectPrey().Where(s => s.Unit.HasTrait(TraitType.TheGreatEscape)).Count(); 
                             }
                         }
 
@@ -4131,7 +4131,7 @@ Turns: {currentTurn}
                     else
                     {
                         remainingDefenders++;
-                        if (actor.SelfPrey != null && actor.Unit.HasTrait(Traits.TheGreatEscape))
+                        if (actor.SelfPrey != null && actor.Unit.HasTrait(TraitType.TheGreatEscape))
                             remainingDefenders--;
                         if (actor.Surrendered)
                             surrenderedDefenders++;
@@ -4139,13 +4139,13 @@ Turns: {currentTurn}
                         if (preyCount > 0)
                         {
                             remainingAttackers += preyCount;
-                            if (actor.Unit.HasTrait(Traits.Endosoma))
+                            if (actor.Unit.HasTrait(TraitType.Endosoma))
                             {
-                                remainingAttackers -= actor.PredatorComponent.GetDirectPrey().Where(s => Equals(actor.Unit.Side, s.Unit.Side) || s.Unit.HasTrait(Traits.TheGreatEscape)).Count();
+                                remainingAttackers -= actor.PredatorComponent.GetDirectPrey().Where(s => Equals(actor.Unit.Side, s.Unit.Side) || s.Unit.HasTrait(TraitType.TheGreatEscape)).Count();
                             }
                             else
                             {
-                                remainingAttackers -= actor.PredatorComponent.GetDirectPrey().Where(s => s.Unit.HasTrait(Traits.TheGreatEscape)).Count();
+                                remainingAttackers -= actor.PredatorComponent.GetDirectPrey().Where(s => s.Unit.HasTrait(TraitType.TheGreatEscape)).Count();
                             }
                         }
                     }
@@ -4314,7 +4314,7 @@ Turns: {currentTurn}
             TacticalStats.RegisterAllyVore(predatorUnit.Unit.Side);
             predatorUnit.Unit.DigestedUnits++;
             preyUnit.Unit.Kill();
-            if (predatorUnit.Unit.HasTrait(Traits.EssenceAbsorption) && predatorUnit.Unit.DigestedUnits % 4 == 0)
+            if (predatorUnit.Unit.HasTrait(TraitType.EssenceAbsorption) && predatorUnit.Unit.DigestedUnits % 4 == 0)
                 predatorUnit.Unit.GeneralStatIncrease(1);
             preyUnit.Unit.Health = -999999;
         }

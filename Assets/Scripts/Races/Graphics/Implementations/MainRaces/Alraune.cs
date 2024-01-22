@@ -105,11 +105,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 16,
                     HasTail = false,
                     FavoredStat = Stat.Endurance,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Tempered,
-                        Traits.SlowAbsorption,
-                        Traits.PollenProjector
+                        TraitType.Tempered,
+                        TraitType.SlowAbsorption,
+                        TraitType.PollenProjector
                     },
                     RaceDescription = "",
                 });

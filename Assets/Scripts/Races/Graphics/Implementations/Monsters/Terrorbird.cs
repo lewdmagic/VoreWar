@@ -29,11 +29,11 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(10, 18),
                         Stomach = new RaceStats.StatRange(8, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Intimidating,
-                        Traits.ArtfulDodge,
-                        Traits.Tenacious
+                        TraitType.Intimidating,
+                        TraitType.ArtfulDodge,
+                        TraitType.Tenacious
                     },
                     RaceDescription = ""
                 });

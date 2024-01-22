@@ -24,9 +24,9 @@ public class RecruitCheatsPanel : MonoBehaviour
         Army = army;
         if (init == false)
         {
-            foreach (Traits traitId in ((Traits[])Enum.GetValues(typeof(Traits))).OrderBy(s =>
+            foreach (TraitType traitId in ((TraitType[])Enum.GetValues(typeof(TraitType))).OrderBy(s =>
             {
-                return s >= Traits.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString();
+                return s >= TraitType.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString();
             }))
             {
                 TraitPicker.options.Add(new TMP_Dropdown.OptionData(traitId.ToString()));
@@ -82,7 +82,7 @@ public class RecruitCheatsPanel : MonoBehaviour
 
     void AddTrait()
     {
-        if (Enum.TryParse(TraitPicker.captionText.text, out Traits trait))
+        if (Enum.TryParse(TraitPicker.captionText.text, out TraitType trait))
         {
             foreach (var unit in Army.Units)
             {
@@ -93,7 +93,7 @@ public class RecruitCheatsPanel : MonoBehaviour
 
     void RemoveTrait()
     {
-        if (Enum.TryParse(TraitPicker.captionText.text, out Traits trait))
+        if (Enum.TryParse(TraitPicker.captionText.text, out TraitType trait))
         {
             foreach (var unit in Army.Units)
             {

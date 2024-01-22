@@ -34,11 +34,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 14,
                     HasTail = true,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.KeenReflexes,
-                        Traits.StrongMelee,
-                        Traits.EscapeArtist
+                        TraitType.KeenReflexes,
+                        TraitType.StrongMelee,
+                        TraitType.EscapeArtist
                     },
                     RaceDescription = "",
                 });

@@ -22,12 +22,12 @@ namespace Races.Graphics.Implementations.Monsters
                     AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.CockVore, VoreType.Anal },
                     ExpMultiplier = 1.1f,
                     PowerAdjustment = 1.2f,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Whispers,
-                        Traits.ForceFeeder,
-                        Traits.ForcedMetamorphosis,
-                        Traits.GreaterChangeling,
+                        TraitType.Whispers,
+                        TraitType.ForceFeeder,
+                        TraitType.ForcedMetamorphosis,
+                        TraitType.GreaterChangeling,
                     },
                     SpawnRace = Race.Youko,
                     RaceDescription = ""

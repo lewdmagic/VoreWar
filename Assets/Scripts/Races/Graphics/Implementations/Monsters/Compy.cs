@@ -47,9 +47,9 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(6, 14),
                         Stomach = new RaceStats.StatRange(8, 20),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ArtfulDodge,
+                        TraitType.ArtfulDodge,
                     },
                     RaceDescription = "No-one is certain where these tiny beings appeared from, but everyone agrees that they aren't much of a threat, though not for a lack of trying from their part. All travelers should be aware though, a small dinosaur humping your leg likely means there are more nearby.",
 

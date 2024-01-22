@@ -36,12 +36,12 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(16, 20),
                         Stomach = new RaceStats.StatRange(11, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ArcaneMagistrate,
-                        Traits.SpellBlade,
-                        Traits.ManaAttuned,
-                        Traits.ManaRich
+                        TraitType.ArcaneMagistrate,
+                        TraitType.SpellBlade,
+                        TraitType.ManaAttuned,
+                        TraitType.ManaRich
                     },
                     InnateSpells = new List<SpellTypes>()
                         { SpellTypes.AmplifyMagic, SpellTypes.Evocation, SpellTypes.ManaFlux, SpellTypes.UnstableMana},

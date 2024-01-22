@@ -14,7 +14,7 @@ public class RandomizerTrait : MonoBehaviour
 
 
     [AllowEditing]
-    internal Dictionary<Traits, bool> TraitDictionary;
+    internal Dictionary<TraitType, bool> TraitDictionary;
 
     public void OpenTraitsDict()
     {

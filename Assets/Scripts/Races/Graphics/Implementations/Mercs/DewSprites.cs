@@ -20,11 +20,11 @@ namespace Races.Graphics.Implementations.Mercs
                     StomachSize = 16,
                     HasTail = false,
                     FavoredStat = Stat.Endurance,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Resilient,
-                        Traits.IronGut,
-                        Traits.EnthrallingDepths
+                        TraitType.Resilient,
+                        TraitType.IronGut,
+                        TraitType.EnthrallingDepths
                     },
                     RaceDescription = "",
                     AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal },

@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// The list of possible unit traits
 /// </summary>
-public enum Traits
+public enum TraitType
 {
     /// <summary>Unit gains +1 melee attack and +1 ranged attack, reducing the MP used by a melee or ranged attack.</summary>
     DoubleAttack = 0,
@@ -488,13 +488,13 @@ public enum Traits
 static class TraitsMethods
 {
 
-    static public bool IsRaceModifying(Traits trait)
+    static public bool IsRaceModifying(TraitType traitType)
     {
-        switch (trait)
+        switch (traitType)
         {
-            case Traits.Metamorphosis:
-            case Traits.Changeling:
-            case Traits.GreaterChangeling:
+            case TraitType.Metamorphosis:
+            case TraitType.Changeling:
+            case TraitType.GreaterChangeling:
             //case Traits.Shapeshifter:
             //case Traits.Skinwalker:
                 return true;
@@ -503,8 +503,8 @@ static class TraitsMethods
         }
     }
 
-    static public Traits LastTrait()
+    static public TraitType LastTrait()
     {
-        return Traits.SpiritPossession;
+        return TraitType.SpiritPossession;
     }
 }

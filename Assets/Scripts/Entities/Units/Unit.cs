@@ -95,9 +95,9 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
     [OdinSerialize]
     public bool hiddenFixedSide = false;
 
-    public static List<Traits> secretTags = new List<Traits>() { Traits.Infiltrator, Traits.Corruption, Traits.Parasite, Traits.Metamorphosis,
-        Traits.Possession, Traits.Changeling, Traits.Reincarnation, Traits.InfiniteReincarnation, Traits.Transmigration, Traits.InfiniteTransmigration,
-        Traits.Untamable, Traits.GreaterChangeling, Traits.SpiritPossession, Traits.ForcedMetamorphosis};
+    public static List<TraitType> secretTags = new List<TraitType>() { TraitType.Infiltrator, TraitType.Corruption, TraitType.Parasite, TraitType.Metamorphosis,
+        TraitType.Possession, TraitType.Changeling, TraitType.Reincarnation, TraitType.InfiniteReincarnation, TraitType.Transmigration, TraitType.InfiniteTransmigration,
+        TraitType.Untamable, TraitType.GreaterChangeling, TraitType.SpiritPossession, TraitType.ForcedMetamorphosis};
 
     
     [OdinSerialize] 
@@ -118,7 +118,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
     {
         get
         {
-            if (_baseScale < 1 || HasTrait(Traits.Growth) == false)
+            if (_baseScale < 1 || HasTrait(TraitType.Growth) == false)
                 return 1;
             return _baseScale;
         }
@@ -441,7 +441,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
 
     internal bool CanBeConverted()
     {
-        return Type != UnitType.Summon && Type != UnitType.Leader && Type != UnitType.SpecialMercenary && HasTrait(Traits.Eternal) == false && SavedCopy == null;
+        return Type != UnitType.Summon && Type != UnitType.Leader && Type != UnitType.SpecialMercenary && HasTrait(TraitType.Eternal) == false && SavedCopy == null;
     }
 
     internal bool CanUnbirth => Config.Unbirth && HasVagina;
@@ -475,7 +475,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
         {
             if (Items == null)
                 return false;
-            if (HasTrait(Traits.Feral))
+            if (HasTrait(TraitType.Feral))
                 return false;
             for (int i = 0; i < Items.Length; i++)
             {
@@ -562,26 +562,26 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
     }
 
     [OdinSerialize]
-    protected List<Traits> Tags; //For some reason, renaming this to anything else results in an infinite loop in serialization, so it is staying tags for now
+    protected List<TraitType> Tags; //For some reason, renaming this to anything else results in an infinite loop in serialization, so it is staying tags for now
 
     [OdinSerialize]
-    protected List<Traits> TemporaryTraits;
+    protected List<TraitType> TemporaryTraits;
     [OdinSerialize]
-    protected List<Traits> SharedTraits;
+    protected List<TraitType> SharedTraits;
     [OdinSerialize]
-    protected List<Traits> PersistentSharedTraits;
+    protected List<TraitType> PersistentSharedTraits;
 
     /// <summary>
     /// Traits that are considered to be permanent, i.e. do not disappear during refreshes
     /// </summary>
     [OdinSerialize]
-    protected List<Traits> PermanentTraits;
+    protected List<TraitType> PermanentTraits;
 
     /// <summary>
     /// Traits that are explicitly removed, done so that they aren't added back in at some point by version changes or the like.
     /// </summary>
     [OdinSerialize]
-    protected List<Traits> RemovedTraits;
+    protected List<TraitType> RemovedTraits;
 
     //internal List<Trait> TraitsList = new List<Trait>();
     internal List<IStatBoost> StatBoosts;
@@ -625,9 +625,9 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
         Side = side;
         experience = startingXP;
         level = 1;
-        Tags = new List<Traits>();
-        PermanentTraits = new List<Traits>();
-        RemovedTraits = new List<Traits>();
+        Tags = new List<TraitType>();
+        PermanentTraits = new List<TraitType>();
+        RemovedTraits = new List<TraitType>();
         Type = type;
 
         Predator = predator;
@@ -649,7 +649,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
         RefreshSecrecy();
         InitializeFixedSide(side);
 
-        if (HasTrait(Traits.Resourceful))
+        if (HasTrait(TraitType.Resourceful))
         {
             Items = new Item[3];
         }
@@ -696,20 +696,20 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
 
     private void SetForcedPermanentTraits()
     {
-        if (HasTrait(Traits.InfiniteAssimilation))
+        if (HasTrait(TraitType.InfiniteAssimilation))
         {           
-            RemoveTrait(Traits.InfiniteAssimilation);
-            AddPermanentTrait(Traits.InfiniteAssimilation);
+            RemoveTrait(TraitType.InfiniteAssimilation);
+            AddPermanentTrait(TraitType.InfiniteAssimilation);
         }
-        if (HasTrait(Traits.InfiniteReincarnation))
+        if (HasTrait(TraitType.InfiniteReincarnation))
         {
-            RemoveTrait(Traits.InfiniteReincarnation);
-            AddPermanentTrait(Traits.InfiniteReincarnation);
+            RemoveTrait(TraitType.InfiniteReincarnation);
+            AddPermanentTrait(TraitType.InfiniteReincarnation);
         }
-        if (HasTrait(Traits.InfiniteTransmigration))
+        if (HasTrait(TraitType.InfiniteTransmigration))
         {
-            RemoveTrait(Traits.InfiniteTransmigration);
-            AddPermanentTrait(Traits.InfiniteTransmigration);
+            RemoveTrait(TraitType.InfiniteTransmigration);
+            AddPermanentTrait(TraitType.InfiniteTransmigration);
         }
         //if (HasTrait(Traits.Shapeshifter))
         //{
@@ -721,10 +721,10 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
         //    RemoveTrait(Traits.Skinwalker);
         //    AddPermanentTrait(Traits.Skinwalker);
         //}
-        if (HasTrait(Traits.Extraction))
+        if (HasTrait(TraitType.Extraction))
         {
-            RemoveTrait(Traits.Extraction);
-            AddPermanentTrait(Traits.Extraction);
+            RemoveTrait(TraitType.Extraction);
+            AddPermanentTrait(TraitType.Extraction);
         }
     }
 
@@ -742,7 +742,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
         Unit Unit = reinc.PastLife;
         Name = Unit.Name;
         experience = Unit.Experience;
-        foreach (Traits trait in Unit.PermanentTraits)
+        foreach (TraitType trait in Unit.PermanentTraits)
         {
             AddPermanentTrait(trait);
         }
@@ -882,15 +882,15 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
     {
         if (State.World?.ItemRepository == null) return;
         var tiers = new List<int>();
-        if (HasTrait(Traits.BookWormI))
+        if (HasTrait(TraitType.BookWormI))
         {
             tiers.Add(1);
         }
-        if (HasTrait(Traits.BookWormII))
+        if (HasTrait(TraitType.BookWormII))
         {
             tiers.Add(2);
         }
-        if (HasTrait(Traits.BookWormIII))
+        if (HasTrait(TraitType.BookWormIII))
         {
             tiers.Add(3);
         }
@@ -917,7 +917,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
                 }
             }
         }
-        if (tiers.Count > 0 && HasTrait(Traits.BookEater))
+        if (tiers.Count > 0 && HasTrait(TraitType.BookEater))
         {
             foreach (int t in tiers)
             {
@@ -1292,11 +1292,11 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     }
     internal void ClearAllTraits()
     {
-        Tags = new List<Traits>();
+        Tags = new List<TraitType>();
         InitializeTraits();
     }
 
-    internal List<Traits> GetTraits
+    internal List<TraitType> GetTraits
     {
         get
         {
@@ -1483,19 +1483,19 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     internal void RefreshSecrecy()
     {
-        if (HasTrait(Traits.Infiltrator) || HasTrait(Traits.Corruption))
+        if (HasTrait(TraitType.Infiltrator) || HasTrait(TraitType.Corruption))
             hiddenFixedSide = true;
     }
     internal void InitializeFixedSide(Side side)
     {
         if (State.World?.ItemRepository == null) return; //protection for the create strat screen
         if (RaceFuncs.isNotNone(_fixedSide)) return;
-        if (HasTrait(Traits.Untamable))
+        if (HasTrait(TraitType.Untamable))
         {
             FixedSide = State.World.GetEmpireOfRace(Race)?.Side ?? side;
             return;
         }
-        if (HasTrait(Traits.Infiltrator) || HasTrait(Traits.Corruption))
+        if (HasTrait(TraitType.Infiltrator) || HasTrait(TraitType.Corruption))
         {
             FixedSide = side;
             return;
@@ -1503,9 +1503,9 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         FixedSide = Side.TrueNoneSide;
     }
 
-    public bool HasTrait(Traits tag)
+    public bool HasTrait(TraitType tag)
     {
-        if (tag == Traits.TheGreatEscape && Equals(Race, Race.Erin))
+        if (tag == TraitType.TheGreatEscape && Equals(Race, Race.Erin))
             return true;
         if (Tags != null)
             return Tags.Contains(tag) || (PermanentTraits?.Contains(tag) ?? false);
@@ -1603,7 +1603,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         return (!Equals(Side, side));
     }
 
-    public void AddTraits(List<Traits> traitIdsToAdd)
+    public void AddTraits(List<TraitType> traitIdsToAdd)
     {
         foreach (var traitId in traitIdsToAdd)
         {
@@ -1613,46 +1613,46 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         return;
     }
 
-    public void AddTrait(Traits traitIdToAdd)
+    public void AddTrait(TraitType traitTypeToAdd)
     {
         if (Tags == null)
-            Tags = new List<Traits>();
+            Tags = new List<TraitType>();
 
-        if (HasTrait(traitIdToAdd))
+        if (HasTrait(traitTypeToAdd))
             return;
 
-        Tags.Add(traitIdToAdd);
+        Tags.Add(traitTypeToAdd);
         RecalculateStatBoosts();
     }
 
-    public bool AddPermanentTrait(Traits traitIdToAdd)
+    public bool AddPermanentTrait(TraitType traitTypeToAdd)
     {
         if (PermanentTraits == null)
-            PermanentTraits = new List<Traits>();
+            PermanentTraits = new List<TraitType>();
 
-        if (traitIdToAdd == Traits.Prey)
+        if (traitTypeToAdd == TraitType.Prey)
         {
             Predator = false;
             fixedPredator = true;
         }
 
-        if (HasTrait(traitIdToAdd))
+        if (HasTrait(traitTypeToAdd))
             return false;
 
-        PermanentTraits.Add(traitIdToAdd);
+        PermanentTraits.Add(traitTypeToAdd);
         RecalculateStatBoosts();
         return true;
     }
 
-    public void RemoveTrait(Traits traitToRemove)
+    public void RemoveTrait(TraitType traitTypeToRemove)
     {
         if (Tags == null)
             return;
 
         if (RemovedTraits == null)
-            RemovedTraits = new List<Traits>();
+            RemovedTraits = new List<TraitType>();
 
-        if (traitToRemove == Traits.Prey)
+        if (traitTypeToRemove == TraitType.Prey)
         {
             if (RaceParameters.GetTraitData(this).AllowedVoreTypes.Any())
             {
@@ -1664,12 +1664,12 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
         }
 
-        RemovedTraits.Add(traitToRemove);
+        RemovedTraits.Add(traitTypeToRemove);
 
-        if (HasTrait(traitToRemove))
+        if (HasTrait(traitTypeToRemove))
         {
-            Tags.Remove(traitToRemove);
-            PermanentTraits?.Remove(traitToRemove);
+            Tags.Remove(traitTypeToRemove);
+            PermanentTraits?.Remove(traitTypeToRemove);
             RecalculateStatBoosts();
         }
 
@@ -1755,7 +1755,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     internal void SetMaxItems()
     {
 
-        if (HasTrait(Traits.Resourceful) == false)
+        if (HasTrait(TraitType.Resourceful) == false)
         {
             if (Items.Count() == 3)
                 SetItem(null, 2);
@@ -1793,93 +1793,93 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     }
 
-    internal void AddTemporaryTrait(Traits trait)
+    internal void AddTemporaryTrait(TraitType traitType)
     {
         if (TemporaryTraits == null)
-            TemporaryTraits = new List<Traits>();
-        if (TemporaryTraits.Contains(trait) == false)
-            TemporaryTraits.Add(trait);
+            TemporaryTraits = new List<TraitType>();
+        if (TemporaryTraits.Contains(traitType) == false)
+            TemporaryTraits.Add(traitType);
         if (TemporaryTraits.Count >= 4)
             TemporaryTraits.RemoveAt(0);
     }
 
-    public bool HasSharedTrait(Traits trait)
+    public bool HasSharedTrait(TraitType traitType)
     {
         if (SharedTraits == null)
-            SharedTraits = new List<Traits>();
-        return (SharedTraits.Contains(trait));
+            SharedTraits = new List<TraitType>();
+        return (SharedTraits.Contains(traitType));
     }
 
-    public void AddSharedTrait(Traits trait)
+    public void AddSharedTrait(TraitType traitType)
     {
         if (SharedTraits == null)
-            SharedTraits = new List<Traits>();
-        if (!SharedTraits.Contains(trait) && !HasTrait(trait))
-            SharedTraits.Add(trait);
-            AddTrait(trait);
+            SharedTraits = new List<TraitType>();
+        if (!SharedTraits.Contains(traitType) && !HasTrait(traitType))
+            SharedTraits.Add(traitType);
+            AddTrait(traitType);
 
     }
 
     public void ResetSharedTraits()
     {
         if (SharedTraits == null)
-            SharedTraits = new List<Traits>();
-        foreach (Traits trait in SharedTraits)
+            SharedTraits = new List<TraitType>();
+        foreach (TraitType trait in SharedTraits)
         {
             RemoveTrait(trait);
         }
         SharedTraits.Clear();
     }
 
-    public void RemoveSharedTrait(Traits trait)
+    public void RemoveSharedTrait(TraitType traitType)
     {
         if (SharedTraits == null)
-            SharedTraits = new List<Traits>();
-        if (SharedTraits.Contains(trait) && HasTrait(trait))
-            SharedTraits.Remove(trait);
-            RemoveTrait(trait);
+            SharedTraits = new List<TraitType>();
+        if (SharedTraits.Contains(traitType) && HasTrait(traitType))
+            SharedTraits.Remove(traitType);
+            RemoveTrait(traitType);
     }
 
-    public bool HasPersistentSharedTrait(Traits trait)
+    public bool HasPersistentSharedTrait(TraitType traitType)
     {
         if (PersistentSharedTraits == null)
-            PersistentSharedTraits = new List<Traits>();
-        return (PersistentSharedTraits.Contains(trait));
+            PersistentSharedTraits = new List<TraitType>();
+        return (PersistentSharedTraits.Contains(traitType));
     }
 
-    public void AddPersistentSharedTrait(Traits trait)
+    public void AddPersistentSharedTrait(TraitType traitType)
     {
         if (PersistentSharedTraits == null)
-            PersistentSharedTraits = new List<Traits>();
-        if (!PersistentSharedTraits.Contains(trait) && !HasTrait(trait))
-            PersistentSharedTraits.Add(trait);
-        AddTrait(trait);
+            PersistentSharedTraits = new List<TraitType>();
+        if (!PersistentSharedTraits.Contains(traitType) && !HasTrait(traitType))
+            PersistentSharedTraits.Add(traitType);
+        AddTrait(traitType);
 
     }
 
     public void ResetPersistentSharedTraits()
     {
         if (PersistentSharedTraits == null)
-            PersistentSharedTraits = new List<Traits>();
-        foreach (Traits trait in PersistentSharedTraits)
+            PersistentSharedTraits = new List<TraitType>();
+        foreach (TraitType trait in PersistentSharedTraits)
         {
             RemoveTrait(trait);
         }
         PersistentSharedTraits.Clear();
     }
 
-    public void RemovePersistentSharedTrait(Traits trait)
+    public void RemovePersistentSharedTrait(TraitType traitType)
     {
         if (PersistentSharedTraits == null)
-            PersistentSharedTraits = new List<Traits>();
-        if (PersistentSharedTraits.Contains(trait) && HasTrait(trait))
-            PersistentSharedTraits.Remove(trait);
-        RemoveTrait(trait);
+            PersistentSharedTraits = new List<TraitType>();
+        if (PersistentSharedTraits.Contains(traitType) && HasTrait(traitType))
+            PersistentSharedTraits.Remove(traitType);
+        RemoveTrait(traitType);
     }
 
     internal void ReloadTraits()
     {
-        Tags = new List<Traits>();
+        Tags = new List<TraitType>();
         if (Config.RaceTraitsEnabled)
         {
             Tags.AddRange(State.RaceSettings.GetRaceTraits(HiddenUnit.Race));
@@ -1927,7 +1927,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             Tags.AddRange(PersistentSharedTraits);
         if (RemovedTraits != null)
         {
-            foreach (Traits trait in RemovedTraits)
+            foreach (TraitType trait in RemovedTraits)
             {
                 Tags.Remove(trait);
             }
@@ -1935,15 +1935,15 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         if (!State.TutorialMode)
             RandomizeTraits();
         Tags = Tags.Distinct().ToList();
-        if (HasTrait(Traits.Prey))
+        if (HasTrait(TraitType.Prey))
             Predator = false;
         else if (fixedPredator == false)
             Predator = State.World?.GetEmpireOfRace(HiddenUnit.Race)?.CanVore ?? true;
-        Tags.RemoveAll(s => s == Traits.Prey);
+        Tags.RemoveAll(s => s == TraitType.Prey);
         if (RaceParameters.GetTraitData(HiddenUnit).AllowedVoreTypes.Any() == false)
             Predator = false;
-        if (HiddenUnit.Predator == false && !HasTrait(Traits.Prey))
-            Tags.Add(Traits.Prey);
+        if (HiddenUnit.Predator == false && !HasTrait(TraitType.Prey))
+            Tags.Add(TraitType.Prey);
         SetMaxItems();
         //if (HasTrait(Traits.Shapeshifter) || HasTrait(Traits.Skinwalker))
         //{
@@ -1986,17 +1986,17 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     private void RandomizeTraits()
     {
         while (true) { 
-        var customs = Tags.Where(t => State.RandomizeLists.Any(rl => (Traits)rl.id == t)).ToList();
-            customs.AddRange(PermanentTraits.Where(t => State.RandomizeLists.Any(rl => (Traits)rl.id == t)));
+        var customs = Tags.Where(t => State.RandomizeLists.Any(rl => (TraitType)rl.id == t)).ToList();
+            customs.AddRange(PermanentTraits.Where(t => State.RandomizeLists.Any(rl => (TraitType)rl.id == t)));
             if (!customs.Any())
                 break;
         customs.ForEach(ct =>
         {
-            RandomizeList randomizeList = State.RandomizeLists.Single(rl => (Traits)rl.id == ct);
+            RandomizeList randomizeList = State.RandomizeLists.Single(rl => (TraitType)rl.id == ct);
             var chance = randomizeList.chance;
             while (chance > 0 && State.Rand.NextDouble() < randomizeList.chance)
             {
-                List<Traits> gainable = randomizeList.RandomTraits.Where(rt => !Tags.Contains(rt) && !PermanentTraits.Contains(rt)).ToList();
+                List<TraitType> gainable = randomizeList.RandomTraits.Where(rt => !Tags.Contains(rt) && !PermanentTraits.Contains(rt)).ToList();
                 if (gainable.Count() > 0)
                 {
                     var randomPick = gainable[State.Rand.Next(gainable.Count())];
@@ -2008,9 +2008,9 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
                 chance -= 1;
             }
             if (RemovedTraits == null)
-                RemovedTraits = new List<Traits>();
+                RemovedTraits = new List<TraitType>();
             RemovedTraits.Add(ct);
-            foreach (Traits trait in RemovedTraits)
+            foreach (TraitType trait in RemovedTraits)
             {
                 Tags.Remove(trait);
                 PermanentTraits.Remove(trait);
@@ -2020,35 +2020,35 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     }
 
-    private void GivePrerequisiteTraits(Traits randomPick)
+    private void GivePrerequisiteTraits(TraitType randomPick)
     {
-        Traits prereq = (Traits)(-1);
-        if (randomPick > Traits.Growth && randomPick <= Traits.FleetingGrowth)
+        TraitType prereq = (TraitType)(-1);
+        if (randomPick > TraitType.Growth && randomPick <= TraitType.FleetingGrowth)
         {
-            prereq = Traits.Growth;
+            prereq = TraitType.Growth;
         }
-        if ( randomPick == Traits.HealingBelly)
+        if ( randomPick == TraitType.HealingBelly)
         {
-            prereq = Traits.Endosoma;
+            prereq = TraitType.Endosoma;
         }
-        if (randomPick == Traits.VenomousBite)
+        if (randomPick == TraitType.VenomousBite)
         {
-            prereq = Traits.Biter;
+            prereq = TraitType.Biter;
         }
-        if (randomPick == Traits.SynchronizedEvolution)
+        if (randomPick == TraitType.SynchronizedEvolution)
         {
-            prereq = Traits.Assimilate;
+            prereq = TraitType.Assimilate;
         }
-        if (randomPick == Traits.PredConverter || randomPick == Traits.PredRebirther || randomPick == Traits.PredGusher)
+        if (randomPick == TraitType.PredConverter || randomPick == TraitType.PredRebirther || randomPick == TraitType.PredGusher)
         {
             if (RaceParameters.GetRaceTraits(Race).AllowedVoreTypes.Contains(VoreType.Unbirth))
                 HasVagina = true;
         }
-        if (randomPick == Traits.HeavyPounce)
+        if (randomPick == TraitType.HeavyPounce)
         {
-            prereq = Traits.Pounce;
+            prereq = TraitType.Pounce;
         }
-        if (prereq != (Traits)(-1) && !Tags.Contains(prereq) && !PermanentTraits.Contains(prereq))
+        if (prereq != (TraitType)(-1) && !Tags.Contains(prereq) && !PermanentTraits.Contains(prereq))
         {
             PermanentTraits.Add(prereq);
             RemovedTraits?.Remove(prereq);
@@ -2347,7 +2347,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     public Weapon GetBestMelee()
     {
-        if (HasTrait(Traits.Feral))
+        if (HasTrait(TraitType.Feral))
         {
             return State.World.ItemRepository.Claws;
         }
@@ -2377,7 +2377,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     public Weapon GetBestRanged()
     {
-        if (HasTrait(Traits.Feral))
+        if (HasTrait(TraitType.Feral))
         {
             return null;
         }
@@ -2463,7 +2463,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             UnityEngine.Debug.LogWarning("Tried to assign item to a non-existent slot!");
             return;
         }
-        if (item is SpellBook && HasTrait(Traits.BookEater) && !fromUnitEditor)
+        if (item is SpellBook && HasTrait(TraitType.BookEater) && !fromUnitEditor)
         {
             InnateSpells.Add(((SpellBook)item).ContainedSpell);
             return;
@@ -2570,7 +2570,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     public void ApplyStatusEffect(StatusEffectType type, float strength, int duration, Side side)
     {
-        if (type == StatusEffectType.Poisoned && HasTrait(Traits.PoisonSpit))
+        if (type == StatusEffectType.Poisoned && HasTrait(TraitType.PoisonSpit))
             return;
         StatusEffects.Remove(GetStatusEffect(type));                    // if null, nothing happens, otherwise status is effectively overwritten
         StatusEffects.Add(new StatusEffect(type, strength, duration, side));
@@ -2578,7 +2578,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     internal StatusEffect GetStatusEffect(StatusEffectType type)
     {
-        if (type == StatusEffectType.WillingPrey && HasTrait(Traits.WillingRace))
+        if (type == StatusEffectType.WillingPrey && HasTrait(TraitType.WillingRace))
             return new StatusEffect(StatusEffectType.WillingPrey, 0, 100);
         return StatusEffects.Where(s => s.Type == type).OrderByDescending(s => s.Strength).ThenByDescending(s => s.Duration).FirstOrDefault();
     }
@@ -2616,7 +2616,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     public void CreateRaceShape(Race race)
     {
         var shape = new Unit(Side, race, (int)Experience, true, Type, ImmuneToDefections);
-        foreach (Traits trait in ShifterShapes[0].PermanentTraits)
+        foreach (TraitType trait in ShifterShapes[0].PermanentTraits)
         {
             shape.AddPermanentTrait(trait);
         }
@@ -2785,7 +2785,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             var pred = actor.SelfPrey?.Predator;
             if (pred != null && eff.Type == StatusEffectType.Diminished)
             {
-                if (pred.Unit.HasTrait(Traits.TightNethers) && (actor.SelfPrey.Location == PreyLocation.balls || actor.SelfPrey.Location == PreyLocation.womb))
+                if (pred.Unit.HasTrait(TraitType.TightNethers) && (actor.SelfPrey.Location == PreyLocation.balls || actor.SelfPrey.Location == PreyLocation.womb))
                 {
                     continue;
                 }
@@ -2833,20 +2833,20 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         }
     }
 
-    internal List<Traits> RandomizeOne(RandomizeList randomizeList)
+    internal List<TraitType> RandomizeOne(RandomizeList randomizeList)
     {
         var chance = randomizeList.chance;
-        var traitsToAdd = new List<Traits>();
-        List<Traits> gainable = randomizeList.RandomTraits.Where(rt => !Tags.Contains(rt) && !PermanentTraits.Contains(rt)).ToList();
+        var traitsToAdd = new List<TraitType>();
+        List<TraitType> gainable = randomizeList.RandomTraits.Where(rt => !Tags.Contains(rt) && !PermanentTraits.Contains(rt)).ToList();
         while (State.Rand.NextDouble() < chance)
         {
             if (gainable.Count() > 0)
             {
                 var randomPick = gainable[State.Rand.Next(gainable.Count())];
                 GivePrerequisiteTraits(randomPick);
-                if (randomPick >= (Traits)1000)
+                if (randomPick >= (TraitType)1000)
                 {
-                    RandomizeList recursiveRl = State.RandomizeLists.Find(re => (Traits)re.id == randomPick);
+                    RandomizeList recursiveRl = State.RandomizeLists.Find(re => (TraitType)re.id == randomPick);
                     if (recursiveRl != null)
                     {
                         traitsToAdd.AddRange(RandomizeOne(recursiveRl));
@@ -2884,7 +2884,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         //}
     }
 
-    internal List<Traits> GetPermanentTraits()
+    internal List<TraitType> GetPermanentTraits()
     {
         return PermanentTraits;
     }
@@ -2915,45 +2915,45 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     }
     public void Shrink()
     {
-        if (HasTrait(Traits.Titanic) && HasTrait(Traits.Colossal) && HasTrait(Traits.Huge) && HasTrait(Traits.Large))
-            RemoveTrait(Traits.Large);
-        else if (HasTrait(Traits.Titanic) && HasTrait(Traits.Colossal) && HasTrait(Traits.Huge))
-            RemoveTrait(Traits.Huge);
-        else if (HasTrait(Traits.Titanic) && HasTrait(Traits.Colossal))
+        if (HasTrait(TraitType.Titanic) && HasTrait(TraitType.Colossal) && HasTrait(TraitType.Huge) && HasTrait(TraitType.Large))
+            RemoveTrait(TraitType.Large);
+        else if (HasTrait(TraitType.Titanic) && HasTrait(TraitType.Colossal) && HasTrait(TraitType.Huge))
+            RemoveTrait(TraitType.Huge);
+        else if (HasTrait(TraitType.Titanic) && HasTrait(TraitType.Colossal))
         {
-            RemoveTrait(Traits.Titanic);
-            AddTrait(Traits.Huge);
+            RemoveTrait(TraitType.Titanic);
+            AddTrait(TraitType.Huge);
         }
-        else if (HasTrait(Traits.Colossal) && HasTrait(Traits.Huge))
+        else if (HasTrait(TraitType.Colossal) && HasTrait(TraitType.Huge))
         {
-            RemoveTrait(Traits.Colossal);
-            RemoveTrait(Traits.Huge);
-            AddTrait(Traits.Titanic);
+            RemoveTrait(TraitType.Colossal);
+            RemoveTrait(TraitType.Huge);
+            AddTrait(TraitType.Titanic);
         }
-        else if (HasTrait(Traits.Titanic))
+        else if (HasTrait(TraitType.Titanic))
         {
-            AddTrait(Traits.Colossal);
-            RemoveTrait(Traits.Titanic);
+            AddTrait(TraitType.Colossal);
+            RemoveTrait(TraitType.Titanic);
         }
-        else if (HasTrait(Traits.Colossal))
+        else if (HasTrait(TraitType.Colossal))
         {
-            RemoveTrait(Traits.Colossal);
-            AddTrait(Traits.Huge);
+            RemoveTrait(TraitType.Colossal);
+            AddTrait(TraitType.Huge);
         }
-        else if (HasTrait(Traits.Huge))
+        else if (HasTrait(TraitType.Huge))
         {
-            RemoveTrait(Traits.Huge);
-            AddTrait(Traits.Large);
+            RemoveTrait(TraitType.Huge);
+            AddTrait(TraitType.Large);
         }
-        else if (HasTrait(Traits.Large))
-            RemoveTrait(Traits.Large);
-        else if (HasTrait(Traits.Small))
+        else if (HasTrait(TraitType.Large))
+            RemoveTrait(TraitType.Large);
+        else if (HasTrait(TraitType.Small))
         {
-            RemoveTrait(Traits.Small);
-            AddTrait(Traits.Tiny);
+            RemoveTrait(TraitType.Small);
+            AddTrait(TraitType.Tiny);
         }
         else
-            AddTrait(Traits.Small);
+            AddTrait(TraitType.Small);
     }
 
     public Race DetermineSpawnRace()

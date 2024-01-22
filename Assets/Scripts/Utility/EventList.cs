@@ -723,7 +723,7 @@ internal class EventList
                     {
                         Unit unit = new Unit(empire.Side, village.Race, village.GetStartingXp(), State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
                         unit.ModifyStat(Stat.Endurance, 30);
-                        unit.AddPermanentTrait(Traits.AcidImmunity);
+                        unit.AddPermanentTrait(TraitType.AcidImmunity);
                         village.VillagePopulation.AddHireable(unit);
                         State.GameManager.CreateMessageBox($"{unit.Name} is available for recruitment at {village.Name}, featuring strong endurance and acid immunity");
 
@@ -740,8 +740,8 @@ internal class EventList
                     UI.ThirdChoice.onClick.AddListener(() =>
                     {
                         Unit unit = new Unit(empire.Side, Race.Wyvern, village.GetStartingXp(), true);
-                        unit.AddPermanentTrait(Traits.IronGut);
-                        unit.AddPermanentTrait(Traits.Intimidating);
+                        unit.AddPermanentTrait(TraitType.IronGut);
+                        unit.AddPermanentTrait(TraitType.Intimidating);
                         village.VillagePopulation.AddHireable(unit);
                         State.GameManager.CreateMessageBox($"{unit.Name} the wyvern is available for recruitment at {village.Name}");
                     });
@@ -816,7 +816,7 @@ internal class EventList
 
                         Unit unit = new Unit(empire.Side, race, village.GetStartingXp(), State.World.GetEmpireOfRace(race)?.CanVore ?? true);
                         unit.DigestedUnits = State.Rand.Next(10, 15);
-                        unit.AddPermanentTrait(Traits.EnthrallingDepths);
+                        unit.AddPermanentTrait(TraitType.EnthrallingDepths);
                         village.Happiness -= 10;
                         empire.CapitalCity.VillagePopulation.AddHireable(unit);
                         ChangeAllVillageHappiness(empire, -5);
@@ -881,7 +881,7 @@ internal class EventList
                         if (State.Rand.Next(3) == 0)
                         {
                             Unit unit = new Unit(empire.Side, Race.Taurus, 20 + (int)(1.2f * State.GameManager.StrategyMode.ScaledExp), true);
-                            unit.AddPermanentTrait(Traits.Large);
+                            unit.AddPermanentTrait(TraitType.Large);
                             village.VillagePopulation.AddHireable(unit);
                             State.GameManager.CreateMessageBox($"The scout was able to convince the unit to join us, it is waiting at {village.Name}");
                         }
@@ -903,7 +903,7 @@ internal class EventList
                         if (State.Rand.Next(3) == 0)
                         {
                             Unit unit = new Unit(empire.Side, empire.ReplacedRace, 20 + (int)(1.2f * State.GameManager.StrategyMode.ScaledExp), State.World.GetEmpireOfRace(empire.Race)?.CanVore ?? true);
-                            unit.AddPermanentTrait(Traits.AcidResistant);
+                            unit.AddPermanentTrait(TraitType.AcidResistant);
                             village.VillagePopulation.AddHireable(unit);
                             State.GameManager.CreateMessageBox($"The scout emerged from the maze with tons of experience, and is waiting at {village.Name}");
                         }
@@ -1115,7 +1115,7 @@ internal class EventList
                             Name = "Isabella"
                         };
                         unit.ModifyStat(Stat.Stomach, 20);
-                        unit.AddPermanentTrait(Traits.Ravenous);
+                        unit.AddPermanentTrait(TraitType.Ravenous);
                         village.VillagePopulation.AddHireable(unit);
                         State.GameManager.CreateMessageBox($"{unit.Name} is greatly appreciative for our leniency, she swears to serve our empire until her dying breath.");
 
@@ -1217,7 +1217,7 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"As the tournament proceeded each defeated opponent would mysteriously vanish and the noble lady’s waistline miraculously expand. The winner, bloody and beaten by the contest’s end stood no chance against the voracious noble and soon joined the other contestants in the pit of her stomach! The clever noble has arrived in the capital and has offered her services to our army in an attempt to sate her ravenous hunger!");
                         Unit unit = new Unit(empire.Side, village.Race, village.GetStartingXp(), State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
                         unit.SetGenderRandomizeName(empire.ReplacedRace, Gender.Female);
-                        unit.AddPermanentTrait(Traits.Clever);
+                        unit.AddPermanentTrait(TraitType.Clever);
                         village.VillagePopulation.AddHireable(unit);
                     });
                     UI.ThirdChoice.interactable = true;
@@ -1249,7 +1249,7 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"As the tournament proceeded each defeated opponent would mysteriously vanish and the noble man’s waistline miraculously expand. The winner, bloody and beaten by the contest’s end stood no chance against the voracious noble and soon joined the other contestants in the pit of his stomach! The clever noble has arrived in the capital and has offered his services to our army in an attempt to sate his ravenous hunger!");
                         Unit unit = new Unit(empire.Side, village.Race, village.GetStartingXp(), State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
                         unit.SetGenderRandomizeName(empire.ReplacedRace, Gender.Male);
-                        unit.AddPermanentTrait(Traits.Clever);
+                        unit.AddPermanentTrait(TraitType.Clever);
                         village.VillagePopulation.AddHireable(unit);
                     });
                     UI.ThirdChoice.interactable = true;
@@ -1269,7 +1269,7 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The asylum seeker, grateful for our protection, has decided to take up arms in our name. However, the {otherEmpire.Name} noble house has sworn to take revenge for this slight and have used their influence to sway their government against us.");
                         RelationsManager.ChangeRelations(empire, otherEmpire, -1.75f);
                         Unit unit = new Unit(empire.Side, otherEmpire.ReplacedRace, village.GetStartingXp(), otherEmpire.CanVore);
-                        unit.AddPermanentTrait(Traits.StrongGullet);
+                        unit.AddPermanentTrait(TraitType.StrongGullet);
                         village.VillagePopulation.AddHireable(unit);
 
                     });
@@ -1549,9 +1549,9 @@ internal class EventList
                     UI.ThirdChoice.onClick.AddListener(() =>
                     {
                         Unit unit = new Unit(empire.Side, Race.FeralWolves, village.GetStartingXp() * 3, true);
-                        unit.AddPermanentTrait(Traits.Large);
-                        unit.AddPermanentTrait(Traits.IronGut);
-                        unit.AddPermanentTrait(Traits.StrongGullet);
+                        unit.AddPermanentTrait(TraitType.Large);
+                        unit.AddPermanentTrait(TraitType.IronGut);
+                        unit.AddPermanentTrait(TraitType.StrongGullet);
                         unit.DigestedUnits = State.Rand.Next(15, 35);
                         village.VillagePopulation.AddHireable(unit);
                         village.SubtractPopulation(20);
@@ -1708,7 +1708,7 @@ internal class EventList
                     UI.SecondChoice.onClick.AddListener(() =>
                     {
                         Unit unit = new Unit(empire.Side, Race.Terrorbird, village.GetStartingXp(), true);
-                        unit.AddPermanentTrait(Traits.IronGut);
+                        unit.AddPermanentTrait(TraitType.IronGut);
                         unit.DigestedUnits = 1;
                         village.VillagePopulation.AddHireable(unit);
                         village.SubtractPopulation(1);
@@ -1727,8 +1727,8 @@ internal class EventList
                         for (int x = 0; x < 2; x++)
                         {
                             unit = new Unit(empire.Side, Race.Kobolds, village.GetStartingXp(), true);
-                            unit.AddPermanentTrait(Traits.PackVoracity);
-                            unit.AddPermanentTrait(Traits.PackStomach);
+                            unit.AddPermanentTrait(TraitType.PackVoracity);
+                            unit.AddPermanentTrait(TraitType.PackStomach);
                             if (x == 0)
                             {
                                 unit.DigestedUnits = 1;

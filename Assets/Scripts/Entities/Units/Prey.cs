@@ -30,7 +30,7 @@ class Prey
     public bool ScatDisabled { get; set; }
 
     [OdinSerialize]
-    public List<Traits> SharedTraits;
+    public List<TraitType> SharedTraits;
 
     public PreyLocation Location => Predator?.PredatorComponent.Location(this) ?? PreyLocation.stomach;
 
@@ -41,13 +41,13 @@ class Prey
         Predator = predator;
         Unit = actor.Unit;
         SubPrey = preyList;
-        SharedTraits = new List<Traits>();
+        SharedTraits = new List<TraitType>();
     }
 
     public void UpdateEscapeRate()
     {
         StatusEffect hypnotizedEffect = Unit.GetStatusEffect(StatusEffectType.Hypnotized);
-        if (Actor.Surrendered || (Predator.Unit.HasTrait(Traits.Endosoma) && (Equals(Unit.FixedSide, Predator.Unit.GetApparentSide(Unit))) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, Predator.Unit.FixedSide))))
+        if (Actor.Surrendered || (Predator.Unit.HasTrait(TraitType.Endosoma) && (Equals(Unit.FixedSide, Predator.Unit.GetApparentSide(Unit))) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, Predator.Unit.FixedSide))))
         {
             EscapeRate = 0;
             return;
@@ -66,10 +66,10 @@ class Prey
         preyScore *= Unit.TraitBoosts.Incoming.ChanceToEscape;
         predScore /= Predator.Unit.TraitBoosts.Outgoing.ChanceToEscape;
 
-        if (Predator.Unit.HasTrait(Traits.Inescapable) || Unit.GetStatusEffect(StatusEffectType.Sleeping) != null)
+        if (Predator.Unit.HasTrait(TraitType.Inescapable) || Unit.GetStatusEffect(StatusEffectType.Sleeping) != null)
             preyScore = 0;
 
-        if (Predator.Unit.HasTrait(Traits.DualStomach))
+        if (Predator.Unit.HasTrait(TraitType.DualStomach))
         {
             if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.stomach)) predScore *= .8f;
             else if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.stomach2)) predScore *= 1.0f;
@@ -191,14 +191,14 @@ class Prey
     {
         if (!Equals(Unit.Side, side))
             State.GameManager.TacticalMode.SwitchAlignment(Actor);
-        if (Predator.Unit.HasTrait(Traits.Corruption) || Unit.HasTrait(Traits.Corruption))
+        if (Predator.Unit.HasTrait(TraitType.Corruption) || Unit.HasTrait(TraitType.Corruption))
         {
             Unit.hiddenFixedSide = true;
             Actor.sidesAttackedThisBattle = new List<Side>();
-            Unit.RemoveTrait(Traits.Corruption);
-            Unit.AddPermanentTrait(Traits.Corruption);
+            Unit.RemoveTrait(TraitType.Corruption);
+            Unit.AddPermanentTrait(TraitType.Corruption);
         }
-        if (!Unit.HasTrait(Traits.Corruption))
+        if (!Unit.HasTrait(TraitType.Corruption))
             Unit.FixedSide = Predator.Unit.FixedSide;
         Actor.Surrendered = false;
     }

@@ -44,7 +44,7 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(12, 20),
                         Stomach = new RaceStats.StatRange(8, 14),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
 
                     },

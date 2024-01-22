@@ -37,11 +37,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = true,
                     FavoredStat = Stat.Will,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.MagicResistance,
-                        Traits.HealingBlood,
-                        Traits.Slippery
+                        TraitType.MagicResistance,
+                        TraitType.HealingBlood,
+                        TraitType.Slippery
                     },
                     RaceDescription = "",
                 });

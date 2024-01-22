@@ -92,7 +92,7 @@ public class RaceEditorPanel : MonoBehaviour
     public Button GeneralButton;
     public Button TraitsButton;
 
-    List<Traits> CurrentTraits;
+    List<TraitType> CurrentTraits;
 
 
     Race PreviousRace = Race.TrueNone;
@@ -113,9 +113,9 @@ public class RaceEditorPanel : MonoBehaviour
             {
                 TraitDropdown.options.Add(new TMP_Dropdown.OptionData(rl.name.ToString()));
             }
-            foreach (Traits traitId in ((Traits[])Enum.GetValues(typeof(Traits))).OrderBy(s =>
+            foreach (TraitType traitId in ((TraitType[])Enum.GetValues(typeof(TraitType))).OrderBy(s =>
              {
-                 return s >= Traits.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString();
+                 return s >= TraitType.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString();
              }))
             {
                 TraitDropdown.options.Add(new TMP_Dropdown.OptionData(traitId.ToString()));
@@ -124,7 +124,7 @@ public class RaceEditorPanel : MonoBehaviour
 
         if (FavoredStat.options?.Any() == false)
         {
-            foreach (Stat stat in ((Stat[])Enum.GetValues(typeof(Traits))).Where((s) => s < Stat.Leadership))
+            foreach (Stat stat in ((Stat[])Enum.GetValues(typeof(TraitType))).Where((s) => s < Stat.Leadership))
             {
                 FavoredStat.options.Add(new TMP_Dropdown.OptionData(stat.ToString()));
             }
@@ -208,9 +208,9 @@ public class RaceEditorPanel : MonoBehaviour
     public void AddTrait()
     {
         if (State.RandomizeLists.Any(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text)){
-            CurrentTraits.Add((Traits)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
+            CurrentTraits.Add((TraitType)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
         }
-        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out Traits trait))
+        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
             if (CurrentTraits.Contains(trait) == false)
                 CurrentTraits.Add(trait);
@@ -225,11 +225,11 @@ public class RaceEditorPanel : MonoBehaviour
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
                 RaceSettingsItem item = State.RaceSettings.Get(race);
-                item.RaceTraits.Add((Traits)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
+                item.RaceTraits.Add((TraitType)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
             }
             AddTrait();
         }
-        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out Traits trait))
+        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
@@ -246,9 +246,9 @@ public class RaceEditorPanel : MonoBehaviour
     {
         if (State.RandomizeLists.Any(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text))
         {
-            CurrentTraits.Remove((Traits)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
+            CurrentTraits.Remove((TraitType)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
         }
-            if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out Traits trait))
+            if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
             CurrentTraits.Remove(trait);
         }
@@ -262,11 +262,11 @@ public class RaceEditorPanel : MonoBehaviour
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
                 RaceSettingsItem item = State.RaceSettings.Get(race);
-                item.RaceTraits.Remove((Traits)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
+                item.RaceTraits.Remove((TraitType)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
             }
             RemoveTrait();
         }
-        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out Traits trait))
+        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
@@ -425,17 +425,17 @@ public class RaceEditorPanel : MonoBehaviour
         UpdateInteractable();
     }
 
-    public static List<Traits> TextToTraitList(string text)
+    public static List<TraitType> TextToTraitList(string text)
     {
-        List<Traits> traits = new List<Traits>();
+        List<TraitType> traits = new List<TraitType>();
         foreach (RandomizeList rl in State.RandomizeLists)
         {
             if (text.ToLower().Contains(rl.name.ToString().ToLower()))
             {
-                traits.Add((Traits)rl.id);
+                traits.Add((TraitType)rl.id);
             }
         }
-        foreach (Traits trait in (Stat[])Enum.GetValues(typeof(Traits)))
+        foreach (TraitType trait in (Stat[])Enum.GetValues(typeof(TraitType)))
         {
             if (text.ToLower().Contains(trait.ToString().ToLower()))
             {
@@ -448,7 +448,7 @@ public class RaceEditorPanel : MonoBehaviour
 
 
 
-    public static string TraitListToText(List<Traits> traits, bool hideSecret = false)
+    public static string TraitListToText(List<TraitType> traits, bool hideSecret = false)
     {
         if (traits == null)
             return "";
@@ -461,8 +461,8 @@ public class RaceEditorPanel : MonoBehaviour
                 first = false;
             else
                 ret += ", ";
-            if (State.RandomizeLists.Any(rl => (Traits)rl.id == trait))
-                ret += State.RandomizeLists.Where(rl => (Traits)rl.id == trait).FirstOrDefault().name;  
+            if (State.RandomizeLists.Any(rl => (TraitType)rl.id == trait))
+                ret += State.RandomizeLists.Where(rl => (TraitType)rl.id == trait).FirstOrDefault().name;  
             else
                 ret += trait.ToString();
         }
@@ -554,7 +554,7 @@ public class RaceEditorPanel : MonoBehaviour
 
             CurrentTraits = item.RaceTraits.ToList();
             if (CurrentTraits == null)
-                CurrentTraits = new List<Traits>();
+                CurrentTraits = new List<TraitType>();
             UnbirthDisabled.isOn = !item.AllowedVoreTypes.Contains(VoreType.Unbirth);
             UnbirthDisabled.interactable = racePar.AllowedVoreTypes.Contains(VoreType.Unbirth);
             CockVoreDisabled.isOn = !item.AllowedVoreTypes.Contains(VoreType.CockVore);
@@ -688,12 +688,12 @@ public class RaceEditorPanel : MonoBehaviour
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("Traits:");
         if (CurrentTraits == null)
-            CurrentTraits = new List<Traits>();
-        foreach (Traits trait in CurrentTraits)
+            CurrentTraits = new List<TraitType>();
+        foreach (TraitType trait in CurrentTraits)
         {   
-            if (State.RandomizeLists.Any(rl => (Traits)rl.id == trait))
+            if (State.RandomizeLists.Any(rl => (TraitType)rl.id == trait))
             {
-                sb.AppendLine(State.RandomizeLists.Where(rl => (Traits)rl.id == trait).FirstOrDefault().name);
+                sb.AppendLine(State.RandomizeLists.Where(rl => (TraitType)rl.id == trait).FirstOrDefault().name);
             } else
                 sb.AppendLine(trait.ToString());
         }
@@ -733,7 +733,7 @@ public class RaceEditorPanel : MonoBehaviour
                 var raceFlags = State.RaceSettings.GetRaceTraits(emp.ReplacedRace);
                 if (raceFlags != null)
                 {
-                    if (raceFlags.Contains(Traits.Prey))
+                    if (raceFlags.Contains(TraitType.Prey))
                         emp.CanVore = false;
                     else
                         emp.CanVore = true;

@@ -34,14 +34,14 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(16, 24),
                         Stomach = new RaceStats.StatRange(8, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Paralyzer,
-                        Traits.Stinger,
-                        Traits.GelatinousBody, // or resilient
-                        Traits.SoftBody,
-                        Traits.SlowMovement,
-                        Traits.Toxic
+                        TraitType.Paralyzer,
+                        TraitType.Stinger,
+                        TraitType.GelatinousBody, // or resilient
+                        TraitType.SoftBody,
+                        TraitType.SlowMovement,
+                        TraitType.Toxic
                     },
                     InnateSpells = new List<SpellTypes>() { SpellTypes.Poison },
                     RaceDescription = ""

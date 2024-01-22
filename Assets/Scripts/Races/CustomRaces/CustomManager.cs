@@ -172,7 +172,7 @@ public class CustomManager
 
     private void RaceFromFSData(FSRaceData fsRaceData)
     {
-        RaceScriptUsable raceScriptUsable = ScriptHelper.ScriptPrep2FromCode(fsRaceData.RaceLuaCode, fsRaceData.RaceId);
+        RaceScriptUsable raceScriptUsable = LuaBridge.RacePrep(fsRaceData.RaceLuaCode, fsRaceData.RaceId);
         RaceDataMaker raceData = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.RenderAll(raceScriptUsable.Generator);
@@ -185,7 +185,7 @@ public class CustomManager
     
     private LuaBindableClothing ClothingFromFSData(FSClothingData fsClothingData)
     {
-        ClothingScriptUsable clothingScriptUsable = ScriptHelper.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, fsClothingData.ClothingId);
+        ClothingScriptUsable clothingScriptUsable = LuaBridge.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, fsClothingData.ClothingId);
         return new LuaBindableClothing(clothingScriptUsable.SetMisc, clothingScriptUsable.CompleteGen);
     }
 

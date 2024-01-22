@@ -38,10 +38,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 14,
                     HasTail = true,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.KeenShot,
-                        Traits.Featherweight
+                        TraitType.KeenShot,
+                        TraitType.Featherweight
                     },
                     RaceDescription = "",
                 });

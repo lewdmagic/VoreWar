@@ -34,13 +34,13 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(10, 15),
                         Stomach = new RaceStats.StatRange(9, 10),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Tasty,
-                        Traits.Prey,
-                        Traits.EasyToVore,
-                        Traits.Flight,
-                        Traits.TheGreatEscape
+                        TraitType.Tasty,
+                        TraitType.Prey,
+                        TraitType.EasyToVore,
+                        TraitType.Flight,
+                        TraitType.TheGreatEscape
                     },
                     InnateSpells = new List<SpellTypes>()
                         { SpellTypes.DivinitysEmbrace },

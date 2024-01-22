@@ -14,9 +14,9 @@ public class RaceTraits
     public int StomachSize;
     public bool HasTail;
     public Stat FavoredStat;
-    public List<Traits> RacialTraits;
-    public List<Traits> LeaderTraits;
-    public List<Traits> SpawnTraits;
+    public List<TraitType> RacialTraits;
+    public List<TraitType> LeaderTraits;
+    public List<TraitType> SpawnTraits;
     //internal List<Traits> RandomTraits;
     public List<VoreType> AllowedVoreTypes = new List<VoreType> { VoreType.Anal, VoreType.Oral, VoreType.CockVore, VoreType.BreastVore, VoreType.Unbirth };
     public Race SpawnRace = Race.TrueNone;

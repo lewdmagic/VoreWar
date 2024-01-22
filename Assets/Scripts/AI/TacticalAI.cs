@@ -326,7 +326,7 @@ public abstract class TacticalAI : ITacticalAI
             if (apRequired > 0)
                 return ap - apRequired;
         }
-        if (actor.Unit.HasTrait(Traits.Pounce) && ap >= 2)
+        if (actor.Unit.HasTrait(TraitType.Pounce) && ap >= 2)
         {
             apRequired = CheckVorePounce(actor, position, ap);
             if (apRequired > 0)
@@ -353,7 +353,7 @@ public abstract class TacticalAI : ITacticalAI
         if (apRequired > 0)
             return ap - apRequired;
 
-        if (actor.Unit.HasTrait(Traits.Pounce) && ap >= 2)
+        if (actor.Unit.HasTrait(TraitType.Pounce) && ap >= 2)
         {
             apRequired = CheckMeleePounce(actor, position, ap);
             if (apRequired > 0)
@@ -646,7 +646,7 @@ public abstract class TacticalAI : ITacticalAI
             }
             else
             {
-                if (actor.Unit.HasTrait(Traits.RangedVore))
+                if (actor.Unit.HasTrait(TraitType.RangedVore))
                 {
                     distance = CheckMoveTo(actor, position, targets[0].actor.Position, 1, ap);
                     if (distance < ap && distance >= 0)
@@ -685,7 +685,7 @@ public abstract class TacticalAI : ITacticalAI
             }
             else
             {
-                if (actor.Unit.HasTrait(Traits.RangedVore))
+                if (actor.Unit.HasTrait(TraitType.RangedVore))
                 {
                     MoveToAndAction(actor, targets[0].actor.Position, 1, 999, () =>
                     {
@@ -741,11 +741,11 @@ public abstract class TacticalAI : ITacticalAI
                     if (distance <= movement || anyDistance)
                     {
                         float chance = unit.GetDevourChance(actor, true);
-                        if ((chance > .5f || (actor.Unit.HasTrait(Traits.Biter) && chance > .25f && actor.Unit.GetBestMelee().Damage > 2)) && unit.AIAvoidEat <= 0)
+                        if ((chance > .5f || (actor.Unit.HasTrait(TraitType.Biter) && chance > .25f && actor.Unit.GetBestMelee().Damage > 2)) && unit.AIAvoidEat <= 0)
                         {
                             if (distance > 1 && TacticalUtilities.FreeSpaceAroundTarget(unit.Position, actor) == false)
                                 continue;
-                            if (unit.Unit.HasTrait(Traits.AcidImmunity)) //More interesting if mostly ignored
+                            if (unit.Unit.HasTrait(TraitType.AcidImmunity)) //More interesting if mostly ignored
                                 chance *= .5f;
                             targets.Add(new PotentialTarget(unit, chance, distance, 4, chance));
                         }
@@ -762,7 +762,7 @@ public abstract class TacticalAI : ITacticalAI
 
     protected virtual void WalkToYBand(Actor_Unit actor, int y)
     {
-        var tempPath = TacticalPathfinder.GetPathToY(actor.Position, actor.Unit.HasTrait(Traits.Flight), y, actor);
+        var tempPath = TacticalPathfinder.GetPathToY(actor.Position, actor.Unit.HasTrait(TraitType.Flight), y, actor);
         if (tempPath == null || tempPath.Count == 0)
             foundPath = false;
         else
@@ -1687,7 +1687,7 @@ public abstract class TacticalAI : ITacticalAI
     public virtual void HandleLeftoverForeigns(Actor_Unit actor) 
     {
         actor.Unit.hiddenFixedSide = false;
-       if (actor.Unit.HasTrait(Traits.Infiltrator) && actor.Unit.Type != UnitType.Summon) // You were there to cause the enemy a headache, get right back to it!
+       if (actor.Unit.HasTrait(TraitType.Infiltrator) && actor.Unit.Type != UnitType.Summon) // You were there to cause the enemy a headache, get right back to it!
         {
             if (State.GameManager.TacticalMode.currentTurn < 500) // Someone just got STUCK trying to flee forever. Wow.
             {

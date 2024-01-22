@@ -33,10 +33,10 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(10, 14),
                         Stomach = new RaceStats.StatRange(10, 14),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Resilient,
-                        Traits.Disgusting
+                        TraitType.Resilient,
+                        TraitType.Disgusting
                     },
                     RaceDescription = "A tough, twisted creature. Hunts for pleasure rather than sustenance.",
                 });

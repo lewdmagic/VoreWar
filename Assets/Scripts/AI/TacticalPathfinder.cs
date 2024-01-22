@@ -12,7 +12,7 @@ public static class TacticalPathfinder
     {
         if (origin.GetNumberOfMovesDistance(destination) > maxDistance) //Can't possibly get it in under this distance
             return null;
-        bool flight = actor.Unit.HasTrait(Traits.Flight);
+        bool flight = actor.Unit.HasTrait(TraitType.Flight);
         int flightMP = actor.Movement;
         bool goodPath = false;
         PathNode current = null;

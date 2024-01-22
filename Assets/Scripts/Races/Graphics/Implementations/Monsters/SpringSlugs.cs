@@ -34,14 +34,14 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(16, 24),
                         Stomach = new RaceStats.StatRange(8, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.BoggingSlime,
-                        Traits.EasyToVore,
-                        Traits.Replaceable,
-                        Traits.Pounce,
-                        Traits.SoftBody,
-                        Traits.SlowMovement
+                        TraitType.BoggingSlime,
+                        TraitType.EasyToVore,
+                        TraitType.Replaceable,
+                        TraitType.Pounce,
+                        TraitType.SoftBody,
+                        TraitType.SlowMovement
                     },
                     RaceDescription = ""
                 });

@@ -321,7 +321,7 @@ public class StrategyMode : SceneBase
         Village village = StrategicUtilities.GetVillageAt(location);
         if (village != null && village.Empire.IsEnemy(left.Empire))
         {
-            if (!left.Units.All(u => u.HasTrait(Traits.Infiltrator)))
+            if (!left.Units.All(u => u.HasTrait(TraitType.Infiltrator)))
             {
                 State.GameManager.CreateMessageBox("Can't split armies onto an enemy village");
                 return;
@@ -688,9 +688,9 @@ public class StrategyMode : SceneBase
         {
             var spr = army.Banner?.GetComponent<MultiStageBanner>();
             if (spr != null)
-                spr.gameObject.SetActive(Equals(army.Side, LastHumanEmpire.Side) || !army.Units.All(u => u.HasTrait(Traits.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => Equals(u.FixedSide, ActingEmpire.Side)) : army.Units.Any(u => Equals(u.FixedSide, LastHumanEmpire.Side))));
+                spr.gameObject.SetActive(Equals(army.Side, LastHumanEmpire.Side) || !army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => Equals(u.FixedSide, ActingEmpire.Side)) : army.Units.Any(u => Equals(u.FixedSide, LastHumanEmpire.Side))));
             var spr2 = army.Sprite;
-            if (spr2 != null) spr2.enabled = Equals(army.Side, LastHumanEmpire.Side) || !army.Units.All(u => u.HasTrait(Traits.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => Equals(u.FixedSide, ActingEmpire.Side)) : army.Units.Any(u => Equals(u.FixedSide, LastHumanEmpire.Side)));
+            if (spr2 != null) spr2.enabled = Equals(army.Side, LastHumanEmpire.Side) || !army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => Equals(u.FixedSide, ActingEmpire.Side)) : army.Units.Any(u => Equals(u.FixedSide, LastHumanEmpire.Side)));
         }
     }
 
@@ -1149,7 +1149,7 @@ public class StrategyMode : SceneBase
                         {
                             ExchangerUI.RightArmy.ItemStock.TransferAllItems(ExchangerUI.LeftArmy.ItemStock);
                         }
-                        if (ExchangerUI.RightArmy.Units.All(u => u.HasTrait(Traits.Infiltrator)))
+                        if (ExchangerUI.RightArmy.Units.All(u => u.HasTrait(TraitType.Infiltrator)))
                         {
                             Village village = StrategicUtilities.GetVillageAt(ExchangerUI.RightArmy.Position);
                             var infilitrators = new List<Unit>();

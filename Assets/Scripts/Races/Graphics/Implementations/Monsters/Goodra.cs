@@ -29,14 +29,14 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(16, 24),
                         Stomach = new RaceStats.StatRange(32, 40),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.BoggingSlime,
-                        Traits.Endosoma,
-                        Traits.Resilient,
-                        Traits.SoftBody,
-                        Traits.VerySlowMovement,
-                        Traits.HardSkin
+                        TraitType.BoggingSlime,
+                        TraitType.Endosoma,
+                        TraitType.Resilient,
+                        TraitType.SoftBody,
+                        TraitType.VerySlowMovement,
+                        TraitType.HardSkin
                     },
                     RaceDescription = "Goodra, the Slug Dragon Pokemon. Goodra are large soft dragon type pokemon coated in slime. They love to give hugs and often confuse friends from food."
                 });

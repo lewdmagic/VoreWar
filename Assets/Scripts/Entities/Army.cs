@@ -167,7 +167,7 @@ public class Army
                     unit.DickSize--;
 
             }
-            if (unit.HasTrait(Traits.Growth) && unit.BaseScale > 1 && !unit.HasTrait(Traits.PermanentGrowth))
+            if (unit.HasTrait(TraitType.Growth) && unit.BaseScale > 1 && !unit.HasTrait(TraitType.PermanentGrowth))
             {
                 float extremum = -(Config.GrowthDecayOffset - Config.GrowthDecayIncreaseRate - 1 / 2 * Config.GrowthDecayIncreaseRate);
                 if (unit.BaseScale > extremum)
@@ -211,27 +211,27 @@ public class Army
 
         foreach (Unit unit in Units)
         {
-            if (unit.HasTrait(Traits.Pathfinder))
+            if (unit.HasTrait(TraitType.Pathfinder))
                 flying++;
-            if (unit.HasTrait(Traits.HillImpedence))
+            if (unit.HasTrait(TraitType.HillImpedence))
                 noHill++;
-            if (unit.HasTrait(Traits.LavaWalker)) 
+            if (unit.HasTrait(TraitType.LavaWalker)) 
                 yesLava++;
-            if (unit.HasTrait(Traits.SnowImpedence))
+            if (unit.HasTrait(TraitType.SnowImpedence))
                 noSnow++;
-            if (unit.HasTrait(Traits.MountainWalker))
+            if (unit.HasTrait(TraitType.MountainWalker))
                 yesMountain++;
-            if (unit.HasTrait(Traits.VolcanicImpedence))
+            if (unit.HasTrait(TraitType.VolcanicImpedence))
                 noVolcanic++;
-            if (unit.HasTrait(Traits.WaterWalker))
+            if (unit.HasTrait(TraitType.WaterWalker))
                 yesWater++;
-            if (unit.HasTrait(Traits.DesertImpedence))
+            if (unit.HasTrait(TraitType.DesertImpedence))
                 noDesert++;
-            if (unit.HasTrait(Traits.SwampImpedence))
+            if (unit.HasTrait(TraitType.SwampImpedence))
                 noSwamp++;
-            if (unit.HasTrait(Traits.ForestImpedence))
+            if (unit.HasTrait(TraitType.ForestImpedence))
                 noForest++;
-            if (unit.HasTrait(Traits.GrassImpedence))
+            if (unit.HasTrait(TraitType.GrassImpedence))
                 noGrass++;
             //if (unit.HasTrait(Traits.Shapeshifter) || unit.HasTrait(Traits.Skinwalker))
             //{

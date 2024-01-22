@@ -33,11 +33,11 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(6, 10),
                         Stomach = new RaceStats.StatRange(8, 10),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.AcidResistant,
-                        Traits.BornToMove,
-                        Traits.SlowDigestion
+                        TraitType.AcidResistant,
+                        TraitType.BornToMove,
+                        TraitType.SlowDigestion
                     },
                     RaceDescription = "Tiny insects grown to a slightly larger size, the Ants still wouldn't be considered dangerous were it not for their ability to swallow and carry things hundred times their own size."
                 });

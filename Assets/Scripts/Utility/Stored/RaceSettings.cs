@@ -13,7 +13,7 @@ class RaceSettings
     {
         Races = new Dictionary<Race, RaceSettingsItem>();
         Races[Race.FeralBats] = new RaceSettingsItem(Race.FeralBats);
-        Races[Race.FeralBats].MaleTraits = new List<Traits> { Traits.Small };
+        Races[Race.FeralBats].MaleTraits = new List<TraitType> { TraitType.Small };
     }
 
     internal void Sanitize()
@@ -44,7 +44,7 @@ class RaceSettings
         if (Races.ContainsKey(Race.FeralBats) == false)
         {
             Races[Race.FeralBats] = new RaceSettingsItem(Race.FeralBats);
-            Races[Race.FeralBats].MaleTraits = new List<Traits> { Traits.Small };
+            Races[Race.FeralBats].MaleTraits = new List<TraitType> { TraitType.Small };
         }
     }
 
@@ -120,7 +120,7 @@ class RaceSettings
         return RaceParameters.GetRaceTraits(race).StomachSize;
     }
 
-    internal List<Traits> GetRaceTraits(Race race)
+    internal List<TraitType> GetRaceTraits(Race race)
     {
         if (race == null)
             return null;
@@ -129,35 +129,35 @@ class RaceSettings
         return RaceParameters.GetRaceTraits(race).RacialTraits;
     }
 
-    internal List<Traits> GetMaleRaceTraits(Race race)
+    internal List<TraitType> GetMaleRaceTraits(Race race)
     {
         if (Races.ContainsKey(race))
             return Get(race).MaleTraits;
         return null;
     }
 
-    internal List<Traits> GetFemaleRaceTraits(Race race)
+    internal List<TraitType> GetFemaleRaceTraits(Race race)
     {
         if (Races.ContainsKey(race))
             return Get(race).FemaleTraits;
         return null;
     }
 
-    internal List<Traits> GetHermRaceTraits(Race race)
+    internal List<TraitType> GetHermRaceTraits(Race race)
     {
         if (Races.ContainsKey(race))
             return Get(race).HermTraits;
         return null;
     }
 
-    internal List<Traits> GetSpawnRaceTraits(Race race)
+    internal List<TraitType> GetSpawnRaceTraits(Race race)
     {
         if (Races.ContainsKey(race))
             return Get(race).SpawnTraits;
         return RaceParameters.GetRaceTraits(race).SpawnTraits;
     }
 
-    internal List<Traits> GetLeaderRaceTraits(Race race)
+    internal List<TraitType> GetLeaderRaceTraits(Race race)
     {
         if (Races.ContainsKey(race))
             return Get(race).LeaderTraits;
@@ -271,7 +271,7 @@ class RaceSettings
         if (Equals(race, Race.FeralBats))
         {
             Races[Race.FeralBats] = new RaceSettingsItem(Race.FeralBats);
-            Races[Race.FeralBats].MaleTraits = new List<Traits> { Traits.Small };
+            Races[Race.FeralBats].MaleTraits = new List<TraitType> { TraitType.Small };
         }
 
 
@@ -281,7 +281,7 @@ class RaceSettings
     {
         Races = new Dictionary<Race, RaceSettingsItem>();
         Races[Race.FeralBats] = new RaceSettingsItem(Race.FeralBats);
-        Races[Race.FeralBats].MaleTraits = new List<Traits> { Traits.Small };
+        Races[Race.FeralBats].MaleTraits = new List<TraitType> { TraitType.Small };
 
     }
 }
@@ -305,7 +305,7 @@ class RaceSettingsItem
     [OdinSerialize]
     internal int StomachSize;
     [OdinSerialize]
-    internal List<Traits> RaceTraits;
+    internal List<TraitType> RaceTraits;
 
     [OdinSerialize]
     internal List<VoreType> AllowedVoreTypes;
@@ -350,15 +350,15 @@ class RaceSettingsItem
     internal int MaxDick;
 
     [OdinSerialize]
-    internal List<Traits> MaleTraits;
+    internal List<TraitType> MaleTraits;
     [OdinSerialize]
-    internal List<Traits> FemaleTraits;
+    internal List<TraitType> FemaleTraits;
     [OdinSerialize]
-    internal List<Traits> HermTraits;
+    internal List<TraitType> HermTraits;
     [OdinSerialize]
-    internal List<Traits> SpawnTraits;
+    internal List<TraitType> SpawnTraits;
     [OdinSerialize]
-    internal List<Traits> LeaderTraits;
+    internal List<TraitType> LeaderTraits;
 
     [OdinSerialize]
     internal bool FavoredStatSet;
@@ -432,11 +432,11 @@ class RaceSettingsItem
         MinWeight = 0;
         MaxWeight = Math.Max(raceData.MiscRaceData.BodySizes - 1, 0);
 
-        MaleTraits = new List<Traits>();
-        FemaleTraits = new List<Traits>();
-        HermTraits = new List<Traits>();
-        SpawnTraits = new List<Traits>();
-        LeaderTraits = new List<Traits>();
+        MaleTraits = new List<TraitType>();
+        FemaleTraits = new List<TraitType>();
+        HermTraits = new List<TraitType>();
+        SpawnTraits = new List<TraitType>();
+        LeaderTraits = new List<TraitType>();
 
         FavoredStatSet = true;
         FavoredStat = racePar.FavoredStat;

@@ -35,11 +35,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = true,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.EvasiveBattler,
-                        Traits.ArtfulDodge,
-                        Traits.PackDefense,
+                        TraitType.EvasiveBattler,
+                        TraitType.ArtfulDodge,
+                        TraitType.PackDefense,
                     },
                     RaceDescription = "",
                 });

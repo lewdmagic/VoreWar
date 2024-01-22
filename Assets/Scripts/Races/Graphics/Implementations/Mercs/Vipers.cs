@@ -49,14 +49,14 @@ namespace Races.Graphics.Implementations.Mercs
                         Voracity = new RaceStats.StatRange(18, 28),
                         Stomach = new RaceStats.StatRange(14, 20),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ArtfulDodge,
-                        Traits.DualStomach,
-                        Traits.RangedVore,
-                        Traits.KeenShot,
-                        Traits.SlowMetabolism,
-                        Traits.PoisonSpit
+                        TraitType.ArtfulDodge,
+                        TraitType.DualStomach,
+                        TraitType.RangedVore,
+                        TraitType.KeenShot,
+                        TraitType.SlowMetabolism,
+                        TraitType.PoisonSpit
                     },
                     RaceDescription = "",
                 });

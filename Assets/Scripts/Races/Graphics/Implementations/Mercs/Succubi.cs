@@ -57,13 +57,13 @@ namespace Races.Graphics.Implementations.Mercs
                     HasTail = true,
                     FavoredStat = Stat.Will,
                     AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore, VoreType.CockVore },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Dazzle,
-                        Traits.Flight,
-                        Traits.EnthrallingDepths,
-                        Traits.PleasurableTouch,
-                        Traits.Charmer
+                        TraitType.Dazzle,
+                        TraitType.Flight,
+                        TraitType.EnthrallingDepths,
+                        TraitType.PleasurableTouch,
+                        TraitType.Charmer
                     },
                     RaceStats = new RaceStats()
                     {

@@ -40,12 +40,12 @@ namespace Races.Graphics.Implementations.Mercs
                         Voracity = new RaceStats.StatRange(16, 24),
                         Stomach = new RaceStats.StatRange(12, 18),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Biter,
-                        Traits.VenomousBite,
-                        Traits.Intimidating,
-                        Traits.Resilient,
+                        TraitType.Biter,
+                        TraitType.VenomousBite,
+                        TraitType.Intimidating,
+                        TraitType.Resilient,
                     },
                     RaceDescription = "",
                 });

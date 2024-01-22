@@ -32,12 +32,12 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(16, 20),
                         Stomach = new RaceStats.StatRange(24, 28),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ForcefulBlow,
-                        Traits.StrongGullet,
-                        Traits.Pounce,
-                        Traits.HeavyPounce,
+                        TraitType.ForcefulBlow,
+                        TraitType.StrongGullet,
+                        TraitType.Pounce,
+                        TraitType.HeavyPounce,
                     },
                     RaceDescription = "This girthy dragoness hails from a far away arid land, and excels at pressing the attack, with a great pair of skewers in place of where most dragons would have wings. With considerable grace despite her size, she exercises vigilance on the battlefield. ",
                 });

@@ -67,7 +67,7 @@ static class TacticalUtilities
                     int turns = 9999;
                     int flightTurns = 9999;
                     Vec2i destination = null;
-                    bool flyersExist = unit.HasTrait(Traits.Pathfinder);
+                    bool flyersExist = unit.HasTrait(TraitType.Pathfinder);
                     if (loc != null && loc.Count > 0)
                     {
                         destination = new Vec2i(loc.Last().X, loc.Last().Y);
@@ -91,7 +91,7 @@ static class TacticalUtilities
                 int turns = 9999;
                 int flightTurns = 9999;
                 Vec2i destination = null;
-                bool flyersExist = travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder)).Count() > 0;
+                bool flyersExist = travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder)).Count() > 0;
                 if (loc != null && loc.Count > 0)
                 {
                     destination = new Vec2i(loc.Last().X, loc.Last().Y);
@@ -102,8 +102,8 @@ static class TacticalUtilities
                 if (turns < 999)
                 {
                     if (flyersExist)
-                        StrategicUtilities.CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder)).ToList(), StrategicUtilities.GetVillageAt(destination), flightTurns);
-                    StrategicUtilities.CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder) == false).ToList(), StrategicUtilities.GetVillageAt(destination), turns);
+                        StrategicUtilities.CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder)).ToList(), StrategicUtilities.GetVillageAt(destination), flightTurns);
+                    StrategicUtilities.CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder) == false).ToList(), StrategicUtilities.GetVillageAt(destination), turns);
                 }
             }
 
@@ -283,7 +283,7 @@ static class TacticalUtilities
             return false;
         if (Equals(pred.Unit.Side, prey.Unit.Side))
         {
-            if (prey.Surrendered || pred.Unit.HasTrait(Traits.Cruel) || Config.AllowInfighting || pred.Unit.HasTrait(Traits.Endosoma) || !(Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.FixedSide) && Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.GetApparentSide())) || !Equals(GetMindControlSide(prey.Unit), Side.TrueNoneSide) || !Equals(GetMindControlSide(pred.Unit), Side.TrueNoneSide) )
+            if (prey.Surrendered || pred.Unit.HasTrait(TraitType.Cruel) || Config.AllowInfighting || pred.Unit.HasTrait(TraitType.Endosoma) || !(Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.FixedSide) && Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.GetApparentSide())) || !Equals(GetMindControlSide(prey.Unit), Side.TrueNoneSide) || !Equals(GetMindControlSide(pred.Unit), Side.TrueNoneSide) )
                 return true;
             return false;
         }
@@ -519,7 +519,7 @@ static class TacticalUtilities
             return false;
         if (blockedTiles != null)
         {
-            if (actor?.Unit.HasTrait(Traits.NimbleClimber) ?? false)
+            if (actor?.Unit.HasTrait(TraitType.NimbleClimber) ?? false)
             {
                 if (x <= blockedClimberTiles.GetUpperBound(0) || y <= blockedClimberTiles.GetUpperBound(1))
                 {
@@ -772,7 +772,7 @@ static class TacticalUtilities
                 GenderText.text = $"{gender}";
             TraitList.text = RaceEditorPanel.TraitListToText(actor.Unit.GetTraits, true).Replace(", ","\n");
             EXPText.text = $"Level {actor.Unit.Level} ({(int)actor.Unit.Experience} EXP)";
-            if (actor.Unit.HasTrait(Traits.Resourceful))
+            if (actor.Unit.HasTrait(TraitType.Resourceful))
             {
                 EquipRow.transform.GetChild(2).gameObject.SetActive(true);
                 EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(0)?.Name;
@@ -849,7 +849,7 @@ static class TacticalUtilities
         target.sidesAttackedThisBattle = new List<Side>();
         target.Unit.Type = UnitType.Summon;
         State.GameManager.TacticalMode.HandleReanimationSideEffects(caster, target);
-        if (!target.Unit.HasTrait(Traits.Untamable))
+        if (!target.Unit.HasTrait(TraitType.Untamable))
             target.Unit.FixedSide = caster.FixedSide;
 
         var actorCharm = caster.GetStatusEffect(StatusEffectType.Charmed) ?? caster.GetStatusEffect(StatusEffectType.Hypnotized);
@@ -1058,7 +1058,7 @@ static class TacticalUtilities
 
     internal static bool IsPreyEndoTargetForUnit(Prey preyUnit, Unit unit)
     {
-        return unit.HasTrait(Traits.Endosoma) && (Equals(preyUnit.Unit.FixedSide, unit.GetApparentSide(preyUnit.Unit))) && preyUnit.Unit.IsDead == false;
+        return unit.HasTrait(TraitType.Endosoma) && (Equals(preyUnit.Unit.FixedSide, unit.GetApparentSide(preyUnit.Unit))) && preyUnit.Unit.IsDead == false;
     }
 }
 

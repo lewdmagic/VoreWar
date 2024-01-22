@@ -10,7 +10,7 @@ public class RandomizeList
     public string name;
     public float chance;
     [AllowEditing]
-    internal List<Traits> RandomTraits;
+    internal List<TraitType> RandomTraits;
 
 
     internal void Save()

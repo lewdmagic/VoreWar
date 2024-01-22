@@ -25,7 +25,7 @@ public class UnitEditorPanel : CustomizerPanel
 
 
     Dictionary<Race, int> raceDict;
-    Dictionary<Traits, int> traitDict;
+    Dictionary<TraitType, int> traitDict;
     Dictionary<int, string> itemDict;
     Dictionary<string, int> itemReverseDict;
     Dictionary<int, Empire> empireDict;
@@ -56,17 +56,17 @@ public class UnitEditorPanel : CustomizerPanel
             buttons[(int)stat] = CreateNewButton(stat, UnitEditor.ChangeStat, UnitEditor.ChangeLevel, ManualChangeStat);
         }
 
-        traitDict = new Dictionary<Traits, int>();
+        traitDict = new Dictionary<TraitType, int>();
         int val2 = 0;
         foreach (RandomizeList rl in State.RandomizeLists)
         {
-            traitDict[(Traits)rl.id] = val2;
+            traitDict[(TraitType)rl.id] = val2;
             val2++;
             TraitDropdown.options.Add(new TMP_Dropdown.OptionData(rl.name.ToString()));
         }
-        foreach (Traits traitId in ((Traits[])Enum.GetValues(typeof(Traits))).OrderBy(s =>
+        foreach (TraitType traitId in ((TraitType[])Enum.GetValues(typeof(TraitType))).OrderBy(s =>
        {
-           return s >= Traits.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString();
+           return s >= TraitType.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString();
        }))
         {
             traitDict[traitId] = val2;
@@ -426,10 +426,10 @@ public class UnitEditorPanel : CustomizerPanel
         {
             RandomizeList randomizeList = State.RandomizeLists.Single(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text);
             var resTraits = UnitEditor.Unit.RandomizeOne(randomizeList);
-            foreach (Traits resTrait in resTraits)
+            foreach (TraitType resTrait in resTraits)
             {
                 UnitEditor.AddTrait(resTrait);
-                if (resTrait == Traits.Resourceful || resTrait == Traits.BookWormI || resTrait == Traits.BookWormII || resTrait == Traits.BookWormIII)
+                if (resTrait == TraitType.Resourceful || resTrait == TraitType.BookWormI || resTrait == TraitType.BookWormII || resTrait == TraitType.BookWormIII)
                 {
                     UnitEditor.Unit.SetMaxItems();
                     PopulateItems();
@@ -438,10 +438,10 @@ public class UnitEditorPanel : CustomizerPanel
             UnitEditor.RefreshActor();
             TraitList.text = UnitEditor.Unit.ListTraits();
         }
-        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out Traits trait))
+        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
             UnitEditor.AddTrait(trait);
-            if (trait == Traits.Resourceful || trait == Traits.BookWormI || trait == Traits.BookWormII || trait == Traits.BookWormIII)
+            if (trait == TraitType.Resourceful || trait == TraitType.BookWormI || trait == TraitType.BookWormII || trait == TraitType.BookWormIII)
             {
                 UnitEditor.Unit.SetMaxItems();
                 PopulateItems();
@@ -474,10 +474,10 @@ public class UnitEditorPanel : CustomizerPanel
             if (TraitsText.text.ToLower().Contains(rl.name.ToString().ToLower()))
             {
                 var resTraits = UnitEditor.Unit.RandomizeOne(rl);
-                foreach (Traits resTrait in resTraits)
+                foreach (TraitType resTrait in resTraits)
                 {
                     UnitEditor.AddTrait(resTrait);
-                    if (resTrait == Traits.Resourceful || resTrait == Traits.BookWormI || resTrait == Traits.BookWormII || resTrait == Traits.BookWormIII)
+                    if (resTrait == TraitType.Resourceful || resTrait == TraitType.BookWormI || resTrait == TraitType.BookWormII || resTrait == TraitType.BookWormIII)
                     {
                         UnitEditor.Unit.SetMaxItems();
                         PopulateItems();
@@ -488,12 +488,12 @@ public class UnitEditorPanel : CustomizerPanel
 
             }
         }
-        foreach (Traits trait in (Stat[])Enum.GetValues(typeof(Traits)))
+        foreach (TraitType trait in (Stat[])Enum.GetValues(typeof(TraitType)))
         {
             if (TraitsText.text.ToLower().Contains(trait.ToString().ToLower()))
             {
                 UnitEditor.AddTrait(trait);
-                if (trait == Traits.Resourceful || trait == Traits.BookWormI || trait == Traits.BookWormII || trait == Traits.BookWormIII)
+                if (trait == TraitType.Resourceful || trait == TraitType.BookWormI || trait == TraitType.BookWormII || trait == TraitType.BookWormIII)
                 {
                     UnitEditor.Unit.SetMaxItems();
                     PopulateItems();
@@ -510,12 +510,12 @@ public class UnitEditorPanel : CustomizerPanel
         if (UnitEditor.Unit == null)
             return;
 
-        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out Traits trait))
+        if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
             UnitEditor.RemoveTrait(trait);
             UnitEditor.RefreshActor();
             TraitList.text = UnitEditor.Unit.ListTraits();
-            if (trait == Traits.Resourceful)
+            if (trait == TraitType.Resourceful)
             {
                 UnitEditor.Unit.SetMaxItems();
                 PopulateItems();

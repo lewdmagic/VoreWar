@@ -23,12 +23,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     HasTail = true,
                     FavoredStat = Stat.Strength,
                     AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.Anal },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ViralDigestion,
-                        Traits.AwkwardShape,
-                        Traits.SlowAbsorption,
-                        Traits.SlowBreeder,
+                        TraitType.ViralDigestion,
+                        TraitType.AwkwardShape,
+                        TraitType.SlowAbsorption,
+                        TraitType.SlowBreeder,
                     },
                     RaceDescription = "The Aabayx are a species of virosapiens who recently revealed themselves to the world and were quick to commit to the stage of war.  Strangely enough, they are not new arrivals to the realm, but rather have been in extreme isolation in an unknown location and were waiting for the exact right time to resurface and conquer the masses.  That time is now.",
                 });

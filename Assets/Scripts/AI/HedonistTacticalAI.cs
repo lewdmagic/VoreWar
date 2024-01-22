@@ -12,7 +12,7 @@ public class HedonistTacticalAI : TacticalAI
         didAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
 
         path = null;
-        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide))
+        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(TraitType.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide))
         {
             int retreatY;
             if (State.GameManager.TacticalMode.IsDefender(actor) == false)
@@ -67,7 +67,7 @@ public class HedonistTacticalAI : TacticalAI
             RunForceFeed(actor);
         }
 
-        if (actor.Unit.HasTrait(Traits.Pounce) && actor.Movement >= 2)
+        if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             RunVorePounce(actor);
             if (path != null)
@@ -89,7 +89,7 @@ public class HedonistTacticalAI : TacticalAI
             RunSpells(actor);
         if (path != null)
             return;
-        if (actor.Unit.HasTrait(Traits.Pounce) && actor.Movement >= 2)
+        if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             if (IsRanged(actor) == false)
             {

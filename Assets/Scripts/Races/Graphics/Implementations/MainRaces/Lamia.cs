@@ -33,11 +33,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     HasTail = true,
                     FavoredStat = Stat.Voracity,
                     AllowedVoreTypes = new List<VoreType> { VoreType.Oral, VoreType.Unbirth, VoreType.CockVore, VoreType.BreastVore, VoreType.Anal, VoreType.TailVore },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Ravenous,
-                        Traits.Biter,
-                        Traits.DualStomach
+                        TraitType.Ravenous,
+                        TraitType.Biter,
+                        TraitType.DualStomach
                     },
                     RaceDescription = "Natives to this realm, these legless beings were once the strongest and largest hunters of the land. The sudden emergence of many new species left the Lamia uncertain at first, but soon their dual stomachs won and they focused on testing the taste of the new arrivals.",
                 });

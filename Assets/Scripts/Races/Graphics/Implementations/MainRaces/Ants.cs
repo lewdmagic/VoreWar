@@ -38,11 +38,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 12,
                     HasTail = false,
                     FavoredStat = Stat.Strength,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.PackStrength,
-                        Traits.RangedIneptitude,
-                        Traits.AntPheromones
+                        TraitType.PackStrength,
+                        TraitType.RangedIneptitude,
+                        TraitType.AntPheromones
                     },
                     RaceDescription = "",
                 });

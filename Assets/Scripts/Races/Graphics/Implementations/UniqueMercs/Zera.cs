@@ -143,12 +143,12 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(16, 24),
                         Stomach = new RaceStats.StatRange(16, 24),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.StrongGullet,
-                        Traits.ArtfulDodge,
-                        Traits.NimbleClimber,
-                        Traits.BornToMove
+                        TraitType.StrongGullet,
+                        TraitType.ArtfulDodge,
+                        TraitType.NimbleClimber,
+                        TraitType.BornToMove
                     },
                     RaceDescription = "A devious and voracious wyvern. Known for his agility and cunning, don't ever turn your back to him or you might find yourself in trouble.",
                 });

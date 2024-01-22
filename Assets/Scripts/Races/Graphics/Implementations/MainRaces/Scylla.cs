@@ -29,10 +29,10 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = false,
                     FavoredStat = Stat.Will,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
                         //Traits.Aquatic,
-                        Traits.TentacleHarassment
+                        TraitType.TentacleHarassment
                     },
                     RaceDescription = "Trapped under the surface at their old world, the Scylla surged forth when the appearance of mystical portals gave them passage to lands above water. Their many tentacles seem to act as if having minds of their own, hindering and harassing their enemies.",
                 });

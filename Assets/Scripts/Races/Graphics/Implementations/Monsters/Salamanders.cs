@@ -36,10 +36,10 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(12, 20),
                         Stomach = new RaceStats.StatRange(10, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Biter,
-                        Traits.HotBlooded
+                        TraitType.Biter,
+                        TraitType.HotBlooded
                     },
                     InnateSpells = new List<SpellTypes>() { SpellTypes.Fireball },
                     RaceDescription = ""

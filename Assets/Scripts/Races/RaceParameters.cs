@@ -8,7 +8,7 @@ internal static class RaceParameters
         StomachSize = 12,
         HasTail = false,
         FavoredStat = Stat.None,
-        RacialTraits = new List<Traits>(),
+        RacialTraits = new List<TraitType>(),
         RaceDescription = "Whip, whup, brrr. I'm a Default. Phear me!",
     };
     

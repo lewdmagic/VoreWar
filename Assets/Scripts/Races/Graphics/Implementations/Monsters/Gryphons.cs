@@ -58,13 +58,13 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(8, 16),
                         Stomach = new RaceStats.StatRange(8, 14),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Flight,
-                        Traits.Intimidating,
-                        Traits.Charge,
-                        Traits.Greedy,
-                        Traits.Pathfinder,
+                        TraitType.Flight,
+                        TraitType.Intimidating,
+                        TraitType.Charge,
+                        TraitType.Greedy,
+                        TraitType.Pathfinder,
                     },
                     RaceDescription = ""
                 });

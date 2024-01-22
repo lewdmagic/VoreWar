@@ -21,10 +21,10 @@ namespace Races.Graphics.Implementations.Mercs
                     HasTail = true,
                     FavoredStat = Stat.Strength,
                     PowerAdjustment = 1.3f,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Maul,
-                        Traits.Frenzy
+                        TraitType.Maul,
+                        TraitType.Frenzy
                     },
                     RaceStats = new RaceStats()
                     {

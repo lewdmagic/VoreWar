@@ -10,8 +10,8 @@ function setup(output)
         traits.HasTail = true;
         traits.FavoredStat = Stat.Agility;
         traits.RacialTraits = {
-            Trait.Charge,
-            Trait.StrongMelee
+            TraitType.Charge,
+            TraitType.StrongMelee
         };
         traits.RaceDescription = "";
     end);

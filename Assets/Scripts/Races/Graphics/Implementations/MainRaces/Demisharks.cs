@@ -38,11 +38,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = true,
                     FavoredStat = Stat.Voracity,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Biter,
-                        Traits.SenseWeakness,
-                        Traits.StrongGullet,
+                        TraitType.Biter,
+                        TraitType.SenseWeakness,
+                        TraitType.StrongGullet,
                     },
                     RaceDescription = "",
                 });

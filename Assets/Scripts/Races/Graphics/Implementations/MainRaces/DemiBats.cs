@@ -40,11 +40,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 13,
                     HasTail = false,
                     FavoredStat = Stat.Agility,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Flight,
-                        Traits.ArtfulDodge,
-                        Traits.Vampirism
+                        TraitType.Flight,
+                        TraitType.ArtfulDodge,
+                        TraitType.Vampirism
                     },
                     RaceDescription = "",
                 });

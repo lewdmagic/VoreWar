@@ -41,12 +41,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 15,
                     HasTail = true,
                     FavoredStat = Stat.Dexterity,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.ProlificBreeder,
-                        Traits.EasyToVore,
-                        Traits.ArtfulDodge,
-                        Traits.EvasiveBattler
+                        TraitType.ProlificBreeder,
+                        TraitType.EasyToVore,
+                        TraitType.ArtfulDodge,
+                        TraitType.EvasiveBattler
                     },
                     RaceDescription = "Among the weaker but more numerous of the native sapient species, the Bunnies are on the verge of turning predators themselves. While lacking in sheer strength they make up for it with agility and numbers, having much fun ensuring the latter.",
                 });

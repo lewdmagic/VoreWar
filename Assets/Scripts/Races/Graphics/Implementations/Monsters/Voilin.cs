@@ -33,10 +33,10 @@ namespace Races.Graphics.Implementations.Monsters
                         Voracity = new RaceStats.StatRange(8, 12),
                         Stomach = new RaceStats.StatRange(8, 12),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Resilient,
-                        Traits.Disgusting
+                        TraitType.Resilient,
+                        TraitType.Disgusting
                     },
                     RaceDescription = "This small creature is the basic grunt of the Mass, a disposable, nearly mindless slave to throw at potential prey to tire them down for worthier beings to devour.",
                 });

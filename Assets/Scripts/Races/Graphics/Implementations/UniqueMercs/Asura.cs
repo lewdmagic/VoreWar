@@ -43,11 +43,11 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(18, 24),
                         Stomach = new RaceStats.StatRange(8, 12),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Maul,
-                        Traits.Frenzy,
-                        Traits.ShunGokuSatsu
+                        TraitType.Maul,
+                        TraitType.Frenzy,
+                        TraitType.ShunGokuSatsu
                     },
                     CanUseRangedWeapons = false,
                 });

@@ -429,7 +429,7 @@ static class StrategicUtilities
     static void PurchaseAccessories(Empire empire, Village village, Unit unit)
     {
         Item itemToPurchase = null;
-        if (unit.BestSuitedForRanged() && unit.HasTrait(Traits.Feral) == false)
+        if (unit.BestSuitedForRanged() && unit.HasTrait(TraitType.Feral) == false)
         {
             itemToPurchase = State.World.ItemRepository.GetItem(ItemType.Gloves);
         }
@@ -489,7 +489,7 @@ static class StrategicUtilities
         }
         else
         {
-            if (unit.HasTrait(Traits.Feral) == false && (unit.Items[1] is SpellBook || State.Rand.NextDouble() < magicChance))
+            if (unit.HasTrait(TraitType.Feral) == false && (unit.Items[1] is SpellBook || State.Rand.NextDouble() < magicChance))
                 unit.AIClass = AIClass.MagicMelee;
             else if (unit.Predator && State.Rand.Next(3) == 0)
                 unit.AIClass = AIClass.MeleeVore;
@@ -741,10 +741,10 @@ static class StrategicUtilities
         int flightTurns = 9999;
         Vec2i destination = null;
         if (travelingUnits.Where(s => s.Type == UnitType.SpecialMercenary).Any())
-            travelingUnits = travelingUnits.Where(s => s.Type != UnitType.SpecialMercenary || s.HasTrait(Traits.Eternal)).ToList();
+            travelingUnits = travelingUnits.Where(s => s.Type != UnitType.SpecialMercenary || s.HasTrait(TraitType.Eternal)).ToList();
         if (travelingUnits.Count() == 0)
             return;
-        bool flyersExist = travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder)).Count() > 0;
+        bool flyersExist = travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder)).Count() > 0;
         if (loc != null && loc.Count > 0)
         {
             destination = new Vec2i(loc.Last().X, loc.Last().Y);
@@ -758,8 +758,8 @@ static class StrategicUtilities
             if (!Equals(village.Side, army.Side))
                 Debug.Log("Sent traveling units to someone else's village...");
             if (flyersExist)
-                CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder)).ToList(), village, flightTurns);
-            CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder) == false).ToList(), village, turns);
+                CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder)).ToList(), village, flightTurns);
+            CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder) == false).ToList(), village, turns);
         }
 
 
@@ -780,7 +780,7 @@ static class StrategicUtilities
 
     internal static void ProcessTravelingUnit(Unit travelingUnit, Army army)
     {
-        if (travelingUnit.Type == UnitType.SpecialMercenary && travelingUnit.HasTrait(Traits.Eternal) == false)
+        if (travelingUnit.Type == UnitType.SpecialMercenary && travelingUnit.HasTrait(TraitType.Eternal) == false)
             return;
         var loc = StrategyPathfinder.GetPathToClosestObject(null, army, State.World.Villages.Where(s => Equals(travelingUnit.Side, s.Side)).Select(s => s.Position).ToArray(), army.GetMaxMovement(), 999, army.movementMode == Army.MovementMode.Flight);
         int turns = 9999;
@@ -788,7 +788,7 @@ static class StrategicUtilities
         if (loc != null && loc.Count > 0)
         {
             destination = new Vec2i(loc.Last().X, loc.Last().Y);
-            turns = StrategyPathfinder.TurnsToReach(null, army, destination, army.GetMaxMovement(), travelingUnit.HasTrait(Traits.Pathfinder));
+            turns = StrategyPathfinder.TurnsToReach(null, army, destination, army.GetMaxMovement(), travelingUnit.HasTrait(TraitType.Pathfinder));
         }
         if (turns < 999)
             CreateInvisibleTravelingArmy(travelingUnit, GetVillageAt(destination), turns);

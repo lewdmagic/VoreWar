@@ -49,11 +49,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 14,
                     HasTail = true,
                     FavoredStat = Stat.Will,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.KeenReflexes,
-                        Traits.EscapeArtist,
-                        Traits.MadScience
+                        TraitType.KeenReflexes,
+                        TraitType.EscapeArtist,
+                        TraitType.MadScience
                     },
                     RaceDescription = "Their own world having risen and fallen, the Crux arrived to this one almost by accident. While they initially thought it rather a boring place, they soon realised its potential and were eager to try and shape it according to their own ever shifting ideals.",
                 });

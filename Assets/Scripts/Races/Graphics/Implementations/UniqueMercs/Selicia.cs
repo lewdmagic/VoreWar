@@ -46,11 +46,11 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         Voracity = new RaceStats.StatRange(14, 18),
                         Stomach = new RaceStats.StatRange(12, 16),
                     },
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.KeenReflexes,
-                        Traits.StrongGullet,
-                        Traits.NimbleClimber,
+                        TraitType.KeenReflexes,
+                        TraitType.StrongGullet,
+                        TraitType.NimbleClimber,
 
                     },
                     InnateSpells = new List<SpellTypes>() { SpellTypes.IceBlast },

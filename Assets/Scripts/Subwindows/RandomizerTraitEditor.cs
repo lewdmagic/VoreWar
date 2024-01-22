@@ -66,15 +66,15 @@ public class RandomizerTraitEditor : MonoBehaviour
             rt.name.text = savedCustom.name;
             rt.chance.text = (savedCustom.chance * 100).ToString();
             rt.id = savedCustom.id;
-            var ranTraits = new Dictionary<Traits, bool>();
-            foreach (Traits r in State.RandomizeLists.ConvertAll(r => (Traits)r.id))
+            var ranTraits = new Dictionary<TraitType, bool>();
+            foreach (TraitType r in State.RandomizeLists.ConvertAll(r => (TraitType)r.id))
             {
                 if (savedCustom.RandomTraits.Contains(r))
                     ranTraits[r] = true;
                 else
                     ranTraits[r] = false;
             }
-            foreach (Traits trait in (Traits[])Enum.GetValues(typeof(Traits)))
+            foreach (TraitType trait in (TraitType[])Enum.GetValues(typeof(TraitType)))
             {
                 if (savedCustom.RandomTraits.Contains(trait))
                     ranTraits[trait] = true;
@@ -105,12 +105,12 @@ public class RandomizerTraitEditor : MonoBehaviour
             rt.chance.text = "100";
             var last = RandomizerTags.LastOrDefault();
             rt.id = last == null ? 1001 : FindNewId();
-            var ranTraits = new Dictionary<Traits, bool>();
-            foreach (Traits r in State.RandomizeLists.ConvertAll(r => (Traits)r.id))
+            var ranTraits = new Dictionary<TraitType, bool>();
+            foreach (TraitType r in State.RandomizeLists.ConvertAll(r => (TraitType)r.id))
             {
                 ranTraits[r] = false;
             }
-            foreach (Traits trait in (Traits[])Enum.GetValues(typeof(Traits)))
+            foreach (TraitType trait in (TraitType[])Enum.GetValues(typeof(TraitType)))
             {
                 ranTraits[trait] = false;
             }
@@ -149,7 +149,7 @@ public class RandomizerTraitEditor : MonoBehaviour
         foreach (Race race in RaceFuncs.RaceEnumerable())
         {
             RaceSettingsItem item = State.RaceSettings.Get(race);
-            item.RaceTraits.Remove((Traits)rt.id);
+            item.RaceTraits.Remove((TraitType)rt.id);
         }
         RandomizerTags.Remove(rt);
     }
@@ -169,7 +169,7 @@ public class RandomizerTraitEditor : MonoBehaviour
             newCustom.id = tag.id;
             newCustom.name = tag.name.text;
             newCustom.chance = int.Parse(tag.chance.text) /100f;
-            newCustom.RandomTraits = new List<Traits>();
+            newCustom.RandomTraits = new List<TraitType>();
             foreach (var trait in tag.TraitDictionary)
             {
                 if (trait.Value) newCustom.RandomTraits.Add(trait.Key);

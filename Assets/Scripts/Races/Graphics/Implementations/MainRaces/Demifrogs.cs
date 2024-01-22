@@ -39,12 +39,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     StomachSize = 18,
                     HasTail = false,
                     FavoredStat = Stat.Voracity,
-                    RacialTraits = new List<Traits>()
+                    RacialTraits = new List<TraitType>()
                     {
-                        Traits.Pounce,
-                        Traits.HeavyPounce,
-                        Traits.RangedVore,
-                        Traits.Clumsy
+                        TraitType.Pounce,
+                        TraitType.HeavyPounce,
+                        TraitType.RangedVore,
+                        TraitType.Clumsy
                     },
                     RaceDescription = "",
                 });
