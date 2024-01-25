@@ -2,7 +2,7 @@ using UnityEngine;
 
 internal partial class RaceRenderer
 {
-    private class RunOutput : IRunOutput, IRunOutputReadable
+    private class RunOutput : IRunOutput
     {
         public Vector3? ClothingShift { get; set; }
         public bool? ActorFurry { get; set; }

@@ -11,7 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class Panthers
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
-        internal static List<IClothingDataSimple> AllClothing;
+        internal static List<IClothing> AllClothing;
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
@@ -184,7 +184,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 };
                 output.ExtraMainClothing5Types.Set(extraMainClothing5Types); //Legs
 
-                AllClothing = new List<IClothingDataSimple>();
+                AllClothing = new List<IClothing>();
                 AllClothing.AddRange(allowedMainClothingTypes);
                 AllClothing.AddRange(allowedWaistTypes);
                 AllClothing.AddRange(extraMainClothing1Types);

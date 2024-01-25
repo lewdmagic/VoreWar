@@ -97,7 +97,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 };
                 output.ExtraMainClothing2Types.Set(extraMainClothing2Types);
 
-                var allClothing = new List<IClothingDataSimple>();
+                var allClothing = new List<IClothing>();
                 allClothing.AddRange(allowedMainClothingTypes);
                 allClothing.AddRange(allowedWaistTypes);
                 allClothing.AddRange(extraMainClothing1Types);

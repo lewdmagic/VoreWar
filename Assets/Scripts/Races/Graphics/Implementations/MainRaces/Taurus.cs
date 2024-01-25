@@ -540,7 +540,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 if (unit.Type == UnitType.Leader)
                 {
                     unit.ClothingHatType = 1;
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, TaurusClothingTypes.LeaderOutfitInstance);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, TaurusClothingTypes.LeaderOutfitInstance);
                 }
                 else
                 {

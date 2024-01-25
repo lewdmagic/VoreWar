@@ -21,7 +21,7 @@ public class UniformSaver : MonoBehaviour
 
         Text.text = unit.Name;
         var raceData = Races2.GetRace(unit.Race);
-        if (raceData.MiscRaceData.AllowedClothingHatTypesBasic.Count > 0)
+        if (raceData.MiscRaceData.AllowedClothingHatTypes.Count > 0)
         {
             IncludeHat.interactable = true;
         }
@@ -31,7 +31,7 @@ public class UniformSaver : MonoBehaviour
             IncludeHat.interactable = false;
         }
 
-        if (raceData.MiscRaceData.AllowedClothingAccessoryTypesBasic.Count > 0)
+        if (raceData.MiscRaceData.AllowedClothingAccessoryTypes.Count > 0)
         {
             IncludeClothingAccesory.interactable = true;
         }

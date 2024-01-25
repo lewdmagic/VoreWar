@@ -619,15 +619,15 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, LeaderClothes);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
                 }
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, Rags);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
                     if (unit.ClothingType == 0) //Covers rags not in the list
                     {
-                        unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypesBasic.Count;
+                        unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
                     }
                 }
             });

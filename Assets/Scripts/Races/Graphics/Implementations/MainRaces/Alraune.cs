@@ -28,7 +28,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
                     unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(rags);
+                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(rags);
                     if (unit.ClothingType == -1) //Covers rags not in the list
                     {
                         unit.ClothingType = 1;
@@ -37,7 +37,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(leaderClothes);
+                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(leaderClothes);
                 }
 
                 if (unit.HasDick && unit.HasBreasts)

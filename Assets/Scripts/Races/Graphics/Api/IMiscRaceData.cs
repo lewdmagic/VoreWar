@@ -105,13 +105,13 @@ public interface IMiscRaceData
     int ExtraMainClothing4Count { get; }
     int ExtraMainClothing5Count { get; }
 
-    IReadOnlyList<IClothingDataSimple> AllowedMainClothingTypesBasic { get; }
-    IReadOnlyList<IClothingDataSimple> AllowedWaistTypesBasic { get; }
-    IReadOnlyList<IClothingDataSimple> AllowedClothingHatTypesBasic { get; }
-    IReadOnlyList<IClothingDataSimple> AllowedClothingAccessoryTypesBasic { get; }
-    IReadOnlyList<IClothingDataSimple> ExtraMainClothing1TypesBasic { get; }
-    IReadOnlyList<IClothingDataSimple> ExtraMainClothing2TypesBasic { get; }
-    IReadOnlyList<IClothingDataSimple> ExtraMainClothing3TypesBasic { get; }
-    IReadOnlyList<IClothingDataSimple> ExtraMainClothing4TypesBasic { get; }
-    IReadOnlyList<IClothingDataSimple> ExtraMainClothing5TypesBasic { get; }
+    List<IClothing> AllowedMainClothingTypes { get; }
+    List<IClothing> AllowedWaistTypes { get; }
+    List<IClothing> AllowedClothingHatTypes { get; }
+    List<IClothing> AllowedClothingAccessoryTypes { get; }
+    List<IClothing> ExtraMainClothing1Types { get; }
+    List<IClothing> ExtraMainClothing2Types { get; }
+    List<IClothing> ExtraMainClothing3Types { get; }
+    List<IClothing> ExtraMainClothing4Types { get; }
+    List<IClothing> ExtraMainClothing5Types { get; }
 }

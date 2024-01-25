@@ -1,7 +1,7 @@
 using System;
 using MoonSharp.Interpreter;
 
-public abstract class ClothingDataShared : IClothingDataSimple
+public abstract class ClothingDataShared : IClothing
 {
     private protected readonly ClothingMiscData Misc;
     public IClothingDataFixed FixedData { get; set; }
@@ -36,6 +36,8 @@ public abstract class ClothingDataShared : IClothingDataSimple
 
         return true;
     }
+
+    public abstract ClothingRenderOutput Configure(Actor_Unit actor, ISpriteChanger changeDict);
 }
 
 internal class Clothing : ClothingDataShared, IClothing
@@ -47,7 +49,7 @@ internal class Clothing : ClothingDataShared, IClothing
         _completeGen = completeGen;
     }
 
-    public ClothingRenderOutput Configure(Actor_Unit actor, RaceSpriteChangeDict changeDict)
+    public override ClothingRenderOutput Configure(Actor_Unit actor, ISpriteChanger changeDict)
     {
         IClothingRenderInput input = new ClothingRenderInput(actor);
         ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc, null);
@@ -67,7 +69,7 @@ internal class Clothing<T> : ClothingDataShared, IClothing where T : IParameters
         _calcParams = calcParams;
     }
 
-    public ClothingRenderOutput Configure(Actor_Unit actor, RaceSpriteChangeDict changeDict)
+    public override ClothingRenderOutput Configure(Actor_Unit actor, ISpriteChanger changeDict)
     {
         ClothingRenderInput input = new ClothingRenderInput(actor);
         ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc, null);

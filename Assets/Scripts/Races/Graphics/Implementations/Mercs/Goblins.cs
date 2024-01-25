@@ -17,7 +17,7 @@ namespace Races.Graphics.Implementations.Mercs
     internal static class Goblins
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(22 * 22);
-        private static List<IClothingDataSimple> _allClothing;
+        private static List<IClothing> _allClothing;
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
@@ -210,7 +210,7 @@ namespace Races.Graphics.Implementations.Mercs
                 };
                 output.ExtraMainClothing5Types.Set(extraMainClothing5Types);
 
-                _allClothing = new List<IClothingDataSimple>();
+                _allClothing = new List<IClothing>();
                 _allClothing.AddRange(allowedMainClothingTypes);
                 _allClothing.AddRange(extraMainClothing3Types);
                 _allClothing.AddRange(extraMainClothing4Types);

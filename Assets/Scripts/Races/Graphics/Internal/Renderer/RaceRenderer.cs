@@ -8,34 +8,9 @@ using UnityEngine;
 #endregion
 
 
-public class RaceSpriteChangeDict : ISpriteChanger
-{
-    internal readonly Dictionary<SpriteType, RaceRenderOutput> ReusedChangesDict = new Dictionary<SpriteType, RaceRenderOutput>();
-    private readonly ISpriteCollection _spriteCollection;
-
-    public RaceSpriteChangeDict(ISpriteCollection spriteCollection)
-    {
-        _spriteCollection = spriteCollection;
-    }
-    
-    public IRaceRenderOutput ChangeSprite(SpriteType spriteType)
-    {
-        if (!ReusedChangesDict.TryGetValue(spriteType, out var raceRenderOutput))
-        {
-            raceRenderOutput = new RaceRenderOutput(_spriteCollection);
-            ReusedChangesDict.Add(spriteType, raceRenderOutput);
-        }
-
-        return raceRenderOutput;
-    }
-}
 
 internal partial class RaceRenderer
 {
-    
-    
-    
-    
     public static readonly SpriteType AssumedFluffType = SpriteType.BodyAccent3;
     
     private readonly List<ISpriteContainer> _clothingSprites = new List<ISpriteContainer>();
@@ -444,7 +419,7 @@ internal partial class RaceRenderer
         for (int i = 0; i < clothesContainers; i++)
         {
             ISpriteContainer container = GetClothingContainer(i);
-            ISpriteChangeReadable one = accumulatedClothes.SpritesInfos.GetOrNull(i);
+            RaceRenderOutput one = accumulatedClothes.SpritesInfos.GetOrNull(i);
 
             if (one != null)
             {

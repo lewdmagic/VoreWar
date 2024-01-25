@@ -784,23 +784,23 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType2 = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedWaistTypesBasic, leaderClothes3);
+                    unit.ClothingType2 = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedWaistTypes, leaderClothes3);
                     if (unit.HasBreasts)
                     {
-                        unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, leaderClothes1);
+                        unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes1);
                     }
                     else
                     {
-                        unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, leaderClothes2);
+                        unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes2);
                     }
                 }
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, rags);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
                     if (unit.ClothingType == 0) //Covers rags not in the list
                     {
-                        unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypesBasic.Count;
+                        unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
                     }
                 }
             });

@@ -786,7 +786,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, CruxClothingTypes.RagsInstance);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, CruxClothingTypes.RagsInstance);
                     if (unit.ClothingType == -1) //Covers rags not in the list
                     {
                         unit.ClothingType = 1;

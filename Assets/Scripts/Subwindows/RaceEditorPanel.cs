@@ -658,7 +658,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideDick.isOn = false;
         }
 
-        if (raceData.MiscRaceData.AllowedMainClothingTypesBasic?.Count > 0)
+        if (raceData.MiscRaceData.AllowedMainClothingTypes?.Count > 0)
         {
             OverrideClothed.interactable = true;
         }

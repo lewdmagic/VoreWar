@@ -998,7 +998,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingType == 0)
                 break;
-            if (RaceData.MiscRaceData.AllowedMainClothingTypesBasic[Unit.ClothingType - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedMainClothingTypes[Unit.ClothingType - 1].CanWear(Unit))
                 break;
             Unit.ClothingType = (totalClothingTypes + Unit.ClothingType + change) % totalClothingTypes;
         }
@@ -1021,7 +1021,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingType2 == 0)
                 break;
-            if (RaceData.MiscRaceData.AllowedWaistTypesBasic[Unit.ClothingType2 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedWaistTypes[Unit.ClothingType2 - 1].CanWear(Unit))
                 break;
             Unit.ClothingType2 = (totalClothingTypes + Unit.ClothingType2 + change) % totalClothingTypes;
         }
@@ -1045,7 +1045,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType1 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing1TypesBasic[Unit.ClothingExtraType1 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing1Types[Unit.ClothingExtraType1 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType1 = (totalClothingTypes + Unit.ClothingExtraType1 + change) % totalClothingTypes;
         }
@@ -1069,7 +1069,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType2 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing2TypesBasic[Unit.ClothingExtraType2 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing2Types[Unit.ClothingExtraType2 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType2 = (totalClothingTypes + Unit.ClothingExtraType2 + change) % totalClothingTypes;
         }
@@ -1093,7 +1093,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType3 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing3TypesBasic[Unit.ClothingExtraType3 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing3Types[Unit.ClothingExtraType3 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType3 = (totalClothingTypes + Unit.ClothingExtraType3 + change) % totalClothingTypes;
         }
@@ -1117,7 +1117,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType4 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing4TypesBasic[Unit.ClothingExtraType4 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing4Types[Unit.ClothingExtraType4 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType4 = (totalClothingTypes + Unit.ClothingExtraType4 + change) % totalClothingTypes;
         }
@@ -1141,7 +1141,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingExtraType5 == 0)
                 break;
-            if (RaceData.MiscRaceData.ExtraMainClothing5TypesBasic[Unit.ClothingExtraType5 - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.ExtraMainClothing5Types[Unit.ClothingExtraType5 - 1].CanWear(Unit))
                 break;
             Unit.ClothingExtraType5 = (totalClothingTypes + Unit.ClothingExtraType5 + change) % totalClothingTypes;
         }
@@ -1169,7 +1169,7 @@ public class UnitCustomizer
                 break;
             if (Unit.ClothingAccessoryType == RaceData.MiscRaceData.ClothingAccessoryTypesCount && Unit.EarnedMask)
                 break;
-            if (RaceData.MiscRaceData.AllowedClothingAccessoryTypesBasic[Unit.ClothingAccessoryType - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedClothingAccessoryTypes[Unit.ClothingAccessoryType - 1].CanWear(Unit))
                 break;
             Unit.ClothingAccessoryType = (totalClothingTypes + Unit.ClothingAccessoryType + change) % totalClothingTypes;
         }
@@ -1193,7 +1193,7 @@ public class UnitCustomizer
         {
             if (Unit.ClothingHatType == 0)
                 break;
-            if (RaceData.MiscRaceData.AllowedClothingHatTypesBasic[Unit.ClothingHatType - 1].CanWear(Unit))
+            if (RaceData.MiscRaceData.AllowedClothingHatTypes[Unit.ClothingHatType - 1].CanWear(Unit))
                 break;
             Unit.ClothingHatType = (totalClothingTypes + Unit.ClothingHatType + change) % totalClothingTypes;
         }

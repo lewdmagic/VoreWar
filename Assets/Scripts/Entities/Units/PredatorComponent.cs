@@ -1896,71 +1896,71 @@ public class PredatorComponent
 
         if (Config.ClothingDiscards)
         {
-            if (preyRace.MiscRaceData.AllowedMainClothingTypesBasic.Count >= preyUnit.Unit.ClothingType && preyUnit.Unit.ClothingType > 0)
+            if (preyRace.MiscRaceData.AllowedMainClothingTypes.Count >= preyUnit.Unit.ClothingType && preyUnit.Unit.ClothingType > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.AllowedMainClothingTypesBasic[preyUnit.Unit.ClothingType - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.MiscRaceData.AllowedMainClothingTypes[preyUnit.Unit.ClothingType - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.AllowedMainClothingTypesBasic[preyUnit.Unit.ClothingType - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.MiscRaceData.AllowedMainClothingTypes[preyUnit.Unit.ClothingType - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.AllowedWaistTypesBasic.Count >= preyUnit.Unit.ClothingType2 && preyUnit.Unit.ClothingType2 > 0)
+            if (preyRace.MiscRaceData.AllowedWaistTypes.Count >= preyUnit.Unit.ClothingType2 && preyUnit.Unit.ClothingType2 > 0)
             {
-                ClothingId clothingType2 = preyRace.MiscRaceData.AllowedWaistTypesBasic[preyUnit.Unit.ClothingType2 - 1].FixedData.ClothingId;
+                ClothingId clothingType2 = preyRace.MiscRaceData.AllowedWaistTypes[preyUnit.Unit.ClothingType2 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.AllowedWaistTypesBasic[preyUnit.Unit.ClothingType2 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.MiscRaceData.AllowedWaistTypes[preyUnit.Unit.ClothingType2 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType2, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing1TypesBasic.Count >= preyUnit.Unit.ClothingExtraType1 && preyUnit.Unit.ClothingExtraType1 > 0)
+            if (preyRace.MiscRaceData.ExtraMainClothing1Types.Count >= preyUnit.Unit.ClothingExtraType1 && preyUnit.Unit.ClothingExtraType1 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing1TypesBasic[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing1Types[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing1TypesBasic[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.MiscRaceData.ExtraMainClothing1Types[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing2TypesBasic.Count >= preyUnit.Unit.ClothingExtraType2 && preyUnit.Unit.ClothingExtraType2 > 0)
+            if (preyRace.MiscRaceData.ExtraMainClothing2Types.Count >= preyUnit.Unit.ClothingExtraType2 && preyUnit.Unit.ClothingExtraType2 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing2TypesBasic[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing2Types[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing2TypesBasic[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.MiscRaceData.ExtraMainClothing2Types[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing3TypesBasic.Count >= preyUnit.Unit.ClothingExtraType3 && preyUnit.Unit.ClothingExtraType3 > 0)
+            if (preyRace.MiscRaceData.ExtraMainClothing3Types.Count >= preyUnit.Unit.ClothingExtraType3 && preyUnit.Unit.ClothingExtraType3 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing3TypesBasic[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing3Types[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing3TypesBasic[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.MiscRaceData.ExtraMainClothing3Types[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing4TypesBasic.Count >= preyUnit.Unit.ClothingExtraType4 && preyUnit.Unit.ClothingExtraType4 > 0)
+            if (preyRace.MiscRaceData.ExtraMainClothing4Types.Count >= preyUnit.Unit.ClothingExtraType4 && preyUnit.Unit.ClothingExtraType4 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing4TypesBasic[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing4Types[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing4TypesBasic[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.MiscRaceData.ExtraMainClothing4Types[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing5TypesBasic.Count >= preyUnit.Unit.ClothingExtraType5 && preyUnit.Unit.ClothingExtraType5 > 0)
+            if (preyRace.MiscRaceData.ExtraMainClothing5Types.Count >= preyUnit.Unit.ClothingExtraType5 && preyUnit.Unit.ClothingExtraType5 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing5TypesBasic[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing5Types[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing5TypesBasic[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.MiscRaceData.ExtraMainClothing5Types[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;

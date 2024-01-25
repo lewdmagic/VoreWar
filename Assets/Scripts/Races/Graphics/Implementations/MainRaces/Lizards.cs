@@ -711,11 +711,11 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingHatType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedClothingHatTypesBasic, RaceSpecificClothing.LizardLeaderCrownInstance);
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, RaceSpecificClothing.LizardLeaderTopInstance);
-                    unit.ClothingType2 = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedWaistTypesBasic, RaceSpecificClothing.LizardLeaderSkirtInstance);
-                    unit.ClothingExtraType1 = 1 + Extensions.IndexOf(data.MiscRaceData.ExtraMainClothing1TypesBasic, RaceSpecificClothing.LizardLeaderLegguardsInstance);
-                    unit.ClothingExtraType2 = 1 + Extensions.IndexOf(data.MiscRaceData.ExtraMainClothing2TypesBasic, RaceSpecificClothing.LizardLeaderArmbandsInstance);
+                    unit.ClothingHatType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedClothingHatTypes, RaceSpecificClothing.LizardLeaderCrownInstance);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, RaceSpecificClothing.LizardLeaderTopInstance);
+                    unit.ClothingType2 = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedWaistTypes, RaceSpecificClothing.LizardLeaderSkirtInstance);
+                    unit.ClothingExtraType1 = 1 + Extensions.IndexOf(data.MiscRaceData.ExtraMainClothing1Types, RaceSpecificClothing.LizardLeaderLegguardsInstance);
+                    unit.ClothingExtraType2 = 1 + Extensions.IndexOf(data.MiscRaceData.ExtraMainClothing2Types, RaceSpecificClothing.LizardLeaderArmbandsInstance);
                 }
 
                 if (unit.ClothingType == 10) //If in prison garb

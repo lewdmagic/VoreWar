@@ -21,7 +21,7 @@ internal class ClothingDiscards
     [OdinSerialize]
     internal string name;
 
-    static List<IClothingDataSimple> AllClothes = new List<IClothingDataSimple>();
+    static List<IClothing> AllClothes = new List<IClothing>();
 
     public ClothingDiscards(Vec2i location, Race race, ClothingId type, int color, int sortOrder, string name)
     {
@@ -47,7 +47,7 @@ internal class ClothingDiscards
                 BeesClothing.Cuirass.CuirassInstance, BeesClothing.BeeLeaderInstance
             };
             
-            AllClothes = new List<IClothingDataSimple>();
+            AllClothes = new List<IClothing>();
             AllClothes.AddRange(CommonClothing.All);
             AllClothes.AddRange(RaceSpecificClothing.All);
             AllClothes.AddRange(TaurusClothes.TaurusClothingTypes.All);
@@ -56,42 +56,42 @@ internal class ClothingDiscards
             AllClothes.Add(Loincloth2.Loincloth2Instance); //3 and 4 are unneeded because they share with 2
             AllClothes.AddRange(BeesDiscardData);
             AllClothes.AddRange(Panthers.AllClothing); // TODO move from global
-            AllClothes.AddRange(Races2.GetRace(Race.Hippos).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Hippos).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Merfolk).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Merfolk).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Vipers).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Demifrogs).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Demifrogs).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing1TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing2TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing3TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing4TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing5TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing1TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing2TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing3TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing4TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing5TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Demisharks).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Demisharks).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Demisharks).MiscRaceData.ExtraMainClothing1TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Komodos).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Komodos).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.DemiBats).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Cockatrice).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Cockatrice).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Deer).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Deer).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Deer).MiscRaceData.ExtraMainClothing1TypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Humans).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Humans).MiscRaceData.AllowedWaistTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Vargul).MiscRaceData.AllowedMainClothingTypesBasic);
-            AllClothes.AddRange(Races2.GetRace(Race.Vargul).MiscRaceData.AllowedWaistTypesBasic);
+            AllClothes.AddRange(Races2.GetRace(Race.Hippos).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Hippos).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Merfolk).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Merfolk).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Vipers).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Demifrogs).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Demifrogs).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing1Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing2Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing3Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing4Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Imps).MiscRaceData.ExtraMainClothing5Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing1Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing2Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing3Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing4Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Goblins).MiscRaceData.ExtraMainClothing5Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Demisharks).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Demisharks).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Demisharks).MiscRaceData.ExtraMainClothing1Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Komodos).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Komodos).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.DemiBats).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Cockatrice).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Cockatrice).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Deer).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Deer).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Deer).MiscRaceData.ExtraMainClothing1Types);
+            AllClothes.AddRange(Races2.GetRace(Race.Humans).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Humans).MiscRaceData.AllowedWaistTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Vargul).MiscRaceData.AllowedMainClothingTypes);
+            AllClothes.AddRange(Races2.GetRace(Race.Vargul).MiscRaceData.AllowedWaistTypes);
             AllClothes = AllClothes.Distinct().ToList();
         }
         var clothingType = AllClothes.Where(s => s.FixedData.ClothingId == type).FirstOrDefault();

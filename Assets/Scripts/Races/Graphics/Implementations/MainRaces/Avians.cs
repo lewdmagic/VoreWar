@@ -443,7 +443,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, rags);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
                     if (unit.ClothingType == -1) //Covers rags not in the list
                     {
                         unit.ClothingType = 1;
@@ -452,7 +452,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypesBasic, leaderClothes);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
                 }
             });
         });

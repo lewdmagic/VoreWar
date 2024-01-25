@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-internal class RaceRenderOutput : IRaceRenderOutput, ISpriteChangeReadable
+internal class RaceRenderOutput : IRaceRenderOutput
 {
     private readonly ISpriteCollection _spriteCollection;
     

@@ -191,7 +191,7 @@ public static class Defaults
             {
                 if (unit.ClothingAccessoryType > 0)
                 {
-                    if (input.MiscRaceData.AllowedClothingAccessoryTypesBasic[unit.ClothingAccessoryType - 1].CanWear(unit))
+                    if (input.MiscRaceData.AllowedClothingAccessoryTypes[unit.ClothingAccessoryType - 1].CanWear(unit))
                     {
                         break;
                     }
@@ -201,7 +201,7 @@ public static class Defaults
             }
 
             if (unit.ClothingAccessoryType > 0 &&
-                input.MiscRaceData.AllowedClothingAccessoryTypesBasic[unit.ClothingAccessoryType - 1].CanWear(unit) == false)
+                input.MiscRaceData.AllowedClothingAccessoryTypes[unit.ClothingAccessoryType - 1].CanWear(unit) == false)
             {
                 unit.ClothingAccessoryType = 0;
             }
@@ -209,7 +209,7 @@ public static class Defaults
 
         if (input.MiscRaceData.ClothingHatTypesCount > 1)
         {
-            if (input.MiscRaceData.AllowedClothingHatTypesBasic.Contains(MainAccessories.SantaHatInstance) && Config.WinterActive())
+            if (input.MiscRaceData.AllowedClothingHatTypes.Contains(MainAccessories.SantaHatInstance) && Config.WinterActive())
             {
                 if (State.Rand.Next(2) == 0)
                 {
@@ -223,7 +223,7 @@ public static class Defaults
                 {
                     if (unit.ClothingHatType > 0)
                     {
-                        if (input.MiscRaceData.AllowedClothingHatTypesBasic[unit.ClothingHatType - 1].CanWear(unit))
+                        if (input.MiscRaceData.AllowedClothingHatTypes[unit.ClothingHatType - 1].CanWear(unit))
                         {
                             break;
                         }
@@ -233,7 +233,7 @@ public static class Defaults
                 }
 
                 if (unit.ClothingHatType > 0 &&
-                    input.MiscRaceData.AllowedClothingHatTypesBasic[unit.ClothingHatType - 1].CanWear(unit) == false)
+                    input.MiscRaceData.AllowedClothingHatTypes[unit.ClothingHatType - 1].CanWear(unit) == false)
                 {
                     unit.ClothingHatType = 0;
                 }
@@ -254,7 +254,7 @@ public static class Defaults
                 {
                     if (unit.ClothingType > 0)
                     {
-                        if (input.MiscRaceData.AllowedMainClothingTypesBasic[unit.ClothingType - 1].CanWear(unit))
+                        if (input.MiscRaceData.AllowedMainClothingTypes[unit.ClothingType - 1].CanWear(unit))
                         {
                             break;
                         }
@@ -265,7 +265,7 @@ public static class Defaults
                 }
 
                 if (unit.ClothingType > 0 &&
-                    input.MiscRaceData.AllowedMainClothingTypesBasic[unit.ClothingType - 1].CanWear(unit) == false)
+                    input.MiscRaceData.AllowedMainClothingTypes[unit.ClothingType - 1].CanWear(unit) == false)
                 {
                     unit.ClothingType = 0;
                 }
@@ -277,7 +277,7 @@ public static class Defaults
                     {
                         if (unit.ClothingType2 > 0)
                         {
-                            if (input.MiscRaceData.AllowedWaistTypesBasic[unit.ClothingType2 - 1].CanWear(unit))
+                            if (input.MiscRaceData.AllowedWaistTypes[unit.ClothingType2 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -287,7 +287,7 @@ public static class Defaults
                     }
 
                     if (unit.ClothingType2 > 0 &&
-                        input.MiscRaceData.AllowedWaistTypesBasic[unit.ClothingType2 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.AllowedWaistTypes[unit.ClothingType2 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingType2 = 0;
                     }
@@ -300,7 +300,7 @@ public static class Defaults
                     {
                         if (unit.ClothingExtraType1 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing1TypesBasic[unit.ClothingExtraType1 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing1Types[unit.ClothingExtraType1 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -310,7 +310,7 @@ public static class Defaults
                     }
 
                     if (unit.ClothingExtraType1 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing1TypesBasic[unit.ClothingExtraType1 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing1Types[unit.ClothingExtraType1 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType1 = 0;
                     }
@@ -323,7 +323,7 @@ public static class Defaults
                     {
                         if (unit.ClothingExtraType2 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing2TypesBasic[unit.ClothingExtraType2 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing2Types[unit.ClothingExtraType2 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -333,7 +333,7 @@ public static class Defaults
                     }
 
                     if (unit.ClothingExtraType2 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing2TypesBasic[unit.ClothingExtraType2 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing2Types[unit.ClothingExtraType2 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType2 = 0;
                     }
@@ -346,7 +346,7 @@ public static class Defaults
                     {
                         if (unit.ClothingExtraType3 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing3TypesBasic[unit.ClothingExtraType3 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing3Types[unit.ClothingExtraType3 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -356,7 +356,7 @@ public static class Defaults
                     }
 
                     if (unit.ClothingExtraType3 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing3TypesBasic[unit.ClothingExtraType3 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing3Types[unit.ClothingExtraType3 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType3 = 0;
                     }
@@ -369,7 +369,7 @@ public static class Defaults
                     {
                         if (unit.ClothingExtraType4 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing4TypesBasic[unit.ClothingExtraType4 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing4Types[unit.ClothingExtraType4 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -379,7 +379,7 @@ public static class Defaults
                     }
 
                     if (unit.ClothingExtraType4 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing1TypesBasic[unit.ClothingExtraType4 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing1Types[unit.ClothingExtraType4 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType4 = 0;
                     }
@@ -392,7 +392,7 @@ public static class Defaults
                     {
                         if (unit.ClothingExtraType5 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing5TypesBasic[unit.ClothingExtraType5 - 1].CanWear(unit))
+                            if (input.MiscRaceData.ExtraMainClothing5Types[unit.ClothingExtraType5 - 1].CanWear(unit))
                             {
                                 break;
                             }
@@ -402,7 +402,7 @@ public static class Defaults
                     }
 
                     if (unit.ClothingExtraType5 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing5TypesBasic[unit.ClothingExtraType5 - 1].CanWear(unit) == false)
+                        input.MiscRaceData.ExtraMainClothing5Types[unit.ClothingExtraType5 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType5 = 0;
                     }
@@ -430,13 +430,13 @@ public static class Defaults
                 (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
                 unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + input.MiscRaceData.AllowedMainClothingTypesBasic.IndexOf(CommonClothing.RagsInstance);
+                unit.ClothingType = 1 + input.MiscRaceData.AllowedMainClothingTypes.IndexOf(CommonClothing.RagsInstance);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
-                    if (input.MiscRaceData.AllowedMainClothingTypesBasic.Last()?.FixedData.ReqWinterHoliday ==
+                    if (input.MiscRaceData.AllowedMainClothingTypes.Last()?.FixedData.ReqWinterHoliday ==
                         false) //Avoid bugs where the winter holiday is the last.
                     {
-                        unit.ClothingType = input.MiscRaceData.AllowedMainClothingTypesBasic.Count;
+                        unit.ClothingType = input.MiscRaceData.AllowedMainClothingTypes.Count;
                     }
                 }
             }

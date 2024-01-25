@@ -17,7 +17,7 @@ internal interface ISpriteContainer
     void Destroy();
     string Name { get; set; }
 
-    void NewSetSprite(ISpriteChangeReadable spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset);
+    void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset);
 }
 
 
@@ -82,7 +82,7 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
     }
 
     
-    public void NewSetSprite(ISpriteChangeReadable spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
+    public void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
     {
         Sprite actualSprite = spriteChange.SpriteVal;
         
@@ -184,7 +184,7 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
         _image = image;
     }
     
-    public void NewSetSprite(ISpriteChangeReadable spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
+    public void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
     {
         Sprite actualSprite = spriteChange.SpriteVal;
         

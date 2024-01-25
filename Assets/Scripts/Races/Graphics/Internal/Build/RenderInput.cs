@@ -7,11 +7,9 @@ public class RenderInput : IRenderInput
     public Actor_Unit A => Actor;
     public Unit U => Actor.Unit;
 
-            public string Sex
-            {
-                get => Actor.Unit.HasBreasts ? "female" : "male";
-            }
-    
+            public string Sex => Actor.Unit.HasBreasts ? "female" : "male";
+
+            // TODO 
             public string SimpleWeaponSpriteFrontV1
             {
                 get
@@ -32,6 +30,7 @@ public class RenderInput : IRenderInput
                 }
             }
     
+            // TODO 
             public string SimpleWeaponSpriteBackV1
             {
                 get

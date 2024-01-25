@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            List<IClothingDataSimple> allClothing;
+            List<IClothing> allClothing;
 
             RaceFrameList earAnimation = new RaceFrameList(new int[3] { 22, 23, 22 }, new float[3] { .2f, .2f, .2f });
             RaceFrameList faceAnimation = new RaceFrameList(new int[3] { 18, 19, 18 }, new float[3] { .25f, .25f, .25f });
@@ -133,7 +133,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 };
                 output.ExtraMainClothing3Types.Clear();
 
-                allClothing = new List<IClothingDataSimple>();
+                allClothing = new List<IClothing>();
                 allClothing.AddRange(allowedMainClothingTypes);
                 allClothing.AddRange(allowedWaistTypes);
                 allClothing.AddRange(extraMainClothing1Types);
