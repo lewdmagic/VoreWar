@@ -15,10 +15,10 @@ public interface IRaceRenderAllOutput
 public class RaceRenderAllOutput : IRaceRenderAllOutput
 {
     
-    private readonly SpriteChangeDict _changeDict;
+    private readonly RaceSpriteChangeDict _changeDict;
     
     //
-    public RaceRenderAllOutput(SpriteChangeDict changeDict)
+    public RaceRenderAllOutput(RaceSpriteChangeDict changeDict)
     {
         _changeDict = changeDict;
     }

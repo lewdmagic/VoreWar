@@ -8,7 +8,7 @@ using UnityEngine;
 
 static class Races2
 {
-    static internal IRaceData GetRace(Unit unit)
+    internal static IRaceData GetRace(Unit unit)
     {
         // TODO not sure how to improve this. 
         if (Equals(unit.Race, Race.Slimes) && unit.Type == UnitType.Leader)

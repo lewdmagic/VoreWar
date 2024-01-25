@@ -2,8 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using MoonSharp.Interpreter;
-using UnityEngine;
 
 #endregion
 
@@ -15,17 +13,6 @@ enum ModdingMode
 
 internal class RaceData : IRaceData
 {
-    private readonly MiscRaceData _miscRaceData;
-
-
-
-    
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-
-    private readonly ExtraRaceInfo _extraRaceInfo;
-    
     public string SingularName(Unit unit)
     {
         return SingularName(unit.GetGender());
@@ -39,82 +26,76 @@ internal class RaceData : IRaceData
     public string SingularName(Gender gender)
     {
         INameInput input = new NameInput(gender);
-        return _extraRaceInfo.SingularName(input);
+        return ExtraRaceInfo2.SingularName(input);
     }    
     
     public string PluralName(Gender gender)
     {
         INameInput input = new NameInput(gender);
-        return _extraRaceInfo.PluralName(input);
+        return ExtraRaceInfo2.PluralName(input);
     }
 
     public WallType WallType()
     {
-        return _extraRaceInfo.WallType ?? TacticalMode.DefaultType;
+        return ExtraRaceInfo2.WallType ?? TacticalMode.DefaultType;
     }
 
     public List<BoneInfo> BoneInfo(Unit unit)
     {
-        return _extraRaceInfo.BoneTypesGen?.Invoke(unit);
+        return ExtraRaceInfo2.BoneTypesGen?.Invoke(unit);
     }
 
     public FlavorText FlavorText()
     {
-        return _extraRaceInfo.FlavorText ?? LogRaceData.DefaultFlavorText;
+        return ExtraRaceInfo2.FlavorText ?? LogRaceData.DefaultFlavorText;
     }
 
     public void CustomizeButtons(Unit unit, EnumIndexedArray<ButtonType, CustomizerButton> buttons)
     {
-        _extraRaceInfo?.CustomizeButtonsAction?.Invoke(unit, buttons);
+        ExtraRaceInfo2?.CustomizeButtonsAction?.Invoke(unit, buttons);
 
-        if (_extraRaceInfo?.CustomizeButtonsAction2 != null)
+        if (ExtraRaceInfo2?.CustomizeButtonsAction2 != null)
         {
             ButtonCustomizer buttonCustomizer = new ButtonCustomizer();
-            _extraRaceInfo.CustomizeButtonsAction2.Invoke(unit, buttonCustomizer);
+            ExtraRaceInfo2.CustomizeButtonsAction2.Invoke(unit, buttonCustomizer);
             buttonCustomizer.ApplyValues(buttons);
         }
     }
 
     public ExtraRaceInfo ExtraRaceInfo()
     {
-        return _extraRaceInfo;
+        return ExtraRaceInfo2;
     }
 
-    public RaceTraits RaceTraits() => _extraRaceInfo.RaceTraits ?? RaceParameters.Default;
+    public RaceTraits RaceTraits() => ExtraRaceInfo2.RaceTraits ?? RaceParameters.Default;
 
 
     
-    private readonly Action<IRandomCustomInput> _randomCustom;
-    private readonly Action<IRunInput, IRunOutput> _runBefore;
-    private readonly Action<IRunInput, IRaceRenderAllOutput> _renderAllAction;
-
-    internal readonly Race Race;
-
-    private readonly SpriteCollection _raceSpriteCollection;
+    public ExtraRaceInfo ExtraRaceInfo2 { get; private set; }
+    public Action<IRandomCustomInput> RandomCustom { get; private set; }
+    public Action<IRunInput, IRunOutput> RunBefore { get; private set; }
+    public Action<IRunInput, IRaceRenderAllOutput> RenderAllAction { get; private set; }
+    public SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; private set; }
+    public MiscRaceData MiscRaceDataRaw { get; private set; }
+    public IMiscRaceData MiscRaceData => MiscRaceDataRaw;
     
     public RaceData(
         SpriteTypeIndexed<SingleRenderFunc> raceSpriteSet,
         MiscRaceData miscRaceData,
         Action<IRunInput, IRunOutput> runBefore,
         Action<IRandomCustomInput> randomCustom,
-        ExtraRaceInfo extraRaceInfo,
-        Action<IRunInput, IRaceRenderAllOutput> renderAllAction,
-        Race race)
+        ExtraRaceInfo extraRaceInfo2,
+        Action<IRunInput, IRaceRenderAllOutput> renderAllAction
+        )
     {
         RaceSpriteSet = raceSpriteSet;
-        _miscRaceData = miscRaceData;
-        _runBefore = runBefore;
-        _randomCustom = randomCustom;
-        _extraRaceInfo = extraRaceInfo;
-        _renderAllAction = renderAllAction;
-        Race = race;
-
-        _raceSpriteCollection = GameManager.customManager.GetRaceSpriteCollection(Race.Id);
+        MiscRaceDataRaw = miscRaceData;
+        RunBefore = runBefore;
+        RandomCustom = randomCustom;
+        ExtraRaceInfo2 = extraRaceInfo2;
+        RenderAllAction = renderAllAction;
     }
 
-    private SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; }
-
-    public IMiscRaceData MiscRaceData => _miscRaceData;
     
     internal void ModifySingleRender(SpriteType spriteType, ModdingMode mode, Action<IRaceRenderInput, IRaceRenderOutput> generator)
     {
@@ -142,249 +123,12 @@ internal class RaceData : IRaceData
         RaceSpriteSet[spriteType] = new SingleRenderFunc(layer, generator);
     }
 
-    public FullSpriteProcessOut NewUpdate(Actor_Unit actor)
-    {
-        SpriteChangeDict changeDict = new SpriteChangeDict(_raceSpriteCollection);
-        RunOutput runOutput = new RunOutput(changeDict);
-
-        IRunInput runInput = new RunInput(actor);
-        _runBefore?.Invoke(runInput, runOutput);
-
-        IRaceRenderAllOutput renderAllOutput = new RaceRenderAllOutput(changeDict);
-        
-        _renderAllAction?.Invoke(runInput, renderAllOutput);
-
-        foreach (KeyValuePair<SpriteType, SingleRenderFunc> raceSprite in RaceSpriteSet.KeyValues)
-        {
-            SpriteType spriteType = raceSprite.Key;
-            SingleRenderFunc renderFunc = raceSprite.Value;
-            IRaceRenderInput input = new RaceRenderInput(actor, _miscRaceData, MiscRaceData.BaseBody);
-            IRaceRenderOutput raceRenderOutput = changeDict.ChangeSprite(spriteType);
-            raceRenderOutput.Layer(renderFunc.Layer); // Set the default layer
-            try
-            {
-                renderFunc.Invoke(input, raceRenderOutput);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Render Error in SpriteType: {spriteType}");
-                throw;
-            }
-        }
-
-        if (runOutput.ActorFurry.HasValue)
-        {
-            actor.Unit.Furry = runOutput.ActorFurry.Value; // This should probably be changed to be somewhere else. 
-            // This isnt an appropriate place for it, but it's used by clothing generators. TODO
-        }
-
-        actor.SquishedBreasts = false;
-
-        // Advanced, slightly different behavior; 
-            
-        List<ClothingRenderOutput> results = ClothingResults(actor, changeDict);
-        AccumulatedClothes accumulatedClothes = Accumulate(results, actor);
-            
-        return new FullSpriteProcessOut(runOutput, changeDict.ReusedChangesDict, accumulatedClothes);
-    }
-
-
+    
     public void RandomCustomCall(Unit unit)
     {
-        _randomCustom(new RandomCustomInput(unit, _miscRaceData));
-    }
-
-    private List<ClothingRenderOutput> ClothingResults(Actor_Unit actorUnit, SpriteChangeDict changeDict)
-    {
-        List<ClothingRenderOutput> clothingResults = new List<ClothingRenderOutput>();
-
-        if (actorUnit.Unit.ClothingType > 0)
-        {
-            if (actorUnit.Unit.ClothingType <= _miscRaceData.AllowedMainClothingTypes.Count)
-            {
-                clothingResults.Add(_miscRaceData.AllowedMainClothingTypes[actorUnit.Unit.ClothingType - 1]
-                    .Configure(actorUnit, changeDict));
-
-                if (actorUnit.Unit.ClothingType2 > 0 &&
-                    actorUnit.Unit.ClothingType2 <= _miscRaceData.AllowedWaistTypes.Count && _miscRaceData
-                        .AllowedMainClothingTypes[actorUnit.Unit.ClothingType - 1].FixedData.OccupiesAllSlots == false)
-                {
-                    clothingResults.Add(_miscRaceData.AllowedWaistTypes[actorUnit.Unit.ClothingType2 - 1]
-                        .Configure(actorUnit, changeDict));
-                }
-            }
-            else
-            {
-                Debug.Log("Invalid Clothing Type Detected and Nullified");
-                actorUnit.Unit.ClothingType = 0;
-            }
-        }
-        else
-        {
-            if (actorUnit.Unit.ClothingType2 > 0 && actorUnit.Unit.ClothingType2 <= _miscRaceData.AllowedWaistTypes.Count)
-            {
-                clothingResults.Add(_miscRaceData.AllowedWaistTypes[actorUnit.Unit.ClothingType2 - 1]
-                    .Configure(actorUnit, changeDict));
-            }
-        }
-
-        if (actorUnit.Unit.ClothingExtraType1 > 0 &&
-            actorUnit.Unit.ClothingExtraType1 <= _miscRaceData.ExtraMainClothing1Types.Count)
-        {
-            clothingResults.Add(_miscRaceData.ExtraMainClothing1Types[actorUnit.Unit.ClothingExtraType1 - 1]
-                .Configure(actorUnit, changeDict));
-        }
-
-        if (actorUnit.Unit.ClothingExtraType2 > 0 &&
-            actorUnit.Unit.ClothingExtraType2 <= _miscRaceData.ExtraMainClothing2Types.Count)
-        {
-            clothingResults.Add(_miscRaceData.ExtraMainClothing2Types[actorUnit.Unit.ClothingExtraType2 - 1]
-                .Configure(actorUnit, changeDict));
-        }
-
-        if (actorUnit.Unit.ClothingExtraType3 > 0 &&
-            actorUnit.Unit.ClothingExtraType3 <= _miscRaceData.ExtraMainClothing3Types.Count)
-        {
-            clothingResults.Add(_miscRaceData.ExtraMainClothing3Types[actorUnit.Unit.ClothingExtraType3 - 1]
-                .Configure(actorUnit, changeDict));
-        }
-
-        if (actorUnit.Unit.ClothingExtraType4 > 0 &&
-            actorUnit.Unit.ClothingExtraType4 <= _miscRaceData.ExtraMainClothing4Types.Count)
-        {
-            clothingResults.Add(_miscRaceData.ExtraMainClothing4Types[actorUnit.Unit.ClothingExtraType4 - 1]
-                .Configure(actorUnit, changeDict));
-        }
-
-        if (actorUnit.Unit.ClothingExtraType5 > 0 &&
-            actorUnit.Unit.ClothingExtraType5 <= _miscRaceData.ExtraMainClothing5Types.Count)
-        {
-            clothingResults.Add(_miscRaceData.ExtraMainClothing5Types[actorUnit.Unit.ClothingExtraType5 - 1]
-                .Configure(actorUnit, changeDict));
-        }
-
-        if (actorUnit.Unit.ClothingHatType > 0 &&
-            actorUnit.Unit.ClothingHatType <= _miscRaceData.AllowedClothingHatTypes.Count)
-        {
-            clothingResults.Add(_miscRaceData.AllowedClothingHatTypes[actorUnit.Unit.ClothingHatType - 1]
-                .Configure(actorUnit, changeDict));
-        }
-
-        if (actorUnit.Unit.ClothingAccessoryType > 0 &&
-            actorUnit.Unit.ClothingAccessoryType <= _miscRaceData.AllowedClothingAccessoryTypes.Count)
-        {
-            clothingResults.Add(_miscRaceData
-                .AllowedClothingAccessoryTypes[actorUnit.Unit.ClothingAccessoryType - 1].Configure(actorUnit, changeDict));
-        }
-        else if (actorUnit.Unit.EarnedMask && actorUnit.Unit.ClothingAccessoryType > 0 && actorUnit.Unit.ClothingAccessoryType - 1 ==
-                 _miscRaceData.AllowedClothingAccessoryTypes.Count)
-        {
-            IClothing asuraMask;
-            // switch (RaceFuncs.RaceToSwitch(actorUnit.Unit.Race))
-            // {
-            //     case RaceNumbers.Imps:
-            //     case RaceNumbers.Goblins:
-            //         asuraMask = AsuraMask.AsuraMaskInstanceImpsGoblins;
-            //         break;
-            //     case RaceNumbers.Taurus:
-            //         asuraMask = AsuraMask.AsuraMaskInstanceTaurus;
-            //         break;
-            //     default:
-            //         asuraMask = AsuraMask.AsuraMaskInstanceNormal;
-            //         break;
-            // }
-
-            if (Equals(actorUnit.Unit.Race, Race.Imps) || Equals(actorUnit.Unit.Race, Race.Goblins))
-            {
-                asuraMask = AsuraMask.AsuraMaskInstanceImpsGoblins;
-            }
-            else if (Equals(actorUnit.Unit.Race, Race.Taurus))
-            {
-                asuraMask = AsuraMask.AsuraMaskInstanceTaurus;
-            }
-            else
-            {
-                asuraMask = AsuraMask.AsuraMaskInstanceNormal;
-            }
-            
-            clothingResults.Add(asuraMask.Configure(actorUnit, changeDict));
-        }
-
-        return clothingResults;
-    }
-
-    private AccumulatedClothes Accumulate(List<ClothingRenderOutput> clothingResults, Actor_Unit actor)
-    {
-        AccumulatedClothes accumulatedClothes = new AccumulatedClothes();
-
-        bool revealsBreasts = true;
-        bool revealsDick = true;
-        foreach (ClothingRenderOutput clothingOut in clothingResults)
-        {
-            if (!clothingOut.SkipCheck)
-            {
-                if ((!clothingOut.RevealsDick || clothingOut.InFrontOfDick) && Config.CockVoreHidesClothes &&
-                    actor.PredatorComponent?.BallsFullness > 0)
-                {
-                    // Skip this clothing item. 
-                    continue;
-                }
-            }
-
-            if (!clothingOut.RevealsBreasts)
-            {
-                revealsBreasts = false;
-            }
-
-            if (!clothingOut.RevealsDick)
-            {
-                revealsDick = false;
-            }
-
-            if (clothingOut.BlocksBreasts)
-            {
-                accumulatedClothes.BlocksBreasts = true;
-            }
-
-            if (clothingOut.InFrontOfDick)
-            {
-                accumulatedClothes.InFrontOfDick = true;
-            }
-
-            accumulatedClothes.SpritesInfos.AddRange(clothingOut.ClothingSpriteChanges);
-        }
-
-        accumulatedClothes.RevealsBreasts = revealsBreasts;
-        accumulatedClothes.RevealsDick = revealsDick;
-
-        return accumulatedClothes;
-    }
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ///////////////////////// API IMPLEMENTATIONS
-
-    private class RunInput : RenderInput, IRunInput
-    {
-        internal RunInput(Actor_Unit actor) : base(actor)
-        {
-            
-        }
-    }
-
-    internal class RaceRenderInput : RenderInput, IRaceRenderInput
-    {
-        internal RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody) : base(actor)
-        {
-            RaceData = miscRaceData;
-            BaseBody = baseBody;
-        }
-
-        public IMiscRaceData RaceData { get; private set; }
-        public bool BaseBody { get; private set; }
+        RandomCustom(new RandomCustomInput(unit, MiscRaceDataRaw));
     }
     
-
-
 
     private class RandomCustomInput : IRandomCustomInput
     {
@@ -397,4 +141,7 @@ internal class RaceData : IRaceData
         public Unit Unit { get; }
         public IMiscRaceData MiscRaceData { get; }
     }
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    ///////////////////////// API IMPLEMENTATIONS
 }

@@ -12,5 +12,5 @@ public interface IClothingDataSimple
 
 public interface IClothing : IClothingDataSimple
 {
-    ClothingRenderOutput Configure(Actor_Unit actor, SpriteChangeDict changeDict);
+    ClothingRenderOutput Configure(Actor_Unit actor, RaceSpriteChangeDict changeDict);
 }

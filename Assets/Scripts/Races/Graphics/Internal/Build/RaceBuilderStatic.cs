@@ -17,11 +17,11 @@ internal class RaceDataMaker
         _builderUser = builderUser;
     }
 
-    internal IRaceData Create(Race race)
+    internal IRaceData Create()
     {
         RaceBuilder builder = new RaceBuilder(_template);
         _builderUser.Invoke(builder);
-        return builder.Build(race);
+        return builder.Build();
     }
 }
 
@@ -135,11 +135,11 @@ internal class RaceBuilder : IRaceBuilder
         _renderAllAction = generator;
     }
 
-    public IRaceData Build(Race race)
+    public IRaceData Build()
     {
         MiscRaceData data = _template();
         _setupFunc?.Invoke(data);
         
-        return new RaceData(RaceSpriteSet, data, _runBefore, _randomCustom, data._extraRaceInfo, _renderAllAction, race);
+        return new RaceData(RaceSpriteSet, data, _runBefore, _randomCustom, data._extraRaceInfo, _renderAllAction);
     }
 }

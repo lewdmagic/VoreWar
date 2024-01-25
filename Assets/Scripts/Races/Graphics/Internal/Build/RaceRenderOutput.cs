@@ -1,44 +1,5 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class SpriteChangeDict : ISpriteChanger
-{
-    internal readonly Dictionary<SpriteType, RaceRenderOutput> ReusedChangesDict = new Dictionary<SpriteType, RaceRenderOutput>();
-    private readonly ISpriteCollection _spriteCollection;
-
-    public SpriteChangeDict(ISpriteCollection spriteCollection)
-    {
-        _spriteCollection = spriteCollection;
-    }
-    
-    public IRaceRenderOutput ChangeSprite(SpriteType spriteType)
-    {
-        if (!ReusedChangesDict.TryGetValue(spriteType, out var raceRenderOutput))
-        {
-            raceRenderOutput = new RaceRenderOutput(_spriteCollection);
-            ReusedChangesDict.Add(spriteType, raceRenderOutput);
-        }
-
-        return raceRenderOutput;
-    }
-    
-    // public ISpriteChange changeSprites(IEnumerable<SpriteType> spriteTypes)
-    // {
-    //     SpriteChange spriteChange;
-    //     if (!reusedChangesDict.TryGetValue(spriteType, out spriteChange))
-    //     {
-    //         spriteChange = new SpriteChange();
-    //         reusedChangesDict.Add(spriteType, spriteChange);
-    //     }
-    //
-    //     return spriteChange;
-    // }
-    //
-    
-
-}
-
 
 internal class RaceRenderOutput : IRaceRenderOutput, ISpriteChangeReadable
 {

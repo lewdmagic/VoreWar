@@ -17,9 +17,9 @@ function setup(output)
     end);
 
     output.FlavorText(newFlavorText(
-            newTextsBasic(),
-            newTextsBasic(),
-            newTextsBasic().Add("equine").Add("bronco").Add("mare", Gender.Female).Add("stallion", Gender.Male)
+            NewTextsBasic(),
+            NewTextsBasic(),
+            NewTextsBasic().Add("equine").Add("bronco").Add("mare", Gender.Female).Add("stallion", Gender.Male)
     ));
 
     output.CustomizeButtons(function (unit, buttons)
@@ -42,7 +42,7 @@ function setup(output)
     output.BreastSizes = function () return 7 end;
 
     output.SpecialAccessoryCount = 0;
-    output.ClothingShift = newVector3(0, 0, 0);
+    output.ClothingShift = NewVector3(0, 0, 0);
     output.AvoidedEyeTypes = 0;
     output.AvoidedMouthTypes = 0;
 
@@ -94,7 +94,7 @@ function setup(output)
         GetClothing("over_bottom_3")
     });
 
-    output.WholeBodyOffset = newVector2(0, 16 * 0.625);
+    output.WholeBodyOffset = NewVector2(0, 16 * 0.625);
 end
 
 --- Core function: called each frame to render the unit. 

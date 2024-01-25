@@ -7,7 +7,7 @@ public class ClothingRenderOutput : IClothingRenderOutput
 {
     private readonly SpriteCollection _spriteCollection;
 
-    private readonly SpriteChangeDict _changeDict;
+    private readonly RaceSpriteChangeDict _changeDict;
     public IRaceRenderOutput ChangeRaceSprite(SpriteType spriteType) => _changeDict.ChangeSprite(spriteType);
     
     private readonly Dictionary<string, RaceRenderOutput> _namedClothingSpriteChanges = new Dictionary<string, RaceRenderOutput>();
@@ -15,7 +15,7 @@ public class ClothingRenderOutput : IClothingRenderOutput
 
     internal IEnumerable<RaceRenderOutput> ClothingSpriteChanges => _clothingSpriteChanges.Concat(_namedClothingSpriteChanges.Values);
     
-    public ClothingRenderOutput(SpriteChangeDict changeDict, ClothingMiscData miscData, SpriteCollection spriteCollection)
+    public ClothingRenderOutput(RaceSpriteChangeDict changeDict, ClothingMiscData miscData, SpriteCollection spriteCollection)
     {
         _spriteCollection = spriteCollection; 
         _changeDict = changeDict;

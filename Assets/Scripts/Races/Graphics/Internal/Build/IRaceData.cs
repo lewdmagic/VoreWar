@@ -5,8 +5,6 @@ internal interface IRaceData
 {
     IMiscRaceData MiscRaceData { get; }
 
-    FullSpriteProcessOut NewUpdate(Actor_Unit actor);
-
     void RandomCustomCall(Unit unit);
     
     string SingularName(Unit unit);
@@ -14,7 +12,6 @@ internal interface IRaceData
     
     string SingularName(Gender gender);
     string PluralName(Gender gender);
-    
     
     WallType WallType();
 
@@ -25,4 +22,14 @@ internal interface IRaceData
     void CustomizeButtons(Unit unit, EnumIndexedArray<ButtonType, CustomizerButton> buttons);
 
     ExtraRaceInfo ExtraRaceInfo();
+    
+    
+    
+    ExtraRaceInfo ExtraRaceInfo2 { get; }
+    Action<IRandomCustomInput> RandomCustom { get; }
+    Action<IRunInput, IRunOutput> RunBefore { get; }
+    Action<IRunInput, IRaceRenderAllOutput> RenderAllAction { get; }
+    SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; }
+    MiscRaceData MiscRaceDataRaw { get; }
+    
 }

@@ -627,7 +627,7 @@ internal static class FemaleVillager
             output["Clothing3"].Sprite(input.Sprites.FemaleVillager[3 + input.A.GetBodyWeight()]);
             output["Clothing4"].Sprite(input.U.HasBreasts ? input.Sprites.FemaleVillager[8 + input.U.BreastSize] : null);
 
-            output.ChangeRaceSprite(CompleteSprite.AssumedFluffType).SetHide(true);
+            output.ChangeRaceSprite(RaceRenderer.AssumedFluffType).SetHide(true);
         });
     });
 }
@@ -658,7 +658,7 @@ internal static class MaleVillager
             {
                 output["Clothing2"].Sprite(input.Sprites.MaleVillager[8]);
             }
-            output.ChangeRaceSprite(CompleteSprite.AssumedFluffType).SetHide(true);
+            output.ChangeRaceSprite(RaceRenderer.AssumedFluffType).SetHide(true);
         });
     });
 }

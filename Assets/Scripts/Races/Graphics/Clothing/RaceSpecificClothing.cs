@@ -1249,7 +1249,7 @@ internal static class CatLeader
                 output["Clothing6"].Sprite(input.Sprites.CatLeader[4]);
             }
 
-            output.ChangeRaceSprite(CompleteSprite.AssumedFluffType).SetHide(true);
+            output.ChangeRaceSprite(RaceRenderer.AssumedFluffType).SetHide(true);
         });
     });
 }

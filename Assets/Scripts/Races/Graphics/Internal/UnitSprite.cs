@@ -41,7 +41,7 @@ public class UnitSprite : MonoBehaviour
 
     private float timeUntilHealthBarReset = -1;
 
-    internal CompleteSprite CompleteSprite { get; set; }
+    internal RaceRenderer RaceRenderer { get; set; }
 
     public void Awake()
     {
@@ -289,13 +289,13 @@ public class UnitSprite : MonoBehaviour
             UpdateDisplayDamage();
         }
 
-        if (CompleteSprite == null)
+        if (RaceRenderer == null)
         {
             CreateCompleteSprite(actor);
         }
 
         //CompleteSprite.SetActor(actor);
-        CompleteSprite.UpdateSprite();
+        RaceRenderer.UpdateSprite();
         UpdateLevelText(actor);
         ApplyTinting(actor);
     }
@@ -314,11 +314,11 @@ public class UnitSprite : MonoBehaviour
                 tint = .8f;
             }
 
-            CompleteSprite.RedifySprite(tint);
+            RaceRenderer.RedifySprite(tint);
         }
         else if (actor.Unit.GetStatusEffect(StatusEffectType.Petrify) != null)
         {
-            CompleteSprite.DarkenSprites();
+            RaceRenderer.DarkenSprites();
         }
     }
 
@@ -335,8 +335,8 @@ public class UnitSprite : MonoBehaviour
     {
         if (Config.AnimatedBellies)
         {
-            CompleteSprite = new CompleteSprite(State.GameManager.SpriteRendererPrefab, State.GameManager.SpriteRenderAnimatedPrefab, GraphicsFolder, actor);
-            animator = CompleteSprite.GetSpriteOfType(SpriteType.Belly)?.GameObject.GetComponentInParent<Animator>();
+            RaceRenderer = new RaceRenderer(State.GameManager.SpriteRendererPrefab, State.GameManager.SpriteRenderAnimatedPrefab, GraphicsFolder, actor);
+            animator = RaceRenderer.GetSpriteOfType(SpriteType.Belly)?.GameObject.GetComponentInParent<Animator>();
             if (animator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
@@ -352,7 +352,7 @@ public class UnitSprite : MonoBehaviour
                 animator.enabled = true;
             }
 
-            ballsAnimator = CompleteSprite.GetSpriteOfType(SpriteType.Balls)?.GameObject.GetComponentInParent<Animator>();
+            ballsAnimator = RaceRenderer.GetSpriteOfType(SpriteType.Balls)?.GameObject.GetComponentInParent<Animator>();
             if (ballsAnimator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
@@ -368,7 +368,7 @@ public class UnitSprite : MonoBehaviour
                 ballsAnimator.enabled = true;
             }
 
-            boobsAnimator = CompleteSprite.GetSpriteOfType(SpriteType.Breasts)?.GameObject.GetComponentInParent<Animator>();
+            boobsAnimator = RaceRenderer.GetSpriteOfType(SpriteType.Breasts)?.GameObject.GetComponentInParent<Animator>();
             if (boobsAnimator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
@@ -384,7 +384,7 @@ public class UnitSprite : MonoBehaviour
                 boobsAnimator.enabled = true;
             }
 
-            SecondBoobsAnimator = CompleteSprite.GetSpriteOfType(SpriteType.SecondaryBreasts)?.GameObject.GetComponentInParent<Animator>();
+            SecondBoobsAnimator = RaceRenderer.GetSpriteOfType(SpriteType.SecondaryBreasts)?.GameObject.GetComponentInParent<Animator>();
             if (SecondBoobsAnimator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
@@ -402,7 +402,7 @@ public class UnitSprite : MonoBehaviour
         }
         else
         {
-            CompleteSprite = new CompleteSprite(State.GameManager.SpriteRendererPrefab, null, GraphicsFolder, actor);
+            RaceRenderer = new RaceRenderer(State.GameManager.SpriteRendererPrefab, null, GraphicsFolder, actor);
         }
     }
 
@@ -673,6 +673,6 @@ public class UnitSprite : MonoBehaviour
         LevelText.gameObject.SetActive(false);
         FlexibleSquare.gameObject.SetActive(false);
         HealthBar.gameObject.SetActive(false);
-        CompleteSprite.ApplyDeadEffect();
+        RaceRenderer.ApplyDeadEffect();
     }
 }

@@ -10,7 +10,7 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 {
     public Text Name;
 
-    private CompleteSprite _completeSprite;
+    private RaceRenderer _raceRenderer;
 
     private Actor_Unit _lastActor;
     private Race _lastRace;
@@ -61,9 +61,9 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void ResetBellyScale(Actor_Unit actor)
     {
-        if (_completeSprite != null)
+        if (_raceRenderer != null)
         {
-            _completeSprite.ResetBellyScale();
+            _raceRenderer.ResetBellyScale();
         }
     }
 
@@ -71,16 +71,16 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     {
         if (actor != _lastActor || _lastRace == null || !Equals(actor.Unit.Race, _lastRace))
         {
-            if (_completeSprite != null)
+            if (_raceRenderer != null)
             {
-                _completeSprite.Destroy();
+                _raceRenderer.Destroy();
             }
 
-            _completeSprite = new CompleteSprite(State.GameManager.ImagePrefab, null, transform, actor);
+            _raceRenderer = new RaceRenderer(State.GameManager.ImagePrefab, null, transform, actor);
         }
 
         //CompleteSprite.SetActor(actor);
-        _completeSprite.UpdateSprite();
+        _raceRenderer.UpdateSprite();
         if (locked)
         {
             if (actor.AnimationController?.frameLists != null)
@@ -92,7 +92,7 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             }
         }
 
-        _completeSprite.UpdateSprite();
+        _raceRenderer.UpdateSprite();
         //The second one is designed to fix the squishbreasts flag not applying correctly on the first round.  I could do a lot of complicated stuff to fix, or just this
 
         Name.color = actor.Unit.HasEnoughExpToLevelUp() ? new Color(1, .6f, 0) : new Color(.196f, .196f, .196f);

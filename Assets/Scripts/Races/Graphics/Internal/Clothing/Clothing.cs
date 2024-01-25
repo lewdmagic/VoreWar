@@ -47,7 +47,7 @@ internal class Clothing : ClothingDataShared, IClothing
         _completeGen = completeGen;
     }
 
-    public ClothingRenderOutput Configure(Actor_Unit actor, SpriteChangeDict changeDict)
+    public ClothingRenderOutput Configure(Actor_Unit actor, RaceSpriteChangeDict changeDict)
     {
         IClothingRenderInput input = new ClothingRenderInput(actor);
         ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc, null);
@@ -67,7 +67,7 @@ internal class Clothing<T> : ClothingDataShared, IClothing where T : IParameters
         _calcParams = calcParams;
     }
 
-    public ClothingRenderOutput Configure(Actor_Unit actor, SpriteChangeDict changeDict)
+    public ClothingRenderOutput Configure(Actor_Unit actor, RaceSpriteChangeDict changeDict)
     {
         ClothingRenderInput input = new ClothingRenderInput(actor);
         ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc, null);

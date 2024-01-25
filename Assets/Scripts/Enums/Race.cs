@@ -796,7 +796,7 @@ public class Race : IComparable<Race>
 
     internal void Init()
     {
-        Race2.GetBasic(this).RaceData = Race2.GetBasic(this).RaceDataMaker.Create(this);
+        Race2.GetBasic(this).RaceData = Race2.GetBasic(this).RaceDataMaker.Create();
     }
 
     internal static void CreateRace(string id, RaceDataMaker raceDataMaker, RaceTag[] tags = null)
