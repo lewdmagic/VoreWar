@@ -16,7 +16,7 @@ function setup(output)
         traits.RaceDescription = "";
     end);
 
-    output.FlavorText(newFlavorText(
+    output.FlavorText(NewFlavorText(
             NewTextsBasic(),
             NewTextsBasic(),
             NewTextsBasic().Add("equine").Add("bronco").Add("mare", Gender.Female).Add("stallion", Gender.Male)
