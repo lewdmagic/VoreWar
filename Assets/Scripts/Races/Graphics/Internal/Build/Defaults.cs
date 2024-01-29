@@ -89,18 +89,18 @@ public static class Defaults
     public static readonly Action<IRandomCustomInput> RandomCustom = input =>
     {
         Unit unit = input.Unit;
-        if (input.MiscRaceData.BodySizes > 0)
+        if (input.SetupOutput.BodySizes > 0)
         {
             if (State.RaceSettings.GetOverrideWeight(unit.Race))
             {
                 int min = State.RaceSettings.Get(unit.Race).MinWeight;
                 int max = State.RaceSettings.Get(unit.Race).MaxWeight;
                 unit.BodySize = min + State.Rand.Next(max - min);
-                unit.BodySize = Mathf.Clamp(unit.BodySize, 0, input.MiscRaceData.BodySizes - 1);
+                unit.BodySize = Mathf.Clamp(unit.BodySize, 0, input.SetupOutput.BodySizes - 1);
             }
             else
             {
-                unit.BodySize = Mathf.Min(Config.DefaultStartingWeight, input.MiscRaceData.BodySizes - 1);
+                unit.BodySize = Mathf.Min(Config.DefaultStartingWeight, input.SetupOutput.BodySizes - 1);
             }
         }
         else
@@ -108,19 +108,19 @@ public static class Defaults
             unit.BodySize = 0;
         }
 
-        if (input.MiscRaceData.HairStyles == 15)
+        if (input.SetupOutput.HairStyles == 15)
         {
             if (unit.HasDick && unit.HasBreasts)
             {
-                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 8 : input.MiscRaceData.HairStyles);
+                unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 8 : input.SetupOutput.HairStyles);
             }
             else if (unit.HasDick && Config.FemaleHairForMales)
             {
-                unit.HairStyle = State.Rand.Next(input.MiscRaceData.HairStyles);
+                unit.HairStyle = State.Rand.Next(input.SetupOutput.HairStyles);
             }
             else if (unit.HasDick == false && Config.MaleHairForFemales)
             {
-                unit.HairStyle = State.Rand.Next(input.MiscRaceData.HairStyles);
+                unit.HairStyle = State.Rand.Next(input.SetupOutput.HairStyles);
             }
             else
             {
@@ -136,80 +136,80 @@ public static class Defaults
         }
         else //Failsafe incase you forget to override it
         {
-            unit.HairStyle = State.Rand.Next(input.MiscRaceData.HairStyles);
+            unit.HairStyle = State.Rand.Next(input.SetupOutput.HairStyles);
         }
 
-        unit.HairColor = State.Rand.Next(input.MiscRaceData.HairColors);
-        unit.AccessoryColor = State.Rand.Next(input.MiscRaceData.AccessoryColors);
+        unit.HairColor = State.Rand.Next(input.SetupOutput.HairColors);
+        unit.AccessoryColor = State.Rand.Next(input.SetupOutput.AccessoryColors);
 
         if (Config.ExtraRandomHairColors)
         {
-            if (input.MiscRaceData.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.NormalHair))
+            if (input.SetupOutput.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.NormalHair))
             {
-                unit.HairColor = State.Rand.Next(input.MiscRaceData.HairColors);
+                unit.HairColor = State.Rand.Next(input.SetupOutput.HairColors);
             }
 
-            if (input.MiscRaceData.AccessoryColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
+            if (input.SetupOutput.AccessoryColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
             {
-                unit.AccessoryColor = State.Rand.Next(input.MiscRaceData.AccessoryColors);
+                unit.AccessoryColor = State.Rand.Next(input.SetupOutput.AccessoryColors);
             }
         }
         else
         {
-            if (input.MiscRaceData.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.NormalHair))
+            if (input.SetupOutput.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.NormalHair))
             {
                 unit.HairColor = State.Rand.Next(ColorPaletteMap.MixedHairColors);
             }
 
-            if (input.MiscRaceData.AccessoryColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
+            if (input.SetupOutput.AccessoryColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
             {
                 unit.AccessoryColor = State.Rand.Next(ColorPaletteMap.MixedHairColors);
             }
         }
 
-        unit.SkinColor = State.Rand.Next(input.MiscRaceData.SkinColors);
-        unit.EyeColor = State.Rand.Next(input.MiscRaceData.EyeColors);
-        unit.ExtraColor1 = State.Rand.Next(input.MiscRaceData.ExtraColors1);
-        unit.ExtraColor2 = State.Rand.Next(input.MiscRaceData.ExtraColors2);
-        unit.ExtraColor3 = State.Rand.Next(input.MiscRaceData.ExtraColors3);
-        unit.ExtraColor4 = State.Rand.Next(input.MiscRaceData.ExtraColors4);
-        unit.EyeType = State.Rand.Next(Math.Max(input.MiscRaceData.EyeTypes - input.MiscRaceData.AvoidedEyeTypes, 0));
+        unit.SkinColor = State.Rand.Next(input.SetupOutput.SkinColors);
+        unit.EyeColor = State.Rand.Next(input.SetupOutput.EyeColors);
+        unit.ExtraColor1 = State.Rand.Next(input.SetupOutput.ExtraColors1);
+        unit.ExtraColor2 = State.Rand.Next(input.SetupOutput.ExtraColors2);
+        unit.ExtraColor3 = State.Rand.Next(input.SetupOutput.ExtraColors3);
+        unit.ExtraColor4 = State.Rand.Next(input.SetupOutput.ExtraColors4);
+        unit.EyeType = State.Rand.Next(Math.Max(input.SetupOutput.EyeTypes - input.SetupOutput.AvoidedEyeTypes, 0));
         unit.ClothingColor = State.Rand.Next(ColorMap.ClothingColorCount);
         unit.MouthType =
-            State.Rand.Next(Math.Max(input.MiscRaceData.MouthTypes - input.MiscRaceData.AvoidedMouthTypes, 0));
-        unit.SpecialAccessoryType = State.Rand.Next(input.MiscRaceData.SpecialAccessoryCount);
+            State.Rand.Next(Math.Max(input.SetupOutput.MouthTypes - input.SetupOutput.AvoidedMouthTypes, 0));
+        unit.SpecialAccessoryType = State.Rand.Next(input.SetupOutput.SpecialAccessoryCount);
 
         if (unit.HasDick && unit.HasBreasts == false)
         {
-            unit.BeardStyle = State.Rand.Next(input.MiscRaceData.BeardStyles);
+            unit.BeardStyle = State.Rand.Next(input.SetupOutput.BeardStyles);
         }
 
-        if (input.MiscRaceData.ClothingAccessoryTypesCount > 1)
+        if (input.SetupOutput.ClothingAccessoryTypesCount > 1)
         {
-            unit.ClothingAccessoryType = State.Rand.Next(input.MiscRaceData.ClothingAccessoryTypesCount);
+            unit.ClothingAccessoryType = State.Rand.Next(input.SetupOutput.ClothingAccessoryTypesCount);
             for (int i = 0; i < 50; i++)
             {
                 if (unit.ClothingAccessoryType > 0)
                 {
-                    if (input.MiscRaceData.AllowedClothingAccessoryTypes[unit.ClothingAccessoryType - 1].CanWear(unit))
+                    if (input.SetupOutput.AllowedClothingAccessoryTypes[unit.ClothingAccessoryType - 1].CanWear(unit))
                     {
                         break;
                     }
                 }
 
-                unit.ClothingAccessoryType = State.Rand.Next(input.MiscRaceData.ClothingAccessoryTypesCount);
+                unit.ClothingAccessoryType = State.Rand.Next(input.SetupOutput.ClothingAccessoryTypesCount);
             }
 
             if (unit.ClothingAccessoryType > 0 &&
-                input.MiscRaceData.AllowedClothingAccessoryTypes[unit.ClothingAccessoryType - 1].CanWear(unit) == false)
+                input.SetupOutput.AllowedClothingAccessoryTypes[unit.ClothingAccessoryType - 1].CanWear(unit) == false)
             {
                 unit.ClothingAccessoryType = 0;
             }
         }
 
-        if (input.MiscRaceData.ClothingHatTypesCount > 1)
+        if (input.SetupOutput.ClothingHatTypesCount > 1)
         {
-            if (input.MiscRaceData.AllowedClothingHatTypes.Contains(MainAccessories.SantaHatInstance) && Config.WinterActive())
+            if (input.SetupOutput.AllowedClothingHatTypes.Contains(MainAccessories.SantaHatInstance) && Config.WinterActive())
             {
                 if (State.Rand.Next(2) == 0)
                 {
@@ -218,22 +218,22 @@ public static class Defaults
             }
             else
             {
-                unit.ClothingHatType = State.Rand.Next(input.MiscRaceData.ClothingHatTypesCount);
+                unit.ClothingHatType = State.Rand.Next(input.SetupOutput.ClothingHatTypesCount);
                 for (int i = 0; i < 50; i++)
                 {
                     if (unit.ClothingHatType > 0)
                     {
-                        if (input.MiscRaceData.AllowedClothingHatTypes[unit.ClothingHatType - 1].CanWear(unit))
+                        if (input.SetupOutput.AllowedClothingHatTypes[unit.ClothingHatType - 1].CanWear(unit))
                         {
                             break;
                         }
                     }
 
-                    unit.ClothingHatType = State.Rand.Next(input.MiscRaceData.ClothingHatTypesCount);
+                    unit.ClothingHatType = State.Rand.Next(input.SetupOutput.ClothingHatTypesCount);
                 }
 
                 if (unit.ClothingHatType > 0 &&
-                    input.MiscRaceData.AllowedClothingHatTypes[unit.ClothingHatType - 1].CanWear(unit) == false)
+                    input.SetupOutput.AllowedClothingHatTypes[unit.ClothingHatType - 1].CanWear(unit) == false)
                 {
                     unit.ClothingHatType = 0;
                 }
@@ -241,7 +241,7 @@ public static class Defaults
         }
 
 
-        if (input.MiscRaceData.MainClothingTypesCount > 1)
+        if (input.SetupOutput.MainClothingTypesCount > 1)
         {
             float fraction = State.RaceSettings.GetOverrideClothed(unit.Race)
                 ? State.RaceSettings.Get(unit.Race).clothedFraction
@@ -249,160 +249,160 @@ public static class Defaults
             if (State.Rand.NextDouble() < fraction)
             {
                 unit.ClothingType = State.Rand.Next(Mathf.Max(
-                    input.MiscRaceData.MainClothingTypesCount - input.MiscRaceData.AvoidedMainClothingTypes, 0));
+                    input.SetupOutput.MainClothingTypesCount - input.SetupOutput.AvoidedMainClothingTypes, 0));
                 for (int i = 0; i < 50; i++)
                 {
                     if (unit.ClothingType > 0)
                     {
-                        if (input.MiscRaceData.AllowedMainClothingTypes[unit.ClothingType - 1].CanWear(unit))
+                        if (input.SetupOutput.AllowedMainClothingTypes[unit.ClothingType - 1].CanWear(unit))
                         {
                             break;
                         }
                     }
 
                     unit.ClothingType = State.Rand.Next(Mathf.Max(
-                        input.MiscRaceData.MainClothingTypesCount - input.MiscRaceData.AvoidedMainClothingTypes, 0));
+                        input.SetupOutput.MainClothingTypesCount - input.SetupOutput.AvoidedMainClothingTypes, 0));
                 }
 
                 if (unit.ClothingType > 0 &&
-                    input.MiscRaceData.AllowedMainClothingTypes[unit.ClothingType - 1].CanWear(unit) == false)
+                    input.SetupOutput.AllowedMainClothingTypes[unit.ClothingType - 1].CanWear(unit) == false)
                 {
                     unit.ClothingType = 0;
                 }
 
-                if (input.MiscRaceData.WaistClothingTypesCount > 0)
+                if (input.SetupOutput.WaistClothingTypesCount > 0)
                 {
-                    unit.ClothingType2 = State.Rand.Next(input.MiscRaceData.WaistClothingTypesCount);
+                    unit.ClothingType2 = State.Rand.Next(input.SetupOutput.WaistClothingTypesCount);
                     for (int i = 0; i < 50; i++)
                     {
                         if (unit.ClothingType2 > 0)
                         {
-                            if (input.MiscRaceData.AllowedWaistTypes[unit.ClothingType2 - 1].CanWear(unit))
+                            if (input.SetupOutput.AllowedWaistTypes[unit.ClothingType2 - 1].CanWear(unit))
                             {
                                 break;
                             }
                         }
 
-                        unit.ClothingType2 = State.Rand.Next(input.MiscRaceData.WaistClothingTypesCount);
+                        unit.ClothingType2 = State.Rand.Next(input.SetupOutput.WaistClothingTypesCount);
                     }
 
                     if (unit.ClothingType2 > 0 &&
-                        input.MiscRaceData.AllowedWaistTypes[unit.ClothingType2 - 1].CanWear(unit) == false)
+                        input.SetupOutput.AllowedWaistTypes[unit.ClothingType2 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingType2 = 0;
                     }
                 }
 
-                if (input.MiscRaceData.ExtraMainClothing1Count > 0)
+                if (input.SetupOutput.ExtraMainClothing1Count > 0)
                 {
-                    unit.ClothingExtraType1 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing1Count);
+                    unit.ClothingExtraType1 = State.Rand.Next(input.SetupOutput.ExtraMainClothing1Count);
                     for (int i = 0; i < 50; i++)
                     {
                         if (unit.ClothingExtraType1 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing1Types[unit.ClothingExtraType1 - 1].CanWear(unit))
+                            if (input.SetupOutput.ExtraMainClothing1Types[unit.ClothingExtraType1 - 1].CanWear(unit))
                             {
                                 break;
                             }
                         }
 
-                        unit.ClothingExtraType1 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing1Count);
+                        unit.ClothingExtraType1 = State.Rand.Next(input.SetupOutput.ExtraMainClothing1Count);
                     }
 
                     if (unit.ClothingExtraType1 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing1Types[unit.ClothingExtraType1 - 1].CanWear(unit) == false)
+                        input.SetupOutput.ExtraMainClothing1Types[unit.ClothingExtraType1 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType1 = 0;
                     }
                 }
 
-                if (input.MiscRaceData.ExtraMainClothing2Count > 0)
+                if (input.SetupOutput.ExtraMainClothing2Count > 0)
                 {
-                    unit.ClothingExtraType2 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing2Count);
+                    unit.ClothingExtraType2 = State.Rand.Next(input.SetupOutput.ExtraMainClothing2Count);
                     for (int i = 0; i < 50; i++)
                     {
                         if (unit.ClothingExtraType2 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing2Types[unit.ClothingExtraType2 - 1].CanWear(unit))
+                            if (input.SetupOutput.ExtraMainClothing2Types[unit.ClothingExtraType2 - 1].CanWear(unit))
                             {
                                 break;
                             }
                         }
 
-                        unit.ClothingExtraType2 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing2Count);
+                        unit.ClothingExtraType2 = State.Rand.Next(input.SetupOutput.ExtraMainClothing2Count);
                     }
 
                     if (unit.ClothingExtraType2 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing2Types[unit.ClothingExtraType2 - 1].CanWear(unit) == false)
+                        input.SetupOutput.ExtraMainClothing2Types[unit.ClothingExtraType2 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType2 = 0;
                     }
                 }
 
-                if (input.MiscRaceData.ExtraMainClothing3Count > 0)
+                if (input.SetupOutput.ExtraMainClothing3Count > 0)
                 {
-                    unit.ClothingExtraType3 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing3Count);
+                    unit.ClothingExtraType3 = State.Rand.Next(input.SetupOutput.ExtraMainClothing3Count);
                     for (int i = 0; i < 50; i++)
                     {
                         if (unit.ClothingExtraType3 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing3Types[unit.ClothingExtraType3 - 1].CanWear(unit))
+                            if (input.SetupOutput.ExtraMainClothing3Types[unit.ClothingExtraType3 - 1].CanWear(unit))
                             {
                                 break;
                             }
                         }
 
-                        unit.ClothingExtraType3 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing3Count);
+                        unit.ClothingExtraType3 = State.Rand.Next(input.SetupOutput.ExtraMainClothing3Count);
                     }
 
                     if (unit.ClothingExtraType3 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing3Types[unit.ClothingExtraType3 - 1].CanWear(unit) == false)
+                        input.SetupOutput.ExtraMainClothing3Types[unit.ClothingExtraType3 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType3 = 0;
                     }
                 }
 
-                if (input.MiscRaceData.ExtraMainClothing4Count > 0)
+                if (input.SetupOutput.ExtraMainClothing4Count > 0)
                 {
-                    unit.ClothingExtraType4 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing4Count);
+                    unit.ClothingExtraType4 = State.Rand.Next(input.SetupOutput.ExtraMainClothing4Count);
                     for (int i = 0; i < 50; i++)
                     {
                         if (unit.ClothingExtraType4 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing4Types[unit.ClothingExtraType4 - 1].CanWear(unit))
+                            if (input.SetupOutput.ExtraMainClothing4Types[unit.ClothingExtraType4 - 1].CanWear(unit))
                             {
                                 break;
                             }
                         }
 
-                        unit.ClothingExtraType4 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing4Count);
+                        unit.ClothingExtraType4 = State.Rand.Next(input.SetupOutput.ExtraMainClothing4Count);
                     }
 
                     if (unit.ClothingExtraType4 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing1Types[unit.ClothingExtraType4 - 1].CanWear(unit) == false)
+                        input.SetupOutput.ExtraMainClothing1Types[unit.ClothingExtraType4 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType4 = 0;
                     }
                 }
 
-                if (input.MiscRaceData.ExtraMainClothing5Count > 0)
+                if (input.SetupOutput.ExtraMainClothing5Count > 0)
                 {
-                    unit.ClothingExtraType5 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing5Count);
+                    unit.ClothingExtraType5 = State.Rand.Next(input.SetupOutput.ExtraMainClothing5Count);
                     for (int i = 0; i < 50; i++)
                     {
                         if (unit.ClothingExtraType5 > 0)
                         {
-                            if (input.MiscRaceData.ExtraMainClothing5Types[unit.ClothingExtraType5 - 1].CanWear(unit))
+                            if (input.SetupOutput.ExtraMainClothing5Types[unit.ClothingExtraType5 - 1].CanWear(unit))
                             {
                                 break;
                             }
                         }
 
-                        unit.ClothingExtraType5 = State.Rand.Next(input.MiscRaceData.ExtraMainClothing5Count);
+                        unit.ClothingExtraType5 = State.Rand.Next(input.SetupOutput.ExtraMainClothing5Count);
                     }
 
                     if (unit.ClothingExtraType5 > 0 &&
-                        input.MiscRaceData.ExtraMainClothing5Types[unit.ClothingExtraType5 - 1].CanWear(unit) == false)
+                        input.SetupOutput.ExtraMainClothing5Types[unit.ClothingExtraType5 - 1].CanWear(unit) == false)
                     {
                         unit.ClothingExtraType5 = 0;
                     }
@@ -430,13 +430,13 @@ public static class Defaults
                 (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
                 unit.ImmuneToDefections == false)
             {
-                unit.ClothingType = 1 + input.MiscRaceData.AllowedMainClothingTypes.IndexOf(CommonClothing.RagsInstance);
+                unit.ClothingType = 1 + input.SetupOutput.AllowedMainClothingTypes.IndexOf(CommonClothing.RagsInstance);
                 if (unit.ClothingType == 0) //Covers rags not in the list
                 {
-                    if (input.MiscRaceData.AllowedMainClothingTypes.Last()?.FixedData.ReqWinterHoliday ==
+                    if (input.SetupOutput.AllowedMainClothingTypes.Last()?.FixedData.ReqWinterHoliday ==
                         false) //Avoid bugs where the winter holiday is the last.
                     {
-                        unit.ClothingType = input.MiscRaceData.AllowedMainClothingTypes.Count;
+                        unit.ClothingType = input.SetupOutput.AllowedMainClothingTypes.Count;
                     }
                 }
             }
@@ -446,7 +446,7 @@ public static class Defaults
             unit.ClothingType = 0;
         }
 
-        if (input.MiscRaceData.FurCapable)
+        if (input.SetupOutput.FurCapable)
         {
             var raceStats = State.RaceSettings.Get(unit.Race);
             var furryFraction = raceStats.OverrideFurry ? raceStats.furryFraction : Config.FurryFraction;
@@ -466,15 +466,15 @@ public static class Defaults
                 int min = State.RaceSettings.Get(unit.Race).MinDick;
                 int max = State.RaceSettings.Get(unit.Race).MaxDick;
                 unit.DickSize = min + State.Rand.Next(max - min);
-                unit.DickSize = Mathf.Clamp(unit.DickSize, 0, input.MiscRaceData.DickSizes() - 1);
+                unit.DickSize = Mathf.Clamp(unit.DickSize, 0, input.SetupOutput.DickSizes() - 1);
             }
             else
             {
                 unit.DickSize =
                     Mathf.Clamp(
-                        State.Rand.Next(input.MiscRaceData.DickSizes()) +
-                        Config.CockSizeModifier * input.MiscRaceData.DickSizes() / 6, 0,
-                        input.MiscRaceData.DickSizes() - 1);
+                        State.Rand.Next(input.SetupOutput.DickSizes()) +
+                        Config.CockSizeModifier * input.SetupOutput.DickSizes() / 6, 0,
+                        input.SetupOutput.DickSizes() - 1);
             }
         }
 
@@ -485,28 +485,28 @@ public static class Defaults
                 int min = State.RaceSettings.Get(unit.Race).MinBoob;
                 int max = State.RaceSettings.Get(unit.Race).MaxBoob;
                 unit.SetDefaultBreastSize(min + State.Rand.Next(max - min));
-                unit.SetDefaultBreastSize(Mathf.Clamp(unit.DefaultBreastSize, 0, input.MiscRaceData.BreastSizes() - 1));
+                unit.SetDefaultBreastSize(Mathf.Clamp(unit.DefaultBreastSize, 0, input.SetupOutput.BreastSizes() - 1));
             }
             else
             {
                 if (unit.HasDick)
                 {
                     unit.SetDefaultBreastSize(Mathf.Clamp(
-                        State.Rand.Next(input.MiscRaceData.BreastSizes()) +
-                        Config.HermBreastSizeModifier * input.MiscRaceData.BreastSizes() / 6, 0,
-                        input.MiscRaceData.BreastSizes() - 1));
+                        State.Rand.Next(input.SetupOutput.BreastSizes()) +
+                        Config.HermBreastSizeModifier * input.SetupOutput.BreastSizes() / 6, 0,
+                        input.SetupOutput.BreastSizes() - 1));
                 }
                 else
                 {
                     unit.SetDefaultBreastSize(Mathf.Clamp(
-                        State.Rand.Next(input.MiscRaceData.BreastSizes()) +
-                        Config.BreastSizeModifier * input.MiscRaceData.BreastSizes() / 6, 0,
-                        input.MiscRaceData.BreastSizes() - 1));
+                        State.Rand.Next(input.SetupOutput.BreastSizes()) +
+                        Config.BreastSizeModifier * input.SetupOutput.BreastSizes() / 6, 0,
+                        input.SetupOutput.BreastSizes() - 1));
                 }
             }
         }
 
-        if (Config.HairMatchesFur && input.MiscRaceData.FurCapable)
+        if (Config.HairMatchesFur && input.SetupOutput.FurCapable)
         {
             unit.HairColor = unit.AccessoryColor;
         }
@@ -832,12 +832,12 @@ public static class Defaults
     }
     
 
-    internal static MiscRaceData Default()
+    internal static SetupOutput Default()
     {
         return Default<IParameters>();
     }
 
-    internal static MiscRaceData Default<T>() where T : IParameters
+    internal static SetupOutput Default<T>() where T : IParameters
     {
         
         /*
@@ -888,7 +888,7 @@ public static class Defaults
     Vector3 clothingShift)
          * 
          */
-        MiscRaceData miscRaceData = new MiscRaceData(
+        SetupOutput setupOutput = new SetupOutput(
             breastSizes: () => Config.AllowHugeBreasts ? State.GameManager.SpriteDictionary.Breasts.Length : State.GameManager.SpriteDictionary.Breasts.Length - 3,
             dickSizes: () => Config.AllowHugeDicks ? State.GameManager.SpriteDictionary.Dicks.Length : State.GameManager.SpriteDictionary.Dicks.Length - 3,
             furCapable: false,
@@ -935,7 +935,7 @@ public static class Defaults
             clothingShift: new Vector3()
         );
 
-        miscRaceData.AllowedMainClothingTypes.Set(
+        setupOutput.AllowedMainClothingTypes.Set(
             CommonClothing.BikiniTopInstance,
             CommonClothing.BeltTopInstance,
             CommonClothing.StrapTopInstance,
@@ -946,27 +946,27 @@ public static class Defaults
             CommonClothing.MaleVillagerInstance
         );
 
-        miscRaceData.AllowedWaistTypes.Set(
+        setupOutput.AllowedWaistTypes.Set(
             CommonClothing.BikiniBottomInstance,
             CommonClothing.LoinclothInstance,
             CommonClothing.ShortsInstance
         );
 
-        miscRaceData.AllowedClothingHatTypes.Set(
+        setupOutput.AllowedClothingHatTypes.Set(
             MainAccessories.SantaHatInstance
         );
 
-        return miscRaceData;
+        return setupOutput;
     }
 
-    internal static MiscRaceData Blank()
+    internal static SetupOutput Blank()
     {
         return Blank<IParameters>();
     }
 
-    internal static MiscRaceData Blank<T>() where T : IParameters
+    internal static SetupOutput Blank<T>() where T : IParameters
     {
-        MiscRaceData miscRaceData = new MiscRaceData(
+        SetupOutput setupOutput = new SetupOutput(
             () => Config.AllowHugeBreasts ? State.GameManager.SpriteDictionary.Breasts.Length : State.GameManager.SpriteDictionary.Breasts.Length - 3,
             () => Config.AllowHugeDicks ? State.GameManager.SpriteDictionary.Dicks.Length : State.GameManager.SpriteDictionary.Dicks.Length - 3,
             false,
@@ -1013,7 +1013,7 @@ public static class Defaults
             new Vector3()
         );
 
-        return miscRaceData;
+        return setupOutput;
     }
 
 

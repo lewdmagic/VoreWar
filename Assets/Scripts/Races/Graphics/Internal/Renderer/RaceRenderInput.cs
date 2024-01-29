@@ -2,13 +2,13 @@ internal partial class RaceRenderer
 {
     private class RaceRenderInput : RenderInput, IRaceRenderInput
     {
-        internal RaceRenderInput(Actor_Unit actor, IMiscRaceData miscRaceData, bool baseBody) : base(actor)
+        internal RaceRenderInput(Actor_Unit actor, ISetupOutput setupOutput, bool baseBody) : base(actor)
         {
-            RaceData = miscRaceData;
+            RaceData = setupOutput;
             BaseBody = baseBody;
         }
 
-        public IMiscRaceData RaceData { get; private set; }
+        public ISetupOutput RaceData { get; private set; }
         public bool BaseBody { get; private set; }
     }
 }

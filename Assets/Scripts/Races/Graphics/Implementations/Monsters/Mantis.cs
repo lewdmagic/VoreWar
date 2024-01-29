@@ -453,8 +453,8 @@ namespace Races.Graphics.Implementations.Monsters
                 Unit unit = data.Unit;
 
                 unit.EyeColor = unit.SkinColor;
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
-                unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2);
+                unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
+                unit.BodyAccentType2 = State.Rand.Next(data.SetupOutput.BodyAccentTypes2);
             });
         });
 

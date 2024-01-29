@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 internal interface IRaceData
 {
-    IMiscRaceData MiscRaceData { get; }
+    ISetupOutput SetupOutput { get; }
 
     void RandomCustomCall(Unit unit);
     
@@ -30,6 +30,6 @@ internal interface IRaceData
     Action<IRunInput, IRunOutput> RunBefore { get; }
     Action<IRunInput, IRaceRenderAllOutput> RenderAllAction { get; }
     SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; }
-    MiscRaceData MiscRaceDataRaw { get; }
+    SetupOutput SetupOutputRaw { get; }
     
 }

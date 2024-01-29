@@ -166,8 +166,8 @@ class Prey
         }
 
         Predator.PredatorComponent.OnRemoveCallbacks(this, false);
-        HashSet<Gender> set = new HashSet<Gender>(Races2.GetRace(Unit.Race).MiscRaceData.CanBeGender);
-        bool equals = set.SetEquals(Races2.GetRace(race).MiscRaceData.CanBeGender);
+        HashSet<Gender> set = new HashSet<Gender>(Races2.GetRace(Unit.Race).SetupOutput.CanBeGender);
+        bool equals = set.SetEquals(Races2.GetRace(race).SetupOutput.CanBeGender);
         Unit.ChangeRace(race);
         Unit.SetGear(race);
         if (equals == false || Config.AlwaysRandomizeConverted)

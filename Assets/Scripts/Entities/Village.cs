@@ -1002,25 +1002,25 @@ public class Village
                 {
                     if (Equals(unit.Race, Race.Lizards))
                     {
-                        if (race.MiscRaceData.AllowedMainClothingTypes.Contains(RaceSpecificClothing.LizardPeasantInstance))
-                            unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.LizardPeasantInstance);
+                        if (race.SetupOutput.AllowedMainClothingTypes.Contains(RaceSpecificClothing.LizardPeasantInstance))
+                            unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.LizardPeasantInstance);
                     }
                     else if (Equals(unit.Race, Race.Lamia))
                     {
-                        if (race.MiscRaceData.AllowedMainClothingTypes.Contains(RaceSpecificClothing.TogaInstance))
-                            unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.TogaInstance);
+                        if (race.SetupOutput.AllowedMainClothingTypes.Contains(RaceSpecificClothing.TogaInstance))
+                            unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.TogaInstance);
                     }
                     else
                     {
                         if (unit.HasBreasts)
                         {
-                            if (race.MiscRaceData.AllowedMainClothingTypes.Contains(CommonClothing.FemaleVillagerInstance))
-                                unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypes.IndexOf(CommonClothing.FemaleVillagerInstance);
+                            if (race.SetupOutput.AllowedMainClothingTypes.Contains(CommonClothing.FemaleVillagerInstance))
+                                unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(CommonClothing.FemaleVillagerInstance);
                         }
                         else
                         {
-                            if (race.MiscRaceData.AllowedMainClothingTypes.Contains(CommonClothing.MaleVillagerInstance))
-                                unit.ClothingType = 1 + race.MiscRaceData.AllowedMainClothingTypes.IndexOf(CommonClothing.MaleVillagerInstance);
+                            if (race.SetupOutput.AllowedMainClothingTypes.Contains(CommonClothing.MaleVillagerInstance))
+                                unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(CommonClothing.MaleVillagerInstance);
                         }
                     }
 

@@ -354,38 +354,38 @@ namespace Races.Graphics.Implementations.Mercs
 
                 if (State.Rand.Next(5) == 0)
                 {
-                    unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1 - 1);
+                    unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1 - 1);
                 }
                 else
                 {
-                    unit.BodyAccentType1 = data.MiscRaceData.BodyAccentTypes1 - 1;
+                    unit.BodyAccentType1 = data.SetupOutput.BodyAccentTypes1 - 1;
                 }
 
                 if (State.Rand.Next(5) == 0)
                 {
-                    unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2 - 1);
+                    unit.BodyAccentType2 = State.Rand.Next(data.SetupOutput.BodyAccentTypes2 - 1);
                 }
                 else
                 {
-                    unit.BodyAccentType2 = data.MiscRaceData.BodyAccentTypes2 - 1;
+                    unit.BodyAccentType2 = data.SetupOutput.BodyAccentTypes2 - 1;
                 }
 
                 if (State.Rand.Next(5) == 0)
                 {
-                    unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3 - 1);
+                    unit.BodyAccentType3 = State.Rand.Next(data.SetupOutput.BodyAccentTypes3 - 1);
                 }
                 else
                 {
-                    unit.BodyAccentType3 = data.MiscRaceData.BodyAccentTypes3 - 1;
+                    unit.BodyAccentType3 = data.SetupOutput.BodyAccentTypes3 - 1;
                 }
 
                 if (State.Rand.Next(5) == 0)
                 {
-                    unit.BodyAccentType4 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes4 - 1);
+                    unit.BodyAccentType4 = State.Rand.Next(data.SetupOutput.BodyAccentTypes4 - 1);
                 }
                 else
                 {
-                    unit.BodyAccentType4 = data.MiscRaceData.BodyAccentTypes4 - 1;
+                    unit.BodyAccentType4 = data.SetupOutput.BodyAccentTypes4 - 1;
                 }
             });
         });

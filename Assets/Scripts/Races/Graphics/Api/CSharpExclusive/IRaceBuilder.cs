@@ -7,7 +7,7 @@ using System;
 
 internal interface IRaceBuilder
 {
-    void Setup(Action<IMiscRaceData> setupFunc);
+    void Setup(Action<ISetupOutput> setupFunc);
     void RandomCustom(Action<IRandomCustomInput> value);
     void RunBefore(Action<IRunInput, IRunOutput> value);
     

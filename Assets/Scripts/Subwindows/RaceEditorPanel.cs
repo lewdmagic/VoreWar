@@ -330,22 +330,22 @@ public class RaceEditorPanel : MonoBehaviour
 
                 if (item.MinWeight < 0)
                     item.MinWeight = 0;
-                if (item.MaxWeight >= raceData.MiscRaceData.BodySizes)
-                    item.MaxWeight = Math.Max(raceData.MiscRaceData.BodySizes - 1, 0);
+                if (item.MaxWeight >= raceData.SetupOutput.BodySizes)
+                    item.MaxWeight = Math.Max(raceData.SetupOutput.BodySizes - 1, 0);
                 if (item.MinWeight > item.MaxWeight)
                     item.MinWeight = item.MaxWeight;
 
                 if (item.MinBoob < 0)
                     item.MinBoob = 0;
-                if (item.MaxBoob >= raceData.MiscRaceData.BreastSizes())
-                    item.MaxBoob = Math.Max(raceData.MiscRaceData.BreastSizes() - 1, 0);
+                if (item.MaxBoob >= raceData.SetupOutput.BreastSizes())
+                    item.MaxBoob = Math.Max(raceData.SetupOutput.BreastSizes() - 1, 0);
                 if (item.MinBoob > item.MaxBoob)
                     item.MinBoob = item.MaxBoob;
 
                 if (item.MinDick < 0)
                     item.MinDick = 0;
-                if (item.MaxDick >= raceData.MiscRaceData.DickSizes())
-                    item.MaxDick = Math.Max(raceData.MiscRaceData.DickSizes() - 1, 0);
+                if (item.MaxDick >= raceData.SetupOutput.DickSizes())
+                    item.MaxDick = Math.Max(raceData.SetupOutput.DickSizes() - 1, 0);
                 if (item.MinDick > item.MaxDick)
                     item.MinDick = item.MaxDick;
 
@@ -503,9 +503,9 @@ public class RaceEditorPanel : MonoBehaviour
             MinDick.text = (1 + item.MinDick).ToString();
             MaxDick.text = (1 + item.MaxDick).ToString();
 
-            WeightText.text = $"Weight 1 - {Math.Max(raceData.MiscRaceData.BodySizes, 1)}";
-            BoobText.text = $"Breasts 1 - {Math.Max(raceData.MiscRaceData.BreastSizes(), 1)}";
-            DickText.text = $"Dick 1 - {Math.Max(raceData.MiscRaceData.DickSizes(), 1)}";
+            WeightText.text = $"Weight 1 - {Math.Max(raceData.SetupOutput.BodySizes, 1)}";
+            BoobText.text = $"Breasts 1 - {Math.Max(raceData.SetupOutput.BreastSizes(), 1)}";
+            DickText.text = $"Dick 1 - {Math.Max(raceData.SetupOutput.DickSizes(), 1)}";
 
             FavoredStat.value = (int)State.RaceSettings.GetFavoredStat(race);
             FavoredStat.RefreshShownValue();
@@ -608,7 +608,7 @@ public class RaceEditorPanel : MonoBehaviour
             return;
         }
 
-        if (raceData.MiscRaceData.CanBeGender.Count() > 1)
+        if (raceData.SetupOutput.CanBeGender.Count() > 1)
         {
             OverrideGender.interactable = true;
         }
@@ -618,7 +618,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideGender.isOn = false;
         }
 
-        if (raceData.MiscRaceData.FurCapable)
+        if (raceData.SetupOutput.FurCapable)
         {
             OverrideFurry.interactable = true;
         }
@@ -628,7 +628,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideFurry.isOn = false;
         }
 
-        if (raceData.MiscRaceData.BreastSizes() > 0)
+        if (raceData.SetupOutput.BreastSizes() > 0)
         {
             OverrideBoob.interactable = true;
         }
@@ -638,7 +638,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideBoob.isOn = false;
         }
 
-        if (raceData.MiscRaceData.DickSizes() > 0)
+        if (raceData.SetupOutput.DickSizes() > 0)
         {
             OverrideDick.interactable = true;
         }
@@ -648,7 +648,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideDick.isOn = false;
         }
 
-        if (raceData.MiscRaceData.BreastSizes() > 0)
+        if (raceData.SetupOutput.BreastSizes() > 0)
         {
             OverrideDick.interactable = true;
         }
@@ -658,7 +658,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideDick.isOn = false;
         }
 
-        if (raceData.MiscRaceData.AllowedMainClothingTypes?.Count > 0)
+        if (raceData.SetupOutput.AllowedMainClothingTypes?.Count > 0)
         {
             OverrideClothed.interactable = true;
         }

@@ -599,35 +599,35 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (State.Rand.Next(10) == 0)
                 {
-                    unit.SpecialAccessoryType = data.MiscRaceData.SpecialAccessoryCount - 1;
+                    unit.SpecialAccessoryType = data.SetupOutput.SpecialAccessoryCount - 1;
                 }
                 else
                 {
-                    unit.SpecialAccessoryType = State.Rand.Next(data.MiscRaceData.SpecialAccessoryCount - 1);
+                    unit.SpecialAccessoryType = State.Rand.Next(data.SetupOutput.SpecialAccessoryCount - 1);
                 }
 
                 if (State.Rand.Next(3) == 0)
                 {
-                    unit.BodyAccentType1 = data.MiscRaceData.BodyAccentTypes1 - 1;
+                    unit.BodyAccentType1 = data.SetupOutput.BodyAccentTypes1 - 1;
                 }
                 else
                 {
-                    unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1 - 1);
+                    unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1 - 1);
                 }
 
-                unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2);
+                unit.BodyAccentType2 = State.Rand.Next(data.SetupOutput.BodyAccentTypes2);
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, LeaderClothes);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, LeaderClothes);
                 }
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, Rags);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, Rags);
                     if (unit.ClothingType == 0) //Covers rags not in the list
                     {
-                        unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
+                        unit.ClothingType = data.SetupOutput.AllowedMainClothingTypes.Count;
                     }
                 }
             });

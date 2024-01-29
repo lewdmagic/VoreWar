@@ -234,7 +234,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     }
                     else
                     {
-                        unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                        unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                     }
                 }
                 else if (unit.HasDick && Config.FemaleHairForMales)

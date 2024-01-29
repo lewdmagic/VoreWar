@@ -160,7 +160,7 @@ public class InfoPanel
         else
         {
             var race = Races2.GetRace(unit.Race);
-            if (race != null && race.MiscRaceData.CanBeGender.Contains(Gender.None))
+            if (race != null && race.SetupOutput.CanBeGender.Contains(Gender.None))
                 sb.AppendLine($"{unit.Type}");
             else if (unit.GetGender() == Gender.Hermaphrodite)
                 sb.AppendLine($"Herm {unit.Type}");

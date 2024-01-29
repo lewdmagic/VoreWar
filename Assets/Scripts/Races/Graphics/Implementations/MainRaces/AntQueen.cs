@@ -26,7 +26,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(LeaderClothes);
+                    unit.ClothingType = 1 + data.SetupOutput.AllowedMainClothingTypes.IndexOf(LeaderClothes);
                 }
             });
 

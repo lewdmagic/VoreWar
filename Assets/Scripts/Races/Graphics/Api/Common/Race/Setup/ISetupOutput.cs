@@ -6,7 +6,7 @@ using UnityEngine;
 
 #endregion
 
-public interface IMiscRaceData
+public interface ISetupOutput
 {
     
     void Names(string singularName, string pluralName);

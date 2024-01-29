@@ -674,9 +674,9 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 unit.EyeType = State.Rand.Next(10) == 0 ? 1 : 0;
 
-                unit.ClothingColor = State.Rand.Next(data.MiscRaceData.ClothingColors);
-                unit.ClothingColor2 = State.Rand.Next(data.MiscRaceData.ClothingColors);
-                unit.ClothingColor3 = State.Rand.Next(data.MiscRaceData.ClothingColors);
+                unit.ClothingColor = State.Rand.Next(data.SetupOutput.ClothingColors);
+                unit.ClothingColor2 = State.Rand.Next(data.SetupOutput.ClothingColors);
+                unit.ClothingColor3 = State.Rand.Next(data.SetupOutput.ClothingColors);
             });
         });
 

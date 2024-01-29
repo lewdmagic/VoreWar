@@ -237,18 +237,18 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (Config.ExtraRandomHairColors)
                 {
-                    if (data.MiscRaceData.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
+                    if (data.SetupOutput.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
                     {
-                        unit.HairColor = State.Rand.Next(data.MiscRaceData.HairColors);
-                        unit.AccessoryColor = State.Rand.Next(data.MiscRaceData.HairColors);
-                        unit.ExtraColor1 = State.Rand.Next(data.MiscRaceData.HairColors);
-                        unit.ExtraColor2 = State.Rand.Next(data.MiscRaceData.HairColors);
-                        unit.ExtraColor3 = State.Rand.Next(data.MiscRaceData.HairColors);
+                        unit.HairColor = State.Rand.Next(data.SetupOutput.HairColors);
+                        unit.AccessoryColor = State.Rand.Next(data.SetupOutput.HairColors);
+                        unit.ExtraColor1 = State.Rand.Next(data.SetupOutput.HairColors);
+                        unit.ExtraColor2 = State.Rand.Next(data.SetupOutput.HairColors);
+                        unit.ExtraColor3 = State.Rand.Next(data.SetupOutput.HairColors);
                     }
                 }
                 else
                 {
-                    if (data.MiscRaceData.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
+                    if (data.SetupOutput.HairColors == ColorPaletteMap.GetPaletteCount(SwapType.Fur))
                     {
                         unit.HairColor = State.Rand.Next(ColorPaletteMap.MixedHairColors);
                         unit.AccessoryColor = State.Rand.Next(ColorPaletteMap.MixedHairColors);

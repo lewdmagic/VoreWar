@@ -668,7 +668,7 @@ namespace Races.Graphics.Implementations.Mercs
                 Unit unit = data.Unit;
 
 
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
+                unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
 
                 unit.ExtraColor1 = unit.SkinColor;
 

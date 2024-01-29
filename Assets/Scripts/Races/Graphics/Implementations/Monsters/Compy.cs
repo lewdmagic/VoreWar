@@ -191,7 +191,7 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 Unit unit = data.Unit;
 
-                unit.SkinColor = State.Rand.Next(data.MiscRaceData.SkinColors);
+                unit.SkinColor = State.Rand.Next(data.SetupOutput.SkinColors);
                 unit.DickSize = 1;
                 unit.DefaultBreastSize = -1;
             });

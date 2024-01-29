@@ -286,7 +286,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, rags);
                     if (unit.ClothingType == -1) //Covers rags not in the list
                     {
                         unit.ClothingType = 1;
@@ -295,20 +295,20 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, leaderClothes);
                 }
 
                 if (unit.HasDick && unit.HasBreasts)
                 {
-                    unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 6 : data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 6 : data.SetupOutput.HairStyles);
                 }
                 else if (unit.HasDick && Config.FemaleHairForMales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else if (unit.HasDick == false && Config.MaleHairForFemales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else
                 {
@@ -322,16 +322,16 @@ namespace Races.Graphics.Implementations.MainRaces
                     }
                 }
 
-                unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2);
-                unit.BodyAccentType4 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes4);
+                unit.BodyAccentType2 = State.Rand.Next(data.SetupOutput.BodyAccentTypes2);
+                unit.BodyAccentType4 = State.Rand.Next(data.SetupOutput.BodyAccentTypes4);
 
                 if (State.Rand.Next(2) == 0)
                 {
-                    unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3 - 1);
+                    unit.BodyAccentType3 = State.Rand.Next(data.SetupOutput.BodyAccentTypes3 - 1);
                 }
                 else
                 {
-                    unit.BodyAccentType3 = data.MiscRaceData.BodyAccentTypes3 - 1;
+                    unit.BodyAccentType3 = data.SetupOutput.BodyAccentTypes3 - 1;
                 }
             });
         });

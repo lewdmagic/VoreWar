@@ -472,20 +472,20 @@ namespace Races.Graphics.Implementations.Mercs
                 }
                 else
                 {
-                    unit.SpecialAccessoryType = State.Rand.Next(data.MiscRaceData.SpecialAccessoryCount - 2);
+                    unit.SpecialAccessoryType = State.Rand.Next(data.SetupOutput.SpecialAccessoryCount - 2);
                 }
 
                 if (State.Rand.Next(2) == 0)
                 {
-                    unit.BodyAccentType2 = data.MiscRaceData.BodyAccentTypes2 - 1;
+                    unit.BodyAccentType2 = data.SetupOutput.BodyAccentTypes2 - 1;
                 }
                 else
                 {
-                    unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2 - 1);
+                    unit.BodyAccentType2 = State.Rand.Next(data.SetupOutput.BodyAccentTypes2 - 1);
                 }
 
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
-                unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3);
+                unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
+                unit.BodyAccentType3 = State.Rand.Next(data.SetupOutput.BodyAccentTypes3);
             });
         });
 

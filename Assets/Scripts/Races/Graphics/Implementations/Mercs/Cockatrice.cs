@@ -550,15 +550,15 @@ namespace Races.Graphics.Implementations.Mercs
 
                 if (unit.HasDick && unit.HasBreasts)
                 {
-                    unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 18 : data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 18 : data.SetupOutput.HairStyles);
                 }
                 else if (unit.HasDick && Config.FemaleHairForMales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else if (unit.HasDick == false && Config.MaleHairForFemales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else
                 {

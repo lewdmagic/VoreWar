@@ -521,11 +521,11 @@ namespace Races.Graphics.Implementations.Mercs
 
                 unit.AccessoryColor = unit.SkinColor;
 
-                unit.SpecialAccessoryType = State.Rand.Next(2) > 0 ? State.Rand.Next(data.MiscRaceData.SpecialAccessoryCount) : 0;
+                unit.SpecialAccessoryType = State.Rand.Next(2) > 0 ? State.Rand.Next(data.SetupOutput.SpecialAccessoryCount) : 0;
 
-                unit.BodyAccentType2 = unit.SpecialAccessoryType == 5 ? 5 : State.Rand.Next(data.MiscRaceData.BodyAccentTypes2 - 1);
+                unit.BodyAccentType2 = unit.SpecialAccessoryType == 5 ? 5 : State.Rand.Next(data.SetupOutput.BodyAccentTypes2 - 1);
 
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
+                unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
                 unit.BodyAccentType3 = 1;
             });
         });

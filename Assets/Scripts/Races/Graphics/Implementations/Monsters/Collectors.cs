@@ -155,8 +155,8 @@ namespace Races.Graphics.Implementations.Monsters
                 Defaults.RandomCustom(data);
                 Unit unit = data.Unit;
 
-                unit.SkinColor = State.Rand.Next(0, data.MiscRaceData.SkinColors);
-                unit.EyeColor = State.Rand.Next(0, data.MiscRaceData.EyeColors);
+                unit.SkinColor = State.Rand.Next(0, data.SetupOutput.SkinColors);
+                unit.EyeColor = State.Rand.Next(0, data.SetupOutput.EyeColors);
             });
         });
     }

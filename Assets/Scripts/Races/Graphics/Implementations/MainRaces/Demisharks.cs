@@ -608,28 +608,28 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (State.Rand.Next(3) == 0)
                 {
-                    unit.BodyAccentType2 = data.MiscRaceData.BodyAccentTypes2 - 1;
+                    unit.BodyAccentType2 = data.SetupOutput.BodyAccentTypes2 - 1;
                 }
                 else
                 {
-                    unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2 - 1);
+                    unit.BodyAccentType2 = State.Rand.Next(data.SetupOutput.BodyAccentTypes2 - 1);
                 }
 
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
-                unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3);
-                unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
+                unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
+                unit.BodyAccentType3 = State.Rand.Next(data.SetupOutput.BodyAccentTypes3);
+                unit.TailType = State.Rand.Next(data.SetupOutput.TailTypes);
 
                 if (unit.HasDick && unit.HasBreasts)
                 {
-                    unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 18 : data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(Config.HermsOnlyUseFemaleHair ? 18 : data.SetupOutput.HairStyles);
                 }
                 else if (unit.HasDick && Config.FemaleHairForMales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else if (unit.HasDick == false && Config.MaleHairForFemales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else
                 {
@@ -645,7 +645,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, leaderClothes);
                     unit.ClothingExtraType1 = 3;
                 }
                 else if (State.Rand.Next(3) == 0)
@@ -659,10 +659,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, rags);
                     if (unit.ClothingType == 0) //Covers rags not in the list
                     {
-                        unit.ClothingType = data.MiscRaceData.AllowedMainClothingTypes.Count;
+                        unit.ClothingType = data.SetupOutput.AllowedMainClothingTypes.Count;
                     }
                 }
             });

@@ -28,7 +28,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
                     unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(rags);
+                    unit.ClothingType = 1 + data.SetupOutput.AllowedMainClothingTypes.IndexOf(rags);
                     if (unit.ClothingType == -1) //Covers rags not in the list
                     {
                         unit.ClothingType = 1;
@@ -37,7 +37,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(leaderClothes);
+                    unit.ClothingType = 1 + data.SetupOutput.AllowedMainClothingTypes.IndexOf(leaderClothes);
                 }
 
                 if (unit.HasDick && unit.HasBreasts)
@@ -48,16 +48,16 @@ namespace Races.Graphics.Implementations.MainRaces
                     }
                     else
                     {
-                        unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                        unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                     }
                 }
                 else if (unit.HasDick && Config.FemaleHairForMales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else if (unit.HasDick == false && Config.MaleHairForFemales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else
                 {
@@ -73,15 +73,15 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (State.Rand.Next(2) == 0)
                 {
-                    unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1 - 1);
+                    unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1 - 1);
                 }
                 else
                 {
-                    unit.BodyAccentType1 = data.MiscRaceData.BodyAccentTypes1 - 1;
+                    unit.BodyAccentType1 = data.SetupOutput.BodyAccentTypes1 - 1;
                 }
 
-                unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2);
-                unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3);
+                unit.BodyAccentType2 = State.Rand.Next(data.SetupOutput.BodyAccentTypes2);
+                unit.BodyAccentType3 = State.Rand.Next(data.SetupOutput.BodyAccentTypes3);
             });
 
             builder.Setup(output =>

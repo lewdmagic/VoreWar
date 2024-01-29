@@ -403,8 +403,8 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
                 else
                 {
-                    unit.HairStyle = State.Rand.Next(Math.Max(data.MiscRaceData.HairStyles - 2, 0));
-                    unit.SkinColor = State.Rand.Next(Math.Max(data.MiscRaceData.SkinColors - 4, 0));
+                    unit.HairStyle = State.Rand.Next(Math.Max(data.SetupOutput.HairStyles - 2, 0));
+                    unit.SkinColor = State.Rand.Next(Math.Max(data.SetupOutput.SkinColors - 4, 0));
                 }
             });
         });

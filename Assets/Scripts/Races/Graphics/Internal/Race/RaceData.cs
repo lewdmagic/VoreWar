@@ -76,12 +76,12 @@ internal class RaceData : IRaceData
     public Action<IRunInput, IRunOutput> RunBefore { get; private set; }
     public Action<IRunInput, IRaceRenderAllOutput> RenderAllAction { get; private set; }
     public SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; private set; }
-    public MiscRaceData MiscRaceDataRaw { get; private set; }
-    public IMiscRaceData MiscRaceData => MiscRaceDataRaw;
+    public SetupOutput SetupOutputRaw { get; private set; }
+    public ISetupOutput SetupOutput => SetupOutputRaw;
     
     public RaceData(
         SpriteTypeIndexed<SingleRenderFunc> raceSpriteSet,
-        MiscRaceData miscRaceData,
+        SetupOutput setupOutput,
         Action<IRunInput, IRunOutput> runBefore,
         Action<IRandomCustomInput> randomCustom,
         ExtraRaceInfo extraRaceInfo2,
@@ -89,7 +89,7 @@ internal class RaceData : IRaceData
         )
     {
         RaceSpriteSet = raceSpriteSet;
-        MiscRaceDataRaw = miscRaceData;
+        SetupOutputRaw = setupOutput;
         RunBefore = runBefore;
         RandomCustom = randomCustom;
         ExtraRaceInfo2 = extraRaceInfo2;
@@ -126,20 +126,20 @@ internal class RaceData : IRaceData
     
     public void RandomCustomCall(Unit unit)
     {
-        RandomCustom(new RandomCustomInput(unit, MiscRaceDataRaw));
+        RandomCustom(new RandomCustomInput(unit, SetupOutputRaw));
     }
     
 
     private class RandomCustomInput : IRandomCustomInput
     {
-        internal RandomCustomInput(Unit unit, IMiscRaceData miscRaceData)
+        internal RandomCustomInput(Unit unit, ISetupOutput setupOutput)
         {
             Unit = unit;
-            MiscRaceData = miscRaceData;
+            SetupOutput = setupOutput;
         }
 
         public Unit Unit { get; }
-        public IMiscRaceData MiscRaceData { get; }
+        public ISetupOutput SetupOutput { get; }
     }
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////

@@ -433,17 +433,17 @@ namespace Races.Graphics.Implementations.MainRaces
                 Unit unit = data.Unit;
                 Defaults.RandomCustom(data);
 
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
+                unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
 
                 unit.AccessoryColor = unit.SkinColor;
 
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
 
-                unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
+                unit.TailType = State.Rand.Next(data.SetupOutput.TailTypes);
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, rags);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, rags);
                     if (unit.ClothingType == -1) //Covers rags not in the list
                     {
                         unit.ClothingType = 1;
@@ -452,7 +452,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, leaderClothes);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, leaderClothes);
                 }
             });
         });

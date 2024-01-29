@@ -757,21 +757,21 @@ namespace Races.Graphics.Implementations.MainRaces
                 Unit unit = data.Unit;
                 Defaults.RandomCustom(data);
 
-                unit.BodySize = State.Rand.Next(0, data.MiscRaceData.BodySizes);
-                unit.HeadType = State.Rand.Next(0, data.MiscRaceData.HeadTypes);
-                unit.TailType = State.Rand.Next(0, data.MiscRaceData.TailTypes);
-                unit.FurType = State.Rand.Next(0, data.MiscRaceData.FurTypes);
-                unit.EarType = State.Rand.Next(0, data.MiscRaceData.EarTypes);
-                unit.BallsSize = State.Rand.Next(0, data.MiscRaceData.BallsSizes);
-                unit.VulvaType = State.Rand.Next(0, data.MiscRaceData.VulvaTypes);
-                unit.BodyAccentType1 = State.Rand.Next(0, data.MiscRaceData.BodyAccentTypes1);
-                unit.BodyAccentType2 = State.Rand.Next(0, data.MiscRaceData.BodyAccentTypes2);
-                unit.BodyAccentType3 = State.Rand.Next(0, data.MiscRaceData.BodyAccentTypes3);
+                unit.BodySize = State.Rand.Next(0, data.SetupOutput.BodySizes);
+                unit.HeadType = State.Rand.Next(0, data.SetupOutput.HeadTypes);
+                unit.TailType = State.Rand.Next(0, data.SetupOutput.TailTypes);
+                unit.FurType = State.Rand.Next(0, data.SetupOutput.FurTypes);
+                unit.EarType = State.Rand.Next(0, data.SetupOutput.EarTypes);
+                unit.BallsSize = State.Rand.Next(0, data.SetupOutput.BallsSizes);
+                unit.VulvaType = State.Rand.Next(0, data.SetupOutput.VulvaTypes);
+                unit.BodyAccentType1 = State.Rand.Next(0, data.SetupOutput.BodyAccentTypes1);
+                unit.BodyAccentType2 = State.Rand.Next(0, data.SetupOutput.BodyAccentTypes2);
+                unit.BodyAccentType3 = State.Rand.Next(0, data.SetupOutput.BodyAccentTypes3);
 
-                unit.BasicMeleeWeaponType = State.Rand.Next(0, data.MiscRaceData.BasicMeleeWeaponTypes);
-                unit.AdvancedMeleeWeaponType = State.Rand.Next(0, data.MiscRaceData.AdvancedMeleeWeaponTypes);
-                unit.BasicRangedWeaponType = State.Rand.Next(0, data.MiscRaceData.BasicRangedWeaponTypes);
-                unit.AdvancedRangedWeaponType = State.Rand.Next(0, data.MiscRaceData.AdvancedRangedWeaponTypes);
+                unit.BasicMeleeWeaponType = State.Rand.Next(0, data.SetupOutput.BasicMeleeWeaponTypes);
+                unit.AdvancedMeleeWeaponType = State.Rand.Next(0, data.SetupOutput.AdvancedMeleeWeaponTypes);
+                unit.BasicRangedWeaponType = State.Rand.Next(0, data.SetupOutput.BasicRangedWeaponTypes);
+                unit.AdvancedRangedWeaponType = State.Rand.Next(0, data.SetupOutput.AdvancedRangedWeaponTypes);
 
                 if (!Config.HideCocks)
                 {
@@ -781,12 +781,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     }
                 }
 
-                unit.ClothingColor = State.Rand.Next(0, data.MiscRaceData.ClothingColors);
-                unit.ClothingColor2 = State.Rand.Next(0, data.MiscRaceData.ClothingColors);
+                unit.ClothingColor = State.Rand.Next(0, data.SetupOutput.ClothingColors);
+                unit.ClothingColor2 = State.Rand.Next(0, data.SetupOutput.ClothingColors);
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.MiscRaceData.AllowedMainClothingTypes, CruxClothingTypes.RagsInstance);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, CruxClothingTypes.RagsInstance);
                     if (unit.ClothingType == -1) //Covers rags not in the list
                     {
                         unit.ClothingType = 1;

@@ -66,7 +66,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     Defaults.RandomCustom(data);
                     Unit unit = data.Unit;
 
-                    unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
+                    unit.TailType = State.Rand.Next(data.SetupOutput.TailTypes);
                 });
             
                 output.DickSizes = () => 6;

@@ -424,13 +424,13 @@ class RaceSettingsItem
         overrideDick = false;
 
         MinBoob = 0;
-        MaxBoob = Math.Max(raceData.MiscRaceData.BreastSizes() - 1, 0);
+        MaxBoob = Math.Max(raceData.SetupOutput.BreastSizes() - 1, 0);
 
         MinDick = 0;
-        MaxDick = Math.Max(raceData.MiscRaceData.DickSizes() - 1, 0);
+        MaxDick = Math.Max(raceData.SetupOutput.DickSizes() - 1, 0);
 
         MinWeight = 0;
-        MaxWeight = Math.Max(raceData.MiscRaceData.BodySizes - 1, 0);
+        MaxWeight = Math.Max(raceData.SetupOutput.BodySizes - 1, 0);
 
         MaleTraits = new List<TraitType>();
         FemaleTraits = new List<TraitType>();

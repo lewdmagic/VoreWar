@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 internal class RaceDataMaker
 {
-    private readonly Func<MiscRaceData> _template;
+    private readonly Func<SetupOutput> _template;
     private readonly Action<IRaceBuilder> _builderUser;
 
-    public RaceDataMaker(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser)
+    public RaceDataMaker(Func<SetupOutput> template, Action<IRaceBuilder> builderUser)
     {
         _template = template;
         _builderUser = builderUser;
@@ -27,7 +27,7 @@ internal class RaceDataMaker
 
 internal static class RaceBuilderStatic
 {
-    internal static RaceDataMaker CreateV2(Func<MiscRaceData> template, Action<IRaceBuilder> builderUser)
+    internal static RaceDataMaker CreateV2(Func<SetupOutput> template, Action<IRaceBuilder> builderUser)
     {
         return new RaceDataMaker(template, builderUser);
     }
@@ -94,16 +94,16 @@ internal class RaceBuilder : IRaceBuilder
     private Action<IRandomCustomInput> _randomCustom;
 
     private Action<IRunInput, IRunOutput> _runBefore;
-    private Action<MiscRaceData> _setupFunc;
+    private Action<SetupOutput> _setupFunc;
     private Action<IRunInput, IRaceRenderAllOutput> _renderAllAction;
-    private readonly Func<MiscRaceData> _template;
+    private readonly Func<SetupOutput> _template;
 
-    internal RaceBuilder(Func<MiscRaceData> template)
+    internal RaceBuilder(Func<SetupOutput> template)
     {
         _template = template;
     }
     
-    public void Setup(Action<IMiscRaceData> setupFunc)
+    public void Setup(Action<ISetupOutput> setupFunc)
     {
         _setupFunc = setupFunc;
     }
@@ -137,7 +137,7 @@ internal class RaceBuilder : IRaceBuilder
 
     public IRaceData Build()
     {
-        MiscRaceData data = _template();
+        SetupOutput data = _template();
         _setupFunc?.Invoke(data);
         
         return new RaceData(RaceSpriteSet, data, _runBefore, _randomCustom, data._extraRaceInfo, _renderAllAction);

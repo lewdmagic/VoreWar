@@ -47,7 +47,6 @@ public static class LuaBridge
         UserData.RegisterType<ColorSwapPalette>();
         UserData.RegisterType<IRandomCustomInput>();
         UserData.RegisterType<IRunInput>();
-        UserData.RegisterType<IRenderInput>();
         UserData.RegisterType<Gender>();
         UserData.RegisterType<IOverSizeParameters>();
         UserData.RegisterType<PredatorComponent>();
@@ -87,7 +86,7 @@ public static class LuaBridge
         
         UserData.RegisterType<BindableClothing<IOverSizeParameters>>();
         UserData.RegisterType<BindableClothing<OverSizeParameters>>();
-        UserData.RegisterType<MiscRaceData>();
+        UserData.RegisterType<SetupOutput>();
         
         UserData.RegisterType<IList>();
         UserData.RegisterType<IList<IClothing>>();

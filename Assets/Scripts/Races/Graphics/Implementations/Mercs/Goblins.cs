@@ -570,16 +570,16 @@ namespace Races.Graphics.Implementations.Mercs
                 Defaults.RandomCustom(data);
                 Unit unit = data.Unit;
 
-                unit.SkinColor = State.Rand.Next(data.MiscRaceData.SkinColors);
-                unit.EyeType = State.Rand.Next(data.MiscRaceData.EyeTypes);
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                unit.HairColor = State.Rand.Next(data.MiscRaceData.HairColors);
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
-                unit.BodyAccentType2 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes2);
-                unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3);
-                unit.BodyAccentType4 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes4);
-                unit.ClothingColor = State.Rand.Next(data.MiscRaceData.ClothingColors);
-                unit.ClothingColor2 = State.Rand.Next(data.MiscRaceData.ClothingColors);
+                unit.SkinColor = State.Rand.Next(data.SetupOutput.SkinColors);
+                unit.EyeType = State.Rand.Next(data.SetupOutput.EyeTypes);
+                unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
+                unit.HairColor = State.Rand.Next(data.SetupOutput.HairColors);
+                unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
+                unit.BodyAccentType2 = State.Rand.Next(data.SetupOutput.BodyAccentTypes2);
+                unit.BodyAccentType3 = State.Rand.Next(data.SetupOutput.BodyAccentTypes3);
+                unit.BodyAccentType4 = State.Rand.Next(data.SetupOutput.BodyAccentTypes4);
+                unit.ClothingColor = State.Rand.Next(data.SetupOutput.ClothingColors);
+                unit.ClothingColor2 = State.Rand.Next(data.SetupOutput.ClothingColors);
             });
         });
 

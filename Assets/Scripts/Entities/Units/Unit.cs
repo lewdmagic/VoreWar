@@ -1058,19 +1058,19 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     {
         var raceData = Races2.GetRace(this);
         var isMale = false;
-        if (raceData.MiscRaceData.CanBeGender.Count == 0 || (raceData.MiscRaceData.CanBeGender.Contains(Gender.None) && raceData.MiscRaceData.CanBeGender.Count == 1))
+        if (raceData.SetupOutput.CanBeGender.Count == 0 || (raceData.SetupOutput.CanBeGender.Contains(Gender.None) && raceData.SetupOutput.CanBeGender.Count == 1))
         {
             DickSize = 0;
             SetDefaultBreastSize(0);
             isMale = State.Rand.NextDouble() > Config.HermNameFraction;
         }
-        else if (gender == Gender.Hermaphrodite && raceData.MiscRaceData.CanBeGender.Contains(Gender.Hermaphrodite))
+        else if (gender == Gender.Hermaphrodite && raceData.SetupOutput.CanBeGender.Contains(Gender.Hermaphrodite))
         {
             DickSize = 0;
             SetDefaultBreastSize(0);
             isMale = State.Rand.NextDouble() > Config.HermNameFraction;
         }
-        else if ((gender == Gender.Male && raceData.MiscRaceData.CanBeGender.Contains(Gender.Male)) || raceData.MiscRaceData.CanBeGender.Contains(Gender.Female) == false)
+        else if ((gender == Gender.Male && raceData.SetupOutput.CanBeGender.Contains(Gender.Male)) || raceData.SetupOutput.CanBeGender.Contains(Gender.Female) == false)
         {
             DickSize = 0;
             SetDefaultBreastSize(-1);
@@ -1130,7 +1130,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             hermFraction = Config.HermFraction;
         }
 
-        if (raceData.MiscRaceData.CanBeGender.Count == 0 || (raceData.MiscRaceData.CanBeGender.Contains(Gender.None) && raceData.MiscRaceData.CanBeGender.Count == 1))
+        if (raceData.SetupOutput.CanBeGender.Count == 0 || (raceData.SetupOutput.CanBeGender.Contains(Gender.None) && raceData.SetupOutput.CanBeGender.Count == 1))
         {
             DickSize = 0;
             SetDefaultBreastSize(0);
@@ -1138,7 +1138,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             Pronouns = new List<string> { "they", "them", "their", "theirs", "themself", "plural" };
             isMale = State.Rand.NextDouble() > Config.HermNameFraction;
         }
-        else if (State.Rand.NextDouble() < hermFraction && raceData.MiscRaceData.CanBeGender.Contains(Gender.Hermaphrodite))
+        else if (State.Rand.NextDouble() < hermFraction && raceData.SetupOutput.CanBeGender.Contains(Gender.Hermaphrodite))
         {
             DickSize = 0;
             SetDefaultBreastSize(0);
@@ -1146,7 +1146,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             Pronouns = new List<string> { "they", "them", "their", "theirs", "themself", "plural" };
             isMale = State.Rand.NextDouble() > Config.HermNameFraction;
         }
-        else if ((State.Rand.NextDouble() < maleFraction && raceData.MiscRaceData.CanBeGender.Contains(Gender.Male)) || raceData.MiscRaceData.CanBeGender.Contains(Gender.Female) == false)
+        else if ((State.Rand.NextDouble() < maleFraction && raceData.SetupOutput.CanBeGender.Contains(Gender.Male)) || raceData.SetupOutput.CanBeGender.Contains(Gender.Female) == false)
         {
             DickSize = 0;
             SetDefaultBreastSize(-1);
@@ -1206,21 +1206,21 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
             hermFraction = Config.HermFraction;
         }
 
-        if (raceData.MiscRaceData.CanBeGender.Count == 0 || (raceData.MiscRaceData.CanBeGender.Contains(Gender.None) && raceData.MiscRaceData.CanBeGender.Count == 1))
+        if (raceData.SetupOutput.CanBeGender.Count == 0 || (raceData.SetupOutput.CanBeGender.Contains(Gender.None) && raceData.SetupOutput.CanBeGender.Count == 1))
         {
             DickSize = 0;
             SetDefaultBreastSize(0);
             HasVagina = false;
             Pronouns = new List<string> { "they", "them", "their", "theirs", "themself", "plural" };
         }
-        else if (State.Rand.NextDouble() < hermFraction && raceData.MiscRaceData.CanBeGender.Contains(Gender.Hermaphrodite))
+        else if (State.Rand.NextDouble() < hermFraction && raceData.SetupOutput.CanBeGender.Contains(Gender.Hermaphrodite))
         {
             DickSize = 0;
             SetDefaultBreastSize(0);
             HasVagina = true;
             Pronouns = new List<string> { "they", "them", "their", "theirs", "themself", "plural" };
         }
-        else if ((State.Rand.NextDouble() < maleFraction && raceData.MiscRaceData.CanBeGender.Contains(Gender.Male)) || raceData.MiscRaceData.CanBeGender.Contains(Gender.Female) == false)
+        else if ((State.Rand.NextDouble() < maleFraction && raceData.SetupOutput.CanBeGender.Contains(Gender.Male)) || raceData.SetupOutput.CanBeGender.Contains(Gender.Female) == false)
         {
             DickSize = 0;
             SetDefaultBreastSize(-1);
@@ -2124,8 +2124,8 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     public void SetBreastSize(int size)
     {
-        if (size > Races2.GetRace(this).MiscRaceData.BreastSizes() - 1)
-            size = Races2.GetRace(this).MiscRaceData.BreastSizes() - 1;
+        if (size > Races2.GetRace(this).SetupOutput.BreastSizes() - 1)
+            size = Races2.GetRace(this).SetupOutput.BreastSizes() - 1;
         if (size <= DefaultBreastSize)
             size = DefaultBreastSize;
         BreastSize = size;
@@ -2679,7 +2679,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         {
             shape.AddPermanentTrait(trait);
         }
-        if (Races2.GetRace(shape.Race).MiscRaceData.CanBeGender.Contains(GetGender()))
+        if (Races2.GetRace(shape.Race).SetupOutput.CanBeGender.Contains(GetGender()))
         {
             shape.SetGenderRandomizeName(race,GetGender());
         }

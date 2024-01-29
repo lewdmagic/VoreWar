@@ -101,12 +101,12 @@ class UniformData
 
 
         var race = Races2.GetRace(unit);
-        if (ClothingType > race.MiscRaceData.AllowedMainClothingTypes.Count) unit.ClothingType = 0;
-        if (ClothingType2 > race.MiscRaceData.AllowedWaistTypes.Count) unit.ClothingType2 = 0;
-        if (ClothingExtraType1 > race.MiscRaceData.ExtraMainClothing1Types.Count) unit.ClothingExtraType1 = 0;
-        if (ClothingExtraType2 > race.MiscRaceData.ExtraMainClothing2Types.Count) unit.ClothingExtraType2 = 0;
-        if (ClothingExtraType3 > race.MiscRaceData.ExtraMainClothing3Types.Count) unit.ClothingExtraType3 = 0;
-        if (ClothingExtraType4 > race.MiscRaceData.ExtraMainClothing4Types.Count) unit.ClothingExtraType4 = 0;
-        if (ClothingExtraType5 > race.MiscRaceData.ExtraMainClothing5Types.Count) unit.ClothingExtraType5 = 0;
+        if (ClothingType > race.SetupOutput.AllowedMainClothingTypes.Count) unit.ClothingType = 0;
+        if (ClothingType2 > race.SetupOutput.AllowedWaistTypes.Count) unit.ClothingType2 = 0;
+        if (ClothingExtraType1 > race.SetupOutput.ExtraMainClothing1Types.Count) unit.ClothingExtraType1 = 0;
+        if (ClothingExtraType2 > race.SetupOutput.ExtraMainClothing2Types.Count) unit.ClothingExtraType2 = 0;
+        if (ClothingExtraType3 > race.SetupOutput.ExtraMainClothing3Types.Count) unit.ClothingExtraType3 = 0;
+        if (ClothingExtraType4 > race.SetupOutput.ExtraMainClothing4Types.Count) unit.ClothingExtraType4 = 0;
+        if (ClothingExtraType5 > race.SetupOutput.ExtraMainClothing5Types.Count) unit.ClothingExtraType5 = 0;
     }
 }

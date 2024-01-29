@@ -28,7 +28,7 @@ namespace Races.Graphics.Implementations.Mercs
             }
         }
 
-        private static readonly Func<IRenderInput, FacingFrontParameters> FacingFrontCalc = renderInput =>
+        private static readonly Func<IClothingRenderInput, FacingFrontParameters> FacingFrontCalc = renderInput =>
         {
             return new FacingFrontParameters()
             {

@@ -1536,7 +1536,7 @@ public class PredatorComponent
                     {
                         if (unit.HasDick)
                         {
-                            unit.DickSize = Math.Min(unit.DickSize + 1, Races2.GetRace(unit).MiscRaceData.DickSizes() - 1);
+                            unit.DickSize = Math.Min(unit.DickSize + 1, Races2.GetRace(unit).SetupOutput.DickSizes() - 1);
                             if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideDick(unit.Race))
                                 unit.DickSize = Math.Min(unit.DickSize, State.RaceSettings.Get(unit.Race).MaxDick);
                         }
@@ -1545,7 +1545,7 @@ public class PredatorComponent
                     {
                         if (unit.HasBreasts)
                         {
-                            unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races2.GetRace(unit).MiscRaceData.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
+                            unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races2.GetRace(unit).SetupOutput.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
                             if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideBreasts(unit.Race))
                                 unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize, State.RaceSettings.Get(unit.Race).MaxBoob));
                         }
@@ -1556,7 +1556,7 @@ public class PredatorComponent
                         {
                             if (unit.HasDick)
                             {
-                                unit.DickSize = Math.Min(unit.DickSize + 1, Races2.GetRace(unit).MiscRaceData.DickSizes() - 1);
+                                unit.DickSize = Math.Min(unit.DickSize + 1, Races2.GetRace(unit).SetupOutput.DickSizes() - 1);
                                 if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideDick(unit.Race))
                                     unit.DickSize = Math.Min(unit.DickSize, State.RaceSettings.Get(unit.Race).MaxDick);
                             }
@@ -1566,15 +1566,15 @@ public class PredatorComponent
                         {
                             if (unit.HasBreasts)
                             {
-                                unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races2.GetRace(unit).MiscRaceData.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
+                                unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races2.GetRace(unit).SetupOutput.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
                                 if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideBreasts(unit.Race))
                                     unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize, State.RaceSettings.Get(unit.Race).MaxBoob));
                             }
                         }
 
-                        if (State.Rand.NextDouble() < .5 && Races2.GetRace(unit).MiscRaceData.WeightGainDisabled == false)
+                        if (State.Rand.NextDouble() < .5 && Races2.GetRace(unit).SetupOutput.WeightGainDisabled == false)
                         {
-                            unit.BodySize = Math.Max(Math.Min(unit.BodySize + 1, Races2.GetRace(unit).MiscRaceData.BodySizes - 1), 0);
+                            unit.BodySize = Math.Max(Math.Min(unit.BodySize + 1, Races2.GetRace(unit).SetupOutput.BodySizes - 1), 0);
                             if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideWeight(unit.Race))
                                 unit.BodySize = Math.Min(unit.BodySize, State.RaceSettings.Get(unit.Race).MaxWeight);
                         }
@@ -1896,71 +1896,71 @@ public class PredatorComponent
 
         if (Config.ClothingDiscards)
         {
-            if (preyRace.MiscRaceData.AllowedMainClothingTypes.Count >= preyUnit.Unit.ClothingType && preyUnit.Unit.ClothingType > 0)
+            if (preyRace.SetupOutput.AllowedMainClothingTypes.Count >= preyUnit.Unit.ClothingType && preyUnit.Unit.ClothingType > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.AllowedMainClothingTypes[preyUnit.Unit.ClothingType - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.SetupOutput.AllowedMainClothingTypes[preyUnit.Unit.ClothingType - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.AllowedMainClothingTypes[preyUnit.Unit.ClothingType - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.SetupOutput.AllowedMainClothingTypes[preyUnit.Unit.ClothingType - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.AllowedWaistTypes.Count >= preyUnit.Unit.ClothingType2 && preyUnit.Unit.ClothingType2 > 0)
+            if (preyRace.SetupOutput.AllowedWaistTypes.Count >= preyUnit.Unit.ClothingType2 && preyUnit.Unit.ClothingType2 > 0)
             {
-                ClothingId clothingType2 = preyRace.MiscRaceData.AllowedWaistTypes[preyUnit.Unit.ClothingType2 - 1].FixedData.ClothingId;
+                ClothingId clothingType2 = preyRace.SetupOutput.AllowedWaistTypes[preyUnit.Unit.ClothingType2 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.AllowedWaistTypes[preyUnit.Unit.ClothingType2 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.SetupOutput.AllowedWaistTypes[preyUnit.Unit.ClothingType2 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType2, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing1Types.Count >= preyUnit.Unit.ClothingExtraType1 && preyUnit.Unit.ClothingExtraType1 > 0)
+            if (preyRace.SetupOutput.ExtraMainClothing1Types.Count >= preyUnit.Unit.ClothingExtraType1 && preyUnit.Unit.ClothingExtraType1 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing1Types[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.SetupOutput.ExtraMainClothing1Types[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing1Types[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.SetupOutput.ExtraMainClothing1Types[preyUnit.Unit.ClothingExtraType1 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing2Types.Count >= preyUnit.Unit.ClothingExtraType2 && preyUnit.Unit.ClothingExtraType2 > 0)
+            if (preyRace.SetupOutput.ExtraMainClothing2Types.Count >= preyUnit.Unit.ClothingExtraType2 && preyUnit.Unit.ClothingExtraType2 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing2Types[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.SetupOutput.ExtraMainClothing2Types[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing2Types[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.SetupOutput.ExtraMainClothing2Types[preyUnit.Unit.ClothingExtraType2 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing3Types.Count >= preyUnit.Unit.ClothingExtraType3 && preyUnit.Unit.ClothingExtraType3 > 0)
+            if (preyRace.SetupOutput.ExtraMainClothing3Types.Count >= preyUnit.Unit.ClothingExtraType3 && preyUnit.Unit.ClothingExtraType3 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing3Types[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.SetupOutput.ExtraMainClothing3Types[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing3Types[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.SetupOutput.ExtraMainClothing3Types[preyUnit.Unit.ClothingExtraType3 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing4Types.Count >= preyUnit.Unit.ClothingExtraType4 && preyUnit.Unit.ClothingExtraType4 > 0)
+            if (preyRace.SetupOutput.ExtraMainClothing4Types.Count >= preyUnit.Unit.ClothingExtraType4 && preyUnit.Unit.ClothingExtraType4 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing4Types[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.SetupOutput.ExtraMainClothing4Types[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing4Types[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.SetupOutput.ExtraMainClothing4Types[preyUnit.Unit.ClothingExtraType4 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
                 State.GameManager.TacticalMode.CreateDiscardedClothing(GetCurrentLocation(), preyUnit.Unit.Race, clothingType, color, preyUnit.Unit.Name);
             }
-            if (preyRace.MiscRaceData.ExtraMainClothing5Types.Count >= preyUnit.Unit.ClothingExtraType5 && preyUnit.Unit.ClothingExtraType5 > 0)
+            if (preyRace.SetupOutput.ExtraMainClothing5Types.Count >= preyUnit.Unit.ClothingExtraType5 && preyUnit.Unit.ClothingExtraType5 > 0)
             {
-                ClothingId clothingType = preyRace.MiscRaceData.ExtraMainClothing5Types[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.ClothingId;
+                ClothingId clothingType = preyRace.SetupOutput.ExtraMainClothing5Types[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.ClothingId;
                 int color;
-                if (preyRace.MiscRaceData.ExtraMainClothing5Types[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.DiscardUsesColor2)
+                if (preyRace.SetupOutput.ExtraMainClothing5Types[preyUnit.Unit.ClothingExtraType5 - 1].FixedData.DiscardUsesColor2)
                     color = preyUnit.Unit.ClothingColor2;
                 else
                     color = preyUnit.Unit.ClothingColor;
@@ -2183,7 +2183,7 @@ public class PredatorComponent
         }
 
         var data = Races2.GetRace(unit.Race);
-        if (data.MiscRaceData.ExtendedBreastSprites == false)
+        if (data.SetupOutput.ExtendedBreastSprites == false)
             actor.Unit.SetBreastSize(unit.DefaultBreastSize + (int)(BreastFullness * 8));
         //actor.Unit.SetDickSize(unit.DefaultDickSize + (int)(BallsFullness * 8));
     }
@@ -2637,7 +2637,7 @@ public class PredatorComponent
                 break;
             case PreyLocation.breasts:
                 var data = Races2.GetRace(unit.Race);
-                if (data.MiscRaceData.ExtendedBreastSprites)
+                if (data.SetupOutput.ExtendedBreastSprites)
                 {
                     if (Config.FairyBVType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
                     {
@@ -2682,7 +2682,7 @@ public class PredatorComponent
         State.GameManager.SoundManager.PlaySwallow(PreyLocation.breasts, actor);
         TacticalUtilities.Log.RegisterBreastVore(unit, target.Unit, v);
         var data = Races2.GetRace(unit.Race);
-        if (data.MiscRaceData.ExtendedBreastSprites)
+        if (data.SetupOutput.ExtendedBreastSprites)
         {
             if (Config.FairyBVType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
             {
@@ -2725,7 +2725,7 @@ public class PredatorComponent
         if (Config.KuroTenkoEnabled && (Config.FeedingType == FeedingType.Both || Config.FeedingType == FeedingType.BreastfeedOnly))
         {
             var race = Races2.GetRace(actor.Unit.Race);
-            if (race.MiscRaceData.ExtendedBreastSprites)
+            if (race.SetupOutput.ExtendedBreastSprites)
             {
                 foreach (Prey preyUnit in leftBreast)
                 {
@@ -3022,7 +3022,7 @@ public class PredatorComponent
         var data = Races2.GetRace(target.Unit.Race);
         if (State.RaceSettings.GetVoreTypes(actor.Unit.Race).Contains(VoreType.Oral))
         {
-            if (data.MiscRaceData.ExtendedBreastSprites)
+            if (data.SetupOutput.ExtendedBreastSprites)
             {
                 foreach (Prey preyUnit in target.PredatorComponent.leftBreast)
                 {
@@ -3099,7 +3099,7 @@ public class PredatorComponent
         if (feedType == "breast" || feedType == "any")
         {
             var data = Races2.GetRace(unit.Race);
-            if (data.MiscRaceData.ExtendedBreastSprites)
+            if (data.SetupOutput.ExtendedBreastSprites)
             {
                 int leftBreastHealth = 0;
                 int rightBreastHealth = 0;
@@ -3580,7 +3580,7 @@ public class PredatorComponent
             case PreyLocation.breasts:
                 TacticalUtilities.Log.RegisterMiscellaneous($"In just a few deft movements, <b>{forcePrey.Unit.Name}</b> crams {LogUtilities.GPPHimself(forcePrey.Unit)} into <b>{LogUtilities.ApostrophizeWithOrWithoutS(unit.Name)}</b> tits.");
                 var data = Races2.GetRace(unit.Race);
-                if (data.MiscRaceData.ExtendedBreastSprites)
+                if (data.SetupOutput.ExtendedBreastSprites)
                 {
                     if (Config.FairyBVType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
                     {

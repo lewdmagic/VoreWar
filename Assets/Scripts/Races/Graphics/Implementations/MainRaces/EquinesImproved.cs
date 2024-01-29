@@ -356,12 +356,12 @@ namespace Races.Graphics.Implementations.MainRaces
                 Defaults.RandomCustom(data);
 
 
-                unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3);
-                unit.BodyAccentType4 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes4);
-                unit.BodyAccentType5 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes5);
+                unit.BodyAccentType3 = State.Rand.Next(data.SetupOutput.BodyAccentTypes3);
+                unit.BodyAccentType4 = State.Rand.Next(data.SetupOutput.BodyAccentTypes4);
+                unit.BodyAccentType5 = State.Rand.Next(data.SetupOutput.BodyAccentTypes5);
 
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
-                unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
+                unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
+                unit.TailType = State.Rand.Next(data.SetupOutput.TailTypes);
             });
         });
 

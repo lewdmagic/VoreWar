@@ -200,7 +200,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(data =>
             {
                 Unit unit = data.Unit;
-                unit.SkinColor = State.Rand.Next(0, data.MiscRaceData.SkinColors);
+                unit.SkinColor = State.Rand.Next(0, data.SetupOutput.SkinColors);
             });
         });
 

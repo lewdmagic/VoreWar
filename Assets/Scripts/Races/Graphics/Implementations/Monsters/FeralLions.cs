@@ -319,7 +319,7 @@ namespace Races.Graphics.Implementations.Monsters
                 }
                 else
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
             });
         });

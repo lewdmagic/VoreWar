@@ -317,7 +317,7 @@ namespace Races.Graphics.Implementations.Monsters
                 Defaults.RandomCustom(data);
                 Unit unit = data.Unit;
 
-                unit.BodyAccentType1 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes1);
+                unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
             });
         });
 

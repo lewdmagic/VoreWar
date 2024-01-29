@@ -35,7 +35,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             }
         }
         
-        private static readonly Func<IRenderInput, ZoeyParams> ZoeyCalc = renderInput =>
+        private static readonly Func<IClothingRenderInput, ZoeyParams> ZoeyCalc = renderInput =>
         {
             return new ZoeyParams()
             {

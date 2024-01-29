@@ -13,7 +13,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 Defaults.RandomCustom(data);
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + data.MiscRaceData.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.CatLeaderInstance);
+                    unit.ClothingType = 1 + data.SetupOutput.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.CatLeaderInstance);
                 }
             });
 

@@ -340,7 +340,7 @@ public class UnitSprite : MonoBehaviour
             if (animator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
-                if (raceData.MiscRaceData.GentleAnimation)
+                if (raceData.SetupOutput.GentleAnimation)
                 {
                     animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
                 }
@@ -356,7 +356,7 @@ public class UnitSprite : MonoBehaviour
             if (ballsAnimator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
-                if (raceData.MiscRaceData.GentleAnimation)
+                if (raceData.SetupOutput.GentleAnimation)
                 {
                     ballsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
                 }
@@ -372,7 +372,7 @@ public class UnitSprite : MonoBehaviour
             if (boobsAnimator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
-                if (raceData.MiscRaceData.GentleAnimation)
+                if (raceData.SetupOutput.GentleAnimation)
                 {
                     boobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
                 }
@@ -388,7 +388,7 @@ public class UnitSprite : MonoBehaviour
             if (SecondBoobsAnimator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
-                if (raceData.MiscRaceData.GentleAnimation)
+                if (raceData.SetupOutput.GentleAnimation)
                 {
                     SecondBoobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
                 }

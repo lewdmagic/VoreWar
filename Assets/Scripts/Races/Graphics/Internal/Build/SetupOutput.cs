@@ -7,7 +7,7 @@ using UnityEngine;
 
 #endregion
 
-public class MiscRaceData : IMiscRaceData
+public class SetupOutput : ISetupOutput
 {
     public List<IClothing> AllowedClothingAccessoryTypes { get; private set; } = new List<IClothing>();
     public List<IClothing> AllowedClothingHatTypes { get; private set; } = new List<IClothing>();
@@ -22,7 +22,7 @@ public class MiscRaceData : IMiscRaceData
     
     internal readonly ExtraRaceInfo _extraRaceInfo = new ExtraRaceInfo();
     
-    public MiscRaceData(
+    public SetupOutput(
         Func<int> breastSizes,
         Func<int> dickSizes,
         bool furCapable,
@@ -267,7 +267,7 @@ public class MiscRaceData : IMiscRaceData
     public Vector2 WholeBodyOffset { get; set; }
     public Vector3 ClothingShift { get; set; }
 
-    List<IClothing> IMiscRaceData.AllowedMainClothingTypes => AllowedMainClothingTypes;
+    List<IClothing> ISetupOutput.AllowedMainClothingTypes => AllowedMainClothingTypes;
 
     /// <summary>The total number of main clothing types plus one additional number for the blank clothing slot</summary>
     public int MainClothingTypesCount => AllowedMainClothingTypes.Count() + 1;

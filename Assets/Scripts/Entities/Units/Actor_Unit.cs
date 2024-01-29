@@ -700,7 +700,7 @@ public class Actor_Unit
     public bool HasPreyInBreasts => (PredatorComponent?.BreastFullness > 0 || PredatorComponent?.LeftBreastFullness > 0 || PredatorComponent?.RightBreastFullness > 0);
     public bool HasBodyWeight => !Equals(Unit.Race, Race.Lizards) && !Equals(Unit.Race, Race.Slimes) && !Equals(Unit.Race, Race.Scylla) && !Equals(Unit.Race, Race.Harpies) && !Equals(Unit.Race, Race.Imps);
 
-    public int GetBodyWeight() => (Config.WeightGain || Unit.BodySizeManuallyChanged) ? Unit.BodySize : Mathf.Min(Config.DefaultStartingWeight, Races2.GetRace(Unit).MiscRaceData.BodySizes);
+    public int GetBodyWeight() => (Config.WeightGain || Unit.BodySizeManuallyChanged) ? Unit.BodySize : Mathf.Min(Config.DefaultStartingWeight, Races2.GetRace(Unit).SetupOutput.BodySizes);
 
     /// <summary>
     /// 0: Melee 1 hold

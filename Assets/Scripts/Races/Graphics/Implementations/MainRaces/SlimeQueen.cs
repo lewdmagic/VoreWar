@@ -78,16 +78,16 @@ namespace Races.Graphics.Implementations.MainRaces
                     }
                     else
                     {
-                        unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                        unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                     }
                 }
                 else if (unit.HasDick && Config.FemaleHairForMales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else if (unit.HasDick == false && Config.MaleHairForFemales)
                 {
-                    unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                    unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 }
                 else
                 {
@@ -253,7 +253,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 ParentRandomCustom(data);
                 Unit unit = data.Unit;
 
-                unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
+                unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 unit.ExtraColor1 = 0;
                 unit.ExtraColor2 = 0;
             });

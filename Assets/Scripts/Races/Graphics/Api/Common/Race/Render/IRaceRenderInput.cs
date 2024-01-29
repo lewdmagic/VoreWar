@@ -1,4 +1,4 @@
-public interface IRenderInput
+public interface IRaceRenderInput
 {
     Actor_Unit Actor { get; }
     
@@ -13,4 +13,7 @@ public interface IRenderInput
     string SimpleWeaponSpriteBackV1 { get; }
     
     SpriteDictionary Sprites { get; }
+    
+    ISetupOutput RaceData { get; }
+    bool BaseBody { get; }
 }

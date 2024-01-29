@@ -65,19 +65,19 @@ class UnitEditor : UnitCustomizer
         bool changedGender = false;
         if (CustomizerUI.Gender.value == 0 && Unit.GetGender() != Gender.Male)
         {
-            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Male) == false)
+            if (RaceData.SetupOutput.CanBeGender.Contains(Gender.Male) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
             }
             changedGender = true;
-            Unit.DickSize = State.Rand.Next(RaceData.MiscRaceData.DickSizes());
+            Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
             Unit.HasVagina = false;
             Unit.SetDefaultBreastSize(-1);
         }
         else if (CustomizerUI.Gender.value == 1 && Unit.GetGender() != Gender.Female)
         {
-            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Female) == false)
+            if (RaceData.SetupOutput.CanBeGender.Contains(Gender.Female) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
@@ -85,47 +85,47 @@ class UnitEditor : UnitCustomizer
             changedGender = true;
             Unit.DickSize = -1;
             Unit.HasVagina = true;
-            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.MiscRaceData.BreastSizes()));
+            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.SetupOutput.BreastSizes()));
         }
         else if (CustomizerUI.Gender.value == 2 && Unit.GetGender() != Gender.Hermaphrodite)
         {
-            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Hermaphrodite) == false)
+            if (RaceData.SetupOutput.CanBeGender.Contains(Gender.Hermaphrodite) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
             }
             changedGender = true;
-            Unit.DickSize = State.Rand.Next(RaceData.MiscRaceData.DickSizes());
+            Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
             Unit.HasVagina = Config.HermsCanUB;
-            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.MiscRaceData.BreastSizes()));
+            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.SetupOutput.BreastSizes()));
         }
         else if (CustomizerUI.Gender.value == 3 && Unit.GetGender() != Gender.Gynomorph)
         {
-            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Gynomorph) == false)
+            if (RaceData.SetupOutput.CanBeGender.Contains(Gender.Gynomorph) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
             }
             changedGender = true;
-            Unit.DickSize = State.Rand.Next(RaceData.MiscRaceData.DickSizes());
+            Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
             Unit.HasVagina = false;
-            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.MiscRaceData.BreastSizes()));
+            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.SetupOutput.BreastSizes()));
         }
         else if (CustomizerUI.Gender.value == 4 && Unit.GetGender() != Gender.Maleherm)
         {
-            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Maleherm) == false)
+            if (RaceData.SetupOutput.CanBeGender.Contains(Gender.Maleherm) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
             }
             changedGender = true;
-            Unit.DickSize = State.Rand.Next(RaceData.MiscRaceData.DickSizes());
+            Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
             Unit.HasVagina = true;
             Unit.SetDefaultBreastSize(-1);
         }
         else if (CustomizerUI.Gender.value == 5 && Unit.GetGender() != Gender.Andromorph)
         {
-            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Andromorph) == false)
+            if (RaceData.SetupOutput.CanBeGender.Contains(Gender.Andromorph) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
@@ -137,7 +137,7 @@ class UnitEditor : UnitCustomizer
         }
         else if (CustomizerUI.Gender.value == 6 && Unit.GetGender() != Gender.Agenic)
         {
-            if (RaceData.MiscRaceData.CanBeGender.Contains(Gender.Agenic) == false)
+            if (RaceData.SetupOutput.CanBeGender.Contains(Gender.Agenic) == false)
             {
                 RefreshGenderDropdown(Unit);
                 return;
@@ -145,7 +145,7 @@ class UnitEditor : UnitCustomizer
             changedGender = true;
             Unit.DickSize = -1;
             Unit.HasVagina = false;
-            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.MiscRaceData.BreastSizes()));
+            Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.SetupOutput.BreastSizes()));
         }
         if (changedGender)
         {
@@ -222,13 +222,13 @@ class UnitEditor : UnitCustomizer
                     CustomizerUI.Gender.value = 0;
             }
         }
-        CustomizerUI.Gender.options[0].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Male) ? "Male" : "--";
-        CustomizerUI.Gender.options[1].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Female) ? "Female" : "--";
-        CustomizerUI.Gender.options[2].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Hermaphrodite) ? "Hermaphrodite" : "--";
-        CustomizerUI.Gender.options[3].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Gynomorph) ? "Gynomorph" : "--";
-        CustomizerUI.Gender.options[4].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Maleherm) ? "Maleherm" : "--";
-        CustomizerUI.Gender.options[5].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Andromorph) ? "Andromorph" : "--";
-        CustomizerUI.Gender.options[6].text = RaceData.MiscRaceData.CanBeGender.Contains(Gender.Agenic) ? "Agenic" : "--";
+        CustomizerUI.Gender.options[0].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Male) ? "Male" : "--";
+        CustomizerUI.Gender.options[1].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Female) ? "Female" : "--";
+        CustomizerUI.Gender.options[2].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Hermaphrodite) ? "Hermaphrodite" : "--";
+        CustomizerUI.Gender.options[3].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Gynomorph) ? "Gynomorph" : "--";
+        CustomizerUI.Gender.options[4].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Maleherm) ? "Maleherm" : "--";
+        CustomizerUI.Gender.options[5].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Andromorph) ? "Andromorph" : "--";
+        CustomizerUI.Gender.options[6].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Agenic) ? "Agenic" : "--";
 
     }
 
