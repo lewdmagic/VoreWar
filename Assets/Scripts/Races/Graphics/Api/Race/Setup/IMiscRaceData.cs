@@ -23,6 +23,9 @@ public interface IMiscRaceData
     void BonesInfo(Func<Unit, List<BoneInfo>> boneTypesGen);
 
     void FlavorText(FlavorText flavorText);
+    void SetFlavorText(FlavorType type, params FlavorEntry[] numbers);
+    void AddFlavorText(FlavorType type, params FlavorEntry[] numbers);
+    
     void RaceTraits(RaceTraits raceTraits);
     void SetRaceTraits(Action<RaceTraits> setRaceTraits);
 

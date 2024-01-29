@@ -7,6 +7,26 @@ using System.Reflection;
 using MoonSharp.Interpreter;
 using UnityEngine;
 
+
+
+public static class FlavorEntryMaker
+{
+    public static FlavorEntry New(string text, double weight, Gender? gender)
+    {
+        return new FlavorEntry(text, weight, gender);
+    }
+
+    public static FlavorEntry New(string text)
+    {
+        return New(text, 1, null);
+    }
+    public static FlavorEntry NewGendered(string text, Gender gender)
+    {
+        return New(text, 1, gender);
+    }
+}
+
+
 public static class LuaBridge
 {
     static LuaBridge()
@@ -45,8 +65,10 @@ public static class LuaBridge
         
         UserData.RegisterType<ButtonCustomizer>();
         
-        UserData.RegisterType<TextsBasic>();
+        UserData.RegisterType<Texts>();
         UserData.RegisterType<FlavorText>();
+        UserData.RegisterType<FlavorType>();
+        UserData.RegisterType<FlavorEntry>();
         UserData.RegisterType<Item>();
         UserData.RegisterType<Weapon>();
         UserData.RegisterType<Accessory>();
@@ -101,7 +123,6 @@ public static class LuaBridge
         
         script.Globals["Gender"] = UserData.CreateStatic<Gender>();
         script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
-        script.Globals["Gender"] = UserData.CreateStatic<Gender>();
         script.Globals["SwapType"] = UserData.CreateStatic<SwapType>();
 
         script.Globals["GetPaletteCount"] = (Func<SwapType, int>) ColorPaletteMap.GetPaletteCount;
@@ -112,14 +133,10 @@ public static class LuaBridge
         Func<float, float, Vector2> newVector2 = (x, y) => new Vector2(x, y);
         script.Globals["NewVector2"] = newVector2;
         
-        Func<TextsBasic> newTextsBasic = () => new TextsBasic();
-        script.Globals["NewTextsBasic"] = newTextsBasic;
         
-        Func<TextsBasic, TextsBasic, TextsBasic, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
-        script.Globals["NewFlavorText"] = newFlavorText;
+
         
         RegisterStatic(script, "Config", typeof(Config));
-        RegisterStatic(script, "Color", typeof(Colors));
 
         Dictionary<string, dynamic> defaults = new Dictionary<string, dynamic>
         {
@@ -145,6 +162,16 @@ end");
         script.Globals["TraitType"] = UserData.CreateStatic<TraitType>();
         script.Globals["ButtonType"] = UserData.CreateStatic<ButtonType>();
         script.Globals["Stat"] = UserData.CreateStatic<Stat>();
+        script.Globals["FlavorType"] = UserData.CreateStatic<FlavorType>();
+        
+        
+        RegisterStatic(script, "FlavorEntryMaker", typeof(FlavorEntryMaker));
+        
+        Func<Texts> newTextsBasic = () => new Texts();
+        script.Globals["NewTextsBasic"] = newTextsBasic;
+        
+        Func<Texts, Texts, Texts, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
+        script.Globals["NewFlavorText"] = newFlavorText;
         
         Func<string, IClothing> getClothing = (id) =>
         {

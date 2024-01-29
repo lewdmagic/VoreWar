@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 #endregion
 
@@ -22,6 +23,8 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(output =>
             {
                 output.Names("Bat", "Bats");
+                
+                
                 output.FlavorText(new FlavorText(
                     new Texts {  },
                     new Texts {  },
@@ -29,11 +32,19 @@ namespace Races.Graphics.Implementations.MainRaces
                     new Dictionary<string, string>
                     {
                         [WeaponNames.Mace]        = "Push Dagger",
-                        [WeaponNames.Axe]         = "WeaponNames.Claw Katar",
+                        [WeaponNames.Axe]         = "Claw Katar",
                         [WeaponNames.SimpleBow]   = "Iron Throwing Knife",
                         [WeaponNames.CompoundBow] = "Steel Throwing Knife",
                     }
                 ));
+                
+                output.SetFlavorText(FlavorType.RaceSingleDescription, new FlavorEntry("bat"), new FlavorEntry("chiropter"), new FlavorEntry("demi-bat"));
+                output.SetFlavorText(FlavorType.WeaponMelee1, new FlavorEntry("Push Dagger"));
+                output.SetFlavorText(FlavorType.WeaponMelee2, new FlavorEntry("Claw Katar"));
+                output.SetFlavorText(FlavorType.WeaponRanged1, new FlavorEntry("Iron Throwing Knife"));
+                output.SetFlavorText(FlavorType.WeaponRanged2, new FlavorEntry("Steel Throwing Knife"));
+                
+                
                 output.RaceTraits(new RaceTraits()
                 {
                     BodySize = 8,

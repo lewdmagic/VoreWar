@@ -21,6 +21,25 @@ function setup(output)
             NewTextsBasic(),
             NewTextsBasic().Add("equine").Add("bronco").Add("mare", Gender.Female).Add("stallion", Gender.Male)
     ));
+    Log(Stat);
+
+    Log(FlavorType);
+    Log(FlavorType.RaceSingleDescription);
+
+    output.SetFlavorText(FlavorType.RaceSingleDescription,
+        FlavorEntryMaker.New("equine"),
+        FlavorEntryMaker.New("bronco"),
+        FlavorEntryMaker.New("mare", Gender.Female),
+        FlavorEntryMaker.New("stallion", Gender.Male)
+    );
+
+    output.SetFlavorText(FlavorType.WeaponMelee1, FlavorEntryMaker.New("Push Dagger"));
+    output.SetFlavorText(FlavorType.WeaponMelee2, FlavorEntryMaker.New("Claw Katar"));
+    output.SetFlavorText(FlavorType.WeaponRanged1, FlavorEntryMaker.New("Iron Throwing Knife"));
+    output.SetFlavorText(FlavorType.WeaponRanged2, FlavorEntryMaker.New("Steel Throwing Knife"));
+
+
+
 
     output.CustomizeButtons(function (unit, buttons)
         buttons.SetText(ButtonType.ClothingExtraType1, "Overtop");

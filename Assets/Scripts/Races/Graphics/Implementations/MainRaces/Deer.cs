@@ -27,7 +27,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FlavorText(new FlavorText(
                     new Texts {  },
                     new Texts {  },
-                    new Texts { "faun", "deer", {"doe", 0.5/5, Gender.Female}, {"roe", 0.5/5, Gender.Female}, {"buck", 0.5/5, Gender.Male}, {"stag", 0.5/5, Gender.Male}, {"hart", 0.5/5, Gender.Male} } 
+                    new Texts { "faun", "deer", {"doe", Gender.Female, 0.5/5 }, {"roe", Gender.Female, 0.5/5 }, {"buck", Gender.Male, 0.5/5 }, {"stag", Gender.Male, 0.5/5 }, {"hart", Gender.Male, 0.5/5 } } 
                 ));
                 output.RaceTraits(new RaceTraits()
                 {

@@ -30,9 +30,68 @@ public enum AIClass
     Custom
 }
 
+
+
+
+// For future refactoring
+public enum UnitAttribute
+{
+    HairColor = 0,
+    HairStyle = 1,
+    BeardStyle = 2,
+    SkinColor = 3,
+    AccessoryColor = 4,
+    EyeColor = 5,
+    ExtraColor1 = 6,
+    ExtraColor2 = 7,
+    ExtraColor3 = 8,
+    ExtraColor4 = 9,
+    EyeType = 10,
+    MouthType = 11,
+    BreastSize = 12,
+    DickSize = 13,
+    BodySize = 14,
+    SpecialAccessoryType = 15,
+    DefaultBreastSize = 16,
+    ClothingType = 17,
+    ClothingType2 = 18,
+    ClothingHatType = 19,
+    ClothingAccessoryType = 20,
+    ClothingExtraType1 = 21,
+    ClothingExtraType2 = 22,
+    ClothingExtraType3 = 23,
+    ClothingExtraType4 = 24,
+    ClothingExtraType5 = 25,
+    ClothingColor = 26,
+    ClothingColor2 = 27,
+    ClothingColor3 = 28,
+    HeadType = 29,
+    TailType = 30,
+    FurType = 31,
+    EarType = 32,
+    BodyAccentType1 = 33,
+    BodyAccentType2 = 34,
+    BodyAccentType3 = 35,
+    BodyAccentType4 = 36,
+    BodyAccentType5 = 37,
+    BallsSize = 38,
+    VulvaType = 39,
+    BasicMeleeWeaponType = 40,
+    AdvancedMeleeWeaponType = 41,
+    BasicRangedWeaponType = 42,
+    AdvancedRangedWeaponType = 43
+}
+
+
 public class Unit// : ISerializationCallbackReceiver, IUnitRead
 {
 
+    // For future refactoring
+    //[OdinSerialize]
+    //internal EnumIndexedArray<UnitAttribute, int> Attributes = new EnumIndexedArray<UnitAttribute, int>();
+    
+    
+    
     //
     // void ISerializationCallbackReceiver.OnAfterDeserialize()
     // {

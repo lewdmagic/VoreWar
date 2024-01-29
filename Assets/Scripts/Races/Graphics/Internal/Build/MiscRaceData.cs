@@ -155,6 +155,17 @@ public class MiscRaceData : IMiscRaceData
         _extraRaceInfo.FlavorText = flavorText;
     }
 
+    public void AddFlavorText(FlavorType type, params FlavorEntry[] entries)
+    {
+        _extraRaceInfo.FlavorText.AddEntries(type, entries);
+    }
+
+    public void SetFlavorText(FlavorType type, params FlavorEntry[] entries)
+    {
+        _extraRaceInfo.FlavorText.SetEntries(type, entries);
+    }
+    
+
     public void RaceTraits(RaceTraits raceTraits)
     {
         _extraRaceInfo.RaceTraits = raceTraits;

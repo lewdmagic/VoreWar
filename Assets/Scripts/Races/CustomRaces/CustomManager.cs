@@ -153,7 +153,7 @@ public class CustomManager
                 LuaBindableClothing clothing = ClothingFromFSData(fsClothingData);
                 _clothings[(fsClothingData.RaceId, fsClothingData.ClothingId)] = clothing;
             }
-            RaceFromFSData(fsRaceData);
+            RaceFromFsData(fsRaceData);
         }
     }
     
@@ -170,7 +170,7 @@ public class CustomManager
     }
 
 
-    private void RaceFromFSData(FSRaceData fsRaceData)
+    private void RaceFromFsData(FSRaceData fsRaceData)
     {
         RaceScriptUsable raceScriptUsable = LuaBridge.RacePrep(fsRaceData.RaceLuaCode, fsRaceData.RaceId);
         RaceDataMaker raceData = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>

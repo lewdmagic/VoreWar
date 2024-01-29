@@ -76,7 +76,7 @@ internal class ExtraRaceInfo
     internal WallType? WallType;
 
     internal Func<Unit, List<BoneInfo>> BoneTypesGen = DefaultBoneInfo;
-    internal FlavorText FlavorText;
+    internal FlavorText FlavorText = new FlavorText();
     internal RaceTraits RaceTraits;
 
     internal Action<Unit, EnumIndexedArray<ButtonType, CustomizerButton>> CustomizeButtonsAction;
@@ -103,7 +103,7 @@ internal class RaceBuilder : IRaceBuilder
         _template = template;
     }
     
-    public void Setup(Action<MiscRaceData> setupFunc)
+    public void Setup(Action<IMiscRaceData> setupFunc)
     {
         _setupFunc = setupFunc;
     }
