@@ -72,5 +72,13 @@ public interface IUnitRead
     
     bool Predator { get; }
     
+    Race Race { get; set; }
+    
     Race GetRace { get; }
+    
+    bool ImmuneToDefections { get; set; }
+    
+    Side Side { get; set; }
+
+    void SetDefaultBreastSize(int size, bool update = true);
 }

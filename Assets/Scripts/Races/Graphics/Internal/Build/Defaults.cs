@@ -34,7 +34,7 @@ public static class Defaults
     }
     
     
-    public static readonly Func<Actor_Unit, ColorSwapPalette> FurryColor = actor =>
+    public static readonly Func<IActorUnit, ColorSwapPalette> FurryColor = actor =>
     {
         if (actor.Unit.Furry)
         {
@@ -44,7 +44,7 @@ public static class Defaults
         return ColorPaletteMap.GetPalette(SwapType.Skin, actor.Unit.SkinColor);
     };
 
-    public static readonly Func<Actor_Unit, ColorSwapPalette> FurryColor2 = actor =>
+    public static readonly Func<IActorUnit, ColorSwapPalette> FurryColor2 = actor =>
     {
         if (actor.Unit.Furry)
         {
@@ -55,7 +55,7 @@ public static class Defaults
     };
 
 
-    private static readonly Func<Actor_Unit, ColorSwapPalette> FurryBellyColor = actor =>
+    private static readonly Func<IActorUnit, ColorSwapPalette> FurryBellyColor = actor =>
     {
         if (actor.Unit.Furry)
         {
@@ -88,7 +88,7 @@ public static class Defaults
 
     public static readonly Action<IRandomCustomInput> RandomCustom = input =>
     {
-        Unit unit = input.Unit;
+        IUnitRead unit = input.Unit;
         if (input.SetupOutput.BodySizes > 0)
         {
             if (State.RaceSettings.GetOverrideWeight(unit.Race))

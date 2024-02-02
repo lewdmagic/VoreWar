@@ -1,5 +1,5 @@
 public interface IRandomCustomInput
 {
-    Unit Unit { get; }
+    IUnitRead Unit { get; }
     ISetupOutput SetupOutput { get; }
 }

@@ -1,10 +1,10 @@
 public interface IClothingRenderInput
 {
-    Actor_Unit Actor { get; }
+    IActorUnit Actor { get; }
     
     // Shortcuts 
-    Actor_Unit A { get; }
-    Unit U { get; }
+    IActorUnit A { get; }
+    IUnitRead U { get; }
     
     string Sex { get; }
     string SimpleWeaponSpriteFrontV1 { get; }

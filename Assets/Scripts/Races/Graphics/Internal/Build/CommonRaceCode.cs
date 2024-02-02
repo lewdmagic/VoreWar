@@ -34,7 +34,7 @@ public static class CommonRaceCode
         return false;
     }
     
-    public static bool AreBreastsOverside(Actor_Unit actor, int highestBreastSprite)
+    public static bool AreBreastsOverside(IActorUnit actor, int highestBreastSprite)
     {
         int def = actor.Unit.DefaultBreastSize;
         

@@ -138,7 +138,7 @@ internal class RaceData : IRaceData
             SetupOutput = setupOutput;
         }
 
-        public Unit Unit { get; }
+        public IUnitRead Unit { get; }
         public ISetupOutput SetupOutput { get; }
     }
     ////////////////////////////////////////////////////////////////////////////

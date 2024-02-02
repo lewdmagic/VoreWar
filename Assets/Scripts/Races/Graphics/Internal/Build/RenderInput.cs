@@ -2,10 +2,10 @@ using System;
 
 public class RenderInput
 {
-    public Actor_Unit Actor { get; }
+    public IActorUnit Actor { get; }
     
-    public Actor_Unit A => Actor;
-    public Unit U => Actor.Unit;
+    public IActorUnit A => Actor;
+    public IUnitRead U => Actor.Unit;
 
     public string Sex => Actor.Unit.HasBreasts ? "female" : "male";
 

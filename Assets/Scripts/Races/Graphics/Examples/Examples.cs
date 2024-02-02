@@ -141,7 +141,7 @@ internal static class Examples
         builder.RandomCustom(data =>
         {
             Defaults.RandomCustom(data);
-            Unit unit = data.Unit;
+            IUnitRead unit = data.Unit;
 
             unit.SkinColor = State.Rand.Next(data.SetupOutput.SkinColors);
             unit.EyeType = State.Rand.Next(data.SetupOutput.EyeTypes);

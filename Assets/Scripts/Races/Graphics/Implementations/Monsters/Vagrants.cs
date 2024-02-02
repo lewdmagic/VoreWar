@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
     internal static class Vagrants
     {
 
-        public static Sprite[] CalcSprites(Actor_Unit actor)
+        public static Sprite[] CalcSprites(IActorUnit actor)
         {
             Sprite[][] vagrantSprites =
             {

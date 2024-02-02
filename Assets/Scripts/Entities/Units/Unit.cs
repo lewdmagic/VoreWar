@@ -83,7 +83,7 @@ public enum UnitAttribute
 }
 
 
-public class Unit// : ISerializationCallbackReceiver, IUnitRead
+public class Unit : IUnitRead //ISerializationCallbackReceiver,
 {
 
     // For future refactoring
@@ -111,9 +111,10 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
     //     InitializeFixedSide(Side);
     // }
     //
-    
-    [OdinSerialize]
-    public Side Side;
+
+    [OdinSerialize] 
+    public Side Side { get; set; }
+
     [OdinSerialize]
     internal Unit _controller = null;
 
@@ -160,7 +161,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
 
     
     [OdinSerialize] 
-    public Race Race;
+    public Race Race { get; set; }
     public Race GetRace => Race;
     
     [OdinSerialize]
@@ -354,7 +355,7 @@ public class Unit// : ISerializationCallbackReceiver, IUnitRead
     [OdinSerialize]
     public bool Predator { get; set; }
     [OdinSerialize]
-    public bool ImmuneToDefections;
+    public bool ImmuneToDefections { get; set; }
     [OdinSerialize]
     public bool FixedGear;
 
@@ -2116,7 +2117,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     public void SetSizeToDefault() => BreastSize = DefaultBreastSize;
 
-    internal void SetDefaultBreastSize(int size, bool update = true)
+    public void SetDefaultBreastSize(int size, bool update = true)
     {
         DefaultBreastSize = size;
         if (update) BreastSize = DefaultBreastSize;

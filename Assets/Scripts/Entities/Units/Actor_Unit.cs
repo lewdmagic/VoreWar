@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Actor_Unit
+public class Actor_Unit : IActorUnit
 {
     enum DisplayMode
     {
@@ -58,12 +58,12 @@ public class Actor_Unit
     [OdinSerialize]
     public bool Visible;
     [OdinSerialize]
-    public bool Targetable;
+    public bool Targetable { get; set; }
     [OdinSerialize]
     public bool ReceivedRub;
 
-    [OdinSerialize]
-    public bool Surrendered;
+    [OdinSerialize] 
+    public bool Surrendered { get; set; }
 
     public bool DefectedThisTurn;
 
@@ -155,10 +155,10 @@ public class Actor_Unit
         set => _unitSprite = value;
     }
 
-    internal bool SquishedBreasts = false;
+    public bool SquishedBreasts { get; set; } = false;
 
-    [OdinSerialize]
-    public PredatorComponent PredatorComponent;
+    [OdinSerialize] 
+    public PredatorComponent PredatorComponent { get; set; }
 
     Race animationControllerRace;
 

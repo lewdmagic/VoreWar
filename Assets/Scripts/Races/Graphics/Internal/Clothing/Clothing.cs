@@ -12,7 +12,7 @@ public abstract class ClothingDataShared : IClothing
         FixedData = fixedData;
     }
 
-    public bool CanWear(Unit unit)
+    public bool CanWear(IUnitRead unit)
     {
         if (FixedData.MaleOnly && (unit.HasBreasts || unit.HasDick == false))
         {
