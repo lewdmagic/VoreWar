@@ -1,12 +1,14 @@
-public interface IClothingRenderInput : IRunInput
+public interface IClothingRenderInput
 {
+    Actor_Unit Actor { get; }
     
-}
-
-public class ClothingRenderInput : RenderInput, IClothingRenderInput
-{
-    public ClothingRenderInput(Actor_Unit actor) : base(actor)
-    {
-        
-    }
+    // Shortcuts 
+    Actor_Unit A { get; }
+    Unit U { get; }
+    
+    string Sex { get; }
+    string SimpleWeaponSpriteFrontV1 { get; }
+    string SimpleWeaponSpriteBackV1 { get; }
+    
+    SpriteDictionary Sprites { get; }
 }

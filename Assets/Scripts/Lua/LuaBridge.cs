@@ -256,7 +256,15 @@ end");
             },
             (output) =>
             {
-                script.Call(randomCustom, output);
+                try
+                {
+                    script.Call(randomCustom, output);
+                }
+                catch (ScriptRuntimeException ex)
+                {
+                    Debug.LogError("Doh! An error occured! " + ex.Message);
+                    Debug.LogError("Doh! An error occured! " + ex.DecoratedMessage);
+                }
             }
         );
 

@@ -10,9 +10,9 @@ public interface ISetupOutput
 {
     
     void Names(string singularName, string pluralName);
-    void Names(string singularName, Func<INameInput, string> pluralName);
-    void Names(Func<INameInput, string> singularName, string pluralName);
-    void Names(Func<INameInput, string> singularName, Func<INameInput, string> pluralName);
+    void Names(string singularName, Func<INameInput,string> pluralName);
+    void Names(Func<INameInput,string> singularName, string pluralName);
+    void Names(Func<INameInput,string> singularName, Func<INameInput,string> pluralName);
 
     void TownNames(List<string> nameList);
     void PreyTownNames(List<string> nameList);
@@ -20,7 +20,7 @@ public interface ISetupOutput
     
     void WallType(WallType wallType);
 
-    void BonesInfo(Func<Unit, List<BoneInfo>> boneTypesGen);
+    void BonesInfo(Func<Unit,List<BoneInfo>> boneTypesGen);
 
     void FlavorText(FlavorText flavorText);
     void SetFlavorText(FlavorType type, params FlavorEntry[] numbers);
@@ -29,8 +29,7 @@ public interface ISetupOutput
     void RaceTraits(RaceTraits raceTraits);
     void SetRaceTraits(Action<RaceTraits> setRaceTraits);
 
-    //void CustomizeButtons(Action<Unit, EnumIndexedArray<ButtonType, CustomizerButton>> action);
-    void CustomizeButtons(Action<Unit, ButtonCustomizer> action);
+    void CustomizeButtons(Action<Unit,ButtonCustomizer> action);
     
     
     
@@ -45,7 +44,7 @@ public interface ISetupOutput
     /// <summary>Whether a unit has the breast vore system, with extended sizes and the two sides being independent.</summary>
     bool ExtendedBreastSprites { get; set; }
 
-    /// <summary>Whether a unit uses the gentler version of the stomach wobble (1/2 to 1/3rd the motion)</summary>
+    /// <summary>Whether a unit uses the gentler version of the stomach wobble [1/2 to 1/3rd the motion]</summary>
     bool GentleAnimation { get; set; }
 
     bool BaseBody { get; set; }
