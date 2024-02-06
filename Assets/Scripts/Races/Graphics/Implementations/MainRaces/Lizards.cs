@@ -24,7 +24,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class Lizards
     {
         
-        private static bool IsFacingFront(Actor_Unit actor)
+        private static bool IsFacingFront(IActorUnit actor)
         {
             if (actor.IsAnalVoring || actor.IsUnbirthing)
             {
@@ -707,7 +707,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 if (unit.Type == UnitType.Leader)
                 {
@@ -728,7 +728,7 @@ namespace Races.Graphics.Implementations.MainRaces
         });
 
 
-        //protected override Color BodyColor(Actor_Unit actor) => ColorMap.GetLizardColor(actor.Unit.AccessoryColor);
-        //protected override Color BodyAccessoryColor(Actor_Unit actor) => ColorMap.GetLizardColor(actor.Unit.AccessoryColor);
+        //protected override Color BodyColor(IActorUnit actor) => ColorMap.GetLizardColor(actor.Unit.AccessoryColor);
+        //protected override Color BodyAccessoryColor(IActorUnit actor) => ColorMap.GetLizardColor(actor.Unit.AccessoryColor);
     }
 }

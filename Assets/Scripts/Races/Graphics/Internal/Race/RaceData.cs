@@ -67,7 +67,7 @@ internal class RaceData : IRaceData
         return ExtraRaceInfo2;
     }
 
-    public RaceTraits RaceTraits() => ExtraRaceInfo2.RaceTraits ?? RaceParameters.Default;
+    public IRaceTraits RaceTraits() => ExtraRaceInfo2.RaceTraits ?? RaceParameters.Default;
 
 
     

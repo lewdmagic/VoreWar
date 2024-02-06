@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.Monsters
             Aboveground
         }
 
-        private static Position CalcPosition(Actor_Unit actor)
+        private static Position CalcPosition(IActorUnit actor)
         {
             return !actor.HasAttackedThisCombat ? Position.Underground : Position.Aboveground;
         }
@@ -296,7 +296,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(Defaults.RandomCustom);
         });
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

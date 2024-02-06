@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.Monsters
             Standing
         }
 
-        private static Position CalcPosition(Actor_Unit actor)
+        private static Position CalcPosition(IActorUnit actor)
         {
             if (actor.IsPouncingFrog)
             {

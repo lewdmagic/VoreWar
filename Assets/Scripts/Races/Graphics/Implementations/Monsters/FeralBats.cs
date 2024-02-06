@@ -199,12 +199,12 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 unit.SkinColor = State.Rand.Next(0, data.SetupOutput.SkinColors);
             });
         });
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

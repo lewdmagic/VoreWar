@@ -334,7 +334,7 @@ namespace Races.Graphics.Implementations.Monsters
         });
 
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

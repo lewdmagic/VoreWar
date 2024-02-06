@@ -754,7 +754,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 Defaults.RandomCustom(data);
 
                 unit.BodySize = State.Rand.Next(0, data.SetupOutput.BodySizes);
@@ -796,7 +796,7 @@ namespace Races.Graphics.Implementations.MainRaces
         });
 
 
-        internal static void SetUpAnimations(Actor_Unit actor)
+        internal static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

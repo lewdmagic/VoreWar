@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
     internal static class Zoey
     {
 
-        private static BodyState CalcBodyState(Actor_Unit actor)
+        private static BodyState CalcBodyState(IActorUnit actor)
         {
             if (actor.AnimationController?.frameLists[0].currentlyActive ?? false)
             {
@@ -353,13 +353,13 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.Name = "Zoey";
             });
         });
 
-        internal static void SetUpAnimations(Actor_Unit actor)
+        internal static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

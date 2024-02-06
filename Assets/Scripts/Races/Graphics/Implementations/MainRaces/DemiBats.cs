@@ -576,7 +576,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 Defaults.RandomCustom(data);
 
                 if (unit.Type == UnitType.Leader)
@@ -626,7 +626,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
         });
 
-        private static ColorSwapPalette FurryColor(Actor_Unit actor)
+        private static ColorSwapPalette FurryColor(IActorUnit actor)
         {
             if (actor.Unit.Furry)
             {
@@ -636,7 +636,7 @@ namespace Races.Graphics.Implementations.MainRaces
             return ColorPaletteMap.GetPalette(SwapType.DemibatHumanSkin, actor.Unit.SkinColor);
         }
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

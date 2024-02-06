@@ -52,7 +52,5 @@
     AssumeForm = 112,
     RevertForm = 113,
     ManaExpolsion = 114,
-
-
 }
 

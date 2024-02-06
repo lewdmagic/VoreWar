@@ -332,7 +332,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.BodySize = State.Rand.Next(0, 4);
                 unit.EyeType = State.Rand.Next(0, 3);
@@ -349,7 +349,7 @@ namespace Races.Graphics.Implementations.Monsters
             });
         });
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {
@@ -358,7 +358,7 @@ namespace Races.Graphics.Implementations.Monsters
             }; // Tongue controller. Index 1.
         }
 
-        private static string GetRaceSpecialName(Unit unit)
+        private static string GetRaceSpecialName(IUnitRead unit)
         {
             int rand = State.Rand.Next(0, 20);
 

@@ -45,7 +45,7 @@ public class World
     public TacticalData TacticalData;
 
     [OdinSerialize]
-    internal Dictionary<Side, Dictionary<Side, Relationship>> Relations;
+    internal Dictionary<Side, Dictionary<Side, Relationship>> Relations = new Dictionary<Side, Dictionary<Side, Relationship>>();
 
     [OdinSerialize]
     public bool crazyBuildings = false;

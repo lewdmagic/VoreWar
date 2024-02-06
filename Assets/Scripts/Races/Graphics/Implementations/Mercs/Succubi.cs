@@ -323,7 +323,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.BodySize = 1;
                 unit.ClothingColor2 = State.Rand.Next(8);

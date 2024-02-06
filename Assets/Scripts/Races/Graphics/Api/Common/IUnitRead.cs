@@ -79,6 +79,9 @@ public interface IUnitRead
     bool ImmuneToDefections { get; set; }
     
     Side Side { get; set; }
+    List<SpellType> InnateSpells { get; set; }
+    string Name { get; set; }
+    VoreType PreferredVoreType { get; set; }
 
     void SetDefaultBreastSize(int size, bool update = true);
 }

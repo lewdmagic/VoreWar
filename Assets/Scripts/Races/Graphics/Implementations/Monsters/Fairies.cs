@@ -1,13 +1,10 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Races.Graphics.Implementations.Monsters
 {
 
-    #endregion
 
     internal enum FairyType
     {
@@ -19,7 +16,7 @@ namespace Races.Graphics.Implementations.Monsters
 
     internal static class FairyUtil
     {
-        internal static void SetSeason(Unit unit, FairyType season)
+        internal static void SetSeason(IUnitRead unit, FairyType season)
         {
             unit.BodyAccentType1 = (int)season;
             switch (season)
@@ -39,12 +36,12 @@ namespace Races.Graphics.Implementations.Monsters
             }
         }
 
-        internal static FairyType GetSeason(Unit unit)
+        internal static FairyType GetSeason(IUnitRead unit)
         {
             return (FairyType)unit.BodyAccentType1;
         }
 
-        internal static ColorSwapPalette GetClothesColor(Actor_Unit actor)
+        internal static ColorSwapPalette GetClothesColor(IActorUnit actor)
         {
             switch (GetSeason(actor.Unit))
             {
@@ -64,7 +61,7 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal const float GeneralSizeMod = 0.8f;
 
-        private static FairyParameters CalcFairyParameters(Actor_Unit actor)
+        private static FairyParameters CalcFairyParameters(IActorUnit actor)
         {
             return new FairyParameters()
             {
@@ -535,7 +532,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.HairStyle = State.Rand.Next(7);
                 FairyUtil.SetSeason(unit, (FairyType)State.Rand.Next(4));
@@ -543,7 +540,7 @@ namespace Races.Graphics.Implementations.Monsters
         });
 
 
-        private static ColorSwapPalette GetHairColor(IRaceRenderInput input, Actor_Unit actor)
+        private static ColorSwapPalette GetHairColor(IRaceRenderInput input, IActorUnit actor)
         {
             switch (CalcFairyParameters(input.A).Season)
             {
@@ -559,7 +556,7 @@ namespace Races.Graphics.Implementations.Monsters
         }
 
 
-        private static ColorSwapPalette GetSkinColor(IRaceRenderInput input, Actor_Unit actor)
+        private static ColorSwapPalette GetSkinColor(IRaceRenderInput input, IActorUnit actor)
         {
             switch (CalcFairyParameters(input.A).Season)
             {
@@ -575,7 +572,7 @@ namespace Races.Graphics.Implementations.Monsters
         }
 
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

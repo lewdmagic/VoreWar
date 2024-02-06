@@ -82,7 +82,7 @@ namespace Races.Graphics.Implementations.Mercs
     readonly Sprite[] Sprites3 = State.GameManager.SpriteDictionary.HumansBodySprites3;
     readonly Sprite[] Tails = State.GameManager.SpriteDictionary.YoukoTails;
 
-    static ColorSwapPalette FurryColor(Actor_Unit actor)
+    static ColorSwapPalette FurryColor(IActorUnit actor)
     {
         if (actor.Unit.Furry)
             return ColorPaletteMap.GetPalette(ColorPaletteMap.SwapType.RedFur, actor.Unit.AccessoryColor);
@@ -187,7 +187,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         RandomCustom = (data) =>
         {
-            Unit unit = data.Unit;
+            IUnitRead unit = data.Unit;
             Defaults.RandomCustom(data);
 
             if (unit.HasDick && unit.HasBreasts)
@@ -226,7 +226,7 @@ namespace Races.Graphics.Implementations.Mercs
         MiscRaceData.BeardStyles = 0;
     }
 
-    private int GetNumTails(Actor_Unit actor)
+    private int GetNumTails(IActorUnit actor)
     {
         int StatTotal = actor.Unit.GetStatTotal();
         if (StatTotal < 85)
@@ -235,7 +235,7 @@ namespace Races.Graphics.Implementations.Mercs
 
     }
 
-    public bool CheckVore(Actor_Unit actor, Actor_Unit target, PreyLocation location)
+    public bool CheckVore(IActorUnit actor, Actor_Unit target, PreyLocation location)
     {
         if(location == PreyLocation.tail)
         {

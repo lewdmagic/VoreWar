@@ -2,6 +2,7 @@ using OdinSerializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public enum ItemType
 {
@@ -191,7 +192,9 @@ public class ItemRepository
 
     public Item GetMonsterItem(Race i)
     {
-        return monsterItems[i];
+        Item item = monsterItems.GetOrNull(i);
+        if (item == null) Debug.Log(i);
+        return item;
     }
 
     public Item GetSpecialItem(SpecialItems i) => specialItems[(int)i];

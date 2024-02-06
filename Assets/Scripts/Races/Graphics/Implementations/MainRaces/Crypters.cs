@@ -223,7 +223,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 Defaults.RandomCustom(data);
 
                 if (unit.HasDick && unit.HasBreasts)

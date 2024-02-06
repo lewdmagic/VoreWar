@@ -584,14 +584,14 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.Name = "Ki";
                 unit.PreferredVoreType = VoreType.Oral;
             });
         });
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {
@@ -600,7 +600,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             }; // Fap controller. Index 1.
         }
 
-        private static int BellySize(Actor_Unit actor)
+        private static int BellySize(IActorUnit actor)
         {
             if (actor.Unit.Predator == false)
             {

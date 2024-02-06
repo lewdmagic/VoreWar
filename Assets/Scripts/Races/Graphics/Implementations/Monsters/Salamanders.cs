@@ -284,7 +284,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(Defaults.RandomCustom);
         });
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

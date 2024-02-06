@@ -6,7 +6,7 @@ using UnityEngine;
  
 public interface IClothing
 {
-    IClothingDataFixed FixedData { get; }
+    IClothingSetupOutput FixedData { get; }
     bool CanWear(IUnitRead unit);
     ClothingRenderOutput Configure(Actor_Unit actor, ISpriteChanger changeDict);
 }

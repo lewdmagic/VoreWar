@@ -1,10 +1,15 @@
 API_VERSION = "0.0.1"
 
-function setup(input, output)
+---comment
+---@param input IClothingSetupInput
+---@param output IClothingSetupOutput
+function Setup(input, output)
     output.DiscardUsesPalettes = true;
 end
 
-function render(input, output)
+---@param input IClothingRenderInput
+---@param output IClothingRenderOutput
+function Render(input, output)
     output.DisableDick();
     
     output.NewSprite("main", 15)

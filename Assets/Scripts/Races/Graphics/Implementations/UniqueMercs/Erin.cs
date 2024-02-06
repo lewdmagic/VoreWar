@@ -173,7 +173,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.Name = "Erin";
                 unit.ClothingAccessoryType = State.Rand.Next(2);

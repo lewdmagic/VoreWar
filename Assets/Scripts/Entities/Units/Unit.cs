@@ -6,17 +6,6 @@ using System.Linq;
 using Races.Graphics.Implementations.Monsters;
 using UnityEngine;
 
-public enum UnitType
-{
-    Soldier,
-    Leader,
-    Mercenary,
-    Summon,
-    SpecialMercenary,
-    Adventurer,
-    Spawn,
-}
-
 public enum AIClass
 {
     Default,
@@ -83,8 +72,19 @@ public enum UnitAttribute
 }
 
 
-public class Unit : IUnitRead //ISerializationCallbackReceiver,
+public class Unit : IUnitRead//, ISerializationCallbackReceiver
 {
+    
+    // void ISerializationCallbackReceiver.OnAfterDeserialize()
+    // {
+    //     Debug.Log("load Items: " + Items);
+    // }
+    //
+    // void ISerializationCallbackReceiver.OnBeforeSerialize()
+    // {
+    //     Debug.Log("Items: " + Items);
+    // }
+    //
 
     // For future refactoring
     //[OdinSerialize]
@@ -363,7 +363,7 @@ public class Unit : IUnitRead //ISerializationCallbackReceiver,
     public Unit AttractedTo;
 
     [OdinSerialize]
-    internal VoreType PreferredVoreType;
+    public VoreType PreferredVoreType { get; set; }
 
     [OdinSerialize]
     internal Unit SavedCopy;
@@ -402,7 +402,7 @@ public class Unit : IUnitRead //ISerializationCallbackReceiver,
     }
 
     [OdinSerialize]
-    public List<SpellType> InnateSpells;
+    public List<SpellType> InnateSpells { get; set; }
 
     private List<Spell> _useableSpells;
 
@@ -1814,7 +1814,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
 
     internal void SetMaxItems()
     {
-
+        Items = new Item[0];
         if (HasTrait(TraitType.Resourceful) == false)
         {
             if (Items.Count() == 3)
@@ -1942,7 +1942,11 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         Tags = new List<TraitType>();
         if (Config.RaceTraitsEnabled)
         {
-            Tags.AddRange(State.RaceSettings.GetRaceTraits(HiddenUnit.Race));
+            var traits = State.RaceSettings.GetRaceTraits(HiddenUnit.Race);
+            // TODO it's possible that this should never need a null check *if* it's working correctly
+            // So it might not be working correctly right now, and fixing it would require removing this
+            // This could be hiding an exception that *should* actually happen
+            if (traits != null) Tags.AddRange(traits);
         }
 
         if (HiddenUnit.HasBreasts && HiddenUnit.HasDick == false)

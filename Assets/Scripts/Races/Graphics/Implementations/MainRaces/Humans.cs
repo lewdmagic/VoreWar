@@ -682,7 +682,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 Defaults.RandomCustom(data);
 
                 if (unit.HasDick && unit.HasBreasts)
@@ -857,7 +857,7 @@ namespace Races.Graphics.Implementations.MainRaces
             }
         }
 
-        private static ColorSwapPalette FurryColor(Actor_Unit actor)
+        private static ColorSwapPalette FurryColor(IActorUnit actor)
         {
             if (actor.Unit.Furry)
             {

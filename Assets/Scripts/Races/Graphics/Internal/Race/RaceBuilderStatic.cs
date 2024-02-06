@@ -33,11 +33,6 @@ internal static class RaceBuilderStatic
     }
 }
 
-public interface INameInput
-{
-    Gender GetGender();
-}
-
 internal class NameInput : INameInput
 {
     public Gender GetGender() => _gender;
@@ -77,7 +72,7 @@ internal class ExtraRaceInfo
 
     internal Func<Unit, List<BoneInfo>> BoneTypesGen = DefaultBoneInfo;
     internal FlavorText FlavorText = new FlavorText();
-    internal RaceTraits RaceTraits;
+    internal IRaceTraits RaceTraits;
 
     internal Action<Unit, EnumIndexedArray<ButtonType, CustomizerButton>> CustomizeButtonsAction;
     internal Action<Unit, ButtonCustomizer> CustomizeButtonsAction2;

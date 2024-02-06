@@ -315,13 +315,13 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
             });
         });
 
-        internal static void SetUpAnimations(Actor_Unit actor)
+        internal static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

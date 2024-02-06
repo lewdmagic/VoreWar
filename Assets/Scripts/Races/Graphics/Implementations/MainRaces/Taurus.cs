@@ -534,7 +534,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
 
                 if (unit.Type == UnitType.Leader)
@@ -579,7 +579,7 @@ namespace Races.Graphics.Implementations.MainRaces
         });
 
 
-        private static ColorSwapPalette FurryColor(Actor_Unit actor)
+        private static ColorSwapPalette FurryColor(IActorUnit actor)
         {
             if (actor.Unit.Furry)
             {
@@ -589,7 +589,7 @@ namespace Races.Graphics.Implementations.MainRaces
             return ColorPaletteMap.GetPalette(SwapType.Skin, actor.Unit.SkinColor);
         }
 
-        private static ColorSwapPalette FurryBellyColor(Actor_Unit actor)
+        private static ColorSwapPalette FurryBellyColor(IActorUnit actor)
         {
             if (actor.Unit.Furry)
             {

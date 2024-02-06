@@ -600,7 +600,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 Defaults.RandomCustom(data);
 
 
@@ -668,7 +668,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
         });
 
-        private static ColorSwapPalette SharkColor(Actor_Unit actor)
+        private static ColorSwapPalette SharkColor(IActorUnit actor)
         {
             if (actor.Unit.BodyAccentType1 == 0)
             {

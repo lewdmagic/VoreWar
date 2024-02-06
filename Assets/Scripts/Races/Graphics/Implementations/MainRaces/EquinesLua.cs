@@ -38,7 +38,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class HorseUndertops
         {
-            internal static BindableClothing<IOverSizeParameters> MakeCommon(ClothingId clothingId, Sprite discard, Sprite sprite1, Func<Actor_Unit, Sprite> sprite2)
+            internal static BindableClothing<IOverSizeParameters> MakeCommon(ClothingId clothingId, Sprite discard, Sprite sprite1, Func<IActorUnit, Sprite> sprite2)
             {
                 return ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {

@@ -117,7 +117,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 if (unit.ClothingType != 0)
                 {

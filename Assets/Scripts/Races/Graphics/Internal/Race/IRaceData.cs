@@ -18,7 +18,7 @@ internal interface IRaceData
     List<BoneInfo> BoneInfo(Unit unit);
 
     FlavorText FlavorText();
-    RaceTraits RaceTraits();
+    IRaceTraits RaceTraits();
     void CustomizeButtons(Unit unit, EnumIndexedArray<ButtonType, CustomizerButton> buttons);
 
     ExtraRaceInfo ExtraRaceInfo();

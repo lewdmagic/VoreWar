@@ -18,7 +18,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
         }
 
         // TODO Performance can be dramatically improved by combining renderSingle into renderAll
-        private static ZeraParameters CalcZeraParameters(Actor_Unit actor)
+        private static ZeraParameters CalcZeraParameters(IActorUnit actor)
         {
             return new ZeraParameters()
             {
@@ -27,7 +27,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             };
         }
 
-        private static int CalcStomachSize(Actor_Unit actor)
+        private static int CalcStomachSize(IActorUnit actor)
         {
             BodyStateType bodyState = CalcBodyStateType(actor);
             
@@ -89,7 +89,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
              */
         }
         
-        private static BodyStateType CalcBodyStateType(Actor_Unit actor)
+        private static BodyStateType CalcBodyStateType(IActorUnit actor)
         {
             int stomachSize = actor.GetStomachSize(19);
             //extra.StomachSize = actor.Unit.BodyAccentType1;
@@ -504,7 +504,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.Name = "Zera";
             });

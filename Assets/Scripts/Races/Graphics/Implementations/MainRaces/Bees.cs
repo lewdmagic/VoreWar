@@ -537,7 +537,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RunBefore(Defaults.BasicBellyRunAfter);
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 Defaults.RandomCustom(data);
 
                 if (unit.HasDick && unit.HasBreasts)
@@ -581,7 +581,7 @@ namespace Races.Graphics.Implementations.MainRaces
         });
 
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {
@@ -590,7 +590,7 @@ namespace Races.Graphics.Implementations.MainRaces
         }
 
 
-        internal static bool IsOverSize(Actor_Unit actor)
+        internal static bool IsOverSize(IActorUnit actor)
         {
             if (actor.PredatorComponent?.LeftBreastFullness > 0)
             {

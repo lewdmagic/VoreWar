@@ -391,7 +391,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
 
                 if (unit.Type == UnitType.Mercenary)

@@ -9,7 +9,7 @@ namespace Races.Graphics.Implementations.Monsters
     internal static class FeralLions
     {
 
-        private static bool IsHindView(Actor_Unit actor)
+        private static bool IsHindView(IActorUnit actor)
         {
             if (actor.IsAnalVoring || actor.IsUnbirthing || actor.IsCockVoring)
             {
@@ -310,7 +310,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
 
                 if (unit.GetGender() == Gender.Female || (unit.GetGender() == Gender.Hermaphrodite && Config.HermsOnlyUseFemaleHair))

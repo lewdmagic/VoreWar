@@ -1115,7 +1115,7 @@ public class PredatorComponent
                     if (!preyUnit.Unit.HasTrait(TraitType.Untamable))
                         preyUnit.Unit.FixedSide = unit.FixedSide;
                     preyUnit.Unit.hiddenFixedSide = true;
-                    preyUnit.Actor.sidesAttackedThisBattle = new List<Side>();
+                    preyUnit.Actor.SidesAttackedThisBattle = new List<Side>();
                 }
                 //if (preyUnit.Unit.HasTrait(Traits.Shapeshifter) || preyUnit.Unit.HasTrait(Traits.Skinwalker))
                 //{
@@ -2398,9 +2398,9 @@ public class PredatorComponent
         }
         if (!Equals(actor.Unit.GetApparentSide(), target.Unit.GetApparentSide()))
         {
-            if (actor.sidesAttackedThisBattle == null)
-                actor.sidesAttackedThisBattle = new List<Side>();
-            actor.sidesAttackedThisBattle.Add(target.Unit.GetApparentSide());
+            if (actor.SidesAttackedThisBattle == null)
+                actor.SidesAttackedThisBattle = new List<Side>();
+            actor.SidesAttackedThisBattle.Add(target.Unit.GetApparentSide());
         }
         State.GameManager.TacticalMode.AITimer = Config.TacticalVoreDelay;
         if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.turboMode == false)
@@ -2508,9 +2508,9 @@ public class PredatorComponent
             }
             if (!Equals(actor.Unit.GetApparentSide(), target.Unit.GetApparentSide()))
             {
-                if (actor.sidesAttackedThisBattle == null)
-                    actor.sidesAttackedThisBattle = new List<Side>();
-                actor.sidesAttackedThisBattle.Add(target.Unit.GetApparentSide());
+                if (actor.SidesAttackedThisBattle == null)
+                    actor.SidesAttackedThisBattle = new List<Side>();
+                actor.SidesAttackedThisBattle.Add(target.Unit.GetApparentSide());
             }
             float r = (float)State.Rand.NextDouble();
             float v = target.GetDevourChance(actor, skillBoost: boost);
@@ -3352,7 +3352,7 @@ public class PredatorComponent
                 if (unit.HasTrait(TraitType.Corruption) || preyUnit.Unit.HasTrait(TraitType.Corruption))
                 {
                     alreadyChild.Unit.hiddenFixedSide = true;
-                    alreadyChild.sidesAttackedThisBattle = new List<Side>();
+                    alreadyChild.SidesAttackedThisBattle = new List<Side>();
                     alreadyChild.Unit.RemoveTrait(TraitType.Corruption);
                     alreadyChild.Unit.AddPermanentTrait(TraitType.Corruption);
                 }

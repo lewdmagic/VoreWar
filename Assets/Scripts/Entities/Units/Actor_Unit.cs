@@ -49,14 +49,15 @@ public class Actor_Unit : IActorUnit
     }
 
 
-    [OdinSerialize]
+    [OdinSerialize] IUnitRead IActorUnit.Unit => Unit;
+    
     public Unit Unit { get; private set; }
     [OdinSerialize]
     public Vec2i Position { get; private set; }
     [OdinSerialize]
     public int Movement;
     [OdinSerialize]
-    public bool Visible;
+    public bool Visible { get; set; }
     [OdinSerialize]
     public bool Targetable { get; set; }
     [OdinSerialize]
@@ -76,8 +77,9 @@ public class Actor_Unit : IActorUnit
 
     [OdinSerialize]
     public Weapon BestMelee;
-    [OdinSerialize]
-    public Weapon BestRanged;
+
+    [OdinSerialize] 
+    public Weapon BestRanged { get; set; }
 
     [OdinSerialize]
     public bool Fled;
@@ -124,7 +126,7 @@ public class Actor_Unit : IActorUnit
     internal int AIAvoidEat;
 
     [OdinSerialize]
-    internal int TurnUsedShun = -5;
+    public int TurnUsedShun { get; set; } = -5;
 
     [OdinSerialize]
     internal int TurnsSinceLastDamage = 9999;
@@ -136,7 +138,7 @@ public class Actor_Unit : IActorUnit
     internal int spriteLayerOffset = 0;
 
     [OdinSerialize]
-    public bool HasAttackedThisCombat = false;
+    public bool HasAttackedThisCombat { get; set; }= false;
 
     [OdinSerialize]
     public bool allowedToDefect = false;
@@ -535,7 +537,7 @@ public class Actor_Unit : IActorUnit
         return 0;
     }
 
-    internal bool DamagedColors => Mode == DisplayMode.Injured;
+    public bool DamagedColors => Mode == DisplayMode.Injured;
 
     /// <summary>
     /// Splits the chain of sprites evenly based on the ball size (Oral + Unbirth)
@@ -767,7 +769,7 @@ public class Actor_Unit : IActorUnit
     public bool IsRubbing => Mode == DisplayMode.Rubbing;
     public bool IsBeingRubbed => Mode == DisplayMode.Rubbed;
     [OdinSerialize]
-    public List<Side> sidesAttackedThisBattle { get; set; }
+    public List<Side> SidesAttackedThisBattle { get; set; }
 
     public float GetSpecialChance(SpecialAction action)
     {
@@ -1564,9 +1566,9 @@ public class Actor_Unit : IActorUnit
         }
         if (!Equals(attacker.Unit.GetApparentSide(), Unit.GetApparentSide()))
         {
-            if (attacker.sidesAttackedThisBattle == null)
-                attacker.sidesAttackedThisBattle = new List<Side>();
-            attacker.sidesAttackedThisBattle.Add(Unit.GetApparentSide());
+            if (attacker.SidesAttackedThisBattle == null)
+                attacker.SidesAttackedThisBattle = new List<Side>();
+            attacker.SidesAttackedThisBattle.Add(Unit.GetApparentSide());
         }
         if (Unit.IsDead)
             return false;
@@ -1620,9 +1622,9 @@ public class Actor_Unit : IActorUnit
         }
         if (!Equals(attacker.Unit.GetApparentSide(), Unit.GetApparentSide()) && !spell.AcceptibleTargets.Contains(AbilityTargets.Ally))
         {
-            if (attacker.sidesAttackedThisBattle == null)
-                attacker.sidesAttackedThisBattle = new List<Side>();
-            attacker.sidesAttackedThisBattle.Add(Unit.GetApparentSide());
+            if (attacker.SidesAttackedThisBattle == null)
+                attacker.SidesAttackedThisBattle = new List<Side>();
+            attacker.SidesAttackedThisBattle.Add(Unit.GetApparentSide());
         }
         if (DefendSpellCheck(spell, attacker, out float chance, sneakAttack ? -0.3f : 0f, stat))
         {
@@ -1691,9 +1693,9 @@ public class Actor_Unit : IActorUnit
         }
         if (!Equals(attacker.Unit.GetApparentSide(), Unit.GetApparentSide()))
         {
-            if (attacker.sidesAttackedThisBattle == null)
-                attacker.sidesAttackedThisBattle = new List<Side>();
-            attacker.sidesAttackedThisBattle.Add(Unit.GetApparentSide());
+            if (attacker.SidesAttackedThisBattle == null)
+                attacker.SidesAttackedThisBattle = new List<Side>();
+            attacker.SidesAttackedThisBattle.Add(Unit.GetApparentSide());
         }
         State.GameManager.TacticalMode.AITimer = Config.TacticalAttackDelay;
         if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.turboMode == false)
@@ -2833,7 +2835,7 @@ public class Actor_Unit : IActorUnit
                 if (!Unit.HasTrait(TraitType.Untamable))
                     Unit.FixedSide = side;
                 Unit.hiddenFixedSide = true;
-                sidesAttackedThisBattle = new List<Side>();
+                SidesAttackedThisBattle = new List<Side>();
             }
         } else
             Corruption = 0;
@@ -2865,7 +2867,7 @@ public class Actor_Unit : IActorUnit
                 if (!this.Unit.HasTrait(TraitType.Untamable))
                     this.Unit.Controller = possessor.Unit;
                 this.Unit.hiddenFixedSide = true;
-                sidesAttackedThisBattle = new List<Side>();
+                SidesAttackedThisBattle = new List<Side>();
             }
             return true;
         }

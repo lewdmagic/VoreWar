@@ -1,11 +1,15 @@
 API_VERSION = "0.0.1"
 
-function setup(input, output)
+---@param input IClothingSetupInput
+---@param output IClothingSetupOutput
+function Setup(input, output)
     output.MaleOnly = true;
     output.DiscardUsesPalettes = true;
 end
 
-function render(input, output)
+---@param input IClothingRenderInput
+---@param output IClothingRenderOutput
+function Render(input, output)
     local size = input.A.GetStomachSize(32, 1.2);
 
     output.NewSprite(20)

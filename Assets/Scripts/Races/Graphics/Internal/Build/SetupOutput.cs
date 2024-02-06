@@ -145,7 +145,7 @@ public class SetupOutput : ISetupOutput
         _extraRaceInfo.WallType = wallType;
     }
 
-    public void BonesInfo(Func<Unit, List<BoneInfo>> boneTypesGen)
+    public void BonesInfo(Func<IUnitRead, List<BoneInfo>> boneTypesGen)
     {
         _extraRaceInfo.BoneTypesGen = boneTypesGen;
     }
@@ -166,24 +166,24 @@ public class SetupOutput : ISetupOutput
     }
     
 
-    public void RaceTraits(RaceTraits raceTraits)
+    public void RaceTraits(IRaceTraits raceTraits)
     {
         _extraRaceInfo.RaceTraits = raceTraits;
     }
 
-    public void SetRaceTraits(Action<RaceTraits> setRaceTraits)
+    public void SetRaceTraits(Action<IRaceTraits> setRaceTraits)
     {
         RaceTraits traits = new RaceTraits();
         setRaceTraits.Invoke(traits);
         _extraRaceInfo.RaceTraits = traits;
     }
 
-    public void CustomizeButtons(Action<Unit, EnumIndexedArray<ButtonType, CustomizerButton>> action)
+    public void CustomizeButtons(Action<IUnitRead, EnumIndexedArray<ButtonType, CustomizerButton>> action)
     {
         _extraRaceInfo.CustomizeButtonsAction = action;
     }
 
-    public void CustomizeButtons(Action<Unit, ButtonCustomizer> action)
+    public void CustomizeButtons(Action<IUnitRead, IButtonCustomizer> action)
     {
         _extraRaceInfo.CustomizeButtonsAction2 = action;
     }

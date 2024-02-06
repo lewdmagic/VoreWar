@@ -194,7 +194,7 @@ class Prey
         if (Predator.Unit.HasTrait(TraitType.Corruption) || Unit.HasTrait(TraitType.Corruption))
         {
             Unit.hiddenFixedSide = true;
-            Actor.sidesAttackedThisBattle = new List<Side>();
+            Actor.SidesAttackedThisBattle = new List<Side>();
             Unit.RemoveTrait(TraitType.Corruption);
             Unit.AddPermanentTrait(TraitType.Corruption);
         }

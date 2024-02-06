@@ -4,7 +4,7 @@ using MoonSharp.Interpreter;
 public abstract class ClothingDataShared : IClothing
 {
     private protected readonly ClothingMiscData Misc;
-    public IClothingDataFixed FixedData { get; set; }
+    public IClothingSetupOutput FixedData { get; set; }
 
     protected ClothingDataShared(ClothingMiscData fixedData)
     {

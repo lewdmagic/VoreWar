@@ -430,7 +430,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 Defaults.RandomCustom(data);
 
                 unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);

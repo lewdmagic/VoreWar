@@ -1,4 +1,4 @@
-﻿public enum Stat : int
+﻿public enum Stat
 {
     Strength,
     Dexterity,

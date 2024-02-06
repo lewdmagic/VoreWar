@@ -1,11 +1,13 @@
 API_VERSION = "0.0.1"
 
-function setup(input, output)
+---@param input IClothingSetupInput
+---@param output IClothingSetupOutput
+function Setup(input, output)
     output.FemaleOnly = true;
     output.DiscardUsesPalettes = true;
 end
 
-function render(input, output, params)
+function Render(input, output, params)
     local sprite = output.NewSprite(20);
     sprite.Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
 

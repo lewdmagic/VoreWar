@@ -19,7 +19,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 unit.AccessoryColor = unit.SkinColor;
 
                 unit.HairStyle = State.Rand.Next(14);

@@ -189,7 +189,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RunBefore(Defaults.Finalize);
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.SkinColor = State.Rand.Next(data.SetupOutput.SkinColors);
                 unit.DickSize = 1;
@@ -197,7 +197,7 @@ namespace Races.Graphics.Implementations.Monsters
             });
         });
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
             {

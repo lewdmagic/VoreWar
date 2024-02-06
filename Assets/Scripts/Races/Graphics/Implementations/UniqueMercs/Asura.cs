@@ -305,7 +305,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.Name = "Asura";
                 unit.ClothingAccessoryType = State.Rand.Next(2);
@@ -313,7 +313,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
         });
 
 
-        private static void SetUpAnimations(Actor_Unit actor)
+        private static void SetUpAnimations(IActorUnit actor)
         {
             actor.AnimationController.frameLists = new[]
                 { new AnimationController.FrameList(), new AnimationController.FrameList(), new AnimationController.FrameList(), new AnimationController.FrameList() };

@@ -16,7 +16,7 @@ namespace Races.Graphics.Implementations.Monsters
             Sitting
         }
 
-        private static Position CalcPosition(Actor_Unit actor)
+        private static Position CalcPosition(IActorUnit actor)
         {
             if (actor.HasBelly || actor.PredatorComponent?.BallsFullness > 0)
             {

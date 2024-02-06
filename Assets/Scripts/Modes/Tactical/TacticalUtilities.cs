@@ -352,7 +352,7 @@ static class TacticalUtilities
     static public bool TreatAsHostile(Actor_Unit actor, Actor_Unit target)
     {
         if (actor == target) return false;
-        if (ReferenceEquals(actor.Unit.Side, actor.Unit.FixedSide) && !(target.sidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false) && Equals(target.Unit.Side, actor.Unit.Side) && Equals(GetMindControlSide(actor.Unit), Side.TrueNoneSide))
+        if (ReferenceEquals(actor.Unit.Side, actor.Unit.FixedSide) && !(target.SidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false) && Equals(target.Unit.Side, actor.Unit.Side) && Equals(GetMindControlSide(actor.Unit), Side.TrueNoneSide))
             return false;
         Side friendlySide = actor.Unit.Side;
         Side defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
@@ -467,7 +467,7 @@ static class TacticalUtilities
             }
 
         }
-        return targetSideHostilityP >= targetSideHostilityUP || (target.sidesAttackedThisBattle?.Contains(preferredSide) ?? false) || (target.sidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false);
+        return targetSideHostilityP >= targetSideHostilityUP || (target.SidesAttackedThisBattle?.Contains(preferredSide) ?? false) || (target.SidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false);
     }
 
     static public bool SneakAttackCheck(Unit attacker, Unit target)
@@ -846,7 +846,7 @@ static class TacticalUtilities
         target.Targetable = true;
         target.SelfPrey = null;
         target.Surrendered = false;
-        target.sidesAttackedThisBattle = new List<Side>();
+        target.SidesAttackedThisBattle = new List<Side>();
         target.Unit.Type = UnitType.Summon;
         State.GameManager.TacticalMode.HandleReanimationSideEffects(caster, target);
         if (!target.Unit.HasTrait(TraitType.Untamable))

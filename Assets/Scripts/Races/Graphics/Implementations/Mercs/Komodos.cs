@@ -461,7 +461,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
 
                 unit.AccessoryColor = unit.SkinColor;
@@ -489,7 +489,7 @@ namespace Races.Graphics.Implementations.Mercs
             });
         });
 
-        private static ColorSwapPalette KomodoColor(Actor_Unit actor)
+        private static ColorSwapPalette KomodoColor(IActorUnit actor)
         {
             if (actor.Unit.SpecialAccessoryType == 4)
             {

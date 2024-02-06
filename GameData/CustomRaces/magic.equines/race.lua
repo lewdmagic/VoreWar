@@ -1,7 +1,8 @@
 API_VERSION = "0.0.1"
 
 --- Core function: called once to set up the race.
-function setup(output)
+---@param output ISetupOutput
+function Setup(output)
     output.Names("Equinezz", "Equinezzs");
 
     output.SetRaceTraits(function (traits)
@@ -21,24 +22,18 @@ function setup(output)
             NewTextsBasic(),
             NewTextsBasic().Add("equine").Add("bronco").Add("mare", Gender.Female).Add("stallion", Gender.Male)
     ));
-    Log(Stat);
-
-    Log(FlavorType);
-    Log(FlavorType.RaceSingleDescription);
 
     output.SetFlavorText(FlavorType.RaceSingleDescription,
-        FlavorEntryMaker.New("equine"),
-        FlavorEntryMaker.New("bronco"),
-        FlavorEntryMaker.New("mare", Gender.Female),
-        FlavorEntryMaker.New("stallion", Gender.Male)
+        NewFlavorEntry("equine"),
+        NewFlavorEntry("bronco"),
+        NewFlavorEntryGendered("mare", Gender.Female),
+        NewFlavorEntryGendered("stallion", Gender.Male)
     );
 
-    output.SetFlavorText(FlavorType.WeaponMelee1, FlavorEntryMaker.New("Push Dagger"));
-    output.SetFlavorText(FlavorType.WeaponMelee2, FlavorEntryMaker.New("Claw Katar"));
-    output.SetFlavorText(FlavorType.WeaponRanged1, FlavorEntryMaker.New("Iron Throwing Knife"));
-    output.SetFlavorText(FlavorType.WeaponRanged2, FlavorEntryMaker.New("Steel Throwing Knife"));
-
-
+    output.SetFlavorText(FlavorType.WeaponMelee1, NewFlavorEntry("Push Dagger"));
+    output.SetFlavorText(FlavorType.WeaponMelee2, NewFlavorEntry("Claw Katar"));
+    output.SetFlavorText(FlavorType.WeaponRanged1, NewFlavorEntry("Iron Throwing Knife"));
+    output.SetFlavorText(FlavorType.WeaponRanged2, NewFlavorEntry("Steel Throwing Knife"));
 
 
     output.CustomizeButtons(function (unit, buttons)
@@ -83,7 +78,7 @@ function setup(output)
 
     output.ClothingColors = GetPaletteCount(SwapType.Clothing50Spaced);
     output.ExtendedBreastSprites = true;
-    
+
     output.AllowedMainClothingTypes.AddRange({-- undertops
         GetClothing("under_top_male_1"),
         GetClothing("under_top_male_2"),
@@ -117,19 +112,23 @@ function setup(output)
 end
 
 --- Core function: called each frame to render the unit. 
-function render(input, output)
+---@param input IRaceRenderInput
+---@param output IRaceRenderAllOutput
+function Render(input, output)
+
+    local a = SwapType.AabayxSkin
+
     local headSprite = output.NewSprite(SpriteType.Head, 5);
     headSprite.Coloring(SwapType.HorseSkin, input.U.SkinColor);
     headSprite.Sprite("head", input.Sex, ternary(input.A.IsAttacking or input.A.IsEating, "eat", "still"));
 
     local eyesSprite = output.NewSprite(SpriteType.Eyes, 6);
     eyesSprite.Coloring(SwapType.EyeColor, input.U.EyeColor);
-    if (input.U.IsDead and input.U.Items ~= null) then
+    if (input.U.IsDead and input.U.Items ~= nil) then
         eyesSprite.Sprite("eyes", input.Sex, "dead");
     else
         eyesSprite.Sprite0("eyes", input.Sex, input.U.EyeType);
     end
-
 
     output.NewSprite(SpriteType.Hair, 21)
           .Coloring(SwapType.UniversalHair, input.U.HairColor)
@@ -141,6 +140,8 @@ function render(input, output)
 
     local bodyName = ternary(input.U.HasBreasts, "body_female", "body_male");
     local bodyIndex = ternary(input.A.IsAttacking, 2, ternary(input.U.HasWeapon, 1, 0));
+
+    
     output.NewSprite(SpriteType.Body, 4)
           .Coloring(GetPalette(SwapType.HorseSkin, input.U.SkinColor))
           .Sprite0(bodyName, bodyIndex);
@@ -277,15 +278,16 @@ function render(input, output)
 end
 
 --- Core function: called to randomize a unit of this race.
-function randomCustom(data)
-    Defaults.RandomCustom(data);
+---@param input IRandomCustomInput
+function RandomCustom(input)
+    Defaults.RandomCustom(input);
 
-    data.Unit.BodyAccentType3 = RandomInt(data.MiscRaceData.BodyAccentTypes3);
-    data.Unit.BodyAccentType4 = RandomInt(data.MiscRaceData.BodyAccentTypes4);
-    data.Unit.BodyAccentType5 = RandomInt(data.MiscRaceData.BodyAccentTypes5);
+    input.Unit.BodyAccentType3 = RandomInt(input.SetupOutput.BodyAccentTypes3);
+    input.Unit.BodyAccentType4 = RandomInt(input.SetupOutput.BodyAccentTypes4);
+    input.Unit.BodyAccentType5 = RandomInt(input.SetupOutput.BodyAccentTypes5);
 
-    data.Unit.HairStyle = RandomInt(data.MiscRaceData.HairStyles);
-    data.Unit.TailType = RandomInt(data.MiscRaceData.TailTypes);
+    input.Unit.HairStyle = RandomInt(input.SetupOutput.HairStyles);
+    input.Unit.TailType = RandomInt(input.SetupOutput.TailTypes);
 end
 
 function SpottedBelly(actor)

@@ -26,8 +26,14 @@ static class Races2
     /// <summary>
     /// This version can't do the slime queen check, but is fine anywhere else
     /// </summary>    
-    static internal IRaceData GetRace(Race race)
+    internal static IRaceData GetRace(Race race)
     {
+        if (race == null)
+        {
+            Debug.Log("called get race with a null");
+            return null;
+        }
+        
         return Race2.GetBasic(race).RaceData;
     }
 

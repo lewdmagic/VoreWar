@@ -17,7 +17,7 @@ internal static class RaceParameters
     /// </summary>
     /// <param name="race"></param>
     /// <returns></returns>
-    internal static RaceTraits GetRaceTraits(Race race)
+    internal static IRaceTraits GetRaceTraits(Race race)
     {
         if (Config.RaceTraitsEnabled == false)
         {
@@ -27,7 +27,7 @@ internal static class RaceParameters
         return Races2.GetRace(race)?.RaceTraits() ?? Default;
     }
 
-    internal static RaceTraits GetTraitData(Unit unit)
+    internal static IRaceTraits GetTraitData(Unit unit)
     {
         return GetRaceTraits(unit.Race);
     }

@@ -1,41 +1,16 @@
 using System.Collections.Generic;
 
-
-// public interface IButtonChangeData
-// {
-//     IButtonChangeData Active(bool active);
-//     IButtonChangeData Text(string text);
-// }
-
-public class ButtonCustomizer
+public class ButtonCustomizer : IButtonCustomizer
 {
-    private class ChangeData// : IButtonChangeData
+    private class ChangeData
     {
         internal bool? Active;
         internal string Text;
-        
-        // public IButtonChangeData Active(bool active)
-        // {
-        //     SetActiveField = active;
-        //     return this;
-        // }
-        //
-        // public IButtonChangeData Text(string text)
-        // {
-        //     LabelTextField = text;
-        //     return this;
-        // }
     }
 
-    private readonly Dictionary<ButtonType, ChangeData> data = new Dictionary<ButtonType, ChangeData>();
+    private readonly Dictionary<ButtonType, ChangeData> _data = new Dictionary<ButtonType, ChangeData>();
 
-    private ChangeData GetOrSet(ButtonType type) => data.GetOrSet(type, () => new ChangeData());
-    
-    // public IButtonChangeData ChangeButton(ButtonType type)
-    // {
-    //     ChangeData changeData = data.GetOrSet(type, () => new ChangeData());
-    //     return changeData;
-    // }
+    private ChangeData GetOrSet(ButtonType type) => _data.GetOrSet(type, () => new ChangeData());
 
     public void SetText(ButtonType type, string text)
     {
@@ -49,7 +24,7 @@ public class ButtonCustomizer
 
     internal void ApplyValues(EnumIndexedArray<ButtonType, CustomizerButton> buttons)
     {
-        foreach (var pair in data)
+        foreach (var pair in _data)
         {
             ButtonType key = pair.Key;
             ChangeData value = pair.Value;

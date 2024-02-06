@@ -55,6 +55,7 @@ public static class LuaBridge
         UserData.RegisterType<TraitType>();
         UserData.RegisterType<Stat>();
         UserData.RegisterType<RaceTraits>();
+        UserData.RegisterType<IRaceTraits>();
         
         UserData.RegisterType<IClothing>();
         
@@ -63,6 +64,7 @@ public static class LuaBridge
         UserData.RegisterType<EnumIndexedArray<ButtonType, CustomizerButton>>();
         
         UserData.RegisterType<ButtonCustomizer>();
+        UserData.RegisterType<IButtonCustomizer>();
         
         UserData.RegisterType<Texts>();
         UserData.RegisterType<FlavorText>();
@@ -95,9 +97,12 @@ public static class LuaBridge
         
         LuaUtil.RegisterSimpleAction<IRandomCustomInput>();
         LuaUtil.RegisterSimpleAction<RaceTraits>();
+        LuaUtil.RegisterSimpleAction<IRaceTraits>();
         
         LuaUtil.RegisterSimpleAction<Unit, EnumIndexedArray<ButtonType, CustomizerButton>>();
         LuaUtil.RegisterSimpleAction<Unit, ButtonCustomizer>();
+        LuaUtil.RegisterSimpleAction<Unit, IButtonCustomizer>();
+        LuaUtil.RegisterSimpleAction<IUnitRead, IButtonCustomizer>();
         LuaUtil.RegisterSimpleAction<IClothingSetupInput, IClothingSetupOutput>();
         LuaUtil.RegisterSimpleAction<IClothingSetupInput, ClothingMiscData>();
         
@@ -153,6 +158,11 @@ public static class LuaBridge
 function ternary ( cond , T , F )
     if cond then return T else return F end
 end");
+        
+        script.DoString(@"
+function Ternary ( cond , T , F )
+    if cond then return T else return F end
+end");
     }
 
 
@@ -168,6 +178,12 @@ end");
         
         Func<Texts> newTextsBasic = () => new Texts();
         script.Globals["NewTextsBasic"] = newTextsBasic;
+        
+        Func<string, FlavorEntry> newFlavorEntry = (text) => new FlavorEntry(text);
+        script.Globals["NewFlavorEntry"] = newFlavorEntry;
+        
+        Func<string, Gender, FlavorEntry> newFlavorEntryGendered = (text, gender) => new FlavorEntry(text, gender);
+        script.Globals["NewFlavorEntryGendered"] = newFlavorEntryGendered;
         
         Func<Texts, Texts, Texts, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
         script.Globals["NewFlavorText"] = newFlavorText;
@@ -226,9 +242,9 @@ end");
 		
         script.DoString(scriptCode, null, raceId + " - race.lua");
 
-        object render = script.Globals["render"];
-        object setup = script.Globals["setup"];
-        object randomCustom = script.Globals["randomCustom"];
+        object render = script.Globals["Render"];
+        object setup = script.Globals["Setup"];
+        object randomCustom = script.Globals["RandomCustom"];
         
         RaceScriptUsable scriptUsable = new RaceScriptUsable(
             (output) =>
@@ -281,8 +297,8 @@ end");
         
         script.DoString(scriptCode, null, clothingId + " - clothing.lua");
         
-        object render = script.Globals["render"];
-        object setup = script.Globals["setup"];
+        object render = script.Globals["Render"];
+        object setup = script.Globals["Setup"];
         
         ClothingScriptUsable clothingScriptUsable = new ClothingScriptUsable(
             (input, output) =>

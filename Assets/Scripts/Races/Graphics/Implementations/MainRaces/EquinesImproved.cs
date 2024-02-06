@@ -11,7 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class EquinesImrpoved
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(29 * 29);
-        static ColorSwapPalette LegTuft(Actor_Unit actor)
+        static ColorSwapPalette LegTuft(IActorUnit actor)
         {
             if (actor.Unit.BodyAccentType3 >= 2)
             {
@@ -21,7 +21,7 @@ namespace Races.Graphics.Implementations.MainRaces
             return ColorPaletteMap.GetPalette(SwapType.HorseSkin, actor.Unit.SkinColor);
         }
 
-        static ColorSwapPalette SpottedBelly(Actor_Unit actor)
+        static ColorSwapPalette SpottedBelly(IActorUnit actor)
         {
             if (actor.Unit.BodyAccentType5 == 1)
             {
@@ -31,7 +31,7 @@ namespace Races.Graphics.Implementations.MainRaces
             return ColorPaletteMap.GetPalette(SwapType.HorseSkin, actor.Unit.SkinColor);
         }
 
-        static ColorSwapPalette TailBit(Actor_Unit actor)
+        static ColorSwapPalette TailBit(IActorUnit actor)
         {
             if (actor.Unit.BodyAccentType3 == 5)
             {
@@ -352,7 +352,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RandomCustom(data =>
             {
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
                 Defaults.RandomCustom(data);
 
 
@@ -368,7 +368,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static class HorseUndertops
         {
-            internal static void MakeCommon(IClothingBuilder<IOverSizeParameters> builder, ClothingId clothingId, Sprite discard, Sprite sprite1, Func<Actor_Unit, Sprite> sprite2)
+            internal static void MakeCommon(IClothingBuilder<IOverSizeParameters> builder, ClothingId clothingId, Sprite discard, Sprite sprite1, Func<IActorUnit, Sprite> sprite2)
             {
 
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>

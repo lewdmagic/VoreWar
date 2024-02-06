@@ -568,7 +568,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.SkinColor = State.Rand.Next(data.SetupOutput.SkinColors);
                 unit.EyeType = State.Rand.Next(data.SetupOutput.EyeTypes);
@@ -583,7 +583,7 @@ namespace Races.Graphics.Implementations.Mercs
             });
         });
 
-        // protected override Color HairColor(Actor_Unit actor) => Color.white;
+        // protected override Color HairColor(IActorUnit actor) => Color.white;
 
 
         private static class All

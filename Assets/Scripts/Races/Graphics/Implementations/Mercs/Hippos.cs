@@ -350,7 +350,7 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 if (State.Rand.Next(5) == 0)
                 {

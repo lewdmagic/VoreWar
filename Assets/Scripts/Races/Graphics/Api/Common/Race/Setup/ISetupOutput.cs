@@ -20,16 +20,16 @@ public interface ISetupOutput
     
     void WallType(WallType wallType);
 
-    void BonesInfo(Func<Unit,List<BoneInfo>> boneTypesGen);
+    void BonesInfo(Func<IUnitRead,List<BoneInfo>> boneTypesGen);
 
     void FlavorText(FlavorText flavorText);
     void SetFlavorText(FlavorType type, params FlavorEntry[] numbers);
     void AddFlavorText(FlavorType type, params FlavorEntry[] numbers);
     
-    void RaceTraits(RaceTraits raceTraits);
-    void SetRaceTraits(Action<RaceTraits> setRaceTraits);
+    void RaceTraits(IRaceTraits raceTraits);
+    void SetRaceTraits(Action<IRaceTraits> setRaceTraits);
 
-    void CustomizeButtons(Action<Unit,ButtonCustomizer> action);
+    void CustomizeButtons(Action<IUnitRead,IButtonCustomizer> action);
     
     
     

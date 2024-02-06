@@ -670,7 +670,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.EyeType = State.Rand.Next(10) == 0 ? 1 : 0;
 
@@ -697,7 +697,7 @@ namespace Races.Graphics.Implementations.MainRaces
             return null;
         }
 
-        private static ColorSwapPalette CalcPalette(ColorStyle style, Actor_Unit actor)
+        private static ColorSwapPalette CalcPalette(ColorStyle style, IActorUnit actor)
         {
             switch (style)
             {

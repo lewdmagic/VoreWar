@@ -1,10 +1,14 @@
 API_VERSION = "0.0.1"
 
-function setup(input, output)
+---@param input IClothingSetupInput
+---@param output IClothingSetupOutput
+function Setup(input, output)
     output.DiscardUsesPalettes = true;
 end
 
-function render(input, output)
+---@param input IClothingRenderInput
+---@param output IClothingRenderOutput
+function Render(input, output)
     output.NewSprite(21)
             .Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor))
             .Sprite("main");

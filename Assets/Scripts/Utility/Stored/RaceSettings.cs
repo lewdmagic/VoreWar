@@ -123,7 +123,10 @@ class RaceSettings
     internal List<TraitType> GetRaceTraits(Race race)
     {
         if (race == null)
+        {
             return null;
+        }
+
         if (Races.ContainsKey(race))
             return Get(race).RaceTraits;
         return RaceParameters.GetRaceTraits(race).RacialTraits;
@@ -131,6 +134,11 @@ class RaceSettings
 
     internal List<TraitType> GetMaleRaceTraits(Race race)
     {
+        if (race == null)
+        {
+            return null;
+        }
+        
         if (Races.ContainsKey(race))
             return Get(race).MaleTraits;
         return null;
@@ -138,6 +146,11 @@ class RaceSettings
 
     internal List<TraitType> GetFemaleRaceTraits(Race race)
     {
+        if (race == null)
+        {
+            return null;
+        }
+        
         if (Races.ContainsKey(race))
             return Get(race).FemaleTraits;
         return null;
@@ -145,6 +158,11 @@ class RaceSettings
 
     internal List<TraitType> GetHermRaceTraits(Race race)
     {
+        if (race == null)
+        {
+            return null;
+        }
+        
         if (Races.ContainsKey(race))
             return Get(race).HermTraits;
         return null;
@@ -152,6 +170,11 @@ class RaceSettings
 
     internal List<TraitType> GetSpawnRaceTraits(Race race)
     {
+        if (race == null)
+        {
+            return null;
+        }
+        
         if (Races.ContainsKey(race))
             return Get(race).SpawnTraits;
         return RaceParameters.GetRaceTraits(race).SpawnTraits;
@@ -159,6 +182,11 @@ class RaceSettings
 
     internal List<TraitType> GetLeaderRaceTraits(Race race)
     {
+        if (race == null)
+        {
+            return null;
+        }
+        
         if (Races.ContainsKey(race))
             return Get(race).LeaderTraits;
         return RaceParameters.GetRaceTraits(race).LeaderTraits;

@@ -3323,7 +3323,7 @@ Turns: {currentTurn}
         else
             DefenderConvert(actor);
         actor.DefectedThisTurn = !Equals(startingSide, actor.Unit.Side);
-        actor.sidesAttackedThisBattle = new List<Side>();
+        actor.SidesAttackedThisBattle = new List<Side>();
     }
 
     internal bool IsDefender(Actor_Unit actor)
@@ -4533,22 +4533,4 @@ Turns: {currentTurn}
         target.Unit.Side = caster.Side;
         State.GameManager.TacticalMode.UpdateActorColor(target);
     }
-}
-
-public enum WallType
-{
-    Fence,
-    Stone,
-    WoodenPallisade,
-    Cat,
-    Lizard,
-    Scylla,
-    Bunny,
-    Crux,
-    Crypter,
-    Lamia,
-    Fox,
-    Imp,
-    Slime,
-    SlimeExtra,
 }

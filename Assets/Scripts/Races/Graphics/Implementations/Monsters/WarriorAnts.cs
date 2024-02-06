@@ -133,7 +133,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.AccessoryColor = unit.SkinColor;
             });

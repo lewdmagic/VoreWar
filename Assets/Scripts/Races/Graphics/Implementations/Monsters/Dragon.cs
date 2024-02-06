@@ -388,7 +388,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RandomCustom(Defaults.RandomCustom);
         });
 
-        private static Position CalcPosition(Actor_Unit actor)
+        private static Position CalcPosition(IActorUnit actor)
         {
             if (actor.IsAttacking || actor.IsEating)
             {

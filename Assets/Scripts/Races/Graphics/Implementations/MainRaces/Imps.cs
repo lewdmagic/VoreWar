@@ -241,7 +241,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            ColorSwapPalette ImpColor(Actor_Unit actor)
+            ColorSwapPalette ImpColor(IActorUnit actor)
             {
                 if (actor.Unit.BodyAccentType1 > 1)
                 {
@@ -251,7 +251,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 return ColorPaletteMap.GetPalette(SwapType.Imp, actor.Unit.SkinColor);
             }
 
-            ColorSwapPalette ImpHorn(Actor_Unit actor)
+            ColorSwapPalette ImpHorn(IActorUnit actor)
             {
                 if (actor.Unit.BodyAccentType2 != 0)
                 {
@@ -261,7 +261,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 return ColorPaletteMap.GetPalette(SwapType.Imp, actor.Unit.SkinColor);
             }
 
-            ColorSwapPalette ImpBack(Actor_Unit actor)
+            ColorSwapPalette ImpBack(IActorUnit actor)
             {
                 if (actor.Unit.BodyAccentType2 != 0)
                 {
@@ -271,7 +271,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 return ColorPaletteMap.GetPalette(SwapType.Imp, actor.Unit.SkinColor);
             }
 
-            ColorSwapPalette ImpWing(Actor_Unit actor)
+            ColorSwapPalette ImpWing(IActorUnit actor)
             {
                 if (actor.Unit.BodyAccentType2 != 0)
                 {
@@ -281,7 +281,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 return ColorPaletteMap.GetPalette(SwapType.ImpDark, actor.Unit.AccessoryColor);
             }
 
-            ColorSwapPalette ImpBelly(Actor_Unit actor)
+            ColorSwapPalette ImpBelly(IActorUnit actor)
             {
                 if (actor.Unit.BodyAccentType1 != 3)
                 {
@@ -291,7 +291,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 return ColorPaletteMap.GetPalette(SwapType.ImpDark, actor.Unit.AccessoryColor);
             }
 
-            ColorSwapPalette ImpLeftTit(Actor_Unit actor)
+            ColorSwapPalette ImpLeftTit(IActorUnit actor)
             {
                 if (actor.Unit.BodyAccentType1 <= 1)
                 {
@@ -301,7 +301,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 return ColorPaletteMap.GetPalette(SwapType.ImpDark, actor.Unit.AccessoryColor);
             }
 
-            ColorSwapPalette ImpRightTit(Actor_Unit actor)
+            ColorSwapPalette ImpRightTit(IActorUnit actor)
             {
                 if (actor.Unit.BodyAccentType1 == 2)
                 {
@@ -723,7 +723,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.SkinColor = State.Rand.Next(data.SetupOutput.SkinColors);
                 unit.EyeType = State.Rand.Next(data.SetupOutput.EyeTypes);
@@ -738,7 +738,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
         });
 
-        // protected override Color HairColor(Actor_Unit actor) => Color.white;    
+        // protected override Color HairColor(IActorUnit actor) => Color.white;    
 
 
         private static class GenericGloves

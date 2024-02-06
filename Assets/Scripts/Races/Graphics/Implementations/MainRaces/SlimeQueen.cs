@@ -68,7 +68,7 @@ namespace Races.Graphics.Implementations.MainRaces
             Action<IRandomCustomInput> RandomCustom = data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 if (unit.HasDick && unit.HasBreasts)
                 {
@@ -251,7 +251,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RandomCustom(data =>
             {
                 ParentRandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);
                 unit.ExtraColor1 = 0;

@@ -7,7 +7,7 @@ static class RelationsManager
     /// <summary>
     /// Creates the network of relations from scratch (leaves monsters to be auto-created)
     /// </summary>
-    static internal void ResetRelations()
+    internal static void ResetRelations()
     {
         var sides = State.World.MainEmpires.Select(s => s.Side).ToList();
         sides.Add(Race.Goblins.ToSide());
@@ -22,7 +22,7 @@ static class RelationsManager
         }
     }
 
-    static internal void ResetMonsterRelations()
+    internal static void ResetMonsterRelations()
     {
         var sides = State.World.AllActiveEmpires.Select(s => s.Side).ToList();
         foreach (Side side in sides)
@@ -42,7 +42,7 @@ static class RelationsManager
     /// <summary>
     /// Resets the type of relation to be based on the teams, but doesn't change the actual relations values
     /// </summary>
-    static internal void ResetRelationTypes()
+    internal static void ResetRelationTypes()
     {
         var sides = State.World.MainEmpires.Select(s => s.Side).ToList();
         foreach (Side side in sides)
@@ -55,7 +55,7 @@ static class RelationsManager
         }
     }
 
-    static internal void TeamUpdated(Empire empire)
+    internal static void TeamUpdated(Empire empire)
     {
         foreach (Empire otherEmp in State.World.AllActiveEmpires)
         {
@@ -79,16 +79,31 @@ static class RelationsManager
         }
     }
 
-    static internal Relationship GetRelation(Side sideA, Side sideB)
+    internal static Relationship GetRelation(Side sideA, Side sideB)
     {
+        // Special case. Previously 0 was used as a no side and I have no idea
+        // what kind of behavior it led to, but im pretty sure it was not intentional
+        // or required
+        if (sideA == null || sideB == null)
+        {
+            return new Relationship(0, 0);
+        }
+            
         if (State.World.Relations == null)
+        {
             ResetRelations();
+        }
+
         if (RaceFuncs.IsRebelOrBandit(sideA) || RaceFuncs.IsRebelOrBandit(sideB))
         {
             if (Equals(sideA, sideB))
+            {
                 return new Relationship(0, 0);
+            }
             else
+            {
                 return new Relationship(-1, -1);
+            }
         }
         if (State.World.Relations.TryGetValue(sideA, out var dict))
         {

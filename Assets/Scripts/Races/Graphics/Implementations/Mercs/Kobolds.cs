@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.Mercs
     internal static class Kobolds
     {
 
-        private static bool IsFacingFront(Actor_Unit actor)
+        private static bool IsFacingFront(IActorUnit actor)
         {
             if (actor.IsAnalVoring || actor.IsUnbirthing || actor.IsCockVoring)
             {

@@ -92,7 +92,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            bool SlimeWeapon(Actor_Unit actor)
+            bool SlimeWeapon(IActorUnit actor)
             {
                 return actor.GetWeaponSprite() > 1 && actor.GetWeaponSprite() < 6;
             }
@@ -228,7 +228,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RandomCustom(data =>
             {
                 Defaults.RandomCustom(data);
-                Unit unit = data.Unit;
+                IUnitRead unit = data.Unit;
 
                 if (unit.HasDick && unit.HasBreasts)
                 {
@@ -256,7 +256,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
         });
 
-        internal static Material GetSlimeAccentMaterial(Actor_Unit actor)
+        internal static Material GetSlimeAccentMaterial(IActorUnit actor)
         {
             return ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * actor.Unit.AccessoryColor + actor.Unit.HairColor).colorSwapMaterial;
         }
