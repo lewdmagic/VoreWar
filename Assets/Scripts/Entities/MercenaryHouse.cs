@@ -36,7 +36,9 @@ public class MercenaryHouse
         {
             raceQuantities[race] = 0;
         }
-        foreach (Unit unit in StrategicUtilities.GetAllUnits())
+
+        var units = StrategicUtilities.GetAllUnits().Where(it => it.Race != null);
+        foreach (Unit unit in units)
         {
             if (raceQuantities.TryGetValue(unit.Race, out int val))
                 raceQuantities[unit.Race]++;

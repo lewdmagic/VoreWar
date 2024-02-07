@@ -116,11 +116,9 @@ end
 ---@param output IRaceRenderAllOutput
 function Render(input, output)
 
-    local a = SwapType.AabayxSkin
-
     local headSprite = output.NewSprite(SpriteType.Head, 5);
-    headSprite.Coloring(SwapType.HorseSkin, input.U.SkinColor);
     headSprite.Sprite("head", input.Sex, ternary(input.A.IsAttacking or input.A.IsEating, "eat", "still"));
+    headSprite.Coloring(SwapType.HorseSkin, input.U.SkinColor);
 
     local eyesSprite = output.NewSprite(SpriteType.Eyes, 6);
     eyesSprite.Coloring(SwapType.EyeColor, input.U.EyeColor);

@@ -220,8 +220,13 @@ public static class State
             }
             else
                 World.TacticalData = null;
+            
+            
             byte[] bytes = SerializationUtility.SerializeValue(World, DataFormat.Binary);
             File.WriteAllBytes(filename, bytes);
+            
+            //byte[] readable = SerializationUtility.SerializeValue(World, DataFormat.JSON);
+            //File.WriteAllBytes(filename, readable);
         }
         catch
         {
@@ -933,6 +938,30 @@ public static class State
                             unit.ReloadTraits();
                         }
                     }
+                    
+                    /*    
+                    foreach (Army army in empire.Armies)
+                    {
+                        var toRemove = new List<Unit>();
+                        foreach (Unit unit in army.Units)
+                        {
+                            if (unit.Race == null)
+                            {
+                                toRemove.Add(unit);
+                            }
+                            else
+                            {
+                                unit.ReloadTraits();
+                            }
+                        }
+
+                        foreach (var oneToRemove in toRemove)
+                        {
+                            army.Units.Remove(oneToRemove);
+                        }
+                    }
+                     */
+                    
                 }
 
                 if (World.Relations == null)
@@ -964,6 +993,11 @@ public static class State
                     GameManager.TacticalMode.ForceUpdate();
                 }
             }
+
+
+
+            //var units = StrategicUtilities.GetAllUnits();
+            //Debug.Log("LOADED");
         }
         catch (Exception ex)
         {

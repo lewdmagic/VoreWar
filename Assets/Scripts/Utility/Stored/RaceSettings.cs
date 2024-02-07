@@ -50,6 +50,10 @@ class RaceSettings
 
     internal RaceSettingsItem Get(Race race)
     {
+        if (race == null)
+        {
+            return null;
+        }
         if (Races.TryGetValue(race, out RaceSettingsItem item))
         {
             return item;
