@@ -10,7 +10,7 @@ static class RelationsManager
     internal static void ResetRelations()
     {
         var sides = State.World.MainEmpires.Select(s => s.Side).ToList();
-        sides.Add(Race.Goblins.ToSide());
+        sides.Add(Race.Goblin.ToSide());
         State.World.Relations = new Dictionary<Side, Dictionary<Side, Relationship>>();
         foreach (Side side in sides)
         {

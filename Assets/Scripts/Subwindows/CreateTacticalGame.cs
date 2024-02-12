@@ -62,7 +62,7 @@ public class CreateTacticalGame : MonoBehaviour
     {
         if (AttackerUnit == null)
         {
-            AttackerUnit = new Actor_Unit(new Unit(Race.Cats));
+            AttackerUnit = new Actor_Unit(new Unit(Race.Cat));
         }
 
         Race race;
@@ -86,7 +86,7 @@ public class CreateTacticalGame : MonoBehaviour
     {
         if (DefenderUnit == null)
         {
-            DefenderUnit = new Actor_Unit(new Unit(Race.Cats));
+            DefenderUnit = new Actor_Unit(new Unit(Race.Cat));
         }
 
         if (RaceFuncs.TryParse(Defender.Race.captionText.text, out Race race))
@@ -185,7 +185,7 @@ public class CreateTacticalGame : MonoBehaviour
         batching = true;
         foreach (Race race in RaceFuncs.RaceEnumerable())
         {
-            if (AllRaces.isOn == false && Equals(race, Race.Succubi))
+            if (AllRaces.isOn == false && Equals(race, Race.Succubus))
                 break;
             if (Equals(race, Race.Selicia))
                 break;
@@ -249,7 +249,7 @@ public class CreateTacticalGame : MonoBehaviour
 
         foreach (Race race in RaceFuncs.RaceEnumerable())
         {
-            if (AllRaces.isOn == false && Equals(race, Race.Succubi))
+            if (AllRaces.isOn == false && Equals(race, Race.Succubus))
                 break;
             if (Equals(race, Race.Selicia))
                 break;
@@ -429,8 +429,8 @@ public class CreateTacticalGame : MonoBehaviour
         int defenderMeleeHeavyCount = (fightersB - defenderRangedCount) * (int)Defender.HeavyWeaponsPercentage.value / 100;
         int attackerRangedHeavyCount = attackerRangedCount * (int)Attacker.HeavyWeaponsPercentage.value / 100;
         int defenderRangedHeavyCount = defenderRangedCount * (int)Defender.HeavyWeaponsPercentage.value / 100;
-        Side attackerSide = Race.Cats.ToSide();
-        Side defenderSide = Race.Dogs.ToSide();
+        Side attackerSide = Race.Cat.ToSide();
+        Side defenderSide = Race.Dog.ToSide();
         Func<Race> AttackerRace;
         Func<Race> DefenderRace;
         if (batching == false)

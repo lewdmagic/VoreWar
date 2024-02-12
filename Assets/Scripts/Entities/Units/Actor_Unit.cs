@@ -700,7 +700,7 @@ public class Actor_Unit : IActorUnit
     public bool HasBelly => ((Config.LamiaUseTailAsSecondBelly || Unit.HasTrait(TraitType.DualStomach) == false) && (PredatorComponent?.VisibleFullness ?? 0) > 0) || (!Config.LamiaUseTailAsSecondBelly && (PredatorComponent?.CombinedStomachFullness ?? 0) > 0);
 
     public bool HasPreyInBreasts => (PredatorComponent?.BreastFullness > 0 || PredatorComponent?.LeftBreastFullness > 0 || PredatorComponent?.RightBreastFullness > 0);
-    public bool HasBodyWeight => !Equals(Unit.Race, Race.Lizards) && !Equals(Unit.Race, Race.Slimes) && !Equals(Unit.Race, Race.Scylla) && !Equals(Unit.Race, Race.Harpies) && !Equals(Unit.Race, Race.Imps);
+    public bool HasBodyWeight => !Equals(Unit.Race, Race.Lizard) && !Equals(Unit.Race, Race.Slime) && !Equals(Unit.Race, Race.Scylla) && !Equals(Unit.Race, Race.Harpy) && !Equals(Unit.Race, Race.Imp);
 
     public int GetBodyWeight() => (Config.WeightGain || Unit.BodySizeManuallyChanged) ? Unit.BodySize : Mathf.Min(Config.DefaultStartingWeight, Races2.GetRace(Unit).SetupOutput.BodySizes);
 
@@ -1106,7 +1106,7 @@ public class Actor_Unit : IActorUnit
             }
 
             Attack(target, false, damageMultiplier: multiplier);
-            if (Equals(Unit.Race, Race.FeralFrogs))
+            if (Equals(Unit.Race, Race.FeralFrog))
                 Mode = DisplayMode.FrogPouncing;
             return true;
         }
@@ -1163,7 +1163,7 @@ public class Actor_Unit : IActorUnit
             }
             State.GameManager.TacticalMode.Translator.SetTranslator(UnitSprite.transform, originalLoc, pounceLandingZone, 0.5f, State.GameManager.TacticalMode.IsPlayerTurn);
             State.GameManager.TacticalMode.DirtyPack = true;
-            if (Equals(Unit.Race, Race.FeralFrogs))
+            if (Equals(Unit.Race, Race.FeralFrog))
                 Mode = DisplayMode.FrogPouncing;
             return true;
         }
@@ -1333,7 +1333,7 @@ public class Actor_Unit : IActorUnit
         {
             if ((targetRange >= 2 || (targetRange >= 1 && weapon.Omni)) && targetRange <= weapon.Range)
             {
-                if (Equals(Unit.Race, Race.Succubi))
+                if (Equals(Unit.Race, Race.Succubus))
                     TacticalGraphicalEffects.SuccubusSwordEffect(target.Position);
                 animationUpdateTime = 1.0F;
                 Mode = DisplayMode.Attacking;
@@ -1912,7 +1912,7 @@ public class Actor_Unit : IActorUnit
                             $"The way <b>{Unit.Name}</b> touches {LogUtilities.GPPHim(target.Unit)} moves something other than {LogUtilities.GPPHis(target.Unit)} prey-filled innards in <b>{target.Unit.Name}</b>, making {LogUtilities.GPPHim(target.Unit)} join {LogUtilities.GPPHim(Unit)}.",
                             $"<b>{Unit.Name}</b> makes <b>{target.Unit.Name}</b> feel incredible, rearranging {LogUtilities.GPPHis(target.Unit)} priorities in this conflict...",
                             $"<b>{target.Unit.Name}</b> slowly returns from a world of pure bliss and decides to stick with <b>{Unit.Name}</b> after all."};
-                if (Equals(target.Unit.Race, Race.Dogs))
+                if (Equals(target.Unit.Race, Race.Dog))
                     strings.Append($"<b>{Unit.Name}</b>’s attentive massage of <b>{target.Unit.Name}</b>’s stuffed midsection convinces the voracious canine to make {LogUtilities.GPPHim(Unit)} {LogUtilities.GPPHis(target.Unit)} master no matter the cost.");
                 target.UnitSprite.DisplaySeduce();
                 State.GameManager.TacticalMode.Log.RegisterMiscellaneous(

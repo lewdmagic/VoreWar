@@ -370,7 +370,7 @@ class StrategicArmyCommander
             if (!hostileArmy.Units.All(u => u.HasTrait(TraitType.Infiltrator)) && StrategicUtilities.ArmyPower(hostileArmy) < MaxDefenderStrength * StrategicUtilities.ArmyPower(army) && hostileArmy.InVillageIndex == -1)
             {
                 potentialTargets.Add(hostileArmy.Position);
-                if (RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(hostileArmy.Side) || Equals(hostileArmy.Side, Race.Goblins.ToSide())) //If Monster
+                if (RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(hostileArmy.Side) || Equals(hostileArmy.Side, Race.Goblin.ToSide())) //If Monster
                     potentialTargetValue.Add(12);
                 else
                     potentialTargetValue.Add(42 - hostileArmy.Position.GetNumberOfMovesDistance(capitalPosition) / 3);

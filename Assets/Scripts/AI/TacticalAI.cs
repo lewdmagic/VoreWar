@@ -604,7 +604,7 @@ public abstract class TacticalAI : ITacticalAI
             targets = GetListOfPotentialRangedTargets(actor, actor.Position);
             while (targets.Any())
             {
-                if (targets[0].distance <= actor.BestRanged.Range && targets[0].distance > 1)
+                if (targets[0].distance <= actor.BestRanged.Range && targets[0].distance > 1) // TODO Null pointer occurred here
                 {
                     actor.Attack(targets[0].actor, true);
                     didAction = true;

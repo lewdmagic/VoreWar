@@ -292,8 +292,8 @@ public static class State
 
             if (tutorial)
             {
-                var catEmp = World.GetEmpireOfRace(Race.Cats);
-                var impEmp = World.GetEmpireOfRace(Race.Imps);
+                var catEmp = World.GetEmpireOfRace(Race.Cat);
+                var impEmp = World.GetEmpireOfRace(Race.Imp);
 
                 catEmp.Armies[0].SetEmpire(catEmp);
                 impEmp.Armies[0].SetEmpire(impEmp);
@@ -420,7 +420,7 @@ public static class State
                 {
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        if (Equals(unit.Race, Race.Goblins)) //Re-randomize because the number of options has dropped
+                        if (Equals(unit.Race, Race.Goblin)) //Re-randomize because the number of options has dropped
                             unit.EyeType = Rand.Next(3);
                     }
                 }
@@ -480,7 +480,7 @@ public static class State
                         {
                             foreach (Unit unit in army.Units)
                             {
-                                if (Equals(unit.Race, Race.Lizards)) //Adjustment for the added clothing item
+                                if (Equals(unit.Race, Race.Lizard)) //Adjustment for the added clothing item
                                     if (unit.ClothingType == 4)
                                         unit.ClothingType = 5;
                                     else if (unit.ClothingType == 5)
@@ -513,7 +513,7 @@ public static class State
                         {
                             foreach (Unit unit in army.Units)
                             {
-                                if (Equals(unit.Race, Race.Lizards)) //Adjustment for the added clothing item
+                                if (Equals(unit.Race, Race.Lizard)) //Adjustment for the added clothing item
                                     if (unit.ClothingType >= 5)
                                         unit.ClothingType++;
                             }
@@ -550,7 +550,7 @@ public static class State
                 {
                     foreach (Empire empire in World.AllActiveEmpires)
                     {
-                        if (Equals(empire.Leader?.Race, Race.Bees))
+                        if (Equals(empire.Leader?.Race, Race.Bee))
                             empire.Leader.ClothingType = 6;
                     }
                 }
@@ -581,7 +581,7 @@ public static class State
                         {
                             foreach (Unit unit in army.Units)
                             {
-                                if (Equals(unit.Race, Race.Succubi))
+                                if (Equals(unit.Race, Race.Succubus))
                                 {
                                     if (unit.ClothingType2 == 3)
                                         unit.ClothingType2 = 2;
@@ -617,10 +617,10 @@ public static class State
             {
                 if (World.AllActiveEmpires != null)
                 {
-                    var raceData = Races2.GetRace(Race.Bees);
+                    var raceData = Races2.GetRace(Race.Bee);
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        if (Equals(unit.Race, Race.Bees))
+                        if (Equals(unit.Race, Race.Bee))
                             raceData.RandomCustomCall(unit);
                     }
                 }
@@ -675,7 +675,7 @@ public static class State
                 {
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        if (Equals(unit.Race, Race.DemiBats) || Equals(unit.Race, Race.Equines))
+                        if (Equals(unit.Race, Race.Bat) || Equals(unit.Race, Race.Equine))
                         {
                             unit.TotalRandomizeAppearance();
                         }
@@ -773,7 +773,7 @@ public static class State
                 {
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        if (Equals(unit.Race, Race.Humans))
+                        if (Equals(unit.Race, Race.Human))
                         {
                             unit.RandomizeAppearance();
                         }

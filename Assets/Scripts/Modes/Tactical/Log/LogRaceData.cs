@@ -212,6 +212,12 @@ public class FlavorText
 
         if (weaponNames != null)
         {
+
+            if (weaponNames.Count == 0)
+            {
+                Debug.Log("No weapon names");
+            }
+            
             string name;
             if (weaponNames.TryGetValue(WeaponNames.Mace, out name))
             {
@@ -296,11 +302,19 @@ public class FlavorText
         if (WeaponToFlavorMap.TryGetValue(weapon.Name, out var type))
         {
             List<Weighted<Gendered>> filtered = ByType[type].Where(description => description.Value.Gender == null || description.Value.Gender == unit.GetGender()).ToList();
-            if (filtered.Count == 0) throw new Exception($"{unit.Race} has no GetRaceSingleDescription");
-            return PickWeighedFull(filtered).Text;
+            if (filtered.Count != 0)
+            {
+                return PickWeighedFull(filtered).Text;
+            }
+            else
+            {
+                //TODO probably Not needed
+                //throw new Exception($"{unit.Race} has no GetWeaponTrueName for {weapon.Name}");
+            }
         }
         
-        Debug.LogWarning($"Missing name entry for {weapon.Name}, defaulting to the provided name {weapon.Name}. Not a critical error but should not happen. Race: ${unit.Race.Id}");
+        //TODO probably Not needed
+        //Debug.LogWarning($"Missing name entry for {weapon.Name}, defaulting to the provided name {weapon.Name}. Not a critical error but should not happen. Race: ${unit.Race.Id}");
         return weapon.Name;
     }
     

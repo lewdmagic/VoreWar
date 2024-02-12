@@ -416,7 +416,7 @@ public static class Defaults
                     }
                 }
 
-                if (Equals(unit.Race, Race.Lizards) && Config.LizardsHaveNoBreasts)
+                if (Equals(unit.Race, Race.Lizard) && Config.LizardsHaveNoBreasts)
                 {
                     unit.ClothingType = 0;
                 }

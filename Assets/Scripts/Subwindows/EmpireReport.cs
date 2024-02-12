@@ -38,9 +38,9 @@ public class EmpireReport : MonoBehaviour
         
         if (Config.GoblinCaravans)
         {
-            Side side = Race.Goblins.ToSide();
-            GetReportItem(Race.Goblins.ToSide()).Contact.onClick.RemoveAllListeners();
-            GetReportItem(Race.Goblins.ToSide()).Contact.onClick.AddListener(() => DiplomacyScreen.Open(State.World.ActingEmpire, State.World.GetEmpireOfSide(side)));
+            Side side = Race.Goblin.ToSide();
+            GetReportItem(Race.Goblin.ToSide()).Contact.onClick.RemoveAllListeners();
+            GetReportItem(Race.Goblin.ToSide()).Contact.onClick.AddListener(() => DiplomacyScreen.Open(State.World.ActingEmpire, State.World.GetEmpireOfSide(side)));
         }
 
 
@@ -70,14 +70,14 @@ public class EmpireReport : MonoBehaviour
         }
         if (Config.GoblinCaravans)
         {
-            Empire empire = State.World.GetEmpireOfRace(Race.Goblins);
-            GetReportItem(Race.Goblins.ToSide()).gameObject.SetActive(true);
+            Empire empire = State.World.GetEmpireOfRace(Race.Goblin);
+            GetReportItem(Race.Goblin.ToSide()).gameObject.SetActive(true);
             if (empire != null)
             {
-                GetReportItem(Race.Goblins.ToSide()).EmpireStatus.text = $"{empire.Name}  Armies : {empire.Armies.Count()} ";
+                GetReportItem(Race.Goblin.ToSide()).EmpireStatus.text = $"{empire.Name}  Armies : {empire.Armies.Count()} ";
                 if (empire.IsAlly(State.World.ActingEmpire) || Config.CheatExtraStrategicInfo || State.GameManager.StrategyMode.OnlyAIPlayers)
                 {
-                    GetReportItem(Race.Goblins.ToSide()).EmpireStatus.text += $"Units: {empire.GetAllUnits().Count}";
+                    GetReportItem(Race.Goblin.ToSide()).EmpireStatus.text += $"Units: {empire.GetAllUnits().Count}";
                 }
             }
         }
@@ -85,7 +85,7 @@ public class EmpireReport : MonoBehaviour
 
         foreach (Empire empire in State.World.MonsterEmpires)
         {
-            if (Equals(empire.Race, Race.Goblins))
+            if (Equals(empire.Race, Race.Goblin))
                 continue;
             SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
             if (spawner == null)

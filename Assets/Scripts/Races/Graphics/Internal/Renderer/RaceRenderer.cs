@@ -234,7 +234,7 @@ internal partial class RaceRenderer
         {
             IClothing asuraMask;
 
-            if (Equals(actorUnit.Unit.Race, Race.Imps) || Equals(actorUnit.Unit.Race, Race.Goblins))
+            if (Equals(actorUnit.Unit.Race, Race.Imp) || Equals(actorUnit.Unit.Race, Race.Goblin))
             {
                 asuraMask = AsuraMask.AsuraMaskInstanceImpsGoblins;
             }
@@ -437,7 +437,7 @@ internal partial class RaceRenderer
         {
             HideSprite(SpriteType.Breasts);
             HideSprite(SpriteType.SecondaryBreasts);
-            if (Equals(_actor.Unit.Race, Race.Succubi))
+            if (Equals(_actor.Unit.Race, Race.Succubus))
             {
                 HideSprite(SpriteType.BreastShadow); //Used for other things in newgraphics
             }
@@ -446,7 +446,7 @@ internal partial class RaceRenderer
         {
             ChangeLayer(SpriteType.Breasts, 8);
             ChangeLayer(SpriteType.SecondaryBreasts, 8);
-            if (Equals(_actor.Unit.Race, Race.Succubi))
+            if (Equals(_actor.Unit.Race, Race.Succubus))
             {
                 ChangeLayer(SpriteType.Breasts, 7);
                 ChangeLayer(SpriteType.BreastShadow, 8);

@@ -432,7 +432,7 @@ static class SpellList
                     }
                     AvailableRaces.Remove(Race.Dragon);
                     if (AvailableRaces.Any() == false)
-                        AvailableRaces.Add(Race.Vagrants);
+                        AvailableRaces.Add(Race.Vagrant);
                     Race summonRace = AvailableRaces[State.Rand.Next(AvailableRaces.Count())];
                     Unit unit = new Unit(a.Unit.Side, summonRace, (int)(a.Unit.Experience * .50f), true, UnitType.Summon);
                     var actorCharm = a.Unit.GetStatusEffect(StatusEffectType.Charmed) ?? a.Unit.GetStatusEffect(StatusEffectType.Hypnotized);

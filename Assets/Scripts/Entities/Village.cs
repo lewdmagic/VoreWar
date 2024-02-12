@@ -365,50 +365,51 @@ public class Village
     {
         return Equals(Side, OriginalRace.ToSide());
     }
-
-
-    public int GetImageNum(int max)
+    
+    public Sprite GetIconSprite()
     {
         if (VillagePopulation.GetTotalPop() < 1)
         {
             if (State.World.Turn == TurnDestroyed)
-                return 1;
-            return 0;
+                return State.GameManager.StrategyMode.VillageSprites[1];
+            return State.GameManager.StrategyMode.VillageSprites[0];
         }
+        
         if (RaceFuncs.isMonster(Race))
         {
-            int image = 4;
             if (buildings.Contains(VillageBuilding.wall))
-                image++;
-            return image;
+            {
+                return State.GameManager.StrategyMode.VillageSprites[5];
+            }
+            else
+            {
+                return State.GameManager.StrategyMode.VillageSprites[4];
+            }
         }
-        // TODO maybe restore some functionality
-        //int ret =RaceFuncs.RaceToInt(Race) * 3 + 9;
-        int ret =  9;
-        if (ret > max - 1)
-            ret = 6;
+
         if (buildings.Contains(VillageBuilding.wall))
-            ret++;
-        return ret;
+        {
+            return RaceFuncs.VillageIconWithWall(Race);
+        }
+        else
+        {
+            return RaceFuncs.VillageIconForRace(Race);
+        }
     }
 
-    public int GetColoredImageNum(int max)
+    public Sprite GetColoredIcon()
     {
         if (VillagePopulation.GetTotalPop() < 1)
         {
-            return 0;
+            return State.GameManager.StrategyMode.VillageSprites[0];
         }
         if (RaceFuncs.isMonster(Race))
         {
-            return 0;
+            // TODO this is prob wrong
+            return State.GameManager.StrategyMode.VillageSprites[0];
         }
-        // TODO maybe restore some functionality
-        //int ret = RaceFuncs.RaceToInt(Race) * 3 + 8;
-        int ret = 8;
-        if (ret > max)
-            return 0;
-        return ret;
 
+        return RaceFuncs.ColoredVillageIconForRace(Race);
     }
 
     public bool HasWalls()
@@ -1000,7 +1001,7 @@ public class Village
                 IRaceData race = Races2.GetRace(unit);
                 if (unit.ClothingType != 0)
                 {
-                    if (Equals(unit.Race, Race.Lizards))
+                    if (Equals(unit.Race, Race.Lizard))
                     {
                         if (race.SetupOutput.AllowedMainClothingTypes.Contains(RaceSpecificClothing.LizardPeasantInstance))
                             unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.LizardPeasantInstance);
@@ -1354,7 +1355,7 @@ public class Village
     MercenaryContainer CreateAdventurer(int highestExp)
     {
         MercenaryContainer merc = new MercenaryContainer();
-        Race race = Race.Cats;
+        Race race = Race.Cat;
 
         if (RaceFuncs.IsRebelOrBandit(Side))
         {
@@ -1371,7 +1372,7 @@ public class Village
             }
             else
             {
-                var emps = State.World.AllActiveEmpires.Where(s => s.IsAlly(Empire) && RaceFuncs.isNotUniqueMerc(s.Race) && !Equals(s.Race, Race.Goblins)).ToArray();
+                var emps = State.World.AllActiveEmpires.Where(s => s.IsAlly(Empire) && RaceFuncs.isNotUniqueMerc(s.Race) && !Equals(s.Race, Race.Goblin)).ToArray();
 
                 if (emps.Length > 0)
                 {

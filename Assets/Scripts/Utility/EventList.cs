@@ -835,8 +835,8 @@ internal class EventList
             case 12:
                 {
                     Village village = GetRandomVillage(empire.Side);
-                    Empire Wolves = State.World.GetEmpireOfRace(Race.Wolves);
-                    Empire Bunnies = State.World.GetEmpireOfRace(Race.Bunnies);
+                    Empire Wolves = State.World.GetEmpireOfRace(Race.Wolf);
+                    Empire Bunnies = State.World.GetEmpireOfRace(Race.Bunny);
                     if (village == null || Wolves.VillageCount == 0 || Bunnies.VillageCount == 0)
                         return false;
                     UI.MainText.text = $"Three bunny girls have settled near {village.Name}. Allegedly they have built three houses made of various materials. They have petitioned for aid as a traveling wolf merchant has apparently been bothering the girls with constant soliciting efforts. What shall be done?";
@@ -984,7 +984,7 @@ internal class EventList
                     {
                         if (State.Rand.Next(3) == 0)
                         {
-                            Unit unit = new Unit(empire.Side, Race.Tigers, village.GetStartingXp(), true);
+                            Unit unit = new Unit(empire.Side, Race.Tiger, village.GetStartingXp(), true);
                             unit.DigestedUnits = State.Rand.Next(5, 15);
                             village.VillagePopulation.AddHireable(unit);
                             State.GameManager.CreateMessageBox($"The Tiger is available for hire at {village.Name}");
@@ -1107,7 +1107,7 @@ internal class EventList
                     UI.FirstChoice.GetComponentInChildren<Text>().text = $"She may be inexperienced but the fact that she was able to devour a beast whole means they’ll become a fine warrior. Pay the cattle owner for damages and employ the thief as a warrior.";
                     UI.FirstChoice.onClick.AddListener(() =>
                     {
-                        Unit unit = new Unit(empire.Side, Race.Foxes, village.GetStartingXp(), true, immuneToDefectons: true)
+                        Unit unit = new Unit(empire.Side, Race.Fox, village.GetStartingXp(), true, immuneToDefectons: true)
                         {
                             DickSize = -1,
                             BreastSize = 0,
@@ -1473,8 +1473,8 @@ internal class EventList
                     UI.FirstChoice.onClick.AddListener(() =>
                     {
                         ChangeAllVillageHappiness(empire, 15);
-                        CreateBandits(RebelDifficulty.Easy, village, Race.Foxes);
-                        CreateBandits(RebelDifficulty.Easy, village, Race.Foxes);
+                        CreateBandits(RebelDifficulty.Easy, village, Race.Fox);
+                        CreateBandits(RebelDifficulty.Easy, village, Race.Fox);
                         State.GameManager.CreateMessageBox($"The people are pleased with the decision to rid our lands of the marauders. However, the mercenaries have refused to leave and have gathered their army near {village.Name}. They threaten to seize the town unless we act quickly.");
 
                     });
@@ -1500,7 +1500,7 @@ internal class EventList
                         int baseXp = (int)(highestExp * 50 / 100);
                         for (int i = 0; i < 6; i++)
                         {
-                            Unit unit = new Unit(empire.Side, Race.Foxes, baseXp, true, UnitType.Mercenary, true);
+                            Unit unit = new Unit(empire.Side, Race.Fox, baseXp, true, UnitType.Mercenary, true);
                             village.VillagePopulation.AddHireable(unit);
                         }
                         State.GameManager.CreateMessageBox($"The mercenaries are glad to take our coin to fight our enemies. Our civilians however are outraged that the gluttonous criminals have been brought into our prestigious army instead of being punished as they rightfully should have. (available at {village.Name})");
@@ -1548,7 +1548,7 @@ internal class EventList
                     UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Such a fine example of voracity would make a fine war beast! Round up some civilians to sacrifice as a grand feast to earn the wolf's favour.";
                     UI.ThirdChoice.onClick.AddListener(() =>
                     {
-                        Unit unit = new Unit(empire.Side, Race.FeralWolves, village.GetStartingXp() * 3, true);
+                        Unit unit = new Unit(empire.Side, Race.FeralWolve, village.GetStartingXp() * 3, true);
                         unit.AddPermanentTrait(TraitType.Large);
                         unit.AddPermanentTrait(TraitType.IronGut);
                         unit.AddPermanentTrait(TraitType.StrongGullet);
@@ -1726,7 +1726,7 @@ internal class EventList
                         Unit unit;
                         for (int x = 0; x < 2; x++)
                         {
-                            unit = new Unit(empire.Side, Race.Kobolds, village.GetStartingXp(), true);
+                            unit = new Unit(empire.Side, Race.Kobold, village.GetStartingXp(), true);
                             unit.AddPermanentTrait(TraitType.PackVoracity);
                             unit.AddPermanentTrait(TraitType.PackStomach);
                             if (x == 0)

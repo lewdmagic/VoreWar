@@ -82,15 +82,6 @@ namespace Races.Graphics.Implementations.MainRaces
                     "Alfarsan"
                 });
             
-                output.TownNames(new List<string>
-                {
-                    "Cataphracta",
-                    "Equus",
-                    "The Ranch",
-                    "Haciendo",
-                    "Alfarsan"
-                });
-            
             
                 output.DickSizes = () => 3;
                 output.BreastSizes = () => 7;

@@ -26,7 +26,7 @@ public class TacticalMessageLog
 
     public TacticalMessageLog()
     {
-        defaultPrey = new Unit(Race.Humans);
+        defaultPrey = new Unit(Race.Human);
         defaultPrey.DefaultBreastSize = -1;
         defaultPrey.DickSize = -1;
         defaultPrey.Name = "[Redacted]";
@@ -586,7 +586,7 @@ public class TacticalMessageLog
         }
         else
         {
-            if (action.preyLocation == PreyLocation.breasts && Equals(action.Unit.Race, Race.Kangaroos))
+            if (action.preyLocation == PreyLocation.breasts && Equals(action.Unit.Race, Race.Kangaroo))
             {
                 return GetRandomStringFrom(
                     $"Just when all hope seemed lost, <b>{action.Target.Name}</b> manages to pry <b>{action.Unit.Name}</b>'s pouch entrance open, and clambers out, taking large breaths of fresh air. {odds}",
@@ -615,10 +615,10 @@ public class TacticalMessageLog
             return $"<b>{action.Unit.Name}</b> regurgitates <b>{action.Target.Name}</b>.";
         }
         List<string> possibleLines = new List<string>();
-        if (Equals(action.Unit.Race, Race.Slimes))
+        if (Equals(action.Unit.Race, Race.Slime))
         {
             possibleLines.Add($"As <b>{action.Unit.Name}</b> moves forward, {GPPHis(action.Unit)} slimey body contorts, leaving behind <b>{action.Target.Name}</b>, covered in goo, but otherwise alive.");
-            if (!Equals(action.Target.Race, Race.Slimes))
+            if (!Equals(action.Target.Race, Race.Slime))
                 possibleLines.Add($"For a moment, <b>{action.Unit.Name}</b> appears to be undergoing mitosis, splitting in half. Then, one half pulls itself off a slightly freaked out <b>{action.Target.Name}</b>, the other becoming <b>{action.Unit.Name}</b> once again.");
             else
                 possibleLines.Add($"For a moment, <b>{action.Unit.Name}</b> appears to be undergoing mitosis, splitting in half. Then, one half begins to shift slightly as <b>{action.Target.Name}</b> becomes a seperate slime once more.");
@@ -745,7 +745,7 @@ public class TacticalMessageLog
             GetRandomStringFrom($"<b>{action.Unit.Name}</b> hears {GPPHis(action.Unit)} {loc} gurgle{locs} intensely. {Capitalize(GPPHe(action.Unit))} feels <b>{action.Target.Name}</b> begin to slip under {GPPHis(action.Unit)} turbulent acids.",
                                 $"<b>{action.Unit.Name}</b>'s {loc} glurt{locs} and blort{locs}, {GPPHis(action.Unit)} {GetPredDesc(action.Target)} prey starting to break down. <b>{action.Target.Name}</b> seems doomed.");
         }
-        if (action.preyLocation == PreyLocation.breasts && Equals(action.Unit.Race, Race.Kangaroos))
+        if (action.preyLocation == PreyLocation.breasts && Equals(action.Unit.Race, Race.Kangaroo))
         {
             return GetRandomStringFrom(
 

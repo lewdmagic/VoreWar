@@ -29,72 +29,72 @@ public static class RaceFuncs
     
     public static IReadOnlyDictionary<Race, int> TooltipValues = new Dictionary<Race, int>()
     {
-        { Race.Vagrants, 23 },
-        { Race.Serpents, 88 },
+        { Race.Vagrant, 23 },
+        { Race.Serpent, 88 },
         { Race.Wyvern, 89 },
         { Race.Compy, 90 },
-        { Race.FeralSharks, 92 },
-        { Race.FeralWolves, 102 },
+        { Race.FeralShark, 92 },
+        { Race.FeralWolve, 102 },
         { Race.Cake, 108 },
-        { Race.Harvesters, 129 },
+        { Race.Harvester, 129 },
         { Race.Voilin, 144 },
-        { Race.FeralBats, 145 },
-        { Race.FeralFrogs, 153 },
+        { Race.FeralBat, 145 },
+        { Race.FeralFrog, 153 },
         { Race.Dragon, 160 },
         { Race.Dragonfly, 161 },
-        { Race.TwistedVines, 170 },
-        { Race.Fairies, 171 },
-        { Race.FeralAnts, 178 },
-        { Race.Gryphons, 191 },
-        { Race.RockSlugs, 194 },
-        { Race.Salamanders, 198 },
-        { Race.Mantis, 203 },
+        { Race.TwistedVine, 170 },
+        { Race.Fairy, 171 },
+        { Race.FeralAnt, 178 },
+        { Race.Gryphon, 191 },
+        { Race.RockSlug, 194 },
+        { Race.Salamander, 198 },
+        { Race.Manti, 203 },
         { Race.EasternDragon, 204 },
         { Race.Catfish, 208 },
         { Race.Gazelle, 210 },
         { Race.Earthworms, 225 },
-        { Race.FeralLizards, 230 },
-        { Race.Monitors, 233 },
+        { Race.FeralLizard, 230 },
+        { Race.Monitor, 233 },
         { Race.Schiwardez, 234 },
         { Race.Terrorbird, 238 },
         { Race.Dratopyr, 247 },
-        { Race.FeralLions, 248 },
+        { Race.FeralLion, 248 },
         { Race.Goodra, 257 }
     };
     
     public static IReadOnlyDictionary<Race, MonsterData> SpawnerElligibleMonsterRaces = new Dictionary<Race, MonsterData>()
     {
-        {Race.Vagrants, new MonsterData(9, StrategyAIType.Monster, TacticalAIType.Full, 996, 32, 0)},
-        {Race.Serpents, new MonsterData(22, StrategyAIType.Monster, TacticalAIType.Full, 997, 32, 0)},
+        {Race.Vagrant, new MonsterData(9, StrategyAIType.Monster, TacticalAIType.Full, 996, 32, 0)},
+        {Race.Serpent, new MonsterData(22, StrategyAIType.Monster, TacticalAIType.Full, 997, 32, 0)},
         {Race.Wyvern, new MonsterData(23, StrategyAIType.Monster, TacticalAIType.Full, 998, 32, 0)},
         {Race.Compy, new MonsterData(25, StrategyAIType.Monster, TacticalAIType.Full, 999, 32, 0)},
-        {Race.FeralSharks, new MonsterData(26, StrategyAIType.Monster, TacticalAIType.Full, 1000, 32, 0)},
-        {Race.FeralWolves, new MonsterData(27, StrategyAIType.Monster, TacticalAIType.Full, 1001, 32, 0)},
+        {Race.FeralShark, new MonsterData(26, StrategyAIType.Monster, TacticalAIType.Full, 1000, 32, 0)},
+        {Race.FeralWolve, new MonsterData(27, StrategyAIType.Monster, TacticalAIType.Full, 1001, 32, 0)},
         {Race.Cake, new MonsterData(28, StrategyAIType.Monster, TacticalAIType.Full, 1002, 32, 0)},
-        {Race.Goblins, new MonsterData(30, StrategyAIType.Goblin, TacticalAIType.Full, -200, 32, 0)},
-        {Race.Harvesters, new MonsterData(31, StrategyAIType.Monster, TacticalAIType.Full, 1003, 32, 0)},
+        {Race.Goblin, new MonsterData(30, StrategyAIType.Goblin, TacticalAIType.Full, -200, 32, 0)},
+        {Race.Harvester, new MonsterData(31, StrategyAIType.Monster, TacticalAIType.Full, 1003, 32, 0)},
         {Race.Voilin, new MonsterData(32, StrategyAIType.Monster, TacticalAIType.Full, 1004, 32, 0)},
-        {Race.FeralBats, new MonsterData(33, StrategyAIType.Monster, TacticalAIType.Full, 1005, 32, 0)},
-        {Race.FeralFrogs, new MonsterData(34, StrategyAIType.Monster, TacticalAIType.Full, 1006, 32, 0)},
+        {Race.FeralBat, new MonsterData(33, StrategyAIType.Monster, TacticalAIType.Full, 1005, 32, 0)},
+        {Race.FeralFrog, new MonsterData(34, StrategyAIType.Monster, TacticalAIType.Full, 1006, 32, 0)},
         {Race.Dragon, new MonsterData(35, StrategyAIType.Monster, TacticalAIType.Full, 1007, 32, 0)},
         {Race.Dragonfly, new MonsterData(36, StrategyAIType.Monster, TacticalAIType.Full, 1008, 32, 0)},
-        {Race.TwistedVines, new MonsterData(41, StrategyAIType.Monster, TacticalAIType.Full, 1009, 32, 0)},
-        {Race.Fairies, new MonsterData(42, StrategyAIType.Monster, TacticalAIType.Full, 1010, 32, 0)},
-        {Race.FeralAnts, new MonsterData(43, StrategyAIType.Monster, TacticalAIType.Full, 1011, 32, 0)},
-        {Race.Gryphons, new MonsterData(44, StrategyAIType.Monster, TacticalAIType.Full, 1012, 32, 0)},
-        {Race.RockSlugs, new MonsterData(45, StrategyAIType.Monster, TacticalAIType.Full, 1013, 32, 0)},
-        {Race.Salamanders, new MonsterData(46, StrategyAIType.Monster, TacticalAIType.Full, 1014, 32, 0)},
-        {Race.Mantis, new MonsterData(47, StrategyAIType.Monster, TacticalAIType.Full, 1015, 32, 0)},
+        {Race.TwistedVine, new MonsterData(41, StrategyAIType.Monster, TacticalAIType.Full, 1009, 32, 0)},
+        {Race.Fairy, new MonsterData(42, StrategyAIType.Monster, TacticalAIType.Full, 1010, 32, 0)},
+        {Race.FeralAnt, new MonsterData(43, StrategyAIType.Monster, TacticalAIType.Full, 1011, 32, 0)},
+        {Race.Gryphon, new MonsterData(44, StrategyAIType.Monster, TacticalAIType.Full, 1012, 32, 0)},
+        {Race.RockSlug, new MonsterData(45, StrategyAIType.Monster, TacticalAIType.Full, 1013, 32, 0)},
+        {Race.Salamander, new MonsterData(46, StrategyAIType.Monster, TacticalAIType.Full, 1014, 32, 0)},
+        {Race.Manti, new MonsterData(47, StrategyAIType.Monster, TacticalAIType.Full, 1015, 32, 0)},
         {Race.EasternDragon, new MonsterData(48, StrategyAIType.Monster, TacticalAIType.Full, 1016, 32, 0)},
         {Race.Catfish, new MonsterData(49, StrategyAIType.Monster, TacticalAIType.Full, 1017, 32, 0)},
         {Race.Gazelle, new MonsterData(50, StrategyAIType.Monster, TacticalAIType.Full, 1018, 32, 0)},
         {Race.Earthworms, new MonsterData(51, StrategyAIType.Monster, TacticalAIType.Full, 1019, 32, 0)},
-        {Race.FeralLizards, new MonsterData(52, StrategyAIType.Monster, TacticalAIType.Full, 1020, 32, 0)},
-        {Race.Monitors, new MonsterData(53, StrategyAIType.Monster, TacticalAIType.Full, 1021, 32, 0)},
+        {Race.FeralLizard, new MonsterData(52, StrategyAIType.Monster, TacticalAIType.Full, 1020, 32, 0)},
+        {Race.Monitor, new MonsterData(53, StrategyAIType.Monster, TacticalAIType.Full, 1021, 32, 0)},
         {Race.Schiwardez, new MonsterData(54, StrategyAIType.Monster, TacticalAIType.Full, 1022, 32, 0)},
         {Race.Terrorbird, new MonsterData(55, StrategyAIType.Monster, TacticalAIType.Full, 1023, 32, 0)},
         {Race.Dratopyr, new MonsterData(56, StrategyAIType.Monster, TacticalAIType.Full, 1024, 32, 0)},
-        {Race.FeralLions, new MonsterData(57, StrategyAIType.Monster, TacticalAIType.Full, 1337, 32, 0)},
+        {Race.FeralLion, new MonsterData(57, StrategyAIType.Monster, TacticalAIType.Full, 1337, 32, 0)},
         {Race.Goodra, new MonsterData(58, StrategyAIType.Monster, TacticalAIType.Full, 1025, 32, 0)}
     };
     
@@ -180,34 +180,34 @@ public static class RaceFuncs
 
     private static Dictionary<Race, Func<Sprite>> BannerSprites = new Dictionary<Race, Func<Sprite>>()
     {
-        { Race.Cats, () => State.GameManager.StrategyMode.Banners[25 + 0] },
-        { Race.Dogs, () => State.GameManager.StrategyMode.Banners[25 + 1] },
-        { Race.Foxes, () => State.GameManager.StrategyMode.Banners[25 + 2] },
-        { Race.Wolves, () => State.GameManager.StrategyMode.Banners[25 + 3] },
-        { Race.Bunnies, () => State.GameManager.StrategyMode.Banners[25 + 4] },
-        { Race.Lizards, () => State.GameManager.StrategyMode.Banners[25 + 5] },
-        { Race.Slimes, () => State.GameManager.StrategyMode.Banners[25 + 6] },
+        { Race.Cat, () => State.GameManager.StrategyMode.Banners[25 + 0] },
+        { Race.Dog, () => State.GameManager.StrategyMode.Banners[25 + 1] },
+        { Race.Fox, () => State.GameManager.StrategyMode.Banners[25 + 2] },
+        { Race.Wolf, () => State.GameManager.StrategyMode.Banners[25 + 3] },
+        { Race.Bunny, () => State.GameManager.StrategyMode.Banners[25 + 4] },
+        { Race.Lizard, () => State.GameManager.StrategyMode.Banners[25 + 5] },
+        { Race.Slime, () => State.GameManager.StrategyMode.Banners[25 + 6] },
         { Race.Scylla, () => State.GameManager.StrategyMode.Banners[25 + 7] },
-        { Race.Harpies, () => State.GameManager.StrategyMode.Banners[25 + 8] },
-        { Race.Imps, () => State.GameManager.StrategyMode.Banners[25 + 9] },
-        { Race.Humans, () => State.GameManager.StrategyMode.Banners[25 + 10] },
-        { Race.Crypters, () => State.GameManager.StrategyMode.Banners[25 + 11] },
+        { Race.Harpy, () => State.GameManager.StrategyMode.Banners[25 + 8] },
+        { Race.Imp, () => State.GameManager.StrategyMode.Banners[25 + 9] },
+        { Race.Human, () => State.GameManager.StrategyMode.Banners[25 + 10] },
+        { Race.Crypter, () => State.GameManager.StrategyMode.Banners[25 + 11] },
         { Race.Lamia, () => State.GameManager.StrategyMode.Banners[25 + 12] },
-        { Race.Kangaroos, () => State.GameManager.StrategyMode.Banners[25 + 13] },
+        { Race.Kangaroo, () => State.GameManager.StrategyMode.Banners[25 + 13] },
         { Race.Taurus, () => State.GameManager.StrategyMode.Banners[25 + 14] },
         { Race.Crux, () => State.GameManager.StrategyMode.Banners[25 + 15] },
-        // TODO { Race.Equines, () => State.GameManager.StrategyMode.Banners[25 + 16] },
+        // TODO { Race.Equine, () => State.GameManager.StrategyMode.Banners[25 + 16] },
         { Race.Sergal, () => State.GameManager.StrategyMode.Banners[25 + 17] },
-        { Race.Bees, () => State.GameManager.StrategyMode.Banners[25 + 18] },
-        { Race.Driders, () => State.GameManager.StrategyMode.Banners[25 + 19] },
+        { Race.Bee, () => State.GameManager.StrategyMode.Banners[25 + 18] },
+        { Race.Drider, () => State.GameManager.StrategyMode.Banners[25 + 19] },
         { Race.Alraune, () => State.GameManager.StrategyMode.Banners[25 + 20] },
-        { Race.DemiBats, () => State.GameManager.StrategyMode.Banners[25 + 21] },
-        { Race.Panthers, () => State.GameManager.StrategyMode.Banners[25 + 22] },
+        { Race.Bat, () => State.GameManager.StrategyMode.Banners[25 + 21] },
+        { Race.Panther, () => State.GameManager.StrategyMode.Banners[25 + 22] },
         { Race.Merfolk, () => State.GameManager.StrategyMode.Banners[25 + 23] },
-        { Race.Avians, () => State.GameManager.StrategyMode.Banners[25 + 24] },
-        { Race.Ants, () => State.GameManager.StrategyMode.Banners[25 + 25] },
-        { Race.Demifrogs, () => State.GameManager.StrategyMode.Banners[25 + 26] },
-        { Race.Demisharks, () => State.GameManager.StrategyMode.Banners[25 + 27] },
+        { Race.Avian, () => State.GameManager.StrategyMode.Banners[25 + 24] },
+        { Race.Ant, () => State.GameManager.StrategyMode.Banners[25 + 25] },
+        { Race.Frog, () => State.GameManager.StrategyMode.Banners[25 + 26] },
+        { Race.Shark, () => State.GameManager.StrategyMode.Banners[25 + 27] },
         { Race.Deer, () => State.GameManager.StrategyMode.Banners[25 + 28] },
         { Race.Aabayx, () => State.GameManager.StrategyMode.Banners[25 + 29] },
     };
@@ -234,7 +234,91 @@ public static class RaceFuncs
     internal static int RaceToInt(Race race)
     {
         throw new NotImplementedException();
-    }    
+    }
+
+    private static int _unknownVillageColoredSpriteId = 8;
+    private static int _unknownVillageSpriteId = 2;
+    private static int _unknownVillageWithWallSpriteId = 3;
+
+
+    internal static Sprite ColoredVillageIconForRace(Race race)
+    {
+        if (_villageIcons.TryGetValue(race, out var ids))
+        {
+            return State.GameManager.StrategyMode.VillageSprites[ids.Item1];
+        }
+        else
+        {
+            return State.GameManager.StrategyMode.VillageSprites[_unknownVillageColoredSpriteId];
+        }
+    }
+    internal static Sprite VillageIconForRace(Race race)
+    {
+        if (_villageIcons.TryGetValue(race, out var ids))
+        {
+            return State.GameManager.StrategyMode.VillageSprites[ids.Item2];
+        }
+        else
+        {
+            return State.GameManager.StrategyMode.VillageSprites[_unknownVillageSpriteId];
+        }
+    }
+    
+    internal static Sprite VillageIconWithWall(Race race)
+    {
+        if (_villageIcons.TryGetValue(race, out var ids))
+        {
+            return State.GameManager.StrategyMode.VillageSprites[ids.Item3];
+        }
+        else
+        {
+            return State.GameManager.StrategyMode.VillageSprites[_unknownVillageWithWallSpriteId];
+        }
+    }
+
+
+
+    private static int _offset1 = 8;
+    private static int _offset2 = 9;
+    private static int _offset3 = 10;
+    private static int _gap = 3;
+    
+    private static Dictionary<Race, Tuple<int, int, int>> _villageIcons = new Dictionary<Race, Tuple<int, int, int>>()
+    {
+        { Race.Cat,          new Tuple<int, int, int>(_offset1 + _gap * 0, _offset2 + _gap * 0,  _offset3 + _gap * 0) },
+        { Race.Dog,          new Tuple<int, int, int>(_offset1 + _gap * 1, _offset2 + _gap * 1,  _offset3 + _gap * 1) },
+        { Race.Fox,         new Tuple<int, int, int>(_offset1 + _gap * 2, _offset2 + _gap * 2,  _offset3 + _gap * 2) },
+        { Race.Wolf,        new Tuple<int, int, int>(_offset1 + _gap * 3, _offset2 + _gap * 3,  _offset3 + _gap * 3) },
+        { Race.Bunny,       new Tuple<int, int, int>(_offset1 + _gap * 4, _offset2 + _gap * 4,  _offset3 + _gap * 4) },
+        { Race.Lizard,       new Tuple<int, int, int>(_offset1 + _gap * 5, _offset2 + _gap * 5,  _offset3 + _gap * 5) },
+        { Race.Slime,        new Tuple<int, int, int>(_offset1 + _gap * 6, _offset2 + _gap * 6,  _offset3 + _gap * 6) },
+        { Race.Scylla,        new Tuple<int, int, int>(_offset1 + _gap * 7, _offset2 + _gap * 7,  _offset3 + _gap * 7) },
+        { Race.Harpy,       new Tuple<int, int, int>(_offset1 + _gap * 8, _offset2 + _gap * 8,  _offset3 + _gap * 8) },
+        { Race.Imp,          new Tuple<int, int, int>(_offset1 + _gap * 9, _offset2 + _gap * 9,  _offset3 + _gap * 9) },
+        { Race.Human,        new Tuple<int, int, int>(_offset1 + _gap * 10, _offset2 + _gap * 10,  _offset3 + _gap * 10) },
+        { Race.Crypter,      new Tuple<int, int, int>(_offset1 + _gap * 11, _offset2 + _gap * 11,  _offset3 + _gap * 11) },
+        { Race.Lamia,         new Tuple<int, int, int>(_offset1 + _gap * 12, _offset2 + _gap * 12,  _offset3 + _gap * 12) },
+        { Race.Kangaroo,     new Tuple<int, int, int>(_offset1 + _gap * 13, _offset2 + _gap * 13,  _offset3 + _gap * 13) },
+        { Race.Taurus,        new Tuple<int, int, int>(_offset1 + _gap * 14, _offset2 + _gap * 14,  _offset3 + _gap * 14) },
+        { Race.Crux,          new Tuple<int, int, int>(_offset1 + _gap * 15, _offset2 + _gap * 15,  _offset3 + _gap * 15) },
+        // TODO { Race.Equine,       new Tuple<int, int, int>(_offset1 + _gap * 16, _offset2 + _gap * 16,  _offset3 + _gap * 16) },
+        { Race.Sergal,        new Tuple<int, int, int>(_offset1 + _gap * 17, _offset2 + _gap * 17,  _offset3 + _gap * 17) },
+        { Race.Bee,          new Tuple<int, int, int>(_offset1 + _gap * 18, _offset2 + _gap * 18,  _offset3 + _gap * 18) },
+        { Race.Drider,       new Tuple<int, int, int>(_offset1 + _gap * 19, _offset2 + _gap * 19,  _offset3 + _gap * 19) },
+        { Race.Alraune,       new Tuple<int, int, int>(_offset1 + _gap * 20, _offset2 + _gap * 20,  _offset3 + _gap * 20) },
+        { Race.Bat,      new Tuple<int, int, int>(_offset1 + _gap * 21, _offset2 + _gap * 21,  _offset3 + _gap * 21) },
+        { Race.Panther,      new Tuple<int, int, int>(_offset1 + _gap * 22, _offset2 + _gap * 22,  _offset3 + _gap * 22) },
+        { Race.Merfolk,       new Tuple<int, int, int>(_offset1 + _gap * 23, _offset2 + _gap * 23,  _offset3 + _gap * 23) },
+        { Race.Avian,        new Tuple<int, int, int>(_offset1 + _gap * 24, _offset2 + _gap * 24,  _offset3 + _gap * 24) },
+        { Race.Ant,          new Tuple<int, int, int>(_offset1 + _gap * 25, _offset2 + _gap * 25,  _offset3 + _gap * 25) },
+        { Race.Frog,     new Tuple<int, int, int>(_offset1 + _gap * 26, _offset2 + _gap * 26,  _offset3 + _gap * 26) },
+        { Race.Shark,    new Tuple<int, int, int>(_offset1 + _gap * 27, _offset2 + _gap * 27,  _offset3 + _gap * 27) },
+        { Race.Deer,          new Tuple<int, int, int>(_offset1 + _gap * 28, _offset2 + _gap * 28,  _offset3 + _gap * 28) }
+    };
+        
+        
+    
+    
     
     // internal static Race IntToRace(int value)
     // {
@@ -360,7 +444,7 @@ public static class RaceFuncs
     // RaceFuncs.RaceToIntForCompare(Unit.Race) <= RaceFuncs.RaceToIntForCompare(Race.Goblins)
     internal static bool isMainRaceOrTigerOrSuccubiOrGoblin(Race race)
     {
-        return race.HasTag(RaceTag.MainRace) || Equals(race, Race.Tigers) || Equals(race, Race.Succubi) || Equals(race, Race.Goblins);
+        return race.HasTag(RaceTag.MainRace) || Equals(race, Race.Tiger) || Equals(race, Race.Succubus) || Equals(race, Race.Goblin);
     }
 
 
@@ -813,89 +897,89 @@ public class Race : IComparable<Race>
     public static Race TrueNone = null;
 
     // FIX Circular referrence static initialization
-    public static Race Cats = RegisterRace("cat", Races.Graphics.Implementations.MainRaces.Cats.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Dogs = RegisterRace("dog", Races.Graphics.Implementations.MainRaces.Dogs.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Foxes = RegisterRace("fox", Races.Graphics.Implementations.MainRaces.Foxes.Instance,                  new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Wolves = RegisterRace("wolf", Races.Graphics.Implementations.MainRaces.Wolves.Instance,               new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Bunnies = RegisterRace("bunny", Races.Graphics.Implementations.MainRaces.Bunnies.Instance,            new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Lizards = RegisterRace("lizard", Races.Graphics.Implementations.MainRaces.Lizards.Instance,           new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Slimes = RegisterRace("slime", Races.Graphics.Implementations.MainRaces.Slimes.Instance,              new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Cat = RegisterRace("cat", Races.Graphics.Implementations.MainRaces.Cats.Instance,                     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Dog = RegisterRace("dog", Races.Graphics.Implementations.MainRaces.Dogs.Instance,                     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Fox = RegisterRace("fox", Races.Graphics.Implementations.MainRaces.Foxes.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Wolf = RegisterRace("wolf", Races.Graphics.Implementations.MainRaces.Wolves.Instance,                 new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Bunny = RegisterRace("bunny", Races.Graphics.Implementations.MainRaces.Bunnies.Instance,              new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Lizard = RegisterRace("lizard", Races.Graphics.Implementations.MainRaces.Lizards.Instance,            new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Slime = RegisterRace("slime", Races.Graphics.Implementations.MainRaces.Slimes.Instance,               new[]{ RaceTag.Humanoid, RaceTag.MainRace });
     public static Race Scylla = RegisterRace("scylla", Races.Graphics.Implementations.MainRaces.Scylla.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Harpies = RegisterRace("harpy", Races.Graphics.Implementations.MainRaces.Harpies.Instance,            new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Imps = RegisterRace("imp", Races.Graphics.Implementations.MainRaces.Imps.Instance,                    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Humans = RegisterRace("human", Races.Graphics.Implementations.MainRaces.Humans.Instance,              new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Crypters = RegisterRace("crypter", Races.Graphics.Implementations.MainRaces.Crypters.Instance,        new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Harpy = RegisterRace("harpy", Races.Graphics.Implementations.MainRaces.Harpies.Instance,              new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Imp = RegisterRace("imp", Races.Graphics.Implementations.MainRaces.Imps.Instance,                     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Human = RegisterRace("human", Races.Graphics.Implementations.MainRaces.Humans.Instance,               new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Crypter = RegisterRace("crypter", Races.Graphics.Implementations.MainRaces.Crypters.Instance,         new[]{ RaceTag.Humanoid, RaceTag.MainRace });
     public static Race Lamia = RegisterRace("lamia", Races.Graphics.Implementations.MainRaces.Lamia.Instance,                new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Kangaroos = RegisterRace("kangaroo", Races.Graphics.Implementations.MainRaces.Kangaroos.Instance,     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Kangaroo = RegisterRace("kangaroo", Races.Graphics.Implementations.MainRaces.Kangaroos.Instance,      new[]{ RaceTag.Humanoid, RaceTag.MainRace });
     public static Race Taurus = RegisterRace("taurus", Races.Graphics.Implementations.MainRaces.Taurus.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
     public static Race Crux = RegisterRace("crux", Races.Graphics.Implementations.MainRaces.Crux.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Equines = null; // RegisterRace("equines", Races.Graphics.Implementations.MainRaces.EquinesImrpoved.Instance,       new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Equine = null; // TODO RegisterRace("equine", Races.Graphics.Implementations.MainRaces.EquinesImrpoved.Instance,    new[]{ RaceTag.Humanoid, RaceTag.MainRace });
     public static Race Sergal = RegisterRace("sergal", Races.Graphics.Implementations.MainRaces.Sergal.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Bees = RegisterRace("bees", Races.Graphics.Implementations.MainRaces.Bees.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Driders = RegisterRace("driders", Races.Graphics.Implementations.MainRaces.Driders.Instance,          new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Bee = RegisterRace("bee", Races.Graphics.Implementations.MainRaces.Bees.Instance,                     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Drider = RegisterRace("drider", Races.Graphics.Implementations.MainRaces.Driders.Instance,            new[]{ RaceTag.Humanoid, RaceTag.MainRace });
     public static Race Alraune = RegisterRace("alraune", Races.Graphics.Implementations.MainRaces.Alraune.Instance,          new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race DemiBats = RegisterRace("demiBats", Races.Graphics.Implementations.MainRaces.DemiBats.Instance,       new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Panthers = RegisterRace("panthers", Races.Graphics.Implementations.MainRaces.Panthers.Instance,       new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Bat = RegisterRace("bat", Races.Graphics.Implementations.MainRaces.DemiBats.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Panther = RegisterRace("panther", Races.Graphics.Implementations.MainRaces.Panthers.Instance,         new[]{ RaceTag.Humanoid, RaceTag.MainRace });
     public static Race Merfolk = RegisterRace("merfolk", Races.Graphics.Implementations.MainRaces.Merfolk.Instance,          new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Avians = RegisterRace("avians", Races.Graphics.Implementations.MainRaces.Avians.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Ants = RegisterRace("ants", Races.Graphics.Implementations.MainRaces.Ants.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Demifrogs = RegisterRace("frogs", Races.Graphics.Implementations.MainRaces.Demifrogs.Instance,        new[]{ RaceTag.Humanoid, RaceTag.MainRace });
-    public static Race Demisharks = RegisterRace("sharks", Races.Graphics.Implementations.MainRaces.Demisharks.Instance,     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Avian = RegisterRace("avian", Races.Graphics.Implementations.MainRaces.Avians.Instance,               new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Ant = RegisterRace("ant", Races.Graphics.Implementations.MainRaces.Ants.Instance,                     new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Frog = RegisterRace("frog", Races.Graphics.Implementations.MainRaces.Demifrogs.Instance,              new[]{ RaceTag.Humanoid, RaceTag.MainRace });
+    public static Race Shark = RegisterRace("shark", Races.Graphics.Implementations.MainRaces.Demisharks.Instance,           new[]{ RaceTag.Humanoid, RaceTag.MainRace });
     public static Race Deer = RegisterRace("deer", Races.Graphics.Implementations.MainRaces.Deer.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.MainRace });
     public static Race Aabayx = RegisterRace("aabayx", Races.Graphics.Implementations.MainRaces.Aabayx.Instance,             new[]{ RaceTag.Humanoid, RaceTag.MainRace });
 
-    public static Race Succubi = RegisterRace("succubus", Races.Graphics.Implementations.Mercs.Succubi.Instance,         new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Tigers = RegisterRace("tiger", Races.Graphics.Implementations.Mercs.Tigers.Instance,              new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Goblins = RegisterRace("goblin", Races.Graphics.Implementations.Mercs.Goblins.Instance,           new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Alligators = RegisterRace("alligator", Races.Graphics.Implementations.Mercs.Alligators.Instance,  new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Succubus = RegisterRace("succubu", Races.Graphics.Implementations.Mercs.Succubi.Instance,         new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Tiger = RegisterRace("tiger", Races.Graphics.Implementations.Mercs.Tigers.Instance,               new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Goblin = RegisterRace("goblin", Races.Graphics.Implementations.Mercs.Goblins.Instance,            new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Alligator = RegisterRace("alligator", Races.Graphics.Implementations.Mercs.Alligators.Instance,   new[]{ RaceTag.Humanoid, RaceTag.Merc });
     public static Race Puca = RegisterRace("puca", Races.Graphics.Implementations.Mercs.Puca.Instance,                   new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Kobolds = RegisterRace("Kobold", Races.Graphics.Implementations.Mercs.Kobolds.Instance,           new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race DewSprites = RegisterRace("dewSprite", Races.Graphics.Implementations.Mercs.DewSprites.Instance,  new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Hippos = RegisterRace("hippos", Races.Graphics.Implementations.Mercs.Hippos.Instance,             new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Vipers = RegisterRace("vipers", Races.Graphics.Implementations.Mercs.Vipers.Instance,             new[]{ RaceTag.Humanoid, RaceTag.Merc });
-    public static Race Komodos = RegisterRace("komodos", Races.Graphics.Implementations.Mercs.Komodos.Instance,          new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Kobold = RegisterRace("Kobold", Races.Graphics.Implementations.Mercs.Kobolds.Instance,            new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race DewSprite = RegisterRace("dewSprite", Races.Graphics.Implementations.Mercs.DewSprites.Instance,   new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Hippo = RegisterRace("hippo", Races.Graphics.Implementations.Mercs.Hippos.Instance,               new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Viper = RegisterRace("viper", Races.Graphics.Implementations.Mercs.Vipers.Instance,               new[]{ RaceTag.Humanoid, RaceTag.Merc });
+    public static Race Komodo = RegisterRace("komodo", Races.Graphics.Implementations.Mercs.Komodos.Instance,            new[]{ RaceTag.Humanoid, RaceTag.Merc });
     public static Race Cockatrice = RegisterRace("cockatrice", Races.Graphics.Implementations.Mercs.Cockatrice.Instance, new[]{ RaceTag.Humanoid, RaceTag.Merc });
     public static Race Vargul = RegisterRace("vargul", Races.Graphics.Implementations.Mercs.Vargul.Instance,             new[]{ RaceTag.Humanoid, RaceTag.Merc });
     public static Race Youko = RegisterRace("youko", Races.Graphics.Implementations.Mercs.Youko.Instance,                new[]{ RaceTag.Humanoid, RaceTag.Merc });
 
-    public static Race Vagrants = RegisterRace("vagrants", Races.Graphics.Implementations.Monsters.Vagrants.Instance,                new[]{ RaceTag.Monster });
-    public static Race Serpents = RegisterRace("serpents", Races.Graphics.Implementations.Monsters.Serpents.Instance,                new[]{ RaceTag.Monster });
+    public static Race Vagrant = RegisterRace("vagrant", Races.Graphics.Implementations.Monsters.Vagrants.Instance,                  new[]{ RaceTag.Monster });
+    public static Race Serpent = RegisterRace("serpent", Races.Graphics.Implementations.Monsters.Serpents.Instance,                  new[]{ RaceTag.Monster });
     public static Race Wyvern = RegisterRace("wyvern", Races.Graphics.Implementations.Monsters.Wyvern.Instance,                      new[]{ RaceTag.Monster });
     public static Race YoungWyvern = RegisterRace("youngWyvern", Races.Graphics.Implementations.Monsters.YoungWyvern.Instance,       new[]{ RaceTag.Monster });
     public static Race Compy = RegisterRace("compy", Races.Graphics.Implementations.Monsters.Compy.Instance,                         new[]{ RaceTag.Monster });
-    public static Race FeralSharks = RegisterRace("feralSharks", Races.Graphics.Implementations.Monsters.FeralSharks.Instance,       new[]{ RaceTag.Monster });
-    public static Race FeralWolves = RegisterRace("feralWolves", Races.Graphics.Implementations.Monsters.FeralWolves.Instance,       new[]{ RaceTag.Monster });
+    public static Race FeralShark = RegisterRace("feralShark", Races.Graphics.Implementations.Monsters.FeralSharks.Instance,         new[]{ RaceTag.Monster });
+    public static Race FeralWolve = RegisterRace("feralWolve", Races.Graphics.Implementations.Monsters.FeralWolves.Instance,         new[]{ RaceTag.Monster });
     public static Race DarkSwallower = RegisterRace("darkSwallower", Races.Graphics.Implementations.Monsters.DarkSwallower.Instance, new[]{ RaceTag.Monster });
     public static Race Cake = RegisterRace("cake", Races.Graphics.Implementations.Monsters.Cake.Instance,                            new[]{ RaceTag.Monster });
-    public static Race Harvesters = RegisterRace("harvesters", Races.Graphics.Implementations.Monsters.Harvesters.Instance,          new[]{ RaceTag.Monster });
-    public static Race Collectors = RegisterRace("collectors", Races.Graphics.Implementations.Monsters.Collectors.Instance,          new[]{ RaceTag.Monster });
+    public static Race Harvester = RegisterRace("harvester", Races.Graphics.Implementations.Monsters.Harvesters.Instance,            new[]{ RaceTag.Monster });
+    public static Race Collector = RegisterRace("collector", Races.Graphics.Implementations.Monsters.Collectors.Instance,            new[]{ RaceTag.Monster });
     public static Race Voilin = RegisterRace("voilin", Races.Graphics.Implementations.Monsters.Voilin.Instance,                      new[]{ RaceTag.Monster });
-    public static Race FeralBats = RegisterRace("feralBats", Races.Graphics.Implementations.Monsters.FeralBats.Instance,             new[]{ RaceTag.Monster });
-    public static Race FeralFrogs = RegisterRace("feralFrogs", Races.Graphics.Implementations.Monsters.FeralFrogs.Instance,          new[]{ RaceTag.Monster });
+    public static Race FeralBat = RegisterRace("feralBat", Races.Graphics.Implementations.Monsters.FeralBats.Instance,               new[]{ RaceTag.Monster });
+    public static Race FeralFrog = RegisterRace("feralFrog", Races.Graphics.Implementations.Monsters.FeralFrogs.Instance,            new[]{ RaceTag.Monster });
     public static Race Dragon = RegisterRace("dragon", Races.Graphics.Implementations.Monsters.Dragon.Instance,                      new[]{ RaceTag.Monster });
     public static Race Dragonfly = RegisterRace("dragonfly", Races.Graphics.Implementations.Monsters.Dragonfly.Instance,             new[]{ RaceTag.Monster });
-    public static Race TwistedVines = RegisterRace("twistedVines", Races.Graphics.Implementations.Monsters.TwistedVines.Instance,    new[]{ RaceTag.Monster });
-    public static Race Fairies = RegisterRace("fairies", Races.Graphics.Implementations.Monsters.Fairies.Instance,                   new[]{ RaceTag.Monster });
-    public static Race FeralAnts = RegisterRace("feralAnts", Races.Graphics.Implementations.Monsters.FeralAnts.Instance,             new[]{ RaceTag.Monster });
-    public static Race Gryphons = RegisterRace("gryphons", Races.Graphics.Implementations.Monsters.Gryphons.Instance,                new[]{ RaceTag.Monster });
-    public static Race SpitterSlugs = RegisterRace("spitterSlugs", Races.Graphics.Implementations.Monsters.SpitterSlugs.Instance,    new[]{ RaceTag.Monster });
-    public static Race SpringSlugs = RegisterRace("springSlugs", Races.Graphics.Implementations.Monsters.SpringSlugs.Instance,       new[]{ RaceTag.Monster });
-    public static Race RockSlugs = RegisterRace("rockSlugs", Races.Graphics.Implementations.Monsters.RockSlugs.Instance,             new[]{ RaceTag.Monster });
-    public static Race CoralSlugs = RegisterRace("coralSlugs", Races.Graphics.Implementations.Monsters.CoralSlugs.Instance,          new[]{ RaceTag.Monster });
-    public static Race Salamanders = RegisterRace("salamanders", Races.Graphics.Implementations.Monsters.Salamanders.Instance,       new[]{ RaceTag.Monster });
-    public static Race Mantis = RegisterRace("mantis", Races.Graphics.Implementations.Monsters.Mantis.Instance,                      new[]{ RaceTag.Monster });
+    public static Race TwistedVine = RegisterRace("twistedVine", Races.Graphics.Implementations.Monsters.TwistedVines.Instance,      new[]{ RaceTag.Monster });
+    public static Race Fairy = RegisterRace("fairy", Races.Graphics.Implementations.Monsters.Fairies.Instance,                       new[]{ RaceTag.Monster });
+    public static Race FeralAnt = RegisterRace("feralAnt", Races.Graphics.Implementations.Monsters.FeralAnts.Instance,               new[]{ RaceTag.Monster });
+    public static Race Gryphon = RegisterRace("gryphon", Races.Graphics.Implementations.Monsters.Gryphons.Instance,                  new[]{ RaceTag.Monster });
+    public static Race SpitterSlug = RegisterRace("spitterSlug", Races.Graphics.Implementations.Monsters.SpitterSlugs.Instance,      new[]{ RaceTag.Monster });
+    public static Race SpringSlug = RegisterRace("springSlug", Races.Graphics.Implementations.Monsters.SpringSlugs.Instance,         new[]{ RaceTag.Monster });
+    public static Race RockSlug = RegisterRace("rockSlug", Races.Graphics.Implementations.Monsters.RockSlugs.Instance,               new[]{ RaceTag.Monster });
+    public static Race CoralSlug = RegisterRace("coralSlug", Races.Graphics.Implementations.Monsters.CoralSlugs.Instance,            new[]{ RaceTag.Monster });
+    public static Race Salamander = RegisterRace("salamander", Races.Graphics.Implementations.Monsters.Salamanders.Instance,         new[]{ RaceTag.Monster });
+    public static Race Manti = RegisterRace("mantis", Races.Graphics.Implementations.Monsters.Mantis.Instance,                       new[]{ RaceTag.Monster });
     public static Race EasternDragon = RegisterRace("easternDragon", Races.Graphics.Implementations.Monsters.EasternDragon.Instance, new[]{ RaceTag.Monster });
     public static Race Catfish = RegisterRace("catfish", Races.Graphics.Implementations.Monsters.Catfish.Instance,                   new[]{ RaceTag.Monster });
     public static Race Raptor = RegisterRace("raptor", Races.Graphics.Implementations.Monsters.Raptor.Instance,                      new[]{ RaceTag.Monster });
-    public static Race WarriorAnts = RegisterRace("warriorAnts", Races.Graphics.Implementations.Monsters.WarriorAnts.Instance,       new[]{ RaceTag.Monster });
+    public static Race WarriorAnt = RegisterRace("warriorAnt", Races.Graphics.Implementations.Monsters.WarriorAnts.Instance,         new[]{ RaceTag.Monster });
     public static Race Gazelle = RegisterRace("gazelle", Races.Graphics.Implementations.Monsters.Gazelle.Instance,                   new[]{ RaceTag.Monster });
-    public static Race Earthworms = RegisterRace("earthworms", Races.Graphics.Implementations.Monsters.Earthworms.Instance,          new[]{ RaceTag.Monster });
-    public static Race FeralLizards = RegisterRace("feralLizards", Races.Graphics.Implementations.Monsters.FeralLizards.Instance,    new[]{ RaceTag.Monster });
-    public static Race Monitors = RegisterRace("monitors", Races.Graphics.Implementations.Monsters.Monitors.Instance,                new[]{ RaceTag.Monster });
+    public static Race Earthworms = RegisterRace("earthworm", Races.Graphics.Implementations.Monsters.Earthworms.Instance,           new[]{ RaceTag.Monster });
+    public static Race FeralLizard = RegisterRace("feralLizard", Races.Graphics.Implementations.Monsters.FeralLizards.Instance,      new[]{ RaceTag.Monster });
+    public static Race Monitor = RegisterRace("monitor", Races.Graphics.Implementations.Monsters.Monitors.Instance,                  new[]{ RaceTag.Monster });
     public static Race Schiwardez = RegisterRace("schiwardez", Races.Graphics.Implementations.Monsters.Schiwardez.Instance,          new[]{ RaceTag.Monster });
     public static Race Terrorbird = RegisterRace("terrorbird", Races.Graphics.Implementations.Monsters.Terrorbird.Instance,          new[]{ RaceTag.Monster });
     public static Race Dratopyr = RegisterRace("dratopyr", Races.Graphics.Implementations.Monsters.Dratopyr.Instance,                new[]{ RaceTag.Monster });
-    public static Race FeralLions = RegisterRace("feralLions", Races.Graphics.Implementations.Monsters.FeralLions.Instance,          new[]{ RaceTag.Monster });
+    public static Race FeralLion = RegisterRace("feralLion", Races.Graphics.Implementations.Monsters.FeralLions.Instance,            new[]{ RaceTag.Monster });
     public static Race Goodra = RegisterRace("goodra", Races.Graphics.Implementations.Monsters.Goodra.Instance,                      new[]{ RaceTag.Monster });
     public static Race Whisp = RegisterRace("whisp", Races.Graphics.Implementations.Monsters.Whisp.Instance,                         new[]{ RaceTag.Monster });
  

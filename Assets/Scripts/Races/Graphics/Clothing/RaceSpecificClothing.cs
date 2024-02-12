@@ -1431,7 +1431,7 @@ internal static class LizardBlackTop
         {
             output["Clothing1"].Layer(17);
             output["Clothing1"].Coloring(Color.white);
-            if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
+            if ((Equals(input.U.GetRace, Race.Lizard) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
             {
                 output.RevealsDick = true;
                 output["Clothing1"].Sprite(null);
@@ -1466,7 +1466,7 @@ internal static class LizardBikiniTop
         builder.RenderAll((input, output) =>
         {
             output["Clothing1"].Layer(17);
-            if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
+            if ((Equals(input.U.GetRace, Race.Lizard) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
             {
                 output.RevealsDick = true;
                 output["Clothing1"].Sprite(null);
@@ -1502,7 +1502,7 @@ internal static class LizardStrapTop
         builder.RenderAll((input, output) =>
         {
             output["Clothing1"].Layer(17);
-            if ((Equals(input.U.GetRace, Race.Lizards) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
+            if ((Equals(input.U.GetRace, Race.Lizard) && input.A.IsAnalVoring) || input.A.IsUnbirthing)
             {
                 output.RevealsDick = true;
                 output["Clothing1"].Sprite(null);

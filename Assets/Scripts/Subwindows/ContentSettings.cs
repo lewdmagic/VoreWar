@@ -371,20 +371,20 @@ public class ContentSettings : MonoBehaviour
 
         foreach (Race race in RaceFuncs.RaceEnumerable())
         { //Done separately to keep their initial order for now
-            if (RaceFuncs.isMonster(race) && !Equals(race, Race.YoungWyvern) && !Equals(race, Race.DarkSwallower) && !Equals(race, Race.Collectors) && !Equals(race, Race.CoralSlugs)
-                && !Equals(race, Race.SpitterSlugs) && !Equals(race, Race.SpringSlugs) && !Equals(race, Race.Raptor) && !Equals(race, Race.WarriorAnts))
+            if (RaceFuncs.isMonster(race) && !Equals(race, Race.YoungWyvern) && !Equals(race, Race.DarkSwallower) && !Equals(race, Race.Collector) && !Equals(race, Race.CoralSlug)
+                && !Equals(race, Race.SpitterSlug) && !Equals(race, Race.SpringSlug) && !Equals(race, Race.Raptor) && !Equals(race, Race.WarriorAnt))
             {
                 var spawner = CreateMonsterPanel(race);
                 MonsterSpawners.Add(spawner);
                 if (Equals(race, Race.Wyvern))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 115;
-                else if (Equals(race, Race.FeralSharks))
+                else if (Equals(race, Race.FeralShark))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 116;
-                else if (Equals(race, Race.Harvesters))
+                else if (Equals(race, Race.Harvester))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 138;
                 else if (Equals(race, Race.Compy))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 209;
-                else if (Equals(race, Race.Monitors))
+                else if (Equals(race, Race.Monitor))
                     spawner.AddonRace.GetComponent<DisplayTooltip>().value = 232;
                 else
                     spawner.AddonRace.gameObject.SetActive(false);
@@ -916,7 +916,7 @@ public class ContentSettings : MonoBehaviour
             {
                 foreach (Unit unit in StrategicUtilities.GetAllUnits())
                 {
-                    if (!Equals(unit.Race, Race.Vagrants))
+                    if (!Equals(unit.Race, Race.Vagrant))
                     {
                         unit.ReloadTraits();
                     }

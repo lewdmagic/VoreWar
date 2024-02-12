@@ -15,11 +15,11 @@
         Stats[(int)Stat.Stomach] = 4 + raceStats.Stomach.Minimum;
 
         Health = MaxHealth;
-        if (Equals(race, Race.Lizards))
-            Races2.GetRace(Race.Lizards).RandomCustomCall(this);
+        if (Equals(race, Race.Lizard))
+            Races2.GetRace(Race.Lizard).RandomCustomCall(this);
         ExpMultiplier = 2;
         Type = UnitType.Spawn;
-        if (Equals(race, Race.Slimes))
+        if (Equals(race, Race.Slime))
         {
             if (Config.HermFraction >= 0.05)
             {

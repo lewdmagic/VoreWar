@@ -539,7 +539,7 @@ class TacticalMapGenerator
             //
             // }
 
-            if (Equals(village.Race, Race.Harpies))
+            if (Equals(village.Race, Race.Harpy))
             {
                 return GetRandomBuildingFrom(loc, typeof(HarpyNest), typeof(HarpyNestCanopy));
             } 
@@ -547,21 +547,21 @@ class TacticalMapGenerator
             {
                 return GetRandomBuildingFrom(loc, typeof(StoneHouse), typeof(LamiaTemple), typeof(FancyStoneHouse));
             } 
-            else if (Equals(village.Race, Race.Cats))
+            else if (Equals(village.Race, Race.Cat))
             {
                 if (State.Rand.Next(2) == 0)
                 {
                     return GetRandomBuildingFrom(loc, typeof(CatHouse), typeof(YellowCobbleStoneHouse));
                 }
             }
-            else if (Equals(village.Race, Race.Youko) || Equals(village.Race, Race.Foxes))
+            else if (Equals(village.Race, Race.Youko) || Equals(village.Race, Race.Fox))
             {
                 if (State.Rand.Next(3) == 0)
                 {
                     return new FoxStoneHouse(loc);
                 }
             }
-            else if (Equals(village.Race, Race.Crux) || Equals(village.Race, Race.Kangaroos))
+            else if (Equals(village.Race, Race.Crux) || Equals(village.Race, Race.Kangaroo))
             {
                 return GetRandomBuildingFrom(loc, typeof(LogCabin), typeof(Log1x2), typeof(Log1x1));
             }

@@ -1993,7 +1993,7 @@ public class PredatorComponent
             if (Config.Scat && preyUnit.ScatDisabled == false)
             {
                 State.GameManager.SoundManager.PlayAbsorb(location, actor);
-                if (Equals(preyUnit.Unit.Race, Race.Slimes))
+                if (Equals(preyUnit.Unit.Race, Race.Slime))
                 {
                     State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.SlimePile, preyUnit.Unit.Name, preyUnit.Unit.AccessoryColor);
                 }
@@ -2047,7 +2047,7 @@ public class PredatorComponent
     {
         if (StomachTransition.transitionTime < StomachTransition.transitionLength)
         {
-            if (Equals(unit.Race, Race.FeralFrogs) && actor.IsOralVoring && actor.IsOralVoringHalfOver == false)
+            if (Equals(unit.Race, Race.FeralFrog) && actor.IsOralVoring && actor.IsOralVoringHalfOver == false)
                 return;
             StomachTransition.transitionTime += Time.deltaTime;
             VisibleFullness = Mathf.Lerp(StomachTransition.transitionStart, StomachTransition.transitionEnd, StomachTransition.transitionTime / StomachTransition.transitionLength);

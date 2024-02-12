@@ -52,7 +52,7 @@ public class NameGenerator
         {
             var logFile = File.ReadAllLines($"{State.StorageDirectory}armyNames.txt", encoding);
             bool expectingdefault = false;
-            Race currentRace = Race.Cats;
+            Race currentRace = Race.Cat;
             foreach (string entry in logFile)
             {
                 if (entry.Length > 0)
@@ -249,7 +249,7 @@ public class NameGenerator
             }
         }
         
-        else if (Equals(race, Race.Vagrants))
+        else if (Equals(race, Race.Vagrant))
         {
             return $"Abandoned town {i + 1}";
         }

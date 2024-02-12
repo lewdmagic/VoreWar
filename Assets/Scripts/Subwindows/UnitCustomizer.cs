@@ -165,7 +165,7 @@ public class UnitCustomizer
         buttons[ButtonType.ClothingExtraType4].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing4Count > 1);
         buttons[ButtonType.ClothingExtraType5].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing5Count > 1);
         buttons[ButtonType.HatType].gameObject.SetActive(RaceData.SetupOutput.ClothingHatTypesCount > 1);
-        buttons[ButtonType.ClothingAccessoryType].gameObject.SetActive(RaceData.SetupOutput.ClothingAccessoryTypesCount > 1 || (unit2.EarnedMask && RaceFuncs.isMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizards)));
+        buttons[ButtonType.ClothingAccessoryType].gameObject.SetActive(RaceData.SetupOutput.ClothingAccessoryTypesCount > 1 || (unit2.EarnedMask && RaceFuncs.isMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizard)));
         
         
         // TODO needs to be fixed, missing feature until there is a good way to achieve it. 
@@ -744,7 +744,7 @@ public class UnitCustomizer
     void ChangeHairColor(int change)
     {
         Unit.HairColor = (RaceData.SetupOutput.HairColors + Unit.HairColor + change) % RaceData.SetupOutput.HairColors;
-        if (Equals(Unit.Race, Race.Cats) | Equals(Unit.Race, Race.Dogs) | Equals(Unit.Race, Race.Bunnies) | Equals(Unit.Race, Race.Wolves) | Equals(Unit.Race, Race.Foxes) | Equals(Unit.Race, Race.Tigers))
+        if (Equals(Unit.Race, Race.Cat) | Equals(Unit.Race, Race.Dog) | Equals(Unit.Race, Race.Bunny) | Equals(Unit.Race, Race.Wolf) | Equals(Unit.Race, Race.Fox) | Equals(Unit.Race, Race.Tiger))
         {
             buttons[ButtonType.HairColor].Label.text = "Hair Color: " + HairColorLookup(Unit.HairColor);
         }
@@ -802,7 +802,7 @@ public class UnitCustomizer
     void ChangeBodyAccessoryColor(int change)
     {
         Unit.AccessoryColor = (RaceData.SetupOutput.AccessoryColors + Unit.AccessoryColor + change) % RaceData.SetupOutput.AccessoryColors;
-        if (Equals(Unit.Race, Race.Cats) | Equals(Unit.Race, Race.Dogs) | Equals(Unit.Race, Race.Bunnies) | Equals(Unit.Race, Race.Wolves) | Equals(Unit.Race, Race.Foxes) | Equals(Unit.Race, Race.Tigers))
+        if (Equals(Unit.Race, Race.Cat) | Equals(Unit.Race, Race.Dog) | Equals(Unit.Race, Race.Bunny) | Equals(Unit.Race, Race.Wolf) | Equals(Unit.Race, Race.Fox) | Equals(Unit.Race, Race.Tiger))
             buttons[ButtonType.BodyAccessoryColor].Label.text = "Fur Color: " + HairColorLookup(Unit.AccessoryColor);
         RefreshView();
     }
@@ -1151,7 +1151,7 @@ public class UnitCustomizer
     void ChangeClothingAccesoryType(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.ClothingAccessoryTypesCount;
-        if (Unit.EarnedMask && RaceFuncs.isMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizards))
+        if (Unit.EarnedMask && RaceFuncs.isMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizard))
             totalClothingTypes += 1;
         if (totalClothingTypes == 0)
         {

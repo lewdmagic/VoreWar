@@ -39,12 +39,12 @@ internal static class SantaHat
 
     private static Dictionary<Race, Vector2> OffsetsForRaces = new Dictionary<Race, Vector2>()
     {
-        { Race.Imps,      new Vector2(0, -22 * .625f) },
-        { Race.Goblins,   new Vector2(0, 12 * .625f) },
+        { Race.Imp,      new Vector2(0, -22 * .625f) },
+        { Race.Goblin,   new Vector2(0, 12 * .625f) },
         { Race.Taurus,    new Vector2(0, 9 * .625f) },
-        { Race.Demifrogs, new Vector2(0, 26 * .625f) },
+        { Race.Frog, new Vector2(0, 26 * .625f) },
         { Race.Merfolk,   new Vector2(0, 14 * .625f) },
-        { Race.Kangaroos, new Vector2(0, -3 * .625f) },
+        { Race.Kangaroo, new Vector2(0, -3 * .625f) },
         { Race.Sergal,    new Vector2(0, 26 * .625f) },
     };
     

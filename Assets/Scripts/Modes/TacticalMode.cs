@@ -604,11 +604,11 @@ public class TacticalMode : SceneBase
     {
         if (State.GameManager.PureTactical == false && Config.NoAIRetreat == false)
         {
-            if (empire != null && Equals(empire?.Race, Race.Vagrants))
+            if (empire != null && Equals(empire?.Race, Race.Vagrant))
             {
                 AI.RetreatPlan = new TacticalAI.RetreatConditions(.2f, fighters.Count + 2);
             }
-            if (empire != null && Equals(empire?.ReplacedRace, Race.FeralLions))
+            if (empire != null && Equals(empire?.ReplacedRace, Race.FeralLion))
             {
                 AI.RetreatPlan = new TacticalAI.RetreatConditions(0, fighters.Count * 3, 0.9f);
             }
@@ -748,9 +748,9 @@ public class TacticalMode : SceneBase
                 Race race;
                 int level = (int)Mathf.Max((0.4f * attackerLevels / attackerSummoners) - 2, 1);
                 if (State.Rand.Next(3) == 0)
-                    race = Race.WarriorAnts;
+                    race = Race.WarriorAnt;
                 else
-                    race = Race.FeralAnts;
+                    race = Race.FeralAnt;
                 Unit newUnit = new NPC_unit(level, false, 2, armies[0].Side, race, 0, attackerPred);
                 newUnit.Type = UnitType.Summon;
                 Actor_Unit unit = new Actor_Unit(mapGen.RandomActorPosition(tiles, BlockedTile, units, TacticalMapGenerator.SpawnLocation.upperMiddle, newUnit.GetBestRanged() == null), newUnit);
@@ -771,9 +771,9 @@ public class TacticalMode : SceneBase
                 Race race;
                 int level = (int)Mathf.Max((0.4f * defenderLevels / defenderSummoners) - 2, 1);
                 if (State.Rand.Next(3) == 0)
-                    race = Race.WarriorAnts;
+                    race = Race.WarriorAnt;
                 else
-                    race = Race.FeralAnts;
+                    race = Race.FeralAnt;
                 Unit newUnit = new NPC_unit(level, false, 2, defenderSide, race, 0, defenderPred);
                 newUnit.Type = UnitType.Summon;
                 Actor_Unit unit = new Actor_Unit(mapGen.RandomActorPosition(tiles, BlockedTile, units, TacticalMapGenerator.SpawnLocation.lowerMiddle, newUnit.GetBestRanged() == null), newUnit);
@@ -1576,7 +1576,7 @@ Turns: {currentTurn}
         else
         {
             int spriteNum;
-            int offset = Equals(scatInfo.predRace, Race.Slimes) ? 2 : 0;
+            int offset = Equals(scatInfo.predRace, Race.Slime) ? 2 : 0;
 
             if (Config.ScatBones == false)
             {
@@ -1584,7 +1584,7 @@ Turns: {currentTurn}
             }
             else
             {
-                if (Equals(scatInfo.preyRace, Race.Slimes))
+                if (Equals(scatInfo.preyRace, Race.Slime))
                     spriteNum = 0 + offset;
                 else
                     spriteNum = offset + State.Rand.Next(2);

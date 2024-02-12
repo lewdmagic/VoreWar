@@ -141,24 +141,24 @@ class MonsterStrategicAI : IStrategicAI
                             army.Units.Add(new Unit(empire.Side, Race.Wyvern, RandXp(baseXp), true));
                     }
                 }
-                else if (Equals(empire.ReplacedRace, Race.FeralSharks))
+                else if (Equals(empire.ReplacedRace, Race.FeralShark))
                 {
                     for (int i = 0; i < count; i++)
                     {
                         if (spawner.AddOnRace && State.Rand.Next(2) == 0)
                             army.Units.Add(new Unit(empire.Side, Race.DarkSwallower, RandXp(baseXp), true));
                         else
-                            army.Units.Add(new Unit(empire.Side, Race.FeralSharks, RandXp(baseXp), true));
+                            army.Units.Add(new Unit(empire.Side, Race.FeralShark, RandXp(baseXp), true));
                     }
                 }
-                else if (Equals(empire.ReplacedRace, Race.Harvesters))
+                else if (Equals(empire.ReplacedRace, Race.Harvester))
                 {
                     for (int i = 0; i < count; i++)
                     {
                         if (spawner.AddOnRace && State.Rand.Next(3) == 0)
-                            army.Units.Add(new Unit(empire.Side, Race.Collectors, RandXp(baseXp), true));
+                            army.Units.Add(new Unit(empire.Side, Race.Collector, RandXp(baseXp), true));
                         else
-                            army.Units.Add(new Unit(empire.Side, Race.Harvesters, RandXp(baseXp), true));
+                            army.Units.Add(new Unit(empire.Side, Race.Harvester, RandXp(baseXp), true));
                     }
                 }
                 else if (Equals(empire.ReplacedRace, Race.Dragon))
@@ -166,7 +166,7 @@ class MonsterStrategicAI : IStrategicAI
                     army.Units.Add(new Unit(empire.Side, Race.Dragon, RandXp(baseXp), true));
                     for (int i = 1; i < count; i++)
                     {
-                        Unit unit = new Unit(empire.Side, Race.Kobolds, RandXp(baseXp), true);
+                        Unit unit = new Unit(empire.Side, Race.Kobold, RandXp(baseXp), true);
                         if (unit.BestSuitedForRanged())
                             unit.Items[0] = State.World.ItemRepository.GetItem(ItemType.CompoundBow);
                         else
@@ -174,7 +174,7 @@ class MonsterStrategicAI : IStrategicAI
                         army.Units.Add(unit);
                     }
                 }
-                else if (Equals(empire.ReplacedRace, Race.RockSlugs))
+                else if (Equals(empire.ReplacedRace, Race.RockSlug))
                 {
                     const float rockFraction = .08f;
                     const float spitterFraction = .25f;
@@ -184,13 +184,13 @@ class MonsterStrategicAI : IStrategicAI
                     int coralCount = Math.Max((int)(coralFraction * count), 1);
                     int springCount = count - rockCount - spitterCount - coralCount;
                     for (int i = 0; i < rockCount; i++)
-                        army.Units.Add(new Unit(empire.Side, Race.RockSlugs, RandXp(baseXp), true));
+                        army.Units.Add(new Unit(empire.Side, Race.RockSlug, RandXp(baseXp), true));
                     for (int i = 0; i < spitterCount; i++)
-                        army.Units.Add(new Unit(empire.Side, Race.SpitterSlugs, RandXp(baseXp), true));
+                        army.Units.Add(new Unit(empire.Side, Race.SpitterSlug, RandXp(baseXp), true));
                     for (int i = 0; i < coralCount; i++)
-                        army.Units.Add(new Unit(empire.Side, Race.CoralSlugs, RandXp(baseXp), true));
+                        army.Units.Add(new Unit(empire.Side, Race.CoralSlug, RandXp(baseXp), true));
                     for (int i = 0; i < springCount; i++)
-                        army.Units.Add(new Unit(empire.Side, Race.SpringSlugs, RandXp(baseXp), true));
+                        army.Units.Add(new Unit(empire.Side, Race.SpringSlug, RandXp(baseXp), true));
                 }
                 else if (Equals(empire.ReplacedRace, Race.Compy))
                 {
@@ -202,22 +202,22 @@ class MonsterStrategicAI : IStrategicAI
                             army.Units.Add(new Unit(empire.Side, Race.Compy, RandXp(baseXp), true));
                     }
                 }
-                else if (Equals(empire.ReplacedRace, Race.Monitors))
+                else if (Equals(empire.ReplacedRace, Race.Monitor))
                 {
                     for (int i = 0; i < count; i++)
                     {
                         if (spawner.AddOnRace && State.Rand.Next(5) == 0)
-                            army.Units.Add(new Unit(empire.Side, Race.Komodos, RandXp(baseXp), true));
+                            army.Units.Add(new Unit(empire.Side, Race.Komodo, RandXp(baseXp), true));
                         else
-                            army.Units.Add(new Unit(empire.Side, Race.Monitors, RandXp(baseXp), true));
+                            army.Units.Add(new Unit(empire.Side, Race.Monitor, RandXp(baseXp), true));
                     }
                 }
-                else if (Equals(empire.ReplacedRace, Race.FeralLions))
+                else if (Equals(empire.ReplacedRace, Race.FeralLion))
                 {
-                    army.Units.Add(new Leader(empire.Side, Race.FeralLions, RandXp(baseXp * 2)));
+                    army.Units.Add(new Leader(empire.Side, Race.FeralLion, RandXp(baseXp * 2)));
                     for (int i = 1; i < count; i++)
                     {
-                        army.Units.Add(new Unit(empire.Side, Race.FeralLions, RandXp(baseXp), true));
+                        army.Units.Add(new Unit(empire.Side, Race.FeralLion, RandXp(baseXp), true));
                     }
                 }
                 else

@@ -19,9 +19,9 @@ class MapVillagePopulator
 
         for (int i = 0; i < map.storedVillages.Length; i++)
         {
-            if (Equals(map.storedVillages[i].Race, Race.Vagrants))
+            if (Equals(map.storedVillages[i].Race, Race.Vagrant))
             {
-                Race race = Race.Vagrants;
+                Race race = Race.Vagrant;
                 if (nameIndex.ContainsKey(race) == false)
                     nameIndex[race] = 0;
                 Village vill = new Village(State.NameGen.GetTownName(race, nameIndex[race]), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false);

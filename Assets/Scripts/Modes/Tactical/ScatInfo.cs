@@ -25,7 +25,7 @@ class ScatInfo
         preySize = Mathf.RoundToInt(preyUnit.Actor.BodySize());
 
         // ReSharper disable once PossibleUnintendedReferenceComparison
-        if (pred.Race == Race.Slimes)
+        if (pred.Race == Race.Slime)
         {
             color = pred.AccessoryColor;
         }

@@ -631,7 +631,7 @@ public class Recruit_Mode : SceneBase
                 GameObject obj = Instantiate(PopUI.RecruitPanel, PopUI.ActorFolder);
                 UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
                 // Side was 1 for Unit
-                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dogs.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
+                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dog.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
                 TextMeshProUGUI text = obj.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                 var racePar = RaceParameters.GetTraitData(actor.Unit);
                 text.text = $"{village.VillagePopulation.Population[i].Race}\nTotal: {village.VillagePopulation.Population[i].Population}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";
@@ -1164,7 +1164,7 @@ public class Recruit_Mode : SceneBase
     {
         Unit source = Customizer.Unit;
         foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race) &&
-        (s.Type == source.Type || (!Equals(source.Race, Race.Slimes) && source.Type == UnitType.Leader && (s.Type == UnitType.Soldier || s.Type == UnitType.Mercenary || s.Type == UnitType.Adventurer)))))
+        (s.Type == source.Type || (!Equals(source.Race, Race.Slime) && source.Type == UnitType.Leader && (s.Type == UnitType.Soldier || s.Type == UnitType.Mercenary || s.Type == UnitType.Adventurer)))))
         {
             unit.ClothingType = source.ClothingType;
             unit.ClothingType2 = source.ClothingType2;
@@ -1181,7 +1181,7 @@ public class Recruit_Mode : SceneBase
     public void CopyClothingColorFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => (Equals(s.Race, Race.Panthers)) == (Equals(source.Race, Race.Panthers)))) //Since panthers use different color systems
+        foreach (Unit unit in army.Units.Where(s => (Equals(s.Race, Race.Panther)) == (Equals(source.Race, Race.Panther)))) //Since panthers use different color systems
         {
             unit.ClothingColor = source.ClothingColor;
             unit.ClothingColor2 = source.ClothingColor2;
@@ -1809,7 +1809,7 @@ public class Recruit_Mode : SceneBase
                 GameObject obj = Instantiate(RaceUI.RecruitPanel, RaceUI.ActorFolder);
                 UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
                 // Side was 1 for Unit
-                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dogs.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
+                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dog.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
                 TextMeshProUGUI text = obj.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
                 var racePar = RaceParameters.GetTraitData(actor.Unit);
                 text.text = $"{village.VillagePopulation.Population[i].Race}\nAvailable: {village.VillagePopulation.Population[i].Population - village.VillagePopulation.Population[i].Hireables}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";

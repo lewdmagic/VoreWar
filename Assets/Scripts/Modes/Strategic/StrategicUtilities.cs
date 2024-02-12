@@ -124,7 +124,7 @@ static class StrategicUtilities
 
     public static void TryClaim(Vec2i location, Empire empire)
     {
-        if (Equals(empire.Race, Race.Goblins))
+        if (Equals(empire.Race, Race.Goblin))
             return;
 
         ClaimableBuilding claimable = GetClaimableAt(location);
@@ -475,9 +475,9 @@ static class StrategicUtilities
 
     internal static void SetAIClass(Unit unit, float magicChance = 0)
     {
-        if (Equals(unit.Race, Race.Fairies))
+        if (Equals(unit.Race, Race.Fairy))
             unit.AIClass = AIClass.MagicRanged;
-        else if ((Equals(unit.Race, Race.Succubi) || unit.FixedGear == false) && unit.BestSuitedForRanged() ||
+        else if ((Equals(unit.Race, Race.Succubus) || unit.FixedGear == false) && unit.BestSuitedForRanged() ||
             (unit.FixedGear && unit.GetBestRanged() != null))
         {
             if (unit.Items[1] is SpellBook || State.Rand.NextDouble() < magicChance)

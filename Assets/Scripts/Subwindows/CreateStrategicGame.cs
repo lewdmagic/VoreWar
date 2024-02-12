@@ -849,7 +849,7 @@ public class CreateStrategicGame : MonoBehaviour
             GameObject obj = Instantiate(RaceUI.RaceUnitPanel, RaceUI.RaceFolder);
             UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
             // Side was 1 for Unit
-            Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dogs.ToSide(), race, 0, true));
+            Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dog.ToSide(), race, 0, true));
             TextMeshProUGUI text = obj.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
             obj.GetComponentInChildren<UnitInfoPanel>().Unit = actor.Unit;
             var racePar = RaceParameters.GetTraitData(actor.Unit);

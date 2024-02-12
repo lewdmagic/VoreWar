@@ -127,4 +127,35 @@ public static class LuaUtil
             }
         );
     }
+
+    public static void RegisterStatic(Script script, string staticName, Type type)
+    {
+        // Get global methods (must be public) and add them to the script.Globals
+        MethodInfo[] globalMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);
+        var methodTable = new Table(script);
+        
+        foreach (var method in globalMethods)
+        {
+            // Get name, parameters and return type so we can build a delegate
+            string name = method.Name;
+            Type[] parameters = method.GetParameters().Select(p => p.ParameterType).ToArray();
+            Type returnType = method.ReturnType;
+
+            // Build a delegate and add to globals with the name of the method, use the correct delegate type based on the return type
+            if(returnType == typeof(void))
+            {
+                Delegate del = Delegate.CreateDelegate(Expression.GetActionType(parameters), method);
+                //script.Globals[name] = del;
+                methodTable.Set(name, DynValue.FromObject(script, del));
+            }
+            else
+            {
+                Delegate del = Delegate.CreateDelegate(Expression.GetFuncType(parameters.Concat(new[] { returnType }).ToArray()), method);
+                //script.Globals[name] = del;
+                methodTable.Set(name, DynValue.FromObject(script, del));
+            }
+        }
+
+        script.Globals[staticName] = methodTable;
+    }
 }

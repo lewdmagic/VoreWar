@@ -438,10 +438,10 @@ public class StrategyMode : SceneBase
                         switch (doodad)
                         {
                             case StrategicDoodadType.SpawnerVagrant:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Vagrants));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Vagrant));
                                 break;
                             case StrategicDoodadType.SpawnerSerpents:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Serpents));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Serpent));
                                 break;
                             case StrategicDoodadType.SpawnerWyvern:
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Wyvern));
@@ -450,25 +450,25 @@ public class StrategyMode : SceneBase
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Compy));
                                 break;
                             case StrategicDoodadType.SpawnerSharks:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralSharks));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralShark));
                                 break;
                             case StrategicDoodadType.SpawnerFeralWolves:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralWolves));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralWolve));
                                 break;
                             case StrategicDoodadType.SpawnerCake:
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Cake));
                                 break;
                             case StrategicDoodadType.SpawnerHarvester:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Harvesters));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Harvester));
                                 break;
                             case StrategicDoodadType.SpawnerVoilin:
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Voilin));
                                 break;
                             case StrategicDoodadType.SpawnerBats:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralBats));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralBat));
                                 break;
                             case StrategicDoodadType.SpawnerFrogs:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralFrogs));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralFrog));
                                 break;
                             case StrategicDoodadType.SpawnerDragon:
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Dragon));
@@ -477,25 +477,25 @@ public class StrategyMode : SceneBase
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Dragonfly));
                                 break;
                             case StrategicDoodadType.SpawnerTwistedVines:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.TwistedVines));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.TwistedVine));
                                 break;
                             case StrategicDoodadType.SpawnerFairy:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Fairies));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Fairy));
                                 break;
                             case StrategicDoodadType.SpawnerAnts:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralAnts));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralAnt));
                                 break;
                             case StrategicDoodadType.SpawnerGryphon:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Gryphons));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Gryphon));
                                 break;
                             case StrategicDoodadType.SpawnerSlugs:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.RockSlugs));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.RockSlug));
                                 break;
                             case StrategicDoodadType.SpawnerSalamanders:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Salamanders));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Salamander));
                                 break;
                             case StrategicDoodadType.SpawnerMantis:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Mantis));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Manti));
                                 break;
                             case StrategicDoodadType.SpawnerEasternDragon:
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.EasternDragon));
@@ -510,10 +510,10 @@ public class StrategyMode : SceneBase
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Earthworms));
                                 break;
                             case StrategicDoodadType.SpawnerFeralLizards:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralLizards));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralLizard));
                                 break;
                             case StrategicDoodadType.SpawnerMonitor:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Monitors));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Monitor));
                                 break;
                             case StrategicDoodadType.SpawnerSchiwardez:
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Schiwardez));
@@ -525,7 +525,7 @@ public class StrategyMode : SceneBase
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Dratopyr));
                                 break;
                             case StrategicDoodadType.SpawnerFeralLions:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralLions));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralLion));
                                 break;
                             case StrategicDoodadType.SpawnerGoodra:
                                 Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Goodra));
@@ -797,32 +797,41 @@ public class StrategyMode : SceneBase
         Village[] villages = State.World.Villages;
         currentVillageTiles = new List<GameObject>();
         currentClaimableTiles = new List<GameObject>();
-        int highestVillageSprite = VillageSprites.Count() - 1;
         for (int i = 0; i < villages.Length; i++)
         {
-            if (villages[i] == null)
+            Village village = villages[i];
+            if (village == null)
                 continue;
-            GameObject vill = Instantiate(GenericVillage, new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
-            vill.GetComponent<SpriteRenderer>().sprite = VillageSprites[villages[i].GetImageNum(highestVillageSprite)];
+            
+            ///////////////////
+            GameObject vill = Instantiate(GenericVillage, new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+            vill.GetComponent<SpriteRenderer>().sprite = village.GetIconSprite();
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            int villageColorSprite = villages[i].GetColoredImageNum(highestVillageSprite);
-            GameObject villColored = Instantiate(GenericVillage, new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
-            villColored.GetComponent<SpriteRenderer>().sprite = VillageSprites[villageColorSprite];
-            villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side).UnityColor;
-            if (villageColorSprite == 0)
-                villColored.GetComponent<SpriteRenderer>().color = Color.clear;
-            GameObject villShield = Instantiate(GenericVillage, new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
+            currentVillageTiles.Add(vill);
+            
+            /////////
+            Sprite villageColorSprite = village.GetColoredIcon();
+            if (villageColorSprite != null)
+            {
+                GameObject villColored = Instantiate(GenericVillage, new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                villColored.GetComponent<SpriteRenderer>().sprite = villageColorSprite;
+                villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
+                currentVillageTiles.Add(villColored);
+                //if (villageColorSprite == 0) villColored.GetComponent<SpriteRenderer>().color = Color.clear;
+            }
+            
+            /////////
+            GameObject villShield = Instantiate(GenericVillage, new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
             villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
             villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
-            villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side).UnitySecondaryColor;
+            villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnitySecondaryColor;
+            currentVillageTiles.Add(villShield);
 
-            GameObject villShieldInner = Instantiate(GenericVillage, new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
+            ///////////
+            GameObject villShieldInner = Instantiate(GenericVillage, new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
             villShieldInner.GetComponent<SpriteRenderer>().sprite = Sprites[10];
             villShieldInner.GetComponent<SpriteRenderer>().sortingOrder = 2;
-            villShieldInner.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side).UnityColor;
-            currentVillageTiles.Add(vill);
-            currentVillageTiles.Add(villColored);
-            currentVillageTiles.Add(villShield);
+            villShieldInner.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
             currentVillageTiles.Add(villShieldInner);
         }
         foreach (var mercHouse in State.World.MercenaryHouses)
@@ -1235,7 +1244,7 @@ public class StrategyMode : SceneBase
                 GameObject obj = Instantiate(RaceUI.DevourPanel, RaceUI.ActorFolder);
                 UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
                 // Side was 1 for Unit
-                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dogs.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
+                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dog.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
                 TextMeshProUGUI text = obj.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                 var racePar = RaceParameters.GetTraitData(actor.Unit);
                 text.text = $"{village.VillagePopulation.Population[i].Race}\nTotal: {village.VillagePopulation.Population[i].Population} \nHireable: {village.VillagePopulation.Population[i].Hireables}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";
@@ -1673,7 +1682,7 @@ public class StrategyMode : SceneBase
         }
         if (ActingEmpire is MonsterEmpire)
         {
-            if (Equals(ActingEmpire.Race, Race.Goblins))
+            if (Equals(ActingEmpire.Race, Race.Goblin))
             {
 
             }
@@ -1827,7 +1836,7 @@ public class StrategyMode : SceneBase
                 return;
         }
         // was set to 0
-        Side side = Race.Cats.ToSide();
+        Side side = Race.Cat.ToSide();
         foreach (Empire emp in survivors.Keys)
         {
             side = emp.Side;

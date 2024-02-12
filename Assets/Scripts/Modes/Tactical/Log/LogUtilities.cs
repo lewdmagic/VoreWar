@@ -184,7 +184,7 @@ static class LogUtilities
         {
             return primePrey.Key.Unit;
         }
-        var you = new Unit(Race.Humans);
+        var you = new Unit(Race.Human);
         you.DefaultBreastSize = -1;
         you.DickSize = -1;
         you.Name = "You, the player";

@@ -49,7 +49,7 @@ namespace Races.Graphics.Implementations.Mercs
                         Stomach = new RaceStats.StatRange(12, 18),
                     },
                     SpawnRace = Race.Whisp,
-                    ConversionRace = Race.Foxes,
+                    ConversionRace = Race.Fox,
                     RaceDescription = "Foxes that were changed by spirit energy",
                 });
                 output.TownNames(new List<string>

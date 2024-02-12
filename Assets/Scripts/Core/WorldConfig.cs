@@ -12,12 +12,15 @@ public class WorldConfig
     [OdinSerialize]
     internal Dictionary<Race, SpawnerInfo> SpawnerInfo = new Dictionary<Race, SpawnerInfo>();
 
-    [OdinSerialize]
-    internal Dictionary<Race, int> VillagesPerEmpire = MakeVillagesPerEmpire();
+    [OdinSerialize] 
+    internal readonly Dictionary<Race, int> VillagesPerEmpire = MakeVillagesPerEmpire();
 
     internal void resetVillagesPerEmpire()
-    {
-        VillagesPerEmpire = MakeVillagesPerEmpire();
+    {     
+        foreach (Race race in RaceFuncs.MainRaceEnumerable())
+        {
+            VillagesPerEmpire[race] = 0;
+        }
     }
 
     private static Dictionary<Race, int> MakeVillagesPerEmpire()

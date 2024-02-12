@@ -12,8 +12,8 @@ class RaceSettings
     public RaceSettings()
     {
         Races = new Dictionary<Race, RaceSettingsItem>();
-        Races[Race.FeralBats] = new RaceSettingsItem(Race.FeralBats);
-        Races[Race.FeralBats].MaleTraits = new List<TraitType> { TraitType.Small };
+        Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
+        Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
     }
 
     internal void Sanitize()
@@ -23,7 +23,7 @@ class RaceSettings
             if (Equals(entry.Value.ConversionRace, Race.TrueNone)) entry.Value.ConversionRace = RaceParameters.GetRaceTraits(entry.Key).ConversionRace;
             if (Equals(entry.Value.LeaderRace, Race.TrueNone)) entry.Value.LeaderRace = RaceParameters.GetRaceTraits(entry.Key).LeaderRace;
             if (Equals(entry.Value.SpawnRace, Race.TrueNone)) entry.Value.SpawnRace = RaceParameters.GetRaceTraits(entry.Key).SpawnRace;
-            if (Equals(entry.Value.ConversionRace, Race.TrueNone) && Equals(entry.Value.LeaderRace, Race.Cats) && Equals(entry.Value.SpawnRace, Race.Cats) && !Equals(entry.Key, Race.Cats))
+            if (Equals(entry.Value.ConversionRace, Race.TrueNone) && Equals(entry.Value.LeaderRace, Race.Cat) && Equals(entry.Value.SpawnRace, Race.Cat) && !Equals(entry.Key, Race.Cat))
             {
                 entry.Value.ConversionRace = RaceParameters.GetRaceTraits(entry.Key).ConversionRace;
                 entry.Value.LeaderRace = RaceParameters.GetRaceTraits(entry.Key).LeaderRace;
@@ -41,10 +41,10 @@ class RaceSettings
             if (item.Stats.Stomach.Roll < 1) item.Stats.Stomach.Roll = 1;
             if (item.Stats.Strength.Roll < 1) item.Stats.Strength.Roll = 1;
         }
-        if (Races.ContainsKey(Race.FeralBats) == false)
+        if (Races.ContainsKey(Race.FeralBat) == false)
         {
-            Races[Race.FeralBats] = new RaceSettingsItem(Race.FeralBats);
-            Races[Race.FeralBats].MaleTraits = new List<TraitType> { TraitType.Small };
+            Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
+            Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
         }
     }
 
@@ -300,10 +300,10 @@ class RaceSettings
     internal void Reset(Race race)
     {
         Races.Remove(race);
-        if (Equals(race, Race.FeralBats))
+        if (Equals(race, Race.FeralBat))
         {
-            Races[Race.FeralBats] = new RaceSettingsItem(Race.FeralBats);
-            Races[Race.FeralBats].MaleTraits = new List<TraitType> { TraitType.Small };
+            Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
+            Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
         }
 
 
@@ -312,8 +312,8 @@ class RaceSettings
     internal void ResetAll()
     {
         Races = new Dictionary<Race, RaceSettingsItem>();
-        Races[Race.FeralBats] = new RaceSettingsItem(Race.FeralBats);
-        Races[Race.FeralBats].MaleTraits = new List<TraitType> { TraitType.Small };
+        Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
+        Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
 
     }
 }

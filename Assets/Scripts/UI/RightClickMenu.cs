@@ -418,7 +418,7 @@ public class RightClickMenu : MonoBehaviour
                 Buttons[currentButton].onClick.AddListener(FinishAction);
                 if (actionType == SpecialAction.TailVore && Equals(actor.Unit.Race, Race.Terrorbird))
                     Buttons[currentButton].GetComponentInChildren<Text>().text = $"Crop Vore {data.DevourChance}%";
-                else if (actionType == SpecialAction.BreastVore && Equals(actor.Unit.Race, Race.Kangaroos))
+                else if (actionType == SpecialAction.BreastVore && Equals(actor.Unit.Race, Race.Kangaroo))
                     Buttons[currentButton].GetComponentInChildren<Text>().text = $"Pouch Vore {data.DevourChance}%";
                 else
                     Buttons[currentButton].GetComponentInChildren<Text>().text = $"{targetedAction.Name} {data.DevourChance}%";

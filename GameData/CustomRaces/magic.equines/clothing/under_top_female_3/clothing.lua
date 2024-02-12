@@ -12,7 +12,8 @@ function Render(input, output, params)
     sprite.Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
 
     if (params.oversize) then
-        sprite.Sprite("oversize");
+        --do nothing
+        --sprite.Sprite("oversize");
     elseif (input.U.HasBreasts) then
         sprite.Sprite0("main", input.U.BreastSize);
     end

@@ -359,7 +359,7 @@ public class MapEditor : SceneBase
     internal void SetVillageTooltip(Race race)
     {
         Tooltip.gameObject.SetActive(true);
-        if (Equals(race, Race.Vagrants))
+        if (Equals(race, Race.Vagrant))
             Tooltip.text = $"Place abandoned Village";
         else
             Tooltip.text = $"Place {race} Village";
@@ -713,45 +713,61 @@ public class MapEditor : SceneBase
     {
         ClearVillages();
         Village[] villages = State.World.Villages;
-        int highestVillageSprite = VillageSprites.Count() - 1;
         for (int i = 0; i < villages.Length; i++)
         {
+            Village village = villages[i];
+            
             if (EditingActiveMap)
             {
-                GameObject vill = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
-                vill.GetComponent<SpriteRenderer>().sprite = VillageSprites[villages[i].GetImageNum(highestVillageSprite)];
+                GameObject vill = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                vill.GetComponent<SpriteRenderer>().sprite = village.GetIconSprite();
                 vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                int villageColorSprite = villages[i].GetColoredImageNum(highestVillageSprite);
-                GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
-                villColored.GetComponent<SpriteRenderer>().sprite = VillageSprites[villageColorSprite];
-                villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side).UnityColor;
-                if (villageColorSprite == 0)
-                    villColored.GetComponent<SpriteRenderer>().color = Color.clear;
-                GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
+
+                Sprite villageColorSprite = village.GetColoredIcon();
+                if (villageColorSprite != null)
+                {
+                    GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                    villColored.GetComponent<SpriteRenderer>().sprite = villageColorSprite;
+                    villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
+                }
+                else
+                {
+                    //villColored.GetComponent<SpriteRenderer>().color = Color.clear;
+                }
+                
+                
+                GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
                 villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
                 villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
-                villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side).UnitySecondaryColor;
+                villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnitySecondaryColor;
 
-                GameObject villShieldInner = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
+                GameObject villShieldInner = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
                 villShieldInner.GetComponent<SpriteRenderer>().sprite = Sprites[10];
                 villShieldInner.GetComponent<SpriteRenderer>().sortingOrder = 2;
-                villShieldInner.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side).UnityColor;
+                villShieldInner.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
             }
             else
             {
-                GameObject vill = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
-                vill.GetComponent<SpriteRenderer>().sprite = VillageSprites[villages[i].GetImageNum(highestVillageSprite)];
+                GameObject vill = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                vill.GetComponent<SpriteRenderer>().sprite = village.GetIconSprite();
                 vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                int villageColorSprite = villages[i].GetColoredImageNum(highestVillageSprite);
-                GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
-                villColored.GetComponent<SpriteRenderer>().sprite = VillageSprites[villageColorSprite];
-                villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side)?.UnityColor ?? Color.white;
-                if (villageColorSprite == 0)
-                    villColored.GetComponent<SpriteRenderer>().color = Color.clear;
-                GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(villages[i].Position.x, villages[i].Position.y), new Quaternion(), VillageFolder);
+                
+                Sprite villageColorSprite = village.GetColoredIcon();
+                if (villageColorSprite != null)
+                {
+                    GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                    villColored.GetComponent<SpriteRenderer>().sprite = villageColorSprite;
+                    villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side)?.UnityColor ?? Color.white;
+                }
+                else
+                {
+                    //villColored.GetComponent<SpriteRenderer>().color = Color.clear;
+                }
+                
+                GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
                 villShield.GetComponent<SpriteRenderer>().sprite = Sprites[10];
                 villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
-                villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(villages[i].Side)?.UnityColor ?? Color.white;
+                villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side)?.UnityColor ?? Color.white;
             }
 
         }
@@ -902,7 +918,7 @@ public class MapEditor : SceneBase
                     if (Equals(empire.Race, villageRace))
                         activeRace = true;
                 }
-                if (Equals(villageRace, Race.Vagrants))
+                if (Equals(villageRace, Race.Vagrant))
                     activeRace = true;
                 if (activeRace == false)
                     return;
@@ -925,7 +941,7 @@ public class MapEditor : SceneBase
                 }
 
                 var curVillages = State.World.Villages.Where(s => Equals(s.Side, villageRace.ToSide()));
-                if (curVillages.Where(s => s.Capital || Equals(s.Race, Race.Vagrants)).Any() == false)
+                if (curVillages.Where(s => s.Capital || Equals(s.Race, Race.Vagrant)).Any() == false)
                 {
                     newVillage = new Village(State.NameGen.GetTownName(villageRace, 0), clickLocation, 8, villageRace, true);
                 }
@@ -952,7 +968,7 @@ public class MapEditor : SceneBase
                 LastActionBuilder.Add(() => DestroyVillagesAtTile(new Vec2i(x, y)));
                 var villages = State.World.Villages.ToList();
                 villages.Add(newVillage);
-                if (Equals(newVillage.Race, Race.Vagrants))
+                if (Equals(newVillage.Race, Race.Vagrant))
                     newVillage.SubtractPopulation(99999);
                 State.World.Villages = villages.ToArray();
                 RefreshVillageCounts();
@@ -1202,7 +1218,7 @@ public class MapEditor : SceneBase
         for (int i = 0; i < map.storedVillages.Length; i++)
         {
             newVillages.Add(new Village("None", map.storedVillages[i].Position, 8, map.storedVillages[i].Race, map.storedVillages[i].Capital));
-            if (Equals(newVillages.Last().Race, Race.Vagrants))
+            if (Equals(newVillages.Last().Race, Race.Vagrant))
                 newVillages.Last().SubtractPopulation(99999);
         }
         State.World.Villages = newVillages.ToArray();
@@ -1452,11 +1468,15 @@ public class MapEditor : SceneBase
         // TODO many checks are probably redundant
         if (Config.World.VillagesPerEmpire.Count() != State.World.MainEmpires.Count)
             Config.World.resetVillagesPerEmpire();
+        
+        
         foreach (Race race in Config.World.VillagesPerEmpire.Keys)
         {
             // TODO probably can be replaced with resetVillagesPerEmpire
-            Config.World.VillagesPerEmpire[race] = 0;
+            //Config.World.VillagesPerEmpire[race] = 0;
         }
+        Config.World.resetVillagesPerEmpire();
+        
         foreach (Village vill in State.World.Villages)
         {
             if (RaceFuncs.IsMainRace(vill.Side))
@@ -1489,7 +1509,7 @@ public class MapEditor : SceneBase
                 sb.AppendLine($"Village: {villageAtCursor.Name}");
                 if (villageAtCursor.Capital)
                     sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");
-                if (!Equals(villageAtCursor.Race, Race.Vagrants) || villageAtCursor.GetTotalPop() != 0)
+                if (!Equals(villageAtCursor.Race, Race.Vagrant) || villageAtCursor.GetTotalPop() != 0)
                 {
                     sb.AppendLine($"Owner: {villageAtCursor.Side.ToRace()}");
                     sb.AppendLine($"Race: {villageAtCursor.Race}");
@@ -1503,7 +1523,7 @@ public class MapEditor : SceneBase
             }
             else
             {
-                if (!Equals(villageAtCursor.Race, Race.Vagrants) || villageAtCursor.GetTotalPop() != 0)
+                if (!Equals(villageAtCursor.Race, Race.Vagrant) || villageAtCursor.GetTotalPop() != 0)
                 {
                     if (villageAtCursor.Capital)
                         sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");

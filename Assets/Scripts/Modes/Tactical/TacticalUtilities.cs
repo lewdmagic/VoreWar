@@ -666,7 +666,7 @@ static class TacticalUtilities
             return;
         foreach (Actor_Unit actor in Units)
         {
-            if (!Equals(actor.Unit.Race, Race.Imps) && !Equals(actor.Unit.Race, Race.Lamia) && !Equals(actor.Unit.Race, Race.Tigers))
+            if (!Equals(actor.Unit.Race, Race.Imp) && !Equals(actor.Unit.Race, Race.Lamia) && !Equals(actor.Unit.Race, Race.Tiger))
             {
                 Races2.GetRace(actor.Unit).RandomCustomCall(actor.Unit);
             }

@@ -449,7 +449,7 @@ public class WorldGenerator
         {
             VillageLocation newVillage = remainingVillages[i];
             int index = newVillage.Index;
-            villages[index] = new Village($"Abandoned town {i + 1}", sites[index].Position, sites[index].UtilityScore, Race.Vagrants, false);
+            villages[index] = new Village($"Abandoned town {i + 1}", sites[index].Position, sites[index].UtilityScore, Race.Vagrant, false);
             villages[index].SubtractPopulation(999999);
             CreateFarmland(index);
         }

@@ -62,7 +62,7 @@ static class CustomizationDataStorer
 
     static bool IsCompatibleWithGraphics(CustomizerData data)
     {
-        if (!Equals(data.Race, Race.Imps) && !Equals(data.Race, Race.Lamia) && !Equals(data.Race, Race.Tigers))
+        if (!Equals(data.Race, Race.Imp) && !Equals(data.Race, Race.Lamia) && !Equals(data.Race, Race.Tiger))
         {
             if (data.NewGraphics != Config.NewGraphics)
                 return false;

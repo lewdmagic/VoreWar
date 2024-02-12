@@ -16,13 +16,13 @@
         Stats[(int)Stat.Leadership] = 10;
 
         Health = MaxHealth;
-        if (Equals(Race, Race.Lizards))
-            Races2.GetRace(Race.Lizards).RandomCustomCall(this);
+        if (Equals(Race, Race.Lizard))
+            Races2.GetRace(Race.Lizard).RandomCustomCall(this);
         if (Config.LetterBeforeLeaderNames != "")
             Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;
         Type = UnitType.Leader;
-        if (Equals(Race, Race.Slimes))
+        if (Equals(Race, Race.Slime))
         {
             if (Config.HermFraction >= 0.05)
             {

@@ -21,7 +21,7 @@ static class TacticalGraphicalEffects
             return;
         var arrow = Object.Instantiate(State.GameManager.TacticalMode.ArrowPrefab).GetComponent<ArrowEffect>();
         var sprite = ArrowType(actor, out Material material);
-        if (Equals(actor.Unit.Race, Race.Panthers))
+        if (Equals(actor.Unit.Race, Race.Panther))
             PantherSetup(arrow, actor);
         if (sprite != null) arrow.GetComponentInChildren<SpriteRenderer>().sprite = sprite;
         if (material != null) arrow.GetComponentInChildren<SpriteRenderer>().material = material;
@@ -66,14 +66,14 @@ static class TacticalGraphicalEffects
     {
         Weapon weapon = actor.BestRanged;
         material = null;
-        if (Equals(actor.Unit.Race, Race.Harpies))
+        if (Equals(actor.Unit.Race, Race.Harpy))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.Harpies[27];
             else if (weapon.Graphic == 6)
                 return State.GameManager.SpriteDictionary.Harpies[28];
         }
-        else if (Equals(actor.Unit.Race, Race.Imps))
+        else if (Equals(actor.Unit.Race, Race.Imp))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.NewimpBase[93];
@@ -86,7 +86,7 @@ static class TacticalGraphicalEffects
             else if (weapon.Graphic == 6)
                 return State.GameManager.SpriteDictionary.Scylla[23];
         }
-        else if (Equals(actor.Unit.Race, Race.Slimes))
+        else if (Equals(actor.Unit.Race, Race.Slime))
         {
             if (weapon.Graphic == 4)
             {
@@ -96,38 +96,38 @@ static class TacticalGraphicalEffects
             else if (weapon.Graphic == 6)
                 return State.GameManager.SpriteDictionary.Slimes[17];
         }
-        else if (Equals(actor.Unit.Race, Race.Crypters))
+        else if (Equals(actor.Unit.Race, Race.Crypter))
         {
             if (weapon.Graphic == 6)
                 return State.GameManager.SpriteDictionary.Crypters[27];
         }
-        else if (Equals(actor.Unit.Race, Race.Kangaroos))
+        else if (Equals(actor.Unit.Race, Race.Kangaroo))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.Kangaroos[125];
             else if (weapon.Graphic == 6)
                 return State.GameManager.SpriteDictionary.Kangaroos[126];
         }
-        else if (Equals(actor.Unit.Race, Race.Tigers) && actor.Unit.ClothingType == 1)
+        else if (Equals(actor.Unit.Race, Race.Tiger) && actor.Unit.ClothingType == 1)
             return State.GameManager.SpriteDictionary.Slimes[17];
-        else if (Equals(actor.Unit.Race, Race.Kobolds))
+        else if (Equals(actor.Unit.Race, Race.Kobold))
             return State.GameManager.SpriteDictionary.Kobolds[20];
-        else if (Equals(actor.Unit.Race, Race.Equines) && weapon.Graphic == 6)
+        else if (Equals(actor.Unit.Race, Race.Equine) && weapon.Graphic == 6)
             return State.GameManager.SpriteDictionary.EquineClothes[48];
         else if (Equals(actor.Unit.Race, Race.Alraune) && (weapon.Graphic == 4 || weapon.Graphic == 6))
             return State.GameManager.SpriteDictionary.Slimes[17];
-        else if (Equals(actor.Unit.Race, Race.SpitterSlugs))
+        else if (Equals(actor.Unit.Race, Race.SpitterSlug))
             return State.GameManager.SpriteDictionary.SpitterSlug[10];
-        else if (Equals(actor.Unit.Race, Race.DemiBats))
+        else if (Equals(actor.Unit.Race, Race.Bat))
             return State.GameManager.SpriteDictionary.Demibats1[132];
-        else if (Equals(actor.Unit.Race, Race.Panthers))
+        else if (Equals(actor.Unit.Race, Race.Panther))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.PantherBase[36];
             else if (weapon.Graphic == 6)
                 return State.GameManager.SpriteDictionary.PantherBase[42];
         }
-        else if (Equals(actor.Unit.Race, Race.Bees))
+        else if (Equals(actor.Unit.Race, Race.Bee))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.Bees1[89];
@@ -136,7 +136,7 @@ static class TacticalGraphicalEffects
         }
         else if (Equals(actor.Unit.Race, Race.Merfolk) && weapon.Graphic == 4 || weapon.Graphic == 6)
             return State.GameManager.SpriteDictionary.Slimes[17];
-        else if (Equals(actor.Unit.Race, Race.Vipers))
+        else if (Equals(actor.Unit.Race, Race.Viper))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.Vipers1[20];

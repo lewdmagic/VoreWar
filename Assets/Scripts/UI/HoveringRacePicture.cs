@@ -28,7 +28,7 @@ public class HoveringRacePicture : MonoBehaviour
     public void UpdateInformation(Race race)
     {
         if (Actor == null)
-            Actor = new Actor_Unit(new Unit(Race.Cats));
+            Actor = new Actor_Unit(new Unit(Race.Cat));
         if (!Equals(LastRace, race))
         {
             Actor.Unit.Race = race;

@@ -38,7 +38,7 @@ public class CustomizationLoaderWindow : MonoBehaviour
             GameObject obj = Instantiate(UnitDisplay, ActorFolder);
             UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
             // was 1
-            Unit tempUnit = new Unit(Race.Dogs.ToSide(), customizerData.Race, 0, false);
+            Unit tempUnit = new Unit(Race.Dog.ToSide(), customizerData.Race, 0, false);
             if (customizerData.Type == UnitType.Leader)
                 tempUnit.Type = UnitType.Leader;
             customizerData.CopyToUnit(tempUnit, true);

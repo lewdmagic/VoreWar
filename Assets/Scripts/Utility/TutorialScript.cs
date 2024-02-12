@@ -49,14 +49,14 @@ public class TutorialScript
         }
         tacticalUnits[0].Unit.SetDefaultBreastSize(2);
         tacticalUnits[0].Unit.DickSize = -1;
-        State.GameManager.TacticalMode.TacticalStats.SetInitialUnits(3, 1, 0, Race.Cats.ToSide(), Race.Imps.ToSide());
+        State.GameManager.TacticalMode.TacticalStats.SetInitialUnits(3, 1, 0, Race.Cat.ToSide(), Race.Imp.ToSide());
 
-        Empire imps = State.World.MainEmpires.First((item) => Equals(item.Race, Race.Imps));
+        Empire imps = State.World.MainEmpires.First((item) => Equals(item.Race, Race.Imp));
         imps.MaxGarrisonSize = 4;
         imps.Armies[0].SetEmpire(imps);
             
             
-        Empire cats = State.World.MainEmpires.First((item) => Equals(item.Race, Race.Cats));
+        Empire cats = State.World.MainEmpires.First((item) => Equals(item.Race, Race.Cat));
         cats.Armies[0].SetEmpire(cats);
         cats.AddGold(1000);
         
@@ -66,7 +66,7 @@ public class TutorialScript
         State.World.Villages[1].AddPopulation(60);
         State.World.Villages[1].TutorialWeapons();
         State.World.MonsterEmpires = new MonsterEmpire[1];
-        State.World.MonsterEmpires[0] = new MonsterEmpire(new Empire.ConstructionArgs(Race.Vagrants, Race.Vagrants.ToSide(), Color.white, Color.white, 9, StrategyAIType.Monster, TacticalAIType.Full, 999, 8, 0));
+        State.World.MonsterEmpires[0] = new MonsterEmpire(new Empire.ConstructionArgs(Race.Vagrant, Race.Vagrant.ToSide(), Color.white, Color.white, 9, StrategyAIType.Monster, TacticalAIType.Full, 999, 8, 0));
     }
 
     internal void CheckStatus()

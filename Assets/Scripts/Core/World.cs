@@ -143,7 +143,7 @@ public class World
 
         Empire rebelsEmpire = new Empire(new Empire.ConstructionArgs(null, Side.RebelSide, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 700, 16, 16));
         rebelsEmpire.Name = "Rebels";
-        rebelsEmpire.ReplacedRace = Race.Tigers;
+        rebelsEmpire.ReplacedRace = Race.Tiger;
         MainEmpiresWritable.Add(rebelsEmpire);
 
         Empire banditsEmpire = new Empire(new Empire.ConstructionArgs(null, Side.BanditSide, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16));
@@ -325,13 +325,13 @@ public class World
     {
         int nameIndex = 1;
 
-        foreach (Village village in Villages.Where(s => Equals(s.Race, Race.Bunnies) && s.Empire.CanVore == false))
+        foreach (Village village in Villages.Where(s => Equals(s.Race, Race.Bunny) && s.Empire.CanVore == false))
         {
             if (village.Capital)
-                village.Name = State.NameGen.GetAlternateTownName(Race.Bunnies, 0);
+                village.Name = State.NameGen.GetAlternateTownName(Race.Bunny, 0);
             else
             {
-                village.Name = State.NameGen.GetAlternateTownName(Race.Bunnies, nameIndex);
+                village.Name = State.NameGen.GetAlternateTownName(Race.Bunny, nameIndex);
                 nameIndex++;
             }
         }
