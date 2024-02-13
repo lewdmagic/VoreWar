@@ -1,21 +1,45 @@
 fileFormatVersion: 2
 guid: 0841ebb9ed6e1af49bc0920eb9212c49
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: YoukoTails_6
-    21300002: YoukoTails_7
-    21300004: YoukoTails_0
-    21300006: YoukoTails_1
-    21300008: YoukoTails_2
-    21300010: YoukoTails_3
-    21300012: YoukoTails_4
-    21300014: YoukoTails_5
-    21300016: YoukoTails_8
-    21300018: YoukoTails_9
-    21300020: YoukoTails_10
-    21300022: YoukoTails_11
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: YoukoTails_6
+  - first:
+      213: 21300002
+    second: YoukoTails_7
+  - first:
+      213: 21300004
+    second: YoukoTails_0
+  - first:
+      213: 21300006
+    second: YoukoTails_1
+  - first:
+      213: 21300008
+    second: YoukoTails_2
+  - first:
+      213: 21300010
+    second: YoukoTails_3
+  - first:
+      213: 21300012
+    second: YoukoTails_4
+  - first:
+      213: 21300014
+    second: YoukoTails_5
+  - first:
+      213: 21300016
+    second: YoukoTails_8
+  - first:
+      213: 21300018
+    second: YoukoTails_9
+  - first:
+      213: 21300020
+    second: YoukoTails_10
+  - first:
+      213: 21300022
+    second: YoukoTails_11
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -32,9 +56,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -44,8 +71,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -66,11 +93,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -80,8 +113,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -91,7 +126,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -111,6 +174,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8f38513798683da48a09f52e077d6937
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -131,6 +195,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d353c93e9be977649aa2d35343fe9285
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -151,6 +216,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 43cc98947f6a8e649ab127ed9c1eb212
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -171,6 +237,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8bf8b53dd2fe5144289ad8374793c858
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -191,6 +258,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4744c3d2a42255a44860a9e8df686a61
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -211,6 +279,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1d119f6c12db8bc4886b640c21b73b76
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -231,6 +300,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 455ca9271cc9fe94aa949cb2f4299eef
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -251,6 +321,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4cd5e4ba2e446014bbae69720cc0ef5a
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -271,6 +342,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5c5436d2fce66f2489450e649a2354ab
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -291,6 +363,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 95ce0c63869b57c4ca3cae3f306029ac
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -311,6 +384,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4b5d1c6054b2f8746bb786b6d4e89496
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -319,13 +393,26 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      YoukoTails_0: 21300004
+      YoukoTails_1: 21300006
+      YoukoTails_10: 21300020
+      YoukoTails_2: 21300008
+      YoukoTails_3: 21300010
+      YoukoTails_4: 21300012
+      YoukoTails_5: 21300014
+      YoukoTails_6: 21300000
+      YoukoTails_7: 21300002
+      YoukoTails_8: 21300016
+      YoukoTails_9: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

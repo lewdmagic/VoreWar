@@ -1,43 +1,111 @@
 fileFormatVersion: 2
 guid: 85d11196573b2e14781e789d40eb093f
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: zoey_addsheet_0
-    21300018: zoey_addsheet_1
-    21300020: zoey_addsheet_2
-    21300022: zoey_addsheet_3
-    21300024: zoey_addsheet_4
-    21300026: zoey_addsheet_5
-    21300028: zoey_addsheet_6
-    21300030: zoey_addsheet_7
-    21300032: zoey_addsheet_8
-    21300034: zoey_addsheet_9
-    21300036: zoey_addsheet_10
-    21300038: zoey_addsheet_11
-    21300040: zoey_addsheet_12
-    21300042: zoey_addsheet_13
-    21300044: zoey_addsheet_14
-    21300046: zoey_addsheet_15
-    21300048: zoey_addsheet_16
-    21300050: zoey_addsheet_17
-    21300052: zoey_addsheet_18
-    21300054: zoey_addsheet_19
-    21300056: zoey_addsheet_20
-    21300058: zoey_addsheet_21
-    21300060: zoey_addsheet_22
-    21300062: zoey_addsheet_23
-    21300064: zoey_addsheet_24
-    21300066: zoey_addsheet_25
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: zoey_addsheet_0
+  - first:
+      213: 21300018
+    second: zoey_addsheet_1
+  - first:
+      213: 21300020
+    second: zoey_addsheet_2
+  - first:
+      213: 21300022
+    second: zoey_addsheet_3
+  - first:
+      213: 21300024
+    second: zoey_addsheet_4
+  - first:
+      213: 21300026
+    second: zoey_addsheet_5
+  - first:
+      213: 21300028
+    second: zoey_addsheet_6
+  - first:
+      213: 21300030
+    second: zoey_addsheet_7
+  - first:
+      213: 21300032
+    second: zoey_addsheet_8
+  - first:
+      213: 21300034
+    second: zoey_addsheet_9
+  - first:
+      213: 21300036
+    second: zoey_addsheet_10
+  - first:
+      213: 21300038
+    second: zoey_addsheet_11
+  - first:
+      213: 21300040
+    second: zoey_addsheet_12
+  - first:
+      213: 21300042
+    second: zoey_addsheet_13
+  - first:
+      213: 21300044
+    second: zoey_addsheet_14
+  - first:
+      213: 21300046
+    second: zoey_addsheet_15
+  - first:
+      213: 21300048
+    second: zoey_addsheet_16
+  - first:
+      213: 21300050
+    second: zoey_addsheet_17
+  - first:
+      213: 21300052
+    second: zoey_addsheet_18
+  - first:
+      213: 21300054
+    second: zoey_addsheet_19
+  - first:
+      213: 21300056
+    second: zoey_addsheet_20
+  - first:
+      213: 21300058
+    second: zoey_addsheet_21
+  - first:
+      213: 21300060
+    second: zoey_addsheet_22
+  - first:
+      213: 21300062
+    second: zoey_addsheet_23
+  - first:
+      213: 21300064
+    second: zoey_addsheet_24
+  - first:
+      213: 21300066
+    second: zoey_addsheet_25
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -54,9 +122,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -66,8 +137,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -88,11 +159,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -102,8 +179,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -113,7 +192,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -133,6 +240,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7cf3afe7b168086409861bf74746c191
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -153,6 +261,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6a9c51f46a878584db554c0a20789177
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -173,6 +282,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 28f8ec3ec7b2b6b4f9da60ba3efbf792
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -193,6 +303,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d125f0129f5bd5741aefc8a99c436ce4
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -213,6 +324,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dd0b3a2010121a44aa2209a5fe53a793
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -233,6 +345,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d9bed4a5e388bd84da6624466236ef78
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -253,6 +366,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8e1a290c2c3756644b34fdd6975ce79a
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -273,6 +387,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ab71c0a58e2ca8d4ab471920e0071bf5
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -293,6 +408,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c0df923bc8d8d7d4ba7f2571a4178473
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -313,6 +429,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1886750ca8eed2444a7d1fbd8f1ae25a
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -333,6 +450,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 547319d3a9920ce41a23735878383c68
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -353,6 +471,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7946705d5a63ca244b86772443fcaf77
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -373,6 +492,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e12af472db514ac4cbf3558a3dc6d001
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -393,6 +513,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7fbf5cfa73db2154d9fe4c6201540a4a
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -413,6 +534,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 917bc0e6049e5694a9dd93d4d45a74b4
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -433,6 +555,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5b0f1322f889b5546837f56c3afc28ea
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -453,6 +576,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f8727bb718d235445bbcc4ec8047d52c
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -473,6 +597,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d769be24c23f29a459fcd86b1551ea90
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -493,6 +618,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3f0eabc908f2772458938926fbb5ee96
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -513,6 +639,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f14482beb9375514cb8a6403ad7f4e43
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -533,6 +660,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a998ca223d0bde941ba1dbce26af71db
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -553,6 +681,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6dbc4ef23e4ca8c47a395bedfc998afe
+      internalID: 21300058
       vertices: []
       indices: 
       edges: []
@@ -573,6 +702,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: df0a1f0566c81c94fbffc96a2986db7f
+      internalID: 21300060
       vertices: []
       indices: 
       edges: []
@@ -593,6 +723,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a6a5b5aa3824dfa42a7ac49d20ebf600
+      internalID: 21300062
       vertices: []
       indices: 
       edges: []
@@ -613,6 +744,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0f319a11b98046d4c8719514e15c2cdc
+      internalID: 21300064
       vertices: []
       indices: 
       edges: []
@@ -633,6 +765,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c0966ca7f6adb8c4fa98b5fd3b3c8ddb
+      internalID: 21300066
       vertices: []
       indices: 
       edges: []
@@ -641,13 +774,41 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      zoey_addsheet_0: 21300016
+      zoey_addsheet_1: 21300018
+      zoey_addsheet_10: 21300036
+      zoey_addsheet_11: 21300038
+      zoey_addsheet_12: 21300040
+      zoey_addsheet_13: 21300042
+      zoey_addsheet_14: 21300044
+      zoey_addsheet_15: 21300046
+      zoey_addsheet_16: 21300048
+      zoey_addsheet_17: 21300050
+      zoey_addsheet_18: 21300052
+      zoey_addsheet_19: 21300054
+      zoey_addsheet_2: 21300020
+      zoey_addsheet_20: 21300056
+      zoey_addsheet_21: 21300058
+      zoey_addsheet_22: 21300060
+      zoey_addsheet_23: 21300062
+      zoey_addsheet_24: 21300064
+      zoey_addsheet_25: 21300066
+      zoey_addsheet_3: 21300022
+      zoey_addsheet_4: 21300024
+      zoey_addsheet_5: 21300026
+      zoey_addsheet_6: 21300028
+      zoey_addsheet_7: 21300030
+      zoey_addsheet_8: 21300032
+      zoey_addsheet_9: 21300034
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

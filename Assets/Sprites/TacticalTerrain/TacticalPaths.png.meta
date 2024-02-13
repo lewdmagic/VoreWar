@@ -1,53 +1,141 @@
 fileFormatVersion: 2
 guid: a194608c7d1573c40bc8a527fb78aaff
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_3
-    21300002: Hero Armor_4
-    21300004: Hero Armor_6
-    21300006: Hero Armor_7
-    21300008: TacticalPaths_0
-    21300010: TacticalPaths_1
-    21300012: TacticalPaths_2
-    21300014: TacticalPaths_3
-    21300016: TacticalPaths_4
-    21300018: TacticalPaths_5
-    21300020: TacticalPaths_6
-    21300022: TacticalPaths_7
-    21300024: TacticalPaths_8
-    21300026: TacticalPaths_9
-    21300028: TacticalPaths_10
-    21300030: TacticalPaths_11
-    21300032: TacticalPaths_12
-    21300034: TacticalPaths_13
-    21300036: TacticalPaths_14
-    21300038: TacticalPaths_15
-    21300040: TacticalPaths_16
-    21300042: TacticalPaths_17
-    21300044: TacticalPaths_18
-    21300046: TacticalPaths_19
-    21300048: TacticalPaths_20
-    21300050: TacticalPaths_21
-    21300052: TacticalPaths_22
-    21300054: TacticalPaths_23
-    21300056: TacticalPaths_24
-    21300058: TacticalPaths_25
-    21300060: TacticalPaths_26
-    21300062: TacticalPaths_27
-    21300064: TacticalPaths_28
-    21300066: TacticalPaths_29
-    21300068: TacticalPaths_30
-    21300070: TacticalPaths_31
-    21300072: TacticalPaths_32
-    21300074: TacticalPaths_33
-    21300076: TacticalPaths_34
-    21300078: TacticalPaths_35
-    21300080: TacticalPaths_36
-    21300082: TacticalPaths_37
-    21300084: TacticalPaths_38
-    21300086: TacticalPaths_39
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_3
+  - first:
+      213: 21300002
+    second: Hero Armor_4
+  - first:
+      213: 21300004
+    second: Hero Armor_6
+  - first:
+      213: 21300006
+    second: Hero Armor_7
+  - first:
+      213: 21300008
+    second: TacticalPaths_0
+  - first:
+      213: 21300010
+    second: TacticalPaths_1
+  - first:
+      213: 21300012
+    second: TacticalPaths_2
+  - first:
+      213: 21300014
+    second: TacticalPaths_3
+  - first:
+      213: 21300016
+    second: TacticalPaths_4
+  - first:
+      213: 21300018
+    second: TacticalPaths_5
+  - first:
+      213: 21300020
+    second: TacticalPaths_6
+  - first:
+      213: 21300022
+    second: TacticalPaths_7
+  - first:
+      213: 21300024
+    second: TacticalPaths_8
+  - first:
+      213: 21300026
+    second: TacticalPaths_9
+  - first:
+      213: 21300028
+    second: TacticalPaths_10
+  - first:
+      213: 21300030
+    second: TacticalPaths_11
+  - first:
+      213: 21300032
+    second: TacticalPaths_12
+  - first:
+      213: 21300034
+    second: TacticalPaths_13
+  - first:
+      213: 21300036
+    second: TacticalPaths_14
+  - first:
+      213: 21300038
+    second: TacticalPaths_15
+  - first:
+      213: 21300040
+    second: TacticalPaths_16
+  - first:
+      213: 21300042
+    second: TacticalPaths_17
+  - first:
+      213: 21300044
+    second: TacticalPaths_18
+  - first:
+      213: 21300046
+    second: TacticalPaths_19
+  - first:
+      213: 21300048
+    second: TacticalPaths_20
+  - first:
+      213: 21300050
+    second: TacticalPaths_21
+  - first:
+      213: 21300052
+    second: TacticalPaths_22
+  - first:
+      213: 21300054
+    second: TacticalPaths_23
+  - first:
+      213: 21300056
+    second: TacticalPaths_24
+  - first:
+      213: 21300058
+    second: TacticalPaths_25
+  - first:
+      213: 21300060
+    second: TacticalPaths_26
+  - first:
+      213: 21300062
+    second: TacticalPaths_27
+  - first:
+      213: 21300064
+    second: TacticalPaths_28
+  - first:
+      213: 21300066
+    second: TacticalPaths_29
+  - first:
+      213: 21300068
+    second: TacticalPaths_30
+  - first:
+      213: 21300070
+    second: TacticalPaths_31
+  - first:
+      213: 21300072
+    second: TacticalPaths_32
+  - first:
+      213: 21300074
+    second: TacticalPaths_33
+  - first:
+      213: 21300076
+    second: TacticalPaths_34
+  - first:
+      213: 21300078
+    second: TacticalPaths_35
+  - first:
+      213: 21300080
+    second: TacticalPaths_36
+  - first:
+      213: 21300082
+    second: TacticalPaths_37
+  - first:
+      213: 21300084
+    second: TacticalPaths_38
+  - first:
+      213: 21300086
+    second: TacticalPaths_39
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -64,9 +152,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -76,8 +167,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -98,11 +189,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -112,8 +209,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -123,7 +222,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -143,6 +270,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a12d5464346b739498e2f443de8d530d
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -163,6 +291,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 61d3cd01ebaba544ab711306d4d438fb
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -183,6 +312,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7334151aa587cfc4a86db512a118955a
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -203,6 +333,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 402bcd707f8b2744baf1506b4e537aff
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -223,6 +354,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c534b8fce799880488a75f434d448430
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -243,6 +375,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d8970686a0b7fc343859e8648f5c6be6
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -263,6 +396,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 13438b8e7bb4dcf4c9643e701976269f
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -283,6 +417,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 445f80aca969a8a48a56af6b4fb8b4dc
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -303,6 +438,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 04d9b68a87023ae4ca9ec573339c8b77
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -323,6 +459,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f3278d80427881848832c9a81eba4e36
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -343,6 +480,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8b652a30774afde479959e9e0813e536
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -363,6 +501,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bfa56f604c5da7a47a7d6b4028b10d10
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -383,6 +522,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 04ff58267651d2d4ab3bfd6970036081
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -403,6 +543,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 67e8df5daaa20cc45830cc590c05bbe0
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -423,6 +564,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: fa806983257c5b048aa85fbfbe82197d
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -443,6 +585,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4e4c40db92f31a347b7ede09d24510e9
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -463,6 +606,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 66f0fe3c961d22246b4910cc77e9d2c5
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -483,6 +627,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: fa8ad53491b7fbc419312210978d009c
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -503,6 +648,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 15155d09d51c1304f9903a16f44ab60b
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -523,6 +669,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2be04756971f36c4497a62970c373640
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -543,6 +690,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6a50d5b71bbb7d2409d2fd3c110131c4
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -563,6 +711,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 85c4419e2ea15e04a9bb8b3608217a4d
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -583,6 +732,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 65145e358e8d3084fa56cad2b39be57d
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -603,6 +753,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f73a3a4e3cfc03949909d5b15ec4c651
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -623,6 +774,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1739058da80e0d94eacfadd925933b56
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -643,6 +795,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a7b8feb18c3371a42a0b6dc6e41c440b
+      internalID: 21300058
       vertices: []
       indices: 
       edges: []
@@ -663,6 +816,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2b45735bc310b6a4c9bc92becb8b1dbb
+      internalID: 21300060
       vertices: []
       indices: 
       edges: []
@@ -683,6 +837,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1145d7fecfe9296409206f3d5f3f4493
+      internalID: 21300062
       vertices: []
       indices: 
       edges: []
@@ -703,6 +858,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a70da8ed165f87b4690f994d5f9f5776
+      internalID: 21300064
       vertices: []
       indices: 
       edges: []
@@ -723,6 +879,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 88ac64916fc7beb40888ce533f6d646c
+      internalID: 21300066
       vertices: []
       indices: 
       edges: []
@@ -743,6 +900,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 704e682d7fee7fa4ea888273dfac93cc
+      internalID: 21300068
       vertices: []
       indices: 
       edges: []
@@ -763,6 +921,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6da30605fcb430846be8ccdbfa441a69
+      internalID: 21300070
       vertices: []
       indices: 
       edges: []
@@ -783,6 +942,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 97dea6423bba8724eb50c275ebec4221
+      internalID: 21300072
       vertices: []
       indices: 
       edges: []
@@ -803,6 +963,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 24387cec7699ba244afa5d537ee51d57
+      internalID: 21300074
       vertices: []
       indices: 
       edges: []
@@ -823,6 +984,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dd8ce2fe2b81d0442ab4d40058ef72d5
+      internalID: 21300076
       vertices: []
       indices: 
       edges: []
@@ -843,6 +1005,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 034e2841a9960aa4a98b8f3397550238
+      internalID: 21300078
       vertices: []
       indices: 
       edges: []
@@ -863,6 +1026,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6f0c576aa8b3e994e938b7734850ea41
+      internalID: 21300080
       vertices: []
       indices: 
       edges: []
@@ -883,6 +1047,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 81b37bf79dd52da4eb5602e04897260b
+      internalID: 21300082
       vertices: []
       indices: 
       edges: []
@@ -903,6 +1068,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 625f1cbd06b25f54f8b64f5ffb28ca7f
+      internalID: 21300084
       vertices: []
       indices: 
       edges: []
@@ -923,6 +1089,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4acab1f2755c41647b30d93874ccddfd
+      internalID: 21300086
       vertices: []
       indices: 
       edges: []
@@ -931,13 +1098,55 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      TacticalPaths_0: 21300008
+      TacticalPaths_1: 21300010
+      TacticalPaths_10: 21300028
+      TacticalPaths_11: 21300030
+      TacticalPaths_12: 21300032
+      TacticalPaths_13: 21300034
+      TacticalPaths_14: 21300036
+      TacticalPaths_15: 21300038
+      TacticalPaths_16: 21300040
+      TacticalPaths_17: 21300042
+      TacticalPaths_18: 21300044
+      TacticalPaths_19: 21300046
+      TacticalPaths_2: 21300012
+      TacticalPaths_20: 21300048
+      TacticalPaths_21: 21300050
+      TacticalPaths_22: 21300052
+      TacticalPaths_23: 21300054
+      TacticalPaths_24: 21300056
+      TacticalPaths_25: 21300058
+      TacticalPaths_26: 21300060
+      TacticalPaths_27: 21300062
+      TacticalPaths_28: 21300064
+      TacticalPaths_29: 21300066
+      TacticalPaths_3: 21300014
+      TacticalPaths_30: 21300068
+      TacticalPaths_31: 21300070
+      TacticalPaths_32: 21300072
+      TacticalPaths_33: 21300074
+      TacticalPaths_34: 21300076
+      TacticalPaths_35: 21300078
+      TacticalPaths_36: 21300080
+      TacticalPaths_37: 21300082
+      TacticalPaths_38: 21300084
+      TacticalPaths_39: 21300086
+      TacticalPaths_4: 21300016
+      TacticalPaths_5: 21300018
+      TacticalPaths_6: 21300020
+      TacticalPaths_7: 21300022
+      TacticalPaths_8: 21300024
+      TacticalPaths_9: 21300026
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

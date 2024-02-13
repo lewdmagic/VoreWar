@@ -1,56 +1,150 @@
 fileFormatVersion: 2
 guid: 95e4b03180c319c418c4c2f694494bb1
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: panther gloves_0
-    21300018: panther gloves_1
-    21300020: panther gloves_2
-    21300022: panther gloves_3
-    21300024: panther gloves_4
-    21300026: panther gloves_5
-    21300028: panther gloves_6
-    21300030: panther gloves_7
-    21300032: panther gloves_8
-    21300034: panther gloves_9
-    21300036: panther gloves_10
-    21300038: panther gloves_11
-    21300040: panther gloves_12
-    21300042: panther gloves_13
-    21300044: panther gloves_14
-    21300046: panther gloves_15
-    21300048: panther gloves_16
-    21300050: panther gloves_17
-    21300052: panther gloves_18
-    21300054: panther gloves_19
-    21300056: panther gloves_20
-    21300058: panther gloves_21
-    21300060: panther gloves_22
-    21300062: panther gloves_23
-    21300064: panther gloves_24
-    21300066: panther gloves_25
-    21300068: panther gloves_26
-    21300070: panther gloves_27
-    21300072: panther gloves_28
-    21300074: panther gloves_29
-    21300076: panther gloves_30
-    21300078: panther gloves_31
-    21300080: panther gloves_32
-    21300082: panther gloves_33
-    21300084: panther gloves_34
-    21300086: panther gloves_35
-    21300088: panther gloves_36
-    21300090: panther gloves_37
-    21300092: panther gloves_38
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: panther gloves_0
+  - first:
+      213: 21300018
+    second: panther gloves_1
+  - first:
+      213: 21300020
+    second: panther gloves_2
+  - first:
+      213: 21300022
+    second: panther gloves_3
+  - first:
+      213: 21300024
+    second: panther gloves_4
+  - first:
+      213: 21300026
+    second: panther gloves_5
+  - first:
+      213: 21300028
+    second: panther gloves_6
+  - first:
+      213: 21300030
+    second: panther gloves_7
+  - first:
+      213: 21300032
+    second: panther gloves_8
+  - first:
+      213: 21300034
+    second: panther gloves_9
+  - first:
+      213: 21300036
+    second: panther gloves_10
+  - first:
+      213: 21300038
+    second: panther gloves_11
+  - first:
+      213: 21300040
+    second: panther gloves_12
+  - first:
+      213: 21300042
+    second: panther gloves_13
+  - first:
+      213: 21300044
+    second: panther gloves_14
+  - first:
+      213: 21300046
+    second: panther gloves_15
+  - first:
+      213: 21300048
+    second: panther gloves_16
+  - first:
+      213: 21300050
+    second: panther gloves_17
+  - first:
+      213: 21300052
+    second: panther gloves_18
+  - first:
+      213: 21300054
+    second: panther gloves_19
+  - first:
+      213: 21300056
+    second: panther gloves_20
+  - first:
+      213: 21300058
+    second: panther gloves_21
+  - first:
+      213: 21300060
+    second: panther gloves_22
+  - first:
+      213: 21300062
+    second: panther gloves_23
+  - first:
+      213: 21300064
+    second: panther gloves_24
+  - first:
+      213: 21300066
+    second: panther gloves_25
+  - first:
+      213: 21300068
+    second: panther gloves_26
+  - first:
+      213: 21300070
+    second: panther gloves_27
+  - first:
+      213: 21300072
+    second: panther gloves_28
+  - first:
+      213: 21300074
+    second: panther gloves_29
+  - first:
+      213: 21300076
+    second: panther gloves_30
+  - first:
+      213: 21300078
+    second: panther gloves_31
+  - first:
+      213: 21300080
+    second: panther gloves_32
+  - first:
+      213: 21300082
+    second: panther gloves_33
+  - first:
+      213: 21300084
+    second: panther gloves_34
+  - first:
+      213: 21300086
+    second: panther gloves_35
+  - first:
+      213: 21300088
+    second: panther gloves_36
+  - first:
+      213: 21300090
+    second: panther gloves_37
+  - first:
+      213: 21300092
+    second: panther gloves_38
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -67,9 +161,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -79,8 +176,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -101,11 +198,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -115,8 +218,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -126,7 +231,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -146,6 +279,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f34c8a5b222c7f7458afc76b8e8dd605
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -166,6 +300,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 548d8765c55205841a02f64af327783d
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -186,6 +321,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f3bc910067fb09e4e911306e341335fa
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -206,6 +342,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3226dc8c22e66a04686ef39139844724
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -226,6 +363,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0e2f9278c2570634988142f600dc01b2
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -246,6 +384,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 670fe5aa25c4d324495e28daee00fe40
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -266,6 +405,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7776da88d323b714697257cd5e8107bd
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -286,6 +426,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a05c2a068d5f556468166474f2c9ad3d
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -306,6 +447,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 99d859b5fce15b94caf80ea6f8aeb697
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -326,6 +468,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 22d4158bb623f2c4bb6a40e833faf138
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -346,6 +489,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bf5d74084c0c8df41acddac0627ae1ef
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -366,6 +510,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c798d3bd4c5b97449a1f6a2efeb60436
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -386,6 +531,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 345bf26ec634f1a449d9e8454b5bf1d6
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -406,6 +552,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 99015c997436da24e840ed51a65e6a7f
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -426,6 +573,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f6f5083b344e6eb42a51b763b647c975
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -446,6 +594,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6bcf69cef8014c24c9e6944fc4c83e0e
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -466,6 +615,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 150f29dfc2d54c54886d5ad612a14dd4
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -486,6 +636,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2e2abfefda594b647b49b758758b76cf
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -506,6 +657,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4492bc8494224164786705969e5baf73
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -526,6 +678,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1008d3d281a5d51439f09ea683f6fcc1
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -546,6 +699,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a4d3ae83a8c5ef648a0211a6d25fd8f5
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -566,6 +720,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 55d5aad28fbd1f2409124ad224aadc6e
+      internalID: 21300058
       vertices: []
       indices: 
       edges: []
@@ -586,6 +741,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 90e352cd2a42d21409ef02f5c28fcc11
+      internalID: 21300060
       vertices: []
       indices: 
       edges: []
@@ -606,6 +762,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9e55c667b7195fb499c833f2bd7c5c65
+      internalID: 21300062
       vertices: []
       indices: 
       edges: []
@@ -626,6 +783,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 275b7fcee59973a4c9a632e990e200bb
+      internalID: 21300064
       vertices: []
       indices: 
       edges: []
@@ -646,6 +804,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 475b41a18f45bec45a0677619ae3064d
+      internalID: 21300066
       vertices: []
       indices: 
       edges: []
@@ -666,6 +825,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 81293b1c3dcd16140a5d72f4435c7d19
+      internalID: 21300068
       vertices: []
       indices: 
       edges: []
@@ -686,6 +846,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 37fa44ba2a75f2741ba408712ae09e25
+      internalID: 21300070
       vertices: []
       indices: 
       edges: []
@@ -706,6 +867,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b7fac89a20be49a4bb5e0d9f34874d93
+      internalID: 21300072
       vertices: []
       indices: 
       edges: []
@@ -726,6 +888,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 996cf537867c7e344848ee53d1800809
+      internalID: 21300074
       vertices: []
       indices: 
       edges: []
@@ -746,6 +909,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 722764076214163499ee6efa089115bf
+      internalID: 21300076
       vertices: []
       indices: 
       edges: []
@@ -766,6 +930,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6753edfda9caa904b93b5732f2452685
+      internalID: 21300078
       vertices: []
       indices: 
       edges: []
@@ -786,6 +951,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f85f89e04c5da434c9d51f8564f34129
+      internalID: 21300080
       vertices: []
       indices: 
       edges: []
@@ -806,6 +972,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cf8a4ee2553e79e429ff84a290c1d5d9
+      internalID: 21300082
       vertices: []
       indices: 
       edges: []
@@ -826,6 +993,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ca8f3fbf6226f8c408d85303d65b34e4
+      internalID: 21300084
       vertices: []
       indices: 
       edges: []
@@ -846,6 +1014,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8cb54643f72d40d4d9b7bc8821dc3b38
+      internalID: 21300086
       vertices: []
       indices: 
       edges: []
@@ -866,6 +1035,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0a891e50c83d9784b880a32325676c94
+      internalID: 21300088
       vertices: []
       indices: 
       edges: []
@@ -886,6 +1056,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9e34834b14d760b46b152da961190217
+      internalID: 21300090
       vertices: []
       indices: 
       edges: []
@@ -906,6 +1077,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a3d30c9abe0cde0428406075418b5e91
+      internalID: 21300092
       vertices: []
       indices: 
       edges: []
@@ -914,13 +1086,54 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      panther gloves_0: 21300016
+      panther gloves_1: 21300018
+      panther gloves_10: 21300036
+      panther gloves_11: 21300038
+      panther gloves_12: 21300040
+      panther gloves_13: 21300042
+      panther gloves_14: 21300044
+      panther gloves_15: 21300046
+      panther gloves_16: 21300048
+      panther gloves_17: 21300050
+      panther gloves_18: 21300052
+      panther gloves_19: 21300054
+      panther gloves_2: 21300020
+      panther gloves_20: 21300056
+      panther gloves_21: 21300058
+      panther gloves_22: 21300060
+      panther gloves_23: 21300062
+      panther gloves_24: 21300064
+      panther gloves_25: 21300066
+      panther gloves_26: 21300068
+      panther gloves_27: 21300070
+      panther gloves_28: 21300072
+      panther gloves_29: 21300074
+      panther gloves_3: 21300022
+      panther gloves_30: 21300076
+      panther gloves_31: 21300078
+      panther gloves_32: 21300080
+      panther gloves_33: 21300082
+      panther gloves_34: 21300084
+      panther gloves_35: 21300086
+      panther gloves_36: 21300088
+      panther gloves_37: 21300090
+      panther gloves_38: 21300092
+      panther gloves_4: 21300024
+      panther gloves_5: 21300026
+      panther gloves_6: 21300028
+      panther gloves_7: 21300030
+      panther gloves_8: 21300032
+      panther gloves_9: 21300034
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

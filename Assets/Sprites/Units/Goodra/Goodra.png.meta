@@ -1,39 +1,99 @@
 fileFormatVersion: 2
 guid: 7c99155f968b1954184cbaf3289b4e25
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: Goodra_0
-    21300018: Goodra_1
-    21300020: Goodra_2
-    21300022: Goodra_3
-    21300024: Goodra_4
-    21300026: Goodra_5
-    21300028: Goodra_6
-    21300030: Goodra_7
-    21300032: Goodra_8
-    21300034: Goodra_9
-    21300036: Goodra_10
-    21300038: Goodra_11
-    21300040: Goodra_12
-    21300042: Goodra_13
-    21300044: Goodra_14
-    21300046: Goodra_15
-    21300048: Goodra_16
-    21300050: Goodra_17
-    21300052: Goodra_18
-    21300054: Goodra_19
-    21300056: Goodra_20
-    21300058: Goodra_21
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: Goodra_0
+  - first:
+      213: 21300018
+    second: Goodra_1
+  - first:
+      213: 21300020
+    second: Goodra_2
+  - first:
+      213: 21300022
+    second: Goodra_3
+  - first:
+      213: 21300024
+    second: Goodra_4
+  - first:
+      213: 21300026
+    second: Goodra_5
+  - first:
+      213: 21300028
+    second: Goodra_6
+  - first:
+      213: 21300030
+    second: Goodra_7
+  - first:
+      213: 21300032
+    second: Goodra_8
+  - first:
+      213: 21300034
+    second: Goodra_9
+  - first:
+      213: 21300036
+    second: Goodra_10
+  - first:
+      213: 21300038
+    second: Goodra_11
+  - first:
+      213: 21300040
+    second: Goodra_12
+  - first:
+      213: 21300042
+    second: Goodra_13
+  - first:
+      213: 21300044
+    second: Goodra_14
+  - first:
+      213: 21300046
+    second: Goodra_15
+  - first:
+      213: 21300048
+    second: Goodra_16
+  - first:
+      213: 21300050
+    second: Goodra_17
+  - first:
+      213: 21300052
+    second: Goodra_18
+  - first:
+      213: 21300054
+    second: Goodra_19
+  - first:
+      213: 21300056
+    second: Goodra_20
+  - first:
+      213: 21300058
+    second: Goodra_21
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -50,9 +110,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -62,8 +125,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -84,11 +147,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -98,8 +167,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -109,7 +180,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -129,6 +228,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 59c50fdb47c6c1c42a4909fcfaed0756
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -149,6 +249,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cfdb821eeffaac54e90eb8972731a837
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -169,6 +270,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9af26a8e03c20a741a6eec9e4286c00a
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -189,6 +291,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0a7d8bc3a8e02a3499c7b411753e19fd
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -209,6 +312,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8ede177fcb9f7114d94da253d968a217
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -229,6 +333,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e4adea18288cda84bbf5c474f4fcf936
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -249,6 +354,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6461e4f1901c2524980ad4d589ecdec6
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -269,6 +375,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 863032d058a5770459f950aca41ab522
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -289,6 +396,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 723742bf4627fea4399db15c1b3e5eb9
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -309,6 +417,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d922af5450e653d4486c295f01de2671
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -329,6 +438,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ee71c242e54c04d44a6b56e9bba65d4c
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -349,6 +459,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c8fe9bed57ca4454dac31bfabbab1216
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -369,6 +480,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b5ac17a1411055e4db9ba2d2f0cfdbdc
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -389,6 +501,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 813c38faec65afd4a930f5503d4596db
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -409,6 +522,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9cb2d8904f7290540921bfd41d0a74ee
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -429,6 +543,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 643b0532cdcdde64bb9c695d63106cce
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -449,6 +564,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7ddc3fac30ac7574d8c333ebf035e5c2
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -469,6 +585,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e7a0849a28e242649947c159486b41bf
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -489,6 +606,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1d497c462ee0e92418a43ff1a1c5049c
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -509,6 +627,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f8465af914b9ec34392f5c66016a430e
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -529,6 +648,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7d378895561831a4795fdebecffaf2ec
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -549,6 +669,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 835bd23f952b53e4cb851807b29c2d5b
+      internalID: 21300058
       vertices: []
       indices: 
       edges: []
@@ -557,13 +678,37 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      Goodra_0: 21300016
+      Goodra_1: 21300018
+      Goodra_10: 21300036
+      Goodra_11: 21300038
+      Goodra_12: 21300040
+      Goodra_13: 21300042
+      Goodra_14: 21300044
+      Goodra_15: 21300046
+      Goodra_16: 21300048
+      Goodra_17: 21300050
+      Goodra_18: 21300052
+      Goodra_19: 21300054
+      Goodra_2: 21300020
+      Goodra_20: 21300056
+      Goodra_21: 21300058
+      Goodra_3: 21300022
+      Goodra_4: 21300024
+      Goodra_5: 21300026
+      Goodra_6: 21300028
+      Goodra_7: 21300030
+      Goodra_8: 21300032
+      Goodra_9: 21300034
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

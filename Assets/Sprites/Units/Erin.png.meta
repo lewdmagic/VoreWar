@@ -1,133 +1,381 @@
 fileFormatVersion: 2
 guid: a59379d0d695f0a458d4d19dff00d4dc
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: Erin_0
-    21300018: Erin_1
-    21300020: Erin_2
-    21300022: Erin_3
-    21300024: Erin_4
-    21300026: Erin_5
-    21300028: Erin_6
-    21300030: Erin_7
-    21300032: Erin_8
-    21300034: Erin_9
-    21300036: Erin_10
-    21300038: Erin_11
-    21300040: Erin_12
-    21300042: Erin_13
-    21300044: Erin_14
-    21300046: Erin_15
-    21300048: Erin_16
-    21300050: Erin_17
-    21300052: Erin_18
-    21300054: Erin_19
-    21300056: Erin_20
-    21300058: Erin_21
-    21300060: Erin_22
-    21300062: Erin_23
-    21300064: Erin_24
-    21300066: Erin_25
-    21300068: Erin_26
-    21300070: Erin_27
-    21300072: Erin_28
-    21300074: Erin_29
-    21300076: Erin_30
-    21300078: Erin_31
-    21300080: Erin_32
-    21300082: Erin_33
-    21300084: Erin_34
-    21300086: Erin_35
-    21300088: Erin_36
-    21300090: Erin_37
-    21300092: Erin_38
-    21300094: Erin_39
-    21300096: Erin_40
-    21300098: Erin_41
-    21300100: Erin_42
-    21300102: Erin_43
-    21300104: Erin_44
-    21300106: Erin_45
-    21300108: Erin_46
-    21300110: Erin_47
-    21300112: Erin_48
-    21300114: Erin_49
-    21300116: Erin_50
-    21300118: Erin_51
-    21300120: Erin_52
-    21300122: Erin_53
-    21300124: Erin_54
-    21300126: Erin_55
-    21300128: Erin_56
-    21300130: Erin_57
-    21300132: Erin_58
-    21300134: Erin_59
-    21300136: Erin_60
-    21300138: Erin_61
-    21300140: Erin_62
-    21300142: Erin_63
-    21300144: Erin_64
-    21300146: Erin_65
-    21300148: Erin_66
-    21300150: Erin_67
-    21300152: Erin_68
-    21300154: Erin_69
-    21300156: Erin_70
-    21300158: Erin_71
-    21300160: Erin_72
-    21300162: Erin_73
-    21300164: Erin_74
-    21300166: Erin_75
-    21300168: Erin_76
-    21300170: Erin_77
-    21300172: Erin_78
-    21300174: Erin_79
-    21300176: Erin_80
-    21300178: Erin_81
-    21300180: Erin_82
-    21300182: Erin_83
-    21300184: Erin_84
-    21300186: Erin_85
-    21300188: Erin_86
-    21300190: Erin_87
-    21300192: Erin_88
-    21300194: Erin_89
-    21300196: Erin_90
-    21300198: Erin_91
-    21300200: Erin_92
-    21300202: Erin_93
-    21300204: Erin_94
-    21300206: Erin_95
-    21300208: Erin_96
-    21300210: Erin_97
-    21300212: Erin_98
-    21300214: Erin_99
-    21300216: Erin_100
-    21300218: Erin_101
-    21300220: Erin_102
-    21300222: Erin_103
-    21300224: Erin_104
-    21300226: Erin_105
-    21300228: Erin_106
-    21300230: Erin_107
-    21300232: Erin_108
-    21300234: Erin_109
-    21300236: Erin_110
-    21300238: Erin_111
-    21300240: Erin_112
-    21300242: Erin_113
-    21300244: Erin_114
-    21300246: Erin_115
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: Erin_0
+  - first:
+      213: 21300018
+    second: Erin_1
+  - first:
+      213: 21300020
+    second: Erin_2
+  - first:
+      213: 21300022
+    second: Erin_3
+  - first:
+      213: 21300024
+    second: Erin_4
+  - first:
+      213: 21300026
+    second: Erin_5
+  - first:
+      213: 21300028
+    second: Erin_6
+  - first:
+      213: 21300030
+    second: Erin_7
+  - first:
+      213: 21300032
+    second: Erin_8
+  - first:
+      213: 21300034
+    second: Erin_9
+  - first:
+      213: 21300036
+    second: Erin_10
+  - first:
+      213: 21300038
+    second: Erin_11
+  - first:
+      213: 21300040
+    second: Erin_12
+  - first:
+      213: 21300042
+    second: Erin_13
+  - first:
+      213: 21300044
+    second: Erin_14
+  - first:
+      213: 21300046
+    second: Erin_15
+  - first:
+      213: 21300048
+    second: Erin_16
+  - first:
+      213: 21300050
+    second: Erin_17
+  - first:
+      213: 21300052
+    second: Erin_18
+  - first:
+      213: 21300054
+    second: Erin_19
+  - first:
+      213: 21300056
+    second: Erin_20
+  - first:
+      213: 21300058
+    second: Erin_21
+  - first:
+      213: 21300060
+    second: Erin_22
+  - first:
+      213: 21300062
+    second: Erin_23
+  - first:
+      213: 21300064
+    second: Erin_24
+  - first:
+      213: 21300066
+    second: Erin_25
+  - first:
+      213: 21300068
+    second: Erin_26
+  - first:
+      213: 21300070
+    second: Erin_27
+  - first:
+      213: 21300072
+    second: Erin_28
+  - first:
+      213: 21300074
+    second: Erin_29
+  - first:
+      213: 21300076
+    second: Erin_30
+  - first:
+      213: 21300078
+    second: Erin_31
+  - first:
+      213: 21300080
+    second: Erin_32
+  - first:
+      213: 21300082
+    second: Erin_33
+  - first:
+      213: 21300084
+    second: Erin_34
+  - first:
+      213: 21300086
+    second: Erin_35
+  - first:
+      213: 21300088
+    second: Erin_36
+  - first:
+      213: 21300090
+    second: Erin_37
+  - first:
+      213: 21300092
+    second: Erin_38
+  - first:
+      213: 21300094
+    second: Erin_39
+  - first:
+      213: 21300096
+    second: Erin_40
+  - first:
+      213: 21300098
+    second: Erin_41
+  - first:
+      213: 21300100
+    second: Erin_42
+  - first:
+      213: 21300102
+    second: Erin_43
+  - first:
+      213: 21300104
+    second: Erin_44
+  - first:
+      213: 21300106
+    second: Erin_45
+  - first:
+      213: 21300108
+    second: Erin_46
+  - first:
+      213: 21300110
+    second: Erin_47
+  - first:
+      213: 21300112
+    second: Erin_48
+  - first:
+      213: 21300114
+    second: Erin_49
+  - first:
+      213: 21300116
+    second: Erin_50
+  - first:
+      213: 21300118
+    second: Erin_51
+  - first:
+      213: 21300120
+    second: Erin_52
+  - first:
+      213: 21300122
+    second: Erin_53
+  - first:
+      213: 21300124
+    second: Erin_54
+  - first:
+      213: 21300126
+    second: Erin_55
+  - first:
+      213: 21300128
+    second: Erin_56
+  - first:
+      213: 21300130
+    second: Erin_57
+  - first:
+      213: 21300132
+    second: Erin_58
+  - first:
+      213: 21300134
+    second: Erin_59
+  - first:
+      213: 21300136
+    second: Erin_60
+  - first:
+      213: 21300138
+    second: Erin_61
+  - first:
+      213: 21300140
+    second: Erin_62
+  - first:
+      213: 21300142
+    second: Erin_63
+  - first:
+      213: 21300144
+    second: Erin_64
+  - first:
+      213: 21300146
+    second: Erin_65
+  - first:
+      213: 21300148
+    second: Erin_66
+  - first:
+      213: 21300150
+    second: Erin_67
+  - first:
+      213: 21300152
+    second: Erin_68
+  - first:
+      213: 21300154
+    second: Erin_69
+  - first:
+      213: 21300156
+    second: Erin_70
+  - first:
+      213: 21300158
+    second: Erin_71
+  - first:
+      213: 21300160
+    second: Erin_72
+  - first:
+      213: 21300162
+    second: Erin_73
+  - first:
+      213: 21300164
+    second: Erin_74
+  - first:
+      213: 21300166
+    second: Erin_75
+  - first:
+      213: 21300168
+    second: Erin_76
+  - first:
+      213: 21300170
+    second: Erin_77
+  - first:
+      213: 21300172
+    second: Erin_78
+  - first:
+      213: 21300174
+    second: Erin_79
+  - first:
+      213: 21300176
+    second: Erin_80
+  - first:
+      213: 21300178
+    second: Erin_81
+  - first:
+      213: 21300180
+    second: Erin_82
+  - first:
+      213: 21300182
+    second: Erin_83
+  - first:
+      213: 21300184
+    second: Erin_84
+  - first:
+      213: 21300186
+    second: Erin_85
+  - first:
+      213: 21300188
+    second: Erin_86
+  - first:
+      213: 21300190
+    second: Erin_87
+  - first:
+      213: 21300192
+    second: Erin_88
+  - first:
+      213: 21300194
+    second: Erin_89
+  - first:
+      213: 21300196
+    second: Erin_90
+  - first:
+      213: 21300198
+    second: Erin_91
+  - first:
+      213: 21300200
+    second: Erin_92
+  - first:
+      213: 21300202
+    second: Erin_93
+  - first:
+      213: 21300204
+    second: Erin_94
+  - first:
+      213: 21300206
+    second: Erin_95
+  - first:
+      213: 21300208
+    second: Erin_96
+  - first:
+      213: 21300210
+    second: Erin_97
+  - first:
+      213: 21300212
+    second: Erin_98
+  - first:
+      213: 21300214
+    second: Erin_99
+  - first:
+      213: 21300216
+    second: Erin_100
+  - first:
+      213: 21300218
+    second: Erin_101
+  - first:
+      213: 21300220
+    second: Erin_102
+  - first:
+      213: 21300222
+    second: Erin_103
+  - first:
+      213: 21300224
+    second: Erin_104
+  - first:
+      213: 21300226
+    second: Erin_105
+  - first:
+      213: 21300228
+    second: Erin_106
+  - first:
+      213: 21300230
+    second: Erin_107
+  - first:
+      213: 21300232
+    second: Erin_108
+  - first:
+      213: 21300234
+    second: Erin_109
+  - first:
+      213: 21300236
+    second: Erin_110
+  - first:
+      213: 21300238
+    second: Erin_111
+  - first:
+      213: 21300240
+    second: Erin_112
+  - first:
+      213: 21300242
+    second: Erin_113
+  - first:
+      213: 21300244
+    second: Erin_114
+  - first:
+      213: 21300246
+    second: Erin_115
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -144,9 +392,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -156,8 +407,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -178,11 +429,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -192,8 +449,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -203,7 +462,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -223,6 +510,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b1293ddce39453d42bb2df8ba80659a3
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -243,6 +531,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ae55461aca0fd1f41ab0e279bf8c98a5
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -263,6 +552,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: daf099d2388c05649839d62807dd5a55
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -283,6 +573,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1abe8468816e8914d8644d6975babbc7
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -303,6 +594,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 58eba2dd8a5365348b10f170edde65b9
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -323,6 +615,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 56bed16c717a00d47bfab1e0f1a0ae4b
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -343,6 +636,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 84ba2f33eadbbf5489d11ef67c5c9cad
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -363,6 +657,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e4ab4280eb2ca874e8aa958124fe3e9b
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -383,6 +678,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6af0a42027e28ec4f90e47ddc947ffd1
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -403,6 +699,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9e2668e2d295da0499f4dd27f840a897
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -423,6 +720,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b6e4377b97aee0e4a8ed083003d29bf5
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -443,6 +741,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 293d12a1a19eea0459a6c9a8ea85a0fa
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -463,6 +762,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6c3d321225cb5dd48a31bc21184ba1db
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -483,6 +783,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d1b096ab46414524fba6038ff64d081b
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -503,6 +804,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c308c6d746795354e8c9d584f8704643
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -523,6 +825,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 92560284e99145c42a50c55dfafe0ac1
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -543,6 +846,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a67bf48b937329847826d012277b3464
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -563,6 +867,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 29d4b83576f1d9d4998db6a295e27f00
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -583,6 +888,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 56495d03f61d41a4c866a1bddc6cf8cc
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -603,6 +909,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 07e3d316c454652418cd0233bf67c31e
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -623,6 +930,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c8042d7a7542d12408e1b6f291ea2cae
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -643,6 +951,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ee54544b4968407489214b009627e908
+      internalID: 21300058
       vertices: []
       indices: 
       edges: []
@@ -651,13 +960,37 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      Erin_0: 21300016
+      Erin_1: 21300018
+      Erin_10: 21300036
+      Erin_11: 21300038
+      Erin_12: 21300040
+      Erin_13: 21300042
+      Erin_14: 21300044
+      Erin_15: 21300046
+      Erin_16: 21300048
+      Erin_17: 21300050
+      Erin_18: 21300052
+      Erin_19: 21300054
+      Erin_2: 21300020
+      Erin_20: 21300056
+      Erin_21: 21300058
+      Erin_3: 21300022
+      Erin_4: 21300024
+      Erin_5: 21300026
+      Erin_6: 21300028
+      Erin_7: 21300030
+      Erin_8: 21300032
+      Erin_9: 21300034
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

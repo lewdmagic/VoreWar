@@ -1,19 +1,39 @@
 fileFormatVersion: 2
 guid: 873c2a15d9f02bb4cadffbba0be4a2e7
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_6
-    21300002: Hero Armor_7
-    21300004: eyebrows_0
-    21300006: eyebrows_1
-    21300008: eyebrows_2
-    21300010: eyebrows_3
-    21300012: eyebrows_4
-    21300014: eyebrows_5
-    21300016: eyebrows_6
-    21300018: eyebrows_7
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_6
+  - first:
+      213: 21300002
+    second: Hero Armor_7
+  - first:
+      213: 21300004
+    second: eyebrows_0
+  - first:
+      213: 21300006
+    second: eyebrows_1
+  - first:
+      213: 21300008
+    second: eyebrows_2
+  - first:
+      213: 21300010
+    second: eyebrows_3
+  - first:
+      213: 21300012
+    second: eyebrows_4
+  - first:
+      213: 21300014
+    second: eyebrows_5
+  - first:
+      213: 21300016
+    second: eyebrows_6
+  - first:
+      213: 21300018
+    second: eyebrows_7
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -30,9 +50,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -42,8 +65,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -64,11 +87,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -78,8 +107,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -89,7 +120,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -109,6 +168,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9284b00321e0a294199a5f93cb2b1c6b
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -129,6 +189,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f67611e326d789e49ac31f8d1cc17939
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -149,6 +210,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 38f184f61be954b42a5de3b12e50f0ed
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -169,6 +231,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: aa65cd79fb6bfda4db1c2fd95a2c9b04
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -189,6 +252,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1f75ad7942fbfb447b4f394477b4b245
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -209,6 +273,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8be52346df841a04980b7328058deb34
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -229,6 +294,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a900cd0daa06d8a43803faa3f8c113be
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -249,6 +315,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c3b729802543615488bfc21cf1294aab
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -257,13 +324,23 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      eyebrows_0: 21300004
+      eyebrows_1: 21300006
+      eyebrows_2: 21300008
+      eyebrows_3: 21300010
+      eyebrows_4: 21300012
+      eyebrows_5: 21300014
+      eyebrows_6: 21300016
+      eyebrows_7: 21300018
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
