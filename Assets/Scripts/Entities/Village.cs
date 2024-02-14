@@ -9,46 +9,63 @@ using static UnityEngine.UI.CanvasScaler;
 public class Village
 {
     [OdinSerialize]
-    public List<VillageBuilding> buildings;
+    private List<VillageBuilding> _buildings;
+    public List<VillageBuilding> buildings { get => _buildings; set => _buildings = value; }
 
     [OdinSerialize]
-    public bool Capital { get; set; }
+    private bool _capital;
+    public bool Capital { get => _capital; set => _capital = value; }
 
     [OdinSerialize]
-    public Race OriginalRace { get; set; }
+    private Race _originalRace;
+    public Race OriginalRace { get => _originalRace; set => _originalRace = value; }
 
     [OdinSerialize]
     public Side Side { get; private set; }
 
     [OdinSerialize]
-    public Race Race { get; set; }
+    private Race _race;
+    public Race Race { get => _race; set => _race = value; }
     [OdinSerialize]
-    public VillagePopulation VillagePopulation;
+    private VillagePopulation _villagePopulation;
+    public VillagePopulation VillagePopulation { get => _villagePopulation; set => _villagePopulation = value; }
 
     public int Population => VillagePopulation.GetTotalPop();
     [OdinSerialize]
-    public int Maxpop { get; set; }
+    private int _maxpop;
+    public int Maxpop { get => _maxpop; set => _maxpop = value; }
     [OdinSerialize]
-    public int FarmCount { get; set; }
+    private int _farmCount;
+    public int FarmCount { get => _farmCount; set => _farmCount = value; }
     [OdinSerialize]
-    public string Name { get; set; }
+    private string _name;
+    public string Name { get => _name; set => _name = value; }
     [OdinSerialize]
-    public Vec2i Position { get; set; }
-
-    [OdinSerialize] int TurnDestroyed = 0;
-
-    [OdinSerialize] internal float Happiness = 100;
-
-    [OdinSerialize]
-    internal List<InvisibleTravelingUnit> travelers;
+    private Vec2i _position;
+    public Vec2i Position { get => _position; set => _position = value; }
 
     [OdinSerialize]
-    internal List<MercenaryContainer> Mercenaries;
-    [OdinSerialize]
-    internal List<MercenaryContainer> Adventurers;
+    private int _turnDestroyed = 0;
+    int TurnDestroyed { get => _turnDestroyed; set => _turnDestroyed = value; }
 
     [OdinSerialize]
-    private ItemStock itemStock;
+    private float _happiness = 100;
+    internal float Happiness { get => _happiness; set => _happiness = value; }
+
+    [OdinSerialize]
+    private List<InvisibleTravelingUnit> _travelers;
+    internal List<InvisibleTravelingUnit> travelers { get => _travelers; set => _travelers = value; }
+
+    [OdinSerialize]
+    private List<MercenaryContainer> _mercenaries;
+    internal List<MercenaryContainer> Mercenaries { get => _mercenaries; set => _mercenaries = value; }
+    [OdinSerialize]
+    private List<MercenaryContainer> _adventurers;
+    internal List<MercenaryContainer> Adventurers { get => _adventurers; set => _adventurers = value; }
+
+    [OdinSerialize]
+    private ItemStock _itemStock;
+    private ItemStock itemStock { get => _itemStock; set => _itemStock = value; }
 
     internal ItemStock ItemStock
     {
@@ -704,26 +721,26 @@ public class Village
                     var localArmy = StrategicUtilities.ArmyAt(Position);
                     if (localArmy != null && Equals(localArmy.Side, Side) && localArmy.Units.Count() < localArmy.Empire.MaxArmySize)
                     {
-                        Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name} and auto-joined the army there", new Vec2(Position.x, Position.y)));
+                        Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name} and auto-joined the army there", new Vec2(Position.X, Position.Y)));
                         localArmy.Units.Add(unit.unit);
                     }
                     else if (localArmy == null && Empire.Armies.Count < Config.MaxArmies)
                     {
-                        Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name} and created a new army there", new Vec2(Position.x, Position.y)));
-                        Army army = new Army(Empire, new Vec2i(Position.x, Position.y), Side);
+                        Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name} and created a new army there", new Vec2(Position.X, Position.Y)));
+                        Army army = new Army(Empire, new Vec2i(Position.X, Position.Y), Side);
                         Empire.Armies.Add(army);
                         army.Units.Add(unit.unit);
                     }
                     else
                     {
                         VillagePopulation.AddHireable(unit.unit);
-                        Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name}", new Vec2(Position.x, Position.y)));
+                        Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name}", new Vec2(Position.X, Position.Y)));
 
                     }
                     continue;
                 }
                 VillagePopulation.AddHireable(unit.unit);
-                Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} has arrived at {Name}", new Vec2(Position.x, Position.y)));
+                Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} has arrived at {Name}", new Vec2(Position.X, Position.Y)));
             }
         }
     }

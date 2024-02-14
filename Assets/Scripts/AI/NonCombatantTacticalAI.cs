@@ -22,7 +22,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
                 retreatY = Config.TacticalSizeY - 1;
             else
                 retreatY = 0;
-            if (actor.Position.y == retreatY)
+            if (actor.Position.Y == retreatY)
             {
                 State.GameManager.TacticalMode.AttemptRetreat(actor, true);
                 actor.Movement = 0;

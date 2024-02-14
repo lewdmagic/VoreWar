@@ -3,11 +3,15 @@ using OdinSerializer;
 public abstract class Item
 {
     [OdinSerialize]
-    public string Name { get; set; }
+    private string _name;
+    public string Name { get => _name; set => _name = value; }
     [OdinSerialize]
-    public int Cost { get; set; }
+    private int _cost;
+    public int Cost { get => _cost; set => _cost = value; }
     [OdinSerialize]
-    public string Description { get; set; }
+    private string _description;
+    public string Description { get => _description; set => _description = value; }
     [OdinSerialize]
-    public bool LockedItem { get; set; }
+    private bool _lockedItem;
+    public bool LockedItem { get => _lockedItem; set => _lockedItem = value; }
 }

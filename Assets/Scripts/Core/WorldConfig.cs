@@ -35,15 +35,20 @@ public class WorldConfig
     }
 
     [OdinSerialize]
-    internal int StrategicWorldSizeX = 32;
+    private int _strategicWorldSizeX = 32;
+    internal int StrategicWorldSizeX { get => _strategicWorldSizeX; set => _strategicWorldSizeX = value; }
     [OdinSerialize]
-    internal int StrategicWorldSizeY = 32;
+    private int _strategicWorldSizeY = 32;
+    internal int StrategicWorldSizeY { get => _strategicWorldSizeY; set => _strategicWorldSizeY = value; }
     [OdinSerialize]
-    internal bool AutoScaleTactical = true;
+    private bool _autoScaleTactical = true;
+    internal bool AutoScaleTactical { get => _autoScaleTactical; set => _autoScaleTactical = value; }
     [OdinSerialize]
-    internal int TacticalSizeX = 24;
+    private int _tacticalSizeX = 24;
+    internal int TacticalSizeX { get => _tacticalSizeX; set => _tacticalSizeX = value; }
     [OdinSerialize]
-    internal int TacticalSizeY = 24;
+    private int _tacticalSizeY = 24;
+    internal int TacticalSizeY { get => _tacticalSizeY; set => _tacticalSizeY = value; }
     [OdinSerialize, AllowEditing, ProperName("Experience Per Level"), IntegerRange(0, 9999), Description("Base Exp required per level")]
     internal int ExperiencePerLevel = 20;
     [OdinSerialize, AllowEditing, ProperName("Additional Experience Per Level"), IntegerRange(0, 9999), Description("How much extra exp is required per level")]
@@ -64,104 +69,145 @@ public class WorldConfig
     internal bool CapMaxGarrisonIncrease = true;
 
     [OdinSerialize]
-    internal int MaxSpellLevelDrop = 4;
+    private int _maxSpellLevelDrop = 4;
+    internal int MaxSpellLevelDrop { get => _maxSpellLevelDrop; set => _maxSpellLevelDrop = value; }
 
     [OdinSerialize]
-    internal int ArmyMP = 3;
+    private int _armyMP = 3;
+    internal int ArmyMP { get => _armyMP; set => _armyMP = value; }
     [OdinSerialize]
-    internal int MaxArmies = 32;
+    private int _maxArmies = 32;
+    internal int MaxArmies { get => _maxArmies; set => _maxArmies = value; }
 
     [OdinSerialize, AllowEditing, ProperName("Gold Mine Income"), IntegerRange(0, 9999), Description("Gold provided by gold mines")]
     internal int GoldMineIncome = 40;
 
     [OdinSerialize]
-    internal int VoreRate = 1;
+    private int _voreRate = 1;
+    internal int VoreRate { get => _voreRate; set => _voreRate = value; }
     [OdinSerialize]
-    internal int EscapeRate = 1;
+    private int _escapeRate = 1;
+    internal int EscapeRate { get => _escapeRate; set => _escapeRate = value; }
     [OdinSerialize]
-    internal int RandomEventRate = 0;
+    private int _randomEventRate = 0;
+    internal int RandomEventRate { get => _randomEventRate; set => _randomEventRate = value; }
     [OdinSerialize]
-    internal int RandomAIEventRate = 0;
+    private int _randomAIEventRate = 0;
+    internal int RandomAIEventRate { get => _randomAIEventRate; set => _randomAIEventRate = value; }
 
     [OdinSerialize]
-    internal int FogDistance = 2;
+    private int _fogDistance = 2;
+    internal int FogDistance { get => _fogDistance; set => _fogDistance = value; }
 
 
     [OdinSerialize]
-    internal float WeightLossFractionBreasts = 0;
+    private float _weightLossFractionBreasts = 0;
+    internal float WeightLossFractionBreasts { get => _weightLossFractionBreasts; set => _weightLossFractionBreasts = value; }
     [OdinSerialize]
-    internal float WeightLossFractionBody = 0;
+    private float _weightLossFractionBody = 0;
+    internal float WeightLossFractionBody { get => _weightLossFractionBody; set => _weightLossFractionBody = value; }
     [OdinSerialize]
-    internal float WeightLossFractionDick = 0;
+    private float _weightLossFractionDick = 0;
+    internal float WeightLossFractionDick { get => _weightLossFractionDick; set => _weightLossFractionDick = value; }
     [OdinSerialize]
-    internal float GrowthDecayIncreaseRate = 0.04f;
+    private float _growthDecayIncreaseRate = 0.04f;
+    internal float GrowthDecayIncreaseRate { get => _growthDecayIncreaseRate; set => _growthDecayIncreaseRate = value; }
     [OdinSerialize]
-    internal float GrowthDecayOffset = 0f;
+    private float _growthDecayOffset = 0f;
+    internal float GrowthDecayOffset { get => _growthDecayOffset; set => _growthDecayOffset = value; }
     [OdinSerialize]
-    internal float GrowthMod = 1f;
+    private float _growthMod = 1f;
+    internal float GrowthMod { get => _growthMod; set => _growthMod = value; }
     [OdinSerialize]
-    internal float GrowthCap = 5f;
+    private float _growthCap = 5f;
+    internal float GrowthCap { get => _growthCap; set => _growthCap = value; }
 
     [OdinSerialize]
-    internal float AutoSurrenderChance = 1;
+    private float _autoSurrenderChance = 1;
+    internal float AutoSurrenderChance { get => _autoSurrenderChance; set => _autoSurrenderChance = value; }
     [OdinSerialize]
-    internal float AutoSurrenderDefectChance = 0.25f;
+    private float _autoSurrenderDefectChance = 0.25f;
+    internal float AutoSurrenderDefectChance { get => _autoSurrenderDefectChance; set => _autoSurrenderDefectChance = value; }
 
     [OdinSerialize]
-    internal float MaleFraction = 0;
+    private float _maleFraction = 0;
+    internal float MaleFraction { get => _maleFraction; set => _maleFraction = value; }
     [OdinSerialize]
-    internal float HermFraction = 0;
+    private float _hermFraction = 0;
+    internal float HermFraction { get => _hermFraction; set => _hermFraction = value; }
     [OdinSerialize]
-    internal float ClothedFraction = 0;
+    private float _clothedFraction = 0;
+    internal float ClothedFraction { get => _clothedFraction; set => _clothedFraction = value; }
     [OdinSerialize]
-    internal float FurryFraction = 0;
+    private float _furryFraction = 0;
+    internal float FurryFraction { get => _furryFraction; set => _furryFraction = value; }
     [OdinSerialize]
-    internal float HermNameFraction = 0;
+    private float _hermNameFraction = 0;
+    internal float HermNameFraction { get => _hermNameFraction; set => _hermNameFraction = value; }
 
     [OdinSerialize]
-    internal float OverallMonsterSpawnRateModifier = 1;
+    private float _overallMonsterSpawnRateModifier = 1;
+    internal float OverallMonsterSpawnRateModifier { get => _overallMonsterSpawnRateModifier; set => _overallMonsterSpawnRateModifier = value; }
     [OdinSerialize]
-    internal float OverallMonsterCapModifier = 1;
+    private float _overallMonsterCapModifier = 1;
+    internal float OverallMonsterCapModifier { get => _overallMonsterCapModifier; set => _overallMonsterCapModifier = value; }
 
     [OdinSerialize]
-    internal float TacticalWaterValue = 0;
+    private float _tacticalWaterValue = 0;
+    internal float TacticalWaterValue { get => _tacticalWaterValue; set => _tacticalWaterValue = value; }
     [OdinSerialize]
-    internal float TacticalTerrainFrequency = 0;
+    private float _tacticalTerrainFrequency = 0;
+    internal float TacticalTerrainFrequency { get => _tacticalTerrainFrequency; set => _tacticalTerrainFrequency = value; }
 
     [OdinSerialize]
-    internal int StartingPopulation = 99999;
+    private int _startingPopulation = 99999;
+    internal int StartingPopulation { get => _startingPopulation; set => _startingPopulation = value; }
 
     [OdinSerialize]
-    internal List<TraitType> LeaderTraits;
+    private List<TraitType> _leaderTraits;
+    internal List<TraitType> LeaderTraits { get => _leaderTraits; set => _leaderTraits = value; }
     [OdinSerialize]
-    internal List<TraitType> MaleTraits;
+    private List<TraitType> _maleTraits;
+    internal List<TraitType> MaleTraits { get => _maleTraits; set => _maleTraits = value; }
     [OdinSerialize]
-    internal List<TraitType> FemaleTraits;
+    private List<TraitType> _femaleTraits;
+    internal List<TraitType> FemaleTraits { get => _femaleTraits; set => _femaleTraits = value; }
     [OdinSerialize]
-    internal List<TraitType> HermTraits;
+    private List<TraitType> _hermTraits;
+    internal List<TraitType> HermTraits { get => _hermTraits; set => _hermTraits = value; }
     [OdinSerialize]
-    internal List<TraitType> SpawnTraits;
+    private List<TraitType> _spawnTraits;
+    internal List<TraitType> SpawnTraits { get => _spawnTraits; set => _spawnTraits = value; }
 
     [OdinSerialize]
-    internal float CustomEventFrequency = 0;
+    private float _customEventFrequency = 0;
+    internal float CustomEventFrequency { get => _customEventFrequency; set => _customEventFrequency = value; }
 
     [OdinSerialize]
-    internal Orientation MalesLike = 0;
+    private Orientation _malesLike = 0;
+    internal Orientation MalesLike { get => _malesLike; set => _malesLike = value; }
     [OdinSerialize]
-    internal Orientation FemalesLike = 0;
+    private Orientation _femalesLike = 0;
+    internal Orientation FemalesLike { get => _femalesLike; set => _femalesLike = value; }
     [OdinSerialize]
-    internal FairyBVType FairyBVType = 0;
+    private FairyBVType _fairyBVType = 0;
+    internal FairyBVType FairyBVType { get => _fairyBVType; set => _fairyBVType = value; }
     [OdinSerialize]
-    internal FeedingType FeedingType = 0;
+    private FeedingType _feedingType = 0;
+    internal FeedingType FeedingType { get => _feedingType; set => _feedingType = value; }
     [OdinSerialize]
-    internal FourthWallBreakType FourthWallBreakType = 0;
+    private FourthWallBreakType _fourthWallBreakType = 0;
+    internal FourthWallBreakType FourthWallBreakType { get => _fourthWallBreakType; set => _fourthWallBreakType = value; }
     [OdinSerialize]
-    internal UBConversion UBConversion = 0;
+    private UBConversion _uBConversion = 0;
+    internal UBConversion UBConversion { get => _uBConversion; set => _uBConversion = value; }
     [OdinSerialize]
-    internal SucklingPermission SucklingPermission = 0;
+    private SucklingPermission _sucklingPermission = 0;
+    internal SucklingPermission SucklingPermission { get => _sucklingPermission; set => _sucklingPermission = value; }
 
     [OdinSerialize]
-    internal DiplomacyScale DiplomacyScale = 0;
+    private DiplomacyScale _diplomacyScale = 0;
+    internal DiplomacyScale DiplomacyScale { get => _diplomacyScale; set => _diplomacyScale = value; }
 
     [OdinSerialize]
     internal Config.SeasonalType WinterStuff = 0;
@@ -172,16 +218,21 @@ public class WorldConfig
     [OdinSerialize]
     internal Config.MonsterConquestType MonsterConquest;
     [OdinSerialize]
-    internal int MonsterConquestTurns;
+    private int _monsterConquestTurns;
+    internal int MonsterConquestTurns { get => _monsterConquestTurns; set => _monsterConquestTurns = value; }
 
     [OdinSerialize]
-    internal int BreastSizeModifier = 0;
+    private int _breastSizeModifier = 0;
+    internal int BreastSizeModifier { get => _breastSizeModifier; set => _breastSizeModifier = value; }
     [OdinSerialize]
-    internal int HermBreastSizeModifier = 0;
+    private int _hermBreastSizeModifier = 0;
+    internal int HermBreastSizeModifier { get => _hermBreastSizeModifier; set => _hermBreastSizeModifier = value; }
     [OdinSerialize]
-    internal int CockSizeModifier = 0;
+    private int _cockSizeModifier = 0;
+    internal int CockSizeModifier { get => _cockSizeModifier; set => _cockSizeModifier = value; }
     [OdinSerialize]
-    internal int DefaultStartingWeight = 3;
+    private int _defaultStartingWeight = 3;
+    internal int DefaultStartingWeight { get => _defaultStartingWeight; set => _defaultStartingWeight = value; }
 	
     // DayNight configuration
     [OdinSerialize, AllowEditing, IntegerRange(1, 10), Description("It will be night for the entire round every X round. (Set to 1 for every round, 2 for every other, etc.)")]
@@ -210,15 +261,19 @@ public class WorldConfig
     internal float GrazeDamageMod = 0.30f;
 
     [OdinSerialize]
-    internal bool FactionLeaders;
+    private bool _factionLeaders;
+    internal bool FactionLeaders { get => _factionLeaders; set => _factionLeaders = value; }
     [OdinSerialize]
-    internal int ItemSlots;
+    private int _itemSlots;
+    internal int ItemSlots { get => _itemSlots; set => _itemSlots = value; }
 
     [OdinSerialize]
-    internal float BurpFraction = .1f;
+    private float _burpFraction = .1f;
+    internal float BurpFraction { get => _burpFraction; set => _burpFraction = value; }
 
     [OdinSerialize]
-    internal float FartFraction = .1f;
+    private float _fartFraction = .1f;
+    internal float FartFraction { get => _fartFraction; set => _fartFraction = value; }
 
     [OdinSerialize, AllowEditing, FloatRange(0, 1), ProperName("Leader death exp loss Percentage"), Description("On death they will lose this % of their total experience")]
     internal float LeaderLossExpPct = 0;
@@ -226,17 +281,23 @@ public class WorldConfig
     internal int LeaderLossLevels = 1;
 
     [OdinSerialize]
-    internal int OralWeight = 1;
+    private int _oralWeight = 1;
+    internal int OralWeight { get => _oralWeight; set => _oralWeight = value; }
     [OdinSerialize]
-    internal int BreastWeight = 1;
+    private int _breastWeight = 1;
+    internal int BreastWeight { get => _breastWeight; set => _breastWeight = value; }
     [OdinSerialize]
-    internal int UnbirthWeight = 1;
+    private int _unbirthWeight = 1;
+    internal int UnbirthWeight { get => _unbirthWeight; set => _unbirthWeight = value; }
     [OdinSerialize]
-    internal int CockWeight = 1;
+    private int _cockWeight = 1;
+    internal int CockWeight { get => _cockWeight; set => _cockWeight = value; }
     [OdinSerialize]
-    internal int TailWeight = 1;
+    private int _tailWeight = 1;
+    internal int TailWeight { get => _tailWeight; set => _tailWeight = value; }
     [OdinSerialize]
-    internal int AnalWeight = 1;
+    private int _analWeight = 1;
+    internal int AnalWeight { get => _analWeight; set => _analWeight = value; }
 
 
 

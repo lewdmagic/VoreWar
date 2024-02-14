@@ -55,15 +55,15 @@
         {
             if (zone == 0)
             {
-                zone = tileZone[village.Position.x, village.Position.y];
-                lastVillageUsed = $"{village.Race} village at x:{village.Position.x} y: {village.Position.y}";
+                zone = tileZone[village.Position.X, village.Position.Y];
+                lastVillageUsed = $"{village.Race} village at x:{village.Position.X} y: {village.Position.Y}";
             }
-            else if (zone != tileZone[village.Position.x, village.Position.y])
+            else if (zone != tileZone[village.Position.X, village.Position.Y])
             {
                 if (broadcast)
                 {
 
-                    State.GameManager.CreateMessageBox($"Some villages cannot be reached from other villages\nCouldn't find path between\n{lastVillageUsed} and {village.Race} village at x:{village.Position.x} y: {village.Position.y}");
+                    State.GameManager.CreateMessageBox($"Some villages cannot be reached from other villages\nCouldn't find path between\n{lastVillageUsed} and {village.Race} village at x:{village.Position.X} y: {village.Position.Y}");
                 }
 
                 return false;
@@ -73,8 +73,8 @@
         foreach (Army army in armies)
         {
             if (zone == 0)
-                zone = tileZone[army.Position.x, army.Position.y];
-            else if (zone != tileZone[army.Position.x, army.Position.y])
+                zone = tileZone[army.Position.X, army.Position.Y];
+            else if (zone != tileZone[army.Position.X, army.Position.Y])
             {
                 if (broadcast) State.GameManager.CreateMessageBox("Some armies cannot reach villages");
                 return false;

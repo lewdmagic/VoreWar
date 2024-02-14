@@ -4,7 +4,8 @@
 class BountyGoods
 {
     [OdinSerialize]
-    internal int Gold;
+    private int _gold;
+    internal int Gold { get => _gold; set => _gold = value; }
 
     public BountyGoods(int gold)
     {

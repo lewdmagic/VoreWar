@@ -7,12 +7,14 @@ using UnityEngine;
 public class MercenaryHouse
 {
     [OdinSerialize]
-    internal List<MercenaryContainer> Mercenaries;
+    private List<MercenaryContainer> _mercenaries;
+    internal List<MercenaryContainer> Mercenaries { get => _mercenaries; set => _mercenaries = value; }
 
     static internal List<MercenaryContainer> UniqueMercs;
 
     [OdinSerialize]
-    internal Vec2i Position;
+    private Vec2i _position;
+    internal Vec2i Position { get => _position; set => _position = value; }
 
 
 

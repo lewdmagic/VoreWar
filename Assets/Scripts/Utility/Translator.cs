@@ -27,13 +27,13 @@ public class Translator
             if (remainingTime <= 0)
             {
                 IsActive = false;
-                transform.position = new Vector2(endPos.x, endPos.y);
+                transform.position = new Vector2(endPos.X, endPos.Y);
                 return;
             }
 
             float t = (totalTime - remainingTime) / totalTime;
-            float newX = Mathf.Lerp(startPos.x, endPos.x, t);
-            float newY = Mathf.Lerp(startPos.y, endPos.y, t);
+            float newX = Mathf.Lerp(startPos.X, endPos.X, t);
+            float newY = Mathf.Lerp(startPos.Y, endPos.Y, t);
             transform.position = new Vector2(newX, newY);
             if (State.GameManager.CurrentScene == State.GameManager.TacticalMode)
             {
@@ -57,7 +57,7 @@ public class Translator
             return;
         if (IsActive)
         {
-            transform.position = new Vector2(endPos.x, endPos.y);
+            transform.position = new Vector2(endPos.X, endPos.Y);
         }
         playerMove = PlayerMove;
         totalTime = Mathf.Min(AIMoveRate);

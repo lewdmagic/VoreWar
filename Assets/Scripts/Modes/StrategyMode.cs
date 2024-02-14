@@ -336,7 +336,7 @@ public class StrategyMode : SceneBase
                 return;
             }
 
-            right = new Army(ActingEmpire, new Vec2i(location.x, location.y), left.Side)
+            right = new Army(ActingEmpire, new Vec2i(location.X, location.Y), left.Side)
             {
                 RemainingMP = left.RemainingMP - 1
             };
@@ -388,7 +388,7 @@ public class StrategyMode : SceneBase
                 }
                 if (RaceFuncs.IsPlayableRace(army.Side.ToRace()))
                 {
-                    army.Banner = Instantiate(MultiStageBanner, new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<MultiStageBanner>();
+                    army.Banner = Instantiate(MultiStageBanner, new Vector3(army.Position.X, army.Position.Y), new Quaternion(), ArmyFolder).GetComponent<MultiStageBanner>();
                     army.Banner.Refresh(army, army == SelectedArmy);
                 }
                 else
@@ -397,7 +397,7 @@ public class StrategyMode : SceneBase
                     int tileType = empire.BannerType;
                     if (army.Units.Contains(empire.Leader)) tileType += 4;
                     if (SelectedArmy == army) tileType += 1;
-                    army.Sprite = Instantiate(GenericBanner, new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
+                    army.Sprite = Instantiate(GenericBanner, new Vector3(army.Position.X, army.Position.Y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
                     army.Sprite.sprite = Sprites[tileType];
                     army.Sprite.color = empire.UnityColor;
                 }
@@ -804,7 +804,7 @@ public class StrategyMode : SceneBase
                 continue;
             
             ///////////////////
-            GameObject vill = Instantiate(GenericVillage, new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+            GameObject vill = Instantiate(GenericVillage, new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
             vill.GetComponent<SpriteRenderer>().sprite = village.GetIconSprite();
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
             currentVillageTiles.Add(vill);
@@ -813,7 +813,7 @@ public class StrategyMode : SceneBase
             Sprite villageColorSprite = village.GetColoredIcon();
             if (villageColorSprite != null)
             {
-                GameObject villColored = Instantiate(GenericVillage, new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                GameObject villColored = Instantiate(GenericVillage, new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 villColored.GetComponent<SpriteRenderer>().sprite = villageColorSprite;
                 villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
                 currentVillageTiles.Add(villColored);
@@ -821,14 +821,14 @@ public class StrategyMode : SceneBase
             }
             
             /////////
-            GameObject villShield = Instantiate(GenericVillage, new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+            GameObject villShield = Instantiate(GenericVillage, new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
             villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
             villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnitySecondaryColor;
             currentVillageTiles.Add(villShield);
 
             ///////////
-            GameObject villShieldInner = Instantiate(GenericVillage, new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+            GameObject villShieldInner = Instantiate(GenericVillage, new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
             villShieldInner.GetComponent<SpriteRenderer>().sprite = Sprites[10];
             villShieldInner.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShieldInner.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
@@ -836,7 +836,7 @@ public class StrategyMode : SceneBase
         }
         foreach (var mercHouse in State.World.MercenaryHouses)
         {
-            GameObject merc = Instantiate(GenericVillage, new Vector3(mercHouse.Position.x, mercHouse.Position.y), new Quaternion(), VillageFolder);
+            GameObject merc = Instantiate(GenericVillage, new Vector3(mercHouse.Position.X, mercHouse.Position.Y), new Quaternion(), VillageFolder);
             merc.GetComponent<SpriteRenderer>().sprite = Sprites[14];
             merc.GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
@@ -845,17 +845,17 @@ public class StrategyMode : SceneBase
             int spr = 0;
             if (claimable is GoldMine)
                 spr = 12;
-            GameObject vill = Instantiate(GenericVillage, new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject vill = Instantiate(GenericVillage, new Vector3(claimable.Position.X, claimable.Position.Y), new Quaternion(), VillageFolder);
             vill.GetComponent<SpriteRenderer>().sprite = Sprites[spr];
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            GameObject villColored = Instantiate(GenericVillage, new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject villColored = Instantiate(GenericVillage, new Vector3(claimable.Position.X, claimable.Position.Y), new Quaternion(), VillageFolder);
             villColored.GetComponent<SpriteRenderer>().sprite = Sprites[spr + 1];
             villColored.GetComponent<SpriteRenderer>().color = claimable.Owner?.UnityColor ?? Color.clear;
-            GameObject villShield = Instantiate(GenericVillage, new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject villShield = Instantiate(GenericVillage, new Vector3(claimable.Position.X, claimable.Position.Y), new Quaternion(), VillageFolder);
             villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
             villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShield.GetComponent<SpriteRenderer>().color = claimable.Owner?.UnityColor ?? Color.clear;
-            GameObject villShieldInner = Instantiate(GenericVillage, new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject villShieldInner = Instantiate(GenericVillage, new Vector3(claimable.Position.X, claimable.Position.Y), new Quaternion(), VillageFolder);
             villShieldInner.GetComponent<SpriteRenderer>().sprite = Sprites[10];
             villShieldInner.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShieldInner.GetComponent<SpriteRenderer>().color = claimable.Owner?.UnityColor ?? Color.clear;
@@ -978,7 +978,7 @@ public class StrategyMode : SceneBase
             {
                 found = true;
                 SelectedArmy = ActingEmpire.Armies[currentIndex];
-                State.GameManager.CenterCameraOnTile(SelectedArmy.Position.x, SelectedArmy.Position.y);
+                State.GameManager.CenterCameraOnTile(SelectedArmy.Position.X, SelectedArmy.Position.Y);
                 break;
             }
             currentIndex++;
@@ -1137,7 +1137,7 @@ public class StrategyMode : SceneBase
                         if (ExchangerUI.LeftReceived)
                         {
                             UndoMoves.Clear();
-                            int costToEnter = StrategicTileInfo.WalkCost(ExchangerUI.LeftArmy.Position.x, ExchangerUI.LeftArmy.Position.y);
+                            int costToEnter = StrategicTileInfo.WalkCost(ExchangerUI.LeftArmy.Position.X, ExchangerUI.LeftArmy.Position.Y);
                             if (rightStartingMp - costToEnter < leftStartingMp)
                                 ExchangerUI.LeftArmy.RemainingMP = Math.Max(0, rightStartingMp - costToEnter);
                         }
@@ -1145,7 +1145,7 @@ public class StrategyMode : SceneBase
                         if (ExchangerUI.RightReceived)
                         {
                             UndoMoves.Clear();
-                            int costToEnter = StrategicTileInfo.WalkCost(ExchangerUI.RightArmy.Position.x, ExchangerUI.RightArmy.Position.y);
+                            int costToEnter = StrategicTileInfo.WalkCost(ExchangerUI.RightArmy.Position.X, ExchangerUI.RightArmy.Position.Y);
                             if (leftStartingMp - costToEnter < rightStartingMp)
                                 ExchangerUI.RightArmy.RemainingMP = Math.Max(0, leftStartingMp - costToEnter);
                         }
@@ -2141,7 +2141,7 @@ public class StrategyMode : SceneBase
         var village = State.World.Villages.Where(s => s.Name.ToLower().Contains(text.ToLower())).FirstOrDefault();
         if (village != null)
         {
-            State.GameManager.CenterCameraOnTile(village.Position.x, village.Position.y);
+            State.GameManager.CenterCameraOnTile(village.Position.X, village.Position.Y);
         }
     }
 
@@ -2187,7 +2187,7 @@ public class StrategyMode : SceneBase
             foreach (Village village in State.World.Villages)
             {
                 var obj = Instantiate(SpriteCategories[1]).GetComponent<SpriteRenderer>();
-                obj.transform.SetPositionAndRotation(new Vector3(village.Position.x, village.Position.y), new Quaternion());
+                obj.transform.SetPositionAndRotation(new Vector3(village.Position.X, village.Position.Y), new Quaternion());
                 obj.sprite = Banners[2];
                 obj.sortingOrder = 30000;
                 if (Equals(village.Side, ActingEmpire.Side))
@@ -2203,7 +2203,7 @@ public class StrategyMode : SceneBase
             foreach (Army army in StrategicUtilities.GetAllArmies())
             {
                 var obj = Instantiate(SpriteCategories[1]).GetComponent<SpriteRenderer>();
-                obj.transform.SetPositionAndRotation(new Vector3(army.Position.x, army.Position.y), new Quaternion());
+                obj.transform.SetPositionAndRotation(new Vector3(army.Position.X, army.Position.Y), new Quaternion());
                 obj.sprite = Banners[2];
                 obj.sortingOrder = 30000;
                 if (Equals(army.Side, ActingEmpire.Side))
@@ -2437,7 +2437,7 @@ public class StrategyMode : SceneBase
                 if (QueuedPath?.Count > 0)
                 {
                     MoveTo(SelectedArmy, new Vec2i(QueuedPath[0].X, QueuedPath[0].Y));
-                    if (QueuedPath[0].X != SelectedArmy.Position.x || QueuedPath[0].Y != SelectedArmy.Position.y)
+                    if (QueuedPath[0].X != SelectedArmy.Position.X || QueuedPath[0].Y != SelectedArmy.Position.Y)
                         QueuedPath = null;
                     else
                         QueuedPath.RemoveAt(0);
@@ -2492,7 +2492,7 @@ public class StrategyMode : SceneBase
         }
         else
         {
-            if (Config.FogOfWar && FogSystem.FoggedTile[villageAtCursor.Position.x, villageAtCursor.Position.y])
+            if (Config.FogOfWar && FogSystem.FoggedTile[villageAtCursor.Position.X, villageAtCursor.Position.Y])
                 return;
             StringBuilder sb = new StringBuilder();
             VillageTooltip.gameObject.SetActive(true);
@@ -2534,7 +2534,7 @@ public class StrategyMode : SceneBase
         }
         else
         {
-            if (Config.FogOfWar && FogSystem.FoggedTile[armyAtCursor.Position.x, armyAtCursor.Position.y] || (armyAtCursor.Banner != null && !armyAtCursor.Banner.gameObject.activeSelf))
+            if (Config.FogOfWar && FogSystem.FoggedTile[armyAtCursor.Position.X, armyAtCursor.Position.Y] || (armyAtCursor.Banner != null && !armyAtCursor.Banner.gameObject.activeSelf))
                 return;
             StringBuilder sb = new StringBuilder();
             sb = ArmyToolTip(armyAtCursor);

@@ -64,16 +64,16 @@ class FogSystem
         {
             var spr = army.Banner?.GetComponent<MultiStageBanner>();
             if (spr != null)
-                spr.gameObject.SetActive(!FoggedTile[army.Position.x, army.Position.y] && (!army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || army.Units.Any(u => Equals(u.FixedSide, playerEmpire.Side))));
+                spr.gameObject.SetActive(!FoggedTile[army.Position.X, army.Position.Y] && (!army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || army.Units.Any(u => Equals(u.FixedSide, playerEmpire.Side))));
             var spr2 = army.Sprite;
-            if (spr2 != null) spr2.enabled = !FoggedTile[army.Position.x, army.Position.y] && (!army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || army.Units.Any(u => Equals(u.FixedSide, playerEmpire.Side)));
+            if (spr2 != null) spr2.enabled = !FoggedTile[army.Position.X, army.Position.Y] && (!army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || army.Units.Any(u => Equals(u.FixedSide, playerEmpire.Side)));
         }
 
         if (currentVillageTiles != null)
         {
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
-                if (FoggedTile[State.World.Villages[i].Position.x, State.World.Villages[i].Position.y])
+                if (FoggedTile[State.World.Villages[i].Position.X, State.World.Villages[i].Position.Y])
                 {
                     currentVillageTiles[4 * i].GetComponent<SpriteRenderer>().enabled = false;
                     currentVillageTiles[4 * i + 1].GetComponent<SpriteRenderer>().enabled = false;
@@ -90,7 +90,7 @@ class FogSystem
             }
             for (int i = 0; i < State.World.Claimables.Length; i++)
             {
-                if (FoggedTile[State.World.Claimables[i].Position.x, State.World.Claimables[i].Position.y])
+                if (FoggedTile[State.World.Claimables[i].Position.X, State.World.Claimables[i].Position.Y])
                 {
                     currentClaimableTiles[4 * i].GetComponent<SpriteRenderer>().enabled = false;
                     currentClaimableTiles[4 * i + 1].GetComponent<SpriteRenderer>().enabled = false;
@@ -112,9 +112,9 @@ class FogSystem
     void ClearWithinXTilesOf(Vec2i pos)
     {
         int dist = Config.FogDistance - ((State.World.IsNight) ? Config.NightStrategicSightReduction : 0);
-        for (int x = pos.x - dist; x <= pos.x + dist; x++)
+        for (int x = pos.X - dist; x <= pos.X + dist; x++)
         {
-            for (int y = pos.y - dist; y <= pos.y + dist; y++)
+            for (int y = pos.Y - dist; y <= pos.Y + dist; y++)
             {
                 if (x < 0 || y < 0 || x > FoggedTile.GetUpperBound(0) || y > FoggedTile.GetUpperBound(1))
                     continue;

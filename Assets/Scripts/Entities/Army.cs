@@ -28,33 +28,43 @@ public class Army
 
     }
     [OdinSerialize]
-    Empire empire;
+    private Empire _empire;
+    Empire empire { get => _empire; set => _empire = value; }
     [OdinSerialize]
-    public AIMode AIMode; //May eventually split this out, but we'll see
+    private AIMode _aIMode;
+    public AIMode AIMode { get => _aIMode; set => _aIMode = value; } //May eventually split this out, but we'll see
     [OdinSerialize]
-    public Side Side;
+    private Side _side;
+    public Side Side { get => _side; set => _side = value; }
     [OdinSerialize]
-    public List<Unit> Units;
+    private List<Unit> _units;
+    public List<Unit> Units { get => _units; set => _units = value; }
     [OdinSerialize]
-    private Vec2i position;
+    private Vec2i _position;
+    private Vec2i position { get => _position; set => _position = value; }
 
     [OdinSerialize]
-    public string Name;
+    private string _name;
+    public string Name { get => _name; set => _name = value; }
 
     public bool JustCreated = false;
 
     [OdinSerialize]
-    public int RemainingMP { get; set; }
+    private int _remainingMP;
+    public int RemainingMP { get => _remainingMP; set => _remainingMP = value; }
     [OdinSerialize]
     public int InVillageIndex { get; private set; } = -1;
     [OdinSerialize]
-    internal MovementMode movementMode = MovementMode.Standard;
+    private MovementMode _movementMode = MovementMode.Standard;
+    internal MovementMode movementMode { get => _movementMode; set => _movementMode = value; }
 
     [OdinSerialize]
-    internal BountyGoods BountyGoods;
+    private BountyGoods _bountyGoods;
+    internal BountyGoods BountyGoods { get => _bountyGoods; set => _bountyGoods = value; }
 
     [OdinSerialize]
-    internal int MonsterTurnsRemaining;
+    private int _monsterTurnsRemaining;
+    internal int MonsterTurnsRemaining { get => _monsterTurnsRemaining; set => _monsterTurnsRemaining = value; }
 
     public bool DevourThisTurn { get; private set; } = false;
 
@@ -69,18 +79,21 @@ public class Army
         private set
         {
             position = value;
-            if (position.x != 0 && position.y != 0)
+            if (position.X != 0 && position.Y != 0)
                 GetTileHealRate();
         }
     }
 
     [OdinSerialize]
-    public Vec2i Destination;
+    private Vec2i _destination;
+    public Vec2i Destination { get => _destination; set => _destination = value; }
     [OdinSerialize]
-    public float HealRate;
+    private float _healRate;
+    public float HealRate { get => _healRate; set => _healRate = value; }
 
     [OdinSerialize]
-    private ItemStock itemStock;
+    private ItemStock _itemStock;
+    private ItemStock itemStock { get => _itemStock; set => _itemStock = value; }
 
     internal ItemStock ItemStock
     {
@@ -95,7 +108,8 @@ public class Army
     internal Empire Empire => empire;
 
     [OdinSerialize]
-    internal int BannerStyle = 0;
+    private int _bannerStyle = 0;
+    internal int BannerStyle { get => _bannerStyle; set => _bannerStyle = value; }
 
     internal SpriteRenderer Sprite;
 
@@ -107,7 +121,7 @@ public class Army
 
     internal void SetPosition(Vec2i pos)
     {
-        Position = new Vec2i(pos.x, pos.y);
+        Position = new Vec2i(pos.X, pos.Y);
     }
 
 
@@ -457,21 +471,21 @@ public class Army
         switch (i)
         {
             case 0:
-                return new Vec2i(Position.x, Position.y + 1);
+                return new Vec2i(Position.X, Position.Y + 1);
             case 1:
-                return new Vec2i(Position.x + 1, Position.y + 1);
+                return new Vec2i(Position.X + 1, Position.Y + 1);
             case 2:
-                return new Vec2i(Position.x + 1, Position.y);
+                return new Vec2i(Position.X + 1, Position.Y);
             case 3:
-                return new Vec2i(Position.x + 1, Position.y - 1);
+                return new Vec2i(Position.X + 1, Position.Y - 1);
             case 4:
-                return new Vec2i(Position.x, Position.y - 1);
+                return new Vec2i(Position.X, Position.Y - 1);
             case 5:
-                return new Vec2i(Position.x - 1, Position.y - 1);
+                return new Vec2i(Position.X - 1, Position.Y - 1);
             case 6:
-                return new Vec2i(Position.x - 1, Position.y);
+                return new Vec2i(Position.X - 1, Position.Y);
             case 7:
-                return new Vec2i(Position.x - 1, Position.y + 1);
+                return new Vec2i(Position.X - 1, Position.Y + 1);
         }
         return Position;
     }
@@ -494,7 +508,7 @@ public class Army
                 else if (Sprite != null)
                     State.GameManager.StrategyMode.Translator?.SetTranslator(Sprite.transform, Position, pos, Config.StrategicAIMoveDelay, State.GameManager.StrategyMode.IsPlayerTurn);
                 if (State.GameManager.StrategyMode.IsPlayerTurn)
-                    State.GameManager.StrategyMode.UndoMoves.Add(new StrategicMoveUndo(this, RemainingMP, new Vec2i(Position.x, Position.y)));
+                    State.GameManager.StrategyMode.UndoMoves.Add(new StrategicMoveUndo(this, RemainingMP, new Vec2i(Position.X, Position.Y)));
                 Position = pos;
                 StrategicUtilities.TryClaim(pos, empire);
                 RemainingMP -= 2;
@@ -517,7 +531,7 @@ public class Army
         if (act == TileAction.OneMP && RemainingMP > 0)
         {
             if (State.GameManager.StrategyMode.IsPlayerTurn)
-                State.GameManager.StrategyMode.UndoMoves.Add(new StrategicMoveUndo(this, RemainingMP, new Vec2i(Position.x, Position.y)));
+                State.GameManager.StrategyMode.UndoMoves.Add(new StrategicMoveUndo(this, RemainingMP, new Vec2i(Position.X, Position.Y)));
             RemainingMP -= 1;
             if (Banner != null && Banner.gameObject.activeSelf)
                 State.GameManager.StrategyMode.Translator?.SetTranslator(Banner.transform, Position, pos, Config.StrategicAIMoveDelay, State.GameManager.StrategyMode.IsPlayerTurn);
@@ -543,7 +557,7 @@ public class Army
                 }
                 else
                 {
-                    if (StrategicTileInfo.WalkCost(p.x, p.y) == 2 && flyer == false)
+                    if (StrategicTileInfo.WalkCost(p.X, p.Y) == 2 && flyer == false)
                         return TileAction.AttackTwoMP;
                     return TileAction.Attack;
                 }
@@ -566,7 +580,7 @@ public class Army
                     return TileAction.Impassible;
             }
         }
-        if (StrategicTileInfo.WalkCost(p.x, p.y) == 2 && flyer == false)
+        if (StrategicTileInfo.WalkCost(p.X, p.Y) == 2 && flyer == false)
         {
             return TileAction.TwoMP;
         }

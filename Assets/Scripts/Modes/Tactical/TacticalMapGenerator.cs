@@ -496,7 +496,7 @@ class TacticalMapGenerator
             }
             if (building.Width == 2 && change < 0)
             {
-                building.LowerLeftPosition.x--;
+                building._lowerLeftPosition.x--;
             }
 
             for (int xx = 0; xx < building.Width; xx++)
@@ -738,20 +738,20 @@ class TacticalMapGenerator
                     position = new Vec2i(Config.TacticalSizeX / 8 + State.Rand.Next(Config.TacticalSizeX * 3 / 4), State.Rand.Next(Config.TacticalSizeY / 4) + Config.TacticalSizeY * 3 / 8);
                     break;
             }
-            if (blockedTiles[position.x, position.y])
+            if (blockedTiles[position.X, position.Y])
                 continue;
 
-            if (connectedGoodTiles[position.x, position.y] == false)
+            if (connectedGoodTiles[position.X, position.Y] == false)
                 continue;
 
-            if (TacticalTileInfo.CanWalkInto(tiles[position.x, position.y], null))
+            if (TacticalTileInfo.CanWalkInto(tiles[position.X, position.Y], null))
             {
                 bool success = true;
                 for (int i = 0; i < units.Count; i++)
                 {
                     if (units[i].Targetable == true)
                     {
-                        if (units[i].Position.x == position.x && units[i].Position.y == position.y)
+                        if (units[i].Position.X == position.X && units[i].Position.Y == position.Y)
                         {
                             success = false;
                             break;

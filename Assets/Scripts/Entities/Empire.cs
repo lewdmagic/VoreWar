@@ -7,66 +7,87 @@ using UnityEngine;
 public class Empire
 {
     [OdinSerialize]
-    public bool KnockedOut;
+    private bool _knockedOut;
+    public bool KnockedOut { get => _knockedOut; set => _knockedOut = value; }
     [OdinSerialize]
-    public int Team;
+    private int _team;
+    public int Team { get => _team; set => _team = value; }
     [OdinSerialize]
     public Side Side { get; private set; }
     [OdinSerialize]
-    public Race Race;
+    private Race _race;
+    public Race Race { get => _race; set => _race = value; }
     [OdinSerialize]
-    public Race ReplacedRace;
+    private Race _replacedRace;
+    public Race ReplacedRace { get => _replacedRace; set => _replacedRace = value; }
     [OdinSerialize]
-    int gold;
+    private int _gold;
+    int gold { get => _gold; set => _gold = value; }
     [OdinSerialize]
     public int Income { get; private set; }
     [OdinSerialize]
-    public List<Army> Armies;
+    private List<Army> _armies;
+    public List<Army> Armies { get => _armies; set => _armies = value; }
 
     [OdinSerialize]
-    public int MaxArmySize;
+    private int _maxArmySize;
+    public int MaxArmySize { get => _maxArmySize; set => _maxArmySize = value; }
     [OdinSerialize]
-    public int MaxGarrisonSize;
+    private int _maxGarrisonSize;
+    public int MaxGarrisonSize { get => _maxGarrisonSize; set => _maxGarrisonSize = value; }
 
     [OdinSerialize]
-    public string Name;
+    private string _name;
+    public string Name { get => _name; set => _name = value; }
 
     [OdinSerialize]
-    public int ArmiesCreated;
+    private int _armiesCreated;
+    public int ArmiesCreated { get => _armiesCreated; set => _armiesCreated = value; }
 
     [OdinSerialize]
-    internal List<StrategicReport> Reports;
+    private List<StrategicReport> _reports;
+    internal List<StrategicReport> Reports { get => _reports; set => _reports = value; }
 
     [OdinSerialize]
-    public Leader Leader;
+    private Leader _leader;
+    public Leader Leader { get => _leader; set => _leader = value; }
 
     [OdinSerialize]
-    public string FakeLeaderName;
+    private string _fakeLeaderName;
+    public string FakeLeaderName { get => _fakeLeaderName; set => _fakeLeaderName = value; }
 
     private Village _capitalCity;
 
     [OdinSerialize]
-    public Color UnityColor { get; set; }
+    private Color _unityColor;
+    public Color UnityColor { get => _unityColor; set => _unityColor = value; }
     [OdinSerialize]
-    public Color UnitySecondaryColor { get; set; }
+    private Color _unitySecondaryColor;
+    public Color UnitySecondaryColor { get => _unitySecondaryColor; set => _unitySecondaryColor = value; }
     [OdinSerialize]
-    public int BannerType;
+    private int _bannerType;
+    public int BannerType { get => _bannerType; set => _bannerType = value; }
     [OdinSerialize]
-    public IStrategicAI StrategicAI;
+    private IStrategicAI _strategicAI;
+    public IStrategicAI StrategicAI { get => _strategicAI; set => _strategicAI = value; }
     [OdinSerialize]
-    public TacticalAIType TacticalAIType;
+    private TacticalAIType _tacticalAIType;
+    public TacticalAIType TacticalAIType { get => _tacticalAIType; set => _tacticalAIType = value; }
 
     [OdinSerialize]
     public Dictionary<int, bool> EventHappened;
 
     [OdinSerialize]
-    public List<int> RecentEvents;
+    private List<int> _recentEvents;
+    public List<int> RecentEvents { get => _recentEvents; set => _recentEvents = value; }
 
     [OdinSerialize]
-    public int TurnOrder;
+    private int _turnOrder;
+    public int TurnOrder { get => _turnOrder; set => _turnOrder = value; }
 
     [OdinSerialize]
-    public bool CanVore = true;
+    private bool _canVore = true;
+    public bool CanVore { get => _canVore; set => _canVore = value; }
 
     public int VillageCount => State.World.Villages.Where(s => Equals(s.Side, Side)).Count();
 
@@ -368,7 +389,7 @@ public class Empire
         {
             if (CapitalArmy == null)
             {
-                var army = new Army(this, new Vec2i(capital.Position.x, capital.Position.y), Side);
+                var army = new Army(this, new Vec2i(capital.Position.X, capital.Position.Y), Side);
                 Armies.Add(army);
                 army.Units.Add(Leader);
             }

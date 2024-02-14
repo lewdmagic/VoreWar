@@ -7,7 +7,8 @@ using System.Linq;
 class MonsterStrategicAI : IStrategicAI
 {
     [OdinSerialize]
-    MonsterEmpire empire;
+    private MonsterEmpire _empire;
+    MonsterEmpire empire { get => _empire; set => _empire = value; }
 
     List<PathNode> path;
     Army pathIsFor;
@@ -101,8 +102,8 @@ class MonsterStrategicAI : IStrategicAI
                     if (spawners != null && spawners.Length > 0)
                     {
                         int num = State.Rand.Next(spawners.Length);
-                        x = spawners[num].Location.x + State.Rand.Next(-2, 3);
-                        y = spawners[num].Location.y + State.Rand.Next(-2, 3);
+                        x = spawners[num].Location.X + State.Rand.Next(-2, 3);
+                        y = spawners[num].Location.Y + State.Rand.Next(-2, 3);
                     }
                     else
                     {

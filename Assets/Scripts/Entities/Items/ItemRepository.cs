@@ -63,18 +63,23 @@ public enum SpecialItems
 public class ItemRepository
 {
     [OdinSerialize]
-    List<Item> items;
+    private List<Item> _items;
+    List<Item> items { get => _items; set => _items = value; }
     [OdinSerialize]
-    List<Item> specialItems;
+    private List<Item> _specialItems;
+    List<Item> specialItems { get => _specialItems; set => _specialItems = value; }
     [OdinSerialize]
     Dictionary<Race, Item> monsterItems;
     [OdinSerialize]
-    public Weapon Claws;
+    private Weapon _claws;
+    public Weapon Claws { get => _claws; set => _claws = value; }
     [OdinSerialize]
-    public Weapon Bite;
+    private Weapon _bite;
+    public Weapon Bite { get => _bite; set => _bite = value; }
 
     [OdinSerialize]
-    List<Item> AllItems;
+    private List<Item> _allItems;
+    List<Item> AllItems { get => _allItems; set => _allItems = value; }
 
     public ItemRepository()
     {

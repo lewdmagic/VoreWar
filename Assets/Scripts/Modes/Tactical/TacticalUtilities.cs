@@ -134,8 +134,8 @@ static class TacticalUtilities
             {
                 if (x == 0 && y == 0)
                     continue;
-                Vec2i loc = new Vec2i(armies[0].Position.x + x, armies[0].Position.y + y);
-                if (loc.x < 0 || loc.y < 0 || loc.x >= Config.StrategicWorldSizeX || loc.y >= Config.StrategicWorldSizeY)
+                Vec2i loc = new Vec2i(armies[0].Position.X + x, armies[0].Position.Y + y);
+                if (loc.X < 0 || loc.Y < 0 || loc.X >= Config.StrategicWorldSizeX || loc.Y >= Config.StrategicWorldSizeY)
                     continue;
                 if (StrategicUtilities.IsTileClear(loc))
                 {
@@ -164,8 +164,8 @@ static class TacticalUtilities
             {
                 if (x == 0 && y == 0)
                     continue;
-                Vec2i loc = new Vec2i(armies[0].Position.x + x, armies[0].Position.y + y);
-                if (loc.x < 0 || loc.y < 0 || loc.x >= Config.StrategicWorldSizeX || loc.y >= Config.StrategicWorldSizeY)
+                Vec2i loc = new Vec2i(armies[0].Position.X + x, armies[0].Position.Y + y);
+                if (loc.X < 0 || loc.Y < 0 || loc.X >= Config.StrategicWorldSizeX || loc.Y >= Config.StrategicWorldSizeY)
                     continue;
                 if (StrategicUtilities.IsTileClear(loc))
                 {
@@ -494,15 +494,15 @@ static class TacticalUtilities
     //     return Race.none.ToSide();
     // }
 
-    static public bool OpenTile(Vec2i vec, Actor_Unit actor) => OpenTile(vec.x, vec.y, actor);
+    static public bool OpenTile(Vec2i vec, Actor_Unit actor) => OpenTile(vec.X, vec.Y, actor);
 
     static public bool FreeSpaceAroundTarget(Vec2i targetLocation, Actor_Unit actor)
     {
-        for (int x = targetLocation.x - 1; x < targetLocation.x + 2; x++)
+        for (int x = targetLocation.X - 1; x < targetLocation.X + 2; x++)
         {
-            for (int y = targetLocation.y - 1; y < targetLocation.y + 2; y++)
+            for (int y = targetLocation.Y - 1; y < targetLocation.Y + 2; y++)
             {
-                if (x == targetLocation.x && y == targetLocation.y)
+                if (x == targetLocation.X && y == targetLocation.Y)
                     continue;
                 if (OpenTile(x, y, actor))
                 {
@@ -544,7 +544,7 @@ static class TacticalUtilities
             {
                 if (Units[i].Targetable == true && !Units[i].Hidden)
                 {
-                    if (Units[i].Position.x == x && Units[i].Position.y == y)
+                    if (Units[i].Position.X == x && Units[i].Position.Y == y)
                     {
                         return false;
                     }
@@ -569,7 +569,7 @@ static class TacticalUtilities
         {
             if (Units[i].Targetable == true)
             {
-                if (Units[i].Position.x == x && Units[i].Position.y == y)
+                if (Units[i].Position.X == x && Units[i].Position.Y == y)
                 {
                     count++;
                 }
@@ -596,8 +596,8 @@ static class TacticalUtilities
 
     static internal void CheckKnockBack(Actor_Unit Attacker, Actor_Unit Target, ref float damage)
     {
-        int xDiff = Target.Position.x - Attacker.Position.x;
-        int yDiff = Target.Position.y - Attacker.Position.y;
+        int xDiff = Target.Position.X - Attacker.Position.X;
+        int yDiff = Target.Position.Y - Attacker.Position.Y;
         int direction = Attacker.DiffToDirection(xDiff, yDiff);
         if (OpenTile(Attacker.GetTile(Target.Position, direction), Target))
             return;
@@ -611,8 +611,8 @@ static class TacticalUtilities
 
     static internal void KnockBack(Actor_Unit Attacker, Actor_Unit Target)
     {
-        int xDiff = Target.Position.x - Attacker.Position.x;
-        int yDiff = Target.Position.y - Attacker.Position.y;
+        int xDiff = Target.Position.X - Attacker.Position.X;
+        int yDiff = Target.Position.Y - Attacker.Position.Y;
         int direction = Attacker.DiffToDirection(xDiff, yDiff);
 
         Target.Movement += 1;
@@ -654,7 +654,7 @@ static class TacticalUtilities
             if (unit.UnitSprite == null)
                 continue;
             Vec2i vec = unit.Position;
-            Vector2 vector2 = new Vector2(vec.x, vec.y);
+            Vector2 vector2 = new Vector2(vec.X, vec.Y);
             unit.UnitSprite.transform.position = vector2;
         }
     }
@@ -817,8 +817,8 @@ static class TacticalUtilities
         var pred = FindPredator(target);
         if (pred != null)
             pred.PredatorComponent.FreeUnit(target, true);
-        target.Position.x = loc.x;
-        target.Position.y = loc.y;
+        target.Position.X = loc.X;
+        target.Position.Y = loc.Y;
         target.Unit.Health = target.Unit.MaxHealth * 3 / 4;
         target.Visible = true;
         target.Targetable = true;
@@ -839,8 +839,8 @@ static class TacticalUtilities
         var pred = FindPredator(target);
         if (pred != null)
             pred.PredatorComponent.FreeUnit(target, true);
-        target.Position.x = loc.x;
-        target.Position.y = loc.y;
+        target.Position.X = loc.X;
+        target.Position.Y = loc.Y;
         target.Unit.Health = target.Unit.MaxHealth * 3 / 4;
         target.Visible = true;
         target.Targetable = true;
@@ -890,7 +890,7 @@ static class TacticalUtilities
         {
             if (actor == null)
                 continue;
-            if (actor.Position.x == location.x && actor.Position.y == location.y)
+            if (actor.Position.X == location.x && actor.Position.Y == location.y)
                 return actor;
         }
         return null;
@@ -903,9 +903,9 @@ static class TacticalUtilities
 
     static internal void CreateEffect(Vec2i location, TileEffectType type, int areaOfEffect, float strength, int duration)
     {
-        for (int x = location.x - areaOfEffect; x <= location.x + areaOfEffect; x++)
+        for (int x = location.X - areaOfEffect; x <= location.X + areaOfEffect; x++)
         {
-            for (int y = location.y - areaOfEffect; y <= location.y + areaOfEffect; y++)
+            for (int y = location.Y - areaOfEffect; y <= location.Y + areaOfEffect; y++)
             {
                 if (x < 0 || y < 0 || x > tiles.GetUpperBound(0) || y > tiles.GetUpperBound(1))
                     continue;

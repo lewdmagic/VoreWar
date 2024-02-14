@@ -6,9 +6,11 @@ using System.IO;
 class StoredClassWeight
 {
     [OdinSerialize]
-    internal StatWeights Weights;
+    private StatWeights _weights;
+    internal StatWeights Weights { get => _weights; set => _weights = value; }
     [OdinSerialize]
-    internal string Name;
+    private string _name;
+    internal string Name { get => _name; set => _name = value; }
 }
 
 static class CustomAutoLevel

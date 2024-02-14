@@ -7,7 +7,8 @@ using UnityEngine;
 class ScatV2Discard : MiscDiscard
 {
     [OdinSerialize]
-    internal ScatInfo scatInfo;
+    private ScatInfo _scatInfo;
+    internal ScatInfo scatInfo { get => _scatInfo; set => _scatInfo = value; }
 
     public ScatV2Discard(Vec2i location, int sortOrder, ScatInfo scatInfo, MiscDiscardType type = 0, int spriteNum = 0, int color = 0, string description = "") : base(location, type, spriteNum, sortOrder, color, description)
     {
@@ -18,7 +19,7 @@ class ScatV2Discard : MiscDiscard
 
     override public void GenerateSpritePrefab(Transform folder)
     {
-        Vector3 loc = new Vector3(location.x - .5f + Random.Range(0, 1f), location.y - .5f + Random.Range(0, 1f));
+        Vector3 loc = new Vector3(location.X - .5f + Random.Range(0, 1f), location.Y - .5f + Random.Range(0, 1f));
 
         var scatBack = Object.Instantiate(State.GameManager.DiscardedClothing, loc, new Quaternion(), folder).GetComponent<SpriteRenderer>();
         scatBack.sortingOrder = sortOrder;

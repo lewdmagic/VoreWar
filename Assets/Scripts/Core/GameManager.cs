@@ -293,7 +293,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    internal void CameraCall(Vec2i location) => CameraCall(new Vector3(location.x, location.y, 0));
+    internal void CameraCall(Vec2i location) => CameraCall(new Vector3(location.X, location.Y, 0));
 
     public void SwitchToStrategyMode(bool initialLoad = false)
     {
@@ -366,7 +366,7 @@ public class GameManager : MonoBehaviour
         }
         else if (Config.ScrollToBattleLocation)
         {
-            SlideCameraToTile(invader.Position.x, invader.Position.y);
+            SlideCameraToTile(invader.Position.X, invader.Position.Y);
             queuedTactical = true;
             StrategicControlsLocked = true;
             queuedTiletype = tiletype;

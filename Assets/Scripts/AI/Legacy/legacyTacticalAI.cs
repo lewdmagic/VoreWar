@@ -6,13 +6,15 @@ namespace LegacyAI
     {
         [OdinSerialize]
         List<Actor_Unit> actors;
-        [OdinSerialize]
-        TacticalTileType[,] tiles;
+    [OdinSerialize]
+    private TacticalTileType[,] _tiles;
+    TacticalTileType[,] tiles { get => _tiles; set => _tiles = value; }
 
         bool didAction;
         bool foundPath;
-        [OdinSerialize]
-        readonly Side AISide;
+    [OdinSerialize]
+    private Side _aISide;
+    Side AISide { get => _aISide; set => _aISide = value; }
         List<PathNode> path;
         Actor_Unit pathIsFor;
 
@@ -71,7 +73,7 @@ namespace LegacyAI
                             path = null;
                             return true;
                         }
-                        if (actor.Movement == 1 && IsRanged(actor) && TacticalUtilities.TileContainsMoreThanOneUnit(actor.Position.x, actor.Position.y) == false)
+                        if (actor.Movement == 1 && IsRanged(actor) && TacticalUtilities.TileContainsMoreThanOneUnit(actor.Position.X, actor.Position.Y) == false)
                         {
                             path = null;
                         }

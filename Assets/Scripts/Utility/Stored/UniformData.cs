@@ -3,45 +3,63 @@
 class UniformData
 {
     [OdinSerialize]
-    public string Name;
+    private string _name;
+    public string Name { get => _name; set => _name = value; }
     [OdinSerialize]
-    public Race Race;
+    private Race _race;
+    public Race Race { get => _race; set => _race = value; }
     [OdinSerialize]
-    public Gender Gender;
+    private Gender _gender;
+    public Gender Gender { get => _gender; set => _gender = value; }
     [OdinSerialize]
-    internal int ClothingType;
+    private int _clothingType;
+    internal int ClothingType { get => _clothingType; set => _clothingType = value; }
     [OdinSerialize]
-    internal int ClothingColor;
+    private int _clothingColor;
+    internal int ClothingColor { get => _clothingColor; set => _clothingColor = value; }
     [OdinSerialize]
-    internal int ClothingColor2;
+    private int _clothingColor2;
+    internal int ClothingColor2 { get => _clothingColor2; set => _clothingColor2 = value; }
     [OdinSerialize]
-    internal int ClothingColor3;
+    private int _clothingColor3;
+    internal int ClothingColor3 { get => _clothingColor3; set => _clothingColor3 = value; }
 
     [OdinSerialize]
-    public UnitType Type;
+    private UnitType _type;
+    public UnitType Type { get => _type; set => _type = value; }
 
     [OdinSerialize]
-    internal bool HatSaved;
+    private bool _hatSaved;
+    internal bool HatSaved { get => _hatSaved; set => _hatSaved = value; }
     [OdinSerialize]
-    internal bool ClothingAccesorySaved;
+    private bool _clothingAccesorySaved;
+    internal bool ClothingAccesorySaved { get => _clothingAccesorySaved; set => _clothingAccesorySaved = value; }
 
     [OdinSerialize]
-    internal int ClothingAccesoryType;
+    private int _clothingAccesoryType;
+    internal int ClothingAccesoryType { get => _clothingAccesoryType; set => _clothingAccesoryType = value; }
     [OdinSerialize]
-    internal int ClothingHatType;
+    private int _clothingHatType;
+    internal int ClothingHatType { get => _clothingHatType; set => _clothingHatType = value; }
     [OdinSerialize]
-    internal int ClothingType2;
+    private int _clothingType2;
+    internal int ClothingType2 { get => _clothingType2; set => _clothingType2 = value; }
 
     [OdinSerialize]
-    internal int ClothingExtraType1;
+    private int _clothingExtraType1;
+    internal int ClothingExtraType1 { get => _clothingExtraType1; set => _clothingExtraType1 = value; }
     [OdinSerialize]
-    internal int ClothingExtraType2;
+    private int _clothingExtraType2;
+    internal int ClothingExtraType2 { get => _clothingExtraType2; set => _clothingExtraType2 = value; }
     [OdinSerialize]
-    internal int ClothingExtraType3;
+    private int _clothingExtraType3;
+    internal int ClothingExtraType3 { get => _clothingExtraType3; set => _clothingExtraType3 = value; }
     [OdinSerialize]
-    internal int ClothingExtraType4;
+    private int _clothingExtraType4;
+    internal int ClothingExtraType4 { get => _clothingExtraType4; set => _clothingExtraType4 = value; }
     [OdinSerialize]
-    internal int ClothingExtraType5;
+    private int _clothingExtraType5;
+    internal int ClothingExtraType5 { get => _clothingExtraType5; set => _clothingExtraType5 = value; }
 
 
     public void CopyFromUnit(Unit unit, bool hat, bool clothingAcc)

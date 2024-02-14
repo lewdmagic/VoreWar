@@ -12,17 +12,23 @@ enum MiscDiscardType
 class MiscDiscard
 {
     [OdinSerialize]
-    internal Vec2i location;
+    private Vec2i _location;
+    internal Vec2i location { get => _location; set => _location = value; }
     [OdinSerialize]
-    internal MiscDiscardType type;
+    private MiscDiscardType _type;
+    internal MiscDiscardType type { get => _type; set => _type = value; }
     [OdinSerialize]
-    internal int spriteNum;
+    private int _spriteNum;
+    internal int spriteNum { get => _spriteNum; set => _spriteNum = value; }
     [OdinSerialize]
-    internal int sortOrder;
+    private int _sortOrder;
+    internal int sortOrder { get => _sortOrder; set => _sortOrder = value; }
     [OdinSerialize]
-    internal string description;
+    private string _description;
+    internal string description { get => _description; set => _description = value; }
     [OdinSerialize]
-    internal int color;
+    private int _color;
+    internal int color { get => _color; set => _color = value; }
 
     public MiscDiscard(Vec2i location, MiscDiscardType type, int spriteNum, int sortOrder, int color, string description = "")
     {
@@ -36,7 +42,7 @@ class MiscDiscard
 
     virtual public void GenerateSpritePrefab(Transform folder)
     {
-        Vector3 loc = new Vector3(location.x - .5f + Random.Range(0, 1f), location.y - .5f + Random.Range(0, 1f));
+        Vector3 loc = new Vector3(location.X - .5f + Random.Range(0, 1f), location.Y - .5f + Random.Range(0, 1f));
 
         var sprite = Object.Instantiate(State.GameManager.DiscardedClothing, loc, new Quaternion(), folder).GetComponent<SpriteRenderer>();
         sprite.sortingOrder = sortOrder;

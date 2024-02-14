@@ -133,11 +133,11 @@ class MapVillagePopulator
     int FarmSquares(Vec2i pos)
     {
         int t = 0;
-        for (int i = pos.x - 1; i < pos.x + 2; i++)
+        for (int i = pos.X - 1; i < pos.X + 2; i++)
         {
-            for (int j = pos.y - 1; j < pos.y + 2; j++)
+            for (int j = pos.Y - 1; j < pos.Y + 2; j++)
             {
-                if (!(i == pos.x && pos.y == j))
+                if (!(i == pos.X && pos.Y == j))
                 {
                     if (tiles[i, j] == StrategicTileType.field || tiles[i, j] == StrategicTileType.fieldDesert || tiles[i, j] == StrategicTileType.fieldSnow)
                     {

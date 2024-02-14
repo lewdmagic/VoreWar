@@ -157,7 +157,8 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
         set => _fixedSide = value;
     }
     [OdinSerialize]
-    public bool hiddenFixedSide = false;
+    private bool _hiddenFixedSide = false;
+    public bool hiddenFixedSide { get => _hiddenFixedSide; set => _hiddenFixedSide = value; }
 
     public static List<TraitType> secretTags = new List<TraitType>() { TraitType.Infiltrator, TraitType.Corruption, TraitType.Parasite, TraitType.Metamorphosis,
         TraitType.Possession, TraitType.Changeling, TraitType.Reincarnation, TraitType.InfiniteReincarnation, TraitType.Transmigration, TraitType.InfiniteTransmigration,
@@ -185,11 +186,14 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
     
     
     [OdinSerialize]
-    protected int[] Stats;
+    private int[] _stats;
+    protected int[] Stats { get => _stats; set => _stats = value; }
     [OdinSerialize]
-    protected float experience;
+    private float _experience;
+    protected float experience { get => _experience; set => _experience = value; }
     [OdinSerialize]
-    protected int level;
+    private int _level;
+    protected int level { get => _level; set => _level = value; }
     [OdinSerialize]
     private double _baseScale = 1;
     internal double BaseScale
@@ -240,11 +244,14 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
     }
 
     [OdinSerialize]
-    internal AIClass AIClass;
+    private AIClass _aIClass;
+    internal AIClass AIClass { get => _aIClass; set => _aIClass = value; }
     [OdinSerialize]
-    internal StatWeights StatWeights;
+    private StatWeights _statWeights;
+    internal StatWeights StatWeights { get => _statWeights; set => _statWeights = value; }
     [OdinSerialize]
-    internal bool AutoLeveling;
+    private bool _autoLeveling;
+    internal bool AutoLeveling { get => _autoLeveling; set => _autoLeveling = value; }
 
     #region Customizations
     [OdinSerialize]
@@ -553,7 +560,8 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
 
 
     [OdinSerialize]
-    public Item[] Items { get; set; }
+    private Item[] _items;
+    public Item[] Items { get => _items; set => _items = value; }
     [OdinSerialize]
     private string _name;
     public string Name    {
@@ -561,10 +569,12 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
         set => _name = value;
     }
     [OdinSerialize]
-    public List<string> Pronouns;
+    private List<string> _pronouns;
+    public List<string> Pronouns { get => _pronouns; set => _pronouns = value; }
 
     [OdinSerialize]
-    public Action OnDiscard;
+    private Action _onDiscard;
+    public Action OnDiscard { get => _onDiscard; set => _onDiscard = value; }
 
     public string GetPronoun(int num)
     {
@@ -591,10 +601,12 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
         set => _immuneToDefections = value;
     }
     [OdinSerialize]
-    public bool FixedGear;
+    private bool _fixedGear;
+    public bool FixedGear { get => _fixedGear; set => _fixedGear = value; }
 
     [OdinSerialize]
-    public Unit AttractedTo;
+    private Unit _attractedTo;
+    public Unit AttractedTo { get => _attractedTo; set => _attractedTo = value; }
 
     [OdinSerialize]
     private VoreType _preferredVoreType;
@@ -604,21 +616,26 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
     }
 
     [OdinSerialize]
-    internal Unit SavedCopy;
+    private Unit _savedCopy;
+    internal Unit SavedCopy { get => _savedCopy; set => _savedCopy = value; }
     [OdinSerialize]
-    internal Village SavedVillage;
+    private Village _savedVillage;
+    internal Village SavedVillage { get => _savedVillage; set => _savedVillage = value; }
 
     [OdinSerialize]
     private List<StatusEffect> _statusEffects;
 
     [OdinSerialize]
-    public bool EarnedMask = false;
+    private bool _earnedMask = false;
+    public bool EarnedMask { get => _earnedMask; set => _earnedMask = value; }
 
     [OdinSerialize]
-    public Unit KilledBy;
+    private Unit _killedBy;
+    public Unit KilledBy { get => _killedBy; set => _killedBy = value; }
 
     [OdinSerialize]
-    public List<Unit> ShifterShapes;
+    private List<Unit> _shifterShapes;
+    public List<Unit> ShifterShapes { get => _shifterShapes; set => _shifterShapes = value; }
 
     public override string ToString() => Name;
 
@@ -626,7 +643,8 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
     /// Unit was manually changed to/from pred so it should not be overwritten
     /// </summary>
     [OdinSerialize]
-    public bool fixedPredator;
+    private bool _fixedPredator;
+    public bool fixedPredator { get => _fixedPredator; set => _fixedPredator = value; }
 
     internal List<StatusEffect> StatusEffects
     {
@@ -640,15 +658,18 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
     }
 
     [OdinSerialize]
-    public List<SpellType> InnateSpells { get; set; }
+    private List<SpellType> _innateSpells;
+    public List<SpellType> InnateSpells { get => _innateSpells; set => _innateSpells = value; }
 
     private List<Spell> _useableSpells;
 
     [OdinSerialize]
-    internal List<SpellType> SingleUseSpells = new List<SpellType>();
+    private List<SpellType> _singleUseSpells = new List<SpellType>();
+    internal List<SpellType> SingleUseSpells { get => _singleUseSpells; set => _singleUseSpells = value; }
 
     [OdinSerialize]
-    internal List<SpellType> MultiUseSpells = new List<SpellType>();  // This is so much more straightforward than adding Special Actions
+    private List<SpellType> _multiUseSpells = new List<SpellType>();
+    internal List<SpellType> MultiUseSpells { get => _multiUseSpells; set => _multiUseSpells = value; }  // This is so much more straightforward than adding Special Actions
 
     [OdinSerialize]
     internal Unit _hiddenUnit = null;
@@ -860,26 +881,32 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
     }
 
     [OdinSerialize]
-    protected List<TraitType> Tags; //For some reason, renaming this to anything else results in an infinite loop in serialization, so it is staying tags for now
+    private List<TraitType> _tags;
+    protected List<TraitType> Tags { get => _tags; set => _tags = value; } //For some reason, renaming this to anything else results in an infinite loop in serialization, so it is staying tags for now
 
     [OdinSerialize]
-    protected List<TraitType> TemporaryTraits;
+    private List<TraitType> _temporaryTraits;
+    protected List<TraitType> TemporaryTraits { get => _temporaryTraits; set => _temporaryTraits = value; }
     [OdinSerialize]
-    protected List<TraitType> SharedTraits;
+    private List<TraitType> _sharedTraits;
+    protected List<TraitType> SharedTraits { get => _sharedTraits; set => _sharedTraits = value; }
     [OdinSerialize]
-    protected List<TraitType> PersistentSharedTraits;
+    private List<TraitType> _persistentSharedTraits;
+    protected List<TraitType> PersistentSharedTraits { get => _persistentSharedTraits; set => _persistentSharedTraits = value; }
 
     /// <summary>
     /// Traits that are considered to be permanent, i.e. do not disappear during refreshes
     /// </summary>
     [OdinSerialize]
-    protected List<TraitType> PermanentTraits;
+    private List<TraitType> _permanentTraits;
+    protected List<TraitType> PermanentTraits { get => _permanentTraits; set => _permanentTraits = value; }
 
     /// <summary>
     /// Traits that are explicitly removed, done so that they aren't added back in at some point by version changes or the like.
     /// </summary>
     [OdinSerialize]
-    protected List<TraitType> RemovedTraits;
+    private List<TraitType> _removedTraits;
+    protected List<TraitType> RemovedTraits { get => _removedTraits; set => _removedTraits = value; }
 
     //internal List<Trait> TraitsList = new List<Trait>();
     internal List<IStatBoost> StatBoosts;
@@ -889,7 +916,8 @@ public class Unit : IUnitRead//, ISerializationCallbackReceiver
     internal List<IPhysicalDefenseOdds> PhysicalDefenseOdds;
 
     [OdinSerialize]
-    internal int EnemiesKilledThisBattle;
+    private int _enemiesKilledThisBattle;
+    internal int EnemiesKilledThisBattle { get => _enemiesKilledThisBattle; set => _enemiesKilledThisBattle = value; }
 
     internal Unit CurrentLeader;
 

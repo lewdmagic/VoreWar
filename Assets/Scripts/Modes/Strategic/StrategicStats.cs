@@ -9,31 +9,44 @@ public class StrategicStats
     class RaceStats
     {
         [OdinSerialize]
-        public string EmpireName;
+        private string _empireName;
+        public string EmpireName { get => _empireName; set => _empireName = value; }
         [OdinSerialize]
-        public int BattlesWon;
+        private int _battlesWon;
+        public int BattlesWon { get => _battlesWon; set => _battlesWon = value; }
         [OdinSerialize]
-        public int BattlesLost;
+        private int _battlesLost;
+        public int BattlesLost { get => _battlesLost; set => _battlesLost = value; }
         [OdinSerialize]
-        public int ArmiesLost;
+        private int _armiesLost;
+        public int ArmiesLost { get => _armiesLost; set => _armiesLost = value; }
         [OdinSerialize]
-        public int LeaderResurrections;
+        private int _leaderResurrections;
+        public int LeaderResurrections { get => _leaderResurrections; set => _leaderResurrections = value; }
         [OdinSerialize]
-        public int TotalGoldCollected;
+        private int _totalGoldCollected;
+        public int TotalGoldCollected { get => _totalGoldCollected; set => _totalGoldCollected = value; }
         [OdinSerialize]
-        public int TotalGoldSpent;
+        private int _totalGoldSpent;
+        public int TotalGoldSpent { get => _totalGoldSpent; set => _totalGoldSpent = value; }
         [OdinSerialize]
-        public int GoldSpentOnEquipment;
+        private int _goldSpentOnEquipment;
+        public int GoldSpentOnEquipment { get => _goldSpentOnEquipment; set => _goldSpentOnEquipment = value; }
         [OdinSerialize]
-        public int GoldSpentOnBuildings;
+        private int _goldSpentOnBuildings;
+        public int GoldSpentOnBuildings { get => _goldSpentOnBuildings; set => _goldSpentOnBuildings = value; }
         [OdinSerialize]
-        public int GoldSpentOnTraining;
+        private int _goldSpentOnTraining;
+        public int GoldSpentOnTraining { get => _goldSpentOnTraining; set => _goldSpentOnTraining = value; }
         [OdinSerialize]
-        public int GoldSpentOnMaintainingArmies;
+        private int _goldSpentOnMaintainingArmies;
+        public int GoldSpentOnMaintainingArmies { get => _goldSpentOnMaintainingArmies; set => _goldSpentOnMaintainingArmies = value; }
         [OdinSerialize]
-        public int SoldiersRecruited;
+        private int _soldiersRecruited;
+        public int SoldiersRecruited { get => _soldiersRecruited; set => _soldiersRecruited = value; }
         [OdinSerialize]
-        public int SoldiersLost;
+        private int _soldiersLost;
+        public int SoldiersLost { get => _soldiersLost; set => _soldiersLost = value; }
 
         public RaceStats(string empireName)
         {

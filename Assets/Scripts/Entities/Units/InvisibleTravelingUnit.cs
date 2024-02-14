@@ -4,10 +4,12 @@
 class InvisibleTravelingUnit
 {
     [OdinSerialize]
-    internal Unit unit;
+    private Unit _unit;
+    internal Unit unit { get => _unit; set => _unit = value; }
 
     [OdinSerialize]
-    internal int remainingTurns;
+    private int _remainingTurns;
+    internal int remainingTurns { get => _remainingTurns; set => _remainingTurns = value; }
 
     public InvisibleTravelingUnit(Unit unit, int remainingTurns)
     {

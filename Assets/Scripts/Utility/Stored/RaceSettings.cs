@@ -322,89 +322,124 @@ class RaceSettingsItem
 {
 
     [OdinSerialize]
-    internal bool OverrideGender;
+    private bool _overrideGender;
+    internal bool OverrideGender { get => _overrideGender; set => _overrideGender = value; }
     [OdinSerialize]
-    internal float maleFraction;
+    private float _maleFraction;
+    internal float maleFraction { get => _maleFraction; set => _maleFraction = value; }
     [OdinSerialize]
-    internal float hermFraction;
+    private float _hermFraction;
+    internal float hermFraction { get => _hermFraction; set => _hermFraction = value; }
     [OdinSerialize]
-    internal bool OverrideFurry;
+    private bool _overrideFurry;
+    internal bool OverrideFurry { get => _overrideFurry; set => _overrideFurry = value; }
     [OdinSerialize]
-    internal float furryFraction;
+    private float _furryFraction;
+    internal float furryFraction { get => _furryFraction; set => _furryFraction = value; }
 
     [OdinSerialize]
-    internal int BodySize;
+    private int _bodySize;
+    internal int BodySize { get => _bodySize; set => _bodySize = value; }
     [OdinSerialize]
-    internal int StomachSize;
+    private int _stomachSize;
+    internal int StomachSize { get => _stomachSize; set => _stomachSize = value; }
     [OdinSerialize]
-    internal List<TraitType> RaceTraits;
+    private List<TraitType> _raceTraits;
+    internal List<TraitType> RaceTraits { get => _raceTraits; set => _raceTraits = value; }
 
     [OdinSerialize]
-    internal List<VoreType> AllowedVoreTypes;
+    private List<VoreType> _allowedVoreTypes;
+    internal List<VoreType> AllowedVoreTypes { get => _allowedVoreTypes; set => _allowedVoreTypes = value; }
 
     [OdinSerialize]
-    internal Race SpawnRace;
+    private Race _spawnRace;
+    internal Race SpawnRace { get => _spawnRace; set => _spawnRace = value; }
     [OdinSerialize]
-    internal Race ConversionRace;
+    private Race _conversionRace;
+    internal Race ConversionRace { get => _conversionRace; set => _conversionRace = value; }
     [OdinSerialize]
-    internal Race LeaderRace;
+    private Race _leaderRace;
+    internal Race LeaderRace { get => _leaderRace; set => _leaderRace = value; }
 
     [OdinSerialize]
-    internal RaceStats Stats;
+    private RaceStats _stats;
+    internal RaceStats Stats { get => _stats; set => _stats = value; }
 
     [OdinSerialize]
-    internal bool overrideClothes;
+    private bool _overrideClothes;
+    internal bool overrideClothes { get => _overrideClothes; set => _overrideClothes = value; }
     [OdinSerialize]
-    internal float clothedFraction;
+    private float _clothedFraction;
+    internal float clothedFraction { get => _clothedFraction; set => _clothedFraction = value; }
 
     [OdinSerialize]
-    internal int BannerType;
+    private int _bannerType;
+    internal int BannerType { get => _bannerType; set => _bannerType = value; }
 
     [OdinSerialize]
-    internal bool overrideWeight;
+    private bool _overrideWeight;
+    internal bool overrideWeight { get => _overrideWeight; set => _overrideWeight = value; }
     [OdinSerialize]
-    internal int MinWeight;
+    private int _minWeight;
+    internal int MinWeight { get => _minWeight; set => _minWeight = value; }
     [OdinSerialize]
-    internal int MaxWeight;
+    private int _maxWeight;
+    internal int MaxWeight { get => _maxWeight; set => _maxWeight = value; }
 
     [OdinSerialize]
-    internal bool overrideBoob;
+    private bool _overrideBoob;
+    internal bool overrideBoob { get => _overrideBoob; set => _overrideBoob = value; }
     [OdinSerialize]
-    internal int MinBoob;
+    private int _minBoob;
+    internal int MinBoob { get => _minBoob; set => _minBoob = value; }
     [OdinSerialize]
-    internal int MaxBoob;
+    private int _maxBoob;
+    internal int MaxBoob { get => _maxBoob; set => _maxBoob = value; }
 
     [OdinSerialize]
-    internal bool overrideDick;
+    private bool _overrideDick;
+    internal bool overrideDick { get => _overrideDick; set => _overrideDick = value; }
     [OdinSerialize]
-    internal int MinDick;
+    private int _minDick;
+    internal int MinDick { get => _minDick; set => _minDick = value; }
     [OdinSerialize]
-    internal int MaxDick;
+    private int _maxDick;
+    internal int MaxDick { get => _maxDick; set => _maxDick = value; }
 
     [OdinSerialize]
-    internal List<TraitType> MaleTraits;
+    private List<TraitType> _maleTraits;
+    internal List<TraitType> MaleTraits { get => _maleTraits; set => _maleTraits = value; }
     [OdinSerialize]
-    internal List<TraitType> FemaleTraits;
+    private List<TraitType> _femaleTraits;
+    internal List<TraitType> FemaleTraits { get => _femaleTraits; set => _femaleTraits = value; }
     [OdinSerialize]
-    internal List<TraitType> HermTraits;
+    private List<TraitType> _hermTraits;
+    internal List<TraitType> HermTraits { get => _hermTraits; set => _hermTraits = value; }
     [OdinSerialize]
-    internal List<TraitType> SpawnTraits;
+    private List<TraitType> _spawnTraits;
+    internal List<TraitType> SpawnTraits { get => _spawnTraits; set => _spawnTraits = value; }
     [OdinSerialize]
-    internal List<TraitType> LeaderTraits;
+    private List<TraitType> _leaderTraits;
+    internal List<TraitType> LeaderTraits { get => _leaderTraits; set => _leaderTraits = value; }
 
     [OdinSerialize]
-    internal bool FavoredStatSet;
+    private bool _favoredStatSet;
+    internal bool FavoredStatSet { get => _favoredStatSet; set => _favoredStatSet = value; }
     [OdinSerialize]
-    internal Stat FavoredStat;
+    private Stat _favoredStat;
+    internal Stat FavoredStat { get => _favoredStat; set => _favoredStat = value; }
 
     [OdinSerialize]
-    internal SpellType InnateSpell;
+    private SpellType _innateSpell;
+    internal SpellType InnateSpell { get => _innateSpell; set => _innateSpell = value; }
 
     [OdinSerialize]
-    internal RaceAI RaceAI;
+    private RaceAI _raceAI;
+    internal RaceAI RaceAI { get => _raceAI; set => _raceAI = value; }
 
     [OdinSerialize]
-    internal float PowerAdjustment;
+    private float _powerAdjustment;
+    internal float PowerAdjustment { get => _powerAdjustment; set => _powerAdjustment = value; }
 
 
 

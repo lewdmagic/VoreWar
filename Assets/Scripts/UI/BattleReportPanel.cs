@@ -54,7 +54,7 @@ public class BattleReportPanel : MonoBehaviour
             PlayBattle.gameObject.SetActive(false);
         }
 
-        State.GameManager.PipCamera.SetLocation(invader.Position.x, invader.Position.y, 5);
+        State.GameManager.PipCamera.SetLocation(invader.Position.X, invader.Position.Y, 5);
         var sb = State.GameManager.StrategyMode.ArmyToolTip(invader);
         AttackerText.text = sb.ToString();
         sb = new System.Text.StringBuilder();

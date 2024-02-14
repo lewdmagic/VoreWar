@@ -4,10 +4,12 @@
 abstract class ClaimableBuilding
 {
     [OdinSerialize]
-    internal Empire Owner;
+    private Empire _owner;
+    internal Empire Owner { get => _owner; set => _owner = value; }
 
     [OdinSerialize]
-    internal Vec2i Position;
+    private Vec2i _position;
+    internal Vec2i Position { get => _position; set => _position = value; }
 
     protected ClaimableBuilding(Vec2i location)
     {

@@ -172,7 +172,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.Fireball;
-        var effect = Object.Instantiate(prefab, new Vector3(startLocation.x, startLocation.y, 0), new Quaternion()).GetComponent<ArrowEffect>();
+        var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         effect.Setup(startLocation, endLocation, target, null, null);
 
     }
@@ -182,7 +182,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.Charm;
-        var effect = Object.Instantiate(prefab, new Vector3(startLocation.x, startLocation.y, 0), new Quaternion()).GetComponent<ArrowEffect>();
+        var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         effect.Setup(startLocation, endLocation, target, null, null);
 
     }
@@ -192,7 +192,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.PollenCloud;
-        Object.Instantiate(prefab, new Vector3(location.x, location.y, 0), new Quaternion());
+        Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
 
     }
 
@@ -201,7 +201,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.PoisonCloud;
-        Object.Instantiate(prefab, new Vector3(location.x, location.y, 0), new Quaternion());
+        Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
 
     }
 
@@ -210,7 +210,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.GasCloud;
-        Object.Instantiate(prefab, new Vector3(location.x, location.y, 0), new Quaternion());
+        Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
 
     }
 
@@ -219,7 +219,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.SmokeCloud;
-        GameObject obj = Object.Instantiate(prefab, new Vector3(location.x, location.y, 0), new Quaternion());
+        GameObject obj = Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
         obj.transform.localScale *= scale;
         
     }
@@ -234,7 +234,7 @@ static class TacticalGraphicalEffects
         System.Action hitEffect = () =>
         {
             var prefab = State.GameManager.TacticalEffectPrefabList.GlueBomb;
-            Object.Instantiate(prefab, new Vector3(endLocation.x, endLocation.y, 0), new Quaternion());
+            Object.Instantiate(prefab, new Vector3(endLocation.X, endLocation.Y, 0), new Quaternion());
         };
         arrow.Setup(startLocation, endLocation, null, null, hitEffect);
 
@@ -245,7 +245,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.SpiderWeb;
-        var effect = Object.Instantiate(prefab, new Vector3(startLocation.x, startLocation.y, 0), new Quaternion()).GetComponent<ArrowEffect>();
+        var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         effect.Setup(startLocation, endLocation, target, null, null);
         effect.totalTime *= 2;
         effect.extraTime = 2.25f;
@@ -259,7 +259,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.HugeMagic;
-        var effect = Object.Instantiate(prefab, new Vector3(startLocation.x, startLocation.y, 0), new Quaternion()).GetComponent<ArrowEffect>();
+        var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         effect.Setup(startLocation, endLocation, target, null, null);
         effect.totalTime *= 2;
         System.Action hitEffect = null;
@@ -267,7 +267,7 @@ static class TacticalGraphicalEffects
         {
            hitEffect = () =>
             {
-                CreateMagicExplosion(new Vec2i(endLocation.x, endLocation.y));
+                CreateMagicExplosion(new Vec2i(endLocation.X, endLocation.Y));
             };
         }   
         effect.Setup(startLocation, endLocation, target, null, hitEffect);
@@ -278,7 +278,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.MagicExplosion;
-        Object.Instantiate(prefab, new Vector3(location.x, location.y, 0), new Quaternion());
+        Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
 
     }
 
@@ -287,7 +287,7 @@ static class TacticalGraphicalEffects
         if (State.GameManager.TacticalMode.turboMode)
             return;
         var prefab = State.GameManager.TacticalEffectPrefabList.GenericMagic;
-        var effect = Object.Instantiate(prefab, new Vector3(startLocation.x, startLocation.y, 0), new Quaternion()).GetComponent<ArrowEffect>();
+        var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         System.Action hitEffect = null;
         if (icon != SpellEffectIcon.None)
         {
@@ -310,7 +310,7 @@ static class TacticalGraphicalEffects
             hitEffect = () =>
             {
                 var obj = Object.Instantiate(State.GameManager.TacticalEffectPrefabList.FadeInFadeOut).GetComponent<FadeInFadeOut>();
-                obj.transform.SetPositionAndRotation(new Vector3(target.Position.x, target.Position.y, 0), new Quaternion());
+                obj.transform.SetPositionAndRotation(new Vector3(target.Position.X, target.Position.Y, 0), new Quaternion());
                 obj.SpriteRenderer.sprite = State.GameManager.SpriteDictionary.SpellIcons[(int)icon - 1];
             };
         }

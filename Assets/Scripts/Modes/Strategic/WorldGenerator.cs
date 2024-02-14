@@ -209,7 +209,7 @@ public class WorldGenerator
                 //pick a random spot
                 Vec2i newPos = new Vec2i(Random.Range(0, Config.StrategicWorldSizeX - 4) + 2, Random.Range(0, Config.StrategicWorldSizeY - 4) + 2);
 
-                if (grid[newPos.x, newPos.y] >= value)
+                if (grid[newPos.X, newPos.Y] >= value)
                 {
                     bool pass = true;
                     if (i > 0)
@@ -224,7 +224,7 @@ public class WorldGenerator
                     }
                     if (pass == true)
                     {
-                        sites[i].UtilityScore = grid[newPos.x, newPos.y];
+                        sites[i].UtilityScore = grid[newPos.X, newPos.Y];
                         sites[i].Position = newPos;
                         sites[i].Index = i;
                         break;
@@ -242,11 +242,11 @@ public class WorldGenerator
 
             //for each, pick the most valuable position
             //reduce the value of all tiles in a 5x5 square centered on the village to 0
-            for (int j = sites[i].Position.x - 2; j < sites[i].Position.x + 3; j++)
+            for (int j = sites[i].Position.X - 2; j < sites[i].Position.X + 3; j++)
             {
-                for (int k = sites[i].Position.y - 2; k < sites[i].Position.y + 3; k++)
+                for (int k = sites[i].Position.Y - 2; k < sites[i].Position.Y + 3; k++)
                 {
-                    if (k != sites[i].Position.y && j != sites[i].Position.x)
+                    if (k != sites[i].Position.Y && j != sites[i].Position.X)
                     {
                         grid[j, k] = 0;
                     }
@@ -479,8 +479,8 @@ public class WorldGenerator
         for (int i = 0; i < points; i++)
         {
             float angle = slice * i;
-            int newX = (int)(center.x + radius * Mathf.Cos(angle));
-            int newY = (int)(center.y + radius * Mathf.Sin(angle));
+            int newX = (int)(center.X + radius * Mathf.Cos(angle));
+            int newY = (int)(center.Y + radius * Mathf.Sin(angle));
             point[i] = new Vec2i(newX, newY);
         }
         return point;
@@ -511,12 +511,12 @@ public class WorldGenerator
 
     private void CreateFarmland(int i)
     {
-        tiles[sites[i].Position.x, sites[i].Position.y] = StrategicTileType.grass;
-        for (int j = sites[i].Position.x - 1; j < sites[i].Position.x + 2; j++)
+        tiles[sites[i].Position.X, sites[i].Position.Y] = StrategicTileType.grass;
+        for (int j = sites[i].Position.X - 1; j < sites[i].Position.X + 2; j++)
         {
-            for (int k = sites[i].Position.y - 1; k < sites[i].Position.y + 2; k++)
+            for (int k = sites[i].Position.Y - 1; k < sites[i].Position.Y + 2; k++)
             {
-                if (j == sites[i].Position.x && k == sites[i].Position.y)
+                if (j == sites[i].Position.X && k == sites[i].Position.Y)
                 {
 
                 }
@@ -552,7 +552,7 @@ public class WorldGenerator
         {
             Vec2i center = GrabGoodMercLocation(Config.StrategicWorldSizeX / 2, Config.StrategicWorldSizeY / 2);
             usedLocations.Add(center);
-            State.World.Tiles[center.x, center.y] = StrategicTileType.grass;
+            State.World.Tiles[center.X, center.Y] = StrategicTileType.grass;
             State.World.MercenaryHouses[0] = new MercenaryHouse(center);
             currHouse++;
         }
@@ -561,7 +561,7 @@ public class WorldGenerator
         {
             Vec2i point = GrabGoodMercLocation(State.Rand.Next(Config.StrategicWorldSizeX), State.Rand.Next(Config.StrategicWorldSizeY));
             usedLocations.Add(point);
-            State.World.Tiles[point.x, point.y] = StrategicTileType.grass;
+            State.World.Tiles[point.X, point.Y] = StrategicTileType.grass;
             State.World.MercenaryHouses[i] = new MercenaryHouse(point);
         }
 
@@ -580,7 +580,7 @@ public class WorldGenerator
         {
             Vec2i point = GrabGoodMercLocation(State.Rand.Next(Config.StrategicWorldSizeX), State.Rand.Next(Config.StrategicWorldSizeY));
             usedLocations.Add(point);
-            State.World.Tiles[point.x, point.y] = StrategicTileType.grass;
+            State.World.Tiles[point.X, point.Y] = StrategicTileType.grass;
             State.World.Claimables[i] = new GoldMine(point);
         }
 
@@ -630,26 +630,26 @@ public class WorldGenerator
             var path = StrategyPathfinder.GetPath(null, pseudoArmy, center, 0, false);
             if (path == null)
             {
-                Vec2i currentLoc = new Vec2i(village.Position.x, village.Position.y);
-                while (currentLoc.x != center.x || currentLoc.y != center.y)
+                Vec2i currentLoc = new Vec2i(village.Position.X, village.Position.Y);
+                while (currentLoc.X != center.X || currentLoc.Y != center.Y)
                 {
-                    if (currentLoc.x != center.x)
+                    if (currentLoc.X != center.X)
                     {
-                        if (currentLoc.x > center.x)
-                            currentLoc.x -= 1;
+                        if (currentLoc.X > center.X)
+                            currentLoc.X -= 1;
                         else
-                            currentLoc.x += 1;
+                            currentLoc.X += 1;
                     }
-                    if (currentLoc.y != center.y)
+                    if (currentLoc.Y != center.Y)
                     {
-                        if (currentLoc.y > center.y)
-                            currentLoc.y -= 1;
+                        if (currentLoc.Y > center.Y)
+                            currentLoc.Y -= 1;
                         else
-                            currentLoc.y += 1;
+                            currentLoc.Y += 1;
                     }
 
-                    if (StrategicTileInfo.CanWalkInto(State.World.Tiles[currentLoc.x, currentLoc.y]) == false)
-                        State.World.Tiles[currentLoc.x, currentLoc.y] = StrategicTileType.grass;
+                    if (StrategicTileInfo.CanWalkInto(State.World.Tiles[currentLoc.X, currentLoc.Y]) == false)
+                        State.World.Tiles[currentLoc.X, currentLoc.Y] = StrategicTileType.grass;
                 }
                 if (args.ExcessBridges == false)
                     StrategyPathfinder.Initialized = false;

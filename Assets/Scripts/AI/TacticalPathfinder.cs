@@ -16,8 +16,8 @@ public static class TacticalPathfinder
         int flightMP = actor.Movement;
         bool goodPath = false;
         PathNode current = null;
-        var start = new PathNode { X = origin.x, Y = origin.y };
-        var target = new PathNode { X = destination.x, Y = destination.y };
+        var start = new PathNode { X = origin.X, Y = origin.Y };
+        var target = new PathNode { X = destination.X, Y = destination.Y };
         var openList = new List<PathNode>();
         var closedList = new List<PathNode>();
         int g = 0;
@@ -42,7 +42,7 @@ public static class TacticalPathfinder
                 if (howClose != -1)
                 {
                     // In tactical we are looking for a specific distance from target
-                    if (Mathf.Abs(current.X - target.X) <= howClose && Mathf.Abs(current.Y - target.Y) <= howClose && (current.X != origin.x || current.Y != origin.y))
+                    if (Mathf.Abs(current.X - target.X) <= howClose && Mathf.Abs(current.Y - target.Y) <= howClose && (current.X != origin.X || current.Y != origin.Y))
                     {
                         goodPath = true;
                         break;
@@ -150,7 +150,7 @@ public static class TacticalPathfinder
 
         bool goodPath = false;
         PathNode current = null;
-        var start = new PathNode { X = origin.x, Y = origin.y };
+        var start = new PathNode { X = origin.X, Y = origin.Y };
         //var target = new PathNode { X = destination.x, Y = destination.y };
         var openList = new List<PathNode>();
         var closedList = new List<PathNode>();
@@ -236,7 +236,7 @@ public static class TacticalPathfinder
     {
         bool[,] walkable = new bool[Config.TacticalSizeX, Config.TacticalSizeY];
         PathNode current = null;
-        var start = new PathNode { X = origin.x, Y = origin.y };
+        var start = new PathNode { X = origin.X, Y = origin.Y };
         var openList = new List<PathNode>();
         var closedList = new List<PathNode>();
         int g = 0;

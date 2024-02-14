@@ -4,11 +4,14 @@ using UnityEngine;
 public class BoneInfo
 {
     [OdinSerialize]
-    public BoneType BoneType = BoneType.GenericBonePile;
+    private BoneType _boneType = BoneType.GenericBonePile;
+    public BoneType BoneType { get => _boneType; set => _boneType = value; }
     [OdinSerialize]
-    public string name = "";
+    private string _name = "";
+    public string name { get => _name; set => _name = value; }
     [OdinSerialize]
-    public int accessoryColor = -1;
+    private int _accessoryColor = -1;
+    public int accessoryColor { get => _accessoryColor; set => _accessoryColor = value; }
 
     public BoneInfo(BoneType boneType, string name = "", int accessoryColor = -1)
     {

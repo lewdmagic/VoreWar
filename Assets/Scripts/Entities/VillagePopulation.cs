@@ -6,11 +6,14 @@ using UnityEngine;
 public class VillagePopulation
 {
     [OdinSerialize]
-    internal List<RacePop> Population = new List<RacePop>();
+    private List<RacePop> _population = new List<RacePop>();
+    internal List<RacePop> Population { get => _population; set => _population = value; }
     [OdinSerialize]
-    private List<Unit> NamedRecruitables = new List<Unit>();
+    private List<Unit> _namedRecruitables = new List<Unit>();
+    private List<Unit> NamedRecruitables { get => _namedRecruitables; set => _namedRecruitables = value; }
     [OdinSerialize]
-    internal Village Village;
+    private Village _village;
+    internal Village Village { get => _village; set => _village = value; }
 
     public VillagePopulation(Race inRace, int maxPop, Village village)
     {

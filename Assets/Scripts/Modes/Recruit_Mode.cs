@@ -140,7 +140,7 @@ public class Recruit_Mode : SceneBase
             {
                 if (activatingEmpire != ActivatingEmpire.Observer && empire.Armies.Count() < Config.MaxArmies)
                 {
-                    army = new Army(empire, new Vec2i(village.Position.x, village.Position.y), empire.Side);
+                    army = new Army(empire, new Vec2i(village.Position.X, village.Position.Y), empire.Side);
                     empire.Armies.Add(army);
                     army.HealRate = village.Healrate();
                 }
@@ -1640,8 +1640,8 @@ public class Recruit_Mode : SceneBase
             int y = 0;
             for (int i = 0; i < 50; i++)
             {
-                x = State.Rand.Next(army.Position.x - 1, army.Position.x + 2);
-                y = State.Rand.Next(army.Position.y - 1, army.Position.y + 2);
+                x = State.Rand.Next(army.Position.X - 1, army.Position.X + 2);
+                y = State.Rand.Next(army.Position.Y - 1, army.Position.Y + 2);
 
                 if (StrategicUtilities.IsTileClear(new Vec2i(x, y)))
                 {
@@ -1652,7 +1652,7 @@ public class Recruit_Mode : SceneBase
             if (foundSpot)
             {
                 Vec2i destLoc = new Vec2i(x, y);
-                destinationArmy = new Army(empire, new Vec2i(destLoc.x, destLoc.y), unit.FixedSide);
+                destinationArmy = new Army(empire, new Vec2i(destLoc.X, destLoc.Y), unit.FixedSide);
             }
             else
             {

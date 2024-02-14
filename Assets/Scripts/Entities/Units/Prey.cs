@@ -11,26 +11,32 @@ class Prey
     [OdinSerialize]
     public Actor_Unit Actor { get; private set; }
     [OdinSerialize]
-    public Unit Unit { get; set; }
+    private Unit _unit;
+    public Unit Unit { get => _unit; set => _unit = value; }
     [OdinSerialize]
     public List<Prey> SubPrey { get; private set; }
     [OdinSerialize]
     public float EscapeRate { get; private set; }
     [OdinSerialize]
-    public int TurnsDigested { get; set; }
+    private int _turnsDigested;
+    public int TurnsDigested { get => _turnsDigested; set => _turnsDigested = value; }
     [OdinSerialize]
-    public int TurnsBeingSwallowed { get; set; }
+    private int _turnsBeingSwallowed;
+    public int TurnsBeingSwallowed { get => _turnsBeingSwallowed; set => _turnsBeingSwallowed = value; }
     /// <summary>
     /// Turns since last damaged, only updated for alive units
     /// </summary>
     [OdinSerialize]
-    public int TurnsSinceLastDamage { get; set; }
+    private int _turnsSinceLastDamage;
+    public int TurnsSinceLastDamage { get => _turnsSinceLastDamage; set => _turnsSinceLastDamage = value; }
 
     [OdinSerialize]
-    public bool ScatDisabled { get; set; }
+    private bool _scatDisabled;
+    public bool ScatDisabled { get => _scatDisabled; set => _scatDisabled = value; }
 
     [OdinSerialize]
-    public List<TraitType> SharedTraits;
+    private List<TraitType> _sharedTraits;
+    public List<TraitType> SharedTraits { get => _sharedTraits; set => _sharedTraits = value; }
 
     public PreyLocation Location => Predator?.PredatorComponent.Location(this) ?? PreyLocation.stomach;
 

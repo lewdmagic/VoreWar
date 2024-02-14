@@ -20,17 +20,20 @@ public class ConstructionWants
 public class StrategicAI : IStrategicAI
 {
     [OdinSerialize]
-    Empire empire;
+    private Empire _empire;
+    Empire empire { get => _empire; set => _empire = value; }
 
     [OdinSerialize]
     [Obsolete]
     public bool strongerAI = false;
 
     [OdinSerialize]
-    public int CheatLevel = 0;
+    private int _cheatLevel = 0;
+    public int CheatLevel { get => _cheatLevel; set => _cheatLevel = value; }
 
     [OdinSerialize]
-    public bool smarterAI = false;
+    private bool _smarterAI = false;
+    public bool smarterAI { get => _smarterAI; set => _smarterAI = value; }
 
     StrategicArmyCommander ArmyCommander;
 
@@ -503,7 +506,7 @@ public class StrategicAI : IStrategicAI
 
     Army MakeArmy(Village village, int tier)
     {
-        Army army = new Army(empire, new Vec2i(village.Position.x, village.Position.y), village.Side);
+        Army army = new Army(empire, new Vec2i(village.Position.X, village.Position.Y), village.Side);
         if (idealArmySize > village.GetTotalPop() - 3)
             idealArmySize = village.GetTotalPop() - 3;
         if (idealArmySize < 4 && idealArmySize < empire.MaxArmySize)

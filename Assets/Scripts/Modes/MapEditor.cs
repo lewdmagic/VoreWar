@@ -50,16 +50,21 @@ namespace MapObjects
 
     class Map
     {
-        [OdinSerialize]
-        internal StrategicTileType[,] Tiles;
-        [OdinSerialize]
-        internal StrategicDoodadType[,] Doodads;
-        [OdinSerialize]
-        internal MapVillage[] storedVillages;
-        [OdinSerialize]
-        internal Vec2i[] mercLocations;
-        [OdinSerialize]
-        internal MapClaimable[] claimables;
+    [OdinSerialize]
+    private StrategicTileType[,] _tiles;
+    internal StrategicTileType[,] Tiles { get => _tiles; set => _tiles = value; }
+    [OdinSerialize]
+    private StrategicDoodadType[,] _doodads;
+    internal StrategicDoodadType[,] Doodads { get => _doodads; set => _doodads = value; }
+    [OdinSerialize]
+    private MapVillage[] _storedVillages;
+    internal MapVillage[] storedVillages { get => _storedVillages; set => _storedVillages = value; }
+    [OdinSerialize]
+    private Vec2i[] _mercLocations;
+    internal Vec2i[] mercLocations { get => _mercLocations; set => _mercLocations = value; }
+    [OdinSerialize]
+    private MapClaimable[] _claimables;
+    internal MapClaimable[] claimables { get => _claimables; set => _claimables = value; }
 
         static public Map Get(string filename)
         {
@@ -178,10 +183,10 @@ public class MapEditor : SceneBase
             StrategyPathfinder.Initialized = false;
             foreach (Army army in StrategicUtilities.GetAllArmies().ToList())
             {
-                if (CanWalkInto(army.Position.x, army.Position.y) == false)
+                if (CanWalkInto(army.Position.X, army.Position.Y) == false)
                 {
-                    if (doodads == null || (State.World.Doodads[army.Position.x, army.Position.y] < StrategicDoodadType.bridgeVertical ||
-                        State.World.Doodads[army.Position.x, army.Position.y] > StrategicDoodadType.virtualBridgeIntersection))
+                    if (doodads == null || (State.World.Doodads[army.Position.X, army.Position.Y] < StrategicDoodadType.bridgeVertical ||
+                        State.World.Doodads[army.Position.X, army.Position.Y] > StrategicDoodadType.virtualBridgeIntersection))
                         State.World.GetEmpireOfSide(army.Side).Armies.Remove(army);
                 }
             }
@@ -278,7 +283,7 @@ public class MapEditor : SceneBase
             {
                 if (x == 0 && y == 0)
                     continue;
-                if (tiles[village.Position.x + x, village.Position.y + y] == StrategicTileType.field || tiles[village.Position.x + x, village.Position.y + y] == StrategicTileType.fieldDesert || tiles[village.Position.x + x, village.Position.y + y] == StrategicTileType.fieldSnow)
+                if (tiles[village.Position.X + x, village.Position.Y + y] == StrategicTileType.field || tiles[village.Position.X + x, village.Position.Y + y] == StrategicTileType.fieldDesert || tiles[village.Position.X + x, village.Position.Y + y] == StrategicTileType.fieldSnow)
                     farmSquares++;
             }
         }
@@ -514,12 +519,12 @@ public class MapEditor : SceneBase
                 {
                     if (army.BannerStyle > (int)BannerType.VoreWar && CustomBannerTest.Sprites[army.BannerStyle - 23] != null)
                     {
-                        army.Sprite = Instantiate(SpriteCategories[1], new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
+                        army.Sprite = Instantiate(SpriteCategories[1], new Vector3(army.Position.X, army.Position.Y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
                         army.Sprite.sprite = CustomBannerTest.Sprites[army.BannerStyle - 23];
                     }
                     else
                     {
-                        army.Banner = Instantiate(SpriteCategories[3], new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<MultiStageBanner>();
+                        army.Banner = Instantiate(SpriteCategories[3], new Vector3(army.Position.X, army.Position.Y), new Quaternion(), ArmyFolder).GetComponent<MultiStageBanner>();
                         army.Banner.Refresh(army, false);
                     }
 
@@ -528,7 +533,7 @@ public class MapEditor : SceneBase
                 {
                     int tileType = empire.BannerType;
                     if (army.Units.Contains(empire.Leader)) tileType += 4;
-                    army.Sprite = Instantiate(SpriteCategories[1], new Vector3(army.Position.x, army.Position.y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
+                    army.Sprite = Instantiate(SpriteCategories[1], new Vector3(army.Position.X, army.Position.Y), new Quaternion(), ArmyFolder).GetComponent<SpriteRenderer>();
                     army.Sprite.sprite = Sprites[tileType];
                     army.Sprite.color = empire.UnityColor;
                 }
@@ -719,14 +724,14 @@ public class MapEditor : SceneBase
             
             if (EditingActiveMap)
             {
-                GameObject vill = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                GameObject vill = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 vill.GetComponent<SpriteRenderer>().sprite = village.GetIconSprite();
                 vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
 
                 Sprite villageColorSprite = village.GetColoredIcon();
                 if (villageColorSprite != null)
                 {
-                    GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                    GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                     villColored.GetComponent<SpriteRenderer>().sprite = villageColorSprite;
                     villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
                 }
@@ -736,26 +741,26 @@ public class MapEditor : SceneBase
                 }
                 
                 
-                GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
                 villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
                 villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnitySecondaryColor;
 
-                GameObject villShieldInner = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                GameObject villShieldInner = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 villShieldInner.GetComponent<SpriteRenderer>().sprite = Sprites[10];
                 villShieldInner.GetComponent<SpriteRenderer>().sortingOrder = 2;
                 villShieldInner.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
             }
             else
             {
-                GameObject vill = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                GameObject vill = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 vill.GetComponent<SpriteRenderer>().sprite = village.GetIconSprite();
                 vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
                 
                 Sprite villageColorSprite = village.GetColoredIcon();
                 if (villageColorSprite != null)
                 {
-                    GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                    GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                     villColored.GetComponent<SpriteRenderer>().sprite = villageColorSprite;
                     villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side)?.UnityColor ?? Color.white;
                 }
@@ -764,7 +769,7 @@ public class MapEditor : SceneBase
                     //villColored.GetComponent<SpriteRenderer>().color = Color.clear;
                 }
                 
-                GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(village.Position.x, village.Position.y), new Quaternion(), VillageFolder);
+                GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 villShield.GetComponent<SpriteRenderer>().sprite = Sprites[10];
                 villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
                 villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side)?.UnityColor ?? Color.white;
@@ -773,7 +778,7 @@ public class MapEditor : SceneBase
         }
         foreach (var mercHouse in State.World.MercenaryHouses)
         {
-            GameObject merc = Instantiate(SpriteCategories[2], new Vector3(mercHouse.Position.x, mercHouse.Position.y), new Quaternion(), VillageFolder);
+            GameObject merc = Instantiate(SpriteCategories[2], new Vector3(mercHouse.Position.X, mercHouse.Position.Y), new Quaternion(), VillageFolder);
             merc.GetComponent<SpriteRenderer>().sprite = Sprites[14];
             merc.GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
@@ -782,13 +787,13 @@ public class MapEditor : SceneBase
             int spr = 0;
             if (claimable is GoldMine)
                 spr = 12;
-            GameObject vill = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject vill = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.X, claimable.Position.Y), new Quaternion(), VillageFolder);
             vill.GetComponent<SpriteRenderer>().sprite = Sprites[spr];
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject villColored = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.X, claimable.Position.Y), new Quaternion(), VillageFolder);
             villColored.GetComponent<SpriteRenderer>().sprite = Sprites[spr + 2];
             villColored.GetComponent<SpriteRenderer>().color = claimable.Owner?.UnityColor ?? Color.clear;
-            GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.x, claimable.Position.y), new Quaternion(), VillageFolder);
+            GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.X, claimable.Position.Y), new Quaternion(), VillageFolder);
             villShield.GetComponent<SpriteRenderer>().sprite = Sprites[10];
             villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShield.GetComponent<SpriteRenderer>().color = claimable.Owner?.UnityColor ?? Color.clear;
@@ -1375,22 +1380,22 @@ public class MapEditor : SceneBase
         List<Village> newVillages = new List<Village>();
         foreach (Village village in State.World.Villages.ToList())
         {
-            village.Position = new Vec2i(village.Position.x + diffX, village.Position.y + diffY); //done for double checking a fix
-            if (village.Position.x < x - 1 && village.Position.x > 0 && village.Position.y < y - 1 && village.Position.y > 0)
+            village.Position = new Vec2i(village.Position.X + diffX, village.Position.Y + diffY); //done for double checking a fix
+            if (village.Position.X < x - 1 && village.Position.X > 0 && village.Position.Y < y - 1 && village.Position.Y > 0)
                 newVillages.Add(village);
         }
         State.World.Villages = newVillages.ToArray();
 
         foreach (Army army in StrategicUtilities.GetAllArmies())
         {
-            army.Position.x += diffX;
-            army.Position.y += diffY;
+            army.Position.X += diffX;
+            army.Position.Y += diffY;
         }
 
 
         foreach (Army army in StrategicUtilities.GetAllArmies().ToList())
         {
-            if (army.Position.x < 0 || army.Position.y < 0 || army.Position.x >= x - 1 || army.Position.y >= y - 1)
+            if (army.Position.X < 0 || army.Position.Y < 0 || army.Position.X >= x - 1 || army.Position.Y >= y - 1)
             {
                 Empire emp = State.World.GetEmpireOfSide(army.Side);
                 emp.Armies.Remove(army);
@@ -1400,9 +1405,9 @@ public class MapEditor : SceneBase
         List<MercenaryHouse> newMercs = new List<MercenaryHouse>();
         foreach (MercenaryHouse merc in State.World.MercenaryHouses.ToList())
         {
-            merc.Position.x += diffX;
-            merc.Position.y += diffY;
-            if (merc.Position.x < x - 1 && merc.Position.x > 0 && merc.Position.y < y - 1 && merc.Position.y > 0)
+            merc.Position.X += diffX;
+            merc.Position.Y += diffY;
+            if (merc.Position.X < x - 1 && merc.Position.X > 0 && merc.Position.Y < y - 1 && merc.Position.Y > 0)
                 newMercs.Add(merc);
         }
         State.World.MercenaryHouses = newMercs.ToArray();
@@ -1410,9 +1415,9 @@ public class MapEditor : SceneBase
         List<ClaimableBuilding> newClaims = new List<ClaimableBuilding>();
         foreach (ClaimableBuilding claim in State.World.Claimables.ToList())
         {
-            claim.Position.x += diffX;
-            claim.Position.y += diffY;
-            if (claim.Position.x < x - 1 && claim.Position.x > 0 && claim.Position.y < y - 1 && claim.Position.y > 0)
+            claim.Position.X += diffX;
+            claim.Position.Y += diffY;
+            if (claim.Position.X < x - 1 && claim.Position.X > 0 && claim.Position.Y < y - 1 && claim.Position.Y > 0)
                 newClaims.Add(claim);
         }
         State.World.Claimables = newClaims.ToArray();
@@ -1518,7 +1523,7 @@ public class MapEditor : SceneBase
                 {
                     sb.AppendLine($"Abandoned Village");
                 }
-                sb.AppendLine($"Village Location - X: {villageAtCursor.Position.x} Y: {villageAtCursor.Position.y}");
+                sb.AppendLine($"Village Location - X: {villageAtCursor.Position.X} Y: {villageAtCursor.Position.Y}");
 
             }
             else

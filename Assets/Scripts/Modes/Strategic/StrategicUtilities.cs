@@ -357,12 +357,12 @@ static class StrategicUtilities
                         return;
                     }
                 }
-                State.GameManager.ActivateTacticalWithDelay(State.World.Tiles[army.Position.x, army.Position.y], village, army, enemy);
+                State.GameManager.ActivateTacticalWithDelay(State.World.Tiles[army.Position.X, army.Position.Y], village, army, enemy);
             }
         }
         else
         {
-            State.GameManager.ActivateTacticalWithDelay(State.World.Tiles[army.Position.x, army.Position.y], village, army, enemy);
+            State.GameManager.ActivateTacticalWithDelay(State.World.Tiles[army.Position.X, army.Position.Y], village, army, enemy);
         }
 
         void Claim()

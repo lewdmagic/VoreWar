@@ -3,13 +3,16 @@
 class Relationship
 {
     [OdinSerialize]
-    internal float Attitude = 0;
+    private float _attitude = 0;
+    internal float Attitude { get => _attitude; set => _attitude = value; }
 
     [OdinSerialize]
-    internal int TurnsSinceAsked = -1;
+    private int _turnsSinceAsked = -1;
+    internal int TurnsSinceAsked { get => _turnsSinceAsked; set => _turnsSinceAsked = value; }
 
     [OdinSerialize]
-    internal RelationState Type = RelationState.Neutral;
+    private RelationState _type = RelationState.Neutral;
+    internal RelationState Type { get => _type; set => _type = value; }
 
     public Relationship(int firstTeam, int secondTeam)
     {

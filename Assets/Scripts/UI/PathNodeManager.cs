@@ -36,7 +36,7 @@ public class PathNodeManager : MonoBehaviour
         }
 
         nodes[nextNum].SetActive(true);
-        nodes[nextNum].transform.position = new Vector2(location.x, location.y);
+        nodes[nextNum].transform.position = new Vector2(location.X, location.Y);
         spriteRenders[nextNum].color = color;
         texts[nextNum].text = text;
         texts[nextNum].gameObject.SetActive(text != "");

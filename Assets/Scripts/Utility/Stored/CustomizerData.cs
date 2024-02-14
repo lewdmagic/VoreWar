@@ -4,105 +4,153 @@ using System.Collections.Generic;
 class CustomizerData
 {
     [OdinSerialize]
-    public Race Race;
+    private Race _race;
+    public Race Race { get => _race; set => _race = value; }
     [OdinSerialize]
-    public int HairColor;
+    private int _hairColor;
+    public int HairColor { get => _hairColor; set => _hairColor = value; }
     [OdinSerialize]
-    public int HairStyle;
+    private int _hairStyle;
+    public int HairStyle { get => _hairStyle; set => _hairStyle = value; }
     [OdinSerialize]
-    public int SkinColor;
+    private int _skinColor;
+    public int SkinColor { get => _skinColor; set => _skinColor = value; }
     [OdinSerialize]
-    public int AccessoryColor;
+    private int _accessoryColor;
+    public int AccessoryColor { get => _accessoryColor; set => _accessoryColor = value; }
     [OdinSerialize]
-    public int EyeColor;
+    private int _eyeColor;
+    public int EyeColor { get => _eyeColor; set => _eyeColor = value; }
     [OdinSerialize]
-    public int EyeType;
+    private int _eyeType;
+    public int EyeType { get => _eyeType; set => _eyeType = value; }
     [OdinSerialize]
-    public int MouthType;
+    private int _mouthType;
+    public int MouthType { get => _mouthType; set => _mouthType = value; }
     [OdinSerialize]
-    internal int BodySize;
+    private int _bodySize;
+    internal int BodySize { get => _bodySize; set => _bodySize = value; }
     [OdinSerialize]
-    internal bool BodySizeManuallyChanged;
+    private bool _bodySizeManuallyChanged;
+    internal bool BodySizeManuallyChanged { get => _bodySizeManuallyChanged; set => _bodySizeManuallyChanged = value; }
     [OdinSerialize]
-    internal int BreastSize;
+    private int _breastSize;
+    internal int BreastSize { get => _breastSize; set => _breastSize = value; }
     [OdinSerialize]
-    internal int DickSize;
+    private int _dickSize;
+    internal int DickSize { get => _dickSize; set => _dickSize = value; }
     [OdinSerialize]
-    internal bool HasVagina;
+    private bool _hasVagina;
+    internal bool HasVagina { get => _hasVagina; set => _hasVagina = value; }
     [OdinSerialize]
-    internal int ClothingType;
+    private int _clothingType;
+    internal int ClothingType { get => _clothingType; set => _clothingType = value; }
     [OdinSerialize]
-    internal int ClothingColor;
+    private int _clothingColor;
+    internal int ClothingColor { get => _clothingColor; set => _clothingColor = value; }
     [OdinSerialize]
-    internal int ClothingColor2;
+    private int _clothingColor2;
+    internal int ClothingColor2 { get => _clothingColor2; set => _clothingColor2 = value; }
     [OdinSerialize]
-    internal int ClothingColor3;
+    private int _clothingColor3;
+    internal int ClothingColor3 { get => _clothingColor3; set => _clothingColor3 = value; }
     [OdinSerialize]
-    public string Name { get; set; }
+    private string _name;
+    public string Name { get => _name; set => _name = value; }
     [OdinSerialize]
-    public UnitType Type;
+    private UnitType _type;
+    public UnitType Type { get => _type; set => _type = value; }
     [OdinSerialize]
-    public bool NewGraphics;
+    private bool _newGraphics;
+    public bool NewGraphics { get => _newGraphics; set => _newGraphics = value; }
 
     [OdinSerialize]
-    public int ExtraColor1;
+    private int _extraColor1;
+    public int ExtraColor1 { get => _extraColor1; set => _extraColor1 = value; }
     [OdinSerialize]
-    public int ExtraColor2;
+    private int _extraColor2;
+    public int ExtraColor2 { get => _extraColor2; set => _extraColor2 = value; }
     [OdinSerialize]
-    public int ExtraColor3;
+    private int _extraColor3;
+    public int ExtraColor3 { get => _extraColor3; set => _extraColor3 = value; }
     [OdinSerialize]
-    public int ExtraColor4;
+    private int _extraColor4;
+    public int ExtraColor4 { get => _extraColor4; set => _extraColor4 = value; }
     [OdinSerialize]
-    internal int SpecialAccessoryType;
+    private int _specialAccessoryType;
+    internal int SpecialAccessoryType { get => _specialAccessoryType; set => _specialAccessoryType = value; }
     [OdinSerialize]
-    internal int ClothingType2;
+    private int _clothingType2;
+    internal int ClothingType2 { get => _clothingType2; set => _clothingType2 = value; }
     [OdinSerialize]
-    internal bool Furry;
+    private bool _furry;
+    internal bool Furry { get => _furry; set => _furry = value; }
 
     [OdinSerialize]
-    internal int ClothingExtraType1;
+    private int _clothingExtraType1;
+    internal int ClothingExtraType1 { get => _clothingExtraType1; set => _clothingExtraType1 = value; }
     [OdinSerialize]
-    internal int ClothingExtraType2;
+    private int _clothingExtraType2;
+    internal int ClothingExtraType2 { get => _clothingExtraType2; set => _clothingExtraType2 = value; }
     [OdinSerialize]
-    internal int ClothingExtraType3;
+    private int _clothingExtraType3;
+    internal int ClothingExtraType3 { get => _clothingExtraType3; set => _clothingExtraType3 = value; }
     [OdinSerialize]
-    internal int ClothingExtraType4;
+    private int _clothingExtraType4;
+    internal int ClothingExtraType4 { get => _clothingExtraType4; set => _clothingExtraType4 = value; }
     [OdinSerialize]
-    internal int ClothingExtraType5;
+    private int _clothingExtraType5;
+    internal int ClothingExtraType5 { get => _clothingExtraType5; set => _clothingExtraType5 = value; }
 
     [OdinSerialize]
-    public int HeadType;
+    private int _headType;
+    public int HeadType { get => _headType; set => _headType = value; }
     [OdinSerialize]
-    public int TailType;
+    private int _tailType;
+    public int TailType { get => _tailType; set => _tailType = value; }
     [OdinSerialize]
-    public int FurType;
+    private int _furType;
+    public int FurType { get => _furType; set => _furType = value; }
     [OdinSerialize]
-    public int EarType;
+    private int _earType;
+    public int EarType { get => _earType; set => _earType = value; }
     [OdinSerialize]
-    public int BodyAccentType1;
+    private int _bodyAccentType1;
+    public int BodyAccentType1 { get => _bodyAccentType1; set => _bodyAccentType1 = value; }
     [OdinSerialize]
-    public int BodyAccentType2;
+    private int _bodyAccentType2;
+    public int BodyAccentType2 { get => _bodyAccentType2; set => _bodyAccentType2 = value; }
     [OdinSerialize]
-    public int BodyAccentType3;
+    private int _bodyAccentType3;
+    public int BodyAccentType3 { get => _bodyAccentType3; set => _bodyAccentType3 = value; }
     [OdinSerialize]
-    public int BodyAccentType4;
+    private int _bodyAccentType4;
+    public int BodyAccentType4 { get => _bodyAccentType4; set => _bodyAccentType4 = value; }
     [OdinSerialize]
-    public int BodyAccentType5;
+    private int _bodyAccentType5;
+    public int BodyAccentType5 { get => _bodyAccentType5; set => _bodyAccentType5 = value; }
     [OdinSerialize]
-    public int BallsSize;
+    private int _ballsSize;
+    public int BallsSize { get => _ballsSize; set => _ballsSize = value; }
     [OdinSerialize]
-    public int VulvaType;
+    private int _vulvaType;
+    public int VulvaType { get => _vulvaType; set => _vulvaType = value; }
     [OdinSerialize]
-    public int BasicMeleeWeaponType;
+    private int _basicMeleeWeaponType;
+    public int BasicMeleeWeaponType { get => _basicMeleeWeaponType; set => _basicMeleeWeaponType = value; }
     [OdinSerialize]
-    public int AdvancedMeleeWeaponType;
+    private int _advancedMeleeWeaponType;
+    public int AdvancedMeleeWeaponType { get => _advancedMeleeWeaponType; set => _advancedMeleeWeaponType = value; }
     [OdinSerialize]
-    public int BasicRangedWeaponType;
+    private int _basicRangedWeaponType;
+    public int BasicRangedWeaponType { get => _basicRangedWeaponType; set => _basicRangedWeaponType = value; }
     [OdinSerialize]
-    public int AdvancedRangedWeaponType;
+    private int _advancedRangedWeaponType;
+    public int AdvancedRangedWeaponType { get => _advancedRangedWeaponType; set => _advancedRangedWeaponType = value; }
 
     [OdinSerialize]
-    public List<string> Pronouns;
+    private List<string> _pronouns;
+    public List<string> Pronouns { get => _pronouns; set => _pronouns = value; }
 
     public void CopyFromUnit(Unit unit)
     {

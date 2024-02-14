@@ -12,17 +12,21 @@ namespace LegacyAI
         //IReadOnlyList<Empire> Empires => State.World.AllActiveEmpires;
         IReadOnlyList<Empire> Empires => new List<Empire>();
         [OdinSerialize]
-        int AISide;
+        private int _aISide;
+        int AISide { get => _aISide; set => _aISide = value; }
         [OdinSerialize]
-        int tension = 3;
+        private int _tension = 3;
+        int tension { get => _tension; set => _tension = value; }
 
         List<PathNode> path;
         Army pathIsFor;
 
         [OdinSerialize]
-        int freegold;
+        private int _freegold;
+        int freegold { get => _freegold; set => _freegold = value; }
         [OdinSerialize]
-        float growth;
+        private float _growth;
+        float growth { get => _growth; set => _growth = value; }
 
         private Empire _empire;
 
@@ -302,8 +306,8 @@ namespace LegacyAI
                     bool occupied = false;
                     for (int j = 0; j < empire.Armies.Count; j++)
                     {
-                        if (empire.Armies[j].Position.x == State.World.Villages[i].Position.x &&
-                            empire.Armies[j].Position.y == State.World.Villages[i].Position.y)
+                        if (empire.Armies[j].Position.X == State.World.Villages[i].Position.X &&
+                            empire.Armies[j].Position.Y == State.World.Villages[i].Position.Y)
                         {
                             occupied = true;
                             break;
@@ -347,7 +351,7 @@ namespace LegacyAI
 
         Army MakeArmy(Village village)
         {
-            Army army = new Army(Empire, new Vec2i(village.Position.x, village.Position.y), village.Side);
+            Army army = new Army(Empire, new Vec2i(village.Position.X, village.Position.Y), village.Side);
             int size = State.Rand.Next(6) + 1;
             float s = tension;
             s = s / growth;

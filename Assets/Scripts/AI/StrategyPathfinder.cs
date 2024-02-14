@@ -394,7 +394,7 @@ public static class StrategyPathfinder
         InitializeGrid();
         NormalOccupancy(empire);
 
-        var otherPath = FindPath(new Vec2(origin.x, origin.y), new Vec2(destination.x, destination.y), army, Config.ArmyMP, maxDistance);
+        var otherPath = FindPath(new Vec2(origin.X, origin.Y), new Vec2(destination.X, destination.Y), army, Config.ArmyMP, maxDistance);
 
         if (otherPath == null)
             return null;
@@ -430,7 +430,7 @@ public static class StrategyPathfinder
         InitializeGrid();
         MonsterOccupancy(empire);
 
-        var otherPath = FindPath(new Vec2(origin.x, origin.y), new Vec2(destination.x, destination.y), army, Config.ArmyMP, 9999);
+        var otherPath = FindPath(new Vec2(origin.X, origin.Y), new Vec2(destination.X, destination.Y), army, Config.ArmyMP, 9999);
 
         if (otherPath == null)
             return null;
@@ -464,14 +464,14 @@ public static class StrategyPathfinder
             if (empire != null)
             {
                 if (army.Empire.IsEnemy(empire))
-                    Grid[army.Position.x, army.Position.y].EnemyOccupied = true;
+                    Grid[army.Position.X, army.Position.Y].EnemyOccupied = true;
                 else
-                    Grid[army.Position.x, army.Position.y].FriendlyOccupied = true;
+                    Grid[army.Position.X, army.Position.Y].FriendlyOccupied = true;
             }
         }
         foreach (var village in State.World.Villages)
         {
-            Grid[village.Position.x, village.Position.y].FriendlyOccupied = true;
+            Grid[village.Position.X, village.Position.Y].FriendlyOccupied = true;
         }
     }
 
@@ -491,9 +491,9 @@ public static class StrategyPathfinder
             if (empire != null)
             {
                 if (army.Empire.IsEnemy(empire))
-                    Grid[army.Position.x, army.Position.y].EnemyOccupied = true;
+                    Grid[army.Position.X, army.Position.Y].EnemyOccupied = true;
                 else
-                    Grid[army.Position.x, army.Position.y].FriendlyOccupied = true;
+                    Grid[army.Position.X, army.Position.Y].FriendlyOccupied = true;
             }
         }
 
@@ -502,9 +502,9 @@ public static class StrategyPathfinder
             if (empire != null)
             {
                 if (village.Empire.IsEnemy(empire))
-                    Grid[village.Position.x, village.Position.y].EnemyOccupied = true;
+                    Grid[village.Position.X, village.Position.Y].EnemyOccupied = true;
                 else if (village.Empire.IsNeutral(empire)) //If it's neither an enemy or an ally, it should be blocked
-                    Grid[village.Position.x, village.Position.y].FriendlyOccupied = true;
+                    Grid[village.Position.X, village.Position.Y].FriendlyOccupied = true;
             }
         }
     }
@@ -542,7 +542,7 @@ public static class StrategyPathfinder
         InitializeGrid();
         NormalOccupancy(empire);
 
-        int turns = TurnsToReach(new Vec2(origin.x, origin.y), new Vec2(destination.x, destination.y), army, MPPerTurn);
+        int turns = TurnsToReach(new Vec2(origin.X, origin.Y), new Vec2(destination.X, destination.Y), army, MPPerTurn);
 
         return turns;
     }
@@ -557,11 +557,11 @@ public static class StrategyPathfinder
         Vec2[] ends = new Vec2[destinations.Length];
         for (int i = 0; i < destinations.Length; i++)
         {
-            ends[i].x = destinations[i].x;
-            ends[i].y = destinations[i].y;
+            ends[i].x = destinations[i].X;
+            ends[i].y = destinations[i].Y;
         }
 
-        var otherPath = FindPathMany(new Vec2(origin.x, origin.y), ends, army, Config.ArmyMP, priorities, maxDistance);
+        var otherPath = FindPathMany(new Vec2(origin.X, origin.Y), ends, army, Config.ArmyMP, priorities, maxDistance);
 
         if (otherPath == null)
             return null;
@@ -589,11 +589,11 @@ public static class StrategyPathfinder
         Vec2[] ends = new Vec2[destinations.Length];
         for (int i = 0; i < destinations.Length; i++)
         {
-            ends[i].x = destinations[i].x;
-            ends[i].y = destinations[i].y;
+            ends[i].x = destinations[i].X;
+            ends[i].y = destinations[i].Y;
         }
 
-        var otherPath = FindPathMany(new Vec2(origin.x, origin.y), ends, army, Config.ArmyMP, null, maxDistance);
+        var otherPath = FindPathMany(new Vec2(origin.X, origin.Y), ends, army, Config.ArmyMP, null, maxDistance);
 
         if (otherPath == null)
             return null;
@@ -652,9 +652,9 @@ public static class StrategyPathfinder
     public static bool TileCheck(Empire empire, Vec2i p)
     {
         //check tile
-        if (p.x < 0 || p.y < 0 || p.x >= Config.StrategicWorldSizeX || p.y >= Config.StrategicWorldSizeY)
+        if (p.X < 0 || p.Y < 0 || p.X >= Config.StrategicWorldSizeX || p.Y >= Config.StrategicWorldSizeY)
             return false;
-        if (StrategicTileInfo.CanWalkInto(p.x, p.y))
+        if (StrategicTileInfo.CanWalkInto(p.X, p.Y))
         {
             if (empire != null)
             {

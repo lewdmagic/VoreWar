@@ -7,19 +7,26 @@ using UnityEngine;
 internal class ClothingDiscards
 {
     [OdinSerialize]
-    internal Vec2i location;
+    private Vec2i _location;
+    internal Vec2i location { get => _location; set => _location = value; }
     [OdinSerialize]
-    internal ClothingId type;
+    private ClothingId _type;
+    internal ClothingId type { get => _type; set => _type = value; }
     [OdinSerialize]
-    internal Race race;
+    private Race _race;
+    internal Race race { get => _race; set => _race = value; }
     [OdinSerialize]
-    internal int color;
+    private int _color;
+    internal int color { get => _color; set => _color = value; }
     [OdinSerialize]
-    internal int sortOrder;
+    private int _sortOrder;
+    internal int sortOrder { get => _sortOrder; set => _sortOrder = value; }
     [OdinSerialize]
-    int angle;
+    private int _angle;
+    int angle { get => _angle; set => _angle = value; }
     [OdinSerialize]
-    internal string name;
+    private string _name;
+    internal string name { get => _name; set => _name = value; }
 
     static List<IClothing> AllClothes = new List<IClothing>();
 
@@ -37,7 +44,7 @@ internal class ClothingDiscards
     // TODO JESUS CHRIST this needs to be optimized
     internal void GenerateSpritePrefab(Transform folder)
     {
-        var sprite = Object.Instantiate(State.GameManager.DiscardedClothing, new Vector3(location.x - .5f + Random.Range(0, 1f), location.y - .5f + Random.Range(0, 1f)), Quaternion.Euler(0, 0, angle), folder).GetComponent<SpriteRenderer>();
+        var sprite = Object.Instantiate(State.GameManager.DiscardedClothing, new Vector3(location.X - .5f + Random.Range(0, 1f), location.Y - .5f + Random.Range(0, 1f)), Quaternion.Euler(0, 0, angle), folder).GetComponent<SpriteRenderer>();
 
         if (AllClothes.Any() == false)
         {

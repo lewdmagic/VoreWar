@@ -4,18 +4,22 @@
 class StatusEffect
 {
     [OdinSerialize]
-    internal StatusEffectType Type;
+    private StatusEffectType _type;
+    internal StatusEffectType Type { get => _type; set => _type = value; }
     [OdinSerialize]
-    internal float Strength;
+    private float _strength;
+    internal float Strength { get => _strength; set => _strength = value; }
     
     /// <summary>
     /// Used when the status needs to carry a Side parameter.
     /// Current use cases are hypnosis and charm
     /// </summary>
     [OdinSerialize]
-    internal Side Side = null;
+    private Side _side = null;
+    internal Side Side { get => _side; set => _side = value; }
     [OdinSerialize]
-    internal int Duration;
+    private int _duration;
+    internal int Duration { get => _duration; set => _duration = value; }
 
     public StatusEffect(StatusEffectType type, float strength, int duration, Side side = null)
     {

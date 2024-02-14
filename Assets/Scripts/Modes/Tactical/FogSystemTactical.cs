@@ -84,7 +84,7 @@ class FogSystemTactical
                 {
                     foreach (Actor_Unit unit in all)
                     {
-                        if (FoggedTile[unit.Position.x, unit.Position.y] && unit.PredatorComponent.PreyCount == 0)
+                        if (FoggedTile[unit.Position.X, unit.Position.Y] && unit.PredatorComponent.PreyCount == 0)
                         {
                             unit.UnitSprite.gameObject.SetActive(false);
                             unit.UnitSprite.FlexibleSquare.gameObject.SetActive(false);
@@ -104,9 +104,9 @@ class FogSystemTactical
 
     void ClearWithinSTilesOf(Vec2i pos, int sight = 1)
     {
-        for (int x = pos.x - sight; x <= pos.x + sight; x++)
+        for (int x = pos.X - sight; x <= pos.X + sight; x++)
         {
-            for (int y = pos.y - sight; y <= pos.y + sight; y++)
+            for (int y = pos.Y - sight; y <= pos.Y + sight; y++)
             {
                 if (x < 0 || y < 0 || x > FoggedTile.GetUpperBound(0) || y > FoggedTile.GetUpperBound(1))
                     continue;

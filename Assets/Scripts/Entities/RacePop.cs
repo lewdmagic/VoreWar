@@ -4,11 +4,13 @@ public class RacePop
 {
 
     [OdinSerialize]
-    public Race Race { get; set; }
+    private Race _race;
+    public Race Race { get => _race; set => _race = value; }
     [OdinSerialize]
     public int Population { get; private set; }
     [OdinSerialize]
-    public int Hireables { get; set; }
+    private int _hireables;
+    public int Hireables { get => _hireables; set => _hireables = value; }
 
     public RacePop(Race inRace, int popChange, int hireables)
     {

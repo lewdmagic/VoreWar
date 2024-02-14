@@ -53,23 +53,29 @@ public abstract class TacticalAI : ITacticalAI
     [OdinSerialize]
     protected List<Actor_Unit> actors;
     [OdinSerialize]
-    protected Side enemySide;
+    private Side _enemySide;
+    protected Side enemySide { get => _enemySide; set => _enemySide = value; }
     [OdinSerialize]
     protected readonly TacticalTileType[,] tiles;
     [OdinSerialize]
     protected readonly Side AISide;
     [OdinSerialize]
-    protected int targetsEaten;
+    private int _targetsEaten;
+    protected int targetsEaten { get => _targetsEaten; set => _targetsEaten = value; }
     [OdinSerialize]
-    public RetreatConditions retreatPlan;
+    private RetreatConditions _retreatPlan;
+    public RetreatConditions retreatPlan { get => _retreatPlan; set => _retreatPlan = value; }
     [OdinSerialize]
-    protected bool retreating;
+    private bool _retreating;
+    protected bool retreating { get => _retreating; set => _retreating = value; }
     [OdinSerialize]
     protected readonly bool defendingVillage;
     [OdinSerialize]
-    protected int currentTurn = 0;
+    private int _currentTurn = 0;
+    protected int currentTurn { get => _currentTurn; set => _currentTurn = value; }
     [OdinSerialize]
-    public bool foreignTurn;
+    private bool _foreignTurn;
+    public bool foreignTurn { get => _foreignTurn; set => _foreignTurn = value; }
 
     bool ITacticalAI.ForeignTurn
     {
@@ -259,7 +265,7 @@ public abstract class TacticalAI : ITacticalAI
                 State.GameManager.TacticalMode.PseudoTurn = false;
                 if (path != null && path.Actor == actor)
                 {
-                    if (retreating && actor.Movement == 1 && TacticalUtilities.TileContainsMoreThanOneUnit(actor.Position.x, actor.Position.y) == false)
+                    if (retreating && actor.Movement == 1 && TacticalUtilities.TileContainsMoreThanOneUnit(actor.Position.X, actor.Position.Y) == false)
                     {
                         FightWithoutMoving(actor);
                         if (actor.Movement == 0)
@@ -275,7 +281,7 @@ public abstract class TacticalAI : ITacticalAI
                     }
                     Vec2i newLoc = new Vec2i(path.Path[0].X, path.Path[0].Y);
                     path.Path.RemoveAt(0);
-                    if (actor.Movement == 1 && TacticalUtilities.OpenTile(newLoc.x, newLoc.y, actor) == false)
+                    if (actor.Movement == 1 && TacticalUtilities.OpenTile(newLoc.X, newLoc.Y, actor) == false)
                     {
                         actor.Movement = 0;
                         return true;
@@ -289,7 +295,7 @@ public abstract class TacticalAI : ITacticalAI
                         path = null;
                         return true;
                     }
-                    if (actor.Movement == 1 && IsRanged(actor) && TacticalUtilities.TileContainsMoreThanOneUnit(actor.Position.x, actor.Position.y) == false)
+                    if (actor.Movement == 1 && IsRanged(actor) && TacticalUtilities.TileContainsMoreThanOneUnit(actor.Position.X, actor.Position.Y) == false)
                     {
                         path = null;
                     }
@@ -1213,8 +1219,8 @@ public abstract class TacticalAI : ITacticalAI
 
         for (int i = 0; i < 4; i++)
         {
-            int x = State.Rand.Next(actor.Position.x - 2, actor.Position.x + 3);
-            int y = State.Rand.Next(actor.Position.y - 2, actor.Position.y + 3);
+            int x = State.Rand.Next(actor.Position.X - 2, actor.Position.X + 3);
+            int y = State.Rand.Next(actor.Position.Y - 2, actor.Position.Y + 3);
             Vec2i loc = new Vec2i(x, y);
             if (TacticalUtilities.OpenTile(loc, null))
             {
@@ -1247,8 +1253,8 @@ public abstract class TacticalAI : ITacticalAI
 
         for (int i = 0; i < 4; i++)
         {
-            int x = State.Rand.Next(actor.Position.x - 2, actor.Position.x + 3);
-            int y = State.Rand.Next(actor.Position.y - 2, actor.Position.y + 3);
+            int x = State.Rand.Next(actor.Position.X - 2, actor.Position.X + 3);
+            int y = State.Rand.Next(actor.Position.Y - 2, actor.Position.Y + 3);
             Vec2i loc = new Vec2i(x, y);
             if (TacticalUtilities.OpenTile(loc, null))
             {
@@ -1281,8 +1287,8 @@ public abstract class TacticalAI : ITacticalAI
 
         for (int i = 0; i < 4; i++)
         {
-            int x = State.Rand.Next(position.x - 2, position.x + 3);
-            int y = State.Rand.Next(position.y - 2, position.y + 3);
+            int x = State.Rand.Next(position.X - 2, position.X + 3);
+            int y = State.Rand.Next(position.Y - 2, position.Y + 3);
             Vec2i loc = new Vec2i(x, y);
             if (TacticalUtilities.OpenTile(loc, null))
             {
@@ -1316,8 +1322,8 @@ public abstract class TacticalAI : ITacticalAI
 
         for (int i = 0; i < 4; i++)
         {
-            int x = State.Rand.Next(position.x - 2, position.x + 3);
-            int y = State.Rand.Next(position.y - 2, position.y + 3);
+            int x = State.Rand.Next(position.X - 2, position.X + 3);
+            int y = State.Rand.Next(position.Y - 2, position.Y + 3);
             Vec2i loc = new Vec2i(x, y);
             if (TacticalUtilities.OpenTile(loc, null))
             {
@@ -1345,8 +1351,8 @@ public abstract class TacticalAI : ITacticalAI
         {
             for (int i = 0; i < 4; i++)
             {
-                int x = State.Rand.Next(actor.Position.x - 2, actor.Position.x + 3);
-                int y = State.Rand.Next(actor.Position.y - 2, actor.Position.y + 3);
+                int x = State.Rand.Next(actor.Position.X - 2, actor.Position.X + 3);
+                int y = State.Rand.Next(actor.Position.Y - 2, actor.Position.Y + 3);
                 Vec2i loc = new Vec2i(x, y);
                 if (TacticalUtilities.OpenTile(loc, null))
                 {
@@ -1559,8 +1565,8 @@ public abstract class TacticalAI : ITacticalAI
         {
             for (int i = 0; i < 4; i++)
             {
-                int x = State.Rand.Next(actor.Position.x - 2, actor.Position.x + 3);
-                int y = State.Rand.Next(actor.Position.y - 2, actor.Position.y + 3);
+                int x = State.Rand.Next(actor.Position.X - 2, actor.Position.X + 3);
+                int y = State.Rand.Next(actor.Position.Y - 2, actor.Position.Y + 3);
                 Vec2i loc = new Vec2i(x, y);
                 if (TacticalUtilities.OpenTile(loc, null))
                 {

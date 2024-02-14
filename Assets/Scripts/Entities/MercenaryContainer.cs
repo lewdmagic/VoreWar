@@ -3,10 +3,13 @@
 class MercenaryContainer
 {
     [OdinSerialize]
-    internal Unit Unit;
+    private Unit _unit;
+    internal Unit Unit { get => _unit; set => _unit = value; }
     [OdinSerialize]
-    internal int Cost;
+    private int _cost;
+    internal int Cost { get => _cost; set => _cost = value; }
     [OdinSerialize]
-    internal string Title;
+    private string _title;
+    internal string Title { get => _title; set => _title = value; }
 }
 

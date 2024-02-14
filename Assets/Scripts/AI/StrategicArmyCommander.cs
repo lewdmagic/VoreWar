@@ -77,7 +77,7 @@ class StrategicArmyCommander
 #if UNITY_EDITOR
                 if (newLoc.GetNumberOfMovesDistance(position) != 1)
                 {
-                    UnityEngine.Debug.LogWarning($"Army tried to move from {position.x} {position.y} to {newLoc.x} {newLoc.y}");
+                    UnityEngine.Debug.LogWarning($"Army tried to move from {position.X} {position.Y} to {newLoc.X} {newLoc.Y}");
                 }
 
 #endif

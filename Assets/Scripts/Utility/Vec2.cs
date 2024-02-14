@@ -71,6 +71,6 @@ internal struct Vec2 : IComparable<Vec2>, IEquatable<Vec2>
             Debug.Log("Vec2 Passed null comparison");
             return new Vec2(0, 0);
         }
-        return new Vec2(obj.x, obj.y);
+        return new Vec2(obj.X, obj.Y);
     }
 }

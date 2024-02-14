@@ -3,7 +3,8 @@
 class PassiveAI : IStrategicAI
 {
     [OdinSerialize]
-    Side AISide;
+    private Side _aISide;
+    Side AISide { get => _aISide; set => _aISide = value; }
 
     public PassiveAI(Side aISide)
     {

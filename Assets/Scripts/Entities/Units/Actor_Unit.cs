@@ -55,93 +55,122 @@ public class Actor_Unit : IActorUnit
     [OdinSerialize]
     public Vec2i Position { get; private set; }
     [OdinSerialize]
-    public int Movement;
+    private int _movement;
+    public int Movement { get => _movement; set => _movement = value; }
     [OdinSerialize]
-    public bool Visible { get; set; }
+    private bool _visible;
+    public bool Visible { get => _visible; set => _visible = value; }
     [OdinSerialize]
-    public bool Targetable { get; set; }
+    private bool _targetable;
+    public bool Targetable { get => _targetable; set => _targetable = value; }
     [OdinSerialize]
-    public bool ReceivedRub;
+    private bool _receivedRub;
+    public bool ReceivedRub { get => _receivedRub; set => _receivedRub = value; }
 
-    [OdinSerialize] 
-    public bool Surrendered { get; set; }
+    [OdinSerialize]
+    private bool _surrendered;
+    public bool Surrendered { get => _surrendered; set => _surrendered = value; }
 
     public bool DefectedThisTurn;
 
     [OdinSerialize]
-    public bool WasJustFreed;
+    private bool _wasJustFreed;
+    public bool WasJustFreed { get => _wasJustFreed; set => _wasJustFreed = value; }
 
     public bool SurrenderedThisTurn = false; //Deliberately not saved
 
     internal bool Intimidated;
 
     [OdinSerialize]
-    public Weapon BestMelee;
-
-    [OdinSerialize] 
-    public Weapon BestRanged { get; set; }
+    private Weapon _bestMelee;
+    public Weapon BestMelee { get => _bestMelee; set => _bestMelee = value; }
 
     [OdinSerialize]
-    public bool Fled;
+    private Weapon _bestRanged;
+    public Weapon BestRanged { get => _bestRanged; set => _bestRanged = value; }
+
+    [OdinSerialize]
+    private bool _fled;
+    public bool Fled { get => _fled; set => _fled = value; }
 
     // DayNight addition
     [OdinSerialize]
-    public bool Hidden;
+    private bool _hidden;
+    public bool Hidden { get => _hidden; set => _hidden = value; }
     [OdinSerialize]
-    public bool InSight;
+    private bool _inSight;
+    public bool InSight { get => _inSight; set => _inSight = value; }
 	
     [OdinSerialize]
-    internal Prey SelfPrey;
+    private Prey _selfPrey;
+    internal Prey SelfPrey { get => _selfPrey; set => _selfPrey = value; }
 
     [OdinSerialize]
-    public bool Slimed;
+    private bool _slimed;
+    public bool Slimed { get => _slimed; set => _slimed = value; }
     [OdinSerialize]
-    public bool Paralyzed;
+    private bool _paralyzed;
+    public bool Paralyzed { get => _paralyzed; set => _paralyzed = value; }
 
     [OdinSerialize]
-    public int Corruption;
+    private int _corruption;
+    public int Corruption { get => _corruption; set => _corruption = value; }
 
     [OdinSerialize]
-    public int Possessed;
+    private int _possessed;
+    public int Possessed { get => _possessed; set => _possessed = value; }
 
     [OdinSerialize]
-    public bool Infected;
+    private bool _infected;
+    public bool Infected { get => _infected; set => _infected = value; }
 
     [OdinSerialize]
-    public Race InfectedRace;
+    private Race _infectedRace;
+    public Race InfectedRace { get => _infectedRace; set => _infectedRace = value; }
 
     [OdinSerialize]
-    public Side InfectedSide;
+    private Side _infectedSide;
+    public Side InfectedSide { get => _infectedSide; set => _infectedSide = value; }
 
     [OdinSerialize]
-    public bool KilledByDigestion;
+    private bool _killedByDigestion;
+    public bool KilledByDigestion { get => _killedByDigestion; set => _killedByDigestion = value; }
 
     [OdinSerialize]
-    public int TimesParalyzed;
+    private int _timesParalyzed;
+    public int TimesParalyzed { get => _timesParalyzed; set => _timesParalyzed = value; }
 
     [OdinSerialize]
-    public bool GoneBerserk;
+    private bool _goneBerserk;
+    public bool GoneBerserk { get => _goneBerserk; set => _goneBerserk = value; }
 
     [OdinSerialize]
-    internal int AIAvoidEat;
+    private int _aIAvoidEat;
+    internal int AIAvoidEat { get => _aIAvoidEat; set => _aIAvoidEat = value; }
 
     [OdinSerialize]
-    public int TurnUsedShun { get; set; } = -5;
+    private int _turnUsedShun = -5;
+    public int TurnUsedShun { get => _turnUsedShun; set => _turnUsedShun = value; }
 
     [OdinSerialize]
-    internal int TurnsSinceLastDamage = 9999;
+    private int _turnsSinceLastDamage = 9999;
+    internal int TurnsSinceLastDamage { get => _turnsSinceLastDamage; set => _turnsSinceLastDamage = value; }
 
     [OdinSerialize]
-    internal int TurnsSinceLastParalysis = 9999;
+    private int _turnsSinceLastParalysis = 9999;
+    internal int TurnsSinceLastParalysis { get => _turnsSinceLastParalysis; set => _turnsSinceLastParalysis = value; }
 
     [OdinSerialize]
-    internal int spriteLayerOffset = 0;
+    private int _spriteLayerOffset = 0;
+    internal int spriteLayerOffset { get => _spriteLayerOffset; set => _spriteLayerOffset = value; }
 
     [OdinSerialize]
-    public bool HasAttackedThisCombat { get; set; }= false;
+    private bool _hasAttackedThisCombat = false;
+    public bool HasAttackedThisCombat { get => _hasAttackedThisCombat; set => _hasAttackedThisCombat = value; }
 
     [OdinSerialize]
-    public bool allowedToDefect = false;
+    private bool _allowedToDefect = false;
+    public bool allowedToDefect { get => _allowedToDefect; set => _allowedToDefect = value; }
 
 
 
@@ -159,13 +188,15 @@ public class Actor_Unit : IActorUnit
 
     public bool SquishedBreasts { get; set; } = false;
 
-    [OdinSerialize] 
-    public PredatorComponent PredatorComponent { get; set; }
+    [OdinSerialize]
+    private PredatorComponent _predatorComponent;
+    public PredatorComponent PredatorComponent { get => _predatorComponent; set => _predatorComponent = value; }
 
     Race animationControllerRace;
 
     [OdinSerialize]
-    private AnimationController animationController = new AnimationController();
+    private AnimationController _animationController = new AnimationController();
+    private AnimationController animationController { get => _animationController; set => _animationController = value; }
 
     public AnimationController AnimationController
     {
@@ -408,7 +439,7 @@ public class Actor_Unit : IActorUnit
 
     public void GenerateSpritePrefab(Transform folder)
     {
-        UnitSprite = Object.Instantiate(State.GameManager.UnitBase, new Vector3(Position.x, Position.y), new Quaternion(), folder).GetComponent<UnitSprite>();
+        UnitSprite = Object.Instantiate(State.GameManager.UnitBase, new Vector3(Position.X, Position.Y), new Quaternion(), folder).GetComponent<UnitSprite>();
         UnitSprite.UpdateHealthBar(this);
     }
 
@@ -769,7 +800,8 @@ public class Actor_Unit : IActorUnit
     public bool IsRubbing => Mode == DisplayMode.Rubbing;
     public bool IsBeingRubbed => Mode == DisplayMode.Rubbed;
     [OdinSerialize]
-    public List<Side> SidesAttackedThisBattle { get; set; }
+    private List<Side> _sidesAttackedThisBattle;
+    public List<Side> SidesAttackedThisBattle { get => _sidesAttackedThisBattle; set => _sidesAttackedThisBattle = value; }
 
     public float GetSpecialChance(SpecialAction action)
     {
@@ -1079,7 +1111,7 @@ public class Actor_Unit : IActorUnit
         for (int i = 0; i < 8; i++)
         {
             Vec2i p = target.GetPos(i);
-            if (TacticalUtilities.OpenTile(p.x, p.y, this))
+            if (TacticalUtilities.OpenTile(p.X, p.Y, this))
             {
                 return p;
 
@@ -1157,8 +1189,8 @@ public class Actor_Unit : IActorUnit
 
             if (target.Visible == false)
             { //Done this way to avoid doubling up references                        
-                pounceLandingZone.x = target.Position.x;
-                pounceLandingZone.y = target.Position.y;
+                pounceLandingZone.X = target.Position.X;
+                pounceLandingZone.Y = target.Position.Y;
                 SetPos(pounceLandingZone);
             }
             State.GameManager.TacticalMode.Translator.SetTranslator(UnitSprite.transform, originalLoc, pounceLandingZone, 0.5f, State.GameManager.TacticalMode.IsPlayerTurn);
@@ -1189,7 +1221,7 @@ public class Actor_Unit : IActorUnit
             if (State.GameManager.TacticalMode.TacticalSoundBlocked() == false)
             {
                 var obj = Object.Instantiate(State.GameManager.TacticalEffectPrefabList.ShunGokuSatsu);
-                obj.transform.SetPositionAndRotation(new Vector3(target.Position.x, target.Position.y), new Quaternion());
+                obj.transform.SetPositionAndRotation(new Vector3(target.Position.X, target.Position.Y), new Quaternion());
                 MiscUtilities.DelayedInvoke(() => State.GameManager.SoundManager.PlayArrowHit(null), .06f);
                 MiscUtilities.DelayedInvoke(() => State.GameManager.SoundManager.PlayMeleeHit(null), .12f);
                 MiscUtilities.DelayedInvoke(() => State.GameManager.SoundManager.PlayArmorHit(null), .18f);
@@ -1872,7 +1904,7 @@ public class Actor_Unit : IActorUnit
         {
             SetRubMode();
             target.SetRubbedMode();
-            GameObject.Instantiate(State.GameManager.TacticalMode.HandPrefab, new Vector3(target.Position.x + UnityEngine.Random.Range(-0.2F, 0.2F), target.Position.y + 0.1F + UnityEngine.Random.Range(-0.1F, 0.1F)), new Quaternion());
+            GameObject.Instantiate(State.GameManager.TacticalMode.HandPrefab, new Vector3(target.Position.X + UnityEngine.Random.Range(-0.2F, 0.2F), target.Position.Y + 0.1F + UnityEngine.Random.Range(-0.1F, 0.1F)), new Quaternion());
             State.GameManager.TacticalMode.AITimer = Config.TacticalVoreDelay;
         }
         target.DigestCheck();
@@ -2012,21 +2044,21 @@ public class Actor_Unit : IActorUnit
         switch (direction)
         {
             case 0:
-                return new Vec2i(start.x, start.y + 1);
+                return new Vec2i(start.X, start.Y + 1);
             case 1:
-                return new Vec2i(start.x + 1, start.y + 1);
+                return new Vec2i(start.X + 1, start.Y + 1);
             case 2:
-                return new Vec2i(start.x + 1, start.y);
+                return new Vec2i(start.X + 1, start.Y);
             case 3:
-                return new Vec2i(start.x + 1, start.y - 1);
+                return new Vec2i(start.X + 1, start.Y - 1);
             case 4:
-                return new Vec2i(start.x, start.y - 1);
+                return new Vec2i(start.X, start.Y - 1);
             case 5:
-                return new Vec2i(start.x - 1, start.y - 1);
+                return new Vec2i(start.X - 1, start.Y - 1);
             case 6:
-                return new Vec2i(start.x - 1, start.y);
+                return new Vec2i(start.X - 1, start.Y);
             case 7:
-                return new Vec2i(start.x - 1, start.y + 1);
+                return new Vec2i(start.X - 1, start.Y + 1);
             default:
                 return null;
         }
@@ -2048,9 +2080,9 @@ public class Actor_Unit : IActorUnit
 
     internal bool MoveTo(Vec2i destination, TacticalTileType[,] tiles, float delay)
     {
-        if (destination.x < 0 || destination.y < 0 || destination.x > tiles.GetUpperBound(0) || destination.y > tiles.GetUpperBound(1))
+        if (destination.X < 0 || destination.Y < 0 || destination.X > tiles.GetUpperBound(0) || destination.Y > tiles.GetUpperBound(1))
             return false;
-        int cost = TacticalTileInfo.TileCost(new Vec2(destination.x, destination.y));
+        int cost = TacticalTileInfo.TileCost(new Vec2(destination.X, destination.Y));
         if (Unit.HasTrait(TraitType.Flight))
             cost = 1;
         if (Movement < cost)
@@ -2073,7 +2105,7 @@ public class Actor_Unit : IActorUnit
     bool Move(int changeX, int changeY, TacticalTileType[,] tiles)
     {
         //float delay = AI ? Config.TacticalPlayerMovementDelay : Config.TacticalAIMovementDelay;
-        Vec2i newLocation = new Vec2i(Position.x + changeX, Position.y + changeY);
+        Vec2i newLocation = new Vec2i(Position.X + changeX, Position.Y + changeY);
         return MoveTo(newLocation, tiles, Config.TacticalPlayerMovementDelay);
     }
 
@@ -2277,21 +2309,21 @@ public class Actor_Unit : IActorUnit
         switch (i)
         {
             case 0:
-                return new Vec2i(Position.x, Position.y + 1);
+                return new Vec2i(Position.X, Position.Y + 1);
             case 1:
-                return new Vec2i(Position.x + 1, Position.y + 1);
+                return new Vec2i(Position.X + 1, Position.Y + 1);
             case 2:
-                return new Vec2i(Position.x + 1, Position.y);
+                return new Vec2i(Position.X + 1, Position.Y);
             case 3:
-                return new Vec2i(Position.x + 1, Position.y - 1);
+                return new Vec2i(Position.X + 1, Position.Y - 1);
             case 4:
-                return new Vec2i(Position.x, Position.y - 1);
+                return new Vec2i(Position.X, Position.Y - 1);
             case 5:
-                return new Vec2i(Position.x - 1, Position.y - 1);
+                return new Vec2i(Position.X - 1, Position.Y - 1);
             case 6:
-                return new Vec2i(Position.x - 1, Position.y);
+                return new Vec2i(Position.X - 1, Position.Y);
             case 7:
-                return new Vec2i(Position.x - 1, Position.y + 1);
+                return new Vec2i(Position.X - 1, Position.Y + 1);
         }
         return Position;
     }

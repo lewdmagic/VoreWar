@@ -5,17 +5,23 @@ using UnityEngine;
 class ScatInfo
 {
     [OdinSerialize]
-    public string name = "";
+    private string _name = "";
+    public string name { get => _name; set => _name = value; }
     [OdinSerialize]
-    public int color = -1;
+    private int _color = -1;
+    public int color { get => _color; set => _color = value; }
     [OdinSerialize]
-    public Race predRace;
+    private Race _predRace;
+    public Race predRace { get => _predRace; set => _predRace = value; }
     [OdinSerialize]
-    public Race preyRace;
+    private Race _preyRace;
+    public Race preyRace { get => _preyRace; set => _preyRace = value; }
     [OdinSerialize]
-    public int preySize;
+    private int _preySize;
+    public int preySize { get => _preySize; set => _preySize = value; }
     [OdinSerialize]
-    public List<BoneInfo> bonesInfos;
+    private List<BoneInfo> _bonesInfos;
+    public List<BoneInfo> bonesInfos { get => _bonesInfos; set => _bonesInfos = value; }
 
     public ScatInfo(Unit pred, Prey preyUnit)
     {

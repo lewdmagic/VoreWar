@@ -6,22 +6,28 @@ namespace TacticalBuildings
     abstract class TacticalBuilding
     {
         [OdinSerialize]
-        internal Vec2 LowerLeftPosition;
+        internal Vec2 _lowerLeftPosition;
+        internal Vec2 LowerLeftPosition { get => _lowerLeftPosition; set => _lowerLeftPosition = value; }
+        [OdinSerialize]
+        private int _width;
         /// <summary>
         /// The width of blocked tiles
         /// </summary>
+        internal int Width { get => _width; set => _width = value; }
+
         [OdinSerialize]
-        internal int Width;
+        private int _height;        
         /// <summary>
         /// The height of blocked tiles
         /// </summary>
+        internal int Height { get => _height; set => _height = value; }
+
         [OdinSerialize]
-        internal int Height;
+        private int[,] _tile;       
         /// <summary>
         /// Graphical tiles.  Height, then width
         /// </summary>
-        [OdinSerialize]
-        internal int[,] Tile;
+        internal int[,] Tile { get => _tile; set => _tile = value; }
 
         [OdinSerialize]
         internal int[,] FrontColoredTile;
@@ -42,18 +48,18 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[3, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[8 + State.Rand.Next(3)]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[11 + State.Rand.Next(3)])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[2 + State.Rand.Next(3)]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[5 + State.Rand.Next(3)])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[0]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[1])
-            }
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[8 + State.Rand.Next(3)]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[11 + State.Rand.Next(3)])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[2 + State.Rand.Next(3)]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[5 + State.Rand.Next(3)])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[0]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LogCabins[1])
+                }
             };
         }
     }
@@ -67,14 +73,14 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[2 + State.Rand.Next(3)]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[5 + State.Rand.Next(3)])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[0]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[1])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[2 + State.Rand.Next(3)]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[5 + State.Rand.Next(3)])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[0]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[1])
+                },
             };
         }
     }
@@ -88,12 +94,12 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 1]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[9]),
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[8]),
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[9]),
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[8]),
+                },
             };
         }
     }
@@ -107,9 +113,9 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[1, 1]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[10]),
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[10]),
+                },
             };
         }
     }
@@ -123,14 +129,14 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[2]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[3])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[0]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[1])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[2]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[3])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[0]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[1])
+                },
             };
         }
     }
@@ -144,24 +150,24 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[2]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[3])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[4]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[5])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[2]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[3])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[4]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[5])
+                },
             };
             FrontColoredTile = new int[2, 2]
             {
-            {
-                -1, -1
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[6]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[7])
-            },
+                {
+                    -1, -1
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[6]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.HarpyNests[7])
+                },
             };
         }
     }
@@ -175,14 +181,14 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[2]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[3])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[0]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[1])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[2]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[3])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[0]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[1])
+                },
             };
         }
     }
@@ -196,14 +202,14 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[6]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[7])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[4]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[5])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[6]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[7])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[4]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[5])
+                },
             };
         }
     }
@@ -217,14 +223,14 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LamiaTemple[2]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LamiaTemple[3])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LamiaTemple[0]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LamiaTemple[1])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LamiaTemple[2]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LamiaTemple[3])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LamiaTemple[0]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.LamiaTemple[1])
+                },
             };
         }
     }
@@ -238,14 +244,14 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[10]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[11])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[8]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[9])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[10]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[11])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[8]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[9])
+                },
             };
         }
     }
@@ -258,14 +264,14 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[12]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[13])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[8]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[9])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[12]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[13])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[8]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[9])
+                },
             };
         }
     }
@@ -279,9 +285,9 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[1, 1]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[11]),
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[11]),
+                },
             };
         }
     }
@@ -295,9 +301,9 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[1, 1]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[12]),
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.WoodenBuildings[12]),
+                },
             };
         }
     }
@@ -311,14 +317,14 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[16]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[17])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[14]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[15])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[16]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[17])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[14]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[15])
+                },
             };
         }
     }
@@ -332,18 +338,17 @@ namespace TacticalBuildings
             var allSprites = State.GameManager.TacticalBuildingSpriteDictionary.AllSprites;
             Tile = new int[2, 2]
             {
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[20]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[21])
-            },
-            {
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[18]),
-                Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[19])
-            },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[20]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[21])
+                },
+                {
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[18]),
+                    Array.IndexOf(allSprites, State.GameManager.TacticalBuildingSpriteDictionary.Buildings[19])
+                },
             };
         }
     }
 
 
 }
-

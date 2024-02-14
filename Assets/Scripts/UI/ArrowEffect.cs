@@ -42,7 +42,7 @@ public class ArrowEffect : MonoBehaviour
         currentTime = 0;
         totalTime = startLocation.GetNumberOfMovesDistance(endLocation) * 0.05f;
 
-        float angle = 90 + (float)(Math.Atan2(startLocation.y - endLocation.y, startLocation.x - endLocation.x) * 180 / Math.PI);
+        float angle = 90 + (float)(Math.Atan2(startLocation.Y - endLocation.Y, startLocation.X - endLocation.X) * 180 / Math.PI);
         Arrow.transform.localRotation = Quaternion.Euler(0, 0, angle);
     }
 

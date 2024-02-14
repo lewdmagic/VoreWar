@@ -54,7 +54,7 @@ public class RightClickMenu : MonoBehaviour
         }
         else
         {
-            State.GameManager.TacticalMode.OrderSelectedUnitToMoveTo(target.Position.x, target.Position.y);
+            State.GameManager.TacticalMode.OrderSelectedUnitToMoveTo(target.Position.X, target.Position.Y);
             return;
         }
         float xAdjust = 10;
@@ -102,7 +102,7 @@ public class RightClickMenu : MonoBehaviour
         if (TacticalUtilities.OpenTile(location, actor))
         {
             Buttons[currentButton].GetComponentInChildren<Text>().text = "Move to location";
-            Buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.OrderSelectedUnitToMoveTo(location.x, location.y));
+            Buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.OrderSelectedUnitToMoveTo(location.X, location.Y));
             Buttons[currentButton].onClick.AddListener(FinishMoveAction);
             currentButton++;
         }

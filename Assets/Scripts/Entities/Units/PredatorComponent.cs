@@ -62,25 +62,35 @@ static class PreyLocationMethods
 public class PredatorComponent
 {
     [OdinSerialize]
-    List<Prey> prey;
+    private List<Prey> _prey;
+    List<Prey> prey { get => _prey; set => _prey = value; }
     [OdinSerialize]
-    List<Prey> womb;
+    private List<Prey> _womb;
+    List<Prey> womb { get => _womb; set => _womb = value; }
     [OdinSerialize]
-    List<Prey> breasts;
+    private List<Prey> _breasts;
+    List<Prey> breasts { get => _breasts; set => _breasts = value; }
     [OdinSerialize]
-    List<Prey> leftBreast;
+    private List<Prey> _leftBreast;
+    List<Prey> leftBreast { get => _leftBreast; set => _leftBreast = value; }
     [OdinSerialize]
-    List<Prey> rightBreast;
+    private List<Prey> _rightBreast;
+    List<Prey> rightBreast { get => _rightBreast; set => _rightBreast = value; }
     [OdinSerialize]
-    List<Prey> balls;
+    private List<Prey> _balls;
+    List<Prey> balls { get => _balls; set => _balls = value; }
     [OdinSerialize]
-    List<Prey> stomach;
+    private List<Prey> _stomach;
+    List<Prey> stomach { get => _stomach; set => _stomach = value; }
     [OdinSerialize]
-    List<Prey> stomach2;
+    private List<Prey> _stomach2;
+    List<Prey> stomach2 { get => _stomach2; set => _stomach2 = value; }
     [OdinSerialize]
-    List<Prey> tail;
+    private List<Prey> _tail;
+    List<Prey> tail { get => _tail; set => _tail = value; }
     [OdinSerialize]
-    List<Prey> deadPrey;
+    private List<Prey> _deadPrey;
+    List<Prey> deadPrey { get => _deadPrey; set => _deadPrey = value; }
 
     Transition StomachTransition;
     Transition BallsTransition;
@@ -117,41 +127,55 @@ public class PredatorComponent
     }
 
     [OdinSerialize]
-    public float VisibleFullness { get; set; }
+    private float _visibleFullness;
+    public float VisibleFullness { get => _visibleFullness; set => _visibleFullness = value; }
     [OdinSerialize]
-    public float Fullness { get; set; }
+    private float _fullness;
+    public float Fullness { get => _fullness; set => _fullness = value; }
     [OdinSerialize]
-    public float BreastFullness { get; set; }
+    private float _breastFullness;
+    public float BreastFullness { get => _breastFullness; set => _breastFullness = value; }
     [OdinSerialize]
-    public float BallsFullness { get; set; }
+    private float _ballsFullness;
+    public float BallsFullness { get => _ballsFullness; set => _ballsFullness = value; }
     [OdinSerialize]
-    public float TailFullness { get; set; }
+    private float _tailFullness;
+    public float TailFullness { get => _tailFullness; set => _tailFullness = value; }
     [OdinSerialize]
-    public float Stomach2ndFullness { get; set; } // A second stomach fullness used for units with the trait DualStomach.
+    private float _stomach2ndFullness;
+    public float Stomach2ndFullness { get => _stomach2ndFullness; set => _stomach2ndFullness = value; } // A second stomach fullness used for units with the trait DualStomach.
     [OdinSerialize]
-    public float CombinedStomachFullness { get; set; } // Used when DualStomach unit has no separate sprites for second one or they are turned off.
+    private float _combinedStomachFullness;
+    public float CombinedStomachFullness { get => _combinedStomachFullness; set => _combinedStomachFullness = value; } // Used when DualStomach unit has no separate sprites for second one or they are turned off.
     [OdinSerialize]
-    public float LeftBreastFullness { get; set; }
+    private float _leftBreastFullness;
+    public float LeftBreastFullness { get => _leftBreastFullness; set => _leftBreastFullness = value; }
     [OdinSerialize]
-    public float RightBreastFullness { get; set; }
+    private float _rightBreastFullness;
+    public float RightBreastFullness { get => _rightBreastFullness; set => _rightBreastFullness = value; }
     /// <summary>
     /// Only includes the stomach, and not the womb
     /// </summary>
     [OdinSerialize]
-    public float ExclusiveStomachFullness { get; set; }
+    private float _exclusiveStomachFullness;
+    public float ExclusiveStomachFullness { get => _exclusiveStomachFullness; set => _exclusiveStomachFullness = value; }
     /// <summary>
     /// Only includes the womb and not the stomach
     /// </summary>
     [OdinSerialize]
-    public float WombFullness { get; set; }
+    private float _wombFullness;
+    public float WombFullness { get => _wombFullness; set => _wombFullness = value; }
     [OdinSerialize]
     Actor_Unit actor;
     [OdinSerialize]
-    Unit unit;
+    private Unit _unit;
+    Unit unit { get => _unit; set => _unit = value; }
     [OdinSerialize]
-    public int birthStatBoost;
+    private int _birthStatBoost;
+    public int birthStatBoost { get => _birthStatBoost; set => _birthStatBoost = value; }
     [OdinSerialize]
-    internal Prey template = null;
+    private Prey _template = null;
+    internal Prey template { get => _template; set => _template = value; }
 
 
     [OdinSerialize]
@@ -1364,7 +1388,7 @@ public class PredatorComponent
             if (!State.GameManager.TacticalMode.turboMode)
                 actor.SetDigestionMode();
             if (State.GameManager.TacticalMode.turboMode == false && Config.DigestionSkulls)
-                GameObject.Instantiate(State.GameManager.TacticalMode.SkullPrefab, new Vector3(actor.Position.x + UnityEngine.Random.Range(-0.2F, 0.2F), actor.Position.y + 0.1F + UnityEngine.Random.Range(-0.1F, 0.1F)), new Quaternion());
+                GameObject.Instantiate(State.GameManager.TacticalMode.SkullPrefab, new Vector3(actor.Position.X + UnityEngine.Random.Range(-0.2F, 0.2F), actor.Position.Y + 0.1F + UnityEngine.Random.Range(-0.1F, 0.1F)), new Quaternion());
             Actor_Unit existingPredator = actor;
             freshKill = true;
             if (unit.HasTrait(TraitType.DigestionConversion) && State.Rand.Next(2) == 0 && preyUnit.Unit.CanBeConverted())
@@ -2194,7 +2218,7 @@ public class PredatorComponent
         for (int i = 0; i < 8; i++)
         {
             p = actor.GetPos(i);
-            if (TacticalUtilities.OpenTile(p.x, p.y, actor))
+            if (TacticalUtilities.OpenTile(p.X, p.Y, actor))
             {
                 prey.SetPos(p);
                 return true;
@@ -2204,9 +2228,9 @@ public class PredatorComponent
         {
             for (int y = -2; y <= 2; y++)
             {
-                p.x = actor.Position.x + x;
-                p.y = actor.Position.y + y;
-                if (TacticalUtilities.OpenTile(p.x, p.y, actor))
+                p.X = actor.Position.X + x;
+                p.Y = actor.Position.Y + y;
+                if (TacticalUtilities.OpenTile(p.X, p.Y, actor))
                 {
                     prey.SetPos(p);
                     return true;

@@ -7,11 +7,14 @@ using System.Linq;
 public class World
 {
     [OdinSerialize]
-    public int Turn = 1;
+    private int _turn = 1;
+    public int Turn { get => _turn; set => _turn = value; }
     [OdinSerialize]
-    public string SaveVersion;
+    private string _saveVersion;
+    public string SaveVersion { get => _saveVersion; set => _saveVersion = value; }
     [OdinSerialize]
-    public List<Empire> EmpireOrder;
+    private List<Empire> _empireOrder;
+    public List<Empire> EmpireOrder { get => _empireOrder; set => _empireOrder = value; }
     public StrategicTileType[,] Tiles;
     public StrategicDoodadType[,] Doodads;
     public Village[] Villages;
@@ -48,23 +51,28 @@ public class World
     internal Dictionary<Side, Dictionary<Side, Relationship>> Relations = new Dictionary<Side, Dictionary<Side, Relationship>>();
 
     [OdinSerialize]
-    public bool crazyBuildings = false;
+    private bool _crazyBuildings = false;
+    public bool crazyBuildings { get => _crazyBuildings; set => _crazyBuildings = value; }
 
     [OdinSerialize]
-    internal SavedCameraState SavedCameraState;
+    private SavedCameraState _savedCameraState;
+    internal SavedCameraState SavedCameraState { get => _savedCameraState; set => _savedCameraState = value; }
 
     public MonsterEmpire[] MonsterEmpires;
 
     public MercenaryHouse[] MercenaryHouses;
     [OdinSerialize]
-    internal ClaimableBuilding[] Claimables;
+    private ClaimableBuilding[] _claimables;
+    internal ClaimableBuilding[] Claimables { get => _claimables; set => _claimables = value; }
 
 
     [OdinSerialize]
-    public List<Reincarnator> Reincarnators;
+    private List<Reincarnator> _reincarnators;
+    public List<Reincarnator> Reincarnators { get => _reincarnators; set => _reincarnators = value; }
 
     [OdinSerialize]
-    public bool IsNight = false;
+    private bool _isNight = false;
+    public bool IsNight { get => _isNight; set => _isNight = value; }
 	
     public World(bool MapEditorVersion)
     {
@@ -117,7 +125,7 @@ public class World
             MapVillagePopulator pop = new MapVillagePopulator(Tiles);
             pop.PopulateVillages(map, ref Villages);
             pop.PopulateMercenaryHouses(map, ref MercenaryHouses);
-            pop.PopulateClaimables(map, ref Claimables);
+            pop.PopulateClaimables(map, ref _claimables);
         }
 
 

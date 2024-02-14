@@ -7,32 +7,45 @@ public class TacticalStats
 {
     class RaceStats
     {
-        [OdinSerialize]
-        public Dictionary<Weapon, int> DamageDealtBy;
-        [OdinSerialize]
-        public Dictionary<Weapon, int> KillsWith;
-        [OdinSerialize]
-        public Dictionary<Spell, int> DamageDealtBySpell;
-        [OdinSerialize]
-        public Dictionary<Spell, int> KillsWithSpell;
-        [OdinSerialize]
-        public int Hits;
-        [OdinSerialize]
-        public int Misses;
-        [OdinSerialize]
-        public int TotalHPHealed;
-        [OdinSerialize]
-        public int TargetsVored;
-        [OdinSerialize]
-        public int TargetsRegurgitated;
-        [OdinSerialize]
-        public int TargetsEscaped;
-        [OdinSerialize]
-        public int TargetsFreed;
-        [OdinSerialize]
-        public int TargetsDigested;
-        [OdinSerialize]
-        public int AlliesEaten;
+    [OdinSerialize]
+    private Dictionary<Weapon,int> _damageDealtBy;
+    public Dictionary<Weapon,int> DamageDealtBy { get => _damageDealtBy; set => _damageDealtBy = value; }
+    [OdinSerialize]
+    private Dictionary<Weapon,int> _killsWith;
+    public Dictionary<Weapon,int> KillsWith { get => _killsWith; set => _killsWith = value; }
+    [OdinSerialize]
+    private Dictionary<Spell,int> _damageDealtBySpell;
+    public Dictionary<Spell,int> DamageDealtBySpell { get => _damageDealtBySpell; set => _damageDealtBySpell = value; }
+    [OdinSerialize]
+    private Dictionary<Spell,int> _killsWithSpell;
+    public Dictionary<Spell,int> KillsWithSpell { get => _killsWithSpell; set => _killsWithSpell = value; }
+    [OdinSerialize]
+    private int _hits;
+    public int Hits { get => _hits; set => _hits = value; }
+    [OdinSerialize]
+    private int _misses;
+    public int Misses { get => _misses; set => _misses = value; }
+    [OdinSerialize]
+    private int _totalHPHealed;
+    public int TotalHPHealed { get => _totalHPHealed; set => _totalHPHealed = value; }
+    [OdinSerialize]
+    private int _targetsVored;
+    public int TargetsVored { get => _targetsVored; set => _targetsVored = value; }
+    [OdinSerialize]
+    private int _targetsRegurgitated;
+    public int TargetsRegurgitated { get => _targetsRegurgitated; set => _targetsRegurgitated = value; }
+    [OdinSerialize]
+    private int _targetsEscaped;
+    public int TargetsEscaped { get => _targetsEscaped; set => _targetsEscaped = value; }
+    [OdinSerialize]
+    private int _targetsFreed;
+    public int TargetsFreed { get => _targetsFreed; set => _targetsFreed = value; }
+    [OdinSerialize]
+    private int _targetsDigested;
+    public int TargetsDigested { get => _targetsDigested; set => _targetsDigested = value; }
+    [OdinSerialize]
+    private int _alliesEaten;
+    public int AlliesEaten { get => _alliesEaten; set => _alliesEaten = value; }
 
         public RaceStats()
         {
@@ -43,19 +56,26 @@ public class TacticalStats
         }
     }
     [OdinSerialize]
-    public Side DefenderSide;
+    private Side _defenderSide;
+    public Side DefenderSide { get => _defenderSide; set => _defenderSide = value; }
     [OdinSerialize]
-    public Side AttackerSide;
+    private Side _attackerSide;
+    public Side AttackerSide { get => _attackerSide; set => _attackerSide = value; }
     [OdinSerialize]
-    int attackers;
+    private int _attackers;
+    int attackers { get => _attackers; set => _attackers = value; }
     [OdinSerialize]
-    int defenders;
+    private int _defenders;
+    int defenders { get => _defenders; set => _defenders = value; }
     [OdinSerialize]
-    int garrison;
+    private int _garrison;
+    int garrison { get => _garrison; set => _garrison = value; }
     [OdinSerialize]
-    RaceStats AttackerStats;
+    private RaceStats _attackerStats;
+    RaceStats AttackerStats { get => _attackerStats; set => _attackerStats = value; }
     [OdinSerialize]
-    RaceStats DefenderStats;
+    private RaceStats _defenderStats;
+    RaceStats DefenderStats { get => _defenderStats; set => _defenderStats = value; }
 
     public void SetInitialUnits(int attack, int defend, int garr, Side attackerSide, Side defenderSide)
     {

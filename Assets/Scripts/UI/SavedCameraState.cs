@@ -5,12 +5,16 @@ using UnityEngine;
 class SavedCameraState
 {
     [OdinSerialize]
-    internal Vector2 StrategicPosition;
+    private Vector2 _strategicPosition;
+    internal Vector2 StrategicPosition { get => _strategicPosition; set => _strategicPosition = value; }
     [OdinSerialize]
-    internal float StrategicZoom;
+    private float _strategicZoom;
+    internal float StrategicZoom { get => _strategicZoom; set => _strategicZoom = value; }
     [OdinSerialize]
-    internal Vector2 TacticalPosition;
+    private Vector2 _tacticalPosition;
+    internal Vector2 TacticalPosition { get => _tacticalPosition; set => _tacticalPosition = value; }
     [OdinSerialize]
-    internal float TacticalZoom;
+    private float _tacticalZoom;
+    internal float TacticalZoom { get => _tacticalZoom; set => _tacticalZoom = value; }
 }
 

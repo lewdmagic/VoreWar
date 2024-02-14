@@ -5,7 +5,8 @@ using System.Linq;
 class GoblinAI : IStrategicAI
 {
     [OdinSerialize]
-    Empire empire;
+    private Empire _empire;
+    Empire empire { get => _empire; set => _empire = value; }
 
     List<PathNode> path;
     Army pathIsFor;
@@ -233,8 +234,8 @@ class GoblinAI : IStrategicAI
         bool foundSpot = false;
         for (int i = 0; i < 10; i++)
         {
-            x = village.Position.x + State.Rand.Next(-2, 3);
-            y = village.Position.y + State.Rand.Next(-2, 3);
+            x = village.Position.X + State.Rand.Next(-2, 3);
+            y = village.Position.Y + State.Rand.Next(-2, 3);
             if (StrategicUtilities.IsTileClear(new Vec2i(x, y)))
             {
                 foundSpot = true;

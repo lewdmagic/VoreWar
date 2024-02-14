@@ -209,7 +209,7 @@ public class TacticalMode : SceneBase
         {
             if (value != 0 && tiles != null && SelectedUnit != null)
             {
-                if (TacticalUtilities.TileContainsMoreThanOneUnit(SelectedUnit.Position.x, SelectedUnit.Position.y))
+                if (TacticalUtilities.TileContainsMoreThanOneUnit(SelectedUnit.Position.X, SelectedUnit.Position.Y))
                 {
                     UndoMovement();
                 }
@@ -282,7 +282,7 @@ public class TacticalMode : SceneBase
         {
             if (tiles != null && _selectedUnit != null)
             {
-                if (TacticalUtilities.TileContainsMoreThanOneUnit(_selectedUnit.Position.x, _selectedUnit.Position.y) || TacticalUtilities.OpenTile(new Vec2i(_selectedUnit.Position.x, _selectedUnit.Position.y), null))
+                if (TacticalUtilities.TileContainsMoreThanOneUnit(_selectedUnit.Position.X, _selectedUnit.Position.Y) || TacticalUtilities.OpenTile(new Vec2i(_selectedUnit.Position.X, _selectedUnit.Position.Y), null))
                 {
                     UndoMovement();
                 }
@@ -2027,9 +2027,9 @@ Turns: {currentTurn}
         int radius = CurrentSpell.AreaOfEffect;
         bool outOfRange = mouseLocation.GetNumberOfMovesDistance(SelectedUnit.Position) > CurrentSpell.Range.Max;
 
-        for (int x = mouseLocation.x - radius; x <= mouseLocation.x + radius; x++)
+        for (int x = mouseLocation.X - radius; x <= mouseLocation.X + radius; x++)
         {
-            for (int y = mouseLocation.y - radius; y <= mouseLocation.y + radius; y++)
+            for (int y = mouseLocation.Y - radius; y <= mouseLocation.Y + radius; y++)
             {
                 if (outOfRange)
                     MovementGrid.SetTile(new Vector3Int(x, y, 0), MovementGridTileTypes[0]);
@@ -2044,7 +2044,7 @@ Turns: {currentTurn}
     {
         MovementGrid.ClearAllTiles();
 
-        if (SelectedUnit.Position.GetNumberOfMovesDistance(mouseLocation.x, mouseLocation.y) != 1)
+        if (SelectedUnit.Position.GetNumberOfMovesDistance(mouseLocation.X, mouseLocation.Y) != 1)
             return;
 
         Vec2 pos = mouseLocation;
@@ -2438,7 +2438,7 @@ Turns: {currentTurn}
 
         if (Equals(actor.Unit.Side, defenderSide))
         {
-            if (actor.Position.y == 0)
+            if (actor.Position.Y == 0)
             {
                 RetreatUnit(actor, true);
             }
@@ -2447,7 +2447,7 @@ Turns: {currentTurn}
         }
         else
         {
-            if (actor.Position.y == tiles.GetUpperBound(1))
+            if (actor.Position.Y == tiles.GetUpperBound(1))
             {
                 RetreatUnit(actor, false);
             }
@@ -2498,7 +2498,7 @@ Turns: {currentTurn}
                 if (SelectedUnit.UnitSprite != null)
                     SelectionBox.position = SelectedUnit.UnitSprite.transform.position;
                 else
-                    SelectionBox.position = new Vector2(SelectedUnit.Position.x, SelectedUnit.Position.y);
+                    SelectionBox.position = new Vector2(SelectedUnit.Position.X, SelectedUnit.Position.Y);
                 SelectionBox.gameObject.SetActive(true);
             }
             else
@@ -3018,7 +3018,7 @@ Turns: {currentTurn}
                 {
                     SelectedUnit = units[currentIndex];
                     RebuildInfo();
-                    State.GameManager.CenterCameraOnTile(units[currentIndex].Position.x, units[currentIndex].Position.y);
+                    State.GameManager.CenterCameraOnTile(units[currentIndex].Position.X, units[currentIndex].Position.Y);
                     break;
                 }
 
@@ -3271,7 +3271,7 @@ Turns: {currentTurn}
 
             if (unit.Position.GetDistance(clickLocation) < 1 && unit.Targetable == true)
             {
-                if (TacticalUtilities.TileContainsMoreThanOneUnit(SelectedUnit.Position.x, SelectedUnit.Position.y))
+                if (TacticalUtilities.TileContainsMoreThanOneUnit(SelectedUnit.Position.X, SelectedUnit.Position.Y))
                 {
                     UndoMovement();
                     return;
@@ -3283,7 +3283,7 @@ Turns: {currentTurn}
 
         if (Config.RightClickMenu || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            if (TacticalUtilities.TileContainsMoreThanOneUnit(SelectedUnit.Position.x, SelectedUnit.Position.y))
+            if (TacticalUtilities.TileContainsMoreThanOneUnit(SelectedUnit.Position.X, SelectedUnit.Position.Y))
             {
                 UndoMovement();
                 return;
