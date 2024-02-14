@@ -13,8 +13,8 @@ public class ArrowEffect : MonoBehaviour
 
     internal float extraTime;
 
-    Action PlayHitSound;
-    Action CreateHitEffect;
+    private Action PlayHitSound;
+    private Action CreateHitEffect;
 
     public void Setup(Vec2i startLocation, Vec2i endLocation, Actor_Unit target)
     {

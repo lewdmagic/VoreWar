@@ -4,13 +4,13 @@
 
 namespace TacticalDecorations
 {
-    enum PathType
+    internal enum PathType
     {
         BlockAll,
         Tree
     }
 
-    enum TacDecType
+    internal enum TacDecType
     {
         GrassBush,
         GrassFlowers1,
@@ -81,7 +81,7 @@ namespace TacticalDecorations
         VolcanicMagmaRock5,
     }
 
-    class TacticalDecoration
+    internal class TacticalDecoration
     {
         internal int Width;
         /// <summary>
@@ -104,7 +104,7 @@ namespace TacticalDecorations
         }
     }
 
-    static class TacticalDecorationList
+    internal static class TacticalDecorationList
     {
         internal static Dictionary<TacDecType, TacticalDecoration> DecDict = new Dictionary<TacDecType, TacticalDecoration>()
         {

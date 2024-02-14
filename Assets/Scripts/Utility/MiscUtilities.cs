@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-static class MiscUtilities
+internal static class MiscUtilities
 {
     /// <summary>
     /// Invokes the specified action after the specified period of time in seconds

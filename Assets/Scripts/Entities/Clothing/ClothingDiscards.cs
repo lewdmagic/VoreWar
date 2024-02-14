@@ -23,12 +23,13 @@ internal class ClothingDiscards
     internal int sortOrder { get => _sortOrder; set => _sortOrder = value; }
     [OdinSerialize]
     private int _angle;
-    int angle { get => _angle; set => _angle = value; }
+
+    private int angle { get => _angle; set => _angle = value; }
     [OdinSerialize]
     private string _name;
     internal string name { get => _name; set => _name = value; }
 
-    static List<IClothing> AllClothes = new List<IClothing>();
+    private static List<IClothing> AllClothes = new List<IClothing>();
 
     public ClothingDiscards(Vec2i location, Race race, ClothingId type, int color, int sortOrder, string name)
     {

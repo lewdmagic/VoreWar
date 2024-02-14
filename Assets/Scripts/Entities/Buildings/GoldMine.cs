@@ -1,4 +1,4 @@
-﻿class GoldMine : ClaimableBuilding
+﻿internal class GoldMine : ClaimableBuilding
 {
 
     public GoldMine(Vec2i location) : base(location)

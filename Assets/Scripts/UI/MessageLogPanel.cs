@@ -18,11 +18,11 @@ public class MessageLogPanel : MonoBehaviour
     public Toggle ShowWeaponCombat;
     public Toggle ShowFluff;
 
-    RectTransform rect;
+    private RectTransform rect;
 
-    int size = 1;
+    private int size = 1;
 
-    bool initialized = false;
+    private bool initialized = false;
 
     public void SetBase()
     {

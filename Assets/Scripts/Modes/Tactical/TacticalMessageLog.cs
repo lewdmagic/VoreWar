@@ -11,7 +11,8 @@ public class TacticalMessageLog
 {
     [OdinSerialize]
     private List<EventLog> _events;
-    List<EventLog> events { get => _events; set => _events = value; }
+
+    private List<EventLog> events { get => _events; set => _events = value; }
 
     public bool ShowOdds = false;
     public bool ShowHealing = true;
@@ -23,7 +24,7 @@ public class TacticalMessageLog
 
     public bool SimpleText = false;
 
-    Unit defaultPrey;
+    private Unit defaultPrey;
 
     public TacticalMessageLog()
     {
@@ -75,9 +76,7 @@ public class TacticalMessageLog
     }
 
 
-
-
-    class SpellLog : EventLog
+    private class SpellLog : EventLog
     {
     [OdinSerialize]
     private SpellType _spellType;
@@ -163,7 +162,7 @@ public class TacticalMessageLog
         return sb.ToString();
     }
 
-    bool EventValid(EventLog test)
+    private bool EventValid(EventLog test)
     {
         switch (test.Type)
         {
@@ -198,8 +197,7 @@ public class TacticalMessageLog
     }
 
 
-
-    void UpdateListing()
+    private void UpdateListing()
     {
         if (events.Count > 4000)
             events.RemoveRange(0, 400);
@@ -386,7 +384,7 @@ public class TacticalMessageLog
         return GetStoredMessage(StoredLogTexts.MessageTypes.BallMassageMessages, action);
     }
 
-    string GenerateSpellHitMessage(SpellLog action)
+    private string GenerateSpellHitMessage(SpellLog action)
     {
         var spell = SpellList.SpellDict[action.SpellType];
         switch (action.SpellType)
@@ -433,7 +431,7 @@ public class TacticalMessageLog
         }
     }
 
-    string GenerateSpellMissMessage(SpellLog action)
+    private string GenerateSpellMissMessage(SpellLog action)
     {
         if (action.SpellType == SpellType.None)
             return "";
@@ -494,7 +492,7 @@ public class TacticalMessageLog
         return GetStoredMessage(StoredLogTexts.MessageTypes.BreastVoreMessages, action);
     }
 
-    string GenerateCurseExpiringMessage(EventLog action)
+    private string GenerateCurseExpiringMessage(EventLog action)
     {
         if (action.preyLocation == PreyLocation.stomach || action.preyLocation == PreyLocation.stomach2)
         {
@@ -514,7 +512,7 @@ public class TacticalMessageLog
         }
     }
 
-    string GenerateDiminshmentExpiringMessage(EventLog action)
+    private string GenerateDiminshmentExpiringMessage(EventLog action)
     {
         if (action.preyLocation == PreyLocation.stomach || action.preyLocation == PreyLocation.stomach2)
         {
@@ -827,7 +825,7 @@ public class TacticalMessageLog
 
     }
 
-    string GetStoredMessage(StoredLogTexts.MessageTypes msgType, EventLog action)
+    private string GetStoredMessage(StoredLogTexts.MessageTypes msgType, EventLog action)
     {
         List<StoredLogTexts.EventString> list = StoredLogTexts.Redirect(msgType);
         IEnumerable<StoredLogTexts.EventString> messages = list.Where(s => (Equals(s.ActorRace, action.Unit.Race) || s.ActorRace == null) && (Equals(s.TargetRace, action.Target.Race) || s.TargetRace == null) &&

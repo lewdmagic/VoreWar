@@ -4,7 +4,7 @@ using System.Linq;
 using static LogUtilities;
 using static TacticalMessageLog;
 
-static class StoredLogTexts
+internal static class StoredLogTexts
 {
     static StoredLogTexts()
     {
@@ -60,7 +60,7 @@ static class StoredLogTexts
         GreatEscapeFlee,
     }
 
-    static internal List<EventString> Redirect(MessageTypes type)
+    internal static List<EventString> Redirect(MessageTypes type)
     {
         switch (type)
         {

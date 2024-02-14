@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class OptionsBox : MonoBehaviour
 {
-    Action AAction;
-    Action BAction;
-    Action CAction;
-    Action DAction;
-    Action EAction;
+    private Action AAction;
+    private Action BAction;
+    private Action CAction;
+    private Action DAction;
+    private Action EAction;
     public Button A;
     public Button B;
     public Button C;

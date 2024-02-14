@@ -2,8 +2,7 @@
 
 public class PipCamera : MonoBehaviour
 {
-
-    Camera cam;
+    private Camera cam;
 
     private void Start()
     {

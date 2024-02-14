@@ -2,8 +2,7 @@ using UnityEngine;
 
 public static class ColorMap
 {
-
-    enum color
+    private enum color
     {
         White,
         Tone1,
@@ -32,41 +31,41 @@ public static class ColorMap
         RedOrange,
     }
 
-    static Color[] Colors;
+    private static Color[] Colors;
 
-    static Color[] HairColors;
-    static Color[] SkinColors;
-    static Color[] BodyAccesoryColors;
-    static Color[] LizardColors;
-    static Color[] SlimeColors;
+    private static Color[] HairColors;
+    private static Color[] SkinColors;
+    private static Color[] BodyAccesoryColors;
+    private static Color[] LizardColors;
+    private static Color[] SlimeColors;
 
-    static Color[] EarthyColors;
+    private static Color[] EarthyColors;
 
-    static Color[] EyeColors;
-    static Color[] ClothingColors;
+    private static Color[] EyeColors;
+    private static Color[] ClothingColors;
 
-    static Color[] ImpSkinColors;
-    static Color[] ImpSecondaryColors;
-    static Color[] ImpHairColors;
-    static Color[] ImpScleraColors;
+    private static Color[] ImpSkinColors;
+    private static Color[] ImpSecondaryColors;
+    private static Color[] ImpHairColors;
+    private static Color[] ImpScleraColors;
 
-    static Color[] VagrantColors;
+    private static Color[] VagrantColors;
 
-    static Color[] SharkColors;
-    static Color[] SharkBellyColors;
-    static Color[] PastelColors;
+    private static Color[] SharkColors;
+    private static Color[] SharkBellyColors;
+    private static Color[] PastelColors;
 
-    static Color[] WyvernColors;
-    static Color[] WyvernBellyColors;
+    private static Color[] WyvernColors;
+    private static Color[] WyvernBellyColors;
 
-    static Color[] SchiwardezColors;
+    private static Color[] SchiwardezColors;
 
-    static Color[] ExoticColors;
+    private static Color[] ExoticColors;
 
-    static Color[] DratopyrMainColors;
-    static Color[] DratopyrWingColors;
-    static Color[] DratopyrFleshColors;
-    static Color[] DratopyrEyeColors;
+    private static Color[] DratopyrMainColors;
+    private static Color[] DratopyrWingColors;
+    private static Color[] DratopyrFleshColors;
+    private static Color[] DratopyrEyeColors;
 
     static ColorMap()
     {

@@ -21,20 +21,20 @@ public class WorldGenerator
         internal bool ExcessBridges;
     }
 
-    StrategicTileType[,] tiles;
-    Village[] villages;
-    int[,] grid;
-    VillageLocation[] sites;
+    private StrategicTileType[,] tiles;
+    private Village[] villages;
+    private int[,] grid;
+    private VillageLocation[] sites;
 
-    int villageLocations;
+    private int villageLocations;
 
-    List<Vec2i> usedLocations = new List<Vec2i>();
+    private List<Vec2i> usedLocations = new List<Vec2i>();
 
-    const int ExtraPadding = 3;
+    private const int ExtraPadding = 3;
 
-    MapGenArgs genArgs;
+    private MapGenArgs genArgs;
 
-    class VillageLocation
+    private class VillageLocation
     {
         public Vec2i Position;
         public int Index;
@@ -42,7 +42,7 @@ public class WorldGenerator
         public Dictionary<Race, int> ScoreForEmpire;
     }
 
-    class EmpireBuilder
+    private class EmpireBuilder
     {
         public Race Race;
         public Village Capital;
@@ -75,10 +75,10 @@ public class WorldGenerator
         tilesRef = tiles;
     }
 
-    string VillageName(Race race, int nameIndex) => State.NameGen.GetTownName(race, nameIndex);
+    private string VillageName(Race race, int nameIndex) => State.NameGen.GetTownName(race, nameIndex);
 
 
-    void GenerateTerrain()
+    private void GenerateTerrain()
     {
         if (genArgs.UsingNewGenerator)
         {
@@ -94,7 +94,7 @@ public class WorldGenerator
         //Heightmapper();
     }
 
-    void SimplexHeightMap()
+    private void SimplexHeightMap()
     {
 
 
@@ -165,8 +165,7 @@ public class WorldGenerator
     }
 
 
-
-    void PlaceVillages()
+    private void PlaceVillages()
     {
         //The original had a bug where only the diagonal farms counted, so it would place cities with the sides blocked, and it didn't matter
         //I corrected the bug, and had to do a little tweaking to make an occupied farm rare.
@@ -458,7 +457,7 @@ public class WorldGenerator
         villages = villages.Where(s => s != null).ToArray();
     }
 
-    Vec2i[] GetStartingPositions()
+    private Vec2i[] GetStartingPositions()
     {
         int nonCentralActiveSides = 0;
 
@@ -470,7 +469,7 @@ public class WorldGenerator
         return DrawCirclePoints(nonCentralActiveSides);
     }
 
-    Vec2i[] DrawCirclePoints(int points)
+    private Vec2i[] DrawCirclePoints(int points)
     {
         float radius = 0.5f * Mathf.Max(Config.StrategicWorldSizeX, Config.StrategicWorldSizeY);
         Vec2i center = new Vec2i(Config.StrategicWorldSizeX / 2, Config.StrategicWorldSizeY / 2);
@@ -486,7 +485,7 @@ public class WorldGenerator
         return point;
     }
 
-    int PotentialFarmlandSquares(int x, int y)
+    private int PotentialFarmlandSquares(int x, int y)
     {
         if (StrategicTileInfo.CanWalkInto(tiles[x, y]) == false)
         {

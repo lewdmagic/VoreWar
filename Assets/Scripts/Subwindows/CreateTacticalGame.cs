@@ -31,10 +31,10 @@ public class CreateTacticalGame : MonoBehaviour
     public UIUnitSprite AttackerSprite;
     public UIUnitSprite DefenderSprite;
 
-    bool batching;
+    private bool batching;
 
-    Race batchingAttackerRace;
-    Race batchingDefenderRace;
+    private Race batchingAttackerRace;
+    private Race batchingDefenderRace;
 
 
     public void Start()
@@ -128,7 +128,7 @@ public class CreateTacticalGame : MonoBehaviour
         SizeY.interactable = !AutoScale.isOn;
     }
 
-    string TestTacticalSize()
+    private string TestTacticalSize()
     {
         int x = Convert.ToInt32(SizeX.text);
         int y = Convert.ToInt32(SizeY.text);
@@ -147,7 +147,7 @@ public class CreateTacticalGame : MonoBehaviour
 
     }
 
-    string TestMisc()
+    private string TestMisc()
     {
         if (Convert.ToInt32(Attacker.UnitCount.text) < 1 || Convert.ToInt32(Defender.UnitCount.text) < 1)
             return "Both sides need to have units";
@@ -566,7 +566,7 @@ public class CreateTacticalGame : MonoBehaviour
     }
 
 
-    Race GetRandomRace()
+    private Race GetRandomRace()
     {
         IReadOnlyList<Race> mainRaces = RaceFuncs.MainRaceEnumerable();
         return mainRaces[State.Rand.Next(mainRaces.Count)];

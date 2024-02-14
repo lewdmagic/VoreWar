@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     public TutorialScript TutorialScript;
 
-    bool menuOpen = false;
+    private bool menuOpen = false;
 
     public bool PureTactical = false;
 
@@ -82,18 +82,18 @@ public class GameManager : MonoBehaviour
     public TacticalEffectPrefabList TacticalEffectPrefabList;
     public bool StrategicControlsLocked { get; private set; }
     public bool CameraTransitioning { get; private set; }
-    Vector3 oldCameraPosition;
-    Vector3 newCameraPosition;
-    float cameraTransitionTime;
-    float cameraCurrentTransitionTime;
+    private Vector3 oldCameraPosition;
+    private Vector3 newCameraPosition;
+    private float cameraTransitionTime;
+    private float cameraCurrentTransitionTime;
 
-    StrategicTileType queuedTiletype;
-    Village queuedVillage;
-    Army queuedInvader;
-    Army queuedDefender;
+    private StrategicTileType queuedTiletype;
+    private Village queuedVillage;
+    private Army queuedInvader;
+    private Army queuedDefender;
     internal bool queuedTactical;
 
-    float remainingCameraTime;
+    private float remainingCameraTime;
 
     internal bool ActiveInput;
 
@@ -108,8 +108,8 @@ public class GameManager : MonoBehaviour
 
 
     public static CustomManager customManager;
-    
-    void Start()
+
+    private void Start()
     {
         State.CarefulIntatntiate();
         
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
         SeliciaMod.ModAll();
     }
 
-    void Quit()
+    private void Quit()
     {
 #if UNITY_EDITOR == false
         confirmedQuit = true;
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    bool WantsToQuit()
+    private bool WantsToQuit()
     {
 #if UNITY_EDITOR
         {
@@ -267,7 +267,7 @@ public class GameManager : MonoBehaviour
             TutorialScript.CheckStatus();
     }
 
-    void UpdateSlidingCamera()
+    private void UpdateSlidingCamera()
     {
         cameraCurrentTransitionTime += Time.deltaTime;
         Camera.transform.position = Vector3.Lerp(oldCameraPosition, newCameraPosition, cameraCurrentTransitionTime / cameraTransitionTime);
@@ -488,7 +488,7 @@ public class GameManager : MonoBehaviour
         box.SetData(DoQuickLoad, "Load Game", "Cancel", "Are you sure you want to quickload?");
     }
 
-    void DoQuickLoad()
+    private void DoQuickLoad()
     {
         StatScreen.gameObject.SetActive(false);
         State.Load($"{State.SaveDirectory}Quicksave.sav");

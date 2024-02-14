@@ -92,10 +92,10 @@ public class RaceEditorPanel : MonoBehaviour
     public Button GeneralButton;
     public Button TraitsButton;
 
-    List<TraitType> CurrentTraits;
+    private List<TraitType> CurrentTraits;
 
 
-    Race PreviousRace = Race.TrueNone;
+    private Race PreviousRace = Race.TrueNone;
 
     internal void ShowPanel()
     {
@@ -419,7 +419,7 @@ public class RaceEditorPanel : MonoBehaviour
         box.SetData(SetBaseTraitsToImportedList, "Import", "Cancel", "Insert a list of space separated traits here to replace the current list of traits for this race with that list", 120);
     }
 
-    void SetBaseTraitsToImportedList(string traits)
+    private void SetBaseTraitsToImportedList(string traits)
     {
         CurrentTraits = TextToTraitList(traits);
         UpdateInteractable();

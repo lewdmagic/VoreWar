@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-class WeightedList<T1>
+internal class WeightedList<T1>
 {
     private List<T1> action = new List<T1>();
     private List<int> weight = new List<int>();

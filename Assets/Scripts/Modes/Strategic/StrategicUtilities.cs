@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-static class StrategicUtilities
+internal static class StrategicUtilities
 {
     private static Dictionary<Trait, double[][]> TraitPowerFactors = new Dictionary<Trait, double[][]>();
     public static Army[] GetAllArmies(bool excludeMonsters = false)
@@ -413,7 +413,7 @@ static class StrategicUtilities
         }
     }
 
-    static void UpgradeWeaponIfPossible(Empire empire, Unit unit)
+    private static void UpgradeWeaponIfPossible(Empire empire, Unit unit)
     {
         Item currentWeapon = unit.Items[0];
         Item UpgradeTo = State.World.ItemRepository.GetUpgrade(currentWeapon);
@@ -426,7 +426,7 @@ static class StrategicUtilities
         }
     }
 
-    static void PurchaseAccessories(Empire empire, Village village, Unit unit)
+    private static void PurchaseAccessories(Empire empire, Village village, Unit unit)
     {
         Item itemToPurchase = null;
         if (unit.BestSuitedForRanged() && unit.HasTrait(TraitType.Feral) == false)
@@ -766,7 +766,7 @@ static class StrategicUtilities
     }
 
 
-    static internal void CreateInvisibleTravelingArmy(List<Unit> travelingUnits, Village village, int turns)
+    internal static void CreateInvisibleTravelingArmy(List<Unit> travelingUnits, Village village, int turns)
     {
         if (village.travelers == null)
             village.travelers = new List<InvisibleTravelingUnit>();
@@ -794,7 +794,7 @@ static class StrategicUtilities
             CreateInvisibleTravelingArmy(travelingUnit, GetVillageAt(destination), turns);
     }
 
-    static internal void CreateInvisibleTravelingArmy(Unit travelingUnit, Village village, int turns)
+    internal static void CreateInvisibleTravelingArmy(Unit travelingUnit, Village village, int turns)
     {
         if (village.travelers == null)
             village.travelers = new List<InvisibleTravelingUnit>();
@@ -829,7 +829,7 @@ static class StrategicUtilities
         }
     }
 
-    static Stat PickBest(Unit unit, Stat[] stats)
+    private static Stat PickBest(Unit unit, Stat[] stats)
     {
 
         float[] weight = new float[(int)Stat.None];

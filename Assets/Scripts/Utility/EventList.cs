@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 internal class EventList
 {
-    EventScreen UI;
+    private EventScreen UI;
     internal CustomEventList CustomEvents;
 
     public EventList()
@@ -89,7 +89,7 @@ internal class EventList
         return;
     }
 
-    void StartCustomEvent(Empire empire)
+    private void StartCustomEvent(Empire empire)
     {
         if (CustomEvents.AnyEvents == false)
             return;
@@ -237,7 +237,7 @@ internal class EventList
         UI.ThirdChoice.interactable = false;
     }
 
-    bool StartEvent(int num, Empire empire)
+    private bool StartEvent(int num, Empire empire)
     {
         switch (num)
         {
@@ -1750,7 +1750,7 @@ internal class EventList
         return true;
     }
 
-    string AddVillageInfo(Village village)
+    private string AddVillageInfo(Village village)
     {
         return $"\n{village.Name} ({village.Race})\nVillage Garrison : {village.Garrison}\nVillage Happiness : {village.Happiness}\nVillage Population : {village.VillagePopulation.GetPopReport()}";
     }
@@ -1961,20 +1961,20 @@ internal class EventList
         }
     }
 
-    void GiveExp(Unit unit, int baseXP, float pct)
+    private void GiveExp(Unit unit, int baseXP, float pct)
     {
         if (unit != null)
             unit.GiveExp(baseXP + (int)unit.Experience * pct);
     }
 
-    enum RebelDifficulty
+    private enum RebelDifficulty
     {
         Easy,
         Medium,
         Hard
     }
 
-    void CreateBandits(RebelDifficulty diff, Village village, Race race)
+    private void CreateBandits(RebelDifficulty diff, Village village, Race race)
     {
         int count = 6;
         switch (diff)
@@ -2043,7 +2043,7 @@ internal class EventList
         }
     }
 
-    void CreateRebels(RebelDifficulty diff, Village village)
+    private void CreateRebels(RebelDifficulty diff, Village village)
     {
         int count = 6;
         switch (diff)
@@ -2117,7 +2117,7 @@ internal class EventList
     }
 
     // TODO disabled due to creating int Sides
-    Empire CreateFactionlessArmy(Village village, int bannerType, Unit[] units, int distance, string armyName)
+    private Empire CreateFactionlessArmy(Village village, int bannerType, Unit[] units, int distance, string armyName)
     {
         /*
 
@@ -2175,7 +2175,7 @@ internal class EventList
         throw new Exception("Disabled");
     }
 
-    void ChangeAllVillageHappiness(Empire empire, int value)
+    private void ChangeAllVillageHappiness(Empire empire, int value)
     {
         var villages = State.World.Villages.Where(s => Equals(s.Side, empire.Side));
         foreach (Village vill in villages)
@@ -2184,7 +2184,7 @@ internal class EventList
         }
     }
 
-    Empire GetRandomHostileEmpire(Empire empire)
+    private Empire GetRandomHostileEmpire(Empire empire)
     {
         var hostileEmpires = State.World.MainEmpires.Where(s => s.IsEnemy(empire) && RaceFuncs.IsMainRaceOrMerc(s.Side) && s.VillageCount > 0).ToArray();
         if (hostileEmpires.Count() == 0)
@@ -2192,7 +2192,7 @@ internal class EventList
         return hostileEmpires[State.Rand.Next(hostileEmpires.Count())];
     }
 
-    Empire GetRandomAlliedEmpire(Empire empire)
+    private Empire GetRandomAlliedEmpire(Empire empire)
     {
         var alliedEmpires = State.World.MainEmpires.Where(s => s.IsAlly(empire) && s.VillageCount > 0 && !Equals(s.Side, empire.Side) && RaceFuncs.IsMainRaceOrMerc(s.Side)).ToArray();
         if (alliedEmpires.Count() == 0)
@@ -2200,7 +2200,7 @@ internal class EventList
         return alliedEmpires[State.Rand.Next(alliedEmpires.Count())];
     }
 
-    Empire[] GetTwoRandomEmpires(Empire empire)
+    private Empire[] GetTwoRandomEmpires(Empire empire)
     {
         var hostileEmpires = State.World.MainEmpires.Where(s => s.VillageCount > 0 && !Equals(s.Side, empire.Side) && RaceFuncs.IsMainRaceOrMerc(s.Side)).ToArray();
         if (hostileEmpires.Length <= 1)
@@ -2215,7 +2215,7 @@ internal class EventList
         return ret;
     }
 
-    Empire[] GetTwoRandomAIEmpires()
+    private Empire[] GetTwoRandomAIEmpires()
     {
         var hostileEmpires = State.World.MainEmpires.Where(s => s.VillageCount > 0 && s.StrategicAI != null && RaceFuncs.IsMainRaceOrMerc(s.Side)).ToArray();
         if (hostileEmpires.Length <= 1)
@@ -2231,8 +2231,7 @@ internal class EventList
     }
 
 
-
-    Empire GetRandomEmpire(Empire empire)
+    private Empire GetRandomEmpire(Empire empire)
     {
         var empires = State.World.MainEmpires.Where(s => s.VillageCount > 0 && !Equals(s.Side, empire.Side) && RaceFuncs.IsMainRaceOrMerc(s.Side)).ToArray();
         if (empires.Length == 0)
@@ -2240,7 +2239,7 @@ internal class EventList
         return empires[State.Rand.Next(empires.Length)];
     }
 
-    Village GetRandomConqueredVillage(Side side, Race homeRace)
+    private Village GetRandomConqueredVillage(Side side, Race homeRace)
     {
         var villages = State.World.Villages.Where(s => Equals(s.Side, side) && !Equals(s.Race, homeRace)).ToArray();
         if (villages.Length == 0)
@@ -2248,7 +2247,7 @@ internal class EventList
         return villages[State.Rand.Next(villages.Length)];
     }
 
-    Village GetRandomVillage(Side side)
+    private Village GetRandomVillage(Side side)
     {
         var villages = State.World.Villages.Where(s => Equals(s.Side, side)).ToArray();
         if (villages.Length == 0)
@@ -2256,7 +2255,7 @@ internal class EventList
         return villages[State.Rand.Next(villages.Length)];
     }
 
-    Village[] GetTwoRandomVillages(Side side)
+    private Village[] GetTwoRandomVillages(Side side)
     {
         var villages = State.World.Villages.Where(s => Equals(s.Side, side)).ToArray();
         if (villages.Length <= 1)

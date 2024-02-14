@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using static UnityEngine.UI.CanvasScaler;
 
-class UnitEditor : UnitCustomizer
+internal class UnitEditor : UnitCustomizer
 {
-    UnitEditorPanel UnitEditorPanel;
-    InfoPanel panel;
+    private UnitEditorPanel UnitEditorPanel;
+    private InfoPanel panel;
 
     public UnitEditor(Actor_Unit actor, CustomizerPanel UI, UnitInfoPanel unitPanel) : base(actor, UI)
     {
@@ -60,7 +60,7 @@ class UnitEditor : UnitCustomizer
         RefreshStats();
 
     }
-    new internal void ChangeGender()
+    internal new void ChangeGender()
     {
         bool changedGender = false;
         if (CustomizerUI.Gender.value == 0 && Unit.GetGender() != Gender.Male)

@@ -5,7 +5,7 @@ using System.Text;
 
 public class TacticalStats
 {
-    class RaceStats
+    private class RaceStats
     {
     [OdinSerialize]
     private Dictionary<Weapon,int> _damageDealtBy;
@@ -63,19 +63,24 @@ public class TacticalStats
     public Side AttackerSide { get => _attackerSide; set => _attackerSide = value; }
     [OdinSerialize]
     private int _attackers;
-    int attackers { get => _attackers; set => _attackers = value; }
+
+    private int attackers { get => _attackers; set => _attackers = value; }
     [OdinSerialize]
     private int _defenders;
-    int defenders { get => _defenders; set => _defenders = value; }
+
+    private int defenders { get => _defenders; set => _defenders = value; }
     [OdinSerialize]
     private int _garrison;
-    int garrison { get => _garrison; set => _garrison = value; }
+
+    private int garrison { get => _garrison; set => _garrison = value; }
     [OdinSerialize]
     private RaceStats _attackerStats;
-    RaceStats AttackerStats { get => _attackerStats; set => _attackerStats = value; }
+
+    private RaceStats AttackerStats { get => _attackerStats; set => _attackerStats = value; }
     [OdinSerialize]
     private RaceStats _defenderStats;
-    RaceStats DefenderStats { get => _defenderStats; set => _defenderStats = value; }
+
+    private RaceStats DefenderStats { get => _defenderStats; set => _defenderStats = value; }
 
     public void SetInitialUnits(int attack, int defend, int garr, Side attackerSide, Side defenderSide)
     {

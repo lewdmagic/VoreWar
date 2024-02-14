@@ -32,9 +32,9 @@
 
 }
 
-static class TacticalTileInfo
+internal static class TacticalTileInfo
 {
-    static internal int TileCost(Vec2 location)
+    internal static int TileCost(Vec2 location)
     {
         var effects = State.GameManager.TacticalMode.ActiveEffects;
         if (effects != null)
@@ -48,7 +48,7 @@ static class TacticalTileInfo
         return 1;
     }
 
-    static internal bool CanWalkInto(TacticalTileType type, Actor_Unit actor)
+    internal static bool CanWalkInto(TacticalTileType type, Actor_Unit actor)
     {
         if (type >= (TacticalTileType)2300 && type < (TacticalTileType)2399)
             return true;

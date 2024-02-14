@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-interface IVoreCallback
+internal interface IVoreCallback
 {
     int ProcessingPriority { get; }//lower runs first
     bool IsPredTrait { get; }//is the trait triggered from the pred or the prey side
@@ -21,7 +21,7 @@ interface IVoreCallback
     bool OnFinishAbsorption(Prey preyUnit, Actor_Unit predUnit, PreyLocation location);//unit is done absorbing, but not removed yet
 }
 
-interface IVoreRestrictions
+internal interface IVoreRestrictions
 {
     /* Notes: 
      * CheckVore needs to handle a null target
@@ -43,10 +43,10 @@ public enum PreyLocation
     rightBreast
 }
 
-static class PreyLocationMethods
+internal static class PreyLocationMethods
 {
 
-    static public bool IsGenital(PreyLocation location)
+    public static bool IsGenital(PreyLocation location)
     {
         switch (location)
         {
@@ -63,39 +63,49 @@ public class PredatorComponent
 {
     [OdinSerialize]
     private List<Prey> _prey;
-    List<Prey> prey { get => _prey; set => _prey = value; }
+
+    private List<Prey> prey { get => _prey; set => _prey = value; }
     [OdinSerialize]
     private List<Prey> _womb;
-    List<Prey> womb { get => _womb; set => _womb = value; }
+
+    private List<Prey> womb { get => _womb; set => _womb = value; }
     [OdinSerialize]
     private List<Prey> _breasts;
-    List<Prey> breasts { get => _breasts; set => _breasts = value; }
+
+    private List<Prey> breasts { get => _breasts; set => _breasts = value; }
     [OdinSerialize]
     private List<Prey> _leftBreast;
-    List<Prey> leftBreast { get => _leftBreast; set => _leftBreast = value; }
+
+    private List<Prey> leftBreast { get => _leftBreast; set => _leftBreast = value; }
     [OdinSerialize]
     private List<Prey> _rightBreast;
-    List<Prey> rightBreast { get => _rightBreast; set => _rightBreast = value; }
+
+    private List<Prey> rightBreast { get => _rightBreast; set => _rightBreast = value; }
     [OdinSerialize]
     private List<Prey> _balls;
-    List<Prey> balls { get => _balls; set => _balls = value; }
+
+    private List<Prey> balls { get => _balls; set => _balls = value; }
     [OdinSerialize]
     private List<Prey> _stomach;
-    List<Prey> stomach { get => _stomach; set => _stomach = value; }
+
+    private List<Prey> stomach { get => _stomach; set => _stomach = value; }
     [OdinSerialize]
     private List<Prey> _stomach2;
-    List<Prey> stomach2 { get => _stomach2; set => _stomach2 = value; }
+
+    private List<Prey> stomach2 { get => _stomach2; set => _stomach2 = value; }
     [OdinSerialize]
     private List<Prey> _tail;
-    List<Prey> tail { get => _tail; set => _tail = value; }
+
+    private List<Prey> tail { get => _tail; set => _tail = value; }
     [OdinSerialize]
     private List<Prey> _deadPrey;
-    List<Prey> deadPrey { get => _deadPrey; set => _deadPrey = value; }
 
-    Transition StomachTransition;
-    Transition BallsTransition;
-    Transition LeftBreastTransition;
-    Transition RightBreastTransition;
+    private List<Prey> deadPrey { get => _deadPrey; set => _deadPrey = value; }
+
+    private Transition StomachTransition;
+    private Transition BallsTransition;
+    private Transition LeftBreastTransition;
+    private Transition RightBreastTransition;
 
     public static PreyLocation[] preyLocationOrder =
     {
@@ -165,11 +175,11 @@ public class PredatorComponent
     [OdinSerialize]
     private float _wombFullness;
     public float WombFullness { get => _wombFullness; set => _wombFullness = value; }
-    [OdinSerialize]
-    Actor_Unit actor;
+    [OdinSerialize] private Actor_Unit actor;
     [OdinSerialize]
     private Unit _unit;
-    Unit unit { get => _unit; set => _unit = value; }
+
+    private Unit unit { get => _unit; set => _unit = value; }
     [OdinSerialize]
     private int _birthStatBoost;
     public int birthStatBoost { get => _birthStatBoost; set => _birthStatBoost = value; }
@@ -921,7 +931,7 @@ public class PredatorComponent
         }
     }
 
-    void AddPrey(Prey preyUnit, PreyLocation location)
+    private void AddPrey(Prey preyUnit, PreyLocation location)
     {
         OnSwallowCallbacks(preyUnit);
         switch (location)
@@ -958,8 +968,8 @@ public class PredatorComponent
         actor.UnitSprite.UpdateSprites(actor, true);
         UpdateAlivePrey();
     }
-    
-    void AddPrey(Prey preyUnit)
+
+    private void AddPrey(Prey preyUnit)
     {
         OnSwallowCallbacks(preyUnit);
         prey.Add(preyUnit);
@@ -1181,7 +1191,7 @@ public class PredatorComponent
         UpdateFullness();
     }
 
-    float CalculateGrowthValue(Prey preyUnit)
+    private float CalculateGrowthValue(Prey preyUnit)
     {
         float preyMass = preyUnit.Unit.TraitBoosts.BulkMultiplier * State.RaceSettings.GetBodySize(preyUnit.Unit.Race);
         float predMass = unit.TraitBoosts.BulkMultiplier * State.RaceSettings.GetBodySize(unit.Race);
@@ -1191,7 +1201,7 @@ public class PredatorComponent
         return sizeDiff * preyBoosts * predBoosts;
     }
 
-    int CalculateDigestionDamage(Prey preyUnit)
+    private int CalculateDigestionDamage(Prey preyUnit)
     {
         if (preyUnit.TurnsDigested < preyUnit.Unit.TraitBoosts.DigestionImmunityTurns || preyUnit.Unit.HasTrait(TraitType.TheGreatEscape))
             return 0;
@@ -1747,7 +1757,7 @@ public class PredatorComponent
     //    return released;
     //}
 
-    void CheckPredTraitAbsorption(Prey preyUnit)
+    private void CheckPredTraitAbsorption(Prey preyUnit)
     {
         bool updated = false;
         bool raceUpdated = true;
@@ -2212,7 +2222,7 @@ public class PredatorComponent
         //actor.Unit.SetDickSize(unit.DefaultDickSize + (int)(BallsFullness * 8));
     }
 
-    bool PlacedPrey(Actor_Unit prey)
+    private bool PlacedPrey(Actor_Unit prey)
     {
         Vec2i p = new Vec2i(0, 0);
         for (int i = 0; i < 8; i++)
@@ -2250,7 +2260,7 @@ public class PredatorComponent
         return ret;
     }
 
-    string AddPreyInformation(ref string ret, Prey prey, int indent)
+    private string AddPreyInformation(ref string ret, Prey prey, int indent)
     {
         if (indent > 12)
             return "";
@@ -2479,7 +2489,7 @@ public class PredatorComponent
 
     }
 
-    bool Consume(Actor_Unit target, Action<Actor_Unit, float, Prey, float> action, PreyLocation preyType, float delay = 0)
+    private bool Consume(Actor_Unit target, Action<Actor_Unit, float, Prey, float> action, PreyLocation preyType, float delay = 0)
     {
         State.GameManager.TacticalMode.AITimer = Config.TacticalVoreDelay;
         int boost = 0;
@@ -2610,7 +2620,7 @@ public class PredatorComponent
             actor.Movement = 0;
     }
 
-    void PerformConsume(Actor_Unit target, Action<Actor_Unit, float, Prey, float> action, PreyLocation preyType, float odds = 1f, float delay = 0f)
+    private void PerformConsume(Actor_Unit target, Action<Actor_Unit, float, Prey, float> action, PreyLocation preyType, float odds = 1f, float delay = 0f)
     {
         if (target.Unit.IsDead == false)
             AlivePrey++;
@@ -2632,7 +2642,7 @@ public class PredatorComponent
         UpdateFullness();
     }
 
-    void MagicDevour(Actor_Unit target, float v, Prey preyref, PreyLocation preyLocation)
+    private void MagicDevour(Actor_Unit target, float v, Prey preyref, PreyLocation preyLocation)
     {
         if (Equals(actor.Unit.Side, target.Unit.GetApparentSide()) && !actor.Unit.HasTrait(TraitType.Endosoma))
         {
@@ -2684,7 +2694,7 @@ public class PredatorComponent
         AddToStomach(preyref, v);
     }
 
-    void Devour(Actor_Unit target, float v, Prey preyref, float delay)
+    private void Devour(Actor_Unit target, float v, Prey preyref, float delay)
     {
         if (delay > 0)
             MiscUtilities.DelayedInvoke(() => State.GameManager.SoundManager.PlaySwallow(PreyLocation.stomach, actor), delay);
@@ -2694,14 +2704,14 @@ public class PredatorComponent
         AddToStomach(preyref, v);
     }
 
-    void Unbirth(Actor_Unit target, float v, Prey preyref, float delay)
+    private void Unbirth(Actor_Unit target, float v, Prey preyref, float delay)
     {
         State.GameManager.SoundManager.PlaySwallow(PreyLocation.womb, actor);
         TacticalUtilities.Log.RegisterUnbirth(unit, target.Unit, v);
         AddToWomb(preyref, v);
     }
 
-    void BreastVore(Actor_Unit target, float v, Prey preyref, float delay)
+    private void BreastVore(Actor_Unit target, float v, Prey preyref, float delay)
     {
         State.GameManager.SoundManager.PlaySwallow(PreyLocation.breasts, actor);
         TacticalUtilities.Log.RegisterBreastVore(unit, target.Unit, v);
@@ -2723,21 +2733,21 @@ public class PredatorComponent
             breasts.Add(preyref);
     }
 
-    void CockVore(Actor_Unit target, float v, Prey preyref, float delay)
+    private void CockVore(Actor_Unit target, float v, Prey preyref, float delay)
     {
         State.GameManager.SoundManager.PlaySwallow(PreyLocation.balls, actor);
         TacticalUtilities.Log.RegisterCockVore(unit, target.Unit, v);
         balls.Add(preyref);
     }
 
-    void TailVore(Actor_Unit target, float v, Prey preyref, float delay)
+    private void TailVore(Actor_Unit target, float v, Prey preyref, float delay)
     {
         State.GameManager.SoundManager.PlaySwallow(PreyLocation.stomach, actor);
         TacticalUtilities.Log.RegisterTailVore(unit, target.Unit, v);
         tail.Add(preyref);
     }
 
-    void AnalVore(Actor_Unit target, float v, Prey preyref, float delay)
+    private void AnalVore(Actor_Unit target, float v, Prey preyref, float delay)
     {
         State.GameManager.SoundManager.PlaySwallow(PreyLocation.anal, actor);
         TacticalUtilities.Log.RegisterAnalVore(unit, target.Unit, v);

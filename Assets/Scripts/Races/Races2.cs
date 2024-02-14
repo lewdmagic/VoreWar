@@ -6,7 +6,7 @@ using Races.Graphics.Implementations.Monsters;
 using Races.Graphics.Implementations.UniqueMercs;
 using UnityEngine;
 
-static class Races2
+internal static class Races2
 {
     internal static IRaceData GetRace(Unit unit)
     {

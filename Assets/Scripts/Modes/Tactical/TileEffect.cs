@@ -1,4 +1,4 @@
-﻿class TileEffect
+﻿internal class TileEffect
 {
     internal int RemainingDuration;
     internal float Strength;

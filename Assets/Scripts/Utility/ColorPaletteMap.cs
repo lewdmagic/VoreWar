@@ -4,12 +4,12 @@ using UnityEngine;
 
 public static class ColorPaletteMap
 {
-    static Dictionary<SwapType, List<ColorSwapPalette>> Swaps;
+    private static Dictionary<SwapType, List<ColorSwapPalette>> Swaps;
 
     internal static ColorSwapPalette Default;
 
-    static List<Color> SlimeBaseColor;
-    static List<Color> ClothingBaseColor;
+    private static List<Color> SlimeBaseColor;
+    private static List<Color> ClothingBaseColor;
 
     internal static int MixedHairColors;
 
@@ -1815,7 +1815,7 @@ public static class ColorPaletteMap
         };
     }
 
-    static List<ColorSwapPalette> WireUp(SwapType swapType)
+    private static List<ColorSwapPalette> WireUp(SwapType swapType)
     {
         List<ColorSwapPalette> palette = new List<ColorSwapPalette>();
         Swaps[swapType] = palette;

@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 using TacticalDecorations;
 
-class DecorationStorage
+internal class DecorationStorage
 {
     [OdinSerialize]
     private Vec2 _position;

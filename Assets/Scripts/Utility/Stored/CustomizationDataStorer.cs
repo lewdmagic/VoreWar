@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-static class CustomizationDataStorer
+internal static class CustomizationDataStorer
 {
-    static string filename;
-    static List<CustomizerData> customizations;
+    private static string filename;
+    private static List<CustomizerData> customizations;
 
     static CustomizationDataStorer()
     {
@@ -14,7 +14,7 @@ static class CustomizationDataStorer
         LoadData();
     }
 
-    static void LoadData()
+    private static void LoadData()
     {
         if (File.Exists(filename))
         {
@@ -27,7 +27,7 @@ static class CustomizationDataStorer
         }
     }
 
-    static void SaveData()
+    private static void SaveData()
     {
         byte[] bytes = SerializationUtility.SerializeValue(customizations, DataFormat.Binary);
         File.WriteAllBytes(filename, bytes);
@@ -45,13 +45,13 @@ static class CustomizationDataStorer
         SaveData();
     }
 
-    static internal void ExternalCopyToUnit(CustomizerData data, Unit unit)
+    internal static void ExternalCopyToUnit(CustomizerData data, Unit unit)
     {
         data.CopyToUnit(unit, true);
     }
 
 
-    static internal List<CustomizerData> GetCompatibleCustomizations(Race race, UnitType type, bool includeOtherRaces)
+    internal static List<CustomizerData> GetCompatibleCustomizations(Race race, UnitType type, bool includeOtherRaces)
     {
         if (includeOtherRaces)
             return customizations.Where(s => IsCompatibleWithGraphics(s)).ToList();
@@ -60,7 +60,7 @@ static class CustomizationDataStorer
         return customizations.Where(s => Equals(s.Race, race) && (s.Type == type || s.Type != UnitType.Leader) && IsCompatibleWithGraphics(s)).ToList();
     }
 
-    static bool IsCompatibleWithGraphics(CustomizerData data)
+    private static bool IsCompatibleWithGraphics(CustomizerData data)
     {
         if (!Equals(data.Race, Race.Imp) && !Equals(data.Race, Race.Lamia) && !Equals(data.Race, Race.Tiger))
         {

@@ -26,8 +26,8 @@ public class CheatMenu : MonoBehaviour
     public TMP_Dropdown FirstRaceDropdown;
     public TMP_Dropdown SecondRaceDropdown;
 
-    Relationship Relation;
-    Relationship CounterRelation;
+    private Relationship Relation;
+    private Relationship CounterRelation;
 
 
     public void Open()
@@ -91,7 +91,7 @@ public class CheatMenu : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void GetValues()
+    private void GetValues()
     {
         UnitEditorDisplayed.isOn = PlayerPrefs.GetInt("UnitEditorDisplayed", 0) == 1;
         CompleteTooltips.isOn = PlayerPrefs.GetInt("CompleteTooltips", 0) == 1;
@@ -129,7 +129,7 @@ public class CheatMenu : MonoBehaviour
             $"This doesn't change the race of any existing units, and the monsters will still use the same spawners, settings, and strategic graphics.");
     }
 
-    void ReplaceRace()
+    private void ReplaceRace()
     {
         Empire emp = State.World.MainEmpires.Where(s => s.Name == EmpireReplaced.captionText.text).FirstOrDefault();
         if (emp == null)
@@ -165,7 +165,7 @@ public class CheatMenu : MonoBehaviour
 
     }
 
-    void SetNewValues()
+    private void SetNewValues()
     {
         PlayerPrefs.SetInt("UnitEditorDisplayed", UnitEditorDisplayed.isOn ? 1 : 0);
         PlayerPrefs.SetInt("CompleteTooltips", CompleteTooltips.isOn ? 1 : 0);

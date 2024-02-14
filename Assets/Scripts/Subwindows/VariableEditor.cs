@@ -10,7 +10,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class VariableEditor : MonoBehaviour
 {
-    object EditingObject;
+    private object EditingObject;
 
     public Transform Folder;
 

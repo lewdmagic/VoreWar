@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-
-class DefectProcessor
+internal class DefectProcessor
 {
     internal Army attacker;
     internal Army defender;

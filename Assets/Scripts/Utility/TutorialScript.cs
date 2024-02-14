@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class TutorialScript
 {
-    List<Actor_Unit> tacticalUnits;
+    private List<Actor_Unit> tacticalUnits;
 
-    string message;
-    bool warned = false;
+    private string message;
+    private bool warned = false;
     internal int step = -1;
 
     internal void InitializeTactical(List<Actor_Unit> actors)
@@ -193,10 +193,7 @@ public class TutorialScript
     }
 
 
-
-
-
-    void UpdateStep()
+    private void UpdateStep()
     {
         step++;
         switch (step)

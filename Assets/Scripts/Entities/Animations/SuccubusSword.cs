@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Entities.Animations
 {
-    class SuccubusSword : AnimationBase
+    internal class SuccubusSword : AnimationBase
     {
 
 

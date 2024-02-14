@@ -207,7 +207,7 @@ public class ContentSettings : MonoBehaviour
     public Button VoreMiscButton;
     public Button VoreMisc2Button;
 
-    List<ToggleObject> Toggles;
+    private List<ToggleObject> Toggles;
 
     public Toggle AllMercs;
 
@@ -247,10 +247,9 @@ public class ContentSettings : MonoBehaviour
     public Toggle StatBoostsAffectMaxHP;
 
 
+    private List<ToggleObject> MercToggles;
 
-    List<ToggleObject> MercToggles;
-
-    List<MonsterSpawnerPanel> MonsterSpawners;
+    private List<MonsterSpawnerPanel> MonsterSpawners;
 
     public void AllMercsCheckedChanged()
     {
@@ -262,7 +261,7 @@ public class ContentSettings : MonoBehaviour
     }
 
 
-    void CreateList()
+    private void CreateList()
     {
         Toggles = new List<ToggleObject>
         {
@@ -392,7 +391,7 @@ public class ContentSettings : MonoBehaviour
         }
     }
 
-    MonsterSpawnerPanel CreateMonsterPanel(Race race)
+    private MonsterSpawnerPanel CreateMonsterPanel(Race race)
     {
         var obj = Instantiate(MonsterSpawnerPrefab, MonsterSpawnerFolder);
         var spawner = obj.GetComponent<MonsterSpawnerPanel>();
@@ -507,7 +506,7 @@ public class ContentSettings : MonoBehaviour
         return spawner;
     }
 
-    Toggle CreateMercToggle(Race race)
+    private Toggle CreateMercToggle(Race race)
     {
         var toggle = Instantiate(TogglePrefab, MercenaryToggleFolder);
         toggle.GetComponentInChildren<Text>().text = race.ToString();
@@ -516,7 +515,7 @@ public class ContentSettings : MonoBehaviour
         return toggle.GetComponent<Toggle>();
     }
 
-    class ToggleObject
+    private class ToggleObject
     {
         internal Toggle Toggle;
         internal string Name;
@@ -632,7 +631,7 @@ public class ContentSettings : MonoBehaviour
         box.SetData(LoadSaved, "Load Data", "Cancel", "This will load all of your saved global settings into this game, useful if you wish to apply your new settings to old saved games quickly.  This is not undoable.");
     }
 
-    void LoadSaved()
+    private void LoadSaved()
     {
         Refresh();
         Open();
@@ -881,7 +880,7 @@ public class ContentSettings : MonoBehaviour
         NoScatForDeadTransfers.interactable = KuroTenkoEnabled.isOn;
     }
 
-    void SetValues()
+    private void SetValues()
     {
         bool oldMulti = Config.MultiRaceVillages;
         PlayerPrefs.SetInt("MercSortMethod", MercSortMethod.value);
@@ -1129,7 +1128,7 @@ public class ContentSettings : MonoBehaviour
 
     }
 
-    void SaveValues()
+    private void SaveValues()
     {
         foreach (ToggleObject toggle in Toggles)
         {

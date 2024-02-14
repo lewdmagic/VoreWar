@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
-class GoblinAI : IStrategicAI
+internal class GoblinAI : IStrategicAI
 {
     [OdinSerialize]
     private Empire _empire;
-    Empire empire { get => _empire; set => _empire = value; }
 
-    List<PathNode> path;
-    Army pathIsFor;
+    private Empire empire { get => _empire; set => _empire = value; }
+
+    private List<PathNode> path;
+    private Army pathIsFor;
 
     public GoblinAI(Empire empire)
     {
@@ -227,7 +228,7 @@ class GoblinAI : IStrategicAI
 
     }
 
-    bool MoveToNearVillage(Army army, Village village)
+    private bool MoveToNearVillage(Army army, Village village)
     {
         int x = 0;
         int y = 0;

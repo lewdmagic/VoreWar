@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Entities.Animations
 {
-    class AnimationBase : MonoBehaviour
+    internal class AnimationBase : MonoBehaviour
     {
         protected SpriteRenderer SpriteRenderer;
         protected Frame[] frames;

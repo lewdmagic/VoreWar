@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 
-class StoredClassWeight
+internal class StoredClassWeight
 {
     [OdinSerialize]
     private StatWeights _weights;
@@ -13,7 +13,7 @@ class StoredClassWeight
     internal string Name { get => _name; set => _name = value; }
 }
 
-static class CustomAutoLevel
+internal static class CustomAutoLevel
 {
     static CustomAutoLevel()
     {
@@ -21,8 +21,8 @@ static class CustomAutoLevel
         LoadData();
     }
 
-    static string filename;
-    static List<StoredClassWeight> weightsList;
+    private static string filename;
+    private static List<StoredClassWeight> weightsList;
 
     internal static string[] GetAllNames()
     {
@@ -35,7 +35,7 @@ static class CustomAutoLevel
     }
 
 
-    static void LoadData()
+    private static void LoadData()
     {
         if (File.Exists(filename))
         {
@@ -48,7 +48,7 @@ static class CustomAutoLevel
         }
     }
 
-    static void SaveData()
+    private static void SaveData()
     {
         try
         {

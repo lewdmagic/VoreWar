@@ -4,19 +4,20 @@ namespace LegacyAI
 {
     public class LegacyTacticalAI : ITacticalAI
     {
-        [OdinSerialize]
-        List<Actor_Unit> actors;
+        [OdinSerialize] private List<Actor_Unit> actors;
     [OdinSerialize]
     private TacticalTileType[,] _tiles;
-    TacticalTileType[,] tiles { get => _tiles; set => _tiles = value; }
 
-        bool didAction;
-        bool foundPath;
+    private TacticalTileType[,] tiles { get => _tiles; set => _tiles = value; }
+
+    private bool didAction;
+    private bool foundPath;
     [OdinSerialize]
     private Side _aISide;
-    Side AISide { get => _aISide; set => _aISide = value; }
-        List<PathNode> path;
-        Actor_Unit pathIsFor;
+
+    private Side AISide { get => _aISide; set => _aISide = value; }
+    private List<PathNode> path;
+    private Actor_Unit pathIsFor;
 
         public StandardTacticalAI.RetreatConditions RetreatPlan
         {
@@ -158,7 +159,7 @@ namespace LegacyAI
             return false;
         }
 
-        bool Walkto(Actor_Unit actor, Vec2i p)
+        private bool Walkto(Actor_Unit actor, Vec2i p)
         {
             path = TacticalPathfinder.GetPath(actor.Position, p, 1, actor);
             if (path == null || path.Count == 0)
@@ -169,7 +170,7 @@ namespace LegacyAI
             return true;
         }
 
-        bool Walkto(Actor_Unit actor, Vec2i p, int maxDistance)
+        private bool Walkto(Actor_Unit actor, Vec2i p, int maxDistance)
         {
             path = TacticalPathfinder.GetPath(actor.Position, p, 1, actor, maxDistance);
             if (path == null || path.Count == 0)
@@ -181,7 +182,7 @@ namespace LegacyAI
         }
 
 
-        bool RandomWalk(Actor_Unit actor)
+        private bool RandomWalk(Actor_Unit actor)
         {
             int r = State.Rand.Next(8);
             int d = 8;
@@ -202,7 +203,8 @@ namespace LegacyAI
             didAction = true;
             return true;
         }
-        bool RunRanged(Actor_Unit actor)
+
+        private bool RunRanged(Actor_Unit actor)
         {
             float distance = 64;
             int index = -1;
@@ -264,7 +266,8 @@ namespace LegacyAI
             }
 
         }
-        bool RunMelee(Actor_Unit actor)
+
+        private bool RunMelee(Actor_Unit actor)
         {
             //move towards closest target
             float distance = 64;
@@ -320,9 +323,7 @@ namespace LegacyAI
         }
 
 
-
-
-        bool IsRanged(Actor_Unit actor) => actor.Unit.GetBestRanged() != null;
+        private bool IsRanged(Actor_Unit actor) => actor.Unit.GetBestRanged() != null;
 
 
     }

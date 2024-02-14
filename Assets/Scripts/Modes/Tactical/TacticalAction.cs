@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-struct AcceptibleTargets
+internal struct AcceptibleTargets
 {
     internal AbilityTargets[] Targets;
 
@@ -15,8 +15,7 @@ struct AcceptibleTargets
 }
 
 
-
-class TargetedTacticalAction
+internal class TargetedTacticalAction
 {
     internal string Name;
     internal bool RequiresPred;
@@ -43,7 +42,7 @@ class TargetedTacticalAction
     }
 }
 
-class UntargetedTacticalAction
+internal class UntargetedTacticalAction
 {
     internal Color ButtonColor;
     internal string Name;
@@ -62,12 +61,12 @@ class UntargetedTacticalAction
     }
 }
 
-static class TacticalActionList
+internal static class TacticalActionList
 {
-    static internal List<TargetedTacticalAction> TargetedActions;
-    static internal List<UntargetedTacticalAction> UntargetedActions;
+    internal static List<TargetedTacticalAction> TargetedActions;
+    internal static List<UntargetedTacticalAction> UntargetedActions;
 
-    static internal Dictionary<SpecialAction, TargetedTacticalAction> TargetedDictionary;
+    internal static Dictionary<SpecialAction, TargetedTacticalAction> TargetedDictionary;
 
     static TacticalActionList()
     {

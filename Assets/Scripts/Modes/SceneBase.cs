@@ -3,8 +3,8 @@
 public abstract class SceneBase : MonoBehaviour
 {
     public GameObject UI;
-    abstract public void ReceiveInput();
-    abstract public void CleanUp();
+    public abstract void ReceiveInput();
+    public abstract void CleanUp();
 
 
 }

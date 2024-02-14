@@ -32,7 +32,7 @@ public class TacticalTileDictionary : MonoBehaviour
     public Sprite[] VolcanicOverGravelSptites;
     public Sprite[] PathSprites;
 
-    void Start()
+    private void Start()
     {
         if (PlayerPrefs.GetInt("DesaturatedTiles", 0) == 1)
         {

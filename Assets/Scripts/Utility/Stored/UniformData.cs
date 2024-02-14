@@ -1,6 +1,6 @@
 ﻿using OdinSerializer;
 
-class UniformData
+internal class UniformData
 {
     [OdinSerialize]
     private string _name;

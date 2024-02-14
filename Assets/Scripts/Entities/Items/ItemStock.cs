@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-class ItemStock
+internal class ItemStock
 {
-    [OdinSerialize]
-    Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
+    [OdinSerialize] private Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
 
     internal void AddItem(ItemType type, int quantity = 1)
     {

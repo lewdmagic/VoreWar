@@ -23,12 +23,11 @@ public class UnitEditorPanel : CustomizerPanel
     internal UnitEditor UnitEditor;
 
 
-
-    Dictionary<Race, int> raceDict;
-    Dictionary<TraitType, int> traitDict;
-    Dictionary<int, string> itemDict;
-    Dictionary<string, int> itemReverseDict;
-    Dictionary<int, Empire> empireDict;
+    private Dictionary<Race, int> raceDict;
+    private Dictionary<TraitType, int> traitDict;
+    private Dictionary<int, string> itemDict;
+    private Dictionary<string, int> itemReverseDict;
+    private Dictionary<int, Empire> empireDict;
 
     public TMP_InputField TraitsText;
 
@@ -38,7 +37,7 @@ public class UnitEditorPanel : CustomizerPanel
     protected EditStatButton[] buttons;
 
 
-    void SetUpRaces()
+    private void SetUpRaces()
     {
         raceDict = new Dictionary<Race, int>();
         int val = 0;
@@ -136,7 +135,7 @@ public class UnitEditorPanel : CustomizerPanel
         AlignmentDropdown.RefreshShownValue();
     }
 
-    EditStatButton CreateNewButton(Stat stat, Action<Stat, int> statAction, Action<Stat, int> levelAction, Action<Stat, int> manualSetAction)
+    private EditStatButton CreateNewButton(Stat stat, Action<Stat, int> statAction, Action<Stat, int> levelAction, Action<Stat, int> manualSetAction)
     {
         EditStatButton button = Instantiate(EditStatButtonPrefab, StatButtonPanel.transform).GetComponent<EditStatButton>();
         button.SetData(stat, UnitEditor.Unit.GetStat(stat), statAction, levelAction, manualSetAction, UnitEditor.Unit, this);

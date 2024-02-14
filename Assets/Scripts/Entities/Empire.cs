@@ -22,7 +22,8 @@ public class Empire
     public Race ReplacedRace { get => _replacedRace; set => _replacedRace = value; }
     [OdinSerialize]
     private int _gold;
-    int gold { get => _gold; set => _gold = value; }
+
+    private int gold { get => _gold; set => _gold = value; }
     [OdinSerialize]
     public int Income { get; private set; }
     [OdinSerialize]
@@ -369,7 +370,7 @@ public class Empire
 
     }
 
-    void GenerateLeader()
+    private void GenerateLeader()
     {
         var capital = CapitalCity;
         if (capital == null)

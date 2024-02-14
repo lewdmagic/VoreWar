@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class EmpireReport : MonoBehaviour
 {
-    Dictionary<Side, EmpireReportItem> Reports = new Dictionary<Side, EmpireReportItem>();
+    private Dictionary<Side, EmpireReportItem> Reports = new Dictionary<Side, EmpireReportItem>();
 
     public GameObject ReportItemPrefab;
     public Transform ReportFolder;
 
     public DiplomacyScreen DiplomacyScreen;
 
-    bool pausedState = false;
+    private bool pausedState = false;
 
-    readonly int GoblinNum = RaceFuncs.MainRaceCount;
-    readonly int FirstMonster = RaceFuncs.MainRaceCount + 1;
+    private readonly int GoblinNum = RaceFuncs.MainRaceCount;
+    private readonly int FirstMonster = RaceFuncs.MainRaceCount + 1;
 
     private EmpireReportItem GetReportItem(Side side)
     {

@@ -1,6 +1,6 @@
 ﻿using OdinSerializer;
 
-class Relationship
+internal class Relationship
 {
     [OdinSerialize]
     private float _attitude = 0;

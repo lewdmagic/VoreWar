@@ -1,4 +1,4 @@
-﻿enum Neighbor
+﻿internal enum Neighbor
 {
     North,
     NorthEast,
@@ -10,14 +10,14 @@
     NorthWest
 }
 
-enum Wanted
+internal enum Wanted
 {
     Yes,
     No,
     DontCare
 }
 
-struct DirectionalInfo
+internal struct DirectionalInfo
 {
     internal Wanted north;
     internal Wanted northeast;
@@ -41,10 +41,10 @@ struct DirectionalInfo
     }
 }
 
-class TacticalTileLogic
+internal class TacticalTileLogic
 {
-    TacticalTileType[,] tiles;
-    TacticalTileType[,] newtiles;
+    private TacticalTileType[,] tiles;
+    private TacticalTileType[,] newtiles;
 
     internal TacticalTileType[,] ApplyLogic(TacticalTileType[,] tiles)
     {
@@ -222,10 +222,10 @@ class TacticalTileLogic
     }
 }
 
-class StrategicTileLogic
+internal class StrategicTileLogic
 {
-    StrategicTileType[,] tiles;
-    StrategicTileType[,] newtiles;
+    private StrategicTileType[,] tiles;
+    private StrategicTileType[,] newtiles;
 
     internal StrategicTileType[,] ApplyLogic(StrategicTileType[,] originalTiles, out StrategicTileType[,] overTiles, out StrategicTileType[,] underTiles)
     {

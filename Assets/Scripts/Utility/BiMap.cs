@@ -12,7 +12,7 @@ namespace BidirectionalMap
         public Indexer<TForwardKey, TReverseKey> Forward { get; private set; } = new Indexer<TForwardKey, TReverseKey>();
         public Indexer<TReverseKey, TForwardKey> Reverse { get; private set; } = new Indexer<TReverseKey, TForwardKey>();
 
-        const string DuplicateKeyErrorMessage = "";
+        private const string DuplicateKeyErrorMessage = "";
 
         public BiMap()
         {

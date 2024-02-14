@@ -18,7 +18,7 @@ public class StrategicTileDictionary : MonoBehaviour
     public Sprite[] DeepWaterOverWaterSprites;
     public Sprite[] ObjectSprites;
 
-    void Start()
+    private void Start()
     {
 
         IceOverSnow = CreateTiles(IceOverSnowSprites);

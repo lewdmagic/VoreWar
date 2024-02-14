@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ArmyExchanger : MonoBehaviour
 {
-    UIUnitSprite[] leftUnitSprites;
-    UIUnitSprite[] rightUnitSprites;
+    private UIUnitSprite[] leftUnitSprites;
+    private UIUnitSprite[] rightUnitSprites;
 
     public Transform LeftFolder;
     public Transform RightFolder;
@@ -17,16 +17,16 @@ public class ArmyExchanger : MonoBehaviour
     internal bool LeftReceived;
     internal bool RightReceived;
 
-    InfoPanel infoPanel;
+    private InfoPanel infoPanel;
     public UnitInfoPanel info;
 
-    Actor_Unit[] leftActors;
-    Actor_Unit[] rightActors;
-    Unit[] leftUnits;
-    Unit[] rightUnits;
+    private Actor_Unit[] leftActors;
+    private Actor_Unit[] rightActors;
+    private Unit[] leftUnits;
+    private Unit[] rightUnits;
 
-    int leftSelected;
-    int rightSelected;
+    private int leftSelected;
+    private int rightSelected;
 
     public GameObject LeftSelector;
     public GameObject RightSelector;
@@ -40,9 +40,9 @@ public class ArmyExchanger : MonoBehaviour
 
     public GameObject ItemExchangePanel;
 
-    ItemExchangeControl[] ItemExchangers;
+    private ItemExchangeControl[] ItemExchangers;
 
-    bool fullArmies;
+    private bool fullArmies;
 
     internal void Initialize(Army left, Army right)
     {
@@ -141,7 +141,7 @@ public class ArmyExchanger : MonoBehaviour
         UpdateDrawnActors();
     }
 
-    void UpdateDrawnActors()
+    private void UpdateDrawnActors()
     {
 
         for (int x = 0; x < Config.MaximumPossibleArmy; x++)
@@ -296,7 +296,7 @@ public class ArmyExchanger : MonoBehaviour
         RefreshItemCounts();
     }
 
-    void RefreshItemCounts()
+    private void RefreshItemCounts()
     {
         for (int i = 0; i < ItemExchangers.Length; i++)
         {

@@ -1,7 +1,7 @@
 ﻿using Races.Graphics.Implementations.MainRaces;
 using UnityEngine;
 
-static class TacticalGraphicalEffects
+internal static class TacticalGraphicalEffects
 {
     internal enum SpellEffectIcon
     {
@@ -62,7 +62,7 @@ static class TacticalGraphicalEffects
 
     }
 
-    static Sprite ArrowType(Actor_Unit actor, out Material material)
+    private static Sprite ArrowType(Actor_Unit actor, out Material material)
     {
         Weapon weapon = actor.BestRanged;
         material = null;
@@ -320,8 +320,7 @@ static class TacticalGraphicalEffects
     }
 
 
-
-    static void EightRing(GameObject prefab, Vec2 location, float distance)
+    private static void EightRing(GameObject prefab, Vec2 location, float distance)
     {
         for (int x = -1; x <= 1; x++)
         {

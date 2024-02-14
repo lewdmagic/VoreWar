@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Actor_Unit : IActorUnit
 {
-    enum DisplayMode
+    private enum DisplayMode
     {
         None,
         Attacking,
@@ -31,9 +31,9 @@ public class Actor_Unit : IActorUnit
 
     }
 
-    int animationStep = 4;
-    float animationUpdateTime;
-    DisplayMode mode;
+    private int animationStep = 4;
+    private float animationUpdateTime;
+    private DisplayMode mode;
     [OdinSerialize]
     public List<KeyValuePair<int, float>> modeQueue;
 
@@ -192,7 +192,7 @@ public class Actor_Unit : IActorUnit
     private PredatorComponent _predatorComponent;
     public PredatorComponent PredatorComponent { get => _predatorComponent; set => _predatorComponent = value; }
 
-    Race animationControllerRace;
+    private Race animationControllerRace;
 
     [OdinSerialize]
     private AnimationController _animationController = new AnimationController();
@@ -1509,7 +1509,7 @@ public class Actor_Unit : IActorUnit
         return false;
     }
 
-    void CreateHitEffects(Actor_Unit target)
+    private void CreateHitEffects(Actor_Unit target)
     {
         State.GameManager.TacticalMode.CreateBloodHitEffect(target.Position);
         if (Equals(Unit.Race, Race.Asura))
@@ -2101,8 +2101,7 @@ public class Actor_Unit : IActorUnit
     }
 
 
-
-    bool Move(int changeX, int changeY, TacticalTileType[,] tiles)
+    private bool Move(int changeX, int changeY, TacticalTileType[,] tiles)
     {
         //float delay = AI ? Config.TacticalPlayerMovementDelay : Config.TacticalAIMovementDelay;
         Vec2i newLocation = new Vec2i(Position.X + changeX, Position.Y + changeY);

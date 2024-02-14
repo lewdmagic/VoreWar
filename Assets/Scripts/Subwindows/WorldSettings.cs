@@ -9,7 +9,7 @@ public class WorldSettings : MonoBehaviour
 {
     public GameObject EditEmpirePrefab;
     public Transform folder;
-    EditEmpireUI[] Empires;
+    private EditEmpireUI[] Empires;
 
     public Text RightText;
 
@@ -174,7 +174,7 @@ public class WorldSettings : MonoBehaviour
         box.SetData(ChangeArmySizes, "Change them", "Cancel", "Change all army max sizes? (1-48)", 2);
     }
 
-    void ChangeArmySizes(int size)
+    private void ChangeArmySizes(int size)
     {
         foreach (var empire in Empires)
         {
@@ -188,7 +188,7 @@ public class WorldSettings : MonoBehaviour
         box.SetData(ChangeGarrisonSizes, "Change them", "Cancel", "Change all max garrison sizes? (1-48)", 2);
     }
 
-    void ChangeGarrisonSizes(int size)
+    private void ChangeGarrisonSizes(int size)
     {
         foreach (var empire in Empires)
         {

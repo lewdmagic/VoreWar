@@ -75,27 +75,27 @@ public enum MovementType
     Air,
 }
 
-static class StrategicTileInfo
+internal static class StrategicTileInfo
 {
-    static int[] grasses = new int[] { 0, 13, 14, 15 };
-    static int[] forests = new int[] { 1, 16, 17, 18 };
-    static int[] waters = new int[] { 3, 19, 20, 21 };
-    static int[] fields = new int[] { 4, 22, 23, 24 };
-    static int[] sands = new int[] { 6, 25, 27 };
-    static int[] hills = new int[] { 5, 26 };
-    static int[] swamps = new int[] { 30, 31, 32 };
-    static int[] snowFields = new int[] { 33, 34, 35, 36 };
-    static int[] desertFields = new int[] { 37, 38, 39, 40 };
+    private static int[] grasses = new int[] { 0, 13, 14, 15 };
+    private static int[] forests = new int[] { 1, 16, 17, 18 };
+    private static int[] waters = new int[] { 3, 19, 20, 21 };
+    private static int[] fields = new int[] { 4, 22, 23, 24 };
+    private static int[] sands = new int[] { 6, 25, 27 };
+    private static int[] hills = new int[] { 5, 26 };
+    private static int[] swamps = new int[] { 30, 31, 32 };
+    private static int[] snowFields = new int[] { 33, 34, 35, 36 };
+    private static int[] desertFields = new int[] { 37, 38, 39, 40 };
 
-    static internal List<StrategicTileType> SandFamily = new List<StrategicTileType>() { StrategicTileType.desert, StrategicTileType.fieldDesert, StrategicTileType.sandHills, StrategicTileType.brokenCliffs };
-    static internal List<StrategicTileType> GrassFamily = new List<StrategicTileType>() { StrategicTileType.grass, StrategicTileType.forest, StrategicTileType.mountain, StrategicTileType.field, StrategicTileType.hills };
-    static internal List<StrategicTileType> SnowFamily = new List<StrategicTileType>() { StrategicTileType.snow, StrategicTileType.snowHills, StrategicTileType.fieldSnow, StrategicTileType.ice, StrategicTileType.snowTrees, StrategicTileType.snowMountain };
-    static internal List<StrategicTileType> WaterFamily = new List<StrategicTileType>() { StrategicTileType.water, StrategicTileType.ocean };
+    internal static List<StrategicTileType> SandFamily = new List<StrategicTileType>() { StrategicTileType.desert, StrategicTileType.fieldDesert, StrategicTileType.sandHills, StrategicTileType.brokenCliffs };
+    internal static List<StrategicTileType> GrassFamily = new List<StrategicTileType>() { StrategicTileType.grass, StrategicTileType.forest, StrategicTileType.mountain, StrategicTileType.field, StrategicTileType.hills };
+    internal static List<StrategicTileType> SnowFamily = new List<StrategicTileType>() { StrategicTileType.snow, StrategicTileType.snowHills, StrategicTileType.fieldSnow, StrategicTileType.ice, StrategicTileType.snowTrees, StrategicTileType.snowMountain };
+    internal static List<StrategicTileType> WaterFamily = new List<StrategicTileType>() { StrategicTileType.water, StrategicTileType.ocean };
 
 
-    static Noise.OpenSimplexNoise OpenSimplexNoise = new Noise.OpenSimplexNoise(155);
+    private static Noise.OpenSimplexNoise OpenSimplexNoise = new Noise.OpenSimplexNoise(155);
 
-    static internal int GetTileType(StrategicTileType type, int x, int y)
+    internal static int GetTileType(StrategicTileType type, int x, int y)
     {
         Random rand = new Random((int)(65535 * OpenSimplexNoise.Evaluate(16 * x, 16 * y)));
 
@@ -142,7 +142,7 @@ static class StrategicTileInfo
         }
     }
 
-    static internal int GetObjectTileType(StrategicTileType type, int x, int y)
+    internal static int GetObjectTileType(StrategicTileType type, int x, int y)
     {
         Random rand = new Random((int)(65535 * OpenSimplexNoise.Evaluate(16 * x, 16 * y)));
 
@@ -196,7 +196,7 @@ static class StrategicTileInfo
     /// <summary>
     /// Don't call from within Map editor, use the local
     /// </summary>
-    static internal bool CanWalkInto(int x, int y)
+    internal static bool CanWalkInto(int x, int y)
     {
         if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false)
             return false;
@@ -207,7 +207,7 @@ static class StrategicTileInfo
         return false;
     }
 
-    static internal bool CanWalkInto(StrategicTileType type)
+    internal static bool CanWalkInto(StrategicTileType type)
     {
         switch (type)
         {
@@ -240,7 +240,7 @@ static class StrategicTileInfo
         }
     }
 
-    static internal int WalkCost(int x, int y)
+    internal static int WalkCost(int x, int y)
     {
         if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false)
             return 9999;
@@ -249,7 +249,7 @@ static class StrategicTileInfo
         return WalkCost(State.World.Tiles[x, y]);
     }
 
-    static internal int WalkCost(StrategicTileType type)
+    internal static int WalkCost(StrategicTileType type)
     {
         switch (type)
         {

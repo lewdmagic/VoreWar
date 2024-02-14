@@ -7,7 +7,7 @@ public class AdvancedUnitCommands : MonoBehaviour
     public GameObject ButtonPrefab;
     internal Button[] Buttons;
 
-    int index = 0;
+    private int index = 0;
 
     internal void ClearButtons()
     {

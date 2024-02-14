@@ -8,7 +8,7 @@ public static class StrategyPathfinder
     public static bool Initialized = false;
 
 
-    struct Cell
+    private struct Cell
     {
         public bool FriendlyOccupied;
         public bool EnemyOccupied;
@@ -17,7 +17,7 @@ public static class StrategyPathfinder
         public StrategicTileType TileType;
     }
 
-    struct QueueNode : IComparable<QueueNode>
+    private struct QueueNode : IComparable<QueueNode>
     {
         public Vec2 Value;
         public int Dist;
@@ -45,7 +45,7 @@ public static class StrategyPathfinder
         }
     }
 
-    class Vec2Comparer : IEqualityComparer<Vec2>
+    private class Vec2Comparer : IEqualityComparer<Vec2>
     {
         public bool Equals(Vec2 a, Vec2 b)
         {
@@ -58,7 +58,7 @@ public static class StrategyPathfinder
                     ^ (IntegerHash(obj.y) << 1)) >> 1);
         }
 
-        static int IntegerHash(int a)
+        private static int IntegerHash(int a)
         {
             // fmix32 from murmurhash
             uint h = (uint)a;
@@ -71,9 +71,9 @@ public static class StrategyPathfinder
         }
     }
 
-    static bool flyingPath = false;
+    private static bool flyingPath = false;
 
-    struct EndPoint
+    private struct EndPoint
     {
         internal QueueNode node;
         internal int priority;
@@ -613,9 +613,7 @@ public static class StrategyPathfinder
     }
 
 
-
-
-    static List<PathNode> GetWalkableAdjacentSquares(Empire empire, int x, int y)
+    private static List<PathNode> GetWalkableAdjacentSquares(Empire empire, int x, int y)
     {
         var proposedLocations = new List<PathNode>()
             {
@@ -632,14 +630,14 @@ public static class StrategyPathfinder
         return proposedLocations.Where(l => TileCheck(empire, new Vec2i(l.X, l.Y)) == true).ToList();
     }
 
-    static int ComputeHScore(int x, int y, int targetX, int targetY)
+    private static int ComputeHScore(int x, int y, int targetX, int targetY)
     {
         int dx = Mathf.Abs(x - targetX);
         int dy = Mathf.Abs(y - targetY);
         return Mathf.Max(dx, dy);
     }
 
-    static int TotalManhattan(int x, int y, int targetX, int targetY)
+    private static int TotalManhattan(int x, int y, int targetX, int targetY)
     {
         int dx = Mathf.Abs(x - targetX);
         int dy = Mathf.Abs(y - targetY);

@@ -70,14 +70,14 @@ public class Options : MonoBehaviour
         box.SetData(ClearAllSettings, "Delete them all", "Cancel", "This clears all saved settings in options and content menus, are you sure you want to do this?");
     }
 
-    void ClearAllSettings()
+    private void ClearAllSettings()
     {
         PlayerPrefs.DeleteAll();
         GetValues();
     }
 
 
-    void GetValues()
+    private void GetValues()
     {
         StrategicDelaySlider.value = PlayerPrefs.GetFloat("StrategicDelaySlider", .25f);
         TacticalPlayerMovementDelaySlider.value = PlayerPrefs.GetFloat("TacticalPlayerMovementDelaySlider", .1f);
@@ -129,7 +129,7 @@ public class Options : MonoBehaviour
         TacticalVoreDelaySlider.GetComponentInChildren<Text>().text = $"{TacticalVoreDelaySlider.name}: {Math.Round(TacticalVoreDelaySlider.value, 3)} sec";
     }
 
-    void SetNewValues()
+    private void SetNewValues()
     {
         PlayerPrefs.SetFloat("StrategicDelaySlider", StrategicDelaySlider.value);
         PlayerPrefs.SetFloat("TacticalPlayerMovementDelaySlider", TacticalPlayerMovementDelaySlider.value);

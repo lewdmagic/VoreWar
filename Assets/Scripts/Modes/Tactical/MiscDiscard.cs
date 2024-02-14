@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 using UnityEngine;
 
-enum MiscDiscardType
+internal enum MiscDiscardType
 {
     Scat,
     Bones,
@@ -9,7 +9,7 @@ enum MiscDiscardType
     DisposedCondom
 }
 
-class MiscDiscard
+internal class MiscDiscard
 {
     [OdinSerialize]
     private Vec2i _location;
@@ -40,7 +40,7 @@ class MiscDiscard
         this.color = color;
     }
 
-    virtual public void GenerateSpritePrefab(Transform folder)
+    public virtual void GenerateSpritePrefab(Transform folder)
     {
         Vector3 loc = new Vector3(location.X - .5f + Random.Range(0, 1f), location.Y - .5f + Random.Range(0, 1f));
 

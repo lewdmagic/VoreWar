@@ -21,7 +21,8 @@ public class StrategicAI : IStrategicAI
 {
     [OdinSerialize]
     private Empire _empire;
-    Empire empire { get => _empire; set => _empire = value; }
+
+    private Empire empire { get => _empire; set => _empire = value; }
 
     [OdinSerialize]
     [Obsolete]
@@ -35,11 +36,11 @@ public class StrategicAI : IStrategicAI
     private bool _smarterAI = false;
     public bool smarterAI { get => _smarterAI; set => _smarterAI = value; }
 
-    StrategicArmyCommander ArmyCommander;
+    private StrategicArmyCommander ArmyCommander;
 
-    int idealArmySize;
+    private int idealArmySize;
 
-    Side AISide => empire.Side;
+    private Side AISide => empire.Side;
 
     public StrategicAI(Empire empire, int cheatLevel, bool smarterAI)
     {
@@ -48,7 +49,7 @@ public class StrategicAI : IStrategicAI
         this.smarterAI = smarterAI;
     }
 
-    void RegenArmyCommander()
+    private void RegenArmyCommander()
     {
         ArmyCommander = new StrategicArmyCommander(empire, empire.MaxArmySize, smarterAI);
     }
@@ -336,7 +337,7 @@ public class StrategicAI : IStrategicAI
         });
     }
 
-    static public void TryVillageConstruction(Village village, Empire empire, ConstructionWants wants)
+    public static void TryVillageConstruction(Village village, Empire empire, ConstructionWants wants)
     {
         var validBuildings = new Dictionary<VillageBuilding, VillageBuildingDefinition>();
 
@@ -452,7 +453,7 @@ public class StrategicAI : IStrategicAI
         }
     }
 
-    void PurchaseBuildings()
+    private void PurchaseBuildings()
     {
         Village[] ownVillages = State.World.Villages.Where(s => Equals(s.Side, AISide) && s.GetTotalPop() > 30).Where(s => StrategicUtilities.EnemyArmyWithinXTiles(s, 4) == false).OrderByDescending(s => s.GetTotalPop()).ToArray();
         foreach (Village village in ownVillages)
@@ -504,7 +505,7 @@ public class StrategicAI : IStrategicAI
         return false;
     }
 
-    Army MakeArmy(Village village, int tier)
+    private Army MakeArmy(Village village, int tier)
     {
         Army army = new Army(empire, new Vec2i(village.Position.X, village.Position.Y), village.Side);
         if (idealArmySize > village.GetTotalPop() - 3)
@@ -550,7 +551,7 @@ public class StrategicAI : IStrategicAI
     }
 
 
-    Village GetBestVillageToMakeArmy(Empire empire)
+    private Village GetBestVillageToMakeArmy(Empire empire)
     {
         int index = -1;
         int bestScore = -80;
@@ -574,7 +575,7 @@ public class StrategicAI : IStrategicAI
         return index > -1 ? State.World.Villages[index] : null;
     }
 
-    int VillageArmyCreationPriority(Empire empire, Village village)
+    private int VillageArmyCreationPriority(Empire empire, Village village)
     {
         int baseLevel = Unit.GetLevelFromExperience(empire.StartingXP);
         double expBonus = 0;

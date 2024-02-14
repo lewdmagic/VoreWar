@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class UnitInfoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    bool hovering;
+    private bool hovering;
 
-    int prevNames = 0;
+    private int prevNames = 0;
 
     public UIUnitSprite Sprite;
     public TextMeshProUGUI BasicInfo;
@@ -115,7 +115,7 @@ public class UnitInfoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
     }
 
-    void DisplayInfoFor(string name)
+    private void DisplayInfoFor(string name)
     {
         if (Actor?.Unit.Predator == false || Actor?.PredatorComponent == null)
             return;
@@ -128,7 +128,7 @@ public class UnitInfoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
     }
 
-    void DisplayInfoFor(string name, int instance)
+    private void DisplayInfoFor(string name, int instance)
     {
         int count = 0;
         if (Actor?.Unit.Predator == false)

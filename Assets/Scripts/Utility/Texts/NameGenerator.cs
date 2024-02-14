@@ -6,18 +6,17 @@ using System.Text;
 
 public class NameGenerator
 {
+    private List<string> femaleNames;
+    private List<string> maleNames;
+    private List<string> monsterNames;
 
-    List<string> femaleNames;
-    List<string> maleNames;
-    List<string> monsterNames;
-	
-    Dictionary<Race, List<string>> RaceMaleNames;
-    Dictionary<Race, List<string>> RaceFemaleNames;
-    Dictionary<Race, List<string>> RaceMonsterNames;
+    private Dictionary<Race, List<string>> RaceMaleNames;
+    private Dictionary<Race, List<string>> RaceFemaleNames;
+    private Dictionary<Race, List<string>> RaceMonsterNames;
 
-    Dictionary<Race, List<string>> ArmyNames;
+    private Dictionary<Race, List<string>> ArmyNames;
 
-    Dictionary<Race, string> ArmyNameDefault;
+    private Dictionary<Race, string> ArmyNameDefault;
 
     public NameGenerator()
     {

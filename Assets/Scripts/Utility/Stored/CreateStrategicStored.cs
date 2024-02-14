@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Utility.Stored
 {
-    struct EmpireData
+    internal struct EmpireData
     {
         public bool AIPlayer;
         public string VillageCount;
@@ -18,7 +18,7 @@ namespace Assets.Scripts.Utility.Stored
         public float MaxGarrisonSize;
     }
 
-    class CreateStrategicStored
+    internal class CreateStrategicStored
     {
         [OdinSerialize]
         internal Dictionary<string, string> InputFields;

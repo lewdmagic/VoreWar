@@ -29,59 +29,59 @@ public enum AbilityTargets
     Tile,
 }
 
-static class SpellList
+internal static class SpellList
 {
-    static internal readonly DamageSpell Fireball;
-    static internal readonly DamageSpell PowerBolt;
-    static internal readonly DamageSpell LightningBolt;
-    static internal readonly StatusSpell Shield;
-    static internal readonly StatusSpell Mending;
-    static internal readonly StatusSpell Speed;
-    static internal readonly StatusSpell Valor;
-    static internal readonly StatusSpell Predation;
-    static internal readonly StatusSpell Charm;
+    internal static readonly DamageSpell Fireball;
+    internal static readonly DamageSpell PowerBolt;
+    internal static readonly DamageSpell LightningBolt;
+    internal static readonly StatusSpell Shield;
+    internal static readonly StatusSpell Mending;
+    internal static readonly StatusSpell Speed;
+    internal static readonly StatusSpell Valor;
+    internal static readonly StatusSpell Predation;
+    internal static readonly StatusSpell Charm;
 
-    static internal readonly DamageSpell IceBlast;
-    static internal readonly DamageSpell Pyre;
+    internal static readonly DamageSpell IceBlast;
+    internal static readonly DamageSpell Pyre;
     //static internal readonly Spell Warp;
     //static internal readonly DamageSpell MagicWall;
-    static internal readonly StatusSpell Poison;
+    internal static readonly StatusSpell Poison;
 
     //Quicksand
-    static internal readonly StatusSpell PreysCurse;
-    static internal readonly StatusSpell Enlarge;
-    static internal readonly Spell Maw;
-    static internal readonly Spell Summon;
+    internal static readonly StatusSpell PreysCurse;
+    internal static readonly StatusSpell Enlarge;
+    internal static readonly Spell Maw;
+    internal static readonly Spell Summon;
 
-    static internal readonly StatusSpell Diminishment;
+    internal static readonly StatusSpell Diminishment;
     //Raze
-    static internal readonly Spell GateMaw;
-    static internal readonly Spell Reanimate;
-    static internal readonly Spell Resurrection;
+    internal static readonly Spell GateMaw;
+    internal static readonly Spell Reanimate;
+    internal static readonly Spell Resurrection;
 
-    static internal readonly Spell AmplifyMagic;
-    static internal readonly Spell Evocation;
-    static internal readonly DamageSpell ManaFlux;
-    static internal readonly DamageSpell UnstableMana;
-    static internal readonly DamageSpell ManaExpolsion;
+    internal static readonly Spell AmplifyMagic;
+    internal static readonly Spell Evocation;
+    internal static readonly DamageSpell ManaFlux;
+    internal static readonly DamageSpell UnstableMana;
+    internal static readonly DamageSpell ManaExpolsion;
 
-    static internal readonly StatusSpell AlraunePuff;
-    static internal readonly StatusSpell Web;
-    static internal readonly StatusSpell GlueBomb;
-    static internal readonly StatusSpell Petrify;
-    static internal readonly StatusSpell HypnoGas;
-    static internal readonly StatusSpell Whispers;
-    static internal readonly Spell ForceFeed;
-    static internal readonly Spell AssumeForm;
-    static internal readonly Spell RevertForm;
-    static internal readonly Spell Bind;
+    internal static readonly StatusSpell AlraunePuff;
+    internal static readonly StatusSpell Web;
+    internal static readonly StatusSpell GlueBomb;
+    internal static readonly StatusSpell Petrify;
+    internal static readonly StatusSpell HypnoGas;
+    internal static readonly StatusSpell Whispers;
+    internal static readonly Spell ForceFeed;
+    internal static readonly Spell AssumeForm;
+    internal static readonly Spell RevertForm;
+    internal static readonly Spell Bind;
 
-    static internal readonly DamageSpell ViperPoisonDamage;
-    static internal readonly StatusSpell ViperPoisonStatus;
-    static internal readonly StatusSpell ViralInfection;
-    static internal readonly StatusSpell DivinitysEmbrace;
+    internal static readonly DamageSpell ViperPoisonDamage;
+    internal static readonly StatusSpell ViperPoisonStatus;
+    internal static readonly StatusSpell ViralInfection;
+    internal static readonly StatusSpell DivinitysEmbrace;
 
-    static internal Dictionary<SpellType, Spell> SpellDict;
+    internal static Dictionary<SpellType, Spell> SpellDict;
 
 
     static SpellList()
@@ -1097,14 +1097,14 @@ public class Spell
 
 //May redo this with interfaces later on
 
-class DamageSpell : Spell
+internal class DamageSpell : Spell
 {
 
     internal Func<Actor_Unit, Actor_Unit, int> Damage;
     internal DamageType DamageType = DamageType.Generic;
 }
 
-class StatusSpell : Spell
+internal class StatusSpell : Spell
 {
     internal Func<Actor_Unit, Actor_Unit, int> Duration;
     internal Func<Actor_Unit, Actor_Unit, float> Effect;

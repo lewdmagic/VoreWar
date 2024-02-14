@@ -1,7 +1,7 @@
-static class TraitsMethods
+internal static class TraitsMethods
 {
 
-    static public bool IsRaceModifying(TraitType traitType)
+    public static bool IsRaceModifying(TraitType traitType)
     {
         switch (traitType)
         {
@@ -16,7 +16,7 @@ static class TraitsMethods
         }
     }
 
-    static public TraitType LastTrait()
+    public static TraitType LastTrait()
     {
         return TraitType.SpiritPossession;
     }

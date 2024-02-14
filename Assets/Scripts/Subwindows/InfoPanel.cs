@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class InfoPanel
 {
-    UnitInfoPanel UnitInfoPanel;
-    string parentMenu;
+    private UnitInfoPanel UnitInfoPanel;
+    private string parentMenu;
     public InfoPanel(UnitInfoPanel infoPanel, string menu = "unknown")
     {
         UnitInfoPanel = infoPanel;
@@ -143,7 +143,7 @@ public class InfoPanel
         return Races2.GetRace(unit.Race).SingularName(unit);
     }
 
-    void BuildStatus(StringBuilder sb, Unit unit)
+    private void BuildStatus(StringBuilder sb, Unit unit)
     {
         // Add Name
         if (unit.Type == UnitType.Summon)
@@ -171,7 +171,7 @@ public class InfoPanel
         }
     }
 
-    void BuildStats(StringBuilder sb, Unit unit, bool CanVore, Actor_Unit actor)
+    private void BuildStats(StringBuilder sb, Unit unit, bool CanVore, Actor_Unit actor)
     {
         if (parentMenu != "unitEditor")
         {
@@ -365,7 +365,7 @@ public class InfoPanel
         }
     }
 
-    void BuildPredStat(StringBuilder sb, Actor_Unit unit)
+    private void BuildPredStat(StringBuilder sb, Actor_Unit unit)
     {
         sb.Append(unit.PredatorComponent.GetPreyInformation());
 

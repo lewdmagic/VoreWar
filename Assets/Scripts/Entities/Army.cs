@@ -29,7 +29,8 @@ public class Army
     }
     [OdinSerialize]
     private Empire _empire;
-    Empire empire { get => _empire; set => _empire = value; }
+
+    private Empire empire { get => _empire; set => _empire = value; }
     [OdinSerialize]
     private AIMode _aIMode;
     public AIMode AIMode { get => _aIMode; set => _aIMode = value; } //May eventually split this out, but we'll see
@@ -466,7 +467,7 @@ public class Army
         return CheckMove(pos);
     }
 
-    Vec2i GetPos(int i)
+    private Vec2i GetPos(int i)
     {
         switch (i)
         {
@@ -490,7 +491,7 @@ public class Army
         return Position;
     }
 
-    bool CheckMove(Vec2i pos)
+    private bool CheckMove(Vec2i pos)
     {
         TileAction act = CheckTileForActionType(pos);
 

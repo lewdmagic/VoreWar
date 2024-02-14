@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-static class Config
+internal static class Config
 {
     public enum AutoAdvanceType
     {

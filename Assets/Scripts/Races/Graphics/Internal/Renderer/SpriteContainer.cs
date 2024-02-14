@@ -54,9 +54,9 @@ internal static class SpriteContainer
     }
 }
 
-abstract class SpriteContainerShared
+internal abstract class SpriteContainerShared
 {
-    public GameObject GameObject { get; protected private set; }
+    public GameObject GameObject { get; private protected set; }
 
     public string Name
     {

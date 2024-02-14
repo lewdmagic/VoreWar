@@ -25,13 +25,13 @@ public class VillageBuildingDefinition
         Description = desc;
     }
 
-    static public BuildingCost GetCost(VillageBuilding building, int amount = 1)
+    public static BuildingCost GetCost(VillageBuilding building, int amount = 1)
     {
         var def = VillageBuildingList.GetBuildingDefinition(building);
         return GetCost(def, amount);
     }
 
-    static public BuildingCost GetCost(VillageBuildingDefinition buildingDef, int amount = 1)
+    public static BuildingCost GetCost(VillageBuildingDefinition buildingDef, int amount = 1)
     {
         var cost = new BuildingCost()
         {

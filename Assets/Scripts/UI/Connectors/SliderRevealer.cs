@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class SliderRevealer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    Slider Slider;
+    private Slider Slider;
 
-    bool hovering;
+    private bool hovering;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -18,14 +18,14 @@ public class SliderRevealer : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         hovering = false;
     }
 
-    void TrySetValue(string fl)
+    private void TrySetValue(string fl)
     {
         if (float.TryParse(fl, out float result))
             Slider.value = result;
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         Slider = GetComponentInParent<Slider>();
         if (Slider == null)
@@ -33,7 +33,7 @@ public class SliderRevealer : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (hovering && Slider.interactable)
         {

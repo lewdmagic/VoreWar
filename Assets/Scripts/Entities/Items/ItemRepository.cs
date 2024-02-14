@@ -64,12 +64,13 @@ public class ItemRepository
 {
     [OdinSerialize]
     private List<Item> _items;
-    List<Item> items { get => _items; set => _items = value; }
+
+    private List<Item> items { get => _items; set => _items = value; }
     [OdinSerialize]
     private List<Item> _specialItems;
-    List<Item> specialItems { get => _specialItems; set => _specialItems = value; }
-    [OdinSerialize]
-    Dictionary<Race, Item> monsterItems;
+
+    private List<Item> specialItems { get => _specialItems; set => _specialItems = value; }
+    [OdinSerialize] private Dictionary<Race, Item> monsterItems;
     [OdinSerialize]
     private Weapon _claws;
     public Weapon Claws { get => _claws; set => _claws = value; }
@@ -79,7 +80,8 @@ public class ItemRepository
 
     [OdinSerialize]
     private List<Item> _allItems;
-    List<Item> AllItems { get => _allItems; set => _allItems = value; }
+
+    private List<Item> AllItems { get => _allItems; set => _allItems = value; }
 
     public ItemRepository()
     {

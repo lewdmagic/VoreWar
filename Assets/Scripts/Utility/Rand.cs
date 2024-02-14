@@ -3,7 +3,7 @@
 
 public class Rand
 {
-    Random rand = new Random();
+    private Random rand = new Random();
 
     internal int Next()
     {

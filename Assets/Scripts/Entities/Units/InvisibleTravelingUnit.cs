@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 
 
-class InvisibleTravelingUnit
+internal class InvisibleTravelingUnit
 {
     [OdinSerialize]
     private Unit _unit;

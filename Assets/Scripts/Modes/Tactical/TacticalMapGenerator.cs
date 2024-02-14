@@ -4,9 +4,9 @@ using TacticalBuildings;
 using TacticalDecorations;
 using UnityEngine;
 
-class TacticalMapGenerator
+internal class TacticalMapGenerator
 {
-    enum TerrainType
+    private enum TerrainType
     {
         Grass,
         Snow,
@@ -15,16 +15,16 @@ class TacticalMapGenerator
         Volcanic,
     }
 
-    TerrainType terrainType;
-    TacticalTileType defaultType;
-    Village village;
+    private TerrainType terrainType;
+    private TacticalTileType defaultType;
+    private Village village;
 
-    int attempt;
-    int maxAttempts;
-    bool wasWiped;
+    private int attempt;
+    private int maxAttempts;
+    private bool wasWiped;
 
-    bool[,] connectedGoodTiles;
-    bool[,] blockedTile;
+    private bool[,] connectedGoodTiles;
+    private bool[,] blockedTile;
 
     public TacticalMapGenerator(StrategicTileType stratTiletype, Village village)
     {
@@ -588,7 +588,7 @@ class TacticalMapGenerator
         }
     }
 
-    TacticalBuilding GetRandomBuildingFrom(Vec2 location, params Type[] buildings)
+    private TacticalBuilding GetRandomBuildingFrom(Vec2 location, params Type[] buildings)
     {
         var rand = UnityEngine.Random.Range(0, buildings.Length);
         return (TacticalBuilding)Activator.CreateInstance(buildings[rand], location);
@@ -776,11 +776,11 @@ class TacticalMapGenerator
     public Vector2 he_seed = new Vector2(0, 0);
 
 
-    float[,] he_array;
+    private float[,] he_array;
 
 
     //calculate the value of an element of the array based on noise and location
-    float FractalNoise(int i, int j, float zoom, float factor, Vector2 seed)
+    private float FractalNoise(int i, int j, float zoom, float factor, Vector2 seed)
     {
         i = i + Mathf.RoundToInt(seed.x * zoom);
         j = j + Mathf.RoundToInt(seed.y * zoom);
@@ -792,13 +792,13 @@ class TacticalMapGenerator
     }
 
 
-    void MakeArrays()
+    private void MakeArrays()
     {
         he_array = new float[Config.TacticalSizeX, Config.TacticalSizeY];
         RecalculateArray();
     }
 
-    void RecalculateArray()
+    private void RecalculateArray()
     {
         for (int i = 0; i < Config.TacticalSizeX; i++)
         {

@@ -40,7 +40,7 @@ public class NPC_unit : Unit
         StrategicUtilities.CheatForceLevelUps(this, desiredLevels);
     }
 
-    void GenGarrison(int levels, bool advancedWeapons)
+    private void GenGarrison(int levels, bool advancedWeapons)
     {
         if (BestSuitedForRanged())
             GenArcher(levels, advancedWeapons);
@@ -48,7 +48,7 @@ public class NPC_unit : Unit
             GenMelee(levels, advancedWeapons);
     }
 
-    void GenMelee(int levels, bool advancedWeapons)
+    private void GenMelee(int levels, bool advancedWeapons)
     {
         if (advancedWeapons)
             Items[0] = State.World.ItemRepository.GetItem(ItemType.Axe);
@@ -69,7 +69,7 @@ public class NPC_unit : Unit
         Health = MaxHealth;
     }
 
-    void GenArcher(int levels, bool advancedWeapons)
+    private void GenArcher(int levels, bool advancedWeapons)
     {
         if (advancedWeapons)
             Items[0] = State.World.ItemRepository.GetItem(ItemType.CompoundBow);
@@ -90,7 +90,7 @@ public class NPC_unit : Unit
         Health = MaxHealth;
     }
 
-    void GenLeader(int levels, bool Ranged, Race race)
+    private void GenLeader(int levels, bool Ranged, Race race)
     {
         Type = UnitType.Leader;
         if (Ranged)

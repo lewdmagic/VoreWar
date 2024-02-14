@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 
-class ScatV2Discard : MiscDiscard
+internal class ScatV2Discard : MiscDiscard
 {
     [OdinSerialize]
     private ScatInfo _scatInfo;
@@ -17,7 +17,7 @@ class ScatV2Discard : MiscDiscard
         this.description = scatInfo.GetDescription();
     }
 
-    override public void GenerateSpritePrefab(Transform folder)
+    public override void GenerateSpritePrefab(Transform folder)
     {
         Vector3 loc = new Vector3(location.X - .5f + Random.Range(0, 1f), location.Y - .5f + Random.Range(0, 1f));
 

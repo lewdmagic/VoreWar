@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class ScatInfo
+internal class ScatInfo
 {
     [OdinSerialize]
     private string _name = "";

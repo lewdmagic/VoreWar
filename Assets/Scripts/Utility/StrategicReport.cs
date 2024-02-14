@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 
 
-struct StrategicReport
+internal struct StrategicReport
 {
     [OdinSerialize]
     internal string Text;

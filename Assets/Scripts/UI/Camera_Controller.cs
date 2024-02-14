@@ -2,22 +2,22 @@
 
 public class Camera_Controller : MonoBehaviour
 {
-    Vector2 strategicPosition;
-    float strategicZoom;
-    Camera cam;
+    private Vector2 strategicPosition;
+    private float strategicZoom;
+    private Camera cam;
 
-    Vector2 lastMousePos;
+    private Vector2 lastMousePos;
     public Vector2 ZoomRange;
     public float ScrollSpeed = .2f;
-    float maxX;
-    float maxY;
+    private float maxX;
+    private float maxY;
 
     private void Start()
     {
         cam = GetComponent<Camera>();
     }
 
-    void Update()
+    private void Update()
     {
         if (State.GameManager?.CurrentScene == null || cam == null || State.GameManager.ActiveInput)
             return;

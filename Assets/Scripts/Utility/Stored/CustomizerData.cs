@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 using System.Collections.Generic;
 
-class CustomizerData
+internal class CustomizerData
 {
     [OdinSerialize]
     private Race _race;

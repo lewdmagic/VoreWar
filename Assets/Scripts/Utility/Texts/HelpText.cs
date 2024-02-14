@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-static class HelpText
+internal static class HelpText
 {
     public static string GameBasics = @"Goals:
 Claim all enemy villages for your side, to do this raise armies at your villages by recruiting soldiers and equipping them with items in the village shop then moving them towards the enemy.  There's 3 different selectable victory conditions.

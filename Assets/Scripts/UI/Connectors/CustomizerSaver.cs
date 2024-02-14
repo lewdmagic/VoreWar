@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class CustomizerSaver : MonoBehaviour
 {
     public InputField Text;
-    bool OpenedFromEditor;
+    private bool OpenedFromEditor;
 
     public void Open(bool openedFromEditor)
     {

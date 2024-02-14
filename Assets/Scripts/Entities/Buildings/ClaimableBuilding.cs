@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 
 
-abstract class ClaimableBuilding
+internal abstract class ClaimableBuilding
 {
     [OdinSerialize]
     private Empire _owner;

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-class FogSystemTactical
+internal class FogSystemTactical
 {
     internal bool[,] FoggedTile;
     internal Tilemap FogOfWar;
@@ -102,7 +102,7 @@ class FogSystemTactical
         }
     }
 
-    void ClearWithinSTilesOf(Vec2i pos, int sight = 1)
+    private void ClearWithinSTilesOf(Vec2i pos, int sight = 1)
     {
         for (int x = pos.X - sight; x <= pos.X + sight; x++)
         {

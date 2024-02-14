@@ -128,7 +128,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     internal Map map;
 
-    string mapString;
+    private string mapString;
 
     public void ClearState()
     {
@@ -140,7 +140,7 @@ public class CreateStrategicGame : MonoBehaviour
         }
     }
 
-    void Awake()
+    private void Awake()
     {
         int i = 0;
         foreach (Race race in RaceFuncs.MainRaceEnumerable())
@@ -511,7 +511,7 @@ public class CreateStrategicGame : MonoBehaviour
         emp.SecondaryColor.GetComponent<Image>().color = GetDarkerColor(ColorFromIndex(emp.SecondaryColor.value));
     }
 
-    string TestTacticalSize()
+    private string TestTacticalSize()
     {
         int x = Convert.ToInt32(TacticalX.text);
         int y = Convert.ToInt32(TacticalY.text);
@@ -527,7 +527,7 @@ public class CreateStrategicGame : MonoBehaviour
         return "";
     }
 
-    string TestStrategicSize()
+    private string TestStrategicSize()
     {
         int x = Convert.ToInt32(StrategicX.text);
         int y = Convert.ToInt32(StrategicY.text);
@@ -559,7 +559,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     }
 
-    string SetStrategicSizeAutomatically()
+    private string SetStrategicSizeAutomatically()
     {
 
         int villageCount = 0;
@@ -596,7 +596,7 @@ public class CreateStrategicGame : MonoBehaviour
         return "";
     }
 
-    void AssignUnusedTurnOrders()
+    private void AssignUnusedTurnOrders()
     {
         // TODO what does this even do
         // int lastIndex = Empires.Length - 1;
@@ -864,7 +864,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     }
 
-    void AddRace(Race race)
+    private void AddRace(Race race)
     {
         Empires[race].gameObject.SetActive(true);
         Empires[race].VillageCount.text = AllEmpires.VillageCount.text;

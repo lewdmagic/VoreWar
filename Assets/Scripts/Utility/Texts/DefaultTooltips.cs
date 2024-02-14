@@ -1,4 +1,4 @@
-﻿static class DefaultTooltips
+﻿internal static class DefaultTooltips
 {
     internal static string Tooltip(int tooltip)
     {

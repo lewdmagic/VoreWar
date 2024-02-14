@@ -1,6 +1,6 @@
 ﻿using TacticalDecorations;
 
-class PlacedDecoration
+internal class PlacedDecoration
 {
     internal Vec2 LowerLeftPosition;
     internal TacticalDecoration TacDec;

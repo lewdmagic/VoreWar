@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-class SavedCameraState
+internal class SavedCameraState
 {
     [OdinSerialize]
     private Vector2 _strategicPosition;

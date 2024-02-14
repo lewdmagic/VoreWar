@@ -1,13 +1,13 @@
 ﻿using System.IO;
 
-class SimpleFileLoader
+internal class SimpleFileLoader
 {
-    string extension;
-    string directory;
-    bool editor;
-    LoaderType loaderType;
+    private string extension;
+    private string directory;
+    private bool editor;
+    private LoaderType loaderType;
 
-    FileLoaderUI UI;
+    private FileLoaderUI UI;
 
     public enum LoaderType
     {

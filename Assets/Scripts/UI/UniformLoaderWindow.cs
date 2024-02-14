@@ -12,7 +12,7 @@ public class UniformLoaderWindow : MonoBehaviour
 
     internal bool EnteredFromUnitEditor = false;
 
-    Race ActiveRace;
+    private Race ActiveRace;
 
     public void Open(bool inUnitEditor)
     {
@@ -109,7 +109,7 @@ public class UniformLoaderWindow : MonoBehaviour
         }
     }
 
-    void CopyToUnit(UniformData data, Unit unit)
+    private void CopyToUnit(UniformData data, Unit unit)
     {
         data.CopyToUnit(unit);
         if (EnteredFromUnitEditor)

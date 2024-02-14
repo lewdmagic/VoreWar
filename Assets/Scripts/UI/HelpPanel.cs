@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HelpPanel : MonoBehaviour
 {
-    bool generatedHelp;
+    private bool generatedHelp;
     public Transform ButtonFolder;
     public GameObject[] HelpPages;
     public GameObject ButtonPrefab;
@@ -39,7 +39,7 @@ public class HelpPanel : MonoBehaviour
 
     }
 
-    void CreatePageButton(string pageText, string pageName)
+    private void CreatePageButton(string pageText, string pageName)
     {
         Button button = Instantiate(ButtonPrefab, ButtonFolder).GetComponent<Button>();
         button.GetComponentInChildren<Text>().text = pageName;

@@ -10,16 +10,15 @@ public class MercenaryHouse
     private List<MercenaryContainer> _mercenaries;
     internal List<MercenaryContainer> Mercenaries { get => _mercenaries; set => _mercenaries = value; }
 
-    static internal List<MercenaryContainer> UniqueMercs;
+    internal static List<MercenaryContainer> UniqueMercs;
 
     [OdinSerialize]
     private Vec2i _position;
     internal Vec2i Position { get => _position; set => _position = value; }
 
 
-
-    static List<Race> AvailableRaces;
-    static int TurnRefreshed;
+    private static List<Race> AvailableRaces;
+    private static int TurnRefreshed;
 
     public MercenaryHouse(Vec2i position)
     {
@@ -27,7 +26,7 @@ public class MercenaryHouse
         Mercenaries = new List<MercenaryContainer>();
     }
 
-    static internal void UpdateStaticStock()
+    internal static void UpdateStaticStock()
     {
         UniqueMercs = new List<MercenaryContainer>();
         Dictionary<Race, int> raceQuantities = new Dictionary<Race, int>();
@@ -164,7 +163,7 @@ public class MercenaryHouse
         return merc;
     }
 
-    static internal MercenaryContainer CreateUniqueMercenary(int highestExp, Race race)
+    internal static MercenaryContainer CreateUniqueMercenary(int highestExp, Race race)
     {
         MercenaryContainer merc = new MercenaryContainer();
 

@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class Shop
 {
-    Empire empire;
-    Unit unit;
-    readonly Village village;
-    Army army;
-    readonly int unitItemSlots = 2;
-    readonly bool inTown = true;
+    private Empire empire;
+    private Unit unit;
+    private readonly Village village;
+    private Army army;
+    private readonly int unitItemSlots = 2;
+    private readonly bool inTown = true;
 
-    const int maxSellSlots = 5;
+    private const int maxSellSlots = 5;
 
-    ShopPanel shopUI;
+    private ShopPanel shopUI;
 
     public Shop(Empire empire, Village village, Unit unit, Army army, ShopPanel newShopUI, bool inTown)
     {
@@ -168,13 +168,13 @@ public class Shop
         RegenButtonTextAndClickability();
     }
 
-    void RegenButtonTextAndClickability()
+    private void RegenButtonTextAndClickability()
     {
         RegenBuyClickable();
         RegenSellText();
     }
 
-    void RegenBuyClickable()
+    private void RegenBuyClickable()
     {
         for (int i = 0; i < shopUI.BuyPanels.Length; i++)
         {
@@ -233,7 +233,7 @@ public class Shop
         }
     }
 
-    void RegenSellText()
+    private void RegenSellText()
     {
         //rebuild sell buttons
         for (int i = 0; i < maxSellSlots; i++)

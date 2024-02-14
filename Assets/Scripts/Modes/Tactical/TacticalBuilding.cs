@@ -3,7 +3,7 @@ using System;
 
 namespace TacticalBuildings
 {
-    abstract class TacticalBuilding
+    internal abstract class TacticalBuilding
     {
         [OdinSerialize]
         internal Vec2 _lowerLeftPosition;
@@ -39,7 +39,7 @@ namespace TacticalBuildings
         }
     }
 
-    class LogCabin : TacticalBuilding
+    internal class LogCabin : TacticalBuilding
     {
         public LogCabin(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -64,7 +64,7 @@ namespace TacticalBuildings
         }
     }
 
-    class Log1x2 : TacticalBuilding
+    internal class Log1x2 : TacticalBuilding
     {
         public Log1x2(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -85,7 +85,7 @@ namespace TacticalBuildings
         }
     }
 
-    class Log1x1 : TacticalBuilding
+    internal class Log1x1 : TacticalBuilding
     {
         public Log1x1(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -104,7 +104,7 @@ namespace TacticalBuildings
         }
     }
 
-    class Well : TacticalBuilding
+    internal class Well : TacticalBuilding
     {
         public Well(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -120,7 +120,7 @@ namespace TacticalBuildings
         }
     }
 
-    class HarpyNest : TacticalBuilding
+    internal class HarpyNest : TacticalBuilding
     {
         public HarpyNest(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -141,7 +141,7 @@ namespace TacticalBuildings
         }
     }
 
-    class HarpyNestCanopy : TacticalBuilding
+    internal class HarpyNestCanopy : TacticalBuilding
     {
         public HarpyNestCanopy(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -172,7 +172,7 @@ namespace TacticalBuildings
         }
     }
 
-    class CatHouse : TacticalBuilding
+    internal class CatHouse : TacticalBuilding
     {
         public CatHouse(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -193,7 +193,7 @@ namespace TacticalBuildings
         }
     }
 
-    class StoneHouse : TacticalBuilding
+    internal class StoneHouse : TacticalBuilding
     {
         public StoneHouse(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -214,7 +214,7 @@ namespace TacticalBuildings
         }
     }
 
-    class LamiaTemple : TacticalBuilding
+    internal class LamiaTemple : TacticalBuilding
     {
         public LamiaTemple(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -235,7 +235,7 @@ namespace TacticalBuildings
         }
     }
 
-    class CobbleStoneHouse : TacticalBuilding
+    internal class CobbleStoneHouse : TacticalBuilding
     {
         public CobbleStoneHouse(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -255,7 +255,8 @@ namespace TacticalBuildings
             };
         }
     }
-    class YellowCobbleStoneHouse : TacticalBuilding
+
+    internal class YellowCobbleStoneHouse : TacticalBuilding
     {
         public YellowCobbleStoneHouse(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -276,7 +277,7 @@ namespace TacticalBuildings
         }
     }
 
-    class Barrels : TacticalBuilding
+    internal class Barrels : TacticalBuilding
     {
         public Barrels(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -292,7 +293,7 @@ namespace TacticalBuildings
         }
     }
 
-    class LogPile : TacticalBuilding
+    internal class LogPile : TacticalBuilding
     {
         public LogPile(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -308,7 +309,7 @@ namespace TacticalBuildings
         }
     }
 
-    class FancyStoneHouse : TacticalBuilding
+    internal class FancyStoneHouse : TacticalBuilding
     {
         public FancyStoneHouse(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
@@ -329,7 +330,7 @@ namespace TacticalBuildings
         }
     }
 
-    class FoxStoneHouse : TacticalBuilding
+    internal class FoxStoneHouse : TacticalBuilding
     {
         public FoxStoneHouse(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {

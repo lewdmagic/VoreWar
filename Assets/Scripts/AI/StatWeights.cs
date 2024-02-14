@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 
 
-class StatWeights
+internal class StatWeights
 {
     [OdinSerialize]
     private float[] _weight = new float[(int)Stat.None];

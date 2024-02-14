@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-class MapVillagePopulator
+internal class MapVillagePopulator
 {
-    readonly StrategicTileType[,] tiles;
+    private readonly StrategicTileType[,] tiles;
 
     public MapVillagePopulator(StrategicTileType[,] tiles)
     {
@@ -130,7 +130,7 @@ class MapVillagePopulator
         claimables = newClaimables.ToArray();
     }
 
-    int FarmSquares(Vec2i pos)
+    private int FarmSquares(Vec2i pos)
     {
         int t = 0;
         for (int i = pos.X - 1; i < pos.X + 2; i++)

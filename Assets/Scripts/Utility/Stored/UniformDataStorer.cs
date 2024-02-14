@@ -11,10 +11,10 @@ public class UniformObject
     internal Dictionary<Race, float> Odds;
 }
 
-static class UniformDataStorer
+internal static class UniformDataStorer
 {
-    static string filename;
-    static UniformObject Data;
+    private static string filename;
+    private static UniformObject Data;
 
     internal static float GetUniformOdds(Race race)
     {
@@ -40,7 +40,7 @@ static class UniformDataStorer
         LoadData();
     }
 
-    static void LoadData()
+    private static void LoadData()
     {
         if (File.Exists(filename))
         {
@@ -57,7 +57,7 @@ static class UniformDataStorer
         }
     }
 
-    static void SaveData()
+    private static void SaveData()
     {
         byte[] bytes = SerializationUtility.SerializeValue(Data, DataFormat.Binary);
         File.WriteAllBytes(filename, bytes);
@@ -92,17 +92,17 @@ static class UniformDataStorer
         SaveData();
     }
 
-    static internal void ExternalCopyToUnit(UniformData data, Unit unit)
+    internal static void ExternalCopyToUnit(UniformData data, Unit unit)
     {
         data.CopyToUnit(unit);
     }
 
-    static internal List<UniformData> GetCompatibleCustomizations(Unit unit)
+    internal static List<UniformData> GetCompatibleCustomizations(Unit unit)
     {
         return GetCompatibleCustomizations(unit.Race, unit.Type, unit.GetGender());
     }
 
-    static internal List<UniformData> GetCompatibleCustomizations(Race race, UnitType type, Gender gender)
+    internal static List<UniformData> GetCompatibleCustomizations(Race race, UnitType type, Gender gender)
     {
         if (Data.Uniforms.TryGetValue(race, out var values))
         {
@@ -123,12 +123,12 @@ static class UniformDataStorer
 
     }
 
-    static internal List<UniformData> GetIncompatibleCustomizations(Unit unit)
+    internal static List<UniformData> GetIncompatibleCustomizations(Unit unit)
     {
         return GetIncompatibleCustomizations(unit.Race, unit.Type, unit.GetGender());
     }
 
-    static internal List<UniformData> GetIncompatibleCustomizations(Race race, UnitType type, Gender gender)
+    internal static List<UniformData> GetIncompatibleCustomizations(Race race, UnitType type, Gender gender)
     {
         if (Data.Uniforms.TryGetValue(race, out var values))
         {

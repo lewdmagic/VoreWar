@@ -294,7 +294,7 @@ public static class TacticalPathfinder
 
     }
 
-    static List<PathNode> GetWalkableAdjacentSquares(int x, int y, Actor_Unit actor)
+    private static List<PathNode> GetWalkableAdjacentSquares(int x, int y, Actor_Unit actor)
     {
         var proposedLocations = new List<PathNode>()
             {
@@ -311,7 +311,7 @@ public static class TacticalPathfinder
         return proposedLocations.Where(l => CheckTile(l.X, l.Y, actor) == true).ToList();
     }
 
-    static List<PathNode> GetFlyableAdjacentSquares(int x, int y)
+    private static List<PathNode> GetFlyableAdjacentSquares(int x, int y)
     {
         var proposedLocations = new List<PathNode>()
             {
@@ -328,28 +328,28 @@ public static class TacticalPathfinder
         return proposedLocations.Where(l => CheckTileFlight(l.X, l.Y) == true).ToList();
     }
 
-    static int ComputeHScore(int x, int y, int targetX, int targetY)
+    private static int ComputeHScore(int x, int y, int targetX, int targetY)
     {
         int dx = Mathf.Abs(x - targetX);
         int dy = Mathf.Abs(y - targetY);
         return Mathf.Max(dx, dy);
     }
 
-    static int TotalManhattan(int x, int y, int targetX, int targetY)
+    private static int TotalManhattan(int x, int y, int targetX, int targetY)
     {
         int dx = Mathf.Abs(x - targetX);
         int dy = Mathf.Abs(y - targetY);
         return (dx + dy);
     }
 
-    static bool CheckTile(int x, int y, Actor_Unit actor)
+    private static bool CheckTile(int x, int y, Actor_Unit actor)
     {
         if (TacticalUtilities.OpenTile(x, y, actor))
             return true;
         return false;
     }
 
-    static bool CheckTileFlight(int x, int y)
+    private static bool CheckTileFlight(int x, int y)
     {
         if (TacticalUtilities.FlyableTile(x, y))
             return true;

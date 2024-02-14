@@ -8,22 +8,22 @@ using static UnityEngine.UI.CanvasScaler;
 
 public class Recruit_Mode : SceneBase
 {
-    Unit leader;
-    Village village;
-    MercenaryHouse mercenaryHouse;
-    Army army;
-    Empire empire;
+    private Unit leader;
+    private Village village;
+    private MercenaryHouse mercenaryHouse;
+    private Army army;
+    private Empire empire;
     internal UnitCustomizer Customizer;
-    Shop shop;
-    VillageView villageView;
+    private Shop shop;
+    private VillageView villageView;
 
-    List<Unit> dismissList;
+    private List<Unit> dismissList;
 
-    int selectedIndex;
+    private int selectedIndex;
 
-    ActivatingEmpire activatingEmpire;
+    private ActivatingEmpire activatingEmpire;
 
-    InfoPanel infoPanel;
+    private InfoPanel infoPanel;
 
     public RecruitPanel RecruitUI;
     public ArmySectionsPanel ArmyUI;
@@ -47,10 +47,10 @@ public class Recruit_Mode : SceneBase
     public Button ShowBanner;
     public TMP_Dropdown BannerType;
 
-    Actor_Unit[] displayUnits;
-    Unit[] displayCreatedUnit;
+    private Actor_Unit[] displayUnits;
+    private Unit[] displayCreatedUnit;
 
-    bool failedToMakeFriendlyArmy = false;
+    private bool failedToMakeFriendlyArmy = false;
 
     public enum ActivatingEmpire
     {
@@ -120,7 +120,7 @@ public class Recruit_Mode : SceneBase
         GenText();
     }
 
-    void SetArmy()
+    private void SetArmy()
     {
         army = null;
         //find an army
@@ -174,7 +174,7 @@ public class Recruit_Mode : SceneBase
 
     }
 
-    void InitializeBanners()
+    private void InitializeBanners()
     {
         if (army != null)
         {
@@ -196,7 +196,7 @@ public class Recruit_Mode : SceneBase
         }
     }
 
-    void UpdateArmyBanner()
+    private void UpdateArmyBanner()
     {
         if (army == null)
             return;
@@ -304,7 +304,7 @@ public class Recruit_Mode : SceneBase
         Select(army.Units.Count - 1);
     }
 
-    void GenText()
+    private void GenText()
     {
         RecruitUI.Gold.text = empire.Gold + " gold ";
 
@@ -323,7 +323,7 @@ public class Recruit_Mode : SceneBase
         RefreshUnitPanelButtons();
     }
 
-    void UpdateUnitInfoPanel()
+    private void UpdateUnitInfoPanel()
     {
         if (army?.Units.Count > selectedIndex && selectedIndex != -1)
         {
@@ -611,7 +611,7 @@ public class Recruit_Mode : SceneBase
         }
     }
 
-    void SetPopulation(int p)
+    private void SetPopulation(int p)
     {
         village.SetPopulation(p);
         GenText();
@@ -683,7 +683,7 @@ public class Recruit_Mode : SceneBase
 
     }
 
-    void MakeClone(Unit unit, int cost)
+    private void MakeClone(Unit unit, int cost)
     {
         if (empire.Gold < cost)
             return;
@@ -694,7 +694,7 @@ public class Recruit_Mode : SceneBase
         GenText();
     }
 
-    void ResurrectLeader()
+    private void ResurrectLeader()
     {
         empire.SpendGold(100);
         empire.Leader.LeaderLevelDown();
@@ -718,7 +718,7 @@ public class Recruit_Mode : SceneBase
         GenText();
     }
 
-    void BuildRename()
+    private void BuildRename()
     {
         if (army.Units.Count > selectedIndex)
         {
@@ -726,7 +726,7 @@ public class Recruit_Mode : SceneBase
         }
     }
 
-    void BuildWeaponStocker()
+    private void BuildWeaponStocker()
     {
         WeaponStockerUI.BuyMace.onClick.RemoveAllListeners();
         WeaponStockerUI.BuyAxe.onClick.RemoveAllListeners();
@@ -747,7 +747,7 @@ public class Recruit_Mode : SceneBase
         UpdateWeaponStocker();
     }
 
-    void UpdateWeaponStocker()
+    private void UpdateWeaponStocker()
     {
         int maces = village.Weapons.Where(s => s == ItemType.Mace).Count();
         int axes = village.Weapons.Where(s => s == ItemType.Axe).Count();
@@ -806,7 +806,7 @@ public class Recruit_Mode : SceneBase
         }
     }
 
-    void BuildLevelUp()
+    private void BuildLevelUp()
     {
         if (army == null)
         {
@@ -831,7 +831,7 @@ public class Recruit_Mode : SceneBase
 
     }
 
-    void BuildLvlButtons()
+    private void BuildLvlButtons()
     {
         Stat[] r = army.Units[selectedIndex].GetLevelUpPossibilities(army.Units[selectedIndex].Predator);
         for (int i = 0; i < LevelUpUI.StatButtons.Length; i++)
@@ -875,7 +875,7 @@ public class Recruit_Mode : SceneBase
         BulkBuyUI.BuyAccessories.GetComponentInChildren<Text>().text = $"Purchase Accessories\nCost : {accessoryCost} gold\nIt only buys for units with weapons\nIt might have different priorities than you";
     }
 
-    void AutoLevelUp()
+    private void AutoLevelUp()
     {
         if (army?.Units == null)
             return;
@@ -888,8 +888,7 @@ public class Recruit_Mode : SceneBase
     }
 
 
-
-    int CheapFitCost()
+    private int CheapFitCost()
     {
         int cost = 0;
         foreach (Actor_Unit actor in displayUnits)
@@ -933,7 +932,7 @@ public class Recruit_Mode : SceneBase
         GenText();
     }
 
-    int ExpensiveFitCost()
+    private int ExpensiveFitCost()
     {
         int cost = 0;
         foreach (Actor_Unit actor in displayUnits)
@@ -1006,7 +1005,7 @@ public class Recruit_Mode : SceneBase
         GenText();
     }
 
-    int AccessoryFitCost()
+    private int AccessoryFitCost()
     {
         int cost = 0;
         foreach (Actor_Unit actor in displayUnits)
@@ -1086,7 +1085,7 @@ public class Recruit_Mode : SceneBase
         GenText();
     }
 
-    void BuildVillageView()
+    private void BuildVillageView()
     {
         if (village != null)
         {
@@ -1105,7 +1104,7 @@ public class Recruit_Mode : SceneBase
         villageView?.Refresh();
     }
 
-    void BuildCustomizer()
+    private void BuildCustomizer()
     {
         if (army.Units.Count > selectedIndex)
         {
@@ -1214,7 +1213,7 @@ public class Recruit_Mode : SceneBase
         Customizer.RefreshGenderSelector();
     }
 
-    void BuildShop()
+    private void BuildShop()
     {
         if (army.Units.Count > selectedIndex)
         {
@@ -1243,8 +1242,7 @@ public class Recruit_Mode : SceneBase
     }
 
 
-
-    void BuildMercenaryView(bool special)
+    private void BuildMercenaryView(bool special)
     {
         int children = MercenaryScreenUI.Folder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
@@ -1330,7 +1328,7 @@ public class Recruit_Mode : SceneBase
         MercenaryScreenUI.gameObject.SetActive(true);
     }
 
-    void HireMercenary(MercenaryContainer merc, GameObject obj)
+    private void HireMercenary(MercenaryContainer merc, GameObject obj)
     {
         if (empire.Gold >= merc.Cost)
         {
@@ -1349,7 +1347,7 @@ public class Recruit_Mode : SceneBase
         }
     }
 
-    void HireVillageMercenary(MercenaryContainer merc, GameObject obj)
+    private void HireVillageMercenary(MercenaryContainer merc, GameObject obj)
     {
         if (village.HireSpecialUnit(empire, army, merc))
         {
@@ -1360,7 +1358,7 @@ public class Recruit_Mode : SceneBase
 
     }
 
-    void BuildVillageMercenaryView()
+    private void BuildVillageMercenaryView()
     {
         int children = MercenaryScreenUI.Folder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
@@ -1447,13 +1445,13 @@ public class Recruit_Mode : SceneBase
         MercenaryScreenUI.gameObject.SetActive(true);
     }
 
-    void UpdateMercenaryScreenText()
+    private void UpdateMercenaryScreenText()
     {
         MercenaryScreenUI.ArmySize.text = $"Army Size {army.Units.Count} / {army.MaxSize}";
         MercenaryScreenUI.RemainingGold.text = $"Remaining Gold: {empire.Gold}";
     }
 
-    void BuildHiringView(string sorting = "")
+    private void BuildHiringView(string sorting = "")
     {
 
         int children = HireUI.ActorFolder.transform.childCount;
@@ -1548,8 +1546,7 @@ public class Recruit_Mode : SceneBase
     }
 
 
-
-    void Hire(Unit unit)
+    private void Hire(Unit unit)
     {
         if (village.HireUnit(empire, army, unit))
         {
@@ -1574,7 +1571,7 @@ public class Recruit_Mode : SceneBase
         }
     }
 
-    void Dismiss()
+    private void Dismiss()
     {
         if (army.Units.Count > selectedIndex)
         {
@@ -1738,7 +1735,7 @@ public class Recruit_Mode : SceneBase
         UpdateDrawnActors();
     }
 
-    void CheatAddUnit()
+    private void CheatAddUnit()
     {
         if (army == null)
         {
@@ -1776,7 +1773,7 @@ public class Recruit_Mode : SceneBase
     /// <summary>
     /// Auto-called by UpdateActorList for now
     /// </summary>
-    void UpdateDrawnActors()
+    private void UpdateDrawnActors()
     {
         if (army == null)
             return;

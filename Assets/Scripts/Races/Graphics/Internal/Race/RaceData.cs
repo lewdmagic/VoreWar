@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 #endregion
 
-enum ModdingMode
+internal enum ModdingMode
 {
     Before,
     After

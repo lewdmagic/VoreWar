@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 
 
-class StatusEffect
+internal class StatusEffect
 {
     [OdinSerialize]
     private StatusEffectType _type;

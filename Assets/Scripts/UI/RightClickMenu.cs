@@ -7,21 +7,21 @@ using UnityEngine.UI;
 
 public class RightClickMenu : MonoBehaviour
 {
-    Button[] Buttons;
+    private Button[] Buttons;
     public Transform ButtonFolder;
     public GameObject ButtonPrefab;
-    RectTransform Rect;
+    private RectTransform Rect;
 
-    Button[] PounceButtons;
+    private Button[] PounceButtons;
     public Transform PouncePanel;
-    RectTransform PounceRect;
+    private RectTransform PounceRect;
 
-    bool activeWait;
-    bool pounceNeedsRefresh;
+    private bool activeWait;
+    private bool pounceNeedsRefresh;
 
-    const int MaxButtons = 30;
+    private const int MaxButtons = 30;
 
-    struct CommandData
+    private struct CommandData
     {
         internal Actor_Unit Actor;
         internal Actor_Unit Target;
@@ -675,20 +675,20 @@ public class RightClickMenu : MonoBehaviour
         PounceRect.sizeDelta = new Vector2(PounceRect.sizeDelta.x, currentButton * 40);
     }
 
-    void FinishAction()
+    private void FinishAction()
     {
         State.GameManager.TacticalMode.ActionDone();
         gameObject.SetActive(false);
         PouncePanel.gameObject.SetActive(false);
     }
 
-    void FinishMoveAction()
+    private void FinishMoveAction()
     {
         gameObject.SetActive(false);
         PouncePanel.gameObject.SetActive(false);
     }
 
-    void QueueCloseLoop()
+    private void QueueCloseLoop()
     {
         if (activeWait == false)
         {
@@ -697,7 +697,7 @@ public class RightClickMenu : MonoBehaviour
         }
     }
 
-    void CloseSecond()
+    private void CloseSecond()
     {
         if (activeWait == false)
             return;

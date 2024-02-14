@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class RaceDropdownBox : MonoBehaviour
 {
-    Action<Race> YesAction;
-    Action NoAction;
+    private Action<Race> YesAction;
+    private Action NoAction;
     public Button Yes;
     public Button No;
     public TMP_Dropdown Dropdown;

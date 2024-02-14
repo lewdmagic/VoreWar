@@ -13,20 +13,20 @@ public enum AIMode
 }
 
 
-class StrategicArmyCommander
+internal class StrategicArmyCommander
 {
-    Village[] Villages => State.World.Villages;
-    Empire empire;
-    int maxArmySize;
+    private Village[] Villages => State.World.Villages;
+    private Empire empire;
+    private int maxArmySize;
 
-    bool smarterAI;
+    private bool smarterAI;
 
-    List<PathNode> path;
-    Army pathIsFor;
+    private List<PathNode> path;
+    private Army pathIsFor;
 
     internal float StrongestArmyRatio { get; private set; }
 
-    Side AISide => empire.Side;
+    private Side AISide => empire.Side;
 
     public StrategicArmyCommander(Empire empire, int maxSize, bool smarterAI)
     {
@@ -245,7 +245,7 @@ class StrategicArmyCommander
         }
     }
 
-    void HireSpecialMerc(Army army, MercenaryContainer merc)
+    private void HireSpecialMerc(Army army, MercenaryContainer merc)
     {
         if (empire.Gold >= merc.Cost * 2)
         {
@@ -259,7 +259,7 @@ class StrategicArmyCommander
         }
     }
 
-    void HireMerc(Army army, MercenaryHouse house, MercenaryContainer merc)
+    private void HireMerc(Army army, MercenaryHouse house, MercenaryContainer merc)
     {
         if (empire.Gold >= merc.Cost)
         {
@@ -328,7 +328,7 @@ class StrategicArmyCommander
     //    SetPath(army, targetPosition);
     //}
 
-    void Attack(Army army, float MaxDefenderStrength)
+    private void Attack(Army army, float MaxDefenderStrength)
     {
         foreach (Army hostileArmy in StrategicUtilities.GetAllHostileArmies(empire).Where(s => s.ArmyPower > 2 * army.ArmyPower).Where(s => s.Position.GetNumberOfMovesDistance(army.Position) < 4 && !s.Units.All(u => u.HasTrait(TraitType.Infiltrator))))
         {
@@ -395,8 +395,7 @@ class StrategicArmyCommander
     }
 
 
-
-    void UpdateArmyStatus(Army army)
+    private void UpdateArmyStatus(Army army)
     {
         var healthPct = army.GetHealthPercentage();
         if (healthPct < 60)
@@ -421,7 +420,7 @@ class StrategicArmyCommander
 
     }
 
-    bool NavigateToMercenaries(Army army, int maxRange)
+    private bool NavigateToMercenaries(Army army, int maxRange)
     {
         Vec2i[] mercPositions = StrategicUtilities.GetUnoccupiedMercCamp(empire).Select(s => s.Position).ToArray();
         if (mercPositions == null || mercPositions.Count() < 1)
@@ -439,7 +438,7 @@ class StrategicArmyCommander
     }
 
 
-    bool NavigateToFriendlyVillage(Army army, bool canRecruitFrom)
+    private bool NavigateToFriendlyVillage(Army army, bool canRecruitFrom)
     {
         Vec2i[] villagePositions = StrategicUtilities.GetUnoccupiedFriendlyVillages(empire).Select(s => s.Position).ToArray();
         if (villagePositions == null || villagePositions.Count() < 1)
@@ -454,7 +453,7 @@ class StrategicArmyCommander
 
     }
 
-    void DevourCheck(Army army)
+    private void DevourCheck(Army army)
     {
         if (army.GetHealthPercentage() > 88)
             return;
@@ -572,7 +571,7 @@ class StrategicArmyCommander
         return unit;
     }
 
-    Unit ResurrectLeader(Army army, Village village)
+    private Unit ResurrectLeader(Army army, Village village)
     {
         empire.SpendGold(100);
         empire.Leader.Side = AISide;

@@ -8,7 +8,7 @@ public class MultiStageBanner : MonoBehaviour
     public SpriteRenderer InsigniaLayer;
     public SpriteRenderer SelectedBackLayer;
     public SpriteRenderer SelectedColorLayer;
-    ParticleSystem system;
+    private ParticleSystem system;
 
     public void Refresh(Army army, bool selected)
     {

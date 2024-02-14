@@ -10,23 +10,27 @@ namespace LegacyAI
         // TODO index is used as a Side/Race key, change to dictionary
         // TODO This AI is basically disabled and WILL NOT WORK AT ALL 
         //IReadOnlyList<Empire> Empires => State.World.AllActiveEmpires;
-        IReadOnlyList<Empire> Empires => new List<Empire>();
+        private IReadOnlyList<Empire> Empires => new List<Empire>();
         [OdinSerialize]
         private int _aISide;
-        int AISide { get => _aISide; set => _aISide = value; }
+
+        private int AISide { get => _aISide; set => _aISide = value; }
         [OdinSerialize]
         private int _tension = 3;
-        int tension { get => _tension; set => _tension = value; }
 
-        List<PathNode> path;
-        Army pathIsFor;
+        private int tension { get => _tension; set => _tension = value; }
+
+        private List<PathNode> path;
+        private Army pathIsFor;
 
         [OdinSerialize]
         private int _freegold;
-        int freegold { get => _freegold; set => _freegold = value; }
+
+        private int freegold { get => _freegold; set => _freegold = value; }
         [OdinSerialize]
         private float _growth;
-        float growth { get => _growth; set => _growth = value; }
+
+        private float growth { get => _growth; set => _growth = value; }
 
         private Empire _empire;
 
@@ -104,7 +108,7 @@ namespace LegacyAI
             return false;
         }
 
-        bool Sneak(Army army)
+        private bool Sneak(Army army)
         {
             float distance = 99;
 
@@ -148,7 +152,7 @@ namespace LegacyAI
             return false;
         }
 
-        bool Attack(Army army)
+        private bool Attack(Army army)
         {
             float distance = 99;
             Vec2i p = null;
@@ -188,8 +192,7 @@ namespace LegacyAI
         }
 
 
-
-        bool ArmyReady(Army army)
+        private bool ArmyReady(Army army)
         {
             Empire empire = Empires[AISide];
             //check army health
@@ -265,7 +268,7 @@ namespace LegacyAI
             return false;
         }
 
-        Village GetVillage(Empire empire)
+        private Village GetVillage(Empire empire)
         {
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
@@ -294,7 +297,7 @@ namespace LegacyAI
             return null;
         }
 
-        Village GetNearestVillage(Empire empire, Vec2i p)
+        private Village GetNearestVillage(Empire empire, Vec2i p)
         {
             float distance = 99;
             Village village = null;
@@ -333,7 +336,7 @@ namespace LegacyAI
             return village;
         }
 
-        void SpendLevelUps(Unit unit)
+        private void SpendLevelUps(Unit unit)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -349,7 +352,7 @@ namespace LegacyAI
             return;
         }
 
-        Army MakeArmy(Village village)
+        private Army MakeArmy(Village village)
         {
             Army army = new Army(Empire, new Vec2i(village.Position.X, village.Position.Y), village.Side);
             int size = State.Rand.Next(6) + 1;
@@ -393,7 +396,7 @@ namespace LegacyAI
             return army;
         }
 
-        void LevelMelee(int levels, Unit unit)
+        private void LevelMelee(int levels, Unit unit)
         {
 
             if (levels > 1)
@@ -447,7 +450,7 @@ namespace LegacyAI
             }
         }
 
-        void LevelArcher(int levels, Unit unit)
+        private void LevelArcher(int levels, Unit unit)
         {
 
             if (levels > 2)

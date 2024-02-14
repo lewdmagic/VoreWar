@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 
 
-class BountyGoods
+internal class BountyGoods
 {
     [OdinSerialize]
     private int _gold;

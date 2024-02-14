@@ -10,8 +10,8 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
     public Slider[] Sliders;
     public Toggle AutoSpend;
     internal bool Custom;
-    bool deniedChanges = false;
-    Unit Unit;
+    private bool deniedChanges = false;
+    private Unit Unit;
 
     internal void Open(Unit unit)
     {

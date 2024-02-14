@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class HoveringRacePicture : MonoBehaviour
 {
-    TextMeshProUGUI text;
-    RectTransform rect;
-    int remainingFrames = 0;
-    Race LastRace = Race.Selicia;
+    private TextMeshProUGUI text;
+    private RectTransform rect;
+    private int remainingFrames = 0;
+    private Race LastRace = Race.Selicia;
     public UIUnitSprite ActorSprite;
-    Actor_Unit Actor;
-    float lastUpdate;
+    private Actor_Unit Actor;
+    private float lastUpdate;
 
     private void Start()
     {

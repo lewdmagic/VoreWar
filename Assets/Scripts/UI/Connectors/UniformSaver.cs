@@ -8,7 +8,7 @@ public class UniformSaver : MonoBehaviour
     public Toggle IncludeHat;
     public Toggle IncludeClothingAccesory;
 
-    bool OpenedFromEditor;
+    private bool OpenedFromEditor;
 
     public void Open(bool openedFromEditor)
     {

@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 
 public class RaceHoverObjectAuto : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    bool hovering;
+    private bool hovering;
 
-    Race race;
+    private Race race;
 
     private void Start()
     {

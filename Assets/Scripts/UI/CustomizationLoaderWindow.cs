@@ -56,7 +56,7 @@ public class CustomizationLoaderWindow : MonoBehaviour
 
     }
 
-    void CopyToUnit(CustomizerData data, Unit unit)
+    private void CopyToUnit(CustomizerData data, Unit unit)
     {
         data.CopyToUnit(unit, CopyName.isOn);
         if (EnteredFromUnitEditor)

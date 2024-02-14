@@ -11,7 +11,8 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class EquinesImrpoved
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(29 * 29);
-        static ColorSwapPalette LegTuft(IActorUnit actor)
+
+        private static ColorSwapPalette LegTuft(IActorUnit actor)
         {
             if (actor.Unit.BodyAccentType3 >= 2)
             {
@@ -21,7 +22,7 @@ namespace Races.Graphics.Implementations.MainRaces
             return ColorPaletteMap.GetPalette(SwapType.HorseSkin, actor.Unit.SkinColor);
         }
 
-        static ColorSwapPalette SpottedBelly(IActorUnit actor)
+        private static ColorSwapPalette SpottedBelly(IActorUnit actor)
         {
             if (actor.Unit.BodyAccentType5 == 1)
             {
@@ -31,7 +32,7 @@ namespace Races.Graphics.Implementations.MainRaces
             return ColorPaletteMap.GetPalette(SwapType.HorseSkin, actor.Unit.SkinColor);
         }
 
-        static ColorSwapPalette TailBit(IActorUnit actor)
+        private static ColorSwapPalette TailBit(IActorUnit actor)
         {
             if (actor.Unit.BodyAccentType3 == 5)
             {

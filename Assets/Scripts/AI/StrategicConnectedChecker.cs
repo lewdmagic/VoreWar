@@ -1,4 +1,4 @@
-﻿static class StrategicConnectedChecker
+﻿internal static class StrategicConnectedChecker
 {
     internal static bool AreAllConnected(Village[] villages, Army[] armies, bool broadcast = true)
     {
@@ -84,14 +84,14 @@
         return true;
     }
 
-    static bool TileCheck(int x, int y)
+    private static bool TileCheck(int x, int y)
     {
         if (State.GameManager.CurrentScene == State.GameManager.MapEditor)
             return State.GameManager.MapEditor.CanWalkInto(x, y);
         return StrategicTileInfo.CanWalkInto(x, y);
     }
 
-    static int GetNeighborZone(int[,] tileZone, int x, int y)
+    private static int GetNeighborZone(int[,] tileZone, int x, int y)
     {
         if (y > 0 && tileZone[x, y - 1] != 0 && tileZone[x, y - 1] != tileZone[x, y])
             return tileZone[x, y - 1];

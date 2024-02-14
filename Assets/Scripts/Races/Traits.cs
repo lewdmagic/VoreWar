@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-abstract class Trait
+internal abstract class Trait
 {
     internal string Description;
 }
 
-abstract class VoreTrait : Trait, IVoreCallback
+internal abstract class VoreTrait : Trait, IVoreCallback
 {
     public virtual int ProcessingPriority => 0;
 
@@ -27,7 +27,7 @@ abstract class VoreTrait : Trait, IVoreCallback
     public virtual bool OnSwallow(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
 }
 
-class PermanentBoosts
+internal class PermanentBoosts
 {
     internal float ExpRequired = 1.0f;
     internal float ExpGain = 1.0f;
@@ -65,7 +65,7 @@ class PermanentBoosts
     internal int SightRangeBoost = 0;
 }
 
-class DirectionalStat
+internal class DirectionalStat
 {
     internal float ChanceToEscape = 1;
     internal float MeleeDamage = 1;
@@ -89,52 +89,52 @@ class DirectionalStat
 }
 
 
-interface IStatBoost
+internal interface IStatBoost
 {
     int StatBoost(Unit unit, Stat stat);
 }
 
-interface IAttackStatusEffect
+internal interface IAttackStatusEffect
 {
     void ApplyStatusEffect(Actor_Unit actor, Actor_Unit target, bool ranged, int damage);
 }
 
-interface IVoreDefenseOdds
+internal interface IVoreDefenseOdds
 {
     void VoreDefense(Actor_Unit defender, ref float voreMult);
 }
 
-interface IVoreAttackOdds
+internal interface IVoreAttackOdds
 {
     void VoreAttack(Actor_Unit attacker, ref float voreMult);
 }
 
-interface IPhysicalDefenseOdds
+internal interface IPhysicalDefenseOdds
 {
     void PhysicalDefense(Actor_Unit defender, ref float defMult);
 }
 
-interface IProvidesSingleSpell
+internal interface IProvidesSingleSpell
 {
     List<SpellType> GetSingleSpells(Unit unit);
 }
 
-interface IProvidesMultiSpell
+internal interface IProvidesMultiSpell
 {
     List<SpellType> GetMultiSpells(Unit unit);
 }
 
-interface INoAutoEscape
+internal interface INoAutoEscape
 {
     bool CanEscape(Prey preyUnit, Actor_Unit predUnit);
 }
 
-abstract class AbstractBooster : Trait
+internal abstract class AbstractBooster : Trait
 {
     internal Action<PermanentBoosts> Boost;
 }
 
-class Booster : AbstractBooster
+internal class Booster : AbstractBooster
 {
     public Booster(string desc, Action<PermanentBoosts> boost)
     {
@@ -143,7 +143,7 @@ class Booster : AbstractBooster
     }
 }
 
-abstract class VoreTraitBooster : AbstractBooster, IVoreCallback
+internal abstract class VoreTraitBooster : AbstractBooster, IVoreCallback
 {
     public virtual int ProcessingPriority => 0;
 
@@ -165,16 +165,16 @@ abstract class VoreTraitBooster : AbstractBooster, IVoreCallback
 }
 
 
-static class TraitList
+internal static class TraitList
 {
 
-    static internal Trait GetTrait(TraitType traitType)
+    internal static Trait GetTrait(TraitType traitType)
     {
         traits.TryGetValue(traitType, out Trait retTrait);
         return retTrait;
     }
 
-    static Dictionary<TraitType, Trait> traits = new Dictionary<TraitType, Trait>()
+    private static Dictionary<TraitType, Trait> traits = new Dictionary<TraitType, Trait>()
     {
         [TraitType.Frenzy] = new Frenzy(),
         [TraitType.ThrillSeeker] = new ThrillSeeker(),
@@ -343,7 +343,7 @@ internal class ThrillSeeker : Trait, IStatBoost
 
 internal class PackStat : Trait, IStatBoost
 {
-    Stat usedStat;
+    private Stat usedStat;
 
     public PackStat(Stat usedStat)
     {

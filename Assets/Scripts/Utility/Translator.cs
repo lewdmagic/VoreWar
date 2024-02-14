@@ -3,12 +3,12 @@
 
 public class Translator
 {
-    bool playerMove;
-    Vec2i startPos;
-    Vec2i endPos;
-    float remainingTime;
-    float totalTime;
-    Transform transform;
+    private bool playerMove;
+    private Vec2i startPos;
+    private Vec2i endPos;
+    private float remainingTime;
+    private float totalTime;
+    private Transform transform;
 
     public bool IsActive { get; private set; }
 

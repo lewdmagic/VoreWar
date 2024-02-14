@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class DialogBox : MonoBehaviour
 {
-    Action YesAction;
-    Action NoAction;
+    private Action YesAction;
+    private Action NoAction;
     public Button Yes;
     public Button No;
     public Text Text;

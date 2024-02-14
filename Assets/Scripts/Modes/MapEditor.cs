@@ -17,7 +17,8 @@ namespace MapObjects
     {
         GoldMine = 0,
     }
-    class MapVillage
+
+    internal class MapVillage
     {
         public MapVillage(bool capital, Race race, Vec2i position)
         {
@@ -34,7 +35,7 @@ namespace MapObjects
         public Vec2i Position { get; set; }
     }
 
-    struct MapClaimable
+    internal struct MapClaimable
     {
         public MapClaimable(ClaimableType type, Vec2i position) : this()
         {
@@ -48,7 +49,7 @@ namespace MapObjects
         public Vec2i Position { get; set; }
     }
 
-    class Map
+    internal class Map
     {
     [OdinSerialize]
     private StrategicTileType[,] _tiles;
@@ -66,7 +67,7 @@ namespace MapObjects
     private MapClaimable[] _claimables;
     internal MapClaimable[] claimables { get => _claimables; set => _claimables = value; }
 
-        static public Map Get(string filename)
+        public static Map Get(string filename)
         {
             Map map = null;
             if (!File.Exists(filename))
@@ -89,9 +90,9 @@ namespace MapObjects
         }
     }
 
-    class UndoMapAction
+    internal class UndoMapAction
     {
-        List<Action> Actions;
+        private List<Action> Actions;
 
         public UndoMapAction()
         {
@@ -119,24 +120,24 @@ namespace MapObjects
 
 public class MapEditor : SceneBase
 {
-    bool EditingActiveMap;
+    private bool EditingActiveMap;
 
     internal bool ActiveAnything => ActiveDoodad || ActiveTile || ActiveVillage || ActiveSpecial;
 
     internal bool ActiveDoodad = false;
-    StrategicDoodadType currentDoodadType = StrategicDoodadType.none;
+    private StrategicDoodadType currentDoodadType = StrategicDoodadType.none;
 
     internal bool ActiveTile = false;
-    StrategicTileType currentTileType = StrategicTileType.grass;
+    private StrategicTileType currentTileType = StrategicTileType.grass;
 
     internal bool ActiveVillage = false;
-    Race villageRace;
+    private Race villageRace;
 
     internal bool ActiveSpecial = false;
-    SpecialType activeSpecialType;
+    private SpecialType activeSpecialType;
 
-    List<UndoMapAction> UndoActions = new List<UndoMapAction>();
-    UndoMapAction LastActionBuilder;
+    private List<UndoMapAction> UndoActions = new List<UndoMapAction>();
+    private UndoMapAction LastActionBuilder;
 
     public Tilemap[] TilemapLayers;
 
@@ -152,13 +153,13 @@ public class MapEditor : SceneBase
 
     public Button UndoButton;
 
-    Tile[] TileTypes;
-    TileBase[] DoodadTypes;
+    private Tile[] TileTypes;
+    private TileBase[] DoodadTypes;
 
     public TileBase[] SpawnerTypes;
     public Sprite[] Sprites;
     public Sprite[] VillageSprites;
-    GameObject[] SpriteCategories;
+    private GameObject[] SpriteCategories;
 
     public Transform VillageFolder;
     public Transform ArmyFolder;
@@ -167,8 +168,8 @@ public class MapEditor : SceneBase
 
     public Text Tooltip;
 
-    StrategicTileType[,] tiles;
-    StrategicDoodadType[,] doodads;
+    private StrategicTileType[,] tiles;
+    private StrategicDoodadType[,] doodads;
 
     public enum SpecialType
     {
@@ -249,7 +250,7 @@ public class MapEditor : SceneBase
         RecreateObjects();
     }
 
-    void CatchUpEmpires()
+    private void CatchUpEmpires()
     {
         bool changed = false;
         foreach (Race race in RaceFuncs.MainRaceEnumerable())
@@ -274,7 +275,7 @@ public class MapEditor : SceneBase
 
     }
 
-    void UpdateVillagePopulation(Village village)
+    private void UpdateVillagePopulation(Village village)
     {
         int farmSquares = 0;
         for (int x = -1; x <= 1; x++)
@@ -602,7 +603,7 @@ public class MapEditor : SceneBase
         }
     }
 
-    void ClearTiles(int minX, int maxX, int minY, int maxY)
+    private void ClearTiles(int minX, int maxX, int minY, int maxY)
     {
         if (minX < 0) minX = 0;
         if (minY < 0) minY = 0;
@@ -621,7 +622,7 @@ public class MapEditor : SceneBase
 
     }
 
-    void DrawTiles(int minX, int maxX, int minY, int maxY)
+    private void DrawTiles(int minX, int maxX, int minY, int maxY)
     {
         if (minX < 0) minX = 0;
         if (minY < 0) minY = 0;
@@ -820,14 +821,14 @@ public class MapEditor : SceneBase
         }
     }
 
-    void ProcessRightClick(int x, int y)
+    private void ProcessRightClick(int x, int y)
     {
         var tileObjs = FindObjectsOfType<MapEditorTile>();
         var tile = tileObjs.Where(s => s.type == tiles[x, y]).FirstOrDefault();
         SetTileType(tile.type, tile.transform);
     }
 
-    void ProcessClick(int x, int y, bool held = false)
+    private void ProcessClick(int x, int y, bool held = false)
     {
         Vec2i clickLocation = new Vec2i(x, y);
         if (held == false)
@@ -1455,7 +1456,7 @@ public class MapEditor : SceneBase
         ui.Save.onClick.AddListener(() => TrySave($"{State.MapDirectory}{ui.Name.text}.map"));
     }
 
-    void TrySave(string name)
+    private void TrySave(string name)
     {
         if (File.Exists(name))
         {
@@ -1489,7 +1490,7 @@ public class MapEditor : SceneBase
         }
     }
 
-    void UpdateTooltips(int ClickX, int ClickY)
+    private void UpdateTooltips(int ClickX, int ClickY)
     {
 
         Village villageAtCursor = StrategicUtilities.GetVillageAt(new Vec2i(ClickX, ClickY));

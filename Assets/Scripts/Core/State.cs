@@ -11,7 +11,7 @@ using UnityEngine;
 // Todo evil global is evil
 public static class State
 {
-    static int saveErrors = 0;
+    private static int saveErrors = 0;
     public const string Version = "42";
     public static World World;
     public static Rand Rand = new Rand();

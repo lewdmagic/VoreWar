@@ -1,7 +1,7 @@
 ﻿using OdinSerializer;
 
 
-class SpawnerInfo
+internal class SpawnerInfo
 {
     [OdinSerialize]
     private bool _enabled;

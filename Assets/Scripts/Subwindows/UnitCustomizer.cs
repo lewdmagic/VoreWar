@@ -80,7 +80,7 @@ public class UnitCustomizer
         SetActor(actor);
     }
 
-    void SetUpNameChangeButton(Unit unit, CustomizerPanel UI)
+    private void SetUpNameChangeButton(Unit unit, CustomizerPanel UI)
     {
         var button = UI.DisplayedSprite.Name.GetComponent<Button>();
         if (button == null)
@@ -675,7 +675,7 @@ public class UnitCustomizer
         CustomizerUI.DisplayedSprite.Name.text = Unit.Name;
     }
 
-    void CreateButtons()
+    private void CreateButtons()
     {
         buttons[ButtonType.Skintone] = CreateNewButton("Skintone", ChangeSkinTone);
         buttons[ButtonType.HairColor] = CreateNewButton("Hair Color", ChangeHairColor);
@@ -720,7 +720,7 @@ public class UnitCustomizer
         buttons[ButtonType.AltWeaponTypes] = CreateNewButton("Alt Weapon Sprite", ChangeWeaponSprite);
     }
 
-    CustomizerButton CreateNewButton(string text, Action<int> action)
+    private CustomizerButton CreateNewButton(string text, Action<int> action)
     {
         CustomizerButton button = UnityEngine.Object.Instantiate(CustomizerUI.ButtonPrefab, CustomizerUI.ButtonPanel.transform).GetComponent<CustomizerButton>();
         button.SetData(text, action);
@@ -735,13 +735,13 @@ public class UnitCustomizer
     }
 
 
-    void ChangeSkinTone(int change)
+    private void ChangeSkinTone(int change)
     {
         Unit.SkinColor = (RaceData.SetupOutput.SkinColors + Unit.SkinColor + change) % RaceData.SetupOutput.SkinColors;
         RefreshView();
     }
 
-    void ChangeHairColor(int change)
+    private void ChangeHairColor(int change)
     {
         Unit.HairColor = (RaceData.SetupOutput.HairColors + Unit.HairColor + change) % RaceData.SetupOutput.HairColors;
         if (Equals(Unit.Race, Race.Cat) | Equals(Unit.Race, Race.Dog) | Equals(Unit.Race, Race.Bunny) | Equals(Unit.Race, Race.Wolf) | Equals(Unit.Race, Race.Fox) | Equals(Unit.Race, Race.Tiger))
@@ -751,47 +751,50 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeEyeColor(int change)
+    private void ChangeEyeColor(int change)
     {
         Unit.EyeColor = (RaceData.SetupOutput.EyeColors + Unit.EyeColor + change) % RaceData.SetupOutput.EyeColors;
         RefreshView();
     }
 
-    void ChangeExtraColor1(int change)
+    private void ChangeExtraColor1(int change)
     {
         Unit.ExtraColor1 = (RaceData.SetupOutput.ExtraColors1 + Unit.ExtraColor1 + change) % RaceData.SetupOutput.ExtraColors1;
         RefreshView();
     }
-    void ChangeExtraColor2(int change)
+
+    private void ChangeExtraColor2(int change)
     {
         Unit.ExtraColor2 = (RaceData.SetupOutput.ExtraColors2 + Unit.ExtraColor2 + change) % RaceData.SetupOutput.ExtraColors2;
         RefreshView();
     }
-    void ChangeExtraColor3(int change)
+
+    private void ChangeExtraColor3(int change)
     {
         Unit.ExtraColor3 = (RaceData.SetupOutput.ExtraColors3 + Unit.ExtraColor3 + change) % RaceData.SetupOutput.ExtraColors3;
         RefreshView();
     }
-    void ChangeExtraColor4(int change)
+
+    private void ChangeExtraColor4(int change)
     {
         Unit.ExtraColor4 = (RaceData.SetupOutput.ExtraColors4 + Unit.ExtraColor4 + change) % RaceData.SetupOutput.ExtraColors4;
         RefreshView();
     }
 
-    void ChangeEyeType(int change)
+    private void ChangeEyeType(int change)
     {
         Unit.EyeType = (RaceData.SetupOutput.EyeTypes + Unit.EyeType + change) % RaceData.SetupOutput.EyeTypes;
         RefreshView();
     }
 
-    void ChangeHairStyle(int change)
+    private void ChangeHairStyle(int change)
     {
         Unit.HairStyle = (RaceData.SetupOutput.HairStyles + Unit.HairStyle + change) % RaceData.SetupOutput.HairStyles;
 
         RefreshView();
     }
 
-    void ChangeBeardStyle(int change)
+    private void ChangeBeardStyle(int change)
     {
         Unit.BeardStyle = (RaceData.SetupOutput.BeardStyles + Unit.BeardStyle + change) % RaceData.SetupOutput.BeardStyles;
 
@@ -799,7 +802,7 @@ public class UnitCustomizer
     }
 
 
-    void ChangeBodyAccessoryColor(int change)
+    private void ChangeBodyAccessoryColor(int change)
     {
         Unit.AccessoryColor = (RaceData.SetupOutput.AccessoryColors + Unit.AccessoryColor + change) % RaceData.SetupOutput.AccessoryColors;
         if (Equals(Unit.Race, Race.Cat) | Equals(Unit.Race, Race.Dog) | Equals(Unit.Race, Race.Bunny) | Equals(Unit.Race, Race.Wolf) | Equals(Unit.Race, Race.Fox) | Equals(Unit.Race, Race.Tiger))
@@ -807,7 +810,7 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeBodyAccessoryType(int change)
+    private void ChangeBodyAccessoryType(int change)
     {
         Unit.SpecialAccessoryType = (RaceData.SetupOutput.SpecialAccessoryCount + Unit.SpecialAccessoryType + change) % RaceData.SetupOutput.SpecialAccessoryCount;
         RefreshView();
@@ -953,26 +956,26 @@ public class UnitCustomizer
             Unit.Pronouns[5] = "plural";
     }
 
-    void ChangeBreastSize(int change)
+    private void ChangeBreastSize(int change)
     {
         Unit.SetDefaultBreastSize((RaceData.SetupOutput.BreastSizes() + Unit.BreastSize + change) % RaceData.SetupOutput.BreastSizes());
         RefreshView();
     }
 
 
-    void ChangeDickSize(int change)
+    private void ChangeDickSize(int change)
     {
         Unit.DickSize = (RaceData.SetupOutput.DickSizes() + Unit.DickSize + change) % RaceData.SetupOutput.DickSizes();
         RefreshView();
     }
 
-    void ChangeMouthType(int change)
+    private void ChangeMouthType(int change)
     {
         Unit.MouthType = (RaceData.SetupOutput.MouthTypes + Unit.MouthType + change) % RaceData.SetupOutput.MouthTypes;
         RefreshView();
     }
 
-    void ChangeBodyWeight(int change)
+    private void ChangeBodyWeight(int change)
     {
         if (Unit.BodySizeManuallyChanged == false)
             Unit.BodySize = Config.DefaultStartingWeight;
@@ -981,7 +984,7 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeClothingType(int change)
+    private void ChangeClothingType(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.MainClothingTypesCount;
         if (totalClothingTypes == 0)
@@ -1004,7 +1007,8 @@ public class UnitCustomizer
         }
         RefreshView();
     }
-    void ChangeClothing2Type(int change)
+
+    private void ChangeClothing2Type(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.WaistClothingTypesCount;
         if (totalClothingTypes == 0)
@@ -1028,7 +1032,7 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeExtraClothing1Type(int change)
+    private void ChangeExtraClothing1Type(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.ExtraMainClothing1Count;
         if (totalClothingTypes == 0)
@@ -1052,7 +1056,7 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeExtraClothing2Type(int change)
+    private void ChangeExtraClothing2Type(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.ExtraMainClothing2Count;
         if (totalClothingTypes == 0)
@@ -1076,7 +1080,7 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeExtraClothing3Type(int change)
+    private void ChangeExtraClothing3Type(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.ExtraMainClothing3Count;
         if (totalClothingTypes == 0)
@@ -1100,7 +1104,7 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeExtraClothing4Type(int change)
+    private void ChangeExtraClothing4Type(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.ExtraMainClothing4Count;
         if (totalClothingTypes == 0)
@@ -1124,7 +1128,7 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeExtraClothing5Type(int change)
+    private void ChangeExtraClothing5Type(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.ExtraMainClothing5Count;
         if (totalClothingTypes == 0)
@@ -1148,7 +1152,7 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeClothingAccesoryType(int change)
+    private void ChangeClothingAccesoryType(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.ClothingAccessoryTypesCount;
         if (Unit.EarnedMask && RaceFuncs.isMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizard))
@@ -1176,7 +1180,7 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeClothingHatType(int change)
+    private void ChangeClothingHatType(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.ClothingHatTypesCount;
         if (totalClothingTypes == 0)
@@ -1200,23 +1204,25 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    void ChangeClothingColor(int change)
+    private void ChangeClothingColor(int change)
     {
         Unit.ClothingColor = (RaceData.SetupOutput.ClothingColors + Unit.ClothingColor + change) % RaceData.SetupOutput.ClothingColors;
         RefreshView();
     }
-    void ChangeClothingColor2(int change)
+
+    private void ChangeClothingColor2(int change)
     {
         Unit.ClothingColor2 = (RaceData.SetupOutput.ClothingColors + Unit.ClothingColor2 + change) % RaceData.SetupOutput.ClothingColors;
         RefreshView();
     }
-    void ChangeClothingColor3(int change)
+
+    private void ChangeClothingColor3(int change)
     {
         Unit.ClothingColor3 = (RaceData.SetupOutput.ClothingColors + Unit.ClothingColor3 + change) % RaceData.SetupOutput.ClothingColors;
         RefreshView();
     }
 
-    void ChangeFurriness(int change)
+    private void ChangeFurriness(int change)
     {
         Unit.Furry = !Unit.Furry;
         RefreshView();
@@ -1234,73 +1240,73 @@ public class UnitCustomizer
     //    BasicRangedWeaponTypes = 1;
     //    AdvancedRangedWeaponTypes = 1;
 
-    void ChangeHeadType(int change)
+    private void ChangeHeadType(int change)
     {
         Unit.HeadType = (RaceData.SetupOutput.HeadTypes + Unit.HeadType + change) % RaceData.SetupOutput.HeadTypes;
         RefreshView();
     }
 
-    void ChangeTailType(int change)
+    private void ChangeTailType(int change)
     {
         Unit.TailType = (RaceData.SetupOutput.TailTypes + Unit.TailType + change) % RaceData.SetupOutput.TailTypes;
         RefreshView();
     }
 
-    void ChangeFurType(int change)
+    private void ChangeFurType(int change)
     {
         Unit.FurType = (RaceData.SetupOutput.FurTypes + Unit.FurType + change) % RaceData.SetupOutput.FurTypes;
         RefreshView();
     }
 
-    void ChangeEarType(int change)
+    private void ChangeEarType(int change)
     {
         Unit.EarType = (RaceData.SetupOutput.EarTypes + Unit.EarType + change) % RaceData.SetupOutput.EarTypes;
         RefreshView();
     }
 
-    void ChangeBodyAccentTypes1Type(int change)
+    private void ChangeBodyAccentTypes1Type(int change)
     {
         Unit.BodyAccentType1 = (RaceData.SetupOutput.BodyAccentTypes1 + Unit.BodyAccentType1 + change) % RaceData.SetupOutput.BodyAccentTypes1;
         RefreshView();
     }
 
-    void ChangeBodyAccentTypes2Type(int change)
+    private void ChangeBodyAccentTypes2Type(int change)
     {
         Unit.BodyAccentType2 = (RaceData.SetupOutput.BodyAccentTypes2 + Unit.BodyAccentType2 + change) % RaceData.SetupOutput.BodyAccentTypes2;
         RefreshView();
     }
 
-    void ChangeBodyAccentTypes3Type(int change)
+    private void ChangeBodyAccentTypes3Type(int change)
     {
         Unit.BodyAccentType3 = (RaceData.SetupOutput.BodyAccentTypes3 + Unit.BodyAccentType3 + change) % RaceData.SetupOutput.BodyAccentTypes3;
         RefreshView();
     }
 
-    void ChangeBodyAccentTypes4Type(int change)
+    private void ChangeBodyAccentTypes4Type(int change)
     {
         Unit.BodyAccentType4 = (RaceData.SetupOutput.BodyAccentTypes4 + Unit.BodyAccentType4 + change) % RaceData.SetupOutput.BodyAccentTypes4;
         RefreshView();
     }
 
-    void ChangeBodyAccentTypes5Type(int change)
+    private void ChangeBodyAccentTypes5Type(int change)
     {
         Unit.BodyAccentType5 = (RaceData.SetupOutput.BodyAccentTypes5 + Unit.BodyAccentType5 + change) % RaceData.SetupOutput.BodyAccentTypes5;
         RefreshView();
     }
 
-    void ChangeBallsSize(int change)
+    private void ChangeBallsSize(int change)
     {
         Unit.BallsSize = (RaceData.SetupOutput.BallsSizes + Unit.BallsSize + change) % RaceData.SetupOutput.BallsSizes;
         RefreshView();
     }
 
-    void ChangeVulvaType(int change)
+    private void ChangeVulvaType(int change)
     {
         Unit.VulvaType = (RaceData.SetupOutput.VulvaTypes + Unit.VulvaType + change) % RaceData.SetupOutput.VulvaTypes;
         RefreshView();
     }
 
-    void ChangeWeaponSprite(int change)
+    private void ChangeWeaponSprite(int change)
     {
         int basicMeleeTypes = RaceData.SetupOutput.BasicMeleeWeaponTypes;
         if (Config.HideCocks == false)

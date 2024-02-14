@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-class FogSystem
+internal class FogSystem
 {
     internal bool[,] FoggedTile;
     internal Tilemap FogOfWar;
@@ -109,7 +109,7 @@ class FogSystem
 
     }
 
-    void ClearWithinXTilesOf(Vec2i pos)
+    private void ClearWithinXTilesOf(Vec2i pos)
     {
         int dist = Config.FogDistance - ((State.World.IsNight) ? Config.NightStrategicSightReduction : 0);
         for (int x = pos.X - dist; x <= pos.X + dist; x++)

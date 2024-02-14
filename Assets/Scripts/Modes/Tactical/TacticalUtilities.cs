@@ -5,21 +5,21 @@ using System.Security.Policy;
 using UnityEngine;
 using UnityEngine.UI;
 
-static class TacticalUtilities
+internal static class TacticalUtilities
 {
-    static Army[] armies;
-    static Village village;
-    static List<Actor_Unit> garrison;
-    static TacticalTileType[,] tiles;
-    static bool[,] blockedTiles;
-    static bool[,] blockedClimberTiles;
-    static HirePanel UnitPickerUI;
+    private static Army[] armies;
+    private static Village village;
+    private static List<Actor_Unit> garrison;
+    private static TacticalTileType[,] tiles;
+    private static bool[,] blockedTiles;
+    private static bool[,] blockedClimberTiles;
+    private static HirePanel UnitPickerUI;
 
-    static internal TacticalMessageLog Log => State.GameManager.TacticalMode.Log;
+    internal static TacticalMessageLog Log => State.GameManager.TacticalMode.Log;
 
-    static internal List<Actor_Unit> Units { get; private set; }
+    internal static List<Actor_Unit> Units { get; private set; }
 
-    static internal void ResetData()
+    internal static void ResetData()
     {
         armies = null;
         village = null;
@@ -30,7 +30,7 @@ static class TacticalUtilities
         blockedClimberTiles = null;
     }
 
-    static internal void ResetData(Army[] larmies, Village lvillage, List<Actor_Unit> lunits, List<Actor_Unit> lgarrison, TacticalTileType[,] ltiles, bool[,] lblockedTiles, bool[,] lblockedClimberTiles)
+    internal static void ResetData(Army[] larmies, Village lvillage, List<Actor_Unit> lunits, List<Actor_Unit> lgarrison, TacticalTileType[,] ltiles, bool[,] lblockedTiles, bool[,] lblockedClimberTiles)
     {
         armies = larmies;
         village = lvillage;
@@ -43,7 +43,7 @@ static class TacticalUtilities
     }
 
     // This is for fleeing units
-    static internal void ProcessTravelingUnits(List<Unit> travelingUnits)
+    internal static void ProcessTravelingUnits(List<Unit> travelingUnits)
     {
         if (State.World.Villages == null)
         {
@@ -121,8 +121,7 @@ static class TacticalUtilities
     }
 
 
-
-    static void GenerateFleeingArmy(List<Unit> fleeingUnits)
+    private static void GenerateFleeingArmy(List<Unit> fleeingUnits)
     {
         if (fleeingUnits.Any() == false)
             return;
@@ -152,7 +151,7 @@ static class TacticalUtilities
         }
     }
 
-    static internal void GenerateAnotherArmy(List<Unit> leftoverUnits)
+    internal static void GenerateAnotherArmy(List<Unit> leftoverUnits)
     {
         if (leftoverUnits.Any() == false)
             return;
@@ -182,7 +181,7 @@ static class TacticalUtilities
         }
     }
 
-    static internal void CleanVillage(int remainingAttackers)
+    internal static void CleanVillage(int remainingAttackers)
     {
         bool MonsterAttacker = RaceFuncs.isMonster(armies[0].Side.ToRace());
         //SpawnerInfo spawner = Config.SpawnerInfo((Race)armies[0]?.Side);
@@ -277,7 +276,7 @@ static class TacticalUtilities
         }
     }
 
-    static internal bool AppropriateVoreTarget(Actor_Unit pred, Actor_Unit prey)
+    internal static bool AppropriateVoreTarget(Actor_Unit pred, Actor_Unit prey)
     {
         if (pred == prey)
             return false;
@@ -290,7 +289,7 @@ static class TacticalUtilities
         return true;
     }
 
-    static public Side GetPreferredSide(Unit actor, Side sideA, Side sideB) // If equally aligned with both, should default to A
+    public static Side GetPreferredSide(Unit actor, Side sideA, Side sideB) // If equally aligned with both, should default to A
     {
         Side effectiveActorSide = !Equals(GetMindControlSide(actor), Side.TrueNoneSide) ? GetMindControlSide(actor) : actor.FixedSide;
         if (State.GameManager.PureTactical)
@@ -349,7 +348,7 @@ static class TacticalUtilities
         }
     }
 
-    static public bool TreatAsHostile(Actor_Unit actor, Actor_Unit target)
+    public static bool TreatAsHostile(Actor_Unit actor, Actor_Unit target)
     {
         if (actor == target) return false;
         if (ReferenceEquals(actor.Unit.Side, actor.Unit.FixedSide) && !(target.SidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false) && Equals(target.Unit.Side, actor.Unit.Side) && Equals(GetMindControlSide(actor.Unit), Side.TrueNoneSide))
@@ -470,13 +469,13 @@ static class TacticalUtilities
         return targetSideHostilityP >= targetSideHostilityUP || (target.SidesAttackedThisBattle?.Contains(preferredSide) ?? false) || (target.SidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false);
     }
 
-    static public bool SneakAttackCheck(Unit attacker, Unit target)
+    public static bool SneakAttackCheck(Unit attacker, Unit target)
     {
         if (!Equals(GetMindControlSide(attacker), Side.TrueNoneSide)) return false;
         return Equals(attacker.GetApparentSide(target), target.GetApparentSide()) && attacker.IsInfiltratingSide(target.GetApparentSide());
     }
 
-    static public Side GetMindControlSide(Unit unit)
+    public static Side GetMindControlSide(Unit unit)
     {
         if (unit.GetStatusEffect(StatusEffectType.Hypnotized) != null)
             return unit.GetStatusEffect(StatusEffectType.Hypnotized).Side;
@@ -494,9 +493,9 @@ static class TacticalUtilities
     //     return Race.none.ToSide();
     // }
 
-    static public bool OpenTile(Vec2i vec, Actor_Unit actor) => OpenTile(vec.X, vec.Y, actor);
+    public static bool OpenTile(Vec2i vec, Actor_Unit actor) => OpenTile(vec.X, vec.Y, actor);
 
-    static public bool FreeSpaceAroundTarget(Vec2i targetLocation, Actor_Unit actor)
+    public static bool FreeSpaceAroundTarget(Vec2i targetLocation, Actor_Unit actor)
     {
         for (int x = targetLocation.X - 1; x < targetLocation.X + 2; x++)
         {
@@ -513,7 +512,7 @@ static class TacticalUtilities
         return false;
     }
 
-    static public bool OpenTile(int x, int y, Actor_Unit actor)
+    public static bool OpenTile(int x, int y, Actor_Unit actor)
     {
         if (x < 0 || y < 0 || x > tiles.GetUpperBound(0) || y > tiles.GetUpperBound(1))
             return false;
@@ -555,7 +554,7 @@ static class TacticalUtilities
         return false;
     }
 
-    static public bool TileContainsMoreThanOneUnit(int x, int y)
+    public static bool TileContainsMoreThanOneUnit(int x, int y)
     {
         if (x < 0 || y < 0 || x > tiles.GetUpperBound(0) || y > tiles.GetUpperBound(1))
             return false;
@@ -586,7 +585,7 @@ static class TacticalUtilities
     //}
 
 
-    static public bool FlyableTile(int x, int y)
+    public static bool FlyableTile(int x, int y)
     {
         if (x < 0 || y < 0 || x > tiles.GetUpperBound(0) || y > tiles.GetUpperBound(1))
             return false;
@@ -594,7 +593,7 @@ static class TacticalUtilities
     }
 
 
-    static internal void CheckKnockBack(Actor_Unit Attacker, Actor_Unit Target, ref float damage)
+    internal static void CheckKnockBack(Actor_Unit Attacker, Actor_Unit Target, ref float damage)
     {
         int xDiff = Target.Position.X - Attacker.Position.X;
         int yDiff = Target.Position.Y - Attacker.Position.Y;
@@ -609,7 +608,7 @@ static class TacticalUtilities
         return;
     }
 
-    static internal void KnockBack(Actor_Unit Attacker, Actor_Unit Target)
+    internal static void KnockBack(Actor_Unit Attacker, Actor_Unit Target)
     {
         int xDiff = Target.Position.X - Attacker.Position.X;
         int yDiff = Target.Position.Y - Attacker.Position.Y;
@@ -627,7 +626,7 @@ static class TacticalUtilities
         return;
     }
 
-    static internal PredatorComponent GetPredatorComponentOfUnit(Unit unit)
+    internal static PredatorComponent GetPredatorComponentOfUnit(Unit unit)
     {
         foreach (Actor_Unit actor in Units)
         {
@@ -637,7 +636,7 @@ static class TacticalUtilities
         return null;
     }
 
-    static internal Actor_Unit FindPredator(Actor_Unit searcher)
+    internal static Actor_Unit FindPredator(Actor_Unit searcher)
     {
         foreach (Actor_Unit Unit in Units)
         {
@@ -647,7 +646,7 @@ static class TacticalUtilities
         return null;
     }
 
-    static internal void UpdateActorLocations()
+    internal static void UpdateActorLocations()
     {
         foreach (Actor_Unit unit in Units)
         {
@@ -660,7 +659,7 @@ static class TacticalUtilities
     }
 
 
-    static internal void RefreshUnitGraphicType()
+    internal static void RefreshUnitGraphicType()
     {
         if (Units == null)
             return;
@@ -673,7 +672,7 @@ static class TacticalUtilities
         }
     }
 
-    static internal void UpdateVersion()
+    internal static void UpdateVersion()
     {
         foreach (Actor_Unit actor in Units)
         {
@@ -681,7 +680,7 @@ static class TacticalUtilities
         }
     }
 
-    static internal List<Actor_Unit> UnitsWithinTiles(Vec2 target, int tiles)
+    internal static List<Actor_Unit> UnitsWithinTiles(Vec2 target, int tiles)
     {
         List<Actor_Unit> unitList = new List<Actor_Unit>();
         foreach (Actor_Unit actor in Units)
@@ -697,13 +696,13 @@ static class TacticalUtilities
         return unitList;
     }
 
-    static internal Actor_Unit FindUnitToResurrect(Actor_Unit caster)
+    internal static Actor_Unit FindUnitToResurrect(Actor_Unit caster)
     {
         Actor_Unit actor = Units.Where(s => Equals(s.Unit.Side, caster.Unit.Side) && s.Unit.IsDead && s.Unit.Type != UnitType.Summon).OrderByDescending(s => s.Unit.Experience).FirstOrDefault();
         return actor;
     }
 
-    static internal Actor_Unit FindUnitToReanimate(Actor_Unit caster)
+    internal static Actor_Unit FindUnitToReanimate(Actor_Unit caster)
     {
         Actor_Unit actor = Units.Where(s => s.Unit.IsDead).OrderByDescending(s => s.Unit.Experience).FirstOrDefault();
         return actor;
@@ -868,7 +867,7 @@ static class TacticalUtilities
         State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{caster.Name}</b> brought back <b>{target.Unit.Name}</b> as a summon.");
     }
 
-    static internal bool MeetsQualifier(List<AbilityTargets> targets, Actor_Unit actor, Actor_Unit target)
+    internal static bool MeetsQualifier(List<AbilityTargets> targets, Actor_Unit actor, Actor_Unit target)
     {
         if ((!Equals(target.Unit.GetApparentSide(), actor.Unit.FixedSide)) && targets.Contains(AbilityTargets.Enemy))
             return true;
@@ -884,7 +883,7 @@ static class TacticalUtilities
 
     }
 
-    static internal Actor_Unit GetActorAt(Vec2 location)
+    internal static Actor_Unit GetActorAt(Vec2 location)
     {
         foreach (Actor_Unit actor in Units)
         {
@@ -896,12 +895,12 @@ static class TacticalUtilities
         return null;
     }
 
-    static internal Actor_Unit GetActorOf(Unit unit)
+    internal static Actor_Unit GetActorOf(Unit unit)
     {
         return Units.FirstOrDefault(actor => actor.Unit == unit);
     }
 
-    static internal void CreateEffect(Vec2i location, TileEffectType type, int areaOfEffect, float strength, int duration)
+    internal static void CreateEffect(Vec2i location, TileEffectType type, int areaOfEffect, float strength, int duration)
     {
         for (int x = location.X - areaOfEffect; x <= location.X + areaOfEffect; x++)
         {
@@ -926,7 +925,7 @@ static class TacticalUtilities
 
     }
 
-    static public bool IsUnitControlledBySide(Unit unit, Side side)
+    public static bool IsUnitControlledBySide(Unit unit, Side side)
     {
         if (!Equals(GetMindControlSide(unit), Side.TrueNoneSide))  // Charmed units may fight for a specific side, but for targeting purposes we'll consider them driven by separate forces
             return false;
@@ -939,7 +938,7 @@ static class TacticalUtilities
         return false;
     }
 
-    static public bool PlayerCanSeeTrueSide(Unit unit)
+    public static bool PlayerCanSeeTrueSide(Unit unit)
     {
         if (!unit.hiddenFixedSide || Equals(unit.FixedSide, unit.Side)) return true;
 
@@ -963,7 +962,7 @@ static class TacticalUtilities
         return false;
     }
 
-    static public bool UnitCanSeeTrueSideOfTarget(Unit viewer, Unit target)
+    public static bool UnitCanSeeTrueSideOfTarget(Unit viewer, Unit target)
     {
         if (!target.hiddenFixedSide || Equals(target.FixedSide, target.Side)) return true;
 

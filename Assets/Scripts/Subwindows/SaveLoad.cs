@@ -123,7 +123,7 @@ public class SaveLoad : MonoBehaviour
         box.SetData(ActuallyDelete, "Delete", "Cancel", "Are you sure you want to delete this saved game?");
     }
 
-    void ActuallyDelete()
+    private void ActuallyDelete()
     {
         if (File.Exists($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav"))
             File.Delete($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav");

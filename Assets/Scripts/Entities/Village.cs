@@ -46,7 +46,8 @@ public class Village
 
     [OdinSerialize]
     private int _turnDestroyed = 0;
-    int TurnDestroyed { get => _turnDestroyed; set => _turnDestroyed = value; }
+
+    private int TurnDestroyed { get => _turnDestroyed; set => _turnDestroyed = value; }
 
     [OdinSerialize]
     private float _happiness = 100;
@@ -76,8 +77,8 @@ public class Village
 
     public VillageBoosts NetBoosts { get; set; }
 
-    static List<Race> AvailableRaces;
-    static int TurnRefreshed;
+    private static List<Race> AvailableRaces;
+    private static int TurnRefreshed;
 
 
     public int Garrison
@@ -177,7 +178,7 @@ public class Village
         }
     }
 
-    static private float ConvertZeroBasedFloatToMultiplierOrDivider(float value)
+    private static float ConvertZeroBasedFloatToMultiplierOrDivider(float value)
     {
         if (value >= 0.0f)
         {
@@ -195,7 +196,7 @@ public class Village
         UpdateNetBoosts();
     }
 
-    static internal BuildingCost GetCost(VillageBuilding building)
+    internal static BuildingCost GetCost(VillageBuilding building)
     {
         var buildingDef = VillageBuildingList.GetBuildingDefinition(building);
         return buildingDef.Cost;
@@ -523,7 +524,7 @@ public class Village
         UpdateMercenaries();
     }
 
-    void HealStandbyUnits()
+    private void HealStandbyUnits()
     {
         float healRate = Healrate();
         foreach (Unit unit in VillagePopulation.GetRecruitables().ToList())
@@ -543,7 +544,7 @@ public class Village
         }
     }
 
-    void Growth()
+    private void Growth()
     {
         double namedBreeders  = 0;
         Army army = StrategicUtilities.ArmyAt(Position);
@@ -687,7 +688,7 @@ public class Village
         VillagePopulation.CleanHirables();
     }
 
-    void UpdateTravelers()
+    private void UpdateTravelers()
     {
         if (travelers == null)
             return;
@@ -1294,7 +1295,7 @@ public class Village
         return false;
     }
 
-    void UpdateMercenaries()
+    private void UpdateMercenaries()
     {
         if (Mercenaries == null)
             Mercenaries = new List<MercenaryContainer>();
@@ -1369,7 +1370,7 @@ public class Village
 
     }
 
-    MercenaryContainer CreateAdventurer(int highestExp)
+    private MercenaryContainer CreateAdventurer(int highestExp)
     {
         MercenaryContainer merc = new MercenaryContainer();
         Race race = Race.Cat;
@@ -1443,7 +1444,7 @@ public class Village
         return merc;
     }
 
-    MercenaryContainer CreateMercenary(int highestExp)
+    private MercenaryContainer CreateMercenary(int highestExp)
     {
         MercenaryContainer merc = new MercenaryContainer();
         Race race;

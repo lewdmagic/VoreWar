@@ -1751,7 +1751,7 @@ public abstract class TacticalAI : ITacticalAI
         }
     }
 
-    List<PotentialTarget> GetListOfPotentialFeedTargets(Actor_Unit actor)
+    private List<PotentialTarget> GetListOfPotentialFeedTargets(Actor_Unit actor)
     {
         List<PotentialTarget> targets = new List<PotentialTarget>();
         foreach (Actor_Unit unit in actors)
@@ -1807,7 +1807,7 @@ public abstract class TacticalAI : ITacticalAI
         }
     }
 
-    List<PotentialTarget> GetListOfPotentialSuckleTargets(Actor_Unit actor)
+    private List<PotentialTarget> GetListOfPotentialSuckleTargets(Actor_Unit actor)
     {
         List<PotentialTarget> targets = new List<PotentialTarget>();
         foreach (Actor_Unit unit in actors)

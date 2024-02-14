@@ -148,7 +148,7 @@ public class SoundManager : MonoBehaviour
         source.PlayOneShot(clip, volume); //Allows sounds to play over each other without using multiple Audio Sources
     }
 
-    float PositionSound(AudioSource source, Vector2 position, float minVolume)
+    private float PositionSound(AudioSource source, Vector2 position, float minVolume)
     {
         Camera camera = State.GameManager.Camera;
 
@@ -176,7 +176,7 @@ public class SoundManager : MonoBehaviour
     // If the location is null, the sound has no pan or volume adjustment
     // Otherwise, it sounds like it came from that location on the tactical map
 
-    void RandomizeSfxGlobal(AudioClip[] clips, Vector2? location, float volume)
+    private void RandomizeSfxGlobal(AudioClip[] clips, Vector2? location, float volume)
     {
         if (SoundEnabled == false)
             return;
@@ -203,7 +203,7 @@ public class SoundManager : MonoBehaviour
         PlaySfx(clip, source, volume);
     }
 
-    void RandomizeLoop(AudioClip[] clips, Actor_Unit actor, float volume)
+    private void RandomizeLoop(AudioClip[] clips, Actor_Unit actor, float volume)
     {
         if (SoundEnabled == false)
             return;
@@ -235,7 +235,7 @@ public class SoundManager : MonoBehaviour
         PlayLoop(clip, source);
     }
 
-    void RandomizeSfx(AudioClip[] clips, Actor_Unit actor, float volume)
+    private void RandomizeSfx(AudioClip[] clips, Actor_Unit actor, float volume)
     {
         if (SoundEnabled == false)
             return;

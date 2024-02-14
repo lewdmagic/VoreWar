@@ -6,10 +6,10 @@ public class AnimationEffectComponent : MonoBehaviour
     public Sprite[] Frame;
     public bool Repeat;
 
-    new private SpriteRenderer renderer;
+    private new SpriteRenderer renderer;
 
-    int currentFrame = 0;
-    float currentTime = 0;
+    private int currentFrame = 0;
+    private float currentTime = 0;
 
     private void Start()
     {

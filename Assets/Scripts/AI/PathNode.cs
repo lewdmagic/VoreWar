@@ -1,4 +1,4 @@
-﻿class PathNode
+﻿internal class PathNode
 {
 
     public int X;

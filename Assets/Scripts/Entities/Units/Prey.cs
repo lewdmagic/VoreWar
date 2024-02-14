@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class Prey
+internal class Prey
 {
 
 
@@ -151,7 +151,7 @@ class Prey
         return units.ToArray();
     }
 
-    void PreyVaporizer()
+    private void PreyVaporizer()
     {
         for (int i = 0; i < SubPrey.Count; i++)
         {

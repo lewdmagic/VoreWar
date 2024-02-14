@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class RaceHoverObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    bool hovering;
+    private bool hovering;
     internal Race race;
 
 

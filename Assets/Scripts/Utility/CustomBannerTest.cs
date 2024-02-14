@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 
 
-static class CustomBannerTest
+internal static class CustomBannerTest
 {
     //private static Sprite banner;
 
@@ -27,9 +27,9 @@ static class CustomBannerTest
 
     }
 
-    static internal Sprite[] Sprites;
+    internal static Sprite[] Sprites;
 
-    static Sprite LoadPNG(string filePath)
+    private static Sprite LoadPNG(string filePath)
     {
 
         Texture2D tex = null;

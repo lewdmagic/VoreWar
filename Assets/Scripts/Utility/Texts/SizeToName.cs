@@ -1,8 +1,8 @@
 ﻿using System;
 
-static class SizeToName
+internal static class SizeToName
 {
-    static string[] labels;
+    private static string[] labels;
 
     static SizeToName()
     {

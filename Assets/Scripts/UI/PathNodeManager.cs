@@ -5,10 +5,10 @@ using UnityEngine.UI;
 public class PathNodeManager : MonoBehaviour
 {
     public GameObject NodePrefab;
-    List<GameObject> nodes;
-    List<SpriteRenderer> spriteRenders;
-    List<Text> texts;
-    int nextNum = 0;
+    private List<GameObject> nodes;
+    private List<SpriteRenderer> spriteRenders;
+    private List<Text> texts;
+    private int nextNum = 0;
 
     private void Start()
     {

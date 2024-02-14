@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-class MonsterStrategicAI : IStrategicAI
+internal class MonsterStrategicAI : IStrategicAI
 {
     [OdinSerialize]
     private MonsterEmpire _empire;
-    MonsterEmpire empire { get => _empire; set => _empire = value; }
 
-    List<PathNode> path;
-    Army pathIsFor;
+    private MonsterEmpire empire { get => _empire; set => _empire = value; }
+
+    private List<PathNode> path;
+    private Army pathIsFor;
 
     public MonsterStrategicAI(MonsterEmpire empire)
     {
@@ -357,8 +358,7 @@ class MonsterStrategicAI : IStrategicAI
     }
 
 
-
-    void Attack(Army army, float MaxDefenderStrength)
+    private void Attack(Army army, float MaxDefenderStrength)
     {
         Village[] villages = State.World.Villages;
 

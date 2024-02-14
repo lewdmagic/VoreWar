@@ -2,34 +2,34 @@
 
 namespace Assets.Scripts.Modes.Strategic
 {
-    class StrategicTerrainGenerator
+    internal class StrategicTerrainGenerator
     {
-        WorldGenerator.MapGenArgs GenArgs;
+        private WorldGenerator.MapGenArgs GenArgs;
 
-        int xSize = Config.StrategicWorldSizeX;
-        int ySize = Config.StrategicWorldSizeY;
-        float humidity_plus = 0.0f;
-        float mountain_threshold = 0.7f;
+        private int xSize = Config.StrategicWorldSizeX;
+        private int ySize = Config.StrategicWorldSizeY;
+        private float humidity_plus = 0.0f;
+        private float mountain_threshold = 0.7f;
 
         //this is used to sharpen mountains and flatten valleys. 
         //Ideally the curve should be 0y in 0x and 1y in 1x, and below 0.5 for most of its length
-        AnimationCurve height_multiplier = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(.2f, .2f), new Keyframe(.8f, .5f), new Keyframe(1, 1) });
+        private AnimationCurve height_multiplier = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(.2f, .2f), new Keyframe(.8f, .5f), new Keyframe(1, 1) });
 
-        float he_zoom = 10f;
-        float he_factor = 2f; //1.8 to 4 look good
-        Vector2 he_seed;
+        private float he_zoom = 10f;
+        private float he_factor = 2f; //1.8 to 4 look good
+        private Vector2 he_seed;
 
-        float hu_zoom = 10f;
-        float hu_factor = 1.8f; //1.8 to 10 look good
-        Vector2 hu_seed;
+        private float hu_zoom = 10f;
+        private float hu_factor = 1.8f; //1.8 to 10 look good
+        private Vector2 hu_seed;
 
-        float tmp_zoom = 10f;
-        float tmp_factor = 1.8f;
-        Vector2 tmp_seed;
+        private float tmp_zoom = 10f;
+        private float tmp_factor = 1.8f;
+        private Vector2 tmp_seed;
 
-        float[,] he_array;
-        float[,] hu_array;
-        float[,] te_array;
+        private float[,] he_array;
+        private float[,] hu_array;
+        private float[,] te_array;
 
         public StrategicTerrainGenerator(WorldGenerator.MapGenArgs genArgs)
         {
@@ -55,7 +55,7 @@ namespace Assets.Scripts.Modes.Strategic
             return tiles;
         }
 
-        StrategicTileType GetTerrain(int x, int y)
+        private StrategicTileType GetTerrain(int x, int y)
         {
             float height = he_array[x, y];
             float humidity = hu_array[x, y];
@@ -110,7 +110,7 @@ namespace Assets.Scripts.Modes.Strategic
 
 
         //calculate the value of an element of the array based on noise and location
-        float FractalNoise(int i, int j, float zoom, float factor, Vector2 seed)
+        private float FractalNoise(int i, int j, float zoom, float factor, Vector2 seed)
         {
             i = i + Mathf.RoundToInt(seed.x * zoom);
             j = j + Mathf.RoundToInt(seed.y * zoom);
@@ -149,7 +149,7 @@ namespace Assets.Scripts.Modes.Strategic
 
 
         //makes and calculates the values of the 3 arrays that are used to determine the type of tile
-        void MakeArrays()
+        private void MakeArrays()
         {
             he_array = new float[xSize, ySize];
             hu_array = new float[xSize, ySize];
@@ -158,7 +158,7 @@ namespace Assets.Scripts.Modes.Strategic
             RecalculateArray();
         }
 
-        void RecalculateArray()
+        private void RecalculateArray()
         {
             for (int i = 0; i < xSize; i++)
             {

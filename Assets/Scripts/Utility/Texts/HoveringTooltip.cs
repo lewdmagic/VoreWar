@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public class HoveringTooltip : MonoBehaviour
 {
-    TextMeshProUGUI text;
-    RectTransform rect;
-    int remainingFrames = 0;
+    private TextMeshProUGUI text;
+    private RectTransform rect;
+    private int remainingFrames = 0;
 
     private void Start()
     {
@@ -127,7 +127,7 @@ public class HoveringTooltip : MonoBehaviour
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
-    string GetTraitDescription(string[] words)
+    private string GetTraitDescription(string[] words)
     {
         if (Enum.TryParse(words[2], out TraitType trait))
         {
@@ -136,7 +136,7 @@ public class HoveringTooltip : MonoBehaviour
         return "";
     }
 
-    string GetSpellDescription(string[] words)
+    private string GetSpellDescription(string[] words)
     {
         if (Enum.TryParse(words[2], out SpellType spell))
         {
@@ -153,7 +153,7 @@ public class HoveringTooltip : MonoBehaviour
         return "";
     }
 
-    string GetAIDescription(string[] words)
+    private string GetAIDescription(string[] words)
     {
         if (Enum.TryParse(words[2], out RaceAI ai))
         {
@@ -162,7 +162,7 @@ public class HoveringTooltip : MonoBehaviour
         return "";
     }
 
-    string GetDescription(string[] words, Unit unit, Actor_Unit actor = null)
+    private string GetDescription(string[] words, Unit unit, Actor_Unit actor = null)
     {
         if (int.TryParse(words[2], out int temp))
         {

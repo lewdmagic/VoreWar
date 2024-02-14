@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-class RaceSettings
+internal class RaceSettings
 {
     [OdinSerialize]
     private Dictionary<Race, RaceSettingsItem> Races;
@@ -318,7 +318,7 @@ class RaceSettings
     }
 }
 
-class RaceSettingsItem
+internal class RaceSettingsItem
 {
 
     [OdinSerialize]

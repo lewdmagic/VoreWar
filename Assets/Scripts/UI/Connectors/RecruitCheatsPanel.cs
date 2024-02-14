@@ -15,9 +15,9 @@ public class RecruitCheatsPanel : MonoBehaviour
 
     public Button RefreshButton;
 
-    bool init = false;
+    private bool init = false;
 
-    Army Army;
+    private Army Army;
 
     internal void Setup(Army army)
     {
@@ -49,12 +49,12 @@ public class RecruitCheatsPanel : MonoBehaviour
         ArmyPicker.RefreshShownValue();
     }
 
-    void Refresh()
+    private void Refresh()
     {
         Army.Refresh();
     }
 
-    void MoveToAnotherEmpire()
+    private void MoveToAnotherEmpire()
     {
         if (StrategicUtilities.GetVillageAt(Army.Position) != null)
         {
@@ -80,7 +80,7 @@ public class RecruitCheatsPanel : MonoBehaviour
         State.GameManager.StrategyMode.RedrawArmies();
     }
 
-    void AddTrait()
+    private void AddTrait()
     {
         if (Enum.TryParse(TraitPicker.captionText.text, out TraitType trait))
         {
@@ -91,7 +91,7 @@ public class RecruitCheatsPanel : MonoBehaviour
         }
     }
 
-    void RemoveTrait()
+    private void RemoveTrait()
     {
         if (Enum.TryParse(TraitPicker.captionText.text, out TraitType trait))
         {

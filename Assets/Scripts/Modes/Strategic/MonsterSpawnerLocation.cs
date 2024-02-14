@@ -1,4 +1,4 @@
-﻿class MonsterSpawnerLocation
+﻿internal class MonsterSpawnerLocation
 {
     internal Vec2i Location;
 

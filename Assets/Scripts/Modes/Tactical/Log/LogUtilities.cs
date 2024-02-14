@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-static class LogUtilities
+internal static class LogUtilities
 {
-    static int rand;
+    private static int rand;
     internal static string GetRandomStringFrom(List<string> messages)
     {
         if (messages.Count == 0)

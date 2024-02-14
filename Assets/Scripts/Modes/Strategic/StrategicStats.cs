@@ -6,7 +6,7 @@ using System.Text;
 
 public class StrategicStats
 {
-    class RaceStats
+    private class RaceStats
     {
         [OdinSerialize]
         private string _empireName;
@@ -55,8 +55,7 @@ public class StrategicStats
         }
 
     }
-    [OdinSerialize]
-    Dictionary<Side, RaceStats> EmpireStats;
+    [OdinSerialize] private Dictionary<Side, RaceStats> EmpireStats;
 
     public StrategicStats()
     {

@@ -3,11 +3,10 @@ using UnityEngine;
 
 public class ExceptionHandler : MonoBehaviour
 {
+    private int exceptionCount;
+    private string path;
 
-    int exceptionCount;
-    string path;
-
-    void Awake()
+    private void Awake()
     {
         if (Application.isEditor)
             return;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-struct CustomEvent
+internal struct CustomEvent
 {
     internal string MainText;
     internal string Option1Choice;
@@ -25,9 +25,9 @@ struct CustomEvent
 
 }
 
-class CustomEventList
+internal class CustomEventList
 {
-    List<CustomEvent> Events;
+    private List<CustomEvent> Events;
 
     internal bool AnyEvents => Events.Any();
 

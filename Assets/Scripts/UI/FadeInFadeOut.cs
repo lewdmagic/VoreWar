@@ -9,10 +9,10 @@ public class FadeInFadeOut : MonoBehaviour
 
     public SpriteRenderer SpriteRenderer;
 
-    bool fadingIn = true;
-    bool fadingOut = false;
+    private bool fadingIn = true;
+    private bool fadingOut = false;
 
-    float currentTime = 0;
+    private float currentTime = 0;
 
     private void Update()
     {

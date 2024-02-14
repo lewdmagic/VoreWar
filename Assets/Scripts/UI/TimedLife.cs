@@ -3,7 +3,7 @@
 public class TimedLife : MonoBehaviour
 {
     public float Life;
-    float currentLife;
+    private float currentLife;
     private void Update()
     {
         currentLife += Time.deltaTime;

@@ -10,23 +10,23 @@ using UnityEngine.Tilemaps;
 public class TacticalMode : SceneBase
 {
     internal static readonly WallType DefaultType = WallType.Stone;
-    
-    enum NextUnitType
+
+    private enum NextUnitType
     {
         Any,
         Melee,
         Ranged
     }
 
-    WallType wallType;
+    private WallType wallType;
 
-    List<Actor_Unit> units;
-    List<MiscDiscard> miscDiscards;
-    List<ClothingDiscards> discardedClothing;
-    Army[] armies;
-    Village village;
+    private List<Actor_Unit> units;
+    private List<MiscDiscard> miscDiscards;
+    private List<ClothingDiscards> discardedClothing;
+    private Army[] armies;
+    private Village village;
 
-    List<Actor_Unit> RetreatedDigestors;
+    private List<Actor_Unit> RetreatedDigestors;
 
     internal FogSystemTactical FogSystem;
     public Translator Translator;
@@ -42,14 +42,14 @@ public class TacticalMode : SceneBase
     public Tilemap EffectTileMap;
     public Tilemap FrontSpriteTilemap;
 
-    Tile[] BuildingTileTypes;
+    private Tile[] BuildingTileTypes;
 
 
     public AnimatedTile Pyre;
     public Tile Ice;
 
-    bool[,] BlockedTile;
-    bool[,] BlockedClimberTile;
+    private bool[,] BlockedTile;
+    private bool[,] BlockedClimberTile;
 
     internal void SetBlockedTiles(bool[,] tiles) => BlockedTile = tiles;
 
@@ -98,20 +98,20 @@ public class TacticalMode : SceneBase
 
     public RightClickMenu RightClickMenu;
 
-    bool manualSkip = false;
+    private bool manualSkip = false;
 
     public TacticalStats TacticalStats;
 
     internal InfoPanel InfoPanel;
 
-    TacticalTileType[,] tiles;
+    private TacticalTileType[,] tiles;
     internal TacticalBuildings.TacticalBuilding[] Buildings;
 
     internal DecorationStorage[] DecorationStorage;
     internal PlacedDecoration[] Decorations;
 
-    Side defenderSide;
-    Side attackerSide; // because sides just got a lot more complex.
+    private Side defenderSide;
+    private Side attackerSide; // because sides just got a lot more complex.
 
 
     internal bool DirtyPack = true;
@@ -119,7 +119,7 @@ public class TacticalMode : SceneBase
     internal bool TacticalLogUpdated;
 
     internal ChoiceOption FledReturn;
-    bool waitingForDialog;
+    private bool waitingForDialog;
 
     public bool PseudoTurn = false;
     public bool IgnorePseudo = false;
@@ -127,19 +127,19 @@ public class TacticalMode : SceneBase
 
     internal int currentTurn = 1;
 
-    int lastDiscard = 5;
+    private int lastDiscard = 5;
 
-    int corpseCount = 0;
+    private int corpseCount = 0;
 
-    bool repeatingTurn = false;
+    private bool repeatingTurn = false;
     internal Vector2Int Wins;
 
-    Spell CurrentSpell;
+    private Spell CurrentSpell;
 
-    bool attackersTurn;
+    private bool attackersTurn;
     internal bool IsPlayerTurn;
     internal bool IsPlayerInControl => PseudoTurn || (IsPlayerTurn && RunningFriendlyAI == false && foreignAI == null && !SpectatorMode);
-    Side activeSide;
+    private Side activeSide;
 
     public bool AIAttacker;
 
@@ -154,50 +154,50 @@ public class TacticalMode : SceneBase
     internal string AttackerName = null;
     internal string DefenderName = null;
 
-    bool paused;
+    private bool paused;
 
-    float remainingLockedPanelTime = 0;
+    private float remainingLockedPanelTime = 0;
 
     internal float AITimer;
-    ITacticalAI currentAI;
-    ITacticalAI attackerAI;
-    ITacticalAI defenderAI;
-    ITacticalAI foreignAI;
+    private ITacticalAI currentAI;
+    private ITacticalAI attackerAI;
+    private ITacticalAI defenderAI;
+    private ITacticalAI foreignAI;
 
     public double StartingAttackerPower;
     public double StartingDefenderPower;
 
     internal bool RunningFriendlyAI;
 
-    bool[,] Walkable;
+    private bool[,] Walkable;
 
-    bool reviewingBattle = false;
+    private bool reviewingBattle = false;
 
-    Vec2i currentPathDestination;
+    private Vec2i currentPathDestination;
 
-    float autoAdvanceTimer;
-    bool autoAdvancing;
-    const float AutoAdvanceRate = .4f;
+    private float autoAdvanceTimer;
+    private bool autoAdvancing;
+    private const float AutoAdvanceRate = .4f;
 
-    PathNodeManager arrowManager;
-    List<PathNode> queuedPath;
+    private PathNodeManager arrowManager;
+    private List<PathNode> queuedPath;
 
-    Vec2i startingLocation;
-    int startingMP;
+    private Vec2i startingLocation;
+    private int startingMP;
 
     internal bool turboMode;
 
     public List<Actor_Unit> extraAttackers;
     public List<Actor_Unit> extraDefenders;
 
-    List<Unit> retreatedAttackers;
-    List<Unit> retreatedDefenders;
+    private List<Unit> retreatedAttackers;
+    private List<Unit> retreatedDefenders;
 
-    List<Actor_Unit> garrison;
+    private List<Actor_Unit> garrison;
 
-    SpecialAction specialType;
-    SpecialAction lastSpecial;
-    int _mode;
+    private SpecialAction specialType;
+    private SpecialAction lastSpecial;
+    private int _mode;
     public int ActionMode
     {
         get
@@ -309,7 +309,7 @@ public class TacticalMode : SceneBase
 
     }
 
-    void PlaceUndoMarker()
+    private void PlaceUndoMarker()
     {
         if (SelectedUnit == null)
             return;
@@ -317,7 +317,7 @@ public class TacticalMode : SceneBase
         startingMP = SelectedUnit.Movement;
     }
 
-    void UndoMovement()
+    private void UndoMovement()
     {
         if (SelectedUnit == null)
             return;
@@ -950,7 +950,7 @@ Turns: {currentTurn}
 
     }
 
-    void GeneralSetup()
+    private void GeneralSetup()
     {
         if (Log == null)
         {
@@ -1016,7 +1016,7 @@ Turns: {currentTurn}
         TacticalUtilities.ResetData(armies, village, units, garrison, tiles, BlockedTile, BlockedClimberTile);
     }
 
-    void RebuildDecorations()
+    private void RebuildDecorations()
     {
         if (DecorationStorage == null)
         {
@@ -1031,7 +1031,7 @@ Turns: {currentTurn}
 
     }
 
-    void RebuildBlockedTiles()
+    private void RebuildBlockedTiles()
     {
         BlockedTile = new bool[tiles.GetUpperBound(0) + 1, tiles.GetUpperBound(1) + 1];
         BlockedClimberTile = new bool[tiles.GetUpperBound(0) + 1, tiles.GetUpperBound(1) + 1];
@@ -1134,7 +1134,7 @@ Turns: {currentTurn}
         return data;
     }
 
-    void Import(TacticalData data)
+    private void Import(TacticalData data)
     {
         units = data.units;
         armies = data.armies;
@@ -1193,7 +1193,7 @@ Turns: {currentTurn}
         RunningFriendlyAI = data.runningFriendlyAI;
     }
 
-    void UpdateAreaTraits()
+    private void UpdateAreaTraits()
     {
 
         for (int i = 0; i < units.Count; i++)
@@ -1256,7 +1256,7 @@ Turns: {currentTurn}
     }
 
 
-    void RedrawTiles()
+    private void RedrawTiles()
     {
         Tilemap.ClearAllTiles();
         UnderTilemap.ClearAllTiles();
@@ -1510,7 +1510,7 @@ Turns: {currentTurn}
         return actor;
     }
 
-    void UpdateActorColor(Actor_Unit actor)
+    private void UpdateActorColor(Actor_Unit actor)
     {
         if (!AIAttacker && AIDefender) //If there's one human, he's blue, otherwise the defender is blue
             actor.UnitSprite.BlueColored = (!Equals(defenderSide, actor.Unit.Side));
@@ -1518,7 +1518,7 @@ Turns: {currentTurn}
             actor.UnitSprite.BlueColored = (Equals(defenderSide, actor.Unit.Side));
     }
 
-    void CreateActors()
+    private void CreateActors()
     {
 
         int children = ActorFolder.childCount;
@@ -1616,7 +1616,7 @@ Turns: {currentTurn}
     }
 
 
-    void ShowVoreHitPercentages(Actor_Unit actor, PreyLocation location = PreyLocation.stomach)
+    private void ShowVoreHitPercentages(Actor_Unit actor, PreyLocation location = PreyLocation.stomach)
     {
         foreach (Actor_Unit target in units)
         {
@@ -1688,7 +1688,7 @@ Turns: {currentTurn}
     }
 
 
-    void ShowSpecialHitPercentages(Actor_Unit actor)
+    private void ShowSpecialHitPercentages(Actor_Unit actor)
     {
         switch (specialType)
         {
@@ -1743,7 +1743,7 @@ Turns: {currentTurn}
 
     }
 
-    void ShowRubHitPercentages(Actor_Unit actor)
+    private void ShowRubHitPercentages(Actor_Unit actor)
     {
         foreach (Actor_Unit target in units)
         {
@@ -1776,7 +1776,7 @@ Turns: {currentTurn}
         }
     }
 
-    void ShowCockVoreTransferPercentages(Actor_Unit actor)
+    private void ShowCockVoreTransferPercentages(Actor_Unit actor)
     {
         if (actor.Unit.Predator == false)
             return;
@@ -1801,7 +1801,7 @@ Turns: {currentTurn}
 
     }
 
-    void ShowVoreStealPercentages(Actor_Unit actor)
+    private void ShowVoreStealPercentages(Actor_Unit actor)
     {
         foreach (Actor_Unit target in units)
         {
@@ -1819,7 +1819,7 @@ Turns: {currentTurn}
     }
 
 
-    void ShowBreastFeedPercentages(Actor_Unit actor)
+    private void ShowBreastFeedPercentages(Actor_Unit actor)
     {
         if (actor.Unit.Predator == false)
             return;
@@ -1840,7 +1840,7 @@ Turns: {currentTurn}
     }
 
 
-    void ShowCumFeedPercentages(Actor_Unit actor)
+    private void ShowCumFeedPercentages(Actor_Unit actor)
     {
         if (actor.Unit.Predator == false)
             return;
@@ -1860,7 +1860,7 @@ Turns: {currentTurn}
         }
     }
 
-    void ShowSucklePercentages(Actor_Unit actor)
+    private void ShowSucklePercentages(Actor_Unit actor)
     {
         if (actor.Unit.Predator == false)
             return;
@@ -1876,7 +1876,7 @@ Turns: {currentTurn}
 
     }
 
-    void ShowPounceMeleeHitPercentages(Actor_Unit actor)
+    private void ShowPounceMeleeHitPercentages(Actor_Unit actor)
     {
         foreach (Actor_Unit target in units)
         {
@@ -1897,7 +1897,7 @@ Turns: {currentTurn}
         }
     }
 
-    void ShowPounceVoreHitPercentages(Actor_Unit actor)
+    private void ShowPounceVoreHitPercentages(Actor_Unit actor)
     {
         foreach (Actor_Unit target in units)
         {
@@ -1918,7 +1918,7 @@ Turns: {currentTurn}
         }
     }
 
-    void ShowMeleeHitPercentages(Actor_Unit actor, float multiplier = 1)
+    private void ShowMeleeHitPercentages(Actor_Unit actor, float multiplier = 1)
     {
         foreach (Actor_Unit target in units)
         {
@@ -1936,7 +1936,7 @@ Turns: {currentTurn}
     }
 
 
-    void ShowRangedHitPercentages(Actor_Unit actor)
+    private void ShowRangedHitPercentages(Actor_Unit actor)
     {
         foreach (Actor_Unit target in units)
         {
@@ -1954,7 +1954,7 @@ Turns: {currentTurn}
         }
     }
 
-    void ShowMagicPercentages(Actor_Unit actor)
+    private void ShowMagicPercentages(Actor_Unit actor)
     {
         foreach (Actor_Unit target in units)
         {
@@ -1993,7 +1993,7 @@ Turns: {currentTurn}
         }
     }
 
-    void RemoveHitPercentages()
+    private void RemoveHitPercentages()
     {
         foreach (Actor_Unit target in units)
         {
@@ -2001,13 +2001,13 @@ Turns: {currentTurn}
         }
     }
 
-    void CreateMovementGrid()
+    private void CreateMovementGrid()
     {
         Walkable = TacticalPathfinder.GetGrid(SelectedUnit.Position, SelectedUnit.Unit.HasTrait(TraitType.Flight), SelectedUnit.Movement, SelectedUnit);
         UpdateMovementGrid();
     }
 
-    void UpdateMovementGrid()
+    private void UpdateMovementGrid()
     {
         MovementGrid.ClearAllTiles();
         for (int x = 0; x <= tiles.GetUpperBound(0); x++)
@@ -2020,7 +2020,7 @@ Turns: {currentTurn}
         }
     }
 
-    void UpdateAreaOfEffectGrid(Vec2i mouseLocation)
+    private void UpdateAreaOfEffectGrid(Vec2i mouseLocation)
     {
         MovementGrid.ClearAllTiles();
 
@@ -2040,7 +2040,7 @@ Turns: {currentTurn}
 
     }
 
-    void UpdateTailStrikeGrid(Vec2i mouseLocation)
+    private void UpdateTailStrikeGrid(Vec2i mouseLocation)
     {
         MovementGrid.ClearAllTiles();
 
@@ -2063,8 +2063,7 @@ Turns: {currentTurn}
     }
 
 
-
-    void UpdateAttackGrid(Vec2i source)
+    private void UpdateAttackGrid(Vec2i source)
     {
         int range = SelectedUnit.BestRanged?.Range ?? 1;
         for (int x = 0; x <= tiles.GetUpperBound(0); x++)
@@ -2083,7 +2082,7 @@ Turns: {currentTurn}
         }
     }
 
-    bool ButtonsInteractable => (IsPlayerTurn || PseudoTurn) == true && (RunningFriendlyAI || foreignAI != null) == false && queuedPath == null && paused == false;
+    private bool ButtonsInteractable => (IsPlayerTurn || PseudoTurn) == true && (RunningFriendlyAI || foreignAI != null) == false && queuedPath == null && paused == false;
 
 
 
@@ -2355,7 +2354,7 @@ Turns: {currentTurn}
 
     }
 
-    void PromptEndTurn()
+    private void PromptEndTurn()
     {
         if (Config.PromptEndTurn == false)
         {
@@ -2456,7 +2455,7 @@ Turns: {currentTurn}
         }
     }
 
-    void RetreatUnit(Actor_Unit actor, bool defender)
+    private void RetreatUnit(Actor_Unit actor, bool defender)
     {
         if (defender)
         {
@@ -2479,7 +2478,7 @@ Turns: {currentTurn}
         SelectedUnit = null;
     }
 
-    void UpdateStatus(float dt)
+    private void UpdateStatus(float dt)
     {
         if (SpectatorMode) RunningFriendlyAI = true;
 
@@ -2702,7 +2701,7 @@ Turns: {currentTurn}
         return typeof(HedonistTacticalAI);
     }
 
-    void AI(float dt)
+    private void AI(float dt)
     {
         if (AITimer > 0)
         {
@@ -2720,7 +2719,7 @@ Turns: {currentTurn}
         }
     }
 
-    void MouseOver(int x, int y)
+    private void MouseOver(int x, int y)
     {
         Vec2i mouseLocation = new Vec2i(x, y);
         StatusUI.HitRate.text = "";
@@ -3001,9 +3000,7 @@ Turns: {currentTurn}
     }
 
 
-
-
-    void NextActor(NextUnitType type)
+    private void NextActor(NextUnitType type)
     {
         int startingIndex = units.IndexOf(SelectedUnit);
         int currentIndex = startingIndex + 1;
@@ -3028,7 +3025,7 @@ Turns: {currentTurn}
 
     }
 
-    void MoveActor()
+    private void MoveActor()
     {
         if (Input.GetButtonDown("Melee"))
             ButtonCallback(0);
@@ -3062,7 +3059,7 @@ Turns: {currentTurn}
         //    ButtonCallback(5);
     }
 
-    void ProcessMovement(Actor_Unit unit, int moveCode)
+    private void ProcessMovement(Actor_Unit unit, int moveCode)
     {
         if (unit.Move(moveCode, tiles))
         {
@@ -3081,7 +3078,7 @@ Turns: {currentTurn}
         }
     }
 
-    void ProcessLeftClick(int x, int y)
+    private void ProcessLeftClick(int x, int y)
     {
         RightClickMenu.CloseAll();
         if ((!IsPlayerTurn && !PseudoTurn) || queuedPath != null)
@@ -3258,7 +3255,7 @@ Turns: {currentTurn}
         ActionDone();
     }
 
-    void ProcessRightClick(int x, int y)
+    private void ProcessRightClick(int x, int y)
     {
         if (queuedPath != null)
             return;
@@ -3406,7 +3403,7 @@ Turns: {currentTurn}
     }
 
 
-    void EndTurn()
+    private void EndTurn()
     {
         if (waitingForDialog)
             return;
@@ -3502,7 +3499,7 @@ Turns: {currentTurn}
                 
     }
 
-    void NewTurn()
+    private void NewTurn()
     {
         AllSurrenderedCheck();
         Log.RegisterNewTurn(attackersTurn ? AttackerName : DefenderName, currentTurn);
@@ -3578,7 +3575,7 @@ Turns: {currentTurn}
         }
     }
 
-    void AllSurrenderedCheck()
+    private void AllSurrenderedCheck()
     {
         bool allSurrendered = true;
         foreach (Actor_Unit actor in units)
@@ -3647,7 +3644,7 @@ Turns: {currentTurn}
     }
 
 
-    bool VictoryCheck()
+    private bool VictoryCheck()
     {
         if (waitingForDialog)
             return false;
@@ -4193,7 +4190,7 @@ Turns: {currentTurn}
         }
     }
 
-    void AssignLeftoverTroops(Army army, List<Actor_Unit> actors)
+    private void AssignLeftoverTroops(Army army, List<Actor_Unit> actors)
     {
         foreach (Actor_Unit actor in actors.ToList())
         {
@@ -4256,7 +4253,7 @@ Turns: {currentTurn}
         }
     }
 
-    void ProcessFledUnits()
+    private void ProcessFledUnits()
     {
         retreatedAttackers.RemoveAll(s => s.IsDead);
         retreatedDefenders.RemoveAll(s => s.IsDead);
@@ -4270,7 +4267,7 @@ Turns: {currentTurn}
         }
     }
 
-    void ProcessConsumedCorpses()
+    private void ProcessConsumedCorpses()
     {
         if (Config.EdibleCorpses == false)
             return;
@@ -4293,7 +4290,7 @@ Turns: {currentTurn}
 
     }
 
-    void EatSurrenderedAllies()
+    private void EatSurrenderedAllies()
     {
         if (Config.EatSurrenderedAllies == false)
             return;
@@ -4474,8 +4471,8 @@ Turns: {currentTurn}
         }
 
     }
-	
-    void UpdateFog()
+
+    private void UpdateFog()
     {
         FogOfWar.gameObject.SetActive(true);
         if (FogSystem == null)

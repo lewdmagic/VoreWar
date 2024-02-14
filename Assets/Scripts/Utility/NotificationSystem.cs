@@ -1,4 +1,4 @@
-﻿static class NotificationSystem
+﻿internal static class NotificationSystem
 {
     internal static void VillageOwnerChanged(Village village, Side previousSide, Side newSide)
     {

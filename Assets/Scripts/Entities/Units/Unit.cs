@@ -1598,7 +1598,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
     public int Level => level;
     public int ExperienceRequiredForNextLevel => GetExperienceRequiredForLevel(level);
     public int GetExperienceRequiredForLevel(int lvl) => GetExperienceRequiredForLevel(lvl, ExpRequiredMod);
-    float ExpRequiredMod => TraitBoosts.ExpRequired;
+    private float ExpRequiredMod => TraitBoosts.ExpRequired;
     public bool HasEnoughExpToLevelUp() => Experience >= ExperienceRequiredForNextLevel;
 
     private float _healthPct = 100f;
@@ -1876,7 +1876,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         return actualHeal;
     }
 
-    void NonFatalDamage(int amount, string type)
+    private void NonFatalDamage(int amount, string type)
     {
         if (Health <= 0)
             return;
@@ -2644,7 +2644,7 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         }
     }
 
-    void RandomSkills()
+    private void RandomSkills()
     {
         var raceStats = State.RaceSettings.GetRaceStats(Race);
         if (raceStats != null)
@@ -2760,14 +2760,14 @@ internal void SetGenderRandomizeName(Race race, Gender gender)
         }
     }
 
-    void AddAccessory(Accessory accessory)
+    private void AddAccessory(Accessory accessory)
     {
         Stats[accessory.ChangedStat] += accessory.StatBonus;
         if (accessory.ChangedStat == (int)Stat.Endurance)
             Health += 2 * accessory.StatBonus;
     }
 
-    void RemoveAccessory(Accessory accessory)
+    private void RemoveAccessory(Accessory accessory)
     {
         Stats[accessory.ChangedStat] -= accessory.StatBonus;
         if (accessory.ChangedStat == (int)Stat.Endurance)

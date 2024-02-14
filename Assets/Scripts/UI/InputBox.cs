@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class InputBox : MonoBehaviour
 {
-    bool stringMode = false;
-    Action<int> YesAction;
-    Action<string> YesActionString;
-    Action NoAction;
+    private bool stringMode = false;
+    private Action<int> YesAction;
+    private Action<string> YesActionString;
+    private Action NoAction;
     public TMP_InputField InputField;
     public Button Yes;
     public Button No;

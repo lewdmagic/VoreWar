@@ -1,10 +1,11 @@
 ﻿using OdinSerializer;
 
-class PassiveAI : IStrategicAI
+internal class PassiveAI : IStrategicAI
 {
     [OdinSerialize]
     private Side _aISide;
-    Side AISide { get => _aISide; set => _aISide = value; }
+
+    private Side AISide { get => _aISide; set => _aISide = value; }
 
     public PassiveAI(Side aISide)
     {

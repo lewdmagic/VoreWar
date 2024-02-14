@@ -1,6 +1,6 @@
 ﻿using OdinSerializer;
 
-class MercenaryContainer
+internal class MercenaryContainer
 {
     [OdinSerialize]
     private Unit _unit;

@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class VillageView
 {
-    Village village;
-    VillageViewPanel UI;
+    private Village village;
+    private VillageViewPanel UI;
 
-    Empire BuyingEmpire;
+    private Empire BuyingEmpire;
 
-    Button[] buttons;
+    private Button[] buttons;
 
     public VillageView(Village village, VillageViewPanel villageUI)
     {
@@ -37,7 +37,7 @@ public class VillageView
         GenerateText();
     }
 
-    void GenerateText()
+    private void GenerateText()
     {
         StringBuilder sb = new StringBuilder();
         sb.AppendLine($"Village: {village.Name}");
@@ -68,7 +68,7 @@ public class VillageView
         UI.VillageInfo.text = sb.ToString();
     }
 
-    void CreateOrUpdateButtons()
+    private void CreateOrUpdateButtons()
     {
         ClearAllButtons();
         int nextOpenPos = 0;
@@ -83,7 +83,7 @@ public class VillageView
         SetBuyAllButton(nextOpenPos);
     }
 
-    bool SetButton(VillageBuildingDefinition buildingDef, int buttonPosition)
+    private bool SetButton(VillageBuildingDefinition buildingDef, int buttonPosition)
     {
         if (buildingDef.CanBeBuilt == false)
         {
@@ -121,7 +121,7 @@ public class VillageView
         return true;
     }
 
-    void CreateOrUpdateBuyEachButtons()
+    private void CreateOrUpdateBuyEachButtons()
     {
         ClearAllButtons();
         int nextOpenPos = 0;
@@ -159,7 +159,7 @@ public class VillageView
         SetAllBuyAllButton(nextOpenPos, villages);
     }
 
-    bool SetButtonForEachVillage(string text, VillageBuilding building, int buttonPosition, Village[] villages)
+    private bool SetButtonForEachVillage(string text, VillageBuilding building, int buttonPosition, Village[] villages)
     {
         if (village.Empire != BuyingEmpire)
         {
@@ -231,7 +231,7 @@ public class VillageView
         return button;
     }
 
-    void SetBuyAllButton(int buttonPosition)
+    private void SetBuyAllButton(int buttonPosition)
     {
         Button button = ResetButton(buttonPosition);
         button.gameObject.SetActive(true);
@@ -262,7 +262,7 @@ public class VillageView
         }
     }
 
-    void SetAllBuyAllButton(int buttonPosition, Village[] villages)
+    private void SetAllBuyAllButton(int buttonPosition, Village[] villages)
     {
         Button button = ResetButton(buttonPosition);
         button.gameObject.SetActive(true);
@@ -312,13 +312,13 @@ public class VillageView
         return textResult;
     }
 
-    void BuildAll()
+    private void BuildAll()
     {
         village.BuyAllBuildings(BuyingEmpire);
         Refresh();
     }
 
-    void BuildAllForAll()
+    private void BuildAllForAll()
     {
         foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, village.Side)))
         {
@@ -327,7 +327,7 @@ public class VillageView
         Refresh();
     }
 
-    void BuildForEachVillage(VillageBuilding building)
+    private void BuildForEachVillage(VillageBuilding building)
     {
         foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, village.Side) && s.buildings.Contains(building) == false))
         {
@@ -336,7 +336,7 @@ public class VillageView
         Refresh();
     }
 
-    void Build(VillageBuilding building)
+    private void Build(VillageBuilding building)
     {
         village.Build(building, BuyingEmpire);
         Refresh();
