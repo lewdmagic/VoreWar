@@ -7,13 +7,13 @@ namespace Races.Graphics.Implementations.MainRaces
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
-            {        
+            {
                 output.Names("Fox", "Foxes");
                 output.WallType(WallType.Fox);
                 output.FlavorText(new FlavorText(
                     new Texts { "fluffy tailed", "squirming", "whimpering" },
                     new Texts { "cunning", "grinning", "sly" },
-                    new Texts { "fox", "vulpine", "canid", {"vixen", Gender.Female}, {"tod", Gender.Male} }
+                    new Texts { "fox", "vulpine", "canid", { "vixen", Gender.Female }, { "tod", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -65,12 +65,12 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccent2, Defaults.SpriteGens3[SpriteType.BodyAccent2]);
             builder.RenderSingle(SpriteType.BodyAccent3, Defaults.SpriteGens3[SpriteType.BodyAccent3]);
             builder.RenderSingle(SpriteType.BodyAccent4, Defaults.SpriteGens3[SpriteType.BodyAccent4]);
-            builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output ) =>
+            builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
                 output.Sprite(input.Sprites.Bodies[11]);
             });
-            builder.RenderSingle(SpriteType.SecondaryAccessory, 1, (input, output ) =>
+            builder.RenderSingle(SpriteType.SecondaryAccessory, 1, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
                 output.Sprite(input.Sprites.BodyParts[2]);

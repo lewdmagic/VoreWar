@@ -5,15 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
+
 namespace Races.Graphics.Implementations.MainRaces
 {
-
-
     internal static class Alraune
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-
             float yOffset = 10 * .625f;
             IClothing leaderClothes = AlrauneLeader.AlrauneLeaderInstance;
             IClothing rags = AlrauneRags.AlrauneRagsInstance;
@@ -88,14 +86,14 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("Alraune", "Alraune");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "plant", "demi-plant", "flowery being" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Vine Whip",
-                        [WeaponNames.Axe]         = "Stem Blade",
-                        [WeaponNames.SimpleBow]   = "Unbloomed Corolla",
+                        [WeaponNames.Mace] = "Vine Whip",
+                        [WeaponNames.Axe] = "Stem Blade",
+                        [WeaponNames.SimpleBow] = "Unbloomed Corolla",
                         [WeaponNames.CompoundBow] = "Blooming Flower"
                     }
                 ));
@@ -136,7 +134,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     "Trees of Valinor",
                     "Green Haven",
                 });
-            
+
                 output.BodySizes = 4;
                 output.HairStyles = 12;
                 output.SpecialAccessoryCount = 16;
@@ -191,7 +189,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneSkin, input.U.SkinColor));
                 output.AddOffset(0, yOffset);
             });
-        
+
             builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.AlrauneHair, input.U.HairColor));

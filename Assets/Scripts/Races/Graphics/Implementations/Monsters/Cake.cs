@@ -18,8 +18,8 @@ namespace Races.Graphics.Implementations.Monsters
                     new BoneInfo(BoneType.Cake, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "cake", "baked good", "ghostly confectionary", "delicious dessert" }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -48,10 +48,8 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.Tasty,
                         TraitType.SoftBody,
                         TraitType.SlowDigestion
-
                     },
                     RaceDescription = "A wizard baking a cake cut his hand and a drop of blood fell in the batter. His guests arrived while the cake was in the oven, eagerly waiting for their treat. But having got a taste of him, the Cake, once baked, ate the wizard and his guests instead.",
-
                 });
                 output.CanBeGender = new List<Gender> { Gender.None };
                 output.ExtraColors1 = ColorMap.PastelColorCount;

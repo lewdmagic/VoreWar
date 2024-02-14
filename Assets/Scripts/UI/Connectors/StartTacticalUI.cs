@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class StartTacticalUI : MonoBehaviour
 {
-
     public Toggle AIPlayer;
     public Dropdown TacticalAI;
     public Dropdown Race;
@@ -21,6 +20,4 @@ public class StartTacticalUI : MonoBehaviour
     public Slider HeavyWeaponsPercentage;
     public Slider MagicPercentage;
     public InputField MaxSpellLevel;
-
-
 }

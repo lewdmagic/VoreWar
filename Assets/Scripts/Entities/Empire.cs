@@ -8,71 +8,100 @@ public class Empire
 {
     [OdinSerialize]
     private bool _knockedOut;
+
     public bool KnockedOut { get => _knockedOut; set => _knockedOut = value; }
+
     [OdinSerialize]
     private int _team;
+
     public int Team { get => _team; set => _team = value; }
+
     [OdinSerialize]
     public Side Side { get; private set; }
+
     [OdinSerialize]
     private Race _race;
+
     public Race Race { get => _race; set => _race = value; }
+
     [OdinSerialize]
     private Race _replacedRace;
+
     public Race ReplacedRace { get => _replacedRace; set => _replacedRace = value; }
+
     [OdinSerialize]
     private int _gold;
 
     private int gold { get => _gold; set => _gold = value; }
+
     [OdinSerialize]
     public int Income { get; private set; }
+
     [OdinSerialize]
     private List<Army> _armies;
+
     public List<Army> Armies { get => _armies; set => _armies = value; }
 
     [OdinSerialize]
     private int _maxArmySize;
+
     public int MaxArmySize { get => _maxArmySize; set => _maxArmySize = value; }
+
     [OdinSerialize]
     private int _maxGarrisonSize;
+
     public int MaxGarrisonSize { get => _maxGarrisonSize; set => _maxGarrisonSize = value; }
 
     [OdinSerialize]
     private string _name;
+
     public string Name { get => _name; set => _name = value; }
 
     [OdinSerialize]
     private int _armiesCreated;
+
     public int ArmiesCreated { get => _armiesCreated; set => _armiesCreated = value; }
 
     [OdinSerialize]
     private List<StrategicReport> _reports;
+
     internal List<StrategicReport> Reports { get => _reports; set => _reports = value; }
 
     [OdinSerialize]
     private Leader _leader;
+
     public Leader Leader { get => _leader; set => _leader = value; }
 
     [OdinSerialize]
     private string _fakeLeaderName;
+
     public string FakeLeaderName { get => _fakeLeaderName; set => _fakeLeaderName = value; }
 
     private Village _capitalCity;
 
     [OdinSerialize]
     private Color _unityColor;
+
     public Color UnityColor { get => _unityColor; set => _unityColor = value; }
+
     [OdinSerialize]
     private Color _unitySecondaryColor;
+
     public Color UnitySecondaryColor { get => _unitySecondaryColor; set => _unitySecondaryColor = value; }
+
     [OdinSerialize]
     private int _bannerType;
+
     public int BannerType { get => _bannerType; set => _bannerType = value; }
+
     [OdinSerialize]
     private IStrategicAI _strategicAI;
+
     public IStrategicAI StrategicAI { get => _strategicAI; set => _strategicAI = value; }
+
     [OdinSerialize]
     private TacticalAIType _tacticalAIType;
+
     public TacticalAIType TacticalAIType { get => _tacticalAIType; set => _tacticalAIType = value; }
 
     [OdinSerialize]
@@ -80,46 +109,41 @@ public class Empire
 
     [OdinSerialize]
     private List<int> _recentEvents;
+
     public List<int> RecentEvents { get => _recentEvents; set => _recentEvents = value; }
 
     [OdinSerialize]
     private int _turnOrder;
+
     public int TurnOrder { get => _turnOrder; set => _turnOrder = value; }
 
     [OdinSerialize]
     private bool _canVore = true;
+
     public bool CanVore { get => _canVore; set => _canVore = value; }
 
     public int VillageCount => State.World.Villages.Where(s => Equals(s.Side, Side)).Count();
 
     public bool IsAlly(Empire empire)
     {
-        if (empire == null)
-            return false;
-        if (Equals(Side, empire.Side) || RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Allied)
-            return true;
+        if (empire == null) return false;
+        if (Equals(Side, empire.Side) || RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Allied) return true;
         return false;
     }
 
     public bool IsEnemy(Empire empire)
     {
-        if (empire == null)
-            return false;
-        if (Equals(Side, empire.Side))
-            return false;
-        if (RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Enemies)
-            return true;
+        if (empire == null) return false;
+        if (Equals(Side, empire.Side)) return false;
+        if (RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Enemies) return true;
         return false;
     }
 
     public bool IsNeutral(Empire empire)
     {
-        if (empire == null)
-            return false;
-        if (Equals(Side, empire.Side))
-            return false;
-        if (RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Neutral)
-            return true;
+        if (empire == null) return false;
+        if (Equals(Side, empire.Side)) return false;
+        if (RelationsManager.GetRelation(Side, empire.Side).Type == RelationState.Neutral) return true;
         return false;
     }
 
@@ -127,14 +151,11 @@ public class Empire
     {
         get
         {
-            if (Boosts == null)
-                RecalculateBoosts(State.World.Villages);
+            if (Boosts == null) RecalculateBoosts(State.World.Villages);
             if (StrategicAI != null && StrategicAI is StrategicAI ai)
             {
-                if (ai.CheatLevel == 2)
-                    return Mathf.Max(StrategicUtilities.Get80thExperiencePercentile() / 4, (int)(Boosts.StartingExpAdd * 1.2f));
-                if (ai.CheatLevel == 3)
-                    return Mathf.Max((int)(StrategicUtilities.Get80thExperiencePercentile() / 1.5f), (int)(Boosts.StartingExpAdd * 1.5f));
+                if (ai.CheatLevel == 2) return Mathf.Max(StrategicUtilities.Get80thExperiencePercentile() / 4, (int)(Boosts.StartingExpAdd * 1.2f));
+                if (ai.CheatLevel == 3) return Mathf.Max((int)(StrategicUtilities.Get80thExperiencePercentile() / 1.5f), (int)(Boosts.StartingExpAdd * 1.5f));
                 return Boosts.StartingExpAdd;
             }
             else
@@ -188,7 +209,7 @@ public class Empire
         MaxArmySize = args.maxArmySize;
         MaxGarrisonSize = args.maxGarrisonSize;
         Armies = new List<Army>();
-        
+
         Name = Race?.ToString() ?? args.side.ToString();
         if (args.strategicAI == StrategyAIType.None)
             StrategicAI = null;
@@ -204,8 +225,7 @@ public class Empire
             StrategicAI = new StrategicAI(this, 2, true);
         else if (args.strategicAI == StrategyAIType.Cheating3)
             StrategicAI = new StrategicAI(this, 3, true);
-        else if (args.strategicAI == StrategyAIType.Legacy)
-            StrategicAI = new LegacyStrategicAI(args.side);
+        else if (args.strategicAI == StrategyAIType.Legacy) StrategicAI = new LegacyStrategicAI(args.side);
         TacticalAIType = args.tacticalAI;
         Boosts = new EmpireBoosts();
         EventHappened = new Dictionary<int, bool>();
@@ -214,8 +234,7 @@ public class Empire
         var raceFlags = State.RaceSettings.GetRaceTraits(Race);
         if (raceFlags != null)
         {
-            if (raceFlags.Contains(TraitType.Prey))
-                CanVore = false;
+            if (raceFlags.Contains(TraitType.Prey)) CanVore = false;
         }
     }
 
@@ -223,22 +242,18 @@ public class Empire
     public Empire()
     {
         Boosts = new EmpireBoosts();
-
     }
 
     public void LoadFix()
     {
-        if (Reports == null)
-            Reports = new List<StrategicReport>();
-        if (EventHappened == null)
-            EventHappened = new Dictionary<int, bool>();
+        if (Reports == null) Reports = new List<StrategicReport>();
+        if (EventHappened == null) EventHappened = new Dictionary<int, bool>();
     }
 
     internal void CheckEvent()
     {
         State.EventList.CheckStartEvent(this);
     }
-
 
 
     public void CalcIncome(Village[] villages, bool AddToStats = false)
@@ -255,11 +270,12 @@ public class Empire
                 Income = Income + value;
             }
         }
+
         if (RaceFuncs.IsMainRace2(Side))
         {
             for (int i = 0; i < Armies.Count; i++)
             {
-                Income = Income - (Armies[i].Units.Count * Config.World.ArmyUpkeep);
+                Income = Income - Armies[i].Units.Count * Config.World.ArmyUpkeep;
                 if (AddToStats)
                 {
                     State.World.Stats.CollectedGold(Armies[i].Units.Count * 2, Armies[i].Side);
@@ -267,6 +283,7 @@ public class Empire
                 }
             }
         }
+
         foreach (ClaimableBuilding claimable in State.World.Claimables)
         {
             if (claimable is GoldMine && claimable.Owner == this)
@@ -274,6 +291,7 @@ public class Empire
                 Income += Config.GoldMineIncome;
             }
         }
+
         Income += Boosts.WealthAdd;
     }
 
@@ -290,8 +308,6 @@ public class Empire
             State.World.Stats.CollectedGold(gold, Side);
         else
             State.World.Stats.SpentGold(-gold, Side);
-
-
     }
 
     public int Gold => gold;
@@ -321,7 +337,6 @@ public class Empire
             army.Prune();
             army.JustCreated = false;
         }
-
     }
 
     public void Regenerate()
@@ -330,14 +345,13 @@ public class Empire
         {
             Armies[i].Refresh();
         }
+
         if (Config.FactionLeaders && RaceFuncs.IsMainRace2(Side))
         {
-            if (Leader == null)
-                GenerateLeader();
+            if (Leader == null) GenerateLeader();
             if (Leader != null)
             {
-                if (Leader.IsDead == false && GetAllUnitsIncludingTravelersAndStandby().Contains(Leader) == false && Config.DontFixLeaders == false)
-                    Leader.Health = -99999;
+                if (Leader.IsDead == false && GetAllUnitsIncludingTravelersAndStandby().Contains(Leader) == false && Config.DontFixLeaders == false) Leader.Health = -99999;
                 if (StrategicAI != null && Leader.IsDead == false)
                 {
                     if (Leader.Items[0] == null)
@@ -359,24 +373,17 @@ public class Empire
                     }
                     else if (Leader.Items[1] == null)
                         Shop.BuyItem(this, Leader, State.World.ItemRepository.GetItem(ItemType.Helmet));
-                    else if (Leader.Items.Length > 2 && Leader.Items[2] == null)
-                        Shop.BuyItem(this, Leader, State.World.ItemRepository.GetItem(ItemType.BodyArmor));
+                    else if (Leader.Items.Length > 2 && Leader.Items[2] == null) Shop.BuyItem(this, Leader, State.World.ItemRepository.GetItem(ItemType.BodyArmor));
                 }
             }
-
-
-
         }
-
     }
 
     private void GenerateLeader()
     {
         var capital = CapitalCity;
-        if (capital == null)
-            capital = State.World.Villages.Where(s => Equals(s.Side, Side)).FirstOrDefault();
-        if (capital == null)
-            return;
+        if (capital == null) capital = State.World.Villages.Where(s => Equals(s.Side, Side)).FirstOrDefault();
+        if (capital == null) return;
         Leader = new Leader(Side, State.RaceSettings.GetLeaderRace(Race), 0);
         PlaceLeader(capital);
     }
@@ -398,7 +405,6 @@ public class Empire
             {
                 Leader.Health = -1;
             }
-
         }
     }
 
@@ -413,6 +419,7 @@ public class Empire
                 units.Add(unit);
             }
         }
+
         return units;
     }
 
@@ -426,12 +433,14 @@ public class Empire
                 units.Add(unit);
             }
         }
+
         foreach (Village village in State.World.Villages)
         {
             foreach (var unit in village.GetRecruitables())
             {
                 units.Add(unit);
             }
+
             if (village.travelers != null)
             {
                 foreach (var unit in village.travelers)
@@ -439,8 +448,8 @@ public class Empire
                     units.Add(unit.unit);
                 }
             }
-
         }
+
         return units;
     }
 

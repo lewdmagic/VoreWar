@@ -19,14 +19,14 @@ namespace Races.Graphics.Implementations.Mercs
             {
                 output.Names("Viper", "Vipers");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
+                    new Texts { },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Arc Blade",
-                        [WeaponNames.Axe]         = "Fusion Blade",
-                        [WeaponNames.SimpleBow]   = "Plasma Pistol",
+                        [WeaponNames.Mace] = "Arc Blade",
+                        [WeaponNames.Axe] = "Fusion Blade",
+                        [WeaponNames.SimpleBow] = "Plasma Pistol",
                         [WeaponNames.CompoundBow] = "Plasma Rifle"
                     }
                 ));
@@ -125,10 +125,7 @@ namespace Races.Graphics.Implementations.Mercs
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                
-            });
+            builder.RunBefore((input, output) => { });
 
             builder.RenderSingle(SpriteType.Head, 3, (input, output) =>
             {
@@ -237,7 +234,6 @@ namespace Races.Graphics.Implementations.Mercs
                 else
                 {
                     output.Sprite(input.Sprites.Vipers4[48 + size2]);
-                
                 }
             }); // second stomach
 
@@ -482,14 +478,11 @@ namespace Races.Graphics.Implementations.Mercs
 
                     if (input.U.TailType == 0)
                     {
-
                         output.Sprite(input.Sprites.Vipers1[78 + size]);
                     }
                     else
                     {
-
                         output.Sprite(input.Sprites.Vipers4[28 + size]);
-                    
                     }
                 }
             });

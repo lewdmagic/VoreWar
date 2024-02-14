@@ -3,7 +3,6 @@ using static LogUtilities;
 
 public class DigestionDeathMessages
 {
-    
     internal static List<EventString> DigestionDeathMessagesList = new List<EventString>()
     {
         //Generic strings
@@ -36,30 +35,30 @@ public class DigestionDeathMessages
         //priority: 9, conditional: InBalls),
         //Scat strings
         new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> {i.preyLocation.ToSyn()} contracts, sending <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> remains towards {GPPHis(i.Unit)} rectum to be released as fresh feces.",
-            priority: 9, conditional: s=> Scat(s) && InStomach(s)),
+            priority: 9, conditional: s => Scat(s) && InStomach(s)),
         new EventString((i) => $"Now that <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> {i.preyLocation.ToSyn()} finished turning <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> body into chyme, {GPPHis(i.Unit)} insides are guaranteed to make {GPPHim(i.Target)} even more disgusting.",
-            priority: 9, conditional: s=> Scat(s) && InStomach(s)),
-          
+            priority: 9, conditional: s => Scat(s) && InStomach(s)),
+
         //Burp strings
         new EventString((i) => $"<b>{i.Unit.Name}</b> looses a lewd, wet burp as <b>{i.Target.Name}</b> begins to pump into {GPPHis(i.Unit)} rumbling bowels.",
-            priority: 9, conditional: s=> Scat(s) && CanBurp(s) && InStomach(s)),
+            priority: 9, conditional: s => Scat(s) && CanBurp(s) && InStomach(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> lets out a rolling belch, feeling <b>{i.Target.Name}</b> perish within {GPPHim(i.Unit)} as it's released.",
-            priority: 9, conditional: s=> CanBurp(s) && InStomach(s)),
+            priority: 9, conditional: s => CanBurp(s) && InStomach(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> wraps {GPPHis(i.Unit)} arms around {GPPHis(i.Unit)} swollen midsection and squeezes hard, causing {GPPHim(i.Unit)} to let out a rolling belch. The burp soon deprives the belly chamber of air, causing <b>{i.Target.Name}</b> to pass out face first into the roaring acids.",
-            priority: 9, conditional: s=> HardVore(s) && ActorHumanoid(s) && CanBurp(s) && InStomach(s)),
+            priority: 9, conditional: s => HardVore(s) && ActorHumanoid(s) && CanBurp(s) && InStomach(s)),
         //Hard strings
         new EventString((i) => $"With the final contraction, <b>{i.Target.Name}</b> falls apart into a bunch of {i.preyLocation.ToFluid()}.",
             priority: 9, conditional: HardVore),
         new EventString((i) => $"<b>{i.Target.Name}</b> punches the walls of {GPPHis(i.Target)} squishy prison but much to {GPPHis(i.Target)} dismay, <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> stomach fights back, filling itself with bubbling acid which swiftly turns the warrior into a goopy mess.",
-            priority: 9, conditional: s=> HardVore(s) && InStomach(s) && TargetHumanoid(s)),
+            priority: 9, conditional: s => HardVore(s) && InStomach(s) && TargetHumanoid(s)),
         new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> stomach clenches, breaking <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> stance and plunging {GPPHim(i.Target)} into the acids frothing about the bottom of {GPPHis(i.Unit)} belly.",
-            priority: 9, conditional: s=> HardVore(s) && InStomach(s)),
+            priority: 9, conditional: s => HardVore(s) && InStomach(s)),
         new EventString((i) => $"The ripples and convulsions across <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> gurgling stomach die down as <b>{i.Target.Name}</b> takes a deep breath of acid, leaving a smooth, calm bulge.",
-            priority: 9, conditional: s=> HardVore(s) && InStomach(s)),
+            priority: 9, conditional: s => HardVore(s) && InStomach(s)),
         new EventString((i) => $"<b>{i.Target.Name}</b> tries to survive by pressing {GPPHimself(i.Target)} against the top stomach walls but {GPPHis(i.Target)} efforts are in vein as <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> voracious gut is fully filled with flesh eating acid.",
-            priority: 9, conditional: s=> HardVore(s) && InStomach(s)),
+            priority: 9, conditional: s => HardVore(s) && InStomach(s)),
         new EventString((i) => $"<b>{i.Target.Name}</b> manages to avoid the deadly stomach acids for a time but <b>{i.Unit.Name}</b>, frustrated with {GPPHis(i.Target)} fighting grabs the side of {GPPHis(i.Unit)} tummy and shakes it violently, splashing the unsuspecting prey with powerful juices.",
-            priority: 9, conditional: s=> HardVore(s) && InStomach(s) && ActorHumanoid(s)),
+            priority: 9, conditional: s => HardVore(s) && InStomach(s) && ActorHumanoid(s)),
         //Humanoid pred
         new EventString((i) => $"\"Shh, it’s okay. You’re right where you belong,\" <b>{i.Unit.Name}</b> says soothingly while stroking {GPPHis(i.Unit)} belly. <b>{i.Target.Name}</b>, too weak to fight by this point, gives in to the loving words and dies with a final tummy wobble.",
             priority: 9, conditional: ActorHumanoid),
@@ -69,16 +68,16 @@ public class DigestionDeathMessages
             priority: 9, conditional: ActorHumanoid),
         //Friendly prey
         new EventString((i) => $"<b>{i.Unit.Name}</b> can’t stand to look at {GPPHis(i.Unit)} {i.preyLocation.ToSyn()} as it finishes off {GPPHis(i.Unit)} comrade.",
-            priority: 9, conditional: s=> Friendly(s) && ActorHumanoid(s)),
+            priority: 9, conditional: s => Friendly(s) && ActorHumanoid(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> realizes what {GPPHeIsAbbr(i.Unit)} done and tries to expel {GPPHis(i.Unit)} ally but it’s too late, <b>{i.Target.Name}</b> is already thigh fat.",
-            priority: 9, conditional: s=> Friendly(s) && ActorHumanoid(s)),
+            priority: 9, conditional: s => Friendly(s) && ActorHumanoid(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> lifts a leg, making {GPPHis(i.Unit)} full belly wobble angrily. {GPPHe(i.Unit)} smile{SIfSingular(i.Unit)} as {GPPHis(i.Unit)} promotion is all but assured with <b>{i.Target.Name}</b> out of the way.",
-            priority: 9, conditional: s=> Friendly(s) && ActorHumanoid(s)),
+            priority: 9, conditional: s => Friendly(s) && ActorHumanoid(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> laughs. With <b>{i.Target.Name}</b> out of the way, everything will become much easier for {GPPHim(i.Unit)}.",
-            priority: 9, conditional: s=> Friendly(s) && ActorHumanoid(s)),
+            priority: 9, conditional: s => Friendly(s) && ActorHumanoid(s)),
 
         new EventString((i) => $"<b>{i.Unit.Name}</b> just wanted to try out this endosoma thing with <b>{i.Target.Name}</b>, but as {GPPHe(i.Unit)} feel{SIfSingular(i.Unit)} {GPPHim(i.Target)} melt into gut mush, {GPPHe(i.Unit)} understand{SIfSingular(i.Unit)} that {GPPHis(i.Unit)} body doesn't discriminate between foods based on allegiance.",
-            priority: 9, conditional: s=> Friendly(s) && InStomach(s)),
+            priority: 9, conditional: s => Friendly(s) && InStomach(s)),
         //vagrant pred
         new EventString((i) => $"The silhouette of <b>{i.Target.Name}</b> inside <b>{i.Unit.Name}</b> loses coherency and dissolves into {i.preyLocation.ToFluid()}.",
             actorRace: Race.Vagrant, priority: 10),
@@ -119,7 +118,7 @@ public class DigestionDeathMessages
         new EventString((i) => $"/“You’ve been fighting for a long time in there, maybe I’ll get you back to town to sell you off as a sla-/” <b>{i.Unit.Name}</b> says before {GPPHis(i.Unit)} {i.preyLocation.ToSyn()} make{PluralForPart(i.preyLocation)} such thoughts moot by finishing the meal off.",
             actorRace: Race.Panther, priority: 9),
         new EventString((i) => $"A belch that shortly turns into a gleeful roar signals the end of <b>{i.Target.Name}</b> and the victory of the tribal warrior.",
-            actorRace: Race.Panther, priority: 9, conditional: s=> InStomach(s) && CanBurp(s)),
+            actorRace: Race.Panther, priority: 9, conditional: s => InStomach(s) && CanBurp(s)),
         new EventString((i) => $"Despite a few weak motions within {GPPHis(i.Unit)} softening {i.preyLocation.ToSyn()}, <b>{i.Unit.Name}</b> can already feel the strength of {GPPHis(i.Unit)} meal surge into {GPPHis(i.Unit)} body. <b>{i.Target.Name}</b> is too far gone now.",
             actorRace: Race.Panther, priority: 9),
         new EventString((i) => $"<b>{i.Unit.Name}</b> gives an admiring rub to {GPPHis(i.Unit)} furred {i.preyLocation.ToSyn()} as <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> defiant struggle comes to an end.",
@@ -138,7 +137,7 @@ public class DigestionDeathMessages
         new EventString((i) => $"With no new oxygen for far longer than is safe, <b>{i.Target.Name}</b> finally stops moving within <b>{i.Unit.Name}</b>'s pouch. <b>{i.Target.Name}</b>'s last concious thought is a simple question: \"What happens to my body now? Surely a pouch can't... digest things.\"", actorRace: Race.Kangaroo, priority: 10),
         new EventString((i) => $"With no new oxygen for far longer than is safe, <b>{i.Target.Name}</b> finally stops moving within <b>{i.Unit.Name}</b>'s pouch. <b>{i.Target.Name}</b>'s last concious thought is a simple question: \"Why me? What did I do?\"", actorRace: Race.Kangaroo, priority: 10),
         new EventString((i) => $"With no new oxygen for far longer than is safe, <b>{i.Target.Name}</b> finally stops moving within <b>{i.Unit.Name}</b>'s pouch. <b>{i.Target.Name}</b>'s last concious thought is a simple question: \"I wonder who the first person to notice I'm gone will be?\"", actorRace: Race.Kangaroo, priority: 10),
-        new EventString((i) => $"With no new oxygen for far longer than is safe, <b>{i.Target.Name}</b> finally stops moving within <b>{i.Unit.Name}</b>'s pouch. <b>{i.Target.Name}</b>'s last concious thought is a simple question: \"Where will my {GetRandomStringFrom("clothes","weapon","bones","body")} go?\"", actorRace: Race.Kangaroo, priority: 10),
+        new EventString((i) => $"With no new oxygen for far longer than is safe, <b>{i.Target.Name}</b> finally stops moving within <b>{i.Unit.Name}</b>'s pouch. <b>{i.Target.Name}</b>'s last concious thought is a simple question: \"Where will my {GetRandomStringFrom("clothes", "weapon", "bones", "body")} go?\"", actorRace: Race.Kangaroo, priority: 10),
         new EventString((i) => $"With no new oxygen for far longer than is safe, <b>{i.Target.Name}</b> finally stops moving within <b>{i.Unit.Name}</b>'s pouch. <b>{i.Target.Name}</b>'s last concious thought is a simple question: \"When will the battle end?\"", actorRace: Race.Kangaroo, priority: 10),
 
         new EventString((i) => $"The violent jiggling in <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> {i.preyLocation.ToSyn()} becomes still, much to <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> displeasure. \"You can't even survive my {i.preyLocation.ToSyn()}. How weak.\"",
@@ -149,9 +148,9 @@ public class DigestionDeathMessages
             priority: 9, conditional: s => InBalls(s) && ActorHumanoid(s)),
 
         new EventString((i) => $"<b>{i.Unit.Name}</b> feels a great pride as {GPPHe(i.Unit)} digest{EsIfSingular(i.Unit)} the leader of the {GetPreyDesc(i.Target)} {i.Target.Race}: <b>{i.Target.Name}</b>.",
-            priority: 10, conditional:TargetLeader),
+            priority: 10, conditional: TargetLeader),
         new EventString((i) => $"<b>{i.Target.Name}</b> thrashes and screams futilely to no avail for {GPPHis(i.Target)} followers to free {GPPHim(i.Target)} as {GPPHe(i.Target)} melt{SIfSingular(i.Target)} away within <b>{i.Unit.Name}</b>.",
-            priority: 10, conditional:TargetLeader),
+            priority: 10, conditional: TargetLeader),
         new EventString((i) => $"<b>{i.Unit.Name}</b> proudly bellows {GPPHis(i.Unit)} triumph as the leader of the {GetPreyDesc(i.Target)} {i.Target.Race} is claimed by {GPPHis(i.Unit)} {i.preyLocation.ToSyn()}.",
             priority: 10, conditional: s => TargetLeader(s) && ActorHumanoid(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> squeezes {GPPHis(i.Unit)} {i.preyLocation.ToSyn()} together proudly as <b>{i.Target.Name}</b> is drowned by all {GPPHis(i.Unit)} bubbling {i.preyLocation.ToFluid()}. \"I hope you enjoyed the royal accomodation <b>{i.Target.Name}</b>.\"",
@@ -171,7 +170,7 @@ public class DigestionDeathMessages
             priority: 11, conditional: s => ActorLeader(s) && InBalls(s) && TargetLeader(s)),
 
         new EventString((i) => $"<b>{i.Unit.Name}</b> burps as <b>{i.Target.Name}</b> goes quiet in {GPPHis(i.Unit)} belly. <b>{i.Target.Name}</b> was a tasty noodle.", //
-            targetRace: Race.EasternDragon, priority: 9, conditional: s=> CanBurp(s) && InStomach(s)),
+            targetRace: Race.EasternDragon, priority: 9, conditional: s => CanBurp(s) && InStomach(s)),
 
         //The instant digestion ones haven't been fully tested. They should work but if something's wrong with them just take them out and tell me
         new EventString((i) => $"A loud shriek is silenced by a crunch as <b>{i.Target.Name}</b> is instantly digested in the belly of <b>{i.Unit.Name}</b>.",
@@ -227,7 +226,7 @@ public class DigestionDeathMessages
 
         new EventString((i) => $"\"Oh, here it comes!\" <b>{i.Unit.Name}</b> says excitedly as <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> struggles begin to wane. \"BUUUUUUUAAAAAARRRRRRPPP!\" The massive belch that <b>{i.Unit.Name}</b> released finishes off the {GetRaceDescSingl(i.Target)}, the struggling bumps sinking down as <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> belly rounds out.",
             priority: 9, conditional: s => CanBurp(s) && InStomach(s)),
-            
+
         //If they were feeling pleasure from being eaten while cursed, it would be just absolute cruelty to not let them climax before digesting away...
         //Tell me if you like these and I'll make some more along this theme
         new EventString((i) => $"\"Glad you enjoyed yourself,\" <b>{i.Unit.Name}</b> chuckles while rubbing {GPPHis(i.Unit)} {PreyLocStrings.ToSyn(i.preyLocation)} after hearing <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> loud, {GetRandomStringFrom("pleasured moan", "orgasmic cry", "cry of ecstasy")} before being digested.",
@@ -250,7 +249,7 @@ public class DigestionDeathMessages
             priority: 9, conditional: s => Cursed(s) && Lewd(s) && InStomach(s) && Scat(s)),
         new EventString((i) => $"<b>{i.Target.Name}</b> can't help but orgasm wildly when imagining {GPPHimself(i.Target)} getting crapped out of <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> sexy ass. <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> guts, in turn, promptly get to work on that and silence the moaning food.",
             priority: 9, conditional: s => Cursed(s) && Lewd(s) && InStomach(s) && Scat(s)),
-        new EventString((i) => $"The realization that {GPPHe(i.Target)} {IsAre(i.Target)} in the process of becoming {GetRaceDescSingl(i.Unit)} fart fuel for some reason gives {GPPHim(i.Target)} the best {(i.Target.HasDick ? "nut" : (i.Target.HasVagina ? "squirt" : "orgasm"))} of {GPPHis(i.Target)} life - so good it makes {GPPHim(i.Target)} pass out forever.",
+        new EventString((i) => $"The realization that {GPPHe(i.Target)} {IsAre(i.Target)} in the process of becoming {GetRaceDescSingl(i.Unit)} fart fuel for some reason gives {GPPHim(i.Target)} the best {(i.Target.HasDick ? "nut" : i.Target.HasVagina ? "squirt" : "orgasm")} of {GPPHis(i.Target)} life - so good it makes {GPPHim(i.Target)} pass out forever.",
             priority: 9, conditional: s => Cursed(s) && Lewd(s) && InStomach(s) && Farts(s)),
     };
 }

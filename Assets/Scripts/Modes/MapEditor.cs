@@ -29,8 +29,10 @@ namespace MapObjects
 
         [OdinSerialize]
         public bool Capital { get; set; }
+
         [OdinSerialize]
         public Race Race { get; private set; }
+
         [OdinSerialize]
         public Vec2i Position { get; set; }
     }
@@ -45,27 +47,37 @@ namespace MapObjects
 
         [OdinSerialize]
         public ClaimableType Type { get; private set; }
+
         [OdinSerialize]
         public Vec2i Position { get; set; }
     }
 
     internal class Map
     {
-    [OdinSerialize]
-    private StrategicTileType[,] _tiles;
-    internal StrategicTileType[,] Tiles { get => _tiles; set => _tiles = value; }
-    [OdinSerialize]
-    private StrategicDoodadType[,] _doodads;
-    internal StrategicDoodadType[,] Doodads { get => _doodads; set => _doodads = value; }
-    [OdinSerialize]
-    private MapVillage[] _storedVillages;
-    internal MapVillage[] storedVillages { get => _storedVillages; set => _storedVillages = value; }
-    [OdinSerialize]
-    private Vec2i[] _mercLocations;
-    internal Vec2i[] mercLocations { get => _mercLocations; set => _mercLocations = value; }
-    [OdinSerialize]
-    private MapClaimable[] _claimables;
-    internal MapClaimable[] claimables { get => _claimables; set => _claimables = value; }
+        [OdinSerialize]
+        private StrategicTileType[,] _tiles;
+
+        internal StrategicTileType[,] Tiles { get => _tiles; set => _tiles = value; }
+
+        [OdinSerialize]
+        private StrategicDoodadType[,] _doodads;
+
+        internal StrategicDoodadType[,] Doodads { get => _doodads; set => _doodads = value; }
+
+        [OdinSerialize]
+        private MapVillage[] _storedVillages;
+
+        internal MapVillage[] storedVillages { get => _storedVillages; set => _storedVillages = value; }
+
+        [OdinSerialize]
+        private Vec2i[] _mercLocations;
+
+        internal Vec2i[] mercLocations { get => _mercLocations; set => _mercLocations = value; }
+
+        [OdinSerialize]
+        private MapClaimable[] _claimables;
+
+        internal MapClaimable[] claimables { get => _claimables; set => _claimables = value; }
 
         public static Map Get(string filename)
         {
@@ -75,6 +87,7 @@ namespace MapObjects
                 State.GameManager.CreateMessageBox("Couldn't find the saved file");
                 return null;
             }
+
             try
             {
                 byte[] bytes = File.ReadAllBytes(filename);
@@ -86,7 +99,6 @@ namespace MapObjects
                 State.GameManager.CreateMessageBox($"Failed to load map {filename}");
                 return null;
             }
-
         }
     }
 
@@ -110,11 +122,10 @@ namespace MapObjects
             {
                 Actions[i].Invoke();
             }
-            State.GameManager.MapEditor.RecreateObjects();
 
+            State.GameManager.MapEditor.RecreateObjects();
         }
     }
-
 }
 
 
@@ -186,11 +197,12 @@ public class MapEditor : SceneBase
             {
                 if (CanWalkInto(army.Position.X, army.Position.Y) == false)
                 {
-                    if (doodads == null || (State.World.Doodads[army.Position.X, army.Position.Y] < StrategicDoodadType.bridgeVertical ||
-                        State.World.Doodads[army.Position.X, army.Position.Y] > StrategicDoodadType.virtualBridgeIntersection))
+                    if (doodads == null || State.World.Doodads[army.Position.X, army.Position.Y] < StrategicDoodadType.bridgeVertical ||
+                        State.World.Doodads[army.Position.X, army.Position.Y] > StrategicDoodadType.virtualBridgeIntersection)
                         State.World.GetEmpireOfSide(army.Side).Armies.Remove(army);
                 }
             }
+
             State.World.Tiles = tiles;
             State.World.Doodads = doodads;
             //if (StrategicConnectedChecker.AreAllConnected(State.World.Villages, StrategicUtilities.GetAllArmies()) == false)
@@ -200,33 +212,28 @@ public class MapEditor : SceneBase
             {
                 UpdateVillagePopulation(village);
             }
+
             CleanUp();
-            foreach (Army army in StrategicUtilities.GetAllArmies())
-                army.GetTileHealRate(); //Because villages may be gone or have indexes changed
+            foreach (Army army in StrategicUtilities.GetAllArmies()) army.GetTileHealRate(); //Because villages may be gone or have indexes changed
             State.GameManager.StrategyMode.RedrawVillages();
             State.GameManager.StrategyMode.FogSystem = null;
             State.GameManager.SwitchToStrategyMode();
             State.GameManager.StrategyMode.CheckForRevivedPlayerFromMapEditor();
             State.GameManager.StrategyMode.RedrawTiles();
             State.GameManager.StrategyMode.RebuildSpawners();
-
         }
         else
         {
             CleanUp();
             State.GameManager.SwitchToMainMenu();
         }
-
     }
 
     internal void Initialize(bool editingActiveMap)
     {
-        if (State.World.Tiles == null)
-            State.World.Tiles = new StrategicTileType[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
-        if (State.World.Claimables == null)
-            State.World.Claimables = new ClaimableBuilding[0];
-        if (State.World.Doodads == null)
-            State.World.Doodads = new StrategicDoodadType[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
+        if (State.World.Tiles == null) State.World.Tiles = new StrategicTileType[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
+        if (State.World.Claimables == null) State.World.Claimables = new ClaimableBuilding[0];
+        if (State.World.Doodads == null) State.World.Doodads = new StrategicDoodadType[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
         CatchUpEmpires();
         tiles = State.World.Tiles;
         doodads = State.World.Doodads;
@@ -247,6 +254,7 @@ public class MapEditor : SceneBase
         {
             ExitMapEditor.GetComponentInChildren<Text>().text = "Exit to Main Menu";
         }
+
         RecreateObjects();
     }
 
@@ -263,6 +271,7 @@ public class MapEditor : SceneBase
                 State.World.AllActiveEmpiresWritable.Add(empire);
             }
         }
+
         if (changed)
         {
             State.World.SortMainEmpiresBySide();
@@ -270,9 +279,6 @@ public class MapEditor : SceneBase
             State.World.Stats.ExpandToIncludeNewRaces();
             State.World.RefreshTurnOrder();
         }
-
-
-
     }
 
     private void UpdateVillagePopulation(Village village)
@@ -282,12 +288,11 @@ public class MapEditor : SceneBase
         {
             for (int y = -1; y <= 1; y++)
             {
-                if (x == 0 && y == 0)
-                    continue;
-                if (tiles[village.Position.X + x, village.Position.Y + y] == StrategicTileType.field || tiles[village.Position.X + x, village.Position.Y + y] == StrategicTileType.fieldDesert || tiles[village.Position.X + x, village.Position.Y + y] == StrategicTileType.fieldSnow)
-                    farmSquares++;
+                if (x == 0 && y == 0) continue;
+                if (tiles[village.Position.X + x, village.Position.Y + y] == StrategicTileType.field || tiles[village.Position.X + x, village.Position.Y + y] == StrategicTileType.fieldDesert || tiles[village.Position.X + x, village.Position.Y + y] == StrategicTileType.fieldSnow) farmSquares++;
             }
         }
+
         village.UpdateFarms(farmSquares);
     }
 
@@ -297,10 +302,10 @@ public class MapEditor : SceneBase
         {
             tilemap.ClearAllTiles();
         }
+
         RedrawTiles();
         RedrawVillages();
-        if (EditingActiveMap)
-            RedrawArmies();
+        if (EditingActiveMap) RedrawArmies();
     }
 
     internal void SetTileType(StrategicTileType type, Transform location)
@@ -334,6 +339,7 @@ public class MapEditor : SceneBase
         SelectionBackground.SetActive(true);
         SelectionBackground.transform.position = location.position;
     }
+
     internal void SetMiscTooltip(SpecialType type)
     {
         Tooltip.gameObject.SetActive(true);
@@ -346,8 +352,6 @@ public class MapEditor : SceneBase
                 Tooltip.text = $"Place Gold Mine";
                 break;
         }
-
-
     }
 
 
@@ -495,7 +499,7 @@ public class MapEditor : SceneBase
             case StrategicDoodadType.SpawnerFeralLions:
                 Tooltip.text = $"Place a monster spawn location for FeralLions, they have to spawn within 2 tiles of a spawner if at least one exists";
                 break;
-			case StrategicDoodadType.SpawnerGoodra:
+            case StrategicDoodadType.SpawnerGoodra:
                 Tooltip.text = $"Place a monster spawn location for Goodra, they have to spawn within 2 tiles of a spawner if at least one exists";
                 break;
             default:
@@ -528,7 +532,6 @@ public class MapEditor : SceneBase
                         army.Banner = Instantiate(SpriteCategories[3], new Vector3(army.Position.X, army.Position.Y), new Quaternion(), ArmyFolder).GetComponent<MultiStageBanner>();
                         army.Banner.Refresh(army, false);
                     }
-
                 }
                 else
                 {
@@ -538,8 +541,6 @@ public class MapEditor : SceneBase
                     army.Sprite.sprite = Sprites[tileType];
                     army.Sprite.color = empire.UnityColor;
                 }
-
-
             }
         }
     }
@@ -559,6 +560,7 @@ public class MapEditor : SceneBase
         {
             TilemapLayers[i].ClearAllTiles();
         }
+
         if (SimpleDisplay.isOn)
         {
             for (int i = 0; i <= tiles.GetUpperBound(0); i++)
@@ -567,10 +569,8 @@ public class MapEditor : SceneBase
                 {
                     TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[StrategicTileInfo.GetTileType(tiles[i, j], i, j)]);
 
-                    var type = StrategicTileInfo.GetObjectTileType(this.tiles[i, j], i, j);
-                    if (type != -1)
-                        TilemapLayers[2].SetTile(new Vector3Int(i, j, 0), State.GameManager.StrategyMode.TileDictionary.Objects[type]);
-
+                    var type = StrategicTileInfo.GetObjectTileType(tiles[i, j], i, j);
+                    if (type != -1) TilemapLayers[2].SetTile(new Vector3Int(i, j, 0), State.GameManager.StrategyMode.TileDictionary.Objects[type]);
                 }
             }
         }
@@ -597,7 +597,6 @@ public class MapEditor : SceneBase
                             TilemapLayers[4].SetTile(new Vector3Int(i, j, 0), SpawnerTypes[-1000 + (int)doodads[i, j]]);
                         }
                     }
-
                 }
             }
         }
@@ -619,7 +618,6 @@ public class MapEditor : SceneBase
                 }
             }
         }
-
     }
 
     private void DrawTiles(int minX, int maxX, int minY, int maxY)
@@ -646,16 +644,14 @@ public class MapEditor : SceneBase
                 else
                 {
                     var type = StrategicTileInfo.GetObjectTileType(this.tiles[i, j], i, j);
-                    if (type != -1)
-                        TilemapLayers[2].SetTile(new Vector3Int(i, j, 0), State.GameManager.StrategyMode.TileDictionary.Objects[type]);
-
+                    if (type != -1) TilemapLayers[2].SetTile(new Vector3Int(i, j, 0), State.GameManager.StrategyMode.TileDictionary.Objects[type]);
                 }
+
                 if (tiles[i, j] >= (StrategicTileType)2100 && underTiles[i, j] >= (StrategicTileType)2200)
                 {
                     TilemapLayers[1].SetTile(new Vector3Int(i, j, 0), State.GameManager.StrategyMode.TileDictionary.GrassFloat[(int)tiles[i, j] - 2100]);
                     TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), State.GameManager.StrategyMode.TileDictionary.IceOverSnow[(int)underTiles[i, j] - 2200]);
                     //TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[(int)underTiles[i, j]]);
-
                 }
                 else if (tiles[i, j] >= (StrategicTileType)2100)
                 {
@@ -680,9 +676,7 @@ public class MapEditor : SceneBase
                             default:
                                 TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[StrategicTileInfo.GetTileType(this.tiles[i, j], i, j)]);
                                 break;
-
                         }
-
                     }
 
                     //TilemapLayers[1].SetTile(new Vector3Int(i, j, 0), TileDictionary.IceOverSnow[(int)tiles[i, j] - 2100]);
@@ -722,7 +716,7 @@ public class MapEditor : SceneBase
         for (int i = 0; i < villages.Length; i++)
         {
             Village village = villages[i];
-            
+
             if (EditingActiveMap)
             {
                 GameObject vill = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
@@ -740,8 +734,8 @@ public class MapEditor : SceneBase
                 {
                     //villColored.GetComponent<SpriteRenderer>().color = Color.clear;
                 }
-                
-                
+
+
                 GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
                 villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
@@ -757,7 +751,7 @@ public class MapEditor : SceneBase
                 GameObject vill = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 vill.GetComponent<SpriteRenderer>().sprite = village.GetIconSprite();
                 vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                
+
                 Sprite villageColorSprite = village.GetColoredIcon();
                 if (villageColorSprite != null)
                 {
@@ -769,25 +763,25 @@ public class MapEditor : SceneBase
                 {
                     //villColored.GetComponent<SpriteRenderer>().color = Color.clear;
                 }
-                
+
                 GameObject villShield = Instantiate(SpriteCategories[2], new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 villShield.GetComponent<SpriteRenderer>().sprite = Sprites[10];
                 villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
                 villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side)?.UnityColor ?? Color.white;
             }
-
         }
+
         foreach (var mercHouse in State.World.MercenaryHouses)
         {
             GameObject merc = Instantiate(SpriteCategories[2], new Vector3(mercHouse.Position.X, mercHouse.Position.Y), new Quaternion(), VillageFolder);
             merc.GetComponent<SpriteRenderer>().sprite = Sprites[14];
             merc.GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
+
         foreach (var claimable in State.World.Claimables)
         {
             int spr = 0;
-            if (claimable is GoldMine)
-                spr = 12;
+            if (claimable is GoldMine) spr = 12;
             GameObject vill = Instantiate(SpriteCategories[2], new Vector3(claimable.Position.X, claimable.Position.Y), new Quaternion(), VillageFolder);
             vill.GetComponent<SpriteRenderer>().sprite = Sprites[spr];
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
@@ -834,8 +828,7 @@ public class MapEditor : SceneBase
         if (held == false)
         {
             LastActionBuilder = new UndoMapAction();
-            if (UndoActions.Count > 15)
-                UndoActions.RemoveAt(0);
+            if (UndoActions.Count > 15) UndoActions.RemoveAt(0);
             UndoActions.Add(LastActionBuilder);
         }
 
@@ -857,7 +850,7 @@ public class MapEditor : SceneBase
                 if (SimpleDisplay.isOn)
                 {
                     TilemapLayers[0].SetTile(new Vector3Int(x, y, 0), TileTypes[StrategicTileInfo.GetTileType(tiles[x, y], x, y)]);
-                    var type = StrategicTileInfo.GetObjectTileType(this.tiles[x, y], x, y);
+                    var type = StrategicTileInfo.GetObjectTileType(tiles[x, y], x, y);
                     if (type != -1)
                         TilemapLayers[2].SetTile(new Vector3Int(x, y, 0), State.GameManager.StrategyMode.TileDictionary.Objects[type]);
                     else
@@ -868,7 +861,6 @@ public class MapEditor : SceneBase
                     ClearTiles(x - 2, x + 2, y - 2, y + 2);
                     DrawTiles(x - 2, x + 2, y - 2, y + 2);
                 }
-
             }
             else if (BrushType.value <= 4)
             {
@@ -877,10 +869,8 @@ public class MapEditor : SceneBase
                 {
                     for (int yAdjust = -radius; yAdjust <= radius; yAdjust++)
                     {
-                        if (x + xAdjust >= tiles.GetLength(0) || x + xAdjust < 0)
-                            continue;
-                        if (y + yAdjust >= tiles.GetLength(1) || y + yAdjust < 0)
-                            continue;
+                        if (x + xAdjust >= tiles.GetLength(0) || x + xAdjust < 0) continue;
+                        if (y + yAdjust >= tiles.GetLength(1) || y + yAdjust < 0) continue;
                         var lastTile = tiles[x + xAdjust, y + yAdjust];
                         int lastX = x + xAdjust;
                         int lastY = y + yAdjust;
@@ -889,6 +879,7 @@ public class MapEditor : SceneBase
                         DestroyVillagesAtTile(new Vec2i(x + xAdjust, y + yAdjust));
                     }
                 }
+
                 RedrawTiles();
             }
             else if (BrushType.value == 5)
@@ -901,16 +892,13 @@ public class MapEditor : SceneBase
                 ReplaceAll(x, y);
                 RedrawTiles();
             }
-
         }
         else if (ActiveVillage)
         {
             if (StrategicUtilities.GetVillageAt(clickLocation) == null && StrategicUtilities.GetMercenaryHouseAt(clickLocation) == null)
             {
-                if (x >= tiles.GetLength(0) - 1 || x < 1)
-                    return;
-                if (y >= tiles.GetLength(1) - 1 || y < 1)
-                    return;
+                if (x >= tiles.GetLength(0) - 1 || x < 1) return;
+                if (y >= tiles.GetLength(1) - 1 || y < 1) return;
                 if (CanWalkInto(x, y) == false)
                 {
                     var lastTile = tiles[x, y];
@@ -921,13 +909,11 @@ public class MapEditor : SceneBase
                 bool activeRace = false;
                 foreach (Empire empire in State.World.MainEmpires)
                 {
-                    if (Equals(empire.Race, villageRace))
-                        activeRace = true;
+                    if (Equals(empire.Race, villageRace)) activeRace = true;
                 }
-                if (Equals(villageRace, Race.Vagrant))
-                    activeRace = true;
-                if (activeRace == false)
-                    return;
+
+                if (Equals(villageRace, Race.Vagrant)) activeRace = true;
+                if (activeRace == false) return;
                 Village newVillage;
                 for (int i = -1; i < 2; i++)
                 {
@@ -942,7 +928,6 @@ public class MapEditor : SceneBase
                             tiles[x + i, y + j] = StrategicTileType.field;
                         }
                         //DestroyVillagesAtTile(new Vec2i(x + i, y + j));
-
                     }
                 }
 
@@ -960,22 +945,23 @@ public class MapEditor : SceneBase
                         blocked = false;
                         foreach (Village village in curVillages)
                         {
-                            if (village.Name == State.NameGen.GetTownName(villageRace, i))
-                                blocked = true;
+                            if (village.Name == State.NameGen.GetTownName(villageRace, i)) blocked = true;
                         }
+
                         if (blocked == false)
                         {
                             nameIndex = i;
                             break;
                         }
                     }
+
                     newVillage = new Village(State.NameGen.GetTownName(villageRace, nameIndex), clickLocation, 8, villageRace, false);
                 }
+
                 LastActionBuilder.Add(() => DestroyVillagesAtTile(new Vec2i(x, y)));
                 var villages = State.World.Villages.ToList();
                 villages.Add(newVillage);
-                if (Equals(newVillage.Race, Race.Vagrant))
-                    newVillage.SubtractPopulation(99999);
+                if (Equals(newVillage.Race, Race.Vagrant)) newVillage.SubtractPopulation(99999);
                 State.World.Villages = villages.ToArray();
                 RefreshVillageCounts();
                 RedrawVillages();
@@ -995,7 +981,11 @@ public class MapEditor : SceneBase
                     else if (Equals(vill.Race, villageRace))
                     {
                         var lastPop = vill.GetTotalPop();
-                        LastActionBuilder.Add(() => { vill.SubtractPopulation(99999); vill.AddPopulation(lastPop); });
+                        LastActionBuilder.Add(() =>
+                        {
+                            vill.SubtractPopulation(99999);
+                            vill.AddPopulation(lastPop);
+                        });
                         vill.AddPopulation(99999999);
                     }
                 }
@@ -1020,17 +1010,19 @@ public class MapEditor : SceneBase
                             blocked = false;
                             foreach (Village village in curVillages)
                             {
-                                if (village.Name == State.NameGen.GetTownName(villageRace, i))
-                                    blocked = true;
+                                if (village.Name == State.NameGen.GetTownName(villageRace, i)) blocked = true;
                             }
+
                             if (blocked == false)
                             {
                                 nameIndex = i;
                                 break;
                             }
                         }
+
                         newVillage = new Village(State.NameGen.GetTownName(villageRace, nameIndex), clickLocation, 8, villageRace, false);
                     }
+
                     LastActionBuilder.Add(() =>
                     {
                         var tempVillages = State.World.Villages.ToList();
@@ -1076,13 +1068,13 @@ public class MapEditor : SceneBase
                     LastActionBuilder.Add(() => DestroyVillagesAtTile(new Vec2i(x, y)));
                     break;
             }
+
             RedrawTiles();
             RedrawVillages();
         }
         else if (ActiveDoodad && StrategicUtilities.GetVillageAt(clickLocation) == null && StrategicUtilities.GetMercenaryHouseAt(clickLocation) == null)
         {
-            if (doodads == null)
-                doodads = new StrategicDoodadType[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
+            if (doodads == null) doodads = new StrategicDoodadType[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
 
             if (doodads != null)
             {
@@ -1093,7 +1085,6 @@ public class MapEditor : SceneBase
             doodads[x, y] = currentDoodadType;
             RedrawTiles();
         }
-
     }
 
     private void Fill(int startX, int startY)
@@ -1112,14 +1103,13 @@ public class MapEditor : SceneBase
             Vec2 p = stack.Pop();
             int x = p.x;
             int y = p.y;
-            if (y < 0 || y > h - 1 || x < 0 || x > w - 1)
-                continue;
+            if (y < 0 || y > h - 1 || x < 0 || x > w - 1) continue;
             if (visited.Contains(p))
             {
                 continue;
             }
-            if (tiles[x, y] != fillOverType)
-                continue;
+
+            if (tiles[x, y] != fillOverType) continue;
             visited.Add(p);
             var lastTile = tiles[x, y];
             LastActionBuilder.Add(() => tiles[x, y] = lastTile);
@@ -1170,6 +1160,7 @@ public class MapEditor : SceneBase
             RefreshVillageCounts();
             RedrawVillages();
         }
+
         MercenaryHouse mercHouseAtTile = StrategicUtilities.GetMercenaryHouseAt(clickLocation);
         if (mercHouseAtTile != null)
         {
@@ -1185,6 +1176,7 @@ public class MapEditor : SceneBase
             State.World.MercenaryHouses = houses.ToArray();
             RedrawVillages();
         }
+
         ClaimableBuilding claimableAtTile = StrategicUtilities.GetClaimableAt(clickLocation);
         if (claimableAtTile != null)
         {
@@ -1211,10 +1203,8 @@ public class MapEditor : SceneBase
 
     public void LoadMap(string filename)
     {
-
         Map map = Map.Get(filename);
-        if (map == null)
-            return;
+        if (map == null) return;
 
         UndoActions.Clear();
 
@@ -1224,9 +1214,9 @@ public class MapEditor : SceneBase
         for (int i = 0; i < map.storedVillages.Length; i++)
         {
             newVillages.Add(new Village("None", map.storedVillages[i].Position, 8, map.storedVillages[i].Race, map.storedVillages[i].Capital));
-            if (Equals(newVillages.Last().Race, Race.Vagrant))
-                newVillages.Last().SubtractPopulation(99999);
+            if (Equals(newVillages.Last().Race, Race.Vagrant)) newVillages.Last().SubtractPopulation(99999);
         }
+
         State.World.Villages = newVillages.ToArray();
         if (map.mercLocations != null)
         {
@@ -1235,6 +1225,7 @@ public class MapEditor : SceneBase
             {
                 houses.Add(new MercenaryHouse(merc));
             }
+
             if (houses.Count > 0)
                 State.World.MercenaryHouses = houses.ToArray();
             else
@@ -1244,16 +1235,16 @@ public class MapEditor : SceneBase
         {
             State.World.MercenaryHouses = new MercenaryHouse[0];
         }
+
         if (map.claimables != null)
         {
             List<ClaimableBuilding> claimables = new List<ClaimableBuilding>();
             foreach (var claimable in map.claimables)
             {
-                if (claimable.Type == ClaimableType.GoldMine)
-                    claimables.Add(new GoldMine(claimable.Position));
+                if (claimable.Type == ClaimableType.GoldMine) claimables.Add(new GoldMine(claimable.Position));
             }
-            if (claimables.Count > 0)
-                State.World.Claimables = claimables.ToArray();
+
+            if (claimables.Count > 0) State.World.Claimables = claimables.ToArray();
         }
         else
         {
@@ -1263,8 +1254,7 @@ public class MapEditor : SceneBase
         Config.World.StrategicWorldSizeX = tiles.GetLength(0);
         Config.World.StrategicWorldSizeY = tiles.GetLength(1);
 
-        if (doodads == null)
-            doodads = new StrategicDoodadType[tiles.GetLength(0), tiles.GetLength(1)];
+        if (doodads == null) doodads = new StrategicDoodadType[tiles.GetLength(0), tiles.GetLength(1)];
 
         RecreateObjects();
     }
@@ -1284,17 +1274,19 @@ public class MapEditor : SceneBase
         {
             storedVillages.Add(new MapVillage(village.Capital, village.Race, village.Position));
         }
+
         List<Vec2i> storedMercLocations = new List<Vec2i>();
         foreach (MercenaryHouse mercHouse in State.World.MercenaryHouses)
         {
             storedMercLocations.Add(mercHouse.Position);
         }
+
         List<MapClaimable> storedClaimables = new List<MapClaimable>();
         foreach (ClaimableBuilding claimable in State.World.Claimables)
         {
-            if (claimable is GoldMine)
-                storedClaimables.Add(new MapClaimable(ClaimableType.GoldMine, claimable.Position));
+            if (claimable is GoldMine) storedClaimables.Add(new MapClaimable(ClaimableType.GoldMine, claimable.Position));
         }
+
         Map map = new Map
         {
             Tiles = tiles,
@@ -1306,7 +1298,6 @@ public class MapEditor : SceneBase
 
         byte[] bytes = SerializationUtility.SerializeValue(map, DataFormat.Binary);
         File.WriteAllBytes(filename, bytes);
-
     }
 
     public void OpenResizePanel()
@@ -1318,7 +1309,6 @@ public class MapEditor : SceneBase
 
     public void Resize()
     {
-
         int x;
         int y;
         try
@@ -1331,26 +1321,24 @@ public class MapEditor : SceneBase
             State.GameManager.CreateMessageBox("Invalid value for one of the values");
             return;
         }
+
         if (x < 16 || y < 16)
         {
             State.GameManager.CreateMessageBox("Can't have a dimension less than 16");
             return;
         }
+
         UndoActions.Clear();
         int oldX = tiles.GetLength(0);
         int oldY = tiles.GetLength(1);
-
-
 
 
         StrategicTileType[,] newTiles = new StrategicTileType[x, y];
         StrategicDoodadType[,] newDoodads = new StrategicDoodadType[x, y];
         int diffX = 0;
         int diffY = 0;
-        if (ResizeUI.AddRemoveX.value == 0)
-            diffX = x - oldX;
-        if (ResizeUI.AddRemoveY.value == 1)
-            diffY = y - oldY;
+        if (ResizeUI.AddRemoveX.value == 0) diffX = x - oldX;
+        if (ResizeUI.AddRemoveY.value == 1) diffY = y - oldY;
 
         for (int i = 0; i < x; i++)
         {
@@ -1362,6 +1350,7 @@ public class MapEditor : SceneBase
                     newTiles[i, j] = StrategicTileType.water;
             }
         }
+
         if (doodads != null)
         {
             for (int i = 0; i < x; i++)
@@ -1377,14 +1366,13 @@ public class MapEditor : SceneBase
         }
 
 
-
         List<Village> newVillages = new List<Village>();
         foreach (Village village in State.World.Villages.ToList())
         {
             village.Position = new Vec2i(village.Position.X + diffX, village.Position.Y + diffY); //done for double checking a fix
-            if (village.Position.X < x - 1 && village.Position.X > 0 && village.Position.Y < y - 1 && village.Position.Y > 0)
-                newVillages.Add(village);
+            if (village.Position.X < x - 1 && village.Position.X > 0 && village.Position.Y < y - 1 && village.Position.Y > 0) newVillages.Add(village);
         }
+
         State.World.Villages = newVillages.ToArray();
 
         foreach (Army army in StrategicUtilities.GetAllArmies())
@@ -1408,9 +1396,9 @@ public class MapEditor : SceneBase
         {
             merc.Position.X += diffX;
             merc.Position.Y += diffY;
-            if (merc.Position.X < x - 1 && merc.Position.X > 0 && merc.Position.Y < y - 1 && merc.Position.Y > 0)
-                newMercs.Add(merc);
+            if (merc.Position.X < x - 1 && merc.Position.X > 0 && merc.Position.Y < y - 1 && merc.Position.Y > 0) newMercs.Add(merc);
         }
+
         State.World.MercenaryHouses = newMercs.ToArray();
 
         List<ClaimableBuilding> newClaims = new List<ClaimableBuilding>();
@@ -1418,9 +1406,9 @@ public class MapEditor : SceneBase
         {
             claim.Position.X += diffX;
             claim.Position.Y += diffY;
-            if (claim.Position.X < x - 1 && claim.Position.X > 0 && claim.Position.Y < y - 1 && claim.Position.Y > 0)
-                newClaims.Add(claim);
+            if (claim.Position.X < x - 1 && claim.Position.X > 0 && claim.Position.Y < y - 1 && claim.Position.Y > 0) newClaims.Add(claim);
         }
+
         State.World.Claimables = newClaims.ToArray();
 
 
@@ -1431,18 +1419,15 @@ public class MapEditor : SceneBase
         RecreateObjects();
 
         ResizeUI.gameObject.SetActive(false);
-
     }
 
     /// <summary>
-    /// Local Version for the map editor that doesn't use the world tiles/doodads.  
+    ///     Local Version for the map editor that doesn't use the world tiles/doodads.
     /// </summary>
     internal bool CanWalkInto(int x, int y)
     {
-        if (StrategicTileInfo.CanWalkInto(tiles[x, y]) == true)
-            return true;
-        if (doodads != null && doodads[x, y] >= StrategicDoodadType.bridgeVertical && doodads[x, y] <= StrategicDoodadType.virtualBridgeIntersection)
-            return true;
+        if (StrategicTileInfo.CanWalkInto(tiles[x, y]) == true) return true;
+        if (doodads != null && doodads[x, y] >= StrategicDoodadType.bridgeVertical && doodads[x, y] <= StrategicDoodadType.virtualBridgeIntersection) return true;
         return false;
     }
 
@@ -1472,27 +1457,25 @@ public class MapEditor : SceneBase
     private static void RefreshVillageCounts()
     {
         // TODO many checks are probably redundant
-        if (Config.World.VillagesPerEmpire.Count() != State.World.MainEmpires.Count)
-            Config.World.resetVillagesPerEmpire();
-        
-        
+        if (Config.World.VillagesPerEmpire.Count() != State.World.MainEmpires.Count) Config.World.resetVillagesPerEmpire();
+
+
         foreach (Race race in Config.World.VillagesPerEmpire.Keys)
         {
             // TODO probably can be replaced with resetVillagesPerEmpire
             //Config.World.VillagesPerEmpire[race] = 0;
         }
+
         Config.World.resetVillagesPerEmpire();
-        
+
         foreach (Village vill in State.World.Villages)
         {
-            if (RaceFuncs.IsMainRace(vill.Side))
-                Config.World.VillagesPerEmpire[vill.Race]++;
+            if (RaceFuncs.IsMainRace(vill.Side)) Config.World.VillagesPerEmpire[vill.Race]++;
         }
     }
 
     private void UpdateTooltips(int ClickX, int ClickY)
     {
-
         Village villageAtCursor = StrategicUtilities.GetVillageAt(new Vec2i(ClickX, ClickY));
         if (villageAtCursor == null)
         {
@@ -1513,8 +1496,7 @@ public class MapEditor : SceneBase
             if (EditingActiveMap)
             {
                 sb.AppendLine($"Village: {villageAtCursor.Name}");
-                if (villageAtCursor.Capital)
-                    sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");
+                if (villageAtCursor.Capital) sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");
                 if (!Equals(villageAtCursor.Race, Race.Vagrant) || villageAtCursor.GetTotalPop() != 0)
                 {
                     sb.AppendLine($"Owner: {villageAtCursor.Side.ToRace()}");
@@ -1524,27 +1506,24 @@ public class MapEditor : SceneBase
                 {
                     sb.AppendLine($"Abandoned Village");
                 }
-                sb.AppendLine($"Village Location - X: {villageAtCursor.Position.X} Y: {villageAtCursor.Position.Y}");
 
+                sb.AppendLine($"Village Location - X: {villageAtCursor.Position.X} Y: {villageAtCursor.Position.Y}");
             }
             else
             {
                 if (!Equals(villageAtCursor.Race, Race.Vagrant) || villageAtCursor.GetTotalPop() != 0)
                 {
-                    if (villageAtCursor.Capital)
-                        sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");
+                    if (villageAtCursor.Capital) sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");
                     sb.AppendLine($"Race: {villageAtCursor.Race}");
                 }
                 else
                 {
                     sb.AppendLine($"Abandoned Village");
                 }
-
             }
+
             Tooltip.text = sb.ToString();
-
         }
-
     }
 
 
@@ -1563,7 +1542,6 @@ public class MapEditor : SceneBase
 
         if (EventSystem.current.IsPointerOverGameObject() == false) //Makes sure mouse isn't over a UI element
         {
-
             Vector2 currentMousePos = State.GameManager.Camera.ScreenToWorldPoint(Input.mousePosition);
 
             int x = (int)(currentMousePos.x + 0.5f);
@@ -1573,13 +1551,11 @@ public class MapEditor : SceneBase
                 UpdateTooltips(x, y);
                 if (Input.GetMouseButtonDown(0))
                     ProcessClick(x, y);
-                else if (Input.GetMouseButton(0) && (ActiveTile || ActiveDoodad))
-                    ProcessClick(x, y, true);
-                if (Input.GetMouseButtonDown(1))
-                    ProcessRightClick(x, y);
+                else if (Input.GetMouseButton(0) && (ActiveTile || ActiveDoodad)) ProcessClick(x, y, true);
+                if (Input.GetMouseButtonDown(1)) ProcessRightClick(x, y);
             }
-
         }
+
         if (Input.GetButtonDown("Menu"))
         {
             State.GameManager.OpenMenu();
@@ -1587,8 +1563,7 @@ public class MapEditor : SceneBase
 
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Z))
         {
-            if (UndoButton.interactable)
-                UndoButton.onClick.Invoke();
+            if (UndoButton.interactable) UndoButton.onClick.Invoke();
         }
 
 
@@ -1600,8 +1575,5 @@ public class MapEditor : SceneBase
             ActiveDoodad = false;
             SelectionBackground.SetActive(false);
         }
-
     }
-
 }
-

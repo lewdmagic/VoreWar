@@ -11,7 +11,6 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Kobolds
     {
-
         private static bool IsFacingFront(IActorUnit actor)
         {
             if (actor.IsAnalVoring || actor.IsUnbirthing || actor.IsCockVoring)
@@ -35,23 +34,23 @@ namespace Races.Graphics.Implementations.Mercs
                 FacingFront = IsFacingFront(renderInput.A)
             };
         };
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
                 output.Names("Kobold", "Kobolds");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "kobold", "little lizard", "little reptile" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Pickax",
-                        [WeaponNames.Axe]         = "Pickax",
-                        [WeaponNames.SimpleBow]   = "Dart",
+                        [WeaponNames.Mace] = "Pickax",
+                        [WeaponNames.Axe] = "Pickax",
+                        [WeaponNames.SimpleBow] = "Dart",
                         [WeaponNames.CompoundBow] = "Dart",
-                        [WeaponNames.Claw]        = "Fist"
+                        [WeaponNames.Claw] = "Fist"
                     }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -69,10 +68,7 @@ namespace Races.Graphics.Implementations.Mercs
                     RaceDescription = "",
                     RaceAI = RaceAI.ServantRace
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.TailTypes, "Preferred Facing");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.TailTypes, "Preferred Facing"); });
                 output.BreastSizes = () => 3;
                 output.DickSizes = () => 3;
                 output.GentleAnimation = true;
@@ -377,10 +373,7 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly BindableClothing<FacingFrontParameters> BikiniBottomInstance = ClothingBuilder.CreateV2<FacingFrontParameters>(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output ) =>
-                {
-                
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
                 builder.RenderAll((input, output, extra) =>
                 {
@@ -448,10 +441,7 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly BindableClothing<FacingFrontParameters> LoinClothInstance = ClothingBuilder.CreateV2<FacingFrontParameters>(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output ) =>
-                {
-                
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
                 builder.RenderAll((input, output, extra) =>
                 {
@@ -476,10 +466,7 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly BindableClothing<FacingFrontParameters> RagsInstance = ClothingBuilder.CreateV2<FacingFrontParameters>(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output ) =>
-                {
-                    output.RevealsDick = true;
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.RevealsDick = true; });
 
                 builder.RenderAll((input, output, extra) =>
                 {

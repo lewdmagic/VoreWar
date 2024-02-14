@@ -10,9 +10,8 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Deer
     {
-
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(29 * 29);
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             IClothing leaderClothes1 = DeerLeader1.DeerLeader1Instance.Create(paramsCalc);
@@ -25,9 +24,9 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("Deer", "Deer");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts { "faun", "deer", {"doe", Gender.Female, 0.5/5 }, {"roe", Gender.Female, 0.5/5 }, {"buck", Gender.Male, 0.5/5 }, {"stag", Gender.Male, 0.5/5 }, {"hart", Gender.Male, 0.5/5 } } 
+                    new Texts { },
+                    new Texts { },
+                    new Texts { "faun", "deer", { "doe", Gender.Female, 0.5 / 5 }, { "roe", Gender.Female, 0.5 / 5 }, { "buck", Gender.Male, 0.5 / 5 }, { "stag", Gender.Male, 0.5 / 5 }, { "hart", Gender.Male, 0.5 / 5 } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -130,10 +129,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
 
             builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
@@ -555,7 +551,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 if (input.A.HasBelly)
                 {
                     int size = input.A.GetStomachSize(31, 0.7f);
-                
+
                     switch (size)
                     {
                         case 26:
@@ -836,7 +832,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
                 });
             });
-            
+
             internal static readonly BindableClothing<IOverSizeParameters> GenericTop1InstanceV2 = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -1406,7 +1402,7 @@ namespace Races.Graphics.Implementations.MainRaces
                             output["Clothing3"].Sprite(input.Sprites.Cockatrice2[32 + input.U.BreastSize]);
                         }
                     }
-                
+
                     output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
                     output["Clothing3"].Coloring(ColorPaletteMap.GetPalette(SwapType.DeerSkin, input.U.SkinColor));
                 });

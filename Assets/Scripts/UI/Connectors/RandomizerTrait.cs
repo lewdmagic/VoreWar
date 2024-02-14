@@ -20,5 +20,4 @@ public class RandomizerTrait : MonoBehaviour
     {
         State.GameManager.VariableEditor.Open(this);
     }
-
 }

@@ -7,6 +7,7 @@ public class EndScene : SceneBase
     public Text Text;
 
     public RectTransform TextWindow;
+
     public void Win(string race)
     {
         EndText.text = $"The {race} are victorious";

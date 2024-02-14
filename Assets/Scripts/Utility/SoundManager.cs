@@ -131,6 +131,7 @@ public class SoundManager : MonoBehaviour
             SpellCasts[id] = Resources.LoadAll<AudioClip>($"audio{sep}spell{sep}{id}{sep}cast");
             SpellHits[id] = Resources.LoadAll<AudioClip>($"audio{sep}spell{sep}{id}{sep}hit");
         }
+
         MiscSounds["unbound"] = Resources.LoadAll<AudioClip>($"audio{sep}spell{sep}unbound");
 
         InitSources();
@@ -178,12 +179,9 @@ public class SoundManager : MonoBehaviour
 
     private void RandomizeSfxGlobal(AudioClip[] clips, Vector2? location, float volume)
     {
-        if (SoundEnabled == false)
-            return;
-        if (clips == null || clips.Length == 0)
-            return;
-        if (State.GameManager.TacticalMode.TacticalSoundBlocked())
-            return;
+        if (SoundEnabled == false) return;
+        if (clips == null || clips.Length == 0) return;
+        if (State.GameManager.TacticalMode.TacticalSoundBlocked()) return;
 
         AudioSource source = efxSources[sourceIndex];
 
@@ -205,17 +203,14 @@ public class SoundManager : MonoBehaviour
 
     private void RandomizeLoop(AudioClip[] clips, Actor_Unit actor, float volume)
     {
-        if (SoundEnabled == false)
-            return;
-        if (clips == null || clips.Length == 0)
-            return;
+        if (SoundEnabled == false) return;
+        if (clips == null || clips.Length == 0) return;
         if (actor == null)
         {
             return;
         }
 
-        if (State.GameManager.TacticalMode.TacticalSoundBlocked())
-            return;
+        if (State.GameManager.TacticalMode.TacticalSoundBlocked()) return;
 
         AudioSource source = actor.UnitSprite.LoopSource;
 
@@ -225,8 +220,7 @@ public class SoundManager : MonoBehaviour
 
         // Don't interrupt an existing source
 
-        if (source.isPlaying)
-            return;
+        if (source.isPlaying) return;
 
         source.pitch = Random.Range(lowPitchRange, highPitchRange);
 
@@ -237,18 +231,16 @@ public class SoundManager : MonoBehaviour
 
     private void RandomizeSfx(AudioClip[] clips, Actor_Unit actor, float volume)
     {
-        if (SoundEnabled == false)
-            return;
-        if (clips == null || clips.Length == 0)
-            return;
+        if (SoundEnabled == false) return;
+        if (clips == null || clips.Length == 0) return;
 
         if (actor == null || actor.UnitSprite == null)
         {
             RandomizeSfxGlobal(clips, null, volume);
             return;
         }
-        if (State.GameManager.TacticalMode.TacticalSoundBlocked())
-            return;
+
+        if (State.GameManager.TacticalMode.TacticalSoundBlocked()) return;
 
         AudioSource source = actor.UnitSprite.SfxSources[Random.Range(0, actor.UnitSprite.SfxSourcesCount)];
 
@@ -266,18 +258,16 @@ public class SoundManager : MonoBehaviour
 
         AudioClip[] clips = MiscSounds[name];
 
-        if (SoundEnabled == false)
-            return;
-        if (clips == null || clips.Length == 0)
-            return;
+        if (SoundEnabled == false) return;
+        if (clips == null || clips.Length == 0) return;
 
         if (actor == null || actor.UnitSprite == null)
         {
             RandomizeSfxGlobal(clips, null, volume);
             return;
         }
-        if (State.GameManager.TacticalMode.TacticalSoundBlocked())
-            return;
+
+        if (State.GameManager.TacticalMode.TacticalSoundBlocked()) return;
 
         AudioSource source = actor.UnitSprite.SfxSources[Random.Range(0, actor.UnitSprite.SfxSourcesCount)];
 

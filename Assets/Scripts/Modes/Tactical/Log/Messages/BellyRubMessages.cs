@@ -4,7 +4,7 @@ using static LogUtilities;
 
 public static class BellyRubMessages
 {
-    static internal List<EventString> BellyRubMessagesList = new List<EventString>()
+    internal static List<EventString> BellyRubMessagesList = new List<EventString>()
     {
         new EventString((i) => $"<b>{i.Unit.Name}</b> takes the time to roll on {GPPHis(i.Unit)} back and rub {GPPHis(i.Unit)} paw against {GPPHis(i.Unit)} soft belly, melting up {GPPHis(i.Unit)} prey more and more.",
             priority: 11, conditional: s => s.Target == s.Unit, actorRace: Race.FeralLion),
@@ -12,9 +12,9 @@ public static class BellyRubMessages
             priority: 11, conditional: s => s.Target == s.Unit && !PreyDead(s), actorRace: Race.FeralLion),
         new EventString((i) => $"Much like a playful kitten catching movement under a blanket, <b>{i.Unit.Name}</b> boops every little bulge that shows up on {GPPHis(i.Unit)} tummy, inadvertently creating an even more deadly gurgling hell for <b>{i.Prey.Name}</b>.",
             priority: 11, conditional: s => s.Target == s.Unit && !PreyDead(s), actorRace: Race.FeralLion),
-        new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> paws purposely trace <b>{ApostrophizeWithOrWithoutS(i.Prey.Name)}</b> faint outline on {( i.Target == i.Unit ? GPPHis(i.Unit) : "<b>" + i.Target.Name + "</b>'s")} middle. The thorough massage stimulates the {ApostrophizeWithOrWithoutS(GetRaceDescSingl(i.Target))} digestion and rubs {GPPHis(i.Target)} juices all over <b>{i.Prey.Name}</b>.",
+        new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> paws purposely trace <b>{ApostrophizeWithOrWithoutS(i.Prey.Name)}</b> faint outline on {(i.Target == i.Unit ? GPPHis(i.Unit) : "<b>" + i.Target.Name + "</b>'s")} middle. The thorough massage stimulates the {ApostrophizeWithOrWithoutS(GetRaceDescSingl(i.Target))} digestion and rubs {GPPHis(i.Target)} juices all over <b>{i.Prey.Name}</b>.",
             priority: 11, actorRace: Race.FeralLion, targetRace: Race.FeralLion, conditional: s => !PreyDead(s)), // TODO: Cattitude or volunteers, implement a way to tell what appendage a creature uses for interactions. I think an enumerable would be a good fit, but can be any sort of presence check too.
-        new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> paws trace each bend in {( i.Target == i.Unit ? GPPHis(i.Unit) : "<b>" + ApostrophizeWithOrWithoutS(i.Target.Name) + "</b>")} innards, guiding <b>{ApostrophizeWithOrWithoutS(i.Prey.Name)}</b> messy remains on their journey through the big cat.",
+        new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> paws trace each bend in {(i.Target == i.Unit ? GPPHis(i.Unit) : "<b>" + ApostrophizeWithOrWithoutS(i.Target.Name) + "</b>")} innards, guiding <b>{ApostrophizeWithOrWithoutS(i.Prey.Name)}</b> messy remains on their journey through the big cat.",
             priority: 11, actorRace: Race.FeralLion, targetRace: Race.FeralLion, conditional: s => PreyDead(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> lifts a hind leg and scratches {GPPHis(i.Unit)} full tummy with it, stirring the contents within.{(!PreyDead(i) ? "\nThe rhythm of the induced swaying is almost hypnotic to <b>" + i.Prey.Name + "</b>." : "")}",
             priority: 11, conditional: s => s.Target == s.Unit, actorRace: Race.FeralLion),
@@ -32,7 +32,7 @@ public static class BellyRubMessages
             priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target != s.Unit, actorRace: Race.FeralLion),
         new EventString((i) => $"<b>{i.Unit.Name}</b> walks by <b>{i.Target.Name}</b> and gives {GPPHis(i.Target)} {(PreyDead(i) ? "sloshing" : "squirming")} belly some stimulating licks in passing.",
             priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target != s.Unit, actorRace: Race.FeralLion),
-        new EventString((i) => $"<b>{i.Unit.Name}</b> finds <b>{i.Target.Name}</b> lazing on {GPPHis(i.Target)} back and gives {GPPHis(i.Target)} {PreyLocStrings.ToSyn(i.preyLocation)} a vigorous nuzzle, pressing {GPPHis(i.Unit)} face into the tummy{((PreyDead(i) && Farts(i) && InStomach(i)) ? ", stirring the liquefied prey and causing a little bit of <b>" + i.Prey.Name + "</b> gas to be squished out of "+ GPPHis(i.Target) + " butt": "")}.",
+        new EventString((i) => $"<b>{i.Unit.Name}</b> finds <b>{i.Target.Name}</b> lazing on {GPPHis(i.Target)} back and gives {GPPHis(i.Target)} {PreyLocStrings.ToSyn(i.preyLocation)} a vigorous nuzzle, pressing {GPPHis(i.Unit)} face into the tummy{(PreyDead(i) && Farts(i) && InStomach(i) ? ", stirring the liquefied prey and causing a little bit of <b>" + i.Prey.Name + "</b> gas to be squished out of " + GPPHis(i.Target) + " butt" : "")}.",
             priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target != s.Unit, actorRace: Race.FeralLion),
         new EventString((i) => $"<b>{i.Unit.Name}</b> partially lays {GPPHimself(i.Unit)} on top of <b>{i.Target.Name}</b> to passionately groom {GPPHis(i.Target)} capacious gut, causing {GPPHis(i.Target)} prey to be assaulted by a cascade of fresh gastric juices and fervid churning.",
             priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target != s.Unit, actorRace: Race.FeralLion),
@@ -43,17 +43,17 @@ public static class BellyRubMessages
         new EventString((i) => $"<b>{i.Unit.Name}</b> flops against <b>{i.Target.Name}</b>, making both fall over. The ensuing tangle of wiggly feline cuddles does wonders for digestion.",
             priority: 11, conditional: s => TacticalUtilities.GetActorOf(s.Unit).HasBelly && s.Target != s.Unit, targetRace: Race.FeralLion, actorRace: Race.FeralLion),
         new EventString((i) => $"<b>{i.Unit.Name}</b> head-nudges <b>{i.Target.Name}</b> to have {GPPHim(i.Target)} flop onto {GPPHis(i.Target)} side, before hunkering down and kneading {GPPHis(i.Target)} tummy like dough. <b>{i.Target.Name}</b> flinches a little from the claws, but in return, {GPPHe(i.Target)} can practically feel <b>{i.Prey.Name}</b> soften with each squish of the leonine paws.",
-            priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target!= s.Unit, actorRace: Race.FeralLion),
+            priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target != s.Unit, actorRace: Race.FeralLion),
         new EventString((i) => $"After settling down on <b>{i.Target.Name}</b> and applying {GPPHis(i.Unit)} full weight, <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> deep kiss is met with a <b>{i.Prey.Name}</b>-flavored burp. There's no longer space for luxuries like \'squirming\' or \'breathing\' in <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> {PreyLocStrings.ToSyn(i.preyLocation)}.",
             priority: 11, conditional: s => InStomach(s) && s.Target != s.Unit, targetRace: Race.FeralLion, actorRace: Race.FeralLion),
         new EventString((i) => $"<b>{i.Target.Name}</b> is about to rub {GPPHis(i.Target)} own abdomen, when <b>{i.Unit.Name}</b> quickly claims the spot and starts grinding against the bulge. The two lions make out, and this evolves into mutual dry humping, further threatening to liquefy any genital captives as the sex juices start flowing.",
             priority: 11, conditional: s => InWomb(s) && s.Target != s.Unit, targetRace: Race.FeralLion, actorRace: Race.FeralLion),
         new EventString((i) => $"<b>{i.Unit.Name}</b> finds <b>{i.Target.Name}</b> freshly flopped onto {GPPHis(i.Target)} back, haunches spread to show off {GPPHis(i.Target)} fullness. <b>{i.Unit.Name}</b> decides that this belly in particular needs grooming, and thoroughly licks it with {GPPHis(i.Unit)} rough tongue, stimulating the kitty's digestion.",
-            priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target!= s.Unit, actorRace: Race.FeralLion),
+            priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target != s.Unit, actorRace: Race.FeralLion),
         new EventString((i) => $"A stuffed <b>{i.Target.Name}</b> who's lazing on the floor gets smushed under the floppy form of <b>{i.Unit.Name}</b>, whose wiggles do wonders for the breakdown of the former's latest catch.",
-            priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target!= s.Unit && SizeDiff(s,1f), actorRace: Race.FeralLion),
+            priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target != s.Unit && SizeDiff(s, 1f), actorRace: Race.FeralLion),
         new EventString((i) => $"<b>{i.Target.Name}</b> and <b>{i.Unit.Name}</b> find the time to share a big, squishy lion hug. As their pawed limbs tighten around eachother, so does the embrace of <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> messy innards around <b>{i.Prey.Name}</b>.",
-            priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target!= s.Unit, actorRace: Race.FeralLion),
+            priority: 11, targetRace: Race.FeralLion, conditional: s => s.Target != s.Unit, actorRace: Race.FeralLion),
 
         new EventString((i) => $"<b>{i.Unit.Name}</b> stretches and shifts on the ground, moving bulges in {GPPHis(i.Unit)} belly to more comfortable positions.",
             actorRace: Race.Serpent, priority: 11, conditional: s => s.Target == s.Unit),
@@ -77,8 +77,8 @@ public static class BellyRubMessages
             actorRace: Race.Lamia, priority: 9, conditional: s => s.Target == s.Unit),
 
         new EventString((i) => $"<b>{i.Target.Name}</b> nervously asks <b>{i.Unit.Name}</b> for help as {GPPHis(i.Target)}'s body makes a squelching noise, the <b>{i.Unit.Name}</b> laughs and pats the newbie’s full belly.",
-            priority: 9, conditional: s=> TargetFirstTime(s) && (Equals(s.Target.Side, s.Unit.Side))),
-            
+            priority: 9, conditional: s => TargetFirstTime(s) && Equals(s.Target.Side, s.Unit.Side)),
+
         // romance
         new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> nipples perk in anticipation as <b>{i.Unit.Name}</b> presses {GPPHimself(i.Unit)} into {GPPHis(i.Target)} sensitive midsection.",
             priority: 8, conditional: s => Equals(s.Target.Side, s.Unit.Side) && ReqTargetCompatibleLewd(s) && s.Target.HasBreasts),
@@ -101,7 +101,7 @@ public static class BellyRubMessages
         new EventString((i) => $"Coming from behind, <b>{i.Unit.Name}</b> grabs onto <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> hips and slowly works {GPPHis(i.Unit)} way up to {GPPHis(i.Target)} waist, around {GPPHis(i.Target)} bloated belly and up to {GPPHis(i.Target)} heaving chest.",
             priority: 8, conditional: s => Equals(s.Target.Side, s.Unit.Side) && ReqTargetCompatibleLewd(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> can’t resist {GPPHis(i.Unit)} urges any longer and forcefully thrust{SIfSingular(i.Unit)} {GPPHimself(i.Unit)} against the writhing midsection. <b>{i.Target.Name}</b> had been waiting to elicit such an eager response and immediately capitalizes on the amorous advance.",
-            priority: 8, conditional: s => (Equals(s.Target.Side, s.Unit.Side) && ReqTargetCompatibleLewd(s))),
+            priority: 8, conditional: s => Equals(s.Target.Side, s.Unit.Side) && ReqTargetCompatibleLewd(s)),
         new EventString((i) => $"<b>{i.Target.Name}</b> was about to have {GPPHis(i.Target)} way with <b>{i.Unit.Name}</b>, but is caught off guard by just how caring {GPPHeIs(i.Unit)} in caressing {GPPHis(i.Target)} body and decides to let the affectionate massage continue.",
             priority: 8, conditional: s => ReqTargetCompatibleLewd(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> can’t help but get lost in <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> eyes as {GPPHe(i.Unit)} rub{SIfSingular(i.Unit)} {GPPHim(i.Target)}.",
@@ -179,24 +179,24 @@ public static class BellyRubMessages
             targetRace: Race.Deer, priority: 8, conditional: s => ReqTargetCompatibleLewd(s) && !FirstTime(s)),
 
         new EventString((i) => $"\"Who's a good {GetGenderString(i.Target, "girl", "boy", "wolf")}?\" <b>{i.Unit.Name}</b> says as {GPPHe(i.Unit)} rub{SIfSingular(i.Unit)} <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> belly. The wolf lies down, {GPPHis(i.Target)} tongue lolling out, tail rapidly wagging, and leg kicking as <b>{i.Unit.Name}</b> rubs {GPPHis(i.Target)} belly in all the right places.",
-            targetRace: Race.Wolf, priority: 9, conditional: s => (s.Target != s.Unit)),
+            targetRace: Race.Wolf, priority: 9, conditional: s => s.Target != s.Unit),
         new EventString((i) => $"\"Who's a good {GetGenderString(i.Target, "girl", "boy", "wolf")}?\" <b>{i.Unit.Name}</b> says as {GPPHe(i.Unit)} rub{SIfSingular(i.Unit)} <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> belly. The wolf lies down, {GPPHis(i.Target)} tongue lolling out, tail rapidly wagging, and leg kicking as <b>{i.Unit.Name}</b> rubs {GPPHis(i.Target)} belly in all the right places. \"I am!\" <b>{i.Target.Name}</b> exclaims.",
-            targetRace: Race.Wolf, priority: 9, conditional: s => (s.Target != s.Unit)),
+            targetRace: Race.Wolf, priority: 9, conditional: s => s.Target != s.Unit),
 
         new EventString((i) => $"\"Who's a good {GetGenderString(i.Target, "girl", "boy", "wolf")}?\" <b>{i.Unit.Name}</b> says as {GPPHe(i.Unit)} rub{SIfSingular(i.Unit)} <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> belly. The wolf lies down, {GPPHis(i.Target)} tongue lolling out, tail rapidly wagging, and leg kicking as <b>{i.Unit.Name}</b> rubs {GPPHis(i.Target)} belly in all the right places.",
-            targetRace: Race.FeralWolve, priority: 9, conditional: s => (s.Target != s.Unit)),
+            targetRace: Race.FeralWolve, priority: 9, conditional: s => s.Target != s.Unit),
         new EventString((i) => $"\"Who's a good {GetGenderString(i.Target, "girl", "boy", "wolf")}?\" <b>{i.Unit.Name}</b> says as {GPPHe(i.Unit)} rub{SIfSingular(i.Unit)} <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> belly. The wolf lies down, {GPPHis(i.Target)} tongue lolling out, tail rapidly wagging, and leg kicking as <b>{i.Unit.Name}</b> rubs {GPPHis(i.Target)} belly in all the right places. \"You are! Yes you are!\" <b>{i.Unit.Name}</b> exclaims.",
-            targetRace: Race.FeralWolve, priority: 9, conditional: s => (s.Target != s.Unit)),
+            targetRace: Race.FeralWolve, priority: 9, conditional: s => s.Target != s.Unit),
 
         new EventString((i) => $"\"Who's a good {GetGenderString(i.Target, "girl", "boy", "dog")}?\" <b>{i.Unit.Name}</b> says as {GPPHe(i.Unit)} rub{SIfSingular(i.Unit)} <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> belly. The dog lies down, {GPPHis(i.Target)} tongue lolling out, tail rapidly wagging, and leg kicking as <b>{i.Unit.Name}</b> rubs {GPPHis(i.Target)} belly in all the right places.",
-            targetRace: Race.Dog, priority: 9, conditional: s => (s.Target != s.Unit) ),
+            targetRace: Race.Dog, priority: 9, conditional: s => s.Target != s.Unit),
         new EventString((i) => $"\"Who's a good {GetGenderString(i.Target, "girl", "boy", "dog")}?\" <b>{i.Unit.Name}</b> says as {GPPHe(i.Unit)} rub{SIfSingular(i.Unit)} <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> belly. The dog lies down, {GPPHis(i.Target)} tongue lolling out, tail rapidly wagging, and leg kicking as <b>{i.Unit.Name}</b> rubs {GPPHis(i.Target)} belly in all the right places. \"I am! I am a good {GetGenderString(i.Target, "boy", "girl", "dog")}!\" <b>{i.Target.Name}</b> happily exclaims.",
-            targetRace: Race.Dog, priority: 9, conditional: s => (s.Target != s.Unit)),
+            targetRace: Race.Dog, priority: 9, conditional: s => s.Target != s.Unit),
 
         new EventString((i) => $"\"Who’s a good {BoyGirl(i.Target)}?\" <b>{i.Unit.Name}</b> asks while pressing {GPPHis(i.Unit)} fingers into {GPPHis(i.Target)} belly. <b>{i.Target.Name}</b> cocks {GPPHis(i.Target)} head to the side, wondering to the answer. \"You are!\" The answer sends the canine into an excited, jiggling jumping spree.",
             targetRace: Race.Dog, priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && ActorHumanoid(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b>’s attentive massage of <b>{i.Target.Name}</b>’s stuffed midsection convinces the voracious canine to make {GPPHim(i.Unit)} {GPPHis(i.Target)} master no matter the cost.",
-            targetRace: Race.Dog, priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) || (s.Unit.HasTrait(TraitType.SeductiveTouch) && TacticalUtilities.Units.Where(actor => actor.Unit == s.Target)?.FirstOrDefault().TurnsSinceLastParalysis <= 0) ),
+            targetRace: Race.Dog, priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) || (s.Unit.HasTrait(TraitType.SeductiveTouch) && TacticalUtilities.Units.Where(actor => actor.Unit == s.Target)?.FirstOrDefault().TurnsSinceLastParalysis <= 0)),
         new EventString((i) => $"<b>{i.Target.Name}</b> just loves <b>{i.Unit.Name}</b> so much! {GPPHe(i.Target)} can’t help {GPPHimself(i.Target)} from using {GPPHis(i.Target)} sloshing belly weight to push {GPPHim(i.Unit)} over and assaulting {GPPHim(i.Unit)} in a flurry of licks.",
             targetRace: Race.Dog, priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && ReqTargetCompatible(s)),
         new EventString((i) => $"<b>{i.Target.Name}</b> lolls out {GPPHis(i.Target)} tongue and gently starts to lick <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> face as {GPPHe(i.Unit)} work{SIfSingular(i.Unit)} to satisfy {GPPHis(i.Target)} gurgling tummy.",
@@ -325,7 +325,7 @@ public static class BellyRubMessages
             priority: 9, conditional: s => Equals(s.Target.Race, Race.Dragon) || Equals(s.Target.Race, Race.EasternDragon)),
 
         new EventString((i) => $"<b>{i.Unit.Name}</b> moans and groans as {GPPHe(i.Unit)} rub{SIfSingular(i.Unit)} {GPPHis(i.Unit)} full gut.",
-            priority: 10, conditional: s => Lewd(s) && (s.Target == s.Unit)),
+            priority: 10, conditional: s => Lewd(s) && s.Target == s.Unit),
         new EventString((i) => $"\"Ohhhh...you were soooooo tasty!\" <b>{i.Unit.Name}</b> moans in pleasure as {GPPHe(i.Unit)} rub{SIfSingular(i.Unit)} {GPPHis(i.Unit)} gut.",
             priority: 10, conditional: s => s.Target == s.Unit),
 
@@ -344,19 +344,19 @@ public static class BellyRubMessages
             priority: 9, conditional: s => s.Unit.Level + 9 < s.Target.Level),
 
         new EventString((i) => $"<b>{i.Unit.Name}</b> excitedly rubs the belly of <b>{i.Target.Name}</b>. The famous {(TargetHumanoid(i) ? "warrior" : "beast")} seems very pleased indeed and <b>{i.Unit.Name}</b> hopes it's enough to possibly get a 'special reward' later tonight.",
-            priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && Lewd(s) && (s.Unit.Level + 9 < s.Target.Level)),
+            priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && Lewd(s) && s.Unit.Level + 9 < s.Target.Level),
         new EventString((i) => $"<b>{i.Unit.Name}</b> seductively rubs the belly of their idol, <b>{i.Target.Name}</b>. <b>{i.Unit.Name}</b> makes sure that {GPPHis(i.Unit)} assets draw the strong {(TargetHumanoid(i) ? "warrior" : "beast")}'s attention and hopes that <b>{i.Target.Name}</b> will want to be interested in {GPPHim(i.Unit)}.",
-            priority: 9, conditional: s => Lewd(s) && (s.Unit.Level + 9 < s.Target.Level)),
+            priority: 9, conditional: s => Lewd(s) && s.Unit.Level + 9 < s.Target.Level),
         new EventString((i) => $"As <b>{i.Unit.Name}</b> eagerly rubs the belly of <b>{i.Target.Name}</b>, the famous {(TargetHumanoid(i) ? "warrior" : "beast")} whispers to {GPPHim(i.Unit)}, \"If you keep that up, I might make time for a 'special session' with you tonight.\" <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> eyes go wide and {GPPHe(i.Unit)} go{EsIfSingular(i.Unit)} back to rubbing with twice the vigor!",
-            priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && Lewd(s) && (s.Unit.Level + 9 < s.Target.Level)),
+            priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && Lewd(s) && s.Unit.Level + 9 < s.Target.Level),
         new EventString((i) => $"As <b>{i.Unit.Name}</b> rubs the belly of <b>{i.Target.Name}</b>, the renowned {(TargetHumanoid(i) ? "warrior" : "beast")} whispers something into {GPPHis(i.Unit)} ear. <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> eyes light up as {GPPHe(i.Unit)} begin{SIfSingular(i.Unit)} to rub ever harder, hoping to make their idol's prey digest even faster so {GPPHe(i.Unit)} can spend more time with <b>{i.Unit.Name}</b> alone.",
-            priority: 9, conditional: s => Lewd(s) && (s.Unit.Level + 9 < s.Target.Level)),
+            priority: 9, conditional: s => Lewd(s) && s.Unit.Level + 9 < s.Target.Level),
         new EventString((i) => $"\"Keep that up, and I'll give you a passionate night you'll never forget~.\" <b>{i.Target.Name}</b> tells <b>{i.Unit.Name}</b> who immediately rubs harder and faster, still somewhat in disbelief that {GPPHis(i.Unit)} idol is willing to mate with them.",
-            priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && Lewd(s) && (s.Unit.Level + 9 < s.Target.Level)),
+            priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && Lewd(s) && s.Unit.Level + 9 < s.Target.Level),
 
         //enemy rubs
         new EventString((i) => $"<b>{i.Target.Name}</b> is confused about <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> sudden affection while {GPPHeIs(i.Target)} digesting {GPPHis(i.Unit)} kin, but takes it as a peace offering considering the obvious difference in might. How adorable.",
-            priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && (s.Unit.Level + 9 < s.Target.Level)),
+            priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && s.Unit.Level + 9 < s.Target.Level),
         new EventString((i) => $"<b>{i.Target.Name}</b> assumes the enemy lost {GPPHis(i.Unit)} mind out of pure attraction, causing {GPPHis(i.Target)} ego to be is stroked as much as {GPPHis(i.Target)} gurgling {i.preyLocation.ToSyn()} as {GPPHe(i.Target)} pos{EsIfSingular(i.Target)} and stretches under the intensely pleasing touch.",
             priority: 9, conditional: s => Equals(s.Target.Side, s.Unit.Side) && ReqTargetCompatible(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> dextrously closes in and starts kneading <b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> {i.preyLocation.ToSyn()} in the middle of battle, making sure their struggling former ally is processed nicely within the predator.",
@@ -379,7 +379,5 @@ public static class BellyRubMessages
 
         //new EventString((i) => "",
         //targetRace: Race.Dragon, priority: 9),
-
-            
     };
 }

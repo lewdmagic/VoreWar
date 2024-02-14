@@ -1,6 +1,5 @@
 ﻿internal class PathNode
 {
-
     public int X;
     public int Y;
     public int F;
@@ -18,4 +17,3 @@
         Y = y;
     }
 }
-

@@ -8,21 +8,21 @@ public static class Extensions
         if (item == null) return;
         list.Add(item);
     }
-    
+
     public static T GetOrElse<T>(this Nullable<T> itself, T defaultValue) where T : struct
     {
         return itself.HasValue ? itself.Value : defaultValue;
     }
-    
-    public static int IndexOf<T>( this IReadOnlyList<T> self, T elementToFind )
+
+    public static int IndexOf<T>(this IReadOnlyList<T> self, T elementToFind)
     {
         int i = 0;
-        foreach( T element in self )
+        foreach (T element in self)
         {
-            if( Equals( element, elementToFind ) )
-                return i;
+            if (Equals(element, elementToFind)) return i;
             i++;
         }
+
         return -1;
     }
 
@@ -50,6 +50,7 @@ public static class Extensions
         self.Clear();
         self.AddRange(values);
     }
+
     public static void Set<T>(this List<T> self, params T[] values)
     {
         self.Clear();

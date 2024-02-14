@@ -8,12 +8,17 @@ public class World
 {
     [OdinSerialize]
     private int _turn = 1;
+
     public int Turn { get => _turn; set => _turn = value; }
+
     [OdinSerialize]
     private string _saveVersion;
+
     public string SaveVersion { get => _saveVersion; set => _saveVersion = value; }
+
     [OdinSerialize]
     private List<Empire> _empireOrder;
+
     public List<Empire> EmpireOrder { get => _empireOrder; set => _empireOrder = value; }
     public StrategicTileType[,] Tiles;
     public StrategicDoodadType[,] Doodads;
@@ -21,11 +26,11 @@ public class World
 
     public IReadOnlyList<Empire> MainEmpires => MainEmpiresWritable;
     public List<Empire> MainEmpiresWritable;
-    
+
     public List<Empire> AllActiveEmpiresWritable;
     public IEnumerable<Empire> AllActiveEmpires => AllActiveEmpiresWritable;
     public int AllActiveEmpiresCount => AllActiveEmpiresWritable.Count;
-    
+
     ///////////////////////////////////
     ///////////////////////////////////
 
@@ -33,14 +38,15 @@ public class World
     {
         MainEmpiresWritable = MainEmpiresWritable.OrderBy(s => s.Side).ToList();
     }
-    
+
     ///////////////////////////////////
-    
-    
+
+
     /// <summary>
-    /// Deprecated, only left in for compatibility
+    ///     Deprecated, only left in for compatibility
     /// </summary>
     public Empire[] Empires;
+
     public Empire ActingEmpire;
     public ItemRepository ItemRepository;
     public WorldConfig ConfigStorage;
@@ -52,31 +58,36 @@ public class World
 
     [OdinSerialize]
     private bool _crazyBuildings = false;
+
     public bool crazyBuildings { get => _crazyBuildings; set => _crazyBuildings = value; }
 
     [OdinSerialize]
     private SavedCameraState _savedCameraState;
+
     internal SavedCameraState SavedCameraState { get => _savedCameraState; set => _savedCameraState = value; }
 
     public MonsterEmpire[] MonsterEmpires;
 
     public MercenaryHouse[] MercenaryHouses;
+
     [OdinSerialize]
     private ClaimableBuilding[] _claimables;
+
     internal ClaimableBuilding[] Claimables { get => _claimables; set => _claimables = value; }
 
 
     [OdinSerialize]
     private List<Reincarnator> _reincarnators;
+
     public List<Reincarnator> Reincarnators { get => _reincarnators; set => _reincarnators = value; }
 
     [OdinSerialize]
     private bool _isNight = false;
+
     public bool IsNight { get => _isNight; set => _isNight = value; }
-	
+
     public World(bool MapEditorVersion)
     {
-
         Config.World.resetVillagesPerEmpire();
         Config.ResetCenteredEmpire();
         State.World = this;
@@ -91,10 +102,12 @@ public class World
                 int bannerType = State.RaceSettings.Exists(race) ? State.RaceSettings.Get(race).BannerType : 1;
                 MainEmpiresWritable.Add(new Empire(new Empire.ConstructionArgs(race, race.ToSide(), CreateStrategicGame.ColorFromRace(race), UnityEngine.Color.white, bannerType, StrategyAIType.None, TacticalAIType.None, 0, 16, 16)));
             }
+
             WorldGenerator worldGen = new WorldGenerator();
             worldGen.GenerateOnlyTerrain(ref Tiles);
             Doodads = new StrategicDoodadType[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
         }
+
         // Make a copy instead of copying referrence
         AllActiveEmpiresWritable = MainEmpiresWritable?.ToList();
         MercenaryHouses = new MercenaryHouse[0];
@@ -134,7 +147,7 @@ public class World
         {
             MainEmpiresWritable.Add(new Empire(args.empireArgs[race]));
         }
-        
+
         // for (int i = 0; i < MainEmpires.Count; i++)
         // {
         //     MainEmpires[i].CalcIncome(Villages);
@@ -157,8 +170,8 @@ public class World
         Empire banditsEmpire = new Empire(new Empire.ConstructionArgs(null, Side.BanditSide, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16));
         banditsEmpire.Name = "Bandits";
         MainEmpiresWritable.Add(banditsEmpire);
-        
-        
+
+
         /*      MainEmpires.Add(new Empire(new Empire.ConstructionArgs(702, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 702, 16, 16)));
                 MainEmpires.Last().Name = "Outcasts";
                 MainEmpires.Last().ReplacedRace = Race.Tigers; */
@@ -183,8 +196,6 @@ public class World
         State.GameManager.StrategyMode.RebuildSpawners();
         MercenaryHouse.UpdateStaticStock();
         RenameBunnyTownsAsPreyTowns();
-
-
     }
 
     internal void UpdateBanditLimits()
@@ -193,25 +204,17 @@ public class World
         int minArmySize = 48;
         foreach (var empire in MainEmpires)
         {
-
-
             if (RaceFuncs.IsMainRaceOrMerc(empire.Side))
             {
-                if (empire.KnockedOut)
-                    continue;
-                if (empire.MaxGarrisonSize < minGarrison)
-                    minGarrison = empire.MaxGarrisonSize;
-                if (empire.MaxArmySize < minArmySize)
-                    minArmySize = empire.MaxArmySize;
+                if (empire.KnockedOut) continue;
+                if (empire.MaxGarrisonSize < minGarrison) minGarrison = empire.MaxGarrisonSize;
+                if (empire.MaxArmySize < minArmySize) minArmySize = empire.MaxArmySize;
             }
             else
             {
                 empire.MaxArmySize = minArmySize;
                 empire.MaxGarrisonSize = minGarrison;
             }
-
-
-
         }
     }
 
@@ -233,20 +236,18 @@ public class World
                         army.SetEmpire(empire);
                     }
                 }
+
                 if (oldMons.Length < i) //Not sure how this would trigger, but this conditional is intended to stop an exception that's happening.  
                 {
                     empire.ReplacedRace = oldMons[i].ReplacedRace;
                     i++;
                 }
-
             }
         }
-
     }
 
     internal void InitializeMonsters()
     {
-
         MonsterEmpires = new MonsterEmpire[RaceFuncs.SpawnerElligibleMonsterRaces.Count];
         int i = 0;
         foreach (var entry in RaceFuncs.SpawnerElligibleMonsterRaces)
@@ -257,14 +258,14 @@ public class World
 
             i++;
         }
-        
-		foreach (var emp in MonsterEmpires)
+
+        foreach (var emp in MonsterEmpires)
         {
             SpawnerInfo spawner = Config.World.GetSpawner(emp.Race);
-            if (spawner == null)
-                continue;
+            if (spawner == null) continue;
             emp.Team = spawner.Team;
         }
+
         List<Empire> allEmps = MainEmpires.ToList();
         allEmps.AddRange(MonsterEmpires);
         AllActiveEmpiresWritable = allEmps;
@@ -277,6 +278,7 @@ public class World
             InitializeMonsters();
             return;
         }
+
         List<Empire> allEmps = MainEmpires.ToList();
         allEmps.AddRange(MonsterEmpires);
         AllActiveEmpiresWritable = allEmps;
@@ -287,12 +289,10 @@ public class World
         foreach (var empire in MonsterEmpires)
         {
             SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
-            if (spawner == null)
-                continue;
+            if (spawner == null) continue;
             empire.TurnOrder = spawner.TurnOrder;
             empire.Team = spawner.Team;
         }
-
     }
 
     internal void RefreshTurnOrder()
@@ -302,30 +302,28 @@ public class World
 
     internal Empire GetEmpireOfRace(Race race)
     {
-        if (AllActiveEmpires == null)
-            return null;
+        if (AllActiveEmpires == null) return null;
         foreach (Empire empire in AllActiveEmpires)
         {
-            if (Equals(empire.Race, race))
-                return empire;
+            if (Equals(empire.Race, race)) return empire;
         }
+
         foreach (Empire empire in AllActiveEmpires)
         {
-            if (Equals(empire.ReplacedRace, race))
-                return empire;
+            if (Equals(empire.ReplacedRace, race)) return empire;
         }
+
         return null;
     }
 
     internal Empire GetEmpireOfSide(Side side)
     {
-        if (AllActiveEmpires == null)
-            return null;
+        if (AllActiveEmpires == null) return null;
         foreach (Empire empire in AllActiveEmpires)
         {
-            if (Equals(empire.Side, side))
-                return empire;
+            if (Equals(empire.Side, side)) return empire;
         }
+
         return null;
     }
 

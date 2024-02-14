@@ -37,8 +37,7 @@ internal class StrategicArmyCommander
 
     internal void UpdateStrongestArmyRatio()
     {
-        if (empire.Armies.Count < 2)
-            return;
+        if (empire.Armies.Count < 2) return;
         var strongestArmy = empire.Armies.OrderByDescending(s => s.ArmyPower).FirstOrDefault();
         if (strongestArmy == null) return;
 
@@ -55,17 +54,16 @@ internal class StrategicArmyCommander
     {
         foreach (Army army in empire.Armies.ToList())
         {
-            if (army.RemainingMP < 1)
-                continue;
+            if (army.RemainingMP < 1) continue;
             DevourCheck(army);
-            if (army.RemainingMP < 1)
-                continue;
+            if (army.RemainingMP < 1) continue;
             if (path != null && pathIsFor == army)
             {
                 if (army.InVillageIndex > -1)
                 {
                     UpdateEquipmentAndRecruit(army);
                 }
+
                 if (path.Count == 0)
                 {
                     GenerateTaskForArmy(army);
@@ -85,19 +83,17 @@ internal class StrategicArmyCommander
 
                 if (army.MoveTo(newLoc))
                     StrategicUtilities.StartBattle(army);
-                else if (position == army.Position)
-                    army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
+                else if (position == army.Position) army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
                 return true;
-
             }
             else
             {
                 GenerateTaskForArmy(army);
-                if (path == null || path.Count == 0)
-                    army.RemainingMP = 0;
+                if (path == null || path.Count == 0) army.RemainingMP = 0;
                 return true;
             }
         }
+
         SpendExpAndRecruit(); //At the end of the turn, restock troops
         return false;
     }
@@ -110,21 +106,19 @@ internal class StrategicArmyCommander
             foreach (Unit unit in army.Units)
             {
                 StrategicUtilities.SpendLevelUps(unit);
-                if (unit.HasTrait(TraitType.Infiltrator) && unit.Type != UnitType.Leader && Equals(unit.FixedSide, army.Side))
-                    infiltrators.Add(unit);
+                if (unit.HasTrait(TraitType.Infiltrator) && unit.Type != UnitType.Leader && Equals(unit.FixedSide, army.Side)) infiltrators.Add(unit);
             }
+
             infiltrators.ForEach(u => StrategicUtilities.TryInfiltrateRandom(army, u));
 
             if (army.InVillageIndex > -1)
             {
                 UpdateEquipmentAndRecruit(army);
             }
-            if (army.AIMode == AIMode.Resupply && army.Units.Count == maxArmySize && StrategicUtilities.NumberOfDesiredUpgrades(army) == 0)
-                army.AIMode = AIMode.Default;
+
+            if (army.AIMode == AIMode.Resupply && army.Units.Count == maxArmySize && StrategicUtilities.NumberOfDesiredUpgrades(army) == 0) army.AIMode = AIMode.Default;
         }
     }
-
-
 
 
     private void GenerateTaskForArmy(Army army)
@@ -143,8 +137,7 @@ internal class StrategicArmyCommander
             case AIMode.Heal:
                 if (army.InVillageIndex == -1)
                 {
-                    if (NavigateToFriendlyVillage(army, false))
-                        break;
+                    if (NavigateToFriendlyVillage(army, false)) break;
                     Attack(army, 1);
                     break;
                 }
@@ -155,8 +148,7 @@ internal class StrategicArmyCommander
                     break;
                 }
             case AIMode.Resupply:
-                if (empire.Income < 20)
-                    army.AIMode = AIMode.Default;
+                if (empire.Income < 20) army.AIMode = AIMode.Default;
 
                 Village villageArmyIsIn = null;
                 if (army.InVillageIndex != -1)
@@ -191,6 +183,7 @@ internal class StrategicArmyCommander
                             HireSpecialMerc(army, merc);
                         }
                     }
+
                     foreach (var merc in mercHouseArmyIsIn.Mercenaries.OrderByDescending(s => s.Unit.Experience / s.Cost))
                     {
                         HireMerc(army, mercHouseArmyIsIn, merc);
@@ -199,49 +192,49 @@ internal class StrategicArmyCommander
 
                 if (villageArmyIsIn == null || villageArmyIsIn.GetTotalPop() < 12)
                 {
-                    if (NavigateToFriendlyVillage(army, army.Units.Count != maxArmySize))
-                        break;
+                    if (NavigateToFriendlyVillage(army, army.Units.Count != maxArmySize)) break;
                     Attack(army, 1);
                     break;
                 }
+
                 UpdateEquipmentAndRecruit(army);
                 if (army.Units.Count == maxArmySize && StrategicUtilities.NumberOfDesiredUpgrades(army) == 0)
                     army.AIMode = AIMode.Default;
                 else
                     army.RemainingMP = 0;
                 break;
-                //       case AIMode.HuntStrong:
-                //           {
-                //               AttackStrongestArmy(army);
-                //               break;
-                //           }
-                //       case AIMode.HeavyTraining:
-                //           {
-                //if (army.InVillageIndex > -1)
-                //{
-                //	Village trainingVillage = State.World.Villages[army.InVillageIndex];
-                //	var maxTrainLevel = trainingVillage.NetBoosts.MaximumTrainingLevelAdd;
-                //	if (trainingVillage != null && maxTrainLevel > 0)
-                //	{
-                //		Train(army);
-                //		double highestPower = 0;
-                //		foreach (Army hostileArmy in StrategicUtilities.GetAllHostileArmies(AITeam))
-                //		{
-                //			double p = hostileArmy.ArmyPower;
-                //			if (p > highestPower)
-                //			{
-                //				highestPower = p;
-                //			}
+            //       case AIMode.HuntStrong:
+            //           {
+            //               AttackStrongestArmy(army);
+            //               break;
+            //           }
+            //       case AIMode.HeavyTraining:
+            //           {
+            //if (army.InVillageIndex > -1)
+            //{
+            //	Village trainingVillage = State.World.Villages[army.InVillageIndex];
+            //	var maxTrainLevel = trainingVillage.NetBoosts.MaximumTrainingLevelAdd;
+            //	if (trainingVillage != null && maxTrainLevel > 0)
+            //	{
+            //		Train(army);
+            //		double highestPower = 0;
+            //		foreach (Army hostileArmy in StrategicUtilities.GetAllHostileArmies(AITeam))
+            //		{
+            //			double p = hostileArmy.ArmyPower;
+            //			if (p > highestPower)
+            //			{
+            //				highestPower = p;
+            //			}
 
-                //		}
-                //		if (highestPower * 1.3f + 256 < army.ArmyPower)
-                //			army.AIMode = AIMode.HuntStrong;
-                //	}
-                //	else
-                //		NavigateToTrainArmy(army);
-                //}
-                //               break;
-                //           }
+            //		}
+            //		if (highestPower * 1.3f + 256 < army.ArmyPower)
+            //			army.AIMode = AIMode.HuntStrong;
+            //	}
+            //	else
+            //		NavigateToTrainArmy(army);
+            //}
+            //               break;
+            //           }
         }
     }
 
@@ -337,11 +330,9 @@ internal class StrategicArmyCommander
             {
                 int oldMp = army.RemainingMP; //If there's no close town, then ignore it, instead of eating remaining MP
                 SetClosestPath(army, closeVillagePositions, 6);
-                if (path != null)
-                    return;
+                if (path != null) return;
                 army.RemainingMP = oldMp;
             }
-
         }
 
         Vec2i capitalPosition = empire.CapitalCity?.Position ?? army.Position; //Shouldn't really ever be null, but just in case
@@ -356,9 +347,8 @@ internal class StrategicArmyCommander
                 if (StrategicUtilities.TileThreat(Villages[i].Position) < MaxDefenderStrength * StrategicUtilities.ArmyPower(army))
                 {
                     potentialTargets.Add(Villages[i].Position);
-                    int value = Equals(Villages[i].Race, empire.ReplacedRace) ? 45 : ((State.World.GetEmpireOfRace(Villages[i].Race)?.IsAlly(empire) ?? false) ? 40 : 35);
-                    if (Villages[i].GetTotalPop() == 0)
-                        value = 30;
+                    int value = Equals(Villages[i].Race, empire.ReplacedRace) ? 45 : State.World.GetEmpireOfRace(Villages[i].Race)?.IsAlly(empire) ?? false ? 40 : 35;
+                    if (Villages[i].GetTotalPop() == 0) value = 30;
                     value -= Villages[i].Position.GetNumberOfMovesDistance(capitalPosition) / 3;
                     potentialTargetValue.Add(value);
                 }
@@ -382,8 +372,7 @@ internal class StrategicArmyCommander
             if (claimable.Owner == null || empire.IsEnemy(claimable.Owner))
             {
                 Army defender = StrategicUtilities.ArmyAt(claimable.Position);
-                if (defender != null && StrategicUtilities.ArmyPower(defender) > MaxDefenderStrength * StrategicUtilities.ArmyPower(army))
-                    continue;
+                if (defender != null && StrategicUtilities.ArmyPower(defender) > MaxDefenderStrength * StrategicUtilities.ArmyPower(army)) continue;
                 potentialTargets.Add(claimable.Position);
                 int value = 38;
                 value -= claimable.Position.GetNumberOfMovesDistance(capitalPosition) / 3;
@@ -398,11 +387,9 @@ internal class StrategicArmyCommander
     private void UpdateArmyStatus(Army army)
     {
         var healthPct = army.GetHealthPercentage();
-        if (healthPct < 60)
-            army.AIMode = AIMode.Heal;
+        if (healthPct < 60) army.AIMode = AIMode.Heal;
 
-        if (army.InVillageIndex != -1 && healthPct < 80)
-            army.AIMode = AIMode.Heal;
+        if (army.InVillageIndex != -1 && healthPct < 80) army.AIMode = AIMode.Heal;
 
         if (army.AIMode == AIMode.Heal && healthPct > 95)
             if ((army.InVillageIndex > -1 && StrategicUtilities.NumberOfDesiredUpgrades(army) > 0) == false)
@@ -412,12 +399,8 @@ internal class StrategicArmyCommander
         if (need > 4 && empire.Gold >= 40 && empire.Income > 25)
         {
             var path = StrategyPathfinder.GetPathToClosestObject(empire, army, Villages.Where(s => Equals(s.Side, army.Side)).Select(s => s.Position).ToArray(), army.RemainingMP, 5, army.movementMode == Army.MovementMode.Flight);
-            if (path != null && path.Count() < need / 2)
-                army.AIMode = AIMode.Resupply;
-
+            if (path != null && path.Count() < need / 2) army.AIMode = AIMode.Resupply;
         }
-
-
     }
 
     private bool NavigateToMercenaries(Army army, int maxRange)
@@ -430,11 +413,9 @@ internal class StrategicArmyCommander
         else
         {
             SetClosestPath(army, mercPositions, maxRange);
-            if (path == null)
-                return false;
+            if (path == null) return false;
             return true;
         }
-
     }
 
 
@@ -450,17 +431,13 @@ internal class StrategicArmyCommander
             SetClosestPath(army, villagePositions);
             return true;
         }
-
     }
 
     private void DevourCheck(Army army)
     {
-        if (army.GetHealthPercentage() > 88)
-            return;
-        if (army.Units.Where(s => s.Predator && 100 * s.HealthPct < 70).Any() == false)
-            return;
-        if (army.RemainingMP < 1)
-            return;
+        if (army.GetHealthPercentage() > 88) return;
+        if (army.Units.Where(s => s.Predator && 100 * s.HealthPct < 70).Any() == false) return;
+        if (army.RemainingMP < 1) return;
         if (army.InVillageIndex > -1)
         {
             Village village = State.World.Villages[army.InVillageIndex];
@@ -486,7 +463,6 @@ internal class StrategicArmyCommander
             {
                 State.GameManager.StrategyMode.Devour(army, Math.Min(army.GetDevourmentCapacity(minimumheal), village.GetTotalPop() - 3)); //Don't completely devour villages
             }
-
         }
     }
 
@@ -509,25 +485,19 @@ internal class StrategicArmyCommander
                 else
                     break;
             }
-            if (army.AIMode == AIMode.Resupply && army.Units.Count() == maxArmySize)
-                army.AIMode = AIMode.Default;
 
+            if (army.AIMode == AIMode.Resupply && army.Units.Count() == maxArmySize) army.AIMode = AIMode.Default;
         }
     }
 
 
     internal Unit RecruitUnitAndEquip(Army army, Village village, int tier)
     {
-        if (village.GetTotalPop() < 4)
-            return null;
-        if (army.Units.Count >= army.MaxSize)
-            return null;
-        if (empire.Leader?.Health <= 0)
-            return ResurrectLeader(army, village);
-        if (tier == 2 && empire.Gold < Config.ArmyCost + State.World.ItemRepository.GetItem(ItemType.CompoundBow).Cost)
-            return null;
-        if (tier == 1 && empire.Gold < Config.ArmyCost + State.World.ItemRepository.GetItem(ItemType.Bow).Cost)
-            return null;
+        if (village.GetTotalPop() < 4) return null;
+        if (army.Units.Count >= army.MaxSize) return null;
+        if (empire.Leader?.Health <= 0) return ResurrectLeader(army, village);
+        if (tier == 2 && empire.Gold < Config.ArmyCost + State.World.ItemRepository.GetItem(ItemType.CompoundBow).Cost) return null;
+        if (tier == 1 && empire.Gold < Config.ArmyCost + State.World.ItemRepository.GetItem(ItemType.Bow).Cost) return null;
         Unit unit = village.RecruitAIUnit(empire, army);
         if (unit == null) //Catches army size
             return null;
@@ -536,9 +506,10 @@ internal class StrategicArmyCommander
             unit.OnDiscard = () =>
             {
                 village.VillagePopulation.AddHireable(unit);
-                UnityEngine.Debug.Log(unit.Name + " is returning to " +  village.Name);
+                UnityEngine.Debug.Log(unit.Name + " is returning to " + village.Name);
             };
         }
+
         if (unit.FixedGear == false)
         {
             if (unit.HasTrait(TraitType.Feral))
@@ -583,8 +554,8 @@ internal class StrategicArmyCommander
         {
             empire.Leader.SetExp(village.GetStartingXp());
             StrategicUtilities.SpendLevelUps(empire.Leader);
-
         }
+
         army.Units.Add(empire.Leader);
         army.RefreshMovementMode();
         State.World.Stats.ResurrectedLeader(empire.Side);
@@ -605,6 +576,7 @@ internal class StrategicArmyCommander
             path = StrategyPathfinder.GetPath(empire, army, targetPosition, army.RemainingMP, army.movementMode == Army.MovementMode.Flight, maxDistance);
             return;
         }
+
         army.RemainingMP = 0;
     }
 
@@ -637,6 +609,4 @@ internal class StrategicArmyCommander
         else
             army.RemainingMP = 0;
     }
-
 }
-

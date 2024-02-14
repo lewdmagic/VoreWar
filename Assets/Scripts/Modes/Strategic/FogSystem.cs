@@ -19,14 +19,10 @@ internal class FogSystem
     internal void UpdateFog(Empire playerEmpire, Village[] villages, Army[] armies, List<GameObject> currentVillageTiles, List<GameObject> currentClaimableTiles)
     {
         FogOfWar.ClearAllTiles();
-        if (State.World.Relations == null)
-            return;
-        if (State.World.AllActiveEmpires == null)
-            return;
-        if (playerEmpire == null)
-            return;
-        if (FoggedTile.GetUpperBound(0) + 1 != Config.StrategicWorldSizeX || FoggedTile.GetUpperBound(1) + 1 != Config.StrategicWorldSizeY)
-            FoggedTile = new bool[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
+        if (State.World.Relations == null) return;
+        if (State.World.AllActiveEmpires == null) return;
+        if (playerEmpire == null) return;
+        if (FoggedTile.GetUpperBound(0) + 1 != Config.StrategicWorldSizeX || FoggedTile.GetUpperBound(1) + 1 != Config.StrategicWorldSizeY) FoggedTile = new bool[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
         //StrategicTileType[,] tiles = State.World.Tiles;
         for (int i = 0; i <= FoggedTile.GetUpperBound(0); i++)
         {
@@ -43,6 +39,7 @@ internal class FogSystem
                 ClearWithinXTilesOf(village.Position);
             }
         }
+
         foreach (Army army in armies)
         {
             if (army.Empire.IsAlly(playerEmpire))
@@ -55,16 +52,14 @@ internal class FogSystem
         {
             for (int j = 0; j <= FoggedTile.GetUpperBound(1); j++)
             {
-                if (FoggedTile[i, j])
-                    FogOfWar.SetTile(new Vector3Int(i, j, 0), FogTile);
+                if (FoggedTile[i, j]) FogOfWar.SetTile(new Vector3Int(i, j, 0), FogTile);
             }
         }
 
         foreach (Army army in StrategicUtilities.GetAllHostileArmies(playerEmpire))
         {
             var spr = army.Banner?.GetComponent<MultiStageBanner>();
-            if (spr != null)
-                spr.gameObject.SetActive(!FoggedTile[army.Position.X, army.Position.Y] && (!army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || army.Units.Any(u => Equals(u.FixedSide, playerEmpire.Side))));
+            if (spr != null) spr.gameObject.SetActive(!FoggedTile[army.Position.X, army.Position.Y] && (!army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || army.Units.Any(u => Equals(u.FixedSide, playerEmpire.Side))));
             var spr2 = army.Sprite;
             if (spr2 != null) spr2.enabled = !FoggedTile[army.Position.X, army.Position.Y] && (!army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || army.Units.Any(u => Equals(u.FixedSide, playerEmpire.Side)));
         }
@@ -88,6 +83,7 @@ internal class FogSystem
                     currentVillageTiles[4 * i + 3].GetComponent<SpriteRenderer>().enabled = true;
                 }
             }
+
             for (int i = 0; i < State.World.Claimables.Length; i++)
             {
                 if (FoggedTile[State.World.Claimables[i].Position.X, State.World.Claimables[i].Position.Y])
@@ -106,18 +102,16 @@ internal class FogSystem
                 }
             }
         }
-
     }
 
     private void ClearWithinXTilesOf(Vec2i pos)
     {
-        int dist = Config.FogDistance - ((State.World.IsNight) ? Config.NightStrategicSightReduction : 0);
+        int dist = Config.FogDistance - (State.World.IsNight ? Config.NightStrategicSightReduction : 0);
         for (int x = pos.X - dist; x <= pos.X + dist; x++)
         {
             for (int y = pos.Y - dist; y <= pos.Y + dist; y++)
             {
-                if (x < 0 || y < 0 || x > FoggedTile.GetUpperBound(0) || y > FoggedTile.GetUpperBound(1))
-                    continue;
+                if (x < 0 || y < 0 || x > FoggedTile.GetUpperBound(0) || y > FoggedTile.GetUpperBound(1)) continue;
                 FoggedTile[x, y] = false;
             }
         }

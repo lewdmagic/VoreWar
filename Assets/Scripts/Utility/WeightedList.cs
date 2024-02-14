@@ -7,8 +7,7 @@ internal class WeightedList<T1>
 
     public void Add(T1 action, int weight)
     {
-        if (weight <= 0)
-            return;
+        if (weight <= 0) return;
         this.action.Add(action);
         this.weight.Add(weight);
     }
@@ -17,22 +16,21 @@ internal class WeightedList<T1>
     {
         int total = 0;
         int count = weight.Count;
-        if (count < 1)
-            return default(T1);
-        if (count == 1)
-            return action[0];
+        if (count < 1) return default(T1);
+        if (count == 1) return action[0];
         foreach (int weight in weight)
         {
             total += weight;
         }
+
         int roll = State.Rand.Next(total);
         int accumulator = 0;
         for (int x = 0; x < count; x++)
         {
             accumulator += weight[x];
-            if (roll < accumulator)
-                return action[x];
+            if (roll < accumulator) return action[x];
         }
+
         return default(T1);
     }
 
@@ -41,8 +39,7 @@ internal class WeightedList<T1>
         T1 act;
         int total = 0;
         int count = weight.Count;
-        if (count < 1)
-            return default(T1);
+        if (count < 1) return default(T1);
         if (count == 1)
         {
             act = action[0];
@@ -55,6 +52,7 @@ internal class WeightedList<T1>
         {
             total += weight;
         }
+
         int roll = State.Rand.Next(total);
         int accumulator = 0;
         for (int x = 0; x < count; x++)
@@ -68,7 +66,7 @@ internal class WeightedList<T1>
                 return act;
             }
         }
+
         return default(T1);
     }
-
 }

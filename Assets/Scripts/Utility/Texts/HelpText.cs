@@ -168,8 +168,8 @@ Allies can win the game as a team, but sides with simply a peace treaty can't.  
         {
             sb.AppendLine($"{trait} - {HoveringTooltip.GetTraitData(trait).Replace('\n', ' ')}");
         }
-        return sb.ToString();
 
+        return sb.ToString();
     }
 
     public static string Spells()
@@ -182,7 +182,7 @@ Mana regenerates 60% of its max on each strategic turn.");
         {
             sb.AppendLine($"{spell.Name}\n{spell.Description}\nRange: {spell.Range.Min}-{spell.Range.Max}\nMana Cost: {spell.ManaCost}\nTargets: {string.Join(", ", spell.AcceptibleTargets)}\n");
         }
+
         return sb.ToString();
     }
 }
-

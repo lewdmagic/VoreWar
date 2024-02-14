@@ -16,7 +16,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.FlavorText(new FlavorText(
                     new Texts { "shaggy", "gamey", "growling" },
                     new Texts { "long furred", "spirited", "panting" },
-                    new Texts { "feral", "canine", {"wolfess", Gender.Female}, {"wolf", Gender.Male} },
+                    new Texts { "feral", "canine", { "wolfess", Gender.Female }, { "wolf", Gender.Male } },
                     "Fangs"
                 ));
                 output.RaceTraits(new RaceTraits()

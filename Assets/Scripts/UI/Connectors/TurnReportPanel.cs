@@ -12,6 +12,7 @@ public class TurnReportPanel : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
         gameObject.SetActive(true);
         foreach (var report in reports)
         {

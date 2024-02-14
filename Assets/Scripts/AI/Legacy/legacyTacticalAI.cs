@@ -1,55 +1,40 @@
 using OdinSerializer;
 using System.Collections.Generic;
+
 namespace LegacyAI
 {
     public class LegacyTacticalAI : ITacticalAI
     {
-        [OdinSerialize] private List<Actor_Unit> actors;
-    [OdinSerialize]
-    private TacticalTileType[,] _tiles;
+        [OdinSerialize]
+        private List<Actor_Unit> actors;
 
-    private TacticalTileType[,] tiles { get => _tiles; set => _tiles = value; }
+        [OdinSerialize]
+        private TacticalTileType[,] _tiles;
 
-    private bool didAction;
-    private bool foundPath;
-    [OdinSerialize]
-    private Side _aISide;
+        private TacticalTileType[,] tiles { get => _tiles; set => _tiles = value; }
 
-    private Side AISide { get => _aISide; set => _aISide = value; }
-    private List<PathNode> path;
-    private Actor_Unit pathIsFor;
+        private bool didAction;
+        private bool foundPath;
 
-        public StandardTacticalAI.RetreatConditions RetreatPlan
-        {
-            get
-            {
-                return null;
-            }
+        [OdinSerialize]
+        private Side _aISide;
 
-            set
-            {
-            }
-        }
+        private Side AISide { get => _aISide; set => _aISide = value; }
+        private List<PathNode> path;
+        private Actor_Unit pathIsFor;
+
+        public TacticalAI.RetreatConditions RetreatPlan { get { return null; } set { } }
 
         [OdinSerialize]
         public bool foreignTurn;
 
-        bool ITacticalAI.ForeignTurn
-        {
-            get
-            {
-                return foreignTurn;
-            }
-            set => foreignTurn = value;
-        }
+        bool ITacticalAI.ForeignTurn { get { return foreignTurn; } set => foreignTurn = value; }
 
         public LegacyTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, Side AIteam)
         {
             AISide = AIteam;
             this.tiles = tiles;
             this.actors = actors;
-
-
         }
 
         public bool RunAI()
@@ -65,15 +50,17 @@ namespace LegacyAI
                             path = null;
                             continue;
                         }
+
                         Vec2i newLoc = new Vec2i(path[0].X, path[0].Y);
                         path.RemoveAt(0);
-                        if (actor.MoveTo(newLoc, tiles, (State.GameManager.TacticalMode.RunningFriendlyAI ? Config.TacticalFriendlyAIMovementDelay : Config.TacticalAIMovementDelay)) == false)
+                        if (actor.MoveTo(newLoc, tiles, State.GameManager.TacticalMode.RunningFriendlyAI ? Config.TacticalFriendlyAIMovementDelay : Config.TacticalAIMovementDelay) == false)
                         {
                             //Can't move -- most likely a multiple movement point tile when on low MP
                             actor.Movement = 0;
                             path = null;
                             return true;
                         }
+
                         if (actor.Movement == 1 && IsRanged(actor) && TacticalUtilities.TileContainsMoreThanOneUnit(actor.Position.X, actor.Position.Y) == false)
                         {
                             path = null;
@@ -82,6 +69,7 @@ namespace LegacyAI
                         {
                             path = null;
                         }
+
                         return true;
                     }
                     else
@@ -110,8 +98,7 @@ namespace LegacyAI
 
         public bool RunPred(Actor_Unit actor)
         {
-            if (actor.Unit.Predator == false)
-                return false;
+            if (actor.Unit.Predator == false) return false;
             int index = -1;
             int chance = 0;
             float distance = 64;
@@ -133,13 +120,10 @@ namespace LegacyAI
                                 index = i;
                                 distance = d;
                             }
-
-
-
                         }
                     }
-
                 }
+
                 if (index != -1)
                 {
                     if (distance < 2)
@@ -152,10 +136,9 @@ namespace LegacyAI
                     {
                         return Walkto(actor, actors[index].Position, 8);
                     }
-
-
                 }
             }
+
             return false;
         }
 
@@ -166,6 +149,7 @@ namespace LegacyAI
             {
                 return false;
             }
+
             foundPath = true;
             return true;
         }
@@ -177,6 +161,7 @@ namespace LegacyAI
             {
                 return false;
             }
+
             foundPath = true;
             return true;
         }
@@ -194,12 +179,14 @@ namespace LegacyAI
                 {
                     r = 0;
                 }
+
                 if (d < 1)
                 {
                     actor.Movement = 0;
                     break;
                 }
             }
+
             didAction = true;
             return true;
         }
@@ -221,6 +208,7 @@ namespace LegacyAI
                     }
                 }
             }
+
             if (index == -1)
             {
                 bool walked = RandomWalk(actor);
@@ -229,6 +217,7 @@ namespace LegacyAI
                     didAction = true;
                     return true;
                 }
+
                 didAction = true;
                 RunMelee(actor); // Surrounded
                 actor.ClearMovement();
@@ -251,6 +240,7 @@ namespace LegacyAI
                             didAction = true;
                             return true;
                         }
+
                         didAction = true;
                         RunMelee(actor); // Surrounded
                         actor.ClearMovement();
@@ -261,10 +251,10 @@ namespace LegacyAI
                         didAction = true;
                         actor.Attack(actors[index], true);
                     }
+
                     return true;
                 }
             }
-
         }
 
         private bool RunMelee(Actor_Unit actor)
@@ -288,6 +278,7 @@ namespace LegacyAI
                     }
                 }
             }
+
             if (index == -1)
             {
                 bool walked = RandomWalk(actor);
@@ -296,6 +287,7 @@ namespace LegacyAI
                     didAction = true;
                     return true;
                 }
+
                 didAction = true;
                 actor.ClearMovement();
                 return true;
@@ -310,6 +302,7 @@ namespace LegacyAI
                         actor.ClearMovement();
                         return true;
                     }
+
                     didAction = true;
                     actor.Attack(actors[index], false);
                     return true;
@@ -319,12 +312,9 @@ namespace LegacyAI
                     return Walkto(actor, actors[index].Position);
                 }
             }
-
         }
 
 
         private bool IsRanged(Actor_Unit actor) => actor.Unit.GetBestRanged() != null;
-
-
     }
 }

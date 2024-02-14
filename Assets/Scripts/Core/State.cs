@@ -37,17 +37,18 @@ public static class State
     public static string RaceSaveDataName;
 
     /// <summary>
-    /// Initiate that's called from a thread in a controlled manner.
-    /// Static initiation can (and did) lead to circular refference in static initialization
-    /// which creates a hard to diagnose exception such as TypeInitializationException
-    /// and overall unpredictable and inconsistent order of execution
-    /// https://stackoverflow.com/questions/47160605/why-would-my-initialized-static-property-be-null-when-i-access-it
-    /// As the stackoverflow answer nicely put it: Nuke it from orbit
+    ///     Initiate that's called from a thread in a controlled manner.
+    ///     Static initiation can (and did) lead to circular refference in static initialization
+    ///     which creates a hard to diagnose exception such as TypeInitializationException
+    ///     and overall unpredictable and inconsistent order of execution
+    ///     https://stackoverflow.com/questions/47160605/why-would-my-initialized-static-property-be-null-when-i-access-it
+    ///     As the stackoverflow answer nicely put it: Nuke it from orbit
     /// </summary>
     internal static void CarefulIntatntiate()
     {
         NameGen = new NameGenerator();
     }
+
     static State()
     {
         if (Application.platform == RuntimePlatform.OSXPlayer)
@@ -62,6 +63,7 @@ public static class State
             StorageDirectory = $"UserData{Path.DirectorySeparatorChar}";
             MapDirectory = $"UserData{Path.DirectorySeparatorChar}Maps{Path.DirectorySeparatorChar}";
         }
+
         try
         {
             Directory.CreateDirectory(StorageDirectory.TrimEnd(new char[] { '\\', '/' }));
@@ -81,26 +83,16 @@ public static class State
 
         try
         {
-            if (File.Exists($"{StorageDirectory}males.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}males.txt", $"{StorageDirectory}males.txt");
-            if (File.Exists($"{StorageDirectory}females.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}females.txt", $"{StorageDirectory}females.txt");
-            if (File.Exists($"{StorageDirectory}monsters.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}monsters.txt", $"{StorageDirectory}monsters.txt");
-            if (File.Exists($"{StorageDirectory}events.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}events.txt", $"{StorageDirectory}events.txt");
-            if (File.Exists($"{StorageDirectory}armyNames.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}armyNames.txt", $"{StorageDirectory}armyNames.txt");
-            if (File.Exists($"{StorageDirectory}femaleFeralLions.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}femaleFeralLions.txt", $"{StorageDirectory}femaleFeralLions.txt");
-            if (File.Exists($"{StorageDirectory}maleFeralLions.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}maleFeralLions.txt", $"{StorageDirectory}maleFeralLions.txt");
-            if (File.Exists($"{StorageDirectory}customTraits.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}customTraits.txt", $"{StorageDirectory}customTraits.txt");
-            if (File.Exists($"{StorageDirectory}femaleAabayx.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}femaleAabayx.txt", $"{StorageDirectory}femaleAabayx.txt");
-            if (File.Exists($"{StorageDirectory}maleAabayx.txt") == false)
-                File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}maleAabayx.txt", $"{StorageDirectory}maleAabayx.txt");
+            if (File.Exists($"{StorageDirectory}males.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}males.txt", $"{StorageDirectory}males.txt");
+            if (File.Exists($"{StorageDirectory}females.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}females.txt", $"{StorageDirectory}females.txt");
+            if (File.Exists($"{StorageDirectory}monsters.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}monsters.txt", $"{StorageDirectory}monsters.txt");
+            if (File.Exists($"{StorageDirectory}events.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}events.txt", $"{StorageDirectory}events.txt");
+            if (File.Exists($"{StorageDirectory}armyNames.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}armyNames.txt", $"{StorageDirectory}armyNames.txt");
+            if (File.Exists($"{StorageDirectory}femaleFeralLions.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}femaleFeralLions.txt", $"{StorageDirectory}femaleFeralLions.txt");
+            if (File.Exists($"{StorageDirectory}maleFeralLions.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}maleFeralLions.txt", $"{StorageDirectory}maleFeralLions.txt");
+            if (File.Exists($"{StorageDirectory}customTraits.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}customTraits.txt", $"{StorageDirectory}customTraits.txt");
+            if (File.Exists($"{StorageDirectory}femaleAabayx.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}femaleAabayx.txt", $"{StorageDirectory}femaleAabayx.txt");
+            if (File.Exists($"{StorageDirectory}maleAabayx.txt") == false) File.Copy($"{Application.streamingAssetsPath}{Path.DirectorySeparatorChar}maleAabayx.txt", $"{StorageDirectory}maleAabayx.txt");
         }
         catch
         {
@@ -115,9 +107,9 @@ public static class State
         Encoding encoding = Encoding.GetEncoding("iso-8859-1");
         List<string> lines;
         RandomizeLists = new List<RandomizeList>();
-        if (File.Exists($"{State.StorageDirectory}customTraits.txt"))
+        if (File.Exists($"{StorageDirectory}customTraits.txt"))
         {
-            var logFile = File.ReadAllLines($"{State.StorageDirectory}customTraits.txt", encoding);
+            var logFile = File.ReadAllLines($"{StorageDirectory}customTraits.txt", encoding);
             if (logFile.Any())
             {
                 lines = new List<string>(logFile);
@@ -127,7 +119,7 @@ public static class State
                     count++;
                     RandomizeList custom = new RandomizeList();
                     line = new string(line
-                       .Where(c => !Char.IsWhiteSpace(c)).ToArray());
+                        .Where(c => !char.IsWhiteSpace(c)).ToArray());
                     string[] strings = line.Split(',');
                     if (strings.Length == 4)
                     {
@@ -139,7 +131,6 @@ public static class State
                     }
                 });
             }
-               
         }
     }
 
@@ -170,8 +161,7 @@ public static class State
             RaceSaveDataName = $"{StorageDirectory}EditedRaces.dat";
         else if (RaceSlot == 2)
             RaceSaveDataName = $"{StorageDirectory}EditedRaces2.dat";
-        else if (RaceSlot == 3)
-            RaceSaveDataName = $"{StorageDirectory}EditedRaces3.dat";
+        else if (RaceSlot == 3) RaceSaveDataName = $"{StorageDirectory}EditedRaces3.dat";
         LoadEditedRaces();
     }
 
@@ -220,11 +210,11 @@ public static class State
             }
             else
                 World.TacticalData = null;
-            
-            
+
+
             byte[] bytes = SerializationUtility.SerializeValue(World, DataFormat.Binary);
             File.WriteAllBytes(filename, bytes);
-            
+
             //byte[] readable = SerializationUtility.SerializeValue(World, DataFormat.JSON);
             //File.WriteAllBytes(filename, readable);
         }
@@ -239,26 +229,23 @@ public static class State
             {
                 GameManager.CreateMessageBox($"Unable to save properly, {filename} didn't work (will no longer warn you this session)");
             }
-
         }
-
     }
 
     public static World PreviewSave(string filename)
     {
-        if (filename.EndsWith("/") || filename.EndsWith("\\"))
-            filename = filename.Remove(filename.Length - 1, 1);
+        if (filename.EndsWith("/") || filename.EndsWith("\\")) filename = filename.Remove(filename.Length - 1, 1);
         if (!File.Exists(filename))
         {
             return null;
         }
+
         World tempWorld;
         try
         {
             byte[] bytes = File.ReadAllBytes(filename);
             tempWorld = SerializationUtility.DeserializeValue<World>(bytes, DataFormat.Binary);
             return tempWorld;
-
         }
         catch (Exception)
         {
@@ -268,19 +255,18 @@ public static class State
 
     public static void Load(string filename, bool tutorial = false)
     {
-        if (filename.EndsWith("/") || filename.EndsWith("\\"))
-            filename = filename.Remove(filename.Length - 1, 1);
+        if (filename.EndsWith("/") || filename.EndsWith("\\")) filename = filename.Remove(filename.Length - 1, 1);
         if (!File.Exists(filename))
         {
             GameManager.CreateMessageBox("Couldn't find the saved file");
             return;
         }
+
         try
         {
             GameManager.StrategyMode.ClearData();
             GameManager.StrategyMode.CleanUpLingeringWindows();
-            if (tutorial == false)
-                GameManager.SwitchToMainMenu();
+            if (tutorial == false) GameManager.SwitchToMainMenu();
             byte[] bytes = File.ReadAllBytes(filename);
             World = SerializationUtility.DeserializeValue<World>(bytes, DataFormat.Binary);
 
@@ -316,12 +302,12 @@ public static class State
                 GameManager.CreateMessageBox("This save file is from before version 12.  I took the liberty of doing a clean sweep when I added the new garrisons to improve the code quality. Sorry.  You can still load .map files from before version 12 though.");
                 return;
             }
+
             Config.World = World.ConfigStorage;
             GameManager.Menu.Options.LoadFromStored();
             GameManager.Menu.CheatMenu.LoadFromStored();
 
-            if (World.MercenaryHouses == null)
-                World.MercenaryHouses = new MercenaryHouse[0];
+            if (World.MercenaryHouses == null) World.MercenaryHouses = new MercenaryHouse[0];
 
             foreach (MercenaryHouse house in World.MercenaryHouses)
             {
@@ -335,9 +321,7 @@ public static class State
             }
 
 
-
-            if (World.Claimables == null)
-                World.Claimables = new ClaimableBuilding[0];
+            if (World.Claimables == null) World.Claimables = new ClaimableBuilding[0];
 
             //Always runs for new versions           
             if (World.SaveVersion != Version && World.AllActiveEmpires != null)
@@ -350,9 +334,9 @@ public static class State
                 else
                 {
                     World.GetEmpireOfSide(Side.RebelSide).Name = "Rebels";
-                    if (World.EmpireOrder.Where(s => Equals(s.Side, Side.RebelSide)).Any() == false)
-                        World.EmpireOrder.Add(World.GetEmpireOfSide(Side.RebelSide));
+                    if (World.EmpireOrder.Where(s => Equals(s.Side, Side.RebelSide)).Any() == false) World.EmpireOrder.Add(World.GetEmpireOfSide(Side.RebelSide));
                 }
+
                 if (World.GetEmpireOfSide(Side.BanditSide) == null)
                 {
                     World.MainEmpiresWritable.Add(new Empire(new Empire.ConstructionArgs(null, Side.BanditSide, Color.red, new Color(.6f, 0, 0), 7, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16)));
@@ -362,6 +346,7 @@ public static class State
                 {
                     World.GetEmpireOfSide(Side.BanditSide).Name = "Bandits";
                 }
+
                 /*         if (World.GetEmpireOfSide(702) == null)
                         {
                             World.MainEmpires.Add(new Empire(new Empire.ConstructionArgs(702, Color.red, new Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 702, 16, 16)));
@@ -381,9 +366,9 @@ public static class State
                         {
                             village.ConvertToMultiRace();
                         }
-
                     }
                 }
+
                 ItemRepository newRepo = new ItemRepository();
                 World.ItemRepository = newRepo;
 
@@ -392,15 +377,14 @@ public static class State
                     unit.UpdateItems(newRepo);
                     unit.ReloadTraits();
                 }
+
                 foreach (Empire empire in World.AllActiveEmpires)
                 {
                     foreach (Army army in empire.Armies)
                     {
                         foreach (Unit unit in army.Units)
                         {
-
-                            if (!Equals(unit.Side, army.Side))
-                                unit.Side = army.Side;
+                            if (!Equals(unit.Side, army.Side)) unit.Side = army.Side;
                             if (unit.BodySize < 0) //Can take this out later, was a fix for 14H
                                 unit.BodySize = 0;
                         }
@@ -408,14 +392,12 @@ public static class State
                 }
 
 
-                if (Config.MaxSpellLevelDrop == 0)
-                    Config.World.MaxSpellLevelDrop = 4;
+                if (Config.MaxSpellLevelDrop == 0) Config.World.MaxSpellLevelDrop = 4;
             }
 
             if (version < 18 + 1)
             {
-                if (Config.LeaderLossLevels == 0)
-                    Config.World.LeaderLossLevels = 1;
+                if (Config.LeaderLossLevels == 0) Config.World.LeaderLossLevels = 1;
                 if (World.AllActiveEmpires != null)
                 {
                     foreach (var unit in StrategicUtilities.GetAllUnits())
@@ -451,6 +433,7 @@ public static class State
                         }
                     }
                 }
+
                 if (World.Relations != null)
                 {
                     RelationsManager.ResetRelations();
@@ -463,8 +446,7 @@ public static class State
                 {
                     foreach (Empire empire in World.AllActiveEmpires)
                     {
-                        if (empire.StrategicAI == null)
-                            continue;
+                        if (empire.StrategicAI == null) continue;
                         foreach (Army army in empire.Armies)
                         {
                             foreach (Unit unit in army.Units)
@@ -483,13 +465,11 @@ public static class State
                                 if (Equals(unit.Race, Race.Lizard)) //Adjustment for the added clothing item
                                     if (unit.ClothingType == 4)
                                         unit.ClothingType = 5;
-                                    else if (unit.ClothingType == 5)
-                                        unit.ClothingType = 6;
+                                    else if (unit.ClothingType == 5) unit.ClothingType = 6;
                             }
                         }
                     }
                 }
-
             }
 
             if (version < 22 + 1)
@@ -535,9 +515,8 @@ public static class State
                                 if (Equals(unit.Race, Race.Abakhanskya)) //Adjustment for the added clothing item
                                 {
                                     unit.FixedGear = true;
-                                    unit.Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.AbakWeapon);
+                                    unit.Items[0] = World.ItemRepository.GetSpecialItem(SpecialItems.AbakWeapon);
                                 }
-
                             }
                         }
                     }
@@ -550,8 +529,7 @@ public static class State
                 {
                     foreach (Empire empire in World.AllActiveEmpires)
                     {
-                        if (Equals(empire.Leader?.Race, Race.Bee))
-                            empire.Leader.ClothingType = 6;
+                        if (Equals(empire.Leader?.Race, Race.Bee)) empire.Leader.ClothingType = 6;
                     }
                 }
             }
@@ -583,10 +561,8 @@ public static class State
                             {
                                 if (Equals(unit.Race, Race.Succubus))
                                 {
-                                    if (unit.ClothingType2 == 3)
-                                        unit.ClothingType2 = 2;
+                                    if (unit.ClothingType2 == 3) unit.ClothingType2 = 2;
                                 }
-
                             }
                         }
                     }
@@ -620,17 +596,14 @@ public static class State
                     var raceData = Races2.GetRace(Race.Bee);
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
-                        if (Equals(unit.Race, Race.Bee))
-                            raceData.RandomCustomCall(unit);
+                        if (Equals(unit.Race, Race.Bee)) raceData.RandomCustomCall(unit);
                     }
                 }
-
             }
 
             if (version < 30 + 1)
             {
                 Config.World.AutoSurrenderChance = 1;
-
             }
 
             if (version < 31 + 1)
@@ -661,6 +634,7 @@ public static class State
 #pragma warning restore CS0612 // Type or member is obsolete
                                 ai.CheatLevel = 1;
                         }
+
                         if (empire.CapitalCity != null)
                             empire.ReplacedRace = empire.CapitalCity.OriginalRace;
                         else
@@ -735,7 +709,6 @@ public static class State
                             unit.GeneratePronouns();
                         }
                     }
-
                 }
                 else
                 {
@@ -762,7 +735,6 @@ public static class State
                         }
                     }
                 }
-
             }
 
             if (version < 39 + 1)
@@ -798,7 +770,6 @@ public static class State
                     {
                         unit.FixedSide = Side.TrueNoneSide;
                     }
-
                 }
             }
 
@@ -809,13 +780,12 @@ public static class State
                 {
                     foreach (Empire emp in World.AllActiveEmpires)
                     {
-                        foreach(Army army in emp.Armies)
+                        foreach (Army army in emp.Armies)
                         {
                             army.impassables = new List<StrategicTileType>()
-    { StrategicTileType.mountain, StrategicTileType.snowMountain, StrategicTileType.water, StrategicTileType.lava, StrategicTileType.ocean, StrategicTileType.brokenCliffs};
+                                { StrategicTileType.mountain, StrategicTileType.snowMountain, StrategicTileType.water, StrategicTileType.lava, StrategicTileType.ocean, StrategicTileType.brokenCliffs };
                         }
                     }
-
                 }
             }
 
@@ -823,8 +793,7 @@ public static class State
             {
                 foreach (var unit in World.TacticalData.units)
                 {
-                    if (unit.modeQueue == null)
-                        unit.modeQueue = new List<KeyValuePair<int, float>>();
+                    if (unit.modeQueue == null) unit.modeQueue = new List<KeyValuePair<int, float>>();
                 }
             }
 
@@ -832,20 +801,17 @@ public static class State
             {
                 foreach (Empire emp in World.AllActiveEmpires)
                 {
-                    if (RaceFuncs.IsRebelOrBandit4(emp.Side))
-                        continue;
+                    if (RaceFuncs.IsRebelOrBandit4(emp.Side)) continue;
                     var raceFlags = RaceSettings.GetRaceTraits(emp.Race);
                     if (raceFlags != null)
                     {
-                        if (raceFlags.Contains(TraitType.Prey))
-                            emp.CanVore = false;
+                        if (raceFlags.Contains(TraitType.Prey)) emp.CanVore = false;
                     }
                 }
 
                 foreach (Empire emp in World.MainEmpires)
                 {
-                    if (RaceFuncs.IsRebelOrBandit4(emp.Side))
-                        continue;
+                    if (RaceFuncs.IsRebelOrBandit4(emp.Side)) continue;
                     if (RaceSettings.Exists(emp.Race))
                     {
                         emp.BannerType = RaceSettings.Get(emp.Race).BannerType;
@@ -859,6 +825,7 @@ public static class State
                     unit.InitializeTraits();
                 }
             }
+
             if (World.Villages != null)
             {
                 foreach (var village in World.Villages)
@@ -869,46 +836,33 @@ public static class State
             }
 
 
+            if (Config.World.ArmyMP == 0) Config.World.ArmyMP = 3;
 
-            if (Config.World.ArmyMP == 0)
-                Config.World.ArmyMP = 3;
+            if (Config.World.MaxArmies == 0) Config.World.MaxArmies = 12;
 
-            if (Config.World.MaxArmies == 0)
-                Config.World.MaxArmies = 12;
+            if (Config.World.VillagersPerFarm == 0) Config.World.VillagersPerFarm = 6;
 
-            if (Config.World.VillagersPerFarm == 0)
-                Config.World.VillagersPerFarm = 6;
+            if (Config.World.SoftLevelCap == 0) Config.World.SoftLevelCap = 999999;
 
-            if (Config.World.SoftLevelCap == 0)
-                Config.World.SoftLevelCap = 999999;
+            if (Config.World.HardLevelCap == 0) Config.World.HardLevelCap = 999999;
 
-            if (Config.World.HardLevelCap == 0)
-                Config.World.HardLevelCap = 999999;
+            if (Config.World.GoldMineIncome == 0) Config.World.GoldMineIncome = 40;
 
-            if (Config.World.GoldMineIncome == 0)
-                Config.World.GoldMineIncome = 40;
+            if (Config.World.TacticalTerrainFrequency == 0) Config.World.TacticalTerrainFrequency = 10;
 
-            if (Config.World.TacticalTerrainFrequency == 0)
-                Config.World.TacticalTerrainFrequency = 10;
-
-            if (Config.World.TacticalWaterValue == 0)
-                Config.World.TacticalWaterValue = .29f;
+            if (Config.World.TacticalWaterValue == 0) Config.World.TacticalWaterValue = .29f;
 
             World.ItemRepository = new ItemRepository();
 
             if (version < 41 + 1)
             {
-                if (Config.World.BaseCritChance == 0)
-                    Config.World.BaseCritChance = .05f;
+                if (Config.World.BaseCritChance == 0) Config.World.BaseCritChance = .05f;
 
-                if (Config.World.CritDamageMod == 0)
-                    Config.World.CritDamageMod = 1.5f;
+                if (Config.World.CritDamageMod == 0) Config.World.CritDamageMod = 1.5f;
 
-                if (Config.World.BaseGrazeChance == 0)
-                    Config.World.BaseGrazeChance = .05f;
+                if (Config.World.BaseGrazeChance == 0) Config.World.BaseGrazeChance = .05f;
 
-                if (Config.World.GrazeDamageMod == 0)
-                    Config.World.GrazeDamageMod = .3f;
+                if (Config.World.GrazeDamageMod == 0) Config.World.GrazeDamageMod = .3f;
             }
 
             bool pureTactical = false;
@@ -938,8 +892,8 @@ public static class State
                             unit.ReloadTraits();
                         }
                     }
-                    
-                    /*    
+
+                    /*
                     foreach (Army army in empire.Armies)
                     {
                         var toRemove = new List<Unit>();
@@ -961,11 +915,9 @@ public static class State
                         }
                     }
                      */
-                    
                 }
 
-                if (World.Relations == null)
-                    RelationsManager.ResetRelations();
+                if (World.Relations == null) RelationsManager.ResetRelations();
                 GameManager.ClearPureTactical();
                 GameManager.SwitchToStrategyMode(true);
                 GameManager.StrategyMode.GenericSetup();
@@ -995,7 +947,6 @@ public static class State
             }
 
 
-
             //var units = StrategicUtilities.GetAllUnits();
             //Debug.Log("LOADED");
         }
@@ -1005,9 +956,5 @@ public static class State
             GameManager.CreateMessageBox("Encountered an error when trying to load the save");
             return;
         }
-
-
     }
 }
-
-

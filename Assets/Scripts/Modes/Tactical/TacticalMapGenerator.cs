@@ -63,8 +63,7 @@ internal class TacticalMapGenerator
         int centerY = Config.TacticalSizeY / 2;
         int HalfX = Config.TacticalSizeX / 2;
         maxAttempts = 5;
-        if (centerY < 14)
-            maxAttempts = 10;
+        if (centerY < 14) maxAttempts = 10;
         TacticalTileType[,] tiles;
         int[,] decTilesUsed = new int[Config.TacticalSizeX, Config.TacticalSizeY];
         List<DecorationStorage> placedDecorations = new List<DecorationStorage>();
@@ -83,7 +82,6 @@ internal class TacticalMapGenerator
             {
                 for (int j = 0; j < Config.TacticalSizeY; j++)
                 {
-
                     tiles[i, j] = defaultType;
 
                     if (State.Rand.Next(6) == 0 && decTilesUsed[i, j] == 0)
@@ -108,9 +106,7 @@ internal class TacticalMapGenerator
                             decoration = TacticalDecorationList.DecDict[decType];
                             TryToPlaceDecoration(i, j, decoration, decType);
                         }
-
                     }
-
                 }
             }
         }
@@ -120,8 +116,7 @@ internal class TacticalMapGenerator
             {
                 for (int j = 0; j < Config.TacticalSizeY; j++)
                 {
-
-                    if (he_array[i, j] < Config.TacticalWaterValue - (0.01f * attempt))
+                    if (he_array[i, j] < Config.TacticalWaterValue - 0.01f * attempt)
                         tiles[i, j] = TacticalTileType.RockOverTar;
                     else if (he_array[i, j] < .65f)
                         tiles[i, j] = TacticalTileType.RockOverSand;
@@ -143,13 +138,12 @@ internal class TacticalMapGenerator
                             TryToPlaceDecoration(i, j, decoration, decType);
                         else
                         {
-                            if (State.Rand.Next(3) == 0)
-                                TryToPlaceDecoration(i, j, decoration, decType);
+                            if (State.Rand.Next(3) == 0) TryToPlaceDecoration(i, j, decoration, decType);
                         }
                     }
-
                 }
             }
+
             if (village != null)
             {
                 PlaceRowOfBuildings(tiles, buildings, HalfX - 2, Config.TacticalSizeY / 4 + 1, -1);
@@ -164,8 +158,7 @@ internal class TacticalMapGenerator
             {
                 for (int j = 0; j < Config.TacticalSizeY; j++)
                 {
-
-                    if (he_array[i, j] < Config.TacticalWaterValue - (0.01f * attempt))
+                    if (he_array[i, j] < Config.TacticalWaterValue - 0.01f * attempt)
                         tiles[i, j] = TacticalTileType.VolcanicOverLava;
                     else if (he_array[i, j] < .5f)
                         tiles[i, j] = TacticalTileType.VolcanicOverGravel;
@@ -187,13 +180,12 @@ internal class TacticalMapGenerator
                             TryToPlaceDecoration(i, j, decoration, decType);
                         else
                         {
-                            if (State.Rand.Next(3) == 0)
-                                TryToPlaceDecoration(i, j, decoration, decType);
+                            if (State.Rand.Next(3) == 0) TryToPlaceDecoration(i, j, decoration, decType);
                         }
                     }
-
                 }
             }
+
             if (village != null)
             {
                 PlaceRowOfBuildings(tiles, buildings, HalfX - 2, Config.TacticalSizeY / 4 + 1, -1);
@@ -213,6 +205,7 @@ internal class TacticalMapGenerator
                         tiles[i, j] = RandomGrass(i, j);
                     }
                 }
+
                 PlaceRowOfBuildings(tiles, buildings, HalfX - 2, Config.TacticalSizeY / 4 + 1, -1);
                 PlaceRowOfBuildings(tiles, buildings, HalfX - 2, Config.TacticalSizeY / 4 - 2, -1);
                 PlaceRowOfBuildings(tiles, buildings, HalfX + 1, Config.TacticalSizeY / 4 + 1, 1);
@@ -222,11 +215,9 @@ internal class TacticalMapGenerator
                 {
                     for (int j = 0; j < centerY; j++)
                     {
-                        if (State.Rand.Next(3) == 0)
-                            PlaceGrassDecoration(i, j);
+                        if (State.Rand.Next(3) == 0) PlaceGrassDecoration(i, j);
                     }
                 }
-
             }
             else
             {
@@ -237,7 +228,6 @@ internal class TacticalMapGenerator
                         tiles[i, j] = RandomGrass(i, j);
                         PlaceGrassDecoration(i, j);
                     }
-
                 }
             }
 
@@ -254,8 +244,8 @@ internal class TacticalMapGenerator
         if (wall)
         {
             //generate wall and clear a good path through it
-            int wallLeftOpening = (Config.TacticalSizeX / 2) - 2;
-            int wallRightOpening = (Config.TacticalSizeX / 2) + 1;
+            int wallLeftOpening = Config.TacticalSizeX / 2 - 2;
+            int wallRightOpening = Config.TacticalSizeX / 2 + 1;
 
             for (int i = 0; i < Config.TacticalSizeX; i++)
             {
@@ -269,12 +259,12 @@ internal class TacticalMapGenerator
                     tiles[i, centerY] = defaultType;
                 }
             }
+
             for (int i = wallLeftOpening - 1; i <= wallRightOpening + 1; i++)
             {
                 tiles[i, centerY - 1] = defaultType;
                 tiles[i, centerY + 1] = defaultType;
             }
-
         }
 
         if (village != null)
@@ -290,10 +280,12 @@ internal class TacticalMapGenerator
                 tiles[HalfX - 1, y] = (TacticalTileType)baseTile + 4;
                 tiles[HalfX, y] = (TacticalTileType)baseTile + 5;
             }
+
             for (int x = 0; x < Config.TacticalSizeX; x++)
             {
                 tiles[x, Config.TacticalSizeY / 4] = (TacticalTileType)baseTile + 1;
             }
+
             tiles[HalfX - 1, Config.TacticalSizeY / 4] = (TacticalTileType)baseTile + 6;
             tiles[HalfX, Config.TacticalSizeY / 4] = (TacticalTileType)baseTile + 7;
 
@@ -305,6 +297,7 @@ internal class TacticalMapGenerator
                     tempTiles[x, y] = tiles[x, y];
                 }
             }
+
             foreach (TacticalBuilding building in buildings)
             {
                 for (int y = 0; y < building.Height; y++)
@@ -331,7 +324,6 @@ internal class TacticalMapGenerator
                     }
                     else if ((terrainType == TerrainType.Grass || terrainType == TerrainType.Forest) && State.Rand.Next(12) == 0)
                     {
-
                         if (tempTiles[x - 1, y - 1] == defaultType && tempTiles[x, y - 1] == defaultType && tempTiles[x - 1, y] == defaultType && tempTiles[x, y] == defaultType)
                         {
                             tempTiles[x, y] = RandomGrass(x, y);
@@ -339,8 +331,8 @@ internal class TacticalMapGenerator
                     }
                 }
             }
-
         }
+
         State.GameManager.TacticalMode.Buildings = buildings.ToArray();
         State.GameManager.TacticalMode.DecorationStorage = placedDecorations.ToArray();
 
@@ -377,7 +369,7 @@ internal class TacticalMapGenerator
         {
             TacticalTileType ret;
 
-            if (he_array[x, y] < Config.TacticalWaterValue - (0.01f * attempt))
+            if (he_array[x, y] < Config.TacticalWaterValue - 0.01f * attempt)
             {
                 ret = TacticalTileType.GrassOverWater;
                 return ret;
@@ -403,7 +395,6 @@ internal class TacticalMapGenerator
                 TacDecType decType = TacticalDecorationList.GrassEnvironment[State.Rand.Next(TacticalDecorationList.GrassEnvironment.Length)];
                 decoration = TacticalDecorationList.DecDict[decType];
                 TryToPlaceDecoration(i, j, decoration, decType);
-
             }
         }
 
@@ -422,61 +413,52 @@ internal class TacticalMapGenerator
                 default:
                     return new Log1x1(new Vec2(x, y));
             }
-
-
         }
 
         void TryToPlaceDecoration(int i, int j, TacticalDecoration decoration, TacDecType decorationType)
         {
             if (wall) //Can't obstruct the wall
             {
-                if (j == centerY)
-                    return;
-                if (j < centerY && j + decoration.Tile.GetUpperBound(1) >= centerY)
-                    return;
+                if (j == centerY) return;
+                if (j < centerY && j + decoration.Tile.GetUpperBound(1) >= centerY) return;
             }
+
             if (village != null) //Can't obstruct the path
             {
-                if (i <= HalfX && i + decoration.Tile.GetLength(0) >= HalfX - 1)
-                    return;
-                if (j <= Config.TacticalSizeY / 4 && j + decoration.Tile.GetLength(1) >= Config.TacticalSizeY / 4)
-                    return;
+                if (i <= HalfX && i + decoration.Tile.GetLength(0) >= HalfX - 1) return;
+                if (j <= Config.TacticalSizeY / 4 && j + decoration.Tile.GetLength(1) >= Config.TacticalSizeY / 4) return;
             }
+
             for (int x = 0; x < decoration.Tile.GetLength(0); x++)
             {
                 for (int y = 0; y < decoration.Tile.GetLength(1); y++)
                 {
-                    if (x + i >= decTilesUsed.GetLength(0) || y + j >= decTilesUsed.GetLength(1))
-                        continue;
-                    if (decTilesUsed[x + i, y + j] != 0)
-                        return;
-                    if (blockedTile[x + i, y + j])
-                        return;
+                    if (x + i >= decTilesUsed.GetLength(0) || y + j >= decTilesUsed.GetLength(1)) continue;
+                    if (decTilesUsed[x + i, y + j] != 0) return;
+                    if (blockedTile[x + i, y + j]) return;
                 }
             }
+
             placedDecorations.Add(new DecorationStorage(new Vec2(i, j), decorationType));
             for (int x = 0; x < decoration.Tile.GetLength(0); x++)
             {
                 for (int y = 0; y < decoration.Tile.GetLength(1); y++)
                 {
-                    if (x + i >= decTilesUsed.GetLength(0) || y + j >= decTilesUsed.GetLength(1))
-                        continue;
+                    if (x + i >= decTilesUsed.GetLength(0) || y + j >= decTilesUsed.GetLength(1)) continue;
                     decTilesUsed[x + i, y + j] = decoration.Tile[x, y];
                 }
             }
+
             for (int x = 0; x < decoration.Width; x++)
             {
                 for (int y = 0; y < decoration.Height; y++)
                 {
-                    if (x + i >= blockedTile.GetLength(0) || y + j >= blockedTile.GetLength(1))
-                        continue;
+                    if (x + i >= blockedTile.GetLength(0) || y + j >= blockedTile.GetLength(1)) continue;
                     blockedTile[x + i, y + j] = true;
                 }
             }
         }
-
     }
-
 
 
     internal void PlaceRowOfBuildings(TacticalTileType[,] tiles, List<TacticalBuilding> buildings, int x, int y, int change)
@@ -494,6 +476,7 @@ internal class TacticalMapGenerator
             {
                 lastWidth = 1;
             }
+
             if (building.Width == 2 && change < 0)
             {
                 building._lowerLeftPosition.x--;
@@ -507,11 +490,9 @@ internal class TacticalMapGenerator
                 }
             }
 
-            if (State.Rand.Next(3) == 0)
-                lastWidth += 1;
+            if (State.Rand.Next(3) == 0) lastWidth += 1;
             x += (lastWidth + 1) * change;
-            if (x < 1 || x + 2 > tiles.GetUpperBound(0))
-                break;
+            if (x < 1 || x + 2 > tiles.GetUpperBound(0)) break;
         }
 
         TacticalBuilding RandomBuilding()
@@ -542,11 +523,11 @@ internal class TacticalMapGenerator
             if (Equals(village.Race, Race.Harpy))
             {
                 return GetRandomBuildingFrom(loc, typeof(HarpyNest), typeof(HarpyNestCanopy));
-            } 
+            }
             else if (Equals(village.Race, Race.Lamia))
             {
                 return GetRandomBuildingFrom(loc, typeof(StoneHouse), typeof(LamiaTemple), typeof(FancyStoneHouse));
-            } 
+            }
             else if (Equals(village.Race, Race.Cat))
             {
                 if (State.Rand.Next(2) == 0)
@@ -583,8 +564,6 @@ internal class TacticalMapGenerator
                 default:
                     return new Log1x1(loc);
             }
-
-
         }
     }
 
@@ -622,14 +601,13 @@ internal class TacticalMapGenerator
             Vec2 p = stack.Pop();
             int x = p.x;
             int y = p.y;
-            if (y < 0 || y > h - 1 || x < 0 || x > w - 1)
-                continue;
+            if (y < 0 || y > h - 1 || x < 0 || x > w - 1) continue;
             if (visited.Contains(p))
             {
                 continue;
             }
-            if (TacticalTileInfo.CanWalkInto(tiles[x, y], null) == false || blockedTile[x, y])
-                continue;
+
+            if (TacticalTileInfo.CanWalkInto(tiles[x, y], null) == false || blockedTile[x, y]) continue;
             visited.Add(p);
             connectedGoodTiles[x, y] = true;
             stack.Push(new Vec2(x + 1, y));
@@ -641,6 +619,7 @@ internal class TacticalMapGenerator
             stack.Push(new Vec2(x, y + 1));
             stack.Push(new Vec2(x, y - 1));
         }
+
         //It's very unsubtle, but it should almost never trigger, it's mainly designed as a failsafe
         if (visited.Count < .55f * Config.TacticalSizeX * Config.TacticalSizeY)
         {
@@ -664,9 +643,11 @@ internal class TacticalMapGenerator
                     State.GameManager.TacticalMode.SetBlockedTiles(new bool[Config.TacticalSizeX, Config.TacticalSizeY]);
                 }
             }
+
             TacticalTileLogic tileLogic = new TacticalTileLogic();
             tiles = tileLogic.ApplyLogic(tiles);
         }
+
         Vec2 FindNearbyTile(TacticalTileType[,] thisTiles)
         {
             for (int x = -3; x < 4; x++)
@@ -679,9 +660,9 @@ internal class TacticalMapGenerator
                     }
                 }
             }
+
             return new Vec2(0, 0);
         }
-
     }
 
     internal Vec2i RandomActorPosition(TacticalTileType[,] tiles, bool[,] blockedTiles, List<Actor_Unit> units, SpawnLocation location, bool melee)
@@ -691,8 +672,7 @@ internal class TacticalMapGenerator
         for (int attempt = 0; attempt < 1000; attempt++)
         {
             int x;
-            if (attempt < 40)
-                x = Config.TacticalSizeX / 4 + State.Rand.Next(Config.TacticalSizeX / 2);
+            if (attempt < 40) x = Config.TacticalSizeX / 4 + State.Rand.Next(Config.TacticalSizeX / 2);
             if (attempt < 200)
                 x = Config.TacticalSizeX / 8 + State.Rand.Next(Config.TacticalSizeX * 3 / 4);
             else
@@ -713,6 +693,7 @@ internal class TacticalMapGenerator
                         position = new Vec2i(x, State.Rand.Next(Config.TacticalSizeY / 4) + Config.TacticalSizeY * 5 / 8);
                     else
                         position = new Vec2i(x, State.Rand.Next(Config.TacticalSizeY / 2) + Config.TacticalSizeY / 2);
+
                     break;
                 case SpawnLocation.lower:
                     if (melee && attempt < 100)
@@ -727,6 +708,7 @@ internal class TacticalMapGenerator
                         position = new Vec2i(x, State.Rand.Next(Config.TacticalSizeY / 4) + Config.TacticalSizeY / 8);
                     else
                         position = new Vec2i(x, State.Rand.Next(Config.TacticalSizeY / 2));
+
                     break;
                 case SpawnLocation.upperMiddle:
                     position = new Vec2i(Config.TacticalSizeX / 8 + State.Rand.Next(Config.TacticalSizeX * 3 / 4), State.Rand.Next(Config.TacticalSizeY / 8) + Config.TacticalSizeY * 1 / 2);
@@ -738,11 +720,10 @@ internal class TacticalMapGenerator
                     position = new Vec2i(Config.TacticalSizeX / 8 + State.Rand.Next(Config.TacticalSizeX * 3 / 4), State.Rand.Next(Config.TacticalSizeY / 4) + Config.TacticalSizeY * 3 / 8);
                     break;
             }
-            if (blockedTiles[position.X, position.Y])
-                continue;
 
-            if (connectedGoodTiles[position.X, position.Y] == false)
-                continue;
+            if (blockedTiles[position.X, position.Y]) continue;
+
+            if (connectedGoodTiles[position.X, position.Y] == false) continue;
 
             if (TacticalTileInfo.CanWalkInto(tiles[position.X, position.Y], null))
             {
@@ -758,17 +739,16 @@ internal class TacticalMapGenerator
                         }
                     }
                 }
+
                 if (success)
                 {
                     break;
                 }
             }
-
         }
+
         return position;
-
     }
-
 
 
     public float he_zoom = Config.TacticalTerrainFrequency;
@@ -786,9 +766,9 @@ internal class TacticalMapGenerator
         j = j + Mathf.RoundToInt(seed.y * zoom);
         //fractal behavior occurs here. Everything else is parameter fine-tuning
         return 0
-        + Mathf.PerlinNoise(i / zoom, j / zoom) / 3
-        + Mathf.PerlinNoise(i / (zoom / factor), j / (zoom / factor)) / 3
-        + Mathf.PerlinNoise(i / (zoom / factor * factor), j / (zoom / factor * factor)) / 3;
+               + Mathf.PerlinNoise(i / zoom, j / zoom) / 3
+               + Mathf.PerlinNoise(i / (zoom / factor), j / (zoom / factor)) / 3
+               + Mathf.PerlinNoise(i / (zoom / factor * factor), j / (zoom / factor * factor)) / 3;
     }
 
 
@@ -842,6 +822,4 @@ internal class TacticalMapGenerator
 
     //    Debug.Log(sb.ToString());
     //}
-
-
 }

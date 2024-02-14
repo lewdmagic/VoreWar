@@ -65,7 +65,7 @@ internal class ExtraRaceInfo
             };
         }
     };
-    
+
     internal Func<INameInput, string> SingularName;
     internal Func<INameInput, string> PluralName;
     internal WallType? WallType;
@@ -97,7 +97,7 @@ internal class RaceBuilder : IRaceBuilder
     {
         _template = template;
     }
-    
+
     public void Setup(Action<ISetupOutput> setupFunc)
     {
         _setupFunc = setupFunc;
@@ -134,7 +134,7 @@ internal class RaceBuilder : IRaceBuilder
     {
         SetupOutput data = _template();
         _setupFunc?.Invoke(data);
-        
+
         return new RaceData(RaceSpriteSet, data, _runBefore, _randomCustom, data._extraRaceInfo, _renderAllAction);
     }
 }

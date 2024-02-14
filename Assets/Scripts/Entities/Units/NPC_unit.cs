@@ -1,6 +1,5 @@
 public class NPC_unit : Unit
 {
-
     public NPC_unit(int level, bool advancedWeapons, int type, Side side, Race race, int startingXP, bool canVore) : base(side, race, startingXP, canVore, type: type == 3 ? UnitType.Leader : UnitType.Soldier)
     {
         if (Equals(race, Race.Alligator) || Equals(race, Race.Komodo))
@@ -27,10 +26,12 @@ public class NPC_unit : Unit
                     break;
             }
         }
+
         if (startingXP == 0 && level > 1)
         {
             SetExp(GetExperienceRequiredForLevel(level - 1));
         }
+
         RestoreManaPct(1);
         GiveTraitBooks();
     }
@@ -60,6 +61,7 @@ public class NPC_unit : Unit
             Stats[(int)Stat.Dexterity] = Stats[(int)Stat.Strength];
             Stats[(int)Stat.Strength] = temp;
         }
+
         Stats[(int)Stat.Strength] += levels;
         Stats[(int)Stat.Voracity] += levels;
         Stats[(int)Stat.Stomach] += levels;
@@ -81,6 +83,7 @@ public class NPC_unit : Unit
             Stats[(int)Stat.Dexterity] = Stats[(int)Stat.Strength];
             Stats[(int)Stat.Strength] = temp;
         }
+
         Stats[(int)Stat.Dexterity] += levels;
         Stats[(int)Stat.Voracity] += levels;
         Stats[(int)Stat.Stomach] += levels;
@@ -109,10 +112,8 @@ public class NPC_unit : Unit
         Stats[(int)Stat.Stomach] = 4 + raceStats.Stomach.Minimum + raceStats.Stomach.Roll;
         Stats[(int)Stat.Leadership] = 10;
 
-        if (Equals(race, Race.Lizard))
-            Races2.GetRace(Race.Lizard).RandomCustomCall(this);
-        if (Config.LetterBeforeLeaderNames != "")
-            Name = Config.LetterBeforeLeaderNames + Name.ToLower();
+        if (Equals(race, Race.Lizard)) Races2.GetRace(Race.Lizard).RandomCustomCall(this);
+        if (Config.LetterBeforeLeaderNames != "") Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;
         if (Equals(race, Race.Slime))
         {
@@ -124,6 +125,7 @@ public class NPC_unit : Unit
             {
                 DickSize = -1;
             }
+
             ClothingType = 1;
             SetDefaultBreastSize(1);
             HairStyle = 1;
@@ -133,6 +135,7 @@ public class NPC_unit : Unit
             ReloadTraits();
             InitializeTraits();
         }
+
         if (Ranged)
             Stats[(int)Stat.Dexterity] += levels;
         else

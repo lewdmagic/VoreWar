@@ -4,4 +4,3 @@
     Allied,
     Enemies
 }
-

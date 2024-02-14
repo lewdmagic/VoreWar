@@ -41,8 +41,8 @@ public class UniformLoaderWindow : MonoBehaviour
         {
             Destroy(ActorFolder.transform.GetChild(i).gameObject);
         }
-        if (customs == null)
-            return;
+
+        if (customs == null) return;
         foreach (UniformData uniformData in customs)
         {
             GameObject obj = Instantiate(UnitDisplay, ActorFolder);
@@ -116,7 +116,6 @@ public class UniformLoaderWindow : MonoBehaviour
         {
             State.GameManager.UnitEditor.UnitEditor.RefreshView();
             State.GameManager.UnitEditor.UnitEditor.RefreshGenderSelector();
-
         }
         else
         {
@@ -126,7 +125,6 @@ public class UniformLoaderWindow : MonoBehaviour
 
         CloseThis();
     }
-
 
 
     public void CloseThis()
@@ -142,8 +140,7 @@ public class UniformLoaderWindow : MonoBehaviour
         {
             Destroy(ActorFolder.transform.GetChild(i).gameObject);
         }
-        gameObject.SetActive(false);
 
+        gameObject.SetActive(false);
     }
 }
-

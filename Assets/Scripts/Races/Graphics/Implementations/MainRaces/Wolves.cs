@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FlavorText(new FlavorText(
                     new Texts { "wild", "growling", "wet furred" },
                     new Texts { "spirited", "panting", "long furred" },
-                    new Texts { "feral", "canine", {"wolfess", Gender.Female}, {"wolf", Gender.Male} }
+                    new Texts { "feral", "canine", { "wolfess", Gender.Female }, { "wolf", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -65,12 +65,12 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccent2, Defaults.SpriteGens3[SpriteType.BodyAccent2]);
             builder.RenderSingle(SpriteType.BodyAccent3, Defaults.SpriteGens3[SpriteType.BodyAccent3]);
             builder.RenderSingle(SpriteType.BodyAccent4, Defaults.SpriteGens3[SpriteType.BodyAccent4]);
-            builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output ) =>
+            builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
                 output.Sprite(input.Sprites.Bodies[12]);
             });
-            builder.RenderSingle(SpriteType.SecondaryAccessory, 1, (input, output ) =>
+            builder.RenderSingle(SpriteType.SecondaryAccessory, 1, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
                 output.Sprite(input.Sprites.BodyParts[3]);

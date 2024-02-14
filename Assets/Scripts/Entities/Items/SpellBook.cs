@@ -13,6 +13,7 @@ public class SpellBook : Item
 
     [OdinSerialize]
     internal SpellType ContainedSpell { get; private set; }
+
     [OdinSerialize]
     internal int Tier { get; private set; }
 

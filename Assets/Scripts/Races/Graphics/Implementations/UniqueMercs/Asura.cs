@@ -51,10 +51,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     },
                     CanUseRangedWeapons = false,
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.ClothingAccessoryType, "Mask");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.ClothingAccessoryType, "Mask"); });
                 IClothing outfit = BaseOutfit.BaseOutfitInstance;
                 IClothing horns = ReindeerHorns.ReindeerHornsInstance;
                 output.BreastSizes = () => 1;

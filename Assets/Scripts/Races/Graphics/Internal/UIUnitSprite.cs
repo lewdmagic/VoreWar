@@ -15,7 +15,8 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     private Actor_Unit _lastActor;
     private Race _lastRace;
 
-    [HideInInspector] private int index = -1;
+    [HideInInspector]
+    private int index = -1;
 
     public void OnPointerClick(PointerEventData eventData)
     {

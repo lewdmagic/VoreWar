@@ -8,8 +8,6 @@ using UnityEngine;
 
 namespace Races.Graphics.Implementations.MainRaces
 {
-
-
     internal static class Lamia
     {
         private static readonly float xOffset = -1.875f; //3 pixels * 5/8

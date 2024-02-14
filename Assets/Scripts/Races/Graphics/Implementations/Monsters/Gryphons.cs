@@ -4,7 +4,6 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Gryphons
     {
-        
         internal class PositionParameters : IParameters
         {
             internal Position Position;
@@ -27,15 +26,15 @@ namespace Races.Graphics.Implementations.Monsters
                 return Position.Standing;
             }
         }
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
             {
                 output.Names("Gryphon", "Gryphons");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "gryphon", "griffin", "griffon" }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -669,6 +668,5 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RandomCustom(Defaults.RandomCustom);
         });
-
     }
 }

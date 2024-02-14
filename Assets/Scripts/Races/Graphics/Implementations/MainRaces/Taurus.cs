@@ -20,14 +20,14 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FlavorText(new FlavorText(
                     new Texts { "mooing", "bulky", "hooved" },
                     new Texts { "multi-stomached", "heavy", "strong legged" },
-                    new Texts { "bovine", "taurus", {"cow", Gender.Female}, {"bull", Gender.Male} },
+                    new Texts { "bovine", "taurus", { "cow", Gender.Female }, { "bull", Gender.Male } },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Hammer",
-                        [WeaponNames.Axe]         = "Glaive",
-                        [WeaponNames.SimpleBow]   = "Revolver",
+                        [WeaponNames.Mace] = "Hammer",
+                        [WeaponNames.Axe] = "Glaive",
+                        [WeaponNames.SimpleBow] = "Revolver",
                         [WeaponNames.CompoundBow] = "Shotgun",
-                        [WeaponNames.Claw]        = "Fist"
+                        [WeaponNames.Claw] = "Fist"
                     }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -43,10 +43,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     },
                     RaceDescription = "Once mere cattle, a drop of minotaur blood slumbered in their veins. Rising and butchering their \"masters\", the Taurus took what they could from their old ranches and fled through mysterious portals that had heralded their rise. While intelligent, the Taurus trust in their physical might and great size, tossing their enemies aside as they trample on.",
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.EyeType, "Face Expression");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.EyeType, "Face Expression"); });
                 output.TownNames(new List<string>
                 {
                     "Minos",

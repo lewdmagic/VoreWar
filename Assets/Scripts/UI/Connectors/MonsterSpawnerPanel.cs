@@ -17,4 +17,3 @@ public class MonsterSpawnerPanel : MonoBehaviour
     public Toggle AddonRace;
     public Dropdown ConquestType;
 }
-

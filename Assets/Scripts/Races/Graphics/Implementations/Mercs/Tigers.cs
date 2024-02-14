@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.Mercs
                 output.FlavorText(new FlavorText(
                     new Texts { "striped", "roaring", "mewling" },
                     new Texts { "striped", "roaring", "sharp toothed" },
-                    new Texts { "", "", {"", Gender.Female}, {"", Gender.Male} }
+                    new Texts { "", "", { "", Gender.Female }, { "", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -68,12 +68,12 @@ namespace Races.Graphics.Implementations.Mercs
                 output.Sprite(Config.FurryHandsAndFeet || input.U.Furry ? input.Sprites.FurryHandsAndFeet[6 + thinOffset + (input.A.IsAttacking ? 1 : 0)] : null);
             });
 
-            builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output ) =>
+            builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
                 output.Sprite(input.Sprites.Bodies[14]);
             });
-            builder.RenderSingle(SpriteType.SecondaryAccessory, 1, (input, output ) =>
+            builder.RenderSingle(SpriteType.SecondaryAccessory, 1, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
                 output.Sprite(input.Sprites.BodyParts[4]);

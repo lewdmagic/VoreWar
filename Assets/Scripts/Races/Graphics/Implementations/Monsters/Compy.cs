@@ -10,14 +10,12 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-        
-        
             RaceFrameList frameListTail = new RaceFrameList(new[] { 2, 1, 0, 1, 2, 3, 4, 3 }, new[] { 0.5f, 0.4f, 0.8f, 0.4f, 0.4f, 0.4f, 0.8f, 0.4f });
 
             builder.Setup(output =>
             {
-                output.Names("Compy", "Compy");        
-        
+                output.Names("Compy", "Compy");
+
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
                     new BoneInfo(BoneType.Compy, unit.Name)
@@ -52,7 +50,6 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.ArtfulDodge,
                     },
                     RaceDescription = "No-one is certain where these tiny beings appeared from, but everyone agrees that they aren't much of a threat, though not for a lack of trying from their part. All travelers should be aware though, a small dinosaur humping your leg likely means there are more nearby.",
-
                 });
                 output.IndividualNames(new List<string>
                 {

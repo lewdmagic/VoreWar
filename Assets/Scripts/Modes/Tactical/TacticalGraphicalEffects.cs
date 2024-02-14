@@ -17,12 +17,10 @@ internal static class TacticalGraphicalEffects
 
     internal static void CreateProjectile(Actor_Unit actor, Actor_Unit target)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var arrow = Object.Instantiate(State.GameManager.TacticalMode.ArrowPrefab).GetComponent<ArrowEffect>();
         var sprite = ArrowType(actor, out Material material);
-        if (Equals(actor.Unit.Race, Race.Panther))
-            PantherSetup(arrow, actor);
+        if (Equals(actor.Unit.Race, Race.Panther)) PantherSetup(arrow, actor);
         if (sprite != null) arrow.GetComponentInChildren<SpriteRenderer>().sprite = sprite;
         if (material != null) arrow.GetComponentInChildren<SpriteRenderer>().material = material;
         arrow.Setup(actor.Position, target.Position, target);
@@ -59,7 +57,6 @@ internal static class TacticalGraphicalEffects
             };
             anim.FrameTime = new float[] { .05f, .05f, .05f, .05f };
         }
-
     }
 
     private static Sprite ArrowType(Actor_Unit actor, out Material material)
@@ -70,21 +67,18 @@ internal static class TacticalGraphicalEffects
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.Harpies[27];
-            else if (weapon.Graphic == 6)
-                return State.GameManager.SpriteDictionary.Harpies[28];
+            else if (weapon.Graphic == 6) return State.GameManager.SpriteDictionary.Harpies[28];
         }
         else if (Equals(actor.Unit.Race, Race.Imp))
         {
-            if (weapon.Graphic == 4)
-                return State.GameManager.SpriteDictionary.NewimpBase[93];
+            if (weapon.Graphic == 4) return State.GameManager.SpriteDictionary.NewimpBase[93];
         }
 
         else if (Equals(actor.Unit.Race, Race.Scylla))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.Scylla[22];
-            else if (weapon.Graphic == 6)
-                return State.GameManager.SpriteDictionary.Scylla[23];
+            else if (weapon.Graphic == 6) return State.GameManager.SpriteDictionary.Scylla[23];
         }
         else if (Equals(actor.Unit.Race, Race.Slime))
         {
@@ -93,20 +87,17 @@ internal static class TacticalGraphicalEffects
                 material = Slimes.GetSlimeAccentMaterial(actor);
                 return State.GameManager.SpriteDictionary.Slimes[16];
             }
-            else if (weapon.Graphic == 6)
-                return State.GameManager.SpriteDictionary.Slimes[17];
+            else if (weapon.Graphic == 6) return State.GameManager.SpriteDictionary.Slimes[17];
         }
         else if (Equals(actor.Unit.Race, Race.Crypter))
         {
-            if (weapon.Graphic == 6)
-                return State.GameManager.SpriteDictionary.Crypters[27];
+            if (weapon.Graphic == 6) return State.GameManager.SpriteDictionary.Crypters[27];
         }
         else if (Equals(actor.Unit.Race, Race.Kangaroo))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.Kangaroos[125];
-            else if (weapon.Graphic == 6)
-                return State.GameManager.SpriteDictionary.Kangaroos[126];
+            else if (weapon.Graphic == 6) return State.GameManager.SpriteDictionary.Kangaroos[126];
         }
         else if (Equals(actor.Unit.Race, Race.Tiger) && actor.Unit.ClothingType == 1)
             return State.GameManager.SpriteDictionary.Slimes[17];
@@ -124,42 +115,37 @@ internal static class TacticalGraphicalEffects
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.PantherBase[36];
-            else if (weapon.Graphic == 6)
-                return State.GameManager.SpriteDictionary.PantherBase[42];
+            else if (weapon.Graphic == 6) return State.GameManager.SpriteDictionary.PantherBase[42];
         }
         else if (Equals(actor.Unit.Race, Race.Bee))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.Bees1[89];
-            else if (weapon.Graphic == 6)
-                return State.GameManager.SpriteDictionary.Bees1[89];
+            else if (weapon.Graphic == 6) return State.GameManager.SpriteDictionary.Bees1[89];
         }
-        else if (Equals(actor.Unit.Race, Race.Merfolk) && weapon.Graphic == 4 || weapon.Graphic == 6)
+        else if ((Equals(actor.Unit.Race, Race.Merfolk) && weapon.Graphic == 4) || weapon.Graphic == 6)
             return State.GameManager.SpriteDictionary.Slimes[17];
         else if (Equals(actor.Unit.Race, Race.Viper))
         {
             if (weapon.Graphic == 4)
                 return State.GameManager.SpriteDictionary.Vipers1[20];
-            else if (weapon.Graphic == 6)
-                return State.GameManager.SpriteDictionary.Vipers1[20];
+            else if (weapon.Graphic == 6) return State.GameManager.SpriteDictionary.Vipers1[20];
         }
+
         return null;
     }
 
     internal static void SuccubusSwordEffect(Vector2 location)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var obj = Object.Instantiate(State.GameManager.SpriteRendererPrefab);
         obj.transform.position = location;
         obj.AddComponent<Assets.Scripts.Entities.Animations.SuccubusSword>();
-
     }
 
     internal static void CreateIceBlast(Vec2 location)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.IceBlast;
         Object.Instantiate(prefab, new Vector3(location.x, location.y, 0), new Quaternion());
 
@@ -169,65 +155,52 @@ internal static class TacticalGraphicalEffects
 
     internal static void CreateFireBall(Vec2i startLocation, Vec2i endLocation, Actor_Unit target)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.Fireball;
         var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         effect.Setup(startLocation, endLocation, target, null, null);
-
     }
 
     internal static void CreateHeartProjectile(Vec2i startLocation, Vec2i endLocation, Actor_Unit target)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.Charm;
         var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         effect.Setup(startLocation, endLocation, target, null, null);
-
     }
 
     internal static void CreatePollenCloud(Vec2i location)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.PollenCloud;
         Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
-
     }
 
     internal static void CreatePoisonCloud(Vec2i location)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.PoisonCloud;
         Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
-
     }
 
     internal static void CreateGasCloud(Vec2i location)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.GasCloud;
         Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
-
     }
 
     internal static void CreateSmokeCloud(Vec2i location, float scale)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.SmokeCloud;
         GameObject obj = Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
         obj.transform.localScale *= scale;
-        
     }
 
     internal static void CreateGlueBomb(Vec2i startLocation, Vec2i endLocation)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var arrow = Object.Instantiate(State.GameManager.TacticalMode.ArrowPrefab).GetComponent<ArrowEffect>();
         var sprite = State.GameManager.SpriteDictionary.SpitterSlug[10];
         if (sprite != null) arrow.GetComponentInChildren<SpriteRenderer>().sprite = sprite;
@@ -237,13 +210,11 @@ internal static class TacticalGraphicalEffects
             Object.Instantiate(prefab, new Vector3(endLocation.X, endLocation.Y, 0), new Quaternion());
         };
         arrow.Setup(startLocation, endLocation, null, null, hitEffect);
-
     }
 
     internal static void CreateSpiderWeb(Vec2i startLocation, Vec2i endLocation, Actor_Unit target)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.SpiderWeb;
         var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         effect.Setup(startLocation, endLocation, target, null, null);
@@ -251,13 +222,11 @@ internal static class TacticalGraphicalEffects
         effect.extraTime = 2.25f;
         var fade = effect.GetComponent<FadeInFadeOut>();
         fade.HoldTime = effect.totalTime + .75f;
-
     }
 
     internal static void CreateHugeMagic(Vec2i startLocation, Vec2i endLocation, Actor_Unit target, bool landed)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.HugeMagic;
         var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         effect.Setup(startLocation, endLocation, target, null, null);
@@ -265,27 +234,22 @@ internal static class TacticalGraphicalEffects
         System.Action hitEffect = null;
         if (landed)
         {
-           hitEffect = () =>
-            {
-                CreateMagicExplosion(new Vec2i(endLocation.X, endLocation.Y));
-            };
-        }   
+            hitEffect = () => { CreateMagicExplosion(new Vec2i(endLocation.X, endLocation.Y)); };
+        }
+
         effect.Setup(startLocation, endLocation, target, null, hitEffect);
     }
 
     internal static void CreateMagicExplosion(Vec2i location)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.MagicExplosion;
         Object.Instantiate(prefab, new Vector3(location.X, location.Y, 0), new Quaternion());
-
     }
 
     internal static void CreateGenericMagic(Vec2i startLocation, Vec2i endLocation, Actor_Unit target, SpellEffectIcon icon = SpellEffectIcon.None)
     {
-        if (State.GameManager.TacticalMode.turboMode)
-            return;
+        if (State.GameManager.TacticalMode.turboMode) return;
         var prefab = State.GameManager.TacticalEffectPrefabList.GenericMagic;
         var effect = Object.Instantiate(prefab, new Vector3(startLocation.X, startLocation.Y, 0), new Quaternion()).GetComponent<ArrowEffect>();
         System.Action hitEffect = null;
@@ -316,7 +280,6 @@ internal static class TacticalGraphicalEffects
         }
 
         effect.Setup(startLocation, endLocation, target, null, hitEffect);
-
     }
 
 
@@ -326,13 +289,9 @@ internal static class TacticalGraphicalEffects
         {
             for (int y = -1; y <= 1; y++)
             {
-                if (x == 0 & y == 0)
-                    continue;
+                if ((x == 0) & (y == 0)) continue;
                 Object.Instantiate(prefab, new Vector3(location.x + x * distance, location.y + y * distance, 0), new Quaternion());
             }
         }
     }
-
-
 }
-

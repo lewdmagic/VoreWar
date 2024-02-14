@@ -23,6 +23,7 @@ public class WorldSettings : MonoBehaviour
                 Destroy(item.gameObject);
             }
         }
+
         Empires = new EditEmpireUI[State.World.MainEmpires.Count];
         for (int i = 0; i < Empires.Length; i++)
         {
@@ -53,9 +54,10 @@ public class WorldSettings : MonoBehaviour
                     Empires[i].StrategicAI.value = 2;
                 }
             }
+
             if (Empires[i].AIPlayer.isOn)
             {
-                Empires[i].TacticalAI.value = ((int)State.World.MainEmpires[i].TacticalAIType) - 1;
+                Empires[i].TacticalAI.value = (int)State.World.MainEmpires[i].TacticalAIType - 1;
             }
             else
             {
@@ -79,6 +81,7 @@ public class WorldSettings : MonoBehaviour
                 Empires[i].gameObject.SetActive(false);
             }
         }
+
         UpdateColors();
         RelationsManager.ResetMonsterRelations();
     }
@@ -100,8 +103,7 @@ public class WorldSettings : MonoBehaviour
     {
         for (int i = 0; i < Empires.Length; i++)
         {
-            if (RaceFuncs.IsRebelOrBandit2(State.World.MainEmpires[i].Side))
-                continue;
+            if (RaceFuncs.IsRebelOrBandit2(State.World.MainEmpires[i].Side)) continue;
             if (Empires[i].AIPlayer.isOn)
             {
                 StrategyAIType strat = (StrategyAIType)(Empires[i].StrategicAI.value + 1);
@@ -117,8 +119,7 @@ public class WorldSettings : MonoBehaviour
                     State.World.MainEmpires[i].StrategicAI = new StrategicAI(State.World.MainEmpires[i], 2, true);
                 else if (strat == StrategyAIType.Cheating3)
                     State.World.MainEmpires[i].StrategicAI = new StrategicAI(State.World.MainEmpires[i], 3, true);
-                else if (strat == StrategyAIType.Legacy)
-                    State.World.MainEmpires[i].StrategicAI = new LegacyStrategicAI(State.World.MainEmpires[i].Side);
+                else if (strat == StrategyAIType.Legacy) State.World.MainEmpires[i].StrategicAI = new LegacyStrategicAI(State.World.MainEmpires[i].Side);
                 State.World.MainEmpires[i].TacticalAIType = (TacticalAIType)Empires[i].TacticalAI.value + 1;
             }
             else
@@ -126,6 +127,7 @@ public class WorldSettings : MonoBehaviour
                 State.World.MainEmpires[i].StrategicAI = null;
                 State.World.MainEmpires[i].TacticalAIType = TacticalAIType.None;
             }
+
             if (State.World.MainEmpires[i].CanVore != Empires[i].CanVore.isOn)
             {
                 State.World.MainEmpires[i].CanVore = Empires[i].CanVore.isOn;
@@ -139,7 +141,6 @@ public class WorldSettings : MonoBehaviour
                             unit.ReloadTraits(); //To make sure it takes into account gender traits as well
                         }
                     }
-
                 }
             }
 
@@ -155,8 +156,8 @@ public class WorldSettings : MonoBehaviour
             State.World.MainEmpires[i].MaxGarrisonSize = (int)Empires[i].MaxGarrisonSize.value;
             State.World.MainEmpires[i].TurnOrder = Convert.ToInt32(Empires[i].TurnOrder.text);
         }
-        if (Config.Diplomacy == false)
-            RelationsManager.ResetRelationTypes();
+
+        if (Config.Diplomacy == false) RelationsManager.ResetRelationTypes();
         State.World.RefreshTurnOrder();
         State.World.UpdateBanditLimits();
         State.GameManager.StrategyMode?.CheckIfOnlyAIPlayers();
@@ -210,8 +211,7 @@ public class WorldSettings : MonoBehaviour
         right.AppendLine($"Gold Mine Income : {Config.GoldMineIncome}");
         right.AppendLine($"Leader Exp % lost on Death : {Math.Round(Config.LeaderLossExpPct * 100, 2)}");
         right.AppendLine($"Leader Levels lost on Death : {Config.LeaderLossLevels}");
-        if (State.World.crazyBuildings)
-            right.AppendLine($"Annoynimouse's crazy buildings are on...");
+        if (State.World.crazyBuildings) right.AppendLine($"Annoynimouse's crazy buildings are on...");
 
         RightText.text = right.ToString();
     }
@@ -224,5 +224,4 @@ public class WorldSettings : MonoBehaviour
             emp.SecondaryColor.GetComponent<Image>().color = CreateStrategicGame.GetDarkerColor(CreateStrategicGame.ColorFromIndex(emp.SecondaryColor.value));
         }
     }
-
 }

@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class MapEditorTile : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public StrategicTileType type;
+
     public void OnPointerClick(PointerEventData eventData)
     {
         State.GameManager.MapEditor.SetTileType(type, transform);

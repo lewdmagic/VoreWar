@@ -33,6 +33,7 @@ public class Shop
                 shopUI.SellPanels[x].MoveToInventoryButton.onClick.AddListener(() => State.GameManager.Recruit_Mode.ShopTransferToInventory(slot));
             }
         }
+
         if (shopUI.BuyPanels.Length == 0)
         {
             shopUI.BuyPanels = new ShopBuyPanel[State.World.ItemRepository.NumItems];
@@ -52,9 +53,8 @@ public class Shop
                     shopUI.BuyPanels[x].Description.text = $"{item.Name} - cost {item.Cost} - {item.Description}";
             }
         }
+
         RegenButtonTextAndClickability();
-
-
     }
 
     public void TransferItemToInventory(int slot)
@@ -75,12 +75,13 @@ public class Shop
                 break;
             }
         }
-        if (slot == -1)
-            return;
+
+        if (slot == -1) return;
         if (army.ItemStock.TakeItem((ItemType)type))
         {
             unit.SetItem(State.World.ItemRepository.GetItem(type), slot);
         }
+
         RegenButtonTextAndClickability();
     }
 
@@ -90,6 +91,7 @@ public class Shop
         {
             empire.AddGold(State.World.ItemRepository.GetItem(type).Cost / 2);
         }
+
         RegenButtonTextAndClickability();
     }
 
@@ -111,8 +113,7 @@ public class Shop
     public bool BuyItem(int type)
     {
         bool bought = BuyItem(empire, unit, State.World.ItemRepository.GetItem(type));
-        if (bought)
-            RegenButtonTextAndClickability();
+        if (bought) RegenButtonTextAndClickability();
         return bought;
     }
 
@@ -145,12 +146,11 @@ public class Shop
         int cost = 0;
         foreach (Unit unit in army?.Units)
         {
-            if (unit.HasFreeItemSlot() == false || unit.FixedGear)
-                continue;
-            if (unit.GetItemSlot(item) != -1)
-                continue;
+            if (unit.HasFreeItemSlot() == false || unit.FixedGear) continue;
+            if (unit.GetItemSlot(item) != -1) continue;
             cost += item.Cost;
         }
+
         return cost;
     }
 
@@ -159,12 +159,11 @@ public class Shop
         var item = State.World.ItemRepository.GetItem(type);
         foreach (Unit unit in army?.Units)
         {
-            if (unit.HasFreeItemSlot() == false || unit.FixedGear)
-                continue;
-            if (unit.GetItemSlot(item) != -1)
-                continue;
+            if (unit.HasFreeItemSlot() == false || unit.FixedGear) continue;
+            if (unit.GetItemSlot(item) != -1) continue;
             BuyItem(empire, unit, item);
         }
+
         RegenButtonTextAndClickability();
     }
 
@@ -178,14 +177,14 @@ public class Shop
     {
         for (int i = 0; i < shopUI.BuyPanels.Length; i++)
         {
-            if (shopUI.BuyPanels[i] == null)
-                continue;
+            if (shopUI.BuyPanels[i] == null) continue;
             var racePar = RaceParameters.GetTraitData(unit);
             if (racePar.CanUseRangedWeapons == false && State.World.ItemRepository.ItemIsRangedWeapon(i))
             {
                 shopUI.BuyPanels[i].gameObject.SetActive(false);
                 continue;
             }
+
             Item item = State.World.ItemRepository.GetItem(i);
             if ((unit.HasTrait(TraitType.Feral) || unit.FixedGear) && item is Weapon)
             {
@@ -200,7 +199,7 @@ public class Shop
 
             if (item is SpellBook book)
             {
-                if (book.Tier > ((village?.NetBoosts.SpellLevels ?? -5) + 1))
+                if (book.Tier > (village?.NetBoosts.SpellLevels ?? -5) + 1)
                 {
                     if (army.ItemStock.HasItem((ItemType)i) == false)
                     {
@@ -211,7 +210,6 @@ public class Shop
                     {
                         shopUI.BuyPanels[i].BuyButton.interactable = false;
                     }
-
                 }
             }
 
@@ -226,10 +224,8 @@ public class Shop
                     shopUI.BuyPanels[i].TakeFromInventoryButton.interactable = false;
                 }
             }
-            if (item.Cost > empire.Gold)
-                shopUI.BuyPanels[i].BuyButton.interactable = false;
 
-
+            if (item.Cost > empire.Gold) shopUI.BuyPanels[i].BuyButton.interactable = false;
         }
     }
 
@@ -239,8 +235,7 @@ public class Shop
         for (int i = 0; i < maxSellSlots; i++)
         {
             shopUI.SellPanels[i].gameObject.SetActive(i < unitItemSlots);
-            if (i >= unitItemSlots)
-                continue; //continue instead of break so it will hide the rest
+            if (i >= unitItemSlots) continue; //continue instead of break so it will hide the rest
             if (unit.GetItem(i) != null)
             {
                 shopUI.SellPanels[i].Description.text = $"{unit.GetItem(i).Name} -- sells for {unit.GetItem(i).Cost / 2}";
@@ -256,7 +251,5 @@ public class Shop
                 shopUI.SellPanels[i].MoveToInventoryButton.interactable = false;
             }
         }
-
     }
-
 }

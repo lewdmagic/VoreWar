@@ -25,6 +25,4 @@
     Cake,
     WyvernBonesWithoutHead,
     VisionSkull,
-
 }
-

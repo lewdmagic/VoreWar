@@ -50,8 +50,8 @@ namespace Assets.Scripts.Modes.Strategic
                 {
                     tiles[x, y] = GetTerrain(x, y);
                 }
-
             }
+
             return tiles;
         }
 
@@ -77,36 +77,24 @@ namespace Assets.Scripts.Modes.Strategic
                 else
                     temperature = (temperature + .5f) / 2;
             }
-            if (height < GenArgs.WaterPct && temperature < .3f)
-                return StrategicTileType.ice;
-            if (height < GenArgs.WaterPct)
-                return StrategicTileType.water;
-            if (temperature > .6f && height < .55f - (GenArgs.Hilliness / 5))
-                return StrategicTileType.desert;
-            if (temperature > .6f && height > .55f - (GenArgs.Hilliness / 5) + Random.Range(0f, 1 - mountain_threshold))
-                return StrategicTileType.brokenCliffs;
-            if (temperature > .6f)
-                return StrategicTileType.sandHills;
-            if (temperature < .3f && height < .55f - (GenArgs.Hilliness / 5) && humidity < (.5f + GenArgs.ForestPct / 4) && humidity > (.5f - GenArgs.ForestPct / 4))
-                return StrategicTileType.snowTrees;
-            if (temperature < .3f && height < .55f - (GenArgs.Hilliness / 5))
-                return StrategicTileType.snow;
-            if (temperature < .3f && height > .55f - (GenArgs.Hilliness / 5) + Random.Range(0f, 1 - mountain_threshold))
-                return StrategicTileType.snowMountain;
-            if (temperature < .3f)
-                return StrategicTileType.snowHills;
-            if (height > .55f - (GenArgs.Hilliness / 5) + Random.Range(0f, 1 - mountain_threshold))
-                return StrategicTileType.mountain;
-            if (height > .55f - (GenArgs.Hilliness / 5))
-                return StrategicTileType.hills;
-            if (humidity > .75f - GenArgs.Swampiness / 4)
-                return StrategicTileType.swamp;
-            if (temperature < .55f && temperature > .4f && humidity < (.5f + GenArgs.ForestPct / 4) && humidity > (.5f - GenArgs.ForestPct / 4))
+
+            if (height < GenArgs.WaterPct && temperature < .3f) return StrategicTileType.ice;
+            if (height < GenArgs.WaterPct) return StrategicTileType.water;
+            if (temperature > .6f && height < .55f - GenArgs.Hilliness / 5) return StrategicTileType.desert;
+            if (temperature > .6f && height > .55f - GenArgs.Hilliness / 5 + Random.Range(0f, 1 - mountain_threshold)) return StrategicTileType.brokenCliffs;
+            if (temperature > .6f) return StrategicTileType.sandHills;
+            if (temperature < .3f && height < .55f - GenArgs.Hilliness / 5 && humidity < .5f + GenArgs.ForestPct / 4 && humidity > .5f - GenArgs.ForestPct / 4) return StrategicTileType.snowTrees;
+            if (temperature < .3f && height < .55f - GenArgs.Hilliness / 5) return StrategicTileType.snow;
+            if (temperature < .3f && height > .55f - GenArgs.Hilliness / 5 + Random.Range(0f, 1 - mountain_threshold)) return StrategicTileType.snowMountain;
+            if (temperature < .3f) return StrategicTileType.snowHills;
+            if (height > .55f - GenArgs.Hilliness / 5 + Random.Range(0f, 1 - mountain_threshold)) return StrategicTileType.mountain;
+            if (height > .55f - GenArgs.Hilliness / 5) return StrategicTileType.hills;
+            if (humidity > .75f - GenArgs.Swampiness / 4) return StrategicTileType.swamp;
+            if (temperature < .55f && temperature > .4f && humidity < .5f + GenArgs.ForestPct / 4 && humidity > .5f - GenArgs.ForestPct / 4)
                 return StrategicTileType.forest;
             else
                 return StrategicTileType.grass;
         }
-
 
 
         //calculate the value of an element of the array based on noise and location
@@ -116,9 +104,9 @@ namespace Assets.Scripts.Modes.Strategic
             j = j + Mathf.RoundToInt(seed.y * zoom);
             //fractal behavior occurs here. Everything else is parameter fine-tuning
             return 0
-            + Mathf.PerlinNoise(i / zoom, j / zoom) / 3
-            + Mathf.PerlinNoise(i / (zoom / factor), j / (zoom / factor)) / 3
-            + Mathf.PerlinNoise(i / (zoom / factor * factor), j / (zoom / factor * factor)) / 3;
+                   + Mathf.PerlinNoise(i / zoom, j / zoom) / 3
+                   + Mathf.PerlinNoise(i / (zoom / factor), j / (zoom / factor)) / 3
+                   + Mathf.PerlinNoise(i / (zoom / factor * factor), j / (zoom / factor * factor)) / 3;
         }
 
         //float FractalNoiseRidges(int i, int j, float zoom, float factor, Vector2 seed)
@@ -170,6 +158,5 @@ namespace Assets.Scripts.Modes.Strategic
                 }
             }
         }
-
     }
 }

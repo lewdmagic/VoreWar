@@ -4,7 +4,6 @@ internal partial class RaceRenderer
 {
     private class AccumulatedClothes
     {
-
         /// <summary>Turns off the breast sprites entirely</summary>
         internal bool BlocksBreasts;
 

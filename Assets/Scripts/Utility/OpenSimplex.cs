@@ -9,8 +9,8 @@ namespace Noise
 {
     public class OpenSimplexNoise
     {
-        private const double STRETCH_2D = -0.211324865405187;    //(1/Math.sqrt(2+1)-1)/2;
-        private const double SQUISH_2D = 0.366025403784439;      //(Math.sqrt(2+1)-1)/2;
+        private const double STRETCH_2D = -0.211324865405187; //(1/Math.sqrt(2+1)-1)/2;
+        private const double SQUISH_2D = 0.366025403784439; //(Math.sqrt(2+1)-1)/2;
         private const double NORM_2D = 1.0 / 47.0;
 
 
@@ -19,10 +19,10 @@ namespace Noise
 
         private static double[] gradients2D = new double[]
         {
-             5,  2,    2,  5,
-            -5,  2,   -2,  5,
-             5, -2,    2, -5,
-            -5, -2,   -2, -5,
+            5, 2, 2, 5,
+            -5, 2, -2, 5,
+            5, -2, 2, -5,
+            -5, -2, -2, -5,
         };
 
 
@@ -54,8 +54,10 @@ namespace Noise
                     {
                         previous.Next = current;
                     }
+
                     previous = current;
                 }
+
                 current.Next = new Contribution2(p2D[i + 1], p2D[i + 2], p2D[i + 3]);
             }
 
@@ -64,9 +66,6 @@ namespace Noise
             {
                 lookup2D[lookupPairs2D[i]] = contributions2D[lookupPairs2D[i + 1]];
             }
-
-
-
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -90,6 +89,7 @@ namespace Noise
             {
                 source[i] = (byte)i;
             }
+
             seed = seed * 6364136223846793005L + 1442695040888963407L;
             seed = seed * 6364136223846793005L + 1442695040888963407L;
             seed = seed * 6364136223846793005L + 1442695040888963407L;
@@ -99,8 +99,9 @@ namespace Noise
                 int r = (int)((seed + 31) % (i + 1));
                 if (r < 0)
                 {
-                    r += (i + 1);
+                    r += i + 1;
                 }
+
                 perm[i] = source[r];
                 perm2D[i] = (byte)(perm[i] & 0x0E);
                 source[r] = source[i];
@@ -126,10 +127,10 @@ namespace Noise
             var inSum = xins + yins;
 
             var hash =
-               (int)(xins - yins + 1) |
-               (int)(inSum) << 1 |
-               (int)(inSum + yins) << 2 |
-               (int)(inSum + xins) << 4;
+                (int)(xins - yins + 1) |
+                ((int)inSum << 1) |
+                ((int)(inSum + yins) << 2) |
+                ((int)(inSum + xins) << 4);
 
             var c = lookup2D[hash];
 
@@ -150,8 +151,10 @@ namespace Noise
                     attn *= attn;
                     value += attn * attn * valuePart;
                 }
+
                 c = c.Next;
             }
+
             return value * NORM_2D;
         }
 
@@ -170,7 +173,5 @@ namespace Noise
                 this.ysb = ysb;
             }
         }
-
-
     }
 }

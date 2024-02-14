@@ -3,7 +3,7 @@ using static LogUtilities;
 
 public static class RandomDigestionMessages
 {
-    internal static List<EventString>      RandomDigestionMessagesList = new List<EventString>()
+    internal static List<EventString> RandomDigestionMessagesList = new List<EventString>()
     {
         new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> struggles can be clearly seen inside <b>{i.Unit.Name}</b>’ transparent {i.preyLocation.ToSyn()}.",
             actorRace: Race.Slime, priority: 10),
@@ -65,7 +65,7 @@ public static class RandomDigestionMessages
         new EventString((i) => $"<b>{i.Unit.Name}</b> knows that with <b>{i.Target.Name}</b> out of the way, <b>{AttractedWarrior(i.Unit).Name}</b> will rut with {GPPHim(i.Unit)} sooner or later.",
             actorRace: Race.Deer, priority: 8, conditional: s => ReqOSWStomach(s) && Friendly(s)),
         new EventString((i) => $"<b>{AttractedWarrior(i.Unit).Name}</b> watches as <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> abdomen bulges and wobbles after having eaten <b>{i.Target.Name}</b>. {Capitalize(GPPHe(i.Unit))} ask{SIfSingular(i.Unit)} why {GPPHe(i.Unit)} ate their comrade and {GPPHe(i.Unit)} say{SIfSingular(i.Unit)} that {GPPHeIsAbbr(i.Unit)} doing {GPPHis(i.Unit)} part to make sure the deer population stays in check.",
-            actorRace: Race.Deer, targetRace: Race.Deer, priority: 8, conditional:s => ReqOSWStomach(s) && Friendly(s)),
+            actorRace: Race.Deer, targetRace: Race.Deer, priority: 8, conditional: s => ReqOSWStomach(s) && Friendly(s)),
 
         //Deer prey
         new EventString((i) => $"<b>{i.Target.Name}</b> bleats pitifully as the fluids within <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> gut soak into {GPPHis(i.Target)} fur.",
@@ -270,7 +270,7 @@ public static class RandomDigestionMessages
             priority: 8, conditional: s => Friendly(s) && !Endo(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> can’t stand to look at {GPPHis(i.Unit)} {i.preyLocation.ToSyn()} as it finishes off {GPPHis(i.Unit)} comrade.",
             priority: 8, conditional: s => Friendly(s) && !Endo(s)),
-           
+
         //Bodyparts - Thigh fat - Tail fat - thickening {GPPHis(i.Unit)} tentacles - drooping down {GPPHis(i.Unit)} midsection - any else?
         new EventString((i) => $"<b>{i.Unit.Name}</b> realizes what {GPPHe(i.Unit)} {HasHave(i.Unit)} done and tries to expel {GPPHis(i.Unit)} ally but it’s too late, <b>{i.Target.Name}</b> is already thigh fat.",
             priority: 8, conditional: s => Friendly(s) && !Endo(s)),
@@ -331,7 +331,7 @@ public static class RandomDigestionMessages
             priority: 8, conditional: InStomach),
         new EventString((i) => $"<b>{i.Unit.Name}</b> urrrps, {GPPHis(i.Unit)} {i.preyLocation.ToSyn()} tightening around <b>{i.Target.Name}</b>.",
             priority: 8, conditional: (s) => InStomach(s) && CanBurp(s)),
-        new EventString((i) => $"<b>{i.Target.Name}</b> is really starting to feel the pressure from <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> {i.preyLocation.ToSyn()}, the {i.preyLocation.ToSyn()} lewdly churning over the { GetRaceDescSingl(i.Target)}.",
+        new EventString((i) => $"<b>{i.Target.Name}</b> is really starting to feel the pressure from <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> {i.preyLocation.ToSyn()}, the {i.preyLocation.ToSyn()} lewdly churning over the {GetRaceDescSingl(i.Target)}.",
             priority: 8),
         new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> {i.preyLocation.ToSyn()} wobble{PluralForPart(i.preyLocation)} as <b>{i.Target.Name}</b> still tries to get out.",
             priority: 8),
@@ -425,7 +425,7 @@ public static class RandomDigestionMessages
         new EventString((i) => $"<b>{i.Unit.Name}</b> strikes a suggestive pose with {GPPHis(i.Unit)} belly swaying to get <b>{AttractedWarrior(i.Unit).Name}</b>’s attention.",
             priority: 8, conditional: ReqOSWBelly),
         new EventString((i) => $"<b>{i.Unit.Name}</b> wants nothing more than to ravage <b>{AttractedWarrior(i.Unit).Name}</b> like {GPPHis(i.Unit)} acids are ravaging <b>{i.Target.Name}</b>!",
-            priority: 8, conditional: s =>ReqOSWLewd(s) && HardVore(s)),
+            priority: 8, conditional: s => ReqOSWLewd(s) && HardVore(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> thinks about using {GPPHis(i.Unit)} newfound weight to pin <b>{AttractedWarrior(i.Unit).Name}</b> to the ground and have {GPPHis(i.Unit)} way with {GPPHim(AttractedWarrior(i.Unit))}, but decides not to.",
             priority: 8, conditional: ReqOSW),
         new EventString((i) => $"<b>{i.Unit.Name}</b> wishes {GPPHeWas(i.Unit)} as close to <b>{AttractedWarrior(i.Unit).Name}</b> as {GPPHeWas(i.Unit)} with the prey in {GPPHis(i.Unit)} <b>{i.Target.Name}</b>-stuffed guts. But with less digesting and death.",
@@ -489,7 +489,7 @@ public static class RandomDigestionMessages
             priority: 8, conditional: InBreasts),
 
         new EventString((i) => $"Slowly turning an opponent into nothing more than a slushie of meat and bile inside of {GPPHim(i.Unit)} really turns <b>{i.Unit.Name}</b> on. {Capitalize(GPPHe(i.Unit))} begin fingering {GPPHimself(i.Unit)}. The new wave of movement results in panicked screams from within {GPPHis(i.Unit)} stomach as <b>{i.Target.Name}</b> is covered in digestive juices.",
-            priority: 8, conditional: s => Lewd(s) && HardVore(s) ),
+            priority: 8, conditional: s => Lewd(s) && HardVore(s)),
         new EventString((i) => $"<b>{ApostrophizeWithOrWithoutS(i.Target.Name)}</b> futile attempts to free {GPPHimself(i.Target)} from an acidic fate lights a fire in {GPPHis(i.Target)} predator’s loins. <b>{i.Unit.Name}</b>, in a flurry of passion places {GPPHis(i.Unit)} thrashing bulge of a gut against {GPPHis(i.Unit)} most sensitive parts.",
             priority: 8, conditional: s => Lewd(s) && InStomachOrWomb(s)),
         new EventString((i) => $"<b>{i.Unit.Name}</b> knows that the only way to increase {GPPHis(i.Unit)} attractiveness is for the struggling meal within {GPPHis(i.Unit)} curvaceous gut to fill {GPPHim(i.Unit)} out. Both to encourage growth and derive pleasure, {GPPHe(i.Unit)} begin{SIfSingular(i.Unit)} to massage {GPPHis(i.Unit)} {(i.Unit.HasDick ? "dick" : "breasts")}.",
@@ -511,7 +511,7 @@ public static class RandomDigestionMessages
         new EventString((i) => $"\"You were hard to get down, I’ll give you that,\" <b>{i.Unit.Name}</b> says to {GPPHis(i.Unit)} midsection, sagging low from the weight of the living meal within. \"But it’s about time you become part of a real warrior,\" {GPPHe(i.Unit)} says, proudly rubbing {GPPHis(i.Unit)} rounded gut.",
             priority: 8, conditional: s => InStomach(s) && ActorHumanoid(s)),
         new EventString((i) => $"\"You better not go to my thighs,\" <b>{i.Unit.Name}</b> warns {GPPHis(i.Unit)} meal as it thrashes about inside of {GPPHim(i.Unit)}. \"I’m trying to maintain a certain figure,\" {GPPHe(i.Unit)} taunt{SIfSingular(i.Unit)} as {GPPHe(i.Unit)} run{SIfSingular(i.Unit)} {GPPHis(i.Unit)} hands across {GPPHis(i.Unit)} chest and bulging gut.",
-            priority: 8, conditional:s => InStomach(s) && ActorHumanoid(s)),
+            priority: 8, conditional: s => InStomach(s) && ActorHumanoid(s)),
         new EventString((i) => $"\"I thought your race was supposed to be intimidating, not delicious!\" <b>{i.Unit.Name}</b> teases {GPPHis(i.Unit)} meal followed by a burp, \"But hey, I’m not complaining!\"",
             priority: 8, conditional: s => InStomach(s) && ActorHumanoid(s)),
         new EventString((i) => $"\"You thought you were so special,\" <b>{i.Unit.Name}</b> states with disdain at the swaying gut hanging off {GPPHim(i.Unit)}, \"But now you’re nothing more than food. But don’t worry,\" {GPPHe(i.Unit)} chuckle{SIfSingular(i.Unit)} as a cruel smile crosses {GPPHis(i.Unit)} lips, \"You’ll be hot shit soon enough!\"",
@@ -577,7 +577,7 @@ public static class RandomDigestionMessages
             priority: 9, conditional: Cursed),
 
         new EventString((i) => $"<b>{i.Target.Name}</b> knows what will happen to {GPPHim(i.Target)} if {GPPHe(i.Target)} do{EsIfSingular(i.Target)} not escape from <b>{ApostrophizeWithOrWithoutS(i.Unit.Name)}</b> {PreyLocStrings.ToSyn(i.preyLocation)}, but {GPPHeIsAbbr(i.Target)} just too horny to care.",
-            priority: 9, conditional: s=> Cursed(s) && Lewd(s)),
+            priority: 9, conditional: s => Cursed(s) && Lewd(s)),
 
         new EventString((i) => $" \"Look at you, the Big Bad Wolf reduced to a mere bulge in my Big Fat Gut\" <b>{i.Unit.Name}</b> laughs, taunting <b>{i.Target.Name}</b> as the wolf squirms within {GPPHis(i.Unit)} big fat gut.",
             targetRace: Race.Wolf, priority: 10, conditional: s => ActorLeader(s) && InStomach(s) && TargetLeader(s)),

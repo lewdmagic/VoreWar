@@ -6,10 +6,10 @@ using Random = UnityEngine.Random;
 internal static class LogUtilities
 {
     private static int rand;
+
     internal static string GetRandomStringFrom(List<string> messages)
     {
-        if (messages.Count == 0)
-            return "";
+        if (messages.Count == 0) return "";
         rand = Random.Range(0, messages.Count);
         return messages[rand];
     }
@@ -22,111 +22,109 @@ internal static class LogUtilities
 
     internal static string GetGenderString(Unit unit, string female, string male, string mixed)
     {
-        if (unit.HasBreasts && (unit.HasDick != unit.HasVagina))
+        if (unit.HasBreasts && unit.HasDick != unit.HasVagina)
             return female;
-        else if (!unit.HasBreasts && (unit.HasDick != unit.HasVagina))
-            return male;
+        else if (!unit.HasBreasts && unit.HasDick != unit.HasVagina) return male;
         return mixed;
     }
 
-    internal static string Capitalize(String str)
+    internal static string Capitalize(string str)
     {
-        if (str == null)
-            return null;
+        if (str == null) return null;
         return char.ToUpper(str[0]) + str.Substring(1);
-
     }
 
     /// <summary>
-    /// Returns given unit's nominative pronoun.<br></br>(e.g. he/she/they)
+    ///     Returns given unit's nominative pronoun.<br></br>(e.g. he/she/they)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
     internal static string GPPHe(Unit unit) => unit.GetPronoun(0);
 
     /// <summary>
-    /// Returns given unit's nominative pronoun appended with present-tense auxillary.<br></br>(e.g. he is/she is/they are)
+    ///     Returns given unit's nominative pronoun appended with present-tense auxillary.<br></br>(e.g. he is/she is/they are)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
     internal static string GPPHeIs(Unit unit) => unit.GetPronoun(0) + (unit.GetPronoun(5) == "plural" ? " are" : " is");
 
     /// <summary>
-    /// Returns given unit's nominative pronoun appended with present-tense auxillary as a contraction.<br></br>(e.g. he's/she's/they're)
+    ///     Returns given unit's nominative pronoun appended with present-tense auxillary as a contraction.<br></br>(e.g.
+    ///     he's/she's/they're)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
     internal static string GPPHeIsAbbr(Unit unit) => unit.GetPronoun(0) + (unit.GetPronoun(5) == "plural" ? "'re" : "'s");
 
     /// <summary>
-    /// Returns given unit's nominative pronoun appended with past-tense auxillary.<br></br>(e.g. he was/she was/they were)
+    ///     Returns given unit's nominative pronoun appended with past-tense auxillary.<br></br>(e.g. he was/she was/they were)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
     internal static string GPPHeWas(Unit unit) => unit.GetPronoun(0) + (unit.GetPronoun(5) == "plural" ? " were" : " was");
 
     /// <summary>
-    /// Returns given unit's accusative pronoun.<br></br>(e.g. him/her/them)
+    ///     Returns given unit's accusative pronoun.<br></br>(e.g. him/her/them)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
     internal static string GPPHim(Unit unit) => unit.GetPronoun(1);
 
     /// <summary>
-    /// Returns given unit's pronomial possessive pronoun.<br></br>(e.g. ...<u>their</u> belly...)
+    ///     Returns given unit's pronomial possessive pronoun.<br></br>(e.g. ...<u>their</u> belly...)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
     internal static string GPPHis(Unit unit) => unit.GetPronoun(2);
 
     /// <summary>
-    /// Returns given unit's reflexive pronoun.<br></br>(e.g. ...can't help <u>themself</u>...)
+    ///     Returns given unit's reflexive pronoun.<br></br>(e.g. ...can't help <u>themself</u>...)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
     internal static string GPPHimself(Unit unit) => unit.GetPronoun(4);
 
     /// <summary>
-    /// Returns "s" if given unit is referred to with singular grammar.
+    ///     Returns "s" if given unit is referred to with singular grammar.
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string SIfSingular(Unit unit) => (unit.GetPronoun(5) == "plural" ? "" : "s");
+    internal static string SIfSingular(Unit unit) => unit.GetPronoun(5) == "plural" ? "" : "s";
 
     /// <summary>
-    /// Returns "es" if given unit is referred to with singular grammar.
+    ///     Returns "es" if given unit is referred to with singular grammar.
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string EsIfSingular(Unit unit) => (unit.GetPronoun(5) == "plural" ? "" : "es");
+    internal static string EsIfSingular(Unit unit) => unit.GetPronoun(5) == "plural" ? "" : "es";
 
     /// <summary>
-    /// Returns "y" or "ies" based on plurality of given unit.
+    ///     Returns "y" or "ies" based on plurality of given unit.
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string IesIfSingular(Unit unit) => (unit.GetPronoun(5) == "plural" ? "y" : "ies");
+    internal static string IesIfSingular(Unit unit) => unit.GetPronoun(5) == "plural" ? "y" : "ies";
 
     /// <summary>
-    /// Returns "has" or "have" based on plurality of given unit.
+    ///     Returns "has" or "have" based on plurality of given unit.
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string HasHave(Unit unit) => (unit.GetPronoun(5) == "plural" ? "have" : "has");
+    internal static string HasHave(Unit unit) => unit.GetPronoun(5) == "plural" ? "have" : "has";
 
     /// <summary>
-    /// Returns "is" or "are" based on plurality of given unit.
+    ///     Returns "is" or "are" based on plurality of given unit.
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string IsAre(Unit unit) => (unit.GetPronoun(5) == "plural" ? "are" : "is");
+    internal static string IsAre(Unit unit) => unit.GetPronoun(5) == "plural" ? "are" : "is";
 
     /// <summary>
-    /// Returns "was" or "were" based on plurality of given unit.
+    ///     Returns "was" or "were" based on plurality of given unit.
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string WasWere(Unit unit) => (unit.GetPronoun(5) == "plural" ? "were" : "was");
+    internal static string WasWere(Unit unit) => unit.GetPronoun(5) == "plural" ? "were" : "was";
 
     internal static string PluralForPart(PreyLocation location)
     {
@@ -142,15 +140,14 @@ internal static class LogUtilities
             case PreyLocation.anal:
                 return "s";
         }
+
         return "";
     }
 
     internal static string BoyGirl(Unit unit)
     {
-        if (unit.DefaultBreastSize >= 0 && unit.DickSize < 0)
-            return "girl";
-        if (unit.DefaultBreastSize < 0 && unit.DickSize >= 0)
-            return "boy";
+        if (unit.DefaultBreastSize >= 0 && unit.DickSize < 0) return "girl";
+        if (unit.DefaultBreastSize < 0 && unit.DickSize >= 0) return "boy";
         return unit.Race.ToString();
     }
 
@@ -165,8 +162,7 @@ internal static class LogUtilities
     internal static Unit CompetitionWarrior(Unit unit)
     {
         var friendlies = TacticalUtilities.Units.Where(s => Equals(s.Unit.Side, unit.Side) && s.Unit != unit && s.Visible && s.Targetable && s.Unit.IsDead == false && RomanticTarget(unit, s.Unit) == false).ToArray();
-        if (friendlies.Length == 0)
-            return null;
+        if (friendlies.Length == 0) return null;
         return friendlies[State.Rand.Next(friendlies.Length)].Unit;
     }
 
@@ -179,11 +175,13 @@ internal static class LogUtilities
             float chance = prey.GetDevourChance(TacticalUtilities.Units.Where(actor => actor.Unit == unit)?.FirstOrDefault(), true);
             preyChanceMap.Add(prey, chance);
         }
+
         var primePrey = preyChanceMap.OrderBy(x => x.Value).LastOrDefault();
         if (!primePrey.Equals(default(KeyValuePair<Actor_Unit, float>)))
         {
             return primePrey.Key.Unit;
         }
+
         var you = new Unit(Race.Human);
         you.DefaultBreastSize = -1;
         you.DickSize = -1;
@@ -202,13 +200,13 @@ internal static class LogUtilities
                 {
                     return actor.Unit;
                 }
+
                 return null; //Avoid picking a new target during the same battle
             }
         }
 
         var friendlies = TacticalUtilities.Units.Where(s => Equals(s.Unit.Side, unit.Side) && s.Unit != unit && s.Visible && s.Targetable && s.Unit.IsDead == false && RomanticTarget(unit, s.Unit)).ToArray();
-        if (friendlies.Length == 0)
-            return null;
+        if (friendlies.Length == 0) return null;
         return friendlies[State.Rand.Next(friendlies.Length)].Unit;
     }
 
@@ -219,8 +217,7 @@ internal static class LogUtilities
 
     internal static bool RomanticTarget(Unit unit, Unit target)
     {
-        if (unit.GetGender() == Gender.Hermaphrodite || target.GetGender() == Gender.Hermaphrodite)
-            return true;
+        if (unit.GetGender() == Gender.Hermaphrodite || target.GetGender() == Gender.Hermaphrodite) return true;
         if (unit.GetGender() == Gender.Female)
         {
             switch (Config.FemalesLike)
@@ -233,6 +230,7 @@ internal static class LogUtilities
                     return true;
             }
         }
+
         if (unit.GetGender() == Gender.Male)
         {
             switch (Config.MalesLike)
@@ -245,15 +243,16 @@ internal static class LogUtilities
                     return true;
             }
         }
+
         //Should never make it here
         return false;
     }
 
 
-
     /// <summary>
-    /// Determines whether the string supplied should have either a or an before it and returns the original string with the right "thing" in front of it.
-    /// Done this way since otherwise the string might get randomized again and wouldn't match the returned bit.
+    ///     Determines whether the string supplied should have either a or an before it and returns the original string with
+    ///     the right "thing" in front of it.
+    ///     Done this way since otherwise the string might get randomized again and wouldn't match the returned bit.
     /// </summary>
     /// <param name="str"></param>
     /// <returns></returns>
@@ -263,18 +262,21 @@ internal static class LogUtilities
         {
             return "an " + str;
         }
+
         if (str.StartsWith("b", true, null) || str.StartsWith("c", true, null) || str.StartsWith("d", true, null) || str.StartsWith("f", true, null) || str.StartsWith("g", true, null) || str.StartsWith("h", true, null) ||
             str.StartsWith("j", true, null) || str.StartsWith("k", true, null) || str.StartsWith("l", true, null) || str.StartsWith("m", true, null) || str.StartsWith("n", true, null) || str.StartsWith("p", true, null) ||
             str.StartsWith("q", true, null) || str.StartsWith("r", true, null) || str.StartsWith("s", true, null) || str.StartsWith("t", true, null) || str.StartsWith("v", true, null) || str.StartsWith("w", true, null) || str.StartsWith("x", true, null) || str.StartsWith("z", true, null))
         {
             return "a " + str;
         }
+
         if (str.StartsWith("'", true, null))
         {
             if (str.StartsWith("'a", true, null) || str.StartsWith("'e", true, null) || str.StartsWith("'i", true, null) || str.StartsWith("'o", true, null) || str.StartsWith("'u", true, null) || str.StartsWith("'y", true, null))
             {
                 return "an " + str;
             }
+
             if (str.StartsWith("'b", true, null) || str.StartsWith("'c", true, null) || str.StartsWith("'d", true, null) || str.StartsWith("'f", true, null) || str.StartsWith("'g", true, null) || str.StartsWith("'h", true, null) ||
                 str.StartsWith("'j", true, null) || str.StartsWith("'k", true, null) || str.StartsWith("'l", true, null) || str.StartsWith("'m", true, null) || str.StartsWith("'n", true, null) || str.StartsWith("'p", true, null) ||
                 str.StartsWith("'q", true, null) || str.StartsWith("'r", true, null) || str.StartsWith("'s", true, null) || str.StartsWith("'t", true, null) || str.StartsWith("'v", true, null) || str.StartsWith("'w", true, null) || str.StartsWith("'x", true, null) || str.StartsWith("'z", true, null))
@@ -282,6 +284,7 @@ internal static class LogUtilities
                 return "a " + str;
             }
         }
+
         return str;
     }
 
@@ -291,8 +294,14 @@ internal static class LogUtilities
     }
 
     /// <summary>
-    /// <para>Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, enjoying the * morsels squirms on her way down."</para>
-    /// <para>Generally meant for the prey/loser/weaker unit. Has mostly demeaning, belittling, weakness indicating or fear portraying terms.</para>
+    ///     <para>
+    ///         Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, enjoying the * morsels
+    ///         squirms on her way down."
+    ///     </para>
+    ///     <para>
+    ///         Generally meant for the prey/loser/weaker unit. Has mostly demeaning, belittling, weakness indicating or fear
+    ///         portraying terms.
+    ///     </para>
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
@@ -302,8 +311,14 @@ internal static class LogUtilities
     }
 
     /// <summary>
-    ///<para>Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, the prey filling his * body nicely."</para>
-    ///<para>Generally meant for the predator/winner/stronger unit. Strength describing, contentment/pleasure indicating, etc. terms.</para>
+    ///     <para>
+    ///         Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, the prey filling his *
+    ///         body nicely."
+    ///     </para>
+    ///     <para>
+    ///         Generally meant for the predator/winner/stronger unit. Strength describing, contentment/pleasure indicating,
+    ///         etc. terms.
+    ///     </para>
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
@@ -313,8 +328,14 @@ internal static class LogUtilities
     }
 
     /// <summary>
-    /// <para>Gets a descriptive string that fits situations like "Jeanne graps Timothy's head, pushing the *'s face in her slit and soon forcing rest of him after it."</para>
-    /// <para>This is either the species name, a name of the genus the species belongs to or something similar. Can also be a synonym of the species name.</para>
+    ///     <para>
+    ///         Gets a descriptive string that fits situations like "Jeanne graps Timothy's head, pushing the *'s face in her
+    ///         slit and soon forcing rest of him after it."
+    ///     </para>
+    ///     <para>
+    ///         This is either the species name, a name of the genus the species belongs to or something similar. Can also be
+    ///         a synonym of the species name.
+    ///     </para>
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
@@ -324,7 +345,7 @@ internal static class LogUtilities
     }
 
     /// <summary>
-    /// Gets a name that fits the weapon the unit's graphics show it using.
+    ///     Gets a name that fits the weapon the unit's graphics show it using.
     /// </summary>
     /// <param name="weapon"></param>
     /// <param name="unit"></param>
@@ -333,7 +354,7 @@ internal static class LogUtilities
     {
         return Races2.GetRace(unit.Race).FlavorText().GetWeaponTrueName(weapon, unit);
     }
-    
+
     public static bool PreyDead(EventLog s) => s.Prey.IsDead;
     public static bool PreyCumgested(EventLog s) => s.Prey.IsDead && InBalls(s);
     public static bool CanBurp(EventLog s) => Config.BurpFraction > .1f;
@@ -359,7 +380,9 @@ internal static class LogUtilities
     public static bool Cursed(EventLog s) => s.Target.GetStatusEffect(StatusEffectType.WillingPrey) != null;
     public static bool Shrunk(EventLog s) => s.Target.GetStatusEffect(StatusEffectType.Diminished) != null;
     public static bool SizeDiff(EventLog s, float ratio) => State.RaceSettings.GetBodySize(s.Unit.Race) * s.Unit.GetScale(1) >= State.RaceSettings.GetBodySize(s.Target.Race) * s.Target.GetScale(1) * ratio;
+
     public static bool SizeDiffPrey(EventLog s, float ratio) => State.RaceSettings.GetBodySize(s.Unit.Race) * s.Unit.GetScale(1) >= State.RaceSettings.GetBodySize(s.Prey.Race) * s.Target.GetScale(1) * ratio;
+
     //bool ReqSSW(EventLog s) => SameSexWarrior(s.Unit) != "NULL";
     public static bool ReqOSW(EventLog s) => AttractedWarrior(s.Unit) != null;
     public static bool ReqOSWLewd(EventLog s) => AttractedWarrior(s.Unit) != null && Lewd(s);
@@ -378,10 +401,12 @@ internal static class LogUtilities
     public static bool TargetLeader(EventLog s) => s.Target.Type == UnitType.Leader;
     public static bool ActorLeader(EventLog s) => s.Unit.Type == UnitType.Leader;
     public static bool TargetHumanoid(EventLog s) => RaceFuncs.isHumanoid(s.Target.Race);
-    public static bool CanAddressPlayer(EventLog s) => Config.FourthWallBreakType == FourthWallBreakType.On ||
-                                                !TacticalUtilities.IsUnitControlledByPlayer(s.Unit) && Config.FourthWallBreakType == FourthWallBreakType.EnemyOnly ||
-                                                TacticalUtilities.IsUnitControlledByPlayer(s.Unit) && Config.FourthWallBreakType == FourthWallBreakType.FriendlyOnly;
-    
+
+    public static bool CanAddressPlayer(EventLog s) =>
+        Config.FourthWallBreakType == FourthWallBreakType.On ||
+        (!TacticalUtilities.IsUnitControlledByPlayer(s.Unit) && Config.FourthWallBreakType == FourthWallBreakType.EnemyOnly) ||
+        (TacticalUtilities.IsUnitControlledByPlayer(s.Unit) && Config.FourthWallBreakType == FourthWallBreakType.FriendlyOnly);
+
     /*
     /// <summary>
     /// <para>Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, enjoying the * morsels squirms on her way down."</para>
@@ -427,7 +452,7 @@ internal static class LogUtilities
         return LogRaceData.Get(unit.Race).GetWeaponTrueName(weapon, unit) + "$";
     }
     */
-    
+
     /*
     /// <summary>
     /// <para>Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, enjoying the * morsels squirms on her way down."</para>
@@ -499,7 +524,7 @@ internal static class LogUtilities
             case RaceNumbers.EasternDragon:
                 return GetRandomStringFrom("tasty noodle", "noodle derg", "spaghetti-like", "easily-slurpable"); ////new, many thanks to Flame_Valxsarion
             case RaceNumbers.Dragon:
-                return GetRandomStringFrom("formerly apex predator", "delicious dragon", "ex-predator"); ////new 
+                return GetRandomStringFrom("formerly apex predator", "delicious dragon", "ex-predator"); ////new
             case RaceNumbers.FeralLions:
                 return GetRandomStringFrom("roaring", "once-vicious", "formerly-fearsome");
             case RaceNumbers.Aabayx:
@@ -579,7 +604,7 @@ internal static class LogUtilities
             case RaceNumbers.Dragon:
                 return GetRandomStringFrom("apex predator", "hungry dragon", "voracious dragon");
             case RaceNumbers.FeralLions:
-                return GetRandomStringFrom("indulgent", "greedily snarling", "voracious", "capacious", "insatiable", "dominant", "pleased"); ////new 
+                return GetRandomStringFrom("indulgent", "greedily snarling", "voracious", "capacious", "insatiable", "dominant", "pleased"); ////new
             default:
                 return "strong";
         }
@@ -603,7 +628,7 @@ internal static class LogUtilities
             case RaceNumbers.Foxes:
                 return GetRandomStringFrom("fox", GetGenderString(unit, "vixen", "tod", "fox"), "vulpine", "canid");
             case RaceNumbers.Wolves:
-                return GetRandomStringFrom("feral", GetGenderString(unit, "wolfess", "wolf", "wolf"), "canine"); ////I changed "wolfen" to "wolfess" 
+                return GetRandomStringFrom("feral", GetGenderString(unit, "wolfess", "wolf", "wolf"), "canine"); ////I changed "wolfen" to "wolfess"
             case RaceNumbers.Bunnies:
                 return GetRandomStringFrom("bunny", GetGenderString(unit, "doe", "buck", "lagomorph"), "rabbit");
             case RaceNumbers.Deer:
@@ -671,33 +696,33 @@ internal static class LogUtilities
             case RaceNumbers.Sergal:
                 return GetRandomStringFrom("furred", "sergal", "Eltussian"); ////new, many thanks to Flame_Valxsarion
             case RaceNumbers.Dragon:
-                return GetRandomStringFrom("dragon", GetGenderString(unit, "dragoness", "drakon", "dragon"), "draconian"); ////new 
+                return GetRandomStringFrom("dragon", GetGenderString(unit, "dragoness", "drakon", "dragon"), "draconian"); ////new
             case RaceNumbers.EasternDragon:
-                return GetRandomStringFrom("oriental dragon", GetGenderString(unit, "eastern dragoness", "eastern dragon", "eastern dragon"), "serpentine dragon");  ////new    
+                return GetRandomStringFrom("oriental dragon", GetGenderString(unit, "eastern dragoness", "eastern dragon", "eastern dragon"), "serpentine dragon");  ////new
             case RaceNumbers.Zera:
-                return GetRandomStringFrom("nargacuga", "fluffy wyvern", "big kitty"); ////new, many thanks to Selicia for the last two 
+                return GetRandomStringFrom("nargacuga", "fluffy wyvern", "big kitty"); ////new, many thanks to Selicia for the last two
             case RaceNumbers.Hippos:
-                return GetRandomStringFrom("hippo", "hippopotamus", "pachyderm"); ////new 
+                return GetRandomStringFrom("hippo", "hippopotamus", "pachyderm"); ////new
             case RaceNumbers.Komodos:
-                return GetRandomStringFrom("komodo", "komodo dragon", "komodo lizard"); ////new  
+                return GetRandomStringFrom("komodo", "komodo dragon", "komodo lizard"); ////new
             case RaceNumbers.Cockatrice:
-                return GetRandomStringFrom("cockatrice", GetGenderString(unit, "scary hen", "monster cock", "danger chicken"), "terror chicken"); ////new, blame Flame_Valxsarion for encouraging me. Actually don't, I came up with "monster cock" 
+                return GetRandomStringFrom("cockatrice", GetGenderString(unit, "scary hen", "monster cock", "danger chicken"), "terror chicken"); ////new, blame Flame_Valxsarion for encouraging me. Actually don't, I came up with "monster cock"
             case RaceNumbers.Bees:
-                return GetRandomStringFrom("apid", GetGenderString(unit, "worker bee", "drone", "bee"), "bee"); ////new 
+                return GetRandomStringFrom("apid", GetGenderString(unit, "worker bee", "drone", "bee"), "bee"); ////new
             case RaceNumbers.Alraune:
-                return GetRandomStringFrom("plant", "demi-plant", "flowery being"); ////new   
+                return GetRandomStringFrom("plant", "demi-plant", "flowery being"); ////new
             case RaceNumbers.Bats:
-                return GetRandomStringFrom("bat", "chiropter", "demi-bat"); ////new         
+                return GetRandomStringFrom("bat", "chiropter", "demi-bat"); ////new
             case RaceNumbers.Merfolk:
-                return GetRandomStringFrom("walking fish", GetGenderString(unit, "mermaid", "merman", "merfolk"), "merfolk"); ////new  
+                return GetRandomStringFrom("walking fish", GetGenderString(unit, "mermaid", "merman", "merfolk"), "merfolk"); ////new
             case RaceNumbers.Sharks:
-                return GetRandomStringFrom("demi-shark", "shark", "landshark"); ////new     
+                return GetRandomStringFrom("demi-shark", "shark", "landshark"); ////new
             case RaceNumbers.Gryphons:
-                return GetRandomStringFrom("gryphon", "griffin", "griffon"); ////new 
+                return GetRandomStringFrom("gryphon", "griffin", "griffon"); ////new
             case RaceNumbers.Kobolds:
-                return GetRandomStringFrom("kobold", "little lizard", "little reptile"); ////new 
+                return GetRandomStringFrom("kobold", "little lizard", "little reptile"); ////new
             case RaceNumbers.Frogs:
-                return GetRandomStringFrom("demi-frog", "amphibian", "frog"); ////new, many thanks to Flame_Valxsarion             
+                return GetRandomStringFrom("demi-frog", "amphibian", "frog"); ////new, many thanks to Flame_Valxsarion
             case RaceNumbers.FeralLions:
                 return GetRandomStringFrom("feline", GetGenderString(unit, "lioness", "lion", "lion"), "leonine", "kitty");
             case RaceNumbers.Aabayx:
@@ -929,4 +954,3 @@ internal static class LogUtilities
     }
     */
 }
-

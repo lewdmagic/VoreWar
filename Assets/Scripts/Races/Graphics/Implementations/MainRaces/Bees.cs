@@ -10,8 +10,6 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Bees
     {
-        
-
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             RaceFrameList frameListWings = new RaceFrameList(new[] { 0, 1, 2, 3, 2, 1 }, new[] { .05f, .05f, .05f, .05f, .05f, .05f });
@@ -20,14 +18,14 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("Bee", "Bees");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts { "apid", "bee", {"worker bee", Gender.Female}, {"drone", Gender.Male} },
+                    new Texts { },
+                    new Texts { },
+                    new Texts { "apid", "bee", { "worker bee", Gender.Female }, { "drone", Gender.Male } },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Honeycomb WeaponNames.Mace",
-                        [WeaponNames.Axe]         = "Quad Punch Claws",
-                        [WeaponNames.SimpleBow]   = "Javelin",
+                        [WeaponNames.Mace] = "Honeycomb WeaponNames.Mace",
+                        [WeaponNames.Axe] = "Quad Punch Claws",
+                        [WeaponNames.SimpleBow] = "Javelin",
                         [WeaponNames.CompoundBow] = "War Javelin"
                     }
                 ));
@@ -616,9 +614,7 @@ namespace Races.Graphics.Implementations.MainRaces
         }
     }
 
-    
 
-    
     internal static class BeesClothing
     {
         internal static class GenericTop1
@@ -1005,7 +1001,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 });
             });
         }
-        
+
         internal static class GenericBot1
         {
             internal static readonly IClothing GenericBot1Instance = ClothingBuilder.Create(builder =>
@@ -1165,8 +1161,8 @@ namespace Races.Graphics.Implementations.MainRaces
                 });
             });
         }
-        
-                internal static readonly IClothing BeeLeaderInstance = ClothingBuilder.Create(builder =>
+
+        internal static readonly IClothing BeeLeaderInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

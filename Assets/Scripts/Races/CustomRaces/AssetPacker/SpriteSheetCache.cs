@@ -16,7 +16,7 @@ namespace DaVikingCode.AssetPacker
             this.assets = assets;
         }
     }
-    
+
     [Serializable]
     public class TextureAsset
     {
@@ -29,7 +29,7 @@ namespace DaVikingCode.AssetPacker
             this.spriteInfos = spriteInfos;
         }
     }
-    
+
     [Serializable]
     public class SpriteInfo
     {

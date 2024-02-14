@@ -6,7 +6,6 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-        
             RaceFrameList frameListTail = new RaceFrameList(new int[6] { 2, 1, 0, 5, 4, 3 }, new float[6] { 0.55f, 0.55f, 0.55f, 0.55f, 0.55f, 0.55f });
             RaceFrameList frameListTongue = new RaceFrameList(new int[6] { 0, 1, 2, 3, 4, 5 }, new float[6] { 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f });
 
@@ -49,7 +48,6 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.Flight,
                     },
                     RaceDescription = "Fast, winged and ravenous. These lesser cousins of dragons do not have the magical abilities of true dragons, but they are still a dangerous force. They are often followed by their younger kin, but their care only extends as far as not snacking on the weaklings themselves. ",
-
                 });
                 output.IndividualNames(new List<string>
                 {
@@ -58,10 +56,7 @@ namespace Races.Graphics.Implementations.Monsters
                     "Sharpbeak",
                     "Spineback",
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.BodyWeight, "Horn Type");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.BodyWeight, "Horn Type"); });
                 output.BreastSizes = () => 1;
                 output.DickSizes = () => 1;
 
@@ -366,17 +361,28 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 switch (unit.SkinColor)
                 {
-                    case 0: return "Flamescale";
-                    case 1: return "Bloodscale";
-                    case 2: return "Cobaltscale";
-                    case 3: return "Skyscale";
-                    case 4: return "Ebonscale";
-                    case 5: return "Jadescale";
-                    case 6: return "Duskscale";
-                    case 7: return "Sunscale";
-                    case 8: return "Rosescale";
-                    case 9: return "Budscale";
-                    case 10: return "Dustscale";
+                    case 0:
+                        return "Flamescale";
+                    case 1:
+                        return "Bloodscale";
+                    case 2:
+                        return "Cobaltscale";
+                    case 3:
+                        return "Skyscale";
+                    case 4:
+                        return "Ebonscale";
+                    case 5:
+                        return "Jadescale";
+                    case 6:
+                        return "Duskscale";
+                    case 7:
+                        return "Sunscale";
+                    case 8:
+                        return "Rosescale";
+                    case 9:
+                        return "Budscale";
+                    case 10:
+                        return "Dustscale";
                 }
             }
 
@@ -394,16 +400,26 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 switch (unit.ExtraColor1)
                 {
-                    case 0: return "Firewing";
-                    case 1: return "Gorewing";
-                    case 2: return "Thunderwing";
-                    case 3: return "Skywing";
-                    case 4: return "Nightwing";
-                    case 5: return "Jadewing";
-                    case 6: return "Duskwing";
-                    case 7: return "Sunsetwing";
-                    case 8: return "Leafwing";
-                    case 9: return "Dustscale";
+                    case 0:
+                        return "Firewing";
+                    case 1:
+                        return "Gorewing";
+                    case 2:
+                        return "Thunderwing";
+                    case 3:
+                        return "Skywing";
+                    case 4:
+                        return "Nightwing";
+                    case 5:
+                        return "Jadewing";
+                    case 6:
+                        return "Duskwing";
+                    case 7:
+                        return "Sunsetwing";
+                    case 8:
+                        return "Leafwing";
+                    case 9:
+                        return "Dustscale";
                 }
             }
 
@@ -411,17 +427,28 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 switch (unit.SkinColor)
                 {
-                    case 0: return "Firescale";
-                    case 1: return "Crimsonscale";
-                    case 2: return "Thunderscale";
-                    case 3: return "Aquascale";
-                    case 4: return "Darkscale";
-                    case 5: return "Viridscale";
-                    case 6: return "Poisonscale";
-                    case 7: return "Brightscale";
-                    case 8: return "Warmscale";
-                    case 9: return "Mintscale";
-                    case 10: return "Sandscale";
+                    case 0:
+                        return "Firescale";
+                    case 1:
+                        return "Crimsonscale";
+                    case 2:
+                        return "Thunderscale";
+                    case 3:
+                        return "Aquascale";
+                    case 4:
+                        return "Darkscale";
+                    case 5:
+                        return "Viridscale";
+                    case 6:
+                        return "Poisonscale";
+                    case 7:
+                        return "Brightscale";
+                    case 8:
+                        return "Warmscale";
+                    case 9:
+                        return "Mintscale";
+                    case 10:
+                        return "Sandscale";
                 }
             }
 
@@ -429,13 +456,20 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 switch (unit.ExtraColor1)
                 {
-                    case 0: return "Flamewing";
-                    case 1: return "Crimsonwing";
-                    case 2: return "Deepwing";
-                    case 3: return "Aquawing";
-                    case 4: return "Shadowwing";
-                    case 5: return "Viridwing";
-                    case 6: return "Poisonwing";
+                    case 0:
+                        return "Flamewing";
+                    case 1:
+                        return "Crimsonwing";
+                    case 2:
+                        return "Deepwing";
+                    case 3:
+                        return "Aquawing";
+                    case 4:
+                        return "Shadowwing";
+                    case 5:
+                        return "Viridwing";
+                    case 6:
+                        return "Poisonwing";
                 }
             }
 

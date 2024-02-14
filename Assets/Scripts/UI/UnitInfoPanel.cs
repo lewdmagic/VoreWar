@@ -25,11 +25,9 @@ public class UnitInfoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private void Update()
     {
-        if (hovering == false)
-            return;
+        if (hovering == false) return;
 
-        if (Unit == null)
-            return;
+        if (Unit == null) return;
         TextMeshProUGUI HoverBox;
         if (Input.mousePosition.y > InfoText.transform.parent.position.y)
             HoverBox = BasicInfo;
@@ -51,6 +49,7 @@ public class UnitInfoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                     words[i] = string.Empty;
                     continue;
                 }
+
                 words[i] = HoverBox.textInfo.wordInfo[wordIndex - 2 + i].GetWord();
             }
 
@@ -65,6 +64,7 @@ public class UnitInfoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         State.GameManager.UnitEditor.Open(Actor);
                     return;
                 }
+
                 if (nameInstances <= 1)
                     DisplayInfoFor(HoveringName);
                 else
@@ -76,9 +76,9 @@ public class UnitInfoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                             prevNames += 1;
                         else if (wordIndex + 1 >= HoverBox.textInfo.wordCount && HoveringName == $"{HoverBox.textInfo.wordInfo[i].GetWord()} {HoverBox.textInfo.wordInfo[i + 1].GetWord()}")
                             prevNames += 1;
-                        else if (wordIndex + 2 >= HoverBox.textInfo.wordCount && HoveringName == $"{HoverBox.textInfo.wordInfo[i].GetWord()} {HoverBox.textInfo.wordInfo[i + 1].GetWord()} {HoverBox.textInfo.wordInfo[i + 2].GetWord()}")
-                            prevNames += 1;
+                        else if (wordIndex + 2 >= HoverBox.textInfo.wordCount && HoveringName == $"{HoverBox.textInfo.wordInfo[i].GetWord()} {HoverBox.textInfo.wordInfo[i + 1].GetWord()} {HoverBox.textInfo.wordInfo[i + 2].GetWord()}") prevNames += 1;
                     }
+
                     DisplayInfoFor(HoveringName, prevNames);
                 }
             }
@@ -109,16 +109,15 @@ public class UnitInfoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                         }
                     }
                 }
-                if (nameInstances == 0)
-                    HoveringName = "RAREASFARARA";
+
+                if (nameInstances == 0) HoveringName = "RAREASFARARA";
             }
         }
     }
 
     private void DisplayInfoFor(string name)
     {
-        if (Actor?.Unit.Predator == false || Actor?.PredatorComponent == null)
-            return;
+        if (Actor?.Unit.Predator == false || Actor?.PredatorComponent == null) return;
         foreach (var prey in Actor.PredatorComponent.GetAllPrey())
         {
             if (prey.Unit.Name == name)
@@ -131,13 +130,11 @@ public class UnitInfoPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void DisplayInfoFor(string name, int instance)
     {
         int count = 0;
-        if (Actor?.Unit.Predator == false)
-            return;
+        if (Actor?.Unit.Predator == false) return;
         foreach (var prey in Actor.PredatorComponent.GetAllPrey())
         {
             if (prey.Unit.Name == name)
             {
-
                 if (count == prevNames)
                 {
                     State.GameManager.TacticalMode.InfoPanel.RefreshTacticalUnitInfo(prey.Actor);

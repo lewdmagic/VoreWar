@@ -16,19 +16,19 @@ internal class RaceData : IRaceData
     public string SingularName(Unit unit)
     {
         return SingularName(unit.GetGender());
-    }    
-    
+    }
+
     public string PluralName(Unit unit)
     {
         return PluralName(unit.GetGender());
-    }    
-    
+    }
+
     public string SingularName(Gender gender)
     {
         INameInput input = new NameInput(gender);
         return ExtraRaceInfo2.SingularName(input);
-    }    
-    
+    }
+
     public string PluralName(Gender gender)
     {
         INameInput input = new NameInput(gender);
@@ -70,7 +70,6 @@ internal class RaceData : IRaceData
     public IRaceTraits RaceTraits() => ExtraRaceInfo2.RaceTraits ?? RaceParameters.Default;
 
 
-    
     public ExtraRaceInfo ExtraRaceInfo2 { get; private set; }
     public Action<IRandomCustomInput> RandomCustom { get; private set; }
     public Action<IRunInput, IRunOutput> RunBefore { get; private set; }
@@ -78,7 +77,7 @@ internal class RaceData : IRaceData
     public SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; private set; }
     public SetupOutput SetupOutputRaw { get; private set; }
     public ISetupOutput SetupOutput => SetupOutputRaw;
-    
+
     public RaceData(
         SpriteTypeIndexed<SingleRenderFunc> raceSpriteSet,
         SetupOutput setupOutput,
@@ -86,7 +85,7 @@ internal class RaceData : IRaceData
         Action<IRandomCustomInput> randomCustom,
         ExtraRaceInfo extraRaceInfo2,
         Action<IRunInput, IRaceRenderAllOutput> renderAllAction
-        )
+    )
     {
         RaceSpriteSet = raceSpriteSet;
         SetupOutputRaw = setupOutput;
@@ -96,7 +95,7 @@ internal class RaceData : IRaceData
         RenderAllAction = renderAllAction;
     }
 
-    
+
     internal void ModifySingleRender(SpriteType spriteType, ModdingMode mode, Action<IRaceRenderInput, IRaceRenderOutput> generator)
     {
         SingleRenderFunc current = RaceSpriteSet[spriteType];
@@ -123,12 +122,12 @@ internal class RaceData : IRaceData
         RaceSpriteSet[spriteType] = new SingleRenderFunc(layer, generator);
     }
 
-    
+
     public void RandomCustomCall(Unit unit)
     {
         RandomCustom(new RandomCustomInput(unit, SetupOutputRaw));
     }
-    
+
 
     private class RandomCustomInput : IRandomCustomInput
     {

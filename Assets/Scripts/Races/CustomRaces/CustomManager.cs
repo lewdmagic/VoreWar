@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class CustomManager
 {
-
-
     internal class FSClothingData
     {
         internal string RaceId;
@@ -43,7 +41,7 @@ public class CustomManager
             Sprites = sprites;
         }
     }
-    
+
     private static FileInfo[] LoadSpriteNames2(string path)
     {
         return new DirectoryInfo(path).GetFiles("*.png");
@@ -52,12 +50,11 @@ public class CustomManager
     internal void LoadAllCustom()
     {
         List<FSRaceData> races = new List<FSRaceData>();
-    
+
         //string[] customRaceFolders = Directory.GetDirectories("GameData/CustomRaces","*", SearchOption.TopDirectoryOnly);
         string[] customRaceFolders = new DirectoryInfo("GameData/CustomRaces").GetDirectories().Select(it => it.Name).ToArray();
-        
-        
-        
+
+
         foreach (string customRaceFolderName in customRaceFolders)
         {
             string raceId = customRaceFolderName.ToLower();
@@ -66,17 +63,18 @@ public class CustomManager
             FileInfo[] raceSpriteNames = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Sprites").GetFiles("*.png");
 
             FSRaceData fsRaceData = new FSRaceData(raceId, customRaceFolderName, raceCode, raceSpriteNames);
-            
-            
+
+
             //string[] clothingFolders = Directory.GetDirectories($"GameData/CustomRaces/{customRaceFolderName}/Clothing","*", SearchOption.AllDirectories);
-            string[] clothingFolders = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Clothing").GetDirectories().Select(it => it.Name).ToArray();;
+            string[] clothingFolders = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Clothing").GetDirectories().Select(it => it.Name).ToArray();
+            ;
 
             foreach (string clothingFolderName in clothingFolders)
             {
                 string clothingId = clothingFolderName.ToLower();
                 string clothingCode = File.ReadAllText($"GameData/CustomRaces/{customRaceFolderName}/Clothing/{clothingFolderName}/clothing.lua");
                 FileInfo[] clothingSpriteNames = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Clothing/{clothingFolderName}/Sprites").GetFiles("*.png");
-                
+
                 FSClothingData fsClothingData = new FSClothingData(raceId, clothingFolderName, clothingId, clothingCode, clothingSpriteNames);
                 fsRaceData.Clothing.Add(fsClothingData);
             }
@@ -90,7 +88,7 @@ public class CustomManager
     private void process(List<FSRaceData> races)
     {
         List<SpriteToLoad> spriteToLoadList = new List<SpriteToLoad>();
-        
+
         foreach (FSRaceData fsRaceData in races)
         {
             foreach (FileInfo raceSpriteFileInfo in fsRaceData.Sprites)
@@ -120,9 +118,9 @@ public class CustomManager
             string key = namedSprite.Item1;
             Sprite sprite = namedSprite.Item2;
             string[] split = key.Split('/');
-            
+
             //Debug.Log(key);
-            
+
             if (split[0] == "race")
             {
                 string raceId = split[1];
@@ -136,7 +134,7 @@ public class CustomManager
                 string raceId = split[1];
                 string clothingId = split[2];
                 string spriteId = split[3];
-                
+
                 SpriteCollection spriteCollection = _clothingSpriteCollection.GetOrSet((raceId, clothingId), () => new SpriteCollection($"Clothing sprite collection for {raceId}/{clothingId}"));
                 spriteCollection.Add(spriteId, sprite);
             }
@@ -145,7 +143,7 @@ public class CustomManager
                 throw new Exception($"unknown sprite category {split[0]}");
             }
         }
-        
+
         foreach (FSRaceData fsRaceData in races)
         {
             foreach (FSClothingData fsClothingData in fsRaceData.Clothing)
@@ -153,10 +151,11 @@ public class CustomManager
                 LuaBindableClothing clothing = ClothingFromFSData(fsClothingData);
                 _clothings[(fsClothingData.RaceId, fsClothingData.ClothingId)] = clothing;
             }
+
             RaceFromFsData(fsRaceData);
         }
     }
-    
+
     public struct RaceClothingKey
     {
         public readonly string RaceId;
@@ -182,7 +181,7 @@ public class CustomManager
 
         Race.CreateRace(fsRaceData.RaceId, raceData, new[] { RaceTag.MainRace });
     }
-    
+
     private LuaBindableClothing ClothingFromFSData(FSClothingData fsClothingData)
     {
         ClothingScriptUsable clothingScriptUsable = LuaBridge.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, fsClothingData.ClothingId);
@@ -192,18 +191,18 @@ public class CustomManager
 
     // raceId
     private Dictionary<string, SpriteCollection> _raceSpriteCollections = new Dictionary<string, SpriteCollection>();
-    
+
     // raceId, clothingId
     private Dictionary<(string, string), SpriteCollection> _clothingSpriteCollection = new Dictionary<(string, string), SpriteCollection>();
 
     private Dictionary<(string, string), LuaBindableClothing> _clothings = new Dictionary<(string, string), LuaBindableClothing>();
 
-    
+
     internal IClothing GetRaceClothing(string raceId, string clothingId)
     {
         return GetRaceClothing(raceId, clothingId, (it) => null);
     }
-    
+
     internal IClothing GetRaceClothing(string raceId, string clothingId, Func<IClothingRenderInput, Table> calcFunc)
     {
         SpriteCollection spriteCollection = GetClothingSpriteCollection(raceId, clothingId);
@@ -234,9 +233,4 @@ public class CustomManager
             return null;
         }
     }
-    
-
-
-
-
 }

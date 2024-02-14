@@ -57,42 +57,42 @@ internal class TacticalTileLogic
                 switch (tiles[x, y])
                 {
                     case TacticalTileType.RockOverSand:
-                        {
-                            int type = DetermineType(new Vec2(x, y), TacticalTileType.RockOverSand);
-                            newtiles[x, y] = (TacticalTileType)(2000 + type);
-                            break;
-                        }
+                    {
+                        int type = DetermineType(new Vec2(x, y), TacticalTileType.RockOverSand);
+                        newtiles[x, y] = (TacticalTileType)(2000 + type);
+                        break;
+                    }
                     case TacticalTileType.RockOverTar:
-                        {
-                            int type = DetermineType(new Vec2(x, y), TacticalTileType.RockOverTar);
-                            newtiles[x, y] = (TacticalTileType)(2100 + type);
-                            break;
-                        }
+                    {
+                        int type = DetermineType(new Vec2(x, y), TacticalTileType.RockOverTar);
+                        newtiles[x, y] = (TacticalTileType)(2100 + type);
+                        break;
+                    }
                     case TacticalTileType.GrassOverWater:
-                        {
-                            int type = DetermineType(new Vec2(x, y), TacticalTileType.GrassOverWater);
-                            newtiles[x, y] = (TacticalTileType)(2200 + type);
-                            break;
-                        }
+                    {
+                        int type = DetermineType(new Vec2(x, y), TacticalTileType.GrassOverWater);
+                        newtiles[x, y] = (TacticalTileType)(2200 + type);
+                        break;
+                    }
                     case TacticalTileType.VolcanicOverGravel:
-                        {
-                            int type = DetermineType(new Vec2(x, y), TacticalTileType.VolcanicOverGravel);
-                            newtiles[x, y] = (TacticalTileType)(2300 + type);
-                            break;
-                        }
+                    {
+                        int type = DetermineType(new Vec2(x, y), TacticalTileType.VolcanicOverGravel);
+                        newtiles[x, y] = (TacticalTileType)(2300 + type);
+                        break;
+                    }
                     case TacticalTileType.VolcanicOverLava:
-                        {
-                            int type = DetermineType(new Vec2(x, y), TacticalTileType.VolcanicOverLava);
-                            newtiles[x, y] = (TacticalTileType)(2400 + type);
-                            break;
-                        }
+                    {
+                        int type = DetermineType(new Vec2(x, y), TacticalTileType.VolcanicOverLava);
+                        newtiles[x, y] = (TacticalTileType)(2400 + type);
+                        break;
+                    }
                     default:
                         newtiles[x, y] = tiles[x, y];
                         continue;
-
                 }
             }
         }
+
         return newtiles;
     }
 
@@ -151,40 +151,27 @@ internal class TacticalTileLogic
         if (AreaCheck(pos, type, new DirectionalInfo(yes, no, yes, no, yes, yes, yes, no))) return 47;
         UnityEngine.Debug.Log("fallthrough");
         return 9;
-
     }
 
 
     internal bool AreaCheck(Vec2 pos, TacticalTileType type, DirectionalInfo info)
     {
-
-        if (Fails(info.north, Neighbor.North))
-            return false;
-        if (Fails(info.northeast, Neighbor.NorthEast))
-            return false;
-        if (Fails(info.east, Neighbor.East))
-            return false;
-        if (Fails(info.southeast, Neighbor.SouthEast))
-            return false;
-        if (Fails(info.south, Neighbor.South))
-            return false;
-        if (Fails(info.southwest, Neighbor.SouthWest))
-            return false;
-        if (Fails(info.west, Neighbor.West))
-            return false;
-        if (Fails(info.northwest, Neighbor.NorthWest))
-            return false;
+        if (Fails(info.north, Neighbor.North)) return false;
+        if (Fails(info.northeast, Neighbor.NorthEast)) return false;
+        if (Fails(info.east, Neighbor.East)) return false;
+        if (Fails(info.southeast, Neighbor.SouthEast)) return false;
+        if (Fails(info.south, Neighbor.South)) return false;
+        if (Fails(info.southwest, Neighbor.SouthWest)) return false;
+        if (Fails(info.west, Neighbor.West)) return false;
+        if (Fails(info.northwest, Neighbor.NorthWest)) return false;
 
         return true;
 
         bool Fails(Wanted direction, Neighbor neighbor)
         {
-            if (direction == Wanted.DontCare)
-                return false;
-            if (direction == Wanted.Yes && IsTileType(GetPos(pos, neighbor), type) == false)
-                return true;
-            if (direction == Wanted.No && IsTileType(GetPos(pos, neighbor), type))
-                return true;
+            if (direction == Wanted.DontCare) return false;
+            if (direction == Wanted.Yes && IsTileType(GetPos(pos, neighbor), type) == false) return true;
+            if (direction == Wanted.No && IsTileType(GetPos(pos, neighbor), type)) return true;
             return false;
         }
     }
@@ -216,8 +203,7 @@ internal class TacticalTileLogic
 
     internal bool IsTileType(Vec2 pos, TacticalTileType type)
     {
-        if (pos.x < 0 || pos.y < 0 || pos.x > tiles.GetUpperBound(0) || pos.y > tiles.GetUpperBound(1))
-            return false;
+        if (pos.x < 0 || pos.y < 0 || pos.x > tiles.GetUpperBound(0) || pos.y > tiles.GetUpperBound(1)) return false;
         return tiles[pos.x, pos.y] == type;
     }
 }
@@ -241,6 +227,7 @@ internal class StrategicTileLogic
                 underTiles[x, y] = (StrategicTileType)99;
             }
         }
+
         newtiles = new StrategicTileType[tiles.GetLength(0), tiles.GetLength(1)];
         overTiles = new StrategicTileType[tiles.GetLength(0), tiles.GetLength(1)];
 
@@ -252,8 +239,7 @@ internal class StrategicTileLogic
                 {
                     int type = DetermineType(new Vec2(x, y), StrategicTileType.water);
                     overTiles[x, y] = (StrategicTileType)(2000 + type);
-                    if (type == 19)
-                        overTiles[x, y] = StrategicTileType.water;
+                    if (type == 19) overTiles[x, y] = StrategicTileType.water;
 
                     int sand = DirectBorderTiles(x, y, StrategicTileType.desert);
                     int snow = DirectBorderTiles(x, y, StrategicTileType.snow);
@@ -270,9 +256,9 @@ internal class StrategicTileLogic
 
                     continue;
                 }
-
             }
         }
+
         tiles = temptiles;
 
         for (int x = 0; x < tiles.GetLength(0); x++)
@@ -289,35 +275,34 @@ internal class StrategicTileLogic
                 }
                 else if (Config.HardLava)
                 {
-                    if (tiles[x, y] == StrategicTileType.lava)
-                        overTiles[x, y] = StrategicTileType.lava;
-                    if (tiles[x, y] == StrategicTileType.volcanic)
-                        overTiles[x, y] = StrategicTileType.volcanic;
-
+                    if (tiles[x, y] == StrategicTileType.lava) overTiles[x, y] = StrategicTileType.lava;
+                    if (tiles[x, y] == StrategicTileType.volcanic) overTiles[x, y] = StrategicTileType.volcanic;
                 }
+
                 switch (tiles[x, y])
                 {
                     case StrategicTileType.ice:
-                        {
-                            int type = DetermineType(new Vec2(x, y), StrategicTileType.ice);
-                            underTiles[x, y] = (StrategicTileType)(2200 + type);
-                            //underTiles[x, y] = StrategicTileType.ice;
-                            type = DetermineType(new Vec2(x, y), StrategicTileType.snow);
-                            newtiles[x, y] = (StrategicTileType)(2100 + type);
-                            break;
-                        }
+                    {
+                        int type = DetermineType(new Vec2(x, y), StrategicTileType.ice);
+                        underTiles[x, y] = (StrategicTileType)(2200 + type);
+                        //underTiles[x, y] = StrategicTileType.ice;
+                        type = DetermineType(new Vec2(x, y), StrategicTileType.snow);
+                        newtiles[x, y] = (StrategicTileType)(2100 + type);
+                        break;
+                    }
                     default:
-                        {
-                            int type = DetermineType(new Vec2(x, y), tiles[x, y]);
-                            newtiles[x, y] = (StrategicTileType)(2100 + type);
-                            break;
-                        }
+                    {
+                        int type = DetermineType(new Vec2(x, y), tiles[x, y]);
+                        newtiles[x, y] = (StrategicTileType)(2100 + type);
+                        break;
+                    }
 
-                        //newtiles[x, y] = tiles[x, y];
-                        //continue;
+                    //newtiles[x, y] = tiles[x, y];
+                    //continue;
                 }
             }
         }
+
         return newtiles;
 
         int DirectBorderTiles(int x, int y, StrategicTileType type)
@@ -402,40 +387,27 @@ internal class StrategicTileLogic
         if (AreaCheck(pos, type, new DirectionalInfo(yes, no, yes, no, yes, yes, yes, no))) return 47;
         UnityEngine.Debug.Log("fallthrough");
         return 9;
-
     }
 
 
     internal bool AreaCheck(Vec2 pos, StrategicTileType type, DirectionalInfo info)
     {
-
-        if (Fails(info.north, Neighbor.North))
-            return false;
-        if (Fails(info.northeast, Neighbor.NorthEast))
-            return false;
-        if (Fails(info.east, Neighbor.East))
-            return false;
-        if (Fails(info.southeast, Neighbor.SouthEast))
-            return false;
-        if (Fails(info.south, Neighbor.South))
-            return false;
-        if (Fails(info.southwest, Neighbor.SouthWest))
-            return false;
-        if (Fails(info.west, Neighbor.West))
-            return false;
-        if (Fails(info.northwest, Neighbor.NorthWest))
-            return false;
+        if (Fails(info.north, Neighbor.North)) return false;
+        if (Fails(info.northeast, Neighbor.NorthEast)) return false;
+        if (Fails(info.east, Neighbor.East)) return false;
+        if (Fails(info.southeast, Neighbor.SouthEast)) return false;
+        if (Fails(info.south, Neighbor.South)) return false;
+        if (Fails(info.southwest, Neighbor.SouthWest)) return false;
+        if (Fails(info.west, Neighbor.West)) return false;
+        if (Fails(info.northwest, Neighbor.NorthWest)) return false;
 
         return true;
 
         bool Fails(Wanted direction, Neighbor neighbor)
         {
-            if (direction == Wanted.DontCare)
-                return false;
-            if (direction == Wanted.Yes && IsTileType(GetPos(pos, neighbor), type) == false)
-                return true;
-            if (direction == Wanted.No && IsTileType(GetPos(pos, neighbor), type))
-                return true;
+            if (direction == Wanted.DontCare) return false;
+            if (direction == Wanted.Yes && IsTileType(GetPos(pos, neighbor), type) == false) return true;
+            if (direction == Wanted.No && IsTileType(GetPos(pos, neighbor), type)) return true;
             return false;
         }
     }
@@ -467,22 +439,23 @@ internal class StrategicTileLogic
 
     internal bool IsTileType(Vec2 pos, StrategicTileType type)
     {
-        if (pos.x < 0 || pos.y < 0 || pos.x > tiles.GetUpperBound(0) || pos.y > tiles.GetUpperBound(1))
-            return true;
-        if (type == StrategicTileType.ice)
-            return tiles[pos.x, pos.y] == type;
+        if (pos.x < 0 || pos.y < 0 || pos.x > tiles.GetUpperBound(0) || pos.y > tiles.GetUpperBound(1)) return true;
+        if (type == StrategicTileType.ice) return tiles[pos.x, pos.y] == type;
         if (StrategicTileInfo.SandFamily.Contains(type))
         {
             return StrategicTileInfo.SandFamily.Contains(tiles[pos.x, pos.y]);
         }
+
         if (StrategicTileInfo.GrassFamily.Contains(type))
         {
             return StrategicTileInfo.GrassFamily.Contains(tiles[pos.x, pos.y]);
         }
+
         if (StrategicTileInfo.SnowFamily.Contains(type))
         {
             return StrategicTileInfo.SnowFamily.Contains(tiles[pos.x, pos.y]);
         }
+
         //if (StrategicTileInfo.WaterFamily.Contains(type))
         //{
         //    return StrategicTileInfo.WaterFamily.Contains(tiles[pos.x, pos.y]);
@@ -490,4 +463,3 @@ internal class StrategicTileLogic
         return tiles[pos.x, pos.y] == type;
     }
 }
-

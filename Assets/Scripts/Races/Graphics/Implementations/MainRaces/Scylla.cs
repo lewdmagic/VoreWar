@@ -16,11 +16,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     new Texts { "scylla", "octopod", "aquanoid" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Knife",
-                        [WeaponNames.Axe]         = "Trident",
-                        [WeaponNames.SimpleBow]   = "Javelin",
+                        [WeaponNames.Mace] = "Knife",
+                        [WeaponNames.Axe] = "Trident",
+                        [WeaponNames.SimpleBow] = "Javelin",
                         [WeaponNames.CompoundBow] = "Medusa Launcher",
-                        [WeaponNames.Claw]        = "Tentacle"
+                        [WeaponNames.Claw] = "Tentacle"
                     }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -73,8 +73,8 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Mouth, Defaults.SpriteGens3[SpriteType.Mouth]);
             builder.RenderSingle(SpriteType.Hair, Defaults.SpriteGens3[SpriteType.Hair]);
             builder.RenderSingle(SpriteType.Hair2, Defaults.SpriteGens3[SpriteType.Hair2]);
-        
-        
+
+
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
@@ -114,13 +114,13 @@ namespace Races.Graphics.Implementations.MainRaces
                 Defaults.SpriteGens3[SpriteType.Breasts].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
             });
-        
+
             builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
             });
-        
+
             builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
@@ -132,7 +132,6 @@ namespace Races.Graphics.Implementations.MainRaces
                 Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
             });
-
 
 
             builder.RenderSingle(SpriteType.Weapon, 1, (input, output) =>

@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 
 
-
 public class Weighted<T>
 {
     internal readonly double Weight;
@@ -17,7 +16,7 @@ public class Weighted<T>
     }
 }
 
-    
+
 public class Gendered
 {
     internal readonly string Text;
@@ -32,9 +31,8 @@ public class Gendered
 
 public interface ITexts : IEnumerable<Weighted<Gendered>>
 {
-    
 }
-    
+
 internal class Texts : ITexts
 {
     private readonly List<Weighted<Gendered>> _internalList = new List<Weighted<Gendered>>();
@@ -64,9 +62,8 @@ internal class Texts : ITexts
             _internalList.Add(entry.value);
         }
     }
-    
-    
-    
+
+
     public Texts Add(string text) => InternalAdd(text, 1, null);
     public Texts Add(string text, double weight) => InternalAdd(text, weight, null);
     public Texts Add(string text, Gender gender, double weight) => InternalAdd(text, weight, gender);
@@ -76,9 +73,8 @@ internal class Texts : ITexts
 
 public class FlavorEntry
 {
-
     internal Weighted<Gendered> value;
-    
+
     public FlavorEntry(string text, double weight, Gender? gender)
     {
         value = new Weighted<Gendered>(weight, new Gendered(text, gender));
@@ -86,44 +82,43 @@ public class FlavorEntry
 
     public FlavorEntry(string text) : this(text, 1, null)
     {
-        
     }
+
     public FlavorEntry(string text, double weight) : this(text, weight, null)
     {
-        
     }
+
     public FlavorEntry(string text, Gender gender, double weight) : this(text, weight, gender)
     {
-        
     }
+
     public FlavorEntry(string text, Gender gender) : this(text, 1, gender)
     {
-        
     }
 }
 
 public static class Flavor
 {
-    
     public static FlavorEntry Make(string text)
     {
         return new FlavorEntry(text, 1, null);
-    } 
+    }
+
     public static FlavorEntry Make(string text, double weight)
     {
         return new FlavorEntry(text, weight, null);
-    } 
+    }
+
     public static FlavorEntry Make(string text, Gender gender)
     {
         return new FlavorEntry(text, 1, gender);
-    } 
+    }
+
     public static FlavorEntry Make(string text, Gender gender, double weight)
     {
         return new FlavorEntry(text, weight, gender);
     }
-    
 }
-
 
 
 internal static class WeaponNames
@@ -137,7 +132,6 @@ internal static class WeaponNames
 
 internal static class LogRaceData
 {
-        
     internal static readonly Dictionary<string, string> DefaultWeapons = new Dictionary<string, string>
     {
         [WeaponNames.Mace] = "Mace",
@@ -145,7 +139,7 @@ internal static class LogRaceData
         [WeaponNames.SimpleBow] = "Simple Bow",
         [WeaponNames.CompoundBow] = "Compound Bow"
     };
-    
+
     internal static readonly FlavorText DefaultFlavorText = new FlavorText(
         new Texts { "tasty" },
         new Texts { "strong" },
@@ -157,21 +151,19 @@ internal static class LogRaceData
 
 public class FlavorText
 {
-
-
     private static readonly Dictionary<string, FlavorType> WeaponToFlavorMap = new Dictionary<string, FlavorType>()
     {
-        {WeaponNames.Claw, FlavorType.WeaponClaw},
-        {WeaponNames.Mace, FlavorType.WeaponMelee1},
-        {WeaponNames.Axe, FlavorType.WeaponMelee2},
-        {WeaponNames.SimpleBow, FlavorType.WeaponRanged1},
-        {WeaponNames.CompoundBow, FlavorType.WeaponRanged2}
+        { WeaponNames.Claw, FlavorType.WeaponClaw },
+        { WeaponNames.Mace, FlavorType.WeaponMelee1 },
+        { WeaponNames.Axe, FlavorType.WeaponMelee2 },
+        { WeaponNames.SimpleBow, FlavorType.WeaponRanged1 },
+        { WeaponNames.CompoundBow, FlavorType.WeaponRanged2 }
     };
-    
+
 
     internal Dictionary<FlavorType, Texts> ByType = new Dictionary<FlavorType, Texts>();
-        
-        
+
+
     // internal readonly Func<(Weapon weapon, Unit unit), string> getString;
 
     private static readonly Texts DefaultPreyDescriptions = new Texts { "tasty" };
@@ -183,17 +175,16 @@ public class FlavorText
     {
         ByType[type].AddEntries(entries);
     }
-    
+
     internal void SetEntries(FlavorType type, FlavorEntry[] entries)
     {
         ByType[type].SetEntries(entries);
     }
-    
+
     internal FlavorText() : this(DefaultPreyDescriptions, DefaultPredDescriptions, DefaultRaceSingleDescriptions, LogRaceData.DefaultWeapons)
     {
-        
     }
-    
+
     internal FlavorText(
         Texts preyDescriptions,
         Texts predDescriptions,
@@ -212,12 +203,11 @@ public class FlavorText
 
         if (weaponNames != null)
         {
-
             if (weaponNames.Count == 0)
             {
                 Debug.Log("No weapon names");
             }
-            
+
             string name;
             if (weaponNames.TryGetValue(WeaponNames.Mace, out name))
             {
@@ -257,23 +247,21 @@ public class FlavorText
         raceSingleDescriptions,
         new Dictionary<string, string>
         {
-            [global::WeaponNames.Mace] = weaponName,
-            [global::WeaponNames.Axe] = weaponName,
-            [global::WeaponNames.SimpleBow] = weaponName,
-            [global::WeaponNames.CompoundBow] = weaponName,
-            [global::WeaponNames.Claw] = weaponName,
+            [WeaponNames.Mace] = weaponName,
+            [WeaponNames.Axe] = weaponName,
+            [WeaponNames.SimpleBow] = weaponName,
+            [WeaponNames.CompoundBow] = weaponName,
+            [WeaponNames.Claw] = weaponName,
         })
     {
-            
     }
-        
+
     internal FlavorText(
         Texts preyDescriptions,
         Texts predDescriptions,
         Texts raceSingleDescriptions
-    ) : this (preyDescriptions, predDescriptions, raceSingleDescriptions, LogRaceData.DefaultWeapons)
+    ) : this(preyDescriptions, predDescriptions, raceSingleDescriptions, LogRaceData.DefaultWeapons)
     {
-            
     }
 
     internal string GetPreyDescription(Unit unit)
@@ -312,13 +300,12 @@ public class FlavorText
                 //throw new Exception($"{unit.Race} has no GetWeaponTrueName for {weapon.Name}");
             }
         }
-        
+
         //TODO probably Not needed
         //Debug.LogWarning($"Missing name entry for {weapon.Name}, defaulting to the provided name {weapon.Name}. Not a critical error but should not happen. Race: ${unit.Race.Id}");
         return weapon.Name;
     }
-    
-    
+
 
     private static T PickWeighedFull<T>(List<Weighted<T>> list)
     {
@@ -351,11 +338,9 @@ public class FlavorText
                 return entry.Item2;
             }
         }
+
         Debug.LogError("Something went very wrong with pickWeighted");
-        var dfdf = weights.Select(x =>
-        {
-            return (x.Item1 + " " + x.Item2);
-        }).Aggregate((a, b) => a + ", " + b);
+        var dfdf = weights.Select(x => { return x.Item1 + " " + x.Item2; }).Aggregate((a, b) => a + ", " + b);
         Debug.Log(dfdf);
         Debug.Log(num);
         return weights.First().Item2;

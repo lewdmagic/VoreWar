@@ -18,12 +18,10 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         public bool FacingFront { get; set; }
     }
-    
-    
+
 
     internal static class Lizards
     {
-        
         private static bool IsFacingFront(IActorUnit actor)
         {
             if (actor.IsAnalVoring || actor.IsUnbirthing)
@@ -39,15 +37,14 @@ namespace Races.Graphics.Implementations.MainRaces
                 return true;
             }
         }
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-        
             builder.Setup(output =>
             {
                 output.Names("Lizard", "Lizards");
                 output.WallType(WallType.Lizard);
-                output.BonesInfo((unit) => 
+                output.BonesInfo((unit) =>
                 {
                     if (unit.Furry)
                     {

@@ -223,7 +223,8 @@ namespace TaurusClothes
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                { }
+                {
+                }
             });
 
             builder.RenderAll((input, output) =>
@@ -239,10 +240,7 @@ namespace TaurusClothes
     {
         internal static readonly IClothing HatInstance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 
             builder.RenderAll((input, output) =>
             {
@@ -257,10 +255,7 @@ namespace TaurusClothes
     {
         internal static readonly IClothing HolidayHatInstance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.ReqWinterHoliday = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.ReqWinterHoliday = true; });
 
             builder.RenderAll((input, output) =>
             {

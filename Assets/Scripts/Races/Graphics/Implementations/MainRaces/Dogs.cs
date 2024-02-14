@@ -6,14 +6,13 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-        
             builder.Setup(output =>
             {
                 output.Names("Dog", "Dogs");
                 output.FlavorText(new FlavorText(
                     new Texts { "yelping", "curly tailed", "whining", "domesticated" },
                     new Texts { "wagging", "panting" },
-                    new Texts { "dog", "canine", {"bitch", Gender.Female}, {"dog", Gender.Male} }
+                    new Texts { "dog", "canine", { "bitch", Gender.Female }, { "dog", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {

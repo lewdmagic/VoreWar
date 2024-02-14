@@ -23,6 +23,7 @@ public class PathNodeManager : MonoBehaviour
         {
             arrow.SetActive(false);
         }
+
         nextNum = 0;
     }
 

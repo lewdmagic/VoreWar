@@ -55,7 +55,7 @@ public class OptionsBox : MonoBehaviour
     public void CClicked()
     {
         CAction?.Invoke();
-        Destroy (gameObject);
+        Destroy(gameObject);
     }
 
     public void DClicked()

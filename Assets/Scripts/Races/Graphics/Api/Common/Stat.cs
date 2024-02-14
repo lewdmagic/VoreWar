@@ -9,6 +9,7 @@
     Endurance,
     Stomach,
     Leadership,
+
     /// <summary>Used as ArraySize</summary>
     None
 }

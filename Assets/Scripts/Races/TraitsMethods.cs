@@ -1,6 +1,5 @@
 internal static class TraitsMethods
 {
-
     public static bool IsRaceModifying(TraitType traitType)
     {
         switch (traitType)

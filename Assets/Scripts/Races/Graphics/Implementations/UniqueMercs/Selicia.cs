@@ -51,11 +51,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         TraitType.KeenReflexes,
                         TraitType.StrongGullet,
                         TraitType.NimbleClimber,
-
                     },
                     InnateSpells = new List<SpellType>() { SpellType.IceBlast },
                     RaceDescription = "A hybrid between a dragon and salamander whom excels in climbing and swimming but lacks any wings for flight.",
-
                 });
                 output.CanBeGender = new List<Gender> { Gender.Female };
                 output.GentleAnimation = true;

@@ -11,9 +11,9 @@ internal static class RaceParameters
         RacialTraits = new List<TraitType>(),
         RaceDescription = "Whip, whup, brrr. I'm a Default. Phear me!",
     };
-    
+
     /// <summary>
-    /// Mostly used as a helper function, for the village race population growth
+    ///     Mostly used as a helper function, for the village race population growth
     /// </summary>
     /// <param name="race"></param>
     /// <returns></returns>

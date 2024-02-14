@@ -10,7 +10,6 @@ namespace Races.Graphics.Implementations.UniqueMercs
 {
     internal static class Zera
     {
-
         internal class ZeraParameters : IParameters
         {
             internal int StomachSize;
@@ -30,7 +29,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
         private static int CalcStomachSize(IActorUnit actor)
         {
             BodyStateType bodyState = CalcBodyStateType(actor);
-            
+
             int stomachSize = actor.GetStomachSize(19);
             /////////////////////////////////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +44,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         stomachSize = 16;
                     }
                 }
-            
+
                 if (stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
                 {
                     // Nothing ? I think
@@ -88,7 +87,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
              */
         }
-        
+
         private static BodyStateType CalcBodyStateType(IActorUnit actor)
         {
             int stomachSize = actor.GetStomachSize(19);
@@ -106,7 +105,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 return BodyStateType.First;
             }
         }
-    
+
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
@@ -119,8 +118,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
             {
                 output.Names("Zera", "Zera");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "nargacuga", "fluffy wyvern", "big kitty" } //new, many thanks to Selicia for the last two
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -152,10 +151,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     },
                     RaceDescription = "A devious and voracious wyvern. Known for his agility and cunning, don't ever turn your back to him or you might find yourself in trouble.",
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.TailTypes, "Default Facing");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.TailTypes, "Default Facing"); });
                 output.CanBeGender = new List<Gender> { Gender.Male };
                 output.GentleAnimation = true;
                 output.ClothingColors = 0;
@@ -394,7 +390,6 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 }
 
 
-
                 output.Sprite(input.Sprites.ZeraBelly[CalcZeraParameters(input.A).StomachSize - 10]);
             });
 
@@ -477,7 +472,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RunBefore((input, output) =>
             {
                 ZeraParameters zeraParameters = CalcZeraParameters(input.A);
-            
+
                 AdjustBodyOffsets(input, output, zeraParameters.BodyState, zeraParameters.StomachSize);
 
                 if (zeraParameters.StomachSize >= 10 && zeraParameters.BodyState == BodyStateType.Second)

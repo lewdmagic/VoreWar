@@ -11,7 +11,9 @@ internal interface ISpriteContainer
     Sprite Sprite { get; set; }
     Color Color { get; set; }
     GameObject GameObject { get; }
+
     bool IsImage { get; }
+
     //void UpdatePalette(ColorSwapPalette palette);
     //void SetOffSets(float xOffset, float yOffset);
     void Destroy();
@@ -58,13 +60,9 @@ internal abstract class SpriteContainerShared
 {
     public GameObject GameObject { get; private protected set; }
 
-    public string Name
-    {
-        get => GameObject.name;
-        set => GameObject.name = value;
-    }
-    
-    
+    public string Name { get => GameObject.name; set => GameObject.name = value; }
+
+
     public void Destroy()
     {
         Object.Destroy(GameObject);
@@ -81,17 +79,17 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
         _spriteRenderer = spriteRenderer;
     }
 
-    
+
     public void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
     {
         Sprite actualSprite = spriteChange.SpriteVal;
-        
+
         if (actualSprite == null)
         {
             GameObject.SetActive(false);
             return;
         }
-        
+
         if (spriteChange.Palette != null)
         {
             _spriteRenderer.material = spriteChange.Palette.colorSwapMaterial;
@@ -100,7 +98,7 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
         {
             _spriteRenderer.material = ColorPaletteMap.Default.colorSwapMaterial;
         }
-        
+
         if (spriteChange.Color.HasValue)
         {
             if (_spriteRenderer.color != spriteChange.Color.Value)
@@ -108,7 +106,7 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
                 _spriteRenderer.color = spriteChange.Color.Value;
             }
         }
-        
+
         int usedLayer = 0;
         if (spriteChange.LayerVal.HasValue)
         {
@@ -118,33 +116,24 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
         {
             Debug.LogWarning("Layer is not set");
         }
-        
+
         GameObject.SetActive(true);
         Sprite = actualSprite;
         SortOrder = usedLayer + extraLayerOffset;
-        
+
         Vector2 usedOffset = spriteChange.Offset + wholeBodyOffset;
         SetOffSets(usedOffset.x, usedOffset.y);
     }
-    
+
     public bool IsImage => false;
 
-    public int SortOrder
-    {
-        get => _spriteRenderer.sortingOrder;
-        set => _spriteRenderer.sortingOrder = value + 20000 - 30 * ((int)GameObject.transform.parent.position.x + 3 * (int)GameObject.transform.parent.position.y);
-    }
+    public int SortOrder { get => _spriteRenderer.sortingOrder; set => _spriteRenderer.sortingOrder = value + 20000 - 30 * ((int)GameObject.transform.parent.position.x + 3 * (int)GameObject.transform.parent.position.y); }
 
-    public Sprite Sprite
-    {
-        get => _spriteRenderer.sprite;
-        set => _spriteRenderer.sprite = value;
-    }
+    public Sprite Sprite { get => _spriteRenderer.sprite; set => _spriteRenderer.sprite = value; }
 
     public Color Color
     {
         get => _spriteRenderer.color;
-
         set
         {
             if (_spriteRenderer.color != value)
@@ -183,11 +172,11 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
         GameObject = obj;
         _image = image;
     }
-    
+
     public void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
     {
         Sprite actualSprite = spriteChange.SpriteVal;
-        
+
         if (actualSprite == null)
         {
             GameObject.SetActive(false);
@@ -195,13 +184,13 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
         }
 
         Vector2 usedOffset = spriteChange.Offset + wholeBodyOffset;
-        
+
         UpdatePalette(spriteChange.Palette);
         if (spriteChange.Color.HasValue)
         {
             Color = spriteChange.Color.Value;
         }
-        
+
         int usedLayer = 0;
         if (spriteChange.LayerVal.HasValue)
         {
@@ -211,7 +200,7 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
         {
             Debug.LogWarning("Layer is not set");
         }
-        
+
         GameObject.SetActive(true);
         Sprite = actualSprite;
         SortOrder = usedLayer + extraLayerOffset;
@@ -224,7 +213,6 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
     public Sprite Sprite
     {
         get => _image.sprite;
-
         set
         {
             _image.sprite = value;
@@ -249,7 +237,6 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
     public Color Color
     {
         get => _image.color;
-
         set
         {
             if (_image.color != value)
@@ -275,6 +262,4 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
     {
         GameObject.transform.localPosition = new Vector3(xOffset * (160 / _image.sprite.rect.width) * (160 / _image.sprite.pixelsPerUnit), 30 + yOffset * (160 / _image.sprite.rect.height) * (160 / _image.sprite.pixelsPerUnit), 0);
     }
-
-
 }

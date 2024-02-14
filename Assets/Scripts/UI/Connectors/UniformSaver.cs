@@ -40,6 +40,7 @@ public class UniformSaver : MonoBehaviour
             IncludeClothingAccesory.isOn = false;
             IncludeClothingAccesory.interactable = false;
         }
+
         gameObject.SetActive(true);
     }
 
@@ -53,6 +54,4 @@ public class UniformSaver : MonoBehaviour
         uniform.Name = Text.text;
         UniformDataStorer.Add(uniform);
     }
-
-
 }

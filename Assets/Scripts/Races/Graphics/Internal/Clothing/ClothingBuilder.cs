@@ -14,14 +14,12 @@ public abstract class ClothingBuilderShared
         Template = template;
         SetMisc = setMisc;
     }
-    
+
     public void Setup(ClothingMiscData template)
     {
         Setup(template, null);
     }
 }
-
-
 
 
 internal class ClothingSetupInput : IClothingSetupInput
@@ -34,12 +32,12 @@ public class ClothingBuilder : ClothingBuilderShared, IClothingBuilder
 {
     internal static readonly ClothingMiscData DefaultMisc = new ClothingMiscData();
     private Action<IClothingRenderInput, IClothingRenderOutput> _completeGen;
-    
+
     internal static ClothingBuilder New()
     {
         return new ClothingBuilder();
     }
-    
+
     public void RenderAll(Action<IClothingRenderInput, IClothingRenderOutput> completeGen)
     {
         _completeGen = completeGen;
@@ -71,7 +69,7 @@ internal class ClothingBuilderV2<T> : ClothingBuilderShared, IClothingBuilder<T>
 {
     private Action<IClothingRenderInput, IClothingRenderOutput, T> _completeGen;
     private readonly Func<IClothingRenderInput, T> _paramsCalc;
-    
+
     public ClothingBuilderV2(Func<IClothingRenderInput, T> paramsCalc)
     {
         _paramsCalc = paramsCalc;
@@ -81,7 +79,7 @@ internal class ClothingBuilderV2<T> : ClothingBuilderShared, IClothingBuilder<T>
     {
         _completeGen = completeGen;
     }
-    
+
     internal IClothing BuildClothing()
     {
         IClothingSetupInput input = new ClothingSetupInput();
@@ -98,23 +96,23 @@ internal class ClothingBuilderV3<T>
 
     public void Setup(ClothingMiscData template, Action<IClothingSetupInput, IClothingSetupOutput> setMisc)
     {
-        
-        
-        
+
+
+
         IClothingSetupInput input = new ClothingSetupInput();
         ClothingMiscData copy = ClothingBuilder.DefaultMisc.ShallowCopy();
         setMisc?.Invoke(input, copy);
         Misc = copy;
     }
-    
+
     public void Setup(ClothingMiscData template)
     {
         Setup(template, null);
     }
-    
+
     private Action<IClothingRenderInput<T>, IClothingRenderOutput> _completeGen;
     private readonly Func<IClothingRenderInput, T> _paramsCalc;
-    
+
     public ClothingBuilderV3(Func<IClothingRenderInput, T> paramsCalc)
     {
         _paramsCalc = paramsCalc;
@@ -124,7 +122,7 @@ internal class ClothingBuilderV3<T>
     {
         _completeGen = completeGen;
     }
-    
+
     internal IClothing BuildClothing()
     {
         return new Clothing<T>(Misc, _completeGen, _paramsCalc);

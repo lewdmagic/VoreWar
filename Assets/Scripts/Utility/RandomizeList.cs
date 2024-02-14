@@ -9,13 +9,13 @@ public class RandomizeList
     public int id = -1;
     public string name;
     public float chance;
+
     [AllowEditing]
     internal List<TraitType> RandomTraits;
 
 
     internal void Save()
     {
-       
     }
 
     public override string ToString()

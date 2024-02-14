@@ -8,25 +8,37 @@ internal class ClothingDiscards
 {
     [OdinSerialize]
     private Vec2i _location;
+
     internal Vec2i location { get => _location; set => _location = value; }
+
     [OdinSerialize]
     private ClothingId _type;
+
     internal ClothingId type { get => _type; set => _type = value; }
+
     [OdinSerialize]
     private Race _race;
+
     internal Race race { get => _race; set => _race = value; }
+
     [OdinSerialize]
     private int _color;
+
     internal int color { get => _color; set => _color = value; }
+
     [OdinSerialize]
     private int _sortOrder;
+
     internal int sortOrder { get => _sortOrder; set => _sortOrder = value; }
+
     [OdinSerialize]
     private int _angle;
 
     private int angle { get => _angle; set => _angle = value; }
+
     [OdinSerialize]
     private string _name;
+
     internal string name { get => _name; set => _name = value; }
 
     private static List<IClothing> AllClothes = new List<IClothing>();
@@ -54,7 +66,7 @@ internal class ClothingDiscards
             {
                 BeesClothing.Cuirass.CuirassInstance, BeesClothing.BeeLeaderInstance
             };
-            
+
             AllClothes = new List<IClothing>();
             AllClothes.AddRange(CommonClothing.All);
             AllClothes.AddRange(RaceSpecificClothing.All);
@@ -102,9 +114,9 @@ internal class ClothingDiscards
             AllClothes.AddRange(Races2.GetRace(Race.Vargul).SetupOutput.AllowedWaistTypes);
             AllClothes = AllClothes.Distinct().ToList();
         }
+
         var clothingType = AllClothes.Where(s => s.FixedData.ClothingId == type).FirstOrDefault();
-        if (clothingType == null)
-            return;
+        if (clothingType == null) return;
         if (clothingType.FixedData.FixedColor == false)
         {
             if (clothingType.FixedData.DiscardUsesPalettes)

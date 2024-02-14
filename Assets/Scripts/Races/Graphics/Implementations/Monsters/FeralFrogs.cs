@@ -30,7 +30,7 @@ namespace Races.Graphics.Implementations.Monsters
                 return Position.Front;
             }
         }
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
@@ -245,14 +245,9 @@ namespace Races.Graphics.Implementations.Monsters
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.Finalize.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.Finalize.Invoke(input, output); });
 
             builder.RandomCustom(Defaults.RandomCustom);
         });
-
-
     }
 }

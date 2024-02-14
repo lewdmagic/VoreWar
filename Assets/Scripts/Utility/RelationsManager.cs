@@ -5,7 +5,7 @@ using UnityEngine;
 internal static class RelationsManager
 {
     /// <summary>
-    /// Creates the network of relations from scratch (leaves monsters to be auto-created)
+    ///     Creates the network of relations from scratch (leaves monsters to be auto-created)
     /// </summary>
     internal static void ResetRelations()
     {
@@ -31,16 +31,14 @@ internal static class RelationsManager
             {
                 if (RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(side) || RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(targetSide))
                 {
-                    if (State.World.Relations.ContainsKey(side))
-                        State.World.Relations[side].Remove(targetSide);
+                    if (State.World.Relations.ContainsKey(side)) State.World.Relations[side].Remove(targetSide);
                 }
-
             }
         }
     }
 
     /// <summary>
-    /// Resets the type of relation to be based on the teams, but doesn't change the actual relations values
+    ///     Resets the type of relation to be based on the teams, but doesn't change the actual relations values
     /// </summary>
     internal static void ResetRelationTypes()
     {
@@ -68,6 +66,7 @@ internal static class RelationsManager
                 counterRel.Type = RelationState.Enemies;
                 counterRel.Attitude = -1;
             }
+
             if ((rel.Type == RelationState.Enemies || rel.Type == RelationState.Neutral) && otherEmp.Team == empire.Team)
             {
                 rel.Type = RelationState.Allied;
@@ -75,7 +74,6 @@ internal static class RelationsManager
                 counterRel.Type = RelationState.Allied;
                 counterRel.Attitude = 2;
             }
-
         }
     }
 
@@ -88,7 +86,7 @@ internal static class RelationsManager
         {
             return new Relationship(0, 0);
         }
-            
+
         if (State.World.Relations == null)
         {
             ResetRelations();
@@ -105,12 +103,14 @@ internal static class RelationsManager
                 return new Relationship(-1, -1);
             }
         }
+
         if (State.World.Relations.TryGetValue(sideA, out var dict))
         {
             if (dict.TryGetValue(sideB, out var rel))
             {
                 return rel;
             }
+
             var empAI = State.World.GetEmpireOfSide(sideA);
             var empBI = State.World.GetEmpireOfSide(sideB);
             if (empAI == null || empBI == null)
@@ -123,6 +123,7 @@ internal static class RelationsManager
             dict[sideB] = newRel;
             return newRel;
         }
+
         var empA = State.World.GetEmpireOfSide(sideA);
         var empB = State.World.GetEmpireOfSide(sideB);
         if (empA == null || empB == null)
@@ -130,12 +131,12 @@ internal static class RelationsManager
             Debug.Log($"Invalid relationship returned between {sideA} and {sideB}");
             return new Relationship(0, 1);
         }
+
         var newDict = new Dictionary<Side, Relationship>();
         State.World.Relations[sideA] = newDict;
         Relationship newRel2 = new Relationship(empA.Team, empB.Team);
         newDict[sideB] = newRel2;
         return newRel2;
-
     }
 
     private struct RelCata
@@ -186,6 +187,7 @@ internal static class RelationsManager
             default: //No scaling
                 return;
         }
+
         foreach (var list in State.World.Relations.Values)
         {
             foreach (var rel in list.Values)
@@ -202,14 +204,12 @@ internal static class RelationsManager
                         Update(rel, Enemies);
                         break;
                 }
-
             }
         }
 
         void Update(Relationship rel, RelCata cata)
         {
-            if (rel.TurnsSinceAsked >= 0)
-                rel.TurnsSinceAsked++;
+            if (rel.TurnsSinceAsked >= 0) rel.TurnsSinceAsked++;
             if (rel.Attitude < cata.Goal)
             {
                 rel.Attitude = Mathf.Lerp(rel.Attitude, cata.Goal, cata.IncreaseMult);
@@ -220,7 +220,6 @@ internal static class RelationsManager
             {
                 rel.Attitude = Mathf.Lerp(rel.Attitude, cata.Goal, cata.DecreaseMult);
                 rel.Attitude -= cata.DecreaseAdd;
-
             }
         }
     }
@@ -257,15 +256,12 @@ internal static class RelationsManager
 
     internal static void VillageAttacked(Empire attacker, Empire defender)
     {
-        if (attacker is MonsterEmpire || defender is MonsterEmpire)
-            return;
-        if (GetRelation(defender.Side, attacker.Side).Attitude > -.25f)
-            GetRelation(defender.Side, attacker.Side).Attitude = -.25f;
+        if (attacker is MonsterEmpire || defender is MonsterEmpire) return;
+        if (GetRelation(defender.Side, attacker.Side).Attitude > -.25f) GetRelation(defender.Side, attacker.Side).Attitude = -.25f;
         GetRelation(defender.Side, attacker.Side).Attitude -= .3f;
         foreach (Empire emp in State.World.MainEmpires)
         {
-            if (emp == attacker || emp == defender)
-                continue;
+            if (emp == attacker || emp == defender) continue;
             var attackerRel = GetRelation(emp.Side, attacker.Side);
             var defenderRel = GetRelation(emp.Side, defender.Side);
             if (defenderRel.Type == RelationState.Allied)
@@ -281,17 +277,13 @@ internal static class RelationsManager
 
     internal static void GoldMineTaken(Empire attacker, Empire defender)
     {
-        if (attacker is MonsterEmpire || defender is MonsterEmpire)
-            return;
-        if (defender == null)
-            return;
-        if (GetRelation(defender.Side, attacker.Side).Attitude > 0)
-            GetRelation(defender.Side, attacker.Side).Attitude *= .75f;
+        if (attacker is MonsterEmpire || defender is MonsterEmpire) return;
+        if (defender == null) return;
+        if (GetRelation(defender.Side, attacker.Side).Attitude > 0) GetRelation(defender.Side, attacker.Side).Attitude *= .75f;
         GetRelation(defender.Side, attacker.Side).Attitude -= .1f;
         foreach (Empire emp in State.World.MainEmpires)
         {
-            if (emp == attacker || emp == defender)
-                continue;
+            if (emp == attacker || emp == defender) continue;
             var attackerRel = GetRelation(emp.Side, attacker.Side);
             var defenderRel = GetRelation(emp.Side, defender.Side);
             if (defenderRel.Type == RelationState.Allied)
@@ -307,13 +299,11 @@ internal static class RelationsManager
 
     internal static void ArmyAttacked(Empire attacker, Empire defender)
     {
-        if (attacker is MonsterEmpire || defender is MonsterEmpire)
-            return;
+        if (attacker is MonsterEmpire || defender is MonsterEmpire) return;
         GetRelation(defender.Side, attacker.Side).Attitude -= .2f;
         foreach (Empire emp in State.World.MainEmpires)
         {
-            if (emp == attacker || emp == defender)
-                continue;
+            if (emp == attacker || emp == defender) continue;
             var attackerRel = GetRelation(emp.Side, attacker.Side);
             var defenderRel = GetRelation(emp.Side, defender.Side);
             if (defenderRel.Type == RelationState.Allied)
@@ -329,15 +319,12 @@ internal static class RelationsManager
 
     internal static void CityReturned(Empire giver, Empire receiver)
     {
-        if (giver == null || receiver == null)
-            return;
-        if (giver is MonsterEmpire || receiver is MonsterEmpire)
-            return;
+        if (giver == null || receiver == null) return;
+        if (giver is MonsterEmpire || receiver is MonsterEmpire) return;
         GetRelation(receiver.Side, giver.Side).Attitude += 1f;
         foreach (Empire emp in State.World.MainEmpires)
         {
-            if (emp == giver || emp == receiver)
-                continue;
+            if (emp == giver || emp == receiver) continue;
             var giverRel = GetRelation(emp.Side, giver.Side);
             var receiverRel = GetRelation(emp.Side, receiver.Side);
             if (receiverRel.Type == RelationState.Allied)
@@ -356,28 +343,24 @@ internal static class RelationsManager
     internal static void MakeHate(Empire attacker, Empire defender)
     {
         var relation = GetRelation(defender.Side, attacker.Side);
-        if (relation.Attitude > -1.5f)
-            relation.Attitude = -1.5f;
+        if (relation.Attitude > -1.5f) relation.Attitude = -1.5f;
         SetWar(attacker, defender);
     }
 
     internal static void MakeLike(Empire likee, Empire liker, float setMinRelation = 1)
     {
         var relation = GetRelation(liker.Side, likee.Side);
-        if (relation.Attitude < setMinRelation)
-            relation.Attitude = setMinRelation;
+        if (relation.Attitude < setMinRelation) relation.Attitude = setMinRelation;
         SetAlly(likee, liker);
     }
 
     internal static void Genocide(Empire attacker, Empire defender)
     {
-        if (attacker is MonsterEmpire || defender is MonsterEmpire)
-            return;
+        if (attacker is MonsterEmpire || defender is MonsterEmpire) return;
         GetRelation(defender.Side, attacker.Side).Attitude -= .6f;
         foreach (Empire emp in State.World.MainEmpires)
         {
-            if (emp == attacker || emp == defender)
-                continue;
+            if (emp == attacker || emp == defender) continue;
             var attackerRel = GetRelation(emp.Side, attacker.Side);
             var defenderRel = GetRelation(emp.Side, defender.Side);
             if (defenderRel.Type == RelationState.Allied)
@@ -395,15 +378,29 @@ internal static class RelationsManager
     {
         var box = State.GameManager.CreateDialogBox();
         State.GameManager.ActiveInput = true;
-        box.SetData(() => { SetPeace(AI, player); State.GameManager.ActiveInput = false; }, "Accept", "Reject", $"The {AI.Name} wants to know if you ({player.Name}) would accept a peace treaty?", () => { GetRelation(AI.Side, player.Side).TurnsSinceAsked = 0; State.GameManager.ActiveInput = false; });
+        box.SetData(() =>
+            {
+                SetPeace(AI, player);
+                State.GameManager.ActiveInput = false;
+            }, "Accept", "Reject", $"The {AI.Name} wants to know if you ({player.Name}) would accept a peace treaty?", () =>
+            {
+                GetRelation(AI.Side, player.Side).TurnsSinceAsked = 0;
+                State.GameManager.ActiveInput = false;
+            });
     }
 
     internal static void AskPlayerForAlliance(Empire AI, Empire player)
     {
         var box = State.GameManager.CreateDialogBox();
         State.GameManager.ActiveInput = true;
-        box.SetData(() => { SetAlly(AI, player); State.GameManager.ActiveInput = false; }, "Accept", "Reject", $"The {AI.Name} wants to know if you ({player.Name}) would accept an alliance?", () => { GetRelation(AI.Side, player.Side).TurnsSinceAsked = 0; State.GameManager.ActiveInput = false; });
+        box.SetData(() =>
+            {
+                SetAlly(AI, player);
+                State.GameManager.ActiveInput = false;
+            }, "Accept", "Reject", $"The {AI.Name} wants to know if you ({player.Name}) would accept an alliance?", () =>
+            {
+                GetRelation(AI.Side, player.Side).TurnsSinceAsked = 0;
+                State.GameManager.ActiveInput = false;
+            });
     }
-
 }
-

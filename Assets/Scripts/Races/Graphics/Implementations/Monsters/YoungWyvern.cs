@@ -46,10 +46,8 @@ namespace Races.Graphics.Implementations.Monsters
                     },
                     RacialTraits = new List<TraitType>()
                     {
-
                     },
                     RaceDescription = "When young the Wyverns aren't good predators. They do have a healthy appetite though, and follow older Wyverns in hope of getting the better of prey weakened by the adults.",
-
                 });
                 output.IndividualNames(new List<string>
                 {

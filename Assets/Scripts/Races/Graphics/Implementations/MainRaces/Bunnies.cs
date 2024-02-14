@@ -6,14 +6,12 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-        
             builder.Setup((output) =>
             {
-            
                 output.Names("Bunny", "Bunnies");
                 output.WallType(WallType.Bunny);
-        
-                output.BonesInfo((unit) => 
+
+                output.BonesInfo((unit) =>
                 {
                     if (unit.Furry)
                     {
@@ -33,7 +31,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FlavorText(new FlavorText(
                     new Texts { "long eared", "bushy tailed", "leaf biting" },
                     new Texts { "sharp eared", "strong footed", "chisel-toothed" },
-                    new Texts { "bunny", "rabbit", "lagomorph", {"doe", Gender.Female}, {"buck", Gender.Male} } // This is correct. Apparently thats what they are called
+                    new Texts { "bunny", "rabbit", "lagomorph", { "doe", Gender.Female }, { "buck", Gender.Male } } // This is correct. Apparently thats what they are called
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -77,7 +75,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     buttons.SetText(ButtonType.BodyAccessoryColor, "Fur Color: " + UnitCustomizer.HairColorLookup(unit.AccessoryColor));
                 });
             });
-        
+
             builder.RandomCustom(Defaults.RandomCustom);
 
             builder.RenderSingle(SpriteType.Head, Defaults.SpriteGens3[SpriteType.Head]);
@@ -90,7 +88,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccent2, Defaults.SpriteGens3[SpriteType.BodyAccent2]);
             builder.RenderSingle(SpriteType.BodyAccent3, Defaults.SpriteGens3[SpriteType.BodyAccent3]);
             builder.RenderSingle(SpriteType.BodyAccent4, Defaults.SpriteGens3[SpriteType.BodyAccent4]);
-            builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output ) =>
+            builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
                 output.Sprite(input.Sprites.Bodies[13]);
@@ -99,7 +97,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodySize, Defaults.SpriteGens3[SpriteType.BodySize]);
             builder.RenderSingle(SpriteType.Breasts, Defaults.SpriteGens3[SpriteType.Breasts]);
             builder.RenderSingle(SpriteType.Belly, Defaults.SpriteGens3[SpriteType.Belly]);
-        
+
             builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
             {
                 output.Coloring(Defaults.FurryColor(input.Actor));
@@ -128,8 +126,8 @@ namespace Races.Graphics.Implementations.MainRaces
                     output.Sprite(State.GameManager.SpriteDictionary.FurryDicks[30 + type]).Layer(12);
                 }
             });
-        
-        
+
+
             builder.RenderSingle(SpriteType.Balls, Defaults.SpriteGens3[SpriteType.Balls]);
             builder.RenderSingle(SpriteType.Weapon, Defaults.SpriteGens3[SpriteType.Weapon]);
             builder.RenderSingle(SpriteType.BackWeapon, Defaults.SpriteGens3[SpriteType.BackWeapon]);

@@ -40,7 +40,7 @@ public class MultiStageBanner : MonoBehaviour
 
         if (army.Units.All(u => u.HasTrait(TraitType.Infiltrator) && !u.IsInfiltratingSide(u.Side)))
         {
-            FullBannerLayer.color  = new Color(FullBannerLayer.color.r, FullBannerLayer.color.g, FullBannerLayer.color.b, 0.5f);
+            FullBannerLayer.color = new Color(FullBannerLayer.color.r, FullBannerLayer.color.g, FullBannerLayer.color.b, 0.5f);
             InsigniaLayer.color = new Color(InsigniaLayer.color.r, InsigniaLayer.color.g, InsigniaLayer.color.b, 0.5f);
             LeaderLayer.color = new Color(LeaderLayer.color.r, LeaderLayer.color.g, LeaderLayer.color.b, 0.5f);
         }

@@ -11,6 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class Demifrogs
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(31 * 31);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             IClothing LeaderClothes = DemifrogLeader.DemifrogLeaderInstance.Create(paramsCalc);
@@ -21,16 +22,16 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("DemiFrog", "DemiFrogs");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "demi-frog", "amphibian", "frog" }, //new, many thanks to Flame_Valxsarion
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "WeaponNames.Mace",
-                        [WeaponNames.Axe]         = "WeaponNames.Axe",
-                        [WeaponNames.SimpleBow]   = "Slingshot",
+                        [WeaponNames.Mace] = "WeaponNames.Mace",
+                        [WeaponNames.Axe] = "WeaponNames.Axe",
+                        [WeaponNames.SimpleBow] = "Slingshot",
                         [WeaponNames.CompoundBow] = "Feathered Bow",
-                        [WeaponNames.Claw]        = "Fist"
+                        [WeaponNames.Claw] = "Fist"
                     }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -120,10 +121,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
             builder.RenderSingle(SpriteType.Head, 5, (input, output) =>
             {
@@ -350,7 +348,6 @@ namespace Races.Graphics.Implementations.MainRaces
 
                     if (input.U.SpecialAccessoryType == 6)
                     {
-
                         switch (size)
                         {
                             case 23:

@@ -7,11 +7,9 @@ public class RaceHoverObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
     internal Race race;
 
 
-
     private void Update()
     {
-        if (hovering == false)
-            return;
+        if (hovering == false) return;
         State.GameManager.HoveringRacePicture.UpdateInformation(race);
     }
 

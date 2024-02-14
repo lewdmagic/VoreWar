@@ -30,6 +30,7 @@ internal class RaceSettings
                 entry.Value.SpawnRace = RaceParameters.GetRaceTraits(entry.Key).SpawnRace;
             }
         }
+
         foreach (RaceSettingsItem item in Races.Values)
         {
             if (item.Stats.Strength.Roll < 1) item.Stats.Strength.Roll = 1;
@@ -41,6 +42,7 @@ internal class RaceSettings
             if (item.Stats.Stomach.Roll < 1) item.Stats.Stomach.Roll = 1;
             if (item.Stats.Strength.Roll < 1) item.Stats.Strength.Roll = 1;
         }
+
         if (Races.ContainsKey(Race.FeralBat) == false)
         {
             Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
@@ -54,10 +56,12 @@ internal class RaceSettings
         {
             return null;
         }
+
         if (Races.TryGetValue(race, out RaceSettingsItem item))
         {
             return item;
         }
+
         Races[race] = new RaceSettingsItem(race);
         return Races[race];
     }
@@ -69,58 +73,50 @@ internal class RaceSettings
 
     internal bool GetOverrideGender(Race race)
     {
-        if (Races.ContainsKey(race))
-            return Get(race).OverrideGender;
+        if (Races.ContainsKey(race)) return Get(race).OverrideGender;
         return false;
     }
 
     internal bool GetOverrideFurry(Race race)
     {
-        if (Races.ContainsKey(race))
-            return Get(race).OverrideFurry;
+        if (Races.ContainsKey(race)) return Get(race).OverrideFurry;
         return false;
     }
 
     internal bool GetOverrideClothed(Race race)
     {
-        if (Races.ContainsKey(race))
-            return Get(race).overrideClothes;
+        if (Races.ContainsKey(race)) return Get(race).overrideClothes;
         return false;
     }
 
     internal bool GetOverrideWeight(Race race)
     {
-        if (Races.ContainsKey(race))
-            return Get(race).overrideWeight;
+        if (Races.ContainsKey(race)) return Get(race).overrideWeight;
         return false;
     }
 
     internal bool GetOverrideBreasts(Race race)
     {
-        if (Races.ContainsKey(race))
-            return Get(race).overrideBoob;
+        if (Races.ContainsKey(race)) return Get(race).overrideBoob;
         return false;
     }
 
     internal bool GetOverrideDick(Race race)
     {
-        if (Races.ContainsKey(race))
-            return Get(race).overrideDick;
+        if (Races.ContainsKey(race)) return Get(race).overrideDick;
         return false;
     }
 
 
     internal int GetBodySize(Race race)
     {
-        if (Races.ContainsKey(race))
-            return Get(race).BodySize;
+        if (Races.ContainsKey(race)) return Get(race).BodySize;
         return RaceParameters.GetRaceTraits(race).BodySize;
     }
 
     internal int GetStomachSize(Race race)
     {
-        if (Races.ContainsKey(race))
-            return Get(race).StomachSize;
+        if (Races.ContainsKey(race)) return Get(race).StomachSize;
         return RaceParameters.GetRaceTraits(race).StomachSize;
     }
 
@@ -131,8 +127,7 @@ internal class RaceSettings
             return null;
         }
 
-        if (Races.ContainsKey(race))
-            return Get(race).RaceTraits;
+        if (Races.ContainsKey(race)) return Get(race).RaceTraits;
         return RaceParameters.GetRaceTraits(race).RacialTraits;
     }
 
@@ -142,9 +137,8 @@ internal class RaceSettings
         {
             return null;
         }
-        
-        if (Races.ContainsKey(race))
-            return Get(race).MaleTraits;
+
+        if (Races.ContainsKey(race)) return Get(race).MaleTraits;
         return null;
     }
 
@@ -154,9 +148,8 @@ internal class RaceSettings
         {
             return null;
         }
-        
-        if (Races.ContainsKey(race))
-            return Get(race).FemaleTraits;
+
+        if (Races.ContainsKey(race)) return Get(race).FemaleTraits;
         return null;
     }
 
@@ -166,9 +159,8 @@ internal class RaceSettings
         {
             return null;
         }
-        
-        if (Races.ContainsKey(race))
-            return Get(race).HermTraits;
+
+        if (Races.ContainsKey(race)) return Get(race).HermTraits;
         return null;
     }
 
@@ -178,9 +170,8 @@ internal class RaceSettings
         {
             return null;
         }
-        
-        if (Races.ContainsKey(race))
-            return Get(race).SpawnTraits;
+
+        if (Races.ContainsKey(race)) return Get(race).SpawnTraits;
         return RaceParameters.GetRaceTraits(race).SpawnTraits;
     }
 
@@ -190,9 +181,8 @@ internal class RaceSettings
         {
             return null;
         }
-        
-        if (Races.ContainsKey(race))
-            return Get(race).LeaderTraits;
+
+        if (Races.ContainsKey(race)) return Get(race).LeaderTraits;
         return RaceParameters.GetRaceTraits(race).LeaderTraits;
     }
 
@@ -216,6 +206,7 @@ internal class RaceSettings
         {
             return Get(race).InnateSpell;
         }
+
         return SpellType.None;
     }
 
@@ -225,21 +216,21 @@ internal class RaceSettings
         {
             return Get(race).RaceAI;
         }
+
         return RaceAI.Standard;
     }
 
     internal string ListTraits(Race race)
     {
         var Tags = RaceParameters.GetRaceTraits(race).RacialTraits;
-        if (Tags.Count == 0)
-            return "";
+        if (Tags.Count == 0) return "";
         string ret = "";
         for (int i = 0; i < Tags.Count; i++)
         {
             ret += Tags[i].ToString();
-            if (i + 1 < Tags.Count)
-                ret += "\n";
+            if (i + 1 < Tags.Count) ret += "\n";
         }
+
         return ret;
     }
 
@@ -255,39 +246,32 @@ internal class RaceSettings
 
     internal RaceStats GetRaceStats(Race race)
     {
-        if (Races.ContainsKey(race))
-            return Get(race).Stats;
+        if (Races.ContainsKey(race)) return Get(race).Stats;
         return RaceParameters.GetRaceTraits(race).RaceStats;
     }
 
     internal Race GetSpawnRace(Race race)
     {
         Race spawnRace = Race.TrueNone;
-        if (Races.ContainsKey(race))
-            spawnRace = Get(race).SpawnRace;
-        if (Equals(spawnRace, Race.TrueNone))
-            spawnRace = RaceParameters.GetRaceTraits(race).SpawnRace; 
-        return (Equals(spawnRace, Race.TrueNone)) ? race : spawnRace;
+        if (Races.ContainsKey(race)) spawnRace = Get(race).SpawnRace;
+        if (Equals(spawnRace, Race.TrueNone)) spawnRace = RaceParameters.GetRaceTraits(race).SpawnRace;
+        return Equals(spawnRace, Race.TrueNone) ? race : spawnRace;
     }
 
     internal Race GetConversionRace(Race race)
     {
         Race conversionRace = Race.TrueNone;
-        if (Races.ContainsKey(race))
-            conversionRace = Get(race).ConversionRace;
-        if (Equals(conversionRace, Race.TrueNone))
-            conversionRace = RaceParameters.GetRaceTraits(race).ConversionRace; 
-        return (Equals(conversionRace, Race.TrueNone)) ? race : conversionRace;
+        if (Races.ContainsKey(race)) conversionRace = Get(race).ConversionRace;
+        if (Equals(conversionRace, Race.TrueNone)) conversionRace = RaceParameters.GetRaceTraits(race).ConversionRace;
+        return Equals(conversionRace, Race.TrueNone) ? race : conversionRace;
     }
 
     internal Race GetLeaderRace(Race race)
     {
         Race leaderRace = Race.TrueNone;
-        if (Races.ContainsKey(race))
-            leaderRace = Get(race).LeaderRace;
-        if (Equals(leaderRace, Race.TrueNone))
-            leaderRace = RaceParameters.GetRaceTraits(race).LeaderRace; 
-        return (Equals(leaderRace, Race.TrueNone)) ? race : leaderRace;
+        if (Races.ContainsKey(race)) leaderRace = Get(race).LeaderRace;
+        if (Equals(leaderRace, Race.TrueNone)) leaderRace = RaceParameters.GetRaceTraits(race).LeaderRace;
+        return Equals(leaderRace, Race.TrueNone) ? race : leaderRace;
     }
 
     //internal Race GetDisplayedGraphic(Race race)
@@ -305,8 +289,6 @@ internal class RaceSettings
             Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
             Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
         }
-
-
     }
 
     internal void ResetAll()
@@ -314,133 +296,185 @@ internal class RaceSettings
         Races = new Dictionary<Race, RaceSettingsItem>();
         Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
         Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
-
     }
 }
 
 internal class RaceSettingsItem
 {
-
     [OdinSerialize]
     private bool _overrideGender;
+
     internal bool OverrideGender { get => _overrideGender; set => _overrideGender = value; }
+
     [OdinSerialize]
     private float _maleFraction;
+
     internal float maleFraction { get => _maleFraction; set => _maleFraction = value; }
+
     [OdinSerialize]
     private float _hermFraction;
+
     internal float hermFraction { get => _hermFraction; set => _hermFraction = value; }
+
     [OdinSerialize]
     private bool _overrideFurry;
+
     internal bool OverrideFurry { get => _overrideFurry; set => _overrideFurry = value; }
+
     [OdinSerialize]
     private float _furryFraction;
+
     internal float furryFraction { get => _furryFraction; set => _furryFraction = value; }
 
     [OdinSerialize]
     private int _bodySize;
+
     internal int BodySize { get => _bodySize; set => _bodySize = value; }
+
     [OdinSerialize]
     private int _stomachSize;
+
     internal int StomachSize { get => _stomachSize; set => _stomachSize = value; }
+
     [OdinSerialize]
     private List<TraitType> _raceTraits;
+
     internal List<TraitType> RaceTraits { get => _raceTraits; set => _raceTraits = value; }
 
     [OdinSerialize]
     private List<VoreType> _allowedVoreTypes;
+
     internal List<VoreType> AllowedVoreTypes { get => _allowedVoreTypes; set => _allowedVoreTypes = value; }
 
     [OdinSerialize]
     private Race _spawnRace;
+
     internal Race SpawnRace { get => _spawnRace; set => _spawnRace = value; }
+
     [OdinSerialize]
     private Race _conversionRace;
+
     internal Race ConversionRace { get => _conversionRace; set => _conversionRace = value; }
+
     [OdinSerialize]
     private Race _leaderRace;
+
     internal Race LeaderRace { get => _leaderRace; set => _leaderRace = value; }
 
     [OdinSerialize]
     private RaceStats _stats;
+
     internal RaceStats Stats { get => _stats; set => _stats = value; }
 
     [OdinSerialize]
     private bool _overrideClothes;
+
     internal bool overrideClothes { get => _overrideClothes; set => _overrideClothes = value; }
+
     [OdinSerialize]
     private float _clothedFraction;
+
     internal float clothedFraction { get => _clothedFraction; set => _clothedFraction = value; }
 
     [OdinSerialize]
     private int _bannerType;
+
     internal int BannerType { get => _bannerType; set => _bannerType = value; }
 
     [OdinSerialize]
     private bool _overrideWeight;
+
     internal bool overrideWeight { get => _overrideWeight; set => _overrideWeight = value; }
+
     [OdinSerialize]
     private int _minWeight;
+
     internal int MinWeight { get => _minWeight; set => _minWeight = value; }
+
     [OdinSerialize]
     private int _maxWeight;
+
     internal int MaxWeight { get => _maxWeight; set => _maxWeight = value; }
 
     [OdinSerialize]
     private bool _overrideBoob;
+
     internal bool overrideBoob { get => _overrideBoob; set => _overrideBoob = value; }
+
     [OdinSerialize]
     private int _minBoob;
+
     internal int MinBoob { get => _minBoob; set => _minBoob = value; }
+
     [OdinSerialize]
     private int _maxBoob;
+
     internal int MaxBoob { get => _maxBoob; set => _maxBoob = value; }
 
     [OdinSerialize]
     private bool _overrideDick;
+
     internal bool overrideDick { get => _overrideDick; set => _overrideDick = value; }
+
     [OdinSerialize]
     private int _minDick;
+
     internal int MinDick { get => _minDick; set => _minDick = value; }
+
     [OdinSerialize]
     private int _maxDick;
+
     internal int MaxDick { get => _maxDick; set => _maxDick = value; }
 
     [OdinSerialize]
     private List<TraitType> _maleTraits;
+
     internal List<TraitType> MaleTraits { get => _maleTraits; set => _maleTraits = value; }
+
     [OdinSerialize]
     private List<TraitType> _femaleTraits;
+
     internal List<TraitType> FemaleTraits { get => _femaleTraits; set => _femaleTraits = value; }
+
     [OdinSerialize]
     private List<TraitType> _hermTraits;
+
     internal List<TraitType> HermTraits { get => _hermTraits; set => _hermTraits = value; }
+
     [OdinSerialize]
     private List<TraitType> _spawnTraits;
+
     internal List<TraitType> SpawnTraits { get => _spawnTraits; set => _spawnTraits = value; }
+
     [OdinSerialize]
     private List<TraitType> _leaderTraits;
+
     internal List<TraitType> LeaderTraits { get => _leaderTraits; set => _leaderTraits = value; }
 
     [OdinSerialize]
     private bool _favoredStatSet;
+
     internal bool FavoredStatSet { get => _favoredStatSet; set => _favoredStatSet = value; }
+
     [OdinSerialize]
     private Stat _favoredStat;
+
     internal Stat FavoredStat { get => _favoredStat; set => _favoredStat = value; }
 
     [OdinSerialize]
     private SpellType _innateSpell;
+
     internal SpellType InnateSpell { get => _innateSpell; set => _innateSpell = value; }
 
     [OdinSerialize]
     private RaceAI _raceAI;
+
     internal RaceAI RaceAI { get => _raceAI; set => _raceAI = value; }
 
     [OdinSerialize]
     private float _powerAdjustment;
-    internal float PowerAdjustment { get => _powerAdjustment; set => _powerAdjustment = value; }
 
+    internal float PowerAdjustment { get => _powerAdjustment; set => _powerAdjustment = value; }
 
 
     //[OdinSerialize]
@@ -513,7 +547,5 @@ internal class RaceSettingsItem
         PowerAdjustment = racePar.PowerAdjustment;
 
         //DisplayGraphics = race;
-
     }
 }
-

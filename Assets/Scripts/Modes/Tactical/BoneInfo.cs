@@ -5,18 +5,23 @@ public class BoneInfo
 {
     [OdinSerialize]
     private BoneType _boneType = BoneType.GenericBonePile;
+
     public BoneType BoneType { get => _boneType; set => _boneType = value; }
+
     [OdinSerialize]
     private string _name = "";
+
     public string name { get => _name; set => _name = value; }
+
     [OdinSerialize]
     private int _accessoryColor = -1;
+
     public int accessoryColor { get => _accessoryColor; set => _accessoryColor = value; }
 
     public BoneInfo(BoneType boneType, string name = "", int accessoryColor = -1)
     {
         this.name = name;
-        this.BoneType = boneType;
+        BoneType = boneType;
         this.accessoryColor = accessoryColor;
     }
 
@@ -69,13 +74,14 @@ public class BoneInfo
                 rtn = new Vector3(0f, 0f);
                 break;
         }
+
         return rtn;
     }
 
     public Vector3 GetBoneOffsetForScat()
     {
         Vector3 rtn;
-        switch (this.BoneType)
+        switch (BoneType)
         {
             case BoneType.GenericBonePile:
                 rtn = new Vector3(0, 0.01f);
@@ -134,6 +140,7 @@ public class BoneInfo
                 rtn = new Vector3(0, 0);
                 break;
         }
+
         return rtn;
     }
 

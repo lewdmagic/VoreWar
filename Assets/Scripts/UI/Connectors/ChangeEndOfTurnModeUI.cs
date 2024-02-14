@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class ChangeEndOfTurnModeUI : MonoBehaviour
 {
-
     public TMP_Dropdown dropdown;
 
     public Toggle display;
@@ -32,9 +31,5 @@ public class ChangeEndOfTurnModeUI : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
-
     }
-
-
-
 }

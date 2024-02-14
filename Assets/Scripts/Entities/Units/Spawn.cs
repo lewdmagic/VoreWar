@@ -1,6 +1,5 @@
 ﻿public class Spawn : Unit
 {
-
     public Spawn(Side side, Race race, int startingXP) : base(side, race, startingXP, true, UnitType.Spawn)
     {
         var raceStats = State.RaceSettings.GetRaceStats(Race);
@@ -15,8 +14,7 @@
         Stats[(int)Stat.Stomach] = 4 + raceStats.Stomach.Minimum;
 
         Health = MaxHealth;
-        if (Equals(race, Race.Lizard))
-            Races2.GetRace(Race.Lizard).RandomCustomCall(this);
+        if (Equals(race, Race.Lizard)) Races2.GetRace(Race.Lizard).RandomCustomCall(this);
         ExpMultiplier = 2;
         Type = UnitType.Spawn;
         if (Equals(race, Race.Slime))
@@ -29,6 +27,7 @@
             {
                 DickSize = -1;
             }
+
             ClothingType = 1;
             SetDefaultBreastSize(1);
             HairStyle = 1;
@@ -38,6 +37,7 @@
             ReloadTraits();
             InitializeTraits();
         }
+
         var list = CustomizationDataStorer.GetCompatibleCustomizations(race, UnitType.Spawn, false);
         if (list != null && list.Count > 0)
         {
@@ -50,4 +50,3 @@
         return base.GetStatTotal();
     }
 }
-

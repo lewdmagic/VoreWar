@@ -16,6 +16,7 @@ public class HoveringTooltip : MonoBehaviour
         rect = GetComponent<RectTransform>();
         text = GetComponentInChildren<TextMeshProUGUI>();
     }
+
     private void Update()
     {
         if (remainingFrames > 0)
@@ -32,14 +33,14 @@ public class HoveringTooltip : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
+
         rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
         remainingFrames = 3;
         text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + (rect.rect.width * Screen.width / 1920) - Screen.width;
-        if (exceeded > 0)
-            xAdjust = -exceeded;
+        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
@@ -51,14 +52,14 @@ public class HoveringTooltip : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
+
         rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
         remainingFrames = 3;
         text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + (rect.rect.width * Screen.width / 1920) - Screen.width;
-        if (exceeded > 0)
-            xAdjust = -exceeded;
+        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
@@ -70,14 +71,14 @@ public class HoveringTooltip : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
+
         rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
         remainingFrames = 3;
         text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + (rect.rect.width * Screen.width / 1920) - Screen.width;
-        if (exceeded > 0)
-            xAdjust = -exceeded;
+        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
@@ -89,14 +90,14 @@ public class HoveringTooltip : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
+
         rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
         remainingFrames = 3;
         text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + (rect.rect.width * Screen.width / 1920) - Screen.width;
-        if (exceeded > 0)
-            xAdjust = -exceeded;
+        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
@@ -109,8 +110,7 @@ public class HoveringTooltip : MonoBehaviour
         text.text = description;
         float xAdjust = 10;
         float exceeded = Input.mousePosition.x + 640 - Screen.width;
-        if (exceeded > 0)
-            xAdjust = -exceeded;
+        if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
@@ -121,9 +121,8 @@ public class HoveringTooltip : MonoBehaviour
         remainingFrames = 3;
         text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + (rect.rect.width * Screen.width / 1920) - Screen.width;
-        if (exceeded > 0)
-            xAdjust = -exceeded;
+        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
@@ -133,6 +132,7 @@ public class HoveringTooltip : MonoBehaviour
         {
             return GetTraitData(trait);
         }
+
         return "";
     }
 
@@ -150,6 +150,7 @@ public class HoveringTooltip : MonoBehaviour
                 }
             }
         }
+
         return "";
     }
 
@@ -159,6 +160,7 @@ public class HoveringTooltip : MonoBehaviour
         {
             return GetAIData(ai);
         }
+
         return "";
     }
 
@@ -168,6 +170,7 @@ public class HoveringTooltip : MonoBehaviour
         {
             return "";
         }
+
         if (Enum.TryParse(words[2], out Stat stat) && unit != null)
         {
             switch (stat)
@@ -179,7 +182,7 @@ public class HoveringTooltip : MonoBehaviour
                 case Stat.Voracity:
                     return $"Affects vore odds, also has a minor effect on keeping prey down, also affects digestion damage to a minor degree\n{StatData(Stat.Voracity)}";
                 case Stat.Agility:
-                    return $"Affects melee and ranged evasion and movement speed\n{StatData(Stat.Agility)}\nMovement: {actor?.MaxMovement() ?? Mathf.Max(3 + ((int)Mathf.Pow(unit.GetStat(Stat.Agility) / 4, .8f)), 1)} tiles";
+                    return $"Affects melee and ranged evasion and movement speed\n{StatData(Stat.Agility)}\nMovement: {actor?.MaxMovement() ?? Mathf.Max(3 + (int)Mathf.Pow(unit.GetStat(Stat.Agility) / 4, .8f), 1)} tiles";
                 case Stat.Will:
                     return $"Affects vore defense, escape rate, mana capacity, and magic defense\n{StatData(Stat.Will)}";
                 case Stat.Mind:
@@ -187,12 +190,13 @@ public class HoveringTooltip : MonoBehaviour
                 case Stat.Endurance:
                     return $"Affects total health, also reduces damage from acid, has a minor role in escape chance.\n{StatData(Stat.Endurance)}";
                 case Stat.Stomach:
-                    return ($"Affects stomach capacity and digestion rate.  Also helps keep prey from escaping.\n{StatData(Stat.Stomach)}\n" +
-                     (State.World?.ItemRepository == null ? $"" :  $"{((!unit.Predator || actor?.PredatorComponent == null) ?  "" : ($"Used Capacity: {Math.Round(actor.PredatorComponent.GetBulkOfPrey(), 2)}\n"))}Max Capacity: {Math.Round(State.RaceSettings.GetStomachSize(unit.Race) * (unit.GetStat(Stat.Stomach) / 12f * unit.TraitBoosts.CapacityMult), 1)}"));
+                    return $"Affects stomach capacity and digestion rate.  Also helps keep prey from escaping.\n{StatData(Stat.Stomach)}\n" +
+                           (State.World?.ItemRepository == null ? $"" : $"{(!unit.Predator || actor?.PredatorComponent == null ? "" : $"Used Capacity: {Math.Round(actor.PredatorComponent.GetBulkOfPrey(), 2)}\n")}Max Capacity: {Math.Round(State.RaceSettings.GetStomachSize(unit.Race) * (unit.GetStat(Stat.Stomach) / 12f * unit.TraitBoosts.CapacityMult), 1)}");
                 case Stat.Leadership:
                     return $"Provides a stat boost for all friendly units\nStat value: {unit.GetStatBase(Stat.Leadership)}";
             }
         }
+
         if (RaceFuncs.TryParse(words[2], out Race race))
         {
             if (unit == null) //Protector for the add a race screen
@@ -218,6 +222,7 @@ public class HoveringTooltip : MonoBehaviour
         {
             return GetTraitData(trait);
         }
+
         if (Enum.TryParse(words[2], out UnitType unitType))
         {
             switch (unitType)
@@ -238,7 +243,6 @@ public class HoveringTooltip : MonoBehaviour
                     return "A weaker unit, created under certain conditions";
             }
         }
-
 
 
         if (Enum.TryParse(words[2], out StatusEffectType effectType))
@@ -309,10 +313,12 @@ public class HoveringTooltip : MonoBehaviour
                     {
                         return $"{weapon.Description}\nDamage:{weapon.Damage}\nRange:{weapon.Range}\nAccuracy:{weapon.AccuracyModifier}";
                     }
+
                     if (AllItems[i] is Accessory accessory)
                     {
                         return $"{accessory.Description}"; // \n+{accessory.StatBonus} to {(Stat)accessory.ChangedStat}";
                     }
+
                     if (AllItems[i] is SpellBook book)
                     {
                         return $"{book.Description}\n{book.DetailedDescription()}";
@@ -334,8 +340,6 @@ public class HoveringTooltip : MonoBehaviour
         }
 
 
-
-
         switch (words[2])
         {
             case "surrendered":
@@ -343,7 +347,7 @@ public class HoveringTooltip : MonoBehaviour
 
             case "Imprinted":
                 return $"This unit is imprinted in the village of {unit.SavedVillage.Name}, at level {unit.SavedCopy?.Level ?? 0} with {Math.Round(unit.SavedCopy?.Experience ?? 0)} exp.  " +
-                    $"Unit will automatically resurrect there at that power, assuming the village is controlled by friendlies when the unit dies";
+                       $"Unit will automatically resurrect there at that power, assuming the village is controlled by friendlies when the unit dies";
 
 
             default:
@@ -351,10 +355,8 @@ public class HoveringTooltip : MonoBehaviour
         }
 
 
-
         string StatData(Stat Stat)
         {
-
             string leader = "";
             int leaderBonus = unit.GetLeaderBonus();
             if (leaderBonus > 0) leader = $"+{leaderBonus} from leader\n";
@@ -363,19 +365,17 @@ public class HoveringTooltip : MonoBehaviour
             if (traitBonus > 0) traits = $"+{traitBonus} from traits\n";
             string effects = "";
             int effectBonus = unit.GetEffectBonus(Stat);
-            if (effectBonus > 0) effects = $"+{effectBonus} from effects\n";
+            if (effectBonus > 0)
+                effects = $"+{effectBonus} from effects\n";
             else if (effectBonus < 0) effects = $"{effectBonus} from effects\n";
             return $"{unit.GetStatBase(Stat)} base {Stat}\n{leader}{traits}{effects}Final Stat: {unit.GetStat(Stat)}";
         }
-
-
     }
 
     public static string GetTraitData(TraitType traitType)
     {
         Trait traitClass = TraitList.GetTrait(traitType);
-        if (traitClass != null)
-            return traitClass.Description;
+        if (traitClass != null) return traitClass.Description;
         switch (traitType)
         {
             case TraitType.Resilient:
@@ -531,7 +531,7 @@ public class HoveringTooltip : MonoBehaviour
             case TraitType.ForceFeeder:
                 return "Allows unit to attempt force-feeding itself to another unit at will.";
             case TraitType.Possession:
-				return "Temporarily control a Pred unit while digesting inside\n (Cheat Hidded Trait)";    
+                return "Temporarily control a Pred unit while digesting inside\n (Cheat Hidded Trait)";
             case TraitType.Corruption:
                 return "If a currupted unit is digested, the pred will build up corruption as a hidden status. Once corrupted prey with a stat total equal to that of the pred has been digested, they are under control of the side of the last-digested corrupted.\n(Hidden Trait)";
             case TraitType.Reanimator:
@@ -557,7 +557,7 @@ public class HoveringTooltip : MonoBehaviour
             case TraitType.BookWormIII:
                 return "Unit generates with a random Tier 3-4 Book.";
             case TraitType.Temptation:
-               return "Units that are put under a mindcontrol (e.g. Charm, Hypnosis) effect by this unit want to force-feed themselves to it or its close allies.";
+                return "Units that are put under a mindcontrol (e.g. Charm, Hypnosis) effect by this unit want to force-feed themselves to it or its close allies.";
             case TraitType.Infertile:
                 return "Unit cannot contribute to village population growth.";
             case TraitType.HillImpedence:
@@ -620,7 +620,8 @@ public class HoveringTooltip : MonoBehaviour
                 return "Unit's weapon damage also scales with mind. (Half as effectively as weapons main stat)";
             case TraitType.ArcaneMagistrate:
                 return "Unit gains 1 focus when it hits a spell, unit gains 4 more if the spell kills the target.";
-        }  
+        }
+
         return "<b>This trait needs a tooltip!</b>";
     }
 
@@ -634,31 +635,30 @@ public class HoveringTooltip : MonoBehaviour
                 return "Will try to find the time for massaging any prey-filled parts on their comrades or their own body.\nDon't be fooled – this is deceptively efficient.";
             case RaceAI.ServantRace:
                 return "Acts Subservient towards units of the most powerful race on their side, flocking to rub those individuals.\n" +
-                    "Racial superiority is based on eminence.";
+                       "Racial superiority is based on eminence.";
             //case RaceAI.NonCombatant:
             //    return "Won't use weapons or offensive spells, but supports combatants with beneficial spells and bodily services.";
-
         }
+
         return "<b>This AI needs a tooltip!</b>";
     }
 
     internal void UpdateInformationDefaultTooltip(int value)
     {
-
         string description = DefaultTooltips.Tooltip(value);
         if (description == "")
         {
             gameObject.SetActive(false);
             return;
         }
+
         rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
         remainingFrames = 999;
         text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + (rect.rect.width * Screen.width / 1920) - Screen.width;
-        if (exceeded > 0)
-            xAdjust = -exceeded;
+        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 }

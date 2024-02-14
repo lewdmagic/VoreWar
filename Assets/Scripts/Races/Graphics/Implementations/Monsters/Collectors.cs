@@ -14,8 +14,8 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 output.Names("Collector", "Collectors");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "alien", "quadpod" },
                     "Maw"
                 ));
@@ -47,12 +47,8 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.NimbleClimber,
                     },
                     RaceDescription = "These large, long limbed creatures seem to be pets or beasts of burden for the Harvesters. While very capable of hunting on their own, they mostly collect the prey the Harvesters have already brought low, filling their low hanging saggy bellies with dozens of prey.",
-
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.ExtraColor2, "Mouth / Dick Color");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.ExtraColor2, "Mouth / Dick Color"); });
                 output.SkinColors = ColorMap.LizardColorCount; // Majority of the body
                 output.EyeColors = ColorMap.EyeColorCount; // Eyes
                 output.ExtraColors1 = ColorMap.LizardColorCount; // Plates, claws

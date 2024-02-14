@@ -2,8 +2,6 @@ using System;
 using MoonSharp.Interpreter;
 
 
-
-
 internal class ClothingLua : ClothingDataShared, IClothing
 {
     private readonly Action<IClothingRenderInput, IClothingRenderOutput, Table> _renderAll;
@@ -15,7 +13,7 @@ internal class ClothingLua : ClothingDataShared, IClothing
         Action<IClothingRenderInput, IClothingRenderOutput, Table> renderAll,
         Func<IClothingRenderInput, Table> calcParams,
         SpriteCollection spriteCollection
-        ) : base(fixedData)
+    ) : base(fixedData)
     {
         _renderAll = renderAll;
         _calcParams = calcParams;
@@ -33,10 +31,10 @@ internal class ClothingLua : ClothingDataShared, IClothing
         renderOutput.BlocksBreasts = false;
         renderOutput.RevealsDick = true;
         renderOutput.RevealsBreasts = true;
-        
+
         Table calcdParameters = _calcParams.Invoke(input);
         _renderAll.Invoke(input, renderOutput, calcdParameters);
-        
+
         return renderOutput;
     }
 }
@@ -56,7 +54,7 @@ internal class LuaBindableClothing
     internal IClothing Create(
         Func<IClothingRenderInput, Table> paramsCalc,
         SpriteCollection spriteCollection
-        )
+    )
     {
         IClothingSetupInput input = new ClothingSetupInput();
         ClothingMiscData copy = ClothingBuilder.DefaultMisc.ShallowCopy();

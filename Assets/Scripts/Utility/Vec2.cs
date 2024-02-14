@@ -50,8 +50,8 @@ internal struct Vec2 : IComparable<Vec2>, IEquatable<Vec2>
 
     public override int GetHashCode()
     {
-        return ((x.GetHashCode()
-            ^ (y.GetHashCode() << 1)) >> 1);
+        return (x.GetHashCode()
+                ^ (y.GetHashCode() << 1)) >> 1;
     }
 
     public override bool Equals(object obj)
@@ -71,6 +71,7 @@ internal struct Vec2 : IComparable<Vec2>, IEquatable<Vec2>
             Debug.Log("Vec2 Passed null comparison");
             return new Vec2(0, 0);
         }
+
         return new Vec2(obj.X, obj.Y);
     }
 }

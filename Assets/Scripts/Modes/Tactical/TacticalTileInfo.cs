@@ -29,7 +29,6 @@
     grassFlower,
     grassMediumRock,
     grassSmallRock,
-
 }
 
 internal static class TacticalTileInfo
@@ -41,29 +40,22 @@ internal static class TacticalTileInfo
         {
             if (effects.TryGetValue(location, out var effect))
             {
-                if (effect.Type == TileEffectType.IcePatch)
-                    return 3;
+                if (effect.Type == TileEffectType.IcePatch) return 3;
             }
         }
+
         return 1;
     }
 
     internal static bool CanWalkInto(TacticalTileType type, Actor_Unit actor)
     {
-        if (type >= (TacticalTileType)2300 && type < (TacticalTileType)2399)
-            return true;
-        if (type >= (TacticalTileType)2000 && type < (TacticalTileType)2099)
-            return true;
-        if (type >= (TacticalTileType)500 && type < (TacticalTileType)599)
-            return true;
-        if (type >= (TacticalTileType)400 && type < (TacticalTileType)499)
-            return true;
-        if (type >= (TacticalTileType)300 && type < (TacticalTileType)399)
-            return true;
-        if (type >= (TacticalTileType)200 && type < (TacticalTileType)299)
-            return true;
-        if (type >= (TacticalTileType)100 && type < (TacticalTileType)199)
-            return true;
+        if (type >= (TacticalTileType)2300 && type < (TacticalTileType)2399) return true;
+        if (type >= (TacticalTileType)2000 && type < (TacticalTileType)2099) return true;
+        if (type >= (TacticalTileType)500 && type < (TacticalTileType)599) return true;
+        if (type >= (TacticalTileType)400 && type < (TacticalTileType)499) return true;
+        if (type >= (TacticalTileType)300 && type < (TacticalTileType)399) return true;
+        if (type >= (TacticalTileType)200 && type < (TacticalTileType)299) return true;
+        if (type >= (TacticalTileType)100 && type < (TacticalTileType)199) return true;
 
         switch (type)
         {
@@ -98,4 +90,3 @@ internal static class TacticalTileInfo
         }
     }
 }
-

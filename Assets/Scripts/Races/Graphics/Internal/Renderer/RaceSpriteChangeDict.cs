@@ -11,7 +11,7 @@ internal partial class RaceRenderer
         {
             _spriteCollection = spriteCollection;
         }
-    
+
         public IRaceRenderOutput ChangeSprite(SpriteType spriteType)
         {
             if (!ReusedChangesDict.TryGetValue(spriteType, out var raceRenderOutput))

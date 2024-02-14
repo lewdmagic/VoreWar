@@ -7,6 +7,7 @@ public class InfoPanel
 {
     private UnitInfoPanel UnitInfoPanel;
     private string parentMenu;
+
     public InfoPanel(UnitInfoPanel infoPanel, string menu = "unknown")
     {
         UnitInfoPanel = infoPanel;
@@ -17,8 +18,7 @@ public class InfoPanel
 
     public void RefreshLastUnitInfo()
     {
-        if (lastActor == null)
-            return;
+        if (lastActor == null) return;
         UpdatePanel(lastActor);
     }
 
@@ -31,30 +31,27 @@ public class InfoPanel
 
     public void RefreshTacticalUnitInfo(Actor_Unit actor)
     {
-        if (actor != null)
-            lastActor = actor;
+        if (actor != null) lastActor = actor;
         if (actor == null)
         {
             //ClearText();
             return;
         }
+
         UnitInfoPanel.gameObject.SetActive(true);
         UnitInfoPanel.Sprite?.transform.parent.gameObject.SetActive(Config.HideUnitViewer == false);
         UpdatePanel(actor);
-
     }
 
     private void UpdatePanel(Actor_Unit actor)
     {
-        if (actor.Hidden)
-            return;
+        if (actor.Hidden) return;
         UpdateBars(actor.Unit);
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         BuildStatus(sb2, actor.Unit);
         BuildStats(sb, actor.Unit, actor.Unit.Predator, actor);
-        if (actor.Unit.Predator)
-            BuildPredStat(sb, actor);
+        if (actor.Unit.Predator) BuildPredStat(sb, actor);
         if (parentMenu == "unitEditor")
         {
             UnitInfoPanel.InfoText.text = sb2.ToString();
@@ -64,6 +61,7 @@ public class InfoPanel
             UnitInfoPanel.InfoText.text = sb.ToString();
             UnitInfoPanel.BasicInfo.text = sb2.ToString();
         }
+
         UnitInfoPanel.Unit = actor.Unit;
         UnitInfoPanel.Actor = actor;
         if (Config.HideUnitViewer == false)
@@ -76,8 +74,7 @@ public class InfoPanel
     private void UpdateBars(Unit actor, bool showNextText = false)
     {
         UnitInfoPanel.ExpBar.GetComponentInChildren<Text>().text = $"EXP: {(int)actor.Experience} ";
-        if (showNextText)
-            UnitInfoPanel.ExpBar.GetComponentInChildren<Text>().text += $"(To Next: {actor.ExperienceRequiredForNextLevel - (int)actor.Experience})";
+        if (showNextText) UnitInfoPanel.ExpBar.GetComponentInChildren<Text>().text += $"(To Next: {actor.ExperienceRequiredForNextLevel - (int)actor.Experience})";
         UnitInfoPanel.HealthBar.GetComponentInChildren<Text>().text = $"Health: {actor.Health}/{actor.MaxHealth}";
         UnitInfoPanel.ManaBar.GetComponentInChildren<Text>().text = $"Mana: {actor.Mana}/{actor.MaxMana}";
         if (actor.ExperienceRequiredForNextLevel != 0)
@@ -95,6 +92,7 @@ public class InfoPanel
             ClearText();
             return;
         }
+
         UpdateBars(unit, true);
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
@@ -108,22 +106,19 @@ public class InfoPanel
 
     internal void AddCorpse(string name)
     {
-        if (name == "")
-            return;
+        if (name == "") return;
         UnitInfoPanel.InfoText.text = UnitInfoPanel.InfoText.text += $"Corpse of {name}\n";
     }
 
     internal void AddClothes(string name)
     {
-        if (name == "")
-            return;
+        if (name == "") return;
         UnitInfoPanel.InfoText.text = UnitInfoPanel.InfoText.text += $"Clothes from {name}\n";
     }
 
     internal void AddLine(string description)
     {
-        if (description == "")
-            return;
+        if (description == "") return;
         UnitInfoPanel.InfoText.text = UnitInfoPanel.InfoText.text += $"{description}\n";
     }
 
@@ -184,6 +179,7 @@ public class InfoPanel
                 else
                     sb.AppendLine($"Special Allegiance: {State.World.GetEmpireOfSide(unit.FixedSide)?.Name ?? "Unkown"}");
             }
+
             UnityEngine.Transform EquipRow = UnitInfoPanel.StatBlock.transform.GetChild(5);
 
             EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = unit.GetItem(0)?.Name;
@@ -253,6 +249,7 @@ public class InfoPanel
             }
             else
                 killSection.gameObject.SetActive(false);
+
             // Set digestion counter, hide otherwise
             if (unit.DigestedUnits > 0)
             {
@@ -263,6 +260,7 @@ public class InfoPanel
             }
             else
                 digestSection.gameObject.SetActive(false);
+
             // Set death counter, hide otherwise
             if (unit.TimesKilled > 0)
             {
@@ -273,46 +271,33 @@ public class InfoPanel
             }
             else
                 deathSection.gameObject.SetActive(false);
-            if (!killSection.gameObject.activeSelf && !digestSection.gameObject.activeSelf && !deathSection.gameObject.activeSelf)
-                FifthLine.GetChild(1).gameObject.SetActive(false);
-            if (!FifthLine.GetChild(0).gameObject.activeSelf && !FifthLine.GetChild(1).gameObject.activeSelf)
-                FifthLine.gameObject.SetActive(false);
 
-            if (unit.SavedCopy != null && unit.SavedVillage != null)
-                sb.AppendLine($"Imprinted");
-            if (actor?.Surrendered ?? false)
-                sb.AppendLine("Unit has surrendered!");
+            if (!killSection.gameObject.activeSelf && !digestSection.gameObject.activeSelf && !deathSection.gameObject.activeSelf) FifthLine.GetChild(1).gameObject.SetActive(false);
+            if (!FifthLine.GetChild(0).gameObject.activeSelf && !FifthLine.GetChild(1).gameObject.activeSelf) FifthLine.gameObject.SetActive(false);
+
+            if (unit.SavedCopy != null && unit.SavedVillage != null) sb.AppendLine($"Imprinted");
+            if (actor?.Surrendered ?? false) sb.AppendLine("Unit has surrendered!");
             string traits = unit.ListTraits(!(TacticalUtilities.IsUnitControlledByPlayer(unit) && TacticalUtilities.PlayerCanSeeTrueSide(unit)));
-            if (traits != "")
-                sb.AppendLine("Traits:\n" + traits);
+            if (traits != "") sb.AppendLine("Traits:\n" + traits);
             StringBuilder sbSecond = new StringBuilder();
             sbSecond.AppendLine("Status:");
-            if (unit.HasTrait(TraitType.Frenzy) && unit.EnemiesKilledThisBattle > 0)
-                sbSecond.AppendLine($"Frenzy ({unit.EnemiesKilledThisBattle})");
-            if (unit.HasTrait(TraitType.Growth) && unit.BaseScale > 1)
-                sbSecond.AppendLine($"Growth ({Math.Round(unit.BaseScale, 2)}x)");
-            if (actor?.Slimed ?? false)
-                sbSecond.AppendLine("Slimed");
-            if (actor?.Paralyzed ?? false)
-                sbSecond.AppendLine("Paralyzed");
-            if (actor?.Corruption > 0 && !TacticalUtilities.IsUnitControlledByPlayer(unit))
-                sbSecond.AppendLine($"Corruption ({actor.Corruption}/{unit.GetStatTotal() + unit.GetStat(Stat.Will)})");
-            if (actor?.Possessed > 0 && !TacticalUtilities.IsUnitControlledByPlayer(unit))
-                sbSecond.AppendLine($"Possessed ({actor.Corruption + actor.Possessed}/{unit.GetStatTotal() + unit.GetStat(Stat.Will)})");
-            if (actor?.Infected ?? false)
-                sbSecond.AppendLine($"Infected");
+            if (unit.HasTrait(TraitType.Frenzy) && unit.EnemiesKilledThisBattle > 0) sbSecond.AppendLine($"Frenzy ({unit.EnemiesKilledThisBattle})");
+            if (unit.HasTrait(TraitType.Growth) && unit.BaseScale > 1) sbSecond.AppendLine($"Growth ({Math.Round(unit.BaseScale, 2)}x)");
+            if (actor?.Slimed ?? false) sbSecond.AppendLine("Slimed");
+            if (actor?.Paralyzed ?? false) sbSecond.AppendLine("Paralyzed");
+            if (actor?.Corruption > 0 && !TacticalUtilities.IsUnitControlledByPlayer(unit)) sbSecond.AppendLine($"Corruption ({actor.Corruption}/{unit.GetStatTotal() + unit.GetStat(Stat.Will)})");
+            if (actor?.Possessed > 0 && !TacticalUtilities.IsUnitControlledByPlayer(unit)) sbSecond.AppendLine($"Possessed ({actor.Corruption + actor.Possessed}/{unit.GetStatTotal() + unit.GetStat(Stat.Will)})");
+            if (actor?.Infected ?? false) sbSecond.AppendLine($"Infected");
             if (unit.StatusEffects?.Any() ?? false)
             {
                 foreach (StatusEffectType type in (StatusEffectType[])Enum.GetValues(typeof(StatusEffectType)))
                 {
                     var effect = unit.GetLongestStatusEffect(type);
-                    if (unit.GetLongestStatusEffect(type) != null)
-                        sbSecond.AppendLine($"{type} ({effect.Duration})");
+                    if (unit.GetLongestStatusEffect(type) != null) sbSecond.AppendLine($"{type} ({effect.Duration})");
                 }
             }
 
-            if (sbSecond.Length > 10)
-                sb.Append($"{sbSecond}");
+            if (sbSecond.Length > 10) sb.Append($"{sbSecond}");
 
             var racePar = RaceParameters.GetTraitData(unit);
 
@@ -333,6 +318,7 @@ public class InfoPanel
                         }
                     }
                 }
+
                 if (racePar.InnateSpells != null)
                 {
                     foreach (var spellType in racePar.InnateSpells)
@@ -347,6 +333,7 @@ public class InfoPanel
                         }
                     }
                 }
+
                 var grantedSpell = State.RaceSettings.GetInnateSpell(unit.Race);
                 if (grantedSpell != SpellType.None)
                 {
@@ -360,16 +347,13 @@ public class InfoPanel
                     }
                 }
             }
-            if (Config.CheatUnitEditorEnabled)
-                sb.AppendLine("<color=#AB5200ff>UnitEditor</color>");
+
+            if (Config.CheatUnitEditorEnabled) sb.AppendLine("<color=#AB5200ff>UnitEditor</color>");
         }
     }
 
     private void BuildPredStat(StringBuilder sb, Actor_Unit unit)
     {
         sb.Append(unit.PredatorComponent.GetPreyInformation());
-
     }
-
-
 }

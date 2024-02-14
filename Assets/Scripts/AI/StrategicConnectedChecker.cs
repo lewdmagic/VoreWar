@@ -2,16 +2,14 @@
 {
     internal static bool AreAllConnected(Village[] villages, Army[] armies, bool broadcast = true)
     {
-        if (armies == null)
-            armies = new Army[0];
+        if (armies == null) armies = new Army[0];
         int[,] tileZone = new int[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
         int nextZone = 1;
         for (int x = 0; x < Config.StrategicWorldSizeX; x++)
         {
             for (int y = 0; y < Config.StrategicWorldSizeY; y++)
             {
-                if (TileCheck(x, y) == false)
-                    continue;
+                if (TileCheck(x, y) == false) continue;
 
                 if (x > 0 && y > 0 && tileZone[x - 1, y - 1] != 0)
                     tileZone[x, y] = tileZone[x - 1, y - 1];
@@ -33,8 +31,7 @@
         {
             for (int y = 0; y < Config.StrategicWorldSizeY; y++)
             {
-                if (TileCheck(x, y) == false)
-                    continue;
+                if (TileCheck(x, y) == false) continue;
                 int neighborZone = GetNeighborZone(tileZone, x, y);
                 if (neighborZone != 0)
                 {
@@ -42,13 +39,13 @@
                     {
                         for (int j = 0; j < Config.StrategicWorldSizeY; j++)
                         {
-                            if (tileZone[i, j] == neighborZone)
-                                tileZone[i, j] = tileZone[x, y];
+                            if (tileZone[i, j] == neighborZone) tileZone[i, j] = tileZone[x, y];
                         }
                     }
                 }
             }
         }
+
         int zone = 0;
         string lastVillageUsed = "";
         foreach (Village village in villages)
@@ -62,7 +59,6 @@
             {
                 if (broadcast)
                 {
-
                     State.GameManager.CreateMessageBox($"Some villages cannot be reached from other villages\nCouldn't find path between\n{lastVillageUsed} and {village.Race} village at x:{village.Position.X} y: {village.Position.Y}");
                 }
 
@@ -86,31 +82,21 @@
 
     private static bool TileCheck(int x, int y)
     {
-        if (State.GameManager.CurrentScene == State.GameManager.MapEditor)
-            return State.GameManager.MapEditor.CanWalkInto(x, y);
+        if (State.GameManager.CurrentScene == State.GameManager.MapEditor) return State.GameManager.MapEditor.CanWalkInto(x, y);
         return StrategicTileInfo.CanWalkInto(x, y);
     }
 
     private static int GetNeighborZone(int[,] tileZone, int x, int y)
     {
-        if (y > 0 && tileZone[x, y - 1] != 0 && tileZone[x, y - 1] != tileZone[x, y])
-            return tileZone[x, y - 1];
-        if (y < Config.StrategicWorldSizeY - 1 && tileZone[x, y + 1] != 0 && tileZone[x, y + 1] != tileZone[x, y])
-            return tileZone[x, y + 1];
-        if (x < Config.StrategicWorldSizeX - 1 && tileZone[x + 1, y] != 0 && tileZone[x + 1, y] != tileZone[x, y])
-            return tileZone[x + 1, y];
-        if (x > 0 && tileZone[x - 1, y] != 0 && tileZone[x - 1, y] != tileZone[x, y])
-            return tileZone[x - 1, y];
-        if (x < Config.StrategicWorldSizeX - 1 && y < Config.StrategicWorldSizeY - 1 && tileZone[x + 1, y + 1] != 0 && tileZone[x + 1, y + 1] != tileZone[x, y])
-            return tileZone[x + 1, y + 1];
-        if (x < Config.StrategicWorldSizeX - 1 && y > 0 && tileZone[x + 1, y - 1] != 0 && tileZone[x + 1, y - 1] != tileZone[x, y])
-            return tileZone[x + 1, y - 1];
-        if (y < Config.StrategicWorldSizeY - 1 && x > 0 && tileZone[x - 1, y + 1] != 0 && tileZone[x - 1, y + 1] != tileZone[x, y])
-            return tileZone[x - 1, y + 1];
-        if (x > 0 && y > 0 && tileZone[x - 1, y - 1] != 0 && tileZone[x - 1, y - 1] != tileZone[x, y])
-            return tileZone[x - 1, y - 1];
+        if (y > 0 && tileZone[x, y - 1] != 0 && tileZone[x, y - 1] != tileZone[x, y]) return tileZone[x, y - 1];
+        if (y < Config.StrategicWorldSizeY - 1 && tileZone[x, y + 1] != 0 && tileZone[x, y + 1] != tileZone[x, y]) return tileZone[x, y + 1];
+        if (x < Config.StrategicWorldSizeX - 1 && tileZone[x + 1, y] != 0 && tileZone[x + 1, y] != tileZone[x, y]) return tileZone[x + 1, y];
+        if (x > 0 && tileZone[x - 1, y] != 0 && tileZone[x - 1, y] != tileZone[x, y]) return tileZone[x - 1, y];
+        if (x < Config.StrategicWorldSizeX - 1 && y < Config.StrategicWorldSizeY - 1 && tileZone[x + 1, y + 1] != 0 && tileZone[x + 1, y + 1] != tileZone[x, y]) return tileZone[x + 1, y + 1];
+        if (x < Config.StrategicWorldSizeX - 1 && y > 0 && tileZone[x + 1, y - 1] != 0 && tileZone[x + 1, y - 1] != tileZone[x, y]) return tileZone[x + 1, y - 1];
+        if (y < Config.StrategicWorldSizeY - 1 && x > 0 && tileZone[x - 1, y + 1] != 0 && tileZone[x - 1, y + 1] != tileZone[x, y]) return tileZone[x - 1, y + 1];
+        if (x > 0 && y > 0 && tileZone[x - 1, y - 1] != 0 && tileZone[x - 1, y - 1] != tileZone[x, y]) return tileZone[x - 1, y - 1];
 
         return 0;
     }
-
 }

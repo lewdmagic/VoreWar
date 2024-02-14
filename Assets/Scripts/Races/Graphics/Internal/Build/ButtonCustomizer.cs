@@ -34,7 +34,7 @@ public class ButtonCustomizer : IButtonCustomizer
             {
                 customizerButton.gameObject.SetActive(value.Active.Value);
             }
-            
+
             if (value.Text != null)
             {
                 customizerButton.Label.text = value.Text;

@@ -4,32 +4,29 @@ using UnityEngine;
 
 namespace Utility
 {
-
     // Unfinished protopyte
-    
-    public interface IFastDictKey 
+
+    public interface IFastDictKey
     {
-        string StringId { get; } 
-        int IntId { get; } 
+        string StringId { get; }
+        int IntId { get; }
     }
 
     public class CustomSerializedScriptableObject<K, V> : ISerializationCallbackReceiver where K : IFastDictKey
     {
-        [OdinSerialize] 
+        [OdinSerialize]
         private Dictionary<string, V> _dictionary;
 
         private V[] _array;
-    
-    
+
+
         void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
-            
         }
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
             _dictionary = new Dictionary<string, V>();
-        
         }
     }
 }

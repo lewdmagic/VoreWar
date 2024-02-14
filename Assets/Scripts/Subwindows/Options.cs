@@ -59,8 +59,7 @@ public class Options : MonoBehaviour
     public void CloseAndSave()
     {
         SetNewValues();
-        if (State.GameManager.CurrentScene == State.GameManager.StrategyMode)
-            State.GameManager.StrategyMode.RedrawTiles();
+        if (State.GameManager.CurrentScene == State.GameManager.StrategyMode) State.GameManager.StrategyMode.RedrawTiles();
         gameObject.SetActive(false);
     }
 
@@ -169,7 +168,6 @@ public class Options : MonoBehaviour
         PlayerPrefs.SetFloat("BannerScale", BannerScale.value);
         LoadFromStored();
         PlayerPrefs.Save();
-
     }
 
     public void LoadFromStored()
@@ -229,6 +227,4 @@ public class Options : MonoBehaviour
         VoreSoundVolume.interactable = SoundEnabled.isOn;
         CloseInDigestionNoises.interactable = SoundEnabled.isOn;
     }
-
 }
-

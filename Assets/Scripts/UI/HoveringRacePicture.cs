@@ -17,6 +17,7 @@ public class HoveringRacePicture : MonoBehaviour
         rect = GetComponent<RectTransform>();
         text = GetComponentInChildren<TextMeshProUGUI>();
     }
+
     private void Update()
     {
         if (remainingFrames > 0)
@@ -27,8 +28,7 @@ public class HoveringRacePicture : MonoBehaviour
 
     public void UpdateInformation(Race race)
     {
-        if (Actor == null)
-            Actor = new Actor_Unit(new Unit(Race.Cat));
+        if (Actor == null) Actor = new Actor_Unit(new Unit(Race.Cat));
         if (!Equals(LastRace, race))
         {
             Actor.Unit.Race = race;
@@ -40,19 +40,19 @@ public class HoveringRacePicture : MonoBehaviour
             {
                 image.raycastTarget = false;
             }
+
             LastRace = race;
         }
+
         gameObject.SetActive(true);
         remainingFrames = 3;
         text.text = "";
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + (rect.rect.width * Screen.width / 1920) - Screen.width;
-        if (exceeded > 0)
-            xAdjust = -exceeded;
+        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        if (exceeded > 0) xAdjust = -exceeded;
         float yAdjust = 0;
-        exceeded = Input.mousePosition.y - (rect.rect.height * Screen.height / 1080);
-        if (exceeded < 0)
-            yAdjust = -exceeded;
+        exceeded = Input.mousePosition.y - rect.rect.height * Screen.height / 1080;
+        if (exceeded < 0) yAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, yAdjust, 0);
     }
 }

@@ -43,8 +43,7 @@ public class CheatMenu : MonoBehaviour
         {
             foreach (Empire empire in State.World.MainEmpires)
             {
-                if (RaceFuncs.IsRebelOrBandit5(empire.Side))
-                    continue;
+                if (RaceFuncs.IsRebelOrBandit5(empire.Side)) continue;
                 FirstRaceDropdown.options.Add(new TMP_Dropdown.OptionData(empire.Name));
                 SecondRaceDropdown.options.Add(new TMP_Dropdown.OptionData(empire.Name));
                 EmpireReplaced.options.Add(new TMP_Dropdown.OptionData(empire.Name));
@@ -54,8 +53,7 @@ public class CheatMenu : MonoBehaviour
             {
                 foreach (Empire empire in State.World.MonsterEmpires)
                 {
-                    if (RaceFuncs.IsRebelOrBandit5(empire.Side))
-                        continue;
+                    if (RaceFuncs.IsRebelOrBandit5(empire.Side)) continue;
                     EmpireReplaced.options.Add(new TMP_Dropdown.OptionData(empire.Name));
                 }
             }
@@ -66,11 +64,13 @@ public class CheatMenu : MonoBehaviour
                 FirstRaceDropdown.options.Add(new TMP_Dropdown.OptionData("Goblins"));
                 SecondRaceDropdown.options.Add(new TMP_Dropdown.OptionData("Goblins"));
             }
+
             if (State.World.ActingEmpire != null)
             {
                 EmpireDropdown.value = State.World.MainEmpires.IndexOf(State.World.ActingEmpire);
                 EmpireDropdown.captionText.text = State.World.ActingEmpire.Name;
             }
+
             FirstRaceDropdown.RefreshShownValue();
             SecondRaceDropdown.RefreshShownValue();
             EmpireReplaced.RefreshShownValue();
@@ -81,8 +81,6 @@ public class CheatMenu : MonoBehaviour
                 ReplacementRace.options.Add(new TMP_Dropdown.OptionData(race.ToString()));
             }
         }
-
-
     }
 
     public void CloseAndSave()
@@ -105,12 +103,12 @@ public class CheatMenu : MonoBehaviour
             {
                 EmpireDropdown.options.Add(new TMP_Dropdown.OptionData(empire.Name));
             }
+
             if (State.World.ActingEmpire != null)
             {
                 EmpireDropdown.value = State.World.MainEmpires.IndexOf(State.World.ActingEmpire);
                 EmpireDropdown.captionText.text = State.World.ActingEmpire.Name;
             }
-
         }
 
         UpdateDisplayedRelation();
@@ -123,10 +121,10 @@ public class CheatMenu : MonoBehaviour
         var box = State.GameManager.CreateDialogBox();
         if (State.World.MainEmpires.Where(s => s.Name == EmpireReplaced.captionText.text).FirstOrDefault() != null)
             box.SetData(ReplaceRace, "Replace", "Cancel", $"Are you sure you want to replace all villages belonging to the empire {EmpireReplaced.captionText.text} with {ReplacementRace.captionText.text}? " +
-            $"This doesn't change the race of any existing units except the leader to avoid potential issues.");
+                                                          $"This doesn't change the race of any existing units except the leader to avoid potential issues.");
         else
             box.SetData(ReplaceRace, "Replace", "Cancel", $"Are you sure you want to replace this monster race {EmpireReplaced.captionText.text} with {ReplacementRace.captionText.text}? " +
-            $"This doesn't change the race of any existing units, and the monsters will still use the same spawners, settings, and strategic graphics.");
+                                                          $"This doesn't change the race of any existing units, and the monsters will still use the same spawners, settings, and strategic graphics.");
     }
 
     private void ReplaceRace()
@@ -150,9 +148,9 @@ public class CheatMenu : MonoBehaviour
                 village.Race = race;
                 village.OriginalRace = race;
                 village.VillagePopulation.ConvertToSingleRace();
-                if (Config.MultiRaceVillages)
-                    village.VillagePopulation.ConvertToMultiRace();
+                if (Config.MultiRaceVillages) village.VillagePopulation.ConvertToMultiRace();
             }
+
             emp.Name = race.ToString();
             emp.ReplacedRace = race;
             if (emp.Leader != null)
@@ -161,8 +159,6 @@ public class CheatMenu : MonoBehaviour
                 emp.Leader.RandomizeNameAndGender(race, Races2.GetRace(emp.Leader));
             }
         }
-
-
     }
 
     private void SetNewValues()
@@ -186,7 +182,6 @@ public class CheatMenu : MonoBehaviour
     }
 
 
-
     public void TacticalAttackerWin()
     {
         //State.GameManager.TacticalMode.SurrenderAll(false); //Done this way so that it isn't based on active side
@@ -207,23 +202,19 @@ public class CheatMenu : MonoBehaviour
 
     public void TacticalUnsurrenderAllAttackers()
     {
-        if (TacticalUtilities.Units == null)
-            return;
+        if (TacticalUtilities.Units == null) return;
         foreach (Actor_Unit actor in TacticalUtilities.Units)
         {
-            if (State.GameManager.TacticalMode.IsDefender(actor) == false)
-                actor.Surrendered = false;
+            if (State.GameManager.TacticalMode.IsDefender(actor) == false) actor.Surrendered = false;
         }
     }
 
     public void TacticalUnsurrenderAllDefenders()
     {
-        if (TacticalUtilities.Units == null)
-            return;
+        if (TacticalUtilities.Units == null) return;
         foreach (Actor_Unit actor in TacticalUtilities.Units)
         {
-            if (State.GameManager.TacticalMode.IsDefender(actor))
-                actor.Surrendered = false;
+            if (State.GameManager.TacticalMode.IsDefender(actor)) actor.Surrendered = false;
         }
     }
 
@@ -238,6 +229,7 @@ public class CheatMenu : MonoBehaviour
     }
 
     public InputField MoneyAmount;
+
     public void StrategicAddMoney()
     {
         if (int.TryParse(MoneyAmount.text, out int money))
@@ -253,33 +245,29 @@ public class CheatMenu : MonoBehaviour
             State.GameManager.CreateMessageBox("Couldn't get empires, something is wrong with the world state");
             return;
         }
+
         foreach (Empire firstEmpire in State.World.MainEmpires)
         {
-            if (RaceFuncs.IsRebelOrBandit5(firstEmpire.Side))
-                continue;
+            if (RaceFuncs.IsRebelOrBandit5(firstEmpire.Side)) continue;
             foreach (Empire secondEmpire in State.World.MainEmpires)
             {
-                if (RaceFuncs.IsRebelOrBandit5(secondEmpire.Side))
-                    continue;
-                if (firstEmpire == secondEmpire)
-                    continue;
+                if (RaceFuncs.IsRebelOrBandit5(secondEmpire.Side)) continue;
+                if (firstEmpire == secondEmpire) continue;
                 RelationsManager.MakeLike(firstEmpire, secondEmpire); //To standardize relations
                 RelationsManager.MakeHate(firstEmpire, secondEmpire);
             }
-
         }
     }
 
     public void UpdateDisplayedRelation()
     {
-        if (State.World.MainEmpires == null)
-            return;
+        if (State.World.MainEmpires == null) return;
         if (State.World.MainEmpires.Count < FirstRaceDropdown.value || State.World.MainEmpires.Count < SecondRaceDropdown.value)
         {
             Relation = null;
             CounterRelation = null;
-            FirstRaceRelation.text = (Math.Round(Relation.Attitude, 5)*100).ToString();
-            SecondRaceRelation.text = (Math.Round(CounterRelation.Attitude, 5)*100).ToString();
+            FirstRaceRelation.text = (Math.Round(Relation.Attitude, 5) * 100).ToString();
+            SecondRaceRelation.text = (Math.Round(CounterRelation.Attitude, 5) * 100).ToString();
             return;
         }
 
@@ -313,10 +301,8 @@ public class CheatMenu : MonoBehaviour
     {
         if (Relation != null && CounterRelation != null)
         {
-            if (int.TryParse(FirstRaceRelation.text, out int first))
-                Relation.Attitude = first/100;
-            if (int.TryParse(SecondRaceRelation.text, out int second))
-                CounterRelation.Attitude = second/100;
+            if (int.TryParse(FirstRaceRelation.text, out int first)) Relation.Attitude = first / 100;
+            if (int.TryParse(SecondRaceRelation.text, out int second)) CounterRelation.Attitude = second / 100;
         }
     }
 
@@ -325,6 +311,4 @@ public class CheatMenu : MonoBehaviour
     //{
     //    TooltipText.text = DefaultTooltips.Tooltip(value);
     //}
-
-
 }

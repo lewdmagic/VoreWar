@@ -41,17 +41,16 @@ namespace Races.Graphics.Implementations.MainRaces
 
             return ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, actor.Unit.ClothingColor);
         }
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-
             builder.Setup(output =>
             {
                 output.Names("Equine", "Equines");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts { "equine", "bronco", {"mare", Gender.Female}, {"stallion", Gender.Male} }
+                    new Texts { },
+                    new Texts { },
+                    new Texts { "equine", "bronco", { "mare", Gender.Female }, { "stallion", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -82,8 +81,8 @@ namespace Races.Graphics.Implementations.MainRaces
                     "Haciendo",
                     "Alfarsan"
                 });
-            
-            
+
+
                 output.DickSizes = () => 3;
                 output.BreastSizes = () => 7;
 
@@ -115,7 +114,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 output.ExtendedBreastSprites = true;
 
-                
+
                 output.AllowedMainClothingTypes.Set( //undertops
                     HorseClothing.HorseUndertop1Instance.Create(paramsCalc),
                     HorseClothing.HorseUndertop2Instance.Create(paramsCalc),
@@ -150,16 +149,16 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RenderAll((input, output) =>
             {
-                string headState = (input.A.IsAttacking || input.A.IsEating) ? "eat" : "still";
+                string headState = input.A.IsAttacking || input.A.IsEating ? "eat" : "still";
                 output.NewSprite(SpriteType.Head, 5)
                     .Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.SkinColor))
-                    .Sprite(($"head_{input.Sex}_{headState}"));
+                    .Sprite($"head_{input.Sex}_{headState}");
 
                 var eyes = output.NewSprite(SpriteType.Eyes, 6);
                 eyes.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
                 if (input.U.IsDead && input.U.Items != null)
                 {
-                    eyes.Sprite(($"eyes_{input.Sex}_dead"));
+                    eyes.Sprite($"eyes_{input.Sex}_dead");
                 }
                 else
                 {
@@ -178,7 +177,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 var body = output.NewSprite(SpriteType.Body, 4);
                 body.Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.SkinColor));
                 string bodyName = input.U.HasBreasts ? "body_female" : "body_male";
-                int bodyIndex = input.A.IsAttacking ? 2 : (input.U.HasWeapon ? 1 : 0);
+                int bodyIndex = input.A.IsAttacking ? 2 : input.U.HasWeapon ? 1 : 0;
                 body.Sprite0(bodyName, bodyIndex);
 
                 if (input.U.BodyAccentType3 != 0)
@@ -186,7 +185,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     var limbSpots = output.NewSprite(SpriteType.BodyAccent3, 5);
                     limbSpots.Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.AccessoryColor));
                     string sex = input.U.HasBreasts ? "female" : "male";
-                    string state = input.A.IsAttacking ? "attack" : (input.U.HasWeapon ? "holdweapon" : "stand");
+                    string state = input.A.IsAttacking ? "attack" : input.U.HasWeapon ? "holdweapon" : "stand";
                     limbSpots.Sprite0($"skin_pattern_{state}_{sex}", input.U.BodyAccentType3 - 1);
                 }
 
@@ -194,20 +193,20 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     var headSpots = output.NewSprite(SpriteType.BodyAccent4, 6);
                     headSpots.Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.AccessoryColor));
-                    string state = (input.A.IsAttacking || input.A.IsEating) ? "eat" : "still";
+                    string state = input.A.IsAttacking || input.A.IsEating ? "eat" : "still";
                     headSpots.Sprite0($"head_pattern_{input.Sex}_{state}", input.U.BodyAccentType4 - 1);
                 }
 
                 var bellySpots = output.NewSprite(SpriteType.BodyAccent5, 5); //belly spots, also color breasts/belly/dick
                 bellySpots.Coloring(ColorPaletteMap.GetPalette(SwapType.HorseSkin, input.U.AccessoryColor));
-                bellySpots.Sprite(($"torso_pattern_{input.Sex}"));
+                bellySpots.Sprite($"torso_pattern_{input.Sex}");
 
                 var legTuft = output.NewSprite(SpriteType.BodyAccent8, 6);
                 legTuft.Coloring(LegTuft(input.Actor));
-                legTuft.Sprite(("leg_tuft"));
+                legTuft.Sprite("leg_tuft");
 
                 var hooves = output.NewSprite(SpriteType.BodyAccent10, 5);
-                hooves.Sprite(($"hooves_{input.Sex}"));
+                hooves.Sprite($"hooves_{input.Sex}");
 
                 var tail = output.NewSprite(SpriteType.BodyAccessory, 2);
                 tail.Coloring(ColorPaletteMap.GetPalette(SwapType.UniversalHair, input.U.HairColor));
@@ -217,12 +216,12 @@ namespace Races.Graphics.Implementations.MainRaces
                 var tailBit = output.NewSprite(SpriteType.BodyAccent9, 3);
                 tailBit.Coloring(TailBit(input.Actor));
                 tailBit.Sprite0("tail_2", input.U.TailType, true);
-            
+
                 if (input.U.HasBreasts)
                 {
                     var breasts = output.NewSprite(SpriteType.Breasts, 19);
                     breasts.Coloring(SpottedBelly(input.Actor));
-                
+
                     if (input.A.PredatorComponent?.LeftBreastFullness > 0)
                     {
                         int leftSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(29 * 29));
@@ -260,7 +259,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         {
                             rightSize = 26;
                         }
-                
+
                         secondaryBreasts.Sprite0("breast_right", rightSize);
                     }
                     else
@@ -275,7 +274,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         }
                     }
                 }
-            
+
                 if (input.A.HasBelly)
                 {
                     var belly = output.NewSprite(SpriteType.Belly, 17);
@@ -284,7 +283,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     int combined = Math.Min(size, 26);
                     belly.Sprite0("belly", combined, true);
                 }
-            
+
                 if (input.U.HasDick)
                 {
                     var cock = output.NewSprite(SpriteType.Dick, 14);
@@ -292,14 +291,14 @@ namespace Races.Graphics.Implementations.MainRaces
                     bool breastsNotTooBig = input.A.PredatorComponent?.VisibleFullness < .26f &&
                                             (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(29 * 29)) < 16 &&
                                             (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(29 * 29)) < 16;
-            
+
                     cock.Layer(breastsNotTooBig ? 24 : 14);
-            
+
                     bool useErectSprite = input.A.IsErect() || input.A.IsCockVoring;
 
                     if (!useErectSprite && Config.FurryGenitals)
                     {
-                        cock.Sprite(("penis_furry"));
+                        cock.Sprite("penis_furry");
                     }
                     else
                     {
@@ -313,7 +312,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         }
                     }
                 }
-            
+
                 if (input.U.HasDick)
                 {
                     var balls = output.NewSprite(SpriteType.Balls, 13);
@@ -323,23 +322,22 @@ namespace Races.Graphics.Implementations.MainRaces
                     int combinedSize = Math.Min(baseSize + size + 2, 26);
                     balls.Sprite0("balls", combinedSize);
                 }
-            
-            
+
+
                 if (input.U.HasWeapon && input.A.Surrendered == false)
                 {
                     var weapon = output.NewSprite(SpriteType.Weapon, 12);
                     weapon.Coloring(Defaults.WhiteColored);
                     weapon.Sprite(input.SimpleWeaponSpriteFrontV1, true);
                 }
-            
-            
+
+
                 if (input.U.HasWeapon && input.A.Surrendered == false)
                 {
                     var bowBit = output.NewSprite(SpriteType.SecondaryAccessory, 3);
                     bowBit.Coloring(Defaults.WhiteColored);
                     bowBit.Sprite(input.SimpleWeaponSpriteBackV1, true);
                 }
-            
             });
 
             builder.RandomCustom(data =>
@@ -362,7 +360,6 @@ namespace Races.Graphics.Implementations.MainRaces
         {
             internal static void MakeCommon(IClothingBuilder<IOverSizeParameters> builder, ClothingId clothingId, Sprite discard, Sprite sprite1, Func<IActorUnit, Sprite> sprite2)
             {
-
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.DiscardSprite = discard;
@@ -393,7 +390,6 @@ namespace Races.Graphics.Implementations.MainRaces
 
         public static class HorseClothing
         {
-        
             internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop1Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     HorseUndertops.MakeCommon(builder, new ClothingId("base.equines/76147"),
@@ -402,7 +398,6 @@ namespace Races.Graphics.Implementations.MainRaces
                         actor => State.GameManager.SpriteDictionary.HorseClothing[40 + actor.Unit.BreastSize]);
                 }
             );
-
 
 
             internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop1Instance3 = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
@@ -422,7 +417,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         output["Clothing1"].Layer(20);
                         if (extra.Oversize)
                         {
-                            output["Clothing1"].Sprite(input.Sprites.HorseClothing[47]); 
+                            output["Clothing1"].Sprite(input.Sprites.HorseClothing[47]);
                         }
                         else if (input.U.HasBreasts)
                         {
@@ -433,7 +428,6 @@ namespace Races.Graphics.Implementations.MainRaces
                     });
                 }
             );
-
 
 
             internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop1Instance2 = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
@@ -453,7 +447,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         output["Clothing1"].Layer(20);
                         if (extra.Oversize)
                         {
-                            output["Clothing1"].Sprite(input.Sprites.HorseClothing[47]); 
+                            output["Clothing1"].Sprite(input.Sprites.HorseClothing[47]);
                         }
                         else if (input.U.HasBreasts)
                         {
@@ -464,10 +458,8 @@ namespace Races.Graphics.Implementations.MainRaces
                     });
                 }
             );
-        
-        
-        
-        
+
+
             internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop2Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     HorseUndertops.MakeCommon(builder, new ClothingId("base.equines/76148"),
@@ -476,7 +468,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         actor => State.GameManager.SpriteDictionary.HorseClothing[48 + actor.Unit.BreastSize]);
                 }
             );
-        
+
             internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop3Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     HorseUndertops.MakeCommon(builder, new ClothingId("base.equines/76156"),
@@ -485,7 +477,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         actor => State.GameManager.SpriteDictionary.HorseClothing[56 + actor.Unit.BreastSize]);
                 }
             );
-        
+
             internal static readonly BindableClothing<IOverSizeParameters> HorseUndertop4Instance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     HorseUndertops.MakeCommon(builder, new ClothingId("base.equines/76208"),
@@ -494,14 +486,12 @@ namespace Races.Graphics.Implementations.MainRaces
                         actor => State.GameManager.SpriteDictionary.HorseExtras1[0 + actor.Unit.BreastSize]);
                 }
             );
-        
+
             private static IClothing MakeCommon(ClothingId clothingId, Sprite discard, Sprite sprite1, Sprite sprite2)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
 
-                
-                
-                
+
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
                 {
                     output.DiscardSprite = discard;
@@ -522,28 +512,28 @@ namespace Races.Graphics.Implementations.MainRaces
                 });
                 return builder.BuildClothing();
             }
-        
+
             internal static readonly IClothing HorseUndertopM1Instance = MakeCommon(
                 new ClothingId("base.equines/76136"),
                 State.GameManager.SpriteDictionary.HorseClothing[36],
                 State.GameManager.SpriteDictionary.HorseExtras1[17],
                 State.GameManager.SpriteDictionary.HorseClothing[36]
             );
-        
+
             internal static readonly IClothing HorseUndertopM2Instance = MakeCommon(
                 new ClothingId("base.equines/76137"),
                 State.GameManager.SpriteDictionary.HorseClothing[37],
                 State.GameManager.SpriteDictionary.HorseExtras1[18],
                 State.GameManager.SpriteDictionary.HorseClothing[37]
             );
-        
+
             internal static readonly IClothing HorseUndertopM3Instance = MakeCommon(
                 new ClothingId("base.equines/76138"),
                 State.GameManager.SpriteDictionary.HorseClothing[38],
                 State.GameManager.SpriteDictionary.HorseClothing[39],
                 State.GameManager.SpriteDictionary.HorseClothing[38]
             );
-        
+
             internal static readonly IClothing HorsePonchoInstance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -565,7 +555,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 });
             });
-        
+
             internal static readonly IClothing HorseNecklaceInstance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -584,7 +574,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 });
             });
-        
+
             internal static readonly IClothing HorseUBottom1 = ClothingBuilder.Create(builder => MakeHorseUBottomV2(builder, 2, 0, 30, 5, 9, State.GameManager.SpriteDictionary.HorseClothing, new ClothingId("base.equines/76105"), false));
             internal static readonly IClothing HorseUBottom2 = ClothingBuilder.Create(builder => MakeHorseUBottomV2(builder, 7, 5, 30, 9, 9, State.GameManager.SpriteDictionary.HorseClothing, new ClothingId("base.equines/76109"), false));
             internal static readonly IClothing HorseUBottom3 = ClothingBuilder.Create(builder => MakeHorseUBottomV2(builder, 17, 15, 30, 19, 9, State.GameManager.SpriteDictionary.HorseClothing, new ClothingId("base.equines/76119"), false));
@@ -645,7 +635,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing2"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 });
             }
-        
+
             internal static readonly IClothing HorseOBottom1Instance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -673,16 +663,8 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 });
             });
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        
+
+
             internal static readonly IClothing HorseOBottom2Instance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -717,7 +699,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
                 });
             });
-        
+
             internal static readonly IClothing HorseOBottom3Instance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>

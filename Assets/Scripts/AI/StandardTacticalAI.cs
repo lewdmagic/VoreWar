@@ -4,7 +4,6 @@ public class StandardTacticalAI : TacticalAI
 {
     public StandardTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, Side AISide, bool defendingVillage = false) : base(actors, tiles, AISide, defendingVillage)
     {
-
     }
 
     protected override void GetNewOrder(Actor_Unit actor)
@@ -27,6 +26,7 @@ public class StandardTacticalAI : TacticalAI
                 actor.Movement = 0;
                 return;
             }
+
             WalkToYBand(actor, retreatY);
             if (path == null || path.Path.Count == 0)
             {
@@ -42,25 +42,20 @@ public class StandardTacticalAI : TacticalAI
         if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             RunVorePounce(actor);
-            if (path != null)
-                return;
+            if (path != null) return;
             if (didAction) return;
-
         }
 
         RunPred(actor);
-        if (didAction || foundPath)
-            return;
+        if (didAction || foundPath) return;
 
         TryResurrect(actor);
         TryReanimate(actor);
 
         RunBind(actor);
 
-        if (State.Rand.Next(2) == 0 || actor.Unit.HasWeapon == false)
-            RunSpells(actor);
-        if (path != null)
-            return;
+        if (State.Rand.Next(2) == 0 || actor.Unit.HasWeapon == false) RunSpells(actor);
+        if (path != null) return;
         if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             if (IsRanged(actor) == false)
@@ -69,6 +64,7 @@ public class StandardTacticalAI : TacticalAI
                 if (didAction) return;
             }
         }
+
         if (foundPath || didAction) return;
         if (IsRanged(actor))
             RunRanged(actor);

@@ -4,38 +4,49 @@ using UnityEngine;
 
 internal class Prey
 {
-
-
     [OdinSerialize]
     public Actor_Unit Predator { get; set; }
+
     [OdinSerialize]
     public Actor_Unit Actor { get; private set; }
+
     [OdinSerialize]
     private Unit _unit;
+
     public Unit Unit { get => _unit; set => _unit = value; }
+
     [OdinSerialize]
     public List<Prey> SubPrey { get; private set; }
+
     [OdinSerialize]
     public float EscapeRate { get; private set; }
+
     [OdinSerialize]
     private int _turnsDigested;
+
     public int TurnsDigested { get => _turnsDigested; set => _turnsDigested = value; }
+
     [OdinSerialize]
     private int _turnsBeingSwallowed;
+
     public int TurnsBeingSwallowed { get => _turnsBeingSwallowed; set => _turnsBeingSwallowed = value; }
+
     /// <summary>
-    /// Turns since last damaged, only updated for alive units
+    ///     Turns since last damaged, only updated for alive units
     /// </summary>
     [OdinSerialize]
     private int _turnsSinceLastDamage;
+
     public int TurnsSinceLastDamage { get => _turnsSinceLastDamage; set => _turnsSinceLastDamage = value; }
 
     [OdinSerialize]
     private bool _scatDisabled;
+
     public bool ScatDisabled { get => _scatDisabled; set => _scatDisabled = value; }
 
     [OdinSerialize]
     private List<TraitType> _sharedTraits;
+
     public List<TraitType> SharedTraits { get => _sharedTraits; set => _sharedTraits = value; }
 
     public PreyLocation Location => Predator?.PredatorComponent.Location(this) ?? PreyLocation.stomach;
@@ -53,7 +64,7 @@ internal class Prey
     public void UpdateEscapeRate()
     {
         StatusEffect hypnotizedEffect = Unit.GetStatusEffect(StatusEffectType.Hypnotized);
-        if (Actor.Surrendered || (Predator.Unit.HasTrait(TraitType.Endosoma) && (Equals(Unit.FixedSide, Predator.Unit.GetApparentSide(Unit))) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, Predator.Unit.FixedSide))))
+        if (Actor.Surrendered || (Predator.Unit.HasTrait(TraitType.Endosoma) && Equals(Unit.FixedSide, Predator.Unit.GetApparentSide(Unit))) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, Predator.Unit.FixedSide)))
         {
             EscapeRate = 0;
             return;
@@ -67,17 +78,17 @@ internal class Prey
         float preyWill = Mathf.Pow(15 + Unit.GetStat(Stat.Will), 1.5f);
 
         float predScore = 4 * ((10 + Predator.PredatorComponent.TotalCapacity()) / 10 + predStomach * 2 + predVoracity) * (Predator.Unit.HealthPct + 1) / (1 + Predator.PredatorComponent.UsageFraction);
-        float preyScore = 2 * (preyEndurance + preyStrength + preyDexterity + 3 * preyWill) / 2 * (.2f + (Unit.HealthPct * Unit.HealthPct)) * ((1f + TurnsDigested) / (4f + TurnsDigested));
+        float preyScore = 2 * (preyEndurance + preyStrength + preyDexterity + 3 * preyWill) / 2 * (.2f + Unit.HealthPct * Unit.HealthPct) * ((1f + TurnsDigested) / (4f + TurnsDigested));
 
         preyScore *= Unit.TraitBoosts.Incoming.ChanceToEscape;
         predScore /= Predator.Unit.TraitBoosts.Outgoing.ChanceToEscape;
 
-        if (Predator.Unit.HasTrait(TraitType.Inescapable) || Unit.GetStatusEffect(StatusEffectType.Sleeping) != null)
-            preyScore = 0;
+        if (Predator.Unit.HasTrait(TraitType.Inescapable) || Unit.GetStatusEffect(StatusEffectType.Sleeping) != null) preyScore = 0;
 
         if (Predator.Unit.HasTrait(TraitType.DualStomach))
         {
-            if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.stomach)) predScore *= .8f;
+            if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.stomach))
+                predScore *= .8f;
             else if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.stomach2)) predScore *= 1.0f;
         }
 
@@ -98,10 +109,10 @@ internal class Prey
         {
             preyScore /= 2;
         }
-        if (Predator.Surrendered)
-            predScore /= 10;
 
-        EscapeRate = (preyScore / (predScore + preyScore));
+        if (Predator.Surrendered) predScore /= 10;
+
+        EscapeRate = preyScore / (predScore + preyScore);
 
         //float statRatio = (float)Predator.Unit.GetStat(Stat.Stomach) / (Unit.GetStat(Stat.Strength) + Unit.GetStat(Stat.Dexterity) + Unit.GetStat(Stat.Will)) * 3;
         //float healthRatio = (Predator.Unit.Health / (float)Predator.Unit.MaxHealth) / (Unit.Health / (float)Unit.MaxHealth);
@@ -135,7 +146,6 @@ internal class Prey
         //if (Predator.Surrendered)
         //    combinedRatio /= 4;
         //EscapeRate = Math.Min(0.10f / combinedRatio, 1);
-
     }
 
     public Prey[] GetAliveSubPrey()
@@ -148,6 +158,7 @@ internal class Prey
                 units.Add(SubPrey[i]);
             }
         }
+
         return units.ToArray();
     }
 
@@ -183,6 +194,7 @@ internal class Prey
             var raceAppearance = Races2.GetRace(race);
             raceAppearance.RandomCustomCall(Unit);
         }
+
         Actor.Movement = 0;
         Actor.AnimationController = new AnimationController();
         Actor.Unit.ReloadTraits();
@@ -195,8 +207,7 @@ internal class Prey
 
     public void ChangeSide(Side side)
     {
-        if (!Equals(Unit.Side, side))
-            State.GameManager.TacticalMode.SwitchAlignment(Actor);
+        if (!Equals(Unit.Side, side)) State.GameManager.TacticalMode.SwitchAlignment(Actor);
         if (Predator.Unit.HasTrait(TraitType.Corruption) || Unit.HasTrait(TraitType.Corruption))
         {
             Unit.hiddenFixedSide = true;
@@ -204,16 +215,16 @@ internal class Prey
             Unit.RemoveTrait(TraitType.Corruption);
             Unit.AddPermanentTrait(TraitType.Corruption);
         }
-        if (!Unit.HasTrait(TraitType.Corruption))
-            Unit.FixedSide = Predator.Unit.FixedSide;
+
+        if (!Unit.HasTrait(TraitType.Corruption)) Unit.FixedSide = Predator.Unit.FixedSide;
         Actor.Surrendered = false;
     }
-    
+
     public List<BoneInfo> GetBoneTypes()
     {
         return Races2.GetRace(Unit.Race).BoneInfo(Unit);
     }
-    
+
     // public List<BoneInfo> GetBoneTypes()
     // {
     //     List<BoneInfo> rtn = new List<BoneInfo>();
@@ -301,5 +312,4 @@ internal class Prey
     //     }
     //     return rtn;
     // }
-
 }

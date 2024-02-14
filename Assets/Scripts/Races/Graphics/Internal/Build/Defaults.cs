@@ -11,7 +11,7 @@ public static class Defaults
 {
     internal static readonly SpriteTypeIndexed<SingleRenderFunc> SpriteGens3 = new SpriteTypeIndexed<SingleRenderFunc>();
 
-    
+
     internal static void ModifySingleRender(SpriteType spriteType, ModdingMode mode, Action<IRaceRenderInput, IRaceRenderOutput> generator)
     {
         SingleRenderFunc current = SpriteGens3[spriteType];
@@ -32,8 +32,8 @@ public static class Defaults
             throw new Exception("Tried to modify " + spriteType + " which does not exist. Use ReplaceSingleRender instead");
         }
     }
-    
-    
+
+
     public static readonly Func<IActorUnit, ColorSwapPalette> FurryColor = actor =>
     {
         if (actor.Unit.Furry)
@@ -525,7 +525,6 @@ public static class Defaults
 
     static Defaults()
     {
-
         SpriteGens3[SpriteType.Body] = new SingleRenderFunc(2, (input, output) =>
         {
             output.Coloring(FurryColor(input.Actor));
@@ -631,7 +630,7 @@ public static class Defaults
         });
 
         SpriteGens3[SpriteType.BodySize] = new SingleRenderFunc(3, (input, output) =>
-        {    
+        {
             output.Coloring(ColorPaletteMap.FurryBellySwap);
             output.Sprite(input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryTorsos[Mathf.Clamp(input.Actor.GetBodyWeight(), 0, 3)] : null);
         });
@@ -640,7 +639,6 @@ public static class Defaults
         {
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.Actor.Unit.EyeColor));
             output.Sprite(State.GameManager.SpriteDictionary.Eyes[Math.Min(input.Actor.Unit.EyeType, input.RaceData.EyeTypes - 1)]);
-
         });
 
         SpriteGens3[SpriteType.Breasts] = new SingleRenderFunc(16, (input, output) =>
@@ -800,7 +798,6 @@ public static class Defaults
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.Actor.Unit.AccessoryColor));
             int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
             output.Sprite(Config.FurryHandsAndFeet || input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryHandsAndFeet[thinOffset + (input.Actor.IsAttacking ? 1 : 0)] : null);
-
         });
 
         SpriteGens3[SpriteType.BodyAccent2] = new SingleRenderFunc(6, (input, output) =>
@@ -808,7 +805,6 @@ public static class Defaults
             output.Coloring(Color.white);
             int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
             output.Sprite(Config.FurryHandsAndFeet || input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryHandsAndFeet[2 + thinOffset + (input.Actor.IsAttacking ? 1 : 0)] : null);
-
         });
 
         SpriteGens3[SpriteType.BodyAccent3] = new SingleRenderFunc(7, (input, output) =>
@@ -821,7 +817,6 @@ public static class Defaults
 
             int thinOffset = input.Actor.Unit.BodySize < 2 ? 8 : 0;
             output.Sprite(Config.FurryHandsAndFeet || input.Actor.Unit.Furry ? State.GameManager.SpriteDictionary.FurryHandsAndFeet[4 + thinOffset + (input.Actor.IsAttacking ? 1 : 0)] : null);
-
         });
 
         SpriteGens3[SpriteType.BodyAccent4] = new SingleRenderFunc(5, (input, output) =>
@@ -830,7 +825,7 @@ public static class Defaults
             output.Sprite(State.GameManager.SpriteDictionary.Eyebrows[Math.Min(input.Actor.Unit.EyeType, State.GameManager.SpriteDictionary.Eyebrows.Length - 1)]);
         });
     }
-    
+
 
     internal static SetupOutput Default()
     {
@@ -839,54 +834,53 @@ public static class Defaults
 
     internal static SetupOutput Default<T>() where T : IParameters
     {
-        
         /*
          *
-    Func<int> breastSizes, 
-    Func<int> dickSizes, 
-    bool furCapable, 
-    List<Gender> canBeGender, 
-    bool extendedBreastSprites, 
-    bool gentleAnimation, 
-    bool baseBody, 
-    bool weightGainDisabled, 
-    int hairColors, 
-    int hairStyles, 
-    int skinColors, 
-    int accessoryColors, 
-    int eyeTypes, 
-    int avoidedEyeTypes, 
-    int eyeColors, 
-    int secondaryEyeColors, 
-    int bodySizes, 
-    int specialAccessoryCount, 
-    int beardStyles, 
-    int mouthTypes, 
-    int avoidedMouthTypes, 
-    int extraColors1, 
-    int extraColors2, 
-    int extraColors3, 
-    int extraColors4, 
-    int headTypes, 
-    int tailTypes, 
-    int furTypes, 
-    int earTypes, 
-    int bodyAccentTypes1, 
-    int bodyAccentTypes2, 
-    int bodyAccentTypes3, 
-    int bodyAccentTypes4, 
-    int bodyAccentTypes5, 
-    int ballsSizes, 
-    int vulvaTypes, 
-    int basicMeleeWeaponTypes, 
-    int advancedMeleeWeaponTypes, 
-    int basicRangedWeaponTypes, 
-    int advancedRangedWeaponTypes, 
-    int avoidedMainClothingTypes, 
-    int clothingColors, 
-    Vector2 wholeBodyOffset, 
+    Func<int> breastSizes,
+    Func<int> dickSizes,
+    bool furCapable,
+    List<Gender> canBeGender,
+    bool extendedBreastSprites,
+    bool gentleAnimation,
+    bool baseBody,
+    bool weightGainDisabled,
+    int hairColors,
+    int hairStyles,
+    int skinColors,
+    int accessoryColors,
+    int eyeTypes,
+    int avoidedEyeTypes,
+    int eyeColors,
+    int secondaryEyeColors,
+    int bodySizes,
+    int specialAccessoryCount,
+    int beardStyles,
+    int mouthTypes,
+    int avoidedMouthTypes,
+    int extraColors1,
+    int extraColors2,
+    int extraColors3,
+    int extraColors4,
+    int headTypes,
+    int tailTypes,
+    int furTypes,
+    int earTypes,
+    int bodyAccentTypes1,
+    int bodyAccentTypes2,
+    int bodyAccentTypes3,
+    int bodyAccentTypes4,
+    int bodyAccentTypes5,
+    int ballsSizes,
+    int vulvaTypes,
+    int basicMeleeWeaponTypes,
+    int advancedMeleeWeaponTypes,
+    int basicRangedWeaponTypes,
+    int advancedRangedWeaponTypes,
+    int avoidedMainClothingTypes,
+    int clothingColors,
+    Vector2 wholeBodyOffset,
     Vector3 clothingShift)
-         * 
+         *
          */
         SetupOutput setupOutput = new SetupOutput(
             breastSizes: () => Config.AllowHugeBreasts ? State.GameManager.SpriteDictionary.Breasts.Length : State.GameManager.SpriteDictionary.Breasts.Length - 3,
@@ -902,7 +896,7 @@ public static class Defaults
             skinColors: ColorPaletteMap.GetPaletteCount(SwapType.Skin),
             accessoryColors: ColorPaletteMap.GetPaletteCount(SwapType.NormalHair),
             eyeTypes: 8,
-            avoidedEyeTypes : 2,
+            avoidedEyeTypes: 2,
             eyeColors: ColorPaletteMap.GetPaletteCount(SwapType.EyeColor),
             secondaryEyeColors: 1,
             bodySizes: 5,

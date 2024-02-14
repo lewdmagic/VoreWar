@@ -10,8 +10,6 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-        
-        
             RaceFrameList frameListTail = new RaceFrameList(new int[8] { 0, 1, 2, 3, 4, 3, 2, 1 }, new float[8] { 1.2f, 1f, 1f, 1f, 1.2f, 1f, 1f, 1f });
             RaceFrameList frameListFins = new RaceFrameList(new int[4] { 0, 1, 2, 1 }, new float[4] { 1f, .8f, 1f, .8f });
 
@@ -24,9 +22,9 @@ namespace Races.Graphics.Implementations.Monsters
                     new BoneInfo(BoneType.DarkSwallower, unit.Name)
                 });
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
+                    new Texts { },
                     "Jaws"
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -54,7 +52,6 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.Ravenous
                     },
                     RaceDescription = "As the Scylla arrived in the new lands they brought some of their pets along. Not a year later the strange properties of the new realm had caused the fish to breed out of control, soon escaping and going wild.",
-
                 });
                 output.EyeTypes = 6;
                 output.CanBeGender = new List<Gender> { Gender.None };

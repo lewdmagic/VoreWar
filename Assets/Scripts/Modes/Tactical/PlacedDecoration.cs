@@ -11,4 +11,3 @@ internal class PlacedDecoration
         TacDec = tacDec;
     }
 }
-

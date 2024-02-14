@@ -5,12 +5,12 @@ using System.Linq;
 
 internal class ItemStock
 {
-    [OdinSerialize] private Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
+    [OdinSerialize]
+    private Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
 
     internal void AddItem(ItemType type, int quantity = 1)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (Items == null) Items = new Dictionary<ItemType, int>();
         if (Items.ContainsKey(type))
         {
             Items[type] += quantity;
@@ -21,30 +21,29 @@ internal class ItemStock
 
     internal bool HasItem(ItemType type)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (Items == null) Items = new Dictionary<ItemType, int>();
         if (Items.TryGetValue(type, out int num))
         {
             return num > 0;
         }
+
         return false;
     }
 
     internal int ItemCount(ItemType type)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (Items == null) Items = new Dictionary<ItemType, int>();
         if (Items.TryGetValue(type, out int num))
         {
             return num;
         }
+
         return 0;
     }
 
     internal bool TakeItem(ItemType type)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (Items == null) Items = new Dictionary<ItemType, int>();
         if (Items.TryGetValue(type, out int num))
         {
             if (num > 0)
@@ -53,13 +52,13 @@ internal class ItemStock
                 return true;
             }
         }
+
         return false;
     }
 
     internal List<ItemType> GetAllSpellBooks()
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (Items == null) Items = new Dictionary<ItemType, int>();
         List<ItemType> items = new List<ItemType>();
         foreach (var item in Items)
         {
@@ -74,12 +73,13 @@ internal class ItemStock
                 }
             }
         }
+
         return items;
     }
+
     internal List<ItemType> SellAllWeaponsAndAccessories(Empire empire)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (Items == null) Items = new Dictionary<ItemType, int>();
         List<ItemType> items = new List<ItemType>();
         foreach (var item in Items)
         {
@@ -91,13 +91,13 @@ internal class ItemStock
                 }
             }
         }
+
         return items;
     }
 
     internal bool TransferAllItems(ItemStock destination)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (Items == null) Items = new Dictionary<ItemType, int>();
         bool foundItem = false;
         foreach (var item in Items.ToList())
         {
@@ -108,16 +108,14 @@ internal class ItemStock
                 Items[item.Key] = 0;
             }
         }
+
         return foundItem;
     }
 
 
-
-
     internal bool TransferAllItems(ItemStock destination, ref List<Item> foundItems)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (Items == null) Items = new Dictionary<ItemType, int>();
         bool foundItem = false;
         foreach (var item in Items.ToList())
         {
@@ -129,9 +127,7 @@ internal class ItemStock
                 Items[item.Key] = 0;
             }
         }
+
         return foundItem;
     }
-
-
 }
-

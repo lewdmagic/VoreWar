@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
+
 namespace Races.Graphics.Implementations.MainRaces
 {
-
-
     internal static class Sergal
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
@@ -17,14 +16,14 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("Sergal", "Sergals");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "furred", "sergal", "Eltussian" }, //new, many thanks to Flame_Valxsarion
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Lance",
-                        [WeaponNames.Axe]         = "Twin Glaive",
-                        [WeaponNames.SimpleBow]   = "Speargun",
+                        [WeaponNames.Mace] = "Lance",
+                        [WeaponNames.Axe] = "Twin Glaive",
+                        [WeaponNames.SimpleBow] = "Speargun",
                         [WeaponNames.CompoundBow] = "Prototype Railgun" //changed to "prototype railgun", thanks to Flame_Valxsarion
                     }
                 ));

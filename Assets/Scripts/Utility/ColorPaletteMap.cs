@@ -18,23 +18,20 @@ public static class ColorPaletteMap
     internal static ColorSwapPalette GetPalette(SwapType swap, int index)
     {
         Swaps.TryGetValue(swap, out var list);
-        if (list == null)
-            return Default;
-        if (index < list.Count)
-            return list[index];
+        if (list == null) return Default;
+        if (index < list.Count) return list[index];
         return list[0];
     }
 
     internal static int GetPaletteCount(SwapType swap)
     {
         Swaps.TryGetValue(swap, out var list);
-        if (list == null)
-            return 0;
+        if (list == null) return 0;
         return list.Count;
     }
 
     /// <summary>
-    /// Used to get the base slime color for slime scat
+    ///     Used to get the base slime color for slime scat
     /// </summary>
     internal static Color GetSlimeBaseColor(int index)
     {
@@ -142,7 +139,7 @@ public static class ColorPaletteMap
         List<ColorSwapPalette> FeralLionsFurSwaps = WireUp(SwapType.FeralLionsFur);
         List<ColorSwapPalette> FeralLionsEyesSwaps = WireUp(SwapType.FeralLionsEyes);
         List<ColorSwapPalette> FeralLionsManeSwaps = WireUp(SwapType.FeralLionsMane);
-	    List<ColorSwapPalette> GoodraSkinSwaps = WireUp(SwapType.GoodraSkin);
+        List<ColorSwapPalette> GoodraSkinSwaps = WireUp(SwapType.GoodraSkin);
         List<ColorSwapPalette> AabayxSkinSwaps = WireUp(SwapType.AabayxSkin);
 
         int[] NormalIndexes = { 81, 153, 198, 229, 255 };
@@ -157,6 +154,7 @@ public static class ColorPaletteMap
             HairRedKeyStrictSwaps.Add(swap);
             MixedHairColors = NormalHairSwaps.Count();
         }
+
         map = State.GameManager.PaletteDictionary.WildHair;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -189,6 +187,7 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, clear);
             FurSwaps.Add(swap);
         }
+
         map = State.GameManager.PaletteDictionary.WildHair;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -204,6 +203,7 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, null, 2);
             FurStrictSwaps.Add(swap);
         }
+
         map = State.GameManager.PaletteDictionary.WildHair;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -234,6 +234,7 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
             UniversalHairSwaps.Add(swap);
         }
+
         map = State.GameManager.PaletteDictionary.Skin;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -355,7 +356,6 @@ public static class ColorPaletteMap
             };
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, null, 2);
             KoboldSwaps.Add(swap);
-
         }
 
         map = State.GameManager.PaletteDictionary.Lizards;
@@ -375,7 +375,6 @@ public static class ColorPaletteMap
             clear[246] = true;
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, clear, 2);
             DragonSwaps.Add(swap);
-
         }
 
         map = State.GameManager.PaletteDictionary.Lizards;
@@ -527,10 +526,14 @@ public static class ColorPaletteMap
         {
             Dictionary<int, Color> swapDict = RedReversed(map, pixelY);
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, null, 2);
-            if (pixelY < 2) FairySpringSkin.Add(swap);
-            else if (pixelY < 5) FairySummerSkin.Add(swap);
-            else if (pixelY < 8) FairyFallSkin.Add(swap);
-            else FairyWinterSkin.Add(swap);
+            if (pixelY < 2)
+                FairySpringSkin.Add(swap);
+            else if (pixelY < 5)
+                FairySummerSkin.Add(swap);
+            else if (pixelY < 8)
+                FairyFallSkin.Add(swap);
+            else
+                FairyWinterSkin.Add(swap);
         }
 
         map = State.GameManager.PaletteDictionary.FairyClothes;
@@ -544,10 +547,14 @@ public static class ColorPaletteMap
                 [244] = map.GetPixel(0, pixelY),
             };
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, null, 2);
-            if (pixelY < 5) FairyWinterClothes.Add(swap);
-            else if (pixelY < 10) FairyFallClothes.Add(swap);
-            else if (pixelY < 14) FairySummerClothes.Add(swap);
-            else FairySpringClothes.Add(swap);
+            if (pixelY < 5)
+                FairyWinterClothes.Add(swap);
+            else if (pixelY < 10)
+                FairyFallClothes.Add(swap);
+            else if (pixelY < 14)
+                FairySummerClothes.Add(swap);
+            else
+                FairySpringClothes.Add(swap);
         }
 
         map = State.GameManager.PaletteDictionary.Goblins;
@@ -608,6 +615,7 @@ public static class ColorPaletteMap
             swap = new ColorSwapPalette(swapDict, null, 0);
             Clothing50SpacedSwaps.Add(swap);
         }
+
         map = State.GameManager.PaletteDictionary.Lizards;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -634,6 +642,7 @@ public static class ColorPaletteMap
             swap = new ColorSwapPalette(swapDict, null, 0);
             Clothing50SpacedSwaps.Add(swap);
         }
+
         map = State.GameManager.PaletteDictionary.Slimes;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -660,6 +669,7 @@ public static class ColorPaletteMap
             swap = new ColorSwapPalette(swapDict, null, 0);
             Clothing50SpacedSwaps.Add(swap);
         }
+
         map = State.GameManager.PaletteDictionary.WildHair;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -1447,6 +1457,7 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
             PantherClothesSwaps.Add(swap);
         }
+
         for (int pixelY = 8; pixelY < 11; pixelY++)
         {
             Dictionary<int, Color> swapDict = new Dictionary<int, Color>
@@ -1460,6 +1471,7 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
             PantherBodyPaintSwaps.Add(swap);
         }
+
         for (int pixelY = 11; pixelY < 16; pixelY++)
         {
             Dictionary<int, Color> swapDict = new Dictionary<int, Color>
@@ -1473,6 +1485,7 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
             PantherHairSwaps.Add(swap);
         }
+
         for (int pixelY = 16; pixelY < map.height; pixelY++)
         {
             Dictionary<int, Color> swapDict = new Dictionary<int, Color>
@@ -1661,8 +1674,8 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             TerrorbirdSkinSwaps.Add(swap);
         }
-		
-		map = State.GameManager.PaletteDictionary.GoodraSkin;
+
+        map = State.GameManager.PaletteDictionary.GoodraSkin;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
             Dictionary<int, Color> swapDict = new Dictionary<int, Color>
@@ -1720,7 +1733,7 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             AabayxSkinSwaps.Add(swap);
         }
-		
+
         map = State.GameManager.PaletteDictionary.FeralLionsFur;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -1740,6 +1753,7 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
             FeralLionsFurSwaps.Add(swap);
         }
+
         map = State.GameManager.PaletteDictionary.FeralLionsEyes;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -1752,6 +1766,7 @@ public static class ColorPaletteMap
             ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 5);
             FeralLionsEyesSwaps.Add(swap);
         }
+
         map = State.GameManager.PaletteDictionary.FeralLionsMane;
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
@@ -1760,7 +1775,6 @@ public static class ColorPaletteMap
                 [87] = map.GetPixel(2, pixelY),
                 [91] = map.GetPixel(1, pixelY),
                 [108] = map.GetPixel(0, pixelY),
-
             };
             ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             FeralLionsManeSwaps.Add(swap);

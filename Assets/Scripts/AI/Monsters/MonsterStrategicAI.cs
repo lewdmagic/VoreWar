@@ -28,11 +28,9 @@ internal class MonsterStrategicAI : IStrategicAI
     {
         foreach (Army army in empire.Armies.ToList())
         {
-            if (army.RemainingMP < 1)
-                continue;
+            if (army.RemainingMP < 1) continue;
             if (path != null && pathIsFor == army)
             {
-
                 if (path.Count == 0)
                 {
                     GenerateTaskForArmy(army);
@@ -45,19 +43,17 @@ internal class MonsterStrategicAI : IStrategicAI
 
                 if (army.MoveTo(newLoc))
                     StrategicUtilities.StartBattle(army);
-                else if (position == army.Position)
-                    army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
+                else if (position == army.Position) army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
                 return true;
-
             }
             else
             {
                 GenerateTaskForArmy(army);
-                if (path == null || path.Count == 0)
-                    army.RemainingMP = 0;
+                if (path == null || path.Count == 0) army.RemainingMP = 0;
                 return true;
             }
         }
+
         foreach (Army army in empire.Armies)
         {
             foreach (Unit unit in army.Units)
@@ -65,6 +61,7 @@ internal class MonsterStrategicAI : IStrategicAI
                 StrategicUtilities.SpendLevelUps(unit);
             }
         }
+
         path = null;
         return false;
     }
@@ -72,8 +69,7 @@ internal class MonsterStrategicAI : IStrategicAI
     public bool TurnAI()
     {
         SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
-        if (spawner == null)
-            return false;
+        if (spawner == null) return false;
         empire.MaxArmySize = spawner.MaxArmySize;
         empire.Team = spawner.Team;
         int highestExp = State.GameManager.StrategyMode.ScaledExp;
@@ -85,12 +81,10 @@ internal class MonsterStrategicAI : IStrategicAI
             empire.MaxGarrisonSize = 0;
 
 
-
         //if (empire.Gold < 10000) empire.AddGold(8000);
         for (int j = 0; j < spawner.SpawnAttempts; j++)
         {
-            if (spawner.MaxArmies == 0 || (Config.NightMonsters && !State.World.IsNight))
-                break;
+            if (spawner.MaxArmies == 0 || (Config.NightMonsters && !State.World.IsNight)) break;
             if (empire.Armies.Count() < (int)Math.Max(spawner.MaxArmies * Config.OverallMonsterCapModifier, 1) && State.Rand.NextDouble() < spawner.spawnRate * Config.OverallMonsterSpawnRateModifier)
             {
                 int x = 0;
@@ -99,7 +93,6 @@ internal class MonsterStrategicAI : IStrategicAI
                 var spawners = State.GameManager.StrategyMode.Spawners.Where(s => Equals(s.Race, empire.Race)).ToArray();
                 for (int i = 0; i < 10; i++)
                 {
-
                     if (spawners != null && spawners.Length > 0)
                     {
                         int num = State.Rand.Next(spawners.Length);
@@ -111,14 +104,15 @@ internal class MonsterStrategicAI : IStrategicAI
                         x = State.Rand.Next(Config.StrategicWorldSizeX);
                         y = State.Rand.Next(Config.StrategicWorldSizeY);
                     }
+
                     if (StrategicUtilities.IsTileClear(new Vec2i(x, y)))
                     {
                         foundSpot = true;
                         break;
                     }
                 }
-                if (foundSpot == false)
-                    continue;
+
+                if (foundSpot == false) continue;
                 var army = new Army(empire, new Vec2i(x, y), empire.Side);
                 empire.Armies.Add(army);
 
@@ -130,8 +124,7 @@ internal class MonsterStrategicAI : IStrategicAI
                 else
                     count = State.Rand.Next(spawner.MinArmySize, spawner.MaxArmySize + 1);
 
-                if (count <= 0)
-                    continue;
+                if (count <= 0) continue;
 
                 if (Equals(empire.ReplacedRace, Race.Wyvern))
                 {
@@ -185,14 +178,10 @@ internal class MonsterStrategicAI : IStrategicAI
                     int spitterCount = Math.Max((int)(spitterFraction * count), 1);
                     int coralCount = Math.Max((int)(coralFraction * count), 1);
                     int springCount = count - rockCount - spitterCount - coralCount;
-                    for (int i = 0; i < rockCount; i++)
-                        army.Units.Add(new Unit(empire.Side, Race.RockSlug, RandXp(baseXp), true));
-                    for (int i = 0; i < spitterCount; i++)
-                        army.Units.Add(new Unit(empire.Side, Race.SpitterSlug, RandXp(baseXp), true));
-                    for (int i = 0; i < coralCount; i++)
-                        army.Units.Add(new Unit(empire.Side, Race.CoralSlug, RandXp(baseXp), true));
-                    for (int i = 0; i < springCount; i++)
-                        army.Units.Add(new Unit(empire.Side, Race.SpringSlug, RandXp(baseXp), true));
+                    for (int i = 0; i < rockCount; i++) army.Units.Add(new Unit(empire.Side, Race.RockSlug, RandXp(baseXp), true));
+                    for (int i = 0; i < spitterCount; i++) army.Units.Add(new Unit(empire.Side, Race.SpitterSlug, RandXp(baseXp), true));
+                    for (int i = 0; i < coralCount; i++) army.Units.Add(new Unit(empire.Side, Race.CoralSlug, RandXp(baseXp), true));
+                    for (int i = 0; i < springCount; i++) army.Units.Add(new Unit(empire.Side, Race.SpringSlug, RandXp(baseXp), true));
                 }
                 else if (Equals(empire.ReplacedRace, Race.Compy))
                 {
@@ -261,23 +250,23 @@ internal class MonsterStrategicAI : IStrategicAI
 
         foreach (Army army in empire.Armies)
         {
-            if (army.Units.Count == 0)
-                continue;
+            if (army.Units.Count == 0) continue;
             foreach (Unit unit in army.Units)
             {
                 if (unit.Experience < .5f * baseXp)
                 {
-                    unit.SetExp(3 + (unit.Experience * 1.1f));
+                    unit.SetExp(3 + unit.Experience * 1.1f);
                 }
+
                 StrategicUtilities.SpendLevelUps(unit);
             }
+
             if (army.Units.Count > 0 && army.InVillageIndex != -1 && Equals(State.World.Villages[army.InVillageIndex].Race, army.Units[0].Race))
             {
                 Village village = State.World.Villages[army.InVillageIndex];
                 for (int i = 0; i < 8; i++)
                 {
-                    if (army.Units.Count() >= spawner.MaxArmySize || village.Population < 5)
-                        break;
+                    if (army.Units.Count() >= spawner.MaxArmySize || village.Population < 5) break;
                     army.Units.Add(new Unit(empire.Side, empire.ReplacedRace, RandXp(baseXp), true));
                     village.SubtractPopulation(1);
                 }
@@ -288,8 +277,7 @@ internal class MonsterStrategicAI : IStrategicAI
 
         int RandXp(int exp)
         {
-            if (exp < 1)
-                exp = 1;
+            if (exp < 1) exp = 1;
             return (int)(exp * .8f) + State.Rand.Next(10 + (int)(exp * .4));
         }
     }
@@ -319,7 +307,7 @@ internal class MonsterStrategicAI : IStrategicAI
                 inAlliedVillage = true;
 
             if ((spawnerType != Config.MonsterConquestType.CompleteDevourAndMoveOn || State.World.Villages[army.InVillageIndex].Population > 0) &&
-            (inEnemyVillage || (inOwnVillage && army.Units.Where(s => Equals(s.Race, State.World.Villages[army.InVillageIndex].Race)).Any() == false)))
+                (inEnemyVillage || (inOwnVillage && army.Units.Where(s => Equals(s.Race, State.World.Villages[army.InVillageIndex].Race)).Any() == false)))
             {
                 if (spawnerType == Config.MonsterConquestType.CompleteDevourAndMoveOn || spawnerType == Config.MonsterConquestType.CompleteDevourAndRepopulate || spawnerType == Config.MonsterConquestType.CompleteDevourAndRepopulateFortify || spawnerType == Config.MonsterConquestType.CompleteDevourAndHold)
                 {
@@ -331,6 +319,7 @@ internal class MonsterStrategicAI : IStrategicAI
                         army.MonsterTurnsRemaining--;
                     }
                 }
+
                 if (spawnerType == Config.MonsterConquestType.DevourAndHold)
                 {
                     Village village = State.World.Villages[army.InVillageIndex];
@@ -339,6 +328,7 @@ internal class MonsterStrategicAI : IStrategicAI
                         State.GameManager.StrategyMode.Devour(army, village.GetTotalPop() - village.Maxpop / 2);
                     }
                 }
+
                 army.RemainingMP = 0;
                 return;
             }
@@ -349,11 +339,13 @@ internal class MonsterStrategicAI : IStrategicAI
                 return;
             }
         }
-        if(Config.NightMoveMonsters && !State.World.IsNight) //DayNight Modification (zero's out monster AP when NOT night)
+
+        if (Config.NightMoveMonsters && !State.World.IsNight) //DayNight Modification (zero's out monster AP when NOT night)
         {
             army.RemainingMP = 0;
             return;
         }
+
         Attack(army, spawner.Confidence);
     }
 
@@ -373,6 +365,7 @@ internal class MonsterStrategicAI : IStrategicAI
                 potentialTargetValue.Add(0);
             }
         }
+
         SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
         Config.MonsterConquestType spawnerType;
         if (spawner != null)
@@ -407,6 +400,7 @@ internal class MonsterStrategicAI : IStrategicAI
             path = StrategyPathfinder.GetPath(empire, army, targetPosition, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
             return;
         }
+
         army.RemainingMP = 0;
     }
 
@@ -424,6 +418,7 @@ internal class MonsterStrategicAI : IStrategicAI
                 path = StrategyPathfinder.GetMonsterPath(empire, army, targetPositions[0], army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
                 return;
             }
+
             army.RemainingMP = 0;
         }
         else
@@ -445,4 +440,3 @@ internal class MonsterStrategicAI : IStrategicAI
             army.RemainingMP = 0;
     }
 }
-

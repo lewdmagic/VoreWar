@@ -7,25 +7,30 @@ namespace TacticalBuildings
     {
         [OdinSerialize]
         internal Vec2 _lowerLeftPosition;
+
         internal Vec2 LowerLeftPosition { get => _lowerLeftPosition; set => _lowerLeftPosition = value; }
+
         [OdinSerialize]
         private int _width;
+
         /// <summary>
-        /// The width of blocked tiles
+        ///     The width of blocked tiles
         /// </summary>
         internal int Width { get => _width; set => _width = value; }
 
         [OdinSerialize]
-        private int _height;        
+        private int _height;
+
         /// <summary>
-        /// The height of blocked tiles
+        ///     The height of blocked tiles
         /// </summary>
         internal int Height { get => _height; set => _height = value; }
 
         [OdinSerialize]
-        private int[,] _tile;       
+        private int[,] _tile;
+
         /// <summary>
-        /// Graphical tiles.  Height, then width
+        ///     Graphical tiles.  Height, then width
         /// </summary>
         internal int[,] Tile { get => _tile; set => _tile = value; }
 
@@ -350,6 +355,4 @@ namespace TacticalBuildings
             };
         }
     }
-
-
 }

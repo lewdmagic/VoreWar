@@ -11,6 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class Humans
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
@@ -19,7 +20,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FlavorText(new FlavorText(
                     new Texts { "bare skinned", "soft", "shouting" },
                     new Texts { "adaptive", "clever", "resourceful" },
-                    new Texts { "human", "humanoid", {"woman", Gender.Female}, {"man", Gender.Male} }
+                    new Texts { "human", "humanoid", { "woman", Gender.Female }, { "man", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -460,7 +461,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 int size = input.U.DickSize;
                 int offset = input.A.GetBallSize(28, .8f);
-            
+
                 if (offset >= 26)
                 {
                     output.AddOffset(0, -22 * .625f);
@@ -675,7 +676,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         }
                     }
                 }
-                
+
                 Defaults.BasicBellyRunAfter.Invoke(input, output);
             });
 
@@ -1484,7 +1485,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     {
                         output["Clothing1"].Sprite(input.U.BreastSize > 5 ? input.Sprites.HumenUniform2[6] : input.Sprites.HumenUniform2[0 + input.U.BreastSize]);
                     }
-                
+
                     if (input.A.HasBelly)
                     {
                         if (input.A.GetStomachSize(31, 0.7f) > 4)

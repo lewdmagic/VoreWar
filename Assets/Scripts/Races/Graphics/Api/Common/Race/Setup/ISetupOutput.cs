@@ -8,31 +8,29 @@ using UnityEngine;
 
 public interface ISetupOutput
 {
-    
     void Names(string singularName, string pluralName);
-    void Names(string singularName, Func<INameInput,string> pluralName);
-    void Names(Func<INameInput,string> singularName, string pluralName);
-    void Names(Func<INameInput,string> singularName, Func<INameInput,string> pluralName);
+    void Names(string singularName, Func<INameInput, string> pluralName);
+    void Names(Func<INameInput, string> singularName, string pluralName);
+    void Names(Func<INameInput, string> singularName, Func<INameInput, string> pluralName);
 
     void TownNames(List<string> nameList);
     void PreyTownNames(List<string> nameList);
     void IndividualNames(List<string> nameList);
-    
+
     void WallType(WallType wallType);
 
-    void BonesInfo(Func<IUnitRead,List<BoneInfo>> boneTypesGen);
+    void BonesInfo(Func<IUnitRead, List<BoneInfo>> boneTypesGen);
 
     void FlavorText(FlavorText flavorText);
     void SetFlavorText(FlavorType type, params FlavorEntry[] numbers);
     void AddFlavorText(FlavorType type, params FlavorEntry[] numbers);
-    
+
     void RaceTraits(IRaceTraits raceTraits);
     void SetRaceTraits(Action<IRaceTraits> setRaceTraits);
 
-    void CustomizeButtons(Action<IUnitRead,IButtonCustomizer> action);
-    
-    
-    
+    void CustomizeButtons(Action<IUnitRead, IButtonCustomizer> action);
+
+
     Func<int> BreastSizes { get; set; }
     Func<int> DickSizes { get; set; }
 

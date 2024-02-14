@@ -8,7 +8,6 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class FeralLions
     {
-
         private static bool IsHindView(IActorUnit actor)
         {
             if (actor.IsAnalVoring || actor.IsUnbirthing || actor.IsCockVoring)
@@ -20,7 +19,7 @@ namespace Races.Graphics.Implementations.Monsters
                 return false;
             }
         }
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList frameListRumpVore = new RaceFrameList(new int[2] { 0, 1 }, new float[2] { .75f, .5f });
@@ -32,7 +31,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.FlavorText(new FlavorText(
                     new Texts { "roaring", "once-vicious", "formerly-fearsome" },
                     new Texts { "indulgent", "greedily snarling", "voracious", "capacious", "insatiable", "dominant", "pleased" },
-                    new Texts { "feline", "leonine", "kitty", {"lioness", Gender.Female}, {"lion", Gender.Male} }
+                    new Texts { "feline", "leonine", "kitty", { "lioness", Gender.Female }, { "lion", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -302,10 +301,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Sprite(IsHindView(input.A) ? input.Sprites.FeralLions[77] : input.Sprites.FeralLions[14]);
             });
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.Finalize.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.Finalize.Invoke(input, output); });
 
             builder.RandomCustom(data =>
             {

@@ -12,7 +12,6 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-
             builder.Setup(output =>
             {
                 output.Names("Aabayx", "Aabayx");
@@ -39,7 +38,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 });
                 output.TownNames(new List<string>
                 {
-                    "Akaryocyte",  ///(this one is the capital, by the way)
+                    "Akaryocyte", ///(this one is the capital, by the way)
                     "Infection Site Zero",
                     "Arenai",
                     "Temple of Twenty",
@@ -68,7 +67,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                     unit.TailType = State.Rand.Next(data.SetupOutput.TailTypes);
                 });
-            
+
                 output.DickSizes = () => 6;
                 output.BreastSizes = () => 1;
 

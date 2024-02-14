@@ -11,8 +11,6 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-        
-        
             builder.Setup(output =>
             {
                 output.Names("Slime", "Slimes");
@@ -27,11 +25,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     new Texts { "slime", "ooze", "jelly" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Bone Blade",
-                        [WeaponNames.Axe]         = "Whip",
-                        [WeaponNames.SimpleBow]   = "Floating Slimey",
+                        [WeaponNames.Mace] = "Bone Blade",
+                        [WeaponNames.Axe] = "Whip",
+                        [WeaponNames.SimpleBow] = "Floating Slimey",
                         [WeaponNames.CompoundBow] = "Bioelectricity",
-                        [WeaponNames.Claw]        = "Hardened Lump"
+                        [WeaponNames.Claw] = "Hardened Lump"
                     }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -59,7 +57,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     "Splaton",
                 });
                 output.CustomizeButtons((unit, buttons) =>
-                {       
+                {
                     buttons.SetActive(ButtonType.HairColor, true);
                     buttons.SetActive(ButtonType.Skintone, false);
                     buttons.SetText(ButtonType.BodyAccessoryColor, "Body Color");

@@ -47,11 +47,11 @@ public class UnitEditorPanel : CustomizerPanel
             val++;
             RaceDropdown.options.Add(new TMP_Dropdown.OptionData(race.ToString()));
         }
+
         buttons = new EditStatButton[10];
         foreach (Stat stat in (Stat[])Enum.GetValues(typeof(Stat)))
         {
-            if (stat == Stat.None)
-                break;
+            if (stat == Stat.None) break;
             buttons[(int)stat] = CreateNewButton(stat, UnitEditor.ChangeStat, UnitEditor.ChangeLevel, ManualChangeStat);
         }
 
@@ -63,15 +63,14 @@ public class UnitEditorPanel : CustomizerPanel
             val2++;
             TraitDropdown.options.Add(new TMP_Dropdown.OptionData(rl.name.ToString()));
         }
-        foreach (TraitType traitId in ((TraitType[])Enum.GetValues(typeof(TraitType))).OrderBy(s =>
-       {
-           return s >= TraitType.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString();
-       }))
+
+        foreach (TraitType traitId in ((TraitType[])Enum.GetValues(typeof(TraitType))).OrderBy(s => { return s >= TraitType.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString(); }))
         {
             traitDict[traitId] = val2;
             val2++;
             TraitDropdown.options.Add(new TMP_Dropdown.OptionData(traitId.ToString()));
         }
+
         itemDict = new Dictionary<int, string>();
         itemReverseDict = new Dictionary<string, int>();
         itemDict[0] = "Empty";
@@ -80,23 +79,28 @@ public class UnitEditorPanel : CustomizerPanel
         {
             ItemDropdown[j].options.Add(new TMP_Dropdown.OptionData("Empty"));
         }
+
         for (int i = 0; i < AllItems.Count; i++)
         {
             for (int j = 0; j < ItemDropdown.Length; j++)
             {
                 ItemDropdown[j].options.Add(new TMP_Dropdown.OptionData(AllItems[i].Name));
             }
+
             itemDict[i + 1] = AllItems[i].Name;
             itemReverseDict[AllItems[i].Name] = 1 + i;
         }
+
         for (int i = 0; i < SpellDropdown.Length; i++)
         {
             foreach (SpellType type in ((SpellType[])Enum.GetValues(typeof(SpellType))).Where(s => (int)s < 100))
             {
                 SpellDropdown[i].options.Add(new TMP_Dropdown.OptionData(type.ToString()));
             }
+
             SpellDropdown[i].RefreshShownValue();
         }
+
         SetupAllignment();
     }
 
@@ -109,8 +113,7 @@ public class UnitEditorPanel : CustomizerPanel
             var mainEmps = State.World.MainEmpires;
             for (int i = 0; i < mainEmps.Count; i++)
             {
-                if (RaceFuncs.IsRebelOrBandit5(mainEmps[i].Side))
-                    continue;
+                if (RaceFuncs.IsRebelOrBandit5(mainEmps[i].Side)) continue;
                 AlignmentDropdown.options.Add(new TMP_Dropdown.OptionData(mainEmps[i].Name));
                 empireDict[i + 1] = mainEmps[i];
             }
@@ -120,8 +123,7 @@ public class UnitEditorPanel : CustomizerPanel
                 var monsterEmps = State.World.MonsterEmpires;
                 for (int i = 0; i < monsterEmps.Count(); i++)
                 {
-                    if (RaceFuncs.IsRebelOrBandit5(monsterEmps[i].Side))
-                        continue;
+                    if (RaceFuncs.IsRebelOrBandit5(monsterEmps[i].Side)) continue;
                     AlignmentDropdown.options.Add(new TMP_Dropdown.OptionData(monsterEmps[i].Name));
                     empireDict[i + mainEmps.Count - 1] = monsterEmps[i];
                 }
@@ -132,6 +134,7 @@ public class UnitEditorPanel : CustomizerPanel
             AlignmentDropdown.options.Add(new TMP_Dropdown.OptionData("Defender"));
             AlignmentDropdown.options.Add(new TMP_Dropdown.OptionData("Attacker"));
         }
+
         AlignmentDropdown.RefreshShownValue();
     }
 
@@ -147,8 +150,7 @@ public class UnitEditorPanel : CustomizerPanel
         foreach (EditStatButton button in buttons)
         {
             //This if condition serves to fix a bug where using the stat change buttons would cause an exception were a button in-code was not assigned to a GameObject.
-            if (button)
-                button.Unit = unit;
+            if (button) button.Unit = unit;
         }
     }
 
@@ -158,8 +160,7 @@ public class UnitEditorPanel : CustomizerPanel
         foreach (EditStatButton button in buttons)
         {
             //This if condition serves to fix a bug where using the stat change buttons would cause an exception were a button in-code was not assigned to a GameObject.
-            if (button)
-                button.UpdateLabel();
+            if (button) button.UpdateLabel();
         }
     }
 
@@ -179,12 +180,14 @@ public class UnitEditorPanel : CustomizerPanel
             UnitEditor.SetActor(actor);
             UnitEditor.RefreshStats();
         }
+
         if (raceDict.TryGetValue(actor.Unit.Race, out int race))
         {
             RaceDropdown.value = race;
         }
         else
             RaceDropdown.value = 0;
+
         RaceDropdown.captionText.text = actor.Unit.Race.ToString();
         AlignmentDropdown.captionText.text = DetermineAllignment(actor.Unit);
         HiddenToggle.isOn = actor.Unit.hiddenFixedSide;
@@ -193,13 +196,11 @@ public class UnitEditorPanel : CustomizerPanel
         SwapAlignment.gameObject.SetActive(State.GameManager.CurrentScene == State.GameManager.TacticalMode);
         ChangeUnitButtons(actor.Unit);
         UpdateButtons();
-
     }
 
     private string DetermineAllignment(Unit unit)
     {
-        if (!unit.HasFixedSide())
-            return "Default";
+        if (!unit.HasFixedSide()) return "Default";
         if (State.World?.MainEmpires != null)
         {
             return State.World.GetEmpireOfSide(unit.FixedSide)?.Name ?? unit.Race.ToString();
@@ -224,12 +225,14 @@ public class UnitEditorPanel : CustomizerPanel
             UnitEditor.SetUnit(unit);
             UnitEditor.RefreshStats();
         }
+
         if (raceDict.TryGetValue(unit.Race, out int race))
         {
             RaceDropdown.value = race;
         }
         else
             RaceDropdown.value = 0;
+
         AlignmentDropdown.captionText.text = DetermineAllignment(unit);
         HiddenToggle.isOn = unit.hiddenFixedSide;
         PopulateItems();
@@ -255,16 +258,15 @@ public class UnitEditorPanel : CustomizerPanel
             if (spell != SpellType.None)
             {
                 if (UnitEditor.Unit.InnateSpells.Count > i)
-                    UnitEditor.Unit.InnateSpells[i] = (spell);
-                else if (!UnitEditor.Unit.InnateSpells.Contains(spell))
-                    UnitEditor.Unit.InnateSpells.Add(spell);
+                    UnitEditor.Unit.InnateSpells[i] = spell;
+                else if (!UnitEditor.Unit.InnateSpells.Contains(spell)) UnitEditor.Unit.InnateSpells.Add(spell);
             }
             else if (UnitEditor.Unit.InnateSpells.Count > i)
             {
                 UnitEditor.Unit.InnateSpells.RemoveAt(i);
-
             }
         }
+
         UnitEditor.Unit.UpdateSpells();
         gameObject.SetActive(false);
         if (State.GameManager.CurrentScene == State.GameManager.Recruit_Mode)
@@ -276,12 +278,12 @@ public class UnitEditorPanel : CustomizerPanel
             State.GameManager.TacticalMode.RebuildInfo();
             State.GameManager.TacticalMode.UpdateHealthBars();
         }
+
         var ownerEmp = State.World.GetEmpireOfSide(UnitEditor.Unit.Side);
         if (ownerEmp != null && ownerEmp.StrategicAI != null)
         {
             StrategicUtilities.SetAIClass(UnitEditor.Unit);
         }
-
     }
 
     public override void ChangeGender()
@@ -296,12 +298,10 @@ public class UnitEditorPanel : CustomizerPanel
 
     public void ChangeRace()
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
         if (RaceFuncs.TryParse(RaceDropdown.options[RaceDropdown.value].text, out Race race))
         {
-            if (Equals(UnitEditor.Unit.Race, race))
-                return;
+            if (Equals(UnitEditor.Unit.Race, race)) return;
             UnitEditor.Unit.Race = race;
             UnitEditor.Unit.RandomizeGender(race, Races2.GetRace(UnitEditor.Unit));
             UnitEditor.Unit.SetGear(race);
@@ -328,6 +328,7 @@ public class UnitEditorPanel : CustomizerPanel
         {
             ItemDropdown[i].gameObject.SetActive(false);
         }
+
         for (int i = 0; i < maxIndex; i++)
         {
             ItemDropdown[i].gameObject.SetActive(true);
@@ -337,6 +338,7 @@ public class UnitEditorPanel : CustomizerPanel
                 ItemDropdown[i].captionText.text = "Empty";
                 continue;
             }
+
             int value = 0;
             for (int j = 0; j < AllItems.Count; j++)
             {
@@ -346,13 +348,13 @@ public class UnitEditorPanel : CustomizerPanel
                     break;
                 }
             }
-            ItemDropdown[i].value = value + 1;
 
+            ItemDropdown[i].value = value + 1;
         }
+
         for (int i = 0; i < SpellDropdown.Length; i++)
         {
-            if (UnitEditor.Unit.InnateSpells == null)
-                UnitEditor.Unit.InnateSpells = new List<SpellType>();
+            if (UnitEditor.Unit.InnateSpells == null) UnitEditor.Unit.InnateSpells = new List<SpellType>();
             if (UnitEditor.Unit.InnateSpells.Count > i)
             {
                 var value = Array.IndexOf(Enum.GetValues(typeof(SpellType)), UnitEditor.Unit.InnateSpells[i]);
@@ -362,15 +364,14 @@ public class UnitEditorPanel : CustomizerPanel
             }
             else
                 SpellDropdown[i].value = 0;
+
             SpellDropdown[i].RefreshShownValue();
         }
-
     }
 
     public void ChangeItem(int slot)
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
         Item newItem = null;
 
         if (itemDict.TryGetValue(ItemDropdown[slot].value, out string value))
@@ -381,13 +382,11 @@ public class UnitEditorPanel : CustomizerPanel
 
         UnitEditor.ChangeItem(slot, newItem);
         UnitEditor.RefreshView();
-
     }
 
     public void ChangeAlignment()
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
 
         if (AlignmentDropdown.options[AlignmentDropdown.value].text == "Default")
             UnitEditor.Unit.FixedSide = Side.TrueNoneSide;
@@ -399,13 +398,13 @@ public class UnitEditorPanel : CustomizerPanel
         {
             UnitEditor.Unit.FixedSide = empireDict[AlignmentDropdown.value].Side;
         }
+
         ToggleHidden();
     }
 
     public void ToggleHidden()
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
         UnitEditor.Unit.hiddenFixedSide = HiddenToggle.isOn;
         UnitEditor.RefreshView();
     }
@@ -419,8 +418,7 @@ public class UnitEditorPanel : CustomizerPanel
 
     public void AddTrait()
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
         if (State.RandomizeLists.Any(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text))
         {
             RandomizeList randomizeList = State.RandomizeLists.Single(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text);
@@ -434,9 +432,11 @@ public class UnitEditorPanel : CustomizerPanel
                     PopulateItems();
                 }
             }
+
             UnitEditor.RefreshActor();
             TraitList.text = UnitEditor.Unit.ListTraits();
         }
+
         if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
             UnitEditor.AddTrait(trait);
@@ -445,30 +445,28 @@ public class UnitEditorPanel : CustomizerPanel
                 UnitEditor.Unit.SetMaxItems();
                 PopulateItems();
             }
+
             UnitEditor.RefreshActor();
             TraitList.text = UnitEditor.Unit.ListTraits();
-
         }
     }
 
     public void ManualChangeStat(Stat stat, int dummy)
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
         var input = Instantiate(State.GameManager.InputBoxPrefab).GetComponent<InputBox>();
         input.SetData((s) =>
-        {
-            UnitEditor.Unit.ModifyStat(stat, s - UnitEditor.Unit.GetStatBase(stat));
-            UnitEditor.RefreshStats();
-            UpdateButtons();
-        }, "Change", "Cancel", $"Modify {stat}?", 6);
+            {
+                UnitEditor.Unit.ModifyStat(stat, s - UnitEditor.Unit.GetStatBase(stat));
+                UnitEditor.RefreshStats();
+                UpdateButtons();
+            }, "Change", "Cancel", $"Modify {stat}?", 6);
     }
 
     public void AddTraitsText()
     {
-        if (UnitEditor.Unit == null)
-            return;
-        foreach (RandomizeList rl in (State.RandomizeLists))
+        if (UnitEditor.Unit == null) return;
+        foreach (RandomizeList rl in State.RandomizeLists)
         {
             if (TraitsText.text.ToLower().Contains(rl.name.ToString().ToLower()))
             {
@@ -482,11 +480,12 @@ public class UnitEditorPanel : CustomizerPanel
                         PopulateItems();
                     }
                 }
+
                 UnitEditor.RefreshActor();
                 TraitList.text = UnitEditor.Unit.ListTraits();
-
             }
         }
+
         foreach (TraitType trait in (Stat[])Enum.GetValues(typeof(TraitType)))
         {
             if (TraitsText.text.ToLower().Contains(trait.ToString().ToLower()))
@@ -497,17 +496,16 @@ public class UnitEditorPanel : CustomizerPanel
                     UnitEditor.Unit.SetMaxItems();
                     PopulateItems();
                 }
+
                 UnitEditor.RefreshActor();
                 TraitList.text = UnitEditor.Unit.ListTraits();
             }
         }
-
     }
 
     public void RemoveTrait()
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
 
         if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
@@ -524,22 +522,19 @@ public class UnitEditorPanel : CustomizerPanel
 
     public void RestoreHealth()
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
         UnitEditor.RestoreHealth();
     }
 
     public void RestoreMana()
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
         UnitEditor.RestoreMana();
     }
 
     public void RestoreMovement()
     {
-        if (UnitEditor.Unit == null)
-            return;
+        if (UnitEditor.Unit == null) return;
         UnitEditor.RestoreMovement();
     }
 
@@ -549,6 +544,4 @@ public class UnitEditorPanel : CustomizerPanel
 
         inputBox.SetData(UnitEditor.SetLevelTo, "Update Level", "Cancel", "Use this to set the units current level, automatically applying level ups or downs", 5);
     }
-
 }
-

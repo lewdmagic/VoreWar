@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 
 public class ColorSwapPalette
@@ -12,8 +13,7 @@ public class ColorSwapPalette
         Texture2D colorSwapTex = new Texture2D(256, 1, TextureFormat.RGBA32, false, false);
         colorSwapTex.filterMode = FilterMode.Point;
         colorSwapTex.wrapMode = TextureWrapMode.Clamp;
-        for (int i = 0; i < colorSwapTex.width; ++i)
-            colorSwapTex.SetPixel(i, 0, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+        for (int i = 0; i < colorSwapTex.width; ++i) colorSwapTex.SetPixel(i, 0, new Color(0.0f, 0.0f, 0.0f, 0.0f));
 
         List<int> keys = new List<int>();
 
@@ -28,10 +28,8 @@ public class ColorSwapPalette
             int currentKeyIndex = 0;
             for (int i = 0; i < colorSwapTex.width; i++)
             {
-                if (clear != null && clear[i])
-                    continue;
-                if (maxClearRange != 256 && Math.Abs(keys[currentKeyIndex] - i) > maxClearRange && (currentKeyIndex == keys.Count - 1 ? true : (Math.Abs(keys[currentKeyIndex + 1] - i) > maxClearRange)))
-                    continue;
+                if (clear != null && clear[i]) continue;
+                if (maxClearRange != 256 && Math.Abs(keys[currentKeyIndex] - i) > maxClearRange && (currentKeyIndex == keys.Count - 1 ? true : Math.Abs(keys[currentKeyIndex + 1] - i) > maxClearRange)) continue;
 
                 if (currentKeyIndex == keys.Count - 1 || Math.Abs(keys[currentKeyIndex] - i) < Math.Abs(keys[currentKeyIndex + 1] - i))
                 {
@@ -47,9 +45,7 @@ public class ColorSwapPalette
 
 
         colorSwapTex.Apply();
-        colorSwapMaterial = GameObject.Instantiate(State.GameManager.ColorSwapMaterial);
+        colorSwapMaterial = Object.Instantiate(State.GameManager.ColorSwapMaterial);
         colorSwapMaterial.SetTexture("_SwapTex", colorSwapTex);
-
     }
 }
-

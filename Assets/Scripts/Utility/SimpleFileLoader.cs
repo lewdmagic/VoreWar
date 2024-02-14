@@ -28,8 +28,7 @@ internal class SimpleFileLoader
 
     private void BuildFiles()
     {
-        if (Directory.Exists(directory) == false)
-            Directory.CreateDirectory(directory);
+        if (Directory.Exists(directory) == false) Directory.CreateDirectory(directory);
         string[] files = Directory.GetFiles(directory);
 
         foreach (string file in files)
@@ -50,7 +49,6 @@ internal class SimpleFileLoader
                         UI.CreateGrabContentSettingsButton(file);
                         break;
                 }
-
             }
         }
     }
@@ -71,4 +69,3 @@ internal class SimpleFileLoader
         return false;
     }
 }
-

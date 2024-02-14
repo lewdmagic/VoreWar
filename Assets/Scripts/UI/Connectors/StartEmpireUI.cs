@@ -21,8 +21,7 @@ public class StartEmpireUI : MonoBehaviour
 
     private void Start()
     {
-        if (PrimaryColor != null)
-            LastColor = PrimaryColor.value;
+        if (PrimaryColor != null) LastColor = PrimaryColor.value;
     }
 
     public void UpdateColor()
@@ -34,7 +33,4 @@ public class StartEmpireUI : MonoBehaviour
     {
         State.GameManager.Start_Mode.CreateStrategicGame.UpdateSecondaryColor(this);
     }
-
-
 }
-

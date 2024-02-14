@@ -29,7 +29,5 @@ public class ArmySectionsPanel : MonoBehaviour
     {
         var box = Instantiate(State.GameManager.InputBoxPrefab).GetComponentInChildren<InputBox>();
         box.SetData(State.GameManager.Recruit_Mode.RenameArmy, "Rename", "Cancel", "Rename this army?", 35);
-
     }
-
 }

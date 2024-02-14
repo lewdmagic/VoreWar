@@ -21,13 +21,13 @@ public class EmpireReport : MonoBehaviour
     {
         return Reports.GetOrSet(side, () => Instantiate(ReportItemPrefab, ReportFolder).GetComponent<EmpireReportItem>());
     }
-    
+
     public void Open()
     {
         pausedState = State.GameManager.StrategyMode.Paused;
         State.GameManager.StrategyMode.Paused = true;
         gameObject.SetActive(true);
-        
+
         foreach (Race race in RaceFuncs.MainRaceEnumerable())
         {
             Side side = race.ToSide();
@@ -35,7 +35,7 @@ public class EmpireReport : MonoBehaviour
             GetReportItem(side).Contact.gameObject.SetActive(!Equals(State.World.ActingEmpire.Side, side));
             GetReportItem(side).Contact.onClick.AddListener(() => DiplomacyScreen.Open(State.World.ActingEmpire, State.World.GetEmpireOfSide(side)));
         }
-        
+
         if (Config.GoblinCaravans)
         {
             Side side = Race.Goblin.ToSide();
@@ -45,7 +45,6 @@ public class EmpireReport : MonoBehaviour
 
 
         Refresh();
-
     }
 
     public void Refresh()
@@ -54,20 +53,20 @@ public class EmpireReport : MonoBehaviour
         {
             report.gameObject.SetActive(false);
         }
+
         for (int i = 0; i < State.World.MainEmpires.Count; i++)
         {
             Empire empire = State.World.MainEmpires[i];
             Reports[empire.Side].gameObject.SetActive(!empire.KnockedOut);
-            if (empire.KnockedOut)
-                continue;
+            if (empire.KnockedOut) continue;
 
             Reports[empire.Side].EmpireStatus.text = $"{empire.Name}  Villages: {State.World.Villages.Where(s => Equals(s.Side, empire.Side)).Count()}  Mines: {State.World.Claimables.Where(s => s.Owner == empire).Count()} Armies : {empire.Armies.Count()} ";
             if (empire.IsAlly(State.World.ActingEmpire) || Config.CheatExtraStrategicInfo || State.GameManager.StrategyMode.OnlyAIPlayers)
             {
                 Reports[empire.Side].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count} Gold: {empire.Gold}  Income: {empire.Income}";
             }
-
         }
+
         if (Config.GoblinCaravans)
         {
             Empire empire = State.World.GetEmpireOfRace(Race.Goblin);
@@ -85,11 +84,9 @@ public class EmpireReport : MonoBehaviour
 
         foreach (Empire empire in State.World.MonsterEmpires)
         {
-            if (Equals(empire.Race, Race.Goblin))
-                continue;
+            if (Equals(empire.Race, Race.Goblin)) continue;
             SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
-            if (spawner == null)
-                continue;
+            if (spawner == null) continue;
             Reports[empire.Side].gameObject.SetActive(spawner.Enabled);
             Reports[empire.Side].Contact.gameObject.SetActive(false);
 
@@ -98,7 +95,6 @@ public class EmpireReport : MonoBehaviour
             {
                 Reports[empire.Side].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count}";
             }
-
         }
     }
 
@@ -119,10 +115,8 @@ public class EmpireReport : MonoBehaviour
 
             foreach (Empire emp2 in list)
             {
-                if (emp == emp2)
-                    continue;
-                if (RaceFuncs.IsRebelOrBandit5(emp.Side) || RaceFuncs.IsRebelOrBandit5(emp2.Side))
-                    continue;
+                if (emp == emp2) continue;
+                if (RaceFuncs.IsRebelOrBandit5(emp.Side) || RaceFuncs.IsRebelOrBandit5(emp2.Side)) continue;
                 var relation = RelationsManager.GetRelation(emp.Side, emp2.Side);
                 switch (relation.Type)
                 {
@@ -137,6 +131,7 @@ public class EmpireReport : MonoBehaviour
                         break;
                 }
             }
+
             string allies = Allies.Count() > 0 ? $"Allies:<color=blue> {string.Join(", ", Allies)}</color>" : "";
             string neutrals = Neutral.Count() > 0 ? $"Neutral: {string.Join(", ", Neutral)}" : "";
             string enemies;
@@ -147,6 +142,7 @@ public class EmpireReport : MonoBehaviour
 
             sb.AppendLine($"{emp.Name} - {allies} {neutrals} {enemies} ");
         }
+
         State.GameManager.CreateFullScreenMessageBox(sb.ToString());
     }
 

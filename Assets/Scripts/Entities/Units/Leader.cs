@@ -1,6 +1,5 @@
 ﻿public class Leader : Unit
 {
-
     public Leader(Side side, Race race, int startingXP) : base(side, race, startingXP, true, UnitType.Leader)
     {
         var raceStats = State.RaceSettings.GetRaceStats(Race);
@@ -16,10 +15,8 @@
         Stats[(int)Stat.Leadership] = 10;
 
         Health = MaxHealth;
-        if (Equals(Race, Race.Lizard))
-            Races2.GetRace(Race.Lizard).RandomCustomCall(this);
-        if (Config.LetterBeforeLeaderNames != "")
-            Name = Config.LetterBeforeLeaderNames + Name.ToLower();
+        if (Equals(Race, Race.Lizard)) Races2.GetRace(Race.Lizard).RandomCustomCall(this);
+        if (Config.LetterBeforeLeaderNames != "") Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;
         Type = UnitType.Leader;
         if (Equals(Race, Race.Slime))
@@ -32,6 +29,7 @@
             {
                 DickSize = -1;
             }
+
             ClothingType = 1;
             SetDefaultBreastSize(1);
             HairStyle = 1;
@@ -41,6 +39,7 @@
             ReloadTraits();
             InitializeTraits();
         }
+
         if (Config.LeadersUseCustomizations)
         {
             var list = CustomizationDataStorer.GetCompatibleCustomizations(race, UnitType.Leader, false);
@@ -50,6 +49,7 @@
             }
         }
     }
+
     public static Stat[] GetLevelUpPossibilities()
     {
         Stat[] ret;
@@ -59,9 +59,9 @@
             ret = new Stat[(int)Stat.None];
         for (int i = 0; i < ret.Length; i++)
         {
-
             ret[i] = (Stat)i;
         }
+
         return ret;
     }
 
@@ -70,4 +70,3 @@
         return base.GetStatTotal() + GetStat(Stat.Leadership);
     }
 }
-

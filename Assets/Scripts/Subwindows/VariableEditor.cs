@@ -52,8 +52,7 @@ public class VariableEditor : MonoBehaviour
         FieldInfo[] fields = obj.GetType().GetFields(Bindings);
         foreach (FieldInfo field in fields)
         {
-            if (Attribute.GetCustomAttribute(field, typeof(AllowEditing)) == null)
-                continue;
+            if (Attribute.GetCustomAttribute(field, typeof(AllowEditing)) == null) continue;
             if (field.FieldType == typeof(bool))
             {
                 var newObj = Instantiate(Toggle, Folder);
@@ -67,6 +66,7 @@ public class VariableEditor : MonoBehaviour
                     {
                         toggle.GetComponentInChildren<Text>().text = proper.Name;
                     }
+
                     if (attr is DescriptionAttribute desc)
                     {
                         toggle.gameObject.AddComponent<VariableScreenTooltip>();
@@ -74,6 +74,7 @@ public class VariableEditor : MonoBehaviour
                     }
                 }
             }
+
             if (field.FieldType == typeof(string))
             {
                 var newObj = Instantiate(InputField, Folder);
@@ -87,6 +88,7 @@ public class VariableEditor : MonoBehaviour
                     {
                         newObj.GetComponent<CombinedInputfield>().Text.text = proper.Name;
                     }
+
                     if (attr is DescriptionAttribute desc)
                     {
                         newObj.gameObject.AddComponent<VariableScreenTooltip>();
@@ -94,6 +96,7 @@ public class VariableEditor : MonoBehaviour
                     }
                 }
             }
+
             if (field.FieldType == typeof(int))
             {
                 var newObj = Instantiate(InputField, Folder);
@@ -109,6 +112,7 @@ public class VariableEditor : MonoBehaviour
                     {
                         newObj.GetComponent<CombinedInputfield>().Text.text = proper.Name;
                     }
+
                     if (attr is DescriptionAttribute desc)
                     {
                         newObj.gameObject.AddComponent<VariableScreenTooltip>();
@@ -116,6 +120,7 @@ public class VariableEditor : MonoBehaviour
                     }
                 }
             }
+
             if (field.FieldType == typeof(float))
             {
                 var newObj = Instantiate(Slider, Folder);
@@ -128,19 +133,23 @@ public class VariableEditor : MonoBehaviour
                     {
                         newObj.GetComponentInChildren<TextMeshProUGUI>().text = proper.Name;
                     }
+
                     if (attr is DescriptionAttribute desc)
                     {
                         newObj.gameObject.AddComponent<VariableScreenTooltip>();
                         newObj.GetComponent<VariableScreenTooltip>().text = desc.Description;
                     }
+
                     if (attr is FloatRangeAttribute range)
                     {
                         slider.minValue = range.Min;
                         slider.maxValue = range.Max;
                     }
                 }
+
                 slider.value = (float)field.GetValue(obj); // Must be set after the min and max are set
             }
+
             if (field.FieldType.BaseType == typeof(Enum))
             {
                 var newObj = Instantiate(Dropdown, Folder);
@@ -153,6 +162,7 @@ public class VariableEditor : MonoBehaviour
                 {
                     dropdown.options.Add(new TMP_Dropdown.OptionData(values.GetValue(i).ToString()));
                 }
+
                 dropdown.RefreshShownValue();
                 dropdown.value = (int)field.GetValue(obj);
                 newObj.GetComponentInChildren<TextMeshProUGUI>().text = field.Name; //Designed to be overwritten by proper
@@ -162,6 +172,7 @@ public class VariableEditor : MonoBehaviour
                     {
                         newObj.GetComponentInChildren<TextMeshProUGUI>().text = proper.Name;
                     }
+
                     if (attr is DescriptionAttribute desc)
                     {
                         newObj.gameObject.AddComponent<VariableScreenTooltip>();
@@ -181,11 +192,10 @@ public class VariableEditor : MonoBehaviour
                     allToggle.GetComponentInChildren<Text>().text = "ALL";
                     DictToggleList = new List<Toggle>();
                     foreach (var entry in TempDictionary.OrderBy(s =>
-                    {
-                        if (s.Key >= (TraitType)1000)
-                            return "AAA" + s.Key.ToString();
-                           return s.Key >= TraitType.LightningSpeed ? "ZZZ" + s.Key.ToString() : s.Key.ToString();
-                       }))
+                             {
+                                 if (s.Key >= (TraitType)1000) return "AAA" + s.Key.ToString();
+                                 return s.Key >= TraitType.LightningSpeed ? "ZZZ" + s.Key.ToString() : s.Key.ToString();
+                             }))
                     {
                         var newObj = Instantiate(Toggle, Folder);
                         var toggle = newObj.GetComponent<Toggle>();
@@ -204,9 +214,11 @@ public class VariableEditor : MonoBehaviour
                             toggle.gameObject.AddComponent<VariableScreenTooltip>();
                             toggle.GetComponent<VariableScreenTooltip>().text = HoveringTooltip.GetTraitData(entry.Key);
                         }
+
                         toggle.isOn = entry.Value;
                         DictToggleList.Add(toggle);
                     }
+
                     allToggle.isOn = DictToggleList.All(t => t.isOn);
                     allToggle.onValueChanged.AddListener(delegate { CheckAll(allToggle.isOn); });
                 }
@@ -228,8 +240,6 @@ public class VariableEditor : MonoBehaviour
                 //    }
                 //}
             }
-
-
         }
     }
 
@@ -377,6 +387,7 @@ public class VariableEditor : MonoBehaviour
                 EditingObject.GetType().GetField(obj.name, Bindings)?.SetValue(EditingObject, drop.value);
                 continue;
             }
+
             var toggle = obj.GetComponentInChildren<Toggle>();
             if (toggle != null)
             {
@@ -387,22 +398,26 @@ public class VariableEditor : MonoBehaviour
                     if (Enum.TryParse(split[1], out TraitType trait))
                     {
                         TempDictionary[trait] = obj.GetComponentInChildren<Toggle>().isOn;
-                    } else
+                    }
+                    else
                     {
                         var match = State.RandomizeLists.Find(r => r.name == split[1]);
-                        if (match != null)
-                            TempDictionary[(TraitType)match.id] = obj.GetComponentInChildren<Toggle>().isOn;
+                        if (match != null) TempDictionary[(TraitType)match.id] = obj.GetComponentInChildren<Toggle>().isOn;
                     }
+
                     needSave = true;
                 }
+
                 continue;
             }
+
             var slider = obj.GetComponentInChildren<Slider>();
             if (slider != null)
             {
                 EditingObject.GetType().GetField(obj.name, Bindings)?.SetValue(EditingObject, slider.value);
                 continue;
             }
+
             var input = obj.GetComponentInChildren<TMP_InputField>();
             if (input != null)
             {
@@ -420,21 +435,24 @@ public class VariableEditor : MonoBehaviour
 
                 continue;
             }
+
             Debug.LogWarning("Couldn't handle object!");
         }
+
         gameObject.SetActive(false);
         for (int i = children - 1; i >= 0; i--)
         {
             Destroy(Folder.GetChild(i).gameObject);
         }
+
         if (State.GameManager.Menu.WorldSettingsUI.gameObject.activeSelf)
         {
             State.GameManager.Menu.WorldSettingsUI.ShowSettings();
         }
+
         if (needSave)
         {
-            if (State.AssimilateList.Initialized)
-                State.AssimilateList.Save();
+            if (State.AssimilateList.Initialized) State.AssimilateList.Save();
         }
     }
 
@@ -447,6 +465,4 @@ public class VariableEditor : MonoBehaviour
             Destroy(Folder.GetChild(i).gameObject);
         }
     }
-
-
 }

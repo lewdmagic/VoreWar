@@ -123,13 +123,13 @@ public static class ColorMap
         };
 
         SkinColors = new Color[]
-         {
+        {
             Colors[(int)color.Tone1],
             Colors[(int)color.Tone2],
             Colors[(int)color.Tone3],
             Colors[(int)color.Tone4],
             Colors[(int)color.Tone5],
-         };
+        };
 
         LizardColors = new Color[]
         {
@@ -215,14 +215,14 @@ public static class ColorMap
         };
 
         ImpSecondaryColors = new Color[]
-{
+        {
             new Color(.22f, .14f, .26f),
             new Color(.26f, .14f, .38f),
             new Color(.29f, 0, .04f),
             new Color(.09f, .17f, .2f),
             new Color(.43f, 0, .22f),
             new Color(.19f, .19f, .19f),
-};
+        };
 
         ImpHairColors = new Color[]
         {
@@ -258,7 +258,7 @@ public static class ColorMap
         };
 
         SharkColors = new Color[]
-       {
+        {
             new Color(.3f, .8f, 1f),
             new Color(.7f, .9f, 1f),
             new Color(.5f, .8f, 1f),
@@ -268,7 +268,7 @@ public static class ColorMap
             new Color(.4f, .4f, .4f),
             new Color(.2f, .7f, .5f),
             new Color(1f, 1f, 1f)
-       };
+        };
 
         SharkBellyColors = new Color[]
         {
@@ -294,7 +294,7 @@ public static class ColorMap
 
 
         WyvernColors = new Color[]
-          {
+        {
             new Color(.8f, .4f, .1f), // Flame
             new Color(.7f, .05f, 0f), // Crimson
             new Color(.2f, .2f, .8f), // Blue
@@ -306,10 +306,10 @@ public static class ColorMap
             new Color(.5f, .8f, .5f), // Pale Green
             new Color(.8f, .5f, .5f), // Rose Red
             new Color(.92f, .95f, .96f), // Dust
-          };
+        };
 
         WyvernBellyColors = new Color[] // Lighter versions of the main wyvern colours.
-       {
+        {
             new Color(1f, .6f, .2f), // Flame
             new Color(1f, .15f, .05f), // Crimson
             new Color(.3f, .3f, 1f), // Blue
@@ -320,10 +320,10 @@ public static class ColorMap
             new Color(.6f, 1f, .6f), // Pale Green
             new Color(1f, .6f, .6f), // Rose Red
             new Color(.94f, .96f, .98f), // Dust
-       };
+        };
 
         ExoticColors = new Color[]
-       {
+        {
             new Color(.6f, 0f, 1f),
             new Color(.5f, .9f, 0f),
             new Color(1f, .9f, 0f),
@@ -332,7 +332,7 @@ public static class ColorMap
             new Color(.5f, .9f, 0f),
             new Color(.2f, 0f, .8f),
             new Color(1f, .5f, 0f)
-       };
+        };
 
         SchiwardezColors = new Color[]
         {
@@ -384,13 +384,11 @@ public static class ColorMap
             new Color(.6f, 0f, 0f),
             new Color(0f, 0f, 0f)
         };
-
     }
 
     public static Color GetColor(Color[] type, int index)
     {
-        if (index < type.Length)
-            return type[index];
+        if (index < type.Length) return type[index];
         return type[0];
     }
 
@@ -473,9 +471,9 @@ public static class ColorMap
 
     internal static Color Lighten(Color color, float fraction)
     {
-        color.r = 1 - ((1 - color.r) * (1 - fraction));
-        color.g = 1 - ((1 - color.g) * (1 - fraction));
-        color.b = 1 - ((1 - color.b) * (1 - fraction));
+        color.r = 1 - (1 - color.r) * (1 - fraction);
+        color.g = 1 - (1 - color.g) * (1 - fraction);
+        color.b = 1 - (1 - color.b) * (1 - fraction);
         return color;
     }
 }

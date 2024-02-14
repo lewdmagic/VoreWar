@@ -29,12 +29,13 @@ public class RandomizerTraitEditor : MonoBehaviour
 
     private void Setup()
     {
-       RandomizerTags = new List<RandomizerTrait>();
+        RandomizerTags = new List<RandomizerTrait>();
         foreach (var entry in State.RandomizeLists)
         {
             var randomizerTrait = CreateRandomizerTrait(entry);
             RandomizerTags.Add(randomizerTrait);
         }
+
         CreateAddButton();
     }
 
@@ -45,6 +46,7 @@ public class RandomizerTraitEditor : MonoBehaviour
             AddBtnInstance.onClick.RemoveAllListeners();
             Destroy(AddBtnInstance.gameObject);
         }
+
         AddBtnInstance = Instantiate(AddBtn, Folder);
         var btn = AddBtnInstance.GetComponent<Button>();
         var btnTxt = btn.GetComponentInChildren<Text>();
@@ -74,6 +76,7 @@ public class RandomizerTraitEditor : MonoBehaviour
                 else
                     ranTraits[r] = false;
             }
+
             foreach (TraitType trait in (TraitType[])Enum.GetValues(typeof(TraitType)))
             {
                 if (savedCustom.RandomTraits.Contains(trait))
@@ -81,6 +84,7 @@ public class RandomizerTraitEditor : MonoBehaviour
                 else
                     ranTraits[trait] = false;
             }
+
             rt.TraitDictionary = ranTraits;
             rt.CloneBtn.onClick.AddListener(() =>
             {
@@ -110,10 +114,12 @@ public class RandomizerTraitEditor : MonoBehaviour
             {
                 ranTraits[r] = false;
             }
+
             foreach (TraitType trait in (TraitType[])Enum.GetValues(typeof(TraitType)))
             {
                 ranTraits[trait] = false;
             }
+
             rt.TraitDictionary = ranTraits;
             rt.CloneBtn.onClick.AddListener(() =>
             {
@@ -139,8 +145,9 @@ public class RandomizerTraitEditor : MonoBehaviour
         while (taken)
         {
             index++;
-            taken = RandomizerTags.Any(rt => rt.id == (1000 + index));
+            taken = RandomizerTags.Any(rt => rt.id == 1000 + index);
         }
+
         return 1000 + index;
     }
 
@@ -151,6 +158,7 @@ public class RandomizerTraitEditor : MonoBehaviour
             RaceSettingsItem item = State.RaceSettings.Get(race);
             item.RaceTraits.Remove((TraitType)rt.id);
         }
+
         RandomizerTags.Remove(rt);
     }
 
@@ -165,24 +173,27 @@ public class RandomizerTraitEditor : MonoBehaviour
                 State.GameManager.CreateMessageBox("Saving failed: Trait with name \"" + tag.name.text + "\" is incomplete or invalid.");
                 valid = false;
             }
+
             RandomizeList newCustom = new RandomizeList();
             newCustom.id = tag.id;
             newCustom.name = tag.name.text;
-            newCustom.chance = int.Parse(tag.chance.text) /100f;
+            newCustom.chance = int.Parse(tag.chance.text) / 100f;
             newCustom.RandomTraits = new List<TraitType>();
             foreach (var trait in tag.TraitDictionary)
             {
                 if (trait.Value) newCustom.RandomTraits.Add(trait.Key);
             }
+
             randomizeLists.Add(newCustom);
         });
         if (valid)
         {
-        State.RandomizeLists = new List<RandomizeList>();
-        State.RandomizeLists.AddRange(randomizeLists);
-        string[] printable = randomizeLists.ConvertAll(item => item.ToString()).ToArray();
-        File.WriteAllLines($"{State.StorageDirectory}customTraits.txt", printable);
+            State.RandomizeLists = new List<RandomizeList>();
+            State.RandomizeLists.AddRange(randomizeLists);
+            string[] printable = randomizeLists.ConvertAll(item => item.ToString()).ToArray();
+            File.WriteAllLines($"{State.StorageDirectory}customTraits.txt", printable);
         }
+
         Close();
     }
 
@@ -205,6 +216,4 @@ public class RandomizerTraitEditor : MonoBehaviour
             Destroy(Folder.GetChild(i).gameObject);
         }
     }
-
-
 }

@@ -25,7 +25,6 @@ public class VillageView
         this.village = village;
         Refresh();
         UI.gameObject.SetActive(true);
-
     }
 
     internal void Refresh()
@@ -61,10 +60,10 @@ public class VillageView
             foreach (var buildingId in village.buildings)
             {
                 var buildingDef = VillageBuildingList.GetBuildingDefinition(buildingId);
-                if (buildingDef != null)
-                    sb.AppendLine($"{buildingDef.Name} : {buildingDef.Description}");
+                if (buildingDef != null) sb.AppendLine($"{buildingDef.Name} : {buildingDef.Description}");
             }
         }
+
         UI.VillageInfo.text = sb.ToString();
     }
 
@@ -77,9 +76,9 @@ public class VillageView
         {
             var buildingDef = VillageBuildingList.GetBuildingDefinition(building);
             var added = SetButton(buildingDef, nextOpenPos);
-            if (added)
-                nextOpenPos++;
+            if (added) nextOpenPos++;
         }
+
         SetBuyAllButton(nextOpenPos);
     }
 
@@ -89,6 +88,7 @@ public class VillageView
         {
             return false;
         }
+
         if (buildingDef.CanEverBuild(village) == false)
         {
             return false;
@@ -118,6 +118,7 @@ public class VillageView
             button.onClick.AddListener(() => Build(buildingDef.Id));
             button.GetComponentInChildren<Text>().text = "Build " + text;
         }
+
         return true;
     }
 
@@ -139,10 +140,12 @@ public class VillageView
                 {
                     anyVillageStillNeeds = true;
                 }
+
                 if (buildingDef.CanBuild(villageToCheck))
                 {
                     anyVillageCanBuild = true;
                 }
+
                 if (anyVillageStillNeeds && anyVillageCanBuild)
                 {
                     break;
@@ -152,10 +155,10 @@ public class VillageView
             if (anyVillageStillNeeds && anyVillageCanBuild)
             {
                 var added = SetButtonForEachVillage(buildingDef.Name + " - " + buildingDef.Description + " - Cost: " + GetCostText(VillageBuildingDefinition.GetCost(building)), building, nextOpenPos, villages);
-                if (added)
-                    nextOpenPos++;
+                if (added) nextOpenPos++;
             }
         }
+
         SetAllBuyAllButton(nextOpenPos, villages);
     }
 
@@ -166,6 +169,7 @@ public class VillageView
             State.GameManager.CreateMessageBox("Can't use buy for each village for allied empires, to avoid confusion about what the correct behavior should be");
             return false;
         }
+
         var buildingDef = VillageBuildingList.GetBuildingDefinition(building);
         Button button = ResetButton(buttonPosition);
         int needed = 0;
@@ -179,6 +183,7 @@ public class VillageView
                 }
             }
         }
+
         if (needed > 0)
         {
             var cost = VillageBuildingDefinition.GetCost(building, needed);
@@ -198,6 +203,7 @@ public class VillageView
         {
             return false;
         }
+
         return true;
     }
 
@@ -226,6 +232,7 @@ public class VillageView
             button = buttons[id];
             button.onClick.RemoveAllListeners();
         }
+
         button.gameObject.SetActive(true);
 
         return button;
@@ -245,6 +252,7 @@ public class VillageView
             button.interactable = false;
             return;
         }
+
         if (cost.Wealth == 0 && cost.LeaderExperience == 0)
         {
             button.interactable = false;
@@ -277,12 +285,14 @@ public class VillageView
             cost.LeaderExperience += localcost.LeaderExperience;
             cost.Wealth += localcost.Wealth;
         }
+
         if (BuyingEmpire == null || cost == null)
         {
             Debug.Log("This shouldn't have happened");
             button.interactable = false;
             return;
         }
+
         if (cost.Wealth == 0 && cost.LeaderExperience == 0)
         {
             button.interactable = false;
@@ -309,6 +319,7 @@ public class VillageView
             if (textResult != "") textResult += " and ";
             textResult += "" + (int)cost.LeaderExperience + " Leader XP";
         }
+
         return textResult;
     }
 
@@ -324,6 +335,7 @@ public class VillageView
         {
             vill.BuyAllBuildings(BuyingEmpire);
         }
+
         Refresh();
     }
 
@@ -333,6 +345,7 @@ public class VillageView
         {
             vill.Build(building, BuyingEmpire);
         }
+
         Refresh();
     }
 
@@ -341,5 +354,4 @@ public class VillageView
         village.Build(building, BuyingEmpire);
         Refresh();
     }
-
 }

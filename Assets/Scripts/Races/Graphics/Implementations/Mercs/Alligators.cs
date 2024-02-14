@@ -11,15 +11,15 @@ namespace Races.Graphics.Implementations.Mercs
                 output.Names("Alligator", "Alligators");
                 output.FlavorText(new FlavorText(
                     new Texts { "crocodilian", "lumbering", "swampy" },
-                    new Texts { "armoured", "large jawed", "swampy", {"interior crocodile alligator", 0.005} },
+                    new Texts { "armoured", "large jawed", "swampy", { "interior crocodile alligator", 0.005 } },
                     new Texts { "gator", "alligator", "crocodilian", "reptile" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Turtle Club",
-                        [WeaponNames.Axe]         = "Flint Spear",
-                        [WeaponNames.SimpleBow]   = "Simple Bow",
+                        [WeaponNames.Mace] = "Turtle Club",
+                        [WeaponNames.Axe] = "Flint Spear",
+                        [WeaponNames.SimpleBow] = "Simple Bow",
                         [WeaponNames.CompoundBow] = "Compound Bow",
-                        [WeaponNames.Claw]        = "Claws"
+                        [WeaponNames.Claw] = "Claws"
                     }
                 ));
                 output.RaceTraits(new RaceTraits()

@@ -11,10 +11,12 @@ namespace LegacyAI
         // TODO This AI is basically disabled and WILL NOT WORK AT ALL 
         //IReadOnlyList<Empire> Empires => State.World.AllActiveEmpires;
         private IReadOnlyList<Empire> Empires => new List<Empire>();
+
         [OdinSerialize]
         private int _aISide;
 
         private int AISide { get => _aISide; set => _aISide = value; }
+
         [OdinSerialize]
         private int _tension = 3;
 
@@ -27,6 +29,7 @@ namespace LegacyAI
         private int _freegold;
 
         private int freegold { get => _freegold; set => _freegold = value; }
+
         [OdinSerialize]
         private float _growth;
 
@@ -38,8 +41,7 @@ namespace LegacyAI
         {
             get
             {
-                if (_empire == null)
-                    _empire = State.World.GetEmpireOfSide(RaceFuncs.IntToRace(AISide).ToSide());
+                if (_empire == null) _empire = State.World.GetEmpireOfSide(RaceFuncs.IntToRace(AISide).ToSide());
                 return _empire;
             }
             set { _empire = value; }
@@ -54,7 +56,6 @@ namespace LegacyAI
         }
 
 
-
         public void RaiseTension(int tension)
         {
             tension += Math.Max(tension, 1);
@@ -64,8 +65,7 @@ namespace LegacyAI
         {
             foreach (Army army in Empire.Armies.ToList())
             {
-                if (army.RemainingMP < 1)
-                    continue;
+                if (army.RemainingMP < 1) continue;
 
                 if (path != null && pathIsFor == army)
                 {
@@ -80,10 +80,8 @@ namespace LegacyAI
                     path.RemoveAt(0);
                     if (army.MoveTo(newLoc))
                         StrategicUtilities.StartBattle(army);
-                    else if (position == army.Position)
-                        army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
+                    else if (position == army.Position) army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
                     return true;
-
                 }
                 else
                 {
@@ -105,6 +103,7 @@ namespace LegacyAI
                     }
                 }
             }
+
             return false;
         }
 
@@ -126,29 +125,28 @@ namespace LegacyAI
                     }
                 }
             }
+
             int hp = army.GetAbsHealth();
             Army[] hostileArmies = StrategicUtilities.GetAllHostileArmies(Empire);
             for (int i = 0; i < hostileArmies.Length; i++)
             {
-
                 float d = hostileArmies[i].Position.GetDistance(army.Position);
                 if (d < distance && hp > hostileArmies[i].GetAbsHealth())
                 {
                     distance = d;
                     p = hostileArmies[i].Position;
                 }
-
             }
 
             //move towards it
             if (p != null)
             {
                 path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
-                if (path == null)
-                    army.RemainingMP = 0;
+                if (path == null) army.RemainingMP = 0;
 
                 return true;
             }
+
             return false;
         }
 
@@ -169,6 +167,7 @@ namespace LegacyAI
                     }
                 }
             }
+
             foreach (Army hostileArmy in StrategicUtilities.GetAllHostileArmies(Empire))
             {
                 float d = hostileArmy.Position.GetNumberOfMovesDistance(army.Position);
@@ -184,10 +183,10 @@ namespace LegacyAI
             {
                 path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
 
-                if (path == null)
-                    army.RemainingMP = 0;
+                if (path == null) army.RemainingMP = 0;
                 return true;
             }
+
             return false;
         }
 
@@ -200,6 +199,7 @@ namespace LegacyAI
             {
                 return true;
             }
+
             //check if we're on a village
             if (army.InVillageIndex > -1)
             {
@@ -223,7 +223,6 @@ namespace LegacyAI
                     return false;
                 }
             }
-
         }
 
         public bool TurnAI()
@@ -235,6 +234,7 @@ namespace LegacyAI
                     SpendLevelUps(unit);
                 }
             }
+
             RaiseTension(1);
             Empire empire = Empires[AISide];
             empire.AddGold(freegold);
@@ -251,7 +251,6 @@ namespace LegacyAI
 
             if (empire.Gold > 100 && empire.Armies.Count() < Config.MaxArmies)
             {
-
                 Village v = GetVillage(empire);
                 if (v != null)
                 {
@@ -265,6 +264,7 @@ namespace LegacyAI
                     }
                 }
             }
+
             return false;
         }
 
@@ -287,13 +287,14 @@ namespace LegacyAI
                             }
                         }
                     }
+
                     if (occupied == false)
                     {
                         return State.World.Villages[i];
                     }
-
                 }
             }
+
             return null;
         }
 
@@ -316,6 +317,7 @@ namespace LegacyAI
                             break;
                         }
                     }
+
                     if (occupied == false)
                     {
                         float d = State.World.Villages[i].Position.GetDistance(p);
@@ -328,11 +330,10 @@ namespace LegacyAI
                             distance = d;
                             village = State.World.Villages[i];
                         }
-
                     }
-
                 }
             }
+
             return village;
         }
 
@@ -340,15 +341,17 @@ namespace LegacyAI
         {
             for (int i = 0; i < 10; i++)
             {
-                if (!unit.HasEnoughExpToLevelUp())
-                    return;
+                if (!unit.HasEnoughExpToLevelUp()) return;
                 Stat[] stats = unit.GetLevelUpPossibilities(unit.Predator);
                 Stat badStat = unit.BestSuitedForRanged() ? Stat.Strength : Stat.Dexterity;
                 Stat chosenStat;
-                if (stats[0] != badStat) chosenStat = stats[0];
-                else chosenStat = stats[1];
+                if (stats[0] != badStat)
+                    chosenStat = stats[0];
+                else
+                    chosenStat = stats[1];
                 unit.LevelUp(chosenStat);
             }
+
             return;
         }
 
@@ -364,6 +367,7 @@ namespace LegacyAI
             {
                 size = Empires[AISide].MaxArmySize;
             }
+
             //int level = (int)(tension / 5 / growth);
             for (int i = 0; i < size; i++)
             {
@@ -390,15 +394,14 @@ namespace LegacyAI
 
                 army.Units.Add(unit);
             }
+
             army.RemainingMP = 0;
-            if (State.Rand.Next(4) == 1)
-                army.AIMode = AIMode.Sneak;
+            if (State.Rand.Next(4) == 1) army.AIMode = AIMode.Sneak;
             return army;
         }
 
         private void LevelMelee(int levels, Unit unit)
         {
-
             if (levels > 1)
             {
                 int r = State.Rand.Next(2);
@@ -411,15 +414,14 @@ namespace LegacyAI
                     case 1:
                         unit.SetItem(State.World.ItemRepository.GetItem(ItemType.Helmet), 1);
                         break;
-
                 }
-
-
             }
+
             if (levels > 5)
             {
                 unit.SetItem(State.World.ItemRepository.GetItem(ItemType.Axe), 0);
             }
+
             for (int i = 0; i < levels; i++)
             {
                 int r = State.Rand.Next(7);
@@ -452,15 +454,16 @@ namespace LegacyAI
 
         private void LevelArcher(int levels, Unit unit)
         {
-
             if (levels > 2)
             {
                 unit.SetItem(State.World.ItemRepository.GetItem(ItemType.Gloves), 1);
             }
+
             if (levels > 5)
             {
                 unit.SetItem(State.World.ItemRepository.GetItem(ItemType.CompoundBow), 0);
             }
+
             for (int i = 0; i < levels; i++)
             {
                 int r = State.Rand.Next(7);

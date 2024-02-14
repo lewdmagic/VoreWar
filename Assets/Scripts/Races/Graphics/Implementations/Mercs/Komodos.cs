@@ -11,14 +11,15 @@ namespace Races.Graphics.Implementations.Mercs
     internal static class Komodos
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
                 output.Names("Komodo", "Komodos");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "komodo", "komodo dragon", "komodo lizard" }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -97,10 +98,7 @@ namespace Races.Graphics.Implementations.Mercs
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
             builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
             {
@@ -655,7 +653,7 @@ namespace Races.Graphics.Implementations.Mercs
                     {
                         output["Clothing1"].Sprite(input.Sprites.Komodos4[88 + input.U.BreastSize]);
                     }
-                
+
                     output["Clothing1"].Coloring(ColorPaletteMap.GetPalette(SwapType.AviansSkin, input.U.ClothingColor));
                 });
             });

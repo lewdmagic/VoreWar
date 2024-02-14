@@ -25,6 +25,7 @@ public class StartMode : SceneBase
     }
 
     public CreateStrategicGame CreateStrategicGame;
+
     public void CreateStrategic()
     {
         UI.SetActive(false);
@@ -33,12 +34,12 @@ public class StartMode : SceneBase
     }
 
     public CreateTacticalGame CreateTacticalGame;
+
     public void CreateTactical()
     {
         UI.SetActive(false);
         CreateTacticalGame.gameObject.SetActive(true);
         CreateTacticalGame.Open();
-
     }
 
     private void SetPreset(int value)
@@ -61,6 +62,7 @@ public class StartMode : SceneBase
             Preset2.interactable = false;
             Preset3.interactable = true;
         }
+
         if (State.RaceSlot == 3)
         {
             Preset1.interactable = true;
@@ -115,5 +117,4 @@ public class StartMode : SceneBase
     public override void CleanUp()
     {
     }
-
 }

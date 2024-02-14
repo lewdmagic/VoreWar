@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ArrowEffect : MonoBehaviour
 {
-
     public GameObject Arrow;
 
     internal Vector2 StartLocation;
@@ -30,7 +29,6 @@ public class ArrowEffect : MonoBehaviour
 
         PlayHitSound = hitSound;
         CreateHitEffect = hitEffect;
-
     }
 
     private void GeneralSetup(Vec2i startLocation, Vec2i endLocation)
@@ -47,16 +45,15 @@ public class ArrowEffect : MonoBehaviour
     }
 
 
-
     private void Update()
     {
-        if (State.GameManager.TacticalMode.PausedText.activeSelf)
-            return;
+        if (State.GameManager.TacticalMode.PausedText.activeSelf) return;
         if (State.GameManager.CurrentScene != State.GameManager.TacticalMode)
         {
             Destroy(gameObject);
             return;
         }
+
         currentTime += Time.deltaTime;
         Arrow.transform.position = Vector2.Lerp(StartLocation, EndLocation, currentTime / totalTime);
         if (currentTime > totalTime)
@@ -64,11 +61,10 @@ public class ArrowEffect : MonoBehaviour
             PlayHitSound?.Invoke();
             CreateHitEffect?.Invoke();
         }
+
         if (currentTime > totalTime + extraTime)
         {
             Destroy(gameObject);
         }
     }
-
 }
-

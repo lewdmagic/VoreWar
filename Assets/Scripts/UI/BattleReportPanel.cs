@@ -35,8 +35,7 @@ public class BattleReportPanel : MonoBehaviour
 
         Side defenderSide = defender?.Side ?? village.Side;
         TacticalAIType defenderType = State.World.GetEmpireOfSide(defenderSide).TacticalAIType;
-        if (village != null && State.World.GetEmpireOfSide(defenderSide).TacticalAIType == TacticalAIType.None)
-            defenderType = TacticalAIType.None;
+        if (village != null && State.World.GetEmpireOfSide(defenderSide).TacticalAIType == TacticalAIType.None) defenderType = TacticalAIType.None;
 
         Empire attackerEmpire = State.World.GetEmpireOfSide(invader.Side);
         if (attackerEmpire.TacticalAIType == TacticalAIType.None || defenderType == TacticalAIType.None)
@@ -58,20 +57,17 @@ public class BattleReportPanel : MonoBehaviour
         var sb = State.GameManager.StrategyMode.ArmyToolTip(invader);
         AttackerText.text = sb.ToString();
         sb = new System.Text.StringBuilder();
-        if (defender != null)
-            sb = State.GameManager.StrategyMode.ArmyToolTip(defender);
+        if (defender != null) sb = State.GameManager.StrategyMode.ArmyToolTip(defender);
         if (village != null)
         {
             sb.AppendLine($"Village: {village.Name}");
-            if (village.Capital)
-                sb.AppendLine($"Capital City ({village.OriginalRace})");
+            if (village.Capital) sb.AppendLine($"Capital City ({village.OriginalRace})");
             sb.AppendLine($"Owner: {village.Side}");
             sb.AppendLine($"Race: {village.Race}");
             sb.AppendLine($"Population: {village.Population}");
             sb.AppendLine($"Garrison: {village.Garrison}");
         }
+
         DefenderText.text = sb.ToString();
     }
-
 }
-

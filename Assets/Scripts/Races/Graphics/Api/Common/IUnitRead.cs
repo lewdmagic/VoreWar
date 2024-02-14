@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 
 public interface IUnitRead
@@ -55,29 +54,29 @@ public interface IUnitRead
     int KilledUnits { get; set; }
 
     int TimesKilled { get; set; }
-    
+
     bool IsDead { get; }
     Item[] Items { get; }
-    
+
     bool HasDick { get; }
     bool HasBreasts { get; }
-    
+
     bool HasWeapon { get; }
 
     Gender GetGender();
-    
+
     int Level { get; }
 
     UnitType Type { get; }
-    
+
     bool Predator { get; }
-    
+
     Race Race { get; set; }
-    
+
     Race GetRace { get; }
-    
+
     bool ImmuneToDefections { get; set; }
-    
+
     Side Side { get; set; }
     List<SpellType> InnateSpells { get; set; }
     string Name { get; set; }

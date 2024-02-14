@@ -7,53 +7,40 @@ internal static class AsuraMask
     {
         builder.Setup(ClothingBuilder.DefaultMisc);
 
-        builder.RenderAll((input, output) =>
-        {
-            output["Clothing1"].Sprite(input.Sprites.Asura[40]).Layer(19).SetOffset(0, -22 * .625f);
-        });
+        builder.RenderAll((input, output) => { output["Clothing1"].Sprite(input.Sprites.Asura[40]).Layer(19).SetOffset(0, -22 * .625f); });
     });
-    
+
     internal static readonly IClothing AsuraMaskInstanceTaurus = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc);
 
-        builder.RenderAll((input, output) =>
-        {
-            output["Clothing1"].Sprite(input.Sprites.Asura[40]).Layer(19).SetOffset(0, 12 * .625f);
-        });
+        builder.RenderAll((input, output) => { output["Clothing1"].Sprite(input.Sprites.Asura[40]).Layer(19).SetOffset(0, 12 * .625f); });
     });
-    
+
     internal static readonly IClothing AsuraMaskInstanceNormal = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc);
 
-        builder.RenderAll((input, output) =>
-        {
-            output["Clothing1"].Sprite(input.Sprites.Asura[40]).Layer(19).SetOffset(0, 12 * .625f);
-        });
+        builder.RenderAll((input, output) => { output["Clothing1"].Sprite(input.Sprites.Asura[40]).Layer(19).SetOffset(0, 12 * .625f); });
     });
 }
 
 internal static class SantaHat
 {
-
     private static Dictionary<Race, Vector2> OffsetsForRaces = new Dictionary<Race, Vector2>()
     {
-        { Race.Imp,      new Vector2(0, -22 * .625f) },
-        { Race.Goblin,   new Vector2(0, 12 * .625f) },
-        { Race.Taurus,    new Vector2(0, 9 * .625f) },
+        { Race.Imp, new Vector2(0, -22 * .625f) },
+        { Race.Goblin, new Vector2(0, 12 * .625f) },
+        { Race.Taurus, new Vector2(0, 9 * .625f) },
         { Race.Frog, new Vector2(0, 26 * .625f) },
-        { Race.Merfolk,   new Vector2(0, 14 * .625f) },
+        { Race.Merfolk, new Vector2(0, 14 * .625f) },
         { Race.Kangaroo, new Vector2(0, -3 * .625f) },
-        { Race.Sergal,    new Vector2(0, 26 * .625f) },
+        { Race.Sergal, new Vector2(0, 26 * .625f) },
     };
-    
+
     internal static readonly IClothing SantaHatInstance = ClothingBuilder.Create(builder =>
     {
-        builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-        {
-            output.ReqWinterHoliday = true;
-        });
+        builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.ReqWinterHoliday = true; });
 
         builder.RenderAll((input, output) =>
         {
@@ -89,7 +76,7 @@ internal static class SantaHat
             //         output["Clothing1"].SetOffset(0, 0);
             //         break;
             // }
-            
+
             if (OffsetsForRaces.TryGetValue(input.U.GetRace, out Vector2 offset))
             {
                 output["Clothing1"].SetOffset(offset);
@@ -115,18 +102,11 @@ internal static class SantaHat
     {
         return ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.ReqWinterHoliday = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.ReqWinterHoliday = true; });
 
-            builder.RenderAll((input, output) =>
-            {
-                output["Clothing1"].Sprite(input.Sprites.SantaHat).Layer(28).SetOffset(offset);
-            });
+            builder.RenderAll((input, output) => { output["Clothing1"].Sprite(input.Sprites.SantaHat).Layer(28).SetOffset(offset); });
         });
     }
-    
 }
 
 internal static class MainAccessories

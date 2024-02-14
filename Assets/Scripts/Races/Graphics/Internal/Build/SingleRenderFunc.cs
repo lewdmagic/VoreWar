@@ -24,15 +24,15 @@ internal class SingleRenderFunc : ISingleRenderFunc
     {
         _generators.Add(generator);
     }
-    
+
     internal void ModBefore(Action<IRaceRenderInput, IRaceRenderOutput> generator)
     {
         _generators.Insert(0, generator);
     }
-    
+
     public void Invoke(IRaceRenderInput input, IRaceRenderOutput output)
     {
-        foreach (Action<IRaceRenderInput,IRaceRenderOutput> generator in _generators)
+        foreach (Action<IRaceRenderInput, IRaceRenderOutput> generator in _generators)
         {
             generator.Invoke(input, output);
         }

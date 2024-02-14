@@ -6,6 +6,7 @@ public class SkullDisplay : MonoBehaviour
     private SpriteRenderer spriteR;
 
     private double alpha = 1;
+
     // Use this for initialization
     private void Start()
     {

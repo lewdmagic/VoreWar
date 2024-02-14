@@ -10,7 +10,7 @@ internal partial class RaceRenderer
         public Vector2? WholeBodyOffset { get; set; }
 
         private readonly RaceSpriteChangeDict _changeDict;
-    
+
         //
         internal RunOutput(RaceSpriteChangeDict changeDict)
         {

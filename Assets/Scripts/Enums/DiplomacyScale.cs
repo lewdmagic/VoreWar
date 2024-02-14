@@ -6,4 +6,3 @@
     Friendly,
     Unforgetting
 }
-

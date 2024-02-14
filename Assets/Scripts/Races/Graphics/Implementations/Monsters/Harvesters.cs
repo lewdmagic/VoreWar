@@ -20,8 +20,8 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 output.Names("Harvester", "Harvesters");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "alien", "harvester" },
                     "Scythes"
                 ));
@@ -53,7 +53,6 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.NimbleClimber,
                     },
                     RaceDescription = "A lifeform from far beyond the stars, the Harvesters saw the empty lands fill and felt rising hunger. How they made their way here is unknown, but their mission is readily understood. They are here to feed until the land is empty once more.",
-
                 });
                 output.DickSizes = () => 1;
                 output.BreastSizes = () => 1;

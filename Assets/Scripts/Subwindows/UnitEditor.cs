@@ -57,9 +57,10 @@ internal class UnitEditor : UnitCustomizer
             Unit.LevelDown(stat);
             Unit.SetExp(Unit.GetExperienceRequiredForLevel(Unit.Level - 1));
         }
-        RefreshStats();
 
+        RefreshStats();
     }
+
     internal new void ChangeGender()
     {
         bool changedGender = false;
@@ -70,6 +71,7 @@ internal class UnitEditor : UnitCustomizer
                 RefreshGenderDropdown(Unit);
                 return;
             }
+
             changedGender = true;
             Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
             Unit.HasVagina = false;
@@ -82,6 +84,7 @@ internal class UnitEditor : UnitCustomizer
                 RefreshGenderDropdown(Unit);
                 return;
             }
+
             changedGender = true;
             Unit.DickSize = -1;
             Unit.HasVagina = true;
@@ -94,6 +97,7 @@ internal class UnitEditor : UnitCustomizer
                 RefreshGenderDropdown(Unit);
                 return;
             }
+
             changedGender = true;
             Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
             Unit.HasVagina = Config.HermsCanUB;
@@ -106,6 +110,7 @@ internal class UnitEditor : UnitCustomizer
                 RefreshGenderDropdown(Unit);
                 return;
             }
+
             changedGender = true;
             Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
             Unit.HasVagina = false;
@@ -118,6 +123,7 @@ internal class UnitEditor : UnitCustomizer
                 RefreshGenderDropdown(Unit);
                 return;
             }
+
             changedGender = true;
             Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
             Unit.HasVagina = true;
@@ -130,6 +136,7 @@ internal class UnitEditor : UnitCustomizer
                 RefreshGenderDropdown(Unit);
                 return;
             }
+
             changedGender = true;
             Unit.DickSize = -1;
             Unit.HasVagina = true;
@@ -142,15 +149,16 @@ internal class UnitEditor : UnitCustomizer
                 RefreshGenderDropdown(Unit);
                 return;
             }
+
             changedGender = true;
             Unit.DickSize = -1;
             Unit.HasVagina = false;
             Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.SetupOutput.BreastSizes()));
         }
+
         if (changedGender)
         {
-            if (Unit.Pronouns == null)
-                Unit.GeneratePronouns();
+            if (Unit.Pronouns == null) Unit.GeneratePronouns();
             if (CustomizerUI.Gender.value == 0)
             {
                 Unit.Pronouns[0] = "he";
@@ -178,13 +186,14 @@ internal class UnitEditor : UnitCustomizer
                 Unit.Pronouns[4] = "themself";
                 CustomizerUI.Quantification.value = 1;
             }
+
             RefreshPronouns(Unit);
             Unit.ReloadTraits();
             Unit.InitializeTraits();
             RefreshView();
         }
-
     }
+
     private void RefreshGenderDropdown(Unit unit)
     {
         if (unit.HasBreasts)
@@ -222,6 +231,7 @@ internal class UnitEditor : UnitCustomizer
                     CustomizerUI.Gender.value = 0;
             }
         }
+
         CustomizerUI.Gender.options[0].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Male) ? "Male" : "--";
         CustomizerUI.Gender.options[1].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Female) ? "Female" : "--";
         CustomizerUI.Gender.options[2].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Hermaphrodite) ? "Hermaphrodite" : "--";
@@ -229,7 +239,6 @@ internal class UnitEditor : UnitCustomizer
         CustomizerUI.Gender.options[4].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Maleherm) ? "Maleherm" : "--";
         CustomizerUI.Gender.options[5].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Andromorph) ? "Andromorph" : "--";
         CustomizerUI.Gender.options[6].text = RaceData.SetupOutput.CanBeGender.Contains(Gender.Agenic) ? "Agenic" : "--";
-
     }
 
     private void RefreshPronouns(Unit unit)
@@ -248,8 +257,7 @@ internal class UnitEditor : UnitCustomizer
     internal void ClearStatus()
     {
         Unit.StatusEffects.Clear();
-        if (actor != null)
-            actor.Surrendered = false;
+        if (actor != null) actor.Surrendered = false;
     }
 
     internal void AddTrait(TraitType traitType)
@@ -259,76 +267,66 @@ internal class UnitEditor : UnitCustomizer
             {
                 Unit.SingleUseSpells.Add(((SpellBook)State.World.ItemRepository.GetRandomBook(1, 4)).ContainedSpell);
                 Unit.UpdateSpells();
-            } else
-        if (traitType == TraitType.PollenProjector && State.World?.ItemRepository != null)
-        {
-            Unit.SingleUseSpells.Add(SpellList.AlraunePuff.SpellType);
-            Unit.UpdateSpells();
-        }
+            }
+            else if (traitType == TraitType.PollenProjector && State.World?.ItemRepository != null)
+            {
+                Unit.SingleUseSpells.Add(SpellList.AlraunePuff.SpellType);
+                Unit.UpdateSpells();
+            }
+            else if (traitType == TraitType.Webber && State.World?.ItemRepository != null)
+            {
+                Unit.SingleUseSpells.Add(SpellList.Web.SpellType);
+                Unit.UpdateSpells();
+            }
+            else if (traitType == TraitType.GlueBomb && State.World?.ItemRepository != null)
+            {
+                Unit.SingleUseSpells.Add(SpellList.GlueBomb.SpellType);
+                Unit.UpdateSpells();
+            }
+            else if (traitType == TraitType.PoisonSpit && State.World?.ItemRepository != null)
+            {
+                Unit.SingleUseSpells.Add(SpellList.ViperPoisonStatus.SpellType);
+                Unit.UpdateSpells();
+            }
+            else if (traitType == TraitType.Petrifier && State.World?.ItemRepository != null)
+            {
+                Unit.SingleUseSpells.Add(SpellList.Petrify.SpellType);
+                Unit.UpdateSpells();
+            }
+            else if (traitType == TraitType.Charmer && State.World?.ItemRepository != null)
+            {
+                Unit.SingleUseSpells.Add(SpellList.Charm.SpellType);
+                Unit.UpdateSpells();
+            }
+            else if (traitType == TraitType.HypnoticGas && State.World?.ItemRepository != null)
+            {
+                Unit.SingleUseSpells.Add(SpellList.HypnoGas.SpellType);
+                Unit.UpdateSpells();
+            }
+            else if (traitType == TraitType.Reanimator && State.World?.ItemRepository != null)
+            {
+                Unit.SingleUseSpells.Add(SpellList.Reanimate.SpellType);
+                Unit.UpdateSpells();
+            }
+            else if (traitType == TraitType.Binder && State.World?.ItemRepository != null)
+            {
+                Unit.SingleUseSpells.Add(SpellList.Bind.SpellType);
+                Unit.UpdateSpells();
+            }
             else
-        if (traitType == TraitType.Webber && State.World?.ItemRepository != null)
-        {
-            Unit.SingleUseSpells.Add(SpellList.Web.SpellType);
-            Unit.UpdateSpells();
-        }
-            else
-        if (traitType == TraitType.GlueBomb && State.World?.ItemRepository != null)
-        {
-            Unit.SingleUseSpells.Add(SpellList.GlueBomb.SpellType);
-            Unit.UpdateSpells();
-        }
-            else
-        if (traitType == TraitType.PoisonSpit && State.World?.ItemRepository != null)
-        {
-            Unit.SingleUseSpells.Add(SpellList.ViperPoisonStatus.SpellType);
-            Unit.UpdateSpells();
-        }
-            else
-        if (traitType == TraitType.Petrifier && State.World?.ItemRepository != null)
-        {
-            Unit.SingleUseSpells.Add(SpellList.Petrify.SpellType);
-            Unit.UpdateSpells();
-        }
-            else
-        if (traitType == TraitType.Charmer && State.World?.ItemRepository != null)
-        {
-            Unit.SingleUseSpells.Add(SpellList.Charm.SpellType);
-            Unit.UpdateSpells();
-        }
-            else
-        if (traitType == TraitType.HypnoticGas && State.World?.ItemRepository != null)
-        {
-            Unit.SingleUseSpells.Add(SpellList.HypnoGas.SpellType);
-            Unit.UpdateSpells();
-        }
-            else
-        if (traitType == TraitType.Reanimator && State.World?.ItemRepository != null)
-        {
-            Unit.SingleUseSpells.Add(SpellList.Reanimate.SpellType);
-            Unit.UpdateSpells();
-        }
-            else
-        if (traitType == TraitType.Binder && State.World?.ItemRepository != null)
-        {
-            Unit.SingleUseSpells.Add(SpellList.Bind.SpellType);
-            Unit.UpdateSpells();
-        }
-            else
-        // Multi-use section
-        if (traitType == TraitType.ForceFeeder && State.World?.ItemRepository != null)
-        {
-            Unit.MultiUseSpells.Add(SpellList.ForceFeed.SpellType);
-            Unit.UpdateSpells();
-        }
-            else
-        if (traitType == TraitType.Prey)
-        {
-            Unit.Predator = false;
-            actor.PredatorComponent?.FreeAnyAlivePrey();
-        }
-            else
-        if (traitType == TraitType.BookWormI || traitType == TraitType.BookWormII || traitType == TraitType.BookWormIII)
-            Unit.GiveTraitBooks();
+                // Multi-use section
+            if (traitType == TraitType.ForceFeeder && State.World?.ItemRepository != null)
+            {
+                Unit.MultiUseSpells.Add(SpellList.ForceFeed.SpellType);
+                Unit.UpdateSpells();
+            }
+            else if (traitType == TraitType.Prey)
+            {
+                Unit.Predator = false;
+                actor.PredatorComponent?.FreeAnyAlivePrey();
+            }
+            else if (traitType == TraitType.BookWormI || traitType == TraitType.BookWormII || traitType == TraitType.BookWormIII) Unit.GiveTraitBooks();
+
         actor.Unit.InitializeTraits();
         RefreshStats();
     }
@@ -357,6 +355,7 @@ internal class UnitEditor : UnitCustomizer
         actor.Unit.RestoreManaPct(1);
         RefreshStats();
     }
+
     internal void RestoreHealth()
     {
         actor.Unit.HealPercentage(1);
@@ -368,7 +367,6 @@ internal class UnitEditor : UnitCustomizer
         actor.Movement = actor.CurrentMaxMovement();
         RefreshStats();
     }
-
 
 
     internal void SetLevelTo(int level)
@@ -383,13 +381,13 @@ internal class UnitEditor : UnitCustomizer
         {
             for (int i = 0; i < 1000; i++)
             {
-
                 if (level < Unit.Level)
                 {
                     Unit.LevelDown();
                     Unit.SetExp(Unit.GetExperienceRequiredForLevel(Unit.Level - 1));
                     continue;
                 }
+
                 break;
             }
         }
@@ -402,6 +400,4 @@ internal class UnitEditor : UnitCustomizer
         Unit.SetItem(item, slot, true);
         RefreshStats();
     }
-
 }
-

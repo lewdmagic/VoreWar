@@ -10,7 +10,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output => { 
+            builder.Setup(output =>
+            {
                 output.Names("Abakhanskya", "Abakhanskya");
                 output.RaceTraits(new RaceTraits()
                 {
@@ -41,8 +42,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     },
                     RaceDescription = "This girthy dragoness hails from a far away arid land, and excels at pressing the attack, with a great pair of skewers in place of where most dragons would have wings. With considerable grace despite her size, she exercises vigilance on the battlefield. ",
                 });
-            
-                output.CanBeGender = new List<Gender> { Gender.Female }; 
+
+                output.CanBeGender = new List<Gender> { Gender.Female };
             });
 
 

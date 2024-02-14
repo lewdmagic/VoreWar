@@ -28,6 +28,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
                 actor.Movement = 0;
                 return;
             }
+
             WalkToYBand(actor, retreatY);
             if (path == null || path.Path.Count == 0)
             {
@@ -44,8 +45,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
         if (spareMp >= thirdMovement)
         {
             RunBellyRub(actor, spareMp);
-            if (path != null)
-                return;
+            if (path != null) return;
             if (didAction) return;
         }
 
@@ -57,8 +57,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
         TryResurrect(actor);
 
         RunSpells(actor);
-        if (path != null)
-            return;
+        if (path != null) return;
 
         RunBellyRub(actor, actor.Movement);
         if (foundPath || didAction) return;
@@ -79,26 +78,23 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
             if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Side.TrueNoneSide) && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub)
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(position);
-                if (distance - 1 + (actor.MaxMovement() / 3) <= moves)
+                if (distance - 1 + actor.MaxMovement() / 3 <= moves)
                 {
-                    if (distance > 1 && TacticalUtilities.FreeSpaceAroundTarget(unit.Position, actor) == false)
-                        continue;
+                    if (distance > 1 && TacticalUtilities.FreeSpaceAroundTarget(unit.Position, actor) == false) continue;
                     targets.Add(new PotentialTarget(unit, 100, distance, 4, 100 - (unit == actor ? 100 - unit.Unit.HealthPct + 10 : 100 - unit.Unit.HealthPct)));
                 }
-
             }
         }
+
         return targets.OrderByDescending(t => t.utility).ToList();
     }
 
     protected override void RunSpells(Actor_Unit actor)
     {
-        if (actor.Unit.UseableSpells == null || actor.Unit.UseableSpells.Any() == false)
-            return;
+        if (actor.Unit.UseableSpells == null || actor.Unit.UseableSpells.Any() == false) return;
         var friendlySpells = actor.Unit.UseableSpells.Where(sp => sp != SpellList.Resurrection && sp != SpellList.Reanimate && sp != SpellList.Bind && sp.ManaCost <= actor.Unit.Mana && sp.AcceptibleTargets.Contains(AbilityTargets.Ally)).ToList();
 
-        if (friendlySpells == null || friendlySpells.Any() == false)
-            return;
+        if (friendlySpells == null || friendlySpells.Any() == false) return;
 
         if (friendlySpells.Any() == false) return;
 
@@ -106,22 +102,18 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
 
         if ((spell == SpellList.Charm || spell == SpellList.HypnoGas) && !Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide)) // Charmed units should not use charm. Trust me.
             return;
-        if (spell.ManaCost > actor.Unit.Mana)
-            return;
+        if (spell.ManaCost > actor.Unit.Mana) return;
 
-        if (State.GameManager.TacticalMode.IsOnlyOneSideVisible())
-            return;
+        if (State.GameManager.TacticalMode.IsOnlyOneSideVisible()) return;
 
         List<PotentialTarget> targets = GetListOfPotentialSpellTargets(actor, spell, actor.Position);
-        if (!targets.Any())
-            return;
+        if (!targets.Any()) return;
         Actor_Unit reserveTarget = targets[0].actor;
         while (targets.Any())
         {
             if (targets[0].distance <= spell.Range.Max)
             {
-                if(spell.TryCast(actor, targets[0].actor))
-                    didAction = true;
+                if (spell.TryCast(actor, targets[0].actor)) didAction = true;
                 return;
             }
             else
@@ -138,6 +130,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
                     }
                 }
             }
+
             targets.RemoveAt(0);
         }
     }
@@ -145,15 +138,13 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
     protected override int CheckActionEconomyOfActorFromPositionWithAP(Actor_Unit actor, Vec2i position, int ap)
     {
         int apRequired = -1;
-      
-        apRequired = CheckResurrect(actor, position, ap);
-        if (apRequired > 0)
-            return ap - apRequired;
 
-    
+        apRequired = CheckResurrect(actor, position, ap);
+        if (apRequired > 0) return ap - apRequired;
+
+
         apRequired = CheckSpells(actor, position, ap);
-        if (apRequired > 0)
-            return ap - apRequired;
+        if (apRequired > 0) return ap - apRequired;
 
         // Everything else is less important than belly rubs.
         return ap;

@@ -11,6 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class AntQueen
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(31 * 31);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             IClothing LeaderClothes = AntLeaderClothes.AntLeaderClothesInstance.Create(paramsCalc);
@@ -365,10 +366,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
         });
 
 

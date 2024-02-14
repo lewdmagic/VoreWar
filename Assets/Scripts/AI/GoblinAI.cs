@@ -21,11 +21,9 @@ internal class GoblinAI : IStrategicAI
     {
         foreach (Army army in empire.Armies.ToList())
         {
-            if (army.RemainingMP < 1)
-                continue;
+            if (army.RemainingMP < 1) continue;
             if (path != null && pathIsFor == army)
             {
-
                 if (path.Count == 0)
                 {
                     GenerateTaskForArmy(army);
@@ -39,24 +37,23 @@ internal class GoblinAI : IStrategicAI
                     army.RemainingMP = 0;
                     continue;
                 }
+
                 Vec2i position = army.Position;
                 path.RemoveAt(0);
 
                 if (army.MoveTo(newLoc))
                     StrategicUtilities.StartBattle(army);
-                else if (position == army.Position)
-                    army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
+                else if (position == army.Position) army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
                 return true;
-
             }
             else
             {
                 GenerateTaskForArmy(army);
-                if (path == null || path.Count == 0)
-                    army.RemainingMP = 0;
+                if (path == null || path.Count == 0) army.RemainingMP = 0;
                 return true;
             }
         }
+
         foreach (Army army in empire.Armies)
         {
             foreach (Unit unit in army.Units)
@@ -64,6 +61,7 @@ internal class GoblinAI : IStrategicAI
                 StrategicUtilities.SpendLevelUps(unit);
             }
         }
+
         path = null;
         foreach (Army army in empire.Armies)
         {
@@ -71,11 +69,10 @@ internal class GoblinAI : IStrategicAI
             foreach (Village village in closeVillages)
             {
                 var emp = State.World.GetEmpireOfSide(village.Side);
-                if (emp != null)
-                    emp.AddGold(10);
+                if (emp != null) emp.AddGold(10);
             }
-
         }
+
         return false;
     }
 
@@ -86,16 +83,15 @@ internal class GoblinAI : IStrategicAI
             empire.SpendGold(empire.Gold);
             return false;
         }
+
         bool foundSpot = false;
         int highestExp = State.GameManager.StrategyMode.ScaledExp;
         int baseXp = (int)(highestExp * .6f);
-        if (empire.Gold < 10000)
-            empire.AddGold(10000);
+        if (empire.Gold < 10000) empire.AddGold(10000);
         double mapFactor = (Config.StrategicWorldSizeX + Config.StrategicWorldSizeY) / 20;
 
         if (State.Rand.NextDouble() < (mapFactor - empire.Armies.Count) / 10)
         {
-
             int x = 0;
             int y = 0;
 
@@ -110,6 +106,7 @@ internal class GoblinAI : IStrategicAI
                     break;
                 }
             }
+
             if (foundSpot)
             {
                 var army = new Army(empire, new Vec2i(x, y), empire.Side);
@@ -122,6 +119,7 @@ internal class GoblinAI : IStrategicAI
                     num++;
                     average += emp.MaxArmySize;
                 }
+
                 int count = 0;
                 if (num > 0)
                 {
@@ -146,11 +144,11 @@ internal class GoblinAI : IStrategicAI
                         else
                             unit.SetItem(State.World.ItemRepository.GetRandomBook(2, 4), 1);
                     }
+
                     army.Units.Add(unit);
                     StrategicUtilities.SetAIClass(unit);
                 }
             }
-
         }
 
         foreach (Army army in empire.Armies)
@@ -159,8 +157,9 @@ internal class GoblinAI : IStrategicAI
             {
                 if (unit.Experience < .5f * baseXp)
                 {
-                    unit.SetExp(3 + (unit.Experience * 1.1f));
+                    unit.SetExp(3 + unit.Experience * 1.1f);
                 }
+
                 StrategicUtilities.SpendLevelUps(unit);
             }
         }
@@ -168,11 +167,9 @@ internal class GoblinAI : IStrategicAI
         return foundSpot;
 
 
-
         int RandXp(int exp)
         {
-            if (exp < 1)
-                exp = 1;
+            if (exp < 1) exp = 1;
             return (int)(exp * .8f) + State.Rand.Next(10 + (int)(exp * .4));
         }
     }
@@ -193,20 +190,19 @@ internal class GoblinAI : IStrategicAI
         List<Side> PreferredSides = new List<Side>();
         foreach (var relation in State.World.Relations[empire.Side])
         {
-            if (relation.Value.Type == RelationState.Neutral && State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0)
-                PreferredSides.Add(relation.Key);
+            if (relation.Value.Type == RelationState.Neutral && State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0) PreferredSides.Add(relation.Key);
             if (relation.Value.Type == RelationState.Allied && State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0)
             {
                 PreferredSides.Add(relation.Key);
                 PreferredSides.Add(relation.Key);
             }
         }
+
         if (PreferredSides.Count == 0)
         {
             foreach (var relation in State.World.Relations[empire.Side])
             {
-                if (State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0)
-                    PreferredSides.Add(relation.Key);
+                if (State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0) PreferredSides.Add(relation.Key);
             }
         }
 
@@ -220,12 +216,9 @@ internal class GoblinAI : IStrategicAI
         for (int i = 0; i < 8; i++)
         {
             Village village = villages[State.Rand.Next(villages.Length)];
-            if (village.GetTotalPop() < 4)
-                continue;
-            if (MoveToNearVillage(army, village))
-                break;
+            if (village.GetTotalPop() < 4) continue;
+            if (MoveToNearVillage(army, village)) break;
         }
-
     }
 
     private bool MoveToNearVillage(Army army, Village village)
@@ -243,8 +236,8 @@ internal class GoblinAI : IStrategicAI
                 break;
             }
         }
-        if (foundSpot == false)
-            return false;
+
+        if (foundSpot == false) return false;
         army.Destination = new Vec2i(x, y);
         return true;
     }
@@ -257,10 +250,7 @@ internal class GoblinAI : IStrategicAI
             path = StrategyPathfinder.GetMonsterPath(empire, army, targetPosition, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
             return;
         }
+
         army.RemainingMP = 0;
     }
-
-
-
 }
-

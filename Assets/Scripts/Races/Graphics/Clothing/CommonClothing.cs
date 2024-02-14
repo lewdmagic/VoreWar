@@ -555,7 +555,7 @@ internal static class BlackTop
             //
             //         break;
             // }
-            
+
             if (Equals(input.U.GetRace, Race.Goblin) || Equals(input.U.GetRace, Race.Imp))
             {
                 if (Equals(input.U.GetRace, Race.Goblin) && input.U.BreastSize > 0)
@@ -591,7 +591,7 @@ internal static class BlackTop
                     }
                 }
             }
-            
+
             //if (input.U.Race == Race.Lizards)
             //CompleteSprite.ChangeOffsetPlaceholder(SpriteType.Clothing, new Vector2(0, 2.5f));
             // TODO Find a replacement way to achieve this. 
@@ -658,6 +658,7 @@ internal static class MaleVillager
             {
                 output["Clothing2"].Sprite(input.Sprites.MaleVillager[8]);
             }
+
             output.ChangeRaceSprite(RaceRenderer.AssumedFluffType).SetHide(true);
         });
     });

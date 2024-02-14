@@ -14,13 +14,11 @@ public class AnimationEffectComponent : MonoBehaviour
     private void Start()
     {
         renderer = GetComponentInChildren<SpriteRenderer>();
-
     }
 
     private void Update()
     {
-        if (renderer == null)
-            renderer = GetComponentInChildren<SpriteRenderer>();
+        if (renderer == null) renderer = GetComponentInChildren<SpriteRenderer>();
         currentTime += Time.deltaTime;
         if (currentTime > FrameTime[currentFrame])
         {
@@ -33,6 +31,7 @@ public class AnimationEffectComponent : MonoBehaviour
                     renderer.sprite = Frame[0];
                     return;
                 }
+
                 Destroy(gameObject);
                 return;
             }
@@ -44,5 +43,4 @@ public class AnimationEffectComponent : MonoBehaviour
             }
         }
     }
-
 }

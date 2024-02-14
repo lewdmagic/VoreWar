@@ -24,8 +24,5 @@ public class RecruitPanel : MonoBehaviour
     {
         var box = Instantiate(State.GameManager.InputBoxPrefab).GetComponentInChildren<InputBox>();
         box.SetData(State.GameManager.Recruit_Mode.RenameVillage, "Rename", "Cancel", "Rename this village?", 20);
-
     }
-
-
 }

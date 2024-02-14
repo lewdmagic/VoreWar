@@ -134,6 +134,7 @@ public class Recruit_Mode : SceneBase
                 break;
             }
         }
+
         if (army == null)
         {
             if (StrategicUtilities.ArmyAt(village.Position) == null)
@@ -152,26 +153,21 @@ public class Recruit_Mode : SceneBase
             }
             else
             {
-                if (activatingEmpire != ActivatingEmpire.Observer)
-                    ArmyUI.AlliedArmyText.gameObject.SetActive(true);
+                if (activatingEmpire != ActivatingEmpire.Observer) ArmyUI.AlliedArmyText.gameObject.SetActive(true);
                 foreach (Army armyCheck in StrategicUtilities.GetAllArmies())
                 {
                     if (armyCheck.Position.Matches(village.Position))
                     {
                         army = armyCheck;
-                        if (army.Empire.IsEnemy(village.Empire))
-                            activatingEmpire = ActivatingEmpire.Observer;
+                        if (army.Empire.IsEnemy(village.Empire)) activatingEmpire = ActivatingEmpire.Observer;
                         break;
                     }
                 }
-
-
             }
-
         }
+
         BannerType.gameObject.SetActive(army != null);
         InitializeBanners();
-
     }
 
     private void InitializeBanners()
@@ -184,22 +180,23 @@ public class Recruit_Mode : SceneBase
                 {
                     BannerType.options.Add(new TMP_Dropdown.OptionData(type.ToString()));
                 }
+
                 for (int i = 0; i < CustomBannerTest.Sprites.Length; i++)
                 {
-                    if (CustomBannerTest.Sprites[i] == null)
-                        break;
+                    if (CustomBannerTest.Sprites[i] == null) break;
                     BannerType.options.Add(new TMP_Dropdown.OptionData($"Custom {i + 1}"));
                 }
+
                 BannerType.onValueChanged.AddListener((s) => UpdateArmyBanner());
             }
+
             BannerType.value = army.BannerStyle;
         }
     }
 
     private void UpdateArmyBanner()
     {
-        if (army == null)
-            return;
+        if (army == null) return;
         army.BannerStyle = BannerType.value;
     }
 
@@ -208,16 +205,14 @@ public class Recruit_Mode : SceneBase
         selectedIndex = num;
         UpdateUnitInfoPanel();
         RefreshUnitPanelButtons();
-        if (ArmyUI.UnitInfoArea.Length == 0)
-            return;
+        if (ArmyUI.UnitInfoArea.Length == 0) return;
     }
 
     public void RefreshUnitPanelButtons()
     {
         bool validUnit = army?.Units.Count > selectedIndex && selectedIndex != -1;
         Unit unit = null;
-        if (selectedIndex != -1 && army?.Units.Count() > selectedIndex)
-            unit = army?.Units[selectedIndex];
+        if (selectedIndex != -1 && army?.Units.Count() > selectedIndex) unit = army?.Units[selectedIndex];
         ArmyUI.Rename.interactable = validUnit && unit.Type != UnitType.SpecialMercenary;
         ArmyUI.Shop.interactable = activatingEmpire < ActivatingEmpire.Observer && validUnit && unit != null && (unit.FixedGear == false || unit.HasTrait(TraitType.BookEater));
         var dismissText = ArmyUI.Dismiss.gameObject.GetComponentInChildren(typeof(Text)) as Text;
@@ -232,10 +227,10 @@ public class Recruit_Mode : SceneBase
             dismissText.text = "Dismiss";
             ArmyUI.Dismiss.interactable = activatingEmpire < ActivatingEmpire.Observer && validUnit && unit != null && unit != army?.Empire.Leader;
         }
+
         ArmyUI.ConfigAutoLevelUp.interactable = activatingEmpire < ActivatingEmpire.Observer && validUnit;
         ArmyUI.Customizer.interactable = validUnit;
-        if (village != null)
-            RecruitUI.ImprintUnit.interactable = validUnit && activatingEmpire == ActivatingEmpire.Self && unit.Type != UnitType.SpecialMercenary && unit != army?.Empire.Leader;
+        if (village != null) RecruitUI.ImprintUnit.interactable = validUnit && activatingEmpire == ActivatingEmpire.Self && unit.Type != UnitType.SpecialMercenary && unit != army?.Empire.Leader;
     }
 
     public void RefreshRecruitPanelButtons()
@@ -246,8 +241,8 @@ public class Recruit_Mode : SceneBase
         RecruitUI.RecruitSoldier.gameObject.SetActive(activatingEmpire < ActivatingEmpire.Observer);
         RecruitUI.StockWeapons.interactable = (activatingEmpire < ActivatingEmpire.Observer || failedToMakeFriendlyArmy) && village.Empire == empire;
         RecruitUI.CheapUpgrade.interactable = activatingEmpire == ActivatingEmpire.Self && army.Units.Count > 0;
-        RecruitUI.RecruitSoldier.interactable = activatingEmpire == ActivatingEmpire.Self && (village.GetTotalPop() > 3) && army.Units.Count < army.MaxSize;
-        RecruitUI.HireSoldier.interactable = activatingEmpire == ActivatingEmpire.Self && village.GetRecruitables().Count > 0 && (village.GetTotalPop() > 3) && army.Units.Count < army.MaxSize;
+        RecruitUI.RecruitSoldier.interactable = activatingEmpire == ActivatingEmpire.Self && village.GetTotalPop() > 3 && army.Units.Count < army.MaxSize;
+        RecruitUI.HireSoldier.interactable = activatingEmpire == ActivatingEmpire.Self && village.GetRecruitables().Count > 0 && village.GetTotalPop() > 3 && army.Units.Count < army.MaxSize;
         RecruitUI.HireVillageMerc.interactable = activatingEmpire == ActivatingEmpire.Self && (village.Mercenaries?.Count > 0 || village.Adventurers?.Count > 0) && army.Units.Count < army.MaxSize;
         RecruitUI.VillageView.interactable = (activatingEmpire < ActivatingEmpire.Observer || failedToMakeFriendlyArmy) && village.GetTotalPop() > 0 && village.Empire == empire;
 
@@ -267,8 +262,7 @@ public class Recruit_Mode : SceneBase
         selectedIndex = -1;
         for (int x = 0; x < Config.MaximumPossibleArmy; x++)
         {
-            if (ArmyUI.UnitInfoArea.Length > x)
-                ArmyUI.UnitInfoArea[x].gameObject.SetActive(false);
+            if (ArmyUI.UnitInfoArea.Length > x) ArmyUI.UnitInfoArea[x].gameObject.SetActive(false);
         }
     }
 
@@ -290,6 +284,7 @@ public class Recruit_Mode : SceneBase
                 else
                     break;
             }
+
             UpdateActorList();
             GenText();
         }
@@ -301,6 +296,7 @@ public class Recruit_Mode : SceneBase
                 GenText();
             }
         }
+
         Select(army.Units.Count - 1);
     }
 
@@ -310,13 +306,13 @@ public class Recruit_Mode : SceneBase
 
         if (village.GetTotalPop() > 0)
         {
-
             RecruitUI.Population.text = village.VillagePopulation.GetPopReport();
         }
         else
         {
             RecruitUI.Population.text = "Empty";
         }
+
         RecruitUI.DefenderCount.text = $"{village.Garrison} / {village.MaxGarrisonSize} defenders";
         RecruitUI.Income.text = village.GetIncome() + " income";
         RefreshRecruitPanelButtons();
@@ -337,7 +333,6 @@ public class Recruit_Mode : SceneBase
             ArmyUI.LevelUp.interactable = false;
             ArmyUI.AutoLevelUp.interactable = false;
         }
-
     }
 
     public override void ReceiveInput()
@@ -346,6 +341,7 @@ public class Recruit_Mode : SceneBase
         {
             UpdateWeaponStocker();
         }
+
         if (selectedIndex == -1 || selectedIndex >= army?.Units.Count || ArmyUI.UnitInfoArea.Length == 0)
             ArmyUI.Selector.SetActive(false);
         else
@@ -362,25 +358,20 @@ public class Recruit_Mode : SceneBase
             else if (MercenaryScreenUI.gameObject.activeSelf)
                 ButtonCallback(81);
             else if (BlockerUI.activeSelf == false && MercenaryScreenUI.gameObject.activeSelf == false && HireUI.gameObject.activeSelf == false &&
-            CustomizerUI.gameObject.activeSelf == false && VillageUI.gameObject.activeSelf == false && VillageUI.gameObject.activeSelf == false && FindObjectOfType<DialogBox>() == false)
+                     CustomizerUI.gameObject.activeSelf == false && VillageUI.gameObject.activeSelf == false && VillageUI.gameObject.activeSelf == false && FindObjectOfType<DialogBox>() == false)
                 State.GameManager.SwitchToStrategyMode();
         }
-
 
 
         if (Input.GetKeyDown(KeyCode.Escape) && CheatMenu.gameObject.activeSelf)
         {
             ButtonCallback(86);
         }
-
     }
-
-
 
 
     public void ButtonCallback(int ID)
     {
-
         switch (ID)
         {
             case 1:
@@ -426,25 +417,24 @@ public class Recruit_Mode : SceneBase
                 ConfigAutoLevelUpUI.gameObject.SetActive(false);
                 BlockerUI.SetActive(false);
                 shop = null;
-                if (selectedIndex != -1 && displayUnits?.Length > selectedIndex && displayUnits[selectedIndex] != null)
-                    displayUnits[selectedIndex].UpdateBestWeapons();
+                if (selectedIndex != -1 && displayUnits?.Length > selectedIndex && displayUnits[selectedIndex] != null) displayUnits[selectedIndex].UpdateBestWeapons();
                 UpdateUnitInfoPanel();
                 UpdateDrawnActors();
-                if (village != null)
-                    GenText();
+                if (village != null) GenText();
                 break;
             case 11:
-                if (army == null)
-                    return;
+                if (army == null) return;
                 if (army.Units.Count <= selectedIndex)
                 {
                     break;
                 }
+
                 Unit unit = army.Units[selectedIndex];
                 if (RenameUI.NewName.text.Length > 0)
                 {
                     unit.Name = RenameUI.NewName.text;
                 }
+
                 RenameUI.gameObject.SetActive(false);
                 BlockerUI.SetActive(false);
                 UpdateUnitInfoPanel();
@@ -469,19 +459,18 @@ public class Recruit_Mode : SceneBase
                 BuildWeaponStocker();
                 break;
             case 16:
-                if (army == null)
-                    return;
+                if (army == null) return;
                 if (army.Units.Count <= selectedIndex)
                 {
                     break;
                 }
+
                 ConfigAutoLevelUpUI.gameObject.SetActive(true);
                 ConfigAutoLevelUpUI.Open(army.Units[selectedIndex]);
                 BlockerUI.SetActive(true);
                 break;
             case 17:
-                if (selectedIndex != -1 && displayUnits?.Length > selectedIndex && displayUnits[selectedIndex] != null)
-                    BuildClone(displayUnits[selectedIndex].Unit);
+                if (selectedIndex != -1 && displayUnits?.Length > selectedIndex && displayUnits[selectedIndex] != null) BuildClone(displayUnits[selectedIndex].Unit);
                 break;
             case 18:
                 RaceUI.gameObject.SetActive(false);
@@ -495,12 +484,13 @@ public class Recruit_Mode : SceneBase
 
                     break;
                 }
+
                 SetUpPopUI();
                 BlockerUI.SetActive(true);
                 break;
 
             case 60:
-                DialogBox box = GameObject.Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
+                DialogBox box = Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
                 box.SetData(AutoLevelUp, "Spend them!", "Cancel", "This will spend all remaining level ups for this army.   It may not do as good a job as manually picking, and it may not pick exactly what you want, but it is fast.");
                 break;
             case 80:
@@ -525,6 +515,7 @@ public class Recruit_Mode : SceneBase
                     State.GameManager.CreateMessageBox("Can't enter this screen without an army");
                     break;
                 }
+
                 CheatMenu.gameObject.SetActive(true);
                 CheatMenu.Setup(army);
                 BlockerUI.SetActive(true);
@@ -572,17 +563,16 @@ public class Recruit_Mode : SceneBase
             case 4001:
                 CheatAddUnit();
                 break;
-
-
         }
+
         if (ID > 19 && ID < 30)
         {
-            if (army == null)
-                return;
+            if (army == null) return;
             if (army.Units.Count <= selectedIndex)
             {
                 return;
             }
+
             Unit unit = army.Units[selectedIndex];
             unit.LevelUp((Stat)ID - 20);
             LevelUpUI.gameObject.SetActive(false);
@@ -593,20 +583,20 @@ public class Recruit_Mode : SceneBase
 
         if (ID == 70)
         {
-            if (army == null)
-                return;
+            if (army == null) return;
             if (army.Units.Count == empire.MaxArmySize)
             {
                 State.GameManager.CreateMessageBox("Army is already maximum size");
                 return;
             }
+
             if (empire.Gold < 100)
             {
                 State.GameManager.CreateMessageBox("You need at least 100 gold to resurrect the leader");
                 return;
             }
 
-            DialogBox box = GameObject.Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
+            DialogBox box = Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
             box.SetData(ResurrectLeader, "Yes", "No", "Resurrect Leader at this town for 100 gold?");
         }
     }
@@ -616,14 +606,15 @@ public class Recruit_Mode : SceneBase
         village.SetPopulation(p);
         GenText();
     }
+
     private void SetUpPopUI()
     {
-
         int children = PopUI.ActorFolder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
         {
             Destroy(PopUI.ActorFolder.transform.GetChild(i).gameObject);
         }
+
         for (int i = 0; i < village.VillagePopulation.Population.Count; i++)
         {
             if (village.VillagePopulation.Population[i].Population > 0)
@@ -637,25 +628,20 @@ public class Recruit_Mode : SceneBase
                 text.text = $"{village.VillagePopulation.Population[i].Race}\nTotal: {village.VillagePopulation.Population[i].Population}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";
                 sprite.UpdateSprites(actor);
             }
-
         }
 
         PopUI.gameObject.SetActive(true);
-
-
     }
 
     internal void RenameVillage(string name)
     {
-        if (village != null)
-            village.Name = name;
+        if (village != null) village.Name = name;
         RecruitUI.TownName.text = village.Name;
     }
 
     internal void RenameArmy(string name)
     {
-        if (army != null)
-            army.Name = name;
+        if (army != null) army.Name = name;
         ArmyUI.ArmyName.text = army.Name;
     }
 
@@ -679,14 +665,12 @@ public class Recruit_Mode : SceneBase
 
         var box = State.GameManager.CreateDialogBox();
         box.SetData(() => MakeClone(unit, cost), "Imprint", "Cancel", $"Imprint this soul? (Costs {cost})\nAllows unit to respawn with saved stats at this location if it dies." +
-            $"\nCost is based on experience of other active imprint, total experience, and is reduced by the innate exp for this town\n{previous}");
-
+                                                                      $"\nCost is based on experience of other active imprint, total experience, and is reduced by the innate exp for this town\n{previous}");
     }
 
     private void MakeClone(Unit unit, int cost)
     {
-        if (empire.Gold < cost)
-            return;
+        if (empire.Gold < cost) return;
         empire.SpendGold(cost);
         var clonedUnit = unit.Clone();
         unit.SavedCopy = clonedUnit;
@@ -705,6 +689,7 @@ public class Recruit_Mode : SceneBase
         {
             empire.Leader.SetExp(village.GetStartingXp());
         }
+
         State.World.Stats.ResurrectedLeader(empire.Side);
         army.Units.Add(empire.Leader);
         if (Config.LeadersRerandomizeOnDeath)
@@ -773,11 +758,9 @@ public class Recruit_Mode : SceneBase
         {
             foreach (Actor_Unit actor in displayUnits)
             {
-                if (actor != null)
-                    ApplyTo(actor.Unit);
+                if (actor != null) ApplyTo(actor.Unit);
             }
         }
-
 
 
         void ApplyTo(Unit unit)
@@ -788,19 +771,20 @@ public class Recruit_Mode : SceneBase
                 unit.StatWeights = new StatWeights()
                 {
                     Weight = new float[(int)Stat.None]
-                {
-                ConfigAutoLevelUpUI.Sliders[0].value,
-                ConfigAutoLevelUpUI.Sliders[1].value,
-                ConfigAutoLevelUpUI.Sliders[2].value,
-                ConfigAutoLevelUpUI.Sliders[3].value,
-                ConfigAutoLevelUpUI.Sliders[4].value,
-                ConfigAutoLevelUpUI.Sliders[5].value,
-                ConfigAutoLevelUpUI.Sliders[6].value,
-                ConfigAutoLevelUpUI.Sliders[7].value,
-                ConfigAutoLevelUpUI.Sliders[8].value,
+                    {
+                        ConfigAutoLevelUpUI.Sliders[0].value,
+                        ConfigAutoLevelUpUI.Sliders[1].value,
+                        ConfigAutoLevelUpUI.Sliders[2].value,
+                        ConfigAutoLevelUpUI.Sliders[3].value,
+                        ConfigAutoLevelUpUI.Sliders[4].value,
+                        ConfigAutoLevelUpUI.Sliders[5].value,
+                        ConfigAutoLevelUpUI.Sliders[6].value,
+                        ConfigAutoLevelUpUI.Sliders[7].value,
+                        ConfigAutoLevelUpUI.Sliders[8].value,
                     }
                 };
             }
+
             unit.AutoLeveling = ConfigAutoLevelUpUI.AutoSpend.isOn;
             unit.AIClass = (AIClass)ConfigAutoLevelUpUI.Dropdown.value;
         }
@@ -821,14 +805,12 @@ public class Recruit_Mode : SceneBase
                 LevelUpUI.gameObject.SetActive(true);
                 BuildLvlButtons();
             }
-
         }
         else
         {
             BlockerUI.SetActive(false);
             return;
         }
-
     }
 
     private void BuildLvlButtons()
@@ -838,6 +820,7 @@ public class Recruit_Mode : SceneBase
         {
             LevelUpUI.StatButtons[i].gameObject.SetActive(i < r.Length);
         }
+
         for (int i = 0; i < r.Length; i++)
         {
             int statInt = (int)r[i];
@@ -858,8 +841,6 @@ public class Recruit_Mode : SceneBase
                     LevelUpUI.gameObject.SetActive(false);
             });
         }
-
-
     }
 
     public void RefreshBulkBuy()
@@ -877,12 +858,12 @@ public class Recruit_Mode : SceneBase
 
     private void AutoLevelUp()
     {
-        if (army?.Units == null)
-            return;
+        if (army?.Units == null) return;
         foreach (Unit unit in army.Units)
         {
             StrategicUtilities.SpendLevelUps(unit);
         }
+
         UpdateUnitInfoPanel();
         UpdateDrawnActors();
     }
@@ -895,8 +876,7 @@ public class Recruit_Mode : SceneBase
         {
             if (actor != null)
             {
-                if (actor.Unit.HasFreeItemSlot() == false || actor.Unit.FixedGear || (actor.Unit.Items[0]?.LockedItem ?? false))
-                    continue;
+                if (actor.Unit.HasFreeItemSlot() == false || actor.Unit.FixedGear || (actor.Unit.Items[0]?.LockedItem ?? false)) continue;
                 if (actor.Unit.GetBestMelee().Damage == 2 && actor.Unit.GetBestRanged() == null)
                 {
                     if (actor.Unit.BestSuitedForRanged())
@@ -906,6 +886,7 @@ public class Recruit_Mode : SceneBase
                 }
             }
         }
+
         return cost;
     }
 
@@ -915,8 +896,7 @@ public class Recruit_Mode : SceneBase
         {
             if (actor != null)
             {
-                if (actor.Unit.HasFreeItemSlot() == false || actor.Unit.FixedGear || (actor.Unit.Items[0]?.LockedItem ?? false))
-                    continue;
+                if (actor.Unit.HasFreeItemSlot() == false || actor.Unit.FixedGear || (actor.Unit.Items[0]?.LockedItem ?? false)) continue;
                 if (actor.Unit.GetBestMelee().Damage == 2 && actor.Unit.GetBestRanged() == null)
                 {
                     if (actor.Unit.BestSuitedForRanged())
@@ -927,6 +907,7 @@ public class Recruit_Mode : SceneBase
                 }
             }
         }
+
         UpdateDrawnActors();
         UpdateUnitInfoPanel();
         GenText();
@@ -939,8 +920,7 @@ public class Recruit_Mode : SceneBase
         {
             if (actor != null)
             {
-                if ((actor.Unit.HasFreeItemSlot() || actor.Unit.HasSpecificWeapon(ItemType.Bow, ItemType.Mace)) == false || actor.Unit.FixedGear || (actor.Unit.Items[0]?.LockedItem ?? false))
-                    continue;
+                if ((actor.Unit.HasFreeItemSlot() || actor.Unit.HasSpecificWeapon(ItemType.Bow, ItemType.Mace)) == false || actor.Unit.FixedGear || (actor.Unit.Items[0]?.LockedItem ?? false)) continue;
                 if (actor.Unit.GetBestMelee().Damage == 2 && actor.Unit.GetBestRanged() == null)
                 {
                     if (actor.Unit.BestSuitedForRanged())
@@ -955,15 +935,16 @@ public class Recruit_Mode : SceneBase
                         cost -= State.World.ItemRepository.GetItem(ItemType.Mace).Cost / 2;
                         cost += State.World.ItemRepository.GetItem(ItemType.Axe).Cost;
                     }
+
                     if (actor.Unit.GetBestRanged() == State.World.ItemRepository.GetItem(ItemType.Bow))
                     {
                         cost -= State.World.ItemRepository.GetItem(ItemType.Bow).Cost / 2;
                         cost += State.World.ItemRepository.GetItem(ItemType.CompoundBow).Cost;
                     }
                 }
-
             }
         }
+
         return cost;
     }
 
@@ -973,8 +954,7 @@ public class Recruit_Mode : SceneBase
         {
             if (actor != null)
             {
-                if ((actor.Unit.HasFreeItemSlot() || actor.Unit.HasSpecificWeapon(ItemType.Bow, ItemType.Mace)) == false || actor.Unit.FixedGear || (actor.Unit.Items[0]?.LockedItem ?? false))
-                    continue;
+                if ((actor.Unit.HasFreeItemSlot() || actor.Unit.HasSpecificWeapon(ItemType.Bow, ItemType.Mace)) == false || actor.Unit.FixedGear || (actor.Unit.Items[0]?.LockedItem ?? false)) continue;
                 if (actor.Unit.GetBestMelee().Damage == 2 && actor.Unit.GetBestRanged() == null)
                 {
                     if (actor.Unit.BestSuitedForRanged())
@@ -991,6 +971,7 @@ public class Recruit_Mode : SceneBase
                         Shop.BuyItem(empire, actor.Unit, State.World.ItemRepository.GetItem(ItemType.Axe));
                         actor.UpdateBestWeapons();
                     }
+
                     if (actor.Unit.GetBestRanged() == State.World.ItemRepository.GetItem(ItemType.Bow))
                     {
                         Shop.SellItem(empire, actor.Unit, actor.Unit.GetItemSlot(State.World.ItemRepository.GetItem(ItemType.Bow)));
@@ -1000,6 +981,7 @@ public class Recruit_Mode : SceneBase
                 }
             }
         }
+
         UpdateDrawnActors();
         UpdateUnitInfoPanel();
         GenText();
@@ -1012,8 +994,7 @@ public class Recruit_Mode : SceneBase
         {
             if (actor != null)
             {
-                if (actor.Unit.HasFreeItemSlot() == false || actor.Unit.FixedGear)
-                    continue;
+                if (actor.Unit.HasFreeItemSlot() == false || actor.Unit.FixedGear) continue;
                 if (actor.Unit.GetBestRanged() != null)
                 {
                     if (actor.Unit.HasSpecificWeapon(ItemType.Gloves) == false)
@@ -1030,6 +1011,7 @@ public class Recruit_Mode : SceneBase
                 }
             }
         }
+
         return cost;
     }
 
@@ -1039,15 +1021,13 @@ public class Recruit_Mode : SceneBase
         {
             if (actor != null)
             {
-                if (actor.Unit.HasFreeItemSlot() == false || actor.Unit.FixedGear)
-                    continue;
+                if (actor.Unit.HasFreeItemSlot() == false || actor.Unit.FixedGear) continue;
                 if (actor.Unit.GetBestRanged() != null)
                 {
                     if (actor.Unit.HasSpecificWeapon(ItemType.Gloves) == false)
                         Shop.BuyItem(empire, actor.Unit, State.World.ItemRepository.GetItem(ItemType.Gloves));
                     else
                         Shop.BuyItem(empire, actor.Unit, State.World.ItemRepository.GetItem(ItemType.Shoes));
-
                 }
                 else if (actor.Unit.GetBestMelee().Damage != 2)
                 {
@@ -1058,6 +1038,7 @@ public class Recruit_Mode : SceneBase
                 }
             }
         }
+
         UpdateDrawnActors();
         UpdateUnitInfoPanel();
         GenText();
@@ -1081,6 +1062,7 @@ public class Recruit_Mode : SceneBase
                 }
             }
         }
+
         UpdateUnitInfoPanel();
         GenText();
     }
@@ -1115,6 +1097,7 @@ public class Recruit_Mode : SceneBase
             CustomizerUI.gameObject.SetActive(true);
         }
     }
+
     public void CopySkintoneFromCustomizer()
     {
         Unit source = Customizer.Unit;
@@ -1123,6 +1106,7 @@ public class Recruit_Mode : SceneBase
             unit.SkinColor = source.SkinColor;
         }
     }
+
     public void CopyHairColorFromCustomizer()
     {
         Unit source = Customizer.Unit;
@@ -1131,6 +1115,7 @@ public class Recruit_Mode : SceneBase
             unit.HairColor = source.HairColor;
         }
     }
+
     public void CopyHairStyleFromCustomizer()
     {
         Unit source = Customizer.Unit;
@@ -1139,6 +1124,7 @@ public class Recruit_Mode : SceneBase
             unit.HairStyle = source.HairStyle;
         }
     }
+
     public void CopyBodyColorFromCustomizer()
     {
         Unit source = Customizer.Unit;
@@ -1150,8 +1136,7 @@ public class Recruit_Mode : SceneBase
 
     public void CopyBreastSizeFromCustomizer()
     {
-        if (Customizer.Unit.HasBreasts == false)
-            return;
+        if (Customizer.Unit.HasBreasts == false) return;
         Unit source = Customizer.Unit;
         foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race) && s.HasBreasts == source.HasBreasts && s.Type != UnitType.Leader))
         {
@@ -1163,7 +1148,7 @@ public class Recruit_Mode : SceneBase
     {
         Unit source = Customizer.Unit;
         foreach (Unit unit in army.Units.Where(s => Equals(s.Race, source.Race) &&
-        (s.Type == source.Type || (!Equals(source.Race, Race.Slime) && source.Type == UnitType.Leader && (s.Type == UnitType.Soldier || s.Type == UnitType.Mercenary || s.Type == UnitType.Adventurer)))))
+                                                    (s.Type == source.Type || (!Equals(source.Race, Race.Slime) && source.Type == UnitType.Leader && (s.Type == UnitType.Soldier || s.Type == UnitType.Mercenary || s.Type == UnitType.Adventurer)))))
         {
             unit.ClothingType = source.ClothingType;
             unit.ClothingType2 = source.ClothingType2;
@@ -1180,7 +1165,7 @@ public class Recruit_Mode : SceneBase
     public void CopyClothingColorFromCustomizer()
     {
         Unit source = Customizer.Unit;
-        foreach (Unit unit in army.Units.Where(s => (Equals(s.Race, Race.Panther)) == (Equals(source.Race, Race.Panther)))) //Since panthers use different color systems
+        foreach (Unit unit in army.Units.Where(s => Equals(s.Race, Race.Panther) == Equals(source.Race, Race.Panther))) //Since panthers use different color systems
         {
             unit.ClothingColor = source.ClothingColor;
             unit.ClothingColor2 = source.ClothingColor2;
@@ -1230,12 +1215,17 @@ public class Recruit_Mode : SceneBase
     internal void ShopTransferToInventory(int slot) => shop.TransferItemToInventory(slot);
     internal void ShopTransferItemToCharacter(int type) => shop.TransferItemToCharacter(type);
     internal void ShopSellItemFromInventory(int type) => shop.SellItemFromInventory(type);
+
     internal void ShopGenerateBuyButton(int type)
     {
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
             var box = Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
-            box.SetData(() => { shop.BuyForAll(type); State.GameManager.Recruit_Mode.SetUpDisplay(); }, "Buy", "Cancel", $"Buy item for all units in army? Cost : {shop.BuyForAllCost(type)}  (you were holding shift)");
+            box.SetData(() =>
+                {
+                    shop.BuyForAll(type);
+                    State.GameManager.Recruit_Mode.SetUpDisplay();
+                }, "Buy", "Cancel", $"Buy item for all units in army? Cost : {shop.BuyForAllCost(type)}  (you were holding shift)");
         }
         else
             shop.BuyItem(type);
@@ -1249,6 +1239,7 @@ public class Recruit_Mode : SceneBase
         {
             Destroy(MercenaryScreenUI.Folder.transform.GetChild(i).gameObject);
         }
+
         List<MercenaryContainer> list;
         if (special)
             list = MercenaryHouse.UniqueMercs;
@@ -1284,6 +1275,7 @@ public class Recruit_Mode : SceneBase
                     gender = merc.Unit.GetGender().ToString();
                 GenderText.text = $"{gender} {merc.Title}";
             }
+
             EXPText.text = $"Level {merc.Unit.Level} ({(int)merc.Unit.Experience} EXP)";
 
             EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = merc.Unit.GetItem(0)?.Name;
@@ -1315,6 +1307,7 @@ public class Recruit_Mode : SceneBase
             }
             else
                 StatRow4.SetActive(false);
+
             HireButton.text = "Hire Unit (" + merc.Cost.ToString() + "G)";
             TraitList.text = RaceEditorPanel.TraitListToText(merc.Unit.GetTraits, true).Replace(", ", "\n");
 
@@ -1324,6 +1317,7 @@ public class Recruit_Mode : SceneBase
             Button button = obj.GetComponentInChildren<Button>();
             button.onClick.AddListener(() => HireMercenary(merc, obj));
         }
+
         UpdateMercenaryScreenText();
         MercenaryScreenUI.gameObject.SetActive(true);
     }
@@ -1342,7 +1336,6 @@ public class Recruit_Mode : SceneBase
                 Destroy(obj);
                 UpdateActorList();
                 UpdateMercenaryScreenText();
-
             }
         }
     }
@@ -1355,7 +1348,6 @@ public class Recruit_Mode : SceneBase
             UpdateActorList();
             UpdateMercenaryScreenText();
         }
-
     }
 
     private void BuildVillageMercenaryView()
@@ -1365,6 +1357,7 @@ public class Recruit_Mode : SceneBase
         {
             Destroy(MercenaryScreenUI.Folder.transform.GetChild(i).gameObject);
         }
+
         List<MercenaryContainer> list;
         list = village.Mercenaries.Concat(village.Adventurers).ToList();
         foreach (var merc in list)
@@ -1398,7 +1391,8 @@ public class Recruit_Mode : SceneBase
                     gender = merc.Unit.GetGender().ToString();
                 GenderText.text = $"{gender} {merc.Title}";
             }
-            TraitList.text = RaceEditorPanel.TraitListToText(merc.Unit.GetTraits, true).Replace(", ","\n");
+
+            TraitList.text = RaceEditorPanel.TraitListToText(merc.Unit.GetTraits, true).Replace(", ", "\n");
             EXPText.text = $"Level {merc.Unit.Level} ({(int)merc.Unit.Experience} EXP)";
             if (actor.Unit.HasTrait(TraitType.Resourceful))
             {
@@ -1413,6 +1407,7 @@ public class Recruit_Mode : SceneBase
                 EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = merc.Unit.GetItem(0)?.Name;
                 EquipRow.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = merc.Unit.GetItem(1)?.Name;
             }
+
             StatRow1.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = merc.Unit.GetStatBase(Stat.Strength).ToString();
             StatRow1.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = merc.Unit.GetStatBase(Stat.Dexterity).ToString();
             StatRow2.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = merc.Unit.GetStatBase(Stat.Mind).ToString();
@@ -1426,6 +1421,7 @@ public class Recruit_Mode : SceneBase
             }
             else
                 StatRow4.SetActive(false);
+
             HireButton.text = "Hire Unit (" + merc.Cost.ToString() + "G)";
 
             //text.text = $"{merc.Title}\nLevel: {merc.Unit.Level} Exp: {(int)merc.Unit.Experience}\n" +
@@ -1441,6 +1437,7 @@ public class Recruit_Mode : SceneBase
             Button button = obj.GetComponentInChildren<Button>();
             button.onClick.AddListener(() => HireVillageMercenary(merc, obj));
         }
+
         UpdateMercenaryScreenText();
         MercenaryScreenUI.gameObject.SetActive(true);
     }
@@ -1453,12 +1450,12 @@ public class Recruit_Mode : SceneBase
 
     private void BuildHiringView(string sorting = "")
     {
-
         int children = HireUI.ActorFolder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
         {
             Destroy(HireUI.ActorFolder.transform.GetChild(i).gameObject);
         }
+
         List<Unit> units = village.VillagePopulation.GetRecruitables().OrderByDescending(t => t.Experience).OrderByDescending(t => t.Level).ToList();
         if (sorting == "STR")
             units = units.OrderByDescending(t => t.GetStat(Stat.Strength)).ToList();
@@ -1474,8 +1471,7 @@ public class Recruit_Mode : SceneBase
             units = units.OrderByDescending(t => t.GetStat(Stat.Agility)).ToList();
         else if (sorting == "VOR")
             units = units.OrderByDescending(t => t.GetStat(Stat.Voracity)).ToList();
-        else if (sorting == "STM")
-            units = units.OrderByDescending(t => t.GetStat(Stat.Stomach)).ToList();
+        else if (sorting == "STM") units = units.OrderByDescending(t => t.GetStat(Stat.Stomach)).ToList();
         foreach (Unit unit in units)
         {
             GameObject obj = Instantiate(HireUI.HiringUnitPanel, HireUI.ActorFolder);
@@ -1500,6 +1496,7 @@ public class Recruit_Mode : SceneBase
                     gender = actor.Unit.GetGender().ToString();
                 GenderText.text = $"{gender}";
             }
+
             EXPText.text = $"Level {unit.Level} ({(int)unit.Experience} EXP)";
             if (actor.Unit.HasTrait(TraitType.Resourceful))
             {
@@ -1514,6 +1511,7 @@ public class Recruit_Mode : SceneBase
                 EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = unit.GetItem(0)?.Name;
                 EquipRow.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = unit.GetItem(1)?.Name;
             }
+
             StatRow1.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = unit.GetStatBase(Stat.Strength).ToString();
             StatRow1.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = unit.GetStatBase(Stat.Dexterity).ToString();
             StatRow2.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = unit.GetStatBase(Stat.Mind).ToString();
@@ -1527,6 +1525,7 @@ public class Recruit_Mode : SceneBase
             }
             else
                 StatRow4.SetActive(false);
+
             TraitList.text = RaceEditorPanel.TraitListToText(unit.GetTraits, true).Replace(", ", "\n");
             //text.text += $"STR: {unit.GetStatBase(Stat.Strength)} DEX: { unit.GetStatBase(Stat.Dexterity)}\n" +
             //    $"MND: {unit.GetStatBase(Stat.Mind)} WLL: { unit.GetStatBase(Stat.Will)} \n" +
@@ -1540,9 +1539,9 @@ public class Recruit_Mode : SceneBase
             button.onClick.AddListener(() => Hire(unit));
             button.onClick.AddListener(() => Destroy(obj));
         }
-        HireUI.ActorFolder.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 300 * (1 + (village.VillagePopulation.GetRecruitables().Count) / 3));
-        HireUI.gameObject.SetActive(true);
 
+        HireUI.ActorFolder.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 300 * (1 + village.VillagePopulation.GetRecruitables().Count / 3));
+        HireUI.gameObject.SetActive(true);
     }
 
 
@@ -1558,6 +1557,7 @@ public class Recruit_Mode : SceneBase
                     Debug.Log(unit.Name + " is returning to " + village.Name);
                 };
             }
+
             UpdateActorList();
             GenText();
         }
@@ -1582,6 +1582,7 @@ public class Recruit_Mode : SceneBase
                 Exfiltrate(unit);
                 return;
             }
+
             if (unit != null)
             {
                 army.Units.Remove(unit);
@@ -1597,8 +1598,10 @@ public class Recruit_Mode : SceneBase
                             else
                                 village.Race = unit.Race;
                         }
+
                         village.VillagePopulation.AddHireable(unit);
                     }
+
                     GenText();
                 }
                 else
@@ -1608,6 +1611,7 @@ public class Recruit_Mode : SceneBase
                 }
             }
         }
+
         if (selectedIndex > 0)
             Select(selectedIndex - 1);
         else
@@ -1625,6 +1629,7 @@ public class Recruit_Mode : SceneBase
                 destinationArmy = a;
             }
         }
+
         if (destinationArmy == null)
         {
             if (empire.Armies.Count() >= Config.MaxArmies)
@@ -1632,6 +1637,7 @@ public class Recruit_Mode : SceneBase
                 State.GameManager.CreateMessageBox("You already have the maximum number of armies and no existing one with free space is adjacent.");
                 return;
             }
+
             bool foundSpot = false;
             int x = 0;
             int y = 0;
@@ -1646,6 +1652,7 @@ public class Recruit_Mode : SceneBase
                     break;
                 }
             }
+
             if (foundSpot)
             {
                 Vec2i destLoc = new Vec2i(x, y);
@@ -1657,6 +1664,7 @@ public class Recruit_Mode : SceneBase
                 return;
             }
         }
+
         army.Units.Remove(unit);
         destinationArmy.Units.Add(unit);
         empire.Armies.Add(destinationArmy);
@@ -1683,11 +1691,13 @@ public class Recruit_Mode : SceneBase
                 ArmyUI.UnitInfoArea[i].gameObject.SetActive(false);
             }
         }
+
         ArmyUI.Selector.transform.SetAsLastSibling();
         if (infoPanel == null)
         {
             infoPanel = new InfoPanel(ArmyUI.InfoPanel);
         }
+
         infoPanel.ClearText();
         displayUnits = new Actor_Unit[Config.MaximumPossibleArmy];
         displayCreatedUnit = new Unit[Config.MaximumPossibleArmy];
@@ -1695,6 +1705,7 @@ public class Recruit_Mode : SceneBase
         {
             ArmyUI.UnitInfoArea[x].SetIndex(x);
         }
+
         UpdateActorList();
         if (army.Units.Count > 0)
             Select(0);
@@ -1703,11 +1714,11 @@ public class Recruit_Mode : SceneBase
             selectedIndex = -1;
             UpdateUnitInfoPanel();
         }
+
         BannerType.gameObject.SetActive(false);
         ShowBanner.gameObject.SetActive(true);
         RecruitUI.AddUnit.gameObject.SetActive(Config.CheatAddUnitButton);
         RefreshUnitPanelButtons();
-
     }
 
     public void UpdateActorList()
@@ -1731,6 +1742,7 @@ public class Recruit_Mode : SceneBase
             }
             //else it already exists and is correct, so we do nothing
         }
+
         ArmyUI.UnitInfoAreaSize.sizeDelta = new Vector2(1400, Mathf.Max((5 + army.Units.Count()) / 6 * 240, 900));
         UpdateDrawnActors();
     }
@@ -1765,18 +1777,16 @@ public class Recruit_Mode : SceneBase
             }
         }
 
-        if (village != null)
-            GenText();
+        if (village != null) GenText();
         UpdateActorList();
     }
 
     /// <summary>
-    /// Auto-called by UpdateActorList for now
+    ///     Auto-called by UpdateActorList for now
     /// </summary>
     private void UpdateDrawnActors()
     {
-        if (army == null)
-            return;
+        if (army == null) return;
 
         for (int x = 0; x < Config.MaximumPossibleArmy; x++)
         {
@@ -1785,11 +1795,11 @@ public class Recruit_Mode : SceneBase
                 ArmyUI.UnitInfoArea[x].gameObject.SetActive(false);
                 continue;
             }
+
             ArmyUI.UnitInfoArea[x].gameObject.SetActive(true);
             ArmyUI.UnitInfoArea[x].UpdateSprites(displayUnits[x]);
             ArmyUI.UnitInfoArea[x].Name.text = army.Units[x].Name;
         }
-
     }
 
     public void BuildRaceDisplay()
@@ -1799,6 +1809,7 @@ public class Recruit_Mode : SceneBase
         {
             Destroy(RaceUI.ActorFolder.transform.GetChild(i).gameObject);
         }
+
         for (int i = 0; i < village.VillagePopulation.Population.Count; i++)
         {
             if (village.VillagePopulation.Population[i].Population - village.VillagePopulation.Population[i].Hireables > 0)
@@ -1815,13 +1826,10 @@ public class Recruit_Mode : SceneBase
                 Race tempRace = village.VillagePopulation.Population[i].Race;
                 button.onClick.AddListener(() => Recruit(tempRace));
                 button.onClick.AddListener(() => BuildRaceDisplay());
-
             }
-
         }
 
         RaceUI.gameObject.SetActive(true);
-
     }
 
     private void Recruit(Race race)
@@ -1841,18 +1849,20 @@ public class Recruit_Mode : SceneBase
                             Debug.Log(unit.Name + " is returning to " + village.Name);
                         };
                     }
+
                     unit = village.RecruitPlayerUnit(empire, army, race);
                 }
                 else
                     break;
             }
+
             UpdateActorList();
             GenText();
         }
         else
         {
             Unit unit = village.RecruitPlayerUnit(empire, army, race);
-            if ( unit != null)
+            if (unit != null)
             {
                 if (unit.HasTrait(TraitType.Infiltrator) && !unit.IsInfiltratingSide(unit.Side))
                 {
@@ -1862,12 +1872,10 @@ public class Recruit_Mode : SceneBase
                         Debug.Log(unit.Name + " is returning to " + village.Name);
                     };
                 }
+
                 UpdateActorList();
                 GenText();
             }
         }
-
     }
-
-
 }

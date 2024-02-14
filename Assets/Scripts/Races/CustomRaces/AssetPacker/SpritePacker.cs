@@ -29,15 +29,12 @@ public static class SpritePacker
     internal static (string, Sprite)[] LoadOrUpdateTextures(IEnumerable<SpriteToLoad> toLoads)
     {
         // TODO a lot of redundant and inefficient conversions
-        List<TextureToPack> texturesToPack = toLoads.Select(it =>
-        {
-            return new TextureToPack(it.Path, it.Key);
-        }).ToList();
+        List<TextureToPack> texturesToPack = toLoads.Select(it => { return new TextureToPack(it.Path, it.Key); }).ToList();
 
         var packResult = PackTextures(texturesToPack, TextureSize, PixelsPerUnit);
 
         List<(string, Sprite)> result = new List<(string, Sprite)>();
-        
+
         foreach (Entry entry in packResult)
         {
             foreach (var dictEntry in entry.Dict)
@@ -48,12 +45,12 @@ public static class SpritePacker
 
         return result.ToArray();
     }
-    
-    
+
+
     internal static List<Entry> PackTextures(List<TextureToPack> itemsToRaster, int textureSize, float pixelsPerUnit)
     {
         List<Entry> entries = new List<Entry>();
-            
+
         var textures = new List<Texture2D>();
         var images = new List<string>();
 
@@ -63,8 +60,8 @@ public static class SpritePacker
             textures.Add(loader.texture);
             images.Add(itemToRaster.Id);
         }
-            
-            
+
+
         //Debug.Log("");
 
         var rectangles = new List<Rect>();
@@ -92,13 +89,13 @@ public static class SpritePacker
 
             var packer = new RectanglePacker(texture.width, texture.height, padding);
 
-                
+
             for (var i = 0; i < rectangles.Count; i++)
             {
                 packer.insertRectangle((int)rectangles[i].width, (int)rectangles[i].height, i);
             }
 
-                
+
             packer.packRectangles();
 
             if (packer.rectangleCount > 0)
@@ -163,11 +160,10 @@ public static class SpritePacker
                 entries.Add(new Entry(mSprites, texture, spriteInfos.ToArray()));
             }
         }
+
         watch1.Stop();
         //Debug.Log(watch1.ElapsedMilliseconds);
 
         return entries;
     }
-
-        
 }

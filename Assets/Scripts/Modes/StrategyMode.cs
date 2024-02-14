@@ -10,8 +10,6 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 
-
-
 public class StrategyMode : SceneBase
 {
     public Translator Translator;
@@ -30,21 +28,13 @@ public class StrategyMode : SceneBase
 
     private bool subWindowUp = false;
 
-    private Empire ActingEmpire
-    {
-        get { return State.World.ActingEmpire; }
-        set { State.World.ActingEmpire = value; }
-    }
+    private Empire ActingEmpire { get { return State.World.ActingEmpire; } set { State.World.ActingEmpire = value; } }
 
     private Empire RenamingEmpire;
 
     private Army SelectedArmy
     {
-        get
-        {
-            return _selectedArmy;
-        }
-
+        get { return _selectedArmy; }
         set
         {
             _selectedArmy = value;
@@ -52,11 +42,9 @@ public class StrategyMode : SceneBase
             {
                 arrowManager?.ClearNodes();
                 mouseMovementMode = false;
-                if (State.World.MainEmpires != null)
-                    UpdateArmyLocationsAndSprites();
+                if (State.World.MainEmpires != null) UpdateArmyLocationsAndSprites();
                 ArmyBarUp = value != null;
-                if (ArmyBarUp)
-                    RegenArmyBar(_selectedArmy);
+                if (ArmyBarUp) RegenArmyBar(_selectedArmy);
             }
         }
     }
@@ -81,18 +69,23 @@ public class StrategyMode : SceneBase
     internal bool OnlyAIPlayers { get; private set; }
 
     private Empire _lastHumanTeam = null;
+
     public Empire LastHumanEmpire
     {
-        get { if (ActingEmpire?.StrategicAI == null) _lastHumanTeam = ActingEmpire; return _lastHumanTeam; }
+        get
+        {
+            if (ActingEmpire?.StrategicAI == null) _lastHumanTeam = ActingEmpire;
+            return _lastHumanTeam;
+        }
         set => _lastHumanTeam = value;
     }
 
     internal List<PathNode> QueuedPath
     {
-        get => queuedPath; set
+        get => queuedPath;
+        set
         {
-            if (value == null)
-                queuedAttackPermission = false;
+            if (value == null) queuedAttackPermission = false;
             queuedPath = value;
         }
     }
@@ -129,7 +122,7 @@ public class StrategyMode : SceneBase
     private GameObject GenericBanner => SpriteCategories[1];
     private GameObject GenericVillage => SpriteCategories[2];
     private GameObject MultiStageBanner => SpriteCategories[3];
-    
+
     public Sprite[] Banners;
 
     public Transform VillageFolder;
@@ -146,9 +139,9 @@ public class StrategyMode : SceneBase
     public EventScreen EventUI;
 
     public float NightChance = Config.BaseNightChance;
-	
+
     public GameObject NotificationWindow;
-    public TMPro.TextMeshProUGUI NotificationText;
+    public TextMeshProUGUI NotificationText;
     private float remainingNotificationTime;
 
     public GameObject ExchangeBlockerPanels;
@@ -202,20 +195,23 @@ public class StrategyMode : SceneBase
         {
             village.UpdateNetBoosts();
         }
+
         foreach (Empire emp in State.World.MainEmpires)
         {
-
             if (State.World.Villages.Where(s => Equals(s.Side, emp.Side)).Any() == false)
             {
                 emp.KnockedOut = true;
                 continue;
             }
+
             if (emp.StrategicAI == null)
             {
                 OnlyAIPlayers = false;
             }
+
             emp.Regenerate();
         }
+
         State.World.PopulateMonsterTurnOrders();
         State.World.RefreshTurnOrder();
         for (int i = 0; i < State.World.EmpireOrder.Count; i++)
@@ -226,20 +222,19 @@ public class StrategyMode : SceneBase
                 break;
             }
         }
+
         GenericSetup();
         StatusBarUI.RecreateWorld.gameObject.SetActive(true);
-
     }
 
     /// <summary>
-    /// Designed to be used through NotificationSystem, but can be used manually
+    ///     Designed to be used through NotificationSystem, but can be used manually
     /// </summary>
     /// <param name="message"></param>
     /// <param name="time"></param>
     internal void ShowNotification(string message, float time)
     {
-        if (Config.Notifications == false)
-            return;
+        if (Config.Notifications == false) return;
         NotificationWindow.SetActive(true);
         remainingNotificationTime = time;
         NotificationText.text = message;
@@ -257,8 +252,7 @@ public class StrategyMode : SceneBase
     public void ClearData()
     {
         StrategyPathfinder.Initialized = false;
-        if (State.World != null)
-            ActingEmpire = null;
+        if (State.World != null) ActingEmpire = null;
         _selectedArmy = null;
         subWindowUp = false;
         arrowManager?.ClearNodes();
@@ -309,15 +303,14 @@ public class StrategyMode : SceneBase
 
     private void OpenExchangerPanel(Army left, Vec2i location)
     {
-        if (left == null)
-            return;
-        if (left.Position.GetNumberOfMovesDistance(location) != 1)
-            return;
+        if (left == null) return;
+        if (left.Position.GetNumberOfMovesDistance(location) != 1) return;
         if (left.RemainingMP < 1)
         {
             State.GameManager.CreateMessageBox("Army needs to have at least 1 MP to exchange units");
             return;
         }
+
         Village village = StrategicUtilities.GetVillageAt(location);
         if (village != null && village.Empire.IsEnemy(left.Empire))
         {
@@ -327,6 +320,7 @@ public class StrategyMode : SceneBase
                 return;
             }
         }
+
         Army right = StrategicUtilities.ArmyAt(location);
         if (right == null)
         {
@@ -386,6 +380,7 @@ public class StrategyMode : SceneBase
                 {
                     armiesToReassign.Add(army);
                 }
+
                 if (RaceFuncs.IsPlayableRace(army.Side.ToRace()))
                 {
                     army.Banner = Instantiate(MultiStageBanner, new Vector3(army.Position.X, army.Position.Y), new Quaternion(), ArmyFolder).GetComponent<MultiStageBanner>();
@@ -393,7 +388,6 @@ public class StrategyMode : SceneBase
                 }
                 else
                 {
-
                     int tileType = empire.BannerType;
                     if (army.Units.Contains(empire.Leader)) tileType += 4;
                     if (SelectedArmy == army) tileType += 1;
@@ -401,13 +395,14 @@ public class StrategyMode : SceneBase
                     army.Sprite.sprite = Sprites[tileType];
                     army.Sprite.color = empire.UnityColor;
                 }
-
             }
         }
+
         foreach (Army army in armiesToReassign)
         {
             ReassignArmyEmpire(army);
         }
+
         UpdateFog();
     }
 
@@ -430,7 +425,6 @@ public class StrategyMode : SceneBase
             {
                 for (int j = 0; j <= doodads.GetUpperBound(1); j++)
                 {
-
                     if (doodads[i, j] >= StrategicDoodadType.SpawnerVagrant)
 
                     {
@@ -550,19 +544,20 @@ public class StrategyMode : SceneBase
                     RedrawArmies();
                     return;
                 }
-                if (army.Banner != null)
-                    army.Banner.Refresh(army, army == SelectedArmy);
+
+                if (army.Banner != null) army.Banner.Refresh(army, army == SelectedArmy);
             }
         }
+
         UpdateFog();
     }
 
     private static readonly int TheFreeTeam = 2500;
     private static readonly int UnboundTeam = 3000;
-    
+
     internal void ReassignArmyEmpire(Army army)
     {
-        var sidesRepresented = new Dictionary<Side,int>();
+        var sidesRepresented = new Dictionary<Side, int>();
         army.Units.ForEach(unit =>
         {
             if (sidesRepresented.ContainsKey(unit.FixedSide))
@@ -574,7 +569,7 @@ public class StrategyMode : SceneBase
                 sidesRepresented.Add(unit.FixedSide, 1);
             }
         });
-        
+
         var finalSide = sidesRepresented.OrderByDescending(s => s.Value).First().Key;
         var pos = army.Position;
         Vec2 loc = pos;
@@ -598,24 +593,23 @@ public class StrategyMode : SceneBase
                     loc.x = State.Rand.Next(Config.StrategicWorldSizeX);
                     loc.y = State.Rand.Next(Config.StrategicWorldSizeY);
 
-                    if (StrategicUtilities.IsTileClear(loc))
-                        break;
-
+                    if (StrategicUtilities.IsTileClear(loc)) break;
                 }
+
                 Debug.Log("Could not place army");
                 return;
             }
+
             void CheckTile(Vec2 spot)
             {
-                if (StrategicUtilities.IsTileClear(spot) == false)
-                    return;
+                if (StrategicUtilities.IsTileClear(spot) == false) return;
                 if (loc.x == 0 && loc.y == 0)
                     loc = spot;
-                else if (State.Rand.Next(4) == 0)
-                    loc = spot;
+                else if (State.Rand.Next(4) == 0) loc = spot;
             }
         }
-        pos = new Vec2i(loc.x,loc.y);
+
+        pos = new Vec2i(loc.x, loc.y);
         var emp = State.World.GetEmpireOfSide(finalSide);
         if (emp != null)
         {
@@ -623,11 +617,13 @@ public class StrategyMode : SceneBase
             newArmy.Units = army.Units;
             emp.Armies.Add(newArmy);
             newArmy.Units.ForEach(u => u.Side = newArmy.Side);
-        } else // we'll literally make up an empire on the spot. Should rarely happen
+        }
+        else // we'll literally make up an empire on the spot. Should rarely happen
         {
             var monsterEmp = State.World.MonsterEmpires.Where(e => Equals(e.Race, army.Units.Where(u => Equals(u.FixedSide, finalSide)).FirstOrDefault()?.Race)).FirstOrDefault();
-            if (monsterEmp != null) {
-                Empire brandNewEmp = new MonsterEmpire(new Empire.ConstructionArgs(emp.Race, finalSide, UnityEngine.Color.white, UnityEngine.Color.white, monsterEmp.BannerType, StrategyAIType.Monster, TacticalAIType.Full, UnboundTeam, monsterEmp.MaxArmySize, 0));
+            if (monsterEmp != null)
+            {
+                Empire brandNewEmp = new MonsterEmpire(new Empire.ConstructionArgs(emp.Race, finalSide, Color.white, Color.white, monsterEmp.BannerType, StrategyAIType.Monster, TacticalAIType.Full, UnboundTeam, monsterEmp.MaxArmySize, 0));
                 brandNewEmp.ReplacedRace = monsterEmp.Race;
                 brandNewEmp.TurnOrder = 1234;
                 brandNewEmp.Name = "Unbound " + monsterEmp.Name;
@@ -652,6 +648,7 @@ public class StrategyMode : SceneBase
                 State.World.RefreshTurnOrder();
             }
         }
+
         army.Empire.Armies.Remove(army);
         RedrawArmies();
     }
@@ -665,18 +662,20 @@ public class StrategyMode : SceneBase
                 FogOfWar.ClearAllTiles();
                 FogOfWar.gameObject.SetActive(false);
             }
+
             UpdateVisibility();
             return;
         }
+
         FogOfWar.gameObject.SetActive(true);
 
-        if (FogSystem == null)
-            FogSystem = new FogSystem(FogOfWar, FogTile);
+        if (FogSystem == null) FogSystem = new FogSystem(FogOfWar, FogTile);
         if (OnlyAIPlayers)
         {
             Config.World.Toggles["FogOfWar"] = false;
             return;
         }
+
         FogSystem.UpdateFog(LastHumanEmpire, State.World.Villages, StrategicUtilities.GetAllArmies(), currentVillageTiles, currentClaimableTiles);
     }
 
@@ -687,8 +686,7 @@ public class StrategyMode : SceneBase
         foreach (Army army in StrategicUtilities.GetAllHostileArmies(LastHumanEmpire))
         {
             var spr = army.Banner?.GetComponent<MultiStageBanner>();
-            if (spr != null)
-                spr.gameObject.SetActive(Equals(army.Side, LastHumanEmpire.Side) || !army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => Equals(u.FixedSide, ActingEmpire.Side)) : army.Units.Any(u => Equals(u.FixedSide, LastHumanEmpire.Side))));
+            if (spr != null) spr.gameObject.SetActive(Equals(army.Side, LastHumanEmpire.Side) || !army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => Equals(u.FixedSide, ActingEmpire.Side)) : army.Units.Any(u => Equals(u.FixedSide, LastHumanEmpire.Side))));
             var spr2 = army.Sprite;
             if (spr2 != null) spr2.enabled = Equals(army.Side, LastHumanEmpire.Side) || !army.Units.All(u => u.HasTrait(TraitType.Infiltrator)) || (StrategicUtilities.GetAllHumanSides().Count() > 1 ? army.Units.Any(u => Equals(u.FixedSide, ActingEmpire.Side)) : army.Units.Any(u => Equals(u.FixedSide, LastHumanEmpire.Side)));
         }
@@ -700,6 +698,7 @@ public class StrategyMode : SceneBase
         {
             tilemap.ClearAllTiles();
         }
+
         StrategicTileLogic logic = new StrategicTileLogic();
         StrategicTileType[,] tiles = logic.ApplyLogic(State.World.Tiles, out var overTiles, out var underTiles);
         for (int i = 0; i <= tiles.GetUpperBound(0); i++)
@@ -721,16 +720,14 @@ public class StrategyMode : SceneBase
                 else
                 {
                     var type = StrategicTileInfo.GetObjectTileType(State.World.Tiles[i, j], i, j);
-                    if (type != -1)
-                        TilemapLayers[2].SetTile(new Vector3Int(i, j, 0), TileDictionary.Objects[type]);
-
+                    if (type != -1) TilemapLayers[2].SetTile(new Vector3Int(i, j, 0), TileDictionary.Objects[type]);
                 }
+
                 if (tiles[i, j] >= (StrategicTileType)2100 && underTiles[i, j] >= (StrategicTileType)2200)
                 {
                     TilemapLayers[1].SetTile(new Vector3Int(i, j, 0), TileDictionary.GrassFloat[(int)tiles[i, j] - 2100]);
                     TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileDictionary.IceOverSnow[(int)underTiles[i, j] - 2200]);
                     //TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[(int)underTiles[i, j]]);
-
                 }
                 else if (tiles[i, j] >= (StrategicTileType)2100)
                 {
@@ -755,9 +752,7 @@ public class StrategyMode : SceneBase
                             default:
                                 TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[StrategicTileInfo.GetTileType(State.World.Tiles[i, j], i, j)]);
                                 break;
-
                         }
-
                     }
 
                     //TilemapLayers[1].SetTile(new Vector3Int(i, j, 0), TileDictionary.IceOverSnow[(int)tiles[i, j] - 2100]);
@@ -775,6 +770,7 @@ public class StrategyMode : SceneBase
                 }
             }
         }
+
         StrategicDoodadType[,] doodads = State.World.Doodads;
         if (doodads != null)
         {
@@ -782,8 +778,7 @@ public class StrategyMode : SceneBase
             {
                 for (int j = 0; j <= doodads.GetUpperBound(1); j++)
                 {
-                    if (doodads[i, j] > 0 && doodads[i, j] < StrategicDoodadType.SpawnerVagrant)
-                        TilemapLayers[3].SetTile(new Vector3Int(i, j, 0), DoodadTypes[-1 + (int)doodads[i, j]]);
+                    if (doodads[i, j] > 0 && doodads[i, j] < StrategicDoodadType.SpawnerVagrant) TilemapLayers[3].SetTile(new Vector3Int(i, j, 0), DoodadTypes[-1 + (int)doodads[i, j]]);
                 }
             }
         }
@@ -791,8 +786,7 @@ public class StrategyMode : SceneBase
 
     public void RedrawVillages()
     {
-        if (State.World == null)
-            return;
+        if (State.World == null) return;
         ClearVillages();
         Village[] villages = State.World.Villages;
         currentVillageTiles = new List<GameObject>();
@@ -800,15 +794,14 @@ public class StrategyMode : SceneBase
         for (int i = 0; i < villages.Length; i++)
         {
             Village village = villages[i];
-            if (village == null)
-                continue;
-            
+            if (village == null) continue;
+
             ///////////////////
             GameObject vill = Instantiate(GenericVillage, new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
             vill.GetComponent<SpriteRenderer>().sprite = village.GetIconSprite();
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
             currentVillageTiles.Add(vill);
-            
+
             /////////
             Sprite villageColorSprite = village.GetColoredIcon();
             if (villageColorSprite != null)
@@ -819,7 +812,7 @@ public class StrategyMode : SceneBase
                 currentVillageTiles.Add(villColored);
                 //if (villageColorSprite == 0) villColored.GetComponent<SpriteRenderer>().color = Color.clear;
             }
-            
+
             /////////
             GameObject villShield = Instantiate(GenericVillage, new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
             villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
@@ -834,17 +827,18 @@ public class StrategyMode : SceneBase
             villShieldInner.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
             currentVillageTiles.Add(villShieldInner);
         }
+
         foreach (var mercHouse in State.World.MercenaryHouses)
         {
             GameObject merc = Instantiate(GenericVillage, new Vector3(mercHouse.Position.X, mercHouse.Position.Y), new Quaternion(), VillageFolder);
             merc.GetComponent<SpriteRenderer>().sprite = Sprites[14];
             merc.GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
+
         foreach (var claimable in State.World.Claimables)
         {
             int spr = 0;
-            if (claimable is GoldMine)
-                spr = 12;
+            if (claimable is GoldMine) spr = 12;
             GameObject vill = Instantiate(GenericVillage, new Vector3(claimable.Position.X, claimable.Position.Y), new Quaternion(), VillageFolder);
             vill.GetComponent<SpriteRenderer>().sprite = Sprites[spr];
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
@@ -870,7 +864,6 @@ public class StrategyMode : SceneBase
             UpdateFog();
         else
             FogOfWar.ClearAllTiles();
-
     }
 
     private void ClearVillages()
@@ -889,12 +882,15 @@ public class StrategyMode : SceneBase
         {
             LastHumanEmpire = State.World.MainEmpires.Where(s => s.StrategicAI == null).FirstOrDefault();
         }
-        if (!initialLoad) { 
-        foreach (Empire empire in State.World.AllActiveEmpires)
+
+        if (!initialLoad)
         {
-            empire.ArmyCleanup(); 
+            foreach (Empire empire in State.World.AllActiveEmpires)
+            {
+                empire.ArmyCleanup();
+            }
         }
-        }
+
         ActingEmpire.CalcIncome(State.World.Villages);
         if (ActingEmpire.StrategicAI == null || OnlyAIPlayers || Config.CheatExtraStrategicInfo || State.World.MainEmpires.Where(s => s.IsAlly(ActingEmpire) && s.StrategicAI == null).Any())
         {
@@ -909,10 +905,8 @@ public class StrategyMode : SceneBase
             StatusBarUI.Income.text = "Income: hidden";
         }
 
-        if (SelectedArmy == null || SelectedArmy.Units.Count == 0)
-            ArmyBarUp = false;
-        if (SelectedArmy != null)
-            SelectedArmy.RefreshMovementMode();
+        if (SelectedArmy == null || SelectedArmy.Units.Count == 0) ArmyBarUp = false;
+        if (SelectedArmy != null) SelectedArmy.RefreshMovementMode();
         RegenArmyBar(SelectedArmy);
         RedrawArmies();
         RedrawVillages();
@@ -922,18 +916,18 @@ public class StrategyMode : SceneBase
             ShowTurnReport();
             NewReports = false;
         }
-        if (ActingEmpire.StrategicAI == null)
-            ActingEmpire.CheckAutoLevel();
+
+        if (ActingEmpire.StrategicAI == null) ActingEmpire.CheckAutoLevel();
     }
 
     private void RegenArmyBar(Army army)
     {
-        if (army == null || SelectedArmy.Units.Any() == false)
-            return;
+        if (army == null || SelectedArmy.Units.Any() == false) return;
         if (ArmyBarUp == false)
         {
             ArmyBarUp = true;
         }
+
         ArmyStatusUI.Soldiers.text = army.Units.Count + " soldiers";
         ArmyStatusUI.Health.text = army.GetHealthPercentage() + "% health";
         ArmyStatusUI.MP.text = army.RemainingMP + " MP";
@@ -944,7 +938,7 @@ public class StrategyMode : SceneBase
         if (army.InVillageIndex > -1 && army.RemainingMP > 0)
         {
             var village = StrategicUtilities.GetVillageAt(SelectedArmy.Position);
-            var setActive = (village != null && village.NetBoosts.MaximumTrainingLevelAdd > 0);
+            var setActive = village != null && village.NetBoosts.MaximumTrainingLevelAdd > 0;
 
             ArmyStatusUI.Train.gameObject.SetActive(setActive);
             ArmyStatusUI.Devour.gameObject.SetActive(army.Units.Where(s => s.Predator).Any());
@@ -972,8 +966,7 @@ public class StrategyMode : SceneBase
         bool found = false;
         for (int i = 0; i < ActingEmpire.Armies.Count; i++)
         {
-            if (currentIndex >= ActingEmpire.Armies.Count)
-                currentIndex -= ActingEmpire.Armies.Count;
+            if (currentIndex >= ActingEmpire.Armies.Count) currentIndex -= ActingEmpire.Armies.Count;
             if (ActingEmpire.Armies[currentIndex].RemainingMP > 0)
             {
                 found = true;
@@ -981,10 +974,11 @@ public class StrategyMode : SceneBase
                 State.GameManager.CenterCameraOnTile(SelectedArmy.Position.X, SelectedArmy.Position.Y);
                 break;
             }
+
             currentIndex++;
         }
-        if (found == false)
-            SelectedArmy = null;
+
+        if (found == false) SelectedArmy = null;
     }
 
     private void CheckForMovementInput()
@@ -995,36 +989,43 @@ public class StrategyMode : SceneBase
             {
                 Move(SelectedArmy, 5);
             }
+
             if (Input.GetButtonDown("Move South"))
             {
                 Move(SelectedArmy, 4);
             }
+
             if (Input.GetButtonDown("Move Southeast"))
             {
                 Move(SelectedArmy, 3);
             }
+
             if (Input.GetButtonDown("Move East"))
             {
                 Move(SelectedArmy, 2);
             }
+
             if (Input.GetButtonDown("Move Northeast"))
             {
                 Move(SelectedArmy, 1);
             }
+
             if (Input.GetButtonDown("Move North"))
             {
                 Move(SelectedArmy, 0);
             }
+
             if (Input.GetButtonDown("Move Northwest"))
             {
                 Move(SelectedArmy, 7);
             }
+
             if (Input.GetButtonDown("Move West"))
             {
                 Move(SelectedArmy, 6);
             }
-
         }
+
         RegenArmyBar(SelectedArmy);
     }
 
@@ -1046,8 +1047,7 @@ public class StrategyMode : SceneBase
 
     private void AI(float dt)
     {
-        if (State.GameManager.queuedTactical)
-            return;
+        if (State.GameManager.queuedTactical) return;
         if (m_timer > 0)
         {
             m_timer -= dt;
@@ -1059,15 +1059,14 @@ public class StrategyMode : SceneBase
             {
                 EndTurn();
             }
+
             m_timer = Config.StrategicAIMoveDelay;
         }
     }
 
 
-
     public void ButtonCallback(int ID)
     {
-
         if (ActingEmpire.StrategicAI == null && State.GameManager.StrategicControlsLocked == false)
         {
             if (!subWindowUp)
@@ -1075,8 +1074,7 @@ public class StrategyMode : SceneBase
                 switch (ID)
                 {
                     case 10:
-                        if (runningQueued || QueuedPath != null)
-                            return;
+                        if (runningQueued || QueuedPath != null) return;
                         EndTurn();
                         break;
                     case 11:
@@ -1138,16 +1136,14 @@ public class StrategyMode : SceneBase
                         {
                             UndoMoves.Clear();
                             int costToEnter = StrategicTileInfo.WalkCost(ExchangerUI.LeftArmy.Position.X, ExchangerUI.LeftArmy.Position.Y);
-                            if (rightStartingMp - costToEnter < leftStartingMp)
-                                ExchangerUI.LeftArmy.RemainingMP = Math.Max(0, rightStartingMp - costToEnter);
+                            if (rightStartingMp - costToEnter < leftStartingMp) ExchangerUI.LeftArmy.RemainingMP = Math.Max(0, rightStartingMp - costToEnter);
                         }
 
                         if (ExchangerUI.RightReceived)
                         {
                             UndoMoves.Clear();
                             int costToEnter = StrategicTileInfo.WalkCost(ExchangerUI.RightArmy.Position.X, ExchangerUI.RightArmy.Position.Y);
-                            if (leftStartingMp - costToEnter < rightStartingMp)
-                                ExchangerUI.RightArmy.RemainingMP = Math.Max(0, leftStartingMp - costToEnter);
+                            if (leftStartingMp - costToEnter < rightStartingMp) ExchangerUI.RightArmy.RemainingMP = Math.Max(0, leftStartingMp - costToEnter);
                         }
 
                         if (ExchangerUI.LeftArmy.Units.Count == 0)
@@ -1158,41 +1154,35 @@ public class StrategyMode : SceneBase
                         {
                             ExchangerUI.RightArmy.ItemStock.TransferAllItems(ExchangerUI.LeftArmy.ItemStock);
                         }
+
                         if (ExchangerUI.RightArmy.Units.All(u => u.HasTrait(TraitType.Infiltrator)))
                         {
                             Village village = StrategicUtilities.GetVillageAt(ExchangerUI.RightArmy.Position);
                             var infilitrators = new List<Unit>();
-                            
-                                
-                                ExchangerUI.RightArmy.Units.ForEach(unit => {
-                                    infilitrators.Add(unit);
-                                });
+
+
+                            ExchangerUI.RightArmy.Units.ForEach(unit => { infilitrators.Add(unit); });
                             if (village != null && village.Empire.IsEnemy(ExchangerUI.LeftArmy.Empire))
                             {
-                                infilitrators.ForEach(inf =>
-                                {
-                                    StrategicUtilities.TryInfiltrate(ExchangerUI.RightArmy, inf, village);
-                                });
+                                infilitrators.ForEach(inf => { StrategicUtilities.TryInfiltrate(ExchangerUI.RightArmy, inf, village); });
                                 ExchangerUI.RightArmy.Empire.Armies.Remove(ExchangerUI.RightArmy);
                                 ExchangerUI.RightArmy.Empire.ArmiesCreated--;
                             }
                             else
                             {
                                 MercenaryHouse mercHouse = StrategicUtilities.GetMercenaryHouseAt(ExchangerUI.RightArmy.Position);
-                                if (mercHouse != null) {
-                                    infilitrators.ForEach(inf =>
-                                    {
-                                        StrategicUtilities.TryInfiltrate(ExchangerUI.RightArmy, inf, null, mercHouse);
-                                    });
+                                if (mercHouse != null)
+                                {
+                                    infilitrators.ForEach(inf => { StrategicUtilities.TryInfiltrate(ExchangerUI.RightArmy, inf, null, mercHouse); });
                                     ExchangerUI.RightArmy.Empire.Armies.Remove(ExchangerUI.RightArmy);
                                     ExchangerUI.RightArmy.Empire.ArmiesCreated--;
                                 }
                             }
                         }
+
                         Regenerate();
                         subWindowUp = false;
                         break;
-
                 }
             }
         }
@@ -1211,8 +1201,7 @@ public class StrategyMode : SceneBase
             sb.AppendLine($"it has a population of {village.GetTotalPop()}");
             sb.AppendLine($"of which {village.Garrison} are garrison units");
             sb.AppendLine($"to completely heal you should eat {SelectedArmy.GetDevourmentCapacity(1)}");
-            if (SelectedArmy.Units.Where(s => s.Predator == false).Any())
-                sb.AppendLine($"note that some of the units in this army are not predators");
+            if (SelectedArmy.Units.Where(s => s.Predator == false).Any()) sb.AppendLine($"note that some of the units in this army are not predators");
             sb.AppendLine("how many should they devour?");
 
             if (village.GetRecruitables().Count > 0)
@@ -1220,23 +1209,22 @@ public class StrategyMode : SceneBase
                 sb.AppendLine($"(it has {village.GetRecruitables().Count} stored units");
                 sb.AppendLine($"if you try to eat too many it will eat these)");
             }
+
             DevourUI.FullText.text = sb.ToString();
         }
-
     }
 
     public void BuildDevourSelectDisplay()
     {
-        if (SelectedArmy == null)
-            return;
+        if (SelectedArmy == null) return;
         Village village = StrategicUtilities.GetVillageAt(SelectedArmy.Position);
-        if (village == null)
-            return;
+        if (village == null) return;
         int children = RaceUI.ActorFolder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
         {
             Destroy(RaceUI.ActorFolder.transform.GetChild(i).gameObject);
         }
+
         for (int i = 0; i < village.VillagePopulation.Population.Count; i++)
         {
             if (village.VillagePopulation.Population[i].Population > 0)
@@ -1257,7 +1245,6 @@ public class StrategyMode : SceneBase
                 button2.onClick.AddListener(() => DevourAll(SelectedArmy, tempRace));
                 button2.onClick.AddListener(() => BuildDevourSelectDisplay());
             }
-
         }
 
         RaceUI.gameObject.SetActive(true);
@@ -1275,15 +1262,12 @@ public class StrategyMode : SceneBase
 
     public void Devour(Army predArmy, int numToEat)
     {
-        if (numToEat <= 0)
-            return;
+        if (numToEat <= 0) return;
         Village village = StrategicUtilities.GetVillageAt(predArmy.Position);
 
         if (village != null && predArmy.RemainingMP > 0 && village.GetTotalPop() > 0)
         {
-
-            if (village.GetTotalPop() < numToEat)
-                numToEat = village.GetTotalPop();
+            if (village.GetTotalPop() < numToEat) numToEat = village.GetTotalPop();
 
             village.DevouredPercentage(numToEat / village.GetTotalPop());
             village.SubtractPopulation(numToEat);
@@ -1310,12 +1294,10 @@ public class StrategyMode : SceneBase
 
         if (village != null && (predArmy.RemainingMP > 0 || predArmy.DevourThisTurn == true) && village.GetTotalPop() > 0)
         {
-
             village.DevouredPercentage(1 / village.GetTotalPop());
             village.SubtractPopulation(1, race);
 
-            if (Config.MultiRaceVillages && village.VillagePopulation.GetRacePop(race) <= 0)
-                village.VillagePopulation.DirectLinkToNamed().RemoveAll(s => Equals(s.Race, race));
+            if (Config.MultiRaceVillages && village.VillagePopulation.GetRacePop(race) <= 0) village.VillagePopulation.DirectLinkToNamed().RemoveAll(s => Equals(s.Race, race));
 
             predArmy.DevourHeal(1);
 
@@ -1334,20 +1316,16 @@ public class StrategyMode : SceneBase
 
     public void DevourAll(Army predArmy, Race race)
     {
-
-
         Village village = StrategicUtilities.GetVillageAt(predArmy.Position);
 
         int numToEat = village.VillagePopulation.GetRacePop(race);
 
         if (village != null && (predArmy.RemainingMP > 0 || predArmy.DevourThisTurn == true) && village.GetTotalPop() > 0)
         {
-
             village.DevouredPercentage(numToEat / village.GetTotalPop());
             village.SubtractPopulation(numToEat, race);
 
-            if (Config.MultiRaceVillages)
-                village.VillagePopulation.DirectLinkToNamed().RemoveAll(s => Equals(s.Race, race));
+            if (Config.MultiRaceVillages) village.VillagePopulation.DirectLinkToNamed().RemoveAll(s => Equals(s.Race, race));
 
             predArmy.DevourHeal(numToEat);
 
@@ -1403,16 +1381,13 @@ public class StrategyMode : SceneBase
             return;
         }
 
-        if (SelectedArmy == null)
-            return;
+        if (SelectedArmy == null) return;
 
-        if (currentPathDestination != null && mouseLocation.Matches(currentPathDestination))
-            return;
+        if (currentPathDestination != null && mouseLocation.Matches(currentPathDestination)) return;
         currentPathDestination = mouseLocation;
         var path = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, mouseLocation, SelectedArmy.RemainingMP, SelectedArmy.movementMode == Army.MovementMode.Flight);
         arrowManager.ClearNodes();
-        if (path == null || path.Count == 0)
-            return;
+        if (path == null || path.Count == 0) return;
         int remainingMP = SelectedArmy.RemainingMP;
         for (int i = 0; i < path.Count; i++)
         {
@@ -1429,8 +1404,8 @@ public class StrategyMode : SceneBase
                     arrowManager.PlaceNode(Color.red, nextNode);
                     break;
                 }
-                remainingMP -= 1;
 
+                remainingMP -= 1;
             }
 
             if (remainingMP >= 0)
@@ -1440,17 +1415,14 @@ public class StrategyMode : SceneBase
                 ContinuePath(SelectedArmy, path, i);
                 break;
             }
-
         }
-
     }
 
     private void ShowPathOfArmy(Army army)
     {
         var path = StrategyPathfinder.GetPath(ActingEmpire, army, army.Destination, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
         arrowManager.ClearNodes();
-        if (path == null || path.Count == 0)
-            return;
+        if (path == null || path.Count == 0) return;
         int remainingMP = army.RemainingMP;
 
         for (int i = 0; i < path.Count; i++)
@@ -1469,8 +1441,8 @@ public class StrategyMode : SceneBase
                     arrowManager.PlaceNode(Color.red, nextNode);
                     break;
                 }
-                remainingMP -= 1;
 
+                remainingMP -= 1;
             }
 
             if (remainingMP >= 0)
@@ -1480,7 +1452,6 @@ public class StrategyMode : SceneBase
                 ContinuePath(army, path, i);
                 break;
             }
-
         }
     }
 
@@ -1500,7 +1471,6 @@ public class StrategyMode : SceneBase
             else if (action == Army.TileAction.Attack)
             {
                 remainingBatchMp = 0;
-
             }
 
 
@@ -1509,11 +1479,8 @@ public class StrategyMode : SceneBase
                 if (path.Count >= i + 2)
                 {
                     Army.TileAction nextAction = army.CheckTileForActionType(new Vec2i(path[i + 1].X, path[i + 1].Y));
-                    if (nextAction == Army.TileAction.TwoMP)
-                        remainingBatchMp = 0;
+                    if (nextAction == Army.TileAction.TwoMP) remainingBatchMp = 0;
                 }
-
-
             }
 
             if (remainingBatchMp == 0)
@@ -1524,8 +1491,6 @@ public class StrategyMode : SceneBase
             }
             else
                 arrowManager.PlaceNode(Color.gray, nextNode);
-
-
         }
     }
 
@@ -1559,7 +1524,7 @@ public class StrategyMode : SceneBase
             if (maxTrainLevel >= 5) options.Add($"Extreme Training - {trainExp[4]} EXP, {trainCost[4]}G");
             if (maxTrainLevel >= 6) options.Add($"Hero Training - {trainExp[5]} EXP, {trainCost[5]}G");
             if (maxTrainLevel >= 7) options.Add($"Godly Training - {trainExp[6]} EXP, {trainCost[6]}G");
-            
+
             TrainUI.TrainingLevel.ClearOptions();
             TrainUI.TrainingLevel.AddOptions(options);
             if (TrainUI.TrainingLevel.value >= maxTrainLevel)
@@ -1567,6 +1532,7 @@ public class StrategyMode : SceneBase
                 TrainUI.TrainingLevel.value = maxTrainLevel - 1;
                 TrainUI.TrainingLevel.RefreshShownValue();
             }
+
             TrainUI.FullText.text = sb.ToString();
             CheckTrainingCost();
         }
@@ -1584,7 +1550,6 @@ public class StrategyMode : SceneBase
             TrainUI.Train.interactable = false;
             TrainUI.Train.GetComponentInChildren<Text>().text = "Not enough gold";
         }
-
     }
 
     public void TrainSelectedArmy()
@@ -1620,11 +1585,10 @@ public class StrategyMode : SceneBase
 
 
     private void EndTurn()
-    {       
+    {
         UndoMoves.Clear();
         ActingEmpire.Reports.Clear();
-        if (State.World.EmpireOrder == null || State.World.EmpireOrder.Count != State.World.AllActiveEmpiresCount)
-            State.World.RefreshTurnOrder();
+        if (State.World.EmpireOrder == null || State.World.EmpireOrder.Count != State.World.AllActiveEmpiresCount) State.World.RefreshTurnOrder();
         int startingIndex = State.World.EmpireOrder.IndexOf(ActingEmpire);
         SelectedArmy = null;
         StatusBarUI.EndTurn.interactable = false;
@@ -1632,7 +1596,6 @@ public class StrategyMode : SceneBase
         StatusBarUI.EmpireStatus.interactable = OnlyAIPlayers;
         if (startingIndex + 1 >= State.World.EmpireOrder.Count)
         {
-
             ScaledExp = StrategicUtilities.Get80thExperiencePercentile();
             StatusBarUI.RecreateWorld.gameObject.SetActive(false);
             State.World.Turn++;
@@ -1641,18 +1604,18 @@ public class StrategyMode : SceneBase
             {
                 RelationsManager.ResetRelationTypes();
             }
+
             State.EventList.CheckStartAIEvent();
 
             RelationsManager.TurnElapsed();
             ActingEmpire = State.World.EmpireOrder[0];
-            if (State.World.MonsterEmpires.Count() < RaceFuncs.SpawnerElligibleMonsterRaces.Count)
-                State.World.RefreshMonstersKeepingArmies();
+            if (State.World.MonsterEmpires.Count() < RaceFuncs.SpawnerElligibleMonsterRaces.Count) State.World.RefreshMonstersKeepingArmies();
             foreach (ClaimableBuilding claimable in State.World.Claimables)
             {
                 claimable.TurnChanged();
             }
-            if (OnlyAIPlayers)
-                State.Save($"{State.SaveDirectory}Autosave.sav");
+
+            if (OnlyAIPlayers) State.Save($"{State.SaveDirectory}Autosave.sav");
         }
         else
         {
@@ -1661,7 +1624,7 @@ public class StrategyMode : SceneBase
 
         float NightRoll = (float)State.Rand.NextDouble();
         if (Config.DayNightEnabled)
-        {           
+        {
             if (Config.DayNightSchedule && State.World.Turn % Config.World.NightRounds == 0)
             {
                 State.World.IsNight = true;
@@ -1676,13 +1639,12 @@ public class StrategyMode : SceneBase
                 State.World.IsNight = false;
                 NightChance += Config.NightChanceIncrease;
             }
-
         }
+
         if (ActingEmpire is MonsterEmpire)
         {
             if (Equals(ActingEmpire.Race, Race.Goblin))
             {
-
             }
             else if (Config.World.GetSpawner(ActingEmpire.Race).Enabled == false)
             {
@@ -1690,7 +1652,6 @@ public class StrategyMode : SceneBase
                 return;
             }
         }
-
 
 
         VictoryCheck();
@@ -1703,7 +1664,6 @@ public class StrategyMode : SceneBase
 
         CheckIfLastHumanPlayerEliminated();
         BeginTurn();
-
     }
 
     internal void BeginTurn()
@@ -1715,12 +1675,11 @@ public class StrategyMode : SceneBase
         {
             for (int j = 0; j < units.Count; j++)
             {
-                if (i == j)
-                    continue;
-                if (units[i] == units[j])
-                    duplicates++;
+                if (i == j) continue;
+                if (units[i] == units[j]) duplicates++;
             }
         }
+
         if (duplicates > 0)
         {
             Debug.LogWarning($"{duplicates / 2} duplicated units found!");
@@ -1729,8 +1688,7 @@ public class StrategyMode : SceneBase
         ProcessIncome(ActingEmpire);
         if (ActingEmpire.StrategicAI == null)
         {
-            if (State.World.Turn > 1)
-                ActingEmpire.CheckEvent();
+            if (State.World.Turn > 1) ActingEmpire.CheckEvent();
             LastHumanEmpire = ActingEmpire;
             State.Save($"{State.SaveDirectory}Autosave.sav");
             StatusBarUI.EndTurn.interactable = true;
@@ -1750,6 +1708,7 @@ public class StrategyMode : SceneBase
             StatusBarUI.EmpireStatus.interactable = ActingEmpire.IsAlly(LastHumanEmpire) || OnlyAIPlayers;
             EnemyTurnText.SetActive(true);
         }
+
         runningQueued = true;
         Regenerate();
     }
@@ -1758,8 +1717,7 @@ public class StrategyMode : SceneBase
     {
         foreach (Empire empire in State.World.MainEmpires)
         {
-            if (empire.KnockedOut && State.World.Villages.Where(s => s.Empire.IsAlly(empire)).Count() > 0)
-                empire.KnockedOut = false;
+            if (empire.KnockedOut && State.World.Villages.Where(s => s.Empire.IsAlly(empire)).Count() > 0) empire.KnockedOut = false;
         }
     }
 
@@ -1779,9 +1737,10 @@ public class StrategyMode : SceneBase
                         OnlyAIPlayers = false;
                     }
                 }
+
                 if (OnlyAIPlayers && State.GameManager.CurrentScene == State.GameManager.StrategyMode)
                 {
-                    var box = GameManager.Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
+                    var box = Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
                     box.SetData(State.GameManager.ActivateEndSceneLose,
                         "End Game",
                         "Continue Watching",
@@ -1796,7 +1755,6 @@ public class StrategyMode : SceneBase
 
     private void VictoryCheck()
     {
-
         Dictionary<Empire, bool> survivors = new Dictionary<Empire, bool>();
 
         switch (Config.VictoryCondition)
@@ -1804,34 +1762,36 @@ public class StrategyMode : SceneBase
             case Config.VictoryType.AllCapitals:
                 foreach (Village village in State.World.Villages.Where(s => s.Capital))
                 {
-                    if (village.GetTotalPop() < 1)
-                        continue;
+                    if (village.GetTotalPop() < 1) continue;
                     survivors[village.Empire] = true;
                 }
+
                 break;
             case Config.VictoryType.AllCities:
                 foreach (Village village in State.World.Villages)
                 {
-                    if (village.GetTotalPop() < 1)
-                        continue;
+                    if (village.GetTotalPop() < 1) continue;
                     survivors[village.Empire] = true;
                 }
+
                 break;
             case Config.VictoryType.CompleteElimination:
                 foreach (Village village in State.World.Villages)
                 {
-                    if (village.GetTotalPop() < 1)
-                        continue;
+                    if (village.GetTotalPop() < 1) continue;
                     survivors[village.Empire] = true;
                 }
+
                 foreach (Army army in StrategicUtilities.GetAllArmies(true))
                 {
                     survivors[army.Empire] = true;
                 }
+
                 break;
             case Config.VictoryType.NeverEnd:
                 return;
         }
+
         // was set to 0
         Side side = Race.Cat.ToSide();
         foreach (Empire emp in survivors.Keys)
@@ -1839,27 +1799,22 @@ public class StrategyMode : SceneBase
             side = emp.Side;
             foreach (Empire emp2 in survivors.Keys)
             {
-                if (emp == emp2)
-                    continue;
-                if (emp.IsAlly(emp2) == false)
-                    return;
+                if (emp == emp2) continue;
+                if (emp.IsAlly(emp2) == false) return;
             }
         }
 
         State.GameManager.ActivateEndSceneWin(side);
-
     }
 
 
     private void ProcessIncome(Empire empire)
     {
-
         empire.CalcIncome(State.World.Villages, true);
         empire.AddGold(empire.Income);
         if (RaceFuncs.NotMainRace(empire.Side))
         {
-            if (empire.Gold < 0)
-                empire.AddGold(-empire.Gold);
+            if (empire.Gold < 0) empire.AddGold(-empire.Gold);
         }
         else if (empire.Gold < 0)
         {
@@ -1870,10 +1825,8 @@ public class StrategyMode : SceneBase
                 Unit[] dismissOrder = empire.GetAllUnits().Where(s => s.Health > 0).OrderBy(s => s.Experience).ToArray();
                 for (int k = 0; k < dismissOrder.Length; k++)
                 {
-                    if (dismissOrder[k].Type == UnitType.Leader)
-                        continue;
-                    if (income >= 0)
-                        break;
+                    if (dismissOrder[k].Type == UnitType.Leader) continue;
+                    if (income >= 0) break;
                     foreach (Army army in empire.Armies)
                     {
                         if (army.Units.Contains(dismissOrder[k]))
@@ -1883,6 +1836,7 @@ public class StrategyMode : SceneBase
                             break;
                         }
                     }
+
                     dismissOrder[k].Health = 0;
                     income += Config.World.ArmyUpkeep;
                 }
@@ -1890,7 +1844,6 @@ public class StrategyMode : SceneBase
 
             Regenerate();
         }
-
     }
 
     private void ProcessGrowth()
@@ -1905,12 +1858,13 @@ public class StrategyMode : SceneBase
             empire.CalcIncome(State.World.Villages);
             empire.Regenerate();
         }
+
         for (int i = 0; i < State.World.MercenaryHouses.Length; i++)
         {
             State.World.MercenaryHouses[i].UpdateStock();
         }
-        MercenaryHouse.UpdateStaticStock();
 
+        MercenaryHouse.UpdateStaticStock();
     }
 
 
@@ -1940,6 +1894,7 @@ public class StrategyMode : SceneBase
                             var box = Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
                             box.SetData(() => SelectedArmy.Destination = null, "Clear Orders", "Leave Orders", "This army has a queued movement order, do you want to clear it?");
                         }
+
                         return;
                     }
                 }
@@ -1962,10 +1917,10 @@ public class StrategyMode : SceneBase
                         else
                             State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Self);
                     }
+
                     return;
                 }
             }
-
 
 
             foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => !Equals(s.Side, ActingEmpire.Side) && s.Empire.IsAlly(ActingEmpire)))
@@ -1985,12 +1940,12 @@ public class StrategyMode : SceneBase
                         else
                             State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Ally);
                     }
-                    return;
 
+                    return;
                 }
             }
 
-            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => (!Equals(s.Side, ActingEmpire.Side) && s.Empire.IsEnemy(ActingEmpire) || !Equals(s.Side, ActingEmpire.Side) && s.Empire.IsNeutral(ActingEmpire)) && ContainsFriendly(s)))
+            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => ((!Equals(s.Side, ActingEmpire.Side) && s.Empire.IsEnemy(ActingEmpire)) || (!Equals(s.Side, ActingEmpire.Side) && s.Empire.IsNeutral(ActingEmpire))) && ContainsFriendly(s)))
             {
                 if (army.Position.GetDistance(clickLocation) < 1)
                 {
@@ -2007,8 +1962,8 @@ public class StrategyMode : SceneBase
                         else
                             State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Infiltrator);
                     }
-                    return;
 
+                    return;
                 }
             }
 
@@ -2026,8 +1981,7 @@ public class StrategyMode : SceneBase
 
             if (Config.CheatViewHostileArmies)
             {
-                if (ProcessClickWithoutEmpire(x, y))
-                    return;
+                if (ProcessClickWithoutEmpire(x, y)) return;
             }
 
             SelectedArmy = null;
@@ -2036,9 +1990,7 @@ public class StrategyMode : SceneBase
 
     private bool ContainsFriendly(Army s)
     {
-        return s.Units.Any(u => {
-            return Equals(u.FixedSide, ActingEmpire.Side) || (State.World.GetEmpireOfSide(u.FixedSide)?.IsAlly(ActingEmpire) ?? false);
-        });
+        return s.Units.Any(u => { return Equals(u.FixedSide, ActingEmpire.Side) || (State.World.GetEmpireOfSide(u.FixedSide)?.IsAlly(ActingEmpire) ?? false); });
     }
 
     private bool ProcessClickWithoutEmpire(int x, int y)
@@ -2055,9 +2007,11 @@ public class StrategyMode : SceneBase
                 }
                 else
                     State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Observer);
+
                 return true;
             }
         }
+
         for (int i = 0; i < State.World.Villages.Length; i++)
         {
             if (State.World.Villages[i].Position.GetDistance(clickLocation) == 0)
@@ -2066,6 +2020,7 @@ public class StrategyMode : SceneBase
                 return true;
             }
         }
+
         return false;
     }
 
@@ -2083,9 +2038,11 @@ public class StrategyMode : SceneBase
                 }
                 else
                     State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Observer);
+
                 return true;
             }
         }
+
         for (int i = 0; i < State.World.Villages.Length; i++)
         {
             if (State.World.Villages[i].Position.GetDistance(clickLocation) == 0 && State.World.Villages[i].Empire.IsAlly(LastHumanEmpire))
@@ -2094,13 +2051,13 @@ public class StrategyMode : SceneBase
                 return true;
             }
         }
+
         return false;
     }
 
     private void SetSelectedArmyPathTo(int x, int y)
     {
-        if (SelectedArmy == null)
-            return;
+        if (SelectedArmy == null) return;
         arrowManager.ClearNodes();
         Vec2i clickLoc = new Vec2i(x, y);
         QueuedPath = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, clickLoc, SelectedArmy.RemainingMP, SelectedArmy.movementMode == Army.MovementMode.Flight);
@@ -2113,12 +2070,13 @@ public class StrategyMode : SceneBase
                 var box = Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
                 box.SetData(() => RelationsManager.SetWar(army.Empire, SelectedArmy.Empire), "Declare War!", "Maintain Peace", $"Declare War against the {army.Empire.Name}?");
             }
+
             if (village != null && village.Empire.IsNeutral(SelectedArmy.Empire))
             {
-
                 var box = Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
                 box.SetData(() => RelationsManager.SetWar(village.Empire, SelectedArmy.Empire), "Declare War!", "Maintain Peace", $"Declare War against the {village.Empire.Name}?");
             }
+
             return;
         }
 
@@ -2129,6 +2087,7 @@ public class StrategyMode : SceneBase
         }
         else
             queuedAttackPermission = false;
+
         mouseMovementMode = false;
     }
 
@@ -2144,16 +2103,14 @@ public class StrategyMode : SceneBase
     private string ReturnTextVillageCount(string search)
     {
         var count = State.World.Villages.Where(s => s.Name.ToLower().Contains(search.ToLower())).Count();
-        if (count == 1)
-            return "1 match";
+        if (count == 1) return "1 match";
         return $"{count} matches";
     }
 
 
     public override void ReceiveInput()
     {
-        if (State.GameManager.ActiveInput)
-            return;
+        if (State.GameManager.ActiveInput) return;
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.RightCommand)) && Input.GetKey(KeyCode.F))
         {
             var box = Instantiate(State.GameManager.InputBoxPrefab).GetComponentInChildren<InputBox>();
@@ -2163,8 +2120,7 @@ public class StrategyMode : SceneBase
 
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Z))
         {
-            if (UndoButton.gameObject.activeSelf)
-                UndoButton.onClick.Invoke();
+            if (UndoButton.gameObject.activeSelf) UndoButton.onClick.Invoke();
         }
 
         UndoButton.gameObject.SetActive(UndoMoves.Any());
@@ -2196,6 +2152,7 @@ public class StrategyMode : SceneBase
                     obj.color = new Color(0, 0, 1, .75f);
                 ShownIFF.Add(obj.gameObject);
             }
+
             foreach (Army army in StrategicUtilities.GetAllArmies())
             {
                 var obj = Instantiate(SpriteCategories[1]).GetComponent<SpriteRenderer>();
@@ -2213,32 +2170,28 @@ public class StrategyMode : SceneBase
                 ShownIFF.Add(obj.gameObject);
             }
         }
+
         if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
         {
             foreach (var obj in ShownIFF.ToList())
             {
                 Destroy(obj);
             }
-
         }
 
 
-        if (remainingNotificationTime > 0)
-            remainingNotificationTime -= Time.deltaTime;
-        if (remainingNotificationTime <= 0)
-            NotificationWindow.SetActive(false);
+        if (remainingNotificationTime > 0) remainingNotificationTime -= Time.deltaTime;
+        if (remainingNotificationTime <= 0) NotificationWindow.SetActive(false);
 
         if (Input.GetButtonDown("ChangeBannerSize"))
         {
             Config.BannerScale += .1f;
-            if (Config.BannerScale > 1.02f)
-                Config.BannerScale = .6f;
+            if (Config.BannerScale > 1.02f) Config.BannerScale = .6f;
             PlayerPrefs.SetFloat("BannerScale", (Config.BannerScale - .5f) * 10);
         }
 
 
-        if (State.GameManager.CameraTransitioning || State.GameManager.StrategicControlsLocked)
-            return;
+        if (State.GameManager.CameraTransitioning || State.GameManager.StrategicControlsLocked) return;
 
         if (Input.GetButtonDown("Pause"))
         {
@@ -2248,7 +2201,6 @@ public class StrategyMode : SceneBase
 
         if (EventSystem.current.IsPointerOverGameObject() == false) //Makes sure mouse isn't over a UI element
         {
-
             Vector2 currentMousePos = State.GameManager.Camera.ScreenToWorldPoint(Input.mousePosition);
 
             int x = (int)(currentMousePos.x + 0.5f);
@@ -2260,27 +2212,23 @@ public class StrategyMode : SceneBase
                     ProcessClick(x, y);
                 else if (Input.GetMouseButtonDown(0) && OnlyAIPlayers)
                     ProcessClickWithoutEmpire(x, y);
-                else if (Input.GetMouseButtonDown(0) && LastHumanEmpire.IsAlly(ActingEmpire))
-                    ProcessClickBetweenTurns(x, y);
-                if (Input.GetMouseButtonDown(1) && ActingEmpire.StrategicAI == null && subWindowUp == false && QueuedPath == null && SelectedArmy != null && SelectedArmy.RemainingMP > 0)
-                    SetSelectedArmyPathTo(x, y);
-                if (mouseMovementMode)
-                    CheckPath(new Vec2i(x, y));
+                else if (Input.GetMouseButtonDown(0) && LastHumanEmpire.IsAlly(ActingEmpire)) ProcessClickBetweenTurns(x, y);
+                if (Input.GetMouseButtonDown(1) && ActingEmpire.StrategicAI == null && subWindowUp == false && QueuedPath == null && SelectedArmy != null && SelectedArmy.RemainingMP > 0) SetSelectedArmyPathTo(x, y);
+                if (mouseMovementMode) CheckPath(new Vec2i(x, y));
             }
             else
             {
                 arrowManager.ClearNodes();
                 currentPathDestination = null;
             }
-
         }
+
         if (Input.GetButtonDown("Menu"))
         {
             State.GameManager.OpenMenu();
         }
 
-        if (Paused)
-            return;
+        if (Paused) return;
 
         Translator.UpdateLocation();
 
@@ -2290,8 +2238,7 @@ public class StrategyMode : SceneBase
         }
         else
         {
-            if (subWindowUp)
-                return;
+            if (subWindowUp) return;
 
             RunQueuedMovement();
 
@@ -2324,43 +2271,35 @@ public class StrategyMode : SceneBase
             {
                 State.GameManager.AskQuickLoad();
             }
-            if (Translator.IsActive == false)
-                UpdateArmyLocationsAndSprites();
-            if (Input.GetButtonDown("Submit"))
-                ButtonCallback(10);
 
+            if (Translator.IsActive == false) UpdateArmyLocationsAndSprites();
+            if (Input.GetButtonDown("Submit")) ButtonCallback(10);
         }
-
     }
 
     private void RunQueuedMovement()
     {
         MoveQueued();
 
-        if (SelectedArmy != null && QueuedPath == null)
-            CheckForMovementInput();
+        if (SelectedArmy != null && QueuedPath == null) CheckForMovementInput();
 
         if (runningQueued && QueuedPath == null)
         {
-
             bool foundWaiting = false;
             foreach (Army army in ActingEmpire.Armies)
             {
                 if (army.RemainingMP > 1 && army.Destination != null)
                 {
-
                     SelectedArmy = army;
                     foundWaiting = true;
                     QueuedPath = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, SelectedArmy.Destination, SelectedArmy.RemainingMP, SelectedArmy.movementMode == Army.MovementMode.Flight);
-                    if (QueuedPath == null)
-                        army.Destination = null;
+                    if (QueuedPath == null) army.Destination = null;
                     break;
                 }
             }
-            if (foundWaiting == false)
-                runningQueued = false;
-        }
 
+            if (foundWaiting == false) runningQueued = false;
+        }
     }
 
     private void MoveQueued()
@@ -2372,6 +2311,7 @@ public class StrategyMode : SceneBase
                 QueuedPath = null;
                 return;
             }
+
             if (QueuedPath.Count > 0 && SelectedArmy.RemainingMP == 1 && (SelectedArmy.CheckTileForActionType(new Vec2i(QueuedPath[0].X, QueuedPath[0].Y)) == Army.TileAction.TwoMP || SelectedArmy.CheckTileForActionType(new Vec2i(QueuedPath[0].X, QueuedPath[0].Y)) == Army.TileAction.AttackTwoMP))
             {
                 QueuedPath = null;
@@ -2390,6 +2330,7 @@ public class StrategyMode : SceneBase
                         SelectedArmy.Destination = null;
                         return;
                     }
+
                     Village village = StrategicUtilities.GetVillageAt(nextTile);
                     if (village != null)
                     {
@@ -2409,6 +2350,7 @@ public class StrategyMode : SceneBase
                         SelectedArmy.Destination = null;
                         return;
                     }
+
                     Village village = StrategicUtilities.GetVillageAt(nextTile);
                     if (village != null)
                     {
@@ -2442,8 +2384,6 @@ public class StrategyMode : SceneBase
                     QueuedPath = null;
             }
         }
-
-
     }
 
     public void OpenRenameEmpire()
@@ -2451,19 +2391,16 @@ public class StrategyMode : SceneBase
         var box = Instantiate(State.GameManager.InputBoxPrefab).GetComponentInChildren<InputBox>();
         RenamingEmpire = ActingEmpire;
         box.SetData(RenameEmpire, "Rename", "Cancel", $"Rename this empire ({ActingEmpire.Name})?", 20);
-
     }
 
     internal void RenameEmpire(string name)
     {
-        if (RenamingEmpire != null)
-            RenamingEmpire.Name = name;
+        if (RenamingEmpire != null) RenamingEmpire.Name = name;
         Regenerate();
     }
 
     private void UpdateTooltips(int ClickX, int ClickY)
     {
-
         Village villageAtCursor = StrategicUtilities.GetVillageAt(new Vec2i(ClickX, ClickY));
         if (villageAtCursor == null)
         {
@@ -2474,6 +2411,7 @@ public class StrategyMode : SceneBase
                 VillageTooltip.gameObject.SetActive(true);
                 VillageTooltip.Text.text = $"Mercenary House\nMercs: {house.Mercenaries.Count}\nHas Special? {(MercenaryHouse.UniqueMercs.Count > 0 ? "Yes" : "No")}";
             }
+
             ClaimableBuilding claimable = StrategicUtilities.GetClaimableAt(new Vec2i(ClickX, ClickY));
             if (claimable != null)
             {
@@ -2482,19 +2420,15 @@ public class StrategyMode : SceneBase
                 {
                     VillageTooltip.Text.text = $"Gold Mine\nOwner: {claimable.Owner?.Name}\nGold Per Turn: {Config.GoldMineIncome}";
                 }
-
             }
-
         }
         else
         {
-            if (Config.FogOfWar && FogSystem.FoggedTile[villageAtCursor.Position.X, villageAtCursor.Position.Y])
-                return;
+            if (Config.FogOfWar && FogSystem.FoggedTile[villageAtCursor.Position.X, villageAtCursor.Position.Y]) return;
             StringBuilder sb = new StringBuilder();
             VillageTooltip.gameObject.SetActive(true);
             sb.AppendLine($"Village: {villageAtCursor.Name}");
-            if (villageAtCursor.Capital)
-                sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");
+            if (villageAtCursor.Capital) sb.AppendLine($"Capital City ({villageAtCursor.OriginalRace})");
             sb.AppendLine($"Owner: {villageAtCursor.Empire.Name}");
             sb.AppendLine($"Race: {villageAtCursor.Race}");
             sb.AppendLine($"Happiness : {villageAtCursor.Happiness}");
@@ -2508,11 +2442,11 @@ public class StrategyMode : SceneBase
                     bool first = true;
                     foreach (VillageBuilding building in villageAtCursor.buildings)
                     {
-                        if (!first)
-                            buildings += ", ";
+                        if (!first) buildings += ", ";
                         buildings += building;
                         first = false;
                     }
+
                     sb.AppendLine($"Buildings: {buildings}");
                 }
             }
@@ -2520,9 +2454,10 @@ public class StrategyMode : SceneBase
             {
                 sb.AppendLine($"Garrison: {SizeToName.ForTroops(villageAtCursor.Garrison)}");
             }
-            VillageTooltip.Text.text = sb.ToString();
 
+            VillageTooltip.Text.text = sb.ToString();
         }
+
         Army armyAtCursor = StrategicUtilities.ArmyAt(new Vec2i(ClickX, ClickY));
         if (armyAtCursor == null)
         {
@@ -2530,8 +2465,7 @@ public class StrategyMode : SceneBase
         }
         else
         {
-            if (Config.FogOfWar && FogSystem.FoggedTile[armyAtCursor.Position.X, armyAtCursor.Position.Y] || (armyAtCursor.Banner != null && !armyAtCursor.Banner.gameObject.activeSelf))
-                return;
+            if ((Config.FogOfWar && FogSystem.FoggedTile[armyAtCursor.Position.X, armyAtCursor.Position.Y]) || (armyAtCursor.Banner != null && !armyAtCursor.Banner.gameObject.activeSelf)) return;
             StringBuilder sb = new StringBuilder();
             sb = ArmyToolTip(armyAtCursor);
 
@@ -2544,6 +2478,7 @@ public class StrategyMode : SceneBase
                 ShowPathOfArmy(armyAtCursor);
             }
         }
+
         if (mouseMovementMode == false && (armyAtCursor == null || armyAtCursor.Destination == null))
         {
             arrowManager.ClearNodes();
@@ -2561,10 +2496,8 @@ public class StrategyMode : SceneBase
             sb.AppendLine($"Size: {armyAtCursor.Units.Count}");
             sb.AppendLine($"Strength: {SizeToName.ForArmyStrength(StrategicUtilities.ArmyPower(armyAtCursor))}");
             sb.AppendLine($"Average Health: {Mathf.Round(armyAtCursor.GetHealthPercentage())}%");
-            if (armyAtCursor.Units.Count > 0)
-                sb.AppendLine($"Average Exp: {Math.Round(armyAtCursor.Units.Sum(s => s.Experience) / armyAtCursor.Units.Count())}");
-            if (State.World.GetEmpireOfSide(armyAtCursor.Side).StrategicAI != null)
-                sb.AppendLine($"Order: {armyAtCursor.AIMode}");
+            if (armyAtCursor.Units.Count > 0) sb.AppendLine($"Average Exp: {Math.Round(armyAtCursor.Units.Sum(s => s.Experience) / armyAtCursor.Units.Count())}");
+            if (State.World.GetEmpireOfSide(armyAtCursor.Side).StrategicAI != null) sb.AppendLine($"Order: {armyAtCursor.AIMode}");
         }
         else
         {
@@ -2573,14 +2506,13 @@ public class StrategyMode : SceneBase
             if (Config.CheatExtraStrategicInfo)
             {
                 sb.AppendLine($"Average Health: {Mathf.Round(armyAtCursor.GetHealthPercentage())}%");
-                if (armyAtCursor.Units.Count > 0)
-                    sb.AppendLine($"Average Exp: {Math.Round(armyAtCursor.Units.Sum(s => s.Experience) / armyAtCursor.Units.Count())}");
+                if (armyAtCursor.Units.Count > 0) sb.AppendLine($"Average Exp: {Math.Round(armyAtCursor.Units.Sum(s => s.Experience) / armyAtCursor.Units.Count())}");
             }
         }
+
         if (Config.CheatExtraStrategicInfo)
         {
             sb.AppendLine($"Est. Power: {Math.Round(StrategicUtilities.ArmyPower(armyAtCursor), 1)}");
-
         }
 
         return sb;
@@ -2607,8 +2539,5 @@ public class StrategyMode : SceneBase
 
     public override void CleanUp()
     {
-
-
     }
 }
-

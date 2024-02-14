@@ -14,5 +14,4 @@ public class TacticalBuildingDictionary : MonoBehaviour
     {
         AllSprites = LogCabins.Concat(WoodenBuildings).Concat(HarpyNests).Concat(Buildings).Concat(LamiaTemple).ToArray();
     }
-
 }

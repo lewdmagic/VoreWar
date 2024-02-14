@@ -28,7 +28,7 @@ internal class PassiveAI : IStrategicAI
                 StrategicUtilities.BuyBasicWeapons(villages[i]);
             }
         }
+
         return false;
     }
 }
-

@@ -37,10 +37,7 @@ namespace Races.Graphics.Implementations.Monsters
                     },
                     RaceDescription = ""
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.BodyAccessoryType, "Head Plumage Type");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.BodyAccessoryType, "Head Plumage Type"); });
                 output.SpecialAccessoryCount = 8; // head plumage type
                 output.ClothingColors = 0;
                 output.GentleAnimation = true;

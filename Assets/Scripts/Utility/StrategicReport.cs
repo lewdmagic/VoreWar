@@ -5,6 +5,7 @@ internal struct StrategicReport
 {
     [OdinSerialize]
     internal string Text;
+
     [OdinSerialize]
     internal Vec2 Position;
 
@@ -14,4 +15,3 @@ internal struct StrategicReport
         Position = position;
     }
 }
-

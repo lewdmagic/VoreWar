@@ -9,7 +9,6 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Vagrants
     {
-
         public static Sprite[] CalcSprites(IActorUnit actor)
         {
             Sprite[][] vagrantSprites =
@@ -21,10 +20,9 @@ namespace Races.Graphics.Implementations.Monsters
 
             return vagrantSprites[Mathf.Clamp(actor.Unit.SkinColor, 0, 2)];
         }
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-        
             builder.Setup(output =>
             {
                 output.Names("Vagrant", "Vagrants");
@@ -147,7 +145,5 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RandomCustom(Defaults.RandomCustom);
         });
-
-
     }
 }

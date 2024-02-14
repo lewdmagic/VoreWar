@@ -43,7 +43,6 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
     }
 
 
-
     public void ResetSliders()
     {
         if ((AIClass)Dropdown.value == AIClass.Custom)
@@ -56,12 +55,14 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
                     Sliders[i].value = Unit.StatWeights.Weight[i];
                 }
             }
+
             return;
         }
         else
         {
             Unit.StatWeights = null;
         }
+
         deniedChanges = true;
         Custom = false;
         Unit.AIClass = (AIClass)Dropdown.value;
@@ -94,6 +95,7 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
                     weight[(int)Stat.Stomach] = 2;
                     weight[(int)Stat.Leadership] = 0;
                 }
+
                 break;
             case AIClass.Melee:
                 weight[(int)Stat.Strength] = 3;
@@ -198,9 +200,9 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
                 {
                     Sliders[i].value = obj.Weights.Weight[i];
                 }
+
                 Dropdown.value = (int)AIClass.Custom;
             }
-
         }
     }
 
@@ -214,7 +216,12 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
         {
             tempObj.Weights.Weight[i] = Sliders[i].value;
         }
-        obj.SetData((string s) => { tempObj.Name = s.ToString(); CustomAutoLevel.Add(tempObj); }, "Save", "Cancel", "Enter a name to save this configuration as", 16);
+
+        obj.SetData((string s) =>
+        {
+            tempObj.Name = s.ToString();
+            CustomAutoLevel.Add(tempObj);
+        }, "Save", "Cancel", "Enter a name to save this configuration as", 16);
     }
 
     public void DeleteCustomClass()
@@ -224,16 +231,15 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
         {
             CustomAutoLevel.Remove(obj);
         }
-
     }
 
     public void UpdateSliderText()
     {
-
         for (int i = 0; i < Sliders.Length; i++)
         {
             Sliders[i].GetComponentInChildren<Text>().text = $"{(Stat)i} - {Math.Round(Sliders[i].value, 2)} ";
         }
+
         if (deniedChanges == false)
         {
             Custom = true;
@@ -246,7 +252,4 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
     {
         State.GameManager.CreateMessageBox("Will try to level up to maintain these ratios between stats, since stats avaiable are random it won't maintain it exactly, but with 3 strength and 1 will, it would try to keep the strength stat at 3 times the will stat, etc.");
     }
-
-
-
 }

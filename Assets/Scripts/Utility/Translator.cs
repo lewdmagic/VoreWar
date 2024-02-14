@@ -14,7 +14,6 @@ public class Translator
 
     public void UpdateLocation()
     {
-
         if (IsActive)
         {
             if (transform == null)
@@ -37,28 +36,23 @@ public class Translator
             transform.position = new Vector2(newX, newY);
             if (State.GameManager.CurrentScene == State.GameManager.TacticalMode)
             {
-                if (State.GameManager.TacticalMode.IsPlayerInControl == false)
-                    State.GameManager.CameraCall(transform.position);
+                if (State.GameManager.TacticalMode.IsPlayerInControl == false) State.GameManager.CameraCall(transform.position);
             }
             else
             {
-                if (State.GameManager.StrategyMode.IsPlayerTurn == false)
-                    State.GameManager.CameraCall(transform.position);
+                if (State.GameManager.StrategyMode.IsPlayerTurn == false) State.GameManager.CameraCall(transform.position);
             }
-
-
         }
-
     }
 
     public void SetTranslator(Transform trans, Vec2i start, Vec2i end, float AIMoveRate, bool PlayerMove)
     {
-        if (trans == null)
-            return;
+        if (trans == null) return;
         if (IsActive)
         {
             transform.position = new Vector2(endPos.X, endPos.Y);
         }
+
         playerMove = PlayerMove;
         totalTime = Mathf.Min(AIMoveRate);
         transform = trans;
@@ -72,6 +66,4 @@ public class Translator
     {
         IsActive = false;
     }
-
 }
-

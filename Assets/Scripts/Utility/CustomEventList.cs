@@ -21,8 +21,6 @@ internal struct CustomEvent
     internal int Option2Happiness;
     internal int Option2HappinessAll;
     internal float Option2Relations;
-
-
 }
 
 internal class CustomEventList
@@ -43,7 +41,6 @@ internal class CustomEventList
         Events = new List<CustomEvent>();
         try
         {
-
             if (File.Exists($"{State.StorageDirectory}events.txt"))
             {
                 Encoding encoding = Encoding.GetEncoding("iso-8859-1");
@@ -57,6 +54,7 @@ internal class CustomEventList
                         current = new CustomEvent();
                         line = 0;
                     }
+
                     switch (line)
                     {
                         case 1:
@@ -69,14 +67,14 @@ internal class CustomEventList
                             current.Option1Result = entry;
                             break;
                         case 4:
-                            {
-                                var sections = entry.Split(',');
-                                if (sections.Length > 0) current.Option1Gold = int.Parse(sections[0]);
-                                if (sections.Length > 1) current.Option1Happiness = int.Parse(sections[1]);
-                                if (sections.Length > 2) current.Option1HappinessAll = int.Parse(sections[2]);
-                                if (sections.Length > 3) current.Option1Population = int.Parse(sections[3]);
-                                if (sections.Length > 4) current.Option1Relations = float.Parse(sections[4]);
-                            }
+                        {
+                            var sections = entry.Split(',');
+                            if (sections.Length > 0) current.Option1Gold = int.Parse(sections[0]);
+                            if (sections.Length > 1) current.Option1Happiness = int.Parse(sections[1]);
+                            if (sections.Length > 2) current.Option1HappinessAll = int.Parse(sections[2]);
+                            if (sections.Length > 3) current.Option1Population = int.Parse(sections[3]);
+                            if (sections.Length > 4) current.Option1Relations = float.Parse(sections[4]);
+                        }
                             break;
                         case 5:
                             current.Option2Choice = entry;
@@ -85,20 +83,19 @@ internal class CustomEventList
                             current.Option2Result = entry;
                             break;
                         case 7:
-                            {
-                                var sections = entry.Split(',');
-                                if (sections.Length > 0) current.Option2Gold = int.Parse(sections[0]);
-                                if (sections.Length > 1) current.Option2Happiness = int.Parse(sections[1]);
-                                if (sections.Length > 2) current.Option2HappinessAll = int.Parse(sections[2]);
-                                if (sections.Length > 3) current.Option2Population = int.Parse(sections[3]);
-                                if (sections.Length > 4) current.Option2Relations = int.Parse(sections[4]);
-                            }
+                        {
+                            var sections = entry.Split(',');
+                            if (sections.Length > 0) current.Option2Gold = int.Parse(sections[0]);
+                            if (sections.Length > 1) current.Option2Happiness = int.Parse(sections[1]);
+                            if (sections.Length > 2) current.Option2HappinessAll = int.Parse(sections[2]);
+                            if (sections.Length > 3) current.Option2Population = int.Parse(sections[3]);
+                            if (sections.Length > 4) current.Option2Relations = int.Parse(sections[4]);
+                        }
                             Events.Add(current);
                             break;
-
                     }
-                    line += 1;
 
+                    line += 1;
                 }
             }
         }
@@ -108,6 +105,4 @@ internal class CustomEventList
             manager.CreateMessageBox("Exception reading in the events.txt file, make sure that your events are following the guidelines, or you can delete it and the game will copy a fresh copy from the StreamingAssets folder");
         }
     }
-
-
 }

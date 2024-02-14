@@ -46,8 +46,7 @@ public class MessageLogPanel : MonoBehaviour
 
     public void Refresh()
     {
-        if (initialized == false)
-            return;
+        if (initialized == false) return;
         TacticalUtilities.Log.ShowWeaponCombat = ShowWeaponCombat.isOn;
         TacticalUtilities.Log.ShowOdds = ShowOdds.isOn;
         TacticalUtilities.Log.ShowHealing = ShowHealing.isOn;
@@ -124,5 +123,4 @@ public class MessageLogPanel : MonoBehaviour
             Restore.gameObject.SetActive(true);
         }
     }
-
 }

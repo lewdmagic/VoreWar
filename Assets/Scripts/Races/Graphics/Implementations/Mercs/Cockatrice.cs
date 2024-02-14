@@ -11,15 +11,16 @@ namespace Races.Graphics.Implementations.Mercs
     internal static class Cockatrice
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
                 output.Names("Cockatrice", "Cockatrice");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts { "cockatrice", "terror chicken", "danger chicken", {"scary hen", Gender.Female}, {"scary hen", Gender.Male}} ////new, blame Flame_Valxsarion for encouraging me. Actually don't, I came up with "monster cock" 
+                    new Texts { },
+                    new Texts { },
+                    new Texts { "cockatrice", "terror chicken", "danger chicken", { "scary hen", Gender.Female }, { "scary hen", Gender.Male } } ////new, blame Flame_Valxsarion for encouraging me. Actually don't, I came up with "monster cock" 
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -47,10 +48,7 @@ namespace Races.Graphics.Implementations.Mercs
                     },
                     RaceDescription = "",
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.BodyAccessoryColor, "Feather Color");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.BodyAccessoryColor, "Feather Color"); });
                 output.DickSizes = () => 8;
                 output.BreastSizes = () => 8;
                 output.BodySizes = 4;
@@ -402,7 +400,7 @@ namespace Races.Graphics.Implementations.Mercs
                 if (input.A.HasBelly)
                 {
                     int size = input.A.GetStomachSize(31, 0.7f);
-                
+
                     switch (size)
                     {
                         case 26:

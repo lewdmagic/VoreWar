@@ -57,7 +57,6 @@ public class WorldGenerator
     }
 
 
-
     public void GenerateWorld(ref StrategicTileType[,] tilesRef, ref Village[] villagesRef, Dictionary<Race, int> teams, MapGenArgs mapGenArgs)
     {
         villageLocations = Config.MaxVillages + ExtraPadding + mapGenArgs.AbandonedVillages; //Padding to avoid the villages way outside of territory issue
@@ -96,12 +95,6 @@ public class WorldGenerator
 
     private void SimplexHeightMap()
     {
-
-
-
-
-
-
         double[,] heightmap = new double[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
         OpenSimplexNoise noise = new OpenSimplexNoise();
         for (int i = 0; i < Config.StrategicWorldSizeX; i++)
@@ -111,9 +104,10 @@ public class WorldGenerator
                 //	heightmap[i, j]=(m_random.nextFloat()+m_random.nextFloat())/2;                
                 heightmap[i, j] = (1 + noise.Evaluate(i / 4f, j / 4f)) / 2;
                 if (heightmap[i, j] > .35) //To keep water from randomizing too badly
-                    heightmap[i, j] += (State.Rand.NextDouble() / 4) - .125;
+                    heightmap[i, j] += State.Rand.NextDouble() / 4 - .125;
             }
         }
+
         for (int i = 0; i < Config.StrategicWorldSizeX; i++)
         {
             for (int j = 0; j < Config.StrategicWorldSizeY; j++)
@@ -182,9 +176,9 @@ public class WorldGenerator
                 {
                     grid[i, j] = 0;
                 }
-
             }
         }
+
         sites = new VillageLocation[villageLocations];
 
         // need to fill it because it was changed from struct to class 
@@ -192,8 +186,8 @@ public class WorldGenerator
         {
             sites[i] = new VillageLocation();
         }
-        
-        
+
+
         for (int i = 0; i < villageLocations; i++)
         {
             int attempts = 0;
@@ -202,9 +196,12 @@ public class WorldGenerator
                 int value = 8;
                 int reduction = attempts / 100 / (i + 1);
                 value = 8 - reduction;
-                if (value < 4) { value = 4; }
-                if (attempts > 4800)
-                    value = -100;
+                if (value < 4)
+                {
+                    value = 4;
+                }
+
+                if (attempts > 4800) value = -100;
                 //pick a random spot
                 Vec2i newPos = new Vec2i(Random.Range(0, Config.StrategicWorldSizeX - 4) + 2, Random.Range(0, Config.StrategicWorldSizeY - 4) + 2);
 
@@ -215,12 +212,13 @@ public class WorldGenerator
                     {
                         for (int j = 0; j < i; j++)
                         {
-                            if (sites[j].Position.GetDistance(newPos) < ((Config.StrategicWorldSizeX + Config.StrategicWorldSizeY) / 16) - Mathf.Floor(attempts / 200f))
+                            if (sites[j].Position.GetDistance(newPos) < (Config.StrategicWorldSizeX + Config.StrategicWorldSizeY) / 16 - Mathf.Floor(attempts / 200f))
                             {
                                 pass = false;
                             }
                         }
                     }
+
                     if (pass == true)
                     {
                         sites[i].UtilityScore = grid[newPos.X, newPos.Y];
@@ -252,8 +250,6 @@ public class WorldGenerator
                 }
             }
         }
-
-
     }
 
     private void AssignVillagesForManyEmpires(IReadOnlyDictionary<Race, int> teams, int abandonedVillages)
@@ -261,7 +257,7 @@ public class WorldGenerator
         //int sides = Config.NumberOfRaces;
         Dictionary<Race, EmpireBuilder> builders = new Dictionary<Race, EmpireBuilder>();
         IReadOnlyList<Race> usedRaces = RaceFuncs.MainRaceEnumerable();
-        
+
         villages = new Village[villageLocations];
         bool[] placed = new bool[villageLocations];
         VillageLocation site;
@@ -280,16 +276,16 @@ public class WorldGenerator
                     remapped[race] = temp;
                     temp++;
                 }
-
             }
+
             Vec2i[] newRegions = new Vec2i[capitalRegions.Length];
             int nextSlot = 0;
             List<int> usedTeams = new List<int>();
             foreach (Race race in usedRaces)
             {
-                if (Config.World.VillagesPerEmpire[race] > 0 && Config.CenteredEmpire[race] == false)
-                    usedTeams.Add(teams[race]);
+                if (Config.World.VillagesPerEmpire[race] > 0 && Config.CenteredEmpire[race] == false) usedTeams.Add(teams[race]);
             }
+
             usedTeams = usedTeams.Distinct().OrderBy(s => s).ToList();
             foreach (int team in usedTeams)
             {
@@ -302,6 +298,7 @@ public class WorldGenerator
                     }
                 }
             }
+
             capitalRegions = newRegions;
         }
         else
@@ -314,8 +311,6 @@ public class WorldGenerator
                 capitalRegions[j] = temp;
             }
         }
-
-
 
 
         Dictionary<Race, bool> active = new Dictionary<Race, bool>();
@@ -364,6 +359,7 @@ public class WorldGenerator
                         sites[i].ScoreForEmpire[race] = 0;
                     }
                 }
+
                 Dictionary<Race, int> tempScore = new Dictionary<Race, int>();
                 foreach (Race race in usedRaces)
                 {
@@ -382,20 +378,24 @@ public class WorldGenerator
                         }
                     }
                 }
+
                 foreach (Race race in usedRaces)
                 {
                     sites[i].ScoreForEmpire[race] = tempScore[race];
                 }
+
                 remainingVillages.Add(sites[i]);
             }
             else
                 CreateFarmland(i);
         }
+
         Dictionary<Race, int> nameIndex = new Dictionary<Race, int>();
         foreach (Race race in usedRaces)
         {
             nameIndex[race] = 1;
         }
+
         int side = 0;
         // Iterate over races in a loop
         while (remainingVillages.Count > ExtraPadding)
@@ -421,6 +421,7 @@ public class WorldGenerator
 
             side = (side + 1) % usedRaces.Count;
         }
+
         // int side = 0;
         // while (remainingVillages.Count > ExtraPadding)
         // {
@@ -463,9 +464,9 @@ public class WorldGenerator
 
         foreach (Race race in RaceFuncs.MainRaceEnumerable())
         {
-            if (Config.World.VillagesPerEmpire[race] > 0 && Config.CenteredEmpire[race] == false)
-                nonCentralActiveSides++;
+            if (Config.World.VillagesPerEmpire[race] > 0 && Config.CenteredEmpire[race] == false) nonCentralActiveSides++;
         }
+
         return DrawCirclePoints(nonCentralActiveSides);
     }
 
@@ -482,6 +483,7 @@ public class WorldGenerator
             int newY = (int)(center.Y + radius * Mathf.Sin(angle));
             point[i] = new Vec2i(newX, newY);
         }
+
         return point;
     }
 
@@ -491,6 +493,7 @@ public class WorldGenerator
         {
             return 0;
         }
+
         int t = 0;
         for (int i = x - 1; i < x + 2; i++)
         {
@@ -505,6 +508,7 @@ public class WorldGenerator
                 }
             }
         }
+
         return t;
     }
 
@@ -517,7 +521,6 @@ public class WorldGenerator
             {
                 if (j == sites[i].Position.X && k == sites[i].Position.Y)
                 {
-
                 }
                 else
                 {
@@ -532,7 +535,6 @@ public class WorldGenerator
                             tiles[j, k] = StrategicTileType.field;
                     }
                 }
-
             }
         }
     }
@@ -563,7 +565,6 @@ public class WorldGenerator
             State.World.Tiles[point.X, point.Y] = StrategicTileType.grass;
             State.World.MercenaryHouses[i] = new MercenaryHouse(point);
         }
-
     }
 
     public void PlaceGoldMines(int mines)
@@ -573,6 +574,7 @@ public class WorldGenerator
             State.World.Claimables = new ClaimableBuilding[0];
             return;
         }
+
         State.World.Claimables = new ClaimableBuilding[mines];
 
         for (int i = 0; i < mines; i++)
@@ -582,7 +584,6 @@ public class WorldGenerator
             State.World.Tiles[point.X, point.Y] = StrategicTileType.grass;
             State.World.Claimables[i] = new GoldMine(point);
         }
-
     }
 
     private Vec2i GrabGoodMercLocation(int x, int y)
@@ -591,10 +592,8 @@ public class WorldGenerator
         {
             for (int newY = y - 1; newY < y + 2; newY++)
             {
-                if (newX < 0 || newX >= Config.StrategicWorldSizeX || newY < 0 || newY >= Config.StrategicWorldSizeY)
-                    continue;
-                if (usedLocations.Where(s => s.Matches(newX, newY)).Any())
-                    continue;
+                if (newX < 0 || newX >= Config.StrategicWorldSizeX || newY < 0 || newY >= Config.StrategicWorldSizeY) continue;
+                if (usedLocations.Where(s => s.Matches(newX, newY)).Any()) continue;
                 if (StrategicTileInfo.CanWalkInto(State.World.Tiles[newX, newY]) && State.World.Tiles[newX, newY] != StrategicTileType.field && State.World.Tiles[newX, newY] != StrategicTileType.fieldSnow &&
                     State.World.Tiles[newX, newY] != StrategicTileType.fieldDesert && StrategicUtilities.GetVillageAt(new Vec2i(newX, newY)) == null)
                     return new Vec2i(newX, newY);
@@ -605,22 +604,20 @@ public class WorldGenerator
         {
             for (int newY = y - 3; newY < y + 4; newY++)
             {
-                if (newX < 0 || newX >= Config.StrategicWorldSizeX || newY < 0 || newY >= Config.StrategicWorldSizeY)
-                    continue;
-                if (usedLocations.Where(s => s.Matches(newX, newY)).Any())
-                    continue;
+                if (newX < 0 || newX >= Config.StrategicWorldSizeX || newY < 0 || newY >= Config.StrategicWorldSizeY) continue;
+                if (usedLocations.Where(s => s.Matches(newX, newY)).Any()) continue;
                 if (StrategicTileInfo.CanWalkInto(State.World.Tiles[newX, newY]) && State.World.Tiles[newX, newY] != StrategicTileType.field && State.World.Tiles[newX, newY] != StrategicTileType.fieldSnow &&
                     State.World.Tiles[newX, newY] != StrategicTileType.fieldDesert && StrategicUtilities.GetVillageAt(new Vec2i(newX, newY)) == null)
                     return new Vec2i(newX, newY);
             }
         }
+
         return new Vec2i(x, y);
     }
 
     public static void ClearVillagePaths(MapGenArgs args)
     {
-        if (StrategicConnectedChecker.AreAllConnected(State.World.Villages, null, false) == true)
-            return;
+        if (StrategicConnectedChecker.AreAllConnected(State.World.Villages, null, false) == true) return;
         Vec2i center = GrabFreeSquareNear(Config.StrategicWorldSizeX / 2, Config.StrategicWorldSizeY / 2);
 
         foreach (Village village in State.World.Villages)
@@ -639,6 +636,7 @@ public class WorldGenerator
                         else
                             currentLoc.X += 1;
                     }
+
                     if (currentLoc.Y != center.Y)
                     {
                         if (currentLoc.Y > center.Y)
@@ -647,13 +645,13 @@ public class WorldGenerator
                             currentLoc.Y += 1;
                     }
 
-                    if (StrategicTileInfo.CanWalkInto(State.World.Tiles[currentLoc.X, currentLoc.Y]) == false)
-                        State.World.Tiles[currentLoc.X, currentLoc.Y] = StrategicTileType.grass;
+                    if (StrategicTileInfo.CanWalkInto(State.World.Tiles[currentLoc.X, currentLoc.Y]) == false) State.World.Tiles[currentLoc.X, currentLoc.Y] = StrategicTileType.grass;
                 }
-                if (args.ExcessBridges == false)
-                    StrategyPathfinder.Initialized = false;
+
+                if (args.ExcessBridges == false) StrategyPathfinder.Initialized = false;
             }
         }
+
         StrategyPathfinder.Initialized = false;
     }
 
@@ -663,13 +661,10 @@ public class WorldGenerator
         {
             for (int newY = y - 2; newY < y + 3; newY++)
             {
-                if (StrategicTileInfo.CanWalkInto(State.World.Tiles[newX, newY]))
-                    return new Vec2i(newX, newY);
+                if (StrategicTileInfo.CanWalkInto(State.World.Tiles[newX, newY])) return new Vec2i(newX, newY);
             }
         }
+
         return new Vec2i(x, y);
     }
-
-
-
 }

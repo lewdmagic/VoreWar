@@ -192,10 +192,7 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly IClothing Bottom2Instance = ClothingBuilder.Create(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-                {
-                    output.RevealsBreasts = true;
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.RevealsBreasts = true; });
 
                 builder.RenderAll((input, output) =>
                 {
@@ -221,10 +218,7 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly IClothing Bottom3Instance = ClothingBuilder.Create(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-                {
-                    output.RevealsBreasts = true;
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.RevealsBreasts = true; });
 
                 builder.RenderAll((input, output) =>
                 {
@@ -250,10 +244,7 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly IClothing Bottom4Instance = ClothingBuilder.Create(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-                {
-                    output.RevealsBreasts = true;
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.RevealsBreasts = true; });
 
                 builder.RenderAll((input, output) =>
                 {
@@ -279,10 +270,7 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly IClothing TopInstance = ClothingBuilder.Create(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-                {
-                    output.RevealsBreasts = true;
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.RevealsBreasts = true; });
 
                 builder.RenderAll((input, output) =>
                 {

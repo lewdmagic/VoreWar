@@ -3,7 +3,7 @@
 using UnityEngine;
 
 #endregion
- 
+
 public interface IClothing
 {
     IClothingSetupOutput FixedData { get; }

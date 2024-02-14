@@ -7,9 +7,12 @@ internal class StoredClassWeight
 {
     [OdinSerialize]
     private StatWeights _weights;
+
     internal StatWeights Weights { get => _weights; set => _weights = value; }
+
     [OdinSerialize]
     private string _name;
+
     internal string Name { get => _name; set => _name = value; }
 }
 
@@ -31,6 +34,7 @@ internal static class CustomAutoLevel
         {
             names[i] = weightsList[i].Name;
         }
+
         return names;
     }
 
@@ -59,16 +63,15 @@ internal static class CustomAutoLevel
         {
             State.GameManager.CreateMessageBox("Couldn't save Custom Auto Levels to file for some reason");
         }
-
     }
 
     internal static StoredClassWeight GetByName(string name)
     {
         foreach (StoredClassWeight entry in weightsList)
         {
-            if (entry.Name == name)
-                return entry;
+            if (entry.Name == name) return entry;
         }
+
         return null;
     }
 
@@ -83,5 +86,4 @@ internal static class CustomAutoLevel
         weightsList.Add(data);
         SaveData();
     }
-
 }

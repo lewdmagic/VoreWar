@@ -3,12 +3,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 #endregion
 
 namespace Races.Graphics.Implementations.MainRaces
 {
-
-
 //TODO:
 // recolor bulges on clothes
 // add color selection
@@ -25,7 +24,7 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("Imp", "Imps");
                 output.WallType(WallType.Imp);
-                output.BonesInfo((unit) => 
+                output.BonesInfo((unit) =>
                 {
                     if (unit.Furry)
                     {
@@ -68,11 +67,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     new Texts { "imp", "infernal being", "small demon" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Morningstar",
-                        [WeaponNames.Axe]         = "Cleaver",
-                        [WeaponNames.SimpleBow]   = "Bow",
+                        [WeaponNames.Mace] = "Morningstar",
+                        [WeaponNames.Axe] = "Cleaver",
+                        [WeaponNames.SimpleBow] = "Bow",
                         [WeaponNames.CompoundBow] = "Infernal Bow",
-                        [WeaponNames.Claw]        = "Fist"
+                        [WeaponNames.Claw] = "Fist"
                     }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -576,7 +575,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 if (input.A.PredatorComponent?.RightBreastFullness > 0)
                 {
                     int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(22 * 22));
-                
+
                     if (rightSize > 17)
                     {
                         rightSize = 17;

@@ -10,14 +10,17 @@ public class Village
 {
     [OdinSerialize]
     private List<VillageBuilding> _buildings;
+
     public List<VillageBuilding> buildings { get => _buildings; set => _buildings = value; }
 
     [OdinSerialize]
     private bool _capital;
+
     public bool Capital { get => _capital; set => _capital = value; }
 
     [OdinSerialize]
     private Race _originalRace;
+
     public Race OriginalRace { get => _originalRace; set => _originalRace = value; }
 
     [OdinSerialize]
@@ -25,23 +28,34 @@ public class Village
 
     [OdinSerialize]
     private Race _race;
+
     public Race Race { get => _race; set => _race = value; }
+
     [OdinSerialize]
     private VillagePopulation _villagePopulation;
+
     public VillagePopulation VillagePopulation { get => _villagePopulation; set => _villagePopulation = value; }
 
     public int Population => VillagePopulation.GetTotalPop();
+
     [OdinSerialize]
     private int _maxpop;
+
     public int Maxpop { get => _maxpop; set => _maxpop = value; }
+
     [OdinSerialize]
     private int _farmCount;
+
     public int FarmCount { get => _farmCount; set => _farmCount = value; }
+
     [OdinSerialize]
     private string _name;
+
     public string Name { get => _name; set => _name = value; }
+
     [OdinSerialize]
     private Vec2i _position;
+
     public Vec2i Position { get => _position; set => _position = value; }
 
     [OdinSerialize]
@@ -51,26 +65,36 @@ public class Village
 
     [OdinSerialize]
     private float _happiness = 100;
+
     internal float Happiness { get => _happiness; set => _happiness = value; }
 
     [OdinSerialize]
     private List<InvisibleTravelingUnit> _travelers;
+
     internal List<InvisibleTravelingUnit> travelers { get => _travelers; set => _travelers = value; }
 
     [OdinSerialize]
     private List<MercenaryContainer> _mercenaries;
+
     internal List<MercenaryContainer> Mercenaries { get => _mercenaries; set => _mercenaries = value; }
+
     [OdinSerialize]
     private List<MercenaryContainer> _adventurers;
+
     internal List<MercenaryContainer> Adventurers { get => _adventurers; set => _adventurers = value; }
 
     [OdinSerialize]
     private ItemStock _itemStock;
+
     private ItemStock itemStock { get => _itemStock; set => _itemStock = value; }
 
     internal ItemStock ItemStock
     {
-        get { if (itemStock == null) itemStock = new ItemStock(); return itemStock; }
+        get
+        {
+            if (itemStock == null) itemStock = new ItemStock();
+            return itemStock;
+        }
         set { itemStock = value; }
     }
 
@@ -86,11 +110,9 @@ public class Village
         get
         {
             int usefulRecruitables = 0;
-            if (VillagePopulation.GetRecruitables() != null)
-                usefulRecruitables = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(TraitType.Feral)).Count();
+            if (VillagePopulation.GetRecruitables() != null) usefulRecruitables = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(TraitType.Feral)).Count();
             var majority = VillagePopulation.GetMostPopulousRace();
-            if (RaceParameters.GetRaceTraits(majority).RacialTraits.Contains(TraitType.Feral))
-                usefulRecruitables += VillagePopulation.GetRacePop(majority);
+            if (RaceParameters.GetRaceTraits(majority).RacialTraits.Contains(TraitType.Feral)) usefulRecruitables += VillagePopulation.GetRacePop(majority);
             return Math.Min(Math.Min(VillagePopulation.GetTotalPop(), usefulRecruitables + Weapons.Count), MaxGarrisonSize);
         }
     }
@@ -121,6 +143,7 @@ public class Village
             buildings.Add(VillageBuilding.CapitalDefenses);
             Capital = capital;
         }
+
         Race = race;
         OriginalRace = race;
         Side = race.ToSide();
@@ -146,15 +169,13 @@ public class Village
 
     public void UpdateNetBoosts()
     {
-        if (NetBoosts == null)
-            NetBoosts = new VillageBoosts();
+        if (NetBoosts == null) NetBoosts = new VillageBoosts();
         NetBoosts.ResetValues();
 
         foreach (var building in buildings)
         {
             var buildingDef = VillageBuildingList.GetBuildingDefinition(building);
-            if (buildingDef != null)
-                NetBoosts = NetBoosts.MergeBoosts(buildingDef.Boosts);
+            if (buildingDef != null) NetBoosts = NetBoosts.MergeBoosts(buildingDef.Boosts);
         }
 
         NetBoosts.WealthMult = ConvertZeroBasedFloatToMultiplierOrDivider(NetBoosts.WealthMult);
@@ -168,7 +189,7 @@ public class Village
         Maxpop = (int)(maxPopCalc * NetBoosts.PopulationMaxMult) + NetBoosts.PopulationMaxAdd;
         VillagePopulation.CheckMaxpop(Maxpop);
 
-        int baseGarrisonSize = (State.World.GetEmpireOfSide(Side)?.MaxGarrisonSize ?? 0);
+        int baseGarrisonSize = State.World.GetEmpireOfSide(Side)?.MaxGarrisonSize ?? 0;
 
         MaxGarrisonSize = (int)(baseGarrisonSize * NetBoosts.GarrisonMaxMult) + NetBoosts.GarrisonMaxAdd;
 
@@ -215,6 +236,7 @@ public class Village
                 summedCost.LeaderExperience += thisCost.LeaderExperience;
             }
         }
+
         return summedCost;
     }
 
@@ -233,14 +255,11 @@ public class Village
     public void Build(VillageBuilding building, Empire buyingEmpire)
     {
         var buildingDef = VillageBuildingList.GetBuildingDefinition(building);
-        if (buildings.Contains(building))
-            return;
+        if (buildings.Contains(building)) return;
 
-        if (buildingDef.CanBuild(this) == false)
-            return;
+        if (buildingDef.CanBuild(this) == false) return;
 
-        if (buildingDef.CanAfford(buyingEmpire) == false)
-            return;
+        if (buildingDef.CanAfford(buyingEmpire) == false) return;
 
         if (buildingDef.Cost.Wealth > 0)
         {
@@ -259,18 +278,13 @@ public class Village
 
     public void ChangeOwner(Side side)
     {
-
         Side previousSide = Side;
-        if (Equals(side, Side))
-            return;
+        if (Equals(side, Side)) return;
         Side = side;
 
-        if (State.World?.Villages == null)
-            return;
+        if (State.World?.Villages == null) return;
 
-        if (State.GameManager.CurrentScene != State.GameManager.MapEditor)
-            NotificationSystem.VillageOwnerChanged(this, previousSide, side);
-
+        if (State.GameManager.CurrentScene != State.GameManager.MapEditor) NotificationSystem.VillageOwnerChanged(this, previousSide, side);
 
 
         Empire tempOwner = State.World.GetEmpireOfSide(Side);
@@ -297,10 +311,15 @@ public class Village
                 {
                     float currentHappiness = Happiness;
                     var box = State.GameManager.CreateDialogBox();
-                    box.SetData(() => { Happiness = currentHappiness; ChangeOwner(raceEmp.Side); RelationsManager.CityReturned(tempOwner, raceEmp); }, "Give it back", "Keep it", $"This village is of the race of {raceEmp.Name} (Ally). If you give it back to them they will be pleased with you");
+                    box.SetData(() =>
+                        {
+                            Happiness = currentHappiness;
+                            ChangeOwner(raceEmp.Side);
+                            RelationsManager.CityReturned(tempOwner, raceEmp);
+                        }, "Give it back", "Keep it", $"This village is of the race of {raceEmp.Name} (Ally). If you give it back to them they will be pleased with you");
                 }
-
             }
+
             if (State.World.GetEmpireOfRace(Race)?.IsNeutral(Empire) ?? false)
             {
                 var raceEmp = State.World.GetEmpireOfRace(Race);
@@ -308,9 +327,13 @@ public class Village
                 {
                     float currentHappiness = Happiness;
                     var box = State.GameManager.CreateDialogBox();
-                    box.SetData(() => { Happiness = currentHappiness; ChangeOwner(raceEmp.Side); RelationsManager.CityReturned(tempOwner, raceEmp); }, "Give it back", "Keep it", $"This village is of the race of {raceEmp.Name} (Peace). If you give it back to them they will be pleased with you");
+                    box.SetData(() =>
+                        {
+                            Happiness = currentHappiness;
+                            ChangeOwner(raceEmp.Side);
+                            RelationsManager.CityReturned(tempOwner, raceEmp);
+                        }, "Give it back", "Keep it", $"This village is of the race of {raceEmp.Name} (Peace). If you give it back to them they will be pleased with you");
                 }
-
             }
         }
         else if (tempOwner != null)
@@ -330,8 +353,7 @@ public class Village
         if (State.World.Villages.Where(s => Equals(s.Side, previousSide)).Count() == 0)
         {
             var previousEmp = State.World.GetEmpireOfSide(previousSide);
-            if (previousEmp != null)
-                NotificationSystem.ShowNotification($"{previousEmp.Name} have lost their last village");
+            if (previousEmp != null) NotificationSystem.ShowNotification($"{previousEmp.Name} have lost their last village");
         }
 
         if (Equals(Empire.ReplacedRace, Race))
@@ -345,8 +367,8 @@ public class Village
             {
                 unit.Health = 0;
             }
-            if (unit.Health <= 0)
-                VillagePopulation.RemoveHireable(unit);
+
+            if (unit.Health <= 0) VillagePopulation.RemoveHireable(unit);
         }
 
         foreach (var building in VillageBuildingList.GetListOfBuildingEnum())
@@ -356,6 +378,7 @@ public class Village
             {
                 buildings.Remove(building);
             }
+
             if (buildingDef.AddedOnOriginalOwner && Equals(side, OriginalRace.ToSide()))
             {
                 if (buildingDef.RequiresRaceCapitol == false ||
@@ -364,14 +387,12 @@ public class Village
                     buildings.Add(building);
                 }
             }
-
         }
 
         UpdateNetBoosts();
         if (State.GameManager.CurrentScene == State.GameManager.MapEditor)
             State.GameManager.MapEditor.RedrawVillages();
-        else if (State.GameManager.CurrentScene == State.GameManager.StrategyMode)
-            State.GameManager.StrategyMode.RedrawVillages();
+        else if (State.GameManager.CurrentScene == State.GameManager.StrategyMode) State.GameManager.StrategyMode.RedrawVillages();
     }
 
     public bool IsSubjugated()
@@ -383,16 +404,15 @@ public class Village
     {
         return Equals(Side, OriginalRace.ToSide());
     }
-    
+
     public Sprite GetIconSprite()
     {
         if (VillagePopulation.GetTotalPop() < 1)
         {
-            if (State.World.Turn == TurnDestroyed)
-                return State.GameManager.StrategyMode.VillageSprites[1];
+            if (State.World.Turn == TurnDestroyed) return State.GameManager.StrategyMode.VillageSprites[1];
             return State.GameManager.StrategyMode.VillageSprites[0];
         }
-        
+
         if (RaceFuncs.isMonster(Race))
         {
             if (buildings.Contains(VillageBuilding.wall))
@@ -421,6 +441,7 @@ public class Village
         {
             return State.GameManager.StrategyMode.VillageSprites[0];
         }
+
         if (RaceFuncs.isMonster(Race))
         {
             // TODO this is prob wrong
@@ -448,7 +469,7 @@ public class Village
     {
         float v = VillagePopulation.GetTotalPop() * .5f * Config.VillageIncomePercent / 100 * (Happiness / 100);
 
-        v = (v * NetBoosts.WealthMult) + NetBoosts.WealthAdd;
+        v = v * NetBoosts.WealthMult + NetBoosts.WealthAdd;
 
         return (int)v;
     }
@@ -473,9 +494,9 @@ public class Village
         if (Config.MultiRaceVillages && Config.MultiRaceFlip)
         {
             var populousRace = VillagePopulation.GetMostPopulousRace();
-            if (!Equals(populousRace, Race))
-                Race = populousRace;
+            if (!Equals(populousRace, Race)) Race = populousRace;
         }
+
         if (Happiness < .2f && !RaceFuncs.IsRebelOrBandit(Side))
         {
             float chance = .2f - Happiness;
@@ -489,7 +510,6 @@ public class Village
                         ChangeOwner(emp.Side);
                     else
                         ChangeOwner(Side.RebelSide);
-
                 }
                 else
                 {
@@ -505,18 +525,16 @@ public class Village
                     else
                         ChangeOwner(army.Side);
                 }
-
             }
         }
 
         float targetHappy = Equals(Race, Empire.ReplacedRace) ? 100 : 80;
-        if (targetHappy == 80)
-            targetHappy += NetBoosts.MaxHappinessAdd;
+        if (targetHappy == 80) targetHappy += NetBoosts.MaxHappinessAdd;
 
         if (Happiness < targetHappy)
-            Happiness += .2f + ((targetHappy - Happiness) * .03f);
+            Happiness += .2f + (targetHappy - Happiness) * .03f;
         else
-            Happiness -= ((Happiness - targetHappy) * .06f);
+            Happiness -= (Happiness - targetHappy) * .06f;
         UpdateNetBoosts();
         Growth();
         HealStandbyUnits();
@@ -534,6 +552,7 @@ public class Village
                 unit.Health = 0;
                 VillagePopulation.RemoveHireable(unit);
             }
+
             if (unit.IsDead)
                 VillagePopulation.RemoveHireable(unit);
             else
@@ -546,11 +565,10 @@ public class Village
 
     private void Growth()
     {
-        double namedBreeders  = 0;
+        double namedBreeders = 0;
         Army army = StrategicUtilities.ArmyAt(Position);
         SpawnerInfo spawner = null;
-        if (army != null)
-            spawner = Config.World.GetSpawner(army.Side.ToRace());
+        if (army != null) spawner = Config.World.GetSpawner(army.Side.ToRace());
         Config.MonsterConquestType spawnerType;
         if (spawner != null)
             spawnerType = spawner.GetConquestType();
@@ -567,11 +585,11 @@ public class Village
                     {
                         namedBreeders += 0.75;
                     }
+
                     if (u.HasTrait(TraitType.SlowBreeder))
                     {
                         namedBreeders -= 0.30;
                     }
-                
                 }
             });
             GetRecruitables().ForEach(u =>
@@ -582,12 +600,14 @@ public class Village
                     {
                         namedBreeders += 0.75;
                     }
+
                     if (u.HasTrait(TraitType.SlowBreeder))
                     {
                         namedBreeders -= 0.30;
                     }
                 }
-                else namedBreeders -= 1;
+                else
+                    namedBreeders -= 1;
             });
         }
 
@@ -598,17 +618,14 @@ public class Village
                 Dictionary<Race, int> count = new Dictionary<Race, int>();
                 foreach (Unit unit in army.Units)
                 {
-                  
-                    if (RaceFuncs.isNotUniqueMerc(unit.Race) && !Equals(Empire.ReplacedRace, unit.Race))
-                        continue;
-                    if (State.RaceSettings.GetRaceTraits(unit.Race).Contains(TraitType.Infertile))
-                        continue;
+                    if (RaceFuncs.isNotUniqueMerc(unit.Race) && !Equals(Empire.ReplacedRace, unit.Race)) continue;
+                    if (State.RaceSettings.GetRaceTraits(unit.Race).Contains(TraitType.Infertile)) continue;
                     if (count.ContainsKey(unit.Race) == false)
                         count[unit.Race] = 1;
                     else
                         count[unit.Race]++;
-                    
                 }
+
                 var final = count.OrderByDescending(s => s.Value).ToArray();
                 if (final.Length > 0)
                 {
@@ -619,13 +636,11 @@ public class Village
                 else if (State.World.GetEmpireOfSide(army.Side)?.ReplacedRace != null)
                 {
                     Race = State.World.GetEmpireOfSide(army.Side).ReplacedRace;
-                    if (!State.RaceSettings.GetRaceTraits(Race).Contains(TraitType.Infertile))
-                        VillagePopulation.AddRacePop(Race, 0);
+                    if (!State.RaceSettings.GetRaceTraits(Race).Contains(TraitType.Infertile)) VillagePopulation.AddRacePop(Race, 0);
                 }
 
                 else
                     return;
-
             }
             else
             {
@@ -633,7 +648,8 @@ public class Village
                 return;
             }
         }
-        if ((VillagePopulation.GetTotalPop() + namedBreeders) > 1 && VillagePopulation.GetTotalPop() < Maxpop)
+
+        if (VillagePopulation.GetTotalPop() + namedBreeders > 1 && VillagePopulation.GetTotalPop() < Maxpop)
         {
             float growthPct = 0.10F;
 
@@ -649,13 +665,10 @@ public class Village
             {
                 var traits = State.RaceSettings.GetRaceTraits(pop.Race);
                 double breedingContrib = 1;
-                if (traits.Contains(TraitType.ProlificBreeder))
-                    breedingContrib *= 1.75f;
-                if (traits.Contains(TraitType.SlowBreeder))
-                    breedingContrib *= .7f;
-                if (traits.Contains(TraitType.Infertile))
-                    breedingContrib *= 0;
-                unnamedBreeders += (pop.Population-pop.Hireables) * breedingContrib;
+                if (traits.Contains(TraitType.ProlificBreeder)) breedingContrib *= 1.75f;
+                if (traits.Contains(TraitType.SlowBreeder)) breedingContrib *= .7f;
+                if (traits.Contains(TraitType.Infertile)) breedingContrib *= 0;
+                unnamedBreeders += (pop.Population - pop.Hireables) * breedingContrib;
             });
             double totalBreeders = unnamedBreeders + namedBreeders;
             int incr;
@@ -664,9 +677,8 @@ public class Village
                 incr = 0;
             else
             {
-                incr = (int)(1 + (totalBreeders * growthPct));
-                if (Population == 0)
-                    incr = Math.Max(2, incr);
+                incr = (int)(1 + totalBreeders * growthPct);
+                if (Population == 0) incr = Math.Max(2, incr);
             }
 
 
@@ -674,9 +686,8 @@ public class Village
             {
                 incr = Maxpop - Population;
             }
+
             VillagePopulation.AddRandomPop(incr);
-
-
         }
         else if (VillagePopulation.GetTotalPop() > Maxpop)
         {
@@ -685,27 +696,24 @@ public class Village
                 VillagePopulation.DecrementRandom();
             } while (VillagePopulation.GetTotalPop() > Maxpop);
         }
+
         VillagePopulation.CleanHirables();
     }
 
     private void UpdateTravelers()
     {
-        if (travelers == null)
-            return;
+        if (travelers == null) return;
         foreach (InvisibleTravelingUnit unit in travelers.ToList())
         {
-
             unit.remainingTurns -= 1;
             if (unit.remainingTurns <= 0)
             {
                 travelers.Remove(unit);
-                if (unit.unit.IsDead)
-                    continue;
+                if (unit.unit.IsDead) continue;
                 if (!Equals(unit.unit.Side, Side))
                 {
                     var closestFriendlyVillage = State.World.Villages.Where(s => Equals(s.Side, unit.unit.Side)).OrderBy(s => s.Position.GetNumberOfMovesDistance(Position)).FirstOrDefault();
-                    if (closestFriendlyVillage == null)
-                        closestFriendlyVillage = State.World.Villages.Where(s => s.Empire.IsAlly(State.World.GetEmpireOfSide(unit.unit.Side))).OrderBy(s => s.Position.GetNumberOfMovesDistance(Position)).FirstOrDefault();
+                    if (closestFriendlyVillage == null) closestFriendlyVillage = State.World.Villages.Where(s => s.Empire.IsAlly(State.World.GetEmpireOfSide(unit.unit.Side))).OrderBy(s => s.Position.GetNumberOfMovesDistance(Position)).FirstOrDefault();
                     if (closestFriendlyVillage != null)
                     {
                         StrategicUtilities.CreateInvisibleTravelingArmy(unit.unit, closestFriendlyVillage, closestFriendlyVillage.Position.GetNumberOfMovesDistance(Position) / Config.ArmyMP);
@@ -717,6 +725,7 @@ public class Village
                         continue;
                     }
                 }
+
                 if (unit.unit == Empire.Leader)
                 {
                     var localArmy = StrategicUtilities.ArmyAt(Position);
@@ -736,10 +745,11 @@ public class Village
                     {
                         VillagePopulation.AddHireable(unit.unit);
                         Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name}", new Vec2(Position.X, Position.Y)));
-
                     }
+
                     continue;
                 }
+
                 VillagePopulation.AddHireable(unit.unit);
                 Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} has arrived at {Name}", new Vec2(Position.X, Position.Y)));
             }
@@ -754,12 +764,12 @@ public class Village
         {
             incr = Maxpop - Population;
         }
+
         VillagePopulation.AddRandomPop(incr);
     }
 
     public void AddPopulation(Race race)
     {
-
         if (VillagePopulation.GetTotalPop() < Maxpop)
         {
             VillagePopulation.AddRacePop(race, 1);
@@ -774,6 +784,7 @@ public class Village
         {
             incr = Maxpop - Population;
         }
+
         for (int x = 0; x < incr; x++)
         {
             AddPopulation(race);
@@ -800,7 +811,6 @@ public class Village
             {
                 VillagePopulation.RemoveRandomPop(-change);
             }
-
         }
     }
 
@@ -819,7 +829,6 @@ public class Village
         }
 
 
-
         VillagePopulation.CleanHirables();
     }
 
@@ -836,7 +845,6 @@ public class Village
         {
             VillagePopulation.RemoveRacePop(race, p);
         }
-
 
 
         VillagePopulation.CleanHirables();
@@ -863,11 +871,6 @@ public class Village
     }
 
 
-
-
-
-
-
     public void DevouredPercentage(float pct)
     {
         Happiness *= 1 - pct;
@@ -879,14 +882,11 @@ public class Village
     }
 
 
-
     internal void BuyWeaponPotentiallyBulk(ItemType weapon, Empire buyingEmpire)
     {
         int purchaseAmount = 1;
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-            purchaseAmount = 4;
-        if (Input.GetKey(KeyCode.LeftControl))
-            purchaseAmount = 10;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) purchaseAmount = 4;
+        if (Input.GetKey(KeyCode.LeftControl)) purchaseAmount = 10;
         for (int i = 0; i < purchaseAmount; i++)
         {
             BuyWeapon(weapon, buyingEmpire);
@@ -896,10 +896,8 @@ public class Village
     internal void SellWeaponPotentiallyBulk(ItemType weapon, Empire sellingEmpire)
     {
         int purchaseAmount = 1;
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-            purchaseAmount = 4;
-        if (Input.GetKey(KeyCode.LeftControl))
-            purchaseAmount = 10;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) purchaseAmount = 4;
+        if (Input.GetKey(KeyCode.LeftControl)) purchaseAmount = 10;
         for (int i = 0; i < purchaseAmount; i++)
         {
             SellWeapon(weapon, sellingEmpire);
@@ -908,10 +906,8 @@ public class Village
 
     internal void BuyWeapon(ItemType weapon, Empire buyingEmpire = null)
     {
-        if (buyingEmpire == null)
-            buyingEmpire = Empire;
-        if (buyingEmpire.Gold < State.World.ItemRepository.GetItem(weapon).Cost)
-            return;
+        if (buyingEmpire == null) buyingEmpire = Empire;
+        if (buyingEmpire.Gold < State.World.ItemRepository.GetItem(weapon).Cost) return;
         buyingEmpire.SpendGold(State.World.ItemRepository.GetItem(weapon).Cost);
         State.World.Stats.SpentGoldOnArmyEquipment(State.World.ItemRepository.GetItem(weapon).Cost, buyingEmpire.Side);
         Weapons.Add(weapon);
@@ -919,14 +915,12 @@ public class Village
 
     internal void SellWeapon(ItemType weapon, Empire sellingEmpire = null)
     {
-        if (sellingEmpire == null)
-            sellingEmpire = Empire;
+        if (sellingEmpire == null) sellingEmpire = Empire;
         if (Weapons.Contains(weapon))
         {
             sellingEmpire.AddGold(State.World.ItemRepository.GetItem(weapon).Cost / 2);
             Weapons.Remove(weapon);
         }
-
     }
 
     public int GetStartingXp()
@@ -944,8 +938,7 @@ public class Village
 
     public List<TraitType> GetTraitsToAdd()
     {
-        if (NetBoosts == null || NetBoosts.AddTraits == null)
-            return new List<TraitType>();
+        if (NetBoosts == null || NetBoosts.AddTraits == null) return new List<TraitType>();
 
         return NetBoosts.AddTraits;
     }
@@ -956,6 +949,7 @@ public class Village
         {
             return PrepareAndReturnMonsterGarrison();
         }
+
         var startingExp = GetStartingXp();
         foreach (Unit unit in VillagePopulation.GetRecruitables())
         {
@@ -963,17 +957,17 @@ public class Village
             {
                 unit.SetExp(startingExp);
             }
-            if (unit.HasEnoughExpToLevelUp())
-                StrategicUtilities.SpendLevelUps(unit);
+
+            if (unit.HasEnoughExpToLevelUp()) StrategicUtilities.SpendLevelUps(unit);
 
             unit.AddTraits(GetTraitsToAdd());
         }
+
         List<Unit> ActiveGarrison = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(TraitType.Feral)).OrderByDescending(s => s.Level).Take(Math.Min(MaxGarrisonSize, VillagePopulation.GetTotalPop())).ToList();
         List<Unit> InactiveGarrison = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon == false && s.HasBook == false && s.HasTrait(TraitType.Feral) == false).OrderByDescending(s => s.Level).ToList();
         for (int i = 0; i < 48; i++)
         {
-            if (ActiveGarrison.Count >= VillagePopulation.GetTotalPop())
-                break;
+            if (ActiveGarrison.Count >= VillagePopulation.GetTotalPop()) break;
 
 
             if (ActiveGarrison.Count() < MaxGarrisonSize)
@@ -982,15 +976,13 @@ public class Village
                 if (InactiveGarrison.Count > 0)
                 {
                     unit = InactiveGarrison[0];
-                    if (unit.Items[0] != null)
-                        Shop.SellItem(Empire, unit, 0);
+                    if (unit.Items[0] != null) Shop.SellItem(Empire, unit, 0);
                     InactiveGarrison.Remove(unit);
                 }
                 else
                 {
                     Race nextRace = VillagePopulation.RandomRaceByWeight();
-                    if (Weapons.Count == 0 && State.RaceSettings.GetRaceTraits(nextRace).Contains(TraitType.Feral) == false && (RaceFuncs.isMonster(nextRace)) == false)
-                        continue;
+                    if (Weapons.Count == 0 && State.RaceSettings.GetRaceTraits(nextRace).Contains(TraitType.Feral) == false && RaceFuncs.isMonster(nextRace) == false) continue;
                     bool found = false;
                     for (int j = 0; j < 15; j++)
                     {
@@ -999,10 +991,11 @@ public class Village
                             nextRace = VillagePopulation.RandomRaceByWeight();
                             continue;
                         }
+
                         found = true;
                     }
-                    if (found == false)
-                        continue;
+
+                    if (found == false) continue;
 
                     if (RaceFuncs.isMonster(nextRace))
                     {
@@ -1012,43 +1005,40 @@ public class Village
                     else
                         unit = new Unit(Side, nextRace, startingExp, State.World.GetEmpireOfRace(nextRace)?.CanVore ?? true);
                 }
+
                 if (unit.HasEnoughExpToLevelUp())
                 {
                     StrategicUtilities.SpendLevelUps(unit);
                 }
+
                 IRaceData race = Races2.GetRace(unit);
                 if (unit.ClothingType != 0)
                 {
                     if (Equals(unit.Race, Race.Lizard))
                     {
-                        if (race.SetupOutput.AllowedMainClothingTypes.Contains(RaceSpecificClothing.LizardPeasantInstance))
-                            unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.LizardPeasantInstance);
+                        if (race.SetupOutput.AllowedMainClothingTypes.Contains(RaceSpecificClothing.LizardPeasantInstance)) unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.LizardPeasantInstance);
                     }
                     else if (Equals(unit.Race, Race.Lamia))
                     {
-                        if (race.SetupOutput.AllowedMainClothingTypes.Contains(RaceSpecificClothing.TogaInstance))
-                            unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.TogaInstance);
+                        if (race.SetupOutput.AllowedMainClothingTypes.Contains(RaceSpecificClothing.TogaInstance)) unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.TogaInstance);
                     }
                     else
                     {
                         if (unit.HasBreasts)
                         {
-                            if (race.SetupOutput.AllowedMainClothingTypes.Contains(CommonClothing.FemaleVillagerInstance))
-                                unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(CommonClothing.FemaleVillagerInstance);
+                            if (race.SetupOutput.AllowedMainClothingTypes.Contains(CommonClothing.FemaleVillagerInstance)) unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(CommonClothing.FemaleVillagerInstance);
                         }
                         else
                         {
-                            if (race.SetupOutput.AllowedMainClothingTypes.Contains(CommonClothing.MaleVillagerInstance))
-                                unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(CommonClothing.MaleVillagerInstance);
+                            if (race.SetupOutput.AllowedMainClothingTypes.Contains(CommonClothing.MaleVillagerInstance)) unit.ClothingType = 1 + race.SetupOutput.AllowedMainClothingTypes.IndexOf(CommonClothing.MaleVillagerInstance);
                         }
                     }
-
                 }
+
                 ActiveGarrison.Add(unit);
                 if (VillagePopulation.GetRecruitables().Contains(unit) == false)
                 {
                     VillagePopulation.AddHireableFromCurrentPop(unit);
-
                 }
 
                 if (unit.BestSuitedForRanged())
@@ -1058,6 +1048,7 @@ public class Village
                     TryEquipWeapon(unit, ItemType.Bow);
                     if (unit.Items[0] != null) continue;
                 }
+
                 TryEquipWeapon(unit, ItemType.Axe);
                 if (unit.Items[0] != null) continue;
                 TryEquipWeapon(unit, ItemType.Mace);
@@ -1069,6 +1060,7 @@ public class Village
             else
                 break;
         }
+
         return ActiveGarrison;
     }
 
@@ -1089,15 +1081,15 @@ public class Village
             {
                 unit.SetExp(startingExp);
             }
-            if (unit.HasEnoughExpToLevelUp())
-                StrategicUtilities.SpendLevelUps(unit);
+
+            if (unit.HasEnoughExpToLevelUp()) StrategicUtilities.SpendLevelUps(unit);
         }
+
         List<Unit> ActiveGarrison = VillagePopulation.GetRecruitables().Where(s => s.HasWeapon || s.HasBook || s.HasTrait(TraitType.Feral)).OrderByDescending(s => s.Level).Take(Math.Min(MaxGarrisonSize, VillagePopulation.GetTotalPop())).ToList();
 
         for (int i = 0; i < 48; i++)
         {
-            if (ActiveGarrison.Count >= VillagePopulation.GetTotalPop())
-                break;
+            if (ActiveGarrison.Count >= VillagePopulation.GetTotalPop()) break;
             if (ActiveGarrison.Count() < MaxGarrisonSize)
             {
                 CreateMonster(startingExp, ActiveGarrison);
@@ -1105,6 +1097,7 @@ public class Village
             else
                 break;
         }
+
         return ActiveGarrison;
     }
 
@@ -1115,6 +1108,7 @@ public class Village
         {
             StrategicUtilities.SpendLevelUps(unit);
         }
+
         ActiveGarrison.Add(unit);
         VillagePopulation.AddHireableFromCurrentPop(unit);
     }
@@ -1130,7 +1124,7 @@ public class Village
     }
 
     /// <summary>
-    /// Only for Player units, will result in random message boxes if used for AI
+    ///     Only for Player units, will result in random message boxes if used for AI
     /// </summary>
     internal Unit RecruitPlayerUnit(Empire empire, Army army)
     {
@@ -1155,6 +1149,7 @@ public class Village
                 }
             }
         }
+
         return null;
     }
 
@@ -1180,6 +1175,7 @@ public class Village
                 }
             }
         }
+
         return null;
     }
 
@@ -1196,16 +1192,15 @@ public class Village
                 VillagePopulation.AddRacePop(Race, 1);
             }
         }
-
     }
 
     /// <summary>
-    /// The same as Recruit Player unit, only it automatically tries hiring from the infiltrators/adventurers/mercs/hireables first
+    ///     The same as Recruit Player unit, only it automatically tries hiring from the
+    ///     infiltrators/adventurers/mercs/hireables first
     /// </summary>
     internal Unit RecruitAIUnit(Empire empire, Army army)
     {
-        if (VillagePopulation.GetTotalPop() <= 3)
-            return null;
+        if (VillagePopulation.GetTotalPop() <= 3) return null;
         if (empire.Gold >= Config.ArmyCost)
         {
             if (army.Units.Count < army.MaxSize)
@@ -1214,8 +1209,7 @@ public class Village
                 {
                     Unit unit = VillagePopulation.GetRecruitables().Where(rec => rec.IsInfiltratingSide(Side)).OrderByDescending(s => s.Experience).First();
                     var startingExp = GetStartingXp();
-                    if (unit.Experience < startingExp)
-                        unit.SetExp(startingExp);
+                    if (unit.Experience < startingExp) unit.SetExp(startingExp);
                     unit.AddTraits(GetTraitsToAdd());
                     army.Units.Add(unit);
                     unit.Side = army.Side;
@@ -1223,6 +1217,7 @@ public class Village
                     VillagePopulation.RemoveHireable(unit);
                     return unit;
                 }
+
                 if (Adventurers?.Count > 0)
                 {
                     MercenaryContainer merc = Adventurers.OrderByDescending(s => s.Unit.Experience).First();
@@ -1232,6 +1227,7 @@ public class Village
                         return merc.Unit;
                     }
                 }
+
                 if (Mercenaries?.Count > 0 && empire.Gold > 600)
                 {
                     MercenaryContainer merc = Mercenaries.OrderByDescending(s => s.Unit.Experience).First();
@@ -1241,13 +1237,13 @@ public class Village
                         return merc.Unit;
                     }
                 }
+
                 if (VillagePopulation.GetRecruitables().Count > 0 && Equals(army.Side, Side))
                 {
                     Unit unit = VillagePopulation.GetRecruitables().OrderByDescending(s => s.Experience).First();
 
                     var startingExp = GetStartingXp();
-                    if (unit.Experience < startingExp)
-                        unit.SetExp(startingExp);
+                    if (unit.Experience < startingExp) unit.SetExp(startingExp);
                     unit.AddTraits(GetTraitsToAdd());
                     army.Units.Add(unit);
                     unit.Side = army.Side;
@@ -1266,9 +1262,9 @@ public class Village
                     VillagePopulation.RemoveRacePop(unit.Race, 1);
                     return unit;
                 }
-
             }
         }
+
         return null;
     }
 
@@ -1281,8 +1277,7 @@ public class Village
                 if (army.Units.Count < army.MaxSize)
                 {
                     var startingExp = GetStartingXp();
-                    if (unit.Experience < startingExp)
-                        unit.SetExp(startingExp);
+                    if (unit.Experience < startingExp) unit.SetExp(startingExp);
                     unit.AddTraits(GetTraitsToAdd());
                     army.Units.Add(unit);
                     unit.Side = army.Side;
@@ -1292,30 +1287,30 @@ public class Village
                 }
             }
         }
+
         return false;
     }
 
     private void UpdateMercenaries()
     {
-        if (Mercenaries == null)
-            Mercenaries = new List<MercenaryContainer>();
-        if (Adventurers == null)
-            Adventurers = new List<MercenaryContainer>();
+        if (Mercenaries == null) Mercenaries = new List<MercenaryContainer>();
+        if (Adventurers == null) Adventurers = new List<MercenaryContainer>();
         if (VillagePopulation.GetTotalPop() == 0)
         {
             Adventurers.Clear();
             Mercenaries.Clear();
         }
+
         if (State.World.Turn != TurnRefreshed)
         {
             TurnRefreshed = State.World.Turn;
             AvailableRaces = new List<Race>();
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
-                if (RaceFuncs.isNotUniqueMerc(race) && Config.World.GetValue($"Merc {race}"))
-                    AvailableRaces.Add(race);
+                if (RaceFuncs.isNotUniqueMerc(race) && Config.World.GetValue($"Merc {race}")) AvailableRaces.Add(race);
             }
         }
+
         int highestExp = State.GameManager.StrategyMode.ScaledExp;
         if (Config.MercenariesDisabled == false)
         {
@@ -1333,6 +1328,7 @@ public class Village
                         }
                     }
                 }
+
                 for (int i = 0; i < NetBoosts.MercsPerTurnAdd; i++)
                 {
                     Mercenaries.Add(CreateMercenary(highestExp));
@@ -1357,17 +1353,14 @@ public class Village
                     }
                 }
             }
+
             for (int i = 0; i < NetBoosts.AdventurersPerTurnAdd; i++)
             {
                 Adventurers.Add(CreateAdventurer(highestExp));
             }
-
         }
         else
             Adventurers.Clear();
-
-
-
     }
 
     private MercenaryContainer CreateAdventurer(int highestExp)
@@ -1397,9 +1390,7 @@ public class Village
                     int random = State.Rand.Next(emps.Length);
                     race = emps[random].CapitalCity?.OriginalRace ?? emps[random].ReplacedRace;
                 }
-
             }
-
         }
         else
         {
@@ -1408,8 +1399,7 @@ public class Village
         }
 
         bool canVore = true;
-        if (State.World.GetEmpireOfRace(race)?.CanVore == false)
-            canVore = false;
+        if (State.World.GetEmpireOfRace(race)?.CanVore == false) canVore = false;
         int extraCost = 0;
         int exp = GetStartingXp() + (int)(highestExp * .3f) + State.Rand.Next(10);
         merc.Unit = new Unit(race.ToSide(), race, exp, canVore, UnitType.Adventurer, true);
@@ -1437,9 +1427,10 @@ public class Village
         {
             power = RaceParameters.GetTraitData(merc.Unit).PowerAdjustment;
         }
+
         StrategicUtilities.SetAIClass(merc.Unit);
         StrategicUtilities.SpendLevelUps(merc.Unit);
-        merc.Cost = (int)((25 + extraCost + State.Rand.Next(15) + (.04 * exp)) * UnityEngine.Random.Range(0.8f, 1.2f) * power);
+        merc.Cost = (int)((25 + extraCost + State.Rand.Next(15) + .04 * exp) * UnityEngine.Random.Range(0.8f, 1.2f) * power);
         merc.Title = $"{InfoPanel.RaceSingular(merc.Unit)} - Adventurer";
         return merc;
     }
@@ -1484,8 +1475,8 @@ public class Village
                     else
                         merc.Unit.SetItem(State.World.ItemRepository.GetItem(ItemType.Gauntlet), 1);
                     break;
-
             }
+
             if (State.Rand.Next(10) == 0)
             {
                 var book = State.World.ItemRepository.GetRandomBook();
@@ -1501,9 +1492,10 @@ public class Village
         {
             power = RaceParameters.GetTraitData(merc.Unit).PowerAdjustment;
         }
+
         StrategicUtilities.SetAIClass(merc.Unit);
         StrategicUtilities.SpendLevelUps(merc.Unit);
-        merc.Cost = (int)((25 + extraCost + State.Rand.Next(15) + (.12 * exp)) * UnityEngine.Random.Range(0.8f, 1.2f) * power);
+        merc.Cost = (int)((25 + extraCost + State.Rand.Next(15) + .12 * exp) * UnityEngine.Random.Range(0.8f, 1.2f) * power);
         merc.Title = $"{InfoPanel.RaceSingular(merc.Unit)} - Mercenary";
         return merc;
     }
@@ -1515,8 +1507,7 @@ public class Village
             if (army.Units.Count < army.MaxSize)
             {
                 var startingExp = GetStartingXp();
-                if (merc.Unit.Experience < startingExp)
-                    merc.Unit.SetExp(startingExp);
+                if (merc.Unit.Experience < startingExp) merc.Unit.SetExp(startingExp);
                 merc.Unit.AddTraits(GetTraitsToAdd());
                 army.Units.Add(merc.Unit);
                 merc.Unit.Side = army.Side;
@@ -1526,7 +1517,7 @@ public class Village
                 return true;
             }
         }
+
         return false;
     }
-
 }

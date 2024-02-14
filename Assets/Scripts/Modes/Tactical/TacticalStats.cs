@@ -7,45 +7,70 @@ public class TacticalStats
 {
     private class RaceStats
     {
-    [OdinSerialize]
-    private Dictionary<Weapon,int> _damageDealtBy;
-    public Dictionary<Weapon,int> DamageDealtBy { get => _damageDealtBy; set => _damageDealtBy = value; }
-    [OdinSerialize]
-    private Dictionary<Weapon,int> _killsWith;
-    public Dictionary<Weapon,int> KillsWith { get => _killsWith; set => _killsWith = value; }
-    [OdinSerialize]
-    private Dictionary<Spell,int> _damageDealtBySpell;
-    public Dictionary<Spell,int> DamageDealtBySpell { get => _damageDealtBySpell; set => _damageDealtBySpell = value; }
-    [OdinSerialize]
-    private Dictionary<Spell,int> _killsWithSpell;
-    public Dictionary<Spell,int> KillsWithSpell { get => _killsWithSpell; set => _killsWithSpell = value; }
-    [OdinSerialize]
-    private int _hits;
-    public int Hits { get => _hits; set => _hits = value; }
-    [OdinSerialize]
-    private int _misses;
-    public int Misses { get => _misses; set => _misses = value; }
-    [OdinSerialize]
-    private int _totalHPHealed;
-    public int TotalHPHealed { get => _totalHPHealed; set => _totalHPHealed = value; }
-    [OdinSerialize]
-    private int _targetsVored;
-    public int TargetsVored { get => _targetsVored; set => _targetsVored = value; }
-    [OdinSerialize]
-    private int _targetsRegurgitated;
-    public int TargetsRegurgitated { get => _targetsRegurgitated; set => _targetsRegurgitated = value; }
-    [OdinSerialize]
-    private int _targetsEscaped;
-    public int TargetsEscaped { get => _targetsEscaped; set => _targetsEscaped = value; }
-    [OdinSerialize]
-    private int _targetsFreed;
-    public int TargetsFreed { get => _targetsFreed; set => _targetsFreed = value; }
-    [OdinSerialize]
-    private int _targetsDigested;
-    public int TargetsDigested { get => _targetsDigested; set => _targetsDigested = value; }
-    [OdinSerialize]
-    private int _alliesEaten;
-    public int AlliesEaten { get => _alliesEaten; set => _alliesEaten = value; }
+        [OdinSerialize]
+        private Dictionary<Weapon, int> _damageDealtBy;
+
+        public Dictionary<Weapon, int> DamageDealtBy { get => _damageDealtBy; set => _damageDealtBy = value; }
+
+        [OdinSerialize]
+        private Dictionary<Weapon, int> _killsWith;
+
+        public Dictionary<Weapon, int> KillsWith { get => _killsWith; set => _killsWith = value; }
+
+        [OdinSerialize]
+        private Dictionary<Spell, int> _damageDealtBySpell;
+
+        public Dictionary<Spell, int> DamageDealtBySpell { get => _damageDealtBySpell; set => _damageDealtBySpell = value; }
+
+        [OdinSerialize]
+        private Dictionary<Spell, int> _killsWithSpell;
+
+        public Dictionary<Spell, int> KillsWithSpell { get => _killsWithSpell; set => _killsWithSpell = value; }
+
+        [OdinSerialize]
+        private int _hits;
+
+        public int Hits { get => _hits; set => _hits = value; }
+
+        [OdinSerialize]
+        private int _misses;
+
+        public int Misses { get => _misses; set => _misses = value; }
+
+        [OdinSerialize]
+        private int _totalHPHealed;
+
+        public int TotalHPHealed { get => _totalHPHealed; set => _totalHPHealed = value; }
+
+        [OdinSerialize]
+        private int _targetsVored;
+
+        public int TargetsVored { get => _targetsVored; set => _targetsVored = value; }
+
+        [OdinSerialize]
+        private int _targetsRegurgitated;
+
+        public int TargetsRegurgitated { get => _targetsRegurgitated; set => _targetsRegurgitated = value; }
+
+        [OdinSerialize]
+        private int _targetsEscaped;
+
+        public int TargetsEscaped { get => _targetsEscaped; set => _targetsEscaped = value; }
+
+        [OdinSerialize]
+        private int _targetsFreed;
+
+        public int TargetsFreed { get => _targetsFreed; set => _targetsFreed = value; }
+
+        [OdinSerialize]
+        private int _targetsDigested;
+
+        public int TargetsDigested { get => _targetsDigested; set => _targetsDigested = value; }
+
+        [OdinSerialize]
+        private int _alliesEaten;
+
+        public int AlliesEaten { get => _alliesEaten; set => _alliesEaten = value; }
 
         public RaceStats()
         {
@@ -55,28 +80,37 @@ public class TacticalStats
             KillsWithSpell = new Dictionary<Spell, int>();
         }
     }
+
     [OdinSerialize]
     private Side _defenderSide;
+
     public Side DefenderSide { get => _defenderSide; set => _defenderSide = value; }
+
     [OdinSerialize]
     private Side _attackerSide;
+
     public Side AttackerSide { get => _attackerSide; set => _attackerSide = value; }
+
     [OdinSerialize]
     private int _attackers;
 
     private int attackers { get => _attackers; set => _attackers = value; }
+
     [OdinSerialize]
     private int _defenders;
 
     private int defenders { get => _defenders; set => _defenders = value; }
+
     [OdinSerialize]
     private int _garrison;
 
     private int garrison { get => _garrison; set => _garrison = value; }
+
     [OdinSerialize]
     private RaceStats _attackerStats;
 
     private RaceStats AttackerStats { get => _attackerStats; set => _attackerStats = value; }
+
     [OdinSerialize]
     private RaceStats _defenderStats;
 
@@ -109,8 +143,7 @@ public class TacticalStats
         {
             if (attackerValueLost > 4 * defenderValueLost)
                 lossRatio = "Pyrrhic ";
-            else if (attackerValueLost > 2 * defenderValueLost)
-                lossRatio = "Costly ";
+            else if (attackerValueLost > 2 * defenderValueLost) lossRatio = "Costly ";
             if (remainingAttackerPct > .9)
                 survivorRatio = "Flawless";
             else if (remainingAttackerPct > .6)
@@ -120,14 +153,12 @@ public class TacticalStats
             else
                 survivorRatio = "Marginal";
             return $"{lossRatio}{survivorRatio} Attacker Victory";
-
         }
         else
         {
             if (defenderValueLost > 4 * attackerValueLost)
                 lossRatio = "Pyrrhic ";
-            else if (defenderValueLost > 2 * attackerValueLost)
-                lossRatio = "Costly ";
+            else if (defenderValueLost > 2 * attackerValueLost) lossRatio = "Costly ";
             if (remainingDefenderPct > .9)
                 survivorRatio = "Flawless";
             else if (remainingDefenderPct > .6)
@@ -138,7 +169,6 @@ public class TacticalStats
                 survivorRatio = "Marginal";
             return $"{lossRatio}{survivorRatio} Defender Victory";
         }
-
     }
 
     public string AttackerSummary(int remAttackers)
@@ -151,15 +181,11 @@ public class TacticalStats
 
     public string DefenderSummary(int remDefenders, int remGarrison)
     {
-        if (remDefenders < 0)
-            remDefenders = 0;
-        if (remGarrison < 0)
-            remGarrison = 0;
+        if (remDefenders < 0) remDefenders = 0;
+        if (remGarrison < 0) remGarrison = 0;
         StringBuilder sb = new StringBuilder();
-        if (defenders > 0)
-            sb.AppendLine($"Defenders Remaining: {remDefenders} / {defenders}");
-        if (garrison > 0)
-            sb.AppendLine($"Garrison Remaining: {remGarrison} / {garrison}");
+        if (defenders > 0) sb.AppendLine($"Defenders Remaining: {remDefenders} / {defenders}");
+        if (garrison > 0) sb.AppendLine($"Garrison Remaining: {remGarrison} / {garrison}");
         GetRaceStats(sb, DefenderStats);
         return sb.ToString();
     }
@@ -170,6 +196,7 @@ public class TacticalStats
         {
             sb.AppendLine($"{item.Key.Name} - Damage Dealt: {Stats.DamageDealtBy[item.Key]} - Kills: {(Stats.KillsWith.ContainsKey(item.Key) ? Stats.KillsWith[item.Key] : 0)}");
         }
+
         if (Stats.DamageDealtBySpell != null && Stats.KillsWithSpell != null)
         {
             foreach (var item in Stats.DamageDealtBySpell)
@@ -177,6 +204,7 @@ public class TacticalStats
                 sb.AppendLine($"{item.Key.Name} - Damage Dealt: {Stats.DamageDealtBySpell[item.Key]} - Kills: {(Stats.KillsWithSpell.ContainsKey(item.Key) ? Stats.KillsWithSpell[item.Key] : 0)}");
             }
         }
+
         sb.AppendLine($"Hits: {Stats.Hits}");
         sb.AppendLine($"Misses: {Stats.Misses}");
         sb.AppendLine($"Total HP Healed: {Stats.TotalHPHealed}");
@@ -185,8 +213,7 @@ public class TacticalStats
         sb.AppendLine($"Prey Escaped: {Stats.TargetsEscaped}");
         sb.AppendLine($"Prey Regurgitated: {Stats.TargetsRegurgitated}");
         sb.AppendLine($"Prey Digested: {Stats.TargetsDigested}");
-        if (Stats.AlliesEaten > 0)
-            sb.AppendLine($"Allies Eaten: {Stats.AlliesEaten}");
+        if (Stats.AlliesEaten > 0) sb.AppendLine($"Allies Eaten: {Stats.AlliesEaten}");
     }
 
     public void RegisterKill(Weapon weapon, Side attackerSide)
@@ -209,11 +236,9 @@ public class TacticalStats
 
     internal void RegisterKill(Spell spell, Side attackerSide)
     {
-
         if (Equals(attackerSide, AttackerSide))
         {
-            if (AttackerStats.KillsWithSpell == null)
-                AttackerStats.KillsWithSpell = new Dictionary<Spell, int>();
+            if (AttackerStats.KillsWithSpell == null) AttackerStats.KillsWithSpell = new Dictionary<Spell, int>();
             if (AttackerStats.KillsWithSpell.ContainsKey(spell))
                 AttackerStats.KillsWithSpell[spell] += 1;
             else
@@ -221,8 +246,7 @@ public class TacticalStats
         }
         else
         {
-            if (DefenderStats.KillsWithSpell == null)
-                DefenderStats.KillsWithSpell = new Dictionary<Spell, int>();
+            if (DefenderStats.KillsWithSpell == null) DefenderStats.KillsWithSpell = new Dictionary<Spell, int>();
             if (DefenderStats.KillsWithSpell.ContainsKey(spell))
                 DefenderStats.KillsWithSpell[spell] += 1;
             else
@@ -254,8 +278,7 @@ public class TacticalStats
     {
         if (Equals(attackerSide, AttackerSide))
         {
-            if (AttackerStats.DamageDealtBySpell == null)
-                AttackerStats.DamageDealtBySpell = new Dictionary<Spell, int>();
+            if (AttackerStats.DamageDealtBySpell == null) AttackerStats.DamageDealtBySpell = new Dictionary<Spell, int>();
             if (AttackerStats.DamageDealtBySpell.ContainsKey(spell))
                 AttackerStats.DamageDealtBySpell[spell] += damage;
             else
@@ -264,8 +287,7 @@ public class TacticalStats
         }
         else
         {
-            if (DefenderStats.DamageDealtBySpell == null)
-                DefenderStats.DamageDealtBySpell = new Dictionary<Spell, int>();
+            if (DefenderStats.DamageDealtBySpell == null) DefenderStats.DamageDealtBySpell = new Dictionary<Spell, int>();
             if (DefenderStats.DamageDealtBySpell.ContainsKey(spell))
                 DefenderStats.DamageDealtBySpell[spell] += damage;
             else
@@ -338,4 +360,3 @@ public class TacticalStats
             DefenderStats.TargetsDigested++;
     }
 }
-

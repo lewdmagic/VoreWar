@@ -33,11 +33,11 @@ public static class CommonRaceCode
 
         return false;
     }
-    
+
     public static bool AreBreastsOverside(IActorUnit actor, int highestBreastSprite)
     {
         int def = actor.Unit.DefaultBreastSize;
-        
+
         if (actor.PredatorComponent?.LeftBreastFullness > 0)
         {
             if (Mathf.FloorToInt(Mathf.Sqrt(def * def + actor.GetLeftBreastSize(highestBreastSprite))) > def)
@@ -64,7 +64,7 @@ public static class CommonRaceCode
         {
             return new OverSizeParameters()
             {
-                Oversize = CommonRaceCode.AreBreastsOverside(input.A, size)
+                Oversize = AreBreastsOverside(input.A, size)
             };
         };
     }

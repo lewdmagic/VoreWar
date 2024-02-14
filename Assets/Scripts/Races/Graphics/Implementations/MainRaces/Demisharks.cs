@@ -11,6 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class Demisharks
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             IClothing leaderClothes = DemisharkLeader.DemisharkLeaderInstance.Create(paramsCalc);
@@ -21,14 +22,14 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("Demishark", "Demisharks");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "demi-shark", "shark", "landshark" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Sabre",
-                        [WeaponNames.Axe]         = "Cutlass",
-                        [WeaponNames.SimpleBow]   = "Harpoon",
+                        [WeaponNames.Mace] = "Sabre",
+                        [WeaponNames.Axe] = "Cutlass",
+                        [WeaponNames.SimpleBow] = "Harpoon",
                         [WeaponNames.CompoundBow] = "Speargun"
                     }
                 ));
@@ -135,10 +136,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
             builder.RenderSingle(SpriteType.Head, 6, (input, output) =>
             {

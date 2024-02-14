@@ -13,17 +13,14 @@ public class Rand
 
     internal int Next(int maxValue)
     {
-        if (maxValue < 1)
-            maxValue = 1;
+        if (maxValue < 1) maxValue = 1;
         return rand.Next(maxValue);
     }
 
     internal int Next(int minValue, int maxValue)
     {
-        if (maxValue < minValue)
-            maxValue = minValue;
-        if (maxValue < 1)
-            maxValue = 1;
+        if (maxValue < minValue) maxValue = minValue;
+        if (maxValue < 1) maxValue = 1;
         return rand.Next(minValue, maxValue);
     }
 
@@ -32,4 +29,3 @@ public class Rand
         return rand.NextDouble();
     }
 }
-

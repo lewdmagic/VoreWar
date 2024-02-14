@@ -12,8 +12,6 @@ namespace Races.Graphics.Implementations.Mercs
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-        
-        
             builder.Setup(output =>
             {
                 output.Names((input) =>
@@ -77,10 +75,7 @@ namespace Races.Graphics.Implementations.Mercs
                         Stomach = new RaceStats.StatRange(8, 14),
                     },
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetActive(ButtonType.ClothingColor2, true);
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetActive(ButtonType.ClothingColor2, true); });
                 output.BreastSizes = () => 4;
                 output.WeightGainDisabled = true;
                 output.SpecialAccessoryCount = 3;
@@ -245,7 +240,6 @@ namespace Races.Graphics.Implementations.Mercs
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));
                 if (input.A.HasBelly)
                 {
-
                     output.Sprite(input.Sprites.Succubi[43 + input.A.GetStomachSize()]);
                 }
             });
@@ -255,7 +249,7 @@ namespace Races.Graphics.Implementations.Mercs
                 Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));
             });
-        
+
             builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.OldImp, input.U.SkinColor));

@@ -42,10 +42,10 @@ public class ClothingMiscData : IClothingSetupOutput
     public Sprite DiscardSprite { get; set; } = null;
 
     /// <summary>
-    /// A unique type number, only used in relation to discarded sprites
+    ///     A unique type number, only used in relation to discarded sprites
     /// </summary>
     public ClothingId ClothingId { get; set; } = null;
-    
+
     public bool DiscardUsesColor2 { get; set; }
 
     internal ClothingMiscData ShallowCopy()

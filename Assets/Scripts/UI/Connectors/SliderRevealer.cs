@@ -20,16 +20,14 @@ public class SliderRevealer : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void TrySetValue(string fl)
     {
-        if (float.TryParse(fl, out float result))
-            Slider.value = result;
+        if (float.TryParse(fl, out float result)) Slider.value = result;
     }
 
     // Use this for initialization
     private void Start()
     {
         Slider = GetComponentInParent<Slider>();
-        if (Slider == null)
-            Debug.LogWarning("SliderRevealer has no slider!");
+        if (Slider == null) Debug.LogWarning("SliderRevealer has no slider!");
     }
 
     // Update is called once per frame

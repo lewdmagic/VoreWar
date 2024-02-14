@@ -16,8 +16,7 @@ public class GameManager : MonoBehaviour
         get { return currentScene; }
         private set
         {
-            if (currentScene != null)
-                currentScene.UI.SetActive(false);
+            if (currentScene != null) currentScene.UI.SetActive(false);
             currentScene = value;
             currentScene.UI.SetActive(true);
         }
@@ -112,12 +111,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         State.CarefulIntatntiate();
-        
+
         Start_Mode.UI.SetActive(true);
         currentScene = Start_Mode;
         State.GameManager = this;
         Application.wantsToQuit += () => WantsToQuit();
-        
+
         //State.SpriteManager = new SpriteManager();
         //State.SpriteManager.Process2();
 
@@ -146,7 +145,6 @@ public class GameManager : MonoBehaviour
         box.SetData(() => Quit(), "Quit Game", "Cancel", "Are you sure you want to quit?");
         return confirmedQuit;
 #endif
-
     }
 
     //private void CopyFilesOfType(string extension, string destination)
@@ -167,7 +165,7 @@ public class GameManager : MonoBehaviour
     //}
 
     /// <summary>
-    /// must be manually initialized
+    ///     must be manually initialized
     /// </summary>
     public DialogBox CreateDialogBox()
     {
@@ -214,8 +212,7 @@ public class GameManager : MonoBehaviour
     {
         Menu.UIPanel.SetActive(false);
         menuOpen = false;
-        if (currentScene == StrategyMode)
-            StrategyMode.ButtonCallback(70);
+        if (currentScene == StrategyMode) StrategyMode.ButtonCallback(70);
     }
 
     public void CloseStatsScreen()
@@ -235,7 +232,7 @@ public class GameManager : MonoBehaviour
         oldCameraPosition = Camera.transform.position;
         newCameraPosition = new Vector3(x, y, Camera.transform.position.z);
         float distance = Vector3.Distance(oldCameraPosition, newCameraPosition);
-        cameraTransitionTime = .2f + (0.1f * Mathf.Sqrt(distance));
+        cameraTransitionTime = .2f + 0.1f * Mathf.Sqrt(distance);
         cameraCurrentTransitionTime = 0;
         CameraTransitioning = true;
     }
@@ -251,20 +248,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (ActiveInput)
-            return;
-        if (remainingCameraTime > 0)
-            remainingCameraTime -= Time.deltaTime;
-        if (remainingCameraTime <= 0)
-            CornerCameraView.gameObject.SetActive(false);
-        if (CameraTransitioning)
-            UpdateSlidingCamera();
+        if (ActiveInput) return;
+        if (remainingCameraTime > 0) remainingCameraTime -= Time.deltaTime;
+        if (remainingCameraTime <= 0) CornerCameraView.gameObject.SetActive(false);
+        if (CameraTransitioning) UpdateSlidingCamera();
         if (menuOpen)
             Menu.UpdateDisplay();
-        else if (CurrentScene != null)
-            CurrentScene.ReceiveInput();
-        if (State.TutorialMode)
-            TutorialScript.CheckStatus();
+        else if (CurrentScene != null) CurrentScene.ReceiveInput();
+        if (State.TutorialMode) TutorialScript.CheckStatus();
     }
 
     private void UpdateSlidingCamera()
@@ -276,7 +267,6 @@ public class GameManager : MonoBehaviour
             CameraTransitioning = false;
             ActivateTacticalMode(queuedTiletype, queuedVillage, queuedInvader, queuedDefender);
         }
-
     }
 
     internal void CameraCall(Vector3 location)
@@ -304,14 +294,14 @@ public class GameManager : MonoBehaviour
             SwitchToMainMenu();
             return;
         }
+
         bool needsCameraRefresh = currentScene == Start_Mode || currentScene == TacticalMode;
         StrategyMode.gameObject.SetActive(true);
         CurrentScene.CleanUp();
         CurrentScene = StrategyMode;
         StrategyMode.UndoMoves.Clear();
         StrategyMode.Regenerate(initialLoad);
-        if (needsCameraRefresh)
-            CameraController.LoadStrategicCamera();
+        if (needsCameraRefresh) CameraController.LoadStrategicCamera();
         queuedTactical = false;
     }
 
@@ -376,17 +366,15 @@ public class GameManager : MonoBehaviour
         }
         else
             ActivateTacticalMode(tiletype, village, invader, defender);
-
     }
 
 
     public void ActivateQueuedTacticalMode(PreviewSkip skipType)
     {
         CurrentPreviewSkip = skipType;
-        TacticalBattleOverride battleOverride = (skipType == PreviewSkip.Watch) ? TacticalBattleOverride.ForceWatch : TacticalBattleOverride.ForceSkip;
+        TacticalBattleOverride battleOverride = skipType == PreviewSkip.Watch ? TacticalBattleOverride.ForceWatch : TacticalBattleOverride.ForceSkip;
         ActivateTacticalMode(queuedTiletype, queuedVillage, queuedInvader, queuedDefender, battleOverride);
         BattleReportPanel.gameObject.SetActive(false);
-
     }
 
 
@@ -400,8 +388,7 @@ public class GameManager : MonoBehaviour
         //If a human is either the army or the garrison, it gets to control both.
         Empire defenderEmpire = State.World.GetEmpireOfSide(defenderSide);
         TacticalAIType defenderType = defenderEmpire?.TacticalAIType ?? TacticalAIType.Full;
-        if (village != null && State.World.GetEmpireOfSide(village.Side)?.TacticalAIType == TacticalAIType.None)
-            defenderType = TacticalAIType.None;
+        if (village != null && State.World.GetEmpireOfSide(village.Side)?.TacticalAIType == TacticalAIType.None) defenderType = TacticalAIType.None;
 
         Empire attackerEmpire = State.World.GetEmpireOfSide(invader.Side);
         if (State.World.Relations != null)
@@ -414,7 +401,6 @@ public class GameManager : MonoBehaviour
             {
                 RelationsManager.ArmyAttacked(invader.Empire, defender.Empire);
             }
-
         }
 
 
@@ -482,9 +468,8 @@ public class GameManager : MonoBehaviour
 
     public void AskQuickLoad()
     {
-        if (FindObjectOfType<DialogBox>() != null)
-            return;
-        DialogBox box = GameObject.Instantiate(DialogBoxPrefab).GetComponent<DialogBox>();
+        if (FindObjectOfType<DialogBox>() != null) return;
+        DialogBox box = Instantiate(DialogBoxPrefab).GetComponent<DialogBox>();
         box.SetData(DoQuickLoad, "Load Game", "Cancel", "Are you sure you want to quickload?");
     }
 

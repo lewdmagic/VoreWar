@@ -3,7 +3,6 @@
 
 public sealed class AllowEditing : Attribute
 {
-
 }
 
 public sealed class ProperNameAttribute : Attribute
@@ -49,4 +48,3 @@ public sealed class IntegerRangeAttribute : Attribute
         Max = max;
     }
 }
-

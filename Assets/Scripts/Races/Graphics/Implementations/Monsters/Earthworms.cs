@@ -8,7 +8,6 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Earthworms
     {
-        
         internal enum Position
         {
             Underground,
@@ -282,16 +281,12 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (CalcPosition(input.A) == Position.Aboveground)
                 {
-
                     output.Sprite(input.Sprites.Earthworms[18 + input.A.GetStomachSize(21)]);
                 }
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                output.ChangeSprite(SpriteType.Belly).AddOffset(0, -48 * .625f);
-            });
+            builder.RunBefore((input, output) => { output.ChangeSprite(SpriteType.Belly).AddOffset(0, -48 * .625f); });
 
             builder.RandomCustom(Defaults.RandomCustom);
         });
@@ -303,7 +298,5 @@ namespace Races.Graphics.Implementations.Monsters
                 new AnimationController.FrameList(0, 0, false)
             }; // Index 0.
         }
-
-
     }
 }

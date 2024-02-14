@@ -43,8 +43,7 @@ public class InputBox : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Menu") && NoAction == null)
-            NoClicked();
+        if (Input.GetButtonDown("Menu") && NoAction == null) NoClicked();
     }
 
     public void ActivateTypeMethod(Func<string, string> getYesValue)
@@ -66,6 +65,7 @@ public class InputBox : MonoBehaviour
         {
             State.GameManager.CreateMessageBox("Invalid value");
         }
+
         State.GameManager.ActiveInput = false;
         Destroy(gameObject);
     }
@@ -76,5 +76,4 @@ public class InputBox : MonoBehaviour
         State.GameManager.ActiveInput = false;
         Destroy(gameObject);
     }
-
 }

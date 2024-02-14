@@ -12,4 +12,3 @@
         State.GameManager.StrategyMode.ShowNotification(message, time);
     }
 }
-

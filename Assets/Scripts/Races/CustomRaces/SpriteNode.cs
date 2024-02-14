@@ -1,5 +1,3 @@
-
-    public class SpriteNode
-    {
-        
-    }
+public class SpriteNode
+{
+}

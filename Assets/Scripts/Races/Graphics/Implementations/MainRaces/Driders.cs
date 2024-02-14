@@ -2,12 +2,11 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+
 #endregion
 
 namespace Races.Graphics.Implementations.MainRaces
 {
-
-
     internal static class Driders
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
@@ -20,14 +19,14 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("Drider", "Driders");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
+                    new Texts { },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Dagger",
-                        [WeaponNames.Axe]         = "Short Sword",
-                        [WeaponNames.SimpleBow]   = "Pistol Crossbow",
+                        [WeaponNames.Mace] = "Dagger",
+                        [WeaponNames.Axe] = "Short Sword",
+                        [WeaponNames.SimpleBow] = "Pistol Crossbow",
                         [WeaponNames.CompoundBow] = "Crossbow"
                     }
                 ));

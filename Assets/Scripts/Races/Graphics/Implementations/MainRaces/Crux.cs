@@ -26,11 +26,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     new Texts { "crux", "lab-critter", "gene-engineered creature" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Bat",
-                        [WeaponNames.Axe]         = "Machete",
-                        [WeaponNames.SimpleBow]   = "Handbow",
+                        [WeaponNames.Mace] = "Bat",
+                        [WeaponNames.Axe] = "Machete",
+                        [WeaponNames.SimpleBow] = "Handbow",
                         [WeaponNames.CompoundBow] = "Compound Bow",
-                        [WeaponNames.Claw]        = "Claws"
+                        [WeaponNames.Claw] = "Claws"
                     }
                     /* TODO special case?
                          if (weapon.Name == "WeaponNames.Mace" && unit.BasicMeleeWeaponType == 0) return "Bat";
@@ -414,7 +414,8 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
                 switch (input.U.BodyAccentType3)
                 {
-                    case 0: return;
+                    case 0:
+                        return;
                     case 1:
                     {
                         if (input.U.HasWeapon == false || input.A.Surrendered)
@@ -571,7 +572,8 @@ namespace Races.Graphics.Implementations.MainRaces
                                 return;
                         }
                     }
-                    default: return;
+                    default:
+                        return;
                 }
             }); // Arm stripes.
 

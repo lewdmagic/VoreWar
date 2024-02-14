@@ -32,7 +32,6 @@ public enum VillageBuilding : int
     MagicGuild,
     Cathedral,
     LastIndex, //Keep this last
-
 }
 
 
@@ -47,11 +46,9 @@ public static class VillageBuildingList
     }
 
 
-
     public static VillageBuildingDefinition GetBuildingDefinition(VillageBuilding building)
     {
-        if (Buildings == null)
-            Buildings = normalBuildings;
+        if (Buildings == null) Buildings = normalBuildings;
         Buildings.TryGetValue(building, out VillageBuildingDefinition retBuilding);
         return retBuilding;
     }
@@ -165,7 +162,6 @@ public static class VillageBuildingList
             Cost = new BuildingCost() { Wealth = 180 },
             Boosts = new VillageBoosts() { MaxHappinessAdd = 15, },
         },
-
     };
 
     public static Dictionary<VillageBuilding, VillageBuildingDefinition> crazyBuildings = new Dictionary<VillageBuilding, VillageBuildingDefinition>()
@@ -314,8 +310,7 @@ public static class VillageBuildingList
             {
                 HealRateMult = 3.0f,
                 WealthAdd = 40,
-                TeamStartingExpAdd = 8
-                ,
+                TeamStartingExpAdd = 8,
                 MaxMercsAdd = 1,
                 MercsPerTurnAdd = 1,
                 MaxAdventurersAdd = 6,
@@ -560,8 +555,5 @@ public static class VillageBuildingList
             Cost = new BuildingCost() { Wealth = 180 },
             Boosts = new VillageBoosts() { MaxHappinessAdd = 15, },
         },
-
     };
-
-
 }

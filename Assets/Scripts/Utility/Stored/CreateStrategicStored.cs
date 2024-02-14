@@ -22,12 +22,16 @@ namespace Assets.Scripts.Utility.Stored
     {
         [OdinSerialize]
         internal Dictionary<string, string> InputFields;
+
         [OdinSerialize]
         internal Dictionary<string, bool> Toggles;
+
         [OdinSerialize]
         internal Dictionary<string, int> Dropdowns;
+
         [OdinSerialize]
         internal Dictionary<string, float> Sliders;
+
         [OdinSerialize]
         internal Dictionary<Race, EmpireData> Empires;
 

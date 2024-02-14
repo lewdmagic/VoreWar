@@ -23,10 +23,10 @@ public class RaceHoverObjectAuto : MonoBehaviour, IPointerEnterHandler, IPointer
         else
             Destroy(this);
     }
+
     private void Update()
     {
-        if (hovering == false)
-            return;
+        if (hovering == false) return;
         State.GameManager.HoveringRacePicture.UpdateInformation(race);
     }
 

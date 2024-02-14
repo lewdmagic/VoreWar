@@ -7,6 +7,7 @@ public class UniformObject
 {
     [OdinSerialize]
     internal Dictionary<Race, List<UniformData>> Uniforms;
+
     [OdinSerialize]
     internal Dictionary<Race, float> Odds;
 }
@@ -70,7 +71,6 @@ internal static class UniformDataStorer
             value.Remove(unitCustomizer);
             SaveData();
         }
-
     }
 
     internal static void Add(UniformData unitCustomizer)
@@ -78,8 +78,7 @@ internal static class UniformDataStorer
         if (Data.Uniforms.TryGetValue(unitCustomizer.Race, out var value))
         {
             var replace = value.Where(s => s.Name == unitCustomizer.Name).FirstOrDefault();
-            if (replace != null)
-                value.Remove(replace);
+            if (replace != null) value.Remove(replace);
             value.Add(unitCustomizer);
         }
         else
@@ -106,21 +105,19 @@ internal static class UniformDataStorer
     {
         if (Data.Uniforms.TryGetValue(race, out var values))
         {
-            if (type == UnitType.Leader)
-                return values.Where(s => s.Type == type && GenderOkay(s.Gender, gender)).ToList();;
+            if (type == UnitType.Leader) return values.Where(s => s.Type == type && GenderOkay(s.Gender, gender)).ToList();
+            ;
             return values.Where(s => GenderOkay(s.Gender, gender) && (s.Type == type || s.Type != UnitType.Leader)).ToList();
         }
+
         return null;
 
         bool GenderOkay(Gender person, Gender uniform)
         {
-            if (person == Gender.Male && uniform == Gender.Male)
-                return true;
-            if (person != Gender.Male && uniform != Gender.Male)
-                return true;
+            if (person == Gender.Male && uniform == Gender.Male) return true;
+            if (person != Gender.Male && uniform != Gender.Male) return true;
             return false;
         }
-
     }
 
     internal static List<UniformData> GetIncompatibleCustomizations(Unit unit)
@@ -132,24 +129,17 @@ internal static class UniformDataStorer
     {
         if (Data.Uniforms.TryGetValue(race, out var values))
         {
-            if (type == UnitType.Leader)
-                return values.Where(s => !(s.Type == type && GenderOkay(s.Gender, gender))).ToList();   
+            if (type == UnitType.Leader) return values.Where(s => !(s.Type == type && GenderOkay(s.Gender, gender))).ToList();
             return values.Where(s => !(GenderOkay(s.Gender, gender) && (s.Type == type || s.Type != UnitType.Leader))).ToList();
         }
+
         return null;
 
         bool GenderOkay(Gender person, Gender uniform)
         {
-            if (person == Gender.Male && uniform == Gender.Male)
-                return true;
-            if (person != Gender.Male && uniform != Gender.Male)
-                return true;
+            if (person == Gender.Male && uniform == Gender.Male) return true;
+            if (person != Gender.Male && uniform != Gender.Male) return true;
             return false;
         }
-
     }
-
-
-
 }
-

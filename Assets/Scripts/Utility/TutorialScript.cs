@@ -20,6 +20,7 @@ public class TutorialScript
             State.TutorialMode = false;
             return;
         }
+
         Config.World.ClothedFraction = 1;
         var allUnits = StrategicUtilities.GetAllUnits();
         foreach (Unit unit in allUnits)
@@ -27,6 +28,7 @@ public class TutorialScript
             var race = Races2.GetRace(unit);
             race.RandomCustomCall(unit);
         }
+
         State.GameManager.TacticalMode.AttackerName = "Cats";
         State.GameManager.TacticalMode.DefenderName = "Imps";
 
@@ -38,7 +40,6 @@ public class TutorialScript
         }
 
 
-
         UpdateStep();
         tacticalUnits[0].Movement = 9999;
         tacticalUnits[1].Movement = 0;
@@ -47,6 +48,7 @@ public class TutorialScript
         {
             tacticalUnits[i].AnimationController = new AnimationController();
         }
+
         tacticalUnits[0].Unit.SetDefaultBreastSize(2);
         tacticalUnits[0].Unit.DickSize = -1;
         State.GameManager.TacticalMode.TacticalStats.SetInitialUnits(3, 1, 0, Race.Cat.ToSide(), Race.Imp.ToSide());
@@ -54,12 +56,12 @@ public class TutorialScript
         Empire imps = State.World.MainEmpires.First((item) => Equals(item.Race, Race.Imp));
         imps.MaxGarrisonSize = 4;
         imps.Armies[0].SetEmpire(imps);
-            
-            
+
+
         Empire cats = State.World.MainEmpires.First((item) => Equals(item.Race, Race.Cat));
         cats.Armies[0].SetEmpire(cats);
         cats.AddGold(1000);
-        
+
         State.World.Villages[0].UpdateNetBoosts();
         State.World.Villages[1].UpdateNetBoosts();
         State.World.Villages[0].AddPopulation(60);
@@ -82,103 +84,88 @@ public class TutorialScript
             switch (step)
             {
                 case 0:
-                    if (State.GameManager.TacticalMode.ActionMode > 0 && State.GameManager.TacticalMode.ActionMode <= 3)
-                        State.GameManager.TacticalMode.ActionMode = 0;
+                    if (State.GameManager.TacticalMode.ActionMode > 0 && State.GameManager.TacticalMode.ActionMode <= 3) State.GameManager.TacticalMode.ActionMode = 0;
                     if (tacticalUnits.Count < 3)
                     {
                         step = 5;
                         UpdateStep();
                     }
 
-                    if (tacticalUnits[0].Position.GetNumberOfMovesDistance(tacticalUnits[3].Position) == 1)
-                        UpdateStep();
+                    if (tacticalUnits[0].Position.GetNumberOfMovesDistance(tacticalUnits[3].Position) == 1) UpdateStep();
                     break;
                 case 1:
-                    if (State.GameManager.TacticalMode.ActionMode == 2 || State.GameManager.TacticalMode.ActionMode == 3)
-                        State.GameManager.TacticalMode.ActionMode = 0;
+                    if (State.GameManager.TacticalMode.ActionMode == 2 || State.GameManager.TacticalMode.ActionMode == 3) State.GameManager.TacticalMode.ActionMode = 0;
                     if (tacticalUnits.Count < 3)
                     {
                         step = 5;
                         UpdateStep();
                     }
-                    if (tacticalUnits[0].Movement == 0)
-                        UpdateStep();
+
+                    if (tacticalUnits[0].Movement == 0) UpdateStep();
                     break;
                 case 2:
-                    if (State.GameManager.TacticalMode.ActionMode > 0 && State.GameManager.TacticalMode.ActionMode <= 3)
-                        State.GameManager.TacticalMode.ActionMode = 0;
+                    if (State.GameManager.TacticalMode.ActionMode > 0 && State.GameManager.TacticalMode.ActionMode <= 3) State.GameManager.TacticalMode.ActionMode = 0;
                     if (tacticalUnits.Count < 3)
                     {
                         step = 5;
                         UpdateStep();
                     }
-                    if (tacticalUnits[1].Position.GetNumberOfMovesDistance(tacticalUnits[3].Position) > 1 && tacticalUnits[1].Position.GetNumberOfMovesDistance(tacticalUnits[3].Position) < 6)
-                        UpdateStep();
+
+                    if (tacticalUnits[1].Position.GetNumberOfMovesDistance(tacticalUnits[3].Position) > 1 && tacticalUnits[1].Position.GetNumberOfMovesDistance(tacticalUnits[3].Position) < 6) UpdateStep();
                     break;
                 case 3:
-                    if (State.GameManager.TacticalMode.ActionMode == 1 || State.GameManager.TacticalMode.ActionMode == 3)
-                        State.GameManager.TacticalMode.ActionMode = 0;
+                    if (State.GameManager.TacticalMode.ActionMode == 1 || State.GameManager.TacticalMode.ActionMode == 3) State.GameManager.TacticalMode.ActionMode = 0;
                     if (tacticalUnits.Count < 3)
                     {
                         step = 5;
                         UpdateStep();
                     }
-                    if (tacticalUnits[1].Movement == 0)
-                        UpdateStep();
+
+                    if (tacticalUnits[1].Movement == 0) UpdateStep();
                     break;
                 case 4:
-                    if (State.GameManager.TacticalMode.ActionMode > 0 && State.GameManager.TacticalMode.ActionMode <= 3)
-                        State.GameManager.TacticalMode.ActionMode = 0;
+                    if (State.GameManager.TacticalMode.ActionMode > 0 && State.GameManager.TacticalMode.ActionMode <= 3) State.GameManager.TacticalMode.ActionMode = 0;
                     if (tacticalUnits.Count < 3)
                     {
                         step = 5;
                         UpdateStep();
                     }
-                    if (tacticalUnits[2].Position.GetNumberOfMovesDistance(tacticalUnits[3].Position) == 1)
-                        UpdateStep();
+
+                    if (tacticalUnits[2].Position.GetNumberOfMovesDistance(tacticalUnits[3].Position) == 1) UpdateStep();
                     break;
                 case 5:
-                    if (State.GameManager.TacticalMode.ActionMode == 1 || State.GameManager.TacticalMode.ActionMode == 2)
-                        State.GameManager.TacticalMode.ActionMode = 0;
+                    if (State.GameManager.TacticalMode.ActionMode == 1 || State.GameManager.TacticalMode.ActionMode == 2) State.GameManager.TacticalMode.ActionMode = 0;
                     if (tacticalUnits.Count < 3)
                     {
                         step = 5;
                         UpdateStep();
                     }
-                    if (tacticalUnits[2].Movement == 0)
-                        UpdateStep();
+
+                    if (tacticalUnits[2].Movement == 0) UpdateStep();
                     break;
                 case 6:
-                    if (State.GameManager.CurrentScene == State.GameManager.StrategyMode)
-                        UpdateStep();
+                    if (State.GameManager.CurrentScene == State.GameManager.StrategyMode) UpdateStep();
                     break;
                 case 7:
-                    if (State.GameManager.CurrentScene == State.GameManager.Recruit_Mode)
-                        UpdateStep();
+                    if (State.GameManager.CurrentScene == State.GameManager.Recruit_Mode) UpdateStep();
                     break;
                 case 8:
-                    if (State.GameManager.CurrentScene == State.GameManager.StrategyMode)
-                        UpdateStep();
+                    if (State.GameManager.CurrentScene == State.GameManager.StrategyMode) UpdateStep();
                     break;
                 case 9:
-                    if (State.World.MainEmpires[0].Armies[0].InVillageIndex > -1)
-                        UpdateStep();
+                    if (State.World.MainEmpires[0].Armies[0].InVillageIndex > -1) UpdateStep();
                     break;
                 case 10:
-                    if (State.GameManager.CurrentScene == State.GameManager.Recruit_Mode)
-                        UpdateStep();
+                    if (State.GameManager.CurrentScene == State.GameManager.Recruit_Mode) UpdateStep();
                     break;
                 case 11:
-                    if (State.World.MainEmpires[0].Armies[0].Units.Count() >= 10)
-                        UpdateStep();
+                    if (State.World.MainEmpires[0].Armies[0].Units.Count() >= 10) UpdateStep();
                     break;
                 case 12:
-                    if (State.World.MainEmpires[0].Armies[0].Units.Count > 0 && State.World.MainEmpires[0].Armies[0].Units.Where(s => s.GetBestMelee() != State.World.ItemRepository.Claws || s.GetBestRanged() != null).Count() == State.World.MainEmpires[0].Armies[0].Units.Count())
-                        UpdateStep();
+                    if (State.World.MainEmpires[0].Armies[0].Units.Count > 0 && State.World.MainEmpires[0].Armies[0].Units.Where(s => s.GetBestMelee() != State.World.ItemRepository.Claws || s.GetBestRanged() != null).Count() == State.World.MainEmpires[0].Armies[0].Units.Count()) UpdateStep();
                     break;
                 case 13:
-                    if (State.World.Villages[0].Weapons.Count >= 4)
-                        UpdateStep();
+                    if (State.World.Villages[0].Weapons.Count >= 4) UpdateStep();
                     break;
             }
         }
@@ -231,6 +218,7 @@ public class TutorialScript
                     unit.ReloadTraits();
                     unit.InitializeTraits();
                 }
+
                 State.World.MainEmpires[0].Armies[0].RemainingMP = 999;
                 break;
             case 8:
@@ -255,6 +243,7 @@ public class TutorialScript
                 message = "Return to the world view, then right click your army on the enemy village, and battle will start, you can either fight that battle, or quit, because this is basically the end of the tutorial";
                 break;
         }
+
         State.GameManager.CreateMessageBox(message);
     }
 }

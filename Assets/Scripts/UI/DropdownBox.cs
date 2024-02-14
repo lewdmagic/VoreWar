@@ -26,6 +26,7 @@ public class RaceDropdownBox : MonoBehaviour
         {
             Dropdown.value = Dropdown.options.Count;
         }
+
         Dropdown.RefreshShownValue();
     }
 
@@ -47,5 +48,4 @@ public class RaceDropdownBox : MonoBehaviour
         NoAction?.Invoke();
         Destroy(gameObject);
     }
-
 }

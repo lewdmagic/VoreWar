@@ -15,7 +15,7 @@ public interface IActorUnit
     bool IsAttacking { get; }
 
     /// <summary>
-    /// This one Covers all forms of consuming
+    ///     This one Covers all forms of consuming
     /// </summary>
     bool IsEating { get; }
 
@@ -58,7 +58,7 @@ public interface IActorUnit
     // void SetBurpMode();
 
     /// <summary>
-    /// Used for idle Animations - ignored if the unit is already animating something
+    ///     Used for idle Animations - ignored if the unit is already animating something
     /// </summary>
     /// <param name="frameNum">The Number of Frames of animation, starts at this and counts down to 0</param>
     /// <param name="time">The seconds per step</param>
@@ -76,7 +76,7 @@ public interface IActorUnit
     int CheckAnimationFrame();
 
     /// <summary>
-    /// Splits the chain of sprites evenly based on the ball size (Oral + Unbirth)
+    ///     Splits the chain of sprites evenly based on the ball size (Oral + Unbirth)
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -84,7 +84,7 @@ public interface IActorUnit
     int GetBallSize(int highestSprite, float multiplier = 1);
 
     /// <summary>
-    /// Splits the chain of sprites evenly based on the tail size (Oral + Unbirth)
+    ///     Splits the chain of sprites evenly based on the tail size (Oral + Unbirth)
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -92,7 +92,7 @@ public interface IActorUnit
     int GetTailSize(int highestSprite, float multiplier = 1);
 
     /// <summary>
-    /// Splits the chain of sprites evenly based on the stomach size (Oral + Unbirth)
+    ///     Splits the chain of sprites evenly based on the stomach size (Oral + Unbirth)
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -100,7 +100,7 @@ public interface IActorUnit
     int GetStomachSize(int highestSprite = 15, float multiplier = 1);
 
     /// <summary>
-    /// Splits the chain of sprites evenly based on the stomach size (excludes womb)
+    ///     Splits the chain of sprites evenly based on the stomach size (excludes womb)
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -108,7 +108,7 @@ public interface IActorUnit
     int GetExclusiveStomachSize(int highestSprite = 15, float multiplier = 1);
 
     /// <summary>
-    /// Splits the chain of sprites evenly based on the stomach size (excludes womb)
+    ///     Splits the chain of sprites evenly based on the stomach size (excludes womb)
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -116,8 +116,8 @@ public interface IActorUnit
     int GetWombSize(int highestSprite = 15, float multiplier = 1);
 
     /// <summary>
-    /// Splits the chain of sprites unevenly based on the stomach size (Oral + Unbirth)
-    /// This one causes the low sprites to be passed through quicker, and the high sprites to be passed through slower.
+    ///     Splits the chain of sprites unevenly based on the stomach size (Oral + Unbirth)
+    ///     This one causes the low sprites to be passed through quicker, and the high sprites to be passed through slower.
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -125,7 +125,7 @@ public interface IActorUnit
     int GetRootedStomachSize(int highestSprite = 15, float multiplier = 1);
 
     /// <summary>
-    /// Splits the chain of sprites evenly based on the left breast size
+    ///     Splits the chain of sprites evenly based on the left breast size
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -133,7 +133,7 @@ public interface IActorUnit
     int GetLeftBreastSize(int highestSprite = 15, float multiplier = 1);
 
     /// <summary>
-    /// Splits the chain of sprites evenly based on the right breast size
+    ///     Splits the chain of sprites evenly based on the right breast size
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -141,7 +141,7 @@ public interface IActorUnit
     int GetRightBreastSize(int highestSprite = 15, float multiplier = 1);
 
     /// <summary>
-    /// Splits the chain of sprites evenly based on the second stomach's size.
+    ///     Splits the chain of sprites evenly based on the second stomach's size.
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -149,7 +149,7 @@ public interface IActorUnit
     int GetStomach2Size(int highestSprite = 15, float multiplier = 1);
 
     /// <summary>
-    /// Splits the chain of sprites evenly based on the combined size of bellies 1 & 2. For units with DualStomach trait.
+    ///     Splits the chain of sprites evenly based on the combined size of bellies 1 & 2. For units with DualStomach trait.
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4 </param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -157,7 +157,7 @@ public interface IActorUnit
     int GetCombinedStomachSize(int highestSprite = 15, float multiplier = 1);
 
     /// <summary>
-    /// An alternate version of GetStomachSize used for combining all vore types into a single value
+    ///     An alternate version of GetStomachSize used for combining all vore types into a single value
     /// </summary>
     /// <param name="highestSprite">the end sprite, 4 would make it 0,1,2,3,4</param>
     /// <param name="multiplier">Controls the speed it moves through the sprites, 2 would be double, 0.5f would be half</param>
@@ -167,18 +167,20 @@ public interface IActorUnit
     int GetBodyWeight();
 
     /// <summary>
-    /// 0: Melee 1 hold
-    /// 1: Melee 1 attack
-    /// 2: Melee 2 hold
-    /// 3: Melee 2 attack
-    /// 4: Ranged 1 hold
-    /// 5: Ranged 1 attack
-    /// 6: Ranged 2 hold
-    /// 7: Ranged 2 attack
+    ///     0: Melee 1 hold
+    ///     1: Melee 1 attack
+    ///     2: Melee 2 hold
+    ///     3: Melee 2 attack
+    ///     4: Ranged 1 hold
+    ///     5: Ranged 1 attack
+    ///     6: Ranged 2 hold
+    ///     7: Ranged 2 attack
     /// </summary>
     /// <returns></returns>
     int GetWeaponSprite();
+
     int GetSimpleBodySprite();
+
     // float GetSpecialChance(SpecialAction action);
     // float GetPureStatClashChance(int attackStat, int defenseStat, float shift); // generic AF
     // float GetAttackChance(Actor_Unit attacker, bool ranged, bool includeSecondaries = false, float mod = 0);

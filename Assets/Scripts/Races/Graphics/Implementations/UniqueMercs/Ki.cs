@@ -29,8 +29,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
             {
                 output.Names("Ki", "Ki");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "small creature", "furry critter" },
                     "Jaws"
                 ));
@@ -187,7 +187,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                         switch (frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame])
                         {
-                            case 0: return;
+                            case 0:
+                                return;
                             default:
                                 output.Sprite(input.Sprites.Ki[
                                     34 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
@@ -297,7 +298,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     case 21:
                         output.Sprite(input.Sprites.Ki[29]);
                         return;
-                    default: return;
+                    default:
+                        return;
                 }
             });
 

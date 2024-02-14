@@ -2,7 +2,6 @@
 
 internal static class Examples
 {
-    
     // Making it an interface will imropove reusability, but it's not necessary
     private interface IFacingFrontParameters : IParameters
     {
@@ -15,10 +14,10 @@ internal static class Examples
     {
         public bool FacingFront { get; set; }
     }
-    
+
     // Begin creating an instance of a race
-    
-    
+
+
     // We pass FacingFrontParameters as a generic type to allow access to an instance of it within the render functions. 
     // An new instance of FacingFrontParameters is created at every render cycle. 
     // 
@@ -26,8 +25,8 @@ internal static class Examples
     // In RunBefore, the values are calculated and assigned to output.Params.PROPERTY
     // In RenderSingle of RaceBuilder, the value can be accessed by input.Params.PROPERTY
     // In RenderFull of ClothingBuilder, the value can be accessed by input.Params.PROPERTY
-    
-    
+
+
     // We pass "Blank" defaults as a base of our new instance. Blank is the equivalent of the old BlankSlate superclass.
     // The second parameter is of type Action<IRaceBuilder<FacingFrontParameters>>, we create an anonymous instance of it with the 
     // builder => {} labmda syntax.
@@ -47,7 +46,7 @@ internal static class Examples
                 Rags.RagsInstance
             );
         });
-        
+
         // RunBefore is ran before every render cycle.
         // It allows us to perform actions that don't logically belong to any body part.
         // It's also the only valid place to set values in our Paramaters instance, which can be accessed as output.Params
@@ -62,7 +61,7 @@ internal static class Examples
                 //output.Params.FacingFront = true;
             }
         });
-        
+
         // Set the logic for rendering a single body part, and the default layer. 
         // output.Sprite() sets the sprite to be rendered. Beware that since there is no return statement,
         // the code will continue executing after you've called output.Sprite().
@@ -74,7 +73,7 @@ internal static class Examples
         {
             // You can provide either a Palette or a solid Color. 
             output.Coloring(ColorPaletteMap.GetPalette(SwapType.Kobold, input.Actor.Unit.AccessoryColor));
-            
+
             // Access FacingFront we set inside RunBefore
             if (true) //input.Params.FacingFront)
             {
@@ -91,18 +90,18 @@ internal static class Examples
             {
                 output.Sprite(input.Sprites.Kobolds[2]);
             }
-            
+
             // other methods such as Layer(), AddOffset(), Color(), Palette are also availble. 
             // They can be chained in any order for convinience and readability.  
             output.Layer(5).AddOffset(0.5f, 0).Coloring(Defaults.WhiteColored);
-            
+
             // Example #1
             // other methods such as Layer(), AddOffset(), Color(), Palette are also availble. 
             // They can be chained in any order for convinience and readability.  
             output.Sprite(input.Sprites.Kobolds[2]).Layer(5).AddOffset(0.5f, 0).Coloring(Defaults.WhiteColored);
             // equivalent to 
             output.Layer(5).Coloring(Defaults.WhiteColored).Sprite(input.Sprites.Kobolds[2]).AddOffset(0.5f, 0);
-            
+
             // Example #2
             // Values applied to output higher up in the code persist unless overwritten
             output.Layer(5);
@@ -114,6 +113,7 @@ internal static class Examples
             {
                 output.Sprite(input.Sprites.Kobolds[222]);
             }
+
             // is equivalent to 
             if (input.Actor.IsAttacking)
             {
@@ -123,7 +123,7 @@ internal static class Examples
             {
                 output.Sprite(input.Sprites.Kobolds[222]).Layer(5);
             }
-            
+
             // Values can be overwritten. This can be handy when one sprite is different from the rest. 
             output.Sprite(input.Sprites.Kobolds[111]).Layer(5);
             if (input.Actor.IsAttacking)
@@ -135,7 +135,7 @@ internal static class Examples
                 output.Sprite(input.Sprites.Kobolds[222]).Layer(8); // This will have Layer = 8
             }
         });
-        
+
         // Required function. usually it's based on Defaults.RandomCustom, which is just the old 
         // Random method from DefaultRaceData. 
         builder.RandomCustom(data =>
@@ -155,9 +155,9 @@ internal static class Examples
             unit.ClothingColor2 = State.Rand.Next(data.SetupOutput.ClothingColors);
         });
     });
-    
+
     // --------- CLOTHING -----------
-    
+
     // By making setting the generic type parameter to IFacingFrontParameters, it creates a requirement for the Race's 
     // generic type to implement it. You won't be able to add this clothing item inside RaceBuilder.Create that isn't 
     // of generic type IFacingFrontParameters (or a subtype of it) 
@@ -169,10 +169,7 @@ internal static class Examples
         // Similar to setup in Race
         // Setup is only ran once. Think of it as a constructor.
         // It's not required, but it's almost always needed
-        builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-        {
-            output.RevealsDick = true;
-        });
+        builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.RevealsDick = true; });
 
         // Unlike the Race renderer, this one does all the sprites in one go. 
         // The String ID (or name) of the sprite is only used within this function.

@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class DisplayTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public int value;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (State.GameManager.Menu.ContentSettings.gameObject.activeSelf)
@@ -18,7 +19,6 @@ public class DisplayTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             State.GameManager.HoveringTooltip.UpdateInformationDefaultTooltip(value);
         }
-
     }
 
     public void OnPointerExit(PointerEventData eventData)

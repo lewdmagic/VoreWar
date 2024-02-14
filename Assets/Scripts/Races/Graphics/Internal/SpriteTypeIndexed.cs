@@ -12,14 +12,10 @@ internal class SpriteTypeIndexed<T> : IEnumerable<T>
     internal IEnumerable<KeyValuePair<SpriteType, T>> KeyValues;
 
     /// <summary>
-    /// Returns null if value is not set
+    ///     Returns null if value is not set
     /// </summary>
     /// <param name="index"></param>
-    internal T this[SpriteType index]
-    {
-        get => _data[(int)index];
-        set => _data[(int)index] = value;
-    }
+    internal T this[SpriteType index] { get => _data[(int)index]; set => _data[(int)index] = value; }
 
     public SpriteTypeIndexed()
     {
@@ -45,8 +41,8 @@ internal class SpriteTypeIndexed<T> : IEnumerable<T>
             yield return (TU)iterator.Current;
         }
     }
-    
-    
+
+
     private class KVEnumerator<U> : IEnumerable<KeyValuePair<SpriteType, U>>
     {
         private readonly U[] _data;

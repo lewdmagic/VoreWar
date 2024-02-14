@@ -32,7 +32,6 @@ public class EditStatButton : MonoBehaviour
             Label.text = $"{Stat}\nN/A";
             defaultText = $"{Stat}\nN/A";
         }
-
     }
 
     public void UpdateLabel()
@@ -48,8 +47,7 @@ public class EditStatButton : MonoBehaviour
 
     public void UpdateStat(int baseNum)
     {
-        if (UnityEngine.Input.GetKey(UnityEngine.KeyCode.LeftShift) || UnityEngine.Input.GetKey(UnityEngine.KeyCode.RightShift))
-            baseNum *= 5;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) baseNum *= 5;
         Unit.ModifyStat(Stat.GetHashCode(), baseNum);
         Parent.UpdateButtons();
     }
@@ -66,6 +64,7 @@ public class EditStatButton : MonoBehaviour
             Unit.LevelDown(Stat);
             Unit.SetExp(Unit.GetExperienceRequiredForLevel(Unit.Level - 1));
         }
+
         Parent.UpdateButtons();
     }
 }

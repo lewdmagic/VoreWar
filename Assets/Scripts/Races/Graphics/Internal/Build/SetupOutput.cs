@@ -19,9 +19,9 @@ public class SetupOutput : ISetupOutput
     public List<IClothing> ExtraMainClothing4Types { get; private set; } = new List<IClothing>();
     public List<IClothing> ExtraMainClothing5Types { get; private set; } = new List<IClothing>();
 
-    
+
     internal readonly ExtraRaceInfo _extraRaceInfo = new ExtraRaceInfo();
-    
+
     public SetupOutput(
         Func<int> breastSizes,
         Func<int> dickSizes,
@@ -115,7 +115,7 @@ public class SetupOutput : ISetupOutput
     }
 
     public int TestVal { get; set; }
-    
+
     public void Names(string singularName, string pluralName)
     {
         _extraRaceInfo.SingularName = (input) => singularName;
@@ -133,13 +133,13 @@ public class SetupOutput : ISetupOutput
         _extraRaceInfo.SingularName = singularName;
         _extraRaceInfo.PluralName = (input) => pluralName;
     }
-    
+
     public void Names(Func<INameInput, string> singularName, Func<INameInput, string> pluralName)
     {
         _extraRaceInfo.SingularName = singularName;
         _extraRaceInfo.PluralName = pluralName;
-    }    
-    
+    }
+
     public void WallType(WallType wallType)
     {
         _extraRaceInfo.WallType = wallType;
@@ -164,7 +164,7 @@ public class SetupOutput : ISetupOutput
     {
         _extraRaceInfo.FlavorText.SetEntries(type, entries);
     }
-    
+
 
     public void RaceTraits(IRaceTraits raceTraits)
     {
@@ -187,7 +187,7 @@ public class SetupOutput : ISetupOutput
     {
         _extraRaceInfo.CustomizeButtonsAction2 = action;
     }
-    
+
     public void TownNames(List<string> nameList)
     {
         _extraRaceInfo.TownNames = nameList;

@@ -11,6 +11,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
     internal static class Salix
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
@@ -44,7 +45,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         TraitType.ManaRich
                     },
                     InnateSpells = new List<SpellType>()
-                        { SpellType.AmplifyMagic, SpellType.Evocation, SpellType.ManaFlux, SpellType.UnstableMana},
+                        { SpellType.AmplifyMagic, SpellType.Evocation, SpellType.ManaFlux, SpellType.UnstableMana },
                     RaceDescription = "A demi-mouse mage from a different, mana rich dimension. Has had trouble adapting to the absence of mana here, but makes do.",
                 });
                 output.BreastSizes = () => 8;
@@ -105,10 +106,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
             builder.RenderSingle(SpriteType.Head, 4, (input, output) =>
             {
@@ -461,10 +459,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         private static class GenericBottom
         {
-            internal static readonly IClothing GenericBottom1 = ClothingBuilder.Create( b =>
-            {
-                MakeGenericBottom(b, 26, 63, 13, State.GameManager.SpriteDictionary.Salix, new ClothingId("base.salix/1300"));
-            });
+            internal static readonly IClothing GenericBottom1 = ClothingBuilder.Create(b => { MakeGenericBottom(b, 26, 63, 13, State.GameManager.SpriteDictionary.Salix, new ClothingId("base.salix/1300")); });
 
             //internal static IClothingData MakeGenericBottom(int sprF, int sprM, int bulge, int discard, int layer, Sprite[] sheet, int type)
             // sprM and bulge were not used. The values were 26 and 0
@@ -488,14 +483,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         private static class Cloak
         {
-            internal static readonly BindableClothing<IOverSizeParameters> Cloak1 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
-            {
-                MakeCloak(b, true);
-            });
-            internal static readonly BindableClothing<IOverSizeParameters> Cloak2 = ClothingBuilder.CreateV2<IOverSizeParameters>( b =>
-            {
-                MakeCloak(b, false);
-            });
+            internal static readonly BindableClothing<IOverSizeParameters> Cloak1 = ClothingBuilder.CreateV2<IOverSizeParameters>(b => { MakeCloak(b, true); });
+            internal static readonly BindableClothing<IOverSizeParameters> Cloak2 = ClothingBuilder.CreateV2<IOverSizeParameters>(b => { MakeCloak(b, false); });
 
             private static void MakeCloak(IClothingBuilder<IOverSizeParameters> builder, bool whole)
             {

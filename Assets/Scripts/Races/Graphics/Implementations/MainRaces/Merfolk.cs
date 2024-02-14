@@ -2,12 +2,11 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+
 #endregion
 
 namespace Races.Graphics.Implementations.MainRaces
 {
-
-
     internal static class Merfolk
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
@@ -20,14 +19,14 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("Merfolk", "Merfolk");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts { "walking fish", "merfolk", {"mermaid", Gender.Female}, {"merman", Gender.Male} },
+                    new Texts { },
+                    new Texts { },
+                    new Texts { "walking fish", "merfolk", { "mermaid", Gender.Female }, { "merman", Gender.Male } },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Crude Trident",
-                        [WeaponNames.Axe]         = "Royal Trident",
-                        [WeaponNames.SimpleBow]   = "Scepter",
+                        [WeaponNames.Mace] = "Crude Trident",
+                        [WeaponNames.Axe] = "Royal Trident",
+                        [WeaponNames.SimpleBow] = "Scepter",
                         [WeaponNames.CompoundBow] = "Orb Staff"
                     }
                 ));
@@ -239,7 +238,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MermenSkin, input.U.SkinColor));
             });
-        
+
             builder.RenderSingle(SpriteType.Weapon, 3, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
@@ -681,10 +680,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenShell1Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -699,10 +695,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenTiaraInstance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -717,10 +710,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenStarfishInstance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -735,10 +725,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenShell2Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -753,10 +740,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenHairpinInstance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -771,10 +755,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenNecklace1Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -789,10 +770,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenNecklace2Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -807,10 +785,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenNecklace3Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -825,10 +800,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenNecklace4Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -843,10 +815,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenNecklace5Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -861,10 +830,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenNecklace6Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -879,10 +845,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenNecklace7Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {
@@ -897,10 +860,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IClothing MermenNecklace8Instance = ClothingBuilder.Create(builder =>
         {
-            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-            {
-                output.FemaleOnly = true;
-            });
+            builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.FemaleOnly = true; });
 
             builder.RenderAll((input, output) =>
             {

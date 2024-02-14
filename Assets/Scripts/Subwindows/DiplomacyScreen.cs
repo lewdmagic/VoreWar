@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class DiplomacyScreen : MonoBehaviour
 {
-
-
     public UIUnitSprite Leader;
 
     public TextMeshProUGUI Information;
@@ -24,13 +22,13 @@ public class DiplomacyScreen : MonoBehaviour
 
     public void Open(Empire player, Empire other)
     {
-        if (other == null)
-            return;
+        if (other == null) return;
         Unit unit = other.Leader;
         if (unit == null)
         {
             unit = new Unit(other.Side, other.Race, 0, true);
         }
+
         Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), unit);
         actor.UpdateBestWeapons();
         Leader.UpdateSprites(actor);
@@ -39,12 +37,10 @@ public class DiplomacyScreen : MonoBehaviour
         gameObject.SetActive(true);
         Updates.text = "";
         UpdateMainText();
-
     }
 
     private void UpdateMainText()
     {
-
         var relation = RelationsManager.GetRelation(Other.Side, Player.Side);
         var counterRelation = RelationsManager.GetRelation(Player.Side, Other.Side);
         Information.text = $"<b>{Other.Name}</b>\nTheir opinion of us: {Math.Round(relation.Attitude, 3)}\nOur opinion of them: {Math.Round(counterRelation.Attitude, 3)}\nType: {relation.Type}";
@@ -61,6 +57,7 @@ public class DiplomacyScreen : MonoBehaviour
             AskAllyButton.gameObject.SetActive(true);
             AskPeaceButton.gameObject.SetActive(true);
         }
+
         if (Config.Diplomacy == false && !Equals(Other.Race, Race.Goblin))
         {
             DeclareWarButton.interactable = false;
@@ -85,14 +82,12 @@ public class DiplomacyScreen : MonoBehaviour
             AskAllyButton.interactable = false;
             AskPeaceButton.interactable = true;
         }
-
     }
 
     public void AskPeace()
     {
         var relation = RelationsManager.GetRelation(Other.Side, Player.Side);
-        if (relation.Type != RelationState.Enemies)
-            return;
+        if (relation.Type != RelationState.Enemies) return;
         if (relation.Attitude >= -.25f)
         {
             RelationsManager.SetPeace(Player, Other);
@@ -108,8 +103,7 @@ public class DiplomacyScreen : MonoBehaviour
         var relation = RelationsManager.GetRelation(Other.Side, Player.Side);
         if (relation.Type != RelationState.Enemies)
         {
-            if (relation.Attitude > 0)
-                relation.Attitude *= .6f;
+            if (relation.Attitude > 0) relation.Attitude *= .6f;
             RelationsManager.SetWar(Player, Other);
             UpdateMainText();
             Updates.text = "War was declared";
@@ -119,8 +113,7 @@ public class DiplomacyScreen : MonoBehaviour
     public void AskAllies()
     {
         var relation = RelationsManager.GetRelation(Other.Side, Player.Side);
-        if (relation.Type != RelationState.Neutral)
-            return;
+        if (relation.Type != RelationState.Neutral) return;
         if (relation.Attitude >= .75f)
         {
             RelationsManager.SetAlly(Player, Other);
@@ -154,8 +147,5 @@ public class DiplomacyScreen : MonoBehaviour
                 Updates.text = $"Didn't have enough gold to give {amount}, you only have {State.World.ActingEmpire.Gold}";
             }
         }
-
     }
-
-
 }

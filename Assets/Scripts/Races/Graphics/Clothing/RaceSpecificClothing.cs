@@ -130,9 +130,12 @@ internal static class LizardLeaderCrown
     internal static readonly IClothing LizardLeaderCrownInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { output.LeaderOnly = true; };
-});
+        {
+            {
+                output.LeaderOnly = true;
+            }
+            ;
+        });
 
         builder.RenderAll((input, output) =>
         {
@@ -332,9 +335,12 @@ internal static class LizardBoneCrown
     internal static readonly IClothing LizardBoneCrownInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { output.LeaderOnly = false; };
-});
+        {
+            {
+                output.LeaderOnly = false;
+            }
+            ;
+        });
 
         builder.RenderAll((input, output) =>
         {
@@ -393,8 +399,8 @@ internal static class LizardBoneTop
             }
 
             output["Clothing1"].Sprite(input.Sprites.LizardBone[0]);
-            
-            
+
+
             output.RevealsBreasts = true;
             if (input.A.IsUnbirthing || input.A.IsAnalVoring)
             {
@@ -597,9 +603,12 @@ internal static class LizardLeatherCrown
     internal static readonly IClothing LizardLeatherCrownInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { output.LeaderOnly = false; };
-});
+        {
+            {
+                output.LeaderOnly = false;
+            }
+            ;
+        });
 
         builder.RenderAll((input, output) =>
         {
@@ -850,9 +859,12 @@ internal static class LizardClothCrown
     internal static readonly IClothing LizardClothCrownInstance = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-{
- { output.LeaderOnly = false; };
-});
+        {
+            {
+                output.LeaderOnly = false;
+            }
+            ;
+        });
 
         builder.RenderAll((input, output) =>
         {

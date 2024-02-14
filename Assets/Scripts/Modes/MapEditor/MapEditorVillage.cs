@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class MapEditorVillage : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public string RaceName;
-    
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (RaceFuncs.TryParse(RaceName, out var race))

@@ -40,10 +40,7 @@ namespace Races.Graphics.Implementations.Monsters
                     },
                     RaceDescription = "A tough, twisted creature. Hunts for pleasure rather than sustenance.",
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.Skintone, "Body Color");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.Skintone, "Body Color"); });
                 output.GentleAnimation = true;
                 output.CanBeGender = new List<Gender> { Gender.Male };
                 output.SkinColors = ColorMap.SchiwardezColorCount;
@@ -166,10 +163,7 @@ namespace Races.Graphics.Implementations.Monsters
             }); // Balls
 
 
-            builder.RunBefore((input, output) =>
-            {
-                output.ChangeSprite(SpriteType.Balls).AddOffset(-125 * .5f, 0);
-            });
+            builder.RunBefore((input, output) => { output.ChangeSprite(SpriteType.Balls).AddOffset(-125 * .5f, 0); });
             builder.RandomCustom(Defaults.RandomCustom);
         });
     }

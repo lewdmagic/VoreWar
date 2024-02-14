@@ -4,6 +4,7 @@ public class Accessory : Item
 {
     [OdinSerialize]
     public int ChangedStat { get; private set; }
+
     [OdinSerialize]
     public int StatBonus { get; private set; }
 

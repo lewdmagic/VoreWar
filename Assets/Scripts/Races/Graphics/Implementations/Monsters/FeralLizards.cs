@@ -271,10 +271,7 @@ namespace Races.Graphics.Implementations.Monsters
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                output.ChangeSprite(SpriteType.Balls).AddOffset(-30 * .625f, 0);
-            });
+            builder.RunBefore((input, output) => { output.ChangeSprite(SpriteType.Balls).AddOffset(-30 * .625f, 0); });
 
             builder.RandomCustom(data =>
             {

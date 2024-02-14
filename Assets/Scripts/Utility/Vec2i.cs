@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Vec2i
 {
+    [OdinSerialize]
+    private int _x;
+
+    public int X { get => _x; set => _x = value; }
 
     [OdinSerialize]
-    private int _x ;
-    public  int X { get => _x; set => _x = value; }
-    
-    [OdinSerialize]
-    private int _y ;
-    public  int Y { get => _y; set => _y = value; }
+    private int _y;
+
+    public int Y { get => _y; set => _y = value; }
 
     public Vec2i(int xin, int yin)
     {

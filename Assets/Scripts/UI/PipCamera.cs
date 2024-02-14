@@ -20,7 +20,4 @@ public class PipCamera : MonoBehaviour
         cam.transform.position = new Vector3(position.x, position.y, cam.transform.position.z);
         cam.orthographicSize = zoom;
     }
-
-
-
 }

@@ -9,13 +9,11 @@
     //public TacticalAIType TacticalAIType;
 
 
-
     public MonsterEmpire(ConstructionArgs args) : base(args)
     {
         if (args.strategicAI == StrategyAIType.Monster)
             StrategicAI = new MonsterStrategicAI(this);
-        else if (args.strategicAI == StrategyAIType.Goblin)
-            StrategicAI = new GoblinAI(this);
+        else if (args.strategicAI == StrategyAIType.Goblin) StrategicAI = new GoblinAI(this);
     }
 
     public new void Regenerate()
@@ -24,7 +22,6 @@
         {
             Armies[i].Refresh();
         }
-
     }
 
 
@@ -38,7 +35,4 @@
     public new void CalcIncome(Village[] villages, bool AddToStats = false)
     {
     }
-
-
 }
-

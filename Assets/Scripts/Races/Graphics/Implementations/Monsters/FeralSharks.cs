@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Races.Graphics.Implementations.Monsters
 {
     /// <summary>
-    /// Is a skyshark.
+    ///     Is a skyshark.
     /// </summary>
     internal static class FeralSharks
     {
@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.Monsters
         {
             builder.Setup(output =>
             {
-                output.Names("Feral Shark", "Feral Sharks");        
+                output.Names("Feral Shark", "Feral Sharks");
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
                     new BoneInfo(BoneType.Shark, unit.Name)
@@ -52,7 +52,6 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.Biter
                     },
                     RaceDescription = "When the Scylla left their old realm the creatures that used to hunt them were left hungry. The Sharks, with their strong sense of smell, were able to track down the portals the Scylla used and followed close behind.",
-
                 });
                 output.CanBeGender = new List<Gender> { Gender.None };
                 output.SkinColors = ColorMap.SharkColorCount;

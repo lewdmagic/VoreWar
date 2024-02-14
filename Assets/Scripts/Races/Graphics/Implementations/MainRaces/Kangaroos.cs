@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 #endregion
+
 namespace Races.Graphics.Implementations.MainRaces
 {
-
-
     internal static class Kangaroos
     {
         //    The order the sprites should be assembled to stop anything from clashing, aside of the clothing and bellies, is from bottom to front:
@@ -35,7 +34,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(output =>
             {
                 output.Names("Kangaroo", "Kangaroos");
-                output.WallType(WallType.WoodenPallisade);        
+                output.WallType(WallType.WoodenPallisade);
                 output.BonesInfo((unit) => new List<BoneInfo>()
                 {
                     new BoneInfo(BoneType.Kangaroo, unit.Name)
@@ -53,10 +52,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     },
                     RaceDescription = "Their old home turning ever drier and hotter, the Kangaroo tribes did not hesitate when mysterious portals opened and granted them passage to greener lands. Nomadic by nature, the Kangaroos are very adept at carrying plenty of gear with them and aren't unused to traveling with a full belly either.",
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetText(ButtonType.HairStyle, "Ear Type");
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetText(ButtonType.HairStyle, "Ear Type"); });
                 output.TownNames(new List<string>
                 {
                     "Roostadt",
@@ -271,7 +267,6 @@ namespace Races.Graphics.Implementations.MainRaces
                     int sprite = input.A.GetStomachSize(19, .8f);
                     if (input.U.HasBreasts)
                     {
-
                         if (sprite <= 15)
                         {
                             output.Sprite(input.Sprites.Kangaroos[78 + sprite]);

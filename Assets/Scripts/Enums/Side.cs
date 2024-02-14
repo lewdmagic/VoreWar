@@ -10,7 +10,7 @@ public class Side : IComparable<Side>
     {
         Id = id;
     }
-    
+
     // This is very scuffed because Sides should not have tags in the first place
     // This will need to be eventually removed. 
     public bool HasTag(RaceTag tag)
@@ -33,7 +33,7 @@ public class Side : IComparable<Side>
         }
         else
         {
-            throw new Exception($"cant convert {this.Id} to side");
+            throw new Exception($"cant convert {Id} to side");
         }
     }
 
@@ -50,9 +50,9 @@ public class Side : IComparable<Side>
             return 1;
         }
 
-        return String.Compare(Id, other.Id, StringComparison.Ordinal);
+        return string.Compare(Id, other.Id, StringComparison.Ordinal);
     }
-    
+
     public override bool Equals(object obj)
     {
         Side other = obj as Side;
@@ -60,7 +60,7 @@ public class Side : IComparable<Side>
         {
             return false;
         }
-        
+
         return Id.Equals(other.Id);
     }
 
@@ -78,5 +78,3 @@ public class Side : IComparable<Side>
     public static Side RebelSide = new Side("Rebels");
     public static Side BanditSide = new Side("Bandits");
 }
-
-

@@ -113,7 +113,7 @@ internal static class Config
 
     public static Dictionary<Race, bool> CenteredEmpire = MakeCenteredEmpire();
 
-    
+
     internal static void ResetCenteredEmpire()
     {
         CenteredEmpire = MakeCenteredEmpire();
@@ -129,8 +129,8 @@ internal static class Config
 
         return villagesPerEmpire;
     }
-    
-    
+
+
     public static int StartingGold;
 
     //Everything below this line should be mirrored in WorldConfigStorage to ensure proper saving
@@ -155,7 +155,7 @@ internal static class Config
     internal static bool RaceSpecificVoreGraphicsDisabled => World.GetValue("RaceSpecificVoreGraphicsDisabled");
 
 
-    internal static bool FriendlyRegurgitation => World.GetValue("FriendlyRegurgitation");//Units will vomit up friendly units if they're in the main stomach    
+    internal static bool FriendlyRegurgitation => World.GetValue("FriendlyRegurgitation"); //Units will vomit up friendly units if they're in the main stomach    
     internal static int StrategicWorldSizeX => World.StrategicWorldSizeX;
     internal static int StrategicWorldSizeY => World.StrategicWorldSizeY;
     internal static bool AutoScaleTactical => World.AutoScaleTactical;
@@ -365,12 +365,8 @@ internal static class Config
     {
         if (World.WinterStuff == SeasonalType.AlwaysOn)
             return true;
-        else if (World.WinterStuff == SeasonalType.Disabled)
-            return false;
-        if (DateTime.UtcNow.Month == 12 || DateTime.UtcNow.DayOfYear < 15)
-            return true;
+        else if (World.WinterStuff == SeasonalType.Disabled) return false;
+        if (DateTime.UtcNow.Month == 12 || DateTime.UtcNow.DayOfYear < 15) return true;
         return false;
     }
-
 }
-

@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class ItemExchangeControl : MonoBehaviour
 {
-
     internal ItemType type;
     public Button TransferToRightButton;
     public Button TransferToLeftButton;
@@ -30,5 +29,4 @@ public class ItemExchangeControl : MonoBehaviour
     {
         State.GameManager.StrategyMode.ExchangerUI.TransferItemToLeft(type);
     }
-
 }

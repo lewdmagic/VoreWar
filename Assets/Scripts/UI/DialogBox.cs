@@ -30,5 +30,4 @@ public class DialogBox : MonoBehaviour
         NoAction?.Invoke();
         Destroy(gameObject);
     }
-
 }

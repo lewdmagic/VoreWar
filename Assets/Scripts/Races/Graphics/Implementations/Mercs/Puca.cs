@@ -12,19 +12,18 @@ namespace Races.Graphics.Implementations.Mercs
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-        
             builder.Setup(output =>
             {
                 output.Names("Puca", "Puca");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "puca", "bunny", "lagomorph", "digger" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Shovel",
-                        [WeaponNames.Axe]         = "Shovel",
-                        [WeaponNames.SimpleBow]   = "Slingshot",
+                        [WeaponNames.Mace] = "Shovel",
+                        [WeaponNames.Axe] = "Shovel",
+                        [WeaponNames.SimpleBow] = "Slingshot",
                         [WeaponNames.CompoundBow] = "Heavy Slingshot"
                     }
                 ));
@@ -135,7 +134,6 @@ namespace Races.Graphics.Implementations.Mercs
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Puca, input.U.AccessoryColor));
                 if (input.A.HasBelly)
                 {
-
                     output.Sprite(input.Sprites.Puca[37 + input.A.GetStomachSize(9)]);
                 }
             });
@@ -307,10 +305,7 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly IClothing LoinClothInstance = ClothingBuilder.Create(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-                {
-                    output.RevealsBreasts = true;
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.RevealsBreasts = true; });
 
                 builder.RenderAll((input, output) =>
                 {
@@ -327,10 +322,7 @@ namespace Races.Graphics.Implementations.Mercs
         {
             internal static readonly IClothing ShortsInstance = ClothingBuilder.Create(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-                {
-                    output.RevealsBreasts = true;
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.RevealsBreasts = true; });
 
                 builder.RenderAll((input, output) =>
                 {

@@ -10,7 +10,6 @@ internal struct AcceptibleTargets
     public AcceptibleTargets(AbilityTargets[] targets, int minRange, int maxRange)
     {
         Targets = targets;
-
     }
 }
 
@@ -107,11 +106,11 @@ internal static class TacticalActionList
         TargetedDictionary[SpecialAction.CockVore] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
-          name: "Anal Vore",
-          requiresPred: true,
-          conditional: (a) => a.Unit.CanAnalVore && State.RaceSettings.GetVoreTypes(a.Unit.Race).Contains(VoreType.Anal),
-          onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.AnalVore),
-          onExecute: (a, t) => a.PredatorComponent.AnalVore(t)));
+            name: "Anal Vore",
+            requiresPred: true,
+            conditional: (a) => a.Unit.CanAnalVore && State.RaceSettings.GetVoreTypes(a.Unit.Race).Contains(VoreType.Anal),
+            onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.AnalVore),
+            onExecute: (a, t) => a.PredatorComponent.AnalVore(t)));
         TargetedDictionary[SpecialAction.AnalVore] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
@@ -191,12 +190,12 @@ internal static class TacticalActionList
         TargetedDictionary[SpecialAction.PounceVore] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
-           name: "Shun Goku Satsu",
-           requiresPred: false,
-           conditional: (a) => a.Unit.HasTrait(TraitType.ShunGokuSatsu) && a.TurnUsedShun + 3 <= State.GameManager.TacticalMode.currentTurn,
-           onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.ShunGokuSatsu),
-           onExecute: (a, t) => a.ShunGokuSatsu(t),
-           minimumMp: 1));
+            name: "Shun Goku Satsu",
+            requiresPred: false,
+            conditional: (a) => a.Unit.HasTrait(TraitType.ShunGokuSatsu) && a.TurnUsedShun + 3 <= State.GameManager.TacticalMode.currentTurn,
+            onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.ShunGokuSatsu),
+            onExecute: (a, t) => a.ShunGokuSatsu(t),
+            minimumMp: 1));
         TargetedDictionary[SpecialAction.ShunGokuSatsu] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
@@ -210,12 +209,12 @@ internal static class TacticalActionList
         TargetedDictionary[SpecialAction.Regurgitate] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
-          name: "Tail Strike",
-          requiresPred: false,
-          conditional: (a) => a.Unit.HasTrait(TraitType.TailStrike),
-          onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.TailStrike),
-          onExecute: (a, t) => a.TailStrike(t),
-          minimumMp: 1));
+            name: "Tail Strike",
+            requiresPred: false,
+            conditional: (a) => a.Unit.HasTrait(TraitType.TailStrike),
+            onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.TailStrike),
+            onExecute: (a, t) => a.TailStrike(t),
+            minimumMp: 1));
         TargetedDictionary[SpecialAction.TailStrike] = TargetedActions.Last();
 
 
@@ -226,4 +225,3 @@ internal static class TacticalActionList
         UntargetedActions.Add(new UntargetedTacticalAction("Defect", () => State.GameManager.TacticalMode.ButtonCallback(14), (a) => a.allowedToDefect));
     }
 }
-

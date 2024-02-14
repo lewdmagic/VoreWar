@@ -2,9 +2,6 @@
 
 namespace Races.Graphics.Implementations.Monsters
 {
-    
-
-    
     internal static class Dragon
     {
         internal enum Position
@@ -13,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
             Standing,
             StandingCrouch
         }
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             builder.Setup(output =>
@@ -26,7 +23,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.FlavorText(new FlavorText(
                     new Texts { "formerly apex predator", "delicious dragon", "ex-predator" },
                     new Texts { "apex predator", "hungry dragon", "voracious dragon" },
-                    new Texts { "dragon", "draconian", {"dragoness", Gender.Female}, {"drakon", Gender.Male} }
+                    new Texts { "dragon", "draconian", { "dragoness", Gender.Female }, { "drakon", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -55,7 +52,6 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.Greedy,
                         TraitType.Cruel,
                         TraitType.AdeptLearner,
-
                     },
                     RaceDescription = ""
                 });
@@ -403,9 +399,5 @@ namespace Races.Graphics.Implementations.Monsters
                 return Position.Down;
             }
         }
-
-
-    }    
-
-
+    }
 }

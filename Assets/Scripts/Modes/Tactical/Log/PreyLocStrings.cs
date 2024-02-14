@@ -39,11 +39,12 @@ public static class PreyLocStrings
     }
 
     /// <summary>
-    /// Gets a random synonym for the body part(s) associatied with the provided <c>PreyLocation</c>.
-    /// <br></br>
-    /// NOTICE: Using this function for balls or breasts may return a singular or plural noun!
-    /// <br></br>
-    /// If specifically needing a singluar or plural noun, use <c>ToBreastSynPlural()</c>, <c>ToBallSynPlural()</c>, or <c>ToBallSynSing()</c> instead.
+    ///     Gets a random synonym for the body part(s) associatied with the provided <c>PreyLocation</c>.
+    ///     <br></br>
+    ///     NOTICE: Using this function for balls or breasts may return a singular or plural noun!
+    ///     <br></br>
+    ///     If specifically needing a singluar or plural noun, use <c>ToBreastSynPlural()</c>, <c>ToBallSynPlural()</c>, or
+    ///     <c>ToBallSynSing()</c> instead.
     /// </summary>
     public static string ToSyn(this PreyLocation preyLocation)
     {
@@ -73,7 +74,7 @@ public static class PreyLocStrings
     }
 
     /// <summary>
-    /// Gets a random synonym for penis.
+    ///     Gets a random synonym for penis.
     /// </summary>
     public static string ToCockSyn()
     {
@@ -81,7 +82,7 @@ public static class PreyLocStrings
     }
 
     /// <summary>
-    /// Gets a random plural synonym for breasts.
+    ///     Gets a random plural synonym for breasts.
     /// </summary>
     public static string ToBreastSynPlural()
     {
@@ -89,7 +90,7 @@ public static class PreyLocStrings
     }
 
     /// <summary>
-    /// Gets a random plural synonym for scrotum.
+    ///     Gets a random plural synonym for scrotum.
     /// </summary>
     public static string ToBallSynPlural()
     {
@@ -97,7 +98,7 @@ public static class PreyLocStrings
     }
 
     /// <summary>
-    /// Gets a random singular synonym for scrotum.
+    ///     Gets a random singular synonym for scrotum.
     /// </summary>
     public static string ToBallSynSing()
     {
@@ -125,8 +126,8 @@ public static class PreyLocStrings
             default:
                 return "";
         }
-
     }
+
     public static string ToVerb(this PreyLocation preyLocation)
     {
         switch (preyLocation)
@@ -149,6 +150,7 @@ public static class PreyLocStrings
                 return "";
         }
     }
+
     public static string ToVerbPastTense(this PreyLocation preyLocation)
     {
         switch (preyLocation)
@@ -171,22 +173,31 @@ public static class PreyLocStrings
                 return "";
         }
     }
+
     /// <summary>
-    /// Gets a random Oral Vore Verb in Present Continuous Tense, such as "swallowing" or "eating".
+    ///     Gets a random Oral Vore Verb in Present Continuous Tense, such as "swallowing" or "eating".
     /// </summary>
     /// <returns></returns>
     public static string GetOralVoreVPCT()
-    { return genRandom(oralVoreVerbPresentContinuousTense); }
+    {
+        return genRandom(oralVoreVerbPresentContinuousTense);
+    }
+
     /// <summary>
-    /// Gets a random Oral Vore Verb in Past Tense, such as "swallowed" or "ate".
+    ///     Gets a random Oral Vore Verb in Past Tense, such as "swallowed" or "ate".
     /// </summary>
     /// <returns></returns>
     public static string GetOralVoreVPastT()
-    { return genRandom(oralVoreVerbPastTense); }
+    {
+        return genRandom(oralVoreVerbPastTense);
+    }
+
     /// <summary>
-    /// Gets a random Oral Vore Verb in Present Tense, such as "eats" or "devours".
+    ///     Gets a random Oral Vore Verb in Present Tense, such as "eats" or "devours".
     /// </summary>
     /// <returns></returns>
     public static string GetOralVoreVPT()
-    { return genRandom(oralVoreVerbPresentTense); }
+    {
+        return genRandom(oralVoreVerbPresentTense);
+    }
 }

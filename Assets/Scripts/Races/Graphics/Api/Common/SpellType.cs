@@ -12,6 +12,7 @@
 
     IceBlast = 9,
     Pyre = 10,
+
     //Warp,
     //MagicWall,
     Poison = 11,
@@ -53,4 +54,3 @@
     RevertForm = 113,
     ManaExpolsion = 114,
 }
-

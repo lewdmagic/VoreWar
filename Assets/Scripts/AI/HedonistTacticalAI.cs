@@ -26,6 +26,7 @@ public class HedonistTacticalAI : TacticalAI
                 actor.Movement = 0;
                 return;
             }
+
             WalkToYBand(actor, retreatY);
             if (path == null || path.Path.Count == 0)
             {
@@ -45,6 +46,7 @@ public class HedonistTacticalAI : TacticalAI
                 RunFeed(actor, "breast", true);
                 if (foundPath || didAction) return;
             }
+
             if (actor.PredatorComponent.CanFeedCum())
             {
                 RunFeed(actor, "cock", true);
@@ -57,8 +59,7 @@ public class HedonistTacticalAI : TacticalAI
         if (spareMp >= thirdMovement)
         {
             RunBellyRub(actor, spareMp);
-            if (path != null)
-                return;
+            if (path != null) return;
             if (didAction) return;
         }
 
@@ -70,25 +71,20 @@ public class HedonistTacticalAI : TacticalAI
         if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             RunVorePounce(actor);
-            if (path != null)
-                return;
+            if (path != null) return;
             if (didAction) return;
-
         }
 
         RunPred(actor);
-        if (didAction || foundPath)
-            return;
+        if (didAction || foundPath) return;
 
         TryResurrect(actor);
         TryReanimate(actor);
 
         RunBind(actor);
 
-        if (State.Rand.Next(2) == 0 || actor.Unit.HasWeapon == false)
-            RunSpells(actor);
-        if (path != null)
-            return;
+        if (State.Rand.Next(2) == 0 || actor.Unit.HasWeapon == false) RunSpells(actor);
+        if (path != null) return;
         if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             if (IsRanged(actor) == false)
@@ -97,6 +93,7 @@ public class HedonistTacticalAI : TacticalAI
                 if (didAction) return;
             }
         }
+
         if (foundPath || didAction) return;
         if (IsRanged(actor))
             RunRanged(actor);
@@ -111,11 +108,13 @@ public class HedonistTacticalAI : TacticalAI
                 RunFeed(actor, "breast");
                 if (foundPath || didAction) return;
             }
+
             if ((Config.FeedingType == FeedingType.Both || Config.FeedingType == FeedingType.CumFeedOnly) && actor.PredatorComponent.CanFeedCum())
             {
                 RunFeed(actor, "cock");
                 if (foundPath || didAction) return;
             }
+
             RunSuckle(actor);
             if (foundPath || didAction) return;
         }

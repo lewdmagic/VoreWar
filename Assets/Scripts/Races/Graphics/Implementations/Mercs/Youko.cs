@@ -19,7 +19,7 @@ namespace Races.Graphics.Implementations.Mercs
                 output.FlavorText(new FlavorText(
                     new Texts { "fluffy tailed", "squirming", "whimpering" },
                     new Texts { "cunning", "grinning", "sly" },
-                    new Texts { "fox", "vulpine", "canid", {"vixen", Gender.Female}, {"tod", Gender.Male} }
+                    new Texts { "fox", "vulpine", "canid", { "vixen", Gender.Female }, { "tod", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {

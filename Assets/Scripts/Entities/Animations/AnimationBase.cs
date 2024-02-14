@@ -34,9 +34,11 @@ namespace Assets.Scripts.Entities.Animations
                     Destroy(gameObject);
                     return;
                 }
+
                 currentTime = 0;
                 SpriteRenderer.sprite = frames[currentFrame].image;
             }
+
             if (currentFrame > 0)
             {
                 transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Lerp(frames[currentFrame - 1].shift.y, frames[currentFrame].shift.y, currentTime / frames[currentFrame].time), transform.localPosition.z);

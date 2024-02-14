@@ -18,7 +18,6 @@ public class CustomizationLoaderWindow : MonoBehaviour
         EnteredFromUnitEditor = inUnitEditor;
         PopulateGrid();
         gameObject.SetActive(true);
-
     }
 
     public void PopulateGrid()
@@ -33,14 +32,14 @@ public class CustomizationLoaderWindow : MonoBehaviour
         {
             Destroy(ActorFolder.transform.GetChild(i).gameObject);
         }
+
         foreach (CustomizerData customizerData in customs)
         {
             GameObject obj = Instantiate(UnitDisplay, ActorFolder);
             UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
             // was 1
             Unit tempUnit = new Unit(Race.Dog.ToSide(), customizerData.Race, 0, false);
-            if (customizerData.Type == UnitType.Leader)
-                tempUnit.Type = UnitType.Leader;
+            if (customizerData.Type == UnitType.Leader) tempUnit.Type = UnitType.Leader;
             customizerData.CopyToUnit(tempUnit, true);
             Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), tempUnit);
             sprite.UpdateSprites(actor);
@@ -53,7 +52,6 @@ public class CustomizationLoaderWindow : MonoBehaviour
             else
                 ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(customizerData, State.GameManager.Recruit_Mode.Customizer.Unit));
         }
-
     }
 
     private void CopyToUnit(CustomizerData data, Unit unit)
@@ -65,7 +63,6 @@ public class CustomizationLoaderWindow : MonoBehaviour
             State.GameManager.UnitEditor.UnitEditor.Unit.ReloadTraits();
             State.GameManager.UnitEditor.UnitEditor.Unit.InitializeTraits();
             State.GameManager.UnitEditor.UnitEditor.RefreshView();
-
         }
         else
         {
@@ -79,7 +76,6 @@ public class CustomizationLoaderWindow : MonoBehaviour
     }
 
 
-
     public void CloseThis()
     {
         int children = ActorFolder.transform.childCount;
@@ -87,7 +83,7 @@ public class CustomizationLoaderWindow : MonoBehaviour
         {
             Destroy(ActorFolder.transform.GetChild(i).gameObject);
         }
+
         gameObject.SetActive(false);
     }
 }
-

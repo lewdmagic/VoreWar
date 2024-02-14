@@ -3,9 +3,9 @@ using UnityEngine;
 
 public interface ISpriteCollection
 {
-     Sprite GetSprite(string name);
+    Sprite GetSprite(string name);
 
-     string Description { get; }
+    string Description { get; }
 }
 
 public class SpriteCollection : ISpriteCollection
@@ -28,6 +28,4 @@ public class SpriteCollection : ISpriteCollection
     {
         _dictionary[name] = sprite;
     }
-    
-    
 }

@@ -52,6 +52,7 @@ public class ArmyExchanger : MonoBehaviour
         }
         else
             Select(0);
+
         fullArmies = left.Units.Count == left.MaxSize && right.Units.Count == right.MaxSize;
         if (fullArmies)
         {
@@ -63,6 +64,7 @@ public class ArmyExchanger : MonoBehaviour
             MoveToLeft.GetComponentInChildren<Text>().text = "Transfer Unit to Left Army";
             MoveToRight.GetComponentInChildren<Text>().text = "Transfer Unit to Right Army";
         }
+
         if (leftUnitSprites == null || leftUnitSprites.Length != Config.MaximumPossibleArmy)
         {
             leftUnitSprites = new UIUnitSprite[Config.MaximumPossibleArmy];
@@ -71,11 +73,13 @@ public class ArmyExchanger : MonoBehaviour
             {
                 leftUnitSprites[i] = Instantiate(State.GameManager.UIUnit, LeftFolder).GetComponent<UIUnitSprite>();
             }
+
             for (int i = 0; i < Config.MaximumPossibleArmy; i++)
             {
                 rightUnitSprites[i] = Instantiate(State.GameManager.UIUnit, RightFolder).GetComponent<UIUnitSprite>();
             }
         }
+
         LeftArmy = left;
         RightArmy = right;
 
@@ -95,15 +99,14 @@ public class ArmyExchanger : MonoBehaviour
             leftUnitSprites[x].SetIndex(x);
             rightUnitSprites[x].SetIndex(x + Config.MaximumPossibleArmy);
         }
+
         UpdateActorList();
     }
 
     private void Update()
     {
-        if (gameObject.activeSelf == false)
-            return;
-        if (infoPanel != null && LeftSelector.gameObject.activeSelf == false)
-            Select(0);
+        if (gameObject.activeSelf == false) return;
+        if (infoPanel != null && LeftSelector.gameObject.activeSelf == false) Select(0);
         RefreshSelectors();
     }
 
@@ -124,6 +127,7 @@ public class ArmyExchanger : MonoBehaviour
                 leftActors[x].UpdateBestWeapons();
                 leftActors[x].Unit.Side = LeftArmy.Side;
             }
+
             if (x >= RightArmy.Units.Count)
             {
                 rightUnits[x] = null;
@@ -138,12 +142,12 @@ public class ArmyExchanger : MonoBehaviour
             }
             //else it already exists and is correct, so we do nothing
         }
+
         UpdateDrawnActors();
     }
 
     private void UpdateDrawnActors()
     {
-
         for (int x = 0; x < Config.MaximumPossibleArmy; x++)
         {
             if (leftActors[x] == null)
@@ -156,6 +160,7 @@ public class ArmyExchanger : MonoBehaviour
                 leftUnitSprites[x].UpdateSprites(leftActors[x]);
                 leftUnitSprites[x].Name.text = LeftArmy.Units[x].Name;
             }
+
             if (rightActors[x] == null)
             {
                 rightUnitSprites[x].gameObject.SetActive(false);
@@ -167,6 +172,7 @@ public class ArmyExchanger : MonoBehaviour
                 rightUnitSprites[x].Name.text = RightArmy.Units[x].Name;
             }
         }
+
         LeftFolder.GetComponent<RectTransform>().sizeDelta = new Vector2(760, Mathf.Max((3 + LeftArmy.Units.Count) / 4 * 240, 1020));
         RightFolder.GetComponent<RectTransform>().sizeDelta = new Vector2(760, Mathf.Max((3 + RightArmy.Units.Count) / 4 * 240, 1020));
     }
@@ -178,7 +184,6 @@ public class ArmyExchanger : MonoBehaviour
         else
             rightSelected = num - Config.MaximumPossibleArmy;
         RefreshSelectors();
-
     }
 
     private void RefreshSelectors()
@@ -203,8 +208,7 @@ public class ArmyExchanger : MonoBehaviour
     public void UpdateInfo(int num)
     {
         info.InfoText.text = "";
-        if (num < 0)
-            return;
+        if (num < 0) return;
         Unit hoveredUnit;
         if (num < Config.MaximumPossibleArmy)
             hoveredUnit = leftUnits[num];
@@ -224,16 +228,16 @@ public class ArmyExchanger : MonoBehaviour
             return;
         }
 
-        if (rightSelected >= RightArmy.Units.Count || LeftArmy.Units.Count == LeftArmy.MaxSize)
-            return;
+        if (rightSelected >= RightArmy.Units.Count || LeftArmy.Units.Count == LeftArmy.MaxSize) return;
 
         if (RightArmy.Units[rightSelected] == RightArmy.Empire.Leader && !Equals(LeftArmy.Side, RightArmy.Side))
         {
             State.GameManager.CreateMessageBox("Can't trade heroes between races");
             return;
         }
+
         LeftArmy.Units.Add(RightArmy.Units[rightSelected]);
-        RightArmy.Units.RemoveAt((rightSelected));
+        RightArmy.Units.RemoveAt(rightSelected);
         UpdateActorList();
         LeftReceived = true;
         if (rightSelected >= RightArmy.Units.Count)
@@ -242,6 +246,7 @@ public class ArmyExchanger : MonoBehaviour
             RefreshSelectors();
         }
     }
+
     public void TransferToRight()
     {
         if (fullArmies)
@@ -251,22 +256,23 @@ public class ArmyExchanger : MonoBehaviour
         }
 
 
-        if (leftSelected >= LeftArmy.Units.Count || RightArmy.Units.Count == RightArmy.MaxSize)
-            return;
+        if (leftSelected >= LeftArmy.Units.Count || RightArmy.Units.Count == RightArmy.MaxSize) return;
 
         if (LeftArmy.Units[leftSelected] == LeftArmy.Empire.Leader && !Equals(LeftArmy.Side, RightArmy.Side))
         {
             State.GameManager.CreateMessageBox("Can't trade heroes between races");
             return;
         }
+
         var village = StrategicUtilities.GetVillageAt(RightArmy.Position);
         if (village != null && RightArmy.Empire != null && village.Empire.IsEnemy(RightArmy.Empire) && LeftArmy.Units[leftSelected] == LeftArmy.Empire.Leader)
         {
             State.GameManager.CreateMessageBox("Leaders can't infiltrate");
             return;
         }
+
         RightArmy.Units.Add(LeftArmy.Units[leftSelected]);
-        LeftArmy.Units.RemoveAt((leftSelected));
+        LeftArmy.Units.RemoveAt(leftSelected);
         UpdateActorList();
         RightReceived = true;
         if (leftSelected >= LeftArmy.Units.Count)
@@ -283,6 +289,7 @@ public class ArmyExchanger : MonoBehaviour
             RightArmy.ItemStock.TakeItem(type);
             LeftArmy.ItemStock.AddItem(type);
         }
+
         RefreshItemCounts();
     }
 
@@ -293,6 +300,7 @@ public class ArmyExchanger : MonoBehaviour
             LeftArmy.ItemStock.TakeItem(type);
             RightArmy.ItemStock.AddItem(type);
         }
+
         RefreshItemCounts();
     }
 
@@ -323,8 +331,7 @@ public class ArmyExchanger : MonoBehaviour
 
     public void Exchange()
     {
-        if (rightSelected >= RightArmy.Units.Count || leftSelected >= LeftArmy.Units.Count)
-            return;
+        if (rightSelected >= RightArmy.Units.Count || leftSelected >= LeftArmy.Units.Count) return;
 
         if (LeftArmy.Units[rightSelected] == LeftArmy.Empire.Leader && !Equals(LeftArmy.Side, RightArmy.Side))
         {
@@ -337,6 +344,7 @@ public class ArmyExchanger : MonoBehaviour
             State.GameManager.CreateMessageBox("Can't trade heroes between races");
             return;
         }
+
         Unit LeftTemp = LeftArmy.Units[leftSelected];
         Unit RightTemp = RightArmy.Units[rightSelected];
         LeftArmy.Units.Remove(LeftTemp);
@@ -352,7 +360,6 @@ public class ArmyExchanger : MonoBehaviour
     {
         if (RightArmy.Units.Count == 0)
             RightArmy.ItemStock.TransferAllItems(LeftArmy.ItemStock);
-        else if (LeftArmy.Units.Count == 0)
-            LeftArmy.ItemStock.TransferAllItems(RightArmy.ItemStock);
+        else if (LeftArmy.Units.Count == 0) LeftArmy.ItemStock.TransferAllItems(RightArmy.ItemStock);
     }
 }

@@ -16,16 +16,18 @@ internal static class Races2
             // TODO come up with a way to implement this neatly
             //return SlimeQueen.Instance;
         }
+
         if (Equals(unit.Race, Race.Ant) && unit.Type == UnitType.Leader)
         {
             //return AntQueen.Instance;
         }
+
         return GetRace(unit.Race);
     }
 
     /// <summary>
-    /// This version can't do the slime queen check, but is fine anywhere else
-    /// </summary>    
+    ///     This version can't do the slime queen check, but is fine anywhere else
+    /// </summary>
     internal static IRaceData GetRace(Race race)
     {
         if (race == null)
@@ -33,9 +35,7 @@ internal static class Races2
             Debug.Log("called get race with a null");
             return null;
         }
-        
+
         return Race2.GetBasic(race).RaceData;
     }
-
 }
-

@@ -7,12 +7,17 @@ public class VillagePopulation
 {
     [OdinSerialize]
     private List<RacePop> _population = new List<RacePop>();
+
     internal List<RacePop> Population { get => _population; set => _population = value; }
+
     [OdinSerialize]
     private List<Unit> _namedRecruitables = new List<Unit>();
+
     private List<Unit> NamedRecruitables { get => _namedRecruitables; set => _namedRecruitables = value; }
+
     [OdinSerialize]
     private Village _village;
+
     internal Village Village { get => _village; set => _village = value; }
 
     public VillagePopulation(Race inRace, int maxPop, Village village)
@@ -26,8 +31,7 @@ public class VillagePopulation
         int x = 0;
         bool foundRace = false;
 
-        if (Config.MultiRaceVillages == false)
-            inRace = Village.Race;
+        if (Config.MultiRaceVillages == false) inRace = Village.Race;
 
         while (x < Population.Count && !foundRace)
         {
@@ -36,6 +40,7 @@ public class VillagePopulation
                 Population[x].ChangePop(popChange);
                 foundRace = true;
             }
+
             x++;
         }
 
@@ -43,8 +48,6 @@ public class VillagePopulation
         {
             Population.Add(new RacePop(inRace, popChange));
         }
-
-
     }
 
     private void DeleteIfEmpty(int race)
@@ -67,6 +70,7 @@ public class VillagePopulation
         {
             popCount += pop.Population;
         }
+
         Population = new List<RacePop>()
         {
             new RacePop(Village.Race, popCount, NamedRecruitables.Count())
@@ -98,6 +102,7 @@ public class VillagePopulation
                     highestRace = race;
                 }
             }
+
             return $"Pop. {GetTotalPop()} ({highestRace.Population} {highestRace.Race})";
         }
         else if (Population.Count == 1)
@@ -108,7 +113,6 @@ public class VillagePopulation
         {
             return "Village is empty";
         }
-
     }
 
     internal Race GetMostPopulousRace()
@@ -125,6 +129,7 @@ public class VillagePopulation
                     highestRace = race;
                 }
             }
+
             return highestRace.Race;
         }
         else if (Population.Count == 1)
@@ -140,14 +145,12 @@ public class VillagePopulation
     {
         if (Population.Count == 0)
         {
-            if (!State.RaceSettings.GetRaceTraits(Village.Race).Contains(TraitType.Infertile))
-                AddRacePop(Village.Race, 1);
+            if (!State.RaceSettings.GetRaceTraits(Village.Race).Contains(TraitType.Infertile)) AddRacePop(Village.Race, 1);
         }
         else
         {
             Population[RandomRacePlaceByWeight()].ChangePop(1);
         }
-
     }
 
     public void DecrementRandom()
@@ -162,8 +165,6 @@ public class VillagePopulation
             Population[raceChosen].ChangePop(-1);
             DeleteIfEmpty(raceChosen);
         }
-
-
     }
 
     public void AddRandomPop(int popChange)
@@ -184,9 +185,7 @@ public class VillagePopulation
 
     public int RemoveRacePop(Race race, int popChange)
     {
-
-        if (Config.MultiRaceVillages == false)
-            race = Village.Race;
+        if (Config.MultiRaceVillages == false) race = Village.Race;
         int x = 0;
         bool foundRace = false;
 
@@ -198,7 +197,6 @@ public class VillagePopulation
                 if (popChange < Population[x].Population)
                 {
                     Population[x].ChangePop(-popChange);
-
                 }
                 else if (popChange == Population[x].Population)
                 {
@@ -210,9 +208,8 @@ public class VillagePopulation
                     Population.Remove(Population[x]);
                     return popChange;
                 }
-
-
             }
+
             x++;
         }
 
@@ -220,6 +217,7 @@ public class VillagePopulation
         {
             Debug.Log("No Race Pop to remove");
         }
+
         return 0;
     }
 
@@ -232,21 +230,23 @@ public class VillagePopulation
             return !traits.Contains(TraitType.Infertile);
         }).ToList();
         for (int x = 0; x < BreedablePop.Count; x++)
-        { 
+        {
             totalPop += BreedablePop[x].Population;
         }
+
         int randomPop = State.Rand.Next(totalPop);
         for (int x = 0; x < BreedablePop.Count; x++)
         {
-
             randomPop -= BreedablePop[x].Population;
             if (randomPop < 0)
             {
                 return x;
             }
         }
+
         return 0;
     }
+
     public Race RandomRaceByWeight()
     {
         int totalPop = 0;
@@ -254,16 +254,17 @@ public class VillagePopulation
         {
             totalPop += Population[x].Population;
         }
+
         int randomPop = State.Rand.Next(totalPop);
         for (int x = 0; x < Population.Count; x++)
         {
-
             randomPop -= Population[x].Population;
             if (randomPop < 0)
             {
                 return Population[x].Race;
             }
         }
+
         return Population[0].Race;
     }
 
@@ -274,16 +275,17 @@ public class VillagePopulation
         {
             totalPop += Population[x].Population;
         }
+
         int randomPop = State.Rand.Next(totalPop);
         for (int x = 0; x < Population.Count; x++)
         {
-
             randomPop -= Population[x].Population;
             if (randomPop < 0)
             {
                 return x;
             }
         }
+
         return -1;
     }
 
@@ -327,8 +329,7 @@ public class VillagePopulation
 
         Race race = unit.Race;
 
-        if (Config.MultiRaceVillages == false)
-            race = Village.Race;
+        if (Config.MultiRaceVillages == false) race = Village.Race;
 
         NamedRecruitables.Remove(unit);
 
@@ -346,8 +347,8 @@ public class VillagePopulation
                     Population[x].Hireables--;
                     RemoveRacePop(Population[x].Race, 1);
                 }
-
             }
+
             x++;
         }
 
@@ -364,8 +365,7 @@ public class VillagePopulation
 
         Race race = unit.Race;
 
-        if (Config.MultiRaceVillages == false)
-            race = Village.Race;
+        if (Config.MultiRaceVillages == false) race = Village.Race;
 
         while (x < Population.Count && !foundRace)
         {
@@ -375,8 +375,8 @@ public class VillagePopulation
                 Population[x].ChangePop(1);
                 NamedRecruitables.Add(unit);
                 foundRace = true;
-
             }
+
             x++;
         }
 
@@ -394,8 +394,7 @@ public class VillagePopulation
 
         Race race = unit.Race;
 
-        if (Config.MultiRaceVillages == false)
-            race = Village.Race;
+        if (Config.MultiRaceVillages == false) race = Village.Race;
 
         while (x < Population.Count && !foundRace)
         {
@@ -404,8 +403,8 @@ public class VillagePopulation
                 Population[x].Hireables++;
                 NamedRecruitables.Add(unit);
                 foundRace = true;
-
             }
+
             x++;
         }
 
@@ -423,15 +422,16 @@ public class VillagePopulation
         {
             totalPop += Population[x].Population;
         }
+
         return totalPop;
     }
+
     public void CheckMaxpop(int Maxpop)
     {
         if (GetTotalPop() > Maxpop)
         {
             RemoveRandomPop(Maxpop - GetTotalPop());
         }
-
     }
 
 
@@ -443,32 +443,23 @@ public class VillagePopulation
             RemoveRacePop(rec.Race, 1);
             var lowest = NamedRecruitables.OrderBy(s => s.Experience).First();
             NamedRecruitables.Remove(lowest);
-            if (lowest.OnDiscard != null)
-                lowest.OnDiscard();
+            if (lowest.OnDiscard != null) lowest.OnDiscard();
         }
-
-
-
     }
 
     /// <summary>
-    /// Does not remove the population, is used to correct population imbalances.
+    ///     Does not remove the population, is used to correct population imbalances.
     /// </summary>
     /// <param name="race"></param>
     public void RemoveLowestHireable(Race race)
     {
-        if (Config.MultiRaceVillages == false)
-            race = Village.Race;
+        if (Config.MultiRaceVillages == false) race = Village.Race;
         var rec = NamedRecruitables.Where(s => Equals(s.Race, race)).OrderBy(s => s.Experience).FirstOrDefault();
         if (rec != null)
         {
             NamedRecruitables.Remove(rec);
-            if (rec.OnDiscard != null)
-                rec.OnDiscard();
+            if (rec.OnDiscard != null) rec.OnDiscard();
         }
-
-
-
     }
 
     public void CleanHirables()
@@ -478,6 +469,7 @@ public class VillagePopulation
             NamedRecruitables.Clear();
             return;
         }
+
         int endCount = NamedRecruitables.Count;
         for (int x = 0; x < endCount; x++)
         {
@@ -485,28 +477,24 @@ public class VillagePopulation
             {
                 var race = NamedRecruitables[x].Race;
                 NamedRecruitables.Remove(NamedRecruitables[x]);
-                if (NamedRecruitables[x].OnDiscard != null)
-                    NamedRecruitables[x].OnDiscard();
+                if (NamedRecruitables[x].OnDiscard != null) NamedRecruitables[x].OnDiscard();
                 RemoveRacePop(race, 1);
                 endCount--;
                 x--;
             }
         }
+
         for (int x = 0; x < Population.Count; x++)
         {
-            if (Population.Count <= x)
-                break;
+            if (Population.Count <= x) break;
             Population[x].Hireables = NamedRecruitables.Where(s => Equals(s.Race, Population[x].Race)).Count();
             while (NamedRecruitables.Count > 0 && Population[x].Population < Population[x].Hireables)
             {
                 RemoveLowestHireable(Population[x].Race);
                 var count = NamedRecruitables.Where(s => Equals(s.Race, Population[x].Race)).Count();
-                if (count < Population[x].Hireables)
-                    Population[x].Hireables = count;
-
+                if (count < Population[x].Hireables) Population[x].Hireables = count;
             }
         }
-
     }
 
     internal void RemoveAllPop()
@@ -537,6 +525,7 @@ public class VillagePopulation
                 foundRace = true;
                 return Population[x].Population;
             }
+
             x++;
         }
 

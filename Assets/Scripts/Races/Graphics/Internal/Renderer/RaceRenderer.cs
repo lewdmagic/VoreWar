@@ -8,19 +8,18 @@ using UnityEngine;
 #endregion
 
 
-
 internal partial class RaceRenderer
 {
     public static readonly SpriteType AssumedFluffType = SpriteType.BodyAccent3;
-    
+
     private readonly List<ISpriteContainer> _clothingSprites = new List<ISpriteContainer>();
     private readonly SpriteTypeIndexed<ISpriteContainer> _sprites = new SpriteTypeIndexed<ISpriteContainer>();
     private IEnumerable<ISpriteContainer> AllContainers => _sprites.Concat(_clothingSprites);
-    
+
     private readonly Actor_Unit _actor;
     private readonly Transform _folder;
     private readonly GameObject _type;
-    
+
 
     internal RaceRenderer(GameObject type, GameObject animatedType, Transform folder, Actor_Unit actor)
     {
@@ -28,7 +27,7 @@ internal partial class RaceRenderer
         _type = type;
         _folder = folder;
         _actor = actor;
-        
+
         foreach (SpriteType spriteType in EnumUtil.GetValues<SpriteType>())
         {
             ISpriteContainer newContainer;
@@ -49,7 +48,7 @@ internal partial class RaceRenderer
             _sprites[spriteType] = newContainer;
         }
     }
-    
+
     private ISpriteContainer GetClothingContainer(int index)
     {
         return _clothingSprites.GetOrAdd(index, () => SpriteContainer.MakeContainer(_type, _folder));
@@ -103,18 +102,18 @@ internal partial class RaceRenderer
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-        
+
     private static RunOutput CalculateRaceRender(Actor_Unit actor, IRaceData raceData, RaceSpriteChangeDict changeDict)
     {
         IRunInput runInput = new RunInput(actor);
         RunOutput runOutput = new RunOutput(changeDict);
-        
+
         raceData.RunBefore?.Invoke(runInput, runOutput);
 
         IRaceRenderAllOutput renderAllOutput = new RaceRenderAllOutput(changeDict);
-        
+
         raceData.RenderAllAction?.Invoke(runInput, renderAllOutput);
-        
+
         foreach (KeyValuePair<SpriteType, SingleRenderFunc> raceSprite in raceData.RaceSpriteSet.KeyValues)
         {
             SpriteType spriteType = raceSprite.Key;
@@ -141,10 +140,9 @@ internal partial class RaceRenderer
         }
 
         actor.SquishedBreasts = false;
-        
+
         return runOutput;
     }
-
 
 
     private static AccumulatedClothes CalculateClothingRender(Actor_Unit actorUnit, RaceSpriteChangeDict changeDict, SetupOutput setupOutput)
@@ -246,11 +244,11 @@ internal partial class RaceRenderer
             {
                 asuraMask = AsuraMask.AsuraMaskInstanceNormal;
             }
-            
+
             clothingResults.Add(asuraMask.Configure(actorUnit, changeDict));
         }
-        
-        
+
+
         AccumulatedClothes accumulatedClothes = new AccumulatedClothes();
 
         bool revealsBreasts = true;
@@ -305,12 +303,8 @@ internal partial class RaceRenderer
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
     private void RenderRace(RaceSpriteChangeDict changeDict, Vector2 wholeBodyOffset)
     {
-        
         foreach (SpriteType spriteType in EnumUtil.GetValues<SpriteType>())
         {
             ISpriteContainer container = _sprites[spriteType];
@@ -323,7 +317,7 @@ internal partial class RaceRenderer
                 container.GameObject.SetActive(false);
             }
         }
-        
+
         foreach (KeyValuePair<SpriteType, RaceRenderOutput> entry in changeDict.ReusedChangesDict)
         {
             SpriteType type = entry.Key;
@@ -351,7 +345,7 @@ internal partial class RaceRenderer
             }
             //if (changes._offset != null) sprites[type].GameObject.transform.SetParent(changes._SetParentData.Item1, changes._SetParentData.Item2);
         }
-        
+
         if (_actor.Unit.IsDead == false && _actor.UnitSprite != null && _actor.UnitSprite.transform.rotation != Quaternion.Euler(0, 0, 0))
         {
             _actor.UnitSprite.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -388,21 +382,20 @@ internal partial class RaceRenderer
             }
         }
     }
-    
-    
-    
+
+
     public void UpdateSprite()
     {
         SpriteCollection raceSpriteCollection = GameManager.customManager.GetRaceSpriteCollection(_actor.Unit.Race.Id);
         RaceSpriteChangeDict changeDict = new RaceSpriteChangeDict(raceSpriteCollection);
-        
+
         IRaceData raceData = Races2.GetRace(_actor.Unit);
         RunOutput runOutput = CalculateRaceRender(_actor, raceData, changeDict);
-        
+
         // MUST BE DONE BEFORE RenderRace
         // changeDict gets modified by ClothingResults
         AccumulatedClothes accumulatedClothes = CalculateClothingRender(_actor, changeDict, raceData.SetupOutputRaw);
-        
+
         Vector3 clothingShift = runOutput.ClothingShift ?? raceData.SetupOutput.ClothingShift;
         Vector2 wholeBodyOffset = runOutput.WholeBodyOffset ?? raceData.SetupOutput.WholeBodyOffset;
 

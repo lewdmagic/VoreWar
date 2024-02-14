@@ -36,4 +36,3 @@ public class FileLoaderUI : MonoBehaviour
         Destroy(gameObject);
     }
 }
-

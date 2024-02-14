@@ -20,11 +20,11 @@ namespace Races.Graphics.Implementations.MainRaces
                     new Texts { "harpy", "raptor", "harpyia" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Bronze Claws",
-                        [WeaponNames.Axe]         = "Steel Claws",
-                        [WeaponNames.SimpleBow]   = "Simple Bow",
+                        [WeaponNames.Mace] = "Bronze Claws",
+                        [WeaponNames.Axe] = "Steel Claws",
+                        [WeaponNames.SimpleBow] = "Simple Bow",
                         [WeaponNames.CompoundBow] = "Compound Bow",
-                        [WeaponNames.Claw]        = "Talons"
+                        [WeaponNames.Claw] = "Talons"
                     }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -223,10 +223,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                output.ClothingShift = input.A.GetSimpleBodySprite() != 0 ? new Vector3(0, 10, 0) : new Vector3(0, 0, 0);
-            });
+            builder.RunBefore((input, output) => { output.ClothingShift = input.A.GetSimpleBodySprite() != 0 ? new Vector3(0, 10, 0) : new Vector3(0, 0, 0); });
 
             builder.RandomCustom(data =>
             {

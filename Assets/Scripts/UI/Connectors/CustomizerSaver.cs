@@ -26,6 +26,4 @@ public class CustomizerSaver : MonoBehaviour
         custom.Name = Text.text;
         CustomizationDataStorer.Add(custom);
     }
-
-
 }

@@ -4,14 +4,17 @@ internal class Relationship
 {
     [OdinSerialize]
     private float _attitude = 0;
+
     internal float Attitude { get => _attitude; set => _attitude = value; }
 
     [OdinSerialize]
     private int _turnsSinceAsked = -1;
+
     internal int TurnsSinceAsked { get => _turnsSinceAsked; set => _turnsSinceAsked = value; }
 
     [OdinSerialize]
     private RelationState _type = RelationState.Neutral;
+
     internal RelationState Type { get => _type; set => _type = value; }
 
     public Relationship(int firstTeam, int secondTeam)
@@ -38,8 +41,10 @@ internal class Relationship
                     Attitude = -.75f;
                     break;
             }
+
             return;
         }
+
         if (firstTeam == -200 || secondTeam == -200)
         {
             Type = RelationState.Neutral;
@@ -69,8 +74,8 @@ internal class Relationship
                     Attitude = 3f;
                     break;
             }
-            return;
 
+            return;
         }
         else
         {
@@ -94,9 +99,8 @@ internal class Relationship
                     Attitude = -.75f;
                     break;
             }
+
             return;
         }
     }
-
 }
-

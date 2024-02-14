@@ -5,18 +5,19 @@ using UnityEngine;
 public class AssimilateList
 {
     public bool Initialized = false;
+
     [AllowEditing]
     internal Dictionary<TraitType, bool> CanAssimilate;
 
 
     internal bool CanGet(TraitType traitType)
     {
-        if (Initialized == false)
-            Initialize();
+        if (Initialized == false) Initialize();
         if (CanAssimilate.TryGetValue(traitType, out bool value))
         {
             return value;
         }
+
         return false;
     }
 
@@ -26,8 +27,7 @@ public class AssimilateList
         CanAssimilate = new Dictionary<TraitType, bool>();
         foreach (TraitType trait in (TraitType[])Enum.GetValues(typeof(TraitType)))
         {
-            if (trait == TraitType.Prey)
-                continue;
+            if (trait == TraitType.Prey) continue;
             CanAssimilate[trait] = PlayerPrefs.GetInt($"A{trait}", 1) == 1;
         }
     }

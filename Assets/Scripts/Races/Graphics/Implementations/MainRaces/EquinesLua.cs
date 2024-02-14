@@ -28,13 +28,10 @@ namespace Races.Graphics.Implementations.MainRaces
             //     data.Unit.HairStyle = State.Rand.Next(data.MiscRaceData.HairStyles);
             //     data.Unit.TailType = State.Rand.Next(data.MiscRaceData.TailTypes);
             // });
-        
+
             //ScriptHelper.ScriptPrep2("GameData/CustomRaces/Equinezz/EquineNeo.lua", "equines_lua", builder);
         });
 
-
-
-    
 
         private static class HorseUndertops
         {
@@ -73,42 +70,40 @@ namespace Races.Graphics.Implementations.MainRaces
 
         public static class HorseClothing
         {
-        
-        
             public static readonly BindableClothing<IOverSizeParameters> HorseUndertop1Instance2 = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
                 {
                     //ScriptHelper.ScriptPrepClothing("GameData/CustomRaces/Equinezz/Clothing/horsetop1/clothing.lua", builder);
                 }
             );
-        
+
             public static BindableClothing<IOverSizeParameters> HorseUndertop1Instance = HorseUndertops.MakeCommon(
                 new ClothingId("base.equines/76147"),
                 State.GameManager.SpriteDictionary.HorseClothing[47],
                 State.GameManager.SpriteDictionary.HorseClothing[47],
                 actor => State.GameManager.SpriteDictionary.HorseClothing[40 + actor.Unit.BreastSize]
             );
-        
+
             public static BindableClothing<IOverSizeParameters> HorseUndertop2Instance = HorseUndertops.MakeCommon(
                 new ClothingId("base.equines/76148"),
                 State.GameManager.SpriteDictionary.HorseClothing[48],
                 null,
                 actor => State.GameManager.SpriteDictionary.HorseClothing[48 + actor.Unit.BreastSize]
             );
-        
+
             public static BindableClothing<IOverSizeParameters> HorseUndertop3Instance = HorseUndertops.MakeCommon(
                 new ClothingId("base.equines/76156"),
                 State.GameManager.SpriteDictionary.HorseClothing[56],
                 null,
                 actor => State.GameManager.SpriteDictionary.HorseClothing[56 + actor.Unit.BreastSize]
             );
-        
+
             public static BindableClothing<IOverSizeParameters> HorseUndertop4Instance = HorseUndertops.MakeCommon(
                 new ClothingId("base.equines/76208"),
                 State.GameManager.SpriteDictionary.HorseExtras1[8],
                 State.GameManager.SpriteDictionary.HorseExtras1[7],
                 actor => State.GameManager.SpriteDictionary.HorseExtras1[0 + actor.Unit.BreastSize]
             );
-        
+
             private static IClothing MakeCommon(ClothingId clothingId, Sprite discard, Sprite sprite1, Sprite sprite2)
             {
                 ClothingBuilder builder = ClothingBuilder.New();
@@ -133,28 +128,28 @@ namespace Races.Graphics.Implementations.MainRaces
                 });
                 return builder.BuildClothing();
             }
-        
+
             public static IClothing HorseUndertopM1Instance = MakeCommon(
                 new ClothingId("base.equines/76136"),
                 State.GameManager.SpriteDictionary.HorseClothing[36],
                 State.GameManager.SpriteDictionary.HorseExtras1[17],
                 State.GameManager.SpriteDictionary.HorseClothing[36]
             );
-        
+
             public static IClothing HorseUndertopM2Instance = MakeCommon(
                 new ClothingId("base.equines/76137"),
                 State.GameManager.SpriteDictionary.HorseClothing[37],
                 State.GameManager.SpriteDictionary.HorseExtras1[18],
                 State.GameManager.SpriteDictionary.HorseClothing[37]
             );
-        
+
             public static IClothing HorseUndertopM3Instance = MakeCommon(
                 new ClothingId("base.equines/76138"),
                 State.GameManager.SpriteDictionary.HorseClothing[38],
                 State.GameManager.SpriteDictionary.HorseClothing[39],
                 State.GameManager.SpriteDictionary.HorseClothing[38]
             );
-        
+
             public static IClothing HorsePonchoInstance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -176,7 +171,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing2"].Coloring(SwapType.Clothing50Spaced, input.U.ClothingColor);
                 });
             });
-        
+
             public static IClothing HorseNecklaceInstance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -195,7 +190,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(SwapType.Clothing50Spaced, input.U.ClothingColor);
                 });
             });
-        
+
             public static IClothing HorseUBottom1 = MakeHorseUBottom(2, 0, 30, 5, 9, State.GameManager.SpriteDictionary.HorseClothing, new ClothingId("base.equines/76105"), false);
             public static IClothing HorseUBottom2 = MakeHorseUBottom(7, 5, 30, 9, 9, State.GameManager.SpriteDictionary.HorseClothing, new ClothingId("base.equines/76109"), false);
             public static IClothing HorseUBottom3 = MakeHorseUBottom(17, 15, 30, 19, 9, State.GameManager.SpriteDictionary.HorseClothing, new ClothingId("base.equines/76119"), false);
@@ -259,7 +254,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 });
                 return builder.BuildClothing();
             }
-        
+
             public static IClothing HorseOBottom1Instance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -287,7 +282,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(SwapType.Clothing50Spaced, input.U.ClothingColor);
                 });
             });
-        
+
             public static IClothing HorseOBottom2Instance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
@@ -323,7 +318,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     output["Clothing1"].Coloring(SwapType.Clothing50Spaced, input.U.ClothingColor);
                 });
             });
-        
+
             public static IClothing HorseOBottom3Instance = ClothingBuilder.Create(builder =>
             {
                 builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>

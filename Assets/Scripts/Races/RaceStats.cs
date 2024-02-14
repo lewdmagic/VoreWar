@@ -3,16 +3,18 @@ using OdinSerializer;
 public class RaceStats
 {
     /// <summary>
-    /// Sets the minimum and maximum stats
+    ///     Sets the minimum and maximum stats
     /// </summary>
     internal struct StatRange
     {
         [OdinSerialize]
         internal int Minimum;
+
         [OdinSerialize]
         internal int Roll;
+
         /// <summary>
-        /// Sets up the stat range
+        ///     Sets up the stat range
         /// </summary>
         /// <param name="minimum">the lowest the stat will be</param>
         /// <param name="maximum">the highest, inclusive</param>
@@ -33,20 +35,28 @@ public class RaceStats
             Roll = roll;
         }
     }
+
     [OdinSerialize]
     internal StatRange Strength;
+
     [OdinSerialize]
     internal StatRange Dexterity;
+
     [OdinSerialize]
     internal StatRange Voracity;
+
     [OdinSerialize]
     internal StatRange Mind;
+
     [OdinSerialize]
     internal StatRange Agility;
+
     [OdinSerialize]
     internal StatRange Stomach;
+
     [OdinSerialize]
     internal StatRange Endurance;
+
     [OdinSerialize]
     internal StatRange Will;
 

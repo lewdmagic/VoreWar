@@ -1,6 +1,5 @@
 ﻿internal class StrategicMoveUndo
 {
-
     internal Army Army;
     internal int MP;
     internal Vec2i PreviousPosition;
@@ -19,7 +18,5 @@
         Army.SetPosition(PreviousPosition);
         Army.RemainingMP = MP;
         State.GameManager.StrategyMode.Regenerate();
-
-
     }
 }

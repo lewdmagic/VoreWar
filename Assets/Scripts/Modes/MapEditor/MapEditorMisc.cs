@@ -20,4 +20,3 @@ public class MapEditorMisc : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         State.GameManager.MapEditor.SetBlankTooltip();
     }
 }
-

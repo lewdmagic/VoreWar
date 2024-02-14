@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace Races.Graphics.Implementations.Monsters
 {
-
-
     internal enum FairyType
     {
         Spring,
@@ -291,7 +289,6 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Coloring(GetSkinColor(input, input.Actor));
                 if (CalcFairyParameters(input.A).VeryEncumbered && input.A.IsEating)
                 {
-                
                 }
 
                 if (CalcFairyParameters(input.A).Encumbered)
@@ -524,10 +521,7 @@ namespace Races.Graphics.Implementations.Monsters
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
             builder.RandomCustom(data =>
             {

@@ -18,8 +18,8 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Names("Eastern Dragon", "Eastern Dragons");
                 output.FlavorText(new FlavorText(
                     new Texts { "tasty noodle", "noodle derg", "spaghetti-like", "easily-slurpable" },
-                    new Texts {  }, // Missing in original
-                    new Texts { "oriental dragon", "serpentine dragon", {"eastern dragoness", Gender.Female}, {"eastern dragon", Gender.Male} }
+                    new Texts { }, // Missing in original
+                    new Texts { "oriental dragon", "serpentine dragon", { "eastern dragoness", Gender.Female }, { "eastern dragon", Gender.Male } }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -47,7 +47,6 @@ namespace Races.Graphics.Implementations.Monsters
                         TraitType.Ravenous
                     },
                     RaceDescription = "A variety of dragons especially attuned to magic, the Eastern Dragons, or Lung Dragons as they are also known as, are able to fly without wings. Reminiscent of snakes, the Eastern Dragons are readily able to prove that the resemblance is more than skin deep, devouring large prey with ease.",
-
                 });
                 output.SkinColors = ColorPaletteMap.GetPaletteCount(SwapType.EasternDragon); // Main body, legs, head, tail upper
                 output.GentleAnimation = true;

@@ -13,6 +13,7 @@ public struct Range
         Min = min;
         Max = max;
     }
+
     public Range(int max)
     {
         Min = 0;
@@ -42,7 +43,9 @@ internal static class SpellList
     internal static readonly StatusSpell Charm;
 
     internal static readonly DamageSpell IceBlast;
+
     internal static readonly DamageSpell Pyre;
+
     //static internal readonly Spell Warp;
     //static internal readonly DamageSpell MagicWall;
     internal static readonly StatusSpell Poison;
@@ -54,6 +57,7 @@ internal static class SpellList
     internal static readonly Spell Summon;
 
     internal static readonly StatusSpell Diminishment;
+
     //Raze
     internal static readonly Spell GateMaw;
     internal static readonly Spell Reanimate;
@@ -347,8 +351,7 @@ internal static class SpellList
             Resistable = true,
             OnExecute = (a, t) =>
             {
-                if (a.CastStatusSpell(Poison, t))
-                    TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Poison);
+                if (a.CastStatusSpell(Poison, t)) TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Poison);
             },
         };
         SpellDict[SpellType.Poison] = Poison;
@@ -368,8 +371,7 @@ internal static class SpellList
             Resistable = true,
             OnExecute = (a, t) =>
             {
-                if (a.CastStatusSpell(PreysCurse, t))
-                    TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Debuff);
+                if (a.CastStatusSpell(PreysCurse, t)) TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Debuff);
             },
         };
         SpellDict[SpellType.PreysCurse] = PreysCurse;
@@ -398,7 +400,7 @@ internal static class SpellList
             Range = new Range(6),
             Duration = (a, t) => 2 + a.Unit.GetStat(Stat.Mind) / 10,
             Effect = (a, t) => 0f, // the unit will act to the best of its knowledge
-            EffectSide = (a, t) => a.Unit.GetApparentSide(t.Unit),         // the unit will act to the best of its knowledge
+            EffectSide = (a, t) => a.Unit.GetApparentSide(t.Unit), // the unit will act to the best of its knowledge
             Type = StatusEffectType.Charmed,
             Tier = 3,
             Resistable = true,
@@ -427,12 +429,11 @@ internal static class SpellList
                     var AvailableRaces = new List<Race>();
                     foreach (Race race in RaceFuncs.RaceEnumerable())
                     {
-                        if (RaceFuncs.isMonster(race) && (Config.World.GetValue($"Merc {race}") || (Config.World.GetSpawnerWithoutGeneration(race)?.Enabled ?? false)))
-                            AvailableRaces.Add(race);
+                        if (RaceFuncs.isMonster(race) && (Config.World.GetValue($"Merc {race}") || (Config.World.GetSpawnerWithoutGeneration(race)?.Enabled ?? false))) AvailableRaces.Add(race);
                     }
+
                     AvailableRaces.Remove(Race.Dragon);
-                    if (AvailableRaces.Any() == false)
-                        AvailableRaces.Add(Race.Vagrant);
+                    if (AvailableRaces.Any() == false) AvailableRaces.Add(Race.Vagrant);
                     Race summonRace = AvailableRaces[State.Rand.Next(AvailableRaces.Count())];
                     Unit unit = new Unit(a.Unit.Side, summonRace, (int)(a.Unit.Experience * .50f), true, UnitType.Summon);
                     var actorCharm = a.Unit.GetStatusEffect(StatusEffectType.Charmed) ?? a.Unit.GetStatusEffect(StatusEffectType.Hypnotized);
@@ -478,7 +479,6 @@ internal static class SpellList
                         }
                     }
                 }
-
             },
         };
         SpellDict[SpellType.Reanimate] = Reanimate;
@@ -567,7 +567,6 @@ internal static class SpellList
                         }
                     }
                 }
-
             },
         };
         SpellDict[SpellType.Resurrection] = Resurrection;
@@ -585,14 +584,8 @@ internal static class SpellList
             Resistable = true,
             DamageType = DamageType.Poison,
             Damage = (a, t) => 5 + a.Unit.GetStat(Stat.Mind) / 10,
-            OnExecute = (a, t) =>
-            {
-
-            },
-            OnExecuteTile = (a, l) =>
-            {
-
-            },
+            OnExecute = (a, t) => { },
+            OnExecuteTile = (a, l) => { },
         };
         SpellDict[SpellType.ViperDamage] = ViperPoisonDamage;
 
@@ -625,7 +618,6 @@ internal static class SpellList
                 a.CastOffensiveSpell(ViperPoisonDamage, null, loc);
                 TacticalGraphicalEffects.CreatePoisonCloud(loc);
             }
-
         };
         SpellDict[SpellType.ViperPoison] = ViperPoisonStatus;
 
@@ -655,7 +647,6 @@ internal static class SpellList
                 a.CastStatusSpell(AlraunePuff, null, loc);
                 TacticalGraphicalEffects.CreatePollenCloud(loc);
             }
-
         };
         SpellDict[SpellType.AlraunePuff] = AlraunePuff;
 
@@ -678,7 +669,6 @@ internal static class SpellList
                 a.CastStatusSpell(Web, t);
                 TacticalGraphicalEffects.CreateSpiderWeb(a.Position, t.Position, t);
             },
-
         };
         SpellDict[SpellType.Web] = Web;
 
@@ -707,7 +697,6 @@ internal static class SpellList
                 a.CastStatusSpell(GlueBomb, null, loc);
                 TacticalGraphicalEffects.CreateGlueBomb(a.Position, loc);
             }
-
         };
         SpellDict[SpellType.GlueBomb] = GlueBomb;
 
@@ -725,11 +714,7 @@ internal static class SpellList
             Tier = 0,
             Resistable = true,
             ResistanceMult = .9f,
-            OnExecute = (a, t) =>
-            {
-                a.CastStatusSpell(Petrify, t);
-            },
-
+            OnExecute = (a, t) => { a.CastStatusSpell(Petrify, t); },
         };
         SpellDict[SpellType.Petrify] = Petrify;
 
@@ -762,6 +747,7 @@ internal static class SpellList
                     a.SetPredMode(PreyLocation.stomach);
                     State.GameManager.SoundManager.PlayBurp(a);
                 }
+
                 TacticalGraphicalEffects.CreateGasCloud(t.Position);
             },
             OnExecuteTile = (a, loc) =>
@@ -777,9 +763,9 @@ internal static class SpellList
                     a.SetPredMode(PreyLocation.stomach);
                     State.GameManager.SoundManager.PlayBurp(a);
                 }
+
                 TacticalGraphicalEffects.CreateGasCloud(loc);
             }
-
         };
         SpellDict[SpellType.HypnoGas] = HypnoGas;
 
@@ -808,10 +794,7 @@ internal static class SpellList
             Range = new Range(1),
             Tier = 0,
             Resistable = false,
-            OnExecute = (a, t) =>
-            {
-                TacticalUtilities.ForceFeed(a, t);
-            },
+            OnExecute = (a, t) => { TacticalUtilities.ForceFeed(a, t); },
         };
         SpellDict[SpellType.ForceFeed] = ForceFeed;
 
@@ -825,10 +808,7 @@ internal static class SpellList
             Range = new Range(1),
             Tier = 0,
             Resistable = false,
-            OnExecute = (a, t) =>
-            {
-                TacticalUtilities.RevertForm(a, t);
-            },
+            OnExecute = (a, t) => { TacticalUtilities.RevertForm(a, t); },
         };
         SpellDict[SpellType.RevertForm] = RevertForm;
 
@@ -842,10 +822,7 @@ internal static class SpellList
             Range = new Range(1),
             Tier = 0,
             Resistable = false,
-            OnExecute = (a, t) =>
-            {
-                TacticalUtilities.AssumeForm(a, t);
-            },
+            OnExecute = (a, t) => { TacticalUtilities.AssumeForm(a, t); },
         };
         SpellDict[SpellType.AssumeForm] = AssumeForm;
 
@@ -864,11 +841,7 @@ internal static class SpellList
             Type = StatusEffectType.Charmed,
             Tier = 3,
             Resistable = true,
-            OnExecute = (a, t) =>
-            {
-                a.CastStatusSpell(Whispers, t);
-            },
-
+            OnExecute = (a, t) => { a.CastStatusSpell(Whispers, t); },
         };
         SpellDict[SpellType.Whispers] = Whispers;
 
@@ -878,7 +851,7 @@ internal static class SpellList
             Id = "viralinfection",
             SpellType = SpellType.ViralInfection,
             Description = "Applies virus to enemy, dealing damage over time.",
-            AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally, AbilityTargets.Enemy, AbilityTargets.Self},
+            AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally, AbilityTargets.Enemy, AbilityTargets.Self },
             Range = new Range(8),
             Duration = (a, t) => 4 + a.Unit.GetStat(Stat.Mind) / 5,
             Effect = (a, t) => 1 + a.Unit.GetStat(Stat.Mind) / 10,
@@ -887,8 +860,7 @@ internal static class SpellList
             Resistable = false,
             OnExecute = (a, t) =>
             {
-                if (a.CastStatusSpell(ViralInfection, t))
-                    TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Poison);
+                if (a.CastStatusSpell(ViralInfection, t)) TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Poison);
             },
         };
         SpellDict[SpellType.ViralInfection] = ViralInfection;
@@ -911,7 +883,7 @@ internal static class SpellList
                 int amt = a.Unit.GetStat(Stat.Will) / 25;
                 foreach (var ally in TacticalUtilities.UnitsWithinTiles(t.Position, 1).Where(s => s.Unit.IsDead == false && Equals(s.Unit.Side, a.Unit.Side)))
                 {
-                    ally.Unit.AddFocus(((amt > 1) ? amt : 1));
+                    ally.Unit.AddFocus(amt > 1 ? amt : 1);
                     TacticalGraphicalEffects.CreateGenericMagic(a.Position, ally.Position, ally, TacticalGraphicalEffects.SpellEffectIcon.Buff);
                 }
             }
@@ -963,10 +935,12 @@ internal static class SpellList
                         t.Unit.AddSpellForce();
                         stacks++;
                     }
+
                     ally.Unit.StatusEffects.Remove(ally.Unit.GetStatusEffect(StatusEffectType.Focus));
                     TacticalGraphicalEffects.CreateGenericMagic(ally.Position, t.Position, t);
                 }
-                t.Movement += stacks/2;
+
+                t.Movement += stacks / 2;
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.PurplePlus);
             }
         };
@@ -982,7 +956,7 @@ internal static class SpellList
             Range = new Range(6),
             Tier = 1,
             AreaOfEffect = 0,
-            Damage = (a, t) => (a.Unit.GetStat(Stat.Mind) / 5) + ((a.Unit.MaxMana - a.Unit.Mana)/10),
+            Damage = (a, t) => a.Unit.GetStat(Stat.Mind) / 5 + (a.Unit.MaxMana - a.Unit.Mana) / 10,
             Resistable = true,
             OnExecute = (a, t) =>
             {
@@ -1001,7 +975,7 @@ internal static class SpellList
             Range = new Range(6),
             Tier = 0,
             AreaOfEffect = 0,
-            Damage = (a, t) => (a.Unit.Mana / 4) + a.Unit.GetStat(Stat.Mind) / 5,
+            Damage = (a, t) => a.Unit.Mana / 4 + a.Unit.GetStat(Stat.Mind) / 5,
             Resistable = true,
             OnExecute = (a, t) =>
             {
@@ -1013,6 +987,7 @@ internal static class SpellList
                 {
                     a.CastOffensiveSpell(ManaExpolsion, t);
                 }
+
                 a.Unit.SpendMana(a.Unit.Mana);
             }
         };
@@ -1031,12 +1006,9 @@ internal static class SpellList
             Damage = (a, t) => t.Unit.Mana / 2,
             Resistable = true,
             ResistanceMult = 0.2f,
-            OnExecute = (a, t) =>
-            {
-            }
+            OnExecute = (a, t) => { }
         };
         SpellDict[SpellType.ManaExpolsion] = ManaExpolsion;
-        
     }
 }
 
@@ -1050,14 +1022,16 @@ public class Spell
     internal SpellType SpellType;
     internal Range Range;
     internal int Tier;
+
     /// <summary>The number of tiles away a target is affected (i.e. 1 = 9 total tiles)</summary>
     internal int AreaOfEffect;
+
     internal Action<Actor_Unit, Vec2i> OnExecuteTile;
     internal bool Resistable;
     internal float ResistanceMult = 1;
     internal Action<Actor_Unit, Actor_Unit> OnExecute;
     internal bool IsFree = false;
-    
+
 
     internal bool TryCast(Actor_Unit actor, Vec2i location)
     {
@@ -1070,10 +1044,13 @@ public class Spell
                 actor.Unit.SingleUseSpells.Remove(SpellType);
                 actor.Unit.UpdateSpells();
             }
+
             return true;
         }
+
         return false;
     }
+
     internal bool TryCast(Actor_Unit actor, Actor_Unit target)
     {
         if ((actor.Unit.Mana >= ManaCost || IsFree) && actor.Movement > 0)
@@ -1085,21 +1062,20 @@ public class Spell
                 actor.Unit.SingleUseSpells.Remove(SpellType);
                 actor.Unit.UpdateSpells();
             }
+
             return true;
         }
+
         return false;
     }
 
     internal int ManaCost => 2 * (int)Math.Pow(2, Tier);
-
-
 }
 
 //May redo this with interfaces later on
 
 internal class DamageSpell : Spell
 {
-
     internal Func<Actor_Unit, Actor_Unit, int> Damage;
     internal DamageType DamageType = DamageType.Generic;
 }
@@ -1108,10 +1084,12 @@ internal class StatusSpell : Spell
 {
     internal Func<Actor_Unit, Actor_Unit, int> Duration;
     internal Func<Actor_Unit, Actor_Unit, float> Effect;
+
     /// <summary>
-    /// BAD SOLUTION. TEMPORARY(tm) 
+    ///     BAD SOLUTION. TEMPORARY(tm)
     /// </summary>
     internal Func<Actor_Unit, Actor_Unit, Side> EffectSide;
+
     internal StatusEffectType Type;
     internal bool Alraune = false;
 }

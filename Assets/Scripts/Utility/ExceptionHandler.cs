@@ -8,16 +8,13 @@ public class ExceptionHandler : MonoBehaviour
 
     private void Awake()
     {
-        if (Application.isEditor)
-            return;
+        if (Application.isEditor) return;
 
         Application.logMessageReceived += HandleException;
         if (Application.platform == RuntimePlatform.OSXPlayer)
             path = Path.Combine(Application.persistentDataPath, "recentexceptions.txt");
         else
             path = Path.Combine(Application.dataPath, "recentexceptions.txt");
-
-
     }
 
     private void HandleException(string condition, string stackTrace, LogType type)
@@ -42,14 +39,11 @@ public class ExceptionHandler : MonoBehaviour
                     writer.Flush();
                     exceptionCount++;
                 }
-
             }
         }
         catch
         {
             Debug.Log("Failed to write exception... just eating it rather than throw another exception");
         }
-
-
     }
 }

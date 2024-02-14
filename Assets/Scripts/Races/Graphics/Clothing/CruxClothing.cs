@@ -13,7 +13,9 @@ namespace CruxClothing
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                { };
+                {
+                }
+                ;
             });
 
             builder.RenderAll((input, output) =>
@@ -34,7 +36,9 @@ namespace CruxClothing
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
-                { };
+                {
+                }
+                ;
             });
 
             builder.RenderAll((input, output) =>

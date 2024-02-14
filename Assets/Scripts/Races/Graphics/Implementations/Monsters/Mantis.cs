@@ -8,7 +8,6 @@ namespace Races.Graphics.Implementations.Monsters
 {
     internal static class Mantis
     {
-    
         internal enum Position
         {
             Default,
@@ -19,7 +18,7 @@ namespace Races.Graphics.Implementations.Monsters
         {
             return actor.HasBelly ? Position.Eating : Position.Default;
         }
-        
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList frameListScythesDefault = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
@@ -466,6 +465,5 @@ namespace Races.Graphics.Implementations.Monsters
                 new AnimationController.FrameList(0, 0, false)
             }; // Scythes in Eating extra.Position controller. Index 1.
         }
-
     }
 }

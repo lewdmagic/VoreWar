@@ -10,7 +10,6 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-        
             RaceFrameList frameListMouth = new RaceFrameList(new[] { 0, 1, 2, 1, 0, 1, 2, 1, 0 }, new[] { 1.2f, .6f, 1.2f, .6f, 1.2f, .6f, 1.2f, .6f, 1.2f });
             RaceFrameList frameListTail = new RaceFrameList(new[] { 0, 1, 2, 1, 0, 1, 2, 1, 0 }, new[] { .5f, .3f, .5f, .3f, .5f, .3f, .5f, .3f, .5f });
 
@@ -47,7 +46,7 @@ namespace Races.Graphics.Implementations.Monsters
                     },
                     RaceDescription = ""
                 });
-        
+
                 output.CustomizeButtons((unit, buttons) =>
                 {
                     buttons.SetText(ButtonType.Skintone, "Body Color");

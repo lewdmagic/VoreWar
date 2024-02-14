@@ -65,7 +65,7 @@ public enum StrategicDoodadType
     SpawnerTerrorbird = 1028,
     SpawnerDratopyr = 1029,
     SpawnerFeralLions = 1030,
-	SpawnerGoodra = 1031,
+    SpawnerGoodra = 1031,
 }
 
 public enum MovementType
@@ -104,22 +104,18 @@ internal static class StrategicTileInfo
             case StrategicTileType.grass:
                 return grasses[rand.Next(grasses.Length)];
             case StrategicTileType.forest:
-                if (Config.SimpleForests)
-                    return forests[rand.Next(2)];
+                if (Config.SimpleForests) return forests[rand.Next(2)];
                 return forests[rand.Next(forests.Length)];
             case StrategicTileType.water:
                 return waters[rand.Next(waters.Length)];
             case StrategicTileType.field:
-                if (Config.SimpleFarms)
-                    return fields[0];
+                if (Config.SimpleFarms) return fields[0];
                 return fields[rand.Next(fields.Length)];
             case StrategicTileType.fieldSnow:
-                if (Config.SimpleFarms)
-                    return snowFields[0];
+                if (Config.SimpleFarms) return snowFields[0];
                 return snowFields[rand.Next(snowFields.Length)];
             case StrategicTileType.fieldDesert:
-                if (Config.SimpleFarms)
-                    return desertFields[0];
+                if (Config.SimpleFarms) return desertFields[0];
                 return desertFields[rand.Next(desertFields.Length)];
             case StrategicTileType.hills:
                 return hills[rand.Next(hills.Length)];
@@ -149,8 +145,7 @@ internal static class StrategicTileInfo
         switch (type)
         {
             case StrategicTileType.forest:
-                if (Config.SimpleForests)
-                    return 4 + rand.Next(2);
+                if (Config.SimpleForests) return 4 + rand.Next(2);
                 return 4 + rand.Next(4);
             //case StrategicTileType.field:
             //    if (Config.SimpleFarms)
@@ -165,16 +160,13 @@ internal static class StrategicTileInfo
             //        return desertFields[0];
             //    return desertFields[rand.Next(desertFields.Length)];
             case StrategicTileType.field:
-                if (Config.SimpleFarms)
-                    return 16;
+                if (Config.SimpleFarms) return 16;
                 return 16 + rand.Next(4);
             case StrategicTileType.fieldSnow:
-                if (Config.SimpleFarms)
-                    return 8;
+                if (Config.SimpleFarms) return 8;
                 return 8 + rand.Next(4);
             case StrategicTileType.fieldDesert:
-                if (Config.SimpleFarms)
-                    return 12;
+                if (Config.SimpleFarms) return 12;
                 return 12 + rand.Next(4);
             case StrategicTileType.hills:
                 return 3 - rand.Next(2);
@@ -194,16 +186,13 @@ internal static class StrategicTileInfo
     }
 
     /// <summary>
-    /// Don't call from within Map editor, use the local
+    ///     Don't call from within Map editor, use the local
     /// </summary>
     internal static bool CanWalkInto(int x, int y)
     {
-        if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false)
-            return false;
-        if (CanWalkInto(State.World.Tiles[x, y]) == true)
-            return true;
-        if (State.World.Doodads != null && State.World.Doodads[x, y] >= StrategicDoodadType.bridgeVertical && State.World.Doodads[x, y] <= StrategicDoodadType.virtualBridgeIntersection)
-            return true;
+        if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false) return false;
+        if (CanWalkInto(State.World.Tiles[x, y]) == true) return true;
+        if (State.World.Doodads != null && State.World.Doodads[x, y] >= StrategicDoodadType.bridgeVertical && State.World.Doodads[x, y] <= StrategicDoodadType.virtualBridgeIntersection) return true;
         return false;
     }
 
@@ -242,10 +231,8 @@ internal static class StrategicTileInfo
 
     internal static int WalkCost(int x, int y)
     {
-        if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false)
-            return 9999;
-        if (State.World.Doodads != null && State.World.Doodads[x, y] >= StrategicDoodadType.bridgeVertical && State.World.Doodads[x, y] <= StrategicDoodadType.virtualBridgeIntersection)
-            return 1;
+        if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false) return 9999;
+        if (State.World.Doodads != null && State.World.Doodads[x, y] >= StrategicDoodadType.bridgeVertical && State.World.Doodads[x, y] <= StrategicDoodadType.virtualBridgeIntersection) return 1;
         return WalkCost(State.World.Tiles[x, y]);
     }
 
@@ -276,5 +263,4 @@ internal static class StrategicTileInfo
                 return 1;
         }
     }
-
 }

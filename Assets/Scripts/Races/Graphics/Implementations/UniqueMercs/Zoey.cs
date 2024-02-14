@@ -11,7 +11,6 @@ namespace Races.Graphics.Implementations.UniqueMercs
 {
     internal static class Zoey
     {
-
         private static BodyState CalcBodyState(IActorUnit actor)
         {
             if (actor.AnimationController?.frameLists[0].currentlyActive ?? false)
@@ -34,7 +33,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 return BodyState.Normal;
             }
         }
-        
+
         private static readonly Func<IClothingRenderInput, ZoeyParams> ZoeyCalc = renderInput =>
         {
             return new ZoeyParams()
@@ -42,7 +41,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 BodyState = CalcBodyState(renderInput.A)
             };
         };
-        
+
         internal enum BodyState
         {
             Normal,
@@ -55,7 +54,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
         {
             internal BodyState BodyState = BodyState.Normal;
         }
-    
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList SpinEffect = new RaceFrameList(new int[2] { 25, 19 }, new float[2] { .375f, .375f });
@@ -366,7 +365,6 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 new AnimationController.FrameList(0, 0, false)
             };
         }
-
 
 
         private static class ZoeyTop

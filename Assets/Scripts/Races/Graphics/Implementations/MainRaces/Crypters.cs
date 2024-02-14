@@ -11,8 +11,6 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-        
-        
             Color bellyColor = new Color(.2519f, .2519f, .3584f);
             builder.Setup(output =>
             {
@@ -29,12 +27,12 @@ namespace Races.Graphics.Implementations.MainRaces
                     new Texts { "crypter", "machinoid", "synthetic", "robotic", "metallic", "futuristic", "fabricated" }, //added "synthetic", "robotic", "metallic", "futuristic", "fabricated" thanks to Flame_Valxsarion
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Sword",
-                        [WeaponNames.Axe]         = "Power Fist",
-                        [WeaponNames.SimpleBow]   = "Crossbow",
+                        [WeaponNames.Mace] = "Sword",
+                        [WeaponNames.Axe] = "Power Fist",
+                        [WeaponNames.SimpleBow] = "Crossbow",
                         [WeaponNames.CompoundBow] = "Cannon",
-                        [WeaponNames.Claw]        = "Metal Fist"
-                    } 
+                        [WeaponNames.Claw] = "Metal Fist"
+                    }
                 ));
                 output.RaceTraits(new RaceTraits()
                 {
@@ -50,10 +48,7 @@ namespace Races.Graphics.Implementations.MainRaces
                     },
                     RaceDescription = "Arriving from a realm long dead, the Crypters shambled forth when the smell of the living beckoned them from their ancient tombs. Cold, hard metal resists both damage and attempts to eat it, but the strange powers of this realm provide no aid in crafting new automatons for the ancient spirits to inhabit.",
                 });
-                output.CustomizeButtons((unit, buttons) =>
-                {
-                    buttons.SetActive(ButtonType.ClothingColor, false);
-                });
+                output.CustomizeButtons((unit, buttons) => { buttons.SetActive(ButtonType.ClothingColor, false); });
                 output.TownNames(new List<string>
                 {
                     "The Eternal Palace",
@@ -206,8 +201,8 @@ namespace Races.Graphics.Implementations.MainRaces
                 Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
                 output.Coloring(bellyColor);
             });
-        
-        
+
+
             builder.RenderSingle(SpriteType.Weapon, 1, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.CrypterWeapon, input.U.AccessoryColor));

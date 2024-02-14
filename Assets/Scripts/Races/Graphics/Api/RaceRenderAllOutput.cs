@@ -1,8 +1,7 @@
 public class RaceRenderAllOutput : IRaceRenderAllOutput
 {
-    
     private readonly ISpriteChanger _changeDict;
-    
+
     //
     public RaceRenderAllOutput(ISpriteChanger changeDict)
     {

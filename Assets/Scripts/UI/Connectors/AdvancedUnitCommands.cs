@@ -11,8 +11,7 @@ public class AdvancedUnitCommands : MonoBehaviour
 
     internal void ClearButtons()
     {
-        if (Buttons == null)
-            Buttons = new Button[25];
+        if (Buttons == null) Buttons = new Button[25];
         for (int i = 0; i < Buttons.Length; i++)
         {
             if (Buttons[i] != null)
@@ -24,7 +23,6 @@ public class AdvancedUnitCommands : MonoBehaviour
 
     internal void SetUpButtons(Actor_Unit actor)
     {
-
         ClearButtons();
         index = 0;
 
@@ -43,8 +41,7 @@ public class AdvancedUnitCommands : MonoBehaviour
 
         foreach (var action in TacticalActionList.UntargetedActions)
         {
-            if (action.AppearConditional(actor))
-                SetButton(action.Name, action.OnClicked, action.ButtonColor, false);
+            if (action.AppearConditional(actor)) SetButton(action.Name, action.OnClicked, action.ButtonColor, false);
         }
 
         foreach (var spell in actor.Unit.UseableSpells)
@@ -60,7 +57,6 @@ public class AdvancedUnitCommands : MonoBehaviour
                 Buttons[i].GetComponent<RectTransform>().sizeDelta = new Vector2(160, maxSize);
             }
         }
-
     }
 
     internal Button SetButton(string text, Action action, Color color, bool marksSelected = true)
@@ -78,6 +74,7 @@ public class AdvancedUnitCommands : MonoBehaviour
             button = Buttons[index];
             button.onClick.RemoveAllListeners();
         }
+
         ColorBlock cb = button.colors;
         cb.normalColor = color;
         cb.highlightedColor = color * 1.2f;
@@ -92,8 +89,7 @@ public class AdvancedUnitCommands : MonoBehaviour
         {
             button.onClick.AddListener(() =>
             {
-                if (State.GameManager.TacticalMode.ActionMode == 4)
-                    State.GameManager.TacticalMode.CommandsUI.SelectorIcon.transform.position = button.transform.position;
+                if (State.GameManager.TacticalMode.ActionMode == 4) State.GameManager.TacticalMode.CommandsUI.SelectorIcon.transform.position = button.transform.position;
             });
         }
 
@@ -119,14 +115,14 @@ public class AdvancedUnitCommands : MonoBehaviour
             button = Buttons[index];
             button.onClick.RemoveAllListeners();
         }
-        int ModifiedManaCost = spell.ManaCost + (spell.ManaCost * (actor.Unit.GetStatusEffect(StatusEffectType.SpellForce) != null ? actor.Unit.GetStatusEffect(StatusEffectType.SpellForce).Duration/10: 0));
-        button.GetComponentInChildren<Text>().text = spell.Name + ((actor.Unit.Mana >= ModifiedManaCost || spell.IsFree) ? "" : "\n(no mana)");
+
+        int ModifiedManaCost = spell.ManaCost + spell.ManaCost * (actor.Unit.GetStatusEffect(StatusEffectType.SpellForce) != null ? actor.Unit.GetStatusEffect(StatusEffectType.SpellForce).Duration / 10 : 0);
+        button.GetComponentInChildren<Text>().text = spell.Name + (actor.Unit.Mana >= ModifiedManaCost || spell.IsFree ? "" : "\n(no mana)");
         button.onClick.AddListener(new UnityEngine.Events.UnityAction(() => State.GameManager.TacticalMode.SetMagicMode(spell)));
 
         button.onClick.AddListener(() =>
         {
-            if (State.GameManager.TacticalMode.ActionMode == 6)
-                State.GameManager.TacticalMode.CommandsUI.SelectorIcon.transform.position = button.transform.position;
+            if (State.GameManager.TacticalMode.ActionMode == 6) State.GameManager.TacticalMode.CommandsUI.SelectorIcon.transform.position = button.transform.position;
         });
 
         ColorBlock cb = button.colors;
@@ -137,7 +133,7 @@ public class AdvancedUnitCommands : MonoBehaviour
         cb.pressedColor = pressed;
         button.colors = cb;
 
-        button.interactable = (actor.Unit.Mana >= ModifiedManaCost || spell.IsFree);
+        button.interactable = actor.Unit.Mana >= ModifiedManaCost || spell.IsFree;
         button.gameObject.SetActive(true);
         index++;
         return button;

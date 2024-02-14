@@ -14,5 +14,4 @@ public class EditEmpireUI : MonoBehaviour
     public Dropdown SecondaryColor;
     public Slider MaxArmySize;
     public Slider MaxGarrisonSize;
-
 }

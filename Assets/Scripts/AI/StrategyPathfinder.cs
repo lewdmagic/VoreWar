@@ -54,8 +54,8 @@ public static class StrategyPathfinder
 
         public int GetHashCode(Vec2 obj)
         {
-            return ((IntegerHash(obj.x)
-                    ^ (IntegerHash(obj.y) << 1)) >> 1);
+            return (IntegerHash(obj.x)
+                    ^ (IntegerHash(obj.y) << 1)) >> 1;
         }
 
         private static int IntegerHash(int a)
@@ -113,7 +113,6 @@ public static class StrategyPathfinder
 
     private static List<Vec2> FindPath(Vec2 start, Vec2 end, Army army, int MPPerTurn, int maxDistance)
     {
-
         Vec2Comparer comparer = new Vec2Comparer();
         var dist = new Dictionary<Vec2, int>(comparer);
         var prev = new Dictionary<Vec2, Vec2?>(comparer);
@@ -160,15 +159,12 @@ public static class StrategyPathfinder
                 if (CanEnter(v, army))
                 {
                     int walkCost = Grid[v.x, v.y].MovementCost;
-                    if (flyingPath)
-                        walkCost = 1;
-                    if (dist[u.Value] + walkCost > maxDistance)
-                        continue;
+                    if (flyingPath) walkCost = 1;
+                    if (dist[u.Value] + walkCost > maxDistance) continue;
                     if (Grid[v.x, v.y].EnemyOccupied && end != v) //avoid targets you're not looking for
                         walkCost += 6;
-                    int remainingMP = Config.ArmyMP - (dist[u.Value] % MPPerTurn);
-                    if (walkCost > remainingMP)
-                        walkCost = walkCost + remainingMP;
+                    int remainingMP = Config.ArmyMP - dist[u.Value] % MPPerTurn;
+                    if (walkCost > remainingMP) walkCost = walkCost + remainingMP;
                     int alt = dist[u.Value] + walkCost;
                     if (dist.TryGetValue(v, out int distInt) == false || alt < dist[v])
                     {
@@ -192,8 +188,7 @@ public static class StrategyPathfinder
             while (current != null)
             {
                 path.Add(current.Value);
-                if (prev.ContainsKey(current.Value))
-                    current = prev[current.Value];
+                if (prev.ContainsKey(current.Value)) current = prev[current.Value];
             }
 
             path.Reverse();
@@ -250,11 +245,9 @@ public static class StrategyPathfinder
                 if (CanEnter(v, army))
                 {
                     int walkCost = Grid[v.x, v.y].MovementCost;
-                    if (flyingPath)
-                        walkCost = 1;
-                    int remainingMP = MPPerTurn - (dist[u.Value] % MPPerTurn);
-                    if (walkCost > remainingMP)
-                        walkCost = walkCost + remainingMP;
+                    if (flyingPath) walkCost = 1;
+                    int remainingMP = MPPerTurn - dist[u.Value] % MPPerTurn;
+                    if (walkCost > remainingMP) walkCost = walkCost + remainingMP;
                     int alt = dist[u.Value] + walkCost;
                     if (dist.TryGetValue(v, out int distInt) == false || alt < dist[v])
                     {
@@ -267,10 +260,12 @@ public static class StrategyPathfinder
                 }
             }
         }
+
         if (prev.ContainsKey(end))
         {
             return (dist[end] + 2) / MPPerTurn;
         }
+
         return 9999;
     }
 
@@ -319,9 +314,7 @@ public static class StrategyPathfinder
                     endNodes.Add(new EndPoint(u, dist[u.Value] - priorities[Array.IndexOf(ends, u.Value)]));
                 else
                     endNodes.Add(new EndPoint(u, dist[u.Value]));
-                if (endNodes.Count > 10)
-                    break;
-
+                if (endNodes.Count > 10) break;
             }
 
             foreach (var v in GetNeighbours(u.Value, neighbours))
@@ -329,15 +322,12 @@ public static class StrategyPathfinder
                 if (CanEnter(v, army))
                 {
                     int walkCost = Grid[v.x, v.y].MovementCost;
-                    if (flyingPath)
-                        walkCost = 1;
-                    if (dist[u.Value] + walkCost > maxDistance)
-                        continue;
+                    if (flyingPath) walkCost = 1;
+                    if (dist[u.Value] + walkCost > maxDistance) continue;
                     if (Grid[v.x, v.y].EnemyOccupied && ends.Any(s => s == v) == false) //avoid targets you're not looking for
                         walkCost += 6;
-                    int remainingMP = Config.ArmyMP - (dist[u.Value] % MPPerTurn);
-                    if (walkCost > remainingMP)
-                        walkCost = walkCost + remainingMP;
+                    int remainingMP = Config.ArmyMP - dist[u.Value] % MPPerTurn;
+                    if (walkCost > remainingMP) walkCost = walkCost + remainingMP;
                     int alt = dist[u.Value] + walkCost;
                     if (dist.TryGetValue(v, out int distInt) == false || alt < dist[v])
                     {
@@ -356,15 +346,13 @@ public static class StrategyPathfinder
 
         var end = endNodes.OrderBy(s => s.priority).FirstOrDefault();
 
-        if (end.node.Dist <= 0)
-            return null;
+        if (end.node.Dist <= 0) return null;
 
         Vec2? current = end.node.Value;
         while (current != null)
         {
             path.Add(current.Value);
-            if (prev.ContainsKey(current.Value))
-                current = prev[current.Value];
+            if (prev.ContainsKey(current.Value)) current = prev[current.Value];
         }
 
         path.Reverse();
@@ -374,12 +362,9 @@ public static class StrategyPathfinder
 
     internal static bool CanEnter(Vec2 pos, Army army)
     {
-        if (State.World.Doodads != null && State.World.Doodads[pos.x, pos.y] >= StrategicDoodadType.bridgeVertical && State.World.Doodads[pos.x, pos.y] <= StrategicDoodadType.virtualBridgeIntersection)
-            return true;
-        if (Grid[pos.x, pos.y].FriendlyOccupied)
-            return false;
-        if (army.impassables.Contains(Grid[pos.x, pos.y].TileType)) 
-            return false;
+        if (State.World.Doodads != null && State.World.Doodads[pos.x, pos.y] >= StrategicDoodadType.bridgeVertical && State.World.Doodads[pos.x, pos.y] <= StrategicDoodadType.virtualBridgeIntersection) return true;
+        if (Grid[pos.x, pos.y].FriendlyOccupied) return false;
+        if (army.impassables.Contains(Grid[pos.x, pos.y].TileType)) return false;
         return true;
     }
 
@@ -388,16 +373,14 @@ public static class StrategyPathfinder
     {
         var origin = army.Position;
         //Quick sanity check to make sure that tile is actually passable
-        if (TileCheck(empire, destination) == false)
-            return null;
+        if (TileCheck(empire, destination) == false) return null;
         flyingPath = flight;
         InitializeGrid();
         NormalOccupancy(empire);
 
         var otherPath = FindPath(new Vec2(origin.X, origin.Y), new Vec2(destination.X, destination.Y), army, Config.ArmyMP, maxDistance);
 
-        if (otherPath == null)
-            return null;
+        if (otherPath == null) return null;
 
         List<PathNode> path = new List<PathNode>();
         for (int i = 0; i < otherPath.Count(); i++)
@@ -417,32 +400,32 @@ public static class StrategyPathfinder
 
 
     /// <summary>
-    /// Similar to normal path but can't go through towns
+    ///     Similar to normal path but can't go through towns
     /// </summary>
     /// <returns></returns>
     internal static List<PathNode> GetMonsterPath(Empire empire, Army army, Vec2i destination, int startingMP, bool flight)
     {
         var origin = army.Position;
         //Quick sanity check to make sure that tile is actually passable
-        if (TileCheck(empire, destination) == false)
-            return null;
+        if (TileCheck(empire, destination) == false) return null;
         flyingPath = flight;
         InitializeGrid();
         MonsterOccupancy(empire);
 
         var otherPath = FindPath(new Vec2(origin.X, origin.Y), new Vec2(destination.X, destination.Y), army, Config.ArmyMP, 9999);
 
-        if (otherPath == null)
-            return null;
+        if (otherPath == null) return null;
 
         List<PathNode> path = new List<PathNode>();
         for (int i = 0; i < otherPath.Count(); i++)
         {
             path.Add(new PathNode(otherPath[i].x, otherPath[i].y));
         }
+
         if (path.Count > 0)
             path.RemoveAt(0);
-        else return null;
+        else
+            return null;
 
         return path;
     }
@@ -469,6 +452,7 @@ public static class StrategyPathfinder
                     Grid[army.Position.X, army.Position.Y].FriendlyOccupied = true;
             }
         }
+
         foreach (var village in State.World.Villages)
         {
             Grid[village.Position.X, village.Position.Y].FriendlyOccupied = true;
@@ -528,6 +512,7 @@ public static class StrategyPathfinder
                     Grid[x, y] = cell;
                 }
             }
+
             Initialized = true;
         }
     }
@@ -536,8 +521,7 @@ public static class StrategyPathfinder
     {
         var origin = army.Position;
         //Quick sanity check to make sure that tile is actually passable
-        if (TileCheck(empire, destination) == false)
-            return 9999;
+        if (TileCheck(empire, destination) == false) return 9999;
         flyingPath = flight;
         InitializeGrid();
         NormalOccupancy(empire);
@@ -563,8 +547,7 @@ public static class StrategyPathfinder
 
         var otherPath = FindPathMany(new Vec2(origin.X, origin.Y), ends, army, Config.ArmyMP, priorities, maxDistance);
 
-        if (otherPath == null)
-            return null;
+        if (otherPath == null) return null;
         List<PathNode> path = new List<PathNode>();
 
         for (int i = 0; i < otherPath.Count(); i++)
@@ -575,7 +558,6 @@ public static class StrategyPathfinder
         path.RemoveAt(0);
 
         return path;
-
     }
 
     internal static List<PathNode> GetMonsterPathToClosestObject(Empire empire, Army army, Vec2i[] destinations, int startingMP, int maxDistance, bool flight)
@@ -595,8 +577,7 @@ public static class StrategyPathfinder
 
         var otherPath = FindPathMany(new Vec2(origin.X, origin.Y), ends, army, Config.ArmyMP, null, maxDistance);
 
-        if (otherPath == null)
-            return null;
+        if (otherPath == null) return null;
         List<PathNode> path = new List<PathNode>();
 
         for (int i = 0; i < otherPath.Count(); i++)
@@ -609,23 +590,22 @@ public static class StrategyPathfinder
         path.RemoveAt(0);
 
         return path;
-
     }
 
 
     private static List<PathNode> GetWalkableAdjacentSquares(Empire empire, int x, int y)
     {
         var proposedLocations = new List<PathNode>()
-            {
-                new PathNode { X = x, Y = y - 1 },
-                new PathNode { X = x, Y = y + 1 },
-                new PathNode { X = x - 1, Y = y },
-                new PathNode { X = x + 1, Y = y },
-                new PathNode { X = x + 1, Y = y + 1 },
-                new PathNode { X = x + 1, Y = y - 1 },
-                new PathNode { X = x - 1, Y = y + 1 },
-                new PathNode { X = x - 1, Y = y - 1 },
-            };
+        {
+            new PathNode { X = x, Y = y - 1 },
+            new PathNode { X = x, Y = y + 1 },
+            new PathNode { X = x - 1, Y = y },
+            new PathNode { X = x + 1, Y = y },
+            new PathNode { X = x + 1, Y = y + 1 },
+            new PathNode { X = x + 1, Y = y - 1 },
+            new PathNode { X = x - 1, Y = y + 1 },
+            new PathNode { X = x - 1, Y = y - 1 },
+        };
 
         return proposedLocations.Where(l => TileCheck(empire, new Vec2i(l.X, l.Y)) == true).ToList();
     }
@@ -641,32 +621,27 @@ public static class StrategyPathfinder
     {
         int dx = Mathf.Abs(x - targetX);
         int dy = Mathf.Abs(y - targetY);
-        return (dx + dy);
+        return dx + dy;
     }
-
-
 
 
     public static bool TileCheck(Empire empire, Vec2i p)
     {
         //check tile
-        if (p.X < 0 || p.Y < 0 || p.X >= Config.StrategicWorldSizeX || p.Y >= Config.StrategicWorldSizeY)
-            return false;
+        if (p.X < 0 || p.Y < 0 || p.X >= Config.StrategicWorldSizeX || p.Y >= Config.StrategicWorldSizeY) return false;
         if (StrategicTileInfo.CanWalkInto(p.X, p.Y))
         {
             if (empire != null)
             {
                 foreach (Army army in StrategicUtilities.GetAllArmies())
                 {
-                    if (army.Empire.IsAlly(empire) && army.Position.Matches(p))
-                        return false;
+                    if (army.Empire.IsAlly(empire) && army.Position.Matches(p)) return false;
                 }
             }
 
             return true;
         }
+
         return false;
     }
-
 }
-

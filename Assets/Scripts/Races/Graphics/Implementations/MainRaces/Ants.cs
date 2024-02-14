@@ -11,24 +11,24 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class Ants
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-
             IClothing rags = DemiantRags.DemiantRagsInstance;
 
 
             builder.Setup(output =>
-            {        
+            {
                 output.Names("Ant", "Ants");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
+                    new Texts { },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Barbed Spear",
-                        [WeaponNames.Axe]         = "Quad Blades",
-                        [WeaponNames.SimpleBow]   = "Simple Bow",
+                        [WeaponNames.Mace] = "Barbed Spear",
+                        [WeaponNames.Axe] = "Quad Blades",
+                        [WeaponNames.SimpleBow] = "Simple Bow",
                         [WeaponNames.CompoundBow] = "Compound Bow"
                     }
                 ));
@@ -136,7 +136,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
                 output.Sprite(input.Sprites.Demiants1[60 + input.U.HairStyle]);
             });
-        
+
             builder.RenderSingle(SpriteType.Body, 6, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
@@ -148,7 +148,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.SkinColor));
                 output.Sprite(input.Sprites.Demiants1[18 + input.U.BodySize]);
             }); // Abdomen 2 (White)
-        
+
             builder.RenderSingle(SpriteType.BodyAccent2, 19, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemiantSkin, input.U.AccessoryColor));
@@ -430,10 +430,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
             builder.RandomCustom(data =>
             {

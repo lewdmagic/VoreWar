@@ -11,6 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class Avians
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             IClothing leaderClothes = AvianLeader.AvianLeaderInstance.Create(paramsCalc);
@@ -21,14 +22,14 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 output.Names("Avian", "Avians");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
+                    new Texts { },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Knife",
-                        [WeaponNames.Axe]         = "Sword",
-                        [WeaponNames.SimpleBow]   = "Short Bow",
+                        [WeaponNames.Mace] = "Knife",
+                        [WeaponNames.Axe] = "Sword",
+                        [WeaponNames.SimpleBow] = "Short Bow",
                         [WeaponNames.CompoundBow] = "Crossbow"
                     }
                 ));
@@ -113,10 +114,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
             builder.RenderSingle(SpriteType.Head, 14, (input, output) =>
             {
@@ -305,7 +303,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 if (input.A.HasBelly)
                 {
                     int size = input.A.GetStomachSize(31, 0.8f);
-                
+
                     switch (size)
                     {
                         case 26:

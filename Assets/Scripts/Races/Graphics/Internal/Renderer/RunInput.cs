@@ -4,7 +4,6 @@ internal partial class RaceRenderer
     {
         internal RunInput(Actor_Unit actor) : base(actor)
         {
-            
         }
     }
 }

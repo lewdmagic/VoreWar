@@ -31,7 +31,8 @@ public class SpriteDictionary : MonoBehaviour
     public Sprite[] FurryHandsAndFeet;
     public Sprite[] FurryTorsos;
 
-    [Header("Clothing")] public Sprite[] Loincloths;
+    [Header("Clothing")]
+    public Sprite[] Loincloths;
 
     public Sprite[] BikiniBottom;
     public Sprite[] Shorts;
@@ -129,7 +130,8 @@ public class SpriteDictionary : MonoBehaviour
 
     public Sprite[] DeerLeaderClothes;
 
-    [Header("Races")] public Sprite[] Lizards;
+    [Header("Races")]
+    public Sprite[] Lizards;
 
     public Sprite[] LizardsBooty;
     public Sprite[] Slimes;
@@ -224,7 +226,8 @@ public class SpriteDictionary : MonoBehaviour
     public Sprite[] Aabayx;
     public Sprite[] AabayxFacePaint;
 
-    [Header("Unique Mercenaries")] public Sprite[] Selicia;
+    [Header("Unique Mercenaries")]
+    public Sprite[] Selicia;
 
     public Sprite[] Vision;
     public Sprite[] Ki;
@@ -247,7 +250,8 @@ public class SpriteDictionary : MonoBehaviour
     public Sprite[] SalixVore;
     public Sprite[] SalixGen;
 
-    [Header("Monsters")] public Sprite[] Vagrants;
+    [Header("Monsters")]
+    public Sprite[] Vagrants;
 
     public Sprite[] Vagrants2;
     public Sprite[] Vagrants3;
@@ -299,7 +303,8 @@ public class SpriteDictionary : MonoBehaviour
     public Sprite[] Cake;
 
 
-    [Header("Other")] public Sprite[] Scat;
+    [Header("Other")]
+    public Sprite[] Scat;
 
     public Sprite[] ScatV2LBack;
     public Sprite[] ScatV2LFront;

@@ -11,22 +11,23 @@ namespace Races.Graphics.Implementations.Mercs
     internal static class Hippos
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             builder.Setup(output =>
             {
                 output.Names("Hippo", "Hippos");
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "hippo", "hippopotamus", "pachyderm" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Tribal Knife",
-                        [WeaponNames.Axe]         = "WeaponNames.Axe",
-                        [WeaponNames.SimpleBow]   = "Simple Bow",
+                        [WeaponNames.Mace] = "Tribal Knife",
+                        [WeaponNames.Axe] = "WeaponNames.Axe",
+                        [WeaponNames.SimpleBow] = "Simple Bow",
                         [WeaponNames.CompoundBow] = "Compound Bow",
-                        [WeaponNames.Claw]        = "Fist"
+                        [WeaponNames.Claw] = "Fist"
                     }
                 ));
                 output.RaceTraits(new RaceTraits()
@@ -121,10 +122,7 @@ namespace Races.Graphics.Implementations.Mercs
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.Finalize.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.Finalize.Invoke(input, output); });
 
             builder.RenderSingle(SpriteType.Head, 22, (input, output) =>
             {

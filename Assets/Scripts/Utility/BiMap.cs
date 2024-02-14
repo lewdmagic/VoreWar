@@ -7,7 +7,7 @@ using System.Linq;
 // https://github.com/farlee2121/BidirectionalMap/blob/main/BidirectionalMap/BiMap.cs
 namespace BidirectionalMap
 {
-    public class BiMap<TForwardKey, TReverseKey>: IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>
+    public class BiMap<TForwardKey, TReverseKey> : IEnumerable<KeyValuePair<TForwardKey, TReverseKey>>
     {
         public Indexer<TForwardKey, TReverseKey> Forward { get; private set; } = new Indexer<TForwardKey, TReverseKey>();
         public Indexer<TReverseKey, TForwardKey> Reverse { get; private set; } = new Indexer<TReverseKey, TForwardKey>();
@@ -17,6 +17,7 @@ namespace BidirectionalMap
         public BiMap()
         {
         }
+
         public BiMap(IDictionary<TForwardKey, TReverseKey> oneWayMap)
         {
             Forward = new Indexer<TForwardKey, TReverseKey>(oneWayMap);
@@ -26,10 +27,8 @@ namespace BidirectionalMap
 
         public void Add(TForwardKey t1, TReverseKey t2)
         {
-            if (Forward.ContainsKey(t1))
-                throw new ArgumentException(DuplicateKeyErrorMessage, nameof(t1));
-            if (Reverse.ContainsKey(t2))
-                throw new ArgumentException(DuplicateKeyErrorMessage, nameof(t2));
+            if (Forward.ContainsKey(t1)) throw new ArgumentException(DuplicateKeyErrorMessage, nameof(t1));
+            if (Reverse.ContainsKey(t2)) throw new ArgumentException(DuplicateKeyErrorMessage, nameof(t2));
 
             Forward.Add(t1, t2);
             Reverse.Add(t2, t1);
@@ -76,7 +75,7 @@ namespace BidirectionalMap
         }
 
         /// <summary>
-        /// Publically read-only lookup to prevent inconsistent state between forward and reverse map lookups
+        ///     Publically read-only lookup to prevent inconsistent state between forward and reverse map lookups
         /// </summary>
         /// <typeparam name="Key"></typeparam>
         /// <typeparam name="Value"></typeparam>
@@ -88,14 +87,13 @@ namespace BidirectionalMap
             {
                 _dictionary = new Dictionary<Key, Value>();
             }
+
             public Indexer(IDictionary<Key, Value> dictionary)
             {
                 _dictionary = dictionary;
             }
-            public Value this[Key index]
-            {
-                get { return _dictionary[index]; }
-            }
+
+            public Value this[Key index] { get { return _dictionary[index]; } }
 
             public static implicit operator Dictionary<Key, Value>(Indexer<Key, Value> indexer)
             {
@@ -122,23 +120,12 @@ namespace BidirectionalMap
                 return _dictionary.ContainsKey(key);
             }
 
-            public IEnumerable<Key> Keys
-            {
-                get { 
-                    return _dictionary.Keys;
-                }
-            }
+            public IEnumerable<Key> Keys { get { return _dictionary.Keys; } }
 
-            public IEnumerable<Value> Values
-            {
-                get
-                {
-                    return _dictionary.Values;
-                }
-            }
+            public IEnumerable<Value> Values { get { return _dictionary.Values; } }
 
             /// <summary>
-            /// Deep copy lookup as a dictionary
+            ///     Deep copy lookup as a dictionary
             /// </summary>
             /// <returns></returns>
             public Dictionary<Key, Value> ToDictionary()
@@ -156,9 +143,5 @@ namespace BidirectionalMap
                 return _dictionary.GetEnumerator();
             }
         }
-
-        
-
-        
     }
 }

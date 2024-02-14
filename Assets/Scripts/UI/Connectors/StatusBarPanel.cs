@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class StatusBarPanel : MonoBehaviour
 {
-
     public Text Side;
     public Text Gold;
     public Text Income;

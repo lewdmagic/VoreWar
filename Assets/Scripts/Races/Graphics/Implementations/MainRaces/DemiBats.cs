@@ -12,6 +12,7 @@ namespace Races.Graphics.Implementations.MainRaces
     internal static class DemiBats
     {
         private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             RaceFrameList frameListDemibatWings = new RaceFrameList(new[] { 0, 1, 0, 2 }, new[] { .15f, .25f, .15f, .25f });
@@ -23,28 +24,28 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.Setup(output =>
             {
                 output.Names("Bat", "Bats");
-                
-                
+
+
                 output.FlavorText(new FlavorText(
-                    new Texts {  },
-                    new Texts {  },
+                    new Texts { },
+                    new Texts { },
                     new Texts { "bat", "chiropter", "demi-bat" },
                     new Dictionary<string, string>
                     {
-                        [WeaponNames.Mace]        = "Push Dagger",
-                        [WeaponNames.Axe]         = "Claw Katar",
-                        [WeaponNames.SimpleBow]   = "Iron Throwing Knife",
+                        [WeaponNames.Mace] = "Push Dagger",
+                        [WeaponNames.Axe] = "Claw Katar",
+                        [WeaponNames.SimpleBow] = "Iron Throwing Knife",
                         [WeaponNames.CompoundBow] = "Steel Throwing Knife",
                     }
                 ));
-                
+
                 output.SetFlavorText(FlavorType.RaceSingleDescription, new FlavorEntry("bat"), new FlavorEntry("chiropter"), new FlavorEntry("demi-bat"));
                 output.SetFlavorText(FlavorType.WeaponMelee1, new FlavorEntry("Push Dagger"));
                 output.SetFlavorText(FlavorType.WeaponMelee2, new FlavorEntry("Claw Katar"));
                 output.SetFlavorText(FlavorType.WeaponRanged1, new FlavorEntry("Iron Throwing Knife"));
                 output.SetFlavorText(FlavorType.WeaponRanged2, new FlavorEntry("Steel Throwing Knife"));
-                
-                
+
+
                 output.RaceTraits(new RaceTraits()
                 {
                     BodySize = 8,
@@ -124,10 +125,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            builder.RunBefore((input, output) =>
-            {
-                Defaults.BasicBellyRunAfter.Invoke(input, output);
-            });
+            builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
             builder.RenderSingle(SpriteType.Head, 4, (input, output) =>
             {
@@ -172,8 +170,8 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
                 output.Sprite(input.Sprites.Demibats2[0 + input.U.HairStyle]);
             }); // hair part below ears
-        
-        
+
+
             builder.RenderSingle(SpriteType.Hair2, 22, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.NormalHair, input.U.HairColor));
@@ -349,7 +347,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 if (input.A.PredatorComponent?.RightBreastFullness > 0)
                 {
                     int rightSize = (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32));
-                
+
                     if (rightSize > 28)
                     {
                         rightSize = 28;
@@ -398,8 +396,6 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RenderSingle(SpriteType.Dick, 11, (input, output) =>
             {
-            
-            
                 if (input.U.HasDick == false)
                 {
                     return;
@@ -412,7 +408,6 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (input.U.Furry && Config.FurryGenitals)
                 {
-
                     if (input.A.IsErect())
                     {
                         if (input.A.PredatorComponent?.VisibleFullness < .75f && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(32 * 32)) < 16 && (int)Math.Sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(32 * 32)) < 16)
@@ -1250,10 +1245,7 @@ namespace Races.Graphics.Implementations.MainRaces
         {
             internal static readonly IClothing BatHatInstance = ClothingBuilder.Create(builder =>
             {
-                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
-                {
-                    output.ReqWinterHoliday = true;
-                });
+                builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { output.ReqWinterHoliday = true; });
 
 
                 builder.RenderAll((input, output) =>

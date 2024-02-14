@@ -8,6 +8,7 @@ internal class ScatV2Discard : MiscDiscard
 {
     [OdinSerialize]
     private ScatInfo _scatInfo;
+
     internal ScatInfo scatInfo { get => _scatInfo; set => _scatInfo = value; }
 
     public ScatV2Discard(Vec2i location, int sortOrder, ScatInfo scatInfo, MiscDiscardType type = 0, int spriteNum = 0, int color = 0, string description = "") : base(location, type, spriteNum, sortOrder, color, description)
@@ -80,8 +81,7 @@ internal class ScatV2Discard : MiscDiscard
             {
                 if (bonesInfo.BoneType == BoneType.CrypterBonePile)
                     boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.CrypterWeapon, color).colorSwapMaterial;
-                else if (bonesInfo.BoneType == BoneType.SlimePile)
-                    boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.SlimeMain, color).colorSwapMaterial;
+                else if (bonesInfo.BoneType == BoneType.SlimePile) boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.SlimeMain, color).colorSwapMaterial;
             }
         }
     }
