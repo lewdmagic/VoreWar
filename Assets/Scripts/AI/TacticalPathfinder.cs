@@ -5,12 +5,12 @@ using UnityEngine;
 
 public static class TacticalPathfinder
 {
-    internal static List<PathNode> GetPath(Vec2i origin, Vec2i destination, int howClose, Actor_Unit actor, int maxDistance = 999)
+    internal static List<PathNode> GetPath(Vec2I origin, Vec2I destination, int howClose, ActorUnit actor, int maxDistance = 999)
     {
         if (origin.GetNumberOfMovesDistance(destination) > maxDistance) //Can't possibly get it in under this distance
             return null;
         bool flight = actor.Unit.HasTrait(TraitType.Flight);
-        int flightMP = actor.Movement;
+        int flightMp = actor.Movement;
         bool goodPath = false;
         PathNode current = null;
         var start = new PathNode { X = origin.X, Y = origin.Y };
@@ -28,7 +28,7 @@ public static class TacticalPathfinder
             var lowest = openList.Min(l => l.F);
             current = openList.OrderBy(l => TotalManhattan(l.X, l.Y, target.X, target.Y)).First(l => l.F == lowest); //The total manhattan is to have it favor normal looking paths
 
-            if (flight && current.G == flightMP && CheckTile(current.X, current.Y, actor) == false)
+            if (flight && current.G == flightMp && CheckTile(current.X, current.Y, actor) == false)
             {
                 openList.Remove(current);
                 continue;
@@ -99,7 +99,7 @@ public static class TacticalPathfinder
                 current = closedList.OrderBy(s => s.H).FirstOrDefault();
                 if (flight)
                 {
-                    if (Mathf.Abs(current.X - target.X) > flightMP && Mathf.Abs(current.Y - target.Y) > flightMP)
+                    if (Mathf.Abs(current.X - target.X) > flightMp && Mathf.Abs(current.Y - target.Y) > flightMp)
                     {
                         closedList.Remove(current);
                         continue;
@@ -133,7 +133,7 @@ public static class TacticalPathfinder
         return path;
     }
 
-    internal static List<PathNode> GetPathToY(Vec2i origin, bool flight, int y, Actor_Unit actor)
+    internal static List<PathNode> GetPathToY(Vec2I origin, bool flight, int y, ActorUnit actor)
     {
         bool goodPath = false;
         PathNode current = null;
@@ -215,7 +215,7 @@ public static class TacticalPathfinder
         return path;
     }
 
-    internal static bool[,] GetGrid(Vec2i origin, bool flight, int moveDistance, Actor_Unit actor)
+    internal static bool[,] GetGrid(Vec2I origin, bool flight, int moveDistance, ActorUnit actor)
     {
         bool[,] walkable = new bool[Config.TacticalSizeX, Config.TacticalSizeY];
         PathNode current = null;
@@ -271,7 +271,7 @@ public static class TacticalPathfinder
         return walkable;
     }
 
-    private static List<PathNode> GetWalkableAdjacentSquares(int x, int y, Actor_Unit actor)
+    private static List<PathNode> GetWalkableAdjacentSquares(int x, int y, ActorUnit actor)
     {
         var proposedLocations = new List<PathNode>()
         {
@@ -319,7 +319,7 @@ public static class TacticalPathfinder
         return dx + dy;
     }
 
-    private static bool CheckTile(int x, int y, Actor_Unit actor)
+    private static bool CheckTile(int x, int y, ActorUnit actor)
     {
         if (TacticalUtilities.OpenTile(x, y, actor)) return true;
         return false;

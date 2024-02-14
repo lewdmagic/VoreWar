@@ -2,17 +2,17 @@ using System.Collections.Generic;
 
 public class StandardTacticalAI : TacticalAI
 {
-    public StandardTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, Side AISide, bool defendingVillage = false) : base(actors, tiles, AISide, defendingVillage)
+    public StandardTacticalAI(List<ActorUnit> actors, TacticalTileType[,] tiles, Side aiSide, bool defendingVillage = false) : base(actors, tiles, aiSide, defendingVillage)
     {
     }
 
-    protected override void GetNewOrder(Actor_Unit actor)
+    protected override void GetNewOrder(ActorUnit actor)
     {
-        foundPath = false;
-        didAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
+        FoundPath = false;
+        DidAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
 
-        path = null;
-        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(TraitType.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && (Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide) || onlyForeignTroopsLeft))
+        Path = null;
+        if (Retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(TraitType.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && (Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, EnemySide), AISide) || OnlyForeignTroopsLeft))
         {
             int retreatY;
             if (State.GameManager.TacticalMode.IsDefender(actor) == false)
@@ -28,7 +28,7 @@ public class StandardTacticalAI : TacticalAI
             }
 
             WalkToYBand(actor, retreatY);
-            if (path == null || path.Path.Count == 0)
+            if (Path == null || Path.Path.Count == 0)
             {
                 FightWithoutMoving(actor);
                 actor.Movement = 0;
@@ -42,12 +42,12 @@ public class StandardTacticalAI : TacticalAI
         if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             RunVorePounce(actor);
-            if (path != null) return;
-            if (didAction) return;
+            if (Path != null) return;
+            if (DidAction) return;
         }
 
         RunPred(actor);
-        if (didAction || foundPath) return;
+        if (DidAction || FoundPath) return;
 
         TryResurrect(actor);
         TryReanimate(actor);
@@ -55,26 +55,26 @@ public class StandardTacticalAI : TacticalAI
         RunBind(actor);
 
         if (State.Rand.Next(2) == 0 || actor.Unit.HasWeapon == false) RunSpells(actor);
-        if (path != null) return;
+        if (Path != null) return;
         if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             if (IsRanged(actor) == false)
             {
                 RunMeleePounce(actor);
-                if (didAction) return;
+                if (DidAction) return;
             }
         }
 
-        if (foundPath || didAction) return;
+        if (FoundPath || DidAction) return;
         if (IsRanged(actor))
             RunRanged(actor);
         else
             RunMelee(actor);
-        if (foundPath || didAction) return;
+        if (FoundPath || DidAction) return;
         //Search for surrendered targets outside of vore range
         //If no path to any targets, will sit out its turn
         RunPred(actor, true);
-        if (foundPath || didAction) return;
+        if (FoundPath || DidAction) return;
         actor.ClearMovement();
     }
 }

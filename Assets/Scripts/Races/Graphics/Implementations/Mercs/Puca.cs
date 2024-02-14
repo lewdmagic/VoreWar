@@ -224,8 +224,8 @@ namespace Races.Graphics.Implementations.Mercs
             builder.RunBefore((input, output) =>
             {
                 if (input.U.Predator &&
-                    (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) ||
-                     input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+                    (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach, PreyLocation.Womb) ||
+                     input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach, PreyLocation.Womb))
                     && input.A.GetStomachSize(9) == 9)
                 {
                     float yOffset = 20 * .625f;

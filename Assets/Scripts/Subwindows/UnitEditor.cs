@@ -3,42 +3,42 @@ using static UnityEngine.UI.CanvasScaler;
 
 internal class UnitEditor : UnitCustomizer
 {
-    private UnitEditorPanel UnitEditorPanel;
-    private InfoPanel panel;
+    private UnitEditorPanel _unitEditorPanel;
+    private InfoPanel _panel;
 
-    public UnitEditor(Actor_Unit actor, CustomizerPanel UI, UnitInfoPanel unitPanel) : base(actor, UI)
+    public UnitEditor(ActorUnit actor, CustomizerPanel ui, UnitInfoPanel unitPanel) : base(actor, ui)
     {
-        panel = new InfoPanel(unitPanel, "unitEditor");
+        _panel = new InfoPanel(unitPanel, "unitEditor");
         RefreshStats();
     }
 
-    public UnitEditor(Unit unit, CustomizerPanel UI, UnitInfoPanel unitPanel) : base(unit, UI)
+    public UnitEditor(Unit unit, CustomizerPanel ui, UnitInfoPanel unitPanel) : base(unit, ui)
     {
-        panel = new InfoPanel(unitPanel, "unitEditor");
+        _panel = new InfoPanel(unitPanel, "unitEditor");
         RefreshStats();
     }
 
     internal void RefreshActor()
     {
-        RaceData = Races2.GetRace(actor.Unit);
-        Normal(actor.Unit);
+        RaceData = Races2.GetRace(Actor.Unit);
+        Normal(Actor.Unit);
         RefreshStats();
     }
 
     internal void ClearAnimations()
     {
-        actor.AnimationController = new AnimationController();
+        Actor.AnimationController = new AnimationController();
     }
 
     internal void ChangeSide()
     {
-        State.GameManager.TacticalMode.SwitchAlignment(actor);
+        State.GameManager.TacticalMode.SwitchAlignment(Actor);
     }
 
 
     internal void RefreshStats()
     {
-        panel.RefreshTacticalUnitInfo(actor);
+        _panel.RefreshTacticalUnitInfo(Actor);
     }
 
     internal void ChangeStat(Stat stat, int change)
@@ -100,7 +100,7 @@ internal class UnitEditor : UnitCustomizer
 
             changedGender = true;
             Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
-            Unit.HasVagina = Config.HermsCanUB;
+            Unit.HasVagina = Config.HermsCanUb;
             Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.SetupOutput.BreastSizes()));
         }
         else if (CustomizerUI.Gender.value == 3 && Unit.GetGender() != Gender.Gynomorph)
@@ -257,12 +257,12 @@ internal class UnitEditor : UnitCustomizer
     internal void ClearStatus()
     {
         Unit.StatusEffects.Clear();
-        if (actor != null) actor.Surrendered = false;
+        if (Actor != null) Actor.Surrendered = false;
     }
 
     internal void AddTrait(TraitType traitType)
     {
-        if (actor.Unit.AddPermanentTrait(traitType))
+        if (Actor.Unit.AddPermanentTrait(traitType))
             if (traitType == TraitType.MadScience && State.World?.ItemRepository != null)
             {
                 Unit.SingleUseSpells.Add(((SpellBook)State.World.ItemRepository.GetRandomBook(1, 4)).ContainedSpell);
@@ -323,48 +323,48 @@ internal class UnitEditor : UnitCustomizer
             else if (traitType == TraitType.Prey)
             {
                 Unit.Predator = false;
-                actor.PredatorComponent?.FreeAnyAlivePrey();
+                Actor.PredatorComponent?.FreeAnyAlivePrey();
             }
-            else if (traitType == TraitType.BookWormI || traitType == TraitType.BookWormII || traitType == TraitType.BookWormIII) Unit.GiveTraitBooks();
+            else if (traitType == TraitType.BookWormI || traitType == TraitType.BookWormIi || traitType == TraitType.BookWormIii) Unit.GiveTraitBooks();
 
-        actor.Unit.InitializeTraits();
+        Actor.Unit.InitializeTraits();
         RefreshStats();
     }
 
 
     internal void RemoveTrait(TraitType traitType)
     {
-        actor.Unit.RemoveTrait(traitType);
+        Actor.Unit.RemoveTrait(traitType);
         if (traitType == TraitType.Prey)
         {
-            if (RaceParameters.GetTraitData(actor.Unit).AllowedVoreTypes.Any())
+            if (RaceParameters.GetTraitData(Actor.Unit).AllowedVoreTypes.Any())
             {
                 Unit.Predator = true;
-                actor.PredatorComponent = new PredatorComponent(actor, Unit);
+                Actor.PredatorComponent = new PredatorComponent(Actor, Unit);
             }
             else
-                actor.Unit.AddTrait(traitType);
+                Actor.Unit.AddTrait(traitType);
         }
 
-        actor.Unit.InitializeTraits();
+        Actor.Unit.InitializeTraits();
         RefreshStats();
     }
 
     internal void RestoreMana()
     {
-        actor.Unit.RestoreManaPct(1);
+        Actor.Unit.RestoreManaPct(1);
         RefreshStats();
     }
 
     internal void RestoreHealth()
     {
-        actor.Unit.HealPercentage(1);
+        Actor.Unit.HealPercentage(1);
         RefreshStats();
     }
 
     internal void RestoreMovement()
     {
-        actor.Movement = actor.CurrentMaxMovement();
+        Actor.Movement = Actor.CurrentMaxMovement();
         RefreshStats();
     }
 

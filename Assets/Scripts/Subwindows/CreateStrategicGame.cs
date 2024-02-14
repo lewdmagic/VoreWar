@@ -33,11 +33,11 @@ public enum StrategyAIType
 
 public class StrategicCreationArgs
 {
-    internal Dictionary<Race, Empire.ConstructionArgs> empireArgs;
+    internal Dictionary<Race, Empire.ConstructionArgs> EmpireArgs;
     internal Dictionary<Race, bool> CanVore;
     internal Dictionary<Race, int> TurnOrder;
     internal Dictionary<Race, int> Team;
-    internal bool crazyBuildings;
+    internal bool CrazyBuildings;
     internal int MercCamps;
     internal int GoldMines;
 
@@ -45,11 +45,11 @@ public class StrategicCreationArgs
 
     public StrategicCreationArgs(int length)
     {
-        empireArgs = new Dictionary<Race, Empire.ConstructionArgs>();
+        EmpireArgs = new Dictionary<Race, Empire.ConstructionArgs>();
         CanVore = new Dictionary<Race, bool>();
         TurnOrder = new Dictionary<Race, int>();
         Team = new Dictionary<Race, int>();
-        crazyBuildings = false;
+        CrazyBuildings = false;
         MercCamps = 0;
         GoldMines = 0;
 
@@ -64,7 +64,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     public StartEmpireUI AllEmpires;
 
-    private Dictionary<Race, StartEmpireUI> Empires = new Dictionary<Race, StartEmpireUI>();
+    private Dictionary<Race, StartEmpireUI> _empires = new Dictionary<Race, StartEmpireUI>();
 
     public Dropdown StrategicAutoSize;
     public InputField StrategicX;
@@ -124,14 +124,14 @@ public class CreateStrategicGame : MonoBehaviour
 
     public Text TooltipText;
 
-    internal Map map;
+    internal Map Map;
 
-    private string mapString;
+    private string _mapString;
 
     public void ClearState()
     {
         State.World = null;
-        foreach (var emp in Empires)
+        foreach (var emp in _empires)
         {
             emp.Value.PrimaryColor.GetComponent<Image>().color = ColorFromIndex(emp.Value.PrimaryColor.value);
             emp.Value.SecondaryColor.GetComponent<Image>().color = GetDarkerColor(ColorFromIndex(emp.Value.SecondaryColor.value));
@@ -155,7 +155,7 @@ public class CreateStrategicGame : MonoBehaviour
             empire.SecondaryColor.value = i;
             empire.VillageCount.text = "0";
 
-            Empires[race] = empire;
+            _empires[race] = empire;
             i++;
         }
 
@@ -227,7 +227,7 @@ public class CreateStrategicGame : MonoBehaviour
             }
         }
 
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -283,7 +283,7 @@ public class CreateStrategicGame : MonoBehaviour
             }
         }
 
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -310,7 +310,7 @@ public class CreateStrategicGame : MonoBehaviour
             }
         }
 
-        if (map != null) PickMap(mapString);
+        if (Map != null) PickMap(_mapString);
     }
 
     public static Color GetDarkerColor(Color color)
@@ -330,7 +330,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void VillageCountUpdated()
     {
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -341,7 +341,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void StrategicAIUpdated()
     {
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -352,7 +352,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void TacticalAIUpdated()
     {
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -363,7 +363,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void UpdateAIBoxes()
     {
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -374,7 +374,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void MaxGarrisonSizeUpdated()
     {
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -385,7 +385,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void MaxArmySizeUpdated()
     {
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -449,21 +449,21 @@ public class CreateStrategicGame : MonoBehaviour
 
     internal void PickMap(string filename)
     {
-        mapString = filename;
-        foreach (var entry in Empires)
+        _mapString = filename;
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
             empire.gameObject.SetActive(false);
         }
 
-        map = Map.Get(filename);
-        foreach (var entry in Empires)
+        Map = Map.Get(filename);
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
             empire.VillageCount.interactable = false;
-            int count = map.storedVillages.Where(s => Equals(s.Race, race)).Count(); // Fix mess
+            int count = Map.StoredVillages.Where(s => Equals(s.Race, race)).Count(); // Fix mess
             empire.VillageCount.text = count.ToString();
             if (count > 0)
             {
@@ -474,17 +474,17 @@ public class CreateStrategicGame : MonoBehaviour
 
         AllEmpires.VillageCount.interactable = false;
         StrategicX.interactable = false;
-        StrategicX.text = map.Tiles.GetLength(0).ToString();
+        StrategicX.text = Map.Tiles.GetLength(0).ToString();
         StrategicY.interactable = false;
-        StrategicY.text = map.Tiles.GetLength(1).ToString();
+        StrategicY.text = Map.Tiles.GetLength(1).ToString();
         ClearPickedMap.interactable = true;
         AddRaces.interactable = false;
     }
 
     public void ClearMap()
     {
-        map = null;
-        foreach (var entry in Empires)
+        Map = null;
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -513,11 +513,11 @@ public class CreateStrategicGame : MonoBehaviour
         int x = Convert.ToInt32(TacticalX.text);
         int y = Convert.ToInt32(TacticalY.text);
 
-        int MaxUnitsOnHalf = 50;
+        int maxUnitsOnHalf = 50;
 
         if (x < 8 || y < 8) return "Can't have a tactical dimension less than 8";
 
-        if (MaxUnitsOnHalf > x * y / 14) return "Not enough space to comfortably fit a full army";
+        if (maxUnitsOnHalf > x * y / 14) return "Not enough space to comfortably fit a full army";
 
         return "";
     }
@@ -529,7 +529,7 @@ public class CreateStrategicGame : MonoBehaviour
 
         int villageCount = 0;
         int empireCount = 0;
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             StartEmpireUI empire = entry.Value;
             if (Convert.ToInt32(empire.VillageCount.text) < 0) return "Can't have negative villages";
@@ -552,7 +552,7 @@ public class CreateStrategicGame : MonoBehaviour
     {
         int villageCount = 0;
         int empireCount = 0;
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -603,10 +603,10 @@ public class CreateStrategicGame : MonoBehaviour
     {
         State.GameManager.Menu.Options.LoadFromStored();
         State.GameManager.Menu.CheatMenu.LoadFromStored();
-        Config.World.resetVillagesPerEmpire();
+        Config.World.ResetVillagesPerEmpire();
         // try
         // {
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -637,7 +637,7 @@ public class CreateStrategicGame : MonoBehaviour
                 return;
             }
 
-            if (map == null && StrategicAutoSize.value == 0)
+            if (Map == null && StrategicAutoSize.value == 0)
             {
                 errorText = TestStrategicSize();
                 if (errorText != "")
@@ -646,7 +646,7 @@ public class CreateStrategicGame : MonoBehaviour
                     return;
                 }
             }
-            else if (map == null && StrategicAutoSize.value > 0)
+            else if (Map == null && StrategicAutoSize.value > 0)
             {
                 errorText = SetStrategicSizeAutomatically();
                 if (errorText != "")
@@ -679,13 +679,13 @@ public class CreateStrategicGame : MonoBehaviour
 
         Config.World.ItemSlots = Config.NewItemSlots;
 
-        StrategicCreationArgs args = new StrategicCreationArgs(Empires.Count);
+        StrategicCreationArgs args = new StrategicCreationArgs(_empires.Count);
         Config.ResetCenteredEmpire();
 
         // TODO evil try catch lies to you. Remove and replace. 
         try
         {
-            foreach (var entry in Empires)
+            foreach (var entry in _empires)
             {
                 Race race = entry.Key;
                 StartEmpireUI empire = entry.Value;
@@ -722,12 +722,12 @@ public class CreateStrategicGame : MonoBehaviour
                     maxGarrisonSize: (int)empire.MaxGarrisonSize.value
                 );
 
-                args.empireArgs[race] = constructionArgs;
+                args.EmpireArgs[race] = constructionArgs;
             }
 
             args.MercCamps = Convert.ToInt32(MercenaryHouses.text);
             args.GoldMines = Convert.ToInt32(GoldMines.text);
-            args.crazyBuildings = CrazyBuildings.isOn;
+            args.CrazyBuildings = CrazyBuildings.isOn;
 
             args.MapGen.UsingNewGenerator = MapGenType.value == 1;
             args.MapGen.ExcessBridges = MapGenExcessBridges.isOn;
@@ -765,7 +765,7 @@ public class CreateStrategicGame : MonoBehaviour
             return;
         }
 
-        State.World = new World(args, map);
+        State.World = new World(args, Map);
         Config.World.AutoScaleTactical = AutoScaleTactical.isOn;
 
         State.GameManager.SwitchToStrategyMode();
@@ -780,7 +780,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void ClearRaces()
     {
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -798,7 +798,7 @@ public class CreateStrategicGame : MonoBehaviour
 
     public void AllAddRaces()
     {
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -826,7 +826,7 @@ public class CreateStrategicGame : MonoBehaviour
             Destroy(RaceUI.RaceFolder.transform.GetChild(i).gameObject);
         }
 
-        foreach (var entry in Empires)
+        foreach (var entry in _empires)
         {
             Race race = entry.Key;
             StartEmpireUI empire = entry.Value;
@@ -834,7 +834,7 @@ public class CreateStrategicGame : MonoBehaviour
             GameObject obj = Instantiate(RaceUI.RaceUnitPanel, RaceUI.RaceFolder);
             UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
             // Side was 1 for Unit
-            Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dog.ToSide(), race, 0, true));
+            ActorUnit actor = new ActorUnit(new Vec2I(0, 0), new Unit(Race.Dog.ToSide(), race, 0, true));
             TextMeshProUGUI text = obj.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
             obj.GetComponentInChildren<UnitInfoPanel>().Unit = actor.Unit;
             var racePar = RaceParameters.GetTraitData(actor.Unit);
@@ -850,18 +850,18 @@ public class CreateStrategicGame : MonoBehaviour
 
     private void AddRace(Race race)
     {
-        Empires[race].gameObject.SetActive(true);
-        Empires[race].VillageCount.text = AllEmpires.VillageCount.text;
-        Empires[race].StrategicAI.value = AllEmpires.StrategicAI.value;
-        Empires[race].TacticalAI.value = AllEmpires.TacticalAI.value;
-        Empires[race].MaxArmySize.value = AllEmpires.MaxArmySize.value;
-        Empires[race].MaxGarrisonSize.value = AllEmpires.MaxGarrisonSize.value;
-        Empires[race].TurnOrder.text = "1";
+        _empires[race].gameObject.SetActive(true);
+        _empires[race].VillageCount.text = AllEmpires.VillageCount.text;
+        _empires[race].StrategicAI.value = AllEmpires.StrategicAI.value;
+        _empires[race].TacticalAI.value = AllEmpires.TacticalAI.value;
+        _empires[race].MaxArmySize.value = AllEmpires.MaxArmySize.value;
+        _empires[race].MaxGarrisonSize.value = AllEmpires.MaxGarrisonSize.value;
+        _empires[race].TurnOrder.text = "1";
         AssignUnusedTurnOrders();
     }
 
 
-    private static Color[] allColors = new Color[]
+    private static Color[] _allColors = new Color[]
     {
         new Color(0.502f, 0.502f, 0.502f),
         new Color(0.133f, 0.545f, 0.133f),
@@ -905,9 +905,9 @@ public class CreateStrategicGame : MonoBehaviour
 
     internal static Color ColorFromIndex(int index)
     {
-        if (index < allColors.Length)
+        if (index < _allColors.Length)
         {
-            return allColors[index];
+            return _allColors[index];
         }
         else
         {
@@ -917,9 +917,9 @@ public class CreateStrategicGame : MonoBehaviour
 
     internal static int IndexFromColor(Color color)
     {
-        for (int i = 0; i < allColors.Length; i++)
+        for (int i = 0; i < _allColors.Length; i++)
         {
-            if (color == allColors[i]) return i;
+            if (color == _allColors[i]) return i;
         }
 
         return 0;

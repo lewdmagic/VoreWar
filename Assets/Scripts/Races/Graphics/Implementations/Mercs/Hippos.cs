@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Hippos
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
@@ -86,10 +86,10 @@ namespace Races.Graphics.Implementations.Mercs
                 output.ExtendedBreastSprites = true;
 
                 output.AllowedMainClothingTypes.Set(
-                    HipposTop1.HipposTop1Instance.Create(paramsCalc),
-                    HipposTop2.HipposTop2Instance.Create(paramsCalc),
-                    HipposTop3.HipposTop3Instance.Create(paramsCalc),
-                    Natural.NaturalInstance.Create(paramsCalc)
+                    HipposTop1.HipposTop1Instance.Create(_paramsCalc),
+                    HipposTop2.HipposTop2Instance.Create(_paramsCalc),
+                    HipposTop3.HipposTop3Instance.Create(_paramsCalc),
+                    Natural.NaturalInstance.Create(_paramsCalc)
                 );
                 output.AllowedWaistTypes.Set(
                     HipposBot1.HipposBot1Instance,

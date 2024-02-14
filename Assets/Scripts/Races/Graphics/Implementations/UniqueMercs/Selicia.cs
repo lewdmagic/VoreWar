@@ -187,13 +187,13 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 output.Coloring(Defaults.WhiteColored);
                 if (input.A.HasBelly)
                 {
-                    if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
+                    if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach, PreyLocation.Womb))
                     {
                         output.Sprite(input.Sprites.Selicia[33]);
                         return;
                     }
 
-                    if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+                    if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach, PreyLocation.Womb))
                     {
                         if (input.A.GetStomachSize(14, BellyScale * 0.7f) == 14)
                         {

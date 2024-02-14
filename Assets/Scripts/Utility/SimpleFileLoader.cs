@@ -2,12 +2,12 @@
 
 internal class SimpleFileLoader
 {
-    private string extension;
-    private string directory;
-    private bool editor;
-    private LoaderType loaderType;
+    private string _extension;
+    private string _directory;
+    private bool _editor;
+    private LoaderType _loaderType;
 
-    private FileLoaderUI UI;
+    private FileLoaderUI _ui;
 
     public enum LoaderType
     {
@@ -18,18 +18,18 @@ internal class SimpleFileLoader
 
     public SimpleFileLoader(string directory, string extension, FileLoaderUI uI, bool mapEditor, LoaderType loaderType)
     {
-        this.loaderType = loaderType;
-        this.extension = extension;
-        this.directory = directory;
-        editor = mapEditor;
-        UI = uI;
+        this._loaderType = loaderType;
+        this._extension = extension;
+        this._directory = directory;
+        _editor = mapEditor;
+        _ui = uI;
         BuildFiles();
     }
 
     private void BuildFiles()
     {
-        if (Directory.Exists(directory) == false) Directory.CreateDirectory(directory);
-        string[] files = Directory.GetFiles(directory);
+        if (Directory.Exists(_directory) == false) Directory.CreateDirectory(_directory);
+        string[] files = Directory.GetFiles(_directory);
 
         foreach (string file in files)
         {
@@ -37,16 +37,16 @@ internal class SimpleFileLoader
 
             if (CompatibleFileExtension(file))
             {
-                switch (loaderType)
+                switch (_loaderType)
                 {
                     case LoaderType.MapEditor:
-                        UI.CreateMapLoadButton(file);
+                        _ui.CreateMapLoadButton(file);
                         break;
                     case LoaderType.PickMap:
-                        UI.CreateMapStrategicIntegrateButton(file);
+                        _ui.CreateMapStrategicIntegrateButton(file);
                         break;
                     case LoaderType.PickSaveForContentSettings:
-                        UI.CreateGrabContentSettingsButton(file);
+                        _ui.CreateGrabContentSettingsButton(file);
                         break;
                 }
             }
@@ -55,12 +55,12 @@ internal class SimpleFileLoader
 
     public bool CompatibleFileExtension(string file)
     {
-        if (extension.Length == 0)
+        if (_extension.Length == 0)
         {
             return true;
         }
 
-        if (file.EndsWith("." + extension))
+        if (file.EndsWith("." + _extension))
         {
             return true;
         }

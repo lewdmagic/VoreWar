@@ -7,24 +7,24 @@ using UnityEngine.UI;
 
 public class RightClickMenu : MonoBehaviour
 {
-    private Button[] Buttons;
+    private Button[] _buttons;
     public Transform ButtonFolder;
     public GameObject ButtonPrefab;
-    private RectTransform Rect;
+    private RectTransform _rect;
 
-    private Button[] PounceButtons;
+    private Button[] _pounceButtons;
     public Transform PouncePanel;
-    private RectTransform PounceRect;
+    private RectTransform _pounceRect;
 
-    private bool activeWait;
-    private bool pounceNeedsRefresh;
+    private bool _activeWait;
+    private bool _pounceNeedsRefresh;
 
     private const int MaxButtons = 30;
 
     private struct CommandData
     {
-        internal Actor_Unit Actor;
-        internal Actor_Unit Target;
+        internal ActorUnit Actor;
+        internal ActorUnit Target;
         internal int Range;
         internal float DevourChance;
     }
@@ -35,17 +35,17 @@ public class RightClickMenu : MonoBehaviour
         PouncePanel.gameObject.SetActive(false);
     }
 
-    public void Open(Actor_Unit actor, Actor_Unit target)
+    public void Open(ActorUnit actor, ActorUnit target)
     {
         PouncePanel.gameObject.SetActive(false);
-        pounceNeedsRefresh = true;
-        if (State.TutorialMode && State.GameManager.TutorialScript.step < 6)
+        _pounceNeedsRefresh = true;
+        if (State.TutorialMode && State.GameManager.TutorialScript.Step < 6)
         {
             State.GameManager.CreateMessageBox("Can't use the right click action menu for the first battle of the tutorial");
             return;
         }
 
-        if (Rect == null) Rect = GetComponent<RectTransform>();
+        if (_rect == null) _rect = GetComponent<RectTransform>();
         if (!target.Hidden)
         {
             gameObject.SetActive(true);
@@ -58,50 +58,50 @@ public class RightClickMenu : MonoBehaviour
         }
 
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + Rect.rect.width * Screen.width / 1920 - Screen.width;
+        float exceeded = Input.mousePosition.x + _rect.rect.width * Screen.width / 1920 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
-    public void OpenWithNoTarget(Actor_Unit actor, Vec2i location)
+    public void OpenWithNoTarget(ActorUnit actor, Vec2I location)
     {
         PouncePanel.gameObject.SetActive(false);
 
-        if (Rect == null) Rect = GetComponent<RectTransform>();
+        if (_rect == null) _rect = GetComponent<RectTransform>();
         gameObject.SetActive(true);
         CreateButtonsForNoTarget(actor, location);
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + Rect.rect.width * Screen.width / 1920 - Screen.width;
+        float exceeded = Input.mousePosition.x + _rect.rect.width * Screen.width / 1920 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
-    public void CreateButtonsForNoTarget(Actor_Unit actor, Vec2i location)
+    public void CreateButtonsForNoTarget(ActorUnit actor, Vec2I location)
     {
         int currentButton = 0;
-        const int ButtonCount = MaxButtons;
-        if (Buttons == null)
+        const int buttonCount = MaxButtons;
+        if (_buttons == null)
         {
-            Buttons = new Button[ButtonCount];
-            for (int i = 0; i < ButtonCount; i++)
+            _buttons = new Button[buttonCount];
+            for (int i = 0; i < buttonCount; i++)
             {
-                Buttons[i] = Instantiate(ButtonPrefab, ButtonFolder).GetComponent<Button>();
+                _buttons[i] = Instantiate(ButtonPrefab, ButtonFolder).GetComponent<Button>();
             }
         }
 
-        for (int i = 0; i < ButtonCount; i++)
+        for (int i = 0; i < buttonCount; i++)
         {
-            Buttons[i].gameObject.SetActive(false);
-            Buttons[i].interactable = true;
-            Buttons[i].onClick.RemoveAllListeners();
-            Destroy(Buttons[i].gameObject.GetComponent<EventTrigger>());
+            _buttons[i].gameObject.SetActive(false);
+            _buttons[i].interactable = true;
+            _buttons[i].onClick.RemoveAllListeners();
+            Destroy(_buttons[i].gameObject.GetComponent<EventTrigger>());
         }
 
         if (TacticalUtilities.OpenTile(location, actor))
         {
-            Buttons[currentButton].GetComponentInChildren<Text>().text = "Move to location";
-            Buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.OrderSelectedUnitToMoveTo(location.X, location.Y));
-            Buttons[currentButton].onClick.AddListener(FinishMoveAction);
+            _buttons[currentButton].GetComponentInChildren<Text>().text = "Move to location";
+            _buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.OrderSelectedUnitToMoveTo(location.X, location.Y));
+            _buttons[currentButton].onClick.AddListener(FinishMoveAction);
             currentButton++;
         }
 
@@ -116,9 +116,9 @@ public class RightClickMenu : MonoBehaviour
 
         foreach (TargetedTacticalAction action in TacticalActionList.TargetedActions.Where(s => s.OnExecuteLocation != null && s.AppearConditional(actor)))
         {
-            Buttons[currentButton].onClick.AddListener(() => action.OnExecuteLocation(actor, location));
-            Buttons[currentButton].onClick.AddListener(FinishAction);
-            Buttons[currentButton].GetComponentInChildren<Text>().text = action.Name;
+            _buttons[currentButton].onClick.AddListener(() => action.OnExecuteLocation(actor, location));
+            _buttons[currentButton].onClick.AddListener(FinishAction);
+            _buttons[currentButton].GetComponentInChildren<Text>().text = action.Name;
             currentButton++;
         }
 
@@ -130,7 +130,7 @@ public class RightClickMenu : MonoBehaviour
             ActivateButtons(currentButton);
     }
 
-    public void CreateButtons(Actor_Unit actor, Actor_Unit target)
+    public void CreateButtons(ActorUnit actor, ActorUnit target)
     {
         bool sneakAttack = false;
         bool rubCreated = false;
@@ -141,22 +141,22 @@ public class RightClickMenu : MonoBehaviour
 
         //var racePar = RaceParameters.GetTraitData(actor.Unit.Race);
         int currentButton = 0;
-        const int ButtonCount = MaxButtons;
-        if (Buttons == null)
+        const int buttonCount = MaxButtons;
+        if (_buttons == null)
         {
-            Buttons = new Button[ButtonCount];
-            for (int i = 0; i < ButtonCount; i++)
+            _buttons = new Button[buttonCount];
+            for (int i = 0; i < buttonCount; i++)
             {
-                Buttons[i] = Instantiate(ButtonPrefab, ButtonFolder).GetComponent<Button>();
+                _buttons[i] = Instantiate(ButtonPrefab, ButtonFolder).GetComponent<Button>();
             }
         }
 
-        for (int i = 0; i < ButtonCount; i++)
+        for (int i = 0; i < buttonCount; i++)
         {
-            Buttons[i].gameObject.SetActive(false);
-            Buttons[i].interactable = true;
-            Buttons[i].onClick.RemoveAllListeners();
-            Destroy(Buttons[i].gameObject.GetComponent<EventTrigger>());
+            _buttons[i].gameObject.SetActive(false);
+            _buttons[i].interactable = true;
+            _buttons[i].onClick.RemoveAllListeners();
+            Destroy(_buttons[i].gameObject.GetComponent<EventTrigger>());
         }
 
         int range = actor.Position.GetNumberOfMovesDistance(target.Position);
@@ -171,23 +171,23 @@ public class RightClickMenu : MonoBehaviour
                 }
             }
 
-            Buttons[currentButton].onClick.AddListener(() => actor.BellyRub(target));
-            Buttons[currentButton].onClick.AddListener(FinishAction);
+            _buttons[currentButton].onClick.AddListener(() => actor.BellyRub(target));
+            _buttons[currentButton].onClick.AddListener(FinishAction);
             if (target.ReceivedRub)
             {
-                Buttons[currentButton].interactable = false;
-                Buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub\nAlready rubbed";
+                _buttons[currentButton].interactable = false;
+                _buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub\nAlready rubbed";
             }
             else
-                Buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub";
+                _buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub";
 
             currentButton++;
 
             foreach (var action in TacticalActionList.UntargetedActions.Where(a => a.AppearConditional(actor)))
             {
-                Buttons[currentButton].onClick.AddListener(() => action.OnClicked());
-                Buttons[currentButton].onClick.AddListener(FinishAction);
-                Buttons[currentButton].GetComponentInChildren<Text>().text = action.Name;
+                _buttons[currentButton].onClick.AddListener(() => action.OnClicked());
+                _buttons[currentButton].onClick.AddListener(FinishAction);
+                _buttons[currentButton].GetComponentInChildren<Text>().text = action.Name;
                 currentButton++;
             }
 
@@ -206,17 +206,17 @@ public class RightClickMenu : MonoBehaviour
                 }
             }
 
-            Buttons[currentButton].onClick.AddListener(() => actor.BellyRub(target));
-            Buttons[currentButton].onClick.AddListener(FinishAction);
+            _buttons[currentButton].onClick.AddListener(() => actor.BellyRub(target));
+            _buttons[currentButton].onClick.AddListener(FinishAction);
             if (target.ReceivedRub)
             {
-                Buttons[currentButton].interactable = false;
-                Buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub\nAlready rubbed";
+                _buttons[currentButton].interactable = false;
+                _buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub\nAlready rubbed";
             }
             else
-                Buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub";
+                _buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub";
 
-            if (range != 1 || target.PredatorComponent?.Fullness <= 0) Buttons[currentButton].interactable = false;
+            if (range != 1 || target.PredatorComponent?.Fullness <= 0) _buttons[currentButton].interactable = false;
             rubCreated = true;
             currentButton++;
 
@@ -259,20 +259,20 @@ public class RightClickMenu : MonoBehaviour
         int damage = actor.WeaponDamageAgainstTarget(target, false);
         if (!TacticalUtilities.IsUnitControlledByPlayer(target.Unit) || Config.AllowInfighting || (!State.GameManager.TacticalMode.AIDefender && !State.GameManager.TacticalMode.AIAttacker))
         {
-            Buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.MeleeAttack(actor, target));
-            Buttons[currentButton].onClick.AddListener(FinishAction);
-            Buttons[currentButton].GetComponentInChildren<Text>().text = $"Melee Attack {Math.Round(100 * target.GetAttackChance(actor, false, true))}% {(damage >= target.Unit.Health ? "Kill" : $"{damage} dmg")} ";
-            if (range != 1) Buttons[currentButton].interactable = false;
+            _buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.MeleeAttack(actor, target));
+            _buttons[currentButton].onClick.AddListener(FinishAction);
+            _buttons[currentButton].GetComponentInChildren<Text>().text = $"Melee Attack {Math.Round(100 * target.GetAttackChance(actor, false, true))}% {(damage >= target.Unit.Health ? "Kill" : $"{damage} dmg")} ";
+            if (range != 1) _buttons[currentButton].interactable = false;
             currentButton++;
 
 
             if (actor.BestRanged != null)
             {
-                Buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.RangedAttack(actor, target));
-                Buttons[currentButton].onClick.AddListener(FinishAction);
+                _buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.RangedAttack(actor, target));
+                _buttons[currentButton].onClick.AddListener(FinishAction);
                 damage = actor.WeaponDamageAgainstTarget(target, true);
-                Buttons[currentButton].GetComponentInChildren<Text>().text = $"Ranged Attack {Math.Round(100 * target.GetAttackChance(actor, true, true))}% {(damage >= target.Unit.Health ? "Kill" : $"{damage} dmg")} ";
-                if (actor.BestRanged.Omni == false && (range < 2 || range > actor.BestRanged.Range)) Buttons[currentButton].interactable = false;
+                _buttons[currentButton].GetComponentInChildren<Text>().text = $"Ranged Attack {Math.Round(100 * target.GetAttackChance(actor, true, true))}% {(damage >= target.Unit.Health ? "Kill" : $"{damage} dmg")} ";
+                if (actor.BestRanged.Omni == false && (range < 2 || range > actor.BestRanged.Range)) _buttons[currentButton].interactable = false;
                 currentButton++;
             }
 
@@ -296,11 +296,11 @@ public class RightClickMenu : MonoBehaviour
 
             if (actor.Unit.HasTrait(TraitType.Pounce))
             {
-                Buttons[currentButton].onClick.AddListener(() => CreatePounceButtons(actor, target));
+                _buttons[currentButton].onClick.AddListener(() => CreatePounceButtons(actor, target));
                 if (actor.Movement > 1)
                 {
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = "Pounces =>";
-                    var trigger = Buttons[currentButton].gameObject.AddComponent<EventTrigger>();
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = "Pounces =>";
+                    var trigger = _buttons[currentButton].gameObject.AddComponent<EventTrigger>();
                     EventTrigger.Entry entry = new EventTrigger.Entry
                     {
                         eventID = EventTriggerType.PointerEnter
@@ -313,13 +313,13 @@ public class RightClickMenu : MonoBehaviour
                     };
                     entry.callback.AddListener((s) => { Invoke("QueueCloseLoop", .25f); });
                     trigger.triggers.Add(entry);
-                    if (range < 2 || range > 4) Buttons[currentButton].interactable = false;
+                    if (range < 2 || range > 4) _buttons[currentButton].interactable = false;
                     currentButton++;
                 }
                 else
                 {
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = "Pounces (No AP)";
-                    Buttons[currentButton].interactable = false;
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = "Pounces (No AP)";
+                    _buttons[currentButton].interactable = false;
                     currentButton++;
                 }
             }
@@ -329,18 +329,18 @@ public class RightClickMenu : MonoBehaviour
             !rubCreated &&
             (Config.CanUseStomachRubOnEnemies || actor.Unit.HasTrait(TraitType.SeductiveTouch)))
         {
-            Buttons[currentButton].onClick.AddListener(() => actor.BellyRub(target));
-            Buttons[currentButton].onClick.AddListener(FinishAction);
+            _buttons[currentButton].onClick.AddListener(() => actor.BellyRub(target));
+            _buttons[currentButton].onClick.AddListener(FinishAction);
             if (target.ReceivedRub)
             {
-                Buttons[currentButton].interactable = false;
-                Buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub\nAlready rubbed";
+                _buttons[currentButton].interactable = false;
+                _buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub\nAlready rubbed";
             }
             else
-                Buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub" + (actor.Unit.HasTrait(TraitType.SeductiveTouch) ? " (Seduce " + Math.Round(100 * target.GetPureStatClashChance(actor.Unit.GetStat(Stat.Dexterity), target.Unit.GetStat(Stat.Will), .1f)) + "%)" : "");
+                _buttons[currentButton].GetComponentInChildren<Text>().text = "Belly Rub" + (actor.Unit.HasTrait(TraitType.SeductiveTouch) ? " (Seduce " + Math.Round(100 * target.GetPureStatClashChance(actor.Unit.GetStat(Stat.Dexterity), target.Unit.GetStat(Stat.Will), .1f)) + "%)" : "");
 
             if (range != 1 || !(target.PredatorComponent?.Fullness > 0)) // Still can't rub empty bellies
-                Buttons[currentButton].interactable = false;
+                _buttons[currentButton].interactable = false;
             currentButton++;
         }
 
@@ -352,11 +352,11 @@ public class RightClickMenu : MonoBehaviour
             {
                 if (targetedAction.AppearConditional(data.Actor))
                 {
-                    Buttons[currentButton].onClick.AddListener(() => targetedAction.OnExecute(data.Actor, data.Target));
-                    Buttons[currentButton].onClick.AddListener(FinishAction);
+                    _buttons[currentButton].onClick.AddListener(() => targetedAction.OnExecute(data.Actor, data.Target));
+                    _buttons[currentButton].onClick.AddListener(FinishAction);
                     damage = 2 * actor.WeaponDamageAgainstTarget(target, false);
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Shun Goku Satsu {Math.Round(100 * target.GetAttackChance(actor, false, true))}% {(damage >= target.Unit.Health ? "Kill" : $"{damage} dmg")} ";
-                    if (data.Range != 1) Buttons[currentButton].interactable = false;
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Shun Goku Satsu {Math.Round(100 * target.GetAttackChance(actor, false, true))}% {(damage >= target.Unit.Health ? "Kill" : $"{damage} dmg")} ";
+                    if (data.Range != 1) _buttons[currentButton].interactable = false;
                     currentButton++;
                 }
             }
@@ -366,35 +366,35 @@ public class RightClickMenu : MonoBehaviour
         if (actor.Unit.Predator)
         {
             if (data.Target.Unit.Predator) data.DevourChance = Mathf.Round(100 * data.Target.PredatorComponent.GetVoreStealChance(data.Actor));
-            currentButton = AddKTCommands(actor, currentButton, data);
+            currentButton = AddKtCommands(actor, currentButton, data);
         }
 
         ActivateButtons(currentButton);
     }
 
-    private int AddVore(Actor_Unit actor, int currentButton, CommandData data)
+    private int AddVore(ActorUnit actor, int currentButton, CommandData data)
     {
         if (actor.Unit.Predator)
         {
             var voreTypes = State.RaceSettings.GetVoreTypes(actor.Unit.Race);
             if (voreTypes.Contains(VoreType.Oral))
             {
-                Buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.VoreAttack(data.Actor, data.Target));
-                Buttons[currentButton].onClick.AddListener(FinishAction);
-                Buttons[currentButton].GetComponentInChildren<Text>().text = $"Oral Vore {data.DevourChance}%";
+                _buttons[currentButton].onClick.AddListener(() => State.GameManager.TacticalMode.VoreAttack(data.Actor, data.Target));
+                _buttons[currentButton].onClick.AddListener(FinishAction);
+                _buttons[currentButton].GetComponentInChildren<Text>().text = $"Oral Vore {data.DevourChance}%";
                 if (actor.Unit.HasTrait(TraitType.RangedVore))
                 {
-                    if (data.Range > 4) Buttons[currentButton].interactable = false;
+                    if (data.Range > 4) _buttons[currentButton].interactable = false;
                 }
                 else
                 {
-                    if (data.Range != 1) Buttons[currentButton].interactable = false;
+                    if (data.Range != 1) _buttons[currentButton].interactable = false;
                 }
 
                 if (data.Actor.PredatorComponent.FreeCap() < data.Target.Bulk())
                 {
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to vore";
-                    Buttons[currentButton].interactable = false;
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to vore";
+                    _buttons[currentButton].interactable = false;
                 }
 
                 currentButton++;
@@ -410,38 +410,38 @@ public class RightClickMenu : MonoBehaviour
         return currentButton;
     }
 
-    private int AltVore(Actor_Unit actor, int currentButton, SpecialAction actionType, CommandData data)
+    private int AltVore(ActorUnit actor, int currentButton, SpecialAction actionType, CommandData data)
     {
         if (TacticalActionList.TargetedDictionary.TryGetValue(actionType, out var targetedAction))
         {
             if (targetedAction.AppearConditional(data.Actor) && (targetedAction.RequiresPred == false || data.Actor.Unit.Predator))
             {
-                Buttons[currentButton].onClick.AddListener(() => targetedAction.OnExecute(data.Actor, data.Target));
-                Buttons[currentButton].onClick.AddListener(FinishAction);
+                _buttons[currentButton].onClick.AddListener(() => targetedAction.OnExecute(data.Actor, data.Target));
+                _buttons[currentButton].onClick.AddListener(FinishAction);
                 if (actionType == SpecialAction.TailVore && Equals(actor.Unit.Race, Race.Terrorbird))
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Crop Vore {data.DevourChance}%";
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Crop Vore {data.DevourChance}%";
                 else if (actionType == SpecialAction.BreastVore && Equals(actor.Unit.Race, Race.Kangaroo))
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Pouch Vore {data.DevourChance}%";
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Pouch Vore {data.DevourChance}%";
                 else
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"{targetedAction.Name} {data.DevourChance}%";
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"{targetedAction.Name} {data.DevourChance}%";
                 if (actor.Unit.HasTrait(TraitType.RangedVore))
                 {
-                    if (data.Range > 4) Buttons[currentButton].interactable = false;
+                    if (data.Range > 4) _buttons[currentButton].interactable = false;
                 }
                 else
                 {
-                    if (data.Range != 1) Buttons[currentButton].interactable = false;
+                    if (data.Range != 1) _buttons[currentButton].interactable = false;
                 }
 
                 if (data.Actor.PredatorComponent.FreeCap() < data.Target.Bulk())
                 {
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to {targetedAction.Name}";
-                    Buttons[currentButton].interactable = false;
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to {targetedAction.Name}";
+                    _buttons[currentButton].interactable = false;
                 }
                 else if (data.Actor.BodySize() < data.Target.BodySize() * 3 && actor.Unit.HasTrait(TraitType.TightNethers) && (actionType == SpecialAction.CockVore || actionType == SpecialAction.Unbirth))
                 {
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Too large to {targetedAction.Name}";
-                    Buttons[currentButton].interactable = false;
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Too large to {targetedAction.Name}";
+                    _buttons[currentButton].interactable = false;
                 }
 
                 currentButton++;
@@ -452,70 +452,70 @@ public class RightClickMenu : MonoBehaviour
         return currentButton;
     }
 
-    private int AddSpell(Spell spell, Actor_Unit actor, Actor_Unit target, int currentButton, int range, float spellChance)
+    private int AddSpell(Spell spell, ActorUnit actor, ActorUnit target, int currentButton, int range, float spellChance)
     {
-        int ModifiedManaCost = spell.ManaCost +
+        int modifiedManaCost = spell.ManaCost +
                                spell.ManaCost * (actor.Unit.GetStatusEffect(StatusEffectType.SpellForce) != null ? actor.Unit.GetStatusEffect(StatusEffectType.SpellForce).Duration / 10 : 0);
-        if (actor.Unit.Mana >= ModifiedManaCost || spell.IsFree)
-            Buttons[currentButton].GetComponentInChildren<Text>().text = $"{spell.Name} {(spell.Resistable ? Mathf.Round(100 * spellChance).ToString() : "100")}%";
+        if (actor.Unit.Mana >= modifiedManaCost || spell.IsFree)
+            _buttons[currentButton].GetComponentInChildren<Text>().text = $"{spell.Name} {(spell.Resistable ? Mathf.Round(100 * spellChance).ToString() : "100")}%";
         else
-            Buttons[currentButton].GetComponentInChildren<Text>().text = $"{spell.Name} (no mana)";
-        Buttons[currentButton].onClick.AddListener(() => spell.TryCast(actor, target));
-        if ((range < spell.Range.Min || range > spell.Range.Max || actor.Unit.Mana < ModifiedManaCost) && !spell.IsFree) Buttons[currentButton].interactable = false;
-        Buttons[currentButton].onClick.AddListener(FinishAction);
+            _buttons[currentButton].GetComponentInChildren<Text>().text = $"{spell.Name} (no mana)";
+        _buttons[currentButton].onClick.AddListener(() => spell.TryCast(actor, target));
+        if ((range < spell.Range.Min || range > spell.Range.Max || actor.Unit.Mana < modifiedManaCost) && !spell.IsFree) _buttons[currentButton].interactable = false;
+        _buttons[currentButton].onClick.AddListener(FinishAction);
         currentButton++;
         return currentButton;
     }
 
-    private int AddSpellLocation(Spell spell, Actor_Unit actor, Vec2i location, int currentButton, int range, float spellChance)
+    private int AddSpellLocation(Spell spell, ActorUnit actor, Vec2I location, int currentButton, int range, float spellChance)
     {
-        int ModifiedManaCost = spell.ManaCost +
+        int modifiedManaCost = spell.ManaCost +
                                spell.ManaCost * (actor.Unit.GetStatusEffect(StatusEffectType.SpellForce) != null ? actor.Unit.GetStatusEffect(StatusEffectType.SpellForce).Duration / 10 : 0);
 
-        if (actor.Unit.Mana >= ModifiedManaCost || spell.IsFree)
-            Buttons[currentButton].GetComponentInChildren<Text>().text = $"{spell.Name}";
+        if (actor.Unit.Mana >= modifiedManaCost || spell.IsFree)
+            _buttons[currentButton].GetComponentInChildren<Text>().text = $"{spell.Name}";
         else
-            Buttons[currentButton].GetComponentInChildren<Text>().text = $"{spell.Name} (no mana)";
-        Buttons[currentButton].onClick.AddListener(() => spell.TryCast(actor, location));
-        if ((range < spell.Range.Min || range > spell.Range.Max || actor.Unit.Mana < ModifiedManaCost) && !spell.IsFree) Buttons[currentButton].interactable = false;
-        Buttons[currentButton].onClick.AddListener(FinishAction);
+            _buttons[currentButton].GetComponentInChildren<Text>().text = $"{spell.Name} (no mana)";
+        _buttons[currentButton].onClick.AddListener(() => spell.TryCast(actor, location));
+        if ((range < spell.Range.Min || range > spell.Range.Max || actor.Unit.Mana < modifiedManaCost) && !spell.IsFree) _buttons[currentButton].interactable = false;
+        _buttons[currentButton].onClick.AddListener(FinishAction);
         currentButton++;
         return currentButton;
     }
 
-    public void CreatePounceButtons(Actor_Unit actor, Actor_Unit target)
+    public void CreatePounceButtons(ActorUnit actor, ActorUnit target)
     {
-        if (pounceNeedsRefresh == false)
+        if (_pounceNeedsRefresh == false)
         {
             PouncePanel.gameObject.SetActive(true);
-            activeWait = false;
+            _activeWait = false;
         }
 
         int currentButton = 0;
-        const int ButtonCount = 7;
-        if (PounceButtons == null)
+        const int buttonCount = 7;
+        if (_pounceButtons == null)
         {
-            PounceButtons = new Button[ButtonCount];
-            for (int i = 0; i < ButtonCount; i++)
+            _pounceButtons = new Button[buttonCount];
+            for (int i = 0; i < buttonCount; i++)
             {
-                PounceButtons[i] = Instantiate(ButtonPrefab, PouncePanel).GetComponent<Button>();
+                _pounceButtons[i] = Instantiate(ButtonPrefab, PouncePanel).GetComponent<Button>();
             }
         }
 
-        for (int i = 0; i < ButtonCount; i++)
+        for (int i = 0; i < buttonCount; i++)
         {
-            PounceButtons[i].gameObject.SetActive(false);
-            PounceButtons[i].interactable = true;
-            PounceButtons[i].onClick.RemoveAllListeners();
+            _pounceButtons[i].gameObject.SetActive(false);
+            _pounceButtons[i].interactable = true;
+            _pounceButtons[i].onClick.RemoveAllListeners();
         }
 
         int range = actor.Position.GetNumberOfMovesDistance(target.Position);
 
 
-        if (PounceRect == null) PounceRect = PouncePanel.GetComponent<RectTransform>();
+        if (_pounceRect == null) _pounceRect = PouncePanel.GetComponent<RectTransform>();
         PouncePanel.gameObject.SetActive(true);
         float xAdjust = 60;
-        float exceeded = Input.mousePosition.x + PounceRect.rect.width * Screen.width / 1920 - Screen.width;
+        float exceeded = Input.mousePosition.x + _pounceRect.rect.width * Screen.width / 1920 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
         PouncePanel.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
 
@@ -534,28 +534,28 @@ public class RightClickMenu : MonoBehaviour
             DevourChance = devourChance
         };
 
-        PounceButtons[currentButton].onClick.AddListener(() => actor.MeleePounce(target));
-        PounceButtons[currentButton].onClick.AddListener(FinishAction);
+        _pounceButtons[currentButton].onClick.AddListener(() => actor.MeleePounce(target));
+        _pounceButtons[currentButton].onClick.AddListener(FinishAction);
         int damage = actor.WeaponDamageAgainstTarget(target, false);
-        PounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Melee Pounce {Math.Round(100 * target.GetAttackChance(actor, false, true))}% {(damage >= target.Unit.Health ? "Kill" : $"{damage} dmg")}";
-        if (range < 2 || range > 4) PounceButtons[currentButton].interactable = false;
+        _pounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Melee Pounce {Math.Round(100 * target.GetAttackChance(actor, false, true))}% {(damage >= target.Unit.Health ? "Kill" : $"{damage} dmg")}";
+        if (range < 2 || range > 4) _pounceButtons[currentButton].interactable = false;
         currentButton++;
         if (actor.Unit.Predator)
         {
             var voreTypes = State.RaceSettings.GetVoreTypes(actor.Unit.Race);
             if (voreTypes.Contains(VoreType.Oral))
             {
-                PounceButtons[currentButton].onClick.AddListener(() => actor.VorePounce(target));
-                PounceButtons[currentButton].onClick.AddListener(FinishAction);
+                _pounceButtons[currentButton].onClick.AddListener(() => actor.VorePounce(target));
+                _pounceButtons[currentButton].onClick.AddListener(FinishAction);
                 if (data.Actor.PredatorComponent.FreeCap() < data.Target.Bulk())
                 {
-                    PounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to vore";
-                    PounceButtons[currentButton].interactable = false;
+                    _pounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to vore";
+                    _pounceButtons[currentButton].interactable = false;
                 }
                 else
-                    PounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Oral Vore Pounce {devourChance}%";
+                    _pounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Oral Vore Pounce {devourChance}%";
 
-                if (range < 2 || range > 4) PounceButtons[currentButton].interactable = false;
+                if (range < 2 || range > 4) _pounceButtons[currentButton].interactable = false;
                 currentButton++;
             }
 
@@ -566,7 +566,7 @@ public class RightClickMenu : MonoBehaviour
             currentButton = AltVorePounce(data, SpecialAction.TailVore, currentButton);
         }
 
-        pounceNeedsRefresh = false;
+        _pounceNeedsRefresh = false;
         ActivatePounceButtons(currentButton);
     }
 
@@ -576,22 +576,22 @@ public class RightClickMenu : MonoBehaviour
         {
             if (targetedAction.AppearConditional(data.Actor) && (targetedAction.RequiresPred == false || data.Actor.Unit.Predator))
             {
-                PounceButtons[currentButton].onClick.AddListener(() => data.Actor.VorePounce(data.Target, type));
-                PounceButtons[currentButton].onClick.AddListener(FinishAction);
+                _pounceButtons[currentButton].onClick.AddListener(() => data.Actor.VorePounce(data.Target, type));
+                _pounceButtons[currentButton].onClick.AddListener(FinishAction);
                 if (data.Actor.PredatorComponent.FreeCap() < data.Target.Bulk())
                 {
-                    PounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to {targetedAction.Name}";
-                    PounceButtons[currentButton].interactable = false;
+                    _pounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to {targetedAction.Name}";
+                    _pounceButtons[currentButton].interactable = false;
                 }
                 else if (data.Actor.BodySize() < data.Target.BodySize() * 3 && data.Actor.Unit.HasTrait(TraitType.TightNethers) && (type == SpecialAction.CockVore || type == SpecialAction.Unbirth))
                 {
-                    PounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Too large to {targetedAction.Name}";
-                    PounceButtons[currentButton].interactable = false;
+                    _pounceButtons[currentButton].GetComponentInChildren<Text>().text = $"Too large to {targetedAction.Name}";
+                    _pounceButtons[currentButton].interactable = false;
                 }
                 else
-                    PounceButtons[currentButton].GetComponentInChildren<Text>().text = $"{targetedAction.Name} Pounce {data.DevourChance}%";
+                    _pounceButtons[currentButton].GetComponentInChildren<Text>().text = $"{targetedAction.Name} Pounce {data.DevourChance}%";
 
-                if (data.Range < 2 || data.Range > 4) PounceButtons[currentButton].interactable = false;
+                if (data.Range < 2 || data.Range > 4) _pounceButtons[currentButton].interactable = false;
                 currentButton++;
                 return currentButton;
             }
@@ -600,7 +600,7 @@ public class RightClickMenu : MonoBehaviour
         return currentButton;
     }
 
-    private int AddKTCommands(Actor_Unit actor, int currentButton, CommandData data)
+    private int AddKtCommands(ActorUnit actor, int currentButton, CommandData data)
     {
         if (Config.KuroTenkoEnabled)
         {
@@ -608,29 +608,29 @@ public class RightClickMenu : MonoBehaviour
             {
                 if (actor.PredatorComponent.CanFeed())
                 {
-                    Buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.Feed(data.Target));
-                    Buttons[currentButton].onClick.AddListener(FinishAction);
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Breastfeed";
+                    _buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.Feed(data.Target));
+                    _buttons[currentButton].onClick.AddListener(FinishAction);
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Breastfeed";
                     currentButton++;
                 }
 
                 if (actor.PredatorComponent.CanFeedCum())
                 {
-                    Buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.FeedCum(data.Target));
-                    Buttons[currentButton].onClick.AddListener(FinishAction);
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Feed Cum";
+                    _buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.FeedCum(data.Target));
+                    _buttons[currentButton].onClick.AddListener(FinishAction);
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Feed Cum";
                     currentButton++;
                 }
 
                 if (actor.PredatorComponent.CanTransfer() && data.Target.Unit.Predator)
                 {
-                    Buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.TransferAttempt(data.Target));
-                    Buttons[currentButton].onClick.AddListener(FinishAction);
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Transfer";
+                    _buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.TransferAttempt(data.Target));
+                    _buttons[currentButton].onClick.AddListener(FinishAction);
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Transfer";
                     if (data.Target.PredatorComponent.FreeCap() < actor.PredatorComponent.GetTransferBulk())
                     {
-                        Buttons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to Transfer";
-                        Buttons[currentButton].interactable = false;
+                        _buttons[currentButton].GetComponentInChildren<Text>().text = $"Too bulky to Transfer";
+                        _buttons[currentButton].interactable = false;
                     }
 
                     currentButton++;
@@ -640,18 +640,18 @@ public class RightClickMenu : MonoBehaviour
             {
                 if (actor.PredatorComponent.CanVoreSteal(data.Target))
                 {
-                    Buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.VoreStealAttempt(data.Target));
-                    Buttons[currentButton].onClick.AddListener(FinishAction);
-                    Buttons[currentButton].GetComponentInChildren<Text>().text = $"Vore Steal {data.DevourChance}%";
+                    _buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.VoreStealAttempt(data.Target));
+                    _buttons[currentButton].onClick.AddListener(FinishAction);
+                    _buttons[currentButton].GetComponentInChildren<Text>().text = $"Vore Steal {data.DevourChance}%";
                     currentButton++;
                 }
             }
 
             if (actor.PredatorComponent.CanSuckle() && actor.PredatorComponent.GetSuckle(data.Target)[0] + actor.PredatorComponent.GetSuckle(data.Target)[1] != 0)
             {
-                Buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.Suckle(data.Target));
-                Buttons[currentButton].onClick.AddListener(FinishAction);
-                Buttons[currentButton].GetComponentInChildren<Text>().text = $"Suckle";
+                _buttons[currentButton].onClick.AddListener(() => data.Actor.PredatorComponent.Suckle(data.Target));
+                _buttons[currentButton].onClick.AddListener(FinishAction);
+                _buttons[currentButton].GetComponentInChildren<Text>().text = $"Suckle";
                 currentButton++;
             }
         }
@@ -663,20 +663,20 @@ public class RightClickMenu : MonoBehaviour
     {
         for (int i = 0; i < currentButton; i++)
         {
-            Buttons[i].gameObject.SetActive(true);
+            _buttons[i].gameObject.SetActive(true);
         }
 
-        Rect.sizeDelta = new Vector2(Rect.sizeDelta.x, currentButton * 40);
+        _rect.sizeDelta = new Vector2(_rect.sizeDelta.x, currentButton * 40);
     }
 
     private void ActivatePounceButtons(int currentButton)
     {
         for (int i = 0; i < currentButton; i++)
         {
-            PounceButtons[i].gameObject.SetActive(true);
+            _pounceButtons[i].gameObject.SetActive(true);
         }
 
-        PounceRect.sizeDelta = new Vector2(PounceRect.sizeDelta.x, currentButton * 40);
+        _pounceRect.sizeDelta = new Vector2(_pounceRect.sizeDelta.x, currentButton * 40);
     }
 
     private void FinishAction()
@@ -694,25 +694,25 @@ public class RightClickMenu : MonoBehaviour
 
     private void QueueCloseLoop()
     {
-        if (activeWait == false)
+        if (_activeWait == false)
         {
-            activeWait = true;
+            _activeWait = true;
             CloseSecond();
         }
     }
 
     private void CloseSecond()
     {
-        if (activeWait == false) return;
-        Vector2 localMousePosition = PounceRect.InverseTransformPoint(Input.mousePosition);
-        if (PounceRect.rect.Contains(localMousePosition))
+        if (_activeWait == false) return;
+        Vector2 localMousePosition = _pounceRect.InverseTransformPoint(Input.mousePosition);
+        if (_pounceRect.rect.Contains(localMousePosition))
         {
             MiscUtilities.DelayedInvoke(CloseSecond, .25f);
         }
         else
         {
             PouncePanel.gameObject.SetActive(false);
-            activeWait = false;
+            _activeWait = false;
         }
     }
 }

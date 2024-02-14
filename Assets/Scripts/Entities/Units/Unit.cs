@@ -114,7 +114,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     public Side Side { get => _side; set => _side = value; }
 
     [OdinSerialize]
-    internal Unit _controller = null;
+    private Unit _controller = null;
 
     internal Unit Controller
     {
@@ -140,14 +140,14 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     [OdinSerialize]
     private Side _fixedSide = Side.TrueNoneSide;
 
-    internal bool HasFixedSide() => RaceFuncs.isNotNone(_fixedSide);
+    internal bool HasFixedSide() => RaceFuncs.IsNotNone(_fixedSide);
 
     public Side FixedSide
     {
         get
         {
             if (Controller != null) return _controller.FixedSide;
-            return RaceFuncs.isNone(_fixedSide) ? Side : _fixedSide;
+            return RaceFuncs.IsNone(_fixedSide) ? Side : _fixedSide;
         }
         set => _fixedSide = value;
     }
@@ -155,9 +155,9 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     [OdinSerialize]
     private bool _hiddenFixedSide = false;
 
-    public bool hiddenFixedSide { get => _hiddenFixedSide; set => _hiddenFixedSide = value; }
+    public bool HiddenFixedSide { get => _hiddenFixedSide; set => _hiddenFixedSide = value; }
 
-    public static List<TraitType> secretTags = new List<TraitType>()
+    public static List<TraitType> SecretTags = new List<TraitType>()
     {
         TraitType.Infiltrator, TraitType.Corruption, TraitType.Parasite, TraitType.Metamorphosis,
         TraitType.Possession, TraitType.Changeling, TraitType.Reincarnation, TraitType.InfiniteReincarnation, TraitType.Transmigration, TraitType.InfiniteTransmigration,
@@ -187,12 +187,12 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     [OdinSerialize]
     private float _experience;
 
-    protected float experience { get => _experience; set => _experience = value; }
+    internal float Experience { get => _experience; set => _experience = value; }
 
     [OdinSerialize]
     private int _level;
 
-    protected int level { get => _level; set => _level = value; }
+    public int Level { get => _level; set => _level = value; }
 
     [OdinSerialize]
     private double _baseScale = 1;
@@ -222,7 +222,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         get // Ah yes, a simple getter function u?u. Keeps health percentage consistent after gaining/losing stats mid battle, doesn't break Thrillseeker, doesn't cause prey orphans, doesn't break on save/load... etc.
         {
             if (Stats == null) return 1;
-            if (!Config.StatBoostsAffectMaxHP)
+            if (!Config.StatBoostsAffectMaxHp)
             {
                 _maxHealth = Stats[(int)Stat.Endurance] * 2 + Stats[(int)Stat.Strength];
                 return _maxHealth;
@@ -608,7 +608,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     [OdinSerialize]
     private bool _fixedPredator;
 
-    public bool fixedPredator { get => _fixedPredator; set => _fixedPredator = value; }
+    public bool FixedPredator { get => _fixedPredator; set => _fixedPredator = value; }
 
     internal List<StatusEffect> StatusEffects
     {
@@ -638,13 +638,13 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     internal List<SpellType> MultiUseSpells { get => _multiUseSpells; set => _multiUseSpells = value; } // This is so much more straightforward than adding Special Actions
 
     [OdinSerialize]
-    internal Unit _hiddenUnit = null;
+    private Unit _hiddenUnit = null;
 
-    public Unit HiddenUnit { get { return _hiddenUnit == null ? this : _hiddenUnit; } }
+    public Unit HiddenUnit => _hiddenUnit == null ? this : _hiddenUnit;
 
-    public Race HiddenRace { get { return _hiddenUnit == null ? Race : _hiddenUnit.Race; } }
+    public Race HiddenRace => _hiddenUnit == null ? Race : _hiddenUnit.Race;
 
-    public int[] HiddenStats { get { return _hiddenUnit == null ? Stats : _hiddenUnit.Stats; } }
+    public int[] HiddenStats => _hiddenUnit == null ? Stats : _hiddenUnit.Stats;
 
     [OdinSerialize]
     private Race _spawnRace;
@@ -675,12 +675,12 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     public bool IsInfiltratingSide(Side side)
     {
-        return Equals(side, Side) && !Equals(Side, FixedSide) && hiddenFixedSide;
+        return Equals(side, Side) && !Equals(Side, FixedSide) && HiddenFixedSide;
     }
 
     public Gender GetGender()
     {
-        if (HasBreasts && HasDick && (HasVagina || Config.HermsCanUB == false))
+        if (HasBreasts && HasDick && (HasVagina || Config.HermsCanUb == false))
             return Gender.Hermaphrodite;
         else if (HasBreasts && HasDick && !HasVagina)
             return Gender.Gynomorph;
@@ -711,15 +711,15 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     {
         switch (location)
         {
-            case PreyLocation.womb:
+            case PreyLocation.Womb:
                 return CanUnbirth;
-            case PreyLocation.balls:
+            case PreyLocation.Balls:
                 return CanCockVore;
-            case PreyLocation.breasts:
+            case PreyLocation.Breasts:
                 return CanBreastVore;
-            case PreyLocation.anal:
+            case PreyLocation.Anal:
                 return CanAnalVore;
-            case PreyLocation.tail:
+            case PreyLocation.Tail:
                 return CanTailVore;
             default:
                 return true;
@@ -769,14 +769,14 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     public bool BestSuitedForRanged() => Stats[(int)Stat.Dexterity] * TraitBoosts.VirtualDexMult > Stats[(int)Stat.Strength] * TraitBoosts.VirtualStrMult;
 
-    protected void SetLevel(int level) => this.level = level;
+    protected void SetLevel(int level) => this.Level = level;
 
     internal bool SpendMana(int amount)
     {
-        int ModifiedManaCost = amount + amount * (GetStatusEffect(StatusEffectType.SpellForce) != null ? GetStatusEffect(StatusEffectType.SpellForce).Duration / 10 : 0);
-        if (Mana >= ModifiedManaCost)
+        int modifiedManaCost = amount + amount * (GetStatusEffect(StatusEffectType.SpellForce) != null ? GetStatusEffect(StatusEffectType.SpellForce).Duration / 10 : 0);
+        if (Mana >= modifiedManaCost)
         {
-            Mana -= ModifiedManaCost;
+            Mana -= modifiedManaCost;
             return true;
         }
 
@@ -864,7 +864,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     internal Unit CurrentLeader;
 
     [OdinSerialize]
-    public Actor_Unit BoundUnit;
+    public ActorUnit BoundUnit;
 
     /// <summary>
     ///     Creates an empty unit for various purposes
@@ -885,20 +885,20 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         Mana = MaxMana;
     }
 
-    public Unit(Side side, Race race, int startingXP, bool predator, UnitType type = UnitType.Soldier, bool immuneToDefectons = false)
+    public Unit(Side side, Race race, int startingXp, bool predator, UnitType type = UnitType.Soldier, bool immuneToDefectons = false)
     {
         Stats = new int[(int)Stat.None];
         Race = race;
         Side = side;
-        experience = startingXP;
-        level = 1;
+        Experience = startingXp;
+        Level = 1;
         Tags = new List<TraitType>();
         PermanentTraits = new List<TraitType>();
         RemovedTraits = new List<TraitType>();
         Type = type;
 
         Predator = predator;
-        if (predator == false) fixedPredator = true;
+        if (predator == false) FixedPredator = true;
         ImmuneToDefections = immuneToDefectons;
 
 
@@ -1009,20 +1009,20 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     private void Reincarnate(Reincarnator reinc)
     {
-        Unit Unit = reinc.PastLife;
-        Name = Unit.Name;
-        experience = Unit.Experience;
-        foreach (TraitType trait in Unit.PermanentTraits)
+        Unit unit = reinc.PastLife;
+        Name = unit.Name;
+        Experience = unit.Experience;
+        foreach (TraitType trait in unit.PermanentTraits)
         {
             AddPermanentTrait(trait);
         }
 
-        InnateSpells.AddRange(Unit.InnateSpells);
-        ShifterShapes = Unit.ShifterShapes;
-        FixedSide = Unit.FixedSide;
-        hiddenFixedSide = true;
-        SavedCopy = Unit.SavedCopy;
-        SavedVillage = Unit.SavedVillage;
+        InnateSpells.AddRange(unit.InnateSpells);
+        ShifterShapes = unit.ShifterShapes;
+        FixedSide = unit.FixedSide;
+        HiddenFixedSide = true;
+        SavedCopy = unit.SavedCopy;
+        SavedVillage = unit.SavedVillage;
         Race race = reinc.Race;
         OnDiscard = () =>
         {
@@ -1037,11 +1037,11 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
                 }
             }
 
-            State.World.Reincarnators?.Add(new Reincarnator(Unit, targetRace, reinc.RaceLocked));
-            Debug.Log(Unit.Name + " is re-reincarnating");
+            State.World.Reincarnators?.Add(new Reincarnator(unit, targetRace, reinc.RaceLocked));
+            Debug.Log(unit.Name + " is re-reincarnating");
         };
         State.World.Reincarnators?.Remove(reinc);
-        Debug.Log(Unit.Name + " reincarnated as a " + Race);
+        Debug.Log(unit.Name + " reincarnated as a " + Race);
         StrategicUtilities.SpendLevelUps(this);
     }
 
@@ -1049,7 +1049,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     {
         if (State.World == null) return;
 
-        if (RaceFuncs.isMonster(race))
+        if (RaceFuncs.IsMonster(race))
         {
             FixedGear = true;
             Items[0] = State.World.ItemRepository.GetMonsterItem(Race);
@@ -1085,10 +1085,10 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         {
             Items[0] = State.World.ItemRepository.GetItem(ItemType.Axe);
         }
-        else if (Equals(race, Race.DRACO))
+        else if (Equals(race, Race.Draco))
         {
             FixedGear = true;
-            Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.DRACOWeapon);
+            Items[0] = State.World.ItemRepository.GetSpecialItem(SpecialItems.DracoWeapon);
         }
         else if (Equals(race, Race.Zoey))
         {
@@ -1159,12 +1159,12 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             tiers.Add(1);
         }
 
-        if (HasTrait(TraitType.BookWormII))
+        if (HasTrait(TraitType.BookWormIi))
         {
             tiers.Add(2);
         }
 
-        if (HasTrait(TraitType.BookWormIII))
+        if (HasTrait(TraitType.BookWormIii))
         {
             tiers.Add(3);
         }
@@ -1300,7 +1300,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             isMale = false;
         }
 
-        if (RaceFuncs.isMosnterOrUniqueMerc(race))
+        if (RaceFuncs.IsMosnterOrUniqueMerc(race))
         {
             Name = State.NameGen.GetMonsterName(isMale, race);
         }
@@ -1336,8 +1336,8 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         bool isMale = false;
         if (raceStats.OverrideGender)
         {
-            maleFraction = raceStats.maleFraction;
-            hermFraction = raceStats.hermFraction;
+            maleFraction = raceStats.MaleFraction;
+            hermFraction = raceStats.HermFraction;
         }
         else
         {
@@ -1357,7 +1357,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         {
             DickSize = 0;
             SetDefaultBreastSize(0);
-            HasVagina = Config.HermsCanUB;
+            HasVagina = Config.HermsCanUb;
             Pronouns = new List<string> { "they", "them", "their", "theirs", "themself", "plural" };
             isMale = State.Rand.NextDouble() > Config.HermNameFraction;
         }
@@ -1378,7 +1378,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             isMale = false;
         }
 
-        if (RaceFuncs.isMosnterOrUniqueMerc(race))
+        if (RaceFuncs.IsMosnterOrUniqueMerc(race))
         {
             Name = State.NameGen.GetMonsterName(isMale, race);
         }
@@ -1411,8 +1411,8 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         float hermFraction;
         if (raceStats.OverrideGender)
         {
-            maleFraction = raceStats.maleFraction;
-            hermFraction = raceStats.hermFraction;
+            maleFraction = raceStats.MaleFraction;
+            hermFraction = raceStats.HermFraction;
         }
         else
         {
@@ -1468,10 +1468,10 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         if (voreSource) exp *= TraitBoosts.ExpGainFromVore;
         if (voreSource && isKill) exp *= TraitBoosts.ExpGainFromAbsorption;
 
-        experience += exp;
+        Experience += exp;
     }
 
-    public void GiveRawExp(int exp) => experience += exp;
+    public void GiveRawExp(int exp) => Experience += exp;
 
     public bool IsDeadAndOverkilledBy(int overkill)
     {
@@ -1492,7 +1492,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     public void DrainExp(float exp)
     {
-        experience -= exp;
+        Experience -= exp;
     }
 
     public void GiveScaledExp(float exp, int attackerLevelAdvantage, bool voreSource = false, bool isKill = false)
@@ -1519,7 +1519,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             exp = Math.Min(exp * (1 + (float)Math.Pow(-attackerLevelAdvantage, 1.2) / 12f), 6f * exp);
         }
 
-        experience += exp;
+        Experience += exp;
     }
 
     public static int GetExperienceRequiredForLevel(int level, float expRequiredMod)
@@ -1539,9 +1539,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         return 200;
     }
 
-    public float Experience => experience;
-    public int Level => level;
-    public int ExperienceRequiredForNextLevel => GetExperienceRequiredForLevel(level);
+    public int ExperienceRequiredForNextLevel => GetExperienceRequiredForLevel(Level);
     public int GetExperienceRequiredForLevel(int lvl) => GetExperienceRequiredForLevel(lvl, ExpRequiredMod);
     private float ExpRequiredMod => TraitBoosts.ExpRequired;
     public bool HasEnoughExpToLevelUp() => Experience >= ExperienceRequiredForNextLevel;
@@ -1715,7 +1713,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             return $"{modStat}";
     }
 
-    public void SetExp(float exp) => experience = exp;
+    public void SetExp(float exp) => Experience = exp;
 
     internal void ModifyStat(int stat, int amount) => ModifyStat((Stat)stat, amount);
 
@@ -1742,13 +1740,13 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     internal void RefreshSecrecy()
     {
-        if (HasTrait(TraitType.Infiltrator) || HasTrait(TraitType.Corruption)) hiddenFixedSide = true;
+        if (HasTrait(TraitType.Infiltrator) || HasTrait(TraitType.Corruption)) HiddenFixedSide = true;
     }
 
     internal void InitializeFixedSide(Side side)
     {
         if (State.World?.ItemRepository == null) return; //protection for the create strat screen
-        if (RaceFuncs.isNotNone(_fixedSide)) return;
+        if (RaceFuncs.IsNotNone(_fixedSide)) return;
         if (HasTrait(TraitType.Untamable))
         {
             FixedSide = State.World.GetEmpireOfRace(Race)?.Side ?? side;
@@ -1830,7 +1828,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         string ret = "";
         for (int i = 0; i < Tags.Count; i++)
         {
-            if (!(hideSecret && secretTags.Contains(Tags[i])))
+            if (!(hideSecret && SecretTags.Contains(Tags[i])))
             {
                 if (ret != "") ret += "\n";
                 if (TemporaryTraits != null && TemporaryTraits.Count > 0 && TemporaryTraits.Contains(Tags[i]))
@@ -1847,7 +1845,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             for (int i = 0; i < PermanentTraits.Count; i++)
             {
                 if (Tags.Contains(PermanentTraits[i])) continue;
-                if (!(hideSecret && secretTags.Contains(PermanentTraits[i])))
+                if (!(hideSecret && SecretTags.Contains(PermanentTraits[i])))
                 {
                     if (ret != "") ret += "\n";
                     ret += PermanentTraits[i].ToString();
@@ -1890,7 +1888,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         if (traitTypeToAdd == TraitType.Prey)
         {
             Predator = false;
-            fixedPredator = true;
+            FixedPredator = true;
         }
 
         if (HasTrait(traitTypeToAdd)) return false;
@@ -1911,7 +1909,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             if (RaceParameters.GetTraitData(this).AllowedVoreTypes.Any())
             {
                 Predator = true;
-                fixedPredator = true;
+                FixedPredator = true;
             }
             else //Cancel removal in this case
                 return;
@@ -1942,43 +1940,43 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         AttackStatusEffects.Clear();
         if (PermanentTraits == null)
         {
-            foreach (var trait in Tags)
+            foreach (var tag in Tags)
             {
-                Trait ITrait = TraitList.GetTrait(trait);
-                if (ITrait is IStatBoost boost) StatBoosts.Add(boost);
-                if (ITrait is IVoreAttackOdds voreAttackOdds) VoreAttackOdds.Add(voreAttackOdds);
-                if (ITrait is IVoreDefenseOdds voreDefenseOdds) VoreDefenseOdds.Add(voreDefenseOdds);
-                if (ITrait is IPhysicalDefenseOdds physicalDefenseOdds) PhysicalDefenseOdds.Add(physicalDefenseOdds);
-                if (ITrait is IAttackStatusEffect attackStatusEffect) AttackStatusEffects.Add(attackStatusEffect);
-                if (ITrait is AbstractBooster booster) booster.Boost(TraitBoosts);
+                Trait trait = TraitList.GetTrait(tag);
+                if (trait is IStatBoost boost) StatBoosts.Add(boost);
+                if (trait is IVoreAttackOdds voreAttackOdds) VoreAttackOdds.Add(voreAttackOdds);
+                if (trait is IVoreDefenseOdds voreDefenseOdds) VoreDefenseOdds.Add(voreDefenseOdds);
+                if (trait is IPhysicalDefenseOdds physicalDefenseOdds) PhysicalDefenseOdds.Add(physicalDefenseOdds);
+                if (trait is IAttackStatusEffect attackStatusEffect) AttackStatusEffects.Add(attackStatusEffect);
+                if (trait is AbstractBooster booster) booster.Boost(TraitBoosts);
             }
         }
 
         if (PermanentTraits != null)
         {
-            foreach (var trait in Tags.Concat(PermanentTraits).Distinct())
+            foreach (var tag in Tags.Concat(PermanentTraits).Distinct())
             {
-                Trait ITrait = TraitList.GetTrait(trait);
-                if (ITrait is IStatBoost boost) StatBoosts.Add(boost);
-                if (ITrait is IVoreAttackOdds voreAttackOdds) VoreAttackOdds.Add(voreAttackOdds);
-                if (ITrait is IVoreDefenseOdds voreDefenseOdds) VoreDefenseOdds.Add(voreDefenseOdds);
-                if (ITrait is IPhysicalDefenseOdds physicalDefenseOdds) PhysicalDefenseOdds.Add(physicalDefenseOdds);
-                if (ITrait is IAttackStatusEffect attackStatusEffect) AttackStatusEffects.Add(attackStatusEffect);
-                if (ITrait is AbstractBooster booster) booster.Boost(TraitBoosts);
+                Trait trait = TraitList.GetTrait(tag);
+                if (trait is IStatBoost boost) StatBoosts.Add(boost);
+                if (trait is IVoreAttackOdds voreAttackOdds) VoreAttackOdds.Add(voreAttackOdds);
+                if (trait is IVoreDefenseOdds voreDefenseOdds) VoreDefenseOdds.Add(voreDefenseOdds);
+                if (trait is IPhysicalDefenseOdds physicalDefenseOdds) PhysicalDefenseOdds.Add(physicalDefenseOdds);
+                if (trait is IAttackStatusEffect attackStatusEffect) AttackStatusEffects.Add(attackStatusEffect);
+                if (trait is AbstractBooster booster) booster.Boost(TraitBoosts);
             }
         }
 
         if (SharedTraits != null)
         {
-            foreach (var trait in SharedTraits)
+            foreach (var tag in SharedTraits)
             {
-                Trait ITrait = TraitList.GetTrait(trait);
-                if (ITrait is IStatBoost boost) StatBoosts.Add(boost);
-                if (ITrait is IVoreAttackOdds voreAttackOdds) VoreAttackOdds.Add(voreAttackOdds);
-                if (ITrait is IVoreDefenseOdds voreDefenseOdds) VoreDefenseOdds.Add(voreDefenseOdds);
-                if (ITrait is IPhysicalDefenseOdds physicalDefenseOdds) PhysicalDefenseOdds.Add(physicalDefenseOdds);
-                if (ITrait is IAttackStatusEffect attackStatusEffect) AttackStatusEffects.Add(attackStatusEffect);
-                if (ITrait is AbstractBooster booster) booster.Boost(TraitBoosts);
+                Trait trait = TraitList.GetTrait(tag);
+                if (trait is IStatBoost boost) StatBoosts.Add(boost);
+                if (trait is IVoreAttackOdds voreAttackOdds) VoreAttackOdds.Add(voreAttackOdds);
+                if (trait is IVoreDefenseOdds voreDefenseOdds) VoreDefenseOdds.Add(voreDefenseOdds);
+                if (trait is IPhysicalDefenseOdds physicalDefenseOdds) PhysicalDefenseOdds.Add(physicalDefenseOdds);
+                if (trait is IAttackStatusEffect attackStatusEffect) AttackStatusEffects.Add(attackStatusEffect);
+                if (trait is AbstractBooster booster) booster.Boost(TraitBoosts);
             }
         }
     }
@@ -2154,7 +2152,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         Tags = Tags.Distinct().ToList();
         if (HasTrait(TraitType.Prey))
             Predator = false;
-        else if (fixedPredator == false) Predator = State.World?.GetEmpireOfRace(HiddenUnit.Race)?.CanVore ?? true;
+        else if (FixedPredator == false) Predator = State.World?.GetEmpireOfRace(HiddenUnit.Race)?.CanVore ?? true;
         Tags.RemoveAll(s => s == TraitType.Prey);
         if (RaceParameters.GetTraitData(HiddenUnit).AllowedVoreTypes.Any() == false) Predator = false;
         if (HiddenUnit.Predator == false && !HasTrait(TraitType.Prey)) Tags.Add(TraitType.Prey);
@@ -2171,27 +2169,27 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     public void ChangeRace(Race race)
     {
         Race = race;
-        fixedPredator = false;
+        FixedPredator = false;
     }
 
     public void HideRace(Race race, Unit appearance = null)
     {
         _hiddenUnit = Clone();
         Race = race;
-        fixedPredator = false;
+        FixedPredator = false;
         if (appearance != null)
             CopyAppearance(appearance);
         else
         {
-            var NewRace = Races2.GetRace(race);
-            NewRace.RandomCustomCall(this);
+            var newRace = Races2.GetRace(race);
+            newRace.RandomCustomCall(this);
         }
     }
 
     public void UnhideRace()
     {
         Race = HiddenUnit.Race;
-        fixedPredator = false;
+        FixedPredator = false;
         CopyAppearance(HiddenUnit);
         _hiddenUnit = null;
     }
@@ -2200,14 +2198,14 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     {
         while (true)
         {
-            var customs = Tags.Where(t => State.RandomizeLists.Any(rl => (TraitType)rl.id == t)).ToList();
-            customs.AddRange(PermanentTraits.Where(t => State.RandomizeLists.Any(rl => (TraitType)rl.id == t)));
+            var customs = Tags.Where(t => State.RandomizeLists.Any(rl => (TraitType)rl.ID == t)).ToList();
+            customs.AddRange(PermanentTraits.Where(t => State.RandomizeLists.Any(rl => (TraitType)rl.ID == t)));
             if (!customs.Any()) break;
             customs.ForEach(ct =>
             {
-                RandomizeList randomizeList = State.RandomizeLists.Single(rl => (TraitType)rl.id == ct);
-                var chance = randomizeList.chance;
-                while (chance > 0 && State.Rand.NextDouble() < randomizeList.chance)
+                RandomizeList randomizeList = State.RandomizeLists.Single(rl => (TraitType)rl.ID == ct);
+                var chance = randomizeList.Chance;
+                while (chance > 0 && State.Rand.NextDouble() < randomizeList.Chance)
                 {
                     List<TraitType> gainable = randomizeList.RandomTraits.Where(rt => !Tags.Contains(rt) && !PermanentTraits.Contains(rt)).ToList();
                     if (gainable.Count() > 0)
@@ -2386,7 +2384,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             ModifyStat((int)Stat.Leadership, 2);
         }
 
-        level++;
+        Level++;
         Stats[(int)stat] += 4;
         if (stat == Stat.Endurance)
         {
@@ -2425,14 +2423,14 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         }
 
         if (fraction == 0) return;
-        int startingLevel = level;
+        int startingLevel = Level;
         if (Config.LeaderLossExpPct > 0)
         {
-            experience *= 1 - fraction;
+            Experience *= 1 - fraction;
 
             for (int i = 0; i < startingLevel - 1; i++)
             {
-                if (experience < GetExperienceRequiredForLevel(level - 1))
+                if (Experience < GetExperienceRequiredForLevel(Level - 1))
                 {
                     LevelDown();
                 }
@@ -2452,16 +2450,16 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         }
 
         if (levelsLost == 0) return;
-        if (levelsLost >= 1 && level > 1)
+        if (levelsLost >= 1 && Level > 1)
         {
             for (int i = 0; i < levelsLost; i++)
             {
-                experience -= GetExperienceRequiredForLevel(level) - GetExperienceRequiredForLevel(level - 1);
+                Experience -= GetExperienceRequiredForLevel(Level) - GetExperienceRequiredForLevel(Level - 1);
                 LevelDown();
-                if (level <= 1) break;
+                if (Level <= 1) break;
             }
 
-            if (experience < 0) experience = 0;
+            if (Experience < 0) Experience = 0;
         }
     }
 
@@ -2474,7 +2472,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     public void LevelDown()
     {
-        if (level == 1) return;
+        if (Level == 1) return;
         int highestType = 0;
         for (int i = 0; i < Stats.Length; i++)
         {
@@ -2486,14 +2484,14 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     public void LevelDown(Stat stat)
     {
-        if (level == 1) return;
+        if (Level == 1) return;
         GeneralStatIncrease(-1);
         if (TraitBoosts.OnLevelUpBonusToAllStats > 0)
         {
             GeneralStatIncrease(-1 * TraitBoosts.OnLevelUpBonusToAllStats);
         }
 
-        level--;
+        Level--;
         int loweredStat = (int)stat;
 
         if (TraitBoosts.OnLevelUpBonusToGiveToTwoRandomStats > 0)
@@ -2635,11 +2633,11 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         return false;
     }
 
-    public void UpdateItems(ItemRepository NewRepository)
+    public void UpdateItems(ItemRepository newRepository)
     {
         for (int i = 0; i < Items.Length; i++)
         {
-            if (Items[i] != null) SetItem(NewRepository.GetNewItemType(Items[i]), i);
+            if (Items[i] != null) SetItem(newRepository.GetNewItemType(Items[i]), i);
         }
     }
 
@@ -2817,7 +2815,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
     public Side GetApparentSide(Unit viewer = null)
     {
         if (viewer != null && TacticalUtilities.UnitCanSeeTrueSideOfTarget(viewer, this)) return FixedSide;
-        return hiddenFixedSide ? Side : FixedSide;
+        return HiddenFixedSide ? Side : FixedSide;
     }
 
     public void CreateRaceShape(Race race)
@@ -2835,7 +2833,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
         shape.Name = Name;
         shape.InnateSpells.AddRange(InnateSpells);
-        hiddenFixedSide = false;
+        HiddenFixedSide = false;
         shape._fixedSide = ShifterShapes[0]._fixedSide;
         shape.SavedCopy = ShifterShapes[0].SavedCopy;
         shape.SavedVillage = ShifterShapes[0].SavedVillage;
@@ -2978,7 +2976,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             var pred = actor.SelfPrey?.Predator;
             if (pred != null && eff.Type == StatusEffectType.Diminished)
             {
-                if (pred.Unit.HasTrait(TraitType.TightNethers) && (actor.SelfPrey.Location == PreyLocation.balls || actor.SelfPrey.Location == PreyLocation.womb))
+                if (pred.Unit.HasTrait(TraitType.TightNethers) && (actor.SelfPrey.Location == PreyLocation.Balls || actor.SelfPrey.Location == PreyLocation.Womb))
                 {
                     continue;
                 }
@@ -3024,7 +3022,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     internal List<TraitType> RandomizeOne(RandomizeList randomizeList)
     {
-        var chance = randomizeList.chance;
+        var chance = randomizeList.Chance;
         var traitsToAdd = new List<TraitType>();
         List<TraitType> gainable = randomizeList.RandomTraits.Where(rt => !Tags.Contains(rt) && !PermanentTraits.Contains(rt)).ToList();
         while (State.Rand.NextDouble() < chance)
@@ -3035,7 +3033,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
                 GivePrerequisiteTraits(randomPick);
                 if (randomPick >= (TraitType)1000)
                 {
-                    RandomizeList recursiveRl = State.RandomizeLists.Find(re => (TraitType)re.id == randomPick);
+                    RandomizeList recursiveRl = State.RandomizeLists.Find(re => (TraitType)re.ID == randomPick);
                     if (recursiveRl != null)
                     {
                         traitsToAdd.AddRange(RandomizeOne(recursiveRl));

@@ -21,7 +21,7 @@ public class CustomizerPanel : MonoBehaviour
         if (CustomizationLoader.EnteredFromUnitEditor)
             State.GameManager.UnitEditor?.UnitEditor?.ChangeGender();
         else
-            State.GameManager.Recruit_Mode?.Customizer?.ChangeGender();
+            State.GameManager.RecruitMode?.Customizer?.ChangeGender();
     }
 
     public virtual void ChangePronouns()
@@ -29,14 +29,14 @@ public class CustomizerPanel : MonoBehaviour
         if (CustomizationLoader.EnteredFromUnitEditor)
             State.GameManager.UnitEditor?.UnitEditor?.ChangePronouns();
         else
-            State.GameManager.Recruit_Mode?.Customizer?.ChangePronouns();
+            State.GameManager.RecruitMode?.Customizer?.ChangePronouns();
     }
 
-    public virtual void ChangeName(Actor_Unit actor)
+    public virtual void ChangeName(ActorUnit actor)
     {
         if (CustomizationLoader.EnteredFromUnitEditor)
             State.GameManager.UnitEditor?.UnitEditor?.ChangeGender();
         else
-            State.GameManager.Recruit_Mode?.Customizer?.ChangeGender();
+            State.GameManager.RecruitMode?.Customizer?.ChangeGender();
     }
 }

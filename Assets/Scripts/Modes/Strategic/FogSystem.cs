@@ -42,7 +42,7 @@ internal class FogSystem
 
         foreach (Army army in armies)
         {
-            if (army.Empire.IsAlly(playerEmpire))
+            if (army.EmpireOutside.IsAlly(playerEmpire))
             {
                 ClearWithinXTilesOf(army.Position);
             }
@@ -104,7 +104,7 @@ internal class FogSystem
         }
     }
 
-    private void ClearWithinXTilesOf(Vec2i pos)
+    private void ClearWithinXTilesOf(Vec2I pos)
     {
         int dist = Config.FogDistance - (State.World.IsNight ? Config.NightStrategicSightReduction : 0);
         for (int x = pos.X - dist; x <= pos.X + dist; x++)

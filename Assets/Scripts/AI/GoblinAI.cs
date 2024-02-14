@@ -7,54 +7,54 @@ internal class GoblinAI : IStrategicAI
     [OdinSerialize]
     private Empire _empire;
 
-    private Empire empire { get => _empire; set => _empire = value; }
+    private Empire Empire { get => _empire; set => _empire = value; }
 
-    private List<PathNode> path;
-    private Army pathIsFor;
+    private List<PathNode> _path;
+    private Army _pathIsFor;
 
     public GoblinAI(Empire empire)
     {
-        this.empire = empire;
+        this.Empire = empire;
     }
 
     public bool RunAI()
     {
-        foreach (Army army in empire.Armies.ToList())
+        foreach (Army army in Empire.Armies.ToList())
         {
-            if (army.RemainingMP < 1) continue;
-            if (path != null && pathIsFor == army)
+            if (army.RemainingMp < 1) continue;
+            if (_path != null && _pathIsFor == army)
             {
-                if (path.Count == 0)
+                if (_path.Count == 0)
                 {
                     GenerateTaskForArmy(army);
                     return true;
                 }
 
-                Vec2i newLoc = new Vec2i(path[0].X, path[0].Y);
+                Vec2I newLoc = new Vec2I(_path[0].X, _path[0].Y);
                 if (StrategicUtilities.ArmyAt(newLoc) != null)
                 {
-                    path = null;
-                    army.RemainingMP = 0;
+                    _path = null;
+                    army.RemainingMp = 0;
                     continue;
                 }
 
-                Vec2i position = army.Position;
-                path.RemoveAt(0);
+                Vec2I position = army.Position;
+                _path.RemoveAt(0);
 
                 if (army.MoveTo(newLoc))
                     StrategicUtilities.StartBattle(army);
-                else if (position == army.Position) army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
+                else if (position == army.Position) army.RemainingMp = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
                 return true;
             }
             else
             {
                 GenerateTaskForArmy(army);
-                if (path == null || path.Count == 0) army.RemainingMP = 0;
+                if (_path == null || _path.Count == 0) army.RemainingMp = 0;
                 return true;
             }
         }
 
-        foreach (Army army in empire.Armies)
+        foreach (Army army in Empire.Armies)
         {
             foreach (Unit unit in army.Units)
             {
@@ -62,8 +62,8 @@ internal class GoblinAI : IStrategicAI
             }
         }
 
-        path = null;
-        foreach (Army army in empire.Armies)
+        _path = null;
+        foreach (Army army in Empire.Armies)
         {
             var closeVillages = State.World.Villages.Where(s => s.Position.GetNumberOfMovesDistance(army.Position) < 4 && s.GetTotalPop() > 0);
             foreach (Village village in closeVillages)
@@ -80,17 +80,17 @@ internal class GoblinAI : IStrategicAI
     {
         if (Config.GoblinCaravans == false)
         {
-            empire.SpendGold(empire.Gold);
+            Empire.SpendGold(Empire.Gold);
             return false;
         }
 
         bool foundSpot = false;
         int highestExp = State.GameManager.StrategyMode.ScaledExp;
         int baseXp = (int)(highestExp * .6f);
-        if (empire.Gold < 10000) empire.AddGold(10000);
+        if (Empire.Gold < 10000) Empire.AddGold(10000);
         double mapFactor = (Config.StrategicWorldSizeX + Config.StrategicWorldSizeY) / 20;
 
-        if (State.Rand.NextDouble() < (mapFactor - empire.Armies.Count) / 10)
+        if (State.Rand.NextDouble() < (mapFactor - Empire.Armies.Count) / 10)
         {
             int x = 0;
             int y = 0;
@@ -100,7 +100,7 @@ internal class GoblinAI : IStrategicAI
                 x = State.Rand.Next(Config.StrategicWorldSizeX);
                 y = State.Rand.Next(Config.StrategicWorldSizeY);
 
-                if (StrategicUtilities.IsTileClear(new Vec2i(x, y)))
+                if (StrategicUtilities.IsTileClear(new Vec2I(x, y)))
                 {
                     foundSpot = true;
                     break;
@@ -109,8 +109,8 @@ internal class GoblinAI : IStrategicAI
 
             if (foundSpot)
             {
-                var army = new Army(empire, new Vec2i(x, y), empire.Side);
-                empire.Armies.Add(army);
+                var army = new Army(Empire, new Vec2I(x, y), Empire.Side);
+                Empire.Armies.Add(army);
 
                 int num = 0;
                 int average = 0;
@@ -132,7 +132,7 @@ internal class GoblinAI : IStrategicAI
 
                 for (int i = 0; i < count; i++)
                 {
-                    Unit unit = new NPC_unit(1, State.Rand.Next(2) == 0, 2, empire.Side, empire.ReplacedRace, RandXp(baseXp), true);
+                    Unit unit = new NpcUnit(1, State.Rand.Next(2) == 0, 2, Empire.Side, Empire.ReplacedRace, RandXp(baseXp), true);
                     if (State.Rand.Next(4) == 0)
                     {
                         if (unit.Level < 3)
@@ -151,7 +151,7 @@ internal class GoblinAI : IStrategicAI
             }
         }
 
-        foreach (Army army in empire.Armies)
+        foreach (Army army in Empire.Armies)
         {
             foreach (Unit unit in army.Units)
             {
@@ -187,29 +187,29 @@ internal class GoblinAI : IStrategicAI
             }
         }
 
-        List<Side> PreferredSides = new List<Side>();
-        foreach (var relation in State.World.Relations[empire.Side])
+        List<Side> preferredSides = new List<Side>();
+        foreach (var relation in State.World.Relations[Empire.Side])
         {
-            if (relation.Value.Type == RelationState.Neutral && State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0) PreferredSides.Add(relation.Key);
+            if (relation.Value.Type == RelationState.Neutral && State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0) preferredSides.Add(relation.Key);
             if (relation.Value.Type == RelationState.Allied && State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0)
             {
-                PreferredSides.Add(relation.Key);
-                PreferredSides.Add(relation.Key);
+                preferredSides.Add(relation.Key);
+                preferredSides.Add(relation.Key);
             }
         }
 
-        if (PreferredSides.Count == 0)
+        if (preferredSides.Count == 0)
         {
-            foreach (var relation in State.World.Relations[empire.Side])
+            foreach (var relation in State.World.Relations[Empire.Side])
             {
-                if (State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0) PreferredSides.Add(relation.Key);
+                if (State.World.GetEmpireOfSide(relation.Key)?.VillageCount > 0) preferredSides.Add(relation.Key);
             }
         }
 
-        var villages = State.World.Villages.Where(s => PreferredSides.Contains(s.Side)).ToArray();
+        var villages = State.World.Villages.Where(s => preferredSides.Contains(s.Side)).ToArray();
         if (villages.Count() == 0)
         {
-            army.RemainingMP = 0;
+            army.RemainingMp = 0;
             return;
         }
 
@@ -230,7 +230,7 @@ internal class GoblinAI : IStrategicAI
         {
             x = village.Position.X + State.Rand.Next(-2, 3);
             y = village.Position.Y + State.Rand.Next(-2, 3);
-            if (StrategicUtilities.IsTileClear(new Vec2i(x, y)))
+            if (StrategicUtilities.IsTileClear(new Vec2I(x, y)))
             {
                 foundSpot = true;
                 break;
@@ -238,19 +238,19 @@ internal class GoblinAI : IStrategicAI
         }
 
         if (foundSpot == false) return false;
-        army.Destination = new Vec2i(x, y);
+        army.Destination = new Vec2I(x, y);
         return true;
     }
 
-    private void SetPath(Army army, Vec2i targetPosition)
+    private void SetPath(Army army, Vec2I targetPosition)
     {
         if (targetPosition != null)
         {
-            pathIsFor = army;
-            path = StrategyPathfinder.GetMonsterPath(empire, army, targetPosition, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
+            _pathIsFor = army;
+            _path = StrategyPathfinder.GetMonsterPath(Empire, army, targetPosition, army.RemainingMp, army.MovementMode == MovementMode.Flight);
             return;
         }
 
-        army.RemainingMP = 0;
+        army.RemainingMp = 0;
     }
 }

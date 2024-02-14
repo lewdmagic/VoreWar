@@ -1,12 +1,12 @@
 ﻿public enum TacticalTileType
 {
-    grass,
-    tree1,
-    tree2,
-    wall,
-    house1,
-    house2,
-    house3,
+    Grass,
+    Tree1,
+    Tree2,
+    Wall,
+    House1,
+    House2,
+    House3,
     CobbleComplete,
     CobbleHorizontal,
     CobbleVertical,
@@ -24,11 +24,11 @@
     VolcanicOverGravel = 83,
     VolcanicOverLava = 84,
 
-    greengrass = 100,
-    grassBush,
-    grassFlower,
-    grassMediumRock,
-    grassSmallRock,
+    Greengrass = 100,
+    GrassBush,
+    GrassFlower,
+    GrassMediumRock,
+    GrassSmallRock,
 }
 
 internal static class TacticalTileInfo
@@ -47,7 +47,7 @@ internal static class TacticalTileInfo
         return 1;
     }
 
-    internal static bool CanWalkInto(TacticalTileType type, Actor_Unit actor)
+    internal static bool CanWalkInto(TacticalTileType type, ActorUnit actor)
     {
         if (type >= (TacticalTileType)2300 && type < (TacticalTileType)2399) return true;
         if (type >= (TacticalTileType)2000 && type < (TacticalTileType)2099) return true;
@@ -59,11 +59,11 @@ internal static class TacticalTileInfo
 
         switch (type)
         {
-            case TacticalTileType.grass:
+            case TacticalTileType.Grass:
                 return true;
-            case TacticalTileType.tree1:
+            case TacticalTileType.Tree1:
                 return actor?.Unit.HasTrait(TraitType.NimbleClimber) ?? false;
-            case TacticalTileType.tree2:
+            case TacticalTileType.Tree2:
                 return actor?.Unit.HasTrait(TraitType.NimbleClimber) ?? false;
             case TacticalTileType.CobbleComplete:
                 return true;
@@ -81,9 +81,9 @@ internal static class TacticalTileInfo
                 return true;
             case TacticalTileType.CobbleIntersectionRightEdge:
                 return true;
-            case TacticalTileType.grassBush:
-            case TacticalTileType.grassFlower:
-            case TacticalTileType.grassSmallRock:
+            case TacticalTileType.GrassBush:
+            case TacticalTileType.GrassFlower:
+            case TacticalTileType.GrassSmallRock:
                 return true;
             default:
                 return false;

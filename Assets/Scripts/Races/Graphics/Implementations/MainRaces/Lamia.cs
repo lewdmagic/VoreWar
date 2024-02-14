@@ -10,8 +10,8 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Lamia
     {
-        private static readonly float xOffset = -1.875f; //3 pixels * 5/8
-        private static readonly float yOffset = 3.75f;
+        private static readonly float XOffset = -1.875f; //3 pixels * 5/8
+        private static readonly float YOffset = 3.75f;
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
@@ -64,7 +64,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.ExtraColors1 = ColorPaletteMap.GetPaletteCount(SwapType.LizardMain);
                 output.ExtraColors2 = ColorPaletteMap.GetPaletteCount(SwapType.OldImpDark);
 
-                output.ClothingShift = new Vector3(xOffset, yOffset, 0);
+                output.ClothingShift = new Vector3(XOffset, YOffset, 0);
                 output.AvoidedMainClothingTypes = 2;
                 output.ClothingColors = ColorPaletteMap.GetPaletteCount(SwapType.Clothing);
                 output.AllowedMainClothingTypes.Set(
@@ -136,7 +136,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (Config.LamiaUseTailAsSecondBelly && input.U.Predator)
                 {
-                    output.Sprite(input.Sprites.Lamia[Math.Min(bonusCap + (input.A.PredatorComponent?.Stomach2ndFullness > 0 ? 11 + input.A.GetStomach2Size(2) : 10), 13)]);
+                    output.Sprite(input.Sprites.Lamia[Math.Min(bonusCap + (input.A.PredatorComponent?.Stomach2NdFullness > 0 ? 11 + input.A.GetStomach2Size(2) : 10), 13)]);
                     return;
                 }
 
@@ -196,7 +196,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (Config.LamiaUseTailAsSecondBelly && input.U.Predator)
                 {
-                    if (input.A.PredatorComponent.Stomach2ndFullness > 0 || input.A.PredatorComponent.TailFullness > 0)
+                    if (input.A.PredatorComponent.Stomach2NdFullness > 0 || input.A.PredatorComponent.TailFullness > 0)
                     {
                         output.Sprite(input.Sprites.Lamia[Math.Min(2 + input.A.GetStomach2Size(2) + bonusCap, 4)]);
                         return;
@@ -288,37 +288,37 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RunBefore((input, output) =>
             {
-                bool Selicia;
+                bool selicia;
                 if (input.U.Predator == false)
                 {
-                    Selicia = false;
+                    selicia = false;
                 }
                 else
                 {
-                    Selicia = (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach)
-                               || input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.womb)
-                               || input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach2))
+                    selicia = (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach)
+                               || input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Womb)
+                               || input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach2))
                               && input.A.GetCombinedStomachSize() == 15;
                 }
 
-                output.ChangeSprite(SpriteType.Body).AddOffset(xOffset, yOffset);
-                output.ChangeSprite(SpriteType.Head).AddOffset(xOffset, yOffset);
-                output.ChangeSprite(SpriteType.Mouth).AddOffset(xOffset, yOffset);
-                output.ChangeSprite(SpriteType.Hair).AddOffset(xOffset, yOffset);
-                output.ChangeSprite(SpriteType.Hair2).AddOffset(xOffset, yOffset);
-                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(xOffset, yOffset);
-                output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(xOffset, yOffset);
-                output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(xOffset, yOffset);
-                output.ChangeSprite(SpriteType.Weapon).AddOffset(xOffset + 1.25f, yOffset + 1.25f);
-                output.ChangeSprite(SpriteType.BackWeapon).AddOffset(xOffset, yOffset);
-                if (Selicia == false)
+                output.ChangeSprite(SpriteType.Body).AddOffset(XOffset, YOffset);
+                output.ChangeSprite(SpriteType.Head).AddOffset(XOffset, YOffset);
+                output.ChangeSprite(SpriteType.Mouth).AddOffset(XOffset, YOffset);
+                output.ChangeSprite(SpriteType.Hair).AddOffset(XOffset, YOffset);
+                output.ChangeSprite(SpriteType.Hair2).AddOffset(XOffset, YOffset);
+                output.ChangeSprite(SpriteType.BodyAccent3).AddOffset(XOffset, YOffset);
+                output.ChangeSprite(SpriteType.BodyAccent4).AddOffset(XOffset, YOffset);
+                output.ChangeSprite(SpriteType.BodyAccent5).AddOffset(XOffset, YOffset);
+                output.ChangeSprite(SpriteType.Weapon).AddOffset(XOffset + 1.25f, YOffset + 1.25f);
+                output.ChangeSprite(SpriteType.BackWeapon).AddOffset(XOffset, YOffset);
+                if (selicia == false)
                 {
-                    output.ChangeSprite(SpriteType.Belly).AddOffset(xOffset, yOffset);
+                    output.ChangeSprite(SpriteType.Belly).AddOffset(XOffset, YOffset);
                 }
 
-                output.ChangeSprite(SpriteType.Breasts).AddOffset(xOffset, yOffset);
-                output.ChangeSprite(SpriteType.Dick).AddOffset(xOffset, yOffset + 2.5f);
-                output.ChangeSprite(SpriteType.Balls).AddOffset(xOffset, yOffset + 2.5f);
+                output.ChangeSprite(SpriteType.Breasts).AddOffset(XOffset, YOffset);
+                output.ChangeSprite(SpriteType.Dick).AddOffset(XOffset, YOffset + 2.5f);
+                output.ChangeSprite(SpriteType.Balls).AddOffset(XOffset, YOffset + 2.5f);
                 output.ChangeSprite(SpriteType.Eyes).AddOffset(0, -1 * .625f);
                 if (input.U.GetGender() != Gender.Male)
                 {

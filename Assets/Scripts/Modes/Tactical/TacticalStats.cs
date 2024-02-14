@@ -38,9 +38,9 @@ public class TacticalStats
         public int Misses { get => _misses; set => _misses = value; }
 
         [OdinSerialize]
-        private int _totalHPHealed;
+        private int _totalHpHealed;
 
-        public int TotalHPHealed { get => _totalHPHealed; set => _totalHPHealed = value; }
+        public int TotalHpHealed { get => _totalHpHealed; set => _totalHpHealed = value; }
 
         [OdinSerialize]
         private int _targetsVored;
@@ -94,17 +94,17 @@ public class TacticalStats
     [OdinSerialize]
     private int _attackers;
 
-    private int attackers { get => _attackers; set => _attackers = value; }
+    private int Attackers { get => _attackers; set => _attackers = value; }
 
     [OdinSerialize]
     private int _defenders;
 
-    private int defenders { get => _defenders; set => _defenders = value; }
+    private int Defenders { get => _defenders; set => _defenders = value; }
 
     [OdinSerialize]
     private int _garrison;
 
-    private int garrison { get => _garrison; set => _garrison = value; }
+    private int Garrison { get => _garrison; set => _garrison = value; }
 
     [OdinSerialize]
     private RaceStats _attackerStats;
@@ -118,9 +118,9 @@ public class TacticalStats
 
     public void SetInitialUnits(int attack, int defend, int garr, Side attackerSide, Side defenderSide)
     {
-        attackers = attack;
-        defenders = defend;
-        garrison = garr;
+        Attackers = attack;
+        Defenders = defend;
+        Garrison = garr;
         AttackerSide = attackerSide;
         DefenderSide = defenderSide;
 
@@ -174,7 +174,7 @@ public class TacticalStats
     public string AttackerSummary(int remAttackers)
     {
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"Attackers Remaining: {remAttackers} / {attackers}");
+        sb.AppendLine($"Attackers Remaining: {remAttackers} / {Attackers}");
         GetRaceStats(sb, AttackerStats);
         return sb.ToString();
     }
@@ -184,36 +184,36 @@ public class TacticalStats
         if (remDefenders < 0) remDefenders = 0;
         if (remGarrison < 0) remGarrison = 0;
         StringBuilder sb = new StringBuilder();
-        if (defenders > 0) sb.AppendLine($"Defenders Remaining: {remDefenders} / {defenders}");
-        if (garrison > 0) sb.AppendLine($"Garrison Remaining: {remGarrison} / {garrison}");
+        if (Defenders > 0) sb.AppendLine($"Defenders Remaining: {remDefenders} / {Defenders}");
+        if (Garrison > 0) sb.AppendLine($"Garrison Remaining: {remGarrison} / {Garrison}");
         GetRaceStats(sb, DefenderStats);
         return sb.ToString();
     }
 
-    private void GetRaceStats(StringBuilder sb, RaceStats Stats)
+    private void GetRaceStats(StringBuilder sb, RaceStats stats)
     {
-        foreach (var item in Stats.DamageDealtBy)
+        foreach (var item in stats.DamageDealtBy)
         {
-            sb.AppendLine($"{item.Key.Name} - Damage Dealt: {Stats.DamageDealtBy[item.Key]} - Kills: {(Stats.KillsWith.ContainsKey(item.Key) ? Stats.KillsWith[item.Key] : 0)}");
+            sb.AppendLine($"{item.Key.Name} - Damage Dealt: {stats.DamageDealtBy[item.Key]} - Kills: {(stats.KillsWith.ContainsKey(item.Key) ? stats.KillsWith[item.Key] : 0)}");
         }
 
-        if (Stats.DamageDealtBySpell != null && Stats.KillsWithSpell != null)
+        if (stats.DamageDealtBySpell != null && stats.KillsWithSpell != null)
         {
-            foreach (var item in Stats.DamageDealtBySpell)
+            foreach (var item in stats.DamageDealtBySpell)
             {
-                sb.AppendLine($"{item.Key.Name} - Damage Dealt: {Stats.DamageDealtBySpell[item.Key]} - Kills: {(Stats.KillsWithSpell.ContainsKey(item.Key) ? Stats.KillsWithSpell[item.Key] : 0)}");
+                sb.AppendLine($"{item.Key.Name} - Damage Dealt: {stats.DamageDealtBySpell[item.Key]} - Kills: {(stats.KillsWithSpell.ContainsKey(item.Key) ? stats.KillsWithSpell[item.Key] : 0)}");
             }
         }
 
-        sb.AppendLine($"Hits: {Stats.Hits}");
-        sb.AppendLine($"Misses: {Stats.Misses}");
-        sb.AppendLine($"Total HP Healed: {Stats.TotalHPHealed}");
-        sb.AppendLine($"Targets Vored: {Stats.TargetsVored}");
-        sb.AppendLine($"Prey Freed: {Stats.TargetsFreed}");
-        sb.AppendLine($"Prey Escaped: {Stats.TargetsEscaped}");
-        sb.AppendLine($"Prey Regurgitated: {Stats.TargetsRegurgitated}");
-        sb.AppendLine($"Prey Digested: {Stats.TargetsDigested}");
-        if (Stats.AlliesEaten > 0) sb.AppendLine($"Allies Eaten: {Stats.AlliesEaten}");
+        sb.AppendLine($"Hits: {stats.Hits}");
+        sb.AppendLine($"Misses: {stats.Misses}");
+        sb.AppendLine($"Total HP Healed: {stats.TotalHpHealed}");
+        sb.AppendLine($"Targets Vored: {stats.TargetsVored}");
+        sb.AppendLine($"Prey Freed: {stats.TargetsFreed}");
+        sb.AppendLine($"Prey Escaped: {stats.TargetsEscaped}");
+        sb.AppendLine($"Prey Regurgitated: {stats.TargetsRegurgitated}");
+        sb.AppendLine($"Prey Digested: {stats.TargetsDigested}");
+        if (stats.AlliesEaten > 0) sb.AppendLine($"Allies Eaten: {stats.AlliesEaten}");
     }
 
     public void RegisterKill(Weapon weapon, Side attackerSide)
@@ -307,9 +307,9 @@ public class TacticalStats
     public void RegisterHealing(int amount, Side attackerSide)
     {
         if (Equals(attackerSide, AttackerSide))
-            AttackerStats.TotalHPHealed += amount;
+            AttackerStats.TotalHpHealed += amount;
         else
-            DefenderStats.TotalHPHealed += amount;
+            DefenderStats.TotalHpHealed += amount;
     }
 
     public void RegisterVore(Side attackerSide)

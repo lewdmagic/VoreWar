@@ -74,9 +74,9 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking || input.A.IsEating || CalcPosition(input.A) == Position.Underground)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = false;
-                    input.A.AnimationController.frameLists[0].currentFrame = 0;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
                     if (input.A.IsEating || input.A.IsAttacking)
                     {
@@ -99,28 +99,28 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[0].currentTime >= frameListHeadIdle.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[0].CurrentTime >= frameListHeadIdle.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame++;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[0].currentFrame >= frameListHeadIdle.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListHeadIdle.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[0].currentlyActive = false;
-                            input.A.AnimationController.frameLists[0].currentFrame = 0;
-                            input.A.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Earthworms[8 + frameListHeadIdle.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Earthworms[8 + frameListHeadIdle.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
                 if (State.Rand.Next(600) == 0)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Earthworms[8]);
@@ -152,7 +152,7 @@ namespace Races.Graphics.Implementations.Monsters
                             return;
                         }
 
-                        output.Sprite(input.Sprites.Earthworms[12 + frameListHeadIdle.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Earthworms[12 + frameListHeadIdle.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                         return;
                     default:
                         return;
@@ -162,7 +162,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.EarthwormSkin, input.U.SkinColor));
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -293,7 +293,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(0, 0, false)
             }; // Index 0.

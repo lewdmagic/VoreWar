@@ -492,12 +492,12 @@ namespace Races.Graphics.Implementations.MainRaces
                         return;
                     }
 
-                    if (input.U.HasDick && input.U.HasBreasts && !Config.HermsCanUB) // Hide for Herms (Didn't work)
+                    if (input.U.HasDick && input.U.HasBreasts && !Config.HermsCanUb) // Hide for Herms (Didn't work)
                     {
                         return;
                     }
 
-                    if (input.U.HasDick && input.U.HasBreasts && Config.HermsCanUB) // Visible for Herms
+                    if (input.U.HasDick && input.U.HasBreasts && Config.HermsCanUb) // Visible for Herms
                     {
                         output.Sprite(input.Sprites.LizardsBooty[12]);
                     }
@@ -516,12 +516,12 @@ namespace Races.Graphics.Implementations.MainRaces
                         return;
                     }
 
-                    if (input.U.HasDick && input.U.HasBreasts && !Config.HermsCanUB) // Hide for Herms (Didn't work)
+                    if (input.U.HasDick && input.U.HasBreasts && !Config.HermsCanUb) // Hide for Herms (Didn't work)
                     {
                         return;
                     }
 
-                    if (input.U.HasDick && input.U.HasBreasts && !Config.HermsCanUB) // Visible for Herms
+                    if (input.U.HasDick && input.U.HasBreasts && !Config.HermsCanUb) // Visible for Herms
                     {
                         output.Sprite(input.Sprites.LizardsBooty[10]);
                     }
@@ -550,13 +550,13 @@ namespace Races.Graphics.Implementations.MainRaces
                     }
 
                     if (input.U.HasDick && input.U.HasBreasts &&
-                        Config.HermsCanUB == false) // Hide for Herms (Didn't work)
+                        Config.HermsCanUb == false) // Hide for Herms (Didn't work)
                     {
                         return;
                     }
 
                     if (input.U.HasDick && input.U.HasBreasts &&
-                        Config.HermsCanUB) // Visible for Herms
+                        Config.HermsCanUb) // Visible for Herms
                     {
                         output.Sprite(input.Sprites.LizardsBooty[13]);
                         return;
@@ -578,12 +578,12 @@ namespace Races.Graphics.Implementations.MainRaces
                         return;
                     }
 
-                    if (input.U.HasDick && input.U.HasBreasts && !Config.HermsCanUB) // Hide for Herms (Didn't work)
+                    if (input.U.HasDick && input.U.HasBreasts && !Config.HermsCanUb) // Hide for Herms (Didn't work)
                     {
                         return;
                     }
 
-                    if (input.U.HasDick && input.U.HasBreasts && Config.HermsCanUB) // Visible for Herms
+                    if (input.U.HasDick && input.U.HasBreasts && Config.HermsCanUb) // Visible for Herms
                     {
                         output.Sprite(input.Sprites.LizardsBooty[11]);
                     }

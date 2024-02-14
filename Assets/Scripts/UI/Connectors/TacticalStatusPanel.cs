@@ -6,8 +6,8 @@ public class TacticalStatusPanel : MonoBehaviour
     public Text UnitName;
     public Button EndTurn;
     public Text HitRate;
-    public Text MP;
-    public Text HP;
+    public Text Mp;
+    public Text Hp;
     public Text AttackerText;
     public Text DefenderText;
     public Button InfoButton;

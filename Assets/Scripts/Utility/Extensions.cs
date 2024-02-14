@@ -69,23 +69,23 @@ public static class Extensions
         }
     }
 
-    public static V GetOrSet<K, V>(this IDictionary<K, V> self, K key, Func<V> makeSetDefault)
+    public static TV GetOrSet<TK, TV>(this IDictionary<TK, TV> self, TK key, Func<TV> makeSetDefault)
     {
-        if (self.TryGetValue(key, out V value))
+        if (self.TryGetValue(key, out TV value))
         {
             return value;
         }
         else
         {
-            V newValue = makeSetDefault.Invoke();
+            TV newValue = makeSetDefault.Invoke();
             self[key] = newValue;
             return newValue;
         }
     }
 
-    public static V GetOrDefault<K, V>(this IDictionary<K, V> self, K key, V defaultValue)
+    public static TV GetOrDefault<TK, TV>(this IDictionary<TK, TV> self, TK key, TV defaultValue)
     {
-        if (self.TryGetValue(key, out V value))
+        if (self.TryGetValue(key, out TV value))
         {
             return value;
         }
@@ -95,9 +95,9 @@ public static class Extensions
         }
     }
 
-    public static V GetOrNull<K, V>(this IDictionary<K, V> self, K key) where V : class
+    public static TV GetOrNull<TK, TV>(this IDictionary<TK, TV> self, TK key) where TV : class
     {
-        if (self.TryGetValue(key, out V value))
+        if (self.TryGetValue(key, out TV value))
         {
             return value;
         }

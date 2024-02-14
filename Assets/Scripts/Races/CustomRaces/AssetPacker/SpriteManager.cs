@@ -184,27 +184,27 @@ namespace DaVikingCode.AssetPacker
             var loaderJson = new WWW("file:///" + savePath + "/CachedSprites.json");
             var textureAssets = JsonUtility.FromJson<SpriteSheetCache>(loaderJson.text);
 
-            foreach (TextureAsset textureAsset in textureAssets.assets)
+            foreach (TextureAsset textureAsset in textureAssets.Assets)
             {
-                var bytes = File.ReadAllBytes(savePath + "/" + textureAsset.textureFileName + ".png");
+                var bytes = File.ReadAllBytes(savePath + "/" + textureAsset.TextureFileName + ".png");
                 var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
                 texture.filterMode = FilterMode.Point;
                 texture.LoadImage(bytes);
 
                 // var loaderTexture = new WWW("file:///" + savePath + "/" + textureAsset.textureFileName + ".png");
                 // var texture = loaderTexture.texture; // prevent creating a new Texture2D each time.
-                foreach (var spriteInfo in textureAsset.spriteInfos)
+                foreach (var spriteInfo in textureAsset.SpriteInfos)
                 {
                     Sprite sprite = Sprite.Create(
                         texture,
-                        new Rect(spriteInfo.x, spriteInfo.y, spriteInfo.width, spriteInfo.height),
+                        new Rect(spriteInfo.X, spriteInfo.Y, spriteInfo.Width, spriteInfo.Height),
                         Vector2.zero,
-                        spriteInfo.pixelsPerUnit,
+                        spriteInfo.PixelsPerUnit,
                         0,
                         SpriteMeshType.FullRect
                     );
 
-                    _mSprites.Add(spriteInfo.name, sprite);
+                    _mSprites.Add(spriteInfo.Name, sprite);
                 }
             }
         }

@@ -118,7 +118,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
                 output.Coloring(ColorMap.GetWyvernColor(input.U.SkinColor));
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -155,34 +155,34 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = false;
-                    input.A.AnimationController.frameLists[0].currentFrame = 0;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[0].CurrentTime >= frameListTail.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame++;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListTail.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[0].currentlyActive = false;
-                            input.A.AnimationController.frameLists[0].currentFrame = 0;
-                            input.A.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Wyvern[22 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Wyvern[22 + frameListTail.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
                 if (State.Rand.Next(400) == 0)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Wyvern[24]);
@@ -199,14 +199,14 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = false;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
                     output.Sprite(input.Sprites.Wyvern[6]);
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    output.Sprite(input.Sprites.Wyvern[28 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Wyvern[28 + frameListTail.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
@@ -247,34 +247,34 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking || input.A.IsOralVoring)
                 {
-                    input.A.AnimationController.frameLists[1].currentlyActive = false;
-                    input.A.AnimationController.frameLists[1].currentFrame = 0;
-                    input.A.AnimationController.frameLists[1].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[1].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[1].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[1].currentlyActive)
+                if (input.A.AnimationController.FrameLists[1].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[1].currentTime >= frameListTongue.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[1].CurrentTime >= frameListTongue.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[1].currentFrame++;
-                        input.A.AnimationController.frameLists[1].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[1].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[1].currentFrame >= frameListTongue.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[1].CurrentFrame >= frameListTongue.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[1].currentlyActive = false;
-                            input.A.AnimationController.frameLists[1].currentFrame = 0;
-                            input.A.AnimationController.frameLists[1].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[1].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[1].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Wyvern[34 + frameListTongue.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
+                    output.Sprite(input.Sprites.Wyvern[34 + frameListTongue.Frames[input.A.AnimationController.FrameLists[1].CurrentFrame]]);
                     return;
                 }
 
                 if (input.A.PredatorComponent?.VisibleFullness > 0 && State.Rand.Next(600) == 0)
                 {
-                    input.A.AnimationController.frameLists[1].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[1].CurrentlyActive = true;
                 }
             }); // Tongue
 
@@ -346,7 +346,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(0, 0, false), // Tail controller. Index 0.
                 new AnimationController.FrameList(0, 0, false)

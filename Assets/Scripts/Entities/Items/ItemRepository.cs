@@ -52,7 +52,7 @@ public enum SpecialItems
     VisionWeapon,
     KiWeapon,
     ScorchWeapon,
-    DRACOWeapon,
+    DracoWeapon,
     ZoeyWeapon,
     ZeraWeapon,
     AbakWeapon,
@@ -68,15 +68,16 @@ public class ItemRepository
     [OdinSerialize]
     private List<Item> _items;
 
-    private List<Item> items { get => _items; set => _items = value; }
+    private List<Item> Items { get => _items; set => _items = value; }
 
     [OdinSerialize]
     private List<Item> _specialItems;
 
-    private List<Item> specialItems { get => _specialItems; set => _specialItems = value; }
+    private List<Item> SpecialItems { get => _specialItems; set => _specialItems = value; }
 
     [OdinSerialize]
-    private Dictionary<Race, Item> monsterItems;
+    private Dictionary<Race,Item> _monsterItems;
+    public Dictionary<Race,Item> MonsterItems { get => _monsterItems; set => _monsterItems = value; }
 
     [OdinSerialize]
     private Weapon _claws;
@@ -97,7 +98,7 @@ public class ItemRepository
     {
         Claws = new Weapon("Claw", "innate claws", 0, 0, 2, 1);
         Bite = new Weapon("Bite", "bite attack", 0, 0, 4, 1);
-        items = new List<Item>
+        Items = new List<Item>
         {
             new Weapon(name: "Mace", description: "Moderate melee weapon", cost: 4, graphic: 0, damage: 4, range: 1, accuracyModifier: 1.25f),
             new Weapon(name: "Axe", description: "Strong melee weapon", cost: 12, graphic: 2, damage: 8, range: 1, accuracyModifier: 1),
@@ -135,7 +136,7 @@ public class ItemRepository
             new SpellBook("Resurrection Book", "Allows the casting of Resurrection", 150, 4, SpellType.Resurrection),
             new SpellBook("Reanimate Book", "Allows the casting of Reanimate", 150, 4, SpellType.Reanimate),
         };
-        monsterItems = new Dictionary<Race, Item>()
+        MonsterItems = new Dictionary<Race, Item>()
         {
             { Race.Vagrant, new Weapon(name: "Vagrant Stinger", description: "Jellyfish stinger", cost: 4, graphic: 0, damage: 3, range: 1) },
             { Race.Serpent, new Weapon(name: "Serpent Fangs", description: "Fangs", cost: 4, graphic: 0, damage: 3, range: 1) },
@@ -177,7 +178,7 @@ public class ItemRepository
             { Race.Whisp, new Weapon(name: "Whisp fire", description: "Whisp's FoxFire", cost: 4, graphic: 0, damage: 5, range: 5, omniWeapon: true, magicWeapon: true) },
         };
 
-        specialItems = new List<Item>()
+        SpecialItems = new List<Item>()
         {
             new Weapon(name: "Selicia's Bite", description: "Bite attack", cost: 4, graphic: 0, damage: 10, range: 1),
             new Weapon(name: "Summoned Sword", description: "Imp that drops a sword on target", cost: 4, graphic: 0, damage: 4, range: 3, omniWeapon: true, lockedItem: true),
@@ -196,29 +197,29 @@ public class ItemRepository
 
 
         AllItems = new List<Item>();
-        AllItems.AddRange(items);
-        AllItems.AddRange(monsterItems.Values);
-        AllItems.AddRange(specialItems);
+        AllItems.AddRange(Items);
+        AllItems.AddRange(MonsterItems.Values);
+        AllItems.AddRange(SpecialItems);
     }
 
-    public int NumItems => items.Count;
+    public int NumItems => Items.Count;
 
-    public Item GetItem(int i) => items[i];
+    public Item GetItem(int i) => Items[i];
 
     public Item GetMonsterItem(Race i)
     {
-        Item item = monsterItems.GetOrNull(i);
+        Item item = MonsterItems.GetOrNull(i);
         if (item == null) Debug.Log(i);
         return item;
     }
 
-    public Item GetSpecialItem(SpecialItems i) => specialItems[(int)i];
+    public Item GetSpecialItem(SpecialItems i) => SpecialItems[(int)i];
 
-    public Item GetItem(ItemType i) => items[(int)i];
+    public Item GetItem(ItemType i) => Items[(int)i];
 
     public ItemType GetItemType(Item item)
     {
-        return (ItemType)items.IndexOf(items.Where(s => s.Name == item.Name).FirstOrDefault());
+        return (ItemType)Items.IndexOf(Items.Where(s => s.Name == item.Name).FirstOrDefault());
     }
 
     public Item GetRandomBook(int minTier = 1, int maxTier = 4, bool ignoreLimit = false)
@@ -246,12 +247,12 @@ public class ItemRepository
 
     internal bool ItemIsUnique(Item item)
     {
-        return monsterItems.ContainsValue(item) || specialItems.Contains(item);
+        return MonsterItems.ContainsValue(item) || SpecialItems.Contains(item);
     }
 
     public bool ItemIsRangedWeapon(int i)
     {
-        if (items[i] is Weapon weapon)
+        if (Items[i] is Weapon weapon)
         {
             if (weapon.Range > 1) return true;
         }
@@ -278,10 +279,10 @@ public class ItemRepository
 
     public Item GetNewItemType(Item item)
     {
-        var ret = items.Where(s => s.Name == item.Name).FirstOrDefault();
-        if (ret == null) ret = monsterItems.Values.Where(s => s.Name == item.Name).FirstOrDefault();
-        if (ret == null) ret = specialItems.Where(s => s.Name == item.Name).FirstOrDefault();
-        if (item.Name.Contains("Frog ???")) ret = monsterItems.Values.Where(s => s.Name.Contains("Frog Tongue")).FirstOrDefault();
+        var ret = Items.Where(s => s.Name == item.Name).FirstOrDefault();
+        if (ret == null) ret = MonsterItems.Values.Where(s => s.Name == item.Name).FirstOrDefault();
+        if (ret == null) ret = SpecialItems.Where(s => s.Name == item.Name).FirstOrDefault();
+        if (item.Name.Contains("Frog ???")) ret = MonsterItems.Values.Where(s => s.Name.Contains("Frog Tongue")).FirstOrDefault();
         if (ret == null)
         {
             if (item is Weapon weap)

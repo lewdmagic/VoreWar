@@ -112,14 +112,14 @@ internal static class RelationsManager
             }
 
             var empAI = State.World.GetEmpireOfSide(sideA);
-            var empBI = State.World.GetEmpireOfSide(sideB);
-            if (empAI == null || empBI == null)
+            var empBi = State.World.GetEmpireOfSide(sideB);
+            if (empAI == null || empBi == null)
             {
                 Debug.Log($"Invalid relationship returned between {sideA} and {sideB}");
                 return new Relationship(0, 1);
             }
 
-            Relationship newRel = new Relationship(empAI.Team, empBI.Team);
+            Relationship newRel = new Relationship(empAI.Team, empBi.Team);
             dict[sideB] = newRel;
             return newRel;
         }
@@ -159,30 +159,30 @@ internal static class RelationsManager
 
     internal static void TurnElapsed()
     {
-        RelCata Neutral;
-        RelCata Allied;
-        RelCata Enemies;
+        RelCata neutral;
+        RelCata allied;
+        RelCata enemies;
         switch (Config.DiplomacyScale)
         {
             case DiplomacyScale.Default:
-                Neutral = new RelCata(0, .02f, .02f, .002f, .004f);
-                Allied = new RelCata(2, .02f, .01f, .002f, .003f);
-                Enemies = new RelCata(-.25f, .01f, .01f, .01f, .005f);
+                neutral = new RelCata(0, .02f, .02f, .002f, .004f);
+                allied = new RelCata(2, .02f, .01f, .002f, .003f);
+                enemies = new RelCata(-.25f, .01f, .01f, .01f, .005f);
                 break;
             case DiplomacyScale.Suspicious:
-                Neutral = new RelCata(-0.2f, .02f, .02f, .005f, .0075f);
-                Allied = new RelCata(1.5f, .02f, .01f, .005f, .0055f);
-                Enemies = new RelCata(-2f, .01f, .01f, .02f, .01f);
+                neutral = new RelCata(-0.2f, .02f, .02f, .005f, .0075f);
+                allied = new RelCata(1.5f, .02f, .01f, .005f, .0055f);
+                enemies = new RelCata(-2f, .01f, .01f, .02f, .01f);
                 break;
             case DiplomacyScale.Distrustful:
-                Neutral = new RelCata(-0.4f, .02f, .02f, .02f, .02f);
-                Allied = new RelCata(0.8f, .02f, .01f, .01f, .015f);
-                Enemies = new RelCata(-3f, .01f, .01f, .03f, .03f);
+                neutral = new RelCata(-0.4f, .02f, .02f, .02f, .02f);
+                allied = new RelCata(0.8f, .02f, .01f, .01f, .015f);
+                enemies = new RelCata(-3f, .01f, .01f, .03f, .03f);
                 break;
             case DiplomacyScale.Friendly:
-                Neutral = new RelCata(0.5f, .04f, .04f, .002f, .004f);
-                Allied = new RelCata(3f, .06f, .06f, .002f, .003f);
-                Enemies = new RelCata(0, .04f, .04f, .01f, .002f);
+                neutral = new RelCata(0.5f, .04f, .04f, .002f, .004f);
+                allied = new RelCata(3f, .06f, .06f, .002f, .003f);
+                enemies = new RelCata(0, .04f, .04f, .01f, .002f);
                 break;
             default: //No scaling
                 return;
@@ -195,13 +195,13 @@ internal static class RelationsManager
                 switch (rel.Type)
                 {
                     case RelationState.Neutral:
-                        Update(rel, Neutral);
+                        Update(rel, neutral);
                         break;
                     case RelationState.Allied:
-                        Update(rel, Allied);
+                        Update(rel, allied);
                         break;
                     case RelationState.Enemies:
-                        Update(rel, Enemies);
+                        Update(rel, enemies);
                         break;
                 }
             }
@@ -374,32 +374,32 @@ internal static class RelationsManager
         }
     }
 
-    internal static void AskPlayerForPeace(Empire AI, Empire player)
+    internal static void AskPlayerForPeace(Empire ai, Empire player)
     {
         var box = State.GameManager.CreateDialogBox();
         State.GameManager.ActiveInput = true;
         box.SetData(() =>
             {
-                SetPeace(AI, player);
+                SetPeace(ai, player);
                 State.GameManager.ActiveInput = false;
-            }, "Accept", "Reject", $"The {AI.Name} wants to know if you ({player.Name}) would accept a peace treaty?", () =>
+            }, "Accept", "Reject", $"The {ai.Name} wants to know if you ({player.Name}) would accept a peace treaty?", () =>
             {
-                GetRelation(AI.Side, player.Side).TurnsSinceAsked = 0;
+                GetRelation(ai.Side, player.Side).TurnsSinceAsked = 0;
                 State.GameManager.ActiveInput = false;
             });
     }
 
-    internal static void AskPlayerForAlliance(Empire AI, Empire player)
+    internal static void AskPlayerForAlliance(Empire ai, Empire player)
     {
         var box = State.GameManager.CreateDialogBox();
         State.GameManager.ActiveInput = true;
         box.SetData(() =>
             {
-                SetAlly(AI, player);
+                SetAlly(ai, player);
                 State.GameManager.ActiveInput = false;
-            }, "Accept", "Reject", $"The {AI.Name} wants to know if you ({player.Name}) would accept an alliance?", () =>
+            }, "Accept", "Reject", $"The {ai.Name} wants to know if you ({player.Name}) would accept an alliance?", () =>
             {
-                GetRelation(AI.Side, player.Side).TurnsSinceAsked = 0;
+                GetRelation(ai.Side, player.Side).TurnsSinceAsked = 0;
                 State.GameManager.ActiveInput = false;
             });
     }

@@ -96,35 +96,35 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 Defaults.SpriteGens3[SpriteType.Head].Invoke(input, output);
                 output.Coloring(Defaults.FurryColor(input.Actor));
-                output.AddOffset(calcVector(input));
+                output.AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.Eyes, 5, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Eyes].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.EyeColor, input.U.EyeColor));
-                output.AddOffset(calcVector(input));
+                output.AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.Mouth, 5, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Mouth].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Mouth, input.U.SkinColor));
-                output.AddOffset(calcVector(input));
+                output.AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Hair].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.HairColor));
-                output.AddOffset(calcVector(input));
+                output.AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.Hair2, 1, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Hair2].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.HairColor));
-                output.AddOffset(calcVector(input));
+                output.AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
@@ -166,7 +166,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.BodyAccessory, 7, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Fur, input.U.AccessoryColor));
-                output.Sprite(input.Sprites.Harpies[32 + input.U.SpecialAccessoryType]).AddOffset(calcVector(input));
+                output.Sprite(input.Sprites.Harpies[32 + input.U.SpecialAccessoryType]).AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.SecondaryAccessory, 5, (input, output) =>
@@ -185,28 +185,28 @@ namespace Races.Graphics.Implementations.MainRaces
             {
                 Defaults.SpriteGens3[SpriteType.Breasts].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
-                output.AddOffset(calcVector(input));
+                output.AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.Belly, 15, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Belly].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
-                output.AddOffset(calcVector(input));
+                output.AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.Dick, 9, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Dick].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
-                output.AddOffset(calcVector(input));
+                output.AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.Balls, 8, (input, output) =>
             {
                 Defaults.SpriteGens3[SpriteType.Balls].Invoke(input, output);
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Skin, input.U.SkinColor));
-                output.AddOffset(calcVector(input));
+                output.AddOffset(CalcVector(input));
             });
 
             builder.RenderSingle(SpriteType.Weapon, 7, (input, output) =>
@@ -257,7 +257,7 @@ namespace Races.Graphics.Implementations.MainRaces
             });
         });
 
-        private static Vector2 calcVector(IRaceRenderInput input)
+        private static Vector2 CalcVector(IRaceRenderInput input)
         {
             if (input.A.GetSimpleBodySprite() != 0)
             {

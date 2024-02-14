@@ -74,35 +74,35 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking || input.A.IsOralVoring)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = false;
-                    input.A.AnimationController.frameLists[0].currentFrame = 0;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                     output.Sprite(input.Sprites.Catfish[7]);
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[0].currentTime >= frameListMouth.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[0].CurrentTime >= frameListMouth.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame++;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[0].currentFrame >= frameListMouth.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListMouth.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[0].currentlyActive = false;
-                            input.A.AnimationController.frameLists[0].currentFrame = 0;
-                            input.A.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Catfish[4 + frameListMouth.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Catfish[4 + frameListMouth.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
                 if (State.Rand.Next(800) == 0)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Catfish[4]);
@@ -130,14 +130,14 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking || input.A.IsOralVoring)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = false;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
                     output.Sprite(input.Sprites.Catfish[11]);
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    output.Sprite(input.Sprites.Catfish[8 + frameListMouth.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Catfish[8 + frameListMouth.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
@@ -147,7 +147,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.CatfishSkin, input.U.SkinColor));
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -182,35 +182,35 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking || input.A.IsOralVoring)
                 {
-                    input.A.AnimationController.frameLists[1].currentlyActive = false;
-                    input.A.AnimationController.frameLists[1].currentFrame = 0;
-                    input.A.AnimationController.frameLists[1].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[1].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[1].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
                     output.Sprite(input.Sprites.Catfish[1]);
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[1].currentlyActive)
+                if (input.A.AnimationController.FrameLists[1].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[1].currentTime >= frameListTail.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[1].CurrentTime >= frameListTail.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[1].currentFrame++;
-                        input.A.AnimationController.frameLists[1].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[1].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[1].currentFrame >= frameListTail.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[1].CurrentFrame >= frameListTail.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[1].currentlyActive = false;
-                            input.A.AnimationController.frameLists[1].currentFrame = 0;
-                            input.A.AnimationController.frameLists[1].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[1].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[1].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Catfish[1 + frameListTail.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
+                    output.Sprite(input.Sprites.Catfish[1 + frameListTail.Frames[input.A.AnimationController.FrameLists[1].CurrentFrame]]);
                     return;
                 }
 
                 if (State.Rand.Next(800) == 0)
                 {
-                    input.A.AnimationController.frameLists[1].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[1].CurrentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Catfish[1]);
@@ -245,7 +245,7 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) =>
             {
-                if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) && input.A.GetStomachSize(20) == 20)
+                if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach) && input.A.GetStomachSize(20) == 20)
                 {
                     output.ChangeSprite(SpriteType.Body).AddOffset(0, 10 * .625f);
                     output.ChangeSprite(SpriteType.Head).AddOffset(0, 10 * .625f);
@@ -259,7 +259,7 @@ namespace Races.Graphics.Implementations.Monsters
                     output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 10 * .625f);
                     output.ChangeSprite(SpriteType.SecondaryEyes).AddOffset(0, 10 * .625f);
                 }
-                else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) && input.A.GetStomachSize(20, .8f) == 20)
+                else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach) && input.A.GetStomachSize(20, .8f) == 20)
                 {
                     output.ChangeSprite(SpriteType.Body).AddOffset(0, 6 * .625f);
                     output.ChangeSprite(SpriteType.Head).AddOffset(0, 6 * .625f);
@@ -273,7 +273,7 @@ namespace Races.Graphics.Implementations.Monsters
                     output.ChangeSprite(SpriteType.Eyes).AddOffset(0, 6 * .625f);
                     output.ChangeSprite(SpriteType.SecondaryEyes).AddOffset(0, 6 * .625f);
                 }
-                else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) && input.A.GetStomachSize(20, .9f) == 20)
+                else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach) && input.A.GetStomachSize(20, .9f) == 20)
                 {
                     output.ChangeSprite(SpriteType.Body).AddOffset(0, 3 * .625f);
                     output.ChangeSprite(SpriteType.Head).AddOffset(0, 3 * .625f);
@@ -322,7 +322,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         internal static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(0, 0, false), // Mouth controller. Index 0.
                 new AnimationController.FrameList(0, 0, false)

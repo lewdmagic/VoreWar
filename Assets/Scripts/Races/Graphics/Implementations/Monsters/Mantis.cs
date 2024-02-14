@@ -178,7 +178,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.MantisSkin, input.U.SkinColor));
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -231,34 +231,34 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking || input.A.IsOralVoring || CalcPosition(input.A) == Position.Eating)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = false;
-                    input.A.AnimationController.frameLists[0].currentFrame = 0;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[0].currentTime >= frameListScythesDefault.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[0].CurrentTime >= frameListScythesDefault.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame++;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[0].currentFrame >= frameListScythesDefault.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListScythesDefault.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[0].currentlyActive = false;
-                            input.A.AnimationController.frameLists[0].currentFrame = 0;
-                            input.A.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Mantis[48 + frameListScythesDefault.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Mantis[48 + frameListScythesDefault.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
                 if (State.Rand.Next(600) == 0)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Mantis[48]);
@@ -274,34 +274,34 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking || input.A.IsOralVoring || CalcPosition(input.A) == Position.Default)
                 {
-                    input.A.AnimationController.frameLists[1].currentlyActive = false;
-                    input.A.AnimationController.frameLists[1].currentFrame = 0;
-                    input.A.AnimationController.frameLists[1].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[1].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[1].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[1].currentlyActive)
+                if (input.A.AnimationController.FrameLists[1].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[1].currentTime >= frameListScythesEating.Times[input.A.AnimationController.frameLists[1].currentFrame])
+                    if (input.A.AnimationController.FrameLists[1].CurrentTime >= frameListScythesEating.Times[input.A.AnimationController.FrameLists[1].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[1].currentFrame++;
-                        input.A.AnimationController.frameLists[1].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[1].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[1].currentFrame >= frameListScythesEating.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[1].CurrentFrame >= frameListScythesEating.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[1].currentlyActive = false;
-                            input.A.AnimationController.frameLists[1].currentFrame = 0;
-                            input.A.AnimationController.frameLists[1].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[1].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[1].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Mantis[45 + frameListScythesEating.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
+                    output.Sprite(input.Sprites.Mantis[45 + frameListScythesEating.Frames[input.A.AnimationController.FrameLists[1].CurrentFrame]]);
                     return;
                 }
 
                 if (State.Rand.Next(600) == 0)
                 {
-                    input.A.AnimationController.frameLists[1].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[1].CurrentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Mantis[45]);
@@ -459,7 +459,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(0, 0, false), // Scythes in Default extra.Position controller. Index 0.
                 new AnimationController.FrameList(0, 0, false)

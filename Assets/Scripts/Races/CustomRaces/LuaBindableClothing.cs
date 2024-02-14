@@ -20,7 +20,7 @@ internal class ClothingLua : ClothingDataShared, IClothing
         _spriteCollection = spriteCollection;
     }
 
-    public override ClothingRenderOutput Configure(Actor_Unit actor, ISpriteChanger changeDict)
+    public override ClothingRenderOutput Configure(ActorUnit actor, ISpriteChanger changeDict)
     {
         ClothingRenderInput input = new ClothingRenderInput(actor);
         ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc, _spriteCollection);

@@ -14,10 +14,10 @@ public class StatScreenPanel : MonoBehaviour
     internal bool AutoClose;
     internal float AutoCloseTime;
 
-    public void Open(bool AIOnly)
+    public void Open(bool aiOnly)
     {
         State.GameManager.StatScreen.gameObject.SetActive(true);
-        if (Config.TimedAIStats && AIOnly)
+        if (Config.TimedAIStats && aiOnly)
         {
             State.GameManager.StatScreen.AutoClose = true;
             State.GameManager.StatScreen.AutoCloseTime = 10;

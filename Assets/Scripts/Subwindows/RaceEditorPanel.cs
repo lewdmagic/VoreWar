@@ -91,16 +91,16 @@ public class RaceEditorPanel : MonoBehaviour
     public Button GeneralButton;
     public Button TraitsButton;
 
-    private List<TraitType> CurrentTraits;
+    private List<TraitType> _currentTraits;
 
 
-    private Race PreviousRace = Race.TrueNone;
+    private Race _previousRace = Race.TrueNone;
 
     internal void ShowPanel()
     {
         if (RaceDropdown.options?.Any() == false)
         {
-            foreach (Race race in RaceFuncs.RaceEnumerable().Where(s => RaceFuncs.isNotNone(s)).OrderBy((s) => s.ToString()))
+            foreach (Race race in RaceFuncs.RaceEnumerable().Where(s => RaceFuncs.IsNotNone(s)).OrderBy((s) => s.ToString()))
             {
                 RaceDropdown.options.Add(new TMP_Dropdown.OptionData(race.ToString()));
             }
@@ -111,7 +111,7 @@ public class RaceEditorPanel : MonoBehaviour
         TraitDropdown.options.Clear();
         foreach (RandomizeList rl in State.RandomizeLists)
         {
-            TraitDropdown.options.Add(new TMP_Dropdown.OptionData(rl.name.ToString()));
+            TraitDropdown.options.Add(new TMP_Dropdown.OptionData(rl.Name.ToString()));
         }
 
         foreach (TraitType traitId in ((TraitType[])Enum.GetValues(typeof(TraitType))).OrderBy(s => { return s >= TraitType.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString(); }))
@@ -210,27 +210,27 @@ public class RaceEditorPanel : MonoBehaviour
 
     public void AddTrait()
     {
-        if (State.RandomizeLists.Any(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text))
+        if (State.RandomizeLists.Any(rl => rl.Name == TraitDropdown.options[TraitDropdown.value].text))
         {
-            CurrentTraits.Add((TraitType)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
+            _currentTraits.Add((TraitType)State.RandomizeLists.Where(rl => rl.Name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.ID);
         }
 
         if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
-            if (CurrentTraits.Contains(trait) == false) CurrentTraits.Add(trait);
+            if (_currentTraits.Contains(trait) == false) _currentTraits.Add(trait);
         }
 
         UpdateInteractable();
     }
 
-    public void AddTraitALL()
+    public void AddTraitAll()
     {
-        if (State.RandomizeLists.Any(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text))
+        if (State.RandomizeLists.Any(rl => rl.Name == TraitDropdown.options[TraitDropdown.value].text))
         {
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
                 RaceSettingsItem item = State.RaceSettings.Get(race);
-                item.RaceTraits.Add((TraitType)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
+                item.RaceTraits.Add((TraitType)State.RandomizeLists.Where(rl => rl.Name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.ID);
             }
 
             AddTrait();
@@ -250,27 +250,27 @@ public class RaceEditorPanel : MonoBehaviour
 
     public void RemoveTrait()
     {
-        if (State.RandomizeLists.Any(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text))
+        if (State.RandomizeLists.Any(rl => rl.Name == TraitDropdown.options[TraitDropdown.value].text))
         {
-            CurrentTraits.Remove((TraitType)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
+            _currentTraits.Remove((TraitType)State.RandomizeLists.Where(rl => rl.Name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.ID);
         }
 
         if (Enum.TryParse(TraitDropdown.options[TraitDropdown.value].text, out TraitType trait))
         {
-            CurrentTraits.Remove(trait);
+            _currentTraits.Remove(trait);
         }
 
         UpdateInteractable();
     }
 
-    public void RemoveTraitALL()
+    public void RemoveTraitAll()
     {
-        if (State.RandomizeLists.Any(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text))
+        if (State.RandomizeLists.Any(rl => rl.Name == TraitDropdown.options[TraitDropdown.value].text))
         {
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
                 RaceSettingsItem item = State.RaceSettings.Get(race);
-                item.RaceTraits.Remove((TraitType)State.RandomizeLists.Where(rl => rl.name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.id);
+                item.RaceTraits.Remove((TraitType)State.RandomizeLists.Where(rl => rl.Name == TraitDropdown.options[TraitDropdown.value].text).FirstOrDefault()?.ID);
             }
 
             RemoveTrait();
@@ -292,24 +292,24 @@ public class RaceEditorPanel : MonoBehaviour
     {
         try
         {
-            if (!Equals(PreviousRace, Race.TrueNone))
+            if (!Equals(_previousRace, Race.TrueNone))
             {
-                RaceSettingsItem item = State.RaceSettings.Get(PreviousRace);
-                var racePar = RaceParameters.GetRaceTraits(PreviousRace);
-                var raceData = Races2.GetRace(PreviousRace);
+                RaceSettingsItem item = State.RaceSettings.Get(_previousRace);
+                var racePar = RaceParameters.GetRaceTraits(_previousRace);
+                var raceData = Races2.GetRace(_previousRace);
                 item.OverrideGender = OverrideGender.isOn;
                 item.OverrideFurry = OverrideFurry.isOn;
-                item.maleFraction = 1 - MaleFraction.value;
-                item.hermFraction = HermFraction.value;
-                item.furryFraction = FurryFraction.value;
+                item.MaleFraction = 1 - MaleFraction.value;
+                item.HermFraction = HermFraction.value;
+                item.FurryFraction = FurryFraction.value;
 
                 item.BannerType = BannerType.value;
                 item.RaceAI = (RaceAI)RaceAIDropdown.value;
 
-                item.overrideClothes = OverrideClothed.isOn;
-                item.clothedFraction = ClothedFraction.value;
+                item.OverrideClothes = OverrideClothed.isOn;
+                item.ClothedFraction = ClothedFraction.value;
 
-                item.overrideWeight = OverrideWeight.isOn;
+                item.OverrideWeight = OverrideWeight.isOn;
                 item.MinWeight = Convert.ToInt32(MinWeight.text) - 1;
                 item.MaxWeight = Convert.ToInt32(MaxWeight.text) - 1;
 
@@ -327,11 +327,11 @@ public class RaceEditorPanel : MonoBehaviour
                 if (RaceFuncs.TryParse(ConversionRaceDropdown.options[ConversionRaceDropdown.value].text, out Race conversionRace)) item.ConversionRace = conversionRace;
                 if (RaceFuncs.TryParse(LeaderRaceDropdown.options[LeaderRaceDropdown.value].text, out Race leaderRace)) item.LeaderRace = leaderRace;
 
-                item.overrideBoob = OverrideBoob.isOn;
+                item.OverrideBoob = OverrideBoob.isOn;
                 item.MinBoob = Convert.ToInt32(MinBoob.text) - 1;
                 item.MaxBoob = Convert.ToInt32(MaxBoob.text) - 1;
 
-                item.overrideDick = OverrideDick.isOn;
+                item.OverrideDick = OverrideDick.isOn;
                 item.MinDick = Convert.ToInt32(MinDick.text) - 1;
                 item.MaxDick = Convert.ToInt32(MaxDick.text) - 1;
 
@@ -355,7 +355,7 @@ public class RaceEditorPanel : MonoBehaviour
                 if (item.StomachSize < 1) item.StomachSize = 1;
 
 
-                item.RaceTraits = CurrentTraits.ToList();
+                item.RaceTraits = _currentTraits.ToList();
                 List<VoreType> newtypes = racePar.AllowedVoreTypes.ToList();
                 if (UnbirthDisabled.isOn) newtypes.Remove(VoreType.Unbirth);
                 if (CockVoreDisabled.isOn) newtypes.Remove(VoreType.CockVore);
@@ -413,7 +413,7 @@ public class RaceEditorPanel : MonoBehaviour
 
     private void SetBaseTraitsToImportedList(string traits)
     {
-        CurrentTraits = TextToTraitList(traits);
+        _currentTraits = TextToTraitList(traits);
         UpdateInteractable();
     }
 
@@ -422,9 +422,9 @@ public class RaceEditorPanel : MonoBehaviour
         List<TraitType> traits = new List<TraitType>();
         foreach (RandomizeList rl in State.RandomizeLists)
         {
-            if (text.ToLower().Contains(rl.name.ToString().ToLower()))
+            if (text.ToLower().Contains(rl.Name.ToString().ToLower()))
             {
-                traits.Add((TraitType)rl.id);
+                traits.Add((TraitType)rl.ID);
             }
         }
 
@@ -448,13 +448,13 @@ public class RaceEditorPanel : MonoBehaviour
         bool first = true;
         foreach (var trait in traits)
         {
-            if (hideSecret && Unit.secretTags.Contains(trait)) continue; // We even hide secret traits if they would be shown once purchased, otherwise if you read "Infiltrator" you already know it's safe.
+            if (hideSecret && Unit.SecretTags.Contains(trait)) continue; // We even hide secret traits if they would be shown once purchased, otherwise if you read "Infiltrator" you already know it's safe.
             if (first)
                 first = false;
             else
                 ret += ", ";
-            if (State.RandomizeLists.Any(rl => (TraitType)rl.id == trait))
-                ret += State.RandomizeLists.Where(rl => (TraitType)rl.id == trait).FirstOrDefault().name;
+            if (State.RandomizeLists.Any(rl => (TraitType)rl.ID == trait))
+                ret += State.RandomizeLists.Where(rl => (TraitType)rl.ID == trait).FirstOrDefault().Name;
             else
                 ret += trait.ToString();
         }
@@ -466,33 +466,33 @@ public class RaceEditorPanel : MonoBehaviour
     {
         if (RaceFuncs.TryParse(RaceDropdown.options[RaceDropdown.value].text, out Race race))
         {
-            PreviousRace = race;
+            _previousRace = race;
             RaceSettingsItem item = State.RaceSettings.Get(race);
             var racePar = RaceParameters.GetRaceTraits(race);
             var raceData = Races2.GetRace(race);
             OverrideGender.isOn = item.OverrideGender;
             OverrideFurry.isOn = item.OverrideFurry;
-            MaleFraction.value = 1 - item.maleFraction;
-            HermFraction.value = item.hermFraction;
-            FurryFraction.value = item.furryFraction;
+            MaleFraction.value = 1 - item.MaleFraction;
+            HermFraction.value = item.HermFraction;
+            FurryFraction.value = item.FurryFraction;
 
             BannerType.value = item.BannerType;
 
             RaceAIDropdown.value = (int)item.RaceAI;
             RaceAIDropdown.RefreshShownValue();
 
-            OverrideClothed.isOn = item.overrideClothes;
-            ClothedFraction.value = item.clothedFraction;
+            OverrideClothed.isOn = item.OverrideClothes;
+            ClothedFraction.value = item.ClothedFraction;
 
-            OverrideWeight.isOn = item.overrideWeight;
+            OverrideWeight.isOn = item.OverrideWeight;
             MinWeight.text = (1 + item.MinWeight).ToString();
             MaxWeight.text = (1 + item.MaxWeight).ToString();
 
-            OverrideBoob.isOn = item.overrideBoob;
+            OverrideBoob.isOn = item.OverrideBoob;
             MinBoob.text = (1 + item.MinBoob).ToString();
             MaxBoob.text = (1 + item.MaxBoob).ToString();
 
-            OverrideDick.isOn = item.overrideDick;
+            OverrideDick.isOn = item.OverrideDick;
             MinDick.text = (1 + item.MinDick).ToString();
             MaxDick.text = (1 + item.MaxDick).ToString();
 
@@ -545,8 +545,8 @@ public class RaceEditorPanel : MonoBehaviour
             BodySize.text = item.BodySize.ToString();
             StomachSize.text = item.StomachSize.ToString();
 
-            CurrentTraits = item.RaceTraits.ToList();
-            if (CurrentTraits == null) CurrentTraits = new List<TraitType>();
+            _currentTraits = item.RaceTraits.ToList();
+            if (_currentTraits == null) _currentTraits = new List<TraitType>();
             UnbirthDisabled.isOn = !item.AllowedVoreTypes.Contains(VoreType.Unbirth);
             UnbirthDisabled.interactable = racePar.AllowedVoreTypes.Contains(VoreType.Unbirth);
             CockVoreDisabled.isOn = !item.AllowedVoreTypes.Contains(VoreType.CockVore);
@@ -592,7 +592,7 @@ public class RaceEditorPanel : MonoBehaviour
 
     public void UpdateInteractable()
     {
-        var raceData = Races2.GetRace(PreviousRace);
+        var raceData = Races2.GetRace(_previousRace);
 
         if (raceData == null)
         {
@@ -661,7 +661,7 @@ public class RaceEditorPanel : MonoBehaviour
             OverrideClothed.isOn = false;
         }
 
-        BannerType.interactable = RaceFuncs.IsMainRace(PreviousRace);
+        BannerType.interactable = RaceFuncs.IsMainRace(_previousRace);
 
 
         MaleFraction.interactable = OverrideGender.isOn;
@@ -679,12 +679,12 @@ public class RaceEditorPanel : MonoBehaviour
 
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("Traits:");
-        if (CurrentTraits == null) CurrentTraits = new List<TraitType>();
-        foreach (TraitType trait in CurrentTraits)
+        if (_currentTraits == null) _currentTraits = new List<TraitType>();
+        foreach (TraitType trait in _currentTraits)
         {
-            if (State.RandomizeLists.Any(rl => (TraitType)rl.id == trait))
+            if (State.RandomizeLists.Any(rl => (TraitType)rl.ID == trait))
             {
-                sb.AppendLine(State.RandomizeLists.Where(rl => (TraitType)rl.id == trait).FirstOrDefault().name);
+                sb.AppendLine(State.RandomizeLists.Where(rl => (TraitType)rl.ID == trait).FirstOrDefault().Name);
             }
             else
                 sb.AppendLine(trait.ToString());
@@ -698,7 +698,7 @@ public class RaceEditorPanel : MonoBehaviour
         SaveRace();
         State.SaveEditedRaces();
         gameObject.SetActive(false);
-        if (State.GameManager.CurrentScene == State.GameManager.Start_Mode) return;
+        if (State.GameManager.CurrentScene == State.GameManager.StartMode) return;
         if (State.World.Villages != null)
         {
             var units = StrategicUtilities.GetAllUnits();
@@ -709,7 +709,7 @@ public class RaceEditorPanel : MonoBehaviour
         }
         else
         {
-            foreach (Actor_Unit actor in TacticalUtilities.Units)
+            foreach (ActorUnit actor in TacticalUtilities.Units)
             {
                 actor.Unit.ReloadTraits();
                 actor.Unit.InitializeTraits();
@@ -753,7 +753,7 @@ public class RaceEditorPanel : MonoBehaviour
 
     public void ResetThisRace()
     {
-        State.RaceSettings.Reset(PreviousRace);
+        State.RaceSettings.Reset(_previousRace);
         LoadRace();
         UpdateInteractable();
     }

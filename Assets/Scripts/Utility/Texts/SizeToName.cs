@@ -2,11 +2,11 @@
 
 internal static class SizeToName
 {
-    private static string[] labels;
+    private static string[] _labels;
 
     static SizeToName()
     {
-        labels = new string[]
+        _labels = new string[]
         {
             "Anemic",
             "Feeble",
@@ -80,7 +80,7 @@ internal static class SizeToName
         const float multiplier = 1.3f;
         int log = 1 + (int)(Math.Log(strength / startingBase) / Math.Log(multiplier));
         if (log < 0) log = 0;
-        if (log < labels.Length) return $"{labels[log]} ({log})";
+        if (log < _labels.Length) return $"{_labels[log]} ({log})";
         return $"Indescribable ({log})";
     }
 }

@@ -18,7 +18,7 @@ internal static class MinimalTemplateWithParams
         builder.RenderSingle(SpriteType.Body, 3, (input, output) => { });
     });
 
-    private static BindableClothing<SomeParameters> Rags = ClothingBuilder.CreateV2<SomeParameters>(builder =>
+    private static BindableClothing<SomeParameters> _rags = ClothingBuilder.CreateV2<SomeParameters>(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 

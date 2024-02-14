@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Actor_Unit : IActorUnit
+public class ActorUnit : IActorUnit
 {
     private enum DisplayMode
     {
@@ -29,20 +29,20 @@ public class Actor_Unit : IActorUnit
         IdleAnimation,
     }
 
-    private int animationStep = 4;
-    private float animationUpdateTime;
-    private DisplayMode mode;
+    private int _animationStep = 4;
+    private float _animationUpdateTime;
+    private DisplayMode _mode;
 
     [OdinSerialize]
-    public List<KeyValuePair<int, float>> modeQueue;
+    public List<KeyValuePair<int, float>> ModeQueue;
 
     private DisplayMode Mode
     {
-        get => mode;
+        get => _mode;
         set
         {
-            if (State.GameManager.TacticalMode.turboMode && value >= DisplayMode.Attacking && value <= DisplayMode.FrogPouncing) HasAttackedThisCombat = true;
-            mode = value;
+            if (State.GameManager.TacticalMode.TurboMode && value >= DisplayMode.Attacking && value <= DisplayMode.FrogPouncing) HasAttackedThisCombat = true;
+            _mode = value;
         }
     }
 
@@ -53,7 +53,7 @@ public class Actor_Unit : IActorUnit
     public Unit Unit { get; private set; }
 
     [OdinSerialize]
-    public Vec2i Position { get; private set; }
+    public Vec2I Position { get; private set; }
 
     [OdinSerialize]
     private int _movement;
@@ -195,7 +195,7 @@ public class Actor_Unit : IActorUnit
     [OdinSerialize]
     private int _spriteLayerOffset = 0;
 
-    internal int spriteLayerOffset { get => _spriteLayerOffset; set => _spriteLayerOffset = value; }
+    internal int SpriteLayerOffset { get => _spriteLayerOffset; set => _spriteLayerOffset = value; }
 
     [OdinSerialize]
     private bool _hasAttackedThisCombat = false;
@@ -205,7 +205,7 @@ public class Actor_Unit : IActorUnit
     [OdinSerialize]
     private bool _allowedToDefect = false;
 
-    public bool allowedToDefect { get => _allowedToDefect; set => _allowedToDefect = value; }
+    public bool AllowedToDefect { get => _allowedToDefect; set => _allowedToDefect = value; }
 
 
     private UnitSprite _unitSprite;
@@ -227,33 +227,31 @@ public class Actor_Unit : IActorUnit
 
     public PredatorComponent PredatorComponent { get => _predatorComponent; set => _predatorComponent = value; }
 
-    private Race animationControllerRace;
+    private Race _animationControllerRace;
 
     [OdinSerialize]
     private AnimationController _animationController = new AnimationController();
-
-    private AnimationController animationController { get => _animationController; set => _animationController = value; }
 
     public AnimationController AnimationController
     {
         get
         {
-            if (animationController == null || !Equals(animationControllerRace, Unit.Race))
+            if (_animationController == null || !Equals(_animationControllerRace, Unit.Race))
             {
-                animationController = new AnimationController();
-                animationControllerRace = Unit.Race;
+                _animationController = new AnimationController();
+                _animationControllerRace = Unit.Race;
             }
 
-            return animationController;
+            return _animationController;
         }
-        set => animationController = value;
+        set => _animationController = value;
     }
 
     public void ClearMovement() => Movement = 0;
     public void DrainExp(int damage) => Unit.GiveExp(-1 * damage);
-    public void SetPos(Vec2i p) => Position = p;
+    public void SetPos(Vec2I p) => Position = p;
 
-    private void RestoreMP()
+    private void RestoreMp()
     {
         if (WasJustFreed)
         {
@@ -308,7 +306,7 @@ public class Actor_Unit : IActorUnit
     public int MaxMovement()
     {
         int bonus = 0;
-        if (Unit.HasTrait(TraitType.Charge) && State.GameManager.TacticalMode.currentTurn <= 2) bonus += 4;
+        if (Unit.HasTrait(TraitType.Charge) && State.GameManager.TacticalMode.CurrentTurn <= 2) bonus += 4;
         bonus += Unit.TraitBoosts.SpeedBonus;
         if (State.World?.ItemRepository != null && Unit.Items.Contains(State.World.ItemRepository.GetItem(ItemType.Shoes))) bonus += 1;
         int total = Mathf.Max(bonus + 3 + (int)Mathf.Pow(Unit.GetStat(Stat.Agility) / 4, .8f), 1);
@@ -330,7 +328,7 @@ public class Actor_Unit : IActorUnit
         int bonus = 0;
         if (State.World?.ItemRepository != null && Unit.Items.Contains(State.World.ItemRepository.GetItem(ItemType.Shoes))) bonus += 1;
         bonus += Unit.TraitBoosts.SpeedBonus;
-        if (Unit.HasTrait(TraitType.Charge) && State.GameManager.TacticalMode.currentTurn <= 2) bonus += 4;
+        if (Unit.HasTrait(TraitType.Charge) && State.GameManager.TacticalMode.CurrentTurn <= 2) bonus += 4;
         int total = Mathf.Max(bonus + 3 + (int)Mathf.Pow(Unit.GetStat(Stat.Agility) / 4, .8f) - sizePenalty, 1);
         var speed = Unit.GetStatusEffect(StatusEffectType.Fast);
         if (speed != null)
@@ -348,45 +346,45 @@ public class Actor_Unit : IActorUnit
     ///     This one is a dummy for some cases
     /// </summary>
     /// <param name="unit"></param>
-    public Actor_Unit(Unit unit)
+    public ActorUnit(Unit unit)
     {
         unit.SetBreastSize(-1); //Resets to default
         Mode = DisplayMode.None;
-        modeQueue = new List<KeyValuePair<int, float>>();
-        animationUpdateTime = 0;
-        Position = new Vec2i(0, 0);
+        ModeQueue = new List<KeyValuePair<int, float>>();
+        _animationUpdateTime = 0;
+        Position = new Vec2I(0, 0);
         Unit = unit;
         Visible = true;
         Targetable = true;
     }
 
-    public Actor_Unit(Unit unit, Actor_Unit reciepient)
+    public ActorUnit(Unit unit, ActorUnit reciepient)
     {
         PredatorComponent = new PredatorComponent(this, unit);
         unit.SetBreastSize(-1); //Resets to default
         Mode = DisplayMode.None;
-        modeQueue = new List<KeyValuePair<int, float>>();
-        animationUpdateTime = 0;
+        ModeQueue = new List<KeyValuePair<int, float>>();
+        _animationUpdateTime = 0;
         Position = reciepient.Position;
         Unit = unit;
         Visible = false;
         Targetable = false;
-        RestoreMP();
+        RestoreMp();
         ReloadSpellTraits();
     }
 
-    public Actor_Unit(Vec2i p, Unit unit)
+    public ActorUnit(Vec2I p, Unit unit)
     {
         PredatorComponent = new PredatorComponent(this, unit);
         unit.SetBreastSize(-1); //Resets to default
         Mode = DisplayMode.None;
-        modeQueue = new List<KeyValuePair<int, float>>();
-        animationUpdateTime = 0;
+        ModeQueue = new List<KeyValuePair<int, float>>();
+        _animationUpdateTime = 0;
         Position = p;
         Unit = unit;
         Visible = true;
         Targetable = true;
-        RestoreMP();
+        RestoreMp();
         ReloadSpellTraits();
     }
 
@@ -504,33 +502,33 @@ public class Actor_Unit : IActorUnit
     {
         switch (preyType)
         {
-            case PreyLocation.breasts:
+            case PreyLocation.Breasts:
                 Mode = DisplayMode.BreastVore;
                 break;
-            case PreyLocation.balls:
+            case PreyLocation.Balls:
                 Mode = DisplayMode.CockVore;
                 break;
-            case PreyLocation.stomach:
+            case PreyLocation.Stomach:
                 Mode = DisplayMode.OralVore;
                 break;
-            case PreyLocation.womb:
+            case PreyLocation.Womb:
                 Mode = DisplayMode.Unbirth;
                 break;
-            case PreyLocation.tail:
+            case PreyLocation.Tail:
                 Mode = DisplayMode.TailVore;
                 break;
-            case PreyLocation.anal:
+            case PreyLocation.Anal:
                 Mode = DisplayMode.AnalVore;
                 break;
         }
 
-        animationUpdateTime = 1.5F;
+        _animationUpdateTime = 1.5F;
     }
 
     public void SetBurpMode()
     {
         Mode = DisplayMode.OralVore;
-        animationUpdateTime = 1;
+        _animationUpdateTime = 1;
     }
 
     /// <summary>
@@ -543,8 +541,8 @@ public class Actor_Unit : IActorUnit
         if (Mode == DisplayMode.None)
         {
             Mode = DisplayMode.IdleAnimation;
-            animationStep = frameNum;
-            animationUpdateTime = time;
+            _animationStep = frameNum;
+            _animationUpdateTime = time;
         }
     }
 
@@ -552,61 +550,61 @@ public class Actor_Unit : IActorUnit
     {
         DisplayMode displayMode = DisplayMode.VoreSuccess;
         float time = 1f;
-        modeQueue.Add(new KeyValuePair<int, float>((int)displayMode, time));
+        ModeQueue.Add(new KeyValuePair<int, float>((int)displayMode, time));
     }
 
     public void SetVoreFailMode()
     {
         DisplayMode displayMode = DisplayMode.VoreFail;
         float time = 1f;
-        modeQueue.Add(new KeyValuePair<int, float>((int)displayMode, time));
+        ModeQueue.Add(new KeyValuePair<int, float>((int)displayMode, time));
     }
 
     public void SetAbsorbtionMode()
     {
         Mode = DisplayMode.Absorbing;
-        animationUpdateTime = 2f;
+        _animationUpdateTime = 2f;
     }
 
     public void SetDigestionMode()
     {
         Mode = DisplayMode.Digesting;
-        animationUpdateTime = 1.0f;
+        _animationUpdateTime = 1.0f;
     }
 
     public void SetBirthMode()
     {
         Mode = DisplayMode.Birthing;
-        animationUpdateTime = 1.0f;
+        _animationUpdateTime = 1.0f;
     }
 
     public void SetSuckleMode()
     {
         Mode = DisplayMode.Suckling;
-        animationUpdateTime = 1.0f;
+        _animationUpdateTime = 1.0f;
     }
 
     public void SetSuckledMode()
     {
         Mode = DisplayMode.Suckled;
-        animationUpdateTime = 1.0f;
+        _animationUpdateTime = 1.0f;
     }
 
     public void SetRubMode()
     {
         Mode = DisplayMode.Rubbing;
-        animationUpdateTime = 1.0f;
+        _animationUpdateTime = 1.0f;
     }
 
     public void SetRubbedMode()
     {
         Mode = DisplayMode.Rubbed;
-        animationUpdateTime = 1.0f;
+        _animationUpdateTime = 1.0f;
     }
 
     public int CheckAnimationFrame()
     {
-        if (Mode == DisplayMode.IdleAnimation) return animationStep;
+        if (Mode == DisplayMode.IdleAnimation) return _animationStep;
         return 0;
     }
 
@@ -728,7 +726,7 @@ public class Actor_Unit : IActorUnit
     /// <returns></returns>
     public int GetStomach2Size(int highestSprite = 15, float multiplier = 1)
     {
-        float v = (PredatorComponent?.Stomach2ndFullness ?? 0) * 4 * ((highestSprite + 1) / 16f) * multiplier;
+        float v = (PredatorComponent?.Stomach2NdFullness ?? 0) * 4 * ((highestSprite + 1) / 16f) * multiplier;
         if (v > highestSprite) v = highestSprite;
         return (int)v;
     }
@@ -813,7 +811,7 @@ public class Actor_Unit : IActorUnit
     public bool IsEating => IsOralVoring || IsCockVoring || IsBreastVoring || IsUnbirthing || IsTailVoring || IsAnalVoring;
 
     public bool IsOralVoring => Mode == DisplayMode.OralVore;
-    public bool IsOralVoringHalfOver => Mode == DisplayMode.OralVore && animationUpdateTime < .75f;
+    public bool IsOralVoringHalfOver => Mode == DisplayMode.OralVore && _animationUpdateTime < .75f;
 
     public bool IsCockVoring => Mode == DisplayMode.CockVore;
     public bool IsBreastVoring => Mode == DisplayMode.BreastVore;
@@ -849,7 +847,7 @@ public class Actor_Unit : IActorUnit
         return (float)attackStat / (attackStat + defenseStat * (1 + shift));
     }
 
-    internal float GetMagicChance(Actor_Unit attacker, Spell currentSpell, float modifier = 0, Stat stat = Stat.Mind)
+    internal float GetMagicChance(ActorUnit attacker, Spell currentSpell, float modifier = 0, Stat stat = Stat.Mind)
     {
         if (TacticalUtilities.SneakAttackCheck(attacker.Unit, Unit)) // sneakAttack
         {
@@ -906,7 +904,7 @@ public class Actor_Unit : IActorUnit
     //}
 
 
-    public float GetAttackChance(Actor_Unit attacker, bool ranged, bool includeSecondaries = false, float mod = 0)
+    public float GetAttackChance(ActorUnit attacker, bool ranged, bool includeSecondaries = false, float mod = 0)
     {
         int attack;
         if (ranged)
@@ -1006,7 +1004,7 @@ public class Actor_Unit : IActorUnit
         return odds / 100;
     }
 
-    public int WeaponDamageAgainstTarget(Actor_Unit target, bool ranged, float multiplier = 1, bool forceBite = false)
+    public int WeaponDamageAgainstTarget(ActorUnit target, bool ranged, float multiplier = 1, bool forceBite = false)
     {
         int damage;
         if (ranged)
@@ -1125,13 +1123,13 @@ public class Actor_Unit : IActorUnit
     //}
 
 
-    public Vec2i PounceAt(Actor_Unit target)
+    public Vec2I PounceAt(ActorUnit target)
     {
         if (Movement < 2) return null;
         if (Position.GetNumberOfMovesDistance(target.Position) < 2 || Position.GetNumberOfMovesDistance(target.Position) > 4) return null;
         for (int i = 0; i < 8; i++)
         {
-            Vec2i p = target.GetPos(i);
+            Vec2I p = target.GetPos(i);
             if (TacticalUtilities.OpenTile(p.X, p.Y, this))
             {
                 return p;
@@ -1141,7 +1139,7 @@ public class Actor_Unit : IActorUnit
         return null;
     }
 
-    public bool MeleePounce(Actor_Unit target)
+    public bool MeleePounce(ActorUnit target)
     {
         if (Movement < 2 || Unit.HasTrait(TraitType.Pounce) == false) return false;
         var landingZone = PounceAt(target);
@@ -1165,7 +1163,7 @@ public class Actor_Unit : IActorUnit
         return false;
     }
 
-    public bool VorePounce(Actor_Unit target, SpecialAction voreType = SpecialAction.None, bool AIAutoPick = false)
+    public bool VorePounce(ActorUnit target, SpecialAction voreType = SpecialAction.None, bool aiAutoPick = false)
     {
         if (Movement < 2 || Unit.HasTrait(TraitType.Pounce) == false) return false;
         if (TacticalUtilities.AppropriateVoreTarget(this, target) == false) return false;
@@ -1173,9 +1171,9 @@ public class Actor_Unit : IActorUnit
         var pounceLandingZone = PounceAt(target);
         if (pounceLandingZone != null)
         {
-            Vec2i originalLoc = Position;
+            Vec2I originalLoc = Position;
             SetPos(pounceLandingZone);
-            if (AIAutoPick)
+            if (aiAutoPick)
             {
                 PredatorComponent.UsePreferredVore(target);
             }
@@ -1221,7 +1219,7 @@ public class Actor_Unit : IActorUnit
         return false;
     }
 
-    public bool ShunGokuSatsu(Actor_Unit target)
+    public bool ShunGokuSatsu(ActorUnit target)
     {
         if (Movement < 1 || Unit.HasTrait(TraitType.ShunGokuSatsu) == false) return false;
         List<AbilityTargets> targetTypes = new List<AbilityTargets>();
@@ -1251,14 +1249,14 @@ public class Actor_Unit : IActorUnit
         }
 
         PredatorComponent?.Devour(target, .3f);
-        TurnUsedShun = State.GameManager.TacticalMode.currentTurn;
+        TurnUsedShun = State.GameManager.TacticalMode.CurrentTurn;
         Movement = 0;
 
         return true;
     }
 
     // Hey, wanna see the hackiest code I'll ever cobble together?
-    public bool Regurgitate(Actor_Unit a, Vec2i l)
+    public bool Regurgitate(ActorUnit a, Vec2I l)
     {
         Prey regurged = a.PredatorComponent.FreeRandomPreyToSquare(l);
         if (regurged != null)
@@ -1269,7 +1267,7 @@ public class Actor_Unit : IActorUnit
             return false;
     }
 
-    public bool TailStrike(Actor_Unit target)
+    public bool TailStrike(ActorUnit target)
     {
         if (Movement < 1 || Unit.HasTrait(TraitType.TailStrike) == false) return false;
         List<AbilityTargets> targetTypes = new List<AbilityTargets>();
@@ -1277,13 +1275,15 @@ public class Actor_Unit : IActorUnit
         if (!TacticalUtilities.MeetsQualifier(targetTypes, this, target)) return false;
         if (target.Position.GetNumberOfMovesDistance(Position) != 1) return false;
 
-        if (Equals(Unit.Race, Race.Zoey) && animationController?.frameLists != null && animationController.frameLists.Count() > 0)
+        // NOTE: this used to bypass the getter for _animationController I think. Removed that because dont see a reason
+        // if you are investigating a bug that might have been the thing
+        if (Equals(Unit.Race, Race.Zoey) && AnimationController?.FrameLists != null && AnimationController.FrameLists.Count() > 0)
         {
-            animationController.frameLists[0].currentlyActive = true;
+            AnimationController.FrameLists[0].CurrentlyActive = true;
         }
 
         Attack(target, false, damageMultiplier: .66f);
-        Actor_Unit tempTarget = TacticalUtilities.GetActorAt(target.Position + new Vec2(1, 0));
+        ActorUnit tempTarget = TacticalUtilities.GetActorAt(target.Position + new Vec2(1, 0));
         TestAttack(tempTarget);
         tempTarget = TacticalUtilities.GetActorAt(target.Position + new Vec2(0, 1));
         TestAttack(tempTarget);
@@ -1296,7 +1296,7 @@ public class Actor_Unit : IActorUnit
 
         return true;
 
-        void TestAttack(Actor_Unit sideTarget)
+        void TestAttack(ActorUnit sideTarget)
         {
             if (sideTarget != null && sideTarget.Position.GetNumberOfMovesDistance(Position) == 1)
             {
@@ -1306,7 +1306,7 @@ public class Actor_Unit : IActorUnit
         }
     }
 
-    public bool Attack(Actor_Unit target, bool ranged, bool forceBite = false, float damageMultiplier = 1, bool canKill = true)
+    public bool Attack(ActorUnit target, bool ranged, bool forceBite = false, float damageMultiplier = 1, bool canKill = true)
     {
         Weapon weapon;
         if (ranged)
@@ -1383,7 +1383,7 @@ public class Actor_Unit : IActorUnit
             if ((targetRange >= 2 || (targetRange >= 1 && weapon.Omni)) && targetRange <= weapon.Range)
             {
                 if (Equals(Unit.Race, Race.Succubus)) TacticalGraphicalEffects.SuccubusSwordEffect(target.Position);
-                animationUpdateTime = 1.0F;
+                _animationUpdateTime = 1.0F;
                 Mode = DisplayMode.Attacking;
                 if (Unit.TraitBoosts.RangedAttacks > 1)
                 {
@@ -1448,7 +1448,7 @@ public class Actor_Unit : IActorUnit
         {
             if (targetRange < 2)
             {
-                animationUpdateTime = 1.0F;
+                _animationUpdateTime = 1.0F;
                 Mode = DisplayMode.Attacking;
                 int meleeAttacks = Unit.TraitBoosts.MeleeAttacks;
                 if (Unit.HasTrait(TraitType.LightFrame) && PredatorComponent?.PreyCount == 0) meleeAttacks++;
@@ -1518,13 +1518,13 @@ public class Actor_Unit : IActorUnit
         return false;
     }
 
-    private void CreateHitEffects(Actor_Unit target)
+    private void CreateHitEffects(ActorUnit target)
     {
         State.GameManager.TacticalMode.CreateBloodHitEffect(target.Position);
         if (Equals(Unit.Race, Race.Asura)) State.GameManager.TacticalMode.CreateSwipeHitEffect(target.Position);
     }
 
-    private void KillUnit(Actor_Unit target, Weapon weapon)
+    private void KillUnit(ActorUnit target, Weapon weapon)
     {
         TacticalUtilities.Log.RegisterKill(Unit, target.Unit, weapon);
         Unit.KilledUnits++;
@@ -1539,7 +1539,7 @@ public class Actor_Unit : IActorUnit
         Unit.GiveScaledExp(4 * target.Unit.ExpMultiplier, Unit.Level - target.Unit.Level);
     }
 
-    private void KillUnit(Actor_Unit target, Spell spell)
+    private void KillUnit(ActorUnit target, Spell spell)
     {
         TacticalUtilities.Log.RegisterSpellKill(Unit, target.Unit, spell.SpellType);
         Unit.KilledUnits++;
@@ -1579,20 +1579,20 @@ public class Actor_Unit : IActorUnit
         }
     }
 
-    internal bool DefendSpellCheck(Spell spell, Actor_Unit attacker, out float chance, float mod = 0, Stat stat = Stat.Mind)
+    internal bool DefendSpellCheck(Spell spell, ActorUnit attacker, out float chance, float mod = 0, Stat stat = Stat.Mind)
     {
         State.GameManager.TacticalMode.AITimer = Config.TacticalAttackDelay;
-        if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.turboMode == false) State.GameManager.CameraCall(Position);
+        if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.TurboMode == false) State.GameManager.CameraCall(Position);
         chance = spell.Resistable ? GetMagicChance(attacker, spell, mod, stat) : 1;
         float r = (float)State.Rand.NextDouble();
         return r < chance;
     }
 
-    internal bool DefendDamageSpell(DamageSpell spell, Actor_Unit attacker, int damage)
+    internal bool DefendDamageSpell(DamageSpell spell, ActorUnit attacker, int damage)
     {
         if (TacticalUtilities.SneakAttackCheck(attacker.Unit, Unit))
         {
-            attacker.Unit.hiddenFixedSide = false;
+            attacker.Unit.HiddenFixedSide = false;
             damage *= 3;
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{attacker.Unit.Name} sneak-attacked {Unit.Name}!</color>");
         }
@@ -1642,7 +1642,7 @@ public class Actor_Unit : IActorUnit
         return false;
     }
 
-    internal bool DefendStatusSpell(StatusSpell spell, Actor_Unit attacker, Stat stat = Stat.Mind)
+    internal bool DefendStatusSpell(StatusSpell spell, ActorUnit attacker, Stat stat = Stat.Mind)
     {
         if (spell.Id == "hypno-fart" && Equals(Unit.FixedSide, attacker.Unit.FixedSide))
         {
@@ -1652,7 +1652,7 @@ public class Actor_Unit : IActorUnit
         bool sneakAttack = false;
         if (TacticalUtilities.SneakAttackCheck(attacker.Unit, Unit) && !spell.AcceptibleTargets.Contains(AbilityTargets.Ally)) // Replace when there is an unresistable negative status
         {
-            attacker.Unit.hiddenFixedSide = false;
+            attacker.Unit.HiddenFixedSide = false;
             sneakAttack = true;
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{attacker.Unit.Name} sneak-attacked {Unit.Name}!</color>");
         }
@@ -1725,11 +1725,11 @@ public class Actor_Unit : IActorUnit
         return false;
     }
 
-    public bool Defend(Actor_Unit attacker, ref int damage, bool ranged, out float chance, bool canKill = true)
+    public bool Defend(ActorUnit attacker, ref int damage, bool ranged, out float chance, bool canKill = true)
     {
         if (TacticalUtilities.SneakAttackCheck(attacker.Unit, Unit))
         {
-            attacker.Unit.hiddenFixedSide = false;
+            attacker.Unit.HiddenFixedSide = false;
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{attacker.Unit.Name} sneak-attacked {Unit.Name}!</color>");
         }
 
@@ -1740,7 +1740,7 @@ public class Actor_Unit : IActorUnit
         }
 
         State.GameManager.TacticalMode.AITimer = Config.TacticalAttackDelay;
-        if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.turboMode == false) State.GameManager.CameraCall(Position);
+        if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.TurboMode == false) State.GameManager.CameraCall(Position);
         chance = GetAttackChance(attacker, ranged);
 
         float r = (float)State.Rand.NextDouble();
@@ -1762,7 +1762,7 @@ public class Actor_Unit : IActorUnit
     }
 
     //This is the chance to be devoured, so it belongs here and not in PredatorComponent
-    public float GetDevourChance(Actor_Unit attacker, bool includeSecondaries = false, int skillBoost = 0, bool force = false)
+    public float GetDevourChance(ActorUnit attacker, bool includeSecondaries = false, int skillBoost = 0, bool force = false)
     {
         if (attacker?.Unit.Predator == false && !force)
         {
@@ -1834,7 +1834,7 @@ public class Actor_Unit : IActorUnit
         return odds / 100;
     }
 
-    public bool BellyRub(Actor_Unit target)
+    public bool BellyRub(ActorUnit target)
     {
         Prey prey;
         if (target.Unit.Predator == false) return false;
@@ -1889,22 +1889,22 @@ public class Actor_Unit : IActorUnit
         switch (type)
         {
             case 0:
-                prey = target.PredatorComponent.GetDirectPrey().FirstOrDefault(p => p.Location.Equals(PreyLocation.stomach) || p.Location.Equals(PreyLocation.stomach2) || p.Location.Equals(PreyLocation.anal) || p.Location.Equals(PreyLocation.womb));
+                prey = target.PredatorComponent.GetDirectPrey().FirstOrDefault(p => p.Location.Equals(PreyLocation.Stomach) || p.Location.Equals(PreyLocation.Stomach2) || p.Location.Equals(PreyLocation.Anal) || p.Location.Equals(PreyLocation.Womb));
                 if (prey == null) break;
                 TacticalUtilities.Log.RegisterBellyRub(Unit, target.Unit, prey.Unit, 1f);
                 break;
             case 1:
-                prey = target.PredatorComponent.GetDirectPrey().FirstOrDefault(p => p.Location.Equals(PreyLocation.breasts) || p.Location.Equals(PreyLocation.leftBreast) || p.Location.Equals(PreyLocation.rightBreast));
+                prey = target.PredatorComponent.GetDirectPrey().FirstOrDefault(p => p.Location.Equals(PreyLocation.Breasts) || p.Location.Equals(PreyLocation.LeftBreast) || p.Location.Equals(PreyLocation.RightBreast));
                 if (prey == null) break;
                 TacticalUtilities.Log.RegisterBreastRub(Unit, target.Unit, prey.Unit, 1f);
                 break;
             case 2:
-                prey = target.PredatorComponent.GetDirectPrey().FirstOrDefault(p => p.Location.Equals(PreyLocation.balls));
+                prey = target.PredatorComponent.GetDirectPrey().FirstOrDefault(p => p.Location.Equals(PreyLocation.Balls));
                 if (prey == null) break;
                 TacticalUtilities.Log.RegisterBallMassage(Unit, target.Unit, prey.Unit, 1f);
                 break;
             case 3:
-                prey = target.PredatorComponent.GetDirectPrey().FirstOrDefault(p => p.Location.Equals(PreyLocation.tail));
+                prey = target.PredatorComponent.GetDirectPrey().FirstOrDefault(p => p.Location.Equals(PreyLocation.Tail));
                 if (prey == null) break;
                 TacticalUtilities.Log.RegisterTailRub(Unit, target.Unit, prey.Unit, 1f);
                 break;
@@ -1912,7 +1912,7 @@ public class Actor_Unit : IActorUnit
                 break;
         }
 
-        if (!State.GameManager.TacticalMode.turboMode)
+        if (!State.GameManager.TacticalMode.TurboMode)
         {
             SetRubMode();
             target.SetRubbedMode();
@@ -1955,29 +1955,29 @@ public class Actor_Unit : IActorUnit
                 {
                     $"<b>{target.Unit.Name}</b> decides to swap sides because <b>{Unit.Name}</b>'s rubs are just that sublime!",
                     $"<b>{target.Unit.Name}</b> joins <b>{Unit.Name}</b>'s side to get more of those irresistible scritches later!",
-                    $"The way <b>{Unit.Name}</b> touches {LogUtilities.GPPHim(target.Unit)} moves something other than {LogUtilities.GPPHis(target.Unit)} prey-filled innards in <b>{target.Unit.Name}</b>, making {LogUtilities.GPPHim(target.Unit)} join {LogUtilities.GPPHim(Unit)}.",
-                    $"<b>{Unit.Name}</b> makes <b>{target.Unit.Name}</b> feel incredible, rearranging {LogUtilities.GPPHis(target.Unit)} priorities in this conflict...",
+                    $"The way <b>{Unit.Name}</b> touches {LogUtilities.GppHim(target.Unit)} moves something other than {LogUtilities.GppHis(target.Unit)} prey-filled innards in <b>{target.Unit.Name}</b>, making {LogUtilities.GppHim(target.Unit)} join {LogUtilities.GppHim(Unit)}.",
+                    $"<b>{Unit.Name}</b> makes <b>{target.Unit.Name}</b> feel incredible, rearranging {LogUtilities.GppHis(target.Unit)} priorities in this conflict...",
                     $"<b>{target.Unit.Name}</b> slowly returns from a world of pure bliss and decides to stick with <b>{Unit.Name}</b> after all."
                 };
-                if (Equals(target.Unit.Race, Race.Dog)) strings.Append($"<b>{Unit.Name}</b>’s attentive massage of <b>{target.Unit.Name}</b>’s stuffed midsection convinces the voracious canine to make {LogUtilities.GPPHim(Unit)} {LogUtilities.GPPHis(target.Unit)} master no matter the cost.");
+                if (Equals(target.Unit.Race, Race.Dog)) strings.Append($"<b>{Unit.Name}</b>’s attentive massage of <b>{target.Unit.Name}</b>’s stuffed midsection convinces the voracious canine to make {LogUtilities.GppHim(Unit)} {LogUtilities.GppHis(target.Unit)} master no matter the cost.");
                 target.UnitSprite.DisplaySeduce();
                 State.GameManager.TacticalMode.Log.RegisterMiscellaneous(
                     LogUtilities.GetRandomStringFrom(strings)
                 );
                 if (!Equals(target.Unit.Side, Unit.Side)) State.GameManager.TacticalMode.SwitchAlignment(target);
                 target.Unit.FixedSide = Unit.FixedSide;
-                target.Unit.hiddenFixedSide = true;
+                target.Unit.HiddenFixedSide = true;
             }
             else if (distract)
             {
                 target.UnitSprite.DisplayDistract();
                 State.GameManager.TacticalMode.Log.RegisterMiscellaneous(
                     LogUtilities.GetRandomStringFrom(
-                        $"<b>{target.Unit.Name}</b> is so enthralled by <b>{Unit.Name}</b>'s touch that {LogUtilities.GPPHe(target.Unit)} forgot what {LogUtilities.GPPHeWas(target.Unit)} gonna do.",
-                        $"Despite the battle, <b>{target.Unit.Name}</b> wants to spend {LogUtilities.GPPHis(target.Unit)} turn enjoying <b>{Unit.Name}</b>'s affection.",
+                        $"<b>{target.Unit.Name}</b> is so enthralled by <b>{Unit.Name}</b>'s touch that {LogUtilities.GppHe(target.Unit)} forgot what {LogUtilities.GppHeWas(target.Unit)} gonna do.",
+                        $"Despite the battle, <b>{target.Unit.Name}</b> wants to spend {LogUtilities.GppHis(target.Unit)} turn enjoying <b>{Unit.Name}</b>'s affection.",
                         $"It looks like <b>{Unit.Name}</b>'s rubs take up 100% of <b>{target.Unit.Name}</b>'s attention right now.",
                         $"<b>{target.Unit.Name}</b>'s aggression and tactics melt in <b>{Unit.Name}</b>'s hands",
-                        $"<b>{Unit.Name}</b>'s massage really hits the spot, causing <b>{target.Unit.Name}</b> to close {LogUtilities.GPPHis(target.Unit)} eyes and forget about the battle for a moment."
+                        $"<b>{Unit.Name}</b>'s massage really hits the spot, causing <b>{target.Unit.Name}</b> to close {LogUtilities.GppHis(target.Unit)} eyes and forget about the battle for a moment."
                     )
                 );
                 target.Paralyzed = true;
@@ -2047,26 +2047,26 @@ public class Actor_Unit : IActorUnit
         return false;
     }
 
-    internal Vec2i GetTile(Vec2i start, int direction)
+    internal Vec2I GetTile(Vec2I start, int direction)
     {
         switch (direction)
         {
             case 0:
-                return new Vec2i(start.X, start.Y + 1);
+                return new Vec2I(start.X, start.Y + 1);
             case 1:
-                return new Vec2i(start.X + 1, start.Y + 1);
+                return new Vec2I(start.X + 1, start.Y + 1);
             case 2:
-                return new Vec2i(start.X + 1, start.Y);
+                return new Vec2I(start.X + 1, start.Y);
             case 3:
-                return new Vec2i(start.X + 1, start.Y - 1);
+                return new Vec2I(start.X + 1, start.Y - 1);
             case 4:
-                return new Vec2i(start.X, start.Y - 1);
+                return new Vec2I(start.X, start.Y - 1);
             case 5:
-                return new Vec2i(start.X - 1, start.Y - 1);
+                return new Vec2I(start.X - 1, start.Y - 1);
             case 6:
-                return new Vec2i(start.X - 1, start.Y);
+                return new Vec2I(start.X - 1, start.Y);
             case 7:
-                return new Vec2i(start.X - 1, start.Y + 1);
+                return new Vec2I(start.X - 1, start.Y + 1);
             default:
                 return null;
         }
@@ -2095,7 +2095,7 @@ public class Actor_Unit : IActorUnit
     }
 
 
-    internal bool MoveTo(Vec2i destination, TacticalTileType[,] tiles, float delay)
+    internal bool MoveTo(Vec2I destination, TacticalTileType[,] tiles, float delay)
     {
         if (destination.X < 0 || destination.Y < 0 || destination.X > tiles.GetUpperBound(0) || destination.Y > tiles.GetUpperBound(1)) return false;
         int cost = TacticalTileInfo.TileCost(new Vec2(destination.X, destination.Y));
@@ -2119,33 +2119,33 @@ public class Actor_Unit : IActorUnit
     private bool Move(int changeX, int changeY, TacticalTileType[,] tiles)
     {
         //float delay = AI ? Config.TacticalPlayerMovementDelay : Config.TacticalAIMovementDelay;
-        Vec2i newLocation = new Vec2i(Position.X + changeX, Position.Y + changeY);
+        Vec2I newLocation = new Vec2I(Position.X + changeX, Position.Y + changeY);
         return MoveTo(newLocation, tiles, Config.TacticalPlayerMovementDelay);
     }
 
 
     public void Update(float dt)
     {
-        if (animationUpdateTime > 0)
+        if (_animationUpdateTime > 0)
         {
-            animationUpdateTime -= dt;
-            if (animationUpdateTime <= 0)
+            _animationUpdateTime -= dt;
+            if (_animationUpdateTime <= 0)
             {
                 if (Mode == DisplayMode.IdleAnimation)
                 {
-                    animationUpdateTime = 0.25f;
-                    animationStep--;
-                    if (animationStep == 0)
+                    _animationUpdateTime = 0.25f;
+                    _animationStep--;
+                    if (_animationStep == 0)
                     {
-                        if (Mode > DisplayMode.Attacking && Mode < DisplayMode.VoreSuccess && modeQueue.Count > 0)
+                        if (Mode > DisplayMode.Attacking && Mode < DisplayMode.VoreSuccess && ModeQueue.Count > 0)
                         {
-                            animationUpdateTime = modeQueue.FirstOrDefault().Value;
-                            Mode = (DisplayMode)modeQueue.FirstOrDefault().Key; // This casting back and forth saves dealing with accessibility hassles.
-                            modeQueue.RemoveAt(0);
+                            _animationUpdateTime = ModeQueue.FirstOrDefault().Value;
+                            Mode = (DisplayMode)ModeQueue.FirstOrDefault().Key; // This casting back and forth saves dealing with accessibility hassles.
+                            ModeQueue.RemoveAt(0);
                         }
                         else
                         {
-                            animationUpdateTime = 0;
+                            _animationUpdateTime = 0;
                             Mode = 0;
                         }
                     }
@@ -2153,15 +2153,15 @@ public class Actor_Unit : IActorUnit
                 else
                 {
                     if (Mode >= DisplayMode.Attacking && Mode <= DisplayMode.FrogPouncing) HasAttackedThisCombat = true;
-                    if (modeQueue.Count > 0)
+                    if (ModeQueue.Count > 0)
                     {
-                        animationUpdateTime = modeQueue.FirstOrDefault().Value;
-                        Mode = (DisplayMode)modeQueue.FirstOrDefault().Key;
-                        modeQueue.RemoveAt(0);
+                        _animationUpdateTime = ModeQueue.FirstOrDefault().Value;
+                        Mode = (DisplayMode)ModeQueue.FirstOrDefault().Key;
+                        ModeQueue.RemoveAt(0);
                     }
                     else
                     {
-                        animationUpdateTime = 0;
+                        _animationUpdateTime = 0;
                         Mode = 0;
                     }
                 }
@@ -2196,7 +2196,7 @@ public class Actor_Unit : IActorUnit
 
         UnitSprite.UpdateHealthBar(this);
         TurnsSinceLastParalysis++;
-        if (Targetable && Visible && Surrendered == false && Fled == false) RestoreMP();
+        if (Targetable && Visible && Surrendered == false && Fled == false) RestoreMp();
         Unit.TickStatusEffects();
         Unit.Heal(Unit.TraitBoosts.HealthRegen);
         if (Unit.HasTrait(TraitType.Perseverance) && TurnsSinceLastDamage > 3)
@@ -2272,10 +2272,10 @@ public class Actor_Unit : IActorUnit
             }
         }
 
-        if (Config.DamageNumbers == false && !State.GameManager.TacticalMode.turboMode)
+        if (Config.DamageNumbers == false && !State.GameManager.TacticalMode.TurboMode)
         {
             Mode = DisplayMode.Injured;
-            animationUpdateTime = 1.0F;
+            _animationUpdateTime = 1.0F;
         }
 
         if (Unit.IsDead)
@@ -2287,7 +2287,7 @@ public class Actor_Unit : IActorUnit
             {
                 float angle = 40 + State.Rand.Next(280);
                 UnitSprite.transform.rotation = Quaternion.Euler(0, 0, angle);
-                spriteLayerOffset = State.GameManager.TacticalMode.GetNextCorpseLayer();
+                SpriteLayerOffset = State.GameManager.TacticalMode.GetNextCorpseLayer();
             }
             else
             {
@@ -2317,33 +2317,33 @@ public class Actor_Unit : IActorUnit
     //    return released;
     //}
 
-    public Vec2i GetPos(int i)
+    public Vec2I GetPos(int i)
     {
         switch (i)
         {
             case 0:
-                return new Vec2i(Position.X, Position.Y + 1);
+                return new Vec2I(Position.X, Position.Y + 1);
             case 1:
-                return new Vec2i(Position.X + 1, Position.Y + 1);
+                return new Vec2I(Position.X + 1, Position.Y + 1);
             case 2:
-                return new Vec2i(Position.X + 1, Position.Y);
+                return new Vec2I(Position.X + 1, Position.Y);
             case 3:
-                return new Vec2i(Position.X + 1, Position.Y - 1);
+                return new Vec2I(Position.X + 1, Position.Y - 1);
             case 4:
-                return new Vec2i(Position.X, Position.Y - 1);
+                return new Vec2I(Position.X, Position.Y - 1);
             case 5:
-                return new Vec2i(Position.X - 1, Position.Y - 1);
+                return new Vec2I(Position.X - 1, Position.Y - 1);
             case 6:
-                return new Vec2i(Position.X - 1, Position.Y);
+                return new Vec2I(Position.X - 1, Position.Y);
             case 7:
-                return new Vec2i(Position.X - 1, Position.Y + 1);
+                return new Vec2I(Position.X - 1, Position.Y + 1);
         }
 
         return Position;
     }
 
 
-    public static bool CheckForActor(List<Actor_Unit> actors, Vec2i p)
+    public static bool CheckForActor(List<ActorUnit> actors, Vec2I p)
     {
         for (int i = 0; i < actors.Count; i++)
         {
@@ -2372,7 +2372,7 @@ public class Actor_Unit : IActorUnit
         return false;
     }
 
-    public float WillCheckOdds(Actor_Unit actor, Actor_Unit target)
+    public float WillCheckOdds(ActorUnit actor, ActorUnit target)
     {
         if (target.Unit.IsDead)
         {
@@ -2385,7 +2385,7 @@ public class Actor_Unit : IActorUnit
         return ratio / 25;
     }
 
-    public float CritCheck(Actor_Unit actor, Actor_Unit target)
+    public float CritCheck(ActorUnit actor, ActorUnit target)
     {
         if (target.Unit.IsDead)
         {
@@ -2401,22 +2401,22 @@ public class Actor_Unit : IActorUnit
         return ratio;
     }
 
-    public float GrazeCheck(Actor_Unit actor, Actor_Unit target)
+    public float GrazeCheck(ActorUnit actor, ActorUnit target)
     {
         if (target.Unit.IsDead)
         {
             return 0;
         }
 
-        int actor_stats = (actor.Unit.GetStat(Stat.Dexterity) + actor.Unit.GetStat(Stat.Strength)) / 2;
-        float ratio = target.Unit.GetStat(Stat.Agility) / (actor_stats * actor_stats);
+        int actorStats = (actor.Unit.GetStat(Stat.Dexterity) + actor.Unit.GetStat(Stat.Strength)) / 2;
+        float ratio = target.Unit.GetStat(Stat.Agility) / (actorStats * actorStats);
 
         if (Config.BaseGrazeChance > ratio) ratio = Config.BaseGrazeChance;
 
         return ratio;
     }
 
-    internal bool CastSpell(Spell spell, Actor_Unit target)
+    internal bool CastSpell(Spell spell, ActorUnit target)
     {
         if (Unit.SpendMana(spell.ManaCost) == false && spell.IsFree != true) return false;
         Unit.GiveExp(1);
@@ -2440,20 +2440,20 @@ public class Actor_Unit : IActorUnit
         return true;
     }
 
-    internal void CastMawWithLocation(Spell spell, Actor_Unit target, Vec2i targetArea = null)
+    internal void CastMawWithLocation(Spell spell, ActorUnit target, Vec2I targetArea = null)
     {
-        PreyLocation preyLocation = PreyLocation.stomach;
+        PreyLocation preyLocation = PreyLocation.Stomach;
         var possibilities = new Dictionary<string, PreyLocation>();
-        possibilities.Add("Maw", PreyLocation.stomach);
-        if (PredatorComponent.CanAnalVore()) possibilities.Add("Anus", PreyLocation.anal);
-        if (PredatorComponent.CanBreastVore()) possibilities.Add("Breast", PreyLocation.breasts);
-        if (PredatorComponent.CanCockVore()) possibilities.Add("Cock", PreyLocation.balls);
-        if (PredatorComponent.CanUnbirth()) possibilities.Add("Pussy", PreyLocation.womb);
+        possibilities.Add("Maw", PreyLocation.Stomach);
+        if (PredatorComponent.CanAnalVore()) possibilities.Add("Anus", PreyLocation.Anal);
+        if (PredatorComponent.CanBreastVore()) possibilities.Add("Breast", PreyLocation.Breasts);
+        if (PredatorComponent.CanCockVore()) possibilities.Add("Cock", PreyLocation.Balls);
+        if (PredatorComponent.CanUnbirth()) possibilities.Add("Pussy", PreyLocation.Womb);
 
         if (State.GameManager.TacticalMode.IsPlayerInControl && State.GameManager.CurrentScene == State.GameManager.TacticalMode && possibilities.Count > 1)
         {
             var box = State.GameManager.CreateOptionsBox();
-            box.SetData($"Where do you want to put your prey?", "Maw", () => CastMaw(spell, target, PreyLocation.stomach, targetArea), possibilities.Keys.ElementAtOrDefault(1), () => CastMaw(spell, target, possibilities.Values.ElementAtOrDefault(1), targetArea), possibilities.Keys.ElementAtOrDefault(2), () => CastMaw(spell, target, possibilities.Values.ElementAtOrDefault(2), targetArea), possibilities.Keys.ElementAtOrDefault(3), () => CastMaw(spell, target, possibilities.Values.ElementAtOrDefault(3), targetArea), possibilities.Keys.ElementAtOrDefault(4), () => CastMaw(spell, target, possibilities.Values.ElementAtOrDefault(4), targetArea));
+            box.SetData($"Where do you want to put your prey?", "Maw", () => CastMaw(spell, target, PreyLocation.Stomach, targetArea), possibilities.Keys.ElementAtOrDefault(1), () => CastMaw(spell, target, possibilities.Values.ElementAtOrDefault(1), targetArea), possibilities.Keys.ElementAtOrDefault(2), () => CastMaw(spell, target, possibilities.Values.ElementAtOrDefault(2), targetArea), possibilities.Keys.ElementAtOrDefault(3), () => CastMaw(spell, target, possibilities.Values.ElementAtOrDefault(3), targetArea), possibilities.Keys.ElementAtOrDefault(4), () => CastMaw(spell, target, possibilities.Values.ElementAtOrDefault(4), targetArea));
         }
         else
         {
@@ -2462,7 +2462,7 @@ public class Actor_Unit : IActorUnit
         }
     }
 
-    internal void CastMaw(Spell spell, Actor_Unit target, PreyLocation preyLocation, Vec2i targetArea = null)
+    internal void CastMaw(Spell spell, ActorUnit target, PreyLocation preyLocation, Vec2I targetArea = null)
     {
         if (Unit.Predator == false) return;
         if (Unit.SpendMana(spell.ManaCost) == false && spell.IsFree != true) return;
@@ -2511,7 +2511,7 @@ public class Actor_Unit : IActorUnit
             Movement = 0;
     }
 
-    internal void CastOffensiveSpell(DamageSpell spell, Actor_Unit target, Vec2i targetArea = null)
+    internal void CastOffensiveSpell(DamageSpell spell, ActorUnit target, Vec2I targetArea = null)
     {
         if (Unit.SpendMana(spell.ManaCost) == false && spell.IsFree != true) return;
         State.GameManager.SoundManager.PlaySpellCast(spell, this);
@@ -2560,7 +2560,7 @@ public class Actor_Unit : IActorUnit
         else
             Movement = 0;
 
-        void CheckDead(Actor_Unit hitTarget)
+        void CheckDead(ActorUnit hitTarget)
         {
             if (hitTarget.Unit.IsDead)
             {
@@ -2570,7 +2570,7 @@ public class Actor_Unit : IActorUnit
         }
     }
 
-    internal bool CastStatusSpell(StatusSpell spell, Actor_Unit target, Vec2i targetArea = null, Stat stat = Stat.Mind)
+    internal bool CastStatusSpell(StatusSpell spell, ActorUnit target, Vec2I targetArea = null, Stat stat = Stat.Mind)
     {
         if (Unit.SpendMana(spell.ManaCost) == false && spell.IsFree != true) return false;
 
@@ -2624,7 +2624,7 @@ public class Actor_Unit : IActorUnit
         return hit;
     }
 
-    internal bool CastBind(Actor_Unit t)
+    internal bool CastBind(ActorUnit t)
     {
         var spell = SpellList.Bind;
         if (t.Unit.Type != UnitType.Summon) return false;
@@ -2642,7 +2642,7 @@ public class Actor_Unit : IActorUnit
             else if (binder.Unit.GetStat(Stat.Mind) < Unit.GetStat(Stat.Mind))
             {
                 State.GameManager.SoundManager.PlaySpellCast(spell, this);
-                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"With {LogUtilities.GPPHis(Unit)} superior magic <b>{Unit.Name}</b> wrests control over the summoned {InfoPanel.RaceSingular(t.Unit)} from <b>{binder.Unit.Name}</b>.");
+                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"With {LogUtilities.GppHis(Unit)} superior magic <b>{Unit.Name}</b> wrests control over the summoned {InfoPanel.RaceSingular(t.Unit)} from <b>{binder.Unit.Name}</b>.");
                 binder.Unit.BoundUnit = null;
                 Unit.BoundUnit = t;
 
@@ -2741,7 +2741,7 @@ public class Actor_Unit : IActorUnit
                 t.Unit.ApplyStatusEffect(StatusEffectType.Charmed, actorCharm.Strength, actorCharm.Duration);
             }
 
-            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{Unit.Name}</b> has bound <b>{t.Unit.Name}</b> to {LogUtilities.GPPHis(Unit)} will.");
+            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{Unit.Name}</b> has bound <b>{t.Unit.Name}</b> to {LogUtilities.GppHis(Unit)} will.");
         }
 
         if (Unit.TraitBoosts.SpellAttacks > 1)
@@ -2758,7 +2758,7 @@ public class Actor_Unit : IActorUnit
         return true;
     }
 
-    internal bool SummonBound(Vec2i l)
+    internal bool SummonBound(Vec2I l)
     {
         var spell = SpellList.Bind;
         if (Unit.BoundUnit == null) return false;
@@ -2829,7 +2829,7 @@ public class Actor_Unit : IActorUnit
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{Unit.Name} shifted form to resemble {template.Name}");
             Unit.FixedSide = Unit.Side;
             Unit.Side = template.Side;
-            Unit.hiddenFixedSide = true;
+            Unit.HiddenFixedSide = true;
             PredatorComponent?.UpdateFullness();
             return true;
         }
@@ -2861,7 +2861,7 @@ public class Actor_Unit : IActorUnit
             State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{Unit.Name} shifted back to normal");
             Unit.Side = Unit.FixedSide;
             Unit.FixedSide = Side.TrueNoneSide;
-            Unit.hiddenFixedSide = false;
+            Unit.HiddenFixedSide = false;
             PredatorComponent?.ResetTemplate();
             Unit.ResetPersistentSharedTraits();
             AnimationController = new AnimationController();
@@ -2882,7 +2882,7 @@ public class Actor_Unit : IActorUnit
                 Unit.AddPermanentTrait(TraitType.Corruption);
                 Corruption = 0;
                 if (!Unit.HasTrait(TraitType.Untamable)) Unit.FixedSide = side;
-                Unit.hiddenFixedSide = true;
+                Unit.HiddenFixedSide = true;
                 SidesAttackedThisBattle = new List<Side>();
             }
         }
@@ -2890,7 +2890,7 @@ public class Actor_Unit : IActorUnit
             Corruption = 0;
     }
 
-    internal void AddPossession(Actor_Unit possessor)
+    internal void AddPossession(ActorUnit possessor)
     {
         if (!Equals(Unit.FixedSide, possessor.Unit.FixedSide))
         {
@@ -2900,21 +2900,21 @@ public class Actor_Unit : IActorUnit
         CheckPossession(possessor);
     }
 
-    internal void RemovePossession(Actor_Unit possessor)
+    internal void RemovePossession(ActorUnit possessor)
     {
         Possessed = Possessed - possessor.Unit.GetStatTotal() - possessor.Unit.GetStat(Stat.Mind);
         if (Possessed <= 0) Possessed = 0;
         CheckPossession(possessor);
     }
 
-    internal bool CheckPossession(Actor_Unit possessor)
+    internal bool CheckPossession(ActorUnit possessor)
     {
         if (Possessed + Corruption >= Unit.GetStatTotal() + Unit.GetStat(Stat.Will))
         {
             if (Unit.Controller != possessor.Unit)
             {
                 if (!Unit.HasTrait(TraitType.Untamable)) Unit.Controller = possessor.Unit;
-                Unit.hiddenFixedSide = true;
+                Unit.HiddenFixedSide = true;
                 SidesAttackedThisBattle = new List<Side>();
             }
 
@@ -2925,7 +2925,7 @@ public class Actor_Unit : IActorUnit
             if (Unit.Controller == possessor.Unit)
             {
                 Unit.Controller = null;
-                Unit.hiddenFixedSide = false;
+                Unit.HiddenFixedSide = false;
             }
         }
 
@@ -2942,7 +2942,7 @@ public class Actor_Unit : IActorUnit
             shape.ShifterShapes = Unit.ShifterShapes;
             shape.Side = Unit.Side;
             Unit = shape;
-            Unit.hiddenFixedSide = false;
+            Unit.HiddenFixedSide = false;
 
             UnitSprite.UpdateSprites(this, true);
             AnimationController = new AnimationController();

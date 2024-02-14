@@ -53,9 +53,9 @@ namespace CruxClothing
         });
     }
 
-    internal static class TShirt
+    internal static class Shirt
     {
-        internal static readonly IClothing TShirtInstance = ClothingBuilder.Create(builder =>
+        internal static readonly IClothing ShirtInstance = ClothingBuilder.Create(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {
@@ -461,7 +461,7 @@ namespace CruxClothing
     {
         internal static readonly IClothing NecklaceGoldInstance = NecklaceGold.NecklaceGoldInstance;
         internal static readonly IClothing NecklaceCruxInstance = NecklaceCrux.NecklaceCruxInstance;
-        internal static readonly IClothing TShirtInstance = TShirt.TShirtInstance;
+        internal static readonly IClothing ShirtInstance = Shirt.ShirtInstance;
         internal static readonly IClothing NetShirtInstance = NetShirt.NetShirtInstance;
         internal static readonly IClothing RaggedBraInstance = RaggedBra.RaggedBraInstance;
         internal static readonly IClothing LabCoatInstance = LabCoat.LabCoatInstance;
@@ -476,7 +476,7 @@ namespace CruxClothing
 
         internal static readonly List<IClothing> All = new List<IClothing>
         {
-            TShirtInstance, NetShirtInstance, RaggedBraInstance, LabCoatInstance, Boxers1Instance, Boxers2Instance, CruxJeansInstance, FannyBagInstance, BeltBagsInstance, RagsInstance, SlaveCollarInstance
+            ShirtInstance, NetShirtInstance, RaggedBraInstance, LabCoatInstance, Boxers1Instance, Boxers2Instance, CruxJeansInstance, FannyBagInstance, BeltBagsInstance, RagsInstance, SlaveCollarInstance
         };
 
         internal static List<IClothing> Accessories = new List<IClothing>

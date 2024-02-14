@@ -21,7 +21,7 @@ internal class BountyGoods
             if (Gold > 0)
             {
                 ret = $"\n<color=yellow>Recieved {Gold} Gold</color>\n";
-                army.Empire.AddGold(Gold);
+                army.EmpireOutside.AddGold(Gold);
                 Gold = 0;
             }
         }

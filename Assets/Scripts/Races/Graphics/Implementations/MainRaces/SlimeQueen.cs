@@ -65,7 +65,7 @@ namespace Races.Graphics.Implementations.MainRaces
         };
         */
 
-            Action<IRandomCustomInput> RandomCustom = data =>
+            Action<IRandomCustomInput> randomCustom = data =>
             {
                 Defaults.RandomCustom(data);
                 IUnitRead unit = data.Unit;
@@ -247,10 +247,10 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            Action<IRandomCustomInput> ParentRandomCustom = RandomCustom;
+            Action<IRandomCustomInput> parentRandomCustom = randomCustom;
             builder.RandomCustom(data =>
             {
-                ParentRandomCustom(data);
+                parentRandomCustom(data);
                 IUnitRead unit = data.Unit;
 
                 unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);

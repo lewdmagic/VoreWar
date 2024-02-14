@@ -30,12 +30,12 @@ internal class EventLog
     [OdinSerialize]
     private PreyLocation _preyLocation;
 
-    internal PreyLocation preyLocation { get => _preyLocation; set => _preyLocation = value; }
+    internal PreyLocation PreyLocation { get => _preyLocation; set => _preyLocation = value; }
 
     [OdinSerialize]
     private PreyLocation _oldLocation;
 
-    internal PreyLocation oldLocation { get => _oldLocation; set => _oldLocation = value; }
+    internal PreyLocation OldLocation { get => _oldLocation; set => _oldLocation = value; }
 
     [OdinSerialize]
     private Weapon _weapon;

@@ -613,7 +613,7 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) =>
             {
-                if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb) && input.A.GetStomachSize(16) == 16)
+                if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach, PreyLocation.Womb) && input.A.GetStomachSize(16) == 16)
                 {
                     output.ChangeSprite(SpriteType.Body).AddOffset(0, 30 * .625f);
                     output.ChangeSprite(SpriteType.Head).AddOffset(0, 30 * .625f);
@@ -628,7 +628,7 @@ namespace Races.Graphics.Implementations.Monsters
                     output.ChangeSprite(SpriteType.Dick).AddOffset(0, 30 * .625f);
                     output.ChangeSprite(SpriteType.Balls).AddOffset(20 * .625f, 10 * .625f);
                 }
-                else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.A.GetStomachSize(16, .8f) == 16)
+                else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach, PreyLocation.Womb) && input.A.GetStomachSize(16, .8f) == 16)
                 {
                     output.ChangeSprite(SpriteType.Body).AddOffset(0, 20 * .625f);
                     output.ChangeSprite(SpriteType.Head).AddOffset(0, 20 * .625f);
@@ -643,7 +643,7 @@ namespace Races.Graphics.Implementations.Monsters
                     output.ChangeSprite(SpriteType.Dick).AddOffset(0, 20 * .625f);
                     output.ChangeSprite(SpriteType.Balls).AddOffset(20 * .625f, 0);
                 }
-                else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb) && input.A.GetStomachSize(16, .9f) == 16)
+                else if (input.U.Predator && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach, PreyLocation.Womb) && input.A.GetStomachSize(16, .9f) == 16)
                 {
                     output.ChangeSprite(SpriteType.Body).AddOffset(0, 10 * .625f);
                     output.ChangeSprite(SpriteType.Head).AddOffset(0, 10 * .625f);

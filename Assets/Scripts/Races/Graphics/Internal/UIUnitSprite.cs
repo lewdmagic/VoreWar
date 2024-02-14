@@ -12,43 +12,43 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     private RaceRenderer _raceRenderer;
 
-    private Actor_Unit _lastActor;
+    private ActorUnit _lastActor;
     private Race _lastRace;
 
     [HideInInspector]
-    private int index = -1;
+    private int _index = -1;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (index >= 0)
+        if (_index >= 0)
         {
-            if (State.GameManager.CurrentScene == State.GameManager.Recruit_Mode)
+            if (State.GameManager.CurrentScene == State.GameManager.RecruitMode)
             {
-                State.GameManager.Recruit_Mode.Select(index);
+                State.GameManager.RecruitMode.Select(_index);
             }
             else
             {
-                State.GameManager.StrategyMode.ExchangerUI.Select(index);
+                State.GameManager.StrategyMode.ExchangerUI.Select(_index);
             }
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (index >= 0)
+        if (_index >= 0)
         {
-            if (State.GameManager.CurrentScene != State.GameManager.Recruit_Mode)
+            if (State.GameManager.CurrentScene != State.GameManager.RecruitMode)
             {
-                State.GameManager.StrategyMode.ExchangerUI.UpdateInfo(index);
+                State.GameManager.StrategyMode.ExchangerUI.UpdateInfo(_index);
             }
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (index >= 0)
+        if (_index >= 0)
         {
-            if (State.GameManager.CurrentScene != State.GameManager.Recruit_Mode)
+            if (State.GameManager.CurrentScene != State.GameManager.RecruitMode)
             {
                 State.GameManager.StrategyMode.ExchangerUI.UpdateInfo(-20);
             }
@@ -57,10 +57,10 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void SetIndex(int num)
     {
-        index = num;
+        _index = num;
     }
 
-    public void ResetBellyScale(Actor_Unit actor)
+    public void ResetBellyScale(ActorUnit actor)
     {
         if (_raceRenderer != null)
         {
@@ -68,7 +68,7 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
     }
 
-    public void UpdateSprites(Actor_Unit actor, bool locked = true)
+    public void UpdateSprites(ActorUnit actor, bool locked = true)
     {
         if (actor != _lastActor || _lastRace == null || !Equals(actor.Unit.Race, _lastRace))
         {
@@ -84,11 +84,11 @@ public class UIUnitSprite : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         _raceRenderer.UpdateSprite();
         if (locked)
         {
-            if (actor.AnimationController?.frameLists != null)
+            if (actor.AnimationController?.FrameLists != null)
             {
-                for (int i = 0; i < actor.AnimationController.frameLists.Length; i++)
+                for (int i = 0; i < actor.AnimationController.FrameLists.Length; i++)
                 {
-                    actor.AnimationController.frameLists[i].currentFrame = 0;
+                    actor.AnimationController.FrameLists[i].CurrentFrame = 0;
                 }
             }
         }

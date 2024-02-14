@@ -20,7 +20,7 @@ public class SetupOutput : ISetupOutput
     public List<IClothing> ExtraMainClothing5Types { get; private set; } = new List<IClothing>();
 
 
-    internal readonly ExtraRaceInfo _extraRaceInfo = new ExtraRaceInfo();
+    internal readonly ExtraRaceInfo ExtraRaceInfo = new ExtraRaceInfo();
 
     public SetupOutput(
         Func<int> breastSizes,
@@ -118,89 +118,89 @@ public class SetupOutput : ISetupOutput
 
     public void Names(string singularName, string pluralName)
     {
-        _extraRaceInfo.SingularName = (input) => singularName;
-        _extraRaceInfo.PluralName = (input) => pluralName;
+        ExtraRaceInfo.SingularName = (input) => singularName;
+        ExtraRaceInfo.PluralName = (input) => pluralName;
     }
 
     public void Names(string singularName, Func<INameInput, string> pluralName)
     {
-        _extraRaceInfo.SingularName = (input) => singularName;
-        _extraRaceInfo.PluralName = pluralName;
+        ExtraRaceInfo.SingularName = (input) => singularName;
+        ExtraRaceInfo.PluralName = pluralName;
     }
 
     public void Names(Func<INameInput, string> singularName, string pluralName)
     {
-        _extraRaceInfo.SingularName = singularName;
-        _extraRaceInfo.PluralName = (input) => pluralName;
+        ExtraRaceInfo.SingularName = singularName;
+        ExtraRaceInfo.PluralName = (input) => pluralName;
     }
 
     public void Names(Func<INameInput, string> singularName, Func<INameInput, string> pluralName)
     {
-        _extraRaceInfo.SingularName = singularName;
-        _extraRaceInfo.PluralName = pluralName;
+        ExtraRaceInfo.SingularName = singularName;
+        ExtraRaceInfo.PluralName = pluralName;
     }
 
     public void WallType(WallType wallType)
     {
-        _extraRaceInfo.WallType = wallType;
+        ExtraRaceInfo.WallType = wallType;
     }
 
     public void BonesInfo(Func<IUnitRead, List<BoneInfo>> boneTypesGen)
     {
-        _extraRaceInfo.BoneTypesGen = boneTypesGen;
+        ExtraRaceInfo.BoneTypesGen = boneTypesGen;
     }
 
     public void FlavorText(FlavorText flavorText)
     {
-        _extraRaceInfo.FlavorText = flavorText;
+        ExtraRaceInfo.FlavorText = flavorText;
     }
 
     public void AddFlavorText(FlavorType type, params FlavorEntry[] entries)
     {
-        _extraRaceInfo.FlavorText.AddEntries(type, entries);
+        ExtraRaceInfo.FlavorText.AddEntries(type, entries);
     }
 
     public void SetFlavorText(FlavorType type, params FlavorEntry[] entries)
     {
-        _extraRaceInfo.FlavorText.SetEntries(type, entries);
+        ExtraRaceInfo.FlavorText.SetEntries(type, entries);
     }
 
 
     public void RaceTraits(IRaceTraits raceTraits)
     {
-        _extraRaceInfo.RaceTraits = raceTraits;
+        ExtraRaceInfo.RaceTraits = raceTraits;
     }
 
     public void SetRaceTraits(Action<IRaceTraits> setRaceTraits)
     {
         RaceTraits traits = new RaceTraits();
         setRaceTraits.Invoke(traits);
-        _extraRaceInfo.RaceTraits = traits;
+        ExtraRaceInfo.RaceTraits = traits;
     }
 
     public void CustomizeButtons(Action<IUnitRead, EnumIndexedArray<ButtonType, CustomizerButton>> action)
     {
-        _extraRaceInfo.CustomizeButtonsAction = action;
+        ExtraRaceInfo.CustomizeButtonsAction = action;
     }
 
     public void CustomizeButtons(Action<IUnitRead, IButtonCustomizer> action)
     {
-        _extraRaceInfo.CustomizeButtonsAction2 = action;
+        ExtraRaceInfo.CustomizeButtonsAction2 = action;
     }
 
     public void TownNames(List<string> nameList)
     {
-        _extraRaceInfo.TownNames = nameList;
+        ExtraRaceInfo.TownNames = nameList;
     }
 
     public void PreyTownNames(List<string> nameList)
     {
-        _extraRaceInfo.PreyTownNames = nameList;
+        ExtraRaceInfo.PreyTownNames = nameList;
     }
 
     public void IndividualNames(List<string> nameList)
     {
-        _extraRaceInfo.IndividualNames = nameList;
+        ExtraRaceInfo.IndividualNames = nameList;
     }
 
     public Func<int> BreastSizes { get; set; }

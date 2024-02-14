@@ -10,11 +10,11 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Avians
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            IClothing leaderClothes = AvianLeader.AvianLeaderInstance.Create(paramsCalc);
+            IClothing leaderClothes = AvianLeader.AvianLeaderInstance.Create(_paramsCalc);
             IClothing rags = AvianRags.AvianRagsInstance;
 
 
@@ -90,14 +90,14 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.ExtendedBreastSprites = true;
 
                 output.AllowedMainClothingTypes.Set(
-                    GenericTop1.GenericTop1Instance.Create(paramsCalc),
-                    GenericTop2.GenericTop2Instance.Create(paramsCalc),
-                    GenericTop3.GenericTop3Instance.Create(paramsCalc),
-                    GenericTop4.GenericTop4Instance.Create(paramsCalc),
-                    GenericTop5.GenericTop5Instance.Create(paramsCalc),
-                    GenericTop6.GenericTop6Instance.Create(paramsCalc),
+                    GenericTop1.GenericTop1Instance.Create(_paramsCalc),
+                    GenericTop2.GenericTop2Instance.Create(_paramsCalc),
+                    GenericTop3.GenericTop3Instance.Create(_paramsCalc),
+                    GenericTop4.GenericTop4Instance.Create(_paramsCalc),
+                    GenericTop5.GenericTop5Instance.Create(_paramsCalc),
+                    GenericTop6.GenericTop6Instance.Create(_paramsCalc),
                     MaleTop.MaleTopInstance,
-                    Natural.NaturalInstance.Create(paramsCalc),
+                    Natural.NaturalInstance.Create(_paramsCalc),
                     rags,
                     leaderClothes
                 );

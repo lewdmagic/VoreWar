@@ -5,31 +5,31 @@ using UnityEngine.UI;
 
 public class VillageView
 {
-    private Village village;
-    private VillageViewPanel UI;
+    private Village _village;
+    private VillageViewPanel _ui;
 
-    private Empire BuyingEmpire;
+    private Empire _buyingEmpire;
 
-    private Button[] buttons;
+    private Button[] _buttons;
 
     public VillageView(Village village, VillageViewPanel villageUI)
     {
-        buttons = new Button[(int)VillageBuilding.LastIndex + 1];
-        UI = villageUI;
+        _buttons = new Button[(int)VillageBuilding.LastIndex + 1];
+        _ui = villageUI;
     }
 
     internal void Open(Village village, Empire activatingEmpire)
     {
-        BuyingEmpire = activatingEmpire;
-        UI.BuyForAllToggle.isOn = false;
-        this.village = village;
+        _buyingEmpire = activatingEmpire;
+        _ui.BuyForAllToggle.isOn = false;
+        this._village = village;
         Refresh();
-        UI.gameObject.SetActive(true);
+        _ui.gameObject.SetActive(true);
     }
 
     internal void Refresh()
     {
-        if (UI.BuyForAllToggle.isOn)
+        if (_ui.BuyForAllToggle.isOn)
             CreateOrUpdateBuyEachButtons();
         else
             CreateOrUpdateButtons();
@@ -39,32 +39,32 @@ public class VillageView
     private void GenerateText()
     {
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"Village: {village.Name}");
-        sb.AppendLine($"Population: {village.GetTotalPop()}");
-        sb.AppendLine($"Maximum Population: {village.Maxpop}");
-        sb.AppendLine($"Garrison: {village.Garrison}");
-        sb.AppendLine($"Income: {village.GetIncome()}");
-        sb.AppendLine($"Current Money: {BuyingEmpire.Gold}");
-        sb.AppendLine($"Starting Experience: {village.GetStartingXp()}");
-        if (village.NetBoosts.FarmsEquivalent > 0) sb.AppendLine($"Extra Farms: {village.NetBoosts.FarmsEquivalent}");
-        if (village.NetBoosts.WealthMult > 1) sb.AppendLine($"Gold Income: {100 * village.NetBoosts.WealthMult}%");
-        if (village.NetBoosts.WealthAdd > 0) sb.AppendLine($"Gold Income: +{village.NetBoosts.WealthAdd}");
-        if (village.NetBoosts.PopulationMaxMult > 1) sb.AppendLine($"Population Max: {100 * village.NetBoosts.PopulationMaxMult}%");
-        if (village.NetBoosts.PopulationMaxAdd > 0) sb.AppendLine($"Population Max: +{village.NetBoosts.PopulationMaxAdd}");
-        if (village.NetBoosts.GarrisonMaxMult > 1) sb.AppendLine($"Max Garrison: {100 * village.NetBoosts.GarrisonMaxMult}%");
-        if (village.NetBoosts.GarrisonMaxAdd > 0) sb.AppendLine($"Max Garrison: +{village.NetBoosts.GarrisonMaxAdd}");
+        sb.AppendLine($"Village: {_village.Name}");
+        sb.AppendLine($"Population: {_village.GetTotalPop()}");
+        sb.AppendLine($"Maximum Population: {_village.Maxpop}");
+        sb.AppendLine($"Garrison: {_village.Garrison}");
+        sb.AppendLine($"Income: {_village.GetIncome()}");
+        sb.AppendLine($"Current Money: {_buyingEmpire.Gold}");
+        sb.AppendLine($"Starting Experience: {_village.GetStartingXp()}");
+        if (_village.NetBoosts.FarmsEquivalent > 0) sb.AppendLine($"Extra Farms: {_village.NetBoosts.FarmsEquivalent}");
+        if (_village.NetBoosts.WealthMult > 1) sb.AppendLine($"Gold Income: {100 * _village.NetBoosts.WealthMult}%");
+        if (_village.NetBoosts.WealthAdd > 0) sb.AppendLine($"Gold Income: +{_village.NetBoosts.WealthAdd}");
+        if (_village.NetBoosts.PopulationMaxMult > 1) sb.AppendLine($"Population Max: {100 * _village.NetBoosts.PopulationMaxMult}%");
+        if (_village.NetBoosts.PopulationMaxAdd > 0) sb.AppendLine($"Population Max: +{_village.NetBoosts.PopulationMaxAdd}");
+        if (_village.NetBoosts.GarrisonMaxMult > 1) sb.AppendLine($"Max Garrison: {100 * _village.NetBoosts.GarrisonMaxMult}%");
+        if (_village.NetBoosts.GarrisonMaxAdd > 0) sb.AppendLine($"Max Garrison: +{_village.NetBoosts.GarrisonMaxAdd}");
 
-        if (village.buildings.Any())
+        if (_village.buildings.Any())
         {
             sb.AppendLine($"Buildings already built:");
-            foreach (var buildingId in village.buildings)
+            foreach (var buildingId in _village.buildings)
             {
                 var buildingDef = VillageBuildingList.GetBuildingDefinition(buildingId);
                 if (buildingDef != null) sb.AppendLine($"{buildingDef.Name} : {buildingDef.Description}");
             }
         }
 
-        UI.VillageInfo.text = sb.ToString();
+        _ui.VillageInfo.text = sb.ToString();
     }
 
     private void CreateOrUpdateButtons()
@@ -89,7 +89,7 @@ public class VillageView
             return false;
         }
 
-        if (buildingDef.CanEverBuild(village) == false)
+        if (buildingDef.CanEverBuild(_village) == false)
         {
             return false;
         }
@@ -97,17 +97,17 @@ public class VillageView
         string text = buildingDef.Name + " - " + buildingDef.Description + " - Cost: " + GetCostText(buildingDef.Cost);
         Button button = ResetButton(buttonPosition);
 
-        if (buildingDef.HasAllPrerequisites(village) == false)
+        if (buildingDef.HasAllPrerequisites(_village) == false)
         {
             button.interactable = false;
-            button.GetComponentInChildren<Text>().text = "Requires " + buildingDef.GetFirstUnmetPrerequisiteName(village.buildings) + " to be built first. " + text;
+            button.GetComponentInChildren<Text>().text = "Requires " + buildingDef.GetFirstUnmetPrerequisiteName(_village.buildings) + " to be built first. " + text;
         }
-        else if (buildingDef.CanAfford(BuyingEmpire) == false)
+        else if (buildingDef.CanAfford(_buyingEmpire) == false)
         {
             button.interactable = false;
             button.GetComponentInChildren<Text>().text = "Cannot afford " + text;
         }
-        else if (buildingDef.CanBuild(village) == false)
+        else if (buildingDef.CanBuild(_village) == false)
         {
             button.interactable = false;
             button.GetComponentInChildren<Text>().text = "ERROR: Cannot build " + text;
@@ -127,7 +127,7 @@ public class VillageView
         ClearAllButtons();
         int nextOpenPos = 0;
 
-        Village[] villages = State.World.Villages.Where(s => Equals(s.Side, village.Side)).ToArray();
+        Village[] villages = State.World.Villages.Where(s => Equals(s.Side, _village.Side)).ToArray();
 
         foreach (var building in VillageBuildingList.GetListOfBuildingEnum())
         {
@@ -164,7 +164,7 @@ public class VillageView
 
     private bool SetButtonForEachVillage(string text, VillageBuilding building, int buttonPosition, Village[] villages)
     {
-        if (village.Empire != BuyingEmpire)
+        if (_village.Empire != _buyingEmpire)
         {
             State.GameManager.CreateMessageBox("Can't use buy for each village for allied empires, to avoid confusion about what the correct behavior should be");
             return false;
@@ -187,7 +187,7 @@ public class VillageView
         if (needed > 0)
         {
             var cost = VillageBuildingDefinition.GetCost(building, needed);
-            if (buildingDef.CanAfford(BuyingEmpire) == false)
+            if (buildingDef.CanAfford(_buyingEmpire) == false)
             {
                 button.interactable = false;
                 button.GetComponentInChildren<Text>().text = $"{text} * {needed} = {GetCostText(cost)} -- Cannot afford ";
@@ -209,7 +209,7 @@ public class VillageView
 
     private void ClearAllButtons()
     {
-        for (var i = 0; i < buttons.Length; i++)
+        for (var i = 0; i < _buttons.Length; i++)
         {
             var button = ResetButton(i);
             button.GetComponent<Button>().interactable = false;
@@ -222,14 +222,14 @@ public class VillageView
     {
         int id = position;
         Button button;
-        if (buttons[id] == null)
+        if (_buttons[id] == null)
         {
-            button = Object.Instantiate(UI.ButtonPrefab, UI.ButtonPanel.transform).GetComponent<Button>();
-            buttons[id] = button;
+            button = Object.Instantiate(_ui.ButtonPrefab, _ui.ButtonPanel.transform).GetComponent<Button>();
+            _buttons[id] = button;
         }
         else
         {
-            button = buttons[id];
+            button = _buttons[id];
             button.onClick.RemoveAllListeners();
         }
 
@@ -245,8 +245,8 @@ public class VillageView
 
         button.onClick.AddListener(() => BuildAll());
 
-        var cost = village.GetCostAllBuildings();
-        if (BuyingEmpire == null || cost == null)
+        var cost = _village.GetCostAllBuildings();
+        if (_buyingEmpire == null || cost == null)
         {
             Debug.Log("This shouldn't have happened");
             button.interactable = false;
@@ -258,7 +258,7 @@ public class VillageView
             button.interactable = false;
             button.GetComponentInChildren<Text>().text = "This village already has all of the buildings";
         }
-        else if (BuyingEmpire.Gold < cost.Wealth || BuyingEmpire.Leader?.Experience < cost.LeaderExperience)
+        else if (_buyingEmpire.Gold < cost.Wealth || _buyingEmpire.Leader?.Experience < cost.LeaderExperience)
         {
             button.interactable = false;
             button.GetComponentInChildren<Text>().text = $"Cannot afford to buy all buildings - {GetCostText(cost)}";
@@ -278,7 +278,7 @@ public class VillageView
         button.onClick.AddListener(() => BuildAllForAll());
 
 
-        BuildingCost cost = village.GetCostAllBuildings();
+        BuildingCost cost = _village.GetCostAllBuildings();
         foreach (Village village in villages)
         {
             var localcost = village.GetCostAllBuildings();
@@ -286,7 +286,7 @@ public class VillageView
             cost.Wealth += localcost.Wealth;
         }
 
-        if (BuyingEmpire == null || cost == null)
+        if (_buyingEmpire == null || cost == null)
         {
             Debug.Log("This shouldn't have happened");
             button.interactable = false;
@@ -298,7 +298,7 @@ public class VillageView
             button.interactable = false;
             button.GetComponentInChildren<Text>().text = "No village needs a building";
         }
-        else if (BuyingEmpire.Gold < cost.Wealth || BuyingEmpire.Leader?.Experience < cost.LeaderExperience)
+        else if (_buyingEmpire.Gold < cost.Wealth || _buyingEmpire.Leader?.Experience < cost.LeaderExperience)
         {
             button.interactable = false;
             button.GetComponentInChildren<Text>().text = $"Cannot afford to buy all buildings for all villages {GetCostText(cost)}";
@@ -325,15 +325,15 @@ public class VillageView
 
     private void BuildAll()
     {
-        village.BuyAllBuildings(BuyingEmpire);
+        _village.BuyAllBuildings(_buyingEmpire);
         Refresh();
     }
 
     private void BuildAllForAll()
     {
-        foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, village.Side)))
+        foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, _village.Side)))
         {
-            vill.BuyAllBuildings(BuyingEmpire);
+            vill.BuyAllBuildings(_buyingEmpire);
         }
 
         Refresh();
@@ -341,9 +341,9 @@ public class VillageView
 
     private void BuildForEachVillage(VillageBuilding building)
     {
-        foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, village.Side) && s.buildings.Contains(building) == false))
+        foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, _village.Side) && s.buildings.Contains(building) == false))
         {
-            vill.Build(building, BuyingEmpire);
+            vill.Build(building, _buyingEmpire);
         }
 
         Refresh();
@@ -351,7 +351,7 @@ public class VillageView
 
     private void Build(VillageBuilding building)
     {
-        village.Build(building, BuyingEmpire);
+        _village.Build(building, _buyingEmpire);
         Refresh();
     }
 }

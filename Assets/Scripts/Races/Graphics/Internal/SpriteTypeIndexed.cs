@@ -19,7 +19,7 @@ internal class SpriteTypeIndexed<T> : IEnumerable<T>
 
     public SpriteTypeIndexed()
     {
-        KeyValues = new KVEnumerator<T>(_data);
+        KeyValues = new KvEnumerator<T>(_data);
     }
 
     public IEnumerator<T> GetEnumerator()
@@ -43,23 +43,23 @@ internal class SpriteTypeIndexed<T> : IEnumerable<T>
     }
 
 
-    private class KVEnumerator<U> : IEnumerable<KeyValuePair<SpriteType, U>>
+    private class KvEnumerator<TU> : IEnumerable<KeyValuePair<SpriteType, TU>>
     {
-        private readonly U[] _data;
+        private readonly TU[] _data;
 
-        public KVEnumerator(U[] data)
+        public KvEnumerator(TU[] data)
         {
             _data = data;
         }
 
-        public IEnumerator<KeyValuePair<SpriteType, U>> GetEnumerator()
+        public IEnumerator<KeyValuePair<SpriteType, TU>> GetEnumerator()
         {
             foreach (SpriteType spriteType in EnumUtil.GetValues<SpriteType>())
             {
-                U value = _data[(int)spriteType];
+                TU value = _data[(int)spriteType];
                 if (value != null)
                 {
-                    yield return new KeyValuePair<SpriteType, U>(spriteType, value);
+                    yield return new KeyValuePair<SpriteType, TU>(spriteType, value);
                 }
             }
         }

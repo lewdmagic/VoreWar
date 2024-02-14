@@ -15,14 +15,14 @@ public class RecruitCheatsPanel : MonoBehaviour
 
     public Button RefreshButton;
 
-    private bool init = false;
+    private bool _init = false;
 
-    private Army Army;
+    private Army _army;
 
     internal void Setup(Army army)
     {
-        Army = army;
-        if (init == false)
+        _army = army;
+        if (_init == false)
         {
             foreach (TraitType traitId in ((TraitType[])Enum.GetValues(typeof(TraitType))).OrderBy(s => { return s >= TraitType.LightningSpeed ? "ZZZ" + s.ToString() : s.ToString(); }))
             {
@@ -34,7 +34,7 @@ public class RecruitCheatsPanel : MonoBehaviour
             AddTraitButton.onClick.AddListener(AddTrait);
             RemoveTraitButton.onClick.AddListener(RemoveTrait);
             RefreshButton.onClick.AddListener(Refresh);
-            init = true;
+            _init = true;
         }
 
 
@@ -50,12 +50,12 @@ public class RecruitCheatsPanel : MonoBehaviour
 
     private void Refresh()
     {
-        Army.Refresh();
+        _army.Refresh();
     }
 
     private void MoveToAnotherEmpire()
     {
-        if (StrategicUtilities.GetVillageAt(Army.Position) != null)
+        if (StrategicUtilities.GetVillageAt(_army.Position) != null)
         {
             State.GameManager.CreateMessageBox("Can't switch sides in villages, it generates bugs.");
             return;
@@ -68,14 +68,14 @@ public class RecruitCheatsPanel : MonoBehaviour
         }
 
         var emp = State.World.MainEmpires.Where(s => s.Name == ArmyPicker.captionText.text).First();
-        if (Army.Units.Where(s => s.Type == UnitType.Leader).Any())
+        if (_army.Units.Where(s => s.Type == UnitType.Leader).Any())
         {
             State.GameManager.CreateMessageBox("That army had a leader in it, unexpected behavior may occur when the leader dies.");
         }
 
-        State.GameManager.Recruit_Mode.ButtonCallback(86);
+        State.GameManager.RecruitMode.ButtonCallback(86);
         State.GameManager.SwitchToStrategyMode();
-        Army.Units.ForEach(unit => { unit.Side = emp.Side; });
+        _army.Units.ForEach(unit => { unit.Side = emp.Side; });
         State.GameManager.StrategyMode.RedrawArmies();
     }
 
@@ -83,7 +83,7 @@ public class RecruitCheatsPanel : MonoBehaviour
     {
         if (Enum.TryParse(TraitPicker.captionText.text, out TraitType trait))
         {
-            foreach (var unit in Army.Units)
+            foreach (var unit in _army.Units)
             {
                 unit.AddPermanentTrait(trait);
             }
@@ -94,7 +94,7 @@ public class RecruitCheatsPanel : MonoBehaviour
     {
         if (Enum.TryParse(TraitPicker.captionText.text, out TraitType trait))
         {
-            foreach (var unit in Army.Units)
+            foreach (var unit in _army.Units)
             {
                 unit.RemoveTrait(trait);
             }

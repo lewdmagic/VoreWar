@@ -11,7 +11,7 @@ using UnityEngine;
 // Todo evil global is evil
 public static class State
 {
-    private static int saveErrors = 0;
+    private static int _saveErrors = 0;
     public const string Version = "42";
     public static World World;
     public static Rand Rand = new Rand();
@@ -123,9 +123,9 @@ public static class State
                     string[] strings = line.Split(',');
                     if (strings.Length == 4)
                     {
-                        custom.id = int.Parse(strings[0]);
-                        custom.name = strings[1];
-                        custom.chance = float.Parse(strings[2], new CultureInfo("en-US"));
+                        custom.ID = int.Parse(strings[0]);
+                        custom.Name = strings[1];
+                        custom.Chance = float.Parse(strings[2], new CultureInfo("en-US"));
                         custom.RandomTraits = strings[3].Split('|').ToList().ConvertAll(s => (TraitType)int.Parse(s));
                         RandomizeLists.Add(custom);
                     }
@@ -173,19 +173,19 @@ public static class State
             {
                 byte[] bytes = File.ReadAllBytes(RaceSaveDataName);
                 RaceSettings = SerializationUtility.DeserializeValue<RaceSettings>(bytes, DataFormat.Binary);
-                GameManager.Start_Mode.miscText.text = "Successfully read race settings";
+                GameManager.StartMode.miscText.text = "Successfully read race settings";
                 RaceSettings.Sanitize();
             }
             else
             {
                 RaceSettings = new RaceSettings();
-                GameManager.Start_Mode.miscText.text = "No modified race settings found, using default";
+                GameManager.StartMode.miscText.text = "No modified race settings found, using default";
             }
         }
         catch
         {
             RaceSettings = new RaceSettings();
-            GameManager.Start_Mode.miscText.text = "Failed to properly read race settings";
+            GameManager.StartMode.miscText.text = "Failed to properly read race settings";
         }
     }
 
@@ -220,12 +220,12 @@ public static class State
         }
         catch
         {
-            saveErrors++;
-            if (saveErrors < 3)
+            _saveErrors++;
+            if (_saveErrors < 3)
             {
                 GameManager.CreateMessageBox($"Unable to save properly, {filename} didn't work (will only warn 3 times in a single session)");
             }
-            else if (saveErrors == 3)
+            else if (_saveErrors == 3)
             {
                 GameManager.CreateMessageBox($"Unable to save properly, {filename} didn't work (will no longer warn you this session)");
             }
@@ -295,7 +295,7 @@ public static class State
             int version = int.Parse(versionStr);
 
 
-            VillageBuildingList.SetBuildings(World.crazyBuildings);
+            VillageBuildingList.SetBuildings(World.CrazyBuildings);
             if (version < 12)
             {
                 World = null;
@@ -630,7 +630,7 @@ public static class State
                         if (empire.StrategicAI != null && empire.StrategicAI is StrategicAI ai)
                         {
 #pragma warning disable CS0612 // Type or member is obsolete
-                            if (ai.strongerAI)
+                            if (ai.StrongerAI)
 #pragma warning restore CS0612 // Type or member is obsolete
                                 ai.CheatLevel = 1;
                         }
@@ -712,7 +712,7 @@ public static class State
                 }
                 else
                 {
-                    foreach (var unit in World.TacticalData.units)
+                    foreach (var unit in World.TacticalData.Units)
                     {
                         if (unit.Unit.Pronouns == null)
                         {
@@ -731,7 +731,7 @@ public static class State
                     {
                         if (unit.GetGender() == Gender.Hermaphrodite || unit.GetGender() == Gender.Gynomorph)
                         {
-                            unit.HasVagina = Config.HermsCanUB;
+                            unit.HasVagina = Config.HermsCanUb;
                         }
                     }
                 }
@@ -757,9 +757,9 @@ public static class State
             {
                 if (World.TacticalData != null)
                 {
-                    foreach (var unit in World.TacticalData.units)
+                    foreach (var unit in World.TacticalData.Units)
                     {
-                        unit.modeQueue = new List<KeyValuePair<int, float>>();
+                        unit.ModeQueue = new List<KeyValuePair<int, float>>();
                         unit.Unit.FixedSide = Side.TrueNoneSide;
                     }
                 }
@@ -782,8 +782,8 @@ public static class State
                     {
                         foreach (Army army in emp.Armies)
                         {
-                            army.impassables = new List<StrategicTileType>()
-                                { StrategicTileType.mountain, StrategicTileType.snowMountain, StrategicTileType.water, StrategicTileType.lava, StrategicTileType.ocean, StrategicTileType.brokenCliffs };
+                            army.Impassables = new List<StrategicTileType>()
+                                { StrategicTileType.Mountain, StrategicTileType.SnowMountain, StrategicTileType.Water, StrategicTileType.Lava, StrategicTileType.Ocean, StrategicTileType.BrokenCliffs };
                         }
                     }
                 }
@@ -791,9 +791,9 @@ public static class State
 
             if (World.TacticalData != null)
             {
-                foreach (var unit in World.TacticalData.units)
+                foreach (var unit in World.TacticalData.Units)
                 {
-                    if (unit.modeQueue == null) unit.modeQueue = new List<KeyValuePair<int, float>>();
+                    if (unit.ModeQueue == null) unit.ModeQueue = new List<KeyValuePair<int, float>>();
                 }
             }
 
@@ -836,7 +836,7 @@ public static class State
             }
 
 
-            if (Config.World.ArmyMP == 0) Config.World.ArmyMP = 3;
+            if (Config.World.ArmyMp == 0) Config.World.ArmyMp = 3;
 
             if (Config.World.MaxArmies == 0) Config.World.MaxArmies = 12;
 

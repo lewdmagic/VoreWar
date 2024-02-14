@@ -84,7 +84,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 8, (input, output) =>
             {
                 output.Coloring(ColorMap.GetLizardColor(input.U.SkinColor));
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -148,27 +148,27 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[0].CurrentTime >= frameListTail.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame++;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListTail.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[0].currentlyActive = false;
-                            input.A.AnimationController.frameLists[0].currentFrame = 0;
-                            input.A.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                         }
                     }
 
-                    if (frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame] == 0)
+                    if (frameListTail.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame] == 0)
                     {
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Raptor[11 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Raptor[11 + frameListTail.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
@@ -176,13 +176,13 @@ namespace Races.Graphics.Implementations.Monsters
                 {
                     if (State.Rand.Next(300) == 0)
                     {
-                        input.A.AnimationController.frameLists[0].currentlyActive = true;
+                        input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                     }
                 }
 
                 else if (State.Rand.Next(1200) == 0)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                 }
             }); // Tail
 
@@ -194,14 +194,14 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    if (frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame] == 0)
+                    if (frameListTail.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame] == 0)
                     {
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Raptor[17 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Raptor[17 + frameListTail.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                 }
             }); // Tail Stripes
 
@@ -277,7 +277,7 @@ namespace Races.Graphics.Implementations.Monsters
                 {
                     int size = input.A.GetStomachSize(24, 2);
 
-                    if (size == 24 && (input.A.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) ?? false))
+                    if (size == 24 && (input.A.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach) ?? false))
                     {
                         output.ChangeSprite(SpriteType.Dick).AddOffset(0, 176 * .3125f);
                         output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 176 * .3125f);
@@ -290,7 +290,7 @@ namespace Races.Graphics.Implementations.Monsters
                         output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 176 * .3125f);
                     }
 
-                    else if (size >= 23 && (input.A.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
+                    else if (size >= 23 && (input.A.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach) ?? false))
                     {
                         output.ChangeSprite(SpriteType.Dick).AddOffset(0, 168 * .3125f);
                         output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 168 * .3125f);
@@ -303,7 +303,7 @@ namespace Races.Graphics.Implementations.Monsters
                         output.ChangeSprite(SpriteType.Mouth).AddOffset(0, 168 * .3125f);
                     }
 
-                    else if (size == 22 && (input.A.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) ?? false))
+                    else if (size == 22 && (input.A.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach) ?? false))
                     {
                         output.ChangeSprite(SpriteType.Dick).AddOffset(0, 152 * .3125f);
                         output.ChangeSprite(SpriteType.BodyAccent).AddOffset(0, 152 * .3125f);
@@ -487,7 +487,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(0, 0, false) // Tail controller
             };

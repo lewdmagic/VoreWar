@@ -92,11 +92,11 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
 
         if (spriteChange.Palette != null)
         {
-            _spriteRenderer.material = spriteChange.Palette.colorSwapMaterial;
+            _spriteRenderer.material = spriteChange.Palette.ColorSwapMaterial;
         }
         else
         {
-            _spriteRenderer.material = ColorPaletteMap.Default.colorSwapMaterial;
+            _spriteRenderer.material = ColorPaletteMap.Default.ColorSwapMaterial;
         }
 
         if (spriteChange.Color.HasValue)
@@ -147,11 +147,11 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
     {
         if (palette != null)
         {
-            _spriteRenderer.material = palette.colorSwapMaterial;
+            _spriteRenderer.material = palette.ColorSwapMaterial;
         }
         else
         {
-            _spriteRenderer.material = ColorPaletteMap.Default.colorSwapMaterial;
+            _spriteRenderer.material = ColorPaletteMap.Default.ColorSwapMaterial;
         }
     }
 
@@ -250,11 +250,11 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
     {
         if (palette != null)
         {
-            _image.material = palette.colorSwapMaterial;
+            _image.material = palette.ColorSwapMaterial;
         }
         else
         {
-            _image.material = ColorPaletteMap.Default.colorSwapMaterial;
+            _image.material = ColorPaletteMap.Default.ColorSwapMaterial;
         }
     }
 

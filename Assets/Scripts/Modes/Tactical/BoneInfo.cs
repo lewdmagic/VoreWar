@@ -11,18 +11,18 @@ public class BoneInfo
     [OdinSerialize]
     private string _name = "";
 
-    public string name { get => _name; set => _name = value; }
+    public string Name { get => _name; set => _name = value; }
 
     [OdinSerialize]
     private int _accessoryColor = -1;
 
-    public int accessoryColor { get => _accessoryColor; set => _accessoryColor = value; }
+    public int AccessoryColor { get => _accessoryColor; set => _accessoryColor = value; }
 
     public BoneInfo(BoneType boneType, string name = "", int accessoryColor = -1)
     {
-        this.name = name;
+        this.Name = name;
         BoneType = boneType;
-        this.accessoryColor = accessoryColor;
+        this.AccessoryColor = accessoryColor;
     }
 
     public Vector3 GetBoneScalingForScat()

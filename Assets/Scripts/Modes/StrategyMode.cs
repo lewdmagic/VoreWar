@@ -26,11 +26,11 @@ public class StrategyMode : SceneBase
         }
     }
 
-    private bool subWindowUp = false;
+    private bool _subWindowUp = false;
 
     private Empire ActingEmpire { get { return State.World.ActingEmpire; } set { State.World.ActingEmpire = value; } }
 
-    private Empire RenamingEmpire;
+    private Empire _renamingEmpire;
 
     private Army SelectedArmy
     {
@@ -40,8 +40,8 @@ public class StrategyMode : SceneBase
             _selectedArmy = value;
             if (State.World != null)
             {
-                arrowManager?.ClearNodes();
-                mouseMovementMode = false;
+                _arrowManager?.ClearNodes();
+                _mouseMovementMode = false;
                 if (State.World.MainEmpires != null) UpdateArmyLocationsAndSprites();
                 ArmyBarUp = value != null;
                 if (ArmyBarUp) RegenArmyBar(_selectedArmy);
@@ -50,7 +50,7 @@ public class StrategyMode : SceneBase
     }
 
     private Army _selectedArmy;
-    private float m_timer;
+    private float _mTimer;
 
     private int _scaledExp;
 
@@ -58,7 +58,7 @@ public class StrategyMode : SceneBase
     {
         get
         {
-            if (_scaledExp == 0) _scaledExp = StrategicUtilities.Get80thExperiencePercentile();
+            if (_scaledExp == 0) _scaledExp = StrategicUtilities.Get80ThExperiencePercentile();
             return _scaledExp;
         }
         set { _scaledExp = value; }
@@ -82,32 +82,32 @@ public class StrategyMode : SceneBase
 
     internal List<PathNode> QueuedPath
     {
-        get => queuedPath;
+        get => _queuedPath;
         set
         {
-            if (value == null) queuedAttackPermission = false;
-            queuedPath = value;
+            if (value == null) _queuedAttackPermission = false;
+            _queuedPath = value;
         }
     }
 
     public bool NewReports { get; internal set; }
 
-    private List<GameObject> ShownIFF;
+    private List<GameObject> _shownIff;
 
-    private bool runningQueued = true;
+    private bool _runningQueued = true;
 
-    private bool mouseMovementMode = false;
-    private PathNodeManager arrowManager;
-    private List<PathNode> queuedPath;
-    private bool queuedAttackPermission;
-    private Vec2i currentPathDestination;
+    private bool _mouseMovementMode = false;
+    private PathNodeManager _arrowManager;
+    private List<PathNode> _queuedPath;
+    private bool _queuedAttackPermission;
+    private Vec2I _currentPathDestination;
 
     public StrategicTileDictionary TileDictionary;
 
     internal FogSystem FogSystem;
 
-    private List<GameObject> currentVillageTiles;
-    private List<GameObject> currentClaimableTiles;
+    private List<GameObject> _currentVillageTiles;
+    private List<GameObject> _currentClaimableTiles;
 
     public Tilemap[] TilemapLayers;
     public Tilemap FogOfWar;
@@ -142,7 +142,7 @@ public class StrategyMode : SceneBase
 
     public GameObject NotificationWindow;
     public TextMeshProUGUI NotificationText;
-    private float remainingNotificationTime;
+    private float _remainingNotificationTime;
 
     public GameObject ExchangeBlockerPanels;
 
@@ -157,10 +157,10 @@ public class StrategyMode : SceneBase
 
     internal List<StrategicMoveUndo> UndoMoves = new List<StrategicMoveUndo>();
 
-    private int[] trainCost;
-    private int[] trainExp;
+    private int[] _trainCost;
+    private int[] _trainExp;
 
-    private bool pickingExchangeLocation = false;
+    private bool _pickingExchangeLocation = false;
 
     internal bool Paused;
 
@@ -171,9 +171,9 @@ public class StrategyMode : SceneBase
     private void Start()
     {
         Translator = new Translator();
-        arrowManager = FindObjectOfType<PathNodeManager>();
+        _arrowManager = FindObjectOfType<PathNodeManager>();
 
-        ShownIFF = new List<GameObject>();
+        _shownIff = new List<GameObject>();
 
         TileTypes = new Tile[TileSprites.Count()];
         for (int i = 0; i < TileSprites.Count(); i++)
@@ -236,7 +236,7 @@ public class StrategyMode : SceneBase
     {
         if (Config.Notifications == false) return;
         NotificationWindow.SetActive(true);
-        remainingNotificationTime = time;
+        _remainingNotificationTime = time;
         NotificationText.text = message;
     }
 
@@ -254,9 +254,9 @@ public class StrategyMode : SceneBase
         StrategyPathfinder.Initialized = false;
         if (State.World != null) ActingEmpire = null;
         _selectedArmy = null;
-        subWindowUp = false;
-        arrowManager?.ClearNodes();
-        mouseMovementMode = false;
+        _subWindowUp = false;
+        _arrowManager?.ClearNodes();
+        _mouseMovementMode = false;
         ClearArmies();
         ClearVillages();
         foreach (Tilemap tilemap in TilemapLayers)
@@ -297,22 +297,22 @@ public class StrategyMode : SceneBase
     private void PromptArmyPick()
     {
         ExchangeBlockerPanels.SetActive(true);
-        pickingExchangeLocation = true;
+        _pickingExchangeLocation = true;
     }
 
 
-    private void OpenExchangerPanel(Army left, Vec2i location)
+    private void OpenExchangerPanel(Army left, Vec2I location)
     {
         if (left == null) return;
         if (left.Position.GetNumberOfMovesDistance(location) != 1) return;
-        if (left.RemainingMP < 1)
+        if (left.RemainingMp < 1)
         {
             State.GameManager.CreateMessageBox("Army needs to have at least 1 MP to exchange units");
             return;
         }
 
         Village village = StrategicUtilities.GetVillageAt(location);
-        if (village != null && village.Empire.IsEnemy(left.Empire))
+        if (village != null && village.Empire.IsEnemy(left.EmpireOutside))
         {
             if (!left.Units.All(u => u.HasTrait(TraitType.Infiltrator)))
             {
@@ -330,30 +330,30 @@ public class StrategyMode : SceneBase
                 return;
             }
 
-            right = new Army(ActingEmpire, new Vec2i(location.X, location.Y), left.Side)
+            right = new Army(ActingEmpire, new Vec2I(location.X, location.Y), left.Side)
             {
-                RemainingMP = left.RemainingMP - 1
+                RemainingMp = left.RemainingMp - 1
             };
             State.World.GetEmpireOfSide(left.Side).Armies.Add(right);
         }
         else
         {
-            if (right.Empire.IsAlly(left.Empire) == false)
+            if (right.EmpireOutside.IsAlly(left.EmpireOutside) == false)
             {
                 State.GameManager.CreateMessageBox("You can't exchange units with a hostile army");
                 return;
             }
 
-            if (right.RemainingMP < 1 && Equals(right.Side, left.Side))
+            if (right.RemainingMp < 1 && Equals(right.Side, left.Side))
             {
                 State.GameManager.CreateMessageBox("Recieving Army needs to have at least 1 MP to exchange units  (0 Mp for Allied armies)");
                 return;
             }
         }
 
-        subWindowUp = true;
+        _subWindowUp = true;
         ExchangeBlockerPanels.SetActive(false);
-        pickingExchangeLocation = false;
+        _pickingExchangeLocation = false;
         ExchangerUI.gameObject.SetActive(true);
         ExchangerUI.Initialize(left, right);
     }
@@ -432,97 +432,97 @@ public class StrategyMode : SceneBase
                         switch (doodad)
                         {
                             case StrategicDoodadType.SpawnerVagrant:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Vagrant));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Vagrant));
                                 break;
                             case StrategicDoodadType.SpawnerSerpents:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Serpent));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Serpent));
                                 break;
                             case StrategicDoodadType.SpawnerWyvern:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Wyvern));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Wyvern));
                                 break;
                             case StrategicDoodadType.SpawnerCompy:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Compy));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Compy));
                                 break;
                             case StrategicDoodadType.SpawnerSharks:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralShark));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.FeralShark));
                                 break;
                             case StrategicDoodadType.SpawnerFeralWolves:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralWolve));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.FeralWolve));
                                 break;
                             case StrategicDoodadType.SpawnerCake:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Cake));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Cake));
                                 break;
                             case StrategicDoodadType.SpawnerHarvester:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Harvester));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Harvester));
                                 break;
                             case StrategicDoodadType.SpawnerVoilin:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Voilin));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Voilin));
                                 break;
                             case StrategicDoodadType.SpawnerBats:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralBat));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.FeralBat));
                                 break;
                             case StrategicDoodadType.SpawnerFrogs:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralFrog));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.FeralFrog));
                                 break;
                             case StrategicDoodadType.SpawnerDragon:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Dragon));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Dragon));
                                 break;
                             case StrategicDoodadType.SpawnerDragonfly:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Dragonfly));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Dragonfly));
                                 break;
                             case StrategicDoodadType.SpawnerTwistedVines:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.TwistedVine));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.TwistedVine));
                                 break;
                             case StrategicDoodadType.SpawnerFairy:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Fairy));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Fairy));
                                 break;
                             case StrategicDoodadType.SpawnerAnts:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralAnt));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.FeralAnt));
                                 break;
                             case StrategicDoodadType.SpawnerGryphon:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Gryphon));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Gryphon));
                                 break;
                             case StrategicDoodadType.SpawnerSlugs:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.RockSlug));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.RockSlug));
                                 break;
                             case StrategicDoodadType.SpawnerSalamanders:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Salamander));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Salamander));
                                 break;
                             case StrategicDoodadType.SpawnerMantis:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Manti));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Manti));
                                 break;
                             case StrategicDoodadType.SpawnerEasternDragon:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.EasternDragon));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.EasternDragon));
                                 break;
                             case StrategicDoodadType.SpawnerCatfish:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Catfish));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Catfish));
                                 break;
                             case StrategicDoodadType.SpawnerGazelle:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Gazelle));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Gazelle));
                                 break;
                             case StrategicDoodadType.SpawnerEarthworm:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Earthworms));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Earthworms));
                                 break;
                             case StrategicDoodadType.SpawnerFeralLizards:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralLizard));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.FeralLizard));
                                 break;
                             case StrategicDoodadType.SpawnerMonitor:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Monitor));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Monitor));
                                 break;
                             case StrategicDoodadType.SpawnerSchiwardez:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Schiwardez));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Schiwardez));
                                 break;
                             case StrategicDoodadType.SpawnerTerrorbird:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Terrorbird));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Terrorbird));
                                 break;
                             case StrategicDoodadType.SpawnerDratopyr:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Dratopyr));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Dratopyr));
                                 break;
                             case StrategicDoodadType.SpawnerFeralLions:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.FeralLion));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.FeralLion));
                                 break;
                             case StrategicDoodadType.SpawnerGoodra:
-                                Spawners.Add(new MonsterSpawnerLocation(new Vec2i(i, j), Race.Goodra));
+                                Spawners.Add(new MonsterSpawnerLocation(new Vec2I(i, j), Race.Goodra));
                                 break;
                         }
                     }
@@ -586,12 +586,12 @@ public class StrategyMode : SceneBase
             CheckTile(pos + new Vec2(distance, -distance));
             CheckTile(pos + new Vec2(distance, distance));
 
-            if (loc.x == 0 && loc.y == 0)
+            if (loc.X == 0 && loc.Y == 0)
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    loc.x = State.Rand.Next(Config.StrategicWorldSizeX);
-                    loc.y = State.Rand.Next(Config.StrategicWorldSizeY);
+                    loc.X = State.Rand.Next(Config.StrategicWorldSizeX);
+                    loc.Y = State.Rand.Next(Config.StrategicWorldSizeY);
 
                     if (StrategicUtilities.IsTileClear(loc)) break;
                 }
@@ -603,13 +603,13 @@ public class StrategyMode : SceneBase
             void CheckTile(Vec2 spot)
             {
                 if (StrategicUtilities.IsTileClear(spot) == false) return;
-                if (loc.x == 0 && loc.y == 0)
+                if (loc.X == 0 && loc.Y == 0)
                     loc = spot;
                 else if (State.Rand.Next(4) == 0) loc = spot;
             }
         }
 
-        pos = new Vec2i(loc.x, loc.y);
+        pos = new Vec2I(loc.X, loc.Y);
         var emp = State.World.GetEmpireOfSide(finalSide);
         if (emp != null)
         {
@@ -649,7 +649,7 @@ public class StrategyMode : SceneBase
             }
         }
 
-        army.Empire.Armies.Remove(army);
+        army.EmpireOutside.Armies.Remove(army);
         RedrawArmies();
     }
 
@@ -676,7 +676,7 @@ public class StrategyMode : SceneBase
             return;
         }
 
-        FogSystem.UpdateFog(LastHumanEmpire, State.World.Villages, StrategicUtilities.GetAllArmies(), currentVillageTiles, currentClaimableTiles);
+        FogSystem.UpdateFog(LastHumanEmpire, State.World.Villages, StrategicUtilities.GetAllArmies(), _currentVillageTiles, _currentClaimableTiles);
     }
 
     private void UpdateVisibility()
@@ -740,14 +740,14 @@ public class StrategyMode : SceneBase
                     {
                         switch (State.World.Tiles[i, j])
                         {
-                            case StrategicTileType.field:
-                                TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[(int)StrategicTileType.grass]);
+                            case StrategicTileType.Field:
+                                TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[(int)StrategicTileType.Grass]);
                                 break;
-                            case StrategicTileType.fieldDesert:
-                                TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[(int)StrategicTileType.desert]);
+                            case StrategicTileType.FieldDesert:
+                                TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[(int)StrategicTileType.Desert]);
                                 break;
-                            case StrategicTileType.fieldSnow:
-                                TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[(int)StrategicTileType.snow]);
+                            case StrategicTileType.FieldSnow:
+                                TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[(int)StrategicTileType.Snow]);
                                 break;
                             default:
                                 TilemapLayers[0].SetTile(new Vector3Int(i, j, 0), TileTypes[StrategicTileInfo.GetTileType(State.World.Tiles[i, j], i, j)]);
@@ -789,8 +789,8 @@ public class StrategyMode : SceneBase
         if (State.World == null) return;
         ClearVillages();
         Village[] villages = State.World.Villages;
-        currentVillageTiles = new List<GameObject>();
-        currentClaimableTiles = new List<GameObject>();
+        _currentVillageTiles = new List<GameObject>();
+        _currentClaimableTiles = new List<GameObject>();
         for (int i = 0; i < villages.Length; i++)
         {
             Village village = villages[i];
@@ -800,7 +800,7 @@ public class StrategyMode : SceneBase
             GameObject vill = Instantiate(GenericVillage, new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
             vill.GetComponent<SpriteRenderer>().sprite = village.GetIconSprite();
             vill.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            currentVillageTiles.Add(vill);
+            _currentVillageTiles.Add(vill);
 
             /////////
             Sprite villageColorSprite = village.GetColoredIcon();
@@ -809,7 +809,7 @@ public class StrategyMode : SceneBase
                 GameObject villColored = Instantiate(GenericVillage, new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
                 villColored.GetComponent<SpriteRenderer>().sprite = villageColorSprite;
                 villColored.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
-                currentVillageTiles.Add(villColored);
+                _currentVillageTiles.Add(villColored);
                 //if (villageColorSprite == 0) villColored.GetComponent<SpriteRenderer>().color = Color.clear;
             }
 
@@ -818,14 +818,14 @@ public class StrategyMode : SceneBase
             villShield.GetComponent<SpriteRenderer>().sprite = Sprites[11];
             villShield.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShield.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnitySecondaryColor;
-            currentVillageTiles.Add(villShield);
+            _currentVillageTiles.Add(villShield);
 
             ///////////
             GameObject villShieldInner = Instantiate(GenericVillage, new Vector3(village.Position.X, village.Position.Y), new Quaternion(), VillageFolder);
             villShieldInner.GetComponent<SpriteRenderer>().sprite = Sprites[10];
             villShieldInner.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShieldInner.GetComponent<SpriteRenderer>().color = State.World.GetEmpireOfSide(village.Side).UnityColor;
-            currentVillageTiles.Add(villShieldInner);
+            _currentVillageTiles.Add(villShieldInner);
         }
 
         foreach (var mercHouse in State.World.MercenaryHouses)
@@ -853,10 +853,10 @@ public class StrategyMode : SceneBase
             villShieldInner.GetComponent<SpriteRenderer>().sprite = Sprites[10];
             villShieldInner.GetComponent<SpriteRenderer>().sortingOrder = 2;
             villShieldInner.GetComponent<SpriteRenderer>().color = claimable.Owner?.UnityColor ?? Color.clear;
-            currentClaimableTiles.Add(vill);
-            currentClaimableTiles.Add(villColored);
-            currentClaimableTiles.Add(villShield);
-            currentClaimableTiles.Add(villShieldInner);
+            _currentClaimableTiles.Add(vill);
+            _currentClaimableTiles.Add(villColored);
+            _currentClaimableTiles.Add(villShield);
+            _currentClaimableTiles.Add(villShieldInner);
         }
 
 
@@ -868,7 +868,7 @@ public class StrategyMode : SceneBase
 
     private void ClearVillages()
     {
-        currentVillageTiles = null;
+        _currentVillageTiles = null;
         var previousTiles = GameObject.FindGameObjectsWithTag("Village");
         foreach (var tile in previousTiles.ToList())
         {
@@ -930,12 +930,12 @@ public class StrategyMode : SceneBase
 
         ArmyStatusUI.Soldiers.text = army.Units.Count + " soldiers";
         ArmyStatusUI.Health.text = army.GetHealthPercentage() + "% health";
-        ArmyStatusUI.MP.text = army.RemainingMP + " MP";
+        ArmyStatusUI.Mp.text = army.RemainingMp + " MP";
         if (StrategicUtilities.GetMercenaryHouseAt(SelectedArmy.Position) != null)
             ArmyStatusUI.ArmyStatus.text = "Mercenaries";
         else
             ArmyStatusUI.ArmyStatus.text = "Army Info";
-        if (army.InVillageIndex > -1 && army.RemainingMP > 0)
+        if (army.InVillageIndex > -1 && army.RemainingMp > 0)
         {
             var village = StrategicUtilities.GetVillageAt(SelectedArmy.Position);
             var setActive = village != null && village.NetBoosts.MaximumTrainingLevelAdd > 0;
@@ -967,7 +967,7 @@ public class StrategyMode : SceneBase
         for (int i = 0; i < ActingEmpire.Armies.Count; i++)
         {
             if (currentIndex >= ActingEmpire.Armies.Count) currentIndex -= ActingEmpire.Armies.Count;
-            if (ActingEmpire.Armies[currentIndex].RemainingMP > 0)
+            if (ActingEmpire.Armies[currentIndex].RemainingMp > 0)
             {
                 found = true;
                 SelectedArmy = ActingEmpire.Armies[currentIndex];
@@ -983,7 +983,7 @@ public class StrategyMode : SceneBase
 
     private void CheckForMovementInput()
     {
-        if (SelectedArmy.RemainingMP > 0)
+        if (SelectedArmy.RemainingMp > 0)
         {
             if (Input.GetButtonDown("Move Southwest"))
             {
@@ -1037,7 +1037,7 @@ public class StrategyMode : SceneBase
             StrategicUtilities.StartBattle(army);
     }
 
-    private void MoveTo(Army army, Vec2i pos)
+    private void MoveTo(Army army, Vec2I pos)
     {
         if (!army.MoveTo(pos))
             RegenArmyBar(army);
@@ -1047,10 +1047,10 @@ public class StrategyMode : SceneBase
 
     private void AI(float dt)
     {
-        if (State.GameManager.queuedTactical) return;
-        if (m_timer > 0)
+        if (State.GameManager.QueuedTactical) return;
+        if (_mTimer > 0)
         {
-            m_timer -= dt;
+            _mTimer -= dt;
         }
         else
         {
@@ -1060,21 +1060,21 @@ public class StrategyMode : SceneBase
                 EndTurn();
             }
 
-            m_timer = Config.StrategicAIMoveDelay;
+            _mTimer = Config.StrategicAIMoveDelay;
         }
     }
 
 
-    public void ButtonCallback(int ID)
+    public void ButtonCallback(int id)
     {
         if (ActingEmpire.StrategicAI == null && State.GameManager.StrategicControlsLocked == false)
         {
-            if (!subWindowUp)
+            if (!_subWindowUp)
             {
-                switch (ID)
+                switch (id)
                 {
                     case 10:
-                        if (runningQueued || QueuedPath != null) return;
+                        if (_runningQueued || QueuedPath != null) return;
                         EndTurn();
                         break;
                     case 11:
@@ -1082,12 +1082,12 @@ public class StrategyMode : SceneBase
                         break;
                     case 12:
                         SetupDevour();
-                        subWindowUp = true;
+                        _subWindowUp = true;
                         DevourUI.gameObject.SetActive(true);
                         break;
                     case 15:
                         SetupTrain();
-                        subWindowUp = true;
+                        _subWindowUp = true;
                         TrainUI.gameObject.SetActive(true);
                         break;
                     case 20:
@@ -1097,7 +1097,7 @@ public class StrategyMode : SceneBase
             }
             else
             {
-                switch (ID)
+                switch (id)
                 {
                     case 13:
                         int numToEat = 0;
@@ -1108,42 +1108,42 @@ public class StrategyMode : SceneBase
                         }
 
                         Devour(SelectedArmy, numToEat);
-                        subWindowUp = false;
+                        _subWindowUp = false;
                         DevourUI.gameObject.SetActive(false);
                         break;
                     case 14:
                         DevourUI.gameObject.SetActive(false);
-                        subWindowUp = false;
+                        _subWindowUp = false;
                         break;
                     case 16:
                         TrainSelectedArmy();
-                        subWindowUp = false;
+                        _subWindowUp = false;
                         TrainUI.gameObject.SetActive(false);
                         break;
                     case 17:
                         TrainUI.gameObject.SetActive(false);
-                        subWindowUp = false;
+                        _subWindowUp = false;
                         break;
                     case 18:
                         ReportUI.gameObject.SetActive(false);
-                        subWindowUp = false;
+                        _subWindowUp = false;
                         break;
                     case 21:
                         ExchangerUI.gameObject.SetActive(false);
-                        int leftStartingMp = ExchangerUI.LeftArmy.RemainingMP;
-                        int rightStartingMp = ExchangerUI.RightArmy.RemainingMP;
+                        int leftStartingMp = ExchangerUI.LeftArmy.RemainingMp;
+                        int rightStartingMp = ExchangerUI.RightArmy.RemainingMp;
                         if (ExchangerUI.LeftReceived)
                         {
                             UndoMoves.Clear();
                             int costToEnter = StrategicTileInfo.WalkCost(ExchangerUI.LeftArmy.Position.X, ExchangerUI.LeftArmy.Position.Y);
-                            if (rightStartingMp - costToEnter < leftStartingMp) ExchangerUI.LeftArmy.RemainingMP = Math.Max(0, rightStartingMp - costToEnter);
+                            if (rightStartingMp - costToEnter < leftStartingMp) ExchangerUI.LeftArmy.RemainingMp = Math.Max(0, rightStartingMp - costToEnter);
                         }
 
                         if (ExchangerUI.RightReceived)
                         {
                             UndoMoves.Clear();
                             int costToEnter = StrategicTileInfo.WalkCost(ExchangerUI.RightArmy.Position.X, ExchangerUI.RightArmy.Position.Y);
-                            if (leftStartingMp - costToEnter < rightStartingMp) ExchangerUI.RightArmy.RemainingMP = Math.Max(0, leftStartingMp - costToEnter);
+                            if (leftStartingMp - costToEnter < rightStartingMp) ExchangerUI.RightArmy.RemainingMp = Math.Max(0, leftStartingMp - costToEnter);
                         }
 
                         if (ExchangerUI.LeftArmy.Units.Count == 0)
@@ -1162,11 +1162,11 @@ public class StrategyMode : SceneBase
 
 
                             ExchangerUI.RightArmy.Units.ForEach(unit => { infilitrators.Add(unit); });
-                            if (village != null && village.Empire.IsEnemy(ExchangerUI.LeftArmy.Empire))
+                            if (village != null && village.Empire.IsEnemy(ExchangerUI.LeftArmy.EmpireOutside))
                             {
                                 infilitrators.ForEach(inf => { StrategicUtilities.TryInfiltrate(ExchangerUI.RightArmy, inf, village); });
-                                ExchangerUI.RightArmy.Empire.Armies.Remove(ExchangerUI.RightArmy);
-                                ExchangerUI.RightArmy.Empire.ArmiesCreated--;
+                                ExchangerUI.RightArmy.EmpireOutside.Armies.Remove(ExchangerUI.RightArmy);
+                                ExchangerUI.RightArmy.EmpireOutside.ArmiesCreated--;
                             }
                             else
                             {
@@ -1174,14 +1174,14 @@ public class StrategyMode : SceneBase
                                 if (mercHouse != null)
                                 {
                                     infilitrators.ForEach(inf => { StrategicUtilities.TryInfiltrate(ExchangerUI.RightArmy, inf, null, mercHouse); });
-                                    ExchangerUI.RightArmy.Empire.Armies.Remove(ExchangerUI.RightArmy);
-                                    ExchangerUI.RightArmy.Empire.ArmiesCreated--;
+                                    ExchangerUI.RightArmy.EmpireOutside.Armies.Remove(ExchangerUI.RightArmy);
+                                    ExchangerUI.RightArmy.EmpireOutside.ArmiesCreated--;
                                 }
                             }
                         }
 
                         Regenerate();
-                        subWindowUp = false;
+                        _subWindowUp = false;
                         break;
                 }
             }
@@ -1193,7 +1193,7 @@ public class StrategyMode : SceneBase
     {
         Village village = StrategicUtilities.GetVillageAt(SelectedArmy.Position);
 
-        if (village != null && SelectedArmy.RemainingMP > 0)
+        if (village != null && SelectedArmy.RemainingMp > 0)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"this is the village of {village.Name}");
@@ -1232,7 +1232,7 @@ public class StrategyMode : SceneBase
                 GameObject obj = Instantiate(RaceUI.DevourPanel, RaceUI.ActorFolder);
                 UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
                 // Side was 1 for Unit
-                Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), new Unit(Race.Dog.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
+                ActorUnit actor = new ActorUnit(new Vec2I(0, 0), new Unit(Race.Dog.ToSide(), village.VillagePopulation.Population[i].Race, 0, true));
                 TextMeshProUGUI text = obj.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                 var racePar = RaceParameters.GetTraitData(actor.Unit);
                 text.text = $"{village.VillagePopulation.Population[i].Race}\nTotal: {village.VillagePopulation.Population[i].Population} \nHireable: {village.VillagePopulation.Population[i].Hireables}\nFavored Stat: {State.RaceSettings.GetFavoredStat(actor.Unit.Race)}\nDefault Traits:\n{State.RaceSettings.ListTraits(actor.Unit.Race)}";
@@ -1248,10 +1248,10 @@ public class StrategyMode : SceneBase
         }
 
         RaceUI.gameObject.SetActive(true);
-        if (SelectedArmy.RemainingMP == 0)
+        if (SelectedArmy.RemainingMp == 0)
         {
             DevourUI.gameObject.SetActive(false);
-            subWindowUp = false;
+            _subWindowUp = false;
         }
     }
 
@@ -1265,7 +1265,7 @@ public class StrategyMode : SceneBase
         if (numToEat <= 0) return;
         Village village = StrategicUtilities.GetVillageAt(predArmy.Position);
 
-        if (village != null && predArmy.RemainingMP > 0 && village.GetTotalPop() > 0)
+        if (village != null && predArmy.RemainingMp > 0 && village.GetTotalPop() > 0)
         {
             if (village.GetTotalPop() < numToEat) numToEat = village.GetTotalPop();
 
@@ -1278,9 +1278,9 @@ public class StrategyMode : SceneBase
             if (village.GetTotalPop() < 1)
             {
                 RedrawVillages();
-                if (!Equals(village.Empire.ReplacedRace, predArmy.Empire.ReplacedRace))
+                if (!Equals(village.Empire.ReplacedRace, predArmy.EmpireOutside.ReplacedRace))
                 {
-                    RelationsManager.Genocide(predArmy.Empire, village.Empire);
+                    RelationsManager.Genocide(predArmy.EmpireOutside, village.Empire);
                 }
             }
         }
@@ -1292,7 +1292,7 @@ public class StrategyMode : SceneBase
     {
         Village village = StrategicUtilities.GetVillageAt(predArmy.Position);
 
-        if (village != null && (predArmy.RemainingMP > 0 || predArmy.DevourThisTurn == true) && village.GetTotalPop() > 0)
+        if (village != null && (predArmy.RemainingMp > 0 || predArmy.DevourThisTurn == true) && village.GetTotalPop() > 0)
         {
             village.DevouredPercentage(1 / village.GetTotalPop());
             village.SubtractPopulation(1, race);
@@ -1304,9 +1304,9 @@ public class StrategyMode : SceneBase
             if (village.GetTotalPop() < 1)
             {
                 RedrawVillages();
-                if (!Equals(village.Empire.ReplacedRace, predArmy.Empire.ReplacedRace))
+                if (!Equals(village.Empire.ReplacedRace, predArmy.EmpireOutside.ReplacedRace))
                 {
-                    RelationsManager.Genocide(predArmy.Empire, village.Empire);
+                    RelationsManager.Genocide(predArmy.EmpireOutside, village.Empire);
                 }
             }
         }
@@ -1320,7 +1320,7 @@ public class StrategyMode : SceneBase
 
         int numToEat = village.VillagePopulation.GetRacePop(race);
 
-        if (village != null && (predArmy.RemainingMP > 0 || predArmy.DevourThisTurn == true) && village.GetTotalPop() > 0)
+        if (village != null && (predArmy.RemainingMp > 0 || predArmy.DevourThisTurn == true) && village.GetTotalPop() > 0)
         {
             village.DevouredPercentage(numToEat / village.GetTotalPop());
             village.SubtractPopulation(numToEat, race);
@@ -1332,9 +1332,9 @@ public class StrategyMode : SceneBase
             if (village.GetTotalPop() < 1)
             {
                 RedrawVillages();
-                if (!Equals(village.Empire.ReplacedRace, predArmy.Empire.ReplacedRace))
+                if (!Equals(village.Empire.ReplacedRace, predArmy.EmpireOutside.ReplacedRace))
                 {
-                    RelationsManager.Genocide(predArmy.Empire, village.Empire);
+                    RelationsManager.Genocide(predArmy.EmpireOutside, village.Empire);
                 }
             }
         }
@@ -1373,43 +1373,43 @@ public class StrategyMode : SceneBase
     //    RegenArmyBar(SelectedArmy);
     //}
 
-    private void CheckPath(Vec2i mouseLocation)
+    private void CheckPath(Vec2I mouseLocation)
     {
-        if (!mouseMovementMode)
+        if (!_mouseMovementMode)
         {
-            arrowManager.ClearNodes();
+            _arrowManager.ClearNodes();
             return;
         }
 
         if (SelectedArmy == null) return;
 
-        if (currentPathDestination != null && mouseLocation.Matches(currentPathDestination)) return;
-        currentPathDestination = mouseLocation;
-        var path = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, mouseLocation, SelectedArmy.RemainingMP, SelectedArmy.movementMode == Army.MovementMode.Flight);
-        arrowManager.ClearNodes();
+        if (_currentPathDestination != null && mouseLocation.Matches(_currentPathDestination)) return;
+        _currentPathDestination = mouseLocation;
+        var path = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, mouseLocation, SelectedArmy.RemainingMp, SelectedArmy.MovementMode == MovementMode.Flight);
+        _arrowManager.ClearNodes();
         if (path == null || path.Count == 0) return;
-        int remainingMP = SelectedArmy.RemainingMP;
+        int remainingMp = SelectedArmy.RemainingMp;
         for (int i = 0; i < path.Count; i++)
         {
-            Vec2i nextNode = new Vec2i(path[i].X, path[i].Y);
+            Vec2I nextNode = new Vec2I(path[i].X, path[i].Y);
             Army.TileAction action = SelectedArmy.CheckTileForActionType(nextNode);
-            if (action == Army.TileAction.OneMP)
-                remainingMP--;
-            else if (action == Army.TileAction.TwoMP)
-                remainingMP -= 2;
+            if (action == Army.TileAction.OneMp)
+                remainingMp--;
+            else if (action == Army.TileAction.TwoMp)
+                remainingMp -= 2;
             else if (action == Army.TileAction.Attack)
             {
-                if (remainingMP > 0)
+                if (remainingMp > 0)
                 {
-                    arrowManager.PlaceNode(Color.red, nextNode);
+                    _arrowManager.PlaceNode(Color.red, nextNode);
                     break;
                 }
 
-                remainingMP -= 1;
+                remainingMp -= 1;
             }
 
-            if (remainingMP >= 0)
-                arrowManager.PlaceNode(Color.green, nextNode);
+            if (remainingMp >= 0)
+                _arrowManager.PlaceNode(Color.green, nextNode);
             else
             {
                 ContinuePath(SelectedArmy, path, i);
@@ -1420,33 +1420,33 @@ public class StrategyMode : SceneBase
 
     private void ShowPathOfArmy(Army army)
     {
-        var path = StrategyPathfinder.GetPath(ActingEmpire, army, army.Destination, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
-        arrowManager.ClearNodes();
+        var path = StrategyPathfinder.GetPath(ActingEmpire, army, army.Destination, army.RemainingMp, army.MovementMode == MovementMode.Flight);
+        _arrowManager.ClearNodes();
         if (path == null || path.Count == 0) return;
-        int remainingMP = army.RemainingMP;
+        int remainingMp = army.RemainingMp;
 
         for (int i = 0; i < path.Count; i++)
         {
-            Vec2i nextNode = new Vec2i(path[i].X, path[i].Y);
+            Vec2I nextNode = new Vec2I(path[i].X, path[i].Y);
 
             Army.TileAction action = army.CheckTileForActionType(nextNode);
-            if (action == Army.TileAction.OneMP)
-                remainingMP--;
-            else if (action == Army.TileAction.TwoMP)
-                remainingMP -= 2;
+            if (action == Army.TileAction.OneMp)
+                remainingMp--;
+            else if (action == Army.TileAction.TwoMp)
+                remainingMp -= 2;
             else if (action == Army.TileAction.Attack)
             {
-                if (remainingMP > 0)
+                if (remainingMp > 0)
                 {
-                    arrowManager.PlaceNode(Color.red, nextNode);
+                    _arrowManager.PlaceNode(Color.red, nextNode);
                     break;
                 }
 
-                remainingMP -= 1;
+                remainingMp -= 1;
             }
 
-            if (remainingMP >= 0)
-                arrowManager.PlaceNode(Color.green, nextNode);
+            if (remainingMp >= 0)
+                _arrowManager.PlaceNode(Color.green, nextNode);
             else
             {
                 ContinuePath(army, path, i);
@@ -1461,12 +1461,12 @@ public class StrategyMode : SceneBase
         int remainingBatchMp = army.GetMaxMovement();
         for (int i = current; i < path.Count; i++)
         {
-            Vec2i nextNode = new Vec2i(path[i].X, path[i].Y);
+            Vec2I nextNode = new Vec2I(path[i].X, path[i].Y);
             Army.TileAction action = army.CheckTileForActionType(nextNode);
 
-            if (action == Army.TileAction.OneMP)
+            if (action == Army.TileAction.OneMp)
                 remainingBatchMp--;
-            else if (action == Army.TileAction.TwoMP)
+            else if (action == Army.TileAction.TwoMp)
                 remainingBatchMp -= 2;
             else if (action == Army.TileAction.Attack)
             {
@@ -1478,19 +1478,19 @@ public class StrategyMode : SceneBase
             {
                 if (path.Count >= i + 2)
                 {
-                    Army.TileAction nextAction = army.CheckTileForActionType(new Vec2i(path[i + 1].X, path[i + 1].Y));
-                    if (nextAction == Army.TileAction.TwoMP) remainingBatchMp = 0;
+                    Army.TileAction nextAction = army.CheckTileForActionType(new Vec2I(path[i + 1].X, path[i + 1].Y));
+                    if (nextAction == Army.TileAction.TwoMp) remainingBatchMp = 0;
                 }
             }
 
             if (remainingBatchMp == 0)
             {
-                arrowManager.PlaceNode(Color.gray, nextNode, lastNumber.ToString());
+                _arrowManager.PlaceNode(Color.gray, nextNode, lastNumber.ToString());
                 lastNumber++;
                 remainingBatchMp = army.GetMaxMovement();
             }
             else
-                arrowManager.PlaceNode(Color.gray, nextNode);
+                _arrowManager.PlaceNode(Color.gray, nextNode);
         }
     }
 
@@ -1499,31 +1499,31 @@ public class StrategyMode : SceneBase
     {
         Village village = StrategicUtilities.GetVillageAt(SelectedArmy.Position);
 
-        if (village != null && SelectedArmy.RemainingMP > 0)
+        if (village != null && SelectedArmy.RemainingMp > 0)
         {
             StringBuilder sb = new StringBuilder();
             int unitCount = SelectedArmy.Units.Count;
             sb.Append($"This army has {unitCount} units");
-            trainCost = new int[7];
-            trainExp = new int[7];
+            _trainCost = new int[7];
+            _trainExp = new int[7];
 
             for (int i = 0; i < 7; i++)
             {
-                trainCost[i] = SelectedArmy.TrainingGetCost(i);
-                trainExp[i] = SelectedArmy.TrainingGetExpValue(i);
+                _trainCost[i] = SelectedArmy.TrainingGetCost(i);
+                _trainExp[i] = SelectedArmy.TrainingGetExpValue(i);
             }
 
             var maxTrainLevel = village.NetBoosts.MaximumTrainingLevelAdd;
 
             List<string> options = new List<string>();
 
-            if (maxTrainLevel >= 1) options.Add($"Steady Training - {trainExp[0]} EXP, {trainCost[0]}G");
-            if (maxTrainLevel >= 2) options.Add($"Involved Training - {trainExp[1]} EXP, {trainCost[1]}G");
-            if (maxTrainLevel >= 3) options.Add($"Heavy Training - {trainExp[2]} EXP, {trainCost[2]}G");
-            if (maxTrainLevel >= 4) options.Add($"Advanced Training - {trainExp[3]} EXP, {trainCost[3]}G");
-            if (maxTrainLevel >= 5) options.Add($"Extreme Training - {trainExp[4]} EXP, {trainCost[4]}G");
-            if (maxTrainLevel >= 6) options.Add($"Hero Training - {trainExp[5]} EXP, {trainCost[5]}G");
-            if (maxTrainLevel >= 7) options.Add($"Godly Training - {trainExp[6]} EXP, {trainCost[6]}G");
+            if (maxTrainLevel >= 1) options.Add($"Steady Training - {_trainExp[0]} EXP, {_trainCost[0]}G");
+            if (maxTrainLevel >= 2) options.Add($"Involved Training - {_trainExp[1]} EXP, {_trainCost[1]}G");
+            if (maxTrainLevel >= 3) options.Add($"Heavy Training - {_trainExp[2]} EXP, {_trainCost[2]}G");
+            if (maxTrainLevel >= 4) options.Add($"Advanced Training - {_trainExp[3]} EXP, {_trainCost[3]}G");
+            if (maxTrainLevel >= 5) options.Add($"Extreme Training - {_trainExp[4]} EXP, {_trainCost[4]}G");
+            if (maxTrainLevel >= 6) options.Add($"Hero Training - {_trainExp[5]} EXP, {_trainCost[5]}G");
+            if (maxTrainLevel >= 7) options.Add($"Godly Training - {_trainExp[6]} EXP, {_trainCost[6]}G");
 
             TrainUI.TrainingLevel.ClearOptions();
             TrainUI.TrainingLevel.AddOptions(options);
@@ -1540,7 +1540,7 @@ public class StrategyMode : SceneBase
 
     public void CheckTrainingCost()
     {
-        if (ActingEmpire.Gold >= trainCost[TrainUI.TrainingLevel.value])
+        if (ActingEmpire.Gold >= _trainCost[TrainUI.TrainingLevel.value])
         {
             TrainUI.Train.interactable = true;
             TrainUI.Train.GetComponentInChildren<Text>().text = "Train!";
@@ -1556,10 +1556,10 @@ public class StrategyMode : SceneBase
     {
         Village village = StrategicUtilities.GetVillageAt(SelectedArmy.Position);
 
-        if (village != null && SelectedArmy.RemainingMP > 0)
+        if (village != null && SelectedArmy.RemainingMp > 0)
         {
             SelectedArmy.Train(TrainUI.TrainingLevel.value);
-            SelectedArmy.RemainingMP = 0;
+            SelectedArmy.RemainingMp = 0;
             State.GameManager.StrategyMode.UndoMoves.Clear();
         }
 
@@ -1596,7 +1596,7 @@ public class StrategyMode : SceneBase
         StatusBarUI.EmpireStatus.interactable = OnlyAIPlayers;
         if (startingIndex + 1 >= State.World.EmpireOrder.Count)
         {
-            ScaledExp = StrategicUtilities.Get80thExperiencePercentile();
+            ScaledExp = StrategicUtilities.Get80ThExperiencePercentile();
             StatusBarUI.RecreateWorld.gameObject.SetActive(false);
             State.World.Turn++;
             ProcessGrowth();
@@ -1622,14 +1622,14 @@ public class StrategyMode : SceneBase
             ActingEmpire = State.World.EmpireOrder[startingIndex + 1];
         }
 
-        float NightRoll = (float)State.Rand.NextDouble();
+        float nightRoll = (float)State.Rand.NextDouble();
         if (Config.DayNightEnabled)
         {
             if (Config.DayNightSchedule && State.World.Turn % Config.World.NightRounds == 0)
             {
                 State.World.IsNight = true;
             }
-            else if (Config.DayNightRandom && NightRoll < NightChance)
+            else if (Config.DayNightRandom && nightRoll < NightChance)
             {
                 State.World.IsNight = true;
                 NightChance = Config.BaseNightChance;
@@ -1702,14 +1702,14 @@ public class StrategyMode : SceneBase
             if (ActingEmpire.StrategicAI.TurnAI()) //If a unit was purchased
                 RedrawArmies();
             if (ActingEmpire.Armies.Count > 0)
-                m_timer = .3f;
+                _mTimer = .3f;
             else
-                m_timer = .01f;
+                _mTimer = .01f;
             StatusBarUI.EmpireStatus.interactable = ActingEmpire.IsAlly(LastHumanEmpire) || OnlyAIPlayers;
             EnemyTurnText.SetActive(true);
         }
 
-        runningQueued = true;
+        _runningQueued = true;
         Regenerate();
     }
 
@@ -1723,7 +1723,7 @@ public class StrategyMode : SceneBase
 
     private void CheckIfLastHumanPlayerEliminated()
     {
-        if (ActingEmpire.KnockedOut == false && StrategicUtilities.GetAllArmies().Where(s => s.Empire.IsAlly(ActingEmpire)).Any() == false && State.World.Villages.Where(s => s.Empire.IsAlly(ActingEmpire)).Count() == 0 && ActingEmpire is MonsterEmpire == false)
+        if (ActingEmpire.KnockedOut == false && StrategicUtilities.GetAllArmies().Where(s => s.EmpireOutside.IsAlly(ActingEmpire)).Any() == false && State.World.Villages.Where(s => s.Empire.IsAlly(ActingEmpire)).Count() == 0 && ActingEmpire is MonsterEmpire == false)
         {
             ActingEmpire.KnockedOut = true;
 
@@ -1784,7 +1784,7 @@ public class StrategyMode : SceneBase
 
                 foreach (Army army in StrategicUtilities.GetAllArmies(true))
                 {
-                    survivors[army.Empire] = true;
+                    survivors[army.EmpireOutside] = true;
                 }
 
                 break;
@@ -1870,12 +1870,12 @@ public class StrategyMode : SceneBase
 
     private void ProcessClick(int x, int y)
     {
-        Vec2i clickLocation = new Vec2i(x, y);
-        if (mouseMovementMode)
+        Vec2I clickLocation = new Vec2I(x, y);
+        if (_mouseMovementMode)
         {
             SetSelectedArmyPathTo(x, y);
         }
-        else if (pickingExchangeLocation)
+        else if (_pickingExchangeLocation)
         {
             OpenExchangerPanel(SelectedArmy, clickLocation);
         }
@@ -1913,9 +1913,9 @@ public class StrategyMode : SceneBase
                     {
                         MercenaryHouse house = StrategicUtilities.GetMercenaryHouseAt(army.Position);
                         if (house != null)
-                            State.GameManager.ActivateRecruitMode(house, ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Self);
+                            State.GameManager.ActivateRecruitMode(house, ActingEmpire, army, RecruitMode.ActivatingEmpire.Self);
                         else
-                            State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Self);
+                            State.GameManager.ActivateRecruitMode(ActingEmpire, army, RecruitMode.ActivatingEmpire.Self);
                     }
 
                     return;
@@ -1923,7 +1923,7 @@ public class StrategyMode : SceneBase
             }
 
 
-            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => !Equals(s.Side, ActingEmpire.Side) && s.Empire.IsAlly(ActingEmpire)))
+            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => !Equals(s.Side, ActingEmpire.Side) && s.EmpireOutside.IsAlly(ActingEmpire)))
             {
                 if (army.Position.GetDistance(clickLocation) < 1)
                 {
@@ -1936,31 +1936,31 @@ public class StrategyMode : SceneBase
                     {
                         MercenaryHouse house = StrategicUtilities.GetMercenaryHouseAt(army.Position);
                         if (house != null)
-                            State.GameManager.ActivateRecruitMode(house, ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Ally);
+                            State.GameManager.ActivateRecruitMode(house, ActingEmpire, army, RecruitMode.ActivatingEmpire.Ally);
                         else
-                            State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Ally);
+                            State.GameManager.ActivateRecruitMode(ActingEmpire, army, RecruitMode.ActivatingEmpire.Ally);
                     }
 
                     return;
                 }
             }
 
-            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => ((!Equals(s.Side, ActingEmpire.Side) && s.Empire.IsEnemy(ActingEmpire)) || (!Equals(s.Side, ActingEmpire.Side) && s.Empire.IsNeutral(ActingEmpire))) && ContainsFriendly(s)))
+            foreach (Army army in StrategicUtilities.GetAllArmies().Where(s => ((!Equals(s.Side, ActingEmpire.Side) && s.EmpireOutside.IsEnemy(ActingEmpire)) || (!Equals(s.Side, ActingEmpire.Side) && s.EmpireOutside.IsNeutral(ActingEmpire))) && ContainsFriendly(s)))
             {
                 if (army.Position.GetDistance(clickLocation) < 1)
                 {
                     Village village = StrategicUtilities.GetVillageAt(army.Position);
                     if (village != null)
                     {
-                        State.GameManager.ActivateRecruitMode(village, ActingEmpire, Recruit_Mode.ActivatingEmpire.Infiltrator);
+                        State.GameManager.ActivateRecruitMode(village, ActingEmpire, RecruitMode.ActivatingEmpire.Infiltrator);
                     }
                     else
                     {
                         MercenaryHouse house = StrategicUtilities.GetMercenaryHouseAt(army.Position);
                         if (house != null)
-                            State.GameManager.ActivateRecruitMode(house, ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Infiltrator);
+                            State.GameManager.ActivateRecruitMode(house, ActingEmpire, army, RecruitMode.ActivatingEmpire.Infiltrator);
                         else
-                            State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Infiltrator);
+                            State.GameManager.ActivateRecruitMode(ActingEmpire, army, RecruitMode.ActivatingEmpire.Infiltrator);
                     }
 
                     return;
@@ -1995,7 +1995,7 @@ public class StrategyMode : SceneBase
 
     private bool ProcessClickWithoutEmpire(int x, int y)
     {
-        Vec2i clickLocation = new Vec2i(x, y);
+        Vec2I clickLocation = new Vec2I(x, y);
         foreach (Army army in StrategicUtilities.GetAllArmies())
         {
             if (army.Position.GetDistance(clickLocation) < 1)
@@ -2003,10 +2003,10 @@ public class StrategyMode : SceneBase
                 Village village = StrategicUtilities.GetVillageAt(army.Position);
                 if (village != null)
                 {
-                    State.GameManager.ActivateRecruitMode(village, ActingEmpire, Recruit_Mode.ActivatingEmpire.Observer);
+                    State.GameManager.ActivateRecruitMode(village, ActingEmpire, RecruitMode.ActivatingEmpire.Observer);
                 }
                 else
-                    State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Observer);
+                    State.GameManager.ActivateRecruitMode(ActingEmpire, army, RecruitMode.ActivatingEmpire.Observer);
 
                 return true;
             }
@@ -2016,7 +2016,7 @@ public class StrategyMode : SceneBase
         {
             if (State.World.Villages[i].Position.GetDistance(clickLocation) == 0)
             {
-                State.GameManager.ActivateRecruitMode(State.World.Villages[i], ActingEmpire, Recruit_Mode.ActivatingEmpire.Observer);
+                State.GameManager.ActivateRecruitMode(State.World.Villages[i], ActingEmpire, RecruitMode.ActivatingEmpire.Observer);
                 return true;
             }
         }
@@ -2026,18 +2026,18 @@ public class StrategyMode : SceneBase
 
     private bool ProcessClickBetweenTurns(int x, int y)
     {
-        Vec2i clickLocation = new Vec2i(x, y);
+        Vec2I clickLocation = new Vec2I(x, y);
         foreach (Army army in StrategicUtilities.GetAllArmies())
         {
-            if (army.Position.GetDistance(clickLocation) < 1 && army.Empire.IsAlly(LastHumanEmpire))
+            if (army.Position.GetDistance(clickLocation) < 1 && army.EmpireOutside.IsAlly(LastHumanEmpire))
             {
                 Village village = StrategicUtilities.GetVillageAt(army.Position);
                 if (village != null)
                 {
-                    State.GameManager.ActivateRecruitMode(village, ActingEmpire, Recruit_Mode.ActivatingEmpire.Observer);
+                    State.GameManager.ActivateRecruitMode(village, ActingEmpire, RecruitMode.ActivatingEmpire.Observer);
                 }
                 else
-                    State.GameManager.ActivateRecruitMode(ActingEmpire, army, Recruit_Mode.ActivatingEmpire.Observer);
+                    State.GameManager.ActivateRecruitMode(ActingEmpire, army, RecruitMode.ActivatingEmpire.Observer);
 
                 return true;
             }
@@ -2047,7 +2047,7 @@ public class StrategyMode : SceneBase
         {
             if (State.World.Villages[i].Position.GetDistance(clickLocation) == 0 && State.World.Villages[i].Empire.IsAlly(LastHumanEmpire))
             {
-                State.GameManager.ActivateRecruitMode(State.World.Villages[i], ActingEmpire, Recruit_Mode.ActivatingEmpire.Observer);
+                State.GameManager.ActivateRecruitMode(State.World.Villages[i], ActingEmpire, RecruitMode.ActivatingEmpire.Observer);
                 return true;
             }
         }
@@ -2058,23 +2058,23 @@ public class StrategyMode : SceneBase
     private void SetSelectedArmyPathTo(int x, int y)
     {
         if (SelectedArmy == null) return;
-        arrowManager.ClearNodes();
-        Vec2i clickLoc = new Vec2i(x, y);
-        QueuedPath = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, clickLoc, SelectedArmy.RemainingMP, SelectedArmy.movementMode == Army.MovementMode.Flight);
+        _arrowManager.ClearNodes();
+        Vec2I clickLoc = new Vec2I(x, y);
+        QueuedPath = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, clickLoc, SelectedArmy.RemainingMp, SelectedArmy.MovementMode == MovementMode.Flight);
         if (QueuedPath == null)
         {
             Army army = StrategicUtilities.ArmyAt(clickLoc);
             Village village = StrategicUtilities.GetVillageAt(clickLoc);
-            if (army != null && army.Empire.IsNeutral(SelectedArmy.Empire))
+            if (army != null && army.EmpireOutside.IsNeutral(SelectedArmy.EmpireOutside))
             {
                 var box = Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
-                box.SetData(() => RelationsManager.SetWar(army.Empire, SelectedArmy.Empire), "Declare War!", "Maintain Peace", $"Declare War against the {army.Empire.Name}?");
+                box.SetData(() => RelationsManager.SetWar(army.EmpireOutside, SelectedArmy.EmpireOutside), "Declare War!", "Maintain Peace", $"Declare War against the {army.EmpireOutside.Name}?");
             }
 
-            if (village != null && village.Empire.IsNeutral(SelectedArmy.Empire))
+            if (village != null && village.Empire.IsNeutral(SelectedArmy.EmpireOutside))
             {
                 var box = Instantiate(State.GameManager.DialogBoxPrefab).GetComponent<DialogBox>();
-                box.SetData(() => RelationsManager.SetWar(village.Empire, SelectedArmy.Empire), "Declare War!", "Maintain Peace", $"Declare War against the {village.Empire.Name}?");
+                box.SetData(() => RelationsManager.SetWar(village.Empire, SelectedArmy.EmpireOutside), "Declare War!", "Maintain Peace", $"Declare War against the {village.Empire.Name}?");
             }
 
             return;
@@ -2083,12 +2083,12 @@ public class StrategyMode : SceneBase
         SelectedArmy.Destination = clickLoc;
         if (StrategicUtilities.ArmyAt(clickLoc) != null || StrategicUtilities.GetVillageAt(clickLoc) != null)
         {
-            queuedAttackPermission = true;
+            _queuedAttackPermission = true;
         }
         else
-            queuedAttackPermission = false;
+            _queuedAttackPermission = false;
 
-        mouseMovementMode = false;
+        _mouseMovementMode = false;
     }
 
     private void SearchForVillage(string text)
@@ -2150,7 +2150,7 @@ public class StrategyMode : SceneBase
                     obj.color = new Color(0, 0, 0, .75f);
                 else
                     obj.color = new Color(0, 0, 1, .75f);
-                ShownIFF.Add(obj.gameObject);
+                _shownIff.Add(obj.gameObject);
             }
 
             foreach (Army army in StrategicUtilities.GetAllArmies())
@@ -2161,27 +2161,27 @@ public class StrategyMode : SceneBase
                 obj.sortingOrder = 30000;
                 if (Equals(army.Side, ActingEmpire.Side))
                     obj.color = new Color(0, 1, 0, .75f);
-                else if (army.Empire.IsEnemy(ActingEmpire))
+                else if (army.EmpireOutside.IsEnemy(ActingEmpire))
                     obj.color = new Color(1, 0, 0, .75f);
-                else if (army.Empire.IsNeutral(ActingEmpire))
+                else if (army.EmpireOutside.IsNeutral(ActingEmpire))
                     obj.color = new Color(0, 0, 0, .75f);
                 else
                     obj.color = new Color(0, 0, 1, .75f);
-                ShownIFF.Add(obj.gameObject);
+                _shownIff.Add(obj.gameObject);
             }
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
         {
-            foreach (var obj in ShownIFF.ToList())
+            foreach (var obj in _shownIff.ToList())
             {
                 Destroy(obj);
             }
         }
 
 
-        if (remainingNotificationTime > 0) remainingNotificationTime -= Time.deltaTime;
-        if (remainingNotificationTime <= 0) NotificationWindow.SetActive(false);
+        if (_remainingNotificationTime > 0) _remainingNotificationTime -= Time.deltaTime;
+        if (_remainingNotificationTime <= 0) NotificationWindow.SetActive(false);
 
         if (Input.GetButtonDown("ChangeBannerSize"))
         {
@@ -2208,18 +2208,18 @@ public class StrategyMode : SceneBase
             if (x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY)
             {
                 UpdateTooltips(x, y);
-                if (Input.GetMouseButtonDown(0) && ActingEmpire.StrategicAI == null && subWindowUp == false && QueuedPath == null)
+                if (Input.GetMouseButtonDown(0) && ActingEmpire.StrategicAI == null && _subWindowUp == false && QueuedPath == null)
                     ProcessClick(x, y);
                 else if (Input.GetMouseButtonDown(0) && OnlyAIPlayers)
                     ProcessClickWithoutEmpire(x, y);
                 else if (Input.GetMouseButtonDown(0) && LastHumanEmpire.IsAlly(ActingEmpire)) ProcessClickBetweenTurns(x, y);
-                if (Input.GetMouseButtonDown(1) && ActingEmpire.StrategicAI == null && subWindowUp == false && QueuedPath == null && SelectedArmy != null && SelectedArmy.RemainingMP > 0) SetSelectedArmyPathTo(x, y);
-                if (mouseMovementMode) CheckPath(new Vec2i(x, y));
+                if (Input.GetMouseButtonDown(1) && ActingEmpire.StrategicAI == null && _subWindowUp == false && QueuedPath == null && SelectedArmy != null && SelectedArmy.RemainingMp > 0) SetSelectedArmyPathTo(x, y);
+                if (_mouseMovementMode) CheckPath(new Vec2I(x, y));
             }
             else
             {
-                arrowManager.ClearNodes();
-                currentPathDestination = null;
+                _arrowManager.ClearNodes();
+                _currentPathDestination = null;
             }
         }
 
@@ -2238,7 +2238,7 @@ public class StrategyMode : SceneBase
         }
         else
         {
-            if (subWindowUp) return;
+            if (_subWindowUp) return;
 
             RunQueuedMovement();
 
@@ -2251,13 +2251,13 @@ public class StrategyMode : SceneBase
             {
                 SelectedArmy = null;
                 ExchangeBlockerPanels.SetActive(false);
-                pickingExchangeLocation = false;
+                _pickingExchangeLocation = false;
             }
 
             if (Input.GetButtonDown("Movement Mode") && SelectedArmy != null)
             {
-                if (SelectedArmy.RemainingMP > 0)
-                    mouseMovementMode = true;
+                if (SelectedArmy.RemainingMp > 0)
+                    _mouseMovementMode = true;
                 else
                     SelectedArmy.Destination = null;
             }
@@ -2283,22 +2283,22 @@ public class StrategyMode : SceneBase
 
         if (SelectedArmy != null && QueuedPath == null) CheckForMovementInput();
 
-        if (runningQueued && QueuedPath == null)
+        if (_runningQueued && QueuedPath == null)
         {
             bool foundWaiting = false;
             foreach (Army army in ActingEmpire.Armies)
             {
-                if (army.RemainingMP > 1 && army.Destination != null)
+                if (army.RemainingMp > 1 && army.Destination != null)
                 {
                     SelectedArmy = army;
                     foundWaiting = true;
-                    QueuedPath = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, SelectedArmy.Destination, SelectedArmy.RemainingMP, SelectedArmy.movementMode == Army.MovementMode.Flight);
+                    QueuedPath = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, SelectedArmy.Destination, SelectedArmy.RemainingMp, SelectedArmy.MovementMode == MovementMode.Flight);
                     if (QueuedPath == null) army.Destination = null;
                     break;
                 }
             }
 
-            if (foundWaiting == false) runningQueued = false;
+            if (foundWaiting == false) _runningQueued = false;
         }
     }
 
@@ -2306,13 +2306,13 @@ public class StrategyMode : SceneBase
     {
         if (QueuedPath != null)
         {
-            if (SelectedArmy == null || SelectedArmy?.RemainingMP <= 0 || SelectedArmy.Destination == null)
+            if (SelectedArmy == null || SelectedArmy?.RemainingMp <= 0 || SelectedArmy.Destination == null)
             {
                 QueuedPath = null;
                 return;
             }
 
-            if (QueuedPath.Count > 0 && SelectedArmy.RemainingMP == 1 && (SelectedArmy.CheckTileForActionType(new Vec2i(QueuedPath[0].X, QueuedPath[0].Y)) == Army.TileAction.TwoMP || SelectedArmy.CheckTileForActionType(new Vec2i(QueuedPath[0].X, QueuedPath[0].Y)) == Army.TileAction.AttackTwoMP))
+            if (QueuedPath.Count > 0 && SelectedArmy.RemainingMp == 1 && (SelectedArmy.CheckTileForActionType(new Vec2I(QueuedPath[0].X, QueuedPath[0].Y)) == Army.TileAction.TwoMp || SelectedArmy.CheckTileForActionType(new Vec2I(QueuedPath[0].X, QueuedPath[0].Y)) == Army.TileAction.AttackTwoMp))
             {
                 QueuedPath = null;
                 return;
@@ -2320,7 +2320,7 @@ public class StrategyMode : SceneBase
 
             if (QueuedPath.Count > 0)
             {
-                Vec2i nextTile = new Vec2i(QueuedPath[0].X, QueuedPath[0].Y);
+                Vec2I nextTile = new Vec2I(QueuedPath[0].X, QueuedPath[0].Y);
 
                 if (SelectedArmy.Destination.Matches(nextTile) == false)
                 {
@@ -2334,7 +2334,7 @@ public class StrategyMode : SceneBase
                     Village village = StrategicUtilities.GetVillageAt(nextTile);
                     if (village != null)
                     {
-                        if (village.Empire.IsEnemy(SelectedArmy.Empire))
+                        if (village.Empire.IsEnemy(SelectedArmy.EmpireOutside))
                         {
                             QueuedPath = null;
                             SelectedArmy.Destination = null;
@@ -2344,7 +2344,7 @@ public class StrategyMode : SceneBase
                 }
                 else
                 {
-                    if (StrategicUtilities.ArmyAt(nextTile) != null && queuedAttackPermission == false)
+                    if (StrategicUtilities.ArmyAt(nextTile) != null && _queuedAttackPermission == false)
                     {
                         QueuedPath = null;
                         SelectedArmy.Destination = null;
@@ -2354,13 +2354,13 @@ public class StrategyMode : SceneBase
                     Village village = StrategicUtilities.GetVillageAt(nextTile);
                     if (village != null)
                     {
-                        if (queuedAttackPermission == false && village.Empire.IsEnemy(SelectedArmy.Empire))
+                        if (_queuedAttackPermission == false && village.Empire.IsEnemy(SelectedArmy.EmpireOutside))
                         {
                             QueuedPath = null;
                             SelectedArmy.Destination = null;
                             return;
                         }
-                        else if (village.Empire.IsNeutral(SelectedArmy.Empire))
+                        else if (village.Empire.IsNeutral(SelectedArmy.EmpireOutside))
                         {
                             QueuedPath = null;
                             SelectedArmy.Destination = null;
@@ -2374,7 +2374,7 @@ public class StrategyMode : SceneBase
             {
                 if (QueuedPath?.Count > 0)
                 {
-                    MoveTo(SelectedArmy, new Vec2i(QueuedPath[0].X, QueuedPath[0].Y));
+                    MoveTo(SelectedArmy, new Vec2I(QueuedPath[0].X, QueuedPath[0].Y));
                     if (QueuedPath[0].X != SelectedArmy.Position.X || QueuedPath[0].Y != SelectedArmy.Position.Y)
                         QueuedPath = null;
                     else
@@ -2389,30 +2389,30 @@ public class StrategyMode : SceneBase
     public void OpenRenameEmpire()
     {
         var box = Instantiate(State.GameManager.InputBoxPrefab).GetComponentInChildren<InputBox>();
-        RenamingEmpire = ActingEmpire;
+        _renamingEmpire = ActingEmpire;
         box.SetData(RenameEmpire, "Rename", "Cancel", $"Rename this empire ({ActingEmpire.Name})?", 20);
     }
 
     internal void RenameEmpire(string name)
     {
-        if (RenamingEmpire != null) RenamingEmpire.Name = name;
+        if (_renamingEmpire != null) _renamingEmpire.Name = name;
         Regenerate();
     }
 
-    private void UpdateTooltips(int ClickX, int ClickY)
+    private void UpdateTooltips(int clickX, int clickY)
     {
-        Village villageAtCursor = StrategicUtilities.GetVillageAt(new Vec2i(ClickX, ClickY));
+        Village villageAtCursor = StrategicUtilities.GetVillageAt(new Vec2I(clickX, clickY));
         if (villageAtCursor == null)
         {
             VillageTooltip.gameObject.SetActive(false);
-            MercenaryHouse house = StrategicUtilities.GetMercenaryHouseAt(new Vec2i(ClickX, ClickY));
+            MercenaryHouse house = StrategicUtilities.GetMercenaryHouseAt(new Vec2I(clickX, clickY));
             if (house != null)
             {
                 VillageTooltip.gameObject.SetActive(true);
                 VillageTooltip.Text.text = $"Mercenary House\nMercs: {house.Mercenaries.Count}\nHas Special? {(MercenaryHouse.UniqueMercs.Count > 0 ? "Yes" : "No")}";
             }
 
-            ClaimableBuilding claimable = StrategicUtilities.GetClaimableAt(new Vec2i(ClickX, ClickY));
+            ClaimableBuilding claimable = StrategicUtilities.GetClaimableAt(new Vec2I(clickX, clickY));
             if (claimable != null)
             {
                 VillageTooltip.gameObject.SetActive(true);
@@ -2458,7 +2458,7 @@ public class StrategyMode : SceneBase
             VillageTooltip.Text.text = sb.ToString();
         }
 
-        Army armyAtCursor = StrategicUtilities.ArmyAt(new Vec2i(ClickX, ClickY));
+        Army armyAtCursor = StrategicUtilities.ArmyAt(new Vec2I(clickX, clickY));
         if (armyAtCursor == null)
         {
             ArmyTooltip.gameObject.SetActive(false);
@@ -2472,16 +2472,16 @@ public class StrategyMode : SceneBase
             ArmyTooltip.gameObject.SetActive(true);
             ArmyTooltip.Text.text = sb.ToString();
 
-            if (armyAtCursor.Destination != null && armyAtCursor.Empire.IsAlly(ActingEmpire) && ActingEmpire.StrategicAI == null)
+            if (armyAtCursor.Destination != null && armyAtCursor.EmpireOutside.IsAlly(ActingEmpire) && ActingEmpire.StrategicAI == null)
             {
-                currentPathDestination = null;
+                _currentPathDestination = null;
                 ShowPathOfArmy(armyAtCursor);
             }
         }
 
-        if (mouseMovementMode == false && (armyAtCursor == null || armyAtCursor.Destination == null))
+        if (_mouseMovementMode == false && (armyAtCursor == null || armyAtCursor.Destination == null))
         {
-            arrowManager.ClearNodes();
+            _arrowManager.ClearNodes();
         }
     }
 
@@ -2489,9 +2489,9 @@ public class StrategyMode : SceneBase
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.AppendLine($"Empire: {armyAtCursor.Empire.Name}");
+        sb.AppendLine($"Empire: {armyAtCursor.EmpireOutside.Name}");
         sb.AppendLine($"Army Name: {armyAtCursor.Name}");
-        if (armyAtCursor.Empire.IsAlly(LastHumanEmpire) || OnlyAIPlayers || Config.CheatExtraStrategicInfo)
+        if (armyAtCursor.EmpireOutside.IsAlly(LastHumanEmpire) || OnlyAIPlayers || Config.CheatExtraStrategicInfo)
         {
             sb.AppendLine($"Size: {armyAtCursor.Units.Count}");
             sb.AppendLine($"Strength: {SizeToName.ForArmyStrength(StrategicUtilities.ArmyPower(armyAtCursor))}");
@@ -2522,7 +2522,7 @@ public class StrategyMode : SceneBase
     {
         if (ActingEmpire.Reports.Count > 0)
         {
-            subWindowUp = true;
+            _subWindowUp = true;
             ReportUI.Generate(ActingEmpire.Reports);
         }
     }
@@ -2530,7 +2530,7 @@ public class StrategyMode : SceneBase
     public void CleanUpLingeringWindows()
     {
         //Done seperately because I want to make sure it triggers only when desired.  
-        subWindowUp = false;
+        _subWindowUp = false;
         DevourUI.gameObject.SetActive(false);
         TrainUI.gameObject.SetActive(false);
         ReportUI.gameObject.SetActive(false);

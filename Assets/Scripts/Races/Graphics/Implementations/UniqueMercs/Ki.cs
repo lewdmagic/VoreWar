@@ -72,7 +72,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -85,30 +85,30 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         return;
                     }
 
-                    if (input.A.AnimationController.frameLists[1].currentlyActive)
+                    if (input.A.AnimationController.FrameLists[1].CurrentlyActive)
                     {
-                        if (input.A.AnimationController.frameLists[1].currentTime >=
-                            frameListFap.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                        if (input.A.AnimationController.FrameLists[1].CurrentTime >=
+                            frameListFap.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                         {
-                            input.A.AnimationController.frameLists[1].currentFrame++;
-                            input.A.AnimationController.frameLists[1].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[1].CurrentFrame++;
+                            input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
 
-                            if (input.A.AnimationController.frameLists[1].currentFrame >= frameListFap.Frames.Length)
+                            if (input.A.AnimationController.FrameLists[1].CurrentFrame >= frameListFap.Frames.Length)
                             {
-                                input.A.AnimationController.frameLists[1].currentlyActive = false;
-                                input.A.AnimationController.frameLists[1].currentFrame = 0;
-                                input.A.AnimationController.frameLists[1].currentTime = 0f;
+                                input.A.AnimationController.FrameLists[1].CurrentlyActive = false;
+                                input.A.AnimationController.FrameLists[1].CurrentFrame = 0;
+                                input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
                             }
                         }
 
                         output.Sprite(input.Sprites.Ki[
-                            31 + frameListFap.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
+                            31 + frameListFap.Frames[input.A.AnimationController.FrameLists[1].CurrentFrame]]);
                         return;
                     }
 
                     if (input.A.PredatorComponent?.BallsFullness > 0 && State.Rand.Next(800) == 0)
                     {
-                        input.A.AnimationController.frameLists[1].currentlyActive = true;
+                        input.A.AnimationController.FrameLists[1].CurrentlyActive = true;
                     }
 
                     output.Sprite(input.Sprites.Ki[31]);
@@ -169,36 +169,36 @@ namespace Races.Graphics.Implementations.UniqueMercs
                         return;
                     }
 
-                    if (input.A.AnimationController.frameLists[0].currentlyActive)
+                    if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                     {
-                        if (input.A.AnimationController.frameLists[0].currentTime >=
-                            frameListTail.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                        if (input.A.AnimationController.FrameLists[0].CurrentTime >=
+                            frameListTail.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                         {
-                            input.A.AnimationController.frameLists[0].currentFrame++;
-                            input.A.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                            input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                            if (input.A.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
+                            if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListTail.Frames.Length)
                             {
-                                input.A.AnimationController.frameLists[0].currentlyActive = false;
-                                input.A.AnimationController.frameLists[0].currentFrame = 0;
-                                input.A.AnimationController.frameLists[0].currentTime = 0f;
+                                input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                                input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                                input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                             }
                         }
 
-                        switch (frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame])
+                        switch (frameListTail.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame])
                         {
                             case 0:
                                 return;
                             default:
                                 output.Sprite(input.Sprites.Ki[
-                                    34 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                                    34 + frameListTail.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                                 break;
                         }
                     }
 
                     if (State.Rand.Next(500) == 0)
                     {
-                        input.A.AnimationController.frameLists[0].currentlyActive = true;
+                        input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                     }
 
                     output.Sprite(input.Sprites.Ki[35]);
@@ -336,7 +336,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     return;
                 }
 
-                if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) &&
+                if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Balls) &&
                     input.A.GetBallSize(9, .48f) == 9)
                 {
                     output.Sprite(input.Sprites.Ki[47]);
@@ -381,7 +381,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 if (input.A.GetBallSize(9, 0.48f) > 0)
                 {
-                    if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) &&
+                    if (input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Balls) &&
                         input.A.GetBallSize(9, .48f) == 9)
                     {
                         bodyAccent2 = 110;
@@ -595,7 +595,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(0, 0, false), // Tail controller. Index 0.
                 new AnimationController.FrameList(0, 0, false)

@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Vipers
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(28 * 28);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(28 * 28);
         private static readonly float XOffset = -7.5f; //12 pixels * 5/8
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
@@ -89,30 +89,30 @@ namespace Races.Graphics.Implementations.Mercs
 
                 output.ExtendedBreastSprites = true;
                 output.AllowedMainClothingTypes.Set(
-                    ViperArmour1TypeFull.ViperArmour1TypeFullInstance.Create(paramsCalc),
-                    ViperArmour1TypeNoGloves.ViperArmour1TypeNoGlovesInstance.Create(paramsCalc),
-                    ViperArmour1TypeNoCap.ViperArmour1TypeNoCapInstance.Create(paramsCalc),
-                    ViperArmour1TypeBare.ViperArmour1TypeBareInstance.Create(paramsCalc),
-                    ViperArmour2TypeFull.ViperArmour2TypeFullInstance.Create(paramsCalc),
-                    ViperArmour2TypeNoGloves.ViperArmour2TypeNoGlovesInstance.Create(paramsCalc),
-                    ViperArmour2TypeNoCap.ViperArmour2TypeNoCapInstance.Create(paramsCalc),
-                    ViperArmour2TypeBare.ViperArmour2TypeBareInstance.Create(paramsCalc),
-                    ViperArmour3TypeFull.ViperArmour3TypeFullInstance.Create(paramsCalc),
-                    ViperArmour3TypeNoGloves.ViperArmour3TypeNoGlovesInstance.Create(paramsCalc),
-                    ViperArmour3TypeNoCap.ViperArmour3TypeNoCapInstance.Create(paramsCalc),
-                    ViperArmour3TypeBare.ViperArmour3TypeBareInstance.Create(paramsCalc),
-                    ViperArmour4TypeFull.ViperArmour4TypeFullInstance.Create(paramsCalc),
-                    ViperArmour4TypeNoGloves.ViperArmour4TypeNoGlovesInstance.Create(paramsCalc),
-                    ViperArmour4TypeNoCap.ViperArmour4TypeNoCapInstance.Create(paramsCalc),
-                    ViperArmour4TypeBare.ViperArmour4TypeBareInstance.Create(paramsCalc),
-                    ViperRuler1TypeFull.ViperRuler1TypeFullInstance.Create(paramsCalc),
-                    ViperRuler1TypeNoGloves.ViperRuler1TypeNoGlovesInstance.Create(paramsCalc),
-                    ViperRuler1TypeNoCap.ViperRuler1TypeNoCapInstance.Create(paramsCalc),
-                    ViperRuler1TypeBare.ViperRuler1TypeBareInstance.Create(paramsCalc),
-                    ViperRuler2TypeFull.ViperRuler2TypeFullInstance.Create(paramsCalc),
-                    ViperRuler2TypeNoGloves.ViperRuler2TypeNoGlovesInstance.Create(paramsCalc),
-                    ViperRuler2TypeNoCap.ViperRuler2TypeNoCapInstance.Create(paramsCalc),
-                    ViperRuler2TypeBare.ViperRuler2TypeBareInstance.Create(paramsCalc)
+                    ViperArmour1TypeFull.ViperArmour1TypeFullInstance.Create(_paramsCalc),
+                    ViperArmour1TypeNoGloves.ViperArmour1TypeNoGlovesInstance.Create(_paramsCalc),
+                    ViperArmour1TypeNoCap.ViperArmour1TypeNoCapInstance.Create(_paramsCalc),
+                    ViperArmour1TypeBare.ViperArmour1TypeBareInstance.Create(_paramsCalc),
+                    ViperArmour2TypeFull.ViperArmour2TypeFullInstance.Create(_paramsCalc),
+                    ViperArmour2TypeNoGloves.ViperArmour2TypeNoGlovesInstance.Create(_paramsCalc),
+                    ViperArmour2TypeNoCap.ViperArmour2TypeNoCapInstance.Create(_paramsCalc),
+                    ViperArmour2TypeBare.ViperArmour2TypeBareInstance.Create(_paramsCalc),
+                    ViperArmour3TypeFull.ViperArmour3TypeFullInstance.Create(_paramsCalc),
+                    ViperArmour3TypeNoGloves.ViperArmour3TypeNoGlovesInstance.Create(_paramsCalc),
+                    ViperArmour3TypeNoCap.ViperArmour3TypeNoCapInstance.Create(_paramsCalc),
+                    ViperArmour3TypeBare.ViperArmour3TypeBareInstance.Create(_paramsCalc),
+                    ViperArmour4TypeFull.ViperArmour4TypeFullInstance.Create(_paramsCalc),
+                    ViperArmour4TypeNoGloves.ViperArmour4TypeNoGlovesInstance.Create(_paramsCalc),
+                    ViperArmour4TypeNoCap.ViperArmour4TypeNoCapInstance.Create(_paramsCalc),
+                    ViperArmour4TypeBare.ViperArmour4TypeBareInstance.Create(_paramsCalc),
+                    ViperRuler1TypeFull.ViperRuler1TypeFullInstance.Create(_paramsCalc),
+                    ViperRuler1TypeNoGloves.ViperRuler1TypeNoGlovesInstance.Create(_paramsCalc),
+                    ViperRuler1TypeNoCap.ViperRuler1TypeNoCapInstance.Create(_paramsCalc),
+                    ViperRuler1TypeBare.ViperRuler1TypeBareInstance.Create(_paramsCalc),
+                    ViperRuler2TypeFull.ViperRuler2TypeFullInstance.Create(_paramsCalc),
+                    ViperRuler2TypeNoGloves.ViperRuler2TypeNoGlovesInstance.Create(_paramsCalc),
+                    ViperRuler2TypeNoCap.ViperRuler2TypeNoCapInstance.Create(_paramsCalc),
+                    ViperRuler2TypeBare.ViperRuler2TypeBareInstance.Create(_paramsCalc)
                 );
 
                 output.AllowedWaistTypes.Set(
@@ -214,7 +214,7 @@ namespace Races.Graphics.Implementations.Mercs
                 }
 
                 int size2;
-                if (Config.LamiaUseTailAsSecondBelly && (input.A.PredatorComponent.Stomach2ndFullness > 0 || input.A.PredatorComponent.TailFullness > 0))
+                if (Config.LamiaUseTailAsSecondBelly && (input.A.PredatorComponent.Stomach2NdFullness > 0 || input.A.PredatorComponent.TailFullness > 0))
                 {
                     size2 = Math.Min(input.A.GetStomach2Size(19, 0.9f) + input.A.GetTailSize(19, 0.9f), 19);
                 }
@@ -349,7 +349,7 @@ namespace Races.Graphics.Implementations.Mercs
                 }
 
                 int size2;
-                if (Config.LamiaUseTailAsSecondBelly && (input.A.PredatorComponent.Stomach2ndFullness > 0 || input.A.PredatorComponent.TailFullness > 0))
+                if (Config.LamiaUseTailAsSecondBelly && (input.A.PredatorComponent.Stomach2NdFullness > 0 || input.A.PredatorComponent.TailFullness > 0))
                 {
                     size2 = Math.Min(input.A.GetStomach2Size(19, 0.9f) + input.A.GetTailSize(19, 0.9f), 19);
                 }

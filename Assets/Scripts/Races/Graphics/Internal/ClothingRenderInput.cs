@@ -1,6 +1,6 @@
 public class ClothingRenderInput : RenderInput, IClothingRenderInput
 {
-    public ClothingRenderInput(Actor_Unit actor) : base(actor)
+    public ClothingRenderInput(ActorUnit actor) : base(actor)
     {
     }
 }

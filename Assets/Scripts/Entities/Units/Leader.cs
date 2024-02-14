@@ -1,6 +1,6 @@
 ﻿public class Leader : Unit
 {
-    public Leader(Side side, Race race, int startingXP) : base(side, race, startingXP, true, UnitType.Leader)
+    public Leader(Side side, Race race, int startingXp) : base(side, race, startingXp, true, UnitType.Leader)
     {
         var raceStats = State.RaceSettings.GetRaceStats(Race);
 

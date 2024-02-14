@@ -8,7 +8,7 @@ namespace Assets.Scripts.Entities.Animations
         {
             SpriteRenderer = GetComponent<SpriteRenderer>();
             SpriteRenderer.sortingOrder = 20000;
-            frames = new Frame[]
+            Frames = new Frame[]
             {
                 new Frame(State.GameManager.SpriteDictionary.Succubi[10], transform.position + new Vector3(0, 1), .03f),
                 new Frame(State.GameManager.SpriteDictionary.Succubi[11], transform.position + new Vector3(0, 1), .03f),

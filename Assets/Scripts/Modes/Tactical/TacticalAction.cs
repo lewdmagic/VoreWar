@@ -18,14 +18,14 @@ internal class TargetedTacticalAction
 {
     internal string Name;
     internal bool RequiresPred;
-    internal Predicate<Actor_Unit> AppearConditional;
-    internal int MinimumMP;
+    internal Predicate<ActorUnit> AppearConditional;
+    internal int MinimumMp;
     internal Color ButtonColor;
     internal Action OnClicked;
-    internal Func<Actor_Unit, Actor_Unit, bool> OnExecute;
-    internal Func<Actor_Unit, Vec2i, bool> OnExecuteLocation;
+    internal Func<ActorUnit, ActorUnit, bool> OnExecute;
+    internal Func<ActorUnit, Vec2I, bool> OnExecuteLocation;
 
-    public TargetedTacticalAction(string name, bool requiresPred, Predicate<Actor_Unit> conditional, Action onClicked, Func<Actor_Unit, Actor_Unit, bool> onExecute, Func<Actor_Unit, Vec2i, bool> onExecuteLocation = null, int minimumMp = 1, Color color = default)
+    public TargetedTacticalAction(string name, bool requiresPred, Predicate<ActorUnit> conditional, Action onClicked, Func<ActorUnit, ActorUnit, bool> onExecute, Func<ActorUnit, Vec2I, bool> onExecuteLocation = null, int minimumMp = 1, Color color = default)
     {
         Name = name;
         RequiresPred = requiresPred;
@@ -33,7 +33,7 @@ internal class TargetedTacticalAction
         OnClicked = onClicked;
         OnExecute = onExecute;
         OnExecuteLocation = onExecuteLocation;
-        MinimumMP = minimumMp;
+        MinimumMp = minimumMp;
         if (color == default)
             ButtonColor = new Color(.669f, .753f, 1);
         else
@@ -46,9 +46,9 @@ internal class UntargetedTacticalAction
     internal Color ButtonColor;
     internal string Name;
     internal Action OnClicked;
-    internal Predicate<Actor_Unit> AppearConditional;
+    internal Predicate<ActorUnit> AppearConditional;
 
-    public UntargetedTacticalAction(string name, Action onClicked, Predicate<Actor_Unit> conditional, Color color = default)
+    public UntargetedTacticalAction(string name, Action onClicked, Predicate<ActorUnit> conditional, Color color = default)
     {
         Name = name;
         OnClicked = onClicked;
@@ -192,7 +192,7 @@ internal static class TacticalActionList
         TargetedActions.Add(new TargetedTacticalAction(
             name: "Shun Goku Satsu",
             requiresPred: false,
-            conditional: (a) => a.Unit.HasTrait(TraitType.ShunGokuSatsu) && a.TurnUsedShun + 3 <= State.GameManager.TacticalMode.currentTurn,
+            conditional: (a) => a.Unit.HasTrait(TraitType.ShunGokuSatsu) && a.TurnUsedShun + 3 <= State.GameManager.TacticalMode.CurrentTurn,
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.ShunGokuSatsu),
             onExecute: (a, t) => a.ShunGokuSatsu(t),
             minimumMp: 1));
@@ -221,7 +221,7 @@ internal static class TacticalActionList
         //UntargetedActions.Add(new UntargetedTacticalAction("Shapeshift", () => State.GameManager.TacticalMode.ButtonCallback(16), (a) => a.Unit.ShifterShapes != null && a.Unit.ShifterShapes.Count > 1));
         UntargetedActions.Add(new UntargetedTacticalAction("Flee", () => State.GameManager.TacticalMode.ButtonCallback(10), (a) => true));
         UntargetedActions.Add(new UntargetedTacticalAction("Surrender", () => State.GameManager.TacticalMode.ButtonCallback(9), (a) => true, new Color(.9f, .65f, .65f)));
-        UntargetedActions.Add(new UntargetedTacticalAction("Reveal", () => State.GameManager.TacticalMode.ButtonCallback(15), (a) => a.Unit.hiddenFixedSide && TacticalUtilities.PlayerCanSeeTrueSide(a.Unit)));
-        UntargetedActions.Add(new UntargetedTacticalAction("Defect", () => State.GameManager.TacticalMode.ButtonCallback(14), (a) => a.allowedToDefect));
+        UntargetedActions.Add(new UntargetedTacticalAction("Reveal", () => State.GameManager.TacticalMode.ButtonCallback(15), (a) => a.Unit.HiddenFixedSide && TacticalUtilities.PlayerCanSeeTrueSide(a.Unit)));
+        UntargetedActions.Add(new UntargetedTacticalAction("Defect", () => State.GameManager.TacticalMode.ButtonCallback(14), (a) => a.AllowedToDefect));
     }
 }

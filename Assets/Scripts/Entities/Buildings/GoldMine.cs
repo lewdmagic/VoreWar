@@ -1,6 +1,6 @@
 ﻿internal class GoldMine : ClaimableBuilding
 {
-    public GoldMine(Vec2i location) : base(location)
+    public GoldMine(Vec2I location) : base(location)
     {
     }
 

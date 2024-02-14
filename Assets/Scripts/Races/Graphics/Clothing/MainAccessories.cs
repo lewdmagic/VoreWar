@@ -27,7 +27,7 @@ internal static class AsuraMask
 
 internal static class SantaHat
 {
-    private static Dictionary<Race, Vector2> OffsetsForRaces = new Dictionary<Race, Vector2>()
+    private static Dictionary<Race, Vector2> _offsetsForRaces = new Dictionary<Race, Vector2>()
     {
         { Race.Imp, new Vector2(0, -22 * .625f) },
         { Race.Goblin, new Vector2(0, 12 * .625f) },
@@ -77,7 +77,7 @@ internal static class SantaHat
             //         break;
             // }
 
-            if (OffsetsForRaces.TryGetValue(input.U.GetRace, out Vector2 offset))
+            if (_offsetsForRaces.TryGetValue(input.U.GetRace, out Vector2 offset))
             {
                 output["Clothing1"].SetOffset(offset);
             }

@@ -256,7 +256,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         internal static Material GetSlimeAccentMaterial(IActorUnit actor)
         {
-            return ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * actor.Unit.AccessoryColor + actor.Unit.HairColor).colorSwapMaterial;
+            return ColorPaletteMap.GetPalette(SwapType.SlimeSub, 3 * actor.Unit.AccessoryColor + actor.Unit.HairColor).ColorSwapMaterial;
         }
     }
 }

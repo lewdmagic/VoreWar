@@ -10,7 +10,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class VariableEditor : MonoBehaviour
 {
-    private object EditingObject;
+    private object _editingObject;
 
     public Transform Folder;
 
@@ -35,7 +35,7 @@ public class VariableEditor : MonoBehaviour
         }
 
         gameObject.SetActive(true);
-        EditingObject = obj;
+        _editingObject = obj;
 
         int children = Folder.childCount;
         for (int i = children - 1; i >= 0; i--)
@@ -70,7 +70,7 @@ public class VariableEditor : MonoBehaviour
                     if (attr is DescriptionAttribute desc)
                     {
                         toggle.gameObject.AddComponent<VariableScreenTooltip>();
-                        toggle.GetComponent<VariableScreenTooltip>().text = desc.Description;
+                        toggle.GetComponent<VariableScreenTooltip>().Text = desc.Description;
                     }
                 }
             }
@@ -92,7 +92,7 @@ public class VariableEditor : MonoBehaviour
                     if (attr is DescriptionAttribute desc)
                     {
                         newObj.gameObject.AddComponent<VariableScreenTooltip>();
-                        newObj.GetComponent<VariableScreenTooltip>().text = desc.Description;
+                        newObj.GetComponent<VariableScreenTooltip>().Text = desc.Description;
                     }
                 }
             }
@@ -116,7 +116,7 @@ public class VariableEditor : MonoBehaviour
                     if (attr is DescriptionAttribute desc)
                     {
                         newObj.gameObject.AddComponent<VariableScreenTooltip>();
-                        newObj.GetComponent<VariableScreenTooltip>().text = desc.Description;
+                        newObj.GetComponent<VariableScreenTooltip>().Text = desc.Description;
                     }
                 }
             }
@@ -137,7 +137,7 @@ public class VariableEditor : MonoBehaviour
                     if (attr is DescriptionAttribute desc)
                     {
                         newObj.gameObject.AddComponent<VariableScreenTooltip>();
-                        newObj.GetComponent<VariableScreenTooltip>().text = desc.Description;
+                        newObj.GetComponent<VariableScreenTooltip>().Text = desc.Description;
                     }
 
                     if (attr is FloatRangeAttribute range)
@@ -176,7 +176,7 @@ public class VariableEditor : MonoBehaviour
                     if (attr is DescriptionAttribute desc)
                     {
                         newObj.gameObject.AddComponent<VariableScreenTooltip>();
-                        newObj.GetComponent<VariableScreenTooltip>().text = desc.Description;
+                        newObj.GetComponent<VariableScreenTooltip>().Text = desc.Description;
                     }
                 }
             }
@@ -201,18 +201,18 @@ public class VariableEditor : MonoBehaviour
                         var toggle = newObj.GetComponent<Toggle>();
                         if (entry.Key >= (TraitType)1000)
                         {
-                            var rlName = State.RandomizeLists.Find(r => (TraitType)r.id == entry.Key)?.name ?? entry.Key.ToString();
+                            var rlName = State.RandomizeLists.Find(r => (TraitType)r.ID == entry.Key)?.Name ?? entry.Key.ToString();
                             newObj.name = $"UsingDictionary^{rlName}";
                             toggle.GetComponentInChildren<Text>().text = rlName;
                             toggle.gameObject.AddComponent<VariableScreenTooltip>();
-                            toggle.GetComponent<VariableScreenTooltip>().text = "A Custom Trait.";
+                            toggle.GetComponent<VariableScreenTooltip>().Text = "A Custom Trait.";
                         }
                         else
                         {
                             newObj.name = $"UsingDictionary^{entry.Key}";
                             toggle.GetComponentInChildren<Text>().text = entry.Key.ToString();
                             toggle.gameObject.AddComponent<VariableScreenTooltip>();
-                            toggle.GetComponent<VariableScreenTooltip>().text = HoveringTooltip.GetTraitData(entry.Key);
+                            toggle.GetComponent<VariableScreenTooltip>().Text = HoveringTooltip.GetTraitData(entry.Key);
                         }
 
                         toggle.isOn = entry.Value;
@@ -384,14 +384,14 @@ public class VariableEditor : MonoBehaviour
             var drop = obj.GetComponentInChildren<TMP_Dropdown>();
             if (drop != null)
             {
-                EditingObject.GetType().GetField(obj.name, Bindings)?.SetValue(EditingObject, drop.value);
+                _editingObject.GetType().GetField(obj.name, Bindings)?.SetValue(_editingObject, drop.value);
                 continue;
             }
 
             var toggle = obj.GetComponentInChildren<Toggle>();
             if (toggle != null)
             {
-                EditingObject.GetType().GetField(obj.name, Bindings)?.SetValue(EditingObject, toggle.isOn);
+                _editingObject.GetType().GetField(obj.name, Bindings)?.SetValue(_editingObject, toggle.isOn);
                 if (obj.name.Contains("UsingDictionary"))
                 {
                     var split = obj.name.Split('^');
@@ -401,8 +401,8 @@ public class VariableEditor : MonoBehaviour
                     }
                     else
                     {
-                        var match = State.RandomizeLists.Find(r => r.name == split[1]);
-                        if (match != null) TempDictionary[(TraitType)match.id] = obj.GetComponentInChildren<Toggle>().isOn;
+                        var match = State.RandomizeLists.Find(r => r.Name == split[1]);
+                        if (match != null) TempDictionary[(TraitType)match.ID] = obj.GetComponentInChildren<Toggle>().isOn;
                     }
 
                     needSave = true;
@@ -414,7 +414,7 @@ public class VariableEditor : MonoBehaviour
             var slider = obj.GetComponentInChildren<Slider>();
             if (slider != null)
             {
-                EditingObject.GetType().GetField(obj.name, Bindings)?.SetValue(EditingObject, slider.value);
+                _editingObject.GetType().GetField(obj.name, Bindings)?.SetValue(_editingObject, slider.value);
                 continue;
             }
 
@@ -423,14 +423,14 @@ public class VariableEditor : MonoBehaviour
             {
                 if (int.TryParse(input.text, out int result))
                 {
-                    var attr = EditingObject.GetType().GetField(obj.name)?.GetCustomAttribute(typeof(IntegerRangeAttribute));
+                    var attr = _editingObject.GetType().GetField(obj.name)?.GetCustomAttribute(typeof(IntegerRangeAttribute));
                     if (attr != null)
                     {
                         var range = (IntegerRangeAttribute)attr;
                         result = Mathf.Clamp(result, range.Min, range.Max);
                     }
 
-                    EditingObject.GetType().GetField(obj.name, Bindings)?.SetValue(EditingObject, result);
+                    _editingObject.GetType().GetField(obj.name, Bindings)?.SetValue(_editingObject, result);
                 }
 
                 continue;

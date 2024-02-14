@@ -13,7 +13,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
     {
         private static BodyState CalcBodyState(IActorUnit actor)
         {
-            if (actor.AnimationController?.frameLists[0].currentlyActive ?? false)
+            if (actor.AnimationController?.FrameLists[0].CurrentlyActive ?? false)
             {
                 if (actor.GetStomachSize(19) >= 17)
                 {
@@ -57,7 +57,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            RaceFrameList SpinEffect = new RaceFrameList(new int[2] { 25, 19 }, new float[2] { .375f, .375f });
+            RaceFrameList spinEffect = new RaceFrameList(new int[2] { 25, 19 }, new float[2] { .375f, .375f });
             builder.Setup(output =>
             {
                 output.Names("Zoey", "Zoey");
@@ -220,18 +220,18 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccent2, 14, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[0].currentTime >= SpinEffect.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[0].CurrentTime >= spinEffect.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame++;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[0].currentFrame >= SpinEffect.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[0].CurrentFrame >= spinEffect.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[0].currentlyActive = false;
-                            input.A.AnimationController.frameLists[0].currentFrame = 0;
-                            input.A.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                         }
                     }
                 }
@@ -240,7 +240,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     return;
                 }
 
-                output.Sprite(input.Sprites.Zoey[SpinEffect.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Zoey[spinEffect.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
             });
 
             builder.RenderSingle(SpriteType.Breasts, 10, (input, output) =>
@@ -293,7 +293,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
             builder.RunBefore((input, output) =>
             {
-                if (input.A.AnimationController.frameLists == null || Enumerable.Count(input.A.AnimationController.frameLists) == 0)
+                if (input.A.AnimationController.FrameLists == null || Enumerable.Count(input.A.AnimationController.FrameLists) == 0)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -360,7 +360,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         internal static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(0, 0, false)
             };

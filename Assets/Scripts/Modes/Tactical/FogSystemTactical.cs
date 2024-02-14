@@ -16,7 +16,7 @@ internal class FogSystemTactical
         FogOfWar = fogOfWar;
     }
 
-    internal void UpdateFog(List<Actor_Unit> all, Side defenderSide, bool attackersturn, bool AIAttacker, bool AIDefender, int currentturn)
+    internal void UpdateFog(List<ActorUnit> all, Side defenderSide, bool attackersturn, bool aiAttacker, bool aiDefender, int currentturn)
     {
         //FogOfWar.ClearAllTiles();
         if (FoggedTile.GetUpperBound(0) + 1 != Config.TacticalSizeX || FoggedTile.GetUpperBound(1) + 1 != Config.TacticalSizeY) FoggedTile = new bool[Config.TacticalSizeX, Config.TacticalSizeY];
@@ -33,7 +33,7 @@ internal class FogSystemTactical
         }
 
         //Set all as unseen
-        foreach (Actor_Unit unit in all)
+        foreach (ActorUnit unit in all)
         {
             unit.InSight = true;
             int unitSightRange = Config.DefualtTacticalSightRange + unit.Unit.TraitBoosts.SightRangeBoost;
@@ -47,7 +47,7 @@ internal class FogSystemTactical
 
             if (unit.Targetable)
             {
-                if ((AIAttacker && AIDefender) || Config.DayNightCosmetic == true)
+                if ((aiAttacker && aiDefender) || Config.DayNightCosmetic == true)
                 {
                     ClearWithinSTilesOf(unit.Position, unitSightRange); // Shows all units to player for AI only battles
                 }
@@ -57,12 +57,12 @@ internal class FogSystemTactical
                     seenUnit.InSight = true;
                 }
 
-                if (Equals(unit.Unit.GetApparentSide(), defenderSide) && ((attackersturn != true && State.GameManager.TacticalMode.IsPlayerTurn) || !AIDefender))
+                if (Equals(unit.Unit.GetApparentSide(), defenderSide) && ((attackersturn != true && State.GameManager.TacticalMode.IsPlayerTurn) || !aiDefender))
                 {
                     ClearWithinSTilesOf(unit.Position, unitSightRange);
                 }
 
-                if (!Equals(unit.Unit.GetApparentSide(), defenderSide) && ((attackersturn == true && State.GameManager.TacticalMode.IsPlayerTurn) || !AIAttacker))
+                if (!Equals(unit.Unit.GetApparentSide(), defenderSide) && ((attackersturn == true && State.GameManager.TacticalMode.IsPlayerTurn) || !aiAttacker))
                 {
                     ClearWithinSTilesOf(unit.Position, unitSightRange);
                     unit.InSight = true;
@@ -85,7 +85,7 @@ internal class FogSystemTactical
             {
                 if (all != null)
                 {
-                    foreach (Actor_Unit unit in all)
+                    foreach (ActorUnit unit in all)
                     {
                         if (FoggedTile[unit.Position.X, unit.Position.Y] && unit.PredatorComponent.PreyCount == 0)
                         {
@@ -105,7 +105,7 @@ internal class FogSystemTactical
         }
     }
 
-    private void ClearWithinSTilesOf(Vec2i pos, int sight = 1)
+    private void ClearWithinSTilesOf(Vec2I pos, int sight = 1)
     {
         for (int x = pos.X - sight; x <= pos.X + sight; x++)
         {

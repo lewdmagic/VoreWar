@@ -8,12 +8,12 @@ public class MultiStageBanner : MonoBehaviour
     public SpriteRenderer InsigniaLayer;
     public SpriteRenderer SelectedBackLayer;
     public SpriteRenderer SelectedColorLayer;
-    private ParticleSystem system;
+    private ParticleSystem _system;
 
     public void Refresh(Army army, bool selected)
     {
         transform.localScale = new Vector3(Config.BannerScale, Config.BannerScale, 1);
-        Empire empire = army.Empire;
+        Empire empire = army.EmpireOutside;
         LeaderLayer.enabled = army.LeaderIfInArmy() != null;
         if (empire.UnitySecondaryColor != default)
         {
@@ -54,18 +54,18 @@ public class MultiStageBanner : MonoBehaviour
 
         if (empire.StrategicAI == null && State.World.ActingEmpire == empire && army.Units.Where(s => s.HasEnoughExpToLevelUp()).Any())
         {
-            if (system == null)
+            if (_system == null)
             {
-                system = Instantiate(State.GameManager.ParticleSystem, gameObject.transform).GetComponent<ParticleSystem>();
-                var main = system.main;
+                _system = Instantiate(State.GameManager.ParticleSystem, gameObject.transform).GetComponent<ParticleSystem>();
+                var main = _system.main;
                 main.startColor = new ParticleSystem.MinMaxGradient(empire.UnityColor);
             }
         }
         else
         {
-            if (system != null)
+            if (_system != null)
             {
-                system.gameObject.SetActive(false);
+                _system.gameObject.SetActive(false);
             }
         }
     }

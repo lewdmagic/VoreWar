@@ -71,7 +71,7 @@ public class RenderInput
 
     public SpriteDictionary Sprites => State.GameManager.SpriteDictionary;
 
-    public RenderInput(Actor_Unit actor)
+    public RenderInput(ActorUnit actor)
     {
         Actor = actor;
     }

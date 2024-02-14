@@ -8,29 +8,24 @@ using UnityEngine;
 public class Army
 {
     [OdinSerialize]
-    internal List<StrategicTileType> impassables = new List<StrategicTileType>()
-        { StrategicTileType.mountain, StrategicTileType.snowMountain, StrategicTileType.water, StrategicTileType.lava, StrategicTileType.ocean, StrategicTileType.brokenCliffs };
-
-    internal enum MovementMode
-    {
-        Standard,
-        Flight,
-        Aquatic
-    }
-
+    private List<StrategicTileType> _impassables = new List<StrategicTileType>()
+        { StrategicTileType.Mountain, StrategicTileType.SnowMountain, StrategicTileType.Water, StrategicTileType.Lava, StrategicTileType.Ocean, StrategicTileType.BrokenCliffs };
+    
+    internal List<StrategicTileType> Impassables { get => _impassables; set => _impassables = value; }
+    
     internal enum TileAction
     {
         Impassible,
-        OneMP,
-        TwoMP,
+        OneMp,
+        TwoMp,
         Attack,
-        AttackTwoMP
+        AttackTwoMp
     }
 
     [OdinSerialize]
-    private Empire _empire;
+    private Empire _empireOutside;
 
-    private Empire empire { get => _empire; set => _empire = value; }
+    internal Empire EmpireOutside { get => _empireOutside; set => _empireOutside = value; }
 
     [OdinSerialize]
     private AIMode _aIMode;
@@ -48,9 +43,17 @@ public class Army
     public List<Unit> Units { get => _units; set => _units = value; }
 
     [OdinSerialize]
-    private Vec2i _position;
+    private Vec2I _position;
 
-    private Vec2i position { get => _position; set => _position = value; }
+    public Vec2I Position
+    {
+        get => _position;
+        private set
+        {
+            _position = value;
+            if (_position.X != 0 && _position.Y != 0) GetTileHealRate();
+        }
+    }
 
     [OdinSerialize]
     private string _name;
@@ -60,9 +63,9 @@ public class Army
     public bool JustCreated = false;
 
     [OdinSerialize]
-    private int _remainingMP;
+    private int _remainingMp;
 
-    public int RemainingMP { get => _remainingMP; set => _remainingMP = value; }
+    public int RemainingMp { get => _remainingMp; set => _remainingMp = value; }
 
     [OdinSerialize]
     public int InVillageIndex { get; private set; } = -1;
@@ -70,7 +73,7 @@ public class Army
     [OdinSerialize]
     private MovementMode _movementMode = MovementMode.Standard;
 
-    internal MovementMode movementMode { get => _movementMode; set => _movementMode = value; }
+    internal MovementMode MovementMode { get => _movementMode; set => _movementMode = value; }
 
     [OdinSerialize]
     private BountyGoods _bountyGoods;
@@ -84,21 +87,12 @@ public class Army
 
     public bool DevourThisTurn { get; private set; } = false;
 
-    [OdinSerialize]
-    public Vec2i Position
-    {
-        get { return position; }
-        private set
-        {
-            position = value;
-            if (position.X != 0 && position.Y != 0) GetTileHealRate();
-        }
-    }
+
 
     [OdinSerialize]
-    private Vec2i _destination;
+    private Vec2I _destination;
 
-    public Vec2i Destination { get => _destination; set => _destination = value; }
+    public Vec2I Destination { get => _destination; set => _destination = value; }
 
     [OdinSerialize]
     private float _healRate;
@@ -108,23 +102,19 @@ public class Army
     [OdinSerialize]
     private ItemStock _itemStock;
 
-    private ItemStock itemStock { get => _itemStock; set => _itemStock = value; }
-
     internal ItemStock ItemStock
     {
         get
         {
-            if (itemStock == null) itemStock = new ItemStock();
-            return itemStock;
+            if (_itemStock == null) _itemStock = new ItemStock();
+            return _itemStock;
         }
-        set { itemStock = value; }
+        set => _itemStock = value;
     }
 
 
     internal double ArmyPower => StrategicUtilities.ArmyPower(this);
-    internal int MaxSize => empire.MaxArmySize;
-
-    internal Empire Empire => empire;
+    internal int MaxSize => EmpireOutside.MaxArmySize;
 
     [OdinSerialize]
     private int _bannerStyle = 0;
@@ -133,35 +123,35 @@ public class Army
 
     internal SpriteRenderer Sprite;
 
-    public void SetEmpire(Empire empire) => this.empire = empire;
+    public void SetEmpire(Empire empire) => this.EmpireOutside = empire;
 
     internal MultiStageBanner Banner { get; set; }
 
     public Unit LeaderIfInArmy() => Units.Where(s => s.Type == UnitType.Leader).FirstOrDefault();
 
-    internal void SetPosition(Vec2i pos)
+    internal void SetPosition(Vec2I pos)
     {
-        Position = new Vec2i(pos.X, pos.Y);
+        Position = new Vec2I(pos.X, pos.Y);
     }
 
 
-    public Army(Empire empire, Vec2i p, Side side)
+    public Army(Empire empireOutside, Vec2I p, Side side)
     {
-        this.empire = empire;
+        this.EmpireOutside = empireOutside;
         Side = side;
         HealRate = 0.02f;
-        RemainingMP = Config.ArmyMP;
+        RemainingMp = Config.ArmyMp;
         Position = p;
         Units = new List<Unit>();
         JustCreated = true;
 
-        NameArmy(empire);
-        if (empire.Side != null && RaceFuncs.IsPlayableRace(empire.Side.ToRace()))
+        NameArmy(empireOutside);
+        if (empireOutside.Side != null && RaceFuncs.IsPlayableRace(empireOutside.Side.ToRace()))
         {
-            BannerStyle = empire.BannerType;
+            BannerStyle = empireOutside.BannerType;
         }
 
-        if (State.World.Turn == 1 && Config.FirstTurnArmiesIdle) RemainingMP = 0;
+        if (State.World.Turn == 1 && Config.FirstTurnArmiesIdle) RemainingMp = 0;
     }
 
     internal void NameArmy(Empire empire)
@@ -209,12 +199,12 @@ public class Army
 
         RefreshMovementMode();
 
-        if (empire.StrategicAI != null)
+        if (EmpireOutside.StrategicAI != null)
         {
             SortSpells();
         }
 
-        RemainingMP = GetMaxMovement();
+        RemainingMp = GetMaxMovement();
         DevourThisTurn = false;
         GetTileHealRate();
         ProcessInVillageOnTurn();
@@ -222,7 +212,7 @@ public class Army
 
     public int GetMaxMovement()
     {
-        return Config.ArmyMP;
+        return Config.ArmyMp;
     }
 
     public void RefreshMovementMode()
@@ -264,149 +254,149 @@ public class Army
 
         if (noHill > 0 && noHill > Units.Count / 2)
         {
-            if (!impassables.Contains(StrategicTileType.hills))
+            if (!Impassables.Contains(StrategicTileType.Hills))
             {
-                impassables.Add(StrategicTileType.hills);
+                Impassables.Add(StrategicTileType.Hills);
             }
 
-            if (!impassables.Contains(StrategicTileType.snowHills))
+            if (!Impassables.Contains(StrategicTileType.SnowHills))
             {
-                impassables.Add(StrategicTileType.snowHills);
+                Impassables.Add(StrategicTileType.SnowHills);
             }
 
-            if (!impassables.Contains(StrategicTileType.sandHills))
+            if (!Impassables.Contains(StrategicTileType.SandHills))
             {
-                impassables.Add(StrategicTileType.sandHills);
+                Impassables.Add(StrategicTileType.SandHills);
             }
         }
         else
         {
-            impassables.Remove(StrategicTileType.hills);
-            impassables.Remove(StrategicTileType.snowHills);
-            impassables.Remove(StrategicTileType.sandHills);
+            Impassables.Remove(StrategicTileType.Hills);
+            Impassables.Remove(StrategicTileType.SnowHills);
+            Impassables.Remove(StrategicTileType.SandHills);
         }
 
         if (noSnow > 0 && noSnow > Units.Count / 2)
         {
-            if (!impassables.Contains(StrategicTileType.snow))
+            if (!Impassables.Contains(StrategicTileType.Snow))
             {
-                impassables.Add(StrategicTileType.snow);
+                Impassables.Add(StrategicTileType.Snow);
             }
 
-            if (!impassables.Contains(StrategicTileType.snowHills))
+            if (!Impassables.Contains(StrategicTileType.SnowHills))
             {
-                impassables.Add(StrategicTileType.snowHills);
+                Impassables.Add(StrategicTileType.SnowHills);
             }
         }
         else
         {
-            impassables.Remove(StrategicTileType.snow);
-            impassables.Remove(StrategicTileType.snowHills);
+            Impassables.Remove(StrategicTileType.Snow);
+            Impassables.Remove(StrategicTileType.SnowHills);
         }
 
         if (yesLava > 0 && yesLava >= Units.Count / 2)
-            impassables.Remove(StrategicTileType.lava);
-        else if (!impassables.Contains(StrategicTileType.lava)) impassables.Add(StrategicTileType.lava);
+            Impassables.Remove(StrategicTileType.Lava);
+        else if (!Impassables.Contains(StrategicTileType.Lava)) Impassables.Add(StrategicTileType.Lava);
 
         if (yesMountain > 0 && yesMountain >= Units.Count / 2)
         {
-            impassables.Remove(StrategicTileType.mountain);
-            impassables.Remove(StrategicTileType.snowMountain);
-            impassables.Remove(StrategicTileType.brokenCliffs);
+            Impassables.Remove(StrategicTileType.Mountain);
+            Impassables.Remove(StrategicTileType.SnowMountain);
+            Impassables.Remove(StrategicTileType.BrokenCliffs);
         }
         else
         {
-            if (!impassables.Contains(StrategicTileType.snowMountain)) impassables.Add(StrategicTileType.snowMountain);
-            if (!impassables.Contains(StrategicTileType.mountain)) impassables.Add(StrategicTileType.mountain);
-            if (!impassables.Contains(StrategicTileType.brokenCliffs)) impassables.Add(StrategicTileType.brokenCliffs);
+            if (!Impassables.Contains(StrategicTileType.SnowMountain)) Impassables.Add(StrategicTileType.SnowMountain);
+            if (!Impassables.Contains(StrategicTileType.Mountain)) Impassables.Add(StrategicTileType.Mountain);
+            if (!Impassables.Contains(StrategicTileType.BrokenCliffs)) Impassables.Add(StrategicTileType.BrokenCliffs);
         }
 
         if (noVolcanic > 0 && noVolcanic > Units.Count / 2)
         {
-            if (!impassables.Contains(StrategicTileType.volcanic)) impassables.Add(StrategicTileType.volcanic);
+            if (!Impassables.Contains(StrategicTileType.Volcanic)) Impassables.Add(StrategicTileType.Volcanic);
         }
         else
-            impassables.Remove(StrategicTileType.volcanic);
+            Impassables.Remove(StrategicTileType.Volcanic);
 
         if (yesWater > 0 && yesWater >= Units.Count / 2)
         {
-            impassables.Remove(StrategicTileType.ocean);
-            impassables.Remove(StrategicTileType.water);
+            Impassables.Remove(StrategicTileType.Ocean);
+            Impassables.Remove(StrategicTileType.Water);
         }
         else
         {
-            if (!impassables.Contains(StrategicTileType.ocean)) impassables.Add(StrategicTileType.ocean);
-            if (!impassables.Contains(StrategicTileType.water)) impassables.Add(StrategicTileType.water);
+            if (!Impassables.Contains(StrategicTileType.Ocean)) Impassables.Add(StrategicTileType.Ocean);
+            if (!Impassables.Contains(StrategicTileType.Water)) Impassables.Add(StrategicTileType.Water);
         }
 
         if (noDesert > 0 && noDesert > Units.Count / 2)
         {
-            if (!impassables.Contains(StrategicTileType.desert))
+            if (!Impassables.Contains(StrategicTileType.Desert))
             {
-                impassables.Add(StrategicTileType.desert);
+                Impassables.Add(StrategicTileType.Desert);
             }
 
-            if (!impassables.Contains(StrategicTileType.sandHills))
+            if (!Impassables.Contains(StrategicTileType.SandHills))
             {
-                impassables.Add(StrategicTileType.sandHills);
+                Impassables.Add(StrategicTileType.SandHills);
             }
         }
         else
         {
-            impassables.Remove(StrategicTileType.desert);
-            impassables.Remove(StrategicTileType.sandHills);
+            Impassables.Remove(StrategicTileType.Desert);
+            Impassables.Remove(StrategicTileType.SandHills);
         }
 
         if (noSwamp > 0 && noSwamp > Units.Count / 2)
         {
-            if (!impassables.Contains(StrategicTileType.swamp))
+            if (!Impassables.Contains(StrategicTileType.Swamp))
             {
-                impassables.Add(StrategicTileType.swamp);
+                Impassables.Add(StrategicTileType.Swamp);
             }
 
-            if (!impassables.Contains(StrategicTileType.purpleSwamp))
+            if (!Impassables.Contains(StrategicTileType.PurpleSwamp))
             {
-                impassables.Add(StrategicTileType.purpleSwamp);
+                Impassables.Add(StrategicTileType.PurpleSwamp);
             }
         }
         else
         {
-            impassables.Remove(StrategicTileType.swamp);
-            impassables.Remove(StrategicTileType.purpleSwamp);
+            Impassables.Remove(StrategicTileType.Swamp);
+            Impassables.Remove(StrategicTileType.PurpleSwamp);
         }
 
         if (noForest > 0 && noForest > Units.Count / 2)
         {
-            if (!impassables.Contains(StrategicTileType.forest))
+            if (!Impassables.Contains(StrategicTileType.Forest))
             {
-                impassables.Add(StrategicTileType.forest);
+                Impassables.Add(StrategicTileType.Forest);
             }
 
-            if (!impassables.Contains(StrategicTileType.snowTrees))
+            if (!Impassables.Contains(StrategicTileType.SnowTrees))
             {
-                impassables.Add(StrategicTileType.snowTrees);
+                Impassables.Add(StrategicTileType.SnowTrees);
             }
         }
         else
         {
-            impassables.Remove(StrategicTileType.forest);
-            impassables.Remove(StrategicTileType.snowTrees);
+            Impassables.Remove(StrategicTileType.Forest);
+            Impassables.Remove(StrategicTileType.SnowTrees);
         }
 
         if (noGrass > 0 && noGrass > Units.Count / 2)
         {
-            if (!impassables.Contains(StrategicTileType.grass)) impassables.Add(StrategicTileType.grass);
+            if (!Impassables.Contains(StrategicTileType.Grass)) Impassables.Add(StrategicTileType.Grass);
         }
         else
-            impassables.Remove(StrategicTileType.grass);
+            Impassables.Remove(StrategicTileType.Grass);
 
 
         if (flying > 0 && flying >= Units.Count / 2)
-            movementMode = MovementMode.Flight;
+            MovementMode = MovementMode.Flight;
         //else if (aquatic >= Units.Count / 2)
         //    movementMode = MovementMode.Aquatic;
         else
-            movementMode = MovementMode.Standard;
+            MovementMode = MovementMode.Standard;
     }
 
     /// <summary>
@@ -430,8 +420,8 @@ public class Army
 
         if (Units.Count == 0)
         {
-            empire.Armies.Remove(this);
-            if (JustCreated) empire.ArmiesCreated--;
+            EmpireOutside.Armies.Remove(this);
+            if (JustCreated) EmpireOutside.ArmiesCreated--;
         }
     }
 
@@ -463,43 +453,43 @@ public class Army
         return hp;
     }
 
-    public bool MoveTo(Vec2i pos)
+    public bool MoveTo(Vec2I pos)
     {
         return CheckMove(pos);
     }
 
     public bool Move(int direction)
     {
-        Vec2i pos = GetPos(direction);
+        Vec2I pos = GetPos(direction);
         return CheckMove(pos);
     }
 
-    private Vec2i GetPos(int i)
+    private Vec2I GetPos(int i)
     {
         switch (i)
         {
             case 0:
-                return new Vec2i(Position.X, Position.Y + 1);
+                return new Vec2I(Position.X, Position.Y + 1);
             case 1:
-                return new Vec2i(Position.X + 1, Position.Y + 1);
+                return new Vec2I(Position.X + 1, Position.Y + 1);
             case 2:
-                return new Vec2i(Position.X + 1, Position.Y);
+                return new Vec2I(Position.X + 1, Position.Y);
             case 3:
-                return new Vec2i(Position.X + 1, Position.Y - 1);
+                return new Vec2I(Position.X + 1, Position.Y - 1);
             case 4:
-                return new Vec2i(Position.X, Position.Y - 1);
+                return new Vec2I(Position.X, Position.Y - 1);
             case 5:
-                return new Vec2i(Position.X - 1, Position.Y - 1);
+                return new Vec2I(Position.X - 1, Position.Y - 1);
             case 6:
-                return new Vec2i(Position.X - 1, Position.Y);
+                return new Vec2I(Position.X - 1, Position.Y);
             case 7:
-                return new Vec2i(Position.X - 1, Position.Y + 1);
+                return new Vec2I(Position.X - 1, Position.Y + 1);
         }
 
         return Position;
     }
 
-    private bool CheckMove(Vec2i pos)
+    private bool CheckMove(Vec2I pos)
     {
         TileAction act = CheckTileForActionType(pos);
 
@@ -508,26 +498,26 @@ public class Army
             return false;
         }
 
-        if (act == TileAction.TwoMP)
+        if (act == TileAction.TwoMp)
         {
-            if (RemainingMP > 1)
+            if (RemainingMp > 1)
             {
                 if (Banner != null && Banner.gameObject.activeSelf)
                     State.GameManager.StrategyMode.Translator?.SetTranslator(Banner.transform, Position, pos, Config.StrategicAIMoveDelay, State.GameManager.StrategyMode.IsPlayerTurn);
                 else if (Sprite != null) State.GameManager.StrategyMode.Translator?.SetTranslator(Sprite.transform, Position, pos, Config.StrategicAIMoveDelay, State.GameManager.StrategyMode.IsPlayerTurn);
-                if (State.GameManager.StrategyMode.IsPlayerTurn) State.GameManager.StrategyMode.UndoMoves.Add(new StrategicMoveUndo(this, RemainingMP, new Vec2i(Position.X, Position.Y)));
+                if (State.GameManager.StrategyMode.IsPlayerTurn) State.GameManager.StrategyMode.UndoMoves.Add(new StrategicMoveUndo(this, RemainingMp, new Vec2I(Position.X, Position.Y)));
                 Position = pos;
-                StrategicUtilities.TryClaim(pos, empire);
-                RemainingMP -= 2;
+                StrategicUtilities.TryClaim(pos, EmpireOutside);
+                RemainingMp -= 2;
                 return false;
             }
 
             return false;
         }
 
-        if ((act == TileAction.Attack && RemainingMP > 0) || (act == TileAction.AttackTwoMP && RemainingMP > 1))
+        if ((act == TileAction.Attack && RemainingMp > 0) || (act == TileAction.AttackTwoMp && RemainingMp > 1))
         {
-            RemainingMP = 0;
+            RemainingMp = 0;
             if (Banner != null && Banner.gameObject.activeSelf)
                 State.GameManager.StrategyMode.Translator?.SetTranslator(Banner.transform, Position, pos, Config.StrategicAIMoveDelay, State.GameManager.StrategyMode.IsPlayerTurn);
             else if (Sprite != null) State.GameManager.StrategyMode.Translator?.SetTranslator(Sprite.transform, Position, pos, Config.StrategicAIMoveDelay, State.GameManager.StrategyMode.IsPlayerTurn);
@@ -536,35 +526,35 @@ public class Army
             return true;
         }
 
-        if (act == TileAction.OneMP && RemainingMP > 0)
+        if (act == TileAction.OneMp && RemainingMp > 0)
         {
-            if (State.GameManager.StrategyMode.IsPlayerTurn) State.GameManager.StrategyMode.UndoMoves.Add(new StrategicMoveUndo(this, RemainingMP, new Vec2i(Position.X, Position.Y)));
-            RemainingMP -= 1;
+            if (State.GameManager.StrategyMode.IsPlayerTurn) State.GameManager.StrategyMode.UndoMoves.Add(new StrategicMoveUndo(this, RemainingMp, new Vec2I(Position.X, Position.Y)));
+            RemainingMp -= 1;
             if (Banner != null && Banner.gameObject.activeSelf)
                 State.GameManager.StrategyMode.Translator?.SetTranslator(Banner.transform, Position, pos, Config.StrategicAIMoveDelay, State.GameManager.StrategyMode.IsPlayerTurn);
             else if (Sprite != null) State.GameManager.StrategyMode.Translator?.SetTranslator(Sprite.transform, Position, pos, Config.StrategicAIMoveDelay, State.GameManager.StrategyMode.IsPlayerTurn);
             Position = pos;
-            StrategicUtilities.TryClaim(pos, empire);
+            StrategicUtilities.TryClaim(pos, EmpireOutside);
             return false;
         }
 
         return false;
     }
 
-    internal TileAction CheckTileForActionType(Vec2i p)
+    internal TileAction CheckTileForActionType(Vec2I p)
     {
-        bool flyer = movementMode == MovementMode.Flight;
+        bool flyer = MovementMode == MovementMode.Flight;
         foreach (Army army in StrategicUtilities.GetAllArmies())
         {
-            if (p.Matches(army.position))
+            if (p.Matches(army._position))
             {
-                if (army.empire.IsEnemy(empire) == false)
+                if (army.EmpireOutside.IsEnemy(EmpireOutside) == false)
                 {
                     return TileAction.Impassible;
                 }
                 else
                 {
-                    if (StrategicTileInfo.WalkCost(p.X, p.Y) == 2 && flyer == false) return TileAction.AttackTwoMP;
+                    if (StrategicTileInfo.WalkCost(p.X, p.Y) == 2 && flyer == false) return TileAction.AttackTwoMp;
                     return TileAction.Attack;
                 }
             }
@@ -574,11 +564,11 @@ public class Army
         {
             if (p.Matches(State.World.Villages[i].Position))
             {
-                if (State.World.Villages[i].Empire.IsAlly(empire))
+                if (State.World.Villages[i].Empire.IsAlly(EmpireOutside))
                 {
-                    return TileAction.OneMP;
+                    return TileAction.OneMp;
                 }
-                else if (State.World.Villages[i].Empire.IsEnemy(empire))
+                else if (State.World.Villages[i].Empire.IsEnemy(EmpireOutside))
                 {
                     return TileAction.Attack;
                 }
@@ -589,7 +579,7 @@ public class Army
 
         if (StrategicTileInfo.WalkCost(p.X, p.Y) == 2 && flyer == false)
         {
-            return TileAction.TwoMP;
+            return TileAction.TwoMp;
         }
 
         if (StrategyPathfinder.CanEnter(p, this) == false)
@@ -597,7 +587,7 @@ public class Army
             return TileAction.Impassible;
         }
 
-        return TileAction.OneMP;
+        return TileAction.OneMp;
     }
 
     internal void UpdateInVillage()
@@ -605,7 +595,7 @@ public class Army
         InVillageIndex = -1;
         for (int i = 0; i < State.World.Villages.Length; i++)
         {
-            if (position.Matches(State.World.Villages[i].Position))
+            if (_position.Matches(State.World.Villages[i].Position))
             {
                 InVillageIndex = i;
                 State.World.Villages[i].ItemStock.TransferAllItems(ItemStock);
@@ -666,7 +656,7 @@ public class Army
         Unit target;
         if (numprey > 0)
         {
-            RemainingMP = 0;
+            RemainingMp = 0;
             DevourThisTurn = true;
             State.GameManager.StrategyMode.UndoMoves.Clear();
         }
@@ -705,14 +695,14 @@ public class Army
         int xpGain = TrainingGetExpValue(level);
         int cost = TrainingGetCost(level);
 
-        if (empire.Gold >= cost)
+        if (EmpireOutside.Gold >= cost)
         {
             foreach (Unit unit in Units)
             {
                 unit.GiveExp(xpGain);
             }
 
-            empire.SpendGold(cost);
+            EmpireOutside.SpendGold(cost);
             State.World.Stats.SpentGoldOnArmyTraining(cost, Side);
         }
     }
@@ -789,4 +779,11 @@ public class Army
             }
         }
     }
+}
+
+internal enum MovementMode
+{
+    Standard,
+    Flight,
+    Aquatic
 }

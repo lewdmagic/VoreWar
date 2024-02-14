@@ -164,7 +164,7 @@ internal static class Examples
     // This allows the clothing item's RenderFull function to have access to an instance implementing IFacingFrontParameters
     // Which has been updated in the RunBefore function of the Race that's wearing it.
     // TL;DR: It's a way to pass values from Race's rander cycle to clothing items.  
-    private static BindableClothing<IFacingFrontParameters> RagsInstance = ClothingBuilder.CreateV2<IFacingFrontParameters>(builder =>
+    private static BindableClothing<IFacingFrontParameters> _ragsInstance = ClothingBuilder.CreateV2<IFacingFrontParameters>(builder =>
     {
         // Similar to setup in Race
         // Setup is only ran once. Think of it as a constructor.

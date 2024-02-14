@@ -23,9 +23,9 @@ public class Reincarnator
 
     public bool RaceLocked { get => _raceLocked; set => _raceLocked = value; }
 
-    public Reincarnator(Unit Unit, Race race, bool raceLocked = false)
+    public Reincarnator(Unit unit, Race race, bool raceLocked = false)
     {
-        PastLife = Unit;
+        PastLife = unit;
         PastLife.FixedSide = PastLife.FixedSide;
         PastLife.RemoveTrait(TraitType.Diseased);
         PastLife.RemoveTrait(TraitType.Illness);

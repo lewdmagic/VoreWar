@@ -167,7 +167,7 @@ public class SpriteDictionary : MonoBehaviour
     public Sprite[] Demifrogs1;
     public Sprite[] Demifrogs2;
     public Sprite[] Demifrogs3;
-    public Sprite[] Demifrogs3alt;
+    public Sprite[] Demifrogs3Alt;
     public Sprite[] Demifrogs4;
     public Sprite[] Demifrogs5;
     public Sprite[] Sharks1;
@@ -234,7 +234,7 @@ public class SpriteDictionary : MonoBehaviour
     public Sprite[] Scorch;
     public Sprite[] Asura;
     public Sprite[] AsuraHoliday;
-    public Sprite[] DRACO;
+    public Sprite[] Draco;
     public Sprite[] Zoey;
     public Sprite[] ZoeyHoliday;
     public Sprite[] Abakhanskya;

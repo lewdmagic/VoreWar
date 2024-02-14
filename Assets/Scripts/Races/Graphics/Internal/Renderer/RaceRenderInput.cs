@@ -2,7 +2,7 @@ internal partial class RaceRenderer
 {
     private class RaceRenderInput : RenderInput, IRaceRenderInput
     {
-        internal RaceRenderInput(Actor_Unit actor, ISetupOutput setupOutput, bool baseBody) : base(actor)
+        internal RaceRenderInput(ActorUnit actor, ISetupOutput setupOutput, bool baseBody) : base(actor)
         {
             RaceData = setupOutput;
             BaseBody = baseBody;

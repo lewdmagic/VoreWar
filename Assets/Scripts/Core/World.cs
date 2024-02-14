@@ -59,7 +59,7 @@ public class World
     [OdinSerialize]
     private bool _crazyBuildings = false;
 
-    public bool crazyBuildings { get => _crazyBuildings; set => _crazyBuildings = value; }
+    public bool CrazyBuildings { get => _crazyBuildings; set => _crazyBuildings = value; }
 
     [OdinSerialize]
     private SavedCameraState _savedCameraState;
@@ -86,14 +86,14 @@ public class World
 
     public bool IsNight { get => _isNight; set => _isNight = value; }
 
-    public World(bool MapEditorVersion)
+    public World(bool mapEditorVersion)
     {
-        Config.World.resetVillagesPerEmpire();
+        Config.World.ResetVillagesPerEmpire();
         Config.ResetCenteredEmpire();
         State.World = this;
         ConfigStorage = Config.World;
         ItemRepository = new ItemRepository();
-        if (MapEditorVersion)
+        if (mapEditorVersion)
         {
             MainEmpiresWritable = new List<Empire>();
             Villages = new Village[0];
@@ -145,7 +145,7 @@ public class World
         MainEmpiresWritable = new List<Empire>();
         foreach (Race race in RaceFuncs.MainRaceEnumerable())
         {
-            MainEmpiresWritable.Add(new Empire(args.empireArgs[race]));
+            MainEmpiresWritable.Add(new Empire(args.EmpireArgs[race]));
         }
 
         // for (int i = 0; i < MainEmpires.Count; i++)
@@ -176,8 +176,8 @@ public class World
                 MainEmpires.Last().Name = "Outcasts";
                 MainEmpires.Last().ReplacedRace = Race.Tigers; */
         UpdateBanditLimits();
-        crazyBuildings = args.crazyBuildings;
-        VillageBuildingList.SetBuildings(crazyBuildings);
+        CrazyBuildings = args.CrazyBuildings;
+        VillageBuildingList.SetBuildings(CrazyBuildings);
 
 
         ItemRepository = new ItemRepository();

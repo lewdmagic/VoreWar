@@ -486,10 +486,10 @@ public enum TraitType
     BookWormI = 148,
 
     /// <summary>Unit generates with a random Tier 2 Book.</summary>
-    BookWormII = 149,
+    BookWormIi = 149,
 
     /// <summary>Unit generates with a random Tier 3-4 Book.</summary>
-    BookWormIII = 150,
+    BookWormIii = 150,
 
     /// <summary>
     ///     Units that are put under a mindcontrol (e.g. Charm, Hypnosis) effect by this unit want to force-feed

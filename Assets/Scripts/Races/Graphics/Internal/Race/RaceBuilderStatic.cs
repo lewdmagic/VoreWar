@@ -84,7 +84,7 @@ internal class ExtraRaceInfo
 
 internal class RaceBuilder : IRaceBuilder
 {
-    private readonly SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc>();
+    private readonly SpriteTypeIndexed<SingleRenderFunc> _raceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc>();
 
     private Action<IRandomCustomInput> _randomCustom;
 
@@ -116,13 +116,13 @@ internal class RaceBuilder : IRaceBuilder
     [Obsolete("RenderSingle is deprecated, use RenderAll when writing new races.")]
     public void RenderSingle(SpriteType spriteType, int layer, Action<IRaceRenderInput, IRaceRenderOutput> generator)
     {
-        RaceSpriteSet[spriteType] = new SingleRenderFunc(layer, generator);
+        _raceSpriteSet[spriteType] = new SingleRenderFunc(layer, generator);
     }
 
     [Obsolete("RenderSingle is deprecated, use RenderAll when writing new races.")]
     public void RenderSingle(SpriteType spriteType, SingleRenderFunc render)
     {
-        RaceSpriteSet[spriteType] = render;
+        _raceSpriteSet[spriteType] = render;
     }
 
     public void RenderAll(Action<IRunInput, IRaceRenderAllOutput> generator)
@@ -135,6 +135,6 @@ internal class RaceBuilder : IRaceBuilder
         SetupOutput data = _template();
         _setupFunc?.Invoke(data);
 
-        return new RaceData(RaceSpriteSet, data, _runBefore, _randomCustom, data._extraRaceInfo, _renderAllAction);
+        return new RaceData(_raceSpriteSet, data, _runBefore, _randomCustom, data.ExtraRaceInfo, _renderAllAction);
     }
 }

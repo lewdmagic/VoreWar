@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 internal class EventList
 {
-    private EventScreen UI;
+    private EventScreen _ui;
     internal CustomEventList CustomEvents;
 
     public EventList()
@@ -15,7 +15,7 @@ internal class EventList
         CustomEvents.Initialize();
     }
 
-    internal void SetUI(EventScreen eventScreen) => UI = eventScreen;
+    internal void SetUI(EventScreen eventScreen) => _ui = eventScreen;
 
     internal void CheckStartEvent(Empire empire)
     {
@@ -37,9 +37,9 @@ internal class EventList
         }
 
         if (odds < State.Rand.NextDouble()) return;
-        UI.FirstChoice.onClick.RemoveAllListeners();
-        UI.SecondChoice.onClick.RemoveAllListeners();
-        UI.ThirdChoice.onClick.RemoveAllListeners();
+        _ui.FirstChoice.onClick.RemoveAllListeners();
+        _ui.SecondChoice.onClick.RemoveAllListeners();
+        _ui.ThirdChoice.onClick.RemoveAllListeners();
 
 
         if (Config.CustomEventFrequency > State.Rand.NextDouble())
@@ -92,8 +92,8 @@ internal class EventList
         var otherEmpire = GetRandomEmpire(empire);
         if (village == null || otherEmpire == null) return;
 
-        UI.gameObject.SetActive(true);
-        UI.RaceText.text = $"{empire.Name} -- Gold : {empire.Gold}";
+        _ui.gameObject.SetActive(true);
+        _ui.RaceText.text = $"{empire.Name} -- Gold : {empire.Gold}";
 
         custom.MainText = custom.MainText.Replace("[village]", village.Name).Replace("[Village]", village.Name);
         custom.Option1Choice = custom.Option1Choice.Replace("[village]", village.Name).Replace("[Village]", village.Name);
@@ -128,10 +128,10 @@ internal class EventList
 
         bool firstGold = empire.Gold + custom.Option1Gold >= 0;
         bool secondGold = firstGold == false || empire.Gold + custom.Option2Gold >= 0;
-        UI.MainText.text = custom.MainText;
-        if (custom.Option1Happiness != 0 || custom.Option1Population != 0 || custom.Option2Happiness != 0 || custom.Option2Population != 0) UI.MainText.text += AddVillageInfo(village);
-        UI.FirstChoice.GetComponentInChildren<Text>().text = custom.Option1Choice;
-        UI.FirstChoice.onClick.AddListener(() =>
+        _ui.MainText.text = custom.MainText;
+        if (custom.Option1Happiness != 0 || custom.Option1Population != 0 || custom.Option2Happiness != 0 || custom.Option2Population != 0) _ui.MainText.text += AddVillageInfo(village);
+        _ui.FirstChoice.GetComponentInChildren<Text>().text = custom.Option1Choice;
+        _ui.FirstChoice.onClick.AddListener(() =>
         {
             string result = "(";
             if (custom.Option1Gold != 0)
@@ -180,9 +180,9 @@ internal class EventList
             if (result == "()") result = "";
             State.GameManager.CreateMessageBox($"{custom.Option1Result} {result}");
         });
-        UI.FirstChoice.interactable = firstGold;
-        UI.SecondChoice.GetComponentInChildren<Text>().text = custom.Option2Choice;
-        UI.SecondChoice.onClick.AddListener(() =>
+        _ui.FirstChoice.interactable = firstGold;
+        _ui.SecondChoice.GetComponentInChildren<Text>().text = custom.Option2Choice;
+        _ui.SecondChoice.onClick.AddListener(() =>
         {
             string result = "(";
             if (custom.Option2Gold != 0)
@@ -231,9 +231,9 @@ internal class EventList
             if (result == "()") result = "";
             State.GameManager.CreateMessageBox($"{custom.Option2Result} {result}");
         });
-        UI.SecondChoice.interactable = secondGold;
-        UI.ThirdChoice.GetComponentInChildren<Text>().text = "";
-        UI.ThirdChoice.interactable = false;
+        _ui.SecondChoice.interactable = secondGold;
+        _ui.ThirdChoice.GetComponentInChildren<Text>().text = "";
+        _ui.ThirdChoice.interactable = false;
     }
 
     private bool StartEvent(int num, Empire empire)
@@ -244,28 +244,28 @@ internal class EventList
             {
                 var villages = GetTwoRandomVillages(empire.Side);
                 if (villages == null || empire.Leader == null) return false;
-                UI.MainText.text = $"Villagers from {villages[0].Name} have petitioned the government to intercede on their behalf. It would seem that a group from {villages[1].Name} have stolen a compy herd from their rightful owners. This indeed seems to be the case. What would you like to do?";
-                UI.MainText.text += AddVillageInfo(villages[0]);
-                UI.MainText.text += AddVillageInfo(villages[1]);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = "Offer compensation to the affected town. [200 Gold]";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"Villagers from {villages[0].Name} have petitioned the government to intercede on their behalf. It would seem that a group from {villages[1].Name} have stolen a compy herd from their rightful owners. This indeed seems to be the case. What would you like to do?";
+                _ui.MainText.text += AddVillageInfo(villages[0]);
+                _ui.MainText.text += AddVillageInfo(villages[1]);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = "Offer compensation to the affected town. [200 Gold]";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"{villages[0].Name} +15 happiness, {villages[1].Name} +5 happiness,");
                     villages[0].Happiness += 15;
                     villages[1].Happiness += 5;
                     empire.SpendGold(200);
                 });
-                UI.FirstChoice.interactable = empire.Gold >= 200;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = "Force the other town to return the herd.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = empire.Gold >= 200;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = "Force the other town to return the herd.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"{villages[0].Name} +20 happiness, {villages[1].Name} -20 happiness,");
                     villages[0].Happiness += 20;
                     villages[1].Happiness -= 20;
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = "Neither town had asked for permission to raise livestock in our domain. Our leader shall devour the herd.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = "Neither town had asked for permission to raise livestock in our domain. Our leader shall devour the herd.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"{villages[0].Name} -25 happiness, {villages[1].Name} -25 happiness, leader gains some exp, small chance of rebels");
                     villages[0].Happiness -= 25;
@@ -274,32 +274,32 @@ internal class EventList
                     if (State.Rand.Next(100) < 5) CreateRebels(RebelDifficulty.Easy, villages[0]);
                     if (State.Rand.Next(100) < 5) CreateRebels(RebelDifficulty.Easy, villages[1]);
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 1:
             {
                 var village = GetRandomVillage(empire.Side);
                 if (village == null || empire.Leader == null || empire.CapitalCity == null) return false;
-                UI.MainText.text = $"Our vassal governing the territory near {village.Name} has become increasingly aggressive towards the capital. They believe that their accomplishments in managing the region have gone unrewarded. What should be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = "They’re right. Their contributions to our people have been ignored for too long. [300 Gold]";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"Our vassal governing the territory near {village.Name} has become increasingly aggressive towards the capital. They believe that their accomplishments in managing the region have gone unrewarded. What should be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = "They’re right. Their contributions to our people have been ignored for too long. [300 Gold]";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"{village.Name} +15 happiness");
                     village.Happiness += 15;
                     empire.SpendGold(300);
                 });
-                UI.FirstChoice.interactable = empire.Gold >= 300;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = "Ridiculous. Their rights as a vassal are more than just compensation.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = empire.Gold >= 300;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = "Ridiculous. Their rights as a vassal are more than just compensation.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"Large chance of spawning rebels at {village.Name}");
                     if (State.Rand.Next(100) < 95) CreateRebels(RebelDifficulty.Hard, village);
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = "Excellent! Inform them to come to the capital immediately, a new position has recently opened up. They need only pass an oral examination…";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = "Excellent! Inform them to come to the capital immediately, a new position has recently opened up. They need only pass an oral examination…";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(100) < 90)
                     {
@@ -312,7 +312,7 @@ internal class EventList
                         CreateRebels(RebelDifficulty.Hard, empire.CapitalCity);
                     }
                 });
-                UI.ThirdChoice.interactable = empire.CapitalCity != null && Equals(empire.CapitalCity.Side, empire.Side);
+                _ui.ThirdChoice.interactable = empire.CapitalCity != null && Equals(empire.CapitalCity.Side, empire.Side);
             }
                 break;
             case 2:
@@ -333,11 +333,11 @@ internal class EventList
                     if (empire.VillageCount < 3 || otherEmpire2 == null) return false;
 
                     var villages = State.World.Villages.Where(s => Equals(s.Side, empire.Side) && !Equals(s.Race, otherEmpire.ReplacedRace)).OrderBy(s => s.Population).ToArray();
-                    UI.MainText.text = $"The war between {otherEmpire.Name} and {otherEmpire2.Name} has intensified considerably. As such a number of {otherEmpire.Name} refugees have found their way to our border. The infirm and young make up the majority of this group. There are far too many to integrate easily into our communities. They are begging our border guards for entry into our nation. What shall be done?";
-                    UI.MainText.text += AddVillageInfo(villages[0]);
-                    UI.MainText.text += AddVillageInfo(villages[0]);
-                    UI.FirstChoice.GetComponentInChildren<Text>().text = $"Though it will be difficult for us, we must accommodate those in need. Move the villagers from the town with lowest population to another town. We shall give the town to these people in need.";
-                    UI.FirstChoice.onClick.AddListener(() =>
+                    _ui.MainText.text = $"The war between {otherEmpire.Name} and {otherEmpire2.Name} has intensified considerably. As such a number of {otherEmpire.Name} refugees have found their way to our border. The infirm and young make up the majority of this group. There are far too many to integrate easily into our communities. They are begging our border guards for entry into our nation. What shall be done?";
+                    _ui.MainText.text += AddVillageInfo(villages[0]);
+                    _ui.MainText.text += AddVillageInfo(villages[0]);
+                    _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Though it will be difficult for us, we must accommodate those in need. Move the villagers from the town with lowest population to another town. We shall give the town to these people in need.";
+                    _ui.FirstChoice.onClick.AddListener(() =>
                     {
                         if (villages.Length < 2)
                         {
@@ -364,18 +364,18 @@ internal class EventList
                         villages[0].Happiness = 200;
                         State.GameManager.CreateMessageBox($"Though it will be difficult for us, we must accommodate those in need. Move the villagers from {villages[0].Name} to another town. We shall give the town to these people in need. (The town switches race, the refugees are very happy, but other towns happiness falls some)");
                     });
-                    UI.FirstChoice.interactable = true;
-                    UI.SecondChoice.GetComponentInChildren<Text>().text = $"This is not a concern of ours. Tell the refugees they must go elsewhere";
-                    UI.SecondChoice.onClick.AddListener(() => { });
-                    UI.SecondChoice.interactable = true;
-                    UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Excellent! We already have a place set aside for them! [Leader Rubs Belly]";
-                    UI.ThirdChoice.onClick.AddListener(() =>
+                    _ui.FirstChoice.interactable = true;
+                    _ui.SecondChoice.GetComponentInChildren<Text>().text = $"This is not a concern of ours. Tell the refugees they must go elsewhere";
+                    _ui.SecondChoice.onClick.AddListener(() => { });
+                    _ui.SecondChoice.interactable = true;
+                    _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Excellent! We already have a place set aside for them! [Leader Rubs Belly]";
+                    _ui.ThirdChoice.onClick.AddListener(() =>
                     {
                         GiveExp(empire.Leader, 80, .05f);
                         RelationsManager.ChangeRelations(empire, otherEmpire, -2);
                         State.GameManager.CreateMessageBox($"The {otherEmpire.Name} are outraged at your decision to eat all of the refugees! (Leader gains exp)");
                     });
-                    UI.ThirdChoice.interactable = empire.Leader != null;
+                    _ui.ThirdChoice.interactable = empire.Leader != null;
                 }
             }
                 break;
@@ -385,9 +385,9 @@ internal class EventList
                 var selfVillages = State.World.Villages.Where(s => Equals(s.Side, empire.Side) && Equals(s.Race, empire.ReplacedRace));
                 var occupiedVillages = State.World.Villages.Where(s => Equals(s.Side, empire.Side) && !Equals(s.Race, empire.ReplacedRace));
                 if (village == null) return false;
-                UI.MainText.text = $"Non-{empire.ReplacedRace} Citizens within our borders have become discontent with the way they’ve been treated and are demanding equal liberties. {empire.ReplacedRace} across the empire are violently opposed to such action. What shall be done?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = "All beneath our banner deserve equal respect. It shall be done.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"Non-{empire.ReplacedRace} Citizens within our borders have become discontent with the way they’ve been treated and are demanding equal liberties. {empire.ReplacedRace} across the empire are violently opposed to such action. What shall be done?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = "All beneath our banner deserve equal respect. It shall be done.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"-40 happiness for all {empire.ReplacedRace} villages, +30 for all others");
                     foreach (Village vill in selfVillages)
@@ -400,9 +400,9 @@ internal class EventList
                         vill.Happiness += 30;
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = "The way things are is the way things are meant to be. Nothing shall change.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = "The way things are is the way things are meant to be. Nothing shall change.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"+10 happiness for all {empire.ReplacedRace} villages, -50 for all others");
                     foreach (Village vill in selfVillages)
@@ -415,9 +415,9 @@ internal class EventList
                         vill.Happiness -= 50;
                     }
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = "If they are not comfortable within our borders, perhaps they shall be more so in our bellies! Issue an order to devour all malcontents throughout the nation.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = "If they are not comfortable within our borders, perhaps they shall be more so in our bellies! Issue an order to devour all malcontents throughout the nation.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"+15 happiness for all {empire.ReplacedRace} villages, Population of non {empire.ReplacedRace} cities is cut in half, chance of rebellions");
                     foreach (Village vill in selfVillages)
@@ -436,17 +436,17 @@ internal class EventList
                             vill.SubtractPopulation(vill.Population / 2);
                     }
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 4:
             {
                 var village = GetRandomVillage(empire.Side);
                 if (village == null || village.Garrison == 0) return false;
-                UI.MainText.text = $"A riot has broken out in {village.Name} after one of our guards devoured the daughter of a local cobbler. They are forming a lynch mob at this very moment to take justice into their own maws. If we do nothing, this may spiral out of control.";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = "Put the guard on trial, uncover the truth, and act accordingly.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"A riot has broken out in {village.Name} after one of our guards devoured the daughter of a local cobbler. They are forming a lynch mob at this very moment to take justice into their own maws. If we do nothing, this may spiral out of control.";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = "Put the guard on trial, uncover the truth, and act accordingly.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) != 0)
                     {
@@ -464,9 +464,9 @@ internal class EventList
                         village.Happiness -= 20;
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = "Ignore the issue.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = "Ignore the issue.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(5) != 0)
                     {
@@ -487,40 +487,40 @@ internal class EventList
                         village.SubtractPopulation(village.Population - garrison.Count);
                     }
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = "How dare they raise their arms against our people! Devour the lot of them!";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = "How dare they raise their arms against our people! Devour the lot of them!";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"-40 happiness for {village.Name}, Population quartered");
                     village.SubtractPopulation(village.Population * 3 / 4);
                     village.Happiness -= 40;
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 5:
             {
                 var village = GetRandomVillage(empire.Side);
                 if (village == null || empire.Leader == null) return false;
-                UI.MainText.text = $"A number clergy in {village.Name} have expressed concern in the religious fervor of their congregation. They request additional funds to construct a new temple in order to raise their flock’s devotion. What shall be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = "Of course, our religious leaders ask for little and we are glad to help. [500 gold]";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"A number clergy in {village.Name} have expressed concern in the religious fervor of their congregation. They request additional funds to construct a new temple in order to raise their flock’s devotion. What shall be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = "Of course, our religious leaders ask for little and we are glad to help. [500 gold]";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"+25 happiness for {village.Name}");
                     empire.SpendGold(500);
                     village.Happiness += 25;
                 });
-                UI.FirstChoice.interactable = empire.Gold >= 500;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = "Remind the priest that it is their sacred duty to adhere to the needs of the faithful. Not ours. ";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = empire.Gold >= 500;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = "Remind the priest that it is their sacred duty to adhere to the needs of the faithful. Not ours. ";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"-10 happiness for {village.Name}");
                     village.Happiness -= 10;
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"HERETICS? Within our own borders! Inform the priest that there shall be no need to construct a temple. The malcontents shall find the goddess soon enough! She is at the bottom of {empire.Leader.Name}'s gullet!";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"HERETICS? Within our own borders! Inform the priest that there shall be no need to construct a temple. The malcontents shall find the goddess soon enough! She is at the bottom of {empire.Leader.Name}'s gullet!";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"-10 villagers, -40 happiness for village, Hero gains exp");
                     village.SubtractPopulation(10);
@@ -528,24 +528,24 @@ internal class EventList
                     village.Happiness -= 40;
                     GiveExp(empire.Leader, 40, .02f);
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 6:
             {
                 var hostileEmpire = GetRandomHostileEmpire(empire);
                 if (hostileEmpire == null || empire.Leader == null || Config.Diplomacy == false) return false;
-                UI.MainText.text = $"An envoy from the {hostileEmpire.Name} has arrived. They have grown tired and it would seem that they desire peace between {empire.Name} and {hostileEmpire.Name}. While their people as a whole do not particularly care for peace it would seem that {empire.Leader.Name} has become an object of obsession for one of their royal family members. Their greatest desire is to be wed with our leader. What shall be done?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"An alliance between {hostileEmpire.Name} and {empire.Name} would be of great benefit to all parties. Let the wedding commence immediately!";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"An envoy from the {hostileEmpire.Name} has arrived. They have grown tired and it would seem that they desire peace between {empire.Name} and {hostileEmpire.Name}. While their people as a whole do not particularly care for peace it would seem that {empire.Leader.Name} has become an object of obsession for one of their royal family members. Their greatest desire is to be wed with our leader. What shall be done?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"An alliance between {hostileEmpire.Name} and {empire.Name} would be of great benefit to all parties. Let the wedding commence immediately!";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"Alliance declared");
                     RelationsManager.SetAlly(empire, hostileEmpire);
                     RelationsManager.MakeLike(empire, hostileEmpire);
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"We desire an alliance, but {empire.Leader.Name} does not desire to be wed at this time. Perhaps we could work something out?";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"We desire an alliance, but {empire.Leader.Name} does not desire to be wed at this time. Perhaps we could work something out?";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(5) == 0)
                     {
@@ -558,9 +558,9 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"You weren't able to work out a deal");
                     }
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Kill the envoy and send their remains back in whatever form that may take.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Kill the envoy and send their remains back in whatever form that may take.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"They are outraged at your actions, and the spurned lover may seek vengeance");
                     RelationsManager.ArmyAttacked(empire, hostileEmpire);
@@ -574,7 +574,7 @@ internal class EventList
                         village.VillagePopulation.AddHireable(unit);
                     }
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 7:
@@ -588,10 +588,10 @@ internal class EventList
                     village = GetRandomVillage(empire.Side);
                 if (hostileEmpire == null || empire.Leader == null || village == null) return false;
                 int rand = State.Rand.Next(100);
-                UI.MainText.text = $"There is no doubt. Spies from {hostileEmpire.Name} have infiltrated {village.Name}. What shall be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Confront the {hostileEmpire.Name}. Tell them such actions are unacceptable and that they must withdraw their spies immediately.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"There is no doubt. Spies from {hostileEmpire.Name} have infiltrated {village.Name}. What shall be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Confront the {hostileEmpire.Name}. Tell them such actions are unacceptable and that they must withdraw their spies immediately.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     if (rand < 20)
                     {
@@ -603,9 +603,9 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The enemy spies stole {gold} from you");
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Find the spies. It can’t be terribly difficult to find a {hostileEmpire.ReplacedRace} in a cloak.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Find the spies. It can’t be terribly difficult to find a {hostileEmpire.ReplacedRace} in a cloak.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     if (rand < 40)
                     {
@@ -618,9 +618,9 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The enemy spies stole {gold} from you");
                     }
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"There is only one true determiner of innocence. The belly. Consume all high ranking officials. Only the guilty shall fully digest. ";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"There is only one true determiner of innocence. The belly. Consume all high ranking officials. Only the guilty shall fully digest. ";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     if (rand < 90)
                     {
@@ -637,7 +637,7 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"Population decreased by 10, but the spies still stole {gold} from you");
                     }
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
 
@@ -645,9 +645,9 @@ internal class EventList
             {
                 Empire otherEmpire = GetRandomAlliedEmpire(empire);
                 if (otherEmpire == null) return false;
-                UI.MainText.text = $"Our allies, the {otherEmpire.Name} have become upset at our recent actions. It seems their leader’s daughter believes our friendship to be naught but a lie, being used to get closer to their people before we inevitably attempt to gobble up both their territory and people. We have sent envoys to attempt to remedy the situation. What should they do?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Apologize for any possible slights and offer a gift [200 Gold]";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"Our allies, the {otherEmpire.Name} have become upset at our recent actions. It seems their leader’s daughter believes our friendship to be naught but a lie, being used to get closer to their people before we inevitably attempt to gobble up both their territory and people. We have sent envoys to attempt to remedy the situation. What should they do?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Apologize for any possible slights and offer a gift [200 Gold]";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     empire.SpendGold(200);
                     if (State.Rand.Next(10) == 0)
@@ -660,9 +660,9 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"Relations have returned to normal");
                     }
                 });
-                UI.FirstChoice.interactable = empire.Gold >= 200;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Ensure them that our people have no such plans and that the accusations are foolish.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = empire.Gold >= 200;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Ensure them that our people have no such plans and that the accusations are foolish.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(10) == 0)
                     {
@@ -675,9 +675,9 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"They believe you and relations return to normal");
                     }
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"The “Envoys” are in actuality assassins. Curse them that nosey girl for discovering our ruse. Devour her before she can reveal our secrets.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"The “Envoys” are in actuality assassins. Curse them that nosey girl for discovering our ruse. Devour her before she can reveal our secrets.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(2) == 0)
                     {
@@ -690,7 +690,7 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"She was eaten and relations stay the same");
                     }
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
 
@@ -698,9 +698,9 @@ internal class EventList
             {
                 Village village = GetRandomVillage(empire.Side);
                 if (village == null) return false;
-                UI.MainText.text = $"A villager from {village.Name} has apparently been eaten by a local wyvern. A fairly common occurrence in that region as this wyvern has been there for quite some time. The town militia was able to capture the wyvern in its engorged state and had plans of turning it into a war beast. However, the villagers report that the villager is still very much alive within the wyvern’s stomach despite being in there for several days! It seems both the villager and wyvern have interesting properties. What should be done?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Cut the wyvern open immediately and save the villager! Such endurance should serve us well.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"A villager from {village.Name} has apparently been eaten by a local wyvern. A fairly common occurrence in that region as this wyvern has been there for quite some time. The town militia was able to capture the wyvern in its engorged state and had plans of turning it into a war beast. However, the villagers report that the villager is still very much alive within the wyvern’s stomach despite being in there for several days! It seems both the villager and wyvern have interesting properties. What should be done?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Cut the wyvern open immediately and save the villager! Such endurance should serve us well.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     Unit unit = new Unit(empire.Side, village.Race, village.GetStartingXp(), State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
                     unit.ModifyStat(Stat.Endurance, 30);
@@ -708,12 +708,12 @@ internal class EventList
                     village.VillagePopulation.AddHireable(unit);
                     State.GameManager.CreateMessageBox($"{unit.Name} is available for recruitment at {village.Name}, featuring strong endurance and acid immunity");
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Attempting to save the villager is too risky, as is attempting to tame such a dangerous beast. Release the creature and forget the villager.";
-                UI.SecondChoice.onClick.AddListener(() => { });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Fantastic news! Such a long-lived creature will be of great use. Utilize the extra time gained by its stubborn meal to train the beast to fight for us.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Attempting to save the villager is too risky, as is attempting to tame such a dangerous beast. Release the creature and forget the villager.";
+                _ui.SecondChoice.onClick.AddListener(() => { });
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Fantastic news! Such a long-lived creature will be of great use. Utilize the extra time gained by its stubborn meal to train the beast to fight for us.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     Unit unit = new Unit(empire.Side, Race.Wyvern, village.GetStartingXp(), true);
                     unit.AddPermanentTrait(TraitType.IronGut);
@@ -721,17 +721,17 @@ internal class EventList
                     village.VillagePopulation.AddHireable(unit);
                     State.GameManager.CreateMessageBox($"{unit.Name} the wyvern is available for recruitment at {village.Name}");
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 10:
             {
                 Village village = GetRandomVillage(empire.Side);
                 if (village == null) return false;
-                UI.MainText.text = $"News from the province of {village.Name}. It would seem that a traveling \"hero\" known as has devoured the local noble managing the area. The hero attests that the vassal was a petty tyrant whom tormented the local populace. The noble, over the sounds of their own digestion, vehemently denied these accusations with a wobble. What shall be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"The hero did the right thing. Rumors of the vassal’s corruption have long circulated. Applaud the hero and have them join the army.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"News from the province of {village.Name}. It would seem that a traveling \"hero\" known as has devoured the local noble managing the area. The hero attests that the vassal was a petty tyrant whom tormented the local populace. The noble, over the sounds of their own digestion, vehemently denied these accusations with a wobble. What shall be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"The hero did the right thing. Rumors of the vassal’s corruption have long circulated. Applaud the hero and have them join the army.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     var race = GetRandomEmpire(empire).ReplacedRace;
                     Unit unit = new Unit(empire.Side, race, village.GetStartingXp(), State.World.GetEmpireOfRace(race)?.CanVore ?? true);
@@ -741,16 +741,16 @@ internal class EventList
                     State.GameManager.CreateMessageBox($"The {unit.Name} is available for recruitment at {village.Name}, +25 village happiness for {village.Name}");
                     village.Happiness += 25;
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"This is a clear violation of the law. However, the opportunity presented in getting rid of a corrupt vassal is too good to pass up. Arrest the hero, but allow them to keep their meal.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"This is a clear violation of the law. However, the opportunity presented in getting rid of a corrupt vassal is too good to pass up. Arrest the hero, but allow them to keep their meal.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"+5 village happiness for {village.Name}");
                     village.Happiness += 5;
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"We are well aware of that vassal’s corruption. It’s why we put her there. Rescue the noble and have them deal with the hero in front of the entire village. ";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"We are well aware of that vassal’s corruption. It’s why we put her there. Rescue the noble and have them deal with the hero in front of the entire village. ";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     var race = GetRandomEmpire(empire).ReplacedRace;
                     Unit unit = new Unit(empire.Side, race, village.GetStartingXp(), State.World.GetEmpireOfRace(race)?.CanVore ?? true);
@@ -760,7 +760,7 @@ internal class EventList
                     village.Happiness -= 10;
                     village.VillagePopulation.AddHireable(unit);
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 11:
@@ -768,10 +768,10 @@ internal class EventList
                 Village village = GetRandomVillage(empire.Side);
                 var race = GetRandomEmpire(empire).ReplacedRace;
                 if (village == null || empire.CapitalCity == null || !Equals(empire.CapitalCity.Side, empire.Side)) return false;
-                UI.MainText.text = $"A {race} bandit has taken up residence in {village.Name}. They have been devouring the most beautiful women throughout town. What shall be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"We must obviously save the villagers. Send in the guard and deal with this bandit. Save as many villagers as we can!";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"A {race} bandit has taken up residence in {village.Name}. They have been devouring the most beautiful women throughout town. What shall be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"We must obviously save the villagers. Send in the guard and deal with this bandit. Save as many villagers as we can!";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"+10 village happiness, +5 all village happiness, -3 villagers");
                     village.Happiness += 10;
@@ -779,9 +779,9 @@ internal class EventList
                     village.SubtractPopulation(3);
                     village.SetPopulationToAtleastTwo();
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Such a go getter attitude needs to be cultivated, not punished. Invite the bandit to the capital, provide a cart heavy enough to carry her bulging gut.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Such a go getter attitude needs to be cultivated, not punished. Invite the bandit to the capital, provide a cart heavy enough to carry her bulging gut.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     Unit unit = new Unit(empire.Side, race, village.GetStartingXp(), State.World.GetEmpireOfRace(race)?.CanVore ?? true);
                     unit.DigestedUnits = State.Rand.Next(10, 15);
@@ -793,45 +793,45 @@ internal class EventList
                     village.SetPopulationToAtleastTwo();
                     State.GameManager.CreateMessageBox($"-10 village happiness, -5 all village happiness, -10 villagers, {unit.Name} available for recruitment at {empire.CapitalCity.Name}");
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"";
-                UI.ThirdChoice.onClick.AddListener(() => { });
-                UI.ThirdChoice.interactable = false;
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"";
+                _ui.ThirdChoice.onClick.AddListener(() => { });
+                _ui.ThirdChoice.interactable = false;
             }
                 break;
             case 12:
             {
                 Village village = GetRandomVillage(empire.Side);
-                Empire Wolves = State.World.GetEmpireOfRace(Race.Wolf);
-                Empire Bunnies = State.World.GetEmpireOfRace(Race.Bunny);
-                if (village == null || Wolves.VillageCount == 0 || Bunnies.VillageCount == 0) return false;
-                UI.MainText.text = $"Three bunny girls have settled near {village.Name}. Allegedly they have built three houses made of various materials. They have petitioned for aid as a traveling wolf merchant has apparently been bothering the girls with constant soliciting efforts. What shall be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"How terrible! The state must put an end to unwanted solicitation! Inform the wolf merchant to leave immediately and tell the girls their traumatic experience is over.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                Empire wolves = State.World.GetEmpireOfRace(Race.Wolf);
+                Empire bunnies = State.World.GetEmpireOfRace(Race.Bunny);
+                if (village == null || wolves.VillageCount == 0 || bunnies.VillageCount == 0) return false;
+                _ui.MainText.text = $"Three bunny girls have settled near {village.Name}. Allegedly they have built three houses made of various materials. They have petitioned for aid as a traveling wolf merchant has apparently been bothering the girls with constant soliciting efforts. What shall be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"How terrible! The state must put an end to unwanted solicitation! Inform the wolf merchant to leave immediately and tell the girls their traumatic experience is over.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"+10 village happiness, Bunnies like you more, wolves like you less");
                     village.Happiness += 10;
-                    RelationsManager.ChangeRelations(empire, Bunnies, .4f);
-                    RelationsManager.ChangeRelations(empire, Wolves, -.4f);
+                    RelationsManager.ChangeRelations(empire, bunnies, .4f);
+                    RelationsManager.ChangeRelations(empire, wolves, -.4f);
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Inform the bunnies that they have settled without the proper registration permits. Have them pay a settling fee and force the merchant to purchase a trading permit.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Inform the bunnies that they have settled without the proper registration permits. Have them pay a settling fee and force the merchant to purchase a trading permit.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"+400 gold, bunnies like you slightly less");
                     empire.AddGold(400);
-                    RelationsManager.ChangeRelations(empire, Bunnies, -.3f);
+                    RelationsManager.ChangeRelations(empire, bunnies, -.3f);
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"How dare these insolent bunny girls! They make life difficult for a hard working carnivore. Console the poor merchant by tearing down those terrible houses and stuffing the bunny girls into the wolf girl’s gullet. ";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"How dare these insolent bunny girls! They make life difficult for a hard working carnivore. Console the poor merchant by tearing down those terrible houses and stuffing the bunny girls into the wolf girl’s gullet. ";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"bunnies like you significantly less, wolves like you more");
-                    RelationsManager.ChangeRelations(empire, Bunnies, -.8f);
-                    RelationsManager.ChangeRelations(empire, Wolves, .6f);
+                    RelationsManager.ChangeRelations(empire, bunnies, -.8f);
+                    RelationsManager.ChangeRelations(empire, wolves, .6f);
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
 
@@ -839,9 +839,9 @@ internal class EventList
             {
                 Village village = GetRandomVillage(empire.Side);
                 if (village == null) return false;
-                UI.MainText.text = $"One of our scouts has discovered a strange structure. Apparently it is a huge maze that is home to a tribe of Taurus. Legend has it that a great warrior is within this tribe. What shall be done?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Explore the structure and appeal to the Taurus within to join us. Despite the risk to the scout, it’s more than worth it.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"One of our scouts has discovered a strange structure. Apparently it is a huge maze that is home to a tribe of Taurus. Legend has it that a great warrior is within this tribe. What shall be done?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Explore the structure and appeal to the Taurus within to join us. Despite the risk to the scout, it’s more than worth it.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) == 0)
                     {
@@ -855,12 +855,12 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The unit never returned");
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Such an exploration is not worth our time.";
-                UI.SecondChoice.onClick.AddListener(() => { });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Send the warrior into the labyrinth. She is to find the Taurus and put an end to their foul machinations!";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Such an exploration is not worth our time.";
+                _ui.SecondChoice.onClick.AddListener(() => { });
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Send the warrior into the labyrinth. She is to find the Taurus and put an end to their foul machinations!";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) == 0)
                     {
@@ -874,7 +874,7 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The unit never returned");
                     }
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
 
@@ -883,24 +883,24 @@ internal class EventList
                 Village village = empire.CapitalCity;
                 var villages = State.World.Villages.Where(s => Equals(s.Side, empire.Side));
                 if (village == null || !Equals(village.Side, empire.Side) || empire.Leader == null) return false;
-                UI.MainText.text = $"A musician has come to {village.Name}. Their songs are horrendously lewd and bawdy. Most of them center on objectifying and complementing {empire.Leader.Name} body. The city’s aristocracy finds the songs distasteful and want the bard to leave. What shall be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Remove the bard from {village.Name}. There is no need to listen to such uncultured music.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"A musician has come to {village.Name}. Their songs are horrendously lewd and bawdy. Most of them center on objectifying and complementing {empire.Leader.Name} body. The city’s aristocracy finds the songs distasteful and want the bard to leave. What shall be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Remove the bard from {village.Name}. There is no need to listen to such uncultured music.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"Capital +25 happiness");
                     village.Happiness += 25;
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"There is no need to concern ourselves with this situation. Charge the bard a fee for their poor choice of lyrics.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"There is no need to concern ourselves with this situation. Charge the bard a fee for their poor choice of lyrics.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"Gained 100 gold");
                     empire.AddGold(100);
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Distasteful? Have the aristocrats insulting the bard’s music fed to {empire.Leader.Name}. It’s about time people started appreciating just how beautiful {empire.Leader.Name} is! Spread the songs throughout the nation!";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Distasteful? Have the aristocrats insulting the bard’s music fed to {empire.Leader.Name}. It’s about time people started appreciating just how beautiful {empire.Leader.Name} is! Spread the songs throughout the nation!";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     GiveExp(empire.Leader, 75, .04f);
                     State.GameManager.CreateMessageBox($"Capital -20 happiness, all villages -5 happiness, leader gains exp ");
@@ -910,17 +910,17 @@ internal class EventList
                         vill.Happiness -= 5;
                     }
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 15:
             {
                 Village village = GetRandomVillage(empire.Side);
                 if (village == null) return false;
-                UI.MainText.text = $"Word has come in from {village.Name}. It would appear that an individual Tiger has moved into the nearby wilderness. The villagers are worried and already has several missing person reports. What shall be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Let’s not jump to conclusions. Perhaps this is all a misunderstanding. Surely predator and prey can live alongside one another!";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"Word has come in from {village.Name}. It would appear that an individual Tiger has moved into the nearby wilderness. The villagers are worried and already has several missing person reports. What shall be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Let’s not jump to conclusions. Perhaps this is all a misunderstanding. Surely predator and prey can live alongside one another!";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(8) == 0)
                     {
@@ -935,9 +935,9 @@ internal class EventList
                         village.SetPopulationToAtleastTwo();
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"We aren’t savages, but neither are we fools. Demand the predator register with the local authorities or leave the area.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"We aren’t savages, but neither are we fools. Demand the predator register with the local authorities or leave the area.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) == 0)
                     {
@@ -951,14 +951,14 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"Things have quieted down at {village.Name}");
                     }
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Suffer not the predator to live. Find the monster’s dwelling and burn it to the ground.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Suffer not the predator to live. Find the monster’s dwelling and burn it to the ground.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"Village +10 happiness");
                     village.Happiness += 10;
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
 
@@ -966,9 +966,9 @@ internal class EventList
             {
                 Empire otherEmpire = GetRandomEmpire(empire);
                 if (otherEmpire == null || empire.Leader == null || Config.Diplomacy == false) return false;
-                UI.MainText.text = $"A recent diplomatic event between our nation and the {otherEmpire.Name} has been going very well! It seems that good relations are likely! Well, were likely. One thing apparently led to another and the chief {otherEmpire.ReplacedRace} envoy is now sitting at the bottom of {empire.Leader.Name}'s gut! What shall be done!";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"It was an accident! They’ve already gone soft so we must apologize profusely and hope they understand the situation!";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"A recent diplomatic event between our nation and the {otherEmpire.Name} has been going very well! It seems that good relations are likely! Well, were likely. One thing apparently led to another and the chief {otherEmpire.ReplacedRace} envoy is now sitting at the bottom of {empire.Leader.Name}'s gut! What shall be done!";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"It was an accident! They’ve already gone soft so we must apologize profusely and hope they understand the situation!";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(2) == 0)
                     {
@@ -981,9 +981,9 @@ internal class EventList
                         RelationsManager.ChangeRelations(empire, otherEmpire, -.8f);
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Cover up the embarrassing event. Hide our gluttonous leader from the delegation until they can fully digest their meal.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Cover up the embarrassing event. Hide our gluttonous leader from the delegation until they can fully digest their meal.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(2) == 0)
                     {
@@ -995,14 +995,14 @@ internal class EventList
                         RelationsManager.MakeHate(empire, otherEmpire);
                     }
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"By the Goddess! These people are DELICIOUS! How could we not see this earlier? Devour the rest of the delegation and prepare the army for vore! I mean war! Both? Both.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"By the Goddess! These people are DELICIOUS! How could we not see this earlier? Devour the rest of the delegation and prepare the army for vore! I mean war! Both? Both.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"Obviously, this means war");
                     RelationsManager.MakeHate(empire, otherEmpire);
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 17:
@@ -1021,26 +1021,26 @@ internal class EventList
 
                 if (otherEmpire2 == empire) return false;
                 if (otherEmpire2 == null || empire.Leader == null || Config.Diplomacy == false || Config.LockedAIRelations) return false;
-                UI.MainText.text = $"We have received a request from the {otherEmpire.Name}. It seems that they have been unable to deal the deathblow to their hated rivals, the {otherEmpire2.Name}. They desire our aid and wish for us to kill their leader for them. Funnily enough, the {otherEmpire2.Name} has sent us a similar request. What shall be done?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Side with the {otherEmpire.Name}";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"We have received a request from the {otherEmpire.Name}. It seems that they have been unable to deal the deathblow to their hated rivals, the {otherEmpire2.Name}. They desire our aid and wish for us to kill their leader for them. Funnily enough, the {otherEmpire2.Name} has sent us a similar request. What shall be done?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Side with the {otherEmpire.Name}";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"You are now at war with the {otherEmpire2.Name} and allied with the {otherEmpire.Name}");
                     RelationsManager.MakeHate(empire, otherEmpire2);
                     RelationsManager.MakeLike(empire, otherEmpire);
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Side with the {otherEmpire2.Name}";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Side with the {otherEmpire2.Name}";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"You are now at war with the {otherEmpire.Name} and allied with the {otherEmpire2.Name}");
                     RelationsManager.MakeLike(empire, otherEmpire2);
                     RelationsManager.MakeHate(empire, otherEmpire);
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Refuse to interfere";
-                UI.ThirdChoice.onClick.AddListener(() => { State.GameManager.CreateMessageBox($"There is no change in your relations with either empire"); });
-                UI.ThirdChoice.interactable = true;
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Refuse to interfere";
+                _ui.ThirdChoice.onClick.AddListener(() => { State.GameManager.CreateMessageBox($"There is no change in your relations with either empire"); });
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 18:
@@ -1048,10 +1048,10 @@ internal class EventList
                 Village village = GetRandomVillage(empire.Side);
 
                 if (village == null) return false;
-                UI.MainText.text = $"A group of our warriors were passing through {village.Name} when a local woman asked our troops to find a thief that’s been stealing animals from her corral. Her prized stud has gone missing only recently so she knows the thief is nearby. Our troops agree and search the nearby woods. In no time they begin to hear distressed mewling following the source, they eventually find a young woman, her gut finishing off the prized stud just as our troops arrive. Once apprehended, the young woman explains she's been starving out in the woods. What should be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"She may be inexperienced but the fact that she was able to devour a beast whole means they’ll become a fine warrior. Pay the cattle owner for damages and employ the thief as a warrior.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"A group of our warriors were passing through {village.Name} when a local woman asked our troops to find a thief that’s been stealing animals from her corral. Her prized stud has gone missing only recently so she knows the thief is nearby. Our troops agree and search the nearby woods. In no time they begin to hear distressed mewling following the source, they eventually find a young woman, her gut finishing off the prized stud just as our troops arrive. Once apprehended, the young woman explains she's been starving out in the woods. What should be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"She may be inexperienced but the fact that she was able to devour a beast whole means they’ll become a fine warrior. Pay the cattle owner for damages and employ the thief as a warrior.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     Unit unit = new Unit(empire.Side, Race.Fox, village.GetStartingXp(), true, immuneToDefectons: true)
                     {
@@ -1065,21 +1065,21 @@ internal class EventList
                     village.VillagePopulation.AddHireable(unit);
                     State.GameManager.CreateMessageBox($"{unit.Name} is greatly appreciative for our leniency, she swears to serve our empire until her dying breath.");
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Reprimand the troops for interfering in local affairs. This is an issue for the local magistrates and nobility. Hand the girl over to them.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Reprimand the troops for interfering in local affairs. This is an issue for the local magistrates and nobility. Hand the girl over to them.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"After our soldiers hand over the girl the town authorities bumble the situation up and allow her to escape. The cattle thief will likely return to her thieving ways shortly. (-10 village happiness)");
                     village.Happiness -= 10;
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"There is only one punishment for cattle rustling. Return to the corral owner and offer the thief to her.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"There is only one punishment for cattle rustling. Return to the corral owner and offer the thief to her.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"The coral owner pats her engorged tummy as it digest the young girl. “I appreciate you finding this scrumptious morsel, my herd will be a lot safer now. That she’s, *Urrrp*” the coral owner sooths her struggling tummy, “gurgling away. Here’s some money I saved up. Consider it a payment for the meal!” (100 gold received) ");
                     empire.AddGold(100);
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 19:
@@ -1087,9 +1087,9 @@ internal class EventList
                 Empire otherEmpire = GetRandomEmpire(empire);
 
                 if (otherEmpire == null) return false;
-                UI.MainText.text = $"The meeting room is silent aside from a loud sloshing as the {otherEmpire.ReplacedRace} envoy waddles into the court with their entourage. Their stomach is ludicrously swollen and full of various court servants. In an impressive power play, the envoy plans to negotiate with {empire.ReplacedRace} meat surging through their intestines. The statement is clear. What shall be done? ";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Demand that the envoy let their prey go. We shall not suffer our people to end up as pudge. ";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"The meeting room is silent aside from a loud sloshing as the {otherEmpire.ReplacedRace} envoy waddles into the court with their entourage. Their stomach is ludicrously swollen and full of various court servants. In an impressive power play, the envoy plans to negotiate with {empire.ReplacedRace} meat surging through their intestines. The statement is clear. What shall be done? ";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Demand that the envoy let their prey go. We shall not suffer our people to end up as pudge. ";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) == 0)
                     {
@@ -1103,17 +1103,17 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The envoy yawns and idly squeezes their squirming tummy as it digests. “The prey filling my gut is just that, PREY. They have no chance of escaping my belly. Asides, this is the natural state of your kind. A meal for us!”");
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"The negotiations must continue. The lives of some meagre servants is nothing compared to the safety of our nation.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"The negotiations must continue. The lives of some meagre servants is nothing compared to the safety of our nation.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"Our negotiators are distracted by the screams for help as the {otherEmpire.ReplacedRace} envoy’s belly melts them away. By the end of the talks it is clear they’ve had the better of us and the rival envoy’s outfit can barely contain their new layers of fat.");
                     RelationsManager.ChangeRelations(empire, otherEmpire, 1);
                     RelationsManager.ChangeRelations(otherEmpire, empire, -1);
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Our people are not weak willed. Before their envoy can even sit down our lead negotiator pounces their envoy and quickly swallows them whole.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Our people are not weak willed. Before their envoy can even sit down our lead negotiator pounces their envoy and quickly swallows them whole.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(5) == 0)
                     {
@@ -1128,7 +1128,7 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The envoy’s entourage attempts to save their leader but quickly find themselves in tummy prisons of their own as our guards step in. The envoy’s party is digested in short order and their empire denounces us for eating their diplomats. While the encounter may have experienced their relations with us, our pudgy negotiators report that {otherEmpire.ReplacedRace} are even more delicious than previously thought!");
                     }
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 20:
@@ -1136,23 +1136,23 @@ internal class EventList
                 {
                     Village village = empire.CapitalCity;
                     if (village == null || !Equals(village.Side, empire.Side)) return false;
-                    UI.MainText.text = $"An eccentric noble woman renowned for her beauty and wealth has opened up a grand tournament to select her next mate as the last one mysteriously became a layer of fat on her bosom. As such she has no desire for another weak partner and in order to gain a more stable relationship has spread word of this event across the empire. Single men and women across our nation rally to partake. How does the event pan out?";
-                    UI.FirstChoice.GetComponentInChildren<Text>().text = $"The event goes off without a hitch.";
-                    UI.FirstChoice.onClick.AddListener(() =>
+                    _ui.MainText.text = $"An eccentric noble woman renowned for her beauty and wealth has opened up a grand tournament to select her next mate as the last one mysteriously became a layer of fat on her bosom. As such she has no desire for another weak partner and in order to gain a more stable relationship has spread word of this event across the empire. Single men and women across our nation rally to partake. How does the event pan out?";
+                    _ui.FirstChoice.GetComponentInChildren<Text>().text = $"The event goes off without a hitch.";
+                    _ui.FirstChoice.onClick.AddListener(() =>
                     {
                         ChangeAllVillageHappiness(empire, 10);
                         State.GameManager.CreateMessageBox($"The noble lady finds a mate strong enough to survive her gluttonous desires and the empire celebrates the union. Many expect an heir both strong and voracious to come from the union.");
                     });
-                    UI.FirstChoice.interactable = true;
-                    UI.SecondChoice.GetComponentInChildren<Text>().text = $"None of the participants are suitable partners but the revenue from the event fills our coffers.";
-                    UI.SecondChoice.onClick.AddListener(() =>
+                    _ui.FirstChoice.interactable = true;
+                    _ui.SecondChoice.GetComponentInChildren<Text>().text = $"None of the participants are suitable partners but the revenue from the event fills our coffers.";
+                    _ui.SecondChoice.onClick.AddListener(() =>
                     {
                         State.GameManager.CreateMessageBox($"The participants that partake are either too meek or simply not beautiful enough to match the noble lady’s desires. As such none win her hand. However, the trade and fees generated from the event benefit the empire’s treasury. ");
                         empire.AddGold(500);
                     });
-                    UI.SecondChoice.interactable = true;
-                    UI.ThirdChoice.GetComponentInChildren<Text>().text = $"It was all a delicious ruse!";
-                    UI.ThirdChoice.onClick.AddListener(() =>
+                    _ui.SecondChoice.interactable = true;
+                    _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"It was all a delicious ruse!";
+                    _ui.ThirdChoice.onClick.AddListener(() =>
                     {
                         State.GameManager.CreateMessageBox($"As the tournament proceeded each defeated opponent would mysteriously vanish and the noble lady’s waistline miraculously expand. The winner, bloody and beaten by the contest’s end stood no chance against the voracious noble and soon joined the other contestants in the pit of her stomach! The clever noble has arrived in the capital and has offered her services to our army in an attempt to sate her ravenous hunger!");
                         Unit unit = new Unit(empire.Side, village.Race, village.GetStartingXp(), State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
@@ -1160,29 +1160,29 @@ internal class EventList
                         unit.AddPermanentTrait(TraitType.Clever);
                         village.VillagePopulation.AddHireable(unit);
                     });
-                    UI.ThirdChoice.interactable = true;
+                    _ui.ThirdChoice.interactable = true;
                 }
                 else
                 {
                     Village village = empire.CapitalCity;
                     if (village == null || !Equals(village.Side, empire.Side)) return false;
-                    UI.MainText.text = $"An eccentric noble man renowned for his beauty and wealth has opened up a grand tournament to select his next mate as the last one mysteriously became a layer of fat on his ass. As such he has no desire for another weak partner and in order to gain a more stable relationship has spread word of this event across the empire. Single men and women across our nation rally to partake. How does the event pan out?";
-                    UI.FirstChoice.GetComponentInChildren<Text>().text = $"The event goes off without a hitch.";
-                    UI.FirstChoice.onClick.AddListener(() =>
+                    _ui.MainText.text = $"An eccentric noble man renowned for his beauty and wealth has opened up a grand tournament to select his next mate as the last one mysteriously became a layer of fat on his ass. As such he has no desire for another weak partner and in order to gain a more stable relationship has spread word of this event across the empire. Single men and women across our nation rally to partake. How does the event pan out?";
+                    _ui.FirstChoice.GetComponentInChildren<Text>().text = $"The event goes off without a hitch.";
+                    _ui.FirstChoice.onClick.AddListener(() =>
                     {
                         ChangeAllVillageHappiness(empire, 5);
                         State.GameManager.CreateMessageBox($"The noble man finds a mate strong enough to survive his gluttonous desires and the empire celebrates the union. Many expect an heir both strong and voracious to come from the union.");
                     });
-                    UI.FirstChoice.interactable = true;
-                    UI.SecondChoice.GetComponentInChildren<Text>().text = $"None of the participants are suitable partners but the revenue from the event fills our coffers.";
-                    UI.SecondChoice.onClick.AddListener(() =>
+                    _ui.FirstChoice.interactable = true;
+                    _ui.SecondChoice.GetComponentInChildren<Text>().text = $"None of the participants are suitable partners but the revenue from the event fills our coffers.";
+                    _ui.SecondChoice.onClick.AddListener(() =>
                     {
                         State.GameManager.CreateMessageBox($"The participants that partake are either too meek or simply not beautiful enough to match the noble man’s desires. As such none win his hand. However, the trade and fees generated from the event benefit the empire’s treasury. ");
                         empire.AddGold(500);
                     });
-                    UI.SecondChoice.interactable = true;
-                    UI.ThirdChoice.GetComponentInChildren<Text>().text = $"It was all a delicious ruse!";
-                    UI.ThirdChoice.onClick.AddListener(() =>
+                    _ui.SecondChoice.interactable = true;
+                    _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"It was all a delicious ruse!";
+                    _ui.ThirdChoice.onClick.AddListener(() =>
                     {
                         State.GameManager.CreateMessageBox($"As the tournament proceeded each defeated opponent would mysteriously vanish and the noble man’s waistline miraculously expand. The winner, bloody and beaten by the contest’s end stood no chance against the voracious noble and soon joined the other contestants in the pit of his stomach! The clever noble has arrived in the capital and has offered his services to our army in an attempt to sate his ravenous hunger!");
                         Unit unit = new Unit(empire.Side, village.Race, village.GetStartingXp(), State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
@@ -1190,7 +1190,7 @@ internal class EventList
                         unit.AddPermanentTrait(TraitType.Clever);
                         village.VillagePopulation.AddHireable(unit);
                     });
-                    UI.ThirdChoice.interactable = true;
+                    _ui.ThirdChoice.interactable = true;
                 }
 
                 break;
@@ -1200,9 +1200,9 @@ internal class EventList
                 Empire otherEmpire = GetRandomEmpire(empire);
                 Village village = GetRandomVillage(empire.Side);
                 if (otherEmpire == null || village == null) return false;
-                UI.MainText.text = $"Our border guards have come across a pudgy assailant attempting to enter our empire. After arresting them they share their story. It seems they’re from {otherEmpire.Name} lands and that they’re being hunted down by a noble family there. It would seem they, in a fit of anger and hunger, swallowed and digested the noble family’s matriarch for marrying and then eating their brother. The assailant asks for asylum in our country. What should be done?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Offer asylum. Corrupt nobles cannot be allowed to do as they please, no matter the country.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"Our border guards have come across a pudgy assailant attempting to enter our empire. After arresting them they share their story. It seems they’re from {otherEmpire.Name} lands and that they’re being hunted down by a noble family there. It would seem they, in a fit of anger and hunger, swallowed and digested the noble family’s matriarch for marrying and then eating their brother. The assailant asks for asylum in our country. What should be done?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Offer asylum. Corrupt nobles cannot be allowed to do as they please, no matter the country.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"The asylum seeker, grateful for our protection, has decided to take up arms in our name. However, the {otherEmpire.Name} noble house has sworn to take revenge for this slight and have used their influence to sway their government against us.");
                     RelationsManager.ChangeRelations(empire, otherEmpire, -1.75f);
@@ -1210,26 +1210,26 @@ internal class EventList
                     unit.AddPermanentTrait(TraitType.StrongGullet);
                     village.VillagePopulation.AddHireable(unit);
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Deny entry. This matter is not our concern and we won’t involve ourselves.";
-                UI.SecondChoice.onClick.AddListener(() => { State.GameManager.CreateMessageBox($"The asylum seeker flees our border in hopes of avoiding those hunting them and starts heading towards another nation."); });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Arrest the asylum seeker and hand them over to the noble house.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Deny entry. This matter is not our concern and we won’t involve ourselves.";
+                _ui.SecondChoice.onClick.AddListener(() => { State.GameManager.CreateMessageBox($"The asylum seeker flees our border in hopes of avoiding those hunting them and starts heading towards another nation."); });
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Arrest the asylum seeker and hand them over to the noble house.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"It doesn’t take long before the noble house’s search parties arrive. They thank our guards for the apprehension of this criminal and a noble from the house devours them in short order. They waddle back into their country and inform their government of our assistance in this matter, painting us in a positive light.");
                     RelationsManager.ChangeRelations(empire, otherEmpire, 1.25f);
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 22:
             {
                 Empire otherEmpire = GetRandomEmpire(empire);
                 if (otherEmpire == null) return false;
-                UI.MainText.text = $"Our most recent diplomatic endeavor with the {otherEmpire.Name} has become strained with the most recent talk ending with a bulging gut and digesting ambassador. Escalation of tensions seemed inevitable. However, in a surprise move, the lead negotiator of the opposing nation has sent their mother to our camp. The middle aged woman is extravagant to a fault and her attitude is overbearing. Her motherly figure clad in gaudy trinkets and overly-tight clothes. We are uncertain how to deal with this strange political maneuver. What shall be done?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"We shall treat her as we would our own mother. Lavish the woman in compliments and gifts.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"Our most recent diplomatic endeavor with the {otherEmpire.Name} has become strained with the most recent talk ending with a bulging gut and digesting ambassador. Escalation of tensions seemed inevitable. However, in a surprise move, the lead negotiator of the opposing nation has sent their mother to our camp. The middle aged woman is extravagant to a fault and her attitude is overbearing. Her motherly figure clad in gaudy trinkets and overly-tight clothes. We are uncertain how to deal with this strange political maneuver. What shall be done?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"We shall treat her as we would our own mother. Lavish the woman in compliments and gifts.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) != 0)
                     {
@@ -1243,9 +1243,9 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"After a few days of pampering the maternal envoy she begins to idly muse that she never wanted to leave. This was thought to be a simple complement to our hospitality at first however it has become clear that the woman very much means what she’s been saying and intends to join our nation thus forsaking her country and her children.  This has slightly damaged relations with the {otherEmpire.Name}.");
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Tolerate this strange maneuver. Treat the woman as we would any other envoy.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Tolerate this strange maneuver. Treat the woman as we would any other envoy.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(5) != 0)
                     {
@@ -1261,24 +1261,24 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"As she stays within our royal suite, the woman’s ensemble becomes more and more extravagant and priceless jewels begin to disappear. This however is nothing compared to the cost of her bottomless diet. It would seem to maintain her bodacious, motherly curves the woman quite literally eats her own weight in food each day. \nThe entire affair seems less like a diplomatic mission and more like a well - planned burglary.While this may have been disastrous to our finances, the {otherEmpire.Name} at least seem pleased. ");
                     }
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"This is simply too much to bear. Not only have they insulted us by sending an untrained envoy, the woman is grating and far too annoying. Have her brought before the senior most official and devour her!";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"This is simply too much to bear. Not only have they insulted us by sending an untrained envoy, the woman is grating and far too annoying. Have her brought before the senior most official and devour her!";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     State.GameManager.CreateMessageBox($"Between her flabby curves and multitude of trinkets, swallowing the rude guest proves difficult for our official. However with the help of their fellow diplomats the massive ass is pushed past the lips.  \nOur senior official, awaiting a furious response from the {otherEmpire.Name} party on account of the diplomatic incident of a meal, finds with surprise that the other group is not entirely put out by the affair.In fact, a sizable payment of gratitude arrives from the digesting mother’s offspring. It seems she was not a very good mother. While relations are damaged somewhat it certainly could have been worse.");
                     empire.AddGold(1000);
                     RelationsManager.ChangeRelations(empire, otherEmpire, -.45f);
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 23:
             {
                 Empire otherEmpire = GetRandomEmpire(empire);
                 if (otherEmpire == null) return false;
-                UI.MainText.text = $"One of our top infiltrators have been able to ingratiate themselves with the {otherEmpire.Name} elites. Through this we’ve been made aware that a local magistrate that’s staying in the capital has been embezzling state finances and keeping this ill-begotten fortune spread throughout their rural fief. This corrupt official assuredly knows where the treasure is but in order to interrogate them we must first smuggle them out of the capital. What shall our infiltrator do?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Reveal themselves to the local peacekeepers and make them aware of the situation we’ve uncovered.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"One of our top infiltrators have been able to ingratiate themselves with the {otherEmpire.Name} elites. Through this we’ve been made aware that a local magistrate that’s staying in the capital has been embezzling state finances and keeping this ill-begotten fortune spread throughout their rural fief. This corrupt official assuredly knows where the treasure is but in order to interrogate them we must first smuggle them out of the capital. What shall our infiltrator do?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Reveal themselves to the local peacekeepers and make them aware of the situation we’ve uncovered.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) != 0)
                     {
@@ -1296,12 +1296,12 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"After being informed to reveal themselves to the {otherEmpire.Name} authorities communications with our infiltrator go dark. Several days later we receive a package containing the partially digested skull of our agent. It would seem that our neighbors wish us to have no illusions to the fate of spies.");
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Take no further action on the matter.";
-                UI.SecondChoice.onClick.AddListener(() => { State.GameManager.CreateMessageBox($"Meddling with their internal affairs, no matter how lucrative, is far too dangerous. Best to play it safe."); });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"That treasure must be ours! Order our infiltrator to smuggle the magistrate out of the city within their belly.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Take no further action on the matter.";
+                _ui.SecondChoice.onClick.AddListener(() => { State.GameManager.CreateMessageBox($"Meddling with their internal affairs, no matter how lucrative, is far too dangerous. Best to play it safe."); });
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"That treasure must be ours! Order our infiltrator to smuggle the magistrate out of the city within their belly.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) == 0)
                     {
@@ -1314,16 +1314,16 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"Swallowing the magistrate proved surprisingly easy for our infiltrator. Their meal even seemed docile within their belly as they waddled towards the city’s gate. However, as the city guards interrogated our agent their bulging midsection suddenly came to life, screaming and thrashing wildly. It didn’t take long for the soldiers to realize what was going on. \nOur agent attempted to flee but due to their widened form got stuck between two parked carts.The guards promptly split our agent open and freed the magistrate.Needless to say, the {otherEmpire.Name} is less than pleased to find one of our people attempting to kidnap one of their powerful elites.");
                     }
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 24:
             {
                 Empire otherEmpire = GetRandomEmpire(empire);
                 if (otherEmpire == null) return false;
-                UI.MainText.text = $"A powerful noble family within the {otherEmpire.Name} controls a staggering 1/5th of their territory. This house is traditionally a force of stability within the nation. However, with the recent death of the family head the myriad of scions to the house have begun squabbling over land rights. What shall be done?";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Encourage cooperation between the scions. Stability is crucial for our plans in the region.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"A powerful noble family within the {otherEmpire.Name} controls a staggering 1/5th of their territory. This house is traditionally a force of stability within the nation. However, with the recent death of the family head the myriad of scions to the house have begun squabbling over land rights. What shall be done?";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Encourage cooperation between the scions. Stability is crucial for our plans in the region.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(5) != 0)
                     {
@@ -1340,9 +1340,9 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"Our attempts to intercede have been mistakenly interpreted as an aggressive maneuver to take over the house’s territory. The scions immediately rally under the leadership of their most martial sibling and begin pressuring their state to wage war against us.  \nWhile not what we wanted, the schism seems unlikely now.");
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Let the savages do as they will. This does not affect us.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Let the savages do as they will. This does not affect us.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) != 0)
                     {
@@ -1362,9 +1362,9 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"The struggle across the border proves contagious. As the powerful {otherEmpire.Name} family tears itself apart, many of our own powerful elites begin to take notice. Some have become enticed to begin coups of their own against their betters. While the situation is currently being handled, should it be exacerbated our nation may find itself in trouble.");
                     }
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Finally, an opportunity to weaken those arrogant creatures. Inform all of our agents within their borders to work on exacerbating the conflict.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Finally, an opportunity to weaken those arrogant creatures. Inform all of our agents within their borders to work on exacerbating the conflict.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     if (State.Rand.Next(3) == 0)
                     {
@@ -1385,26 +1385,26 @@ internal class EventList
                         State.GameManager.CreateMessageBox($"Sadly, it appears the reports of struggle within the family has proven highly inflated. As such our agents have done little more than spend money in vain and antagonized the {otherEmpire.Name} government for attempting to promote a rebellion within their borders.");
                     }
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 25:
             {
                 Village village = GetRandomVillage(empire.Side);
                 if (village == null) return false;
-                UI.MainText.text = $"Two events have transpired within a suspiciously narrow timeframe. First, a surge of reports have been come in from across the empire of missing merchants and villagers. Around the same time a large group of fox “mercenaries” has appeared. Our advisory council believes these mercenaries have likely been ravaging the countryside. What shall be done?";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Stand with our people. Call out these criminals for what they are! Bandits! Demand they leave immediately.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"Two events have transpired within a suspiciously narrow timeframe. First, a surge of reports have been come in from across the empire of missing merchants and villagers. Around the same time a large group of fox “mercenaries” has appeared. Our advisory council believes these mercenaries have likely been ravaging the countryside. What shall be done?";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Stand with our people. Call out these criminals for what they are! Bandits! Demand they leave immediately.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     ChangeAllVillageHappiness(empire, 15);
                     CreateBandits(RebelDifficulty.Easy, village, Race.Fox);
                     CreateBandits(RebelDifficulty.Easy, village, Race.Fox);
                     State.GameManager.CreateMessageBox($"The people are pleased with the decision to rid our lands of the marauders. However, the mercenaries have refused to leave and have gathered their army near {village.Name}. They threaten to seize the town unless we act quickly.");
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Ignore the situation. The damage is minor and dealing with these mercenaries will prove too costly.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Ignore the situation. The damage is minor and dealing with these mercenaries will prove too costly.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     ChangeAllVillageHappiness(empire, -10);
                     foreach (Village vill in State.World.Villages.Where(s => Equals(s.Side, empire.Side)))
@@ -1415,9 +1415,9 @@ internal class EventList
 
                     State.GameManager.CreateMessageBox($"As the mercenaries cross our territory more and more reports of missing citizens pour in. The mercenaries after eating their fill of our people move on to the next nation.");
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Our army could use such voracious troops. Buy up their contract and send them to the front line. [500 Gold]";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Our army could use such voracious troops. Buy up their contract and send them to the front line. [500 Gold]";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     ChangeAllVillageHappiness(empire, -5);
                     empire.SpendGold(500);
@@ -1431,17 +1431,17 @@ internal class EventList
 
                     State.GameManager.CreateMessageBox($"The mercenaries are glad to take our coin to fight our enemies. Our civilians however are outraged that the gluttonous criminals have been brought into our prestigious army instead of being punished as they rightfully should have. (available at {village.Name})");
                 });
-                UI.ThirdChoice.interactable = empire.Gold >= 500;
+                _ui.ThirdChoice.interactable = empire.Gold >= 500;
             }
                 break;
             case 26:
             {
                 Village village = GetRandomVillage(empire.Side);
                 if (village == null) return false;
-                UI.MainText.text = $"{village.Name} has reportedly been suffering mysterious dissapearances, the cause unknown until now. A large feral wolf has taken up residence nearby, and has been feeding on the locals, having been found with a stomach working away at the remains of two innocents, far beyond saving. The people of {village.Name} call for action, should we mobilise the local garrison to deal with the issue, or should we try and gain this beasts favour with a meal? It voracity would certainly prove useful, but such a large beast is not easily tempted.";
-                UI.MainText.text += AddVillageInfo(village);
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Suffer not this beast, slay it and bring justice to the names of those it has already devoured.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"{village.Name} has reportedly been suffering mysterious dissapearances, the cause unknown until now. A large feral wolf has taken up residence nearby, and has been feeding on the locals, having been found with a stomach working away at the remains of two innocents, far beyond saving. The people of {village.Name} call for action, should we mobilise the local garrison to deal with the issue, or should we try and gain this beasts favour with a meal? It voracity would certainly prove useful, but such a large beast is not easily tempted.";
+                _ui.MainText.text += AddVillageInfo(village);
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Suffer not this beast, slay it and bring justice to the names of those it has already devoured.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     {
                         State.GameManager.CreateMessageBox($"The sizable canid has devoured the entire garrison with relative ease, snapping up and gulping down each and every soldier, one by one. It's gurgling stomach heard from nearby over the entire night. At sunrise, it pads out of its domicile, fattened up generously by its latest meal, and it heads off for less fattening lands. Whilst there was a grevious loss, at least the beast was driven away.");
@@ -1456,9 +1456,9 @@ internal class EventList
                         village.Happiness -= 10;
                     }
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"Such a matter is beneath you. Ignore their cries for help and attend to more important matters";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"Such a matter is beneath you. Ignore their cries for help and attend to more important matters";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     village.SubtractPopulation(20);
                     village.SetPopulationToAtleastTwo();
@@ -1467,9 +1467,9 @@ internal class EventList
                     CreateRebels(RebelDifficulty.Easy, village);
                     State.GameManager.CreateMessageBox($"{village.Name} is left to be ravaged by the hungers of the local giant. It gorges itself on the locals, has its fill, and eventually leaves to sample the flavours of other nations. Your inactivity speaks volumes and the people are raising up in arms due to your lack of compassion, or what's left of them anyway.");
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"Such a fine example of voracity would make a fine war beast! Round up some civilians to sacrifice as a grand feast to earn the wolf's favour.";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"Such a fine example of voracity would make a fine war beast! Round up some civilians to sacrifice as a grand feast to earn the wolf's favour.";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     Unit unit = new Unit(empire.Side, Race.FeralWolve, village.GetStartingXp() * 3, true);
                     unit.AddPermanentTrait(TraitType.Large);
@@ -1482,7 +1482,7 @@ internal class EventList
                     village.Happiness -= 40;
                     State.GameManager.CreateMessageBox($"{unit.Name} the feral wolf is available for recruitment at {village.Name} after gorging itself to immobility on the sacrificed villagers. Whilst the people look at such an act with much distaste, adding such a powerful beast to our ranks will surely pay off with time.");
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             case 27:
@@ -1617,16 +1617,16 @@ internal class EventList
             {
                 Village village = GetRandomVillage(empire.Side);
                 if (village == null) return false;
-                UI.MainText.text = $"A patron of a local alchemist store was surprised to find that the cheerful clerk had been replaced with a small group of ineffective kobolds. The customer was extremely dissatisfied with the service and went looking for the store owner in the back. Instead of the kangaroo she instead found a very bloated kobold and the muffled voice of the alchemist calling out for help. The kobold has been aprehended but we're unsure as to the appropriate action to take on predatory business aquisitions.";
-                UI.FirstChoice.GetComponentInChildren<Text>().text = $"Free the alchemist and send the kobold to whatever doom they may have earned.";
-                UI.FirstChoice.onClick.AddListener(() =>
+                _ui.MainText.text = $"A patron of a local alchemist store was surprised to find that the cheerful clerk had been replaced with a small group of ineffective kobolds. The customer was extremely dissatisfied with the service and went looking for the store owner in the back. Instead of the kangaroo she instead found a very bloated kobold and the muffled voice of the alchemist calling out for help. The kobold has been aprehended but we're unsure as to the appropriate action to take on predatory business aquisitions.";
+                _ui.FirstChoice.GetComponentInChildren<Text>().text = $"Free the alchemist and send the kobold to whatever doom they may have earned.";
+                _ui.FirstChoice.onClick.AddListener(() =>
                 {
                     village.Happiness += 20;
                     State.GameManager.CreateMessageBox($"The soft and partially digested alchemist is extremely greatful to not be kobold pudge. He returns home and the {village.Name} is pleased with your decision.");
                 });
-                UI.FirstChoice.interactable = true;
-                UI.SecondChoice.GetComponentInChildren<Text>().text = $"As long as the kobold pays taxes on the property exchange it's not our business how they deal with the competition.";
-                UI.SecondChoice.onClick.AddListener(() =>
+                _ui.FirstChoice.interactable = true;
+                _ui.SecondChoice.GetComponentInChildren<Text>().text = $"As long as the kobold pays taxes on the property exchange it's not our business how they deal with the competition.";
+                _ui.SecondChoice.onClick.AddListener(() =>
                 {
                     Unit unit = new Unit(empire.Side, Race.Terrorbird, village.GetStartingXp(), true);
                     unit.AddPermanentTrait(TraitType.IronGut);
@@ -1640,9 +1640,9 @@ internal class EventList
                     empire.AddGold(500);
                     State.GameManager.CreateMessageBox($"The kobold grows a toothy grin upon hearing the news. At first he though himself in trouble with the law, now finds it on his side. The alchemist shouts in protest after hearing our decree and squirms and struggles inside the bulging kobold stomach. The guards that brough the kobold in are now helping him carry his massive stomach out of the room while the alchemist begs for help from anyone. The next day we recieve a very large payment in property tax as well as a gift of a bleached alchemist skull. It will go nicely on our wall as will the alchemist go nicely on the kobold after the nutricious alchemist chyme is absorbed. For now the kobold just jiggles.");
                 });
-                UI.SecondChoice.interactable = true;
-                UI.ThirdChoice.GetComponentInChildren<Text>().text = $"This kobold and their cohorts were able to swallow something much larger than themselves individually. This is the kind of talent we need!";
-                UI.ThirdChoice.onClick.AddListener(() =>
+                _ui.SecondChoice.interactable = true;
+                _ui.ThirdChoice.GetComponentInChildren<Text>().text = $"This kobold and their cohorts were able to swallow something much larger than themselves individually. This is the kind of talent we need!";
+                _ui.ThirdChoice.onClick.AddListener(() =>
                 {
                     Unit unit;
                     for (int x = 0; x < 2; x++)
@@ -1662,15 +1662,15 @@ internal class EventList
                     village.Happiness -= 5;
                     State.GameManager.CreateMessageBox($"Three kobolds are available for hire at {village.Name}");
                 });
-                UI.ThirdChoice.interactable = true;
+                _ui.ThirdChoice.interactable = true;
             }
                 break;
             default:
                 return false;
         }
 
-        UI.gameObject.SetActive(true);
-        UI.RaceText.text = $"{empire.Name} -- Gold : {empire.Gold}";
+        _ui.gameObject.SetActive(true);
+        _ui.RaceText.text = $"{empire.Name} -- Gold : {empire.Gold}";
         return true;
     }
 
@@ -1883,9 +1883,9 @@ internal class EventList
         }
     }
 
-    private void GiveExp(Unit unit, int baseXP, float pct)
+    private void GiveExp(Unit unit, int baseXp, float pct)
     {
-        if (unit != null) unit.GiveExp(baseXP + (int)unit.Experience * pct);
+        if (unit != null) unit.GiveExp(baseXp + (int)unit.Experience * pct);
     }
 
     private enum RebelDifficulty
@@ -1933,7 +1933,7 @@ internal class EventList
         int highestExp = State.GameManager.StrategyMode.ScaledExp;
         int baseXp = (int)(highestExp * 40 / 100);
 
-        var army = new Army(banditEmp, new Vec2i(loc.x, loc.y), banditEmp.Side);
+        var army = new Army(banditEmp, new Vec2I(loc.X, loc.Y), banditEmp.Side);
         banditEmp.Armies.Add(army);
 
         for (int i = 0; i < count; i++)
@@ -1955,7 +1955,7 @@ internal class EventList
         void CheckTile(Vec2 spot)
         {
             if (StrategicUtilities.IsTileClear(spot) == false) return;
-            if (loc.x == 0 && loc.y == 0)
+            if (loc.X == 0 && loc.Y == 0)
                 loc = spot;
             else if (State.Rand.Next(4) == 0) loc = spot;
         }
@@ -2003,7 +2003,7 @@ internal class EventList
         village.SubtractPopulation(count);
 
 
-        var army = new Army(rebelEmp, new Vec2i(loc.x, loc.y), rebelEmp.Side);
+        var army = new Army(rebelEmp, new Vec2I(loc.X, loc.Y), rebelEmp.Side);
         rebelEmp.Armies.Add(army);
 
         for (int i = 0; i < count; i++)
@@ -2025,7 +2025,7 @@ internal class EventList
         void CheckTile(Vec2 spot)
         {
             if (StrategicUtilities.IsTileClear(spot) == false) return;
-            if (loc.x == 0 && loc.y == 0)
+            if (loc.X == 0 && loc.Y == 0)
                 loc = spot;
             else if (State.Rand.Next(4) == 0) loc = spot;
         }

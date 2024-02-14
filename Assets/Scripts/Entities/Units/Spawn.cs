@@ -1,6 +1,6 @@
 ﻿public class Spawn : Unit
 {
-    public Spawn(Side side, Race race, int startingXP) : base(side, race, startingXP, true, UnitType.Spawn)
+    public Spawn(Side side, Race race, int startingXp) : base(side, race, startingXp, true, UnitType.Spawn)
     {
         var raceStats = State.RaceSettings.GetRaceStats(Race);
 

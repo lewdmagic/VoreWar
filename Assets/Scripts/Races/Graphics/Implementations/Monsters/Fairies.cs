@@ -300,20 +300,20 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent3, 0, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentTime >= springWings.Times[input.A.AnimationController.frameLists[0].currentFrame] && input.U.IsDead == false)
+                if (input.A.AnimationController.FrameLists[0].CurrentTime >= springWings.Times[input.A.AnimationController.FrameLists[0].CurrentFrame] && input.U.IsDead == false)
                 {
-                    input.A.AnimationController.frameLists[0].currentFrame++;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                    if (input.A.AnimationController.frameLists[0].currentFrame >= springWings.Frames.Length)
+                    if (input.A.AnimationController.FrameLists[0].CurrentFrame >= springWings.Frames.Length)
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame = 0;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                     }
                 }
 
@@ -322,16 +322,16 @@ namespace Races.Graphics.Implementations.Monsters
                     switch (CalcFairyParameters(input.A).Season)
                     {
                         case FairyType.Spring:
-                            output.Sprite(input.Sprites.Fairy[springWingsEnc.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                            output.Sprite(input.Sprites.Fairy[springWingsEnc.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                             return;
                         case FairyType.Summer:
-                            output.Sprite(input.Sprites.Fairy[summerWingsEnc.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                            output.Sprite(input.Sprites.Fairy[summerWingsEnc.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                             return;
                         case FairyType.Fall:
-                            output.Sprite(input.Sprites.Fairy[fallWingsEnc.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                            output.Sprite(input.Sprites.Fairy[fallWingsEnc.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                             return;
                         default:
-                            output.Sprite(input.Sprites.Fairy[winterWingsEnc.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                            output.Sprite(input.Sprites.Fairy[winterWingsEnc.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                             return;
                     }
                 }
@@ -339,16 +339,16 @@ namespace Races.Graphics.Implementations.Monsters
                 switch (CalcFairyParameters(input.A).Season)
                 {
                     case FairyType.Spring:
-                        output.Sprite(input.Sprites.Fairy[springWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[springWings.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                         return;
                     case FairyType.Summer:
-                        output.Sprite(input.Sprites.Fairy[summerWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[summerWings.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                         return;
                     case FairyType.Fall:
-                        output.Sprite(input.Sprites.Fairy[fallWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[fallWings.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                         return;
                     default:
-                        output.Sprite(input.Sprites.Fairy[winterWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                        output.Sprite(input.Sprites.Fairy[winterWings.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                         return;
                 }
             });
@@ -568,7 +568,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(State.Rand.Next(0, 3), 0, true)
             };

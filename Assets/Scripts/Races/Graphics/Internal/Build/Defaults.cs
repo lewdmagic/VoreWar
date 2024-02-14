@@ -244,7 +244,7 @@ public static class Defaults
         if (input.SetupOutput.MainClothingTypesCount > 1)
         {
             float fraction = State.RaceSettings.GetOverrideClothed(unit.Race)
-                ? State.RaceSettings.Get(unit.Race).clothedFraction
+                ? State.RaceSettings.Get(unit.Race).ClothedFraction
                 : Config.ClothedFraction;
             if (State.Rand.NextDouble() < fraction)
             {
@@ -449,7 +449,7 @@ public static class Defaults
         if (input.SetupOutput.FurCapable)
         {
             var raceStats = State.RaceSettings.Get(unit.Race);
-            var furryFraction = raceStats.OverrideFurry ? raceStats.furryFraction : Config.FurryFraction;
+            var furryFraction = raceStats.OverrideFurry ? raceStats.FurryFraction : Config.FurryFraction;
 
             unit.Furry = State.Rand.NextDouble() < furryFraction;
         }
@@ -1013,7 +1013,7 @@ public static class Defaults
 
     public static Color WhiteColored = Color.white;
 
-    public static Color WhiteColored3(Actor_Unit actor)
+    public static Color WhiteColored3(ActorUnit actor)
     {
         return Color.white;
     }

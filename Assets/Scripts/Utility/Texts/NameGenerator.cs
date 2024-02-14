@@ -6,17 +6,17 @@ using System.Text;
 
 public class NameGenerator
 {
-    private List<string> femaleNames;
-    private List<string> maleNames;
-    private List<string> monsterNames;
+    private List<string> _femaleNames;
+    private List<string> _maleNames;
+    private List<string> _monsterNames;
 
-    private Dictionary<Race, List<string>> RaceMaleNames;
-    private Dictionary<Race, List<string>> RaceFemaleNames;
-    private Dictionary<Race, List<string>> RaceMonsterNames;
+    private Dictionary<Race, List<string>> _raceMaleNames;
+    private Dictionary<Race, List<string>> _raceFemaleNames;
+    private Dictionary<Race, List<string>> _raceMonsterNames;
 
-    private Dictionary<Race, List<string>> ArmyNames;
+    private Dictionary<Race, List<string>> _armyNames;
 
-    private Dictionary<Race, string> ArmyNameDefault;
+    private Dictionary<Race, string> _armyNameDefault;
 
     public NameGenerator()
     {
@@ -25,23 +25,23 @@ public class NameGenerator
         if (File.Exists($"{State.StorageDirectory}males.txt"))
         {
             var logFile = File.ReadAllLines($"{State.StorageDirectory}males.txt", encoding);
-            if (logFile.Any()) maleNames = new List<string>(logFile);
+            if (logFile.Any()) _maleNames = new List<string>(logFile);
         }
 
         if (File.Exists($"{State.StorageDirectory}females.txt"))
         {
             var logFile = File.ReadAllLines($"{State.StorageDirectory}females.txt", encoding);
-            if (logFile.Any()) femaleNames = new List<string>(logFile);
+            if (logFile.Any()) _femaleNames = new List<string>(logFile);
         }
 
         if (File.Exists($"{State.StorageDirectory}monsters.txt"))
         {
             var logFile = File.ReadAllLines($"{State.StorageDirectory}monsters.txt", encoding);
-            if (logFile.Any()) monsterNames = new List<string>(logFile);
+            if (logFile.Any()) _monsterNames = new List<string>(logFile);
         }
 
-        ArmyNames = new Dictionary<Race, List<string>>();
-        ArmyNameDefault = new Dictionary<Race, string>();
+        _armyNames = new Dictionary<Race, List<string>>();
+        _armyNameDefault = new Dictionary<Race, string>();
 
         if (File.Exists($"{State.StorageDirectory}armyNames.txt"))
         {
@@ -60,27 +60,27 @@ public class NameGenerator
                     }
                     else if (expectingdefault)
                     {
-                        ArmyNameDefault[currentRace] = entry;
+                        _armyNameDefault[currentRace] = entry;
                         expectingdefault = false;
                     }
                     else
                     {
-                        if (ArmyNames.ContainsKey(currentRace))
+                        if (_armyNames.ContainsKey(currentRace))
                         {
-                            ArmyNames[currentRace].Add(entry);
+                            _armyNames[currentRace].Add(entry);
                         }
                         else
                         {
-                            ArmyNames[currentRace] = new List<string>() { entry };
+                            _armyNames[currentRace] = new List<string>() { entry };
                         }
                     }
                 }
             }
         }
 
-        RaceMaleNames = new Dictionary<Race, List<string>>();
-        RaceFemaleNames = new Dictionary<Race, List<string>>();
-        RaceMonsterNames = new Dictionary<Race, List<string>>();
+        _raceMaleNames = new Dictionary<Race, List<string>>();
+        _raceFemaleNames = new Dictionary<Race, List<string>>();
+        _raceMonsterNames = new Dictionary<Race, List<string>>();
 
         foreach (Race race in RaceFuncs.RaceEnumerable())
         {
@@ -88,21 +88,21 @@ public class NameGenerator
             {
                 var logFile = File.ReadAllLines($"{State.StorageDirectory}male{race}.txt", encoding);
                 var names = new List<string>(logFile);
-                RaceMaleNames[race] = names;
+                _raceMaleNames[race] = names;
             }
 
             if (File.Exists($"{State.StorageDirectory}female{race}.txt"))
             {
                 var logFile = File.ReadAllLines($"{State.StorageDirectory}female{race}.txt", encoding);
                 var names = new List<string>(logFile);
-                RaceFemaleNames[race] = names;
+                _raceFemaleNames[race] = names;
             }
 
             if (File.Exists($"{State.StorageDirectory}{race}.txt"))
             {
                 var logFile = File.ReadAllLines($"{State.StorageDirectory}{race}.txt", encoding);
                 var names = new List<string>(logFile);
-                RaceMonsterNames[race] = names;
+                _raceMonsterNames[race] = names;
             }
         }
     }
@@ -111,10 +111,10 @@ public class NameGenerator
     {
         if (State.Rand.Next(10) == 0)
         {
-            if (race != null && ArmyNames.ContainsKey(race)) // race key is null because it has been changed from int to Race.
+            if (race != null && _armyNames.ContainsKey(race)) // race key is null because it has been changed from int to Race.
             {
                 List<string> items = new List<string>();
-                foreach (var item in ArmyNames[race])
+                foreach (var item in _armyNames[race])
                 {
                     items.Add(item);
                 }
@@ -127,15 +127,15 @@ public class NameGenerator
             }
         }
 
-        if (village != null && race != null && ArmyNameDefault.ContainsKey(race))
+        if (village != null && race != null && _armyNameDefault.ContainsKey(race))
         {
             for (int i = 0; i < 9; i++)
             {
-                var name = $"{AddOrdinal(State.Rand.Next(1, 100))} {village.Name} {ArmyNameDefault[race]}";
+                var name = $"{AddOrdinal(State.Rand.Next(1, 100))} {village.Name} {_armyNameDefault[race]}";
                 if (StrategicUtilities.GetAllArmies().Where(s => s.Name == name).Any() == false) return name;
             }
 
-            return $"{AddOrdinal(State.Rand.Next(1, 100))} {village.Name} {ArmyNameDefault[race]}";
+            return $"{AddOrdinal(State.Rand.Next(1, 100))} {village.Name} {_armyNameDefault[race]}";
         }
 
         return "";
@@ -171,7 +171,7 @@ public class NameGenerator
         List<string> list;
         if (male)
         {
-            RaceMaleNames.TryGetValue(race, out list);
+            _raceMaleNames.TryGetValue(race, out list);
             if (list != null && list.Any())
             {
                 return list[State.Rand.Next(list.Count)];
@@ -179,14 +179,14 @@ public class NameGenerator
         }
         else
         {
-            RaceFemaleNames.TryGetValue(race, out list);
+            _raceFemaleNames.TryGetValue(race, out list);
             if (list != null && list.Any())
             {
                 return list[State.Rand.Next(list.Count)];
             }
         }
 
-        RaceMonsterNames.TryGetValue(race, out list);
+        _raceMonsterNames.TryGetValue(race, out list);
         if (list != null && list.Any())
         {
             return list[State.Rand.Next(list.Count)];
@@ -202,7 +202,7 @@ public class NameGenerator
             if (rand < list.Count) return list[rand];
         }
 
-        return monsterNames[State.Rand.Next(monsterNames.Count)];
+        return _monsterNames[State.Rand.Next(_monsterNames.Count)];
     }
 
     public string GetName(bool male, Race race)
@@ -210,25 +210,25 @@ public class NameGenerator
         int r;
         if (male)
         {
-            RaceMaleNames.TryGetValue(race, out var list);
+            _raceMaleNames.TryGetValue(race, out var list);
             if (list != null && list.Any())
             {
                 return list[State.Rand.Next(list.Count)];
             }
 
-            r = State.Rand.Next(maleNames.Count);
-            return maleNames[r];
+            r = State.Rand.Next(_maleNames.Count);
+            return _maleNames[r];
         }
         else
         {
-            RaceFemaleNames.TryGetValue(race, out var list);
+            _raceFemaleNames.TryGetValue(race, out var list);
             if (list != null && list.Any())
             {
                 return list[State.Rand.Next(list.Count)];
             }
 
-            r = State.Rand.Next(femaleNames.Count);
-            return femaleNames[r];
+            r = State.Rand.Next(_femaleNames.Count);
+            return _femaleNames[r];
         }
     }
 

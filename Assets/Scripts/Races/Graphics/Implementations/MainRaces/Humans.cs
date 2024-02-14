@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Humans
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
@@ -66,24 +66,24 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 output.ExtendedBreastSprites = true;
                 output.AllowedMainClothingTypes.Set(
-                    GenericTop1.GenericTop1Instance.Create(paramsCalc),
-                    GenericTop2.GenericTop2Instance.Create(paramsCalc),
-                    GenericTop3.GenericTop3Instance.Create(paramsCalc),
-                    GenericTop4.GenericTop4Instance.Create(paramsCalc),
-                    GenericTop5.GenericTop5Instance.Create(paramsCalc),
-                    GenericTop6.GenericTop6Instance.Create(paramsCalc),
-                    GenericTop7.GenericTop7Instance.Create(paramsCalc),
+                    GenericTop1.GenericTop1Instance.Create(_paramsCalc),
+                    GenericTop2.GenericTop2Instance.Create(_paramsCalc),
+                    GenericTop3.GenericTop3Instance.Create(_paramsCalc),
+                    GenericTop4.GenericTop4Instance.Create(_paramsCalc),
+                    GenericTop5.GenericTop5Instance.Create(_paramsCalc),
+                    GenericTop6.GenericTop6Instance.Create(_paramsCalc),
+                    GenericTop7.GenericTop7Instance.Create(_paramsCalc),
                     MaleTop.MaleTopInstance,
                     MaleTop2.MaleTop2Instance,
                     MaleTop3.MaleTop3Instance,
                     MaleTop4.MaleTop4Instance,
                     MaleTop5.MaleTop5Instance,
                     MaleTop6.MaleTop6Instance,
-                    Uniform1.Uniform1Instance.Create(paramsCalc),
-                    FemaleOnePiece1.FemaleOnePiece1Instance.Create(paramsCalc),
-                    FemaleOnePiece2.FemaleOnePiece2Instance.Create(paramsCalc),
-                    FemaleOnePiece3.FemaleOnePiece3Instance.Create(paramsCalc),
-                    FemaleOnePiece4.FemaleOnePiece4Instance.Create(paramsCalc)
+                    Uniform1.Uniform1Instance.Create(_paramsCalc),
+                    FemaleOnePiece1.FemaleOnePiece1Instance.Create(_paramsCalc),
+                    FemaleOnePiece2.FemaleOnePiece2Instance.Create(_paramsCalc),
+                    FemaleOnePiece3.FemaleOnePiece3Instance.Create(_paramsCalc),
+                    FemaleOnePiece4.FemaleOnePiece4Instance.Create(_paramsCalc)
                 );
                 output.AvoidedMainClothingTypes = 3;
                 output.AvoidedEyeTypes = 0;

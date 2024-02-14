@@ -11,9 +11,9 @@
 
     public MonsterEmpire(ConstructionArgs args) : base(args)
     {
-        if (args.strategicAI == StrategyAIType.Monster)
+        if (args.StrategicAI == StrategyAIType.Monster)
             StrategicAI = new MonsterStrategicAI(this);
-        else if (args.strategicAI == StrategyAIType.Goblin) StrategicAI = new GoblinAI(this);
+        else if (args.StrategicAI == StrategyAIType.Goblin) StrategicAI = new GoblinAI(this);
     }
 
     public new void Regenerate()

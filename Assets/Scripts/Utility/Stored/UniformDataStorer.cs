@@ -14,12 +14,12 @@ public class UniformObject
 
 internal static class UniformDataStorer
 {
-    private static string filename;
-    private static UniformObject Data;
+    private static string _filename;
+    private static UniformObject _data;
 
     internal static float GetUniformOdds(Race race)
     {
-        if (Data.Odds.TryGetValue(race, out var value))
+        if (_data.Odds.TryGetValue(race, out var value))
         {
             return value;
         }
@@ -31,26 +31,26 @@ internal static class UniformDataStorer
 
     internal static void SetUniformOdds(Race race, float value)
     {
-        Data.Odds[race] = value;
+        _data.Odds[race] = value;
         SaveData();
     }
 
     static UniformDataStorer()
     {
-        filename = $"{State.StorageDirectory}UniformData.cst";
+        _filename = $"{State.StorageDirectory}UniformData.cst";
         LoadData();
     }
 
     private static void LoadData()
     {
-        if (File.Exists(filename))
+        if (File.Exists(_filename))
         {
-            byte[] bytes = File.ReadAllBytes(filename);
-            Data = SerializationUtility.DeserializeValue<UniformObject>(bytes, DataFormat.Binary);
+            byte[] bytes = File.ReadAllBytes(_filename);
+            _data = SerializationUtility.DeserializeValue<UniformObject>(bytes, DataFormat.Binary);
         }
         else
         {
-            Data = new UniformObject
+            _data = new UniformObject
             {
                 Uniforms = new Dictionary<Race, List<UniformData>>(),
                 Odds = new Dictionary<Race, float>()
@@ -60,13 +60,13 @@ internal static class UniformDataStorer
 
     private static void SaveData()
     {
-        byte[] bytes = SerializationUtility.SerializeValue(Data, DataFormat.Binary);
-        File.WriteAllBytes(filename, bytes);
+        byte[] bytes = SerializationUtility.SerializeValue(_data, DataFormat.Binary);
+        File.WriteAllBytes(_filename, bytes);
     }
 
     internal static void Remove(UniformData unitCustomizer)
     {
-        if (Data.Uniforms.TryGetValue(unitCustomizer.Race, out var value))
+        if (_data.Uniforms.TryGetValue(unitCustomizer.Race, out var value))
         {
             value.Remove(unitCustomizer);
             SaveData();
@@ -75,7 +75,7 @@ internal static class UniformDataStorer
 
     internal static void Add(UniformData unitCustomizer)
     {
-        if (Data.Uniforms.TryGetValue(unitCustomizer.Race, out var value))
+        if (_data.Uniforms.TryGetValue(unitCustomizer.Race, out var value))
         {
             var replace = value.Where(s => s.Name == unitCustomizer.Name).FirstOrDefault();
             if (replace != null) value.Remove(replace);
@@ -85,7 +85,7 @@ internal static class UniformDataStorer
         {
             var newList = new List<UniformData>();
             newList.Add(unitCustomizer);
-            Data.Uniforms[unitCustomizer.Race] = newList;
+            _data.Uniforms[unitCustomizer.Race] = newList;
         }
 
         SaveData();
@@ -103,7 +103,7 @@ internal static class UniformDataStorer
 
     internal static List<UniformData> GetCompatibleCustomizations(Race race, UnitType type, Gender gender)
     {
-        if (Data.Uniforms.TryGetValue(race, out var values))
+        if (_data.Uniforms.TryGetValue(race, out var values))
         {
             if (type == UnitType.Leader) return values.Where(s => s.Type == type && GenderOkay(s.Gender, gender)).ToList();
             ;
@@ -127,7 +127,7 @@ internal static class UniformDataStorer
 
     internal static List<UniformData> GetIncompatibleCustomizations(Race race, UnitType type, Gender gender)
     {
-        if (Data.Uniforms.TryGetValue(race, out var values))
+        if (_data.Uniforms.TryGetValue(race, out var values))
         {
             if (type == UnitType.Leader) return values.Where(s => !(s.Type == type && GenderOkay(s.Gender, gender))).ToList();
             return values.Where(s => !(GenderOkay(s.Gender, gender) && (s.Type == type || s.Type != UnitType.Leader))).ToList();

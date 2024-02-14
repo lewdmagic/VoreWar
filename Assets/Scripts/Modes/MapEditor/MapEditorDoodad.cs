@@ -3,16 +3,16 @@ using UnityEngine.EventSystems;
 
 public class MapEditorDoodad : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public StrategicDoodadType type;
+    public StrategicDoodadType Type;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        State.GameManager.MapEditor.SetDoodadType(type, transform);
+        State.GameManager.MapEditor.SetDoodadType(Type, transform);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        State.GameManager.MapEditor.SetDoodadTooltip(type);
+        State.GameManager.MapEditor.SetDoodadTooltip(Type);
     }
 
     public void OnPointerExit(PointerEventData eventData)

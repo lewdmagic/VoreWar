@@ -9,29 +9,29 @@ internal class ScatV2Discard : MiscDiscard
     [OdinSerialize]
     private ScatInfo _scatInfo;
 
-    internal ScatInfo scatInfo { get => _scatInfo; set => _scatInfo = value; }
+    internal ScatInfo ScatInfo { get => _scatInfo; set => _scatInfo = value; }
 
-    public ScatV2Discard(Vec2i location, int sortOrder, ScatInfo scatInfo, MiscDiscardType type = 0, int spriteNum = 0, int color = 0, string description = "") : base(location, type, spriteNum, sortOrder, color, description)
+    public ScatV2Discard(Vec2I location, int sortOrder, ScatInfo scatInfo, MiscDiscardType type = 0, int spriteNum = 0, int color = 0, string description = "") : base(location, type, spriteNum, sortOrder, color, description)
     {
-        this.scatInfo = scatInfo;
-        this.color = scatInfo.color;
-        this.description = scatInfo.GetDescription();
+        this.ScatInfo = scatInfo;
+        this.Color = scatInfo.Color;
+        this.Description = scatInfo.GetDescription();
     }
 
     public override void GenerateSpritePrefab(Transform folder)
     {
-        Vector3 loc = new Vector3(location.X - .5f + Random.Range(0, 1f), location.Y - .5f + Random.Range(0, 1f));
+        Vector3 loc = new Vector3(Location.X - .5f + Random.Range(0, 1f), Location.Y - .5f + Random.Range(0, 1f));
 
         var scatBack = Object.Instantiate(State.GameManager.DiscardedClothing, loc, new Quaternion(), folder).GetComponent<SpriteRenderer>();
-        scatBack.sortingOrder = sortOrder;
+        scatBack.sortingOrder = SortOrder;
 
         var scatFront = Object.Instantiate(State.GameManager.DiscardedClothing, loc, new Quaternion(), folder).GetComponent<SpriteRenderer>();
-        scatFront.sortingOrder = sortOrder + 1 + scatInfo.bonesInfos.Count;
+        scatFront.sortingOrder = SortOrder + 1 + ScatInfo.BonesInfos.Count;
 
-        if (color != -1)
+        if (Color != -1)
         {
-            scatBack.color = ColorPaletteMap.GetSlimeBaseColor(color);
-            scatFront.color = ColorPaletteMap.GetSlimeBaseColor(color);
+            scatBack.color = ColorPaletteMap.GetSlimeBaseColor(Color);
+            scatFront.color = ColorPaletteMap.GetSlimeBaseColor(Color);
         }
         else
         {
@@ -45,18 +45,18 @@ internal class ScatV2Discard : MiscDiscard
 
         Vector3 scatSpriteScalingGloble = new Vector3(1f, 1f);
 
-        if (scatInfo.preySize < 9)
+        if (ScatInfo.PreySize < 9)
         {
             int rndNum = Random.Range(0, State.GameManager.SpriteDictionary.ScatV2SBack.Length);
             scatBack.sprite = State.GameManager.SpriteDictionary.ScatV2SBack[rndNum];
             scatFront.sprite = State.GameManager.SpriteDictionary.ScatV2SFront[rndNum];
         }
-        else if (scatInfo.preySize > 15)
+        else if (ScatInfo.PreySize > 15)
         {
             int rndNum = Random.Range(0, State.GameManager.SpriteDictionary.ScatV2LBack.Length);
             scatBack.sprite = State.GameManager.SpriteDictionary.ScatV2LBack[rndNum];
             scatFront.sprite = State.GameManager.SpriteDictionary.ScatV2LFront[rndNum];
-            int baseSize = scatInfo.preySize - 16; // min = 0
+            int baseSize = ScatInfo.PreySize - 16; // min = 0
             float xy = 1f + baseSize / (100.0f + baseSize);
             scatSpriteScalingGloble = new Vector3(xy, xy);
             scatBack.transform.localScale = scatSpriteScalingGloble;
@@ -71,17 +71,17 @@ internal class ScatV2Discard : MiscDiscard
 
         //insert bones
         List<SpriteRenderer> boneSprites = new List<SpriteRenderer>();
-        foreach (BoneInfo bonesInfo in scatInfo.bonesInfos)
+        foreach (BoneInfo bonesInfo in ScatInfo.BonesInfos)
         {
             boneSprites.Add(Object.Instantiate(State.GameManager.DiscardedClothing, bonesInfo.GetBonePosForScat(loc), new Quaternion(), folder).GetComponent<SpriteRenderer>());
             boneSprites.Last().transform.localScale = Vector3.Scale(bonesInfo.GetBoneScalingForScat(), scatSpriteScalingGloble);
-            boneSprites.Last().sortingOrder = sortOrder + boneSprites.Count;
+            boneSprites.Last().sortingOrder = SortOrder + boneSprites.Count;
             boneSprites.Last().sprite = State.GameManager.SpriteDictionary.Bones[(int)bonesInfo.BoneType];
-            if (color != -1)
+            if (Color != -1)
             {
                 if (bonesInfo.BoneType == BoneType.CrypterBonePile)
-                    boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.CrypterWeapon, color).colorSwapMaterial;
-                else if (bonesInfo.BoneType == BoneType.SlimePile) boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.SlimeMain, color).colorSwapMaterial;
+                    boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.CrypterWeapon, Color).ColorSwapMaterial;
+                else if (bonesInfo.BoneType == BoneType.SlimePile) boneSprites.Last().GetComponentInChildren<SpriteRenderer>().material = ColorPaletteMap.GetPalette(SwapType.SlimeMain, Color).ColorSwapMaterial;
             }
         }
     }

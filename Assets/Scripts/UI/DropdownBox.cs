@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class RaceDropdownBox : MonoBehaviour
 {
-    private Action<Race> YesAction;
-    private Action NoAction;
+    private Action<Race> _yesAction;
+    private Action _noAction;
     public Button Yes;
     public Button No;
     public TMP_Dropdown Dropdown;
 
     public void SetData(Action<Race> action, string yesText, string noText, string mainText, Action noAction = null)
     {
-        YesAction = action;
+        _yesAction = action;
         Yes.GetComponentInChildren<Text>().text = yesText;
         No.GetComponentInChildren<Text>().text = noText;
-        NoAction = noAction;
+        _noAction = noAction;
     }
 
     public void AddRace(Race race, int quantity, bool set)
@@ -35,7 +35,7 @@ public class RaceDropdownBox : MonoBehaviour
         var strings = Dropdown.captionText.text.Split(' ');
         if (RaceFuncs.TryParse(strings[0], out Race race))
         {
-            YesAction?.Invoke(race);
+            _yesAction?.Invoke(race);
         }
         else
             Debug.LogWarning("Couldn't separate the race correctly!");
@@ -45,7 +45,7 @@ public class RaceDropdownBox : MonoBehaviour
 
     public void NoClicked()
     {
-        NoAction?.Invoke();
+        _noAction?.Invoke();
         Destroy(gameObject);
     }
 }

@@ -12,19 +12,19 @@ internal abstract class VoreTrait : Trait, IVoreCallback
 
     public abstract bool IsPredTrait { get; }
 
-    public virtual bool OnAbsorption(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnAbsorption(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnDigestionKill(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnDigestionKill(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnFinishAbsorption(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnFinishAbsorption(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnFinishDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnFinishDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnRemove(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnRemove(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnSwallow(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnSwallow(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 }
 
 internal class PermanentBoosts
@@ -98,22 +98,22 @@ internal interface IStatBoost
 
 internal interface IAttackStatusEffect
 {
-    void ApplyStatusEffect(Actor_Unit actor, Actor_Unit target, bool ranged, int damage);
+    void ApplyStatusEffect(ActorUnit actor, ActorUnit target, bool ranged, int damage);
 }
 
 internal interface IVoreDefenseOdds
 {
-    void VoreDefense(Actor_Unit defender, ref float voreMult);
+    void VoreDefense(ActorUnit defender, ref float voreMult);
 }
 
 internal interface IVoreAttackOdds
 {
-    void VoreAttack(Actor_Unit attacker, ref float voreMult);
+    void VoreAttack(ActorUnit attacker, ref float voreMult);
 }
 
 internal interface IPhysicalDefenseOdds
 {
-    void PhysicalDefense(Actor_Unit defender, ref float defMult);
+    void PhysicalDefense(ActorUnit defender, ref float defMult);
 }
 
 internal interface IProvidesSingleSpell
@@ -128,7 +128,7 @@ internal interface IProvidesMultiSpell
 
 internal interface INoAutoEscape
 {
-    bool CanEscape(Prey preyUnit, Actor_Unit predUnit);
+    bool CanEscape(Prey preyUnit, ActorUnit predUnit);
 }
 
 internal abstract class AbstractBooster : Trait
@@ -151,19 +151,19 @@ internal abstract class VoreTraitBooster : AbstractBooster, IVoreCallback
 
     public abstract bool IsPredTrait { get; }
 
-    public virtual bool OnAbsorption(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnAbsorption(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnDigestionKill(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnDigestionKill(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnFinishAbsorption(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnFinishAbsorption(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnFinishDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnFinishDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnRemove(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnRemove(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 
-    public virtual bool OnSwallow(Prey preyUnit, Actor_Unit predUnit, PreyLocation location) => true;
+    public virtual bool OnSwallow(Prey preyUnit, ActorUnit predUnit, PreyLocation location) => true;
 }
 
 
@@ -171,11 +171,11 @@ internal static class TraitList
 {
     internal static Trait GetTrait(TraitType traitType)
     {
-        traits.TryGetValue(traitType, out Trait retTrait);
+        _traits.TryGetValue(traitType, out Trait retTrait);
         return retTrait;
     }
 
-    private static Dictionary<TraitType, Trait> traits = new Dictionary<TraitType, Trait>()
+    private static Dictionary<TraitType, Trait> _traits = new Dictionary<TraitType, Trait>()
     {
         [TraitType.Frenzy] = new Frenzy(),
         [TraitType.ThrillSeeker] = new ThrillSeeker(),
@@ -500,18 +500,18 @@ internal class ThrillSeeker : Trait, IStatBoost
 
 internal class PackStat : Trait, IStatBoost
 {
-    private Stat usedStat;
+    private Stat _usedStat;
 
     public PackStat(Stat usedStat)
     {
         Description = $"Boosts {usedStat} if friendly units are nearby.\nEffect is capped at 2 friendly units";
-        this.usedStat = usedStat;
+        this._usedStat = usedStat;
     }
 
     public int StatBoost(Unit unit, Stat stat)
     {
         int ret = 0;
-        if (stat == usedStat)
+        if (stat == _usedStat)
         {
             ret = Math.Min(unit.NearbyFriendlies, 2) * (1 + unit.Level) / 2;
         }
@@ -543,7 +543,7 @@ internal class Paralyzer : Trait, IAttackStatusEffect
 {
     public Paralyzer() => Description = "Unit has a small chance to stun an enemy for 1 turn when it attacks";
 
-    public void ApplyStatusEffect(Actor_Unit actor, Actor_Unit target, bool ranged, int damage)
+    public void ApplyStatusEffect(ActorUnit actor, ActorUnit target, bool ranged, int damage)
     {
         if (State.Rand.Next(10 + 3 * target.TimesParalyzed) == 0) target.Paralyzed = true;
     }
@@ -553,7 +553,7 @@ internal class BoggingSlime : Trait, IAttackStatusEffect
 {
     public BoggingSlime() => Description = "Attacks from this unit have a chance to slime enemy units for 1 turn.\n(effect lowers mp to 50 % of max)\nDoes not stack.";
 
-    public void ApplyStatusEffect(Actor_Unit actor, Actor_Unit target, bool ranged, int damage)
+    public void ApplyStatusEffect(ActorUnit actor, ActorUnit target, bool ranged, int damage)
     {
         if (State.Rand.Next(10) < 4) target.Slimed = true;
     }
@@ -563,7 +563,7 @@ internal class Vampirism : Trait, IAttackStatusEffect
 {
     public Vampirism() => Description = "Melee Attacks from this unit will heal the attacker by a small amount (12% of damage done, to a minimum of 1).";
 
-    public void ApplyStatusEffect(Actor_Unit actor, Actor_Unit target, bool ranged, int damage)
+    public void ApplyStatusEffect(ActorUnit actor, ActorUnit target, bool ranged, int damage)
     {
         if (ranged == false)
         {
@@ -577,7 +577,7 @@ internal class Stinger : Trait, IAttackStatusEffect
 {
     public Stinger() => Description = "Melee attacks from this unit have a chance to poison enemy units. Poison deals damage over time but doesn't kill enemy units.\nDoes not stack with itself or the poison spell.";
 
-    public void ApplyStatusEffect(Actor_Unit actor, Actor_Unit target, bool ranged, int damage)
+    public void ApplyStatusEffect(ActorUnit actor, ActorUnit target, bool ranged, int damage)
     {
         if (ranged) return;
         if (State.Rand.Next(10) < 2)
@@ -592,9 +592,9 @@ internal class DefensiveStance : Trait, IVoreDefenseOdds, IPhysicalDefenseOdds
 {
     public DefensiveStance() => Description = "Unit gets a bonus to defense if it has at least 1 mp remaining";
 
-    public void PhysicalDefense(Actor_Unit defender, ref float defMult) => defMult += defender.Movement > 0 ? 0.8f : 0;
+    public void PhysicalDefense(ActorUnit defender, ref float defMult) => defMult += defender.Movement > 0 ? 0.8f : 0;
 
-    public void VoreDefense(Actor_Unit defender, ref float voreMult) => voreMult *= defender.Movement > 0 ? 1.333f : 1;
+    public void VoreDefense(ActorUnit defender, ref float voreMult) => voreMult *= defender.Movement > 0 ? 1.333f : 1;
 }
 
 
@@ -602,7 +602,7 @@ internal class Ravenous : Trait, IVoreAttackOdds
 {
     public Ravenous() => Description = "Unit gets a bonus to vore chance if no units are in its stomach";
 
-    public void VoreAttack(Actor_Unit attacker, ref float voreMult)
+    public void VoreAttack(ActorUnit attacker, ref float voreMult)
     {
         if (attacker.PredatorComponent.Fullness == 0)
         {
@@ -620,7 +620,7 @@ internal class UnpleasantDigestion : VoreTrait
 
     public override bool IsPredTrait => false;
 
-    public override bool OnDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         predUnit.Damage(1);
         return true;
@@ -638,7 +638,7 @@ internal class Whispers : VoreTrait, IProvidesSingleSpell
 
     public List<SpellType> GetSingleSpells(Unit unit) => new List<SpellType> { SpellList.Whispers.SpellType };
 
-    public override bool OnDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         if (!Equals(predUnit.Unit.FixedSide, preyUnit.Unit.FixedSide)) preyUnit.Actor.CastStatusSpell(SpellList.Whispers, predUnit);
         return true;
@@ -655,7 +655,7 @@ internal class Parasite : VoreTraitBooster
 
     public override bool IsPredTrait => false;
 
-    public override bool OnFinishDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnFinishDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         predUnit.Infected = true;
         predUnit.InfectedRace = preyUnit.Unit.DetermineSpawnRace();
@@ -676,12 +676,12 @@ internal class Metamorphosis : VoreTrait, INoAutoEscape
 
     public override int ProcessingPriority => 50;
 
-    public bool CanEscape(Prey preyUnit, Actor_Unit predUnit)
+    public bool CanEscape(Prey preyUnit, ActorUnit predUnit)
     {
         return false;
     }
 
-    public override bool OnFinishDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnFinishDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         Race conversionRace = preyUnit.Unit.HiddenUnit.DetermineSpawnRace();
         preyUnit.Unit.Health = preyUnit.Unit.MaxHealth;
@@ -709,7 +709,7 @@ internal class MetamorphicConversion : Metamorphosis
 
     public override int ProcessingPriority => 49;
 
-    public override bool OnFinishDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnFinishDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         preyUnit.ChangeSide(predUnit.Unit.FixedSide);
         base.OnFinishDigestion(preyUnit, predUnit, location);
@@ -729,7 +729,7 @@ internal class Possession : VoreTraitBooster, INoAutoEscape
 
     public override bool IsPredTrait => false;
 
-    public override bool OnRemove(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnRemove(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         if (!preyUnit.Unit.IsDead)
         {
@@ -739,19 +739,19 @@ internal class Possession : VoreTraitBooster, INoAutoEscape
         return true;
     }
 
-    public override bool OnDigestionKill(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnDigestionKill(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         predUnit.RemovePossession(preyUnit.Actor);
         return true;
     }
 
-    public override bool OnDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         predUnit.CheckPossession(preyUnit.Actor);
         return true;
     }
 
-    public override bool OnSwallow(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnSwallow(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         if (!preyUnit.Unit.IsDead)
         {
@@ -761,7 +761,7 @@ internal class Possession : VoreTraitBooster, INoAutoEscape
         return true;
     }
 
-    public bool CanEscape(Prey preyUnit, Actor_Unit predUnit)
+    public bool CanEscape(Prey preyUnit, ActorUnit predUnit)
     {
         return !predUnit.CheckPossession(preyUnit.Actor);
     }
@@ -780,9 +780,9 @@ internal class Changeling : VoreTrait, IProvidesMultiSpell
 
     public virtual bool TargetIsDead => true;
 
-    public override bool OnRemove(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnRemove(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
-        if (preyUnit == predUnit.PredatorComponent.template)
+        if (preyUnit == predUnit.PredatorComponent.Template)
         {
             predUnit.RevertRace();
             predUnit.PredatorComponent.ChangeRaceAuto(TargetIsDead, false);
@@ -792,7 +792,7 @@ internal class Changeling : VoreTrait, IProvidesMultiSpell
         return true;
     }
 
-    public override bool OnDigestionKill(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnDigestionKill(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         predUnit.PredatorComponent.TryChangeRace(preyUnit);
         return true;
@@ -814,7 +814,7 @@ internal class GreaterChangeling : Changeling
 
     public override bool TargetIsDead => false;
 
-    public override bool OnSwallow(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnSwallow(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         return !predUnit.PredatorComponent.TryChangeRace(preyUnit);
     }
@@ -831,7 +831,7 @@ internal class Symbiote : VoreTrait
 
     public override int ProcessingPriority => 100;
 
-    public override bool OnSwallow(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnSwallow(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         foreach (TraitType trait in preyUnit.Unit.GetTraits)
         {
@@ -844,7 +844,7 @@ internal class Symbiote : VoreTrait
         return true;
     }
 
-    public override bool OnRemove(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnRemove(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         foreach (TraitType trait in preyUnit.SharedTraits) predUnit.Unit.RemoveSharedTrait(trait);
         predUnit.PredatorComponent.RefreshSharedTraits();
@@ -865,7 +865,7 @@ internal class TraitBorrower : VoreTrait
 
     public override int ProcessingPriority => 100;
 
-    public override bool OnSwallow(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnSwallow(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         foreach (TraitType trait in preyUnit.Unit.GetTraits)
         {
@@ -878,7 +878,7 @@ internal class TraitBorrower : VoreTrait
         return true;
     }
 
-    public override bool OnRemove(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnRemove(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         foreach (TraitType trait in preyUnit.SharedTraits) predUnit.Unit.RemoveSharedTrait(trait);
         predUnit.PredatorComponent.RefreshSharedTraits();
@@ -899,7 +899,7 @@ internal class CreateSpawn : VoreTrait
 
     public override int ProcessingPriority => 0;
 
-    public override bool OnFinishAbsorption(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnFinishAbsorption(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         Race spawnRace = predUnit.Unit.DetermineSpawnRace();
         if (!predUnit.Unit.HasSharedTrait(TraitType.CreateSpawn)) spawnRace = predUnit.Unit.HiddenUnit.DetermineSpawnRace();
@@ -919,7 +919,7 @@ internal class SpiritPossession : Possession
 
     public override bool IsPredTrait => false;
 
-    public override bool OnDigestionKill(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnDigestionKill(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         var possessed = predUnit.CheckPossession(preyUnit.Actor);
         predUnit.RemovePossession(preyUnit.Actor);
@@ -949,12 +949,12 @@ internal class ForcedMetamorphosis : VoreTraitBooster, INoAutoEscape
 
     public override bool IsPredTrait => false;
 
-    public bool CanEscape(Prey preyUnit, Actor_Unit predUnit)
+    public bool CanEscape(Prey preyUnit, ActorUnit predUnit)
     {
         return false;
     }
 
-    public override bool OnDigestionKill(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnDigestionKill(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         //TODO: Make this a status effect instead
         if (Equals(predUnit.Unit.FixedSide, preyUnit.Unit.FixedSide) && Equals(predUnit.Unit.FixedSide, predUnit.Unit.Side))
@@ -975,7 +975,7 @@ internal class ViralDigestion : VoreTrait
 
     public override bool IsPredTrait => true;
 
-    public override bool OnRemove(Prey preyUnit, Actor_Unit predUnit, PreyLocation location)
+    public override bool OnRemove(Prey preyUnit, ActorUnit predUnit, PreyLocation location)
     {
         preyUnit.Unit.ApplyStatusEffect(StatusEffectType.Virus, 3, 3);
         return true;

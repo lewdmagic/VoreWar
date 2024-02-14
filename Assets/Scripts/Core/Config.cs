@@ -175,10 +175,10 @@ internal static class Config
     internal static int RandomEventRate => World.RandomEventRate;
     internal static int RandomAIEventRate => World.RandomAIEventRate;
     internal static bool EventsRepeat => World.GetValue("EventsRepeat");
-    internal static FairyBVType FairyBVType => World.FairyBVType;
+    internal static FairyBVType FairyBvType => World.FairyBvType;
     internal static FeedingType FeedingType => World.FeedingType;
     internal static FourthWallBreakType FourthWallBreakType => World.FourthWallBreakType;
-    internal static UBConversion UBConversion => World.UBConversion;
+    internal static UBConversion UbConversion => World.UbConversion;
     internal static SucklingPermission SucklingPermission => World.SucklingPermission;
 
     internal static int StartingPopulation => World.StartingPopulation;
@@ -234,7 +234,7 @@ internal static class Config
     internal static int GoldMineIncome => World.GoldMineIncome;
     internal static int MaxSpellLevelDrop => World.MaxSpellLevelDrop;
 
-    internal static int ArmyMP => World.ArmyMP;
+    internal static int ArmyMp => World.ArmyMp;
     internal static int MaxArmies => World.MaxArmies;
     internal static bool RaceTraitsEnabled => World.GetValue("RaceTraitsEnabled");
     internal static bool RagsForSlaves => World.GetValue("RagsForSlaves");
@@ -283,11 +283,11 @@ internal static class Config
     internal static bool AnalVore => World.GetValue("AnalVore");
     internal static bool TailVore => World.GetValue("TailVore");
     internal static bool Unbirth => World.GetValue("Unbirth");
-    internal static bool HermsCanUB => World.GetValue("HermsCanUB");
+    internal static bool HermsCanUb => World.GetValue("HermsCanUB");
     internal static bool CockVore => World.GetValue("CockVore");
     internal static bool CockVoreHidesClothes => World.GetValue("CockVoreHidesClothes");
     internal static bool KuroTenkoEnabled => World.GetValue("KuroTenkoEnabled");
-    internal static bool OverhealEXP => World.GetValue("OverhealEXP");
+    internal static bool OverhealExp => World.GetValue("OverhealEXP");
     internal static bool TransferAllowed => World.GetValue("TransferAllowed");
     internal static bool CumGestation => World.GetValue("CumGestation");
     internal static bool NoScatForDeadTransfers => World.GetValue("NoScatForDeadTransfers");
@@ -348,7 +348,7 @@ internal static class Config
     public static bool Scat => World.GetValue("Scat");
     public static bool ScatV2 => World.GetValue("ScatV2");
     public static bool ScatBones => World.GetValue("ScatBones");
-    public static bool CondomsForCV => World.GetValue("CondomsForCV");
+    public static bool CondomsForCv => World.GetValue("CondomsForCV");
     public static bool ClothingDiscards => World.GetValue("ClothingDiscards");
     public static bool AutoSurrender => World.GetValue("AutoSurrender");
     public static bool SurrenderedCanConvert => World.GetValue("SurrenderedCanConvert");
@@ -359,7 +359,7 @@ internal static class Config
     internal static bool BurpOnDigest => World.GetValue("BurpOnDigest");
     public static bool FartOnAbsorb => World.GetValue("FartOnAbsorb");
 
-    public static bool StatBoostsAffectMaxHP => World.GetValue("StatBoostsAffectMaxHP");
+    public static bool StatBoostsAffectMaxHp => World.GetValue("StatBoostsAffectMaxHP");
 
     internal static bool WinterActive()
     {

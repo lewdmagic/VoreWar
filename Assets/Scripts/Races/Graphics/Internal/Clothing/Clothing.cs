@@ -37,7 +37,7 @@ public abstract class ClothingDataShared : IClothing
         return true;
     }
 
-    public abstract ClothingRenderOutput Configure(Actor_Unit actor, ISpriteChanger changeDict);
+    public abstract ClothingRenderOutput Configure(ActorUnit actor, ISpriteChanger changeDict);
 }
 
 internal class Clothing : ClothingDataShared, IClothing
@@ -49,7 +49,7 @@ internal class Clothing : ClothingDataShared, IClothing
         _completeGen = completeGen;
     }
 
-    public override ClothingRenderOutput Configure(Actor_Unit actor, ISpriteChanger changeDict)
+    public override ClothingRenderOutput Configure(ActorUnit actor, ISpriteChanger changeDict)
     {
         IClothingRenderInput input = new ClothingRenderInput(actor);
         ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc, null);
@@ -69,7 +69,7 @@ internal class Clothing<T> : ClothingDataShared, IClothing where T : IParameters
         _calcParams = calcParams;
     }
 
-    public override ClothingRenderOutput Configure(Actor_Unit actor, ISpriteChanger changeDict)
+    public override ClothingRenderOutput Configure(ActorUnit actor, ISpriteChanger changeDict)
     {
         ClothingRenderInput input = new ClothingRenderInput(actor);
         ClothingRenderOutput renderOutput = new ClothingRenderOutput(changeDict, Misc, null);

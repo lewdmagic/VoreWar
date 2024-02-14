@@ -52,7 +52,7 @@ public class ContentSettings : MonoBehaviour
     public Toggle FogOfWar;
     public Toggle LeadersUseCustomizations;
 
-    public Toggle HermsCanUB;
+    public Toggle HermsCanUb;
     public Toggle Unbirth;
     public Toggle CockVore;
     public Toggle BreastVore;
@@ -114,7 +114,7 @@ public class ContentSettings : MonoBehaviour
 
     public Toggle CockVoreHidesClothes;
     public Toggle KuroTenkoEnabled;
-    public Toggle OverhealEXP;
+    public Toggle OverhealExp;
     public Toggle TransferAllowed;
     public Toggle CumGestation;
     public Toggle NoScatForDeadTransfers;
@@ -123,10 +123,10 @@ public class ContentSettings : MonoBehaviour
 
     public TMP_Dropdown FemalesLike;
     public TMP_Dropdown MalesLike;
-    public TMP_Dropdown FairyBVType;
+    public TMP_Dropdown FairyBvType;
     public TMP_Dropdown FeedingType;
     public TMP_Dropdown FourthWallBreakType;
-    public TMP_Dropdown UBConversion;
+    public TMP_Dropdown UbConversion;
     public TMP_Dropdown SucklingPermission;
     public TMP_Dropdown WinterStuff;
 
@@ -163,7 +163,7 @@ public class ContentSettings : MonoBehaviour
     public Toggle Scat;
     public Toggle ScatV2;
     public Toggle ScatBones;
-    public Toggle CondomsForCV;
+    public Toggle CondomsForCv;
     public Toggle ClothingDiscards;
 
     public Toggle ErectionsFromVore;
@@ -206,7 +206,7 @@ public class ContentSettings : MonoBehaviour
     public Button VoreMiscButton;
     public Button VoreMisc2Button;
 
-    private List<ToggleObject> Toggles;
+    private List<ToggleObject> _toggles;
 
     public Toggle AllMercs;
 
@@ -216,7 +216,7 @@ public class ContentSettings : MonoBehaviour
     public Transform MonsterSpawnerFolder;
     public GameObject MonsterSpawnerPrefab;
 
-    public Slider ArmyMP;
+    public Slider ArmyMp;
 
     public Slider CustomEventFrequency;
 
@@ -243,16 +243,16 @@ public class ContentSettings : MonoBehaviour
 
     public Slider MaxArmies;
 
-    public Toggle StatBoostsAffectMaxHP;
+    public Toggle StatBoostsAffectMaxHp;
 
 
-    private List<ToggleObject> MercToggles;
+    private List<ToggleObject> _mercToggles;
 
-    private List<MonsterSpawnerPanel> MonsterSpawners;
+    private List<MonsterSpawnerPanel> _monsterSpawners;
 
     public void AllMercsCheckedChanged()
     {
-        foreach (ToggleObject toggle in MercToggles)
+        foreach (ToggleObject toggle in _mercToggles)
         {
             toggle.Toggle.isOn = AllMercs.isOn;
         }
@@ -261,7 +261,7 @@ public class ContentSettings : MonoBehaviour
 
     private void CreateList()
     {
-        Toggles = new List<ToggleObject>
+        _toggles = new List<ToggleObject>
         {
             new ToggleObject(WeightGain, "WeightGain", true),
             new ToggleObject(WeightLoss, "WeightLoss", true),
@@ -280,7 +280,7 @@ public class ContentSettings : MonoBehaviour
             new ToggleObject(EdibleCorpses, "EdibleCorpses", false),
             new ToggleObject(FogOfWar, "FogOfWar", false),
             new ToggleObject(LeadersUseCustomizations, "LeadersUseCustomizations", false),
-            new ToggleObject(HermsCanUB, "HermsCanUB", false),
+            new ToggleObject(HermsCanUb, "HermsCanUB", false),
             new ToggleObject(Unbirth, "Unbirth", false),
             new ToggleObject(CockVore, "CockVore", false),
             new ToggleObject(BreastVore, "BreastVore", false),
@@ -299,7 +299,7 @@ public class ContentSettings : MonoBehaviour
             new ToggleObject(Scat, "Scat", false),
             new ToggleObject(ScatV2, "ScatV2", false),
             new ToggleObject(ScatBones, "ScatBones", false),
-            new ToggleObject(CondomsForCV, "CondomsForCV", false),
+            new ToggleObject(CondomsForCv, "CondomsForCV", false),
             new ToggleObject(ErectionsFromVore, "ErectionsFromVore", false),
             new ToggleObject(ErectionsFromCockVore, "ErectionsFromCockVore", false),
             new ToggleObject(AutoSurrender, "AutoSurrender", false),
@@ -313,7 +313,7 @@ public class ContentSettings : MonoBehaviour
             new ToggleObject(LizardsHaveNoBreasts, "LizardsHaveNoBreasts", false),
             new ToggleObject(LewdDialog, "LewdDialog", false),
             new ToggleObject(KuroTenkoEnabled, "KuroTenkoEnabled", false),
-            new ToggleObject(OverhealEXP, "OverhealEXP", true),
+            new ToggleObject(OverhealExp, "OverhealEXP", true),
             new ToggleObject(TransferAllowed, "TransferAllowed", true),
             new ToggleObject(CumGestation, "CumGestation", true),
             new ToggleObject(HardVoreDialog, "HardVoreDialog", false),
@@ -353,35 +353,35 @@ public class ContentSettings : MonoBehaviour
             new ToggleObject(CombatComplicationsEnabled, "CombatComplicationsEnabled", false),
             new ToggleObject(StatCrit, "StatCrit", false),
             new ToggleObject(StatGraze, "StatGraze", false),
-            new ToggleObject(StatBoostsAffectMaxHP, "StatBoostsAffectMaxHP", false),
+            new ToggleObject(StatBoostsAffectMaxHp, "StatBoostsAffectMaxHP", false),
         };
-        MercToggles = new List<ToggleObject>();
-        MonsterSpawners = new List<MonsterSpawnerPanel>();
+        _mercToggles = new List<ToggleObject>();
+        _monsterSpawners = new List<MonsterSpawnerPanel>();
         foreach (Race race in RaceFuncs.RaceEnumerable().OrderBy((s) => s.ToString()))
         {
             var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
-            MercToggles.Add(obj);
-            Toggles.Add(obj);
+            _mercToggles.Add(obj);
+            _toggles.Add(obj);
         }
 
         foreach (Race race in RaceFuncs.RaceEnumerable())
         {
             //Done separately to keep their initial order for now
-            if (RaceFuncs.isMonster(race) && !Equals(race, Race.YoungWyvern) && !Equals(race, Race.DarkSwallower) && !Equals(race, Race.Collector) && !Equals(race, Race.CoralSlug)
+            if (RaceFuncs.IsMonster(race) && !Equals(race, Race.YoungWyvern) && !Equals(race, Race.DarkSwallower) && !Equals(race, Race.Collector) && !Equals(race, Race.CoralSlug)
                 && !Equals(race, Race.SpitterSlug) && !Equals(race, Race.SpringSlug) && !Equals(race, Race.Raptor) && !Equals(race, Race.WarriorAnt))
             {
                 var spawner = CreateMonsterPanel(race);
-                MonsterSpawners.Add(spawner);
+                _monsterSpawners.Add(spawner);
                 if (Equals(race, Race.Wyvern))
-                    spawner.AddonRace.GetComponent<DisplayTooltip>().value = 115;
+                    spawner.AddonRace.GetComponent<DisplayTooltip>().Value = 115;
                 else if (Equals(race, Race.FeralShark))
-                    spawner.AddonRace.GetComponent<DisplayTooltip>().value = 116;
+                    spawner.AddonRace.GetComponent<DisplayTooltip>().Value = 116;
                 else if (Equals(race, Race.Harvester))
-                    spawner.AddonRace.GetComponent<DisplayTooltip>().value = 138;
+                    spawner.AddonRace.GetComponent<DisplayTooltip>().Value = 138;
                 else if (Equals(race, Race.Compy))
-                    spawner.AddonRace.GetComponent<DisplayTooltip>().value = 209;
+                    spawner.AddonRace.GetComponent<DisplayTooltip>().Value = 209;
                 else if (Equals(race, Race.Monitor))
-                    spawner.AddonRace.GetComponent<DisplayTooltip>().value = 232;
+                    spawner.AddonRace.GetComponent<DisplayTooltip>().Value = 232;
                 else
                     spawner.AddonRace.gameObject.SetActive(false);
             }
@@ -392,7 +392,7 @@ public class ContentSettings : MonoBehaviour
     {
         var obj = Instantiate(MonsterSpawnerPrefab, MonsterSpawnerFolder);
         var spawner = obj.GetComponent<MonsterSpawnerPanel>();
-        spawner.race = race;
+        spawner.Race = race;
         DisplayTooltip tooltip = spawner.SpawnEnabled.GetComponent<DisplayTooltip>();
         spawner.SpawnEnabled.GetComponentInChildren<Text>().text = $"{race} Enabled";
 
@@ -496,7 +496,7 @@ public class ContentSettings : MonoBehaviour
 
         if (RaceFuncs.TooltipValues.TryGetValue(race, out int tooltipNumber))
         {
-            tooltip.value = tooltipNumber;
+            tooltip.Value = tooltipNumber;
         }
 
         return spawner;
@@ -507,7 +507,7 @@ public class ContentSettings : MonoBehaviour
         var toggle = Instantiate(TogglePrefab, MercenaryToggleFolder);
         toggle.GetComponentInChildren<Text>().text = race.ToString();
         var comp = toggle.AddComponent<RaceHoverObject>();
-        comp.race = race;
+        comp.Race = race;
         return toggle.GetComponent<Toggle>();
     }
 
@@ -637,8 +637,8 @@ public class ContentSettings : MonoBehaviour
 
     public void Refresh()
     {
-        if (Toggles == null) CreateList();
-        foreach (ToggleObject toggle in Toggles)
+        if (_toggles == null) CreateList();
+        foreach (ToggleObject toggle in _toggles)
         {
             Config.World.Toggles[toggle.Name] = PlayerPrefs.GetInt(toggle.Name, toggle.DefaultState ? 1 : 0) == 1;
         }
@@ -671,7 +671,7 @@ public class ContentSettings : MonoBehaviour
         Config.World.MonsterConquest = (Config.MonsterConquestType)PlayerPrefs.GetInt("MonsterConquest", 0);
         Config.World.BurpFraction = PlayerPrefs.GetFloat("BurpFraction", .1f);
         Config.World.FartFraction = PlayerPrefs.GetFloat("FartFraction", .1f);
-        Config.World.ArmyMP = PlayerPrefs.GetInt("ArmyMP", 3);
+        Config.World.ArmyMp = PlayerPrefs.GetInt("ArmyMP", 3);
         Config.World.CustomEventFrequency = PlayerPrefs.GetFloat("CustomEventFrequency", .25f);
         Config.World.MaxArmies = PlayerPrefs.GetInt("MaxArmies", 32);
         Config.World.MonsterConquestTurns = PlayerPrefs.GetInt("MonsterConquestTurns", 1);
@@ -679,10 +679,10 @@ public class ContentSettings : MonoBehaviour
         Config.World.FemalesLike = (Orientation)PlayerPrefs.GetInt("FemalesLike", 0);
         Config.World.WinterStuff = (Config.SeasonalType)PlayerPrefs.GetInt("WinterStuff", 0);
         Config.World.VoreRate = PlayerPrefs.GetInt("VoreRate", 0);
-        Config.World.FairyBVType = (FairyBVType)PlayerPrefs.GetInt("FairyBVType", 0);
+        Config.World.FairyBvType = (FairyBVType)PlayerPrefs.GetInt("FairyBVType", 0);
         Config.World.FeedingType = (FeedingType)PlayerPrefs.GetInt("FeedingType", 0);
         Config.World.FourthWallBreakType = (FourthWallBreakType)PlayerPrefs.GetInt("FourthWallBreakType", 0);
-        Config.World.UBConversion = (UBConversion)PlayerPrefs.GetInt("UBConversion", 0);
+        Config.World.UbConversion = (UBConversion)PlayerPrefs.GetInt("UBConversion", 0);
         Config.World.SucklingPermission = (SucklingPermission)PlayerPrefs.GetInt("SucklingPermission", 0);
         Config.World.EscapeRate = PlayerPrefs.GetInt("EscapeRate", 0);
         Config.World.RandomEventRate = PlayerPrefs.GetInt("RandomEventRate", 0);
@@ -699,25 +699,25 @@ public class ContentSettings : MonoBehaviour
         Config.World.RevealTurn = PlayerPrefs.GetInt("RevealTurn", 50);
         MonsterDropdownChanged();
         if (Config.World.SpawnerInfo == null) Config.World.ResetSpawnerDictionary();
-        foreach (MonsterSpawnerPanel spawner in MonsterSpawners)
+        foreach (MonsterSpawnerPanel spawner in _monsterSpawners)
         {
-            Config.World.SpawnerInfo[spawner.race] = new SpawnerInfo(
-                PlayerPrefs.GetInt($"{spawner.race} Enabled", 0) == 1,
-                PlayerPrefs.GetInt($"{spawner.race} Max Armies", 4),
-                PlayerPrefs.GetFloat($"{spawner.race} Spawn Rate", .15f),
-                PlayerPrefs.GetInt($"{spawner.race} Scale Factor", 40),
-                PlayerPrefs.GetInt($"{spawner.race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.race)),
-                PlayerPrefs.GetInt($"{spawner.race} Attempts", 1),
-                PlayerPrefs.GetInt($"{spawner.race} Add-On", 1) == 1,
-                PlayerPrefs.GetFloat($"{spawner.race} Confidence", 6f),
-                PlayerPrefs.GetInt($"{spawner.race} Min Army Size", 8),
-                PlayerPrefs.GetInt($"{spawner.race} Max Army Size", 12),
-                PlayerPrefs.GetInt($"{spawner.race} Turn Order", 40)
+            Config.World.SpawnerInfo[spawner.Race] = new SpawnerInfo(
+                PlayerPrefs.GetInt($"{spawner.Race} Enabled", 0) == 1,
+                PlayerPrefs.GetInt($"{spawner.Race} Max Armies", 4),
+                PlayerPrefs.GetFloat($"{spawner.Race} Spawn Rate", .15f),
+                PlayerPrefs.GetInt($"{spawner.Race} Scale Factor", 40),
+                PlayerPrefs.GetInt($"{spawner.Race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.Race)),
+                PlayerPrefs.GetInt($"{spawner.Race} Attempts", 1),
+                PlayerPrefs.GetInt($"{spawner.Race} Add-On", 1) == 1,
+                PlayerPrefs.GetFloat($"{spawner.Race} Confidence", 6f),
+                PlayerPrefs.GetInt($"{spawner.Race} Min Army Size", 8),
+                PlayerPrefs.GetInt($"{spawner.Race} Max Army Size", 12),
+                PlayerPrefs.GetInt($"{spawner.Race} Turn Order", 40)
             );
-            var type = PlayerPrefs.GetInt($"{spawner.race} Conquest Type", 0);
+            var type = PlayerPrefs.GetInt($"{spawner.Race} Conquest Type", 0);
             if (type != 0)
             {
-                Config.World.SpawnerInfo[spawner.race].SetSpawnerType((Config.MonsterConquestType)(type - 2));
+                Config.World.SpawnerInfo[spawner.Race].SetSpawnerType((Config.MonsterConquestType)(type - 2));
             }
         }
     }
@@ -748,7 +748,7 @@ public class ContentSettings : MonoBehaviour
     public void Open()
     {
         gameObject.SetActive(true);
-        foreach (ToggleObject toggle in Toggles)
+        foreach (ToggleObject toggle in _toggles)
         {
             toggle.Toggle.isOn = Config.World.GetValue(toggle.Name);
         }
@@ -797,17 +797,17 @@ public class ContentSettings : MonoBehaviour
         RandomAIEventRate.value = Config.RandomAIEventRate;
         BurpFraction.value = Config.BurpFraction;
         FartFraction.value = Config.FartFraction;
-        ArmyMP.value = Config.ArmyMP;
+        ArmyMp.value = Config.ArmyMp;
         CustomEventFrequency.value = Config.CustomEventFrequency;
         MaxArmies.value = Config.MaxArmies;
         MonsterConquestTurns.text = Config.MonsterConquestTurns.ToString();
         MercSortMethod.value = PlayerPrefs.GetInt("MercSortMethod", 0);
         FemalesLike.value = (int)Config.FemalesLike;
         MalesLike.value = (int)Config.MalesLike;
-        FairyBVType.value = (int)Config.FairyBVType;
+        FairyBvType.value = (int)Config.FairyBvType;
         FeedingType.value = (int)Config.FeedingType;
         FourthWallBreakType.value = (int)Config.FourthWallBreakType;
-        UBConversion.value = (int)Config.UBConversion;
+        UbConversion.value = (int)Config.UbConversion;
         SucklingPermission.value = (int)Config.SucklingPermission;
         WinterStuff.value = (int)Config.World.WinterStuff;
         DiplomacyScale.value = (int)Config.DiplomacyScale;
@@ -820,10 +820,10 @@ public class ContentSettings : MonoBehaviour
         MercSortMethod.RefreshShownValue();
         FemalesLike.RefreshShownValue();
         MalesLike.RefreshShownValue();
-        FairyBVType.RefreshShownValue();
+        FairyBvType.RefreshShownValue();
         FeedingType.RefreshShownValue();
         FourthWallBreakType.RefreshShownValue();
-        UBConversion.RefreshShownValue();
+        UbConversion.RefreshShownValue();
         SucklingPermission.RefreshShownValue();
         DiplomacyScale.RefreshShownValue();
         MaxSpellLevelDrop.RefreshShownValue();
@@ -834,12 +834,12 @@ public class ContentSettings : MonoBehaviour
         SpawnTraits.text = RaceEditorPanel.TraitListToText(Config.SpawnTraits);
         RefreshSliderText();
 
-        foreach (MonsterSpawnerPanel spawner in MonsterSpawners)
+        foreach (MonsterSpawnerPanel spawner in _monsterSpawners)
         {
-            SpawnerInfo info = Config.World.GetSpawner(spawner.race);
+            SpawnerInfo info = Config.World.GetSpawner(spawner.Race);
             spawner.SpawnEnabled.isOn = info.Enabled;
-            spawner.SpawnRate.value = info.spawnRate;
-            spawner.ScalingRate.text = info.scalingFactor.ToString();
+            spawner.SpawnRate.value = info.SpawnRate;
+            spawner.ScalingRate.text = info.ScalingFactor.ToString();
             spawner.MaxArmies.text = info.MaxArmies.ToString();
             spawner.Confidence.text = info.Confidence == 0 ? "6" : info.Confidence.ToString();
             spawner.MinArmySize.text = info.MinArmySize.ToString();
@@ -867,12 +867,12 @@ public class ContentSettings : MonoBehaviour
         }
 
         FeedingType.interactable = KuroTenkoEnabled.isOn;
-        OverhealEXP.interactable = KuroTenkoEnabled.isOn && (int)Config.FeedingType != 3;
-        UBConversion.interactable = KuroTenkoEnabled.isOn;
+        OverhealExp.interactable = KuroTenkoEnabled.isOn && (int)Config.FeedingType != 3;
+        UbConversion.interactable = KuroTenkoEnabled.isOn;
         SucklingPermission.interactable = KuroTenkoEnabled.isOn && (int)Config.FeedingType == 0;
         TransferAllowed.interactable = KuroTenkoEnabled.isOn;
         CumGestation.interactable = KuroTenkoEnabled.isOn && TransferAllowed.isOn;
-        SpecialMercsCanConvert.interactable = KuroTenkoEnabled.isOn && (Config.UBConversion == global::UBConversion.Both || Config.UBConversion == global::UBConversion.RebirthOnly);
+        SpecialMercsCanConvert.interactable = KuroTenkoEnabled.isOn && (Config.UbConversion == global::UBConversion.Both || Config.UbConversion == global::UBConversion.RebirthOnly);
         NoScatForDeadTransfers.interactable = KuroTenkoEnabled.isOn;
     }
 
@@ -919,7 +919,7 @@ public class ContentSettings : MonoBehaviour
             }
         }
 
-        if (Config.HermsCanUB != HermsCanUB.isOn)
+        if (Config.HermsCanUb != HermsCanUb.isOn)
         {
             if (State.World?.MainEmpires != null)
             {
@@ -927,7 +927,7 @@ public class ContentSettings : MonoBehaviour
                 {
                     if (unit.GetGender() == Gender.Hermaphrodite || unit.GetGender() == Gender.Gynomorph)
                     {
-                        unit.HasVagina = HermsCanUB.isOn;
+                        unit.HasVagina = HermsCanUb.isOn;
                     }
                 }
             }
@@ -939,14 +939,14 @@ public class ContentSettings : MonoBehaviour
                     {
                         if (actor.Unit.GetGender() == Gender.Hermaphrodite || actor.Unit.GetGender() == Gender.Gynomorph)
                         {
-                            actor.Unit.HasVagina = HermsCanUB.isOn;
+                            actor.Unit.HasVagina = HermsCanUb.isOn;
                         }
                     }
                 }
             }
         }
 
-        foreach (ToggleObject toggle in Toggles)
+        foreach (ToggleObject toggle in _toggles)
         {
             Config.World.Toggles[toggle.Name] = toggle.Toggle.isOn;
         }
@@ -990,16 +990,16 @@ public class ContentSettings : MonoBehaviour
         Config.World.RandomAIEventRate = RandomAIEventRate.value;
         Config.World.BurpFraction = BurpFraction.value;
         Config.World.FartFraction = FartFraction.value;
-        Config.World.ArmyMP = (int)ArmyMP.value;
+        Config.World.ArmyMp = (int)ArmyMp.value;
         Config.World.CustomEventFrequency = CustomEventFrequency.value;
         Config.World.MaxArmies = (int)MaxArmies.value;
         Config.World.MonsterConquestTurns = int.TryParse(MonsterConquestTurns.text, out int monsterTurns) ? monsterTurns : 0;
         Config.World.MalesLike = (Orientation)MalesLike.value;
         Config.World.FemalesLike = (Orientation)FemalesLike.value;
-        Config.World.FairyBVType = (FairyBVType)FairyBVType.value;
+        Config.World.FairyBvType = (FairyBVType)FairyBvType.value;
         Config.World.FourthWallBreakType = (FourthWallBreakType)FourthWallBreakType.value;
         Config.World.FeedingType = (FeedingType)FeedingType.value;
-        Config.World.UBConversion = (UBConversion)UBConversion.value;
+        Config.World.UbConversion = (UBConversion)UbConversion.value;
         Config.World.SucklingPermission = (SucklingPermission)SucklingPermission.value;
         Config.World.WinterStuff = (Config.SeasonalType)WinterStuff.value;
         Config.World.DiplomacyScale = (DiplomacyScale)DiplomacyScale.value;
@@ -1033,12 +1033,12 @@ public class ContentSettings : MonoBehaviour
         Config.World.OverallMonsterSpawnRateModifier = OverallMonsterSpawnRateModifier.value;
 
 
-        foreach (MonsterSpawnerPanel spawner in MonsterSpawners)
+        foreach (MonsterSpawnerPanel spawner in _monsterSpawners)
         {
-            SpawnerInfo info = Config.World.GetSpawner(spawner.race);
+            SpawnerInfo info = Config.World.GetSpawner(spawner.Race);
             if (spawner.SpawnEnabled.isOn == false && State.World != null && State.World.AllActiveEmpires != null)
             {
-                var emp = State.World?.GetEmpireOfRace(spawner.race);
+                var emp = State.World?.GetEmpireOfRace(spawner.Race);
                 if (emp != null)
                 {
                     if (emp.Armies?.Count > 0) emp.Armies = new List<Army>();
@@ -1046,12 +1046,12 @@ public class ContentSettings : MonoBehaviour
             }
 
             info.Enabled = spawner.SpawnEnabled.isOn;
-            info.spawnRate = spawner.SpawnRate.value;
+            info.SpawnRate = spawner.SpawnRate.value;
             info.AddOnRace = spawner.AddonRace.isOn;
             if (int.TryParse(spawner.ScalingRate.text, out int scaling))
-                info.scalingFactor = scaling;
+                info.ScalingFactor = scaling;
             else
-                info.scalingFactor = 40;
+                info.ScalingFactor = 40;
             if (int.TryParse(spawner.MaxArmies.text, out int armies))
                 info.MaxArmies = armies;
             else
@@ -1076,7 +1076,7 @@ public class ContentSettings : MonoBehaviour
             if (int.TryParse(spawner.Team.text, out int team))
                 info.Team = team;
             else
-                info.Team = 900 + RaceFuncs.RaceToIntForTeam(spawner.race);
+                info.Team = 900 + RaceFuncs.RaceToIntForTeam(spawner.Race);
 
             if (int.TryParse(spawner.TurnOrder.text, out int turnOrder))
                 info.TurnOrder = turnOrder;
@@ -1126,7 +1126,7 @@ public class ContentSettings : MonoBehaviour
 
     private void SaveValues()
     {
-        foreach (ToggleObject toggle in Toggles)
+        foreach (ToggleObject toggle in _toggles)
         {
             PlayerPrefs.SetInt(toggle.Name, toggle.Toggle.isOn ? 1 : 0);
         }
@@ -1170,7 +1170,7 @@ public class ContentSettings : MonoBehaviour
         PlayerPrefs.SetInt("RandomAIEventRate", RandomAIEventRate.value);
         PlayerPrefs.SetFloat("BurpFraction", BurpFraction.value);
         PlayerPrefs.SetFloat("FartFraction", FartFraction.value);
-        PlayerPrefs.SetInt("ArmyMP", (int)ArmyMP.value);
+        PlayerPrefs.SetInt("ArmyMP", (int)ArmyMp.value);
         PlayerPrefs.SetFloat("CustomEventFrequency", CustomEventFrequency.value);
         PlayerPrefs.SetFloat("AutoSurrenderChance", AutoSurrenderChance.value);
         PlayerPrefs.SetFloat("AutoSurrenderDefectChance", AutoSurrenderDefectChance.value);
@@ -1178,10 +1178,10 @@ public class ContentSettings : MonoBehaviour
         PlayerPrefs.SetInt("FemalesLike", FemalesLike.value);
         PlayerPrefs.SetInt("WinterStuff", WinterStuff.value);
         PlayerPrefs.SetInt("MalesLike", MalesLike.value);
-        PlayerPrefs.SetInt("FairyBVType", FairyBVType.value);
+        PlayerPrefs.SetInt("FairyBVType", FairyBvType.value);
         PlayerPrefs.SetInt("FeedingType", FeedingType.value);
         PlayerPrefs.SetInt("FourthWallBreakType", FourthWallBreakType.value);
-        PlayerPrefs.SetInt("UBConversion", UBConversion.value);
+        PlayerPrefs.SetInt("UBConversion", UbConversion.value);
         PlayerPrefs.SetInt("SucklingPermission", SucklingPermission.value);
         PlayerPrefs.SetInt("DiplomacyScale", DiplomacyScale.value);
         PlayerPrefs.SetInt("MaxSpellLevelDrop", MaxSpellLevelDrop.value + 1);
@@ -1212,56 +1212,56 @@ public class ContentSettings : MonoBehaviour
         PlayerPrefs.SetFloat("BaseGrazeChance", BaseGrazeChance.value);
         PlayerPrefs.SetFloat("GrazeDamageMod", GrazeDamageMod.value);
 
-        foreach (MonsterSpawnerPanel spawner in MonsterSpawners)
+        foreach (MonsterSpawnerPanel spawner in _monsterSpawners)
         {
-            PlayerPrefs.SetInt($"{spawner.race} Enabled", spawner.SpawnEnabled.isOn ? 1 : 0);
-            PlayerPrefs.SetInt($"{spawner.race} Add-On", spawner.AddonRace.isOn ? 1 : 0);
-            PlayerPrefs.SetFloat($"{spawner.race} Spawn Rate", spawner.SpawnRate.value);
+            PlayerPrefs.SetInt($"{spawner.Race} Enabled", spawner.SpawnEnabled.isOn ? 1 : 0);
+            PlayerPrefs.SetInt($"{spawner.Race} Add-On", spawner.AddonRace.isOn ? 1 : 0);
+            PlayerPrefs.SetFloat($"{spawner.Race} Spawn Rate", spawner.SpawnRate.value);
 
             if (int.TryParse(spawner.ScalingRate.text, out int scaling))
-                PlayerPrefs.SetInt($"{spawner.race} Scale Factor", scaling);
+                PlayerPrefs.SetInt($"{spawner.Race} Scale Factor", scaling);
             else
-                PlayerPrefs.SetInt($"{spawner.race} Scale Factor", 40);
+                PlayerPrefs.SetInt($"{spawner.Race} Scale Factor", 40);
             if (int.TryParse(spawner.MaxArmies.text, out int armies))
-                PlayerPrefs.SetInt($"{spawner.race} Max Armies", armies);
+                PlayerPrefs.SetInt($"{spawner.Race} Max Armies", armies);
             else
-                PlayerPrefs.SetInt($"{spawner.race} Max Armies", 4);
+                PlayerPrefs.SetInt($"{spawner.Race} Max Armies", 4);
 
             if (float.TryParse(spawner.Confidence.text, out float confidence))
-                PlayerPrefs.SetFloat($"{spawner.race} Confidence", confidence);
+                PlayerPrefs.SetFloat($"{spawner.Race} Confidence", confidence);
             else
-                PlayerPrefs.SetFloat($"{spawner.race} Confidence", 6f);
+                PlayerPrefs.SetFloat($"{spawner.Race} Confidence", 6f);
 
             if (int.TryParse(spawner.MinArmySize.text, out int minSize))
-                PlayerPrefs.SetInt($"{spawner.race} Min Army Size", minSize);
+                PlayerPrefs.SetInt($"{spawner.Race} Min Army Size", minSize);
             else
-                PlayerPrefs.SetInt($"{spawner.race} Min Army Size", 8);
+                PlayerPrefs.SetInt($"{spawner.Race} Min Army Size", 8);
 
             if (int.TryParse(spawner.MaxArmySize.text, out int maxSize))
-                PlayerPrefs.SetInt($"{spawner.race} Max Army Size", maxSize);
+                PlayerPrefs.SetInt($"{spawner.Race} Max Army Size", maxSize);
             else
-                PlayerPrefs.SetInt($"{spawner.race} Max Army Size", 12);
+                PlayerPrefs.SetInt($"{spawner.Race} Max Army Size", 12);
 
             if (int.TryParse(spawner.Team.text, out int team))
-                PlayerPrefs.SetInt($"{spawner.race} Team", team);
+                PlayerPrefs.SetInt($"{spawner.Race} Team", team);
             else
-                PlayerPrefs.SetInt($"{spawner.race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.race));
+                PlayerPrefs.SetInt($"{spawner.Race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.Race));
 
             if (int.TryParse(spawner.TurnOrder.text, out int turnOrder))
-                PlayerPrefs.SetInt($"{spawner.race} Turn Order", turnOrder);
+                PlayerPrefs.SetInt($"{spawner.Race} Turn Order", turnOrder);
             else
-                PlayerPrefs.SetInt($"{spawner.race} Turn Order", 40);
+                PlayerPrefs.SetInt($"{spawner.Race} Turn Order", 40);
 
             if (int.TryParse(spawner.SpawnAttempts.text, out int attempts))
-                PlayerPrefs.SetInt($"{spawner.race} Attempts", attempts);
+                PlayerPrefs.SetInt($"{spawner.Race} Attempts", attempts);
             else
-                PlayerPrefs.SetInt($"{spawner.race} Attempts", 1);
+                PlayerPrefs.SetInt($"{spawner.Race} Attempts", 1);
 
-            PlayerPrefs.SetInt($"{spawner.race} Conquest Type", spawner.ConquestType.value);
+            PlayerPrefs.SetInt($"{spawner.Race} Conquest Type", spawner.ConquestType.value);
 
             if (State.World?.AllActiveEmpires != null)
             {
-                var emp = State.World.GetEmpireOfRace(spawner.race);
+                var emp = State.World.GetEmpireOfRace(spawner.Race);
                 if (emp != null) RelationsManager.TeamUpdated(emp);
             }
         }
@@ -1293,7 +1293,7 @@ public class ContentSettings : MonoBehaviour
 
     public void RefreshSliderText()
     {
-        ArmyMP.GetComponentInChildren<Text>().text = $"Army MP : {ArmyMP.value}";
+        ArmyMp.GetComponentInChildren<Text>().text = $"Army MP : {ArmyMp.value}";
         CustomEventFrequency.GetComponentInChildren<Text>().text = $"Custom % : {Math.Round(100 * CustomEventFrequency.value, 1)}";
         MaxArmies.GetComponentInChildren<Text>().text = $"MaxArmies : {MaxArmies.value}";
         WeightLossFractionBreasts.GetComponentInChildren<Text>().text = $"Breasts: {Math.Round(100 * WeightLossFractionBreasts.value, 1)}% chance per turn";
@@ -1303,15 +1303,15 @@ public class ContentSettings : MonoBehaviour
 
     public void MercSortChanged()
     {
-        foreach (ToggleObject toggle in Toggles)
+        foreach (ToggleObject toggle in _toggles)
         {
             Config.World.Toggles[toggle.Name] = toggle.Toggle.isOn;
         }
 
-        foreach (var obj in MercToggles.ToList())
+        foreach (var obj in _mercToggles.ToList())
         {
-            MercToggles.Remove(obj);
-            Toggles.Remove(obj);
+            _mercToggles.Remove(obj);
+            _toggles.Remove(obj);
             Destroy(obj.Toggle.gameObject);
         }
 
@@ -1320,8 +1320,8 @@ public class ContentSettings : MonoBehaviour
             foreach (Race race in RaceFuncs.RaceEnumerable().OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
-                MercToggles.Add(obj);
-                Toggles.Add(obj);
+                _mercToggles.Add(obj);
+                _toggles.Add(obj);
             }
         }
 
@@ -1330,29 +1330,29 @@ public class ContentSettings : MonoBehaviour
             foreach (Race race in RaceFuncs.RaceEnumerable().Where(s => RaceFuncs.IsMainRace(s)).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
-                MercToggles.Add(obj);
-                Toggles.Add(obj);
+                _mercToggles.Add(obj);
+                _toggles.Add(obj);
             }
 
             foreach (Race race in RaceFuncs.RaceEnumerable().Where(s => RaceFuncs.IsMerc(s)).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
-                MercToggles.Add(obj);
-                Toggles.Add(obj);
+                _mercToggles.Add(obj);
+                _toggles.Add(obj);
             }
 
-            foreach (Race race in RaceFuncs.RaceEnumerable().Where(s => RaceFuncs.isMonster(s)).OrderBy((s) => s.ToString()))
+            foreach (Race race in RaceFuncs.RaceEnumerable().Where(s => RaceFuncs.IsMonster(s)).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
-                MercToggles.Add(obj);
-                Toggles.Add(obj);
+                _mercToggles.Add(obj);
+                _toggles.Add(obj);
             }
 
-            foreach (Race race in RaceFuncs.RaceEnumerable().Where(s => RaceFuncs.isUniqueMerc(s)).OrderBy((s) => s.ToString()))
+            foreach (Race race in RaceFuncs.RaceEnumerable().Where(s => RaceFuncs.IsUniqueMerc(s)).OrderBy((s) => s.ToString()))
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
-                MercToggles.Add(obj);
-                Toggles.Add(obj);
+                _mercToggles.Add(obj);
+                _toggles.Add(obj);
             }
         }
 
@@ -1361,12 +1361,12 @@ public class ContentSettings : MonoBehaviour
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
                 var obj = new ToggleObject(CreateMercToggle(race), $"Merc {race}", true);
-                MercToggles.Add(obj);
-                Toggles.Add(obj);
+                _mercToggles.Add(obj);
+                _toggles.Add(obj);
             }
         }
 
-        foreach (ToggleObject toggle in Toggles)
+        foreach (ToggleObject toggle in _toggles)
         {
             toggle.Toggle.isOn = Config.World.GetValue(toggle.Name);
         }
@@ -1414,14 +1414,14 @@ public class ContentSettings : MonoBehaviour
     {
         //Scarab was here
         FeedingType.interactable = KuroTenkoEnabled.isOn;
-        OverhealEXP.interactable = KuroTenkoEnabled.isOn && FeedingType.value != 3;
-        UBConversion.interactable = KuroTenkoEnabled.isOn;
+        OverhealExp.interactable = KuroTenkoEnabled.isOn && FeedingType.value != 3;
+        UbConversion.interactable = KuroTenkoEnabled.isOn;
         SucklingPermission.interactable = KuroTenkoEnabled.isOn && (int)Config.FeedingType == 0;
         TransferAllowed.interactable = KuroTenkoEnabled.isOn;
         CumGestation.interactable = KuroTenkoEnabled.isOn && TransferAllowed.isOn;
-        if (FeedingType.value == 3) OverhealEXP.isOn = false;
+        if (FeedingType.value == 3) OverhealExp.isOn = false;
         if (!TransferAllowed.isOn) CumGestation.isOn = false;
-        SpecialMercsCanConvert.interactable = KuroTenkoEnabled.isOn && (int)Config.UBConversion <= 1;
+        SpecialMercsCanConvert.interactable = KuroTenkoEnabled.isOn && (int)Config.UbConversion <= 1;
         NoScatForDeadTransfers.interactable = KuroTenkoEnabled.isOn;
     }
 

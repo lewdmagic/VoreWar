@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 public class ColorSwapPalette
 {
-    internal Material colorSwapMaterial;
+    internal Material ColorSwapMaterial;
 
     public ColorSwapPalette(Dictionary<int, Color> swap, bool[] clear = null, int maxClearRange = 256)
     {
@@ -45,7 +45,7 @@ public class ColorSwapPalette
 
 
         colorSwapTex.Apply();
-        colorSwapMaterial = Object.Instantiate(State.GameManager.ColorSwapMaterial);
-        colorSwapMaterial.SetTexture("_SwapTex", colorSwapTex);
+        ColorSwapMaterial = Object.Instantiate(State.GameManager.ColorSwapMaterial);
+        ColorSwapMaterial.SetTexture("_SwapTex", colorSwapTex);
     }
 }

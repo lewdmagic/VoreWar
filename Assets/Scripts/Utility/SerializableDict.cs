@@ -12,12 +12,12 @@ namespace Utility
         int IntId { get; }
     }
 
-    public class CustomSerializedScriptableObject<K, V> : ISerializationCallbackReceiver where K : IFastDictKey
+    public class CustomSerializedScriptableObject<TK, TV> : ISerializationCallbackReceiver where TK : IFastDictKey
     {
         [OdinSerialize]
-        private Dictionary<string, V> _dictionary;
+        private Dictionary<string, TV> _dictionary;
 
-        private V[] _array;
+        private TV[] _array;
 
 
         void ISerializationCallbackReceiver.OnAfterDeserialize()
@@ -26,7 +26,7 @@ namespace Utility
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
-            _dictionary = new Dictionary<string, V>();
+            _dictionary = new Dictionary<string, TV>();
         }
     }
 }

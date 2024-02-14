@@ -69,9 +69,9 @@ namespace TacticalBuildings
         }
     }
 
-    internal class Log1x2 : TacticalBuilding
+    internal class Log1X2 : TacticalBuilding
     {
-        public Log1x2(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
+        public Log1X2(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
             Width = 2;
             Height = 1;
@@ -90,9 +90,9 @@ namespace TacticalBuildings
         }
     }
 
-    internal class Log1x1 : TacticalBuilding
+    internal class Log1X1 : TacticalBuilding
     {
-        public Log1x1(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
+        public Log1X1(Vec2 lowerLeftPosition) : base(lowerLeftPosition)
         {
             Width = 1;
             Height = 1;

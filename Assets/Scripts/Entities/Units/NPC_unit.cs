@@ -1,10 +1,10 @@
-public class NPC_unit : Unit
+public class NpcUnit : Unit
 {
-    public NPC_unit(int level, bool advancedWeapons, int type, Side side, Race race, int startingXP, bool canVore) : base(side, race, startingXP, canVore, type: type == 3 ? UnitType.Leader : UnitType.Soldier)
+    public NpcUnit(int level, bool advancedWeapons, int type, Side side, Race race, int startingXp, bool canVore) : base(side, race, startingXp, canVore, type: type == 3 ? UnitType.Leader : UnitType.Soldier)
     {
         if (Equals(race, Race.Alligator) || Equals(race, Race.Komodo))
             GenMelee(level - 1, advancedWeapons);
-        else if (RaceFuncs.isMosnterOrUniqueMerc(race))
+        else if (RaceFuncs.IsMosnterOrUniqueMerc(race))
             GenMonster(level - 1);
         else if (FixedGear || Equals(race, Race.Succubus))
             StrategicUtilities.CheatForceLevelUps(this, level - 1);
@@ -27,7 +27,7 @@ public class NPC_unit : Unit
             }
         }
 
-        if (startingXP == 0 && level > 1)
+        if (startingXp == 0 && level > 1)
         {
             SetExp(GetExperienceRequiredForLevel(level - 1));
         }
@@ -93,10 +93,10 @@ public class NPC_unit : Unit
         Health = MaxHealth;
     }
 
-    private void GenLeader(int levels, bool Ranged, Race race)
+    private void GenLeader(int levels, bool ranged, Race race)
     {
         Type = UnitType.Leader;
-        if (Ranged)
+        if (ranged)
             Items[0] = State.World.ItemRepository.GetItem(ItemType.CompoundBow);
         else
             Items[0] = State.World.ItemRepository.GetItem(ItemType.Axe);
@@ -136,7 +136,7 @@ public class NPC_unit : Unit
             InitializeTraits();
         }
 
-        if (Ranged)
+        if (ranged)
             Stats[(int)Stat.Dexterity] += levels;
         else
             Stats[(int)Stat.Strength] += levels;

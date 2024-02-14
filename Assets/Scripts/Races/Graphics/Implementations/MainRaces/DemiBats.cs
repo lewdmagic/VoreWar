@@ -11,14 +11,14 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class DemiBats
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
             RaceFrameList frameListDemibatWings = new RaceFrameList(new[] { 0, 1, 0, 2 }, new[] { .15f, .25f, .15f, .25f });
 
-            IClothing LeaderClothes = DemibatLeader.DemibatLeaderInstance.Create(paramsCalc);
-            IClothing Rags = DemibatRags.DemibatRagsInstance;
+            IClothing leaderClothes = DemibatLeader.DemibatLeaderInstance.Create(_paramsCalc);
+            IClothing rags = DemibatRags.DemibatRagsInstance;
 
 
             builder.Setup(output =>
@@ -95,18 +95,18 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.ExtendedBreastSprites = true;
                 output.FurCapable = true;
                 output.AllowedMainClothingTypes.Set(
-                    GenericTop1.GenericTop1Instance.Create(paramsCalc),
-                    GenericTop2.GenericTop2Instance.Create(paramsCalc),
-                    GenericTop3.GenericTop3Instance.Create(paramsCalc),
-                    GenericTop4.GenericTop4Instance.Create(paramsCalc),
-                    GenericTop5.GenericTop5Instance.Create(paramsCalc),
-                    GenericTop6.GenericTop6Instance.Create(paramsCalc),
-                    GenericTop7.GenericTop7Instance.Create(paramsCalc),
+                    GenericTop1.GenericTop1Instance.Create(_paramsCalc),
+                    GenericTop2.GenericTop2Instance.Create(_paramsCalc),
+                    GenericTop3.GenericTop3Instance.Create(_paramsCalc),
+                    GenericTop4.GenericTop4Instance.Create(_paramsCalc),
+                    GenericTop5.GenericTop5Instance.Create(_paramsCalc),
+                    GenericTop6.GenericTop6Instance.Create(_paramsCalc),
+                    GenericTop7.GenericTop7Instance.Create(_paramsCalc),
                     MaleTop.MaleTopInstance,
                     MaleTop2.MaleTop2Instance,
-                    Natural.NaturalInstance.Create(paramsCalc),
-                    Rags,
-                    LeaderClothes
+                    Natural.NaturalInstance.Create(_paramsCalc),
+                    rags,
+                    leaderClothes
                 );
                 output.AvoidedMainClothingTypes = 2;
                 output.AvoidedEyeTypes = 0;
@@ -180,7 +180,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Body, 4, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.DemibatSkin, input.U.AccessoryColor));
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -246,28 +246,28 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (input.A.IsAttacking)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = false;
-                    input.A.AnimationController.frameLists[0].currentFrame = 0;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                     output.Sprite(input.Sprites.Demibats1[49]);
                     return;
                 }
 
-                input.A.AnimationController.frameLists[0].currentlyActive = true;
+                input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
 
-                if (input.A.AnimationController.frameLists[0].currentTime >= frameListDemibatWings.Times[input.A.AnimationController.frameLists[0].currentFrame] && input.U.IsDead == false && input.A.IsAttacking == false)
+                if (input.A.AnimationController.FrameLists[0].CurrentTime >= frameListDemibatWings.Times[input.A.AnimationController.FrameLists[0].CurrentFrame] && input.U.IsDead == false && input.A.IsAttacking == false)
                 {
-                    input.A.AnimationController.frameLists[0].currentFrame++;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                    if (input.A.AnimationController.frameLists[0].currentFrame >= frameListDemibatWings.Frames.Length)
+                    if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListDemibatWings.Frames.Length)
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame = 0;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Demibats1[48 + frameListDemibatWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Demibats1[48 + frameListDemibatWings.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
             }); // wings main
 
             builder.RenderSingle(SpriteType.BodyAccent6, 3, (input, output) =>
@@ -279,9 +279,9 @@ namespace Races.Graphics.Implementations.MainRaces
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    output.Sprite(input.Sprites.Demibats1[51 + frameListDemibatWings.Frames[input.A.AnimationController.frameLists[0].currentFrame] + (input.U.Furry ? 3 : 0)]);
+                    output.Sprite(input.Sprites.Demibats1[51 + frameListDemibatWings.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame] + (input.U.Furry ? 3 : 0)]);
                     return;
                 }
 
@@ -297,9 +297,9 @@ namespace Races.Graphics.Implementations.MainRaces
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    output.Sprite(input.Sprites.Demibats1[57 + frameListDemibatWings.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Demibats1[57 + frameListDemibatWings.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
@@ -576,7 +576,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, LeaderClothes);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, leaderClothes);
                 }
 
                 if (unit.HasDick && unit.HasBreasts)
@@ -612,7 +612,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, Rags);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, rags);
                     if (unit.ClothingType == 0) //Covers rags not in the list
                     {
                         unit.ClothingType = data.SetupOutput.AllowedMainClothingTypes.Count;
@@ -633,7 +633,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(State.Rand.Next(0, 4), 0, true)
             }; // Wing controller. Index 0.

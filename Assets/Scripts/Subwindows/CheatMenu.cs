@@ -26,8 +26,8 @@ public class CheatMenu : MonoBehaviour
     public TMP_Dropdown FirstRaceDropdown;
     public TMP_Dropdown SecondRaceDropdown;
 
-    private Relationship Relation;
-    private Relationship CounterRelation;
+    private Relationship _relation;
+    private Relationship _counterRelation;
 
 
     public void Open()
@@ -203,7 +203,7 @@ public class CheatMenu : MonoBehaviour
     public void TacticalUnsurrenderAllAttackers()
     {
         if (TacticalUtilities.Units == null) return;
-        foreach (Actor_Unit actor in TacticalUtilities.Units)
+        foreach (ActorUnit actor in TacticalUtilities.Units)
         {
             if (State.GameManager.TacticalMode.IsDefender(actor) == false) actor.Surrendered = false;
         }
@@ -212,7 +212,7 @@ public class CheatMenu : MonoBehaviour
     public void TacticalUnsurrenderAllDefenders()
     {
         if (TacticalUtilities.Units == null) return;
-        foreach (Actor_Unit actor in TacticalUtilities.Units)
+        foreach (ActorUnit actor in TacticalUtilities.Units)
         {
             if (State.GameManager.TacticalMode.IsDefender(actor)) actor.Surrendered = false;
         }
@@ -264,10 +264,10 @@ public class CheatMenu : MonoBehaviour
         if (State.World.MainEmpires == null) return;
         if (State.World.MainEmpires.Count < FirstRaceDropdown.value || State.World.MainEmpires.Count < SecondRaceDropdown.value)
         {
-            Relation = null;
-            CounterRelation = null;
-            FirstRaceRelation.text = (Math.Round(Relation.Attitude, 5) * 100).ToString();
-            SecondRaceRelation.text = (Math.Round(CounterRelation.Attitude, 5) * 100).ToString();
+            _relation = null;
+            _counterRelation = null;
+            FirstRaceRelation.text = (Math.Round(_relation.Attitude, 5) * 100).ToString();
+            SecondRaceRelation.text = (Math.Round(_counterRelation.Attitude, 5) * 100).ToString();
             return;
         }
 
@@ -283,15 +283,15 @@ public class CheatMenu : MonoBehaviour
             secondSide = State.World.MonsterEmpires[7].Side;
         if (!Equals(firstSide, secondSide))
         {
-            Relation = RelationsManager.GetRelation(firstSide, secondSide);
-            CounterRelation = RelationsManager.GetRelation(secondSide, firstSide);
-            FirstRaceRelation.text = (Math.Round(Relation.Attitude, 5) * 100).ToString();
-            SecondRaceRelation.text = (Math.Round(CounterRelation.Attitude, 5) * 100).ToString();
+            _relation = RelationsManager.GetRelation(firstSide, secondSide);
+            _counterRelation = RelationsManager.GetRelation(secondSide, firstSide);
+            FirstRaceRelation.text = (Math.Round(_relation.Attitude, 5) * 100).ToString();
+            SecondRaceRelation.text = (Math.Round(_counterRelation.Attitude, 5) * 100).ToString();
         }
         else
         {
-            Relation = null;
-            CounterRelation = null;
+            _relation = null;
+            _counterRelation = null;
             FirstRaceRelation.text = "";
             SecondRaceRelation.text = "";
         }
@@ -299,10 +299,10 @@ public class CheatMenu : MonoBehaviour
 
     public void UpdateRelations()
     {
-        if (Relation != null && CounterRelation != null)
+        if (_relation != null && _counterRelation != null)
         {
-            if (int.TryParse(FirstRaceRelation.text, out int first)) Relation.Attitude = first / 100;
-            if (int.TryParse(SecondRaceRelation.text, out int second)) CounterRelation.Attitude = second / 100;
+            if (int.TryParse(FirstRaceRelation.text, out int first)) _relation.Attitude = first / 100;
+            if (int.TryParse(SecondRaceRelation.text, out int second)) _counterRelation.Attitude = second / 100;
         }
     }
 

@@ -20,19 +20,19 @@ internal static class CustomAutoLevel
 {
     static CustomAutoLevel()
     {
-        filename = $"{State.StorageDirectory}AutoLevels.cst";
+        _filename = $"{State.StorageDirectory}AutoLevels.cst";
         LoadData();
     }
 
-    private static string filename;
-    private static List<StoredClassWeight> weightsList;
+    private static string _filename;
+    private static List<StoredClassWeight> _weightsList;
 
     internal static string[] GetAllNames()
     {
-        string[] names = new string[weightsList.Count];
+        string[] names = new string[_weightsList.Count];
         for (int i = 0; i < names.Length; i++)
         {
-            names[i] = weightsList[i].Name;
+            names[i] = _weightsList[i].Name;
         }
 
         return names;
@@ -41,14 +41,14 @@ internal static class CustomAutoLevel
 
     private static void LoadData()
     {
-        if (File.Exists(filename))
+        if (File.Exists(_filename))
         {
-            byte[] bytes = File.ReadAllBytes(filename);
-            weightsList = SerializationUtility.DeserializeValue<List<StoredClassWeight>>(bytes, DataFormat.JSON);
+            byte[] bytes = File.ReadAllBytes(_filename);
+            _weightsList = SerializationUtility.DeserializeValue<List<StoredClassWeight>>(bytes, DataFormat.JSON);
         }
         else
         {
-            weightsList = new List<StoredClassWeight>();
+            _weightsList = new List<StoredClassWeight>();
         }
     }
 
@@ -56,8 +56,8 @@ internal static class CustomAutoLevel
     {
         try
         {
-            byte[] bytes = SerializationUtility.SerializeValue(weightsList, DataFormat.JSON);
-            File.WriteAllBytes(filename, bytes);
+            byte[] bytes = SerializationUtility.SerializeValue(_weightsList, DataFormat.JSON);
+            File.WriteAllBytes(_filename, bytes);
         }
         catch
         {
@@ -67,7 +67,7 @@ internal static class CustomAutoLevel
 
     internal static StoredClassWeight GetByName(string name)
     {
-        foreach (StoredClassWeight entry in weightsList)
+        foreach (StoredClassWeight entry in _weightsList)
         {
             if (entry.Name == name) return entry;
         }
@@ -77,13 +77,13 @@ internal static class CustomAutoLevel
 
     internal static void Remove(StoredClassWeight data)
     {
-        weightsList.Remove(data);
+        _weightsList.Remove(data);
         SaveData();
     }
 
     internal static void Add(StoredClassWeight data)
     {
-        weightsList.Add(data);
+        _weightsList.Add(data);
         SaveData();
     }
 }

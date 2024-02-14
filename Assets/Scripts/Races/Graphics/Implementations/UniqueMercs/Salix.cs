@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 {
     internal static class Salix
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
@@ -73,7 +73,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 List<IClothing> allowedMainClothingTypes = new List<IClothing>
                 {
-                    SalixTop.SalixTopInstance.Create(paramsCalc)
+                    SalixTop.SalixTopInstance.Create(_paramsCalc)
                 };
                 output.AllowedMainClothingTypes.Set(allowedMainClothingTypes);
 
@@ -87,8 +87,8 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 List<IClothing> extraMainClothing1Types = new List<IClothing>() //Over
                 {
-                    Cloak.Cloak1.Create(paramsCalc),
-                    Cloak.Cloak2.Create(paramsCalc)
+                    Cloak.Cloak1.Create(_paramsCalc),
+                    Cloak.Cloak2.Create(_paramsCalc)
                 };
                 output.ExtraMainClothing1Types.Set(extraMainClothing1Types);
 

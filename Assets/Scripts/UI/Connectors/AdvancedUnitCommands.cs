@@ -7,7 +7,7 @@ public class AdvancedUnitCommands : MonoBehaviour
     public GameObject ButtonPrefab;
     internal Button[] Buttons;
 
-    private int index = 0;
+    private int _index = 0;
 
     internal void ClearButtons()
     {
@@ -21,10 +21,10 @@ public class AdvancedUnitCommands : MonoBehaviour
         }
     }
 
-    internal void SetUpButtons(Actor_Unit actor)
+    internal void SetUpButtons(ActorUnit actor)
     {
         ClearButtons();
-        index = 0;
+        _index = 0;
 
         foreach (var action in TacticalActionList.TargetedActions)
         {
@@ -49,7 +49,7 @@ public class AdvancedUnitCommands : MonoBehaviour
             SetButtonSpell(actor, spell);
         }
 
-        int maxSize = Math.Min(800 / index, 60);
+        int maxSize = Math.Min(800 / _index, 60);
         for (int i = 0; i < Buttons.Length; i++)
         {
             if (Buttons[i] != null)
@@ -62,16 +62,16 @@ public class AdvancedUnitCommands : MonoBehaviour
     internal Button SetButton(string text, Action action, Color color, bool marksSelected = true)
     {
         Button button;
-        if (Buttons[index] == null)
+        if (Buttons[_index] == null)
         {
             button = Instantiate(ButtonPrefab, transform).GetComponent<Button>();
             var trans = button.GetComponent<RectTransform>();
             trans.sizeDelta = new Vector2(160, 60);
-            Buttons[index] = button;
+            Buttons[_index] = button;
         }
         else
         {
-            button = Buttons[index];
+            button = Buttons[_index];
             button.onClick.RemoveAllListeners();
         }
 
@@ -95,29 +95,29 @@ public class AdvancedUnitCommands : MonoBehaviour
 
         button.gameObject.SetActive(true);
         button.interactable = true;
-        index++;
+        _index++;
         return button;
     }
 
-    internal Button SetButtonSpell(Actor_Unit actor, Spell spell)
+    internal Button SetButtonSpell(ActorUnit actor, Spell spell)
     {
         Color color = new Color(.669f, .753f, 1);
         Button button;
-        if (Buttons[index] == null)
+        if (Buttons[_index] == null)
         {
             button = Instantiate(ButtonPrefab, transform).GetComponent<Button>();
             var trans = button.GetComponent<RectTransform>();
             trans.sizeDelta = new Vector2(160, 60);
-            Buttons[index] = button;
+            Buttons[_index] = button;
         }
         else
         {
-            button = Buttons[index];
+            button = Buttons[_index];
             button.onClick.RemoveAllListeners();
         }
 
-        int ModifiedManaCost = spell.ManaCost + spell.ManaCost * (actor.Unit.GetStatusEffect(StatusEffectType.SpellForce) != null ? actor.Unit.GetStatusEffect(StatusEffectType.SpellForce).Duration / 10 : 0);
-        button.GetComponentInChildren<Text>().text = spell.Name + (actor.Unit.Mana >= ModifiedManaCost || spell.IsFree ? "" : "\n(no mana)");
+        int modifiedManaCost = spell.ManaCost + spell.ManaCost * (actor.Unit.GetStatusEffect(StatusEffectType.SpellForce) != null ? actor.Unit.GetStatusEffect(StatusEffectType.SpellForce).Duration / 10 : 0);
+        button.GetComponentInChildren<Text>().text = spell.Name + (actor.Unit.Mana >= modifiedManaCost || spell.IsFree ? "" : "\n(no mana)");
         button.onClick.AddListener(new UnityEngine.Events.UnityAction(() => State.GameManager.TacticalMode.SetMagicMode(spell)));
 
         button.onClick.AddListener(() =>
@@ -133,9 +133,9 @@ public class AdvancedUnitCommands : MonoBehaviour
         cb.pressedColor = pressed;
         button.colors = cb;
 
-        button.interactable = actor.Unit.Mana >= ModifiedManaCost || spell.IsFree;
+        button.interactable = actor.Unit.Mana >= modifiedManaCost || spell.IsFree;
         button.gameObject.SetActive(true);
-        index++;
+        _index++;
         return button;
     }
 

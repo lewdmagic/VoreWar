@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 {
     internal static class Asura
     {
-        private static readonly RaceFrameList[] frameList =
+        private static readonly RaceFrameList[] FrameList =
         {
             new RaceFrameList(new int[7] { 74, 75, 76, 77, 78, 79, 80 }, new float[7] { .15f, .15f, .15f, .15f, .15f, .15f, .15f }),
             new RaceFrameList(new int[7] { 81, 82, 83, 84, 85, 86, 87 }, new float[7] { .15f, .15f, .15f, .15f, .15f, .15f, .15f }),
@@ -76,7 +76,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -261,7 +261,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BreastShadow, 16, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.A.TurnUsedShun > 0 && input.A.TurnUsedShun == State.GameManager.TacticalMode.currentTurn)
+                if (input.A.TurnUsedShun > 0 && input.A.TurnUsedShun == State.GameManager.TacticalMode.CurrentTurn)
                 {
                     output.Sprite(input.Sprites.Asura[Math.Max(59 + input.A.GetStomachSize(), 64)]);
                 }
@@ -312,12 +312,12 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
                 { new AnimationController.FrameList(), new AnimationController.FrameList(), new AnimationController.FrameList(), new AnimationController.FrameList() };
-            actor.AnimationController.frameLists[0].currentlyActive = true;
-            actor.AnimationController.frameLists[1].currentlyActive = true;
-            actor.AnimationController.frameLists[2].currentlyActive = true;
-            actor.AnimationController.frameLists[3].currentlyActive = true;
+            actor.AnimationController.FrameLists[0].CurrentlyActive = true;
+            actor.AnimationController.FrameLists[1].CurrentlyActive = true;
+            actor.AnimationController.FrameLists[2].CurrentlyActive = true;
+            actor.AnimationController.FrameLists[3].CurrentlyActive = true;
         }
 
         private static void ProcessAnimation(IRaceRenderInput input, IRaceRenderOutput output, int list)
@@ -330,30 +330,30 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
             if (State.Rand.Next(120) == 0)
             {
-                input.A.AnimationController.frameLists[list].currentlyActive = true;
+                input.A.AnimationController.FrameLists[list].CurrentlyActive = true;
             }
 
-            if (input.A.AnimationController.frameLists[list].currentlyActive == false)
+            if (input.A.AnimationController.FrameLists[list].CurrentlyActive == false)
             {
                 output.Sprite(null);
                 return;
             }
 
-            if (input.A.AnimationController.frameLists[list].currentTime >= frameList[list].Times[input.A.AnimationController.frameLists[list].currentFrame])
+            if (input.A.AnimationController.FrameLists[list].CurrentTime >= FrameList[list].Times[input.A.AnimationController.FrameLists[list].CurrentFrame])
             {
-                input.A.AnimationController.frameLists[list].currentFrame++;
-                input.A.AnimationController.frameLists[list].currentTime = 0f;
+                input.A.AnimationController.FrameLists[list].CurrentFrame++;
+                input.A.AnimationController.FrameLists[list].CurrentTime = 0f;
 
-                if (input.A.AnimationController.frameLists[list].currentFrame >= frameList[list].Frames.Length)
+                if (input.A.AnimationController.FrameLists[list].CurrentFrame >= FrameList[list].Frames.Length)
                 {
-                    input.A.AnimationController.frameLists[list].currentFrame = 0;
-                    input.A.AnimationController.frameLists[list].currentlyActive = false;
+                    input.A.AnimationController.FrameLists[list].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[list].CurrentlyActive = false;
                     output.Sprite(null);
                     return;
                 }
             }
 
-            output.Sprite(input.Sprites.Asura[frameList[list].Frames[input.A.AnimationController.frameLists[list].currentFrame]]);
+            output.Sprite(input.Sprites.Asura[FrameList[list].Frames[input.A.AnimationController.FrameLists[list].CurrentFrame]]);
         }
 
 

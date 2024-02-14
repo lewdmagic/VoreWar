@@ -7,7 +7,7 @@ public interface IActorUnit
 
 
     IUnitRead Unit { get; }
-    Vec2i Position { get; }
+    Vec2I Position { get; }
     AnimationController AnimationController { get; }
     bool HasBelly { get; }
     bool HasPreyInBreasts { get; }

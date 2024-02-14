@@ -29,7 +29,7 @@ public class DiplomacyScreen : MonoBehaviour
             unit = new Unit(other.Side, other.Race, 0, true);
         }
 
-        Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), unit);
+        ActorUnit actor = new ActorUnit(new Vec2I(0, 0), unit);
         actor.UpdateBestWeapons();
         Leader.UpdateSprites(actor);
         Player = player;

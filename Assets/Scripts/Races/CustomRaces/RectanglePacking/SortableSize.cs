@@ -31,16 +31,16 @@ namespace DaVikingCode.RectanglePacking
      */
     public class SortableSize
     {
-        public int height;
-        public int id;
+        public int Height;
+        public int ID;
 
-        public int width;
+        public int Width;
 
         public SortableSize(int width, int height, int id)
         {
-            this.width = width;
-            this.height = height;
-            this.id = id;
+            this.Width = width;
+            this.Height = height;
+            this.ID = id;
         }
     }
 }

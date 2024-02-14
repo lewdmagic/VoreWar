@@ -15,13 +15,13 @@ internal interface IVoreCallback
      * use the boolean return to skip lower priority traits, eg. if the unit has already
      *  been removed and as part of a trait like digestive conversion, it shouldn't run the digestive rebirth trait it stole with extraction
      */
-    bool OnSwallow(Prey preyUnit, Actor_Unit predUnit, PreyLocation location); //any time prey is added (living or dead)
-    bool OnRemove(Prey preyUnit, Actor_Unit predUnit, PreyLocation location); //any time prey is removed (living or dead)
-    bool OnDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location); //any time living prey is digested but won't die yet
-    bool OnFinishDigestion(Prey preyUnit, Actor_Unit predUnit, PreyLocation location); //right before unit dies
-    bool OnDigestionKill(Prey preyUnit, Actor_Unit predUnit, PreyLocation location); //right after unit dies
-    bool OnAbsorption(Prey preyUnit, Actor_Unit predUnit, PreyLocation location); //any time a dead unit is being absorbed
-    bool OnFinishAbsorption(Prey preyUnit, Actor_Unit predUnit, PreyLocation location); //unit is done absorbing, but not removed yet
+    bool OnSwallow(Prey preyUnit, ActorUnit predUnit, PreyLocation location); //any time prey is added (living or dead)
+    bool OnRemove(Prey preyUnit, ActorUnit predUnit, PreyLocation location); //any time prey is removed (living or dead)
+    bool OnDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location); //any time living prey is digested but won't die yet
+    bool OnFinishDigestion(Prey preyUnit, ActorUnit predUnit, PreyLocation location); //right before unit dies
+    bool OnDigestionKill(Prey preyUnit, ActorUnit predUnit, PreyLocation location); //right after unit dies
+    bool OnAbsorption(Prey preyUnit, ActorUnit predUnit, PreyLocation location); //any time a dead unit is being absorbed
+    bool OnFinishAbsorption(Prey preyUnit, ActorUnit predUnit, PreyLocation location); //unit is done absorbing, but not removed yet
 }
 
 internal interface IVoreRestrictions
@@ -30,20 +30,20 @@ internal interface IVoreRestrictions
      * CheckVore needs to handle a null target
      * Only specialVore types can be affected, disableing Vore overall will take more work
      */
-    bool CheckVore(Actor_Unit actor, Actor_Unit target, PreyLocation location);
+    bool CheckVore(ActorUnit actor, ActorUnit target, PreyLocation location);
 }
 
 public enum PreyLocation
 {
-    breasts,
-    balls,
-    stomach,
-    stomach2,
-    womb,
-    tail,
-    anal,
-    leftBreast,
-    rightBreast
+    Breasts,
+    Balls,
+    Stomach,
+    Stomach2,
+    Womb,
+    Tail,
+    Anal,
+    LeftBreast,
+    RightBreast
 }
 
 internal static class PreyLocationMethods
@@ -52,8 +52,8 @@ internal static class PreyLocationMethods
     {
         switch (location)
         {
-            case PreyLocation.womb:
-            case PreyLocation.balls:
+            case PreyLocation.Womb:
+            case PreyLocation.Balls:
                 return true;
             default:
                 return false;
@@ -66,84 +66,84 @@ public class PredatorComponent
     [OdinSerialize]
     private List<Prey> _prey;
 
-    private List<Prey> prey { get => _prey; set => _prey = value; }
+    private List<Prey> Prey { get => _prey; set => _prey = value; }
 
     [OdinSerialize]
     private List<Prey> _womb;
 
-    private List<Prey> womb { get => _womb; set => _womb = value; }
+    private List<Prey> Womb { get => _womb; set => _womb = value; }
 
     [OdinSerialize]
     private List<Prey> _breasts;
 
-    private List<Prey> breasts { get => _breasts; set => _breasts = value; }
+    private List<Prey> Breasts { get => _breasts; set => _breasts = value; }
 
     [OdinSerialize]
     private List<Prey> _leftBreast;
 
-    private List<Prey> leftBreast { get => _leftBreast; set => _leftBreast = value; }
+    private List<Prey> LeftBreast { get => _leftBreast; set => _leftBreast = value; }
 
     [OdinSerialize]
     private List<Prey> _rightBreast;
 
-    private List<Prey> rightBreast { get => _rightBreast; set => _rightBreast = value; }
+    private List<Prey> RightBreast { get => _rightBreast; set => _rightBreast = value; }
 
     [OdinSerialize]
     private List<Prey> _balls;
 
-    private List<Prey> balls { get => _balls; set => _balls = value; }
+    private List<Prey> Balls { get => _balls; set => _balls = value; }
 
     [OdinSerialize]
     private List<Prey> _stomach;
 
-    private List<Prey> stomach { get => _stomach; set => _stomach = value; }
+    private List<Prey> Stomach { get => _stomach; set => _stomach = value; }
 
     [OdinSerialize]
     private List<Prey> _stomach2;
 
-    private List<Prey> stomach2 { get => _stomach2; set => _stomach2 = value; }
+    private List<Prey> Stomach2 { get => _stomach2; set => _stomach2 = value; }
 
     [OdinSerialize]
     private List<Prey> _tail;
 
-    private List<Prey> tail { get => _tail; set => _tail = value; }
+    private List<Prey> Tail { get => _tail; set => _tail = value; }
 
     [OdinSerialize]
     private List<Prey> _deadPrey;
 
-    private List<Prey> deadPrey { get => _deadPrey; set => _deadPrey = value; }
+    private List<Prey> DeadPrey { get => _deadPrey; set => _deadPrey = value; }
 
-    private Transition StomachTransition;
-    private Transition BallsTransition;
-    private Transition LeftBreastTransition;
-    private Transition RightBreastTransition;
+    private Transition _stomachTransition;
+    private Transition _ballsTransition;
+    private Transition _leftBreastTransition;
+    private Transition _rightBreastTransition;
 
-    public static PreyLocation[] preyLocationOrder =
+    public static PreyLocation[] PreyLocationOrder =
     {
-        PreyLocation.stomach,
-        PreyLocation.stomach2,
-        PreyLocation.womb,
-        PreyLocation.balls,
-        PreyLocation.breasts,
-        PreyLocation.leftBreast,
-        PreyLocation.rightBreast,
-        PreyLocation.tail,
-        PreyLocation.anal
+        PreyLocation.Stomach,
+        PreyLocation.Stomach2,
+        PreyLocation.Womb,
+        PreyLocation.Balls,
+        PreyLocation.Breasts,
+        PreyLocation.LeftBreast,
+        PreyLocation.RightBreast,
+        PreyLocation.Tail,
+        PreyLocation.Anal
     };
 
     internal struct Transition
     {
-        internal float transitionTime;
-        internal float transitionLength;
-        internal float transitionStart;
-        internal float transitionEnd;
+        internal float TransitionTime;
+        internal float TransitionLength;
+        internal float TransitionStart;
+        internal float TransitionEnd;
 
         public Transition(float transitionLength, float transitionStart, float transitionEnd)
         {
-            transitionTime = 0;
-            this.transitionLength = transitionLength;
-            this.transitionStart = transitionStart;
-            this.transitionEnd = transitionEnd;
+            TransitionTime = 0;
+            this.TransitionLength = transitionLength;
+            this.TransitionStart = transitionStart;
+            this.TransitionEnd = transitionEnd;
         }
     }
 
@@ -173,9 +173,9 @@ public class PredatorComponent
     public float TailFullness { get => _tailFullness; set => _tailFullness = value; }
 
     [OdinSerialize]
-    private float _stomach2ndFullness;
+    private float _stomach2NdFullness;
 
-    public float Stomach2ndFullness { get => _stomach2ndFullness; set => _stomach2ndFullness = value; } // A second stomach fullness used for units with the trait DualStomach.
+    public float Stomach2NdFullness { get => _stomach2NdFullness; set => _stomach2NdFullness = value; } // A second stomach fullness used for units with the trait DualStomach.
 
     [OdinSerialize]
     private float _combinedStomachFullness;
@@ -209,22 +209,22 @@ public class PredatorComponent
     public float WombFullness { get => _wombFullness; set => _wombFullness = value; }
 
     [OdinSerialize]
-    private Actor_Unit actor;
+    private ActorUnit _actor;
 
     [OdinSerialize]
     private Unit _unit;
 
-    private Unit unit { get => _unit; set => _unit = value; }
+    private Unit Unit { get => _unit; set => _unit = value; }
 
     [OdinSerialize]
     private int _birthStatBoost;
 
-    public int birthStatBoost { get => _birthStatBoost; set => _birthStatBoost = value; }
+    public int BirthStatBoost { get => _birthStatBoost; set => _birthStatBoost = value; }
 
     [OdinSerialize]
     private Prey _template = null;
 
-    internal Prey template { get => _template; set => _template = value; }
+    internal Prey Template { get => _template; set => _template = value; }
 
 
     [OdinSerialize]
@@ -237,8 +237,8 @@ public class PredatorComponent
             if (_voreRestrictions == null)
             {
                 _voreRestrictions = new List<IVoreRestrictions>();
-                if (Races2.GetRace(unit.Race) is IVoreRestrictions restriction1) _voreRestrictions.Add(restriction1);
-                foreach (TraitType trait in unit.GetTraits.Where(t => TraitList.GetTrait(t) != null && TraitList.GetTrait(t) is IVoreRestrictions))
+                if (Races2.GetRace(Unit.Race) is IVoreRestrictions restriction1) _voreRestrictions.Add(restriction1);
+                foreach (TraitType trait in Unit.GetTraits.Where(t => TraitList.GetTrait(t) != null && TraitList.GetTrait(t) is IVoreRestrictions))
                 {
                     IVoreRestrictions restriction = (IVoreRestrictions)TraitList.GetTrait(trait);
                     _voreRestrictions.Add(restriction);
@@ -253,56 +253,56 @@ public class PredatorComponent
         }
     }
 
-    internal bool CanVore(PreyLocation location, Actor_Unit preyTarget = null)
+    internal bool CanVore(PreyLocation location, ActorUnit preyTarget = null)
     {
-        if (!unit.CanVore(location)) return false;
+        if (!Unit.CanVore(location)) return false;
         foreach (IVoreRestrictions callback in VoreRestrictions)
-            if (!callback.CheckVore(actor, preyTarget, location))
+            if (!callback.CheckVore(_actor, preyTarget, location))
                 return false;
         return true;
     }
 
-    internal bool CanUnbirth(Actor_Unit preyTarget = null)
+    internal bool CanUnbirth(ActorUnit preyTarget = null)
     {
-        if (!unit.CanUnbirth) return false;
+        if (!Unit.CanUnbirth) return false;
         foreach (IVoreRestrictions callback in VoreRestrictions)
-            if (!callback.CheckVore(actor, preyTarget, PreyLocation.womb))
+            if (!callback.CheckVore(_actor, preyTarget, PreyLocation.Womb))
                 return false;
         return true;
     }
 
-    internal bool CanCockVore(Actor_Unit preyTarget = null)
+    internal bool CanCockVore(ActorUnit preyTarget = null)
     {
-        if (!unit.CanCockVore) return false;
+        if (!Unit.CanCockVore) return false;
         foreach (IVoreRestrictions callback in VoreRestrictions)
-            if (!callback.CheckVore(actor, preyTarget, PreyLocation.balls))
+            if (!callback.CheckVore(_actor, preyTarget, PreyLocation.Balls))
                 return false;
         return true;
     }
 
-    internal bool CanBreastVore(Actor_Unit preyTarget = null)
+    internal bool CanBreastVore(ActorUnit preyTarget = null)
     {
-        if (!unit.CanBreastVore) return false;
+        if (!Unit.CanBreastVore) return false;
         foreach (IVoreRestrictions callback in VoreRestrictions)
-            if (!callback.CheckVore(actor, preyTarget, PreyLocation.breasts))
+            if (!callback.CheckVore(_actor, preyTarget, PreyLocation.Breasts))
                 return false;
         return true;
     }
 
-    internal bool CanAnalVore(Actor_Unit preyTarget = null)
+    internal bool CanAnalVore(ActorUnit preyTarget = null)
     {
-        if (!unit.CanAnalVore) return false;
+        if (!Unit.CanAnalVore) return false;
         foreach (IVoreRestrictions callback in VoreRestrictions)
-            if (!callback.CheckVore(actor, preyTarget, PreyLocation.anal))
+            if (!callback.CheckVore(_actor, preyTarget, PreyLocation.Anal))
                 return false;
         return true;
     }
 
-    internal bool CanTailVore(Actor_Unit preyTarget = null)
+    internal bool CanTailVore(ActorUnit preyTarget = null)
     {
-        if (!unit.CanTailVore) return false;
+        if (!Unit.CanTailVore) return false;
         foreach (IVoreRestrictions callback in VoreRestrictions)
-            if (!callback.CheckVore(actor, preyTarget, PreyLocation.tail))
+            if (!callback.CheckVore(_actor, preyTarget, PreyLocation.Tail))
                 return false;
         return true;
     }
@@ -311,21 +311,21 @@ public class PredatorComponent
 
     private List<IVoreCallback> PopulateCallbacks(Prey preyUnit)
     {
-        List<IVoreCallback> Callbacks = new List<IVoreCallback>();
-        foreach (TraitType trait in unit.GetTraits.Where(t => TraitList.GetTrait(t) != null && TraitList.GetTrait(t) is IVoreCallback))
+        List<IVoreCallback> callbacks = new List<IVoreCallback>();
+        foreach (TraitType trait in Unit.GetTraits.Where(t => TraitList.GetTrait(t) != null && TraitList.GetTrait(t) is IVoreCallback))
         {
             IVoreCallback callback = (IVoreCallback)TraitList.GetTrait(trait);
-            if (callback.IsPredTrait == true) Callbacks.Add(callback);
+            if (callback.IsPredTrait == true) callbacks.Add(callback);
         }
 
         foreach (TraitType trait in preyUnit.Unit.GetTraits.Where(t => TraitList.GetTrait(t) != null && TraitList.GetTrait(t) is IVoreCallback))
         {
             IVoreCallback callback = (IVoreCallback)TraitList.GetTrait(trait);
-            if (callback.IsPredTrait == false) Callbacks.Add(callback);
+            if (callback.IsPredTrait == false) callbacks.Add(callback);
         }
 
         //future idea: create status effect classes that can ALSO implement vore related callbacks
-        return Callbacks;
+        return callbacks;
     }
 
     // lumps prey in similar locations together
@@ -335,50 +335,50 @@ public class PredatorComponent
         int prey = 0;
         switch (location)
         {
-            case PreyLocation.balls:
-                foreach (Prey unit in balls)
+            case PreyLocation.Balls:
+                foreach (Prey unit in Balls)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.stomach:
-            case PreyLocation.stomach2:
-            case PreyLocation.womb:
-            case PreyLocation.anal:
-            case PreyLocation.tail:
-                foreach (Prey unit in stomach)
+            case PreyLocation.Stomach:
+            case PreyLocation.Stomach2:
+            case PreyLocation.Womb:
+            case PreyLocation.Anal:
+            case PreyLocation.Tail:
+                foreach (Prey unit in Stomach)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
-                foreach (Prey unit in stomach2)
+                foreach (Prey unit in Stomach2)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
-                foreach (Prey unit in womb)
-                {
-                    if (unit.Unit.IsDead != alive) prey += 1;
-                }
-
-                break;
-            case PreyLocation.leftBreast:
-                foreach (Prey unit in leftBreast)
+                foreach (Prey unit in Womb)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.rightBreast:
-                foreach (Prey unit in rightBreast)
+            case PreyLocation.LeftBreast:
+                foreach (Prey unit in LeftBreast)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.breasts:
-                foreach (Prey unit in breasts)
+            case PreyLocation.RightBreast:
+                foreach (Prey unit in RightBreast)
+                {
+                    if (unit.Unit.IsDead != alive) prey += 1;
+                }
+
+                break;
+            case PreyLocation.Breasts:
+                foreach (Prey unit in Breasts)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
@@ -394,58 +394,58 @@ public class PredatorComponent
         int prey = 0;
         switch (location)
         {
-            case PreyLocation.balls:
-                foreach (Prey unit in balls)
+            case PreyLocation.Balls:
+                foreach (Prey unit in Balls)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.stomach:
-            case PreyLocation.anal:
-                foreach (Prey unit in stomach)
+            case PreyLocation.Stomach:
+            case PreyLocation.Anal:
+                foreach (Prey unit in Stomach)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.stomach2:
-                foreach (Prey unit in stomach2)
+            case PreyLocation.Stomach2:
+                foreach (Prey unit in Stomach2)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.tail:
-                foreach (Prey unit in tail)
+            case PreyLocation.Tail:
+                foreach (Prey unit in Tail)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.womb:
-                foreach (Prey unit in womb)
+            case PreyLocation.Womb:
+                foreach (Prey unit in Womb)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.leftBreast:
-                foreach (Prey unit in leftBreast)
+            case PreyLocation.LeftBreast:
+                foreach (Prey unit in LeftBreast)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.rightBreast:
-                foreach (Prey unit in rightBreast)
+            case PreyLocation.RightBreast:
+                foreach (Prey unit in RightBreast)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
 
                 break;
-            case PreyLocation.breasts:
-                foreach (Prey unit in breasts)
+            case PreyLocation.Breasts:
+                foreach (Prey unit in Breasts)
                 {
                     if (unit.Unit.IsDead != alive) prey += 1;
                 }
@@ -460,7 +460,7 @@ public class PredatorComponent
     internal void UpdateAlivePrey()
     {
         AlivePrey = 0;
-        foreach (Prey unit in prey)
+        foreach (Prey unit in Prey)
         {
             if (unit.Unit.IsDead == false) AlivePrey += 1;
         }
@@ -468,7 +468,7 @@ public class PredatorComponent
 
     internal List<Prey> GetDirectPrey()
     {
-        return prey;
+        return Prey;
     }
 
     /// <summary>
@@ -478,7 +478,7 @@ public class PredatorComponent
     {
         List<Prey> allPrey = new List<Prey>();
         List<Prey> tempPrey = new List<Prey>();
-        tempPrey.AddRange(prey);
+        tempPrey.AddRange(Prey);
         int counter = 0;
         while (tempPrey.Count > 0)
         {
@@ -497,48 +497,48 @@ public class PredatorComponent
         return allPrey;
     }
 
-    public PredatorComponent(Actor_Unit actor, Unit unit)
+    public PredatorComponent(ActorUnit actor, Unit unit)
     {
-        this.actor = actor;
-        this.unit = unit;
+        this._actor = actor;
+        this.Unit = unit;
         Fullness = 0.0F;
-        prey = new List<Prey>();
-        womb = new List<Prey>();
-        breasts = new List<Prey>();
-        balls = new List<Prey>();
-        stomach = new List<Prey>();
-        stomach2 = new List<Prey>();
-        tail = new List<Prey>();
-        leftBreast = new List<Prey>();
-        rightBreast = new List<Prey>();
-        deadPrey = new List<Prey>();
-        birthStatBoost = 0;
+        Prey = new List<Prey>();
+        Womb = new List<Prey>();
+        Breasts = new List<Prey>();
+        Balls = new List<Prey>();
+        Stomach = new List<Prey>();
+        Stomach2 = new List<Prey>();
+        Tail = new List<Prey>();
+        LeftBreast = new List<Prey>();
+        RightBreast = new List<Prey>();
+        DeadPrey = new List<Prey>();
+        BirthStatBoost = 0;
     }
 
     public void UpdateVersion()
     {
-        if (tail == null) tail = new List<Prey>();
-        if (stomach2 == null) stomach2 = new List<Prey>();
-        if (leftBreast == null) leftBreast = new List<Prey>();
-        if (rightBreast == null) rightBreast = new List<Prey>();
+        if (Tail == null) Tail = new List<Prey>();
+        if (Stomach2 == null) Stomach2 = new List<Prey>();
+        if (LeftBreast == null) LeftBreast = new List<Prey>();
+        if (RightBreast == null) RightBreast = new List<Prey>();
     }
 
-    public int PreyCount => prey.Count;
+    public int PreyCount => Prey.Count;
 
     public int DigestingUnitCount
     {
         get
         {
-            if (unit.HasTrait(TraitType.Endosoma)) return prey.Where(s => !Equals(actor.Unit.GetApparentSide(s.Unit), s.Unit.FixedSide) || s.Unit.IsDead).Count();
-            return prey.Count;
+            if (Unit.HasTrait(TraitType.Endosoma)) return Prey.Where(s => !Equals(_actor.Unit.GetApparentSide(s.Unit), s.Unit.FixedSide) || s.Unit.IsDead).Count();
+            return Prey.Count;
         }
     }
 
-    public bool OnlyOnePreyAndLiving() => prey.Count == 1 && prey[0].Unit.IsDead == false;
+    public bool OnlyOnePreyAndLiving() => Prey.Count == 1 && Prey[0].Unit.IsDead == false;
 
-    public bool IsActorInPrey(Actor_Unit actor)
+    public bool IsActorInPrey(ActorUnit actor)
     {
-        foreach (Prey p in prey)
+        foreach (Prey p in Prey)
         {
             if (p.Actor == actor) return true;
         }
@@ -552,38 +552,38 @@ public class PredatorComponent
     /// <param name="unit">The Actor_Unit being looked for.</param>
     /// <param name="locations">The specified part of the predator to be checked. Can specify multiple.</param>
     /// <returns></returns>
-    public bool IsUnitInPrey(Actor_Unit unit, params PreyLocation[] locations)
+    public bool IsUnitInPrey(ActorUnit unit, params PreyLocation[] locations)
     {
-        if (locations.Contains(PreyLocation.stomach))
-            foreach (Prey p in stomach)
+        if (locations.Contains(PreyLocation.Stomach))
+            foreach (Prey p in Stomach)
                 if (p.Actor == unit)
                     return true;
-        if (locations.Contains(PreyLocation.stomach2))
-            foreach (Prey p in stomach2)
+        if (locations.Contains(PreyLocation.Stomach2))
+            foreach (Prey p in Stomach2)
                 if (p.Actor == unit)
                     return true;
-        if (locations.Contains(PreyLocation.balls))
-            foreach (Prey p in balls)
+        if (locations.Contains(PreyLocation.Balls))
+            foreach (Prey p in Balls)
                 if (p.Actor == unit)
                     return true;
-        if (locations.Contains(PreyLocation.breasts))
-            foreach (Prey p in breasts)
+        if (locations.Contains(PreyLocation.Breasts))
+            foreach (Prey p in Breasts)
                 if (p.Actor == unit)
                     return true;
-        if (locations.Contains(PreyLocation.womb))
-            foreach (Prey p in womb)
+        if (locations.Contains(PreyLocation.Womb))
+            foreach (Prey p in Womb)
                 if (p.Actor == unit)
                     return true;
-        if (locations.Contains(PreyLocation.tail))
-            foreach (Prey p in tail)
+        if (locations.Contains(PreyLocation.Tail))
+            foreach (Prey p in Tail)
                 if (p.Actor == unit)
                     return true;
-        if (locations.Contains(PreyLocation.leftBreast))
-            foreach (Prey p in leftBreast)
+        if (locations.Contains(PreyLocation.LeftBreast))
+            foreach (Prey p in LeftBreast)
                 if (p.Actor == unit)
                     return true;
-        if (locations.Contains(PreyLocation.rightBreast))
-            foreach (Prey p in rightBreast)
+        if (locations.Contains(PreyLocation.RightBreast))
+            foreach (Prey p in RightBreast)
                 if (p.Actor == unit)
                     return true;
 
@@ -615,7 +615,7 @@ public class PredatorComponent
     public bool IsUnitOfSpecificationInPrey(Race race, bool alive)
     {
         if (Config.RaceSpecificVoreGraphicsDisabled) return false;
-        foreach (Prey p in prey)
+        foreach (Prey p in Prey)
         {
             if (Equals(p.Unit.Race, race))
                 if (p.Unit.IsDead != alive)
@@ -636,64 +636,64 @@ public class PredatorComponent
     public bool IsUnitOfSpecificationInPrey(Race race, bool alive, params PreyLocation[] locations)
     {
         if (Config.RaceSpecificVoreGraphicsDisabled) return false;
-        if (locations.Contains(PreyLocation.stomach))
-            foreach (Prey p in stomach)
+        if (locations.Contains(PreyLocation.Stomach))
+            foreach (Prey p in Stomach)
             {
                 if (Equals(p.Unit.Race, race))
                     if (p.Unit.IsDead != alive)
                         return true;
             }
 
-        if (locations.Contains(PreyLocation.balls))
-            foreach (Prey p in balls)
+        if (locations.Contains(PreyLocation.Balls))
+            foreach (Prey p in Balls)
             {
                 if (Equals(p.Unit.Race, race))
                     if (p.Unit.IsDead != alive)
                         return true;
             }
 
-        if (locations.Contains(PreyLocation.womb))
-            foreach (Prey p in womb)
+        if (locations.Contains(PreyLocation.Womb))
+            foreach (Prey p in Womb)
             {
                 if (Equals(p.Unit.Race, race))
                     if (p.Unit.IsDead != alive)
                         return true;
             }
 
-        if (locations.Contains(PreyLocation.breasts))
-            foreach (Prey p in breasts)
+        if (locations.Contains(PreyLocation.Breasts))
+            foreach (Prey p in Breasts)
             {
                 if (Equals(p.Unit.Race, race))
                     if (p.Unit.IsDead != alive)
                         return true;
             }
 
-        if (locations.Contains(PreyLocation.tail))
-            foreach (Prey p in tail)
+        if (locations.Contains(PreyLocation.Tail))
+            foreach (Prey p in Tail)
             {
                 if (Equals(p.Unit.Race, race))
                     if (p.Unit.IsDead != alive)
                         return true;
             }
 
-        if (locations.Contains(PreyLocation.stomach2))
-            foreach (Prey p in stomach2)
+        if (locations.Contains(PreyLocation.Stomach2))
+            foreach (Prey p in Stomach2)
             {
                 if (Equals(p.Unit.Race, race))
                     if (p.Unit.IsDead != alive)
                         return true;
             }
 
-        if (locations.Contains(PreyLocation.leftBreast))
-            foreach (Prey p in leftBreast)
+        if (locations.Contains(PreyLocation.LeftBreast))
+            foreach (Prey p in LeftBreast)
             {
                 if (Equals(p.Unit.Race, race))
                     if (p.Unit.IsDead != alive)
                         return true;
             }
 
-        if (locations.Contains(PreyLocation.rightBreast))
-            foreach (Prey p in rightBreast)
+        if (locations.Contains(PreyLocation.RightBreast))
+            foreach (Prey p in RightBreast)
             {
                 if (Equals(p.Unit.Race, race))
                     if (p.Unit.IsDead != alive)
@@ -706,50 +706,50 @@ public class PredatorComponent
     public bool IsUnitOfSpecificationInPrey(Race race, params PreyLocation[] locations)
     {
         if (Config.RaceSpecificVoreGraphicsDisabled) return false;
-        if (locations.Contains(PreyLocation.stomach))
-            foreach (Prey p in stomach)
+        if (locations.Contains(PreyLocation.Stomach))
+            foreach (Prey p in Stomach)
             {
                 if (Equals(p.Unit.Race, race)) return true;
             }
 
-        if (locations.Contains(PreyLocation.balls))
-            foreach (Prey p in balls)
+        if (locations.Contains(PreyLocation.Balls))
+            foreach (Prey p in Balls)
             {
                 if (Equals(p.Unit.Race, race)) return true;
             }
 
-        if (locations.Contains(PreyLocation.womb))
-            foreach (Prey p in womb)
+        if (locations.Contains(PreyLocation.Womb))
+            foreach (Prey p in Womb)
             {
                 if (Equals(p.Unit.Race, race)) return true;
             }
 
-        if (locations.Contains(PreyLocation.breasts))
-            foreach (Prey p in breasts)
+        if (locations.Contains(PreyLocation.Breasts))
+            foreach (Prey p in Breasts)
             {
                 if (Equals(p.Unit.Race, race)) return true;
             }
 
-        if (locations.Contains(PreyLocation.tail))
-            foreach (Prey p in tail)
+        if (locations.Contains(PreyLocation.Tail))
+            foreach (Prey p in Tail)
             {
                 if (Equals(p.Unit.Race, race)) return true;
             }
 
-        if (locations.Contains(PreyLocation.stomach2))
-            foreach (Prey p in stomach2)
+        if (locations.Contains(PreyLocation.Stomach2))
+            foreach (Prey p in Stomach2)
             {
                 if (Equals(p.Unit.Race, race)) return true;
             }
 
-        if (locations.Contains(PreyLocation.leftBreast))
-            foreach (Prey p in leftBreast)
+        if (locations.Contains(PreyLocation.LeftBreast))
+            foreach (Prey p in LeftBreast)
             {
                 if (Equals(p.Unit.Race, race)) return true;
             }
 
-        if (locations.Contains(PreyLocation.rightBreast))
-            foreach (Prey p in rightBreast)
+        if (locations.Contains(PreyLocation.RightBreast))
+            foreach (Prey p in RightBreast)
             {
                 if (Equals(p.Unit.Race, race)) return true;
             }
@@ -760,13 +760,13 @@ public class PredatorComponent
     public void FreeAnyAlivePrey()
     {
         List<Prey> preyUnits = new List<Prey>();
-        preyUnits.AddRange(prey);
+        preyUnits.AddRange(Prey);
         while (preyUnits.Any())
         {
             if (preyUnits[0].Unit.IsDead == false)
             {
-                State.GameManager.TacticalMode.TacticalStats.RegisterFreed(unit.Side);
-                TacticalUtilities.Log.RegisterFreed(unit, preyUnits[0].Unit, Location(preyUnits[0]));
+                State.GameManager.TacticalMode.TacticalStats.RegisterFreed(Unit.Side);
+                TacticalUtilities.Log.RegisterFreed(Unit, preyUnits[0].Unit, Location(preyUnits[0]));
                 preyUnits[0].Predator.PredatorComponent.FreePrey(preyUnits[0], true);
                 preyUnits.RemoveAt(0);
             }
@@ -786,23 +786,23 @@ public class PredatorComponent
     internal void PurgePrey()
     {
         FreeAnyAlivePrey();
-        prey.Clear();
-        womb.Clear();
-        breasts.Clear();
-        leftBreast.Clear();
-        rightBreast.Clear();
-        balls.Clear();
-        stomach.Clear();
-        stomach2.Clear();
-        tail.Clear();
+        Prey.Clear();
+        Womb.Clear();
+        Breasts.Clear();
+        LeftBreast.Clear();
+        RightBreast.Clear();
+        Balls.Clear();
+        Stomach.Clear();
+        Stomach2.Clear();
+        Tail.Clear();
     }
 
-    public Vec2i GetCurrentLocation()
+    public Vec2I GetCurrentLocation()
     {
-        Actor_Unit located = actor;
+        ActorUnit located = _actor;
         for (int i = 0; i < 200; i++)
         {
-            Actor_Unit newActor = TacticalUtilities.FindPredator(located);
+            ActorUnit newActor = TacticalUtilities.FindPredator(located);
             if (newActor != null)
             {
                 located = newActor;
@@ -824,16 +824,16 @@ public class PredatorComponent
         }
 
         float ret = 0;
-        for (int i = 0; i < prey.Count; i++)
+        for (int i = 0; i < Prey.Count; i++)
         {
-            if (prey[i].Unit == actor.Unit)
+            if (Prey[i].Unit == _actor.Unit)
             {
                 Debug.Log("Prey inside of itself!");
-                FreePrey(prey[i], true);
+                FreePrey(Prey[i], true);
                 continue;
             }
 
-            ret += prey[i].Actor.Bulk(count);
+            ret += Prey[i].Actor.Bulk(count);
         }
 
         return ret;
@@ -841,9 +841,9 @@ public class PredatorComponent
 
     public float TotalCapacity()
     {
-        float c = State.RaceSettings.GetStomachSize(unit.Race);
+        float c = State.RaceSettings.GetStomachSize(Unit.Race);
 
-        c *= unit.GetStat(Stat.Stomach) / 12f * unit.TraitBoosts.CapacityMult;
+        c *= Unit.GetStat(Stat.Stomach) / 12f * Unit.TraitBoosts.CapacityMult;
 
         //c *= unit.GetScale(3);  It may be more realistic, but having huge resulting in 81 times the base stomach capacity is just overkill
 
@@ -853,9 +853,9 @@ public class PredatorComponent
     public float FreeCap()
     {
         float totalBulk = 0;
-        for (int i = 0; i < prey.Count; i++)
+        for (int i = 0; i < Prey.Count; i++)
         {
-            totalBulk += prey[i].Actor.Bulk();
+            totalBulk += Prey[i].Actor.Bulk();
         }
 
         return TotalCapacity() - totalBulk;
@@ -866,23 +866,23 @@ public class PredatorComponent
     /// </summary>
     /// <param name="location"></param>
     /// <returns></returns>
-    internal Prey FreeRandomPreyToSquare(Vec2i location)
+    internal Prey FreeRandomPreyToSquare(Vec2I location)
     {
-        if (actor.Position.GetNumberOfMovesDistance(location) > 1) return null;
-        if (actor.Movement == 0) return null;
-        if (actor.Unit.Predator == false) return null;
-        var alives = prey.Where(s => s.Unit.IsDead == false && !TacticalUtilities.TreatAsHostile(actor, s.Actor)).ToArray();
-        if (alives.Length == 0) alives = prey.Where(s => s.Unit.IsDead == false).ToArray();
+        if (_actor.Position.GetNumberOfMovesDistance(location) > 1) return null;
+        if (_actor.Movement == 0) return null;
+        if (_actor.Unit.Predator == false) return null;
+        var alives = Prey.Where(s => s.Unit.IsDead == false && !TacticalUtilities.TreatAsHostile(_actor, s.Actor)).ToArray();
+        if (alives.Length == 0) alives = Prey.Where(s => s.Unit.IsDead == false).ToArray();
         if (alives.Length == 0) return null;
         var target = alives[State.Rand.Next(alives.Length)];
         if (TacticalUtilities.OpenTile(location, target.Actor) == false) return null;
-        if (!unit.HasTrait(TraitType.Endosoma) || !Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit))) unit.GiveScaledExp(-4, unit.Level - target.Unit.Level, true);
+        if (!Unit.HasTrait(TraitType.Endosoma) || !Equals(target.Unit.FixedSide, Unit.GetApparentSide(target.Unit))) Unit.GiveScaledExp(-4, Unit.Level - target.Unit.Level, true);
         target.Actor.SetPos(location);
         target.Actor.Visible = true;
         target.Actor.Targetable = true;
         TacticalUtilities.UpdateActorLocations();
         target.Actor.UnitSprite.DisplayEscape();
-        TacticalUtilities.Log.RegisterRegurgitate(actor.Unit, target.Actor.Unit, actor.PredatorComponent.Location(target));
+        TacticalUtilities.Log.RegisterRegurgitate(_actor.Unit, target.Actor.Unit, _actor.PredatorComponent.Location(target));
         RemovePrey(target);
         UpdateFullness();
         return target;
@@ -890,14 +890,14 @@ public class PredatorComponent
 
     internal void FreeGreatEscapePrey(Prey preyUnit)
     {
-        TacticalUtilities.Log.LogGreatEscapeFlee(unit, preyUnit.Unit, Location(preyUnit));
+        TacticalUtilities.Log.LogGreatEscapeFlee(Unit, preyUnit.Unit, Location(preyUnit));
         RemovePrey(preyUnit);
         preyUnit.Actor.SelfPrey = null;
     }
 
     internal void FreePrey(Prey preyUnit, bool forcePop)
     {
-        if (actor.Visible || forcePop || actor.Fled)
+        if (_actor.Visible || forcePop || _actor.Fled)
         {
             preyUnit.Actor.SelfPrey = null;
             if (PlacedPrey(preyUnit.Actor))
@@ -926,10 +926,10 @@ public class PredatorComponent
         }
         else
         {
-            Actor_Unit predator = actor.SelfPrey?.Predator;
+            ActorUnit predator = _actor.SelfPrey?.Predator;
             if (predator != null)
             {
-                var loc = actor.SelfPrey.Location;
+                var loc = _actor.SelfPrey.Location;
                 Prey prey = new Prey(preyUnit.Actor, predator, preyUnit.SubPrey);
                 predator.PredatorComponent.AddPrey(prey, loc);
                 preyUnit.Actor.SelfPrey = prey;
@@ -937,7 +937,7 @@ public class PredatorComponent
             else
             {
                 preyUnit.Actor.SelfPrey = null;
-                Debug.Log($"Couldn't find predator for {unit.Name}, freeing sub prey");
+                Debug.Log($"Couldn't find predator for {Unit.Name}, freeing sub prey");
                 preyUnit.Actor.Visible = true;
                 preyUnit.Actor.Targetable = true;
                 TacticalUtilities.UpdateActorLocations();
@@ -953,18 +953,18 @@ public class PredatorComponent
     {
         if (traitType < maxTraitType && !TraitsMethods.IsRaceModifying(traitType))
         {
-            if (!unit.HasTrait(traitType)) unit.AddSharedTrait(traitType);
-            if (!preyUnit.SharedTraits.Contains(traitType) && unit.HasSharedTrait(traitType)) preyUnit.SharedTraits.Add(traitType);
+            if (!Unit.HasTrait(traitType)) Unit.AddSharedTrait(traitType);
+            if (!preyUnit.SharedTraits.Contains(traitType) && Unit.HasSharedTrait(traitType)) preyUnit.SharedTraits.Add(traitType);
         }
     }
 
     public void RefreshSharedTraits()
     {
-        unit.ResetSharedTraits();
-        foreach (Prey preyUnit in prey)
+        Unit.ResetSharedTraits();
+        foreach (Prey preyUnit in Prey)
         foreach (TraitType trait in preyUnit.SharedTraits)
-            if (!unit.HasTrait(trait))
-                unit.AddSharedTrait(trait);
+            if (!Unit.HasTrait(trait))
+                Unit.AddSharedTrait(trait);
     }
 
     internal void OnSwallowCallbacks(Prey preyUnit)
@@ -972,7 +972,7 @@ public class PredatorComponent
         var location = preyUnit.Location;
         foreach (IVoreCallback callback in PopulateCallbacks(preyUnit).OrderBy((vt) => vt.ProcessingPriority))
         {
-            if (!callback.OnSwallow(preyUnit, actor, location)) return;
+            if (!callback.OnSwallow(preyUnit, _actor, location)) return;
         }
     }
 
@@ -981,98 +981,98 @@ public class PredatorComponent
         OnSwallowCallbacks(preyUnit);
         switch (location)
         {
-            case PreyLocation.breasts:
-                breasts.Add(preyUnit);
+            case PreyLocation.Breasts:
+                Breasts.Add(preyUnit);
                 break;
-            case PreyLocation.balls:
-                balls.Add(preyUnit);
+            case PreyLocation.Balls:
+                Balls.Add(preyUnit);
                 break;
-            case PreyLocation.stomach:
-                stomach.Add(preyUnit);
+            case PreyLocation.Stomach:
+                Stomach.Add(preyUnit);
                 break;
-            case PreyLocation.stomach2:
-                stomach2.Add(preyUnit);
+            case PreyLocation.Stomach2:
+                Stomach2.Add(preyUnit);
                 break;
-            case PreyLocation.womb:
-                womb.Add(preyUnit);
+            case PreyLocation.Womb:
+                Womb.Add(preyUnit);
                 break;
-            case PreyLocation.tail:
-                tail.Add(preyUnit);
+            case PreyLocation.Tail:
+                Tail.Add(preyUnit);
                 break;
-            case PreyLocation.anal:
-                stomach.Add(preyUnit);
+            case PreyLocation.Anal:
+                Stomach.Add(preyUnit);
                 break;
-            case PreyLocation.leftBreast:
-                leftBreast.Add(preyUnit);
+            case PreyLocation.LeftBreast:
+                LeftBreast.Add(preyUnit);
                 break;
-            case PreyLocation.rightBreast:
-                rightBreast.Add(preyUnit);
+            case PreyLocation.RightBreast:
+                RightBreast.Add(preyUnit);
                 break;
         }
 
-        prey.Add(preyUnit);
-        actor.UnitSprite.UpdateSprites(actor, true);
+        Prey.Add(preyUnit);
+        _actor.UnitSprite.UpdateSprites(_actor, true);
         UpdateAlivePrey();
     }
 
     private void AddPrey(Prey preyUnit)
     {
         OnSwallowCallbacks(preyUnit);
-        prey.Add(preyUnit);
+        Prey.Add(preyUnit);
         UpdateAlivePrey();
     }
 
     internal PreyLocation Location(Prey preyUnit)
     {
-        if (womb.Contains(preyUnit) && unit.CanUnbirth)
+        if (Womb.Contains(preyUnit) && Unit.CanUnbirth)
         {
-            return PreyLocation.womb;
+            return PreyLocation.Womb;
         }
 
-        if (breasts.Contains(preyUnit) && unit.CanBreastVore)
+        if (Breasts.Contains(preyUnit) && Unit.CanBreastVore)
         {
-            return PreyLocation.breasts;
+            return PreyLocation.Breasts;
         }
 
-        if (balls.Contains(preyUnit) && unit.CanCockVore)
+        if (Balls.Contains(preyUnit) && Unit.CanCockVore)
         {
-            return PreyLocation.balls;
+            return PreyLocation.Balls;
         }
 
-        if (tail.Contains(preyUnit) && unit.CanTailVore)
+        if (Tail.Contains(preyUnit) && Unit.CanTailVore)
         {
-            return PreyLocation.tail;
+            return PreyLocation.Tail;
         }
 
-        if (stomach2.Contains(preyUnit) && unit.HasTrait(TraitType.DualStomach))
+        if (Stomach2.Contains(preyUnit) && Unit.HasTrait(TraitType.DualStomach))
         {
-            return PreyLocation.stomach2;
+            return PreyLocation.Stomach2;
         }
 
-        if (leftBreast.Contains(preyUnit) && unit.CanBreastVore)
+        if (LeftBreast.Contains(preyUnit) && Unit.CanBreastVore)
         {
-            return PreyLocation.leftBreast;
+            return PreyLocation.LeftBreast;
         }
 
-        if (rightBreast.Contains(preyUnit) && unit.CanBreastVore)
+        if (RightBreast.Contains(preyUnit) && Unit.CanBreastVore)
         {
-            return PreyLocation.rightBreast;
+            return PreyLocation.RightBreast;
         }
         else
         {
-            return PreyLocation.stomach;
+            return PreyLocation.Stomach;
         }
     }
 
     internal void OnRemoveCallbacks(Prey preyUnit, bool remove = true)
     {
-        if (prey.Contains(preyUnit))
+        if (Prey.Contains(preyUnit))
         {
             var location = preyUnit.Location;
-            if (remove) prey.Remove(preyUnit);
+            if (remove) Prey.Remove(preyUnit);
             foreach (IVoreCallback callback in PopulateCallbacks(preyUnit).OrderBy((vt) => vt.ProcessingPriority))
             {
-                if (!callback.OnRemove(preyUnit, actor, location)) return;
+                if (!callback.OnRemove(preyUnit, _actor, location)) return;
             }
         }
     }
@@ -1080,14 +1080,14 @@ public class PredatorComponent
     private void RemovePrey(Prey preyUnit)
     {
         OnRemoveCallbacks(preyUnit);
-        womb.Remove(preyUnit);
-        breasts.Remove(preyUnit);
-        balls.Remove(preyUnit);
-        stomach.Remove(preyUnit);
-        stomach2.Remove(preyUnit);
-        tail.Remove(preyUnit);
-        leftBreast.Remove(preyUnit);
-        rightBreast.Remove(preyUnit);
+        Womb.Remove(preyUnit);
+        Breasts.Remove(preyUnit);
+        Balls.Remove(preyUnit);
+        Stomach.Remove(preyUnit);
+        Stomach2.Remove(preyUnit);
+        Tail.Remove(preyUnit);
+        LeftBreast.Remove(preyUnit);
+        RightBreast.Remove(preyUnit);
         UpdateAlivePrey();
     }
 
@@ -1096,7 +1096,7 @@ public class PredatorComponent
         foreach (TraitType trait in preyUnit.Unit.GetTraits.Where(t => TraitList.GetTrait(t) != null && TraitList.GetTrait(t) is INoAutoEscape))
         {
             INoAutoEscape callback = (INoAutoEscape)TraitList.GetTrait(trait);
-            if (!callback.CanEscape(preyUnit, actor)) return false;
+            if (!callback.CanEscape(preyUnit, _actor)) return false;
         }
 
         return true;
@@ -1106,28 +1106,28 @@ public class PredatorComponent
     {
         AlivePrey = 0;
         int totalHeal = 0;
-        foreach (Prey preyUnit in prey.ToList())
+        foreach (Prey preyUnit in Prey.ToList())
         {
-            if ((preyUnit.Location != PreyLocation.breasts && feedType == "breastfeed") || (preyUnit.Location != PreyLocation.balls && feedType == "cumfeed"))
+            if ((preyUnit.Location != PreyLocation.Breasts && feedType == "breastfeed") || (preyUnit.Location != PreyLocation.Balls && feedType == "cumfeed"))
             {
                 break;
             }
 
             StatusEffect hypnotizedEffect = preyUnit.Unit.GetStatusEffect(StatusEffectType.Hypnotized);
-            if (unit.HasTrait(TraitType.EnthrallingDepths) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, unit.FixedSide)))
+            if (Unit.HasTrait(TraitType.EnthrallingDepths) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, Unit.FixedSide)))
             {
                 preyUnit.Unit.ApplyStatusEffect(StatusEffectType.WillingPrey, 0, 3);
             }
 
             int preyDamage = CalculateDigestionDamage(preyUnit);
-            if (preyUnit.Predator.Unit.HasTrait(TraitType.Honeymaker) && preyUnit.Unit.IsDead && (preyUnit.Location == PreyLocation.breasts || preyUnit.Location == PreyLocation.leftBreast || preyUnit.Location == PreyLocation.rightBreast)) preyDamage /= 2;
+            if (preyUnit.Predator.Unit.HasTrait(TraitType.Honeymaker) && preyUnit.Unit.IsDead && (preyUnit.Location == PreyLocation.Breasts || preyUnit.Location == PreyLocation.LeftBreast || preyUnit.Location == PreyLocation.RightBreast)) preyDamage /= 2;
             if (preyUnit.TurnsDigested < preyUnit.Unit.TraitBoosts.DigestionImmunityTurns) preyDamage = 0;
-            if (tail.Contains(preyUnit))
+            if (Tail.Contains(preyUnit))
             {
                 if (preyUnit.TurnsBeingSwallowed >= 1)
                 {
-                    tail.Remove(preyUnit);
-                    stomach.Add(preyUnit);
+                    Tail.Remove(preyUnit);
+                    Stomach.Add(preyUnit);
                     preyUnit.TurnsBeingSwallowed = 0;
                 }
                 else
@@ -1137,14 +1137,14 @@ public class PredatorComponent
                 }
             }
 
-            if (unit.HasTrait(TraitType.DualStomach))
+            if (Unit.HasTrait(TraitType.DualStomach))
             {
-                if (stomach.Contains(preyUnit))
+                if (Stomach.Contains(preyUnit))
                 {
                     if (preyUnit.TurnsBeingSwallowed >= 2)
                     {
-                        stomach.Remove(preyUnit);
-                        stomach2.Add(preyUnit);
+                        Stomach.Remove(preyUnit);
+                        Stomach2.Add(preyUnit);
                     }
                     else
                     {
@@ -1153,9 +1153,9 @@ public class PredatorComponent
                 }
             }
 
-            if (actor.PredatorComponent.IsUnitInPrey(preyUnit.Actor, PreyLocation.womb) && actor.PredatorComponent.birthStatBoost > 0 && Equals(preyUnit.Unit.GetApparentSide(unit), unit.FixedSide) && Config.KuroTenkoEnabled && Config.CumGestation)
+            if (_actor.PredatorComponent.IsUnitInPrey(preyUnit.Actor, PreyLocation.Womb) && _actor.PredatorComponent.BirthStatBoost > 0 && Equals(preyUnit.Unit.GetApparentSide(Unit), Unit.FixedSide) && Config.KuroTenkoEnabled && Config.CumGestation)
             {
-                while (actor.PredatorComponent.birthStatBoost > 0)
+                while (_actor.PredatorComponent.BirthStatBoost > 0)
                 {
                     int stat = UnityEngine.Random.Range(0, 8);
                     preyUnit.Unit.ModifyStat(stat, 1);
@@ -1169,19 +1169,19 @@ public class PredatorComponent
                         preyUnit.Unit.Health += 1;
                     }
 
-                    actor.PredatorComponent.birthStatBoost--;
+                    _actor.PredatorComponent.BirthStatBoost--;
                 }
             }
 
-            if (TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, unit))
+            if (TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, Unit))
             {
-                if (unit.HasTrait(TraitType.HealingBelly))
-                    preyDamage = Math.Min(unit.MaxHealth / -10, -1);
+                if (Unit.HasTrait(TraitType.HealingBelly))
+                    preyDamage = Math.Min(Unit.MaxHealth / -10, -1);
                 else
                     preyDamage = 0;
-                if (unit.HasTrait(TraitType.Extraction))
+                if (Unit.HasTrait(TraitType.Extraction))
                 {
-                    var possibleTraits = unit.GetTraits.Where(s => !preyUnit.Unit.GetTraits.Contains(s) && State.AssimilateList.CanGet(s)).ToArray();
+                    var possibleTraits = Unit.GetTraits.Where(s => !preyUnit.Unit.GetTraits.Contains(s) && State.AssimilateList.CanGet(s)).ToArray();
 
                     if (possibleTraits.Any())
                     {
@@ -1190,14 +1190,14 @@ public class PredatorComponent
                     }
                 }
 
-                if (unit.HasTrait(TraitType.InfiniteAssimilation) && !preyUnit.Unit.HasTrait(TraitType.InfiniteAssimilation) && Config.KuroTenkoEnabled) preyUnit.Unit.AddPermanentTrait(TraitType.InfiniteAssimilation);
-                if (unit.HasTrait(TraitType.Assimilate) && !preyUnit.Unit.HasTrait(TraitType.Assimilate) && Config.KuroTenkoEnabled) preyUnit.Unit.AddPermanentTrait(TraitType.Assimilate);
-                if (unit.HasTrait(TraitType.AdaptiveBiology) && !preyUnit.Unit.HasTrait(TraitType.AdaptiveBiology) && Config.KuroTenkoEnabled) preyUnit.Unit.AddPermanentTrait(TraitType.AdaptiveBiology);
-                if (unit.HasTrait(TraitType.Corruption) && !preyUnit.Unit.HasTrait(TraitType.Corruption))
+                if (Unit.HasTrait(TraitType.InfiniteAssimilation) && !preyUnit.Unit.HasTrait(TraitType.InfiniteAssimilation) && Config.KuroTenkoEnabled) preyUnit.Unit.AddPermanentTrait(TraitType.InfiniteAssimilation);
+                if (Unit.HasTrait(TraitType.Assimilate) && !preyUnit.Unit.HasTrait(TraitType.Assimilate) && Config.KuroTenkoEnabled) preyUnit.Unit.AddPermanentTrait(TraitType.Assimilate);
+                if (Unit.HasTrait(TraitType.AdaptiveBiology) && !preyUnit.Unit.HasTrait(TraitType.AdaptiveBiology) && Config.KuroTenkoEnabled) preyUnit.Unit.AddPermanentTrait(TraitType.AdaptiveBiology);
+                if (Unit.HasTrait(TraitType.Corruption) && !preyUnit.Unit.HasTrait(TraitType.Corruption))
                 {
                     preyUnit.Unit.AddPermanentTrait(TraitType.Corruption);
-                    if (!preyUnit.Unit.HasTrait(TraitType.Untamable)) preyUnit.Unit.FixedSide = unit.FixedSide;
-                    preyUnit.Unit.hiddenFixedSide = true;
+                    if (!preyUnit.Unit.HasTrait(TraitType.Untamable)) preyUnit.Unit.FixedSide = Unit.FixedSide;
+                    preyUnit.Unit.HiddenFixedSide = true;
                     preyUnit.Actor.SidesAttackedThisBattle = new List<Side>();
                 }
 
@@ -1208,10 +1208,10 @@ public class PredatorComponent
                 preyUnit.Unit.ReloadTraits();
                 preyUnit.Unit.InitializeTraits();
             }
-            else if (Config.FriendlyRegurgitation && unit.HasTrait(TraitType.Greedy) == false && Equals(preyUnit.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && Equals(TacticalUtilities.GetMindControlSide(preyUnit.Unit), Side.TrueNoneSide) && preyUnit.Unit.Health > 0 && preyUnit.Actor.Surrendered == false && PreyCanAutoEscape(preyUnit))
+            else if (Config.FriendlyRegurgitation && Unit.HasTrait(TraitType.Greedy) == false && Equals(preyUnit.Unit.GetApparentSide(_actor.Unit), _actor.Unit.FixedSide) && Equals(TacticalUtilities.GetMindControlSide(preyUnit.Unit), Side.TrueNoneSide) && preyUnit.Unit.Health > 0 && preyUnit.Actor.Surrendered == false && PreyCanAutoEscape(preyUnit))
             {
-                State.GameManager.TacticalMode.TacticalStats.RegisterRegurgitation(unit.Side);
-                TacticalUtilities.Log.RegisterRegurgitated(unit, preyUnit.Unit, Location(preyUnit));
+                State.GameManager.TacticalMode.TacticalStats.RegisterRegurgitation(Unit.Side);
+                TacticalUtilities.Log.RegisterRegurgitated(Unit, preyUnit.Unit, Location(preyUnit));
                 FreePrey(preyUnit, false);
                 continue;
             }
@@ -1220,23 +1220,23 @@ public class PredatorComponent
                 totalHeal += DigestOneUnit(preyUnit, preyDamage);
             else
                 DigestOneUnit(preyUnit, preyDamage);
-            if (unit.HasTrait(TraitType.Growth))
+            if (Unit.HasTrait(TraitType.Growth))
             {
-                unit.BaseScale += (float)totalHeal / preyUnit.Unit.MaxHealth * .2d * CalculateGrowthValue(preyUnit);
-                if (unit.BaseScale > Config.GrowthCap) unit.BaseScale = Config.GrowthCap;
+                Unit.BaseScale += (float)totalHeal / preyUnit.Unit.MaxHealth * .2d * CalculateGrowthValue(preyUnit);
+                if (Unit.BaseScale > Config.GrowthCap) Unit.BaseScale = Config.GrowthCap;
             }
         }
 
-        if (!(unit.Health < unit.MaxHealth))
+        if (!(Unit.Health < Unit.MaxHealth))
         {
             totalHeal = 0;
         }
 
         if (totalHeal > 0)
         {
-            unit.Heal(totalHeal);
-            actor.UnitSprite.DisplayDamage(-totalHeal);
-            TacticalUtilities.Log.RegisterHeal(unit, new int[] { totalHeal, 0 });
+            Unit.Heal(totalHeal);
+            _actor.UnitSprite.DisplayDamage(-totalHeal);
+            TacticalUtilities.Log.RegisterHeal(Unit, new int[] { totalHeal, 0 });
         }
 
         UpdateFullness();
@@ -1245,10 +1245,10 @@ public class PredatorComponent
     private float CalculateGrowthValue(Prey preyUnit)
     {
         float preyMass = preyUnit.Unit.TraitBoosts.BulkMultiplier * State.RaceSettings.GetBodySize(preyUnit.Unit.Race);
-        float predMass = unit.TraitBoosts.BulkMultiplier * State.RaceSettings.GetBodySize(unit.Race);
-        float sizeDiff = preyUnit.Unit.GetScale(2) * preyMass / (unit.GetScale(2) * predMass);
+        float predMass = Unit.TraitBoosts.BulkMultiplier * State.RaceSettings.GetBodySize(Unit.Race);
+        float sizeDiff = preyUnit.Unit.GetScale(2) * preyMass / (Unit.GetScale(2) * predMass);
         float preyBoosts = ((preyUnit.Unit.TraitBoosts.Outgoing.Nutrition - 1) * .2f + 1f) * preyUnit.Unit.TraitBoosts.Outgoing.GrowthRate;
-        float predBoosts = ((unit.TraitBoosts.Incoming.Nutrition - 1) * .2f + 1f) * unit.TraitBoosts.Incoming.GrowthRate * Config.GrowthMod;
+        float predBoosts = ((Unit.TraitBoosts.Incoming.Nutrition - 1) * .2f + 1f) * Unit.TraitBoosts.Incoming.GrowthRate * Config.GrowthMod;
         return sizeDiff * preyBoosts * predBoosts;
     }
 
@@ -1257,13 +1257,13 @@ public class PredatorComponent
         if (preyUnit.TurnsDigested < preyUnit.Unit.TraitBoosts.DigestionImmunityTurns || preyUnit.Unit.HasTrait(TraitType.TheGreatEscape)) return 0;
 
         float usedCapacity = TotalCapacity() - FreeCap();
-        float PredStomach = Mathf.Pow(unit.GetStat(Stat.Stomach) + 15, 1.5f);
-        float PredVoracity = Mathf.Pow(unit.GetStat(Stat.Voracity) + 15, 1.5f);
+        float predStomach = Mathf.Pow(Unit.GetStat(Stat.Stomach) + 15, 1.5f);
+        float predVoracity = Mathf.Pow(Unit.GetStat(Stat.Voracity) + 15, 1.5f);
         float preyEndurance = Mathf.Pow(preyUnit.Unit.GetStat(Stat.Endurance) + 15, 1.5f);
         float preyWill = Mathf.Pow(preyUnit.Unit.GetStat(Stat.Will) + 15, 1.5f);
-        float predScore = 2 * (40 + PredStomach * 3 + PredVoracity) / (1f + (usedCapacity - preyUnit.Actor.Bulk()) / usedCapacity);
+        float predScore = 2 * (40 + predStomach * 3 + predVoracity) / (1f + (usedCapacity - preyUnit.Actor.Bulk()) / usedCapacity);
         float preyScore = ((preyEndurance + preyWill * .75f) / (1 + preyUnit.Actor.BodySize() / 40) + 300) / (1 + preyUnit.TurnsDigested / 5f);
-        predScore *= unit.TraitBoosts.Outgoing.DigestionRate;
+        predScore *= Unit.TraitBoosts.Outgoing.DigestionRate;
         preyScore /= preyUnit.Unit.TraitBoosts.Incoming.DigestionRate;
         int damage = (int)Math.Round(predScore / preyScore);
         if (damage < 1) damage = 1;
@@ -1276,9 +1276,9 @@ public class PredatorComponent
     /// </summary>
     internal float UsageFraction => (TotalCapacity() - FreeCap()) / TotalCapacity();
 
-    internal void FreeUnit(Actor_Unit target, bool forcePop = false)
+    internal void FreeUnit(ActorUnit target, bool forcePop = false)
     {
-        var preyUnit = prey.Where(s => s.Actor == target).FirstOrDefault();
+        var preyUnit = Prey.Where(s => s.Actor == target).FirstOrDefault();
         if (preyUnit != null)
         {
             RemovePrey(preyUnit);
@@ -1289,38 +1289,38 @@ public class PredatorComponent
     public void CreateSpawn(Race race, Side side, float experience, bool forced = false)
     {
         Spawn spawnUnit = new Spawn(side, race, (int)experience);
-        Actor_Unit spawnActor = State.GameManager.TacticalMode.AddUnitToBattle(spawnUnit, actor);
+        ActorUnit spawnActor = State.GameManager.TacticalMode.AddUnitToBattle(spawnUnit, _actor);
         State.GameManager.TacticalMode.DirtyPack = true;
         if (forced)
-            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{InfoPanel.RaceSingular(spawnUnit)} Spawn <b>{spawnUnit.Name}</b> bursts from <b>{actor.Unit.Name}</b>'s body");
+            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{InfoPanel.RaceSingular(spawnUnit)} Spawn <b>{spawnUnit.Name}</b> bursts from <b>{_actor.Unit.Name}</b>'s body");
         else
-            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{actor.Unit.Name}</b> has created a {InfoPanel.RaceSingular(spawnUnit)} Spawn <b>{spawnUnit.Name}</b>.");
-        Prey preyref = new Prey(spawnActor, actor, spawnActor.PredatorComponent?.prey);
+            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{_actor.Unit.Name}</b> has created a {InfoPanel.RaceSingular(spawnUnit)} Spawn <b>{spawnUnit.Name}</b>.");
+        Prey preyref = new Prey(spawnActor, _actor, spawnActor.PredatorComponent?.Prey);
         spawnActor.UnitSprite.UpdateSprites(spawnActor, false);
         AddPrey(preyref);
         FreeUnit(preyref.Actor);
-        if (!State.GameManager.TacticalMode.turboMode) actor.SetBirthMode();
+        if (!State.GameManager.TacticalMode.TurboMode) _actor.SetBirthMode();
         RemovePrey(preyref);
     }
 
     public void ResetTemplate()
     {
-        if (template == null) return;
-        foreach (TraitType trait in template.SharedTraits) unit.RemoveSharedTrait(trait);
+        if (Template == null) return;
+        foreach (TraitType trait in Template.SharedTraits) Unit.RemoveSharedTrait(trait);
         RefreshSharedTraits();
-        template = null;
+        Template = null;
     }
 
     internal bool CheckChangeRace(Prey preyUnit)
     {
-        if (Equals(unit.HiddenRace, unit.Race) && template == null)
+        if (Equals(Unit.HiddenRace, Unit.Race) && Template == null)
         {
             return true;
         }
 
-        if (!prey.Contains(template))
+        if (!Prey.Contains(Template))
         {
-            template = null;
+            Template = null;
             return true;
         }
 
@@ -1332,9 +1332,9 @@ public class PredatorComponent
         Prey bestPrey = null;
         List<Prey> preyList;
         if (isDead)
-            preyList = deadPrey;
+            preyList = DeadPrey;
         else
-            preyList = prey;
+            preyList = Prey;
         if (preyList.Count > 0)
         {
             bestPrey = preyList[State.Rand.Next(preyList.Count)];
@@ -1356,7 +1356,7 @@ public class PredatorComponent
         }
         else
         {
-            actor.RevertRace();
+            _actor.RevertRace();
             return false;
         }
     }
@@ -1365,9 +1365,9 @@ public class PredatorComponent
     {
         if (CheckChangeRace(preyUnit))
         {
-            if (unit.HasTrait(TraitType.Changeling) && !preyUnit.Unit.IsDead) return false;
-            actor.ChangeRaceAny(preyUnit.Unit, false, true);
-            template = preyUnit;
+            if (Unit.HasTrait(TraitType.Changeling) && !preyUnit.Unit.IsDead) return false;
+            _actor.ChangeRaceAny(preyUnit.Unit, false, true);
+            Template = preyUnit;
             foreach (TraitType trait in preyUnit.Unit.GetTraits)
             {
                 ShareTrait(trait, preyUnit);
@@ -1381,25 +1381,25 @@ public class PredatorComponent
 
     private int DigestOneUnit(Prey preyUnit, int preyDamage)
     {
-        List<IVoreCallback> Callbacks = PopulateCallbacks(preyUnit).OrderBy((vt) => vt.ProcessingPriority).ToList();
+        List<IVoreCallback> callbacks = PopulateCallbacks(preyUnit).OrderBy((vt) => vt.ProcessingPriority).ToList();
         var location = preyUnit.Location;
         int totalHeal = 0;
         bool freshKill = false;
-        if (unit.HasTrait(TraitType.Extraction) && !TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, unit))
+        if (Unit.HasTrait(TraitType.Extraction) && !TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, Unit))
         {
-            var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
+            var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
             if (possibleTraits.Any())
             {
                 var trait = possibleTraits[State.Rand.Next(possibleTraits.Length)];
-                unit.AddPermanentTrait(trait);
+                Unit.AddPermanentTrait(trait);
                 //process vore traits appropriately
                 if (TraitList.GetTrait(trait) is IVoreCallback callback)
                 {
                     if (callback.IsPredTrait == true)
-                        callback.OnSwallow(preyUnit, actor, location);
+                        callback.OnSwallow(preyUnit, _actor, location);
                     else
-                        callback.OnRemove(preyUnit, actor, location);
+                        callback.OnRemove(preyUnit, _actor, location);
                 }
 
                 preyUnit.Unit.RemoveTrait(trait);
@@ -1408,12 +1408,12 @@ public class PredatorComponent
             {
                 var trait = preyUnit.Unit.GetTraits[State.Rand.Next(preyUnit.Unit.GetTraits.Count)];
                 preyUnit.Unit.RemoveTrait(trait);
-                unit.GiveRawExp(5);
-                actor.UnitSprite.DisplayDamage(5, false, true);
+                Unit.GiveRawExp(5);
+                _actor.UnitSprite.DisplayDamage(5, false, true);
             }
         }
 
-        if (unit.HasTrait(TraitType.Annihilation) && !TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, unit))
+        if (Unit.HasTrait(TraitType.Annihilation) && !TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, Unit))
         {
         }
 
@@ -1421,90 +1421,90 @@ public class PredatorComponent
         {
             if (preyUnit.Unit.HasTrait(TraitType.Corruption))
             {
-                actor.AddCorruption(preyUnit.Unit.GetStatTotal(), preyUnit.Unit.FixedSide);
+                _actor.AddCorruption(preyUnit.Unit.GetStatTotal(), preyUnit.Unit.FixedSide);
                 preyUnit.Unit.RemoveTrait(TraitType.Corruption);
             }
 
-            foreach (IVoreCallback callback in Callbacks)
+            foreach (IVoreCallback callback in callbacks)
             {
-                if (!callback.OnFinishDigestion(preyUnit, actor, location)) return 0;
+                if (!callback.OnFinishDigestion(preyUnit, _actor, location)) return 0;
             }
 
             if (preyUnit.Unit.CanBeConverted() &&
-                (Location(preyUnit) == PreyLocation.womb || Config.KuroTenkoConvertsAllTypes) &&
-                ((Config.KuroTenkoEnabled && (Config.UBConversion == UBConversion.Both || Config.UBConversion == UBConversion.ConversionOnly)) || unit.HasTrait(TraitType.PredConverter)) &&
-                !unit.HasTrait(TraitType.PredRebirther) &&
-                !unit.HasTrait(TraitType.PredGusher))
+                (Location(preyUnit) == PreyLocation.Womb || Config.KuroTenkoConvertsAllTypes) &&
+                ((Config.KuroTenkoEnabled && (Config.UbConversion == UBConversion.Both || Config.UbConversion == UBConversion.ConversionOnly)) || Unit.HasTrait(TraitType.PredConverter)) &&
+                !Unit.HasTrait(TraitType.PredRebirther) &&
+                !Unit.HasTrait(TraitType.PredGusher))
             {
                 preyUnit.Unit.Health = preyUnit.Unit.MaxHealth / 2;
                 preyUnit.Actor.Movement = 0;
-                preyUnit.ChangeSide(unit.Side);
+                preyUnit.ChangeSide(Unit.Side);
                 FreeUnit(preyUnit.Actor);
-                TacticalUtilities.Log.RegisterBirth(unit, preyUnit.Unit, 1f);
-                if (!State.GameManager.TacticalMode.turboMode) actor.SetBirthMode();
+                TacticalUtilities.Log.RegisterBirth(Unit, preyUnit.Unit, 1f);
+                if (!State.GameManager.TacticalMode.TurboMode) _actor.SetBirthMode();
                 return 0;
             }
 
-            State.GameManager.TacticalMode.TacticalStats.RegisterDigestion(unit.Side);
-            TacticalUtilities.Log.RegisterDigest(unit, preyUnit.Unit, Location(preyUnit));
-            if (!State.GameManager.TacticalMode.turboMode) actor.SetDigestionMode();
-            if (State.GameManager.TacticalMode.turboMode == false && Config.DigestionSkulls) Object.Instantiate(State.GameManager.TacticalMode.SkullPrefab, new Vector3(actor.Position.X + UnityEngine.Random.Range(-0.2F, 0.2F), actor.Position.Y + 0.1F + UnityEngine.Random.Range(-0.1F, 0.1F)), new Quaternion());
-            Actor_Unit existingPredator = actor;
+            State.GameManager.TacticalMode.TacticalStats.RegisterDigestion(Unit.Side);
+            TacticalUtilities.Log.RegisterDigest(Unit, preyUnit.Unit, Location(preyUnit));
+            if (!State.GameManager.TacticalMode.TurboMode) _actor.SetDigestionMode();
+            if (State.GameManager.TacticalMode.TurboMode == false && Config.DigestionSkulls) Object.Instantiate(State.GameManager.TacticalMode.SkullPrefab, new Vector3(_actor.Position.X + UnityEngine.Random.Range(-0.2F, 0.2F), _actor.Position.Y + 0.1F + UnityEngine.Random.Range(-0.1F, 0.1F)), new Quaternion());
+            ActorUnit existingPredator = _actor;
             freshKill = true;
-            if (unit.HasTrait(TraitType.DigestionConversion) && State.Rand.Next(2) == 0 && preyUnit.Unit.CanBeConverted())
+            if (Unit.HasTrait(TraitType.DigestionConversion) && State.Rand.Next(2) == 0 && preyUnit.Unit.CanBeConverted())
             {
                 preyUnit.Unit.Health = preyUnit.Unit.MaxHealth / 2;
                 preyUnit.Actor.Movement = 0;
 
-                preyUnit.ChangeSide(unit.Side);
-                State.GameManager.TacticalMode.TacticalStats.RegisterRegurgitation(unit.Side);
+                preyUnit.ChangeSide(Unit.Side);
+                State.GameManager.TacticalMode.TacticalStats.RegisterRegurgitation(Unit.Side);
                 FreeUnit(preyUnit.Actor);
 
-                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{preyUnit.Unit.Name} converted from one side to another thanks to {unit.Name}'s digestion conversion trait.");
+                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{preyUnit.Unit.Name} converted from one side to another thanks to {Unit.Name}'s digestion conversion trait.");
                 return 0;
             }
 
-            if (unit.HasTrait(TraitType.DigestionRebirth) && State.Rand.Next(2) == 0 && preyUnit.Unit.CanBeConverted() && (Config.SpecialMercsCanConvert || RaceFuncs.isNotUniqueMerc(unit.DetermineConversionRace())))
+            if (Unit.HasTrait(TraitType.DigestionRebirth) && State.Rand.Next(2) == 0 && preyUnit.Unit.CanBeConverted() && (Config.SpecialMercsCanConvert || RaceFuncs.IsNotUniqueMerc(Unit.DetermineConversionRace())))
             {
                 //HandleShapeshifterRebirth(preyUnit);
-                Race conversionRace = unit.DetermineConversionRace();
-                if (unit.HasTrait(TraitType.DigestionRebirth) && !unit.HasSharedTrait(TraitType.DigestionRebirth)) conversionRace = unit.HiddenUnit.DetermineConversionRace();
+                Race conversionRace = Unit.DetermineConversionRace();
+                if (Unit.HasTrait(TraitType.DigestionRebirth) && !Unit.HasSharedTrait(TraitType.DigestionRebirth)) conversionRace = Unit.HiddenUnit.DetermineConversionRace();
                 // use source race IF changeling already had this ability before transforming
                 preyUnit.Unit.Health = preyUnit.Unit.MaxHealth / 2;
-                preyUnit.ChangeSide(unit.Side);
+                preyUnit.ChangeSide(Unit.Side);
                 preyUnit.ChangeRace(conversionRace);
-                TacticalUtilities.Log.RegisterBirth(unit, preyUnit.Unit, 0.5f);
+                TacticalUtilities.Log.RegisterBirth(Unit, preyUnit.Unit, 0.5f);
                 FreeUnit(preyUnit.Actor);
-                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{preyUnit.Unit.Name} converted from one side to another and changed race thanks to {unit.Name}'s converting digestion rebirth trait.");
+                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"{preyUnit.Unit.Name} converted from one side to another and changed race thanks to {Unit.Name}'s converting digestion rebirth trait.");
                 return 0;
             }
 
             preyUnit.Actor.KilledByDigestion = true;
             if (preyUnit.Unit.HasTrait(TraitType.CursedMark))
             {
-                unit.AddPermanentTrait(TraitType.CursedMark);
+                Unit.AddPermanentTrait(TraitType.CursedMark);
                 preyUnit.Unit.RemoveTrait(TraitType.CursedMark);
             }
 
-            unit.DigestedUnits++;
-            if (unit.HasTrait(TraitType.EssenceAbsorption) && unit.DigestedUnits % 4 == 0) unit.GeneralStatIncrease(1);
-            if (Equals(preyUnit.Unit.Race, Race.Asura)) unit.EarnedMask = true;
-            if (unit.HasTrait(TraitType.TasteForBlood)) actor.GiveRandomBoost();
-            unit.EnemiesKilledThisBattle++;
-            preyUnit.Unit.KilledBy = unit;
+            Unit.DigestedUnits++;
+            if (Unit.HasTrait(TraitType.EssenceAbsorption) && Unit.DigestedUnits % 4 == 0) Unit.GeneralStatIncrease(1);
+            if (Equals(preyUnit.Unit.Race, Race.Asura)) Unit.EarnedMask = true;
+            if (Unit.HasTrait(TraitType.TasteForBlood)) _actor.GiveRandomBoost();
+            Unit.EnemiesKilledThisBattle++;
+            preyUnit.Unit.KilledBy = Unit;
             preyUnit.Unit.Kill();
             for (int i = 0; i < 20; i++)
             {
-                Actor_Unit next = TacticalUtilities.FindPredator(existingPredator);
+                ActorUnit next = TacticalUtilities.FindPredator(existingPredator);
                 if (next == null) break;
                 existingPredator = next;
             }
 
             DigestionEffect(preyUnit, existingPredator);
 
-            if (unit.HasTrait(TraitType.MetabolicSurge))
+            if (Unit.HasTrait(TraitType.MetabolicSurge))
             {
-                unit.ApplyStatusEffect(StatusEffectType.Empowered, 1.0f, 5);
+                Unit.ApplyStatusEffect(StatusEffectType.Empowered, 1.0f, 5);
             }
         }
 
@@ -1517,45 +1517,45 @@ public class PredatorComponent
         if (freshKill)
         {
             preyUnit.Actor.Unit.Health = 0;
-            foreach (IVoreCallback callback in Callbacks)
+            foreach (IVoreCallback callback in callbacks)
             {
-                if (!callback.OnDigestionKill(preyUnit, actor, location)) return 0;
+                if (!callback.OnDigestionKill(preyUnit, _actor, location)) return 0;
             }
         }
 
 
         if (preyUnit.Unit.IsThisCloseToDeath(preyDamage))
         {
-            TacticalUtilities.Log.RegisterNearDigestion(unit, preyUnit.Unit, Location(preyUnit));
+            TacticalUtilities.Log.RegisterNearDigestion(Unit, preyUnit.Unit, Location(preyUnit));
         }
         else if (preyUnit.Unit.IsDead == false && State.Rand.Next(6) == 0 && preyDamage > 0)
         {
-            TacticalUtilities.Log.LogDigestionRandom(unit, preyUnit.Unit, Location(preyUnit));
+            TacticalUtilities.Log.LogDigestionRandom(Unit, preyUnit.Unit, Location(preyUnit));
         }
         else if (preyUnit.Unit.IsDead == false && State.Rand.Next(6) == 0 && preyDamage == 0 && preyUnit.Unit.HasTrait(TraitType.TheGreatEscape))
         {
-            TacticalUtilities.Log.LogGreatEscapeKeep(unit, preyUnit.Unit, Location(preyUnit));
+            TacticalUtilities.Log.LogGreatEscapeKeep(Unit, preyUnit.Unit, Location(preyUnit));
         }
 
         if (preyUnit.Unit.IsDead)
         {
             float speedFactor;
-            speedFactor = (float)Math.Sqrt(actor.BodySize() / preyUnit.Actor.BodySize());
+            speedFactor = (float)Math.Sqrt(_actor.BodySize() / preyUnit.Actor.BodySize());
 
-            speedFactor *= unit.TraitBoosts.Outgoing.AbsorptionRate;
+            speedFactor *= Unit.TraitBoosts.Outgoing.AbsorptionRate;
             speedFactor *= preyUnit.Unit.TraitBoosts.Incoming.AbsorptionRate;
 
             if (speedFactor > 4f && speedFactor < 1000) speedFactor = 4f;
             int healthReduction = (int)Math.Max(Math.Round(preyUnit.Unit.MaxHealth * speedFactor / 15), 1);
             if (healthReduction >= preyUnit.Unit.MaxHealth + preyUnit.Unit.Health) healthReduction = preyUnit.Unit.MaxHealth + preyUnit.Unit.Health + 1;
             preyUnit.Actor.SubtractHealth(healthReduction);
-            totalHeal += Math.Max((int)(healthReduction / 2 * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition * unit.TraitBoosts.Incoming.Nutrition), 1);
-            var baseManaGain = healthReduction * (preyUnit.Unit.TraitBoosts.Outgoing.ManaAbsorbHundreths + unit.TraitBoosts.Incoming.ManaAbsorbHundreths);
+            totalHeal += Math.Max((int)(healthReduction / 2 * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition * Unit.TraitBoosts.Incoming.Nutrition), 1);
+            var baseManaGain = healthReduction * (preyUnit.Unit.TraitBoosts.Outgoing.ManaAbsorbHundreths + Unit.TraitBoosts.Incoming.ManaAbsorbHundreths);
             var totalManaGain = baseManaGain / 100 + (State.Rand.Next(100) < baseManaGain % 100 ? 1 : 0);
-            unit.RestoreMana(totalManaGain);
-            foreach (IVoreCallback callback in Callbacks)
+            Unit.RestoreMana(totalManaGain);
+            foreach (IVoreCallback callback in callbacks)
             {
-                if (!callback.OnAbsorption(preyUnit, actor, location)) return 0;
+                if (!callback.OnAbsorption(preyUnit, _actor, location)) return 0;
             }
 
             if (preyUnit.Unit.IsDeadAndOverkilledBy(healthReduction * 2) && preyUnit.SubPrey?.Count() > 0)
@@ -1563,7 +1563,7 @@ public class PredatorComponent
                 Prey[] aliveSubUnits = preyUnit.GetAliveSubPrey();
                 for (int i = 0; i < aliveSubUnits.Length; i++)
                 {
-                    Prey newPrey = new Prey(aliveSubUnits[i].Actor, actor, aliveSubUnits[i].SubPrey);
+                    Prey newPrey = new Prey(aliveSubUnits[i].Actor, _actor, aliveSubUnits[i].SubPrey);
                     AddPrey(newPrey, Location(preyUnit));
                     preyUnit.SubPrey.Remove(aliveSubUnits[i]);
                 }
@@ -1571,29 +1571,29 @@ public class PredatorComponent
 
             if (preyUnit.Unit.IsDeadAndOverkilledBy(preyUnit.Unit.MaxHealth))
             {
-                if (actor.Infected)
+                if (_actor.Infected)
                 {
-                    actor.Damage(totalHeal * 2);
+                    _actor.Damage(totalHeal * 2);
                     totalHeal = 0;
-                    CreateSpawn(actor.InfectedRace, actor.InfectedSide, unit.Experience / 2, true);
+                    CreateSpawn(_actor.InfectedRace, _actor.InfectedSide, Unit.Experience / 2, true);
                 }
 
-                foreach (IVoreCallback callback in Callbacks)
+                foreach (IVoreCallback callback in callbacks)
                 {
-                    if (!callback.OnFinishAbsorption(preyUnit, actor, location)) return 0;
+                    if (!callback.OnFinishAbsorption(preyUnit, _actor, location)) return 0;
                 }
 
                 if (preyUnit.Unit.CanBeConverted() &&
-                    (Location(preyUnit) == PreyLocation.womb || Config.KuroTenkoConvertsAllTypes) &&
-                    ((Config.KuroTenkoEnabled && (Config.UBConversion == UBConversion.Both || Config.UBConversion == UBConversion.RebirthOnly)) || unit.HasTrait(TraitType.PredRebirther)) &&
-                    (Config.SpecialMercsCanConvert || RaceFuncs.isNotUniqueMerc(unit.DetermineConversionRace())) &&
-                    !unit.HasTrait(TraitType.PredGusher))
+                    (Location(preyUnit) == PreyLocation.Womb || Config.KuroTenkoConvertsAllTypes) &&
+                    ((Config.KuroTenkoEnabled && (Config.UbConversion == UBConversion.Both || Config.UbConversion == UBConversion.RebirthOnly)) || Unit.HasTrait(TraitType.PredRebirther)) &&
+                    (Config.SpecialMercsCanConvert || RaceFuncs.IsNotUniqueMerc(Unit.DetermineConversionRace())) &&
+                    !Unit.HasTrait(TraitType.PredGusher))
                 {
-                    Race conversionRace = unit.DetermineConversionRace();
-                    if (unit.HasTrait(TraitType.PredRebirther) && !unit.HasSharedTrait(TraitType.PredRebirther)) conversionRace = unit.HiddenUnit.DetermineConversionRace();
+                    Race conversionRace = Unit.DetermineConversionRace();
+                    if (Unit.HasTrait(TraitType.PredRebirther) && !Unit.HasSharedTrait(TraitType.PredRebirther)) conversionRace = Unit.HiddenUnit.DetermineConversionRace();
                     // use source race IF changeling already had this ability before transforming
                     preyUnit.Unit.Health = preyUnit.Unit.MaxHealth / 2;
-                    preyUnit.ChangeSide(unit.Side);
+                    preyUnit.ChangeSide(Unit.Side);
                     if (!Equals(preyUnit.Unit.Race, conversionRace))
                     {
                         //HandleShapeshifterRebirth(preyUnit);
@@ -1601,65 +1601,65 @@ public class PredatorComponent
                     }
 
                     FreeUnit(preyUnit.Actor);
-                    TacticalUtilities.Log.RegisterBirth(unit, preyUnit.Unit, 1f);
-                    if (!State.GameManager.TacticalMode.turboMode) actor.SetBirthMode();
+                    TacticalUtilities.Log.RegisterBirth(Unit, preyUnit.Unit, 1f);
+                    if (!State.GameManager.TacticalMode.TurboMode) _actor.SetBirthMode();
                     RemovePrey(preyUnit);
                     return 0;
                 }
                 else
                 {
-                    TacticalUtilities.Log.RegisterAbsorb(unit, preyUnit.Unit, Location(preyUnit));
+                    TacticalUtilities.Log.RegisterAbsorb(Unit, preyUnit.Unit, Location(preyUnit));
                 }
 
-                unit.GiveScaledExp(8 * preyUnit.Unit.ExpMultiplier, unit.Level - preyUnit.Unit.Level, true);
+                Unit.GiveScaledExp(8 * preyUnit.Unit.ExpMultiplier, Unit.Level - preyUnit.Unit.Level, true);
                 if (Config.WeightGain)
                 {
-                    if (Location(preyUnit) == PreyLocation.balls)
+                    if (Location(preyUnit) == PreyLocation.Balls)
                     {
-                        if (unit.HasDick)
+                        if (Unit.HasDick)
                         {
-                            unit.DickSize = Math.Min(unit.DickSize + 1, Races2.GetRace(unit).SetupOutput.DickSizes() - 1);
-                            if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideDick(unit.Race)) unit.DickSize = Math.Min(unit.DickSize, State.RaceSettings.Get(unit.Race).MaxDick);
+                            Unit.DickSize = Math.Min(Unit.DickSize + 1, Races2.GetRace(Unit).SetupOutput.DickSizes() - 1);
+                            if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideDick(Unit.Race)) Unit.DickSize = Math.Min(Unit.DickSize, State.RaceSettings.Get(Unit.Race).MaxDick);
                         }
                     }
-                    else if (Location(preyUnit) == PreyLocation.breasts || Location(preyUnit) == PreyLocation.leftBreast || Location(preyUnit) == PreyLocation.rightBreast)
+                    else if (Location(preyUnit) == PreyLocation.Breasts || Location(preyUnit) == PreyLocation.LeftBreast || Location(preyUnit) == PreyLocation.RightBreast)
                     {
-                        if (unit.HasBreasts)
+                        if (Unit.HasBreasts)
                         {
-                            unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races2.GetRace(unit).SetupOutput.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
-                            if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideBreasts(unit.Race)) unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize, State.RaceSettings.Get(unit.Race).MaxBoob));
+                            Unit.SetDefaultBreastSize(Math.Min(Unit.DefaultBreastSize + 1, Races2.GetRace(Unit).SetupOutput.BreastSizes() - 1), Unit.BreastSize == Unit.DefaultBreastSize);
+                            if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideBreasts(Unit.Race)) Unit.SetDefaultBreastSize(Math.Min(Unit.DefaultBreastSize, State.RaceSettings.Get(Unit.Race).MaxBoob));
                         }
                     }
                     else
                     {
                         if (Config.AltVoreOralGain && State.Rand.NextDouble() < .4)
                         {
-                            if (unit.HasDick)
+                            if (Unit.HasDick)
                             {
-                                unit.DickSize = Math.Min(unit.DickSize + 1, Races2.GetRace(unit).SetupOutput.DickSizes() - 1);
-                                if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideDick(unit.Race)) unit.DickSize = Math.Min(unit.DickSize, State.RaceSettings.Get(unit.Race).MaxDick);
+                                Unit.DickSize = Math.Min(Unit.DickSize + 1, Races2.GetRace(Unit).SetupOutput.DickSizes() - 1);
+                                if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideDick(Unit.Race)) Unit.DickSize = Math.Min(Unit.DickSize, State.RaceSettings.Get(Unit.Race).MaxDick);
                             }
                         }
 
                         if (Config.AltVoreOralGain && State.Rand.NextDouble() < .4)
                         {
-                            if (unit.HasBreasts)
+                            if (Unit.HasBreasts)
                             {
-                                unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize + 1, Races2.GetRace(unit).SetupOutput.BreastSizes() - 1), unit.BreastSize == unit.DefaultBreastSize);
-                                if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideBreasts(unit.Race)) unit.SetDefaultBreastSize(Math.Min(unit.DefaultBreastSize, State.RaceSettings.Get(unit.Race).MaxBoob));
+                                Unit.SetDefaultBreastSize(Math.Min(Unit.DefaultBreastSize + 1, Races2.GetRace(Unit).SetupOutput.BreastSizes() - 1), Unit.BreastSize == Unit.DefaultBreastSize);
+                                if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideBreasts(Unit.Race)) Unit.SetDefaultBreastSize(Math.Min(Unit.DefaultBreastSize, State.RaceSettings.Get(Unit.Race).MaxBoob));
                             }
                         }
 
-                        if (State.Rand.NextDouble() < .5 && Races2.GetRace(unit).SetupOutput.WeightGainDisabled == false)
+                        if (State.Rand.NextDouble() < .5 && Races2.GetRace(Unit).SetupOutput.WeightGainDisabled == false)
                         {
-                            unit.BodySize = Math.Max(Math.Min(unit.BodySize + 1, Races2.GetRace(unit).SetupOutput.BodySizes - 1), 0);
-                            if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideWeight(unit.Race)) unit.BodySize = Math.Min(unit.BodySize, State.RaceSettings.Get(unit.Race).MaxWeight);
+                            Unit.BodySize = Math.Max(Math.Min(Unit.BodySize + 1, Races2.GetRace(Unit).SetupOutput.BodySizes - 1), 0);
+                            if (Config.RaceSizeLimitsWeightGain && State.RaceSettings.GetOverrideWeight(Unit.Race)) Unit.BodySize = Math.Min(Unit.BodySize, State.RaceSettings.Get(Unit.Race).MaxWeight);
                         }
                     }
                 }
 
                 AbsorptionEffect(preyUnit, Location(preyUnit));
-                if (!State.GameManager.TacticalMode.turboMode) actor.SetAbsorbtionMode();
+                if (!State.GameManager.TacticalMode.TurboMode) _actor.SetAbsorbtionMode();
                 CheckPredTraitAbsorption(preyUnit);
                 //if (unit.HasTrait(Traits.Shapeshifter) || unit.HasTrait(Traits.Skinwalker))
                 //{
@@ -1671,7 +1671,7 @@ public class PredatorComponent
                     Prey[] subUnits = preyUnit.SubPrey.ToArray();
                     for (int i = 0; i < subUnits.Length; i++)
                     {
-                        Prey newPrey = new Prey(subUnits[i].Actor, actor, subUnits[i].SubPrey);
+                        Prey newPrey = new Prey(subUnits[i].Actor, _actor, subUnits[i].SubPrey);
                         AddPrey(newPrey, Location(preyUnit));
                         preyUnit.SubPrey.Remove(subUnits[i]);
                     }
@@ -1679,17 +1679,17 @@ public class PredatorComponent
 
                 RemovePrey(preyUnit);
             }
-            else if (actor.Infected)
+            else if (_actor.Infected)
             {
-                actor.Damage(totalHeal, false, false);
+                _actor.Damage(totalHeal, false, false);
                 totalHeal = 0;
             }
         }
         else
         {
-            foreach (IVoreCallback callback in Callbacks)
+            foreach (IVoreCallback callback in callbacks)
             {
-                if (!callback.OnDigestion(preyUnit, actor, location)) return 0;
+                if (!callback.OnDigestion(preyUnit, _actor, location)) return 0;
             }
 
             preyUnit.TurnsDigested++;
@@ -1700,23 +1700,23 @@ public class PredatorComponent
             {
                 float cap = TotalCapacity();
                 escapeMult = 1.4f + 2 * (Fullness / cap - 1);
-                actor.Damage((int)(FreeCap() * -1) / 2);
+                _actor.Damage((int)(FreeCap() * -1) / 2);
             }
 
             if (State.Rand.NextDouble() < preyUnit.EscapeRate * escapeMult && preyUnit.Actor.Surrendered == false)
             {
-                if (stomach2.Contains(preyUnit))
+                if (Stomach2.Contains(preyUnit))
                 {
-                    stomach.Add(preyUnit);
-                    stomach2.Remove(preyUnit);
-                    TacticalUtilities.Log.RegisterPartialEscape(unit, preyUnit.Unit, Location(preyUnit));
+                    Stomach.Add(preyUnit);
+                    Stomach2.Remove(preyUnit);
+                    TacticalUtilities.Log.RegisterPartialEscape(Unit, preyUnit.Unit, Location(preyUnit));
                     preyUnit.TurnsBeingSwallowed = -5; //Gets 7 turns before it gets forced down again, so it needs to escape twice in 7 turns
                 }
                 else
                 {
-                    State.GameManager.TacticalMode.TacticalStats.RegisterEscape(unit.Side);
+                    State.GameManager.TacticalMode.TacticalStats.RegisterEscape(Unit.Side);
                     AlivePrey--;
-                    TacticalUtilities.Log.RegisterEscape(unit, preyUnit.Unit, Location(preyUnit));
+                    TacticalUtilities.Log.RegisterEscape(Unit, preyUnit.Unit, Location(preyUnit));
                     FreePrey(preyUnit, false);
                 }
             }
@@ -1802,13 +1802,13 @@ public class PredatorComponent
     {
         bool updated = false;
         bool raceUpdated = true;
-        if (unit.HasTrait(TraitType.Extraction))
+        if (Unit.HasTrait(TraitType.Extraction))
         {
-            var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
+            var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
             foreach (TraitType trait in possibleTraits)
             {
-                unit.AddPermanentTrait(trait);
+                Unit.AddPermanentTrait(trait);
                 preyUnit.Unit.RemoveTrait(trait);
                 updated = true;
             }
@@ -1816,7 +1816,7 @@ public class PredatorComponent
             foreach (TraitType trait in preyUnit.Unit.GetTraits)
             {
                 preyUnit.Unit.RemoveTrait(trait);
-                unit.GiveRawExp(5);
+                Unit.GiveRawExp(5);
             }
         }
 
@@ -1824,93 +1824,93 @@ public class PredatorComponent
         {
             int donorIndex = preyUnit.Unit.GetTraits.IndexOf(TraitType.Donor);
             var donorTraits = preyUnit.Unit.GetTraits.SkipWhile((t, index) => index <= donorIndex);
-            var possibleTraits = donorTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
+            var possibleTraits = donorTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
             foreach (TraitType trait in possibleTraits)
             {
-                unit.AddPermanentTrait(trait);
+                Unit.AddPermanentTrait(trait);
                 preyUnit.Unit.RemoveTrait(trait);
                 updated = true;
             }
         }
 
-        if (unit.HasTrait(TraitType.InfiniteAssimilation))
+        if (Unit.HasTrait(TraitType.InfiniteAssimilation))
         {
-            var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
+            var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
             if (possibleTraits.Any())
             {
-                if (unit.HasTrait(TraitType.SynchronizedEvolution))
+                if (Unit.HasTrait(TraitType.SynchronizedEvolution))
                 {
-                    RaceSettingsItem item = State.RaceSettings.Get(unit.Race);
+                    RaceSettingsItem item = State.RaceSettings.Get(Unit.Race);
                     item.RaceTraits.Add(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
                     raceUpdated = true;
                 }
                 else
                 {
-                    unit.AddPermanentTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
+                    Unit.AddPermanentTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
                     updated = true;
                 }
             }
         }
-        else if (unit.HasTrait(TraitType.Assimilate))
+        else if (Unit.HasTrait(TraitType.Assimilate))
         {
-            if (unit.BaseTraitsCount < 5)
+            if (Unit.BaseTraitsCount < 5)
             {
-                var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
+                var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
                 if (possibleTraits.Any())
                 {
-                    if (unit.HasTrait(TraitType.SynchronizedEvolution))
+                    if (Unit.HasTrait(TraitType.SynchronizedEvolution))
                     {
-                        RaceSettingsItem item = State.RaceSettings.Get(unit.Race);
+                        RaceSettingsItem item = State.RaceSettings.Get(Unit.Race);
                         item.RaceTraits.Add(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
                         raceUpdated = true;
                     }
                     else
                     {
-                        unit.AddPermanentTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
+                        Unit.AddPermanentTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
                         updated = true;
                     }
                 }
             }
-            else if (unit.BaseTraitsCount == 5)
+            else if (Unit.BaseTraitsCount == 5)
             {
-                var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
+                var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
                 if (possibleTraits.Any())
                 {
-                    unit.RemoveTrait(TraitType.Assimilate);
-                    if (unit.HasTrait(TraitType.SynchronizedEvolution))
+                    Unit.RemoveTrait(TraitType.Assimilate);
+                    if (Unit.HasTrait(TraitType.SynchronizedEvolution))
                     {
-                        RaceSettingsItem item = State.RaceSettings.Get(unit.Race);
+                        RaceSettingsItem item = State.RaceSettings.Get(Unit.Race);
                         item.RaceTraits.Add(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
                         raceUpdated = true;
                     }
                     else
                     {
-                        unit.AddPermanentTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
+                        Unit.AddPermanentTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
                         updated = true;
                     }
                 }
             }
         }
 
-        if (unit.HasTrait(TraitType.AdaptiveBiology) && updated == false)
+        if (Unit.HasTrait(TraitType.AdaptiveBiology) && updated == false)
         {
-            var possibleTraits = preyUnit.Unit.GetTraits.Where(s => unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
+            var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
             if (possibleTraits.Any())
             {
-                unit.AddTemporaryTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
+                Unit.AddTemporaryTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
                 updated = true;
             }
         }
 
         if (updated)
         {
-            unit.ReloadTraits();
-            unit.InitializeTraits();
+            Unit.ReloadTraits();
+            Unit.InitializeTraits();
         }
 
         if (raceUpdated)
@@ -1925,7 +1925,7 @@ public class PredatorComponent
             }
             else
             {
-                foreach (Actor_Unit actor in TacticalUtilities.Units)
+                foreach (ActorUnit actor in TacticalUtilities.Units)
                 {
                     actor.Unit.ReloadTraits();
                     actor.Unit.InitializeTraits();
@@ -1951,26 +1951,26 @@ public class PredatorComponent
         }
     }
 
-    private void DigestionEffect(Prey preyUnit, Actor_Unit existingPredator)
+    private void DigestionEffect(Prey preyUnit, ActorUnit existingPredator)
     {
         if (Config.BurpOnDigest)
         {
-            if (stomach.Contains(preyUnit) || stomach2.Contains(preyUnit))
+            if (Stomach.Contains(preyUnit) || Stomach2.Contains(preyUnit))
             {
                 if (State.Rand.NextDouble() < Config.BurpFraction)
                 {
-                    actor.SetBurpMode();
-                    State.GameManager.SoundManager.PlayBurp(actor);
+                    _actor.SetBurpMode();
+                    State.GameManager.SoundManager.PlayBurp(_actor);
                 }
                 else
-                    State.GameManager.SoundManager.PlayDigest(Location(preyUnit), actor);
+                    State.GameManager.SoundManager.PlayDigest(Location(preyUnit), _actor);
             }
             else
-                State.GameManager.SoundManager.PlayDigest(Location(preyUnit), actor);
+                State.GameManager.SoundManager.PlayDigest(Location(preyUnit), _actor);
         }
         else
         {
-            State.GameManager.SoundManager.PlayDigest(Location(preyUnit), actor);
+            State.GameManager.SoundManager.PlayDigest(Location(preyUnit), _actor);
         }
 
         IRaceData preyRace = Races2.GetRace(preyUnit.Unit);
@@ -2058,57 +2058,57 @@ public class PredatorComponent
 
     private void AbsorptionEffect(Prey preyUnit, PreyLocation location)
     {
-        if (location == PreyLocation.stomach || location == PreyLocation.stomach2)
+        if (location == PreyLocation.Stomach || location == PreyLocation.Stomach2)
         {
             if (!Config.BurpOnDigest && State.Rand.NextDouble() < Config.BurpFraction)
             {
-                actor.SetBurpMode();
-                State.GameManager.SoundManager.PlayBurp(actor);
+                _actor.SetBurpMode();
+                State.GameManager.SoundManager.PlayBurp(_actor);
             }
             else
             {
-                State.GameManager.SoundManager.PlayAbsorb(location, actor);
+                State.GameManager.SoundManager.PlayAbsorb(location, _actor);
             }
 
-            if (Config.FartOnAbsorb && (location == PreyLocation.stomach || location == PreyLocation.stomach2 || location == PreyLocation.anal) && State.Rand.NextDouble() < Config.FartFraction)
+            if (Config.FartOnAbsorb && (location == PreyLocation.Stomach || location == PreyLocation.Stomach2 || location == PreyLocation.Anal) && State.Rand.NextDouble() < Config.FartFraction)
             {
-                State.GameManager.SoundManager.PlayFart(actor);
+                State.GameManager.SoundManager.PlayFart(_actor);
             }
 
             if (Config.Scat && preyUnit.ScatDisabled == false)
             {
-                State.GameManager.SoundManager.PlayAbsorb(location, actor);
+                State.GameManager.SoundManager.PlayAbsorb(location, _actor);
                 if (Equals(preyUnit.Unit.Race, Race.Slime))
                 {
                     State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.SlimePile, preyUnit.Unit.Name, preyUnit.Unit.AccessoryColor);
                 }
                 else
-                    State.GameManager.TacticalMode.CreateScat(GetCurrentLocation(), new ScatInfo(unit, preyUnit));
+                    State.GameManager.TacticalMode.CreateScat(GetCurrentLocation(), new ScatInfo(Unit, preyUnit));
             }
             else
             {
                 GenerateBones(preyUnit);
             }
         }
-        else if (location == PreyLocation.balls)
+        else if (location == PreyLocation.Balls)
         {
-            State.GameManager.SoundManager.PlayAbsorb(location, actor);
+            State.GameManager.SoundManager.PlayAbsorb(location, _actor);
             if (Config.Cumstains)
             {
-                if (Equals(unit.Race, Race.Selicia))
+                if (Equals(Unit.Race, Race.Selicia))
                     State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.CumPuddle, preyUnit.Unit.Name, 0);
-                else if (Config.CondomsForCV)
+                else if (Config.CondomsForCv)
                     State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.DisposedCondom, preyUnit.Unit.Name);
                 else
                     State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.CumPuddle, preyUnit.Unit.Name);
             }
         }
-        else if (location == PreyLocation.womb || location == PreyLocation.breasts || location == PreyLocation.leftBreast || location == PreyLocation.rightBreast)
+        else if (location == PreyLocation.Womb || location == PreyLocation.Breasts || location == PreyLocation.LeftBreast || location == PreyLocation.RightBreast)
         {
-            State.GameManager.SoundManager.PlayAbsorb(location, actor);
+            State.GameManager.SoundManager.PlayAbsorb(location, _actor);
             if (Config.Cumstains)
             {
-                if (Equals(unit.Race, Race.Selicia))
+                if (Equals(Unit.Race, Race.Selicia))
                     State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.CumPuddle, preyUnit.Unit.Name, 0);
                 else
                     State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), BoneType.CumPuddle, preyUnit.Unit.Name);
@@ -2123,42 +2123,42 @@ public class PredatorComponent
             List<BoneInfo> bonesInfos = preyUnit.GetBoneTypes();
             foreach (BoneInfo bonesInfo in bonesInfos)
             {
-                State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), bonesInfo.BoneType, bonesInfo.name, bonesInfo.accessoryColor);
+                State.GameManager.TacticalMode.CreateMiscDiscard(GetCurrentLocation(), bonesInfo.BoneType, bonesInfo.Name, bonesInfo.AccessoryColor);
             }
         }
     }
 
     internal void UpdateTransition()
     {
-        if (StomachTransition.transitionTime < StomachTransition.transitionLength)
+        if (_stomachTransition.TransitionTime < _stomachTransition.TransitionLength)
         {
-            if (Equals(unit.Race, Race.FeralFrog) && actor.IsOralVoring && actor.IsOralVoringHalfOver == false) return;
-            StomachTransition.transitionTime += Time.deltaTime;
-            VisibleFullness = Mathf.Lerp(StomachTransition.transitionStart, StomachTransition.transitionEnd, StomachTransition.transitionTime / StomachTransition.transitionLength);
+            if (Equals(Unit.Race, Race.FeralFrog) && _actor.IsOralVoring && _actor.IsOralVoringHalfOver == false) return;
+            _stomachTransition.TransitionTime += Time.deltaTime;
+            VisibleFullness = Mathf.Lerp(_stomachTransition.TransitionStart, _stomachTransition.TransitionEnd, _stomachTransition.TransitionTime / _stomachTransition.TransitionLength);
         }
 
-        if (BallsTransition.transitionTime < BallsTransition.transitionLength)
+        if (_ballsTransition.TransitionTime < _ballsTransition.TransitionLength)
         {
-            BallsTransition.transitionTime += Time.deltaTime;
-            BallsFullness = Mathf.Lerp(BallsTransition.transitionStart, BallsTransition.transitionEnd, BallsTransition.transitionTime / BallsTransition.transitionLength);
+            _ballsTransition.TransitionTime += Time.deltaTime;
+            BallsFullness = Mathf.Lerp(_ballsTransition.TransitionStart, _ballsTransition.TransitionEnd, _ballsTransition.TransitionTime / _ballsTransition.TransitionLength);
         }
 
-        if (LeftBreastTransition.transitionTime < LeftBreastTransition.transitionLength)
+        if (_leftBreastTransition.TransitionTime < _leftBreastTransition.TransitionLength)
         {
-            LeftBreastTransition.transitionTime += Time.deltaTime;
-            LeftBreastFullness = Mathf.Lerp(LeftBreastTransition.transitionStart, LeftBreastTransition.transitionEnd, LeftBreastTransition.transitionTime / LeftBreastTransition.transitionLength);
+            _leftBreastTransition.TransitionTime += Time.deltaTime;
+            LeftBreastFullness = Mathf.Lerp(_leftBreastTransition.TransitionStart, _leftBreastTransition.TransitionEnd, _leftBreastTransition.TransitionTime / _leftBreastTransition.TransitionLength);
         }
 
-        if (RightBreastTransition.transitionTime < RightBreastTransition.transitionLength)
+        if (_rightBreastTransition.TransitionTime < _rightBreastTransition.TransitionLength)
         {
-            RightBreastTransition.transitionTime += Time.deltaTime;
-            RightBreastFullness = Mathf.Lerp(RightBreastTransition.transitionStart, RightBreastTransition.transitionEnd, RightBreastTransition.transitionTime / RightBreastTransition.transitionLength);
+            _rightBreastTransition.TransitionTime += Time.deltaTime;
+            RightBreastFullness = Mathf.Lerp(_rightBreastTransition.TransitionStart, _rightBreastTransition.TransitionEnd, _rightBreastTransition.TransitionTime / _rightBreastTransition.TransitionLength);
         }
     }
 
     internal void UpdateFullness()
     {
-        float fullnessFactor = 2.25f / unit.GetScale(2);
+        float fullnessFactor = 2.25f / Unit.GetScale(2);
         float fullness = 0;
         float stomachFullness = 0;
         float breastFullness = 0;
@@ -2166,40 +2166,40 @@ public class PredatorComponent
         float rightBreastFullness = 0;
         float ballsFullness = 0;
         float tailFullness = 0;
-        float stomach2ndFullness = 0;
+        float stomach2NdFullness = 0;
         float wombFullness = 0;
         float exclusiveStomachFullness = 0;
-        foreach (Prey preyUnit in prey.ToList()) //ToList to cover the rare case it needs to do the pop unit out of itself condition in the bulk function. (It has happened, once at least)
+        foreach (Prey preyUnit in Prey.ToList()) //ToList to cover the rare case it needs to do the pop unit out of itself condition in the bulk function. (It has happened, once at least)
         {
             var location = Location(preyUnit);
             fullness += preyUnit.Actor.Bulk();
-            if (location == PreyLocation.breasts)
+            if (location == PreyLocation.Breasts)
             {
                 breastFullness += preyUnit.Actor.Bulk();
             }
-            else if (location == PreyLocation.balls)
+            else if (location == PreyLocation.Balls)
             {
                 ballsFullness += preyUnit.Actor.Bulk();
             }
-            else if (location == PreyLocation.stomach2)
+            else if (location == PreyLocation.Stomach2)
             {
-                stomach2ndFullness += preyUnit.Actor.Bulk();
+                stomach2NdFullness += preyUnit.Actor.Bulk();
             }
-            else if (location == PreyLocation.tail)
+            else if (location == PreyLocation.Tail)
             {
                 tailFullness += preyUnit.Actor.Bulk();
             }
-            else if (location == PreyLocation.leftBreast)
+            else if (location == PreyLocation.LeftBreast)
             {
                 leftBreastFullness += preyUnit.Actor.Bulk();
             }
-            else if (location == PreyLocation.rightBreast)
+            else if (location == PreyLocation.RightBreast)
             {
                 rightBreastFullness += preyUnit.Actor.Bulk();
             }
             else
             {
-                if (location == PreyLocation.womb)
+                if (location == PreyLocation.Womb)
                     wombFullness += preyUnit.Actor.Bulk();
                 else
                     exclusiveStomachFullness += preyUnit.Actor.Bulk();
@@ -2207,27 +2207,27 @@ public class PredatorComponent
             }
         }
 
-        float stomachSize = State.RaceSettings.GetStomachSize(unit.Race);
-        if (State.RaceSettings.Exists(unit.Race))
+        float stomachSize = State.RaceSettings.GetStomachSize(Unit.Race);
+        if (State.RaceSettings.Exists(Unit.Race))
         {
-            stomachSize = State.RaceSettings.GetStomachSize(unit.Race);
+            stomachSize = State.RaceSettings.GetStomachSize(Unit.Race);
         }
 
         float newStomach = fullnessFactor * stomachFullness / stomachSize;
         if (newStomach > 0)
-            StomachTransition = new Transition(Math.Abs(newStomach - VisibleFullness) / 4, VisibleFullness, newStomach);
+            _stomachTransition = new Transition(Math.Abs(newStomach - VisibleFullness) / 4, VisibleFullness, newStomach);
         else
         {
-            StomachTransition = new Transition(0, 0, 0);
+            _stomachTransition = new Transition(0, 0, 0);
             VisibleFullness = 0;
         }
 
         float newBalls = fullnessFactor * ballsFullness / stomachSize;
         if (newBalls > 0)
-            BallsTransition = new Transition(Math.Abs(newBalls - BallsFullness) / 4, BallsFullness, newBalls);
+            _ballsTransition = new Transition(Math.Abs(newBalls - BallsFullness) / 4, BallsFullness, newBalls);
         else
         {
-            BallsTransition = new Transition(0, 0, 0);
+            _ballsTransition = new Transition(0, 0, 0);
             BallsFullness = 0;
         }
 
@@ -2241,47 +2241,47 @@ public class PredatorComponent
         ExclusiveStomachFullness = fullnessFactor * exclusiveStomachFullness / stomachSize;
 
 
-        Stomach2ndFullness = fullnessFactor * stomach2ndFullness / stomachSize;
-        CombinedStomachFullness = fullnessFactor * (stomach2ndFullness + stomachFullness) / stomachSize;
+        Stomach2NdFullness = fullnessFactor * stomach2NdFullness / stomachSize;
+        CombinedStomachFullness = fullnessFactor * (stomach2NdFullness + stomachFullness) / stomachSize;
         if (breastFullness <= 0) breastFullness = -1;
         BreastFullness = breastFullness;
 
         float newLeftBreast = fullnessFactor * leftBreastFullness / stomachSize;
         float newRightBreast = fullnessFactor * rightBreastFullness / stomachSize;
-        if (Config.FairyBVType == FairyBVType.Shared)
+        if (Config.FairyBvType == FairyBVType.Shared)
         {
             newLeftBreast = (newLeftBreast + newRightBreast) / 2;
             newRightBreast = newLeftBreast;
         }
 
         if (newLeftBreast > 0)
-            LeftBreastTransition = new Transition(Math.Abs(newLeftBreast - LeftBreastFullness) / 4, LeftBreastFullness, newLeftBreast);
+            _leftBreastTransition = new Transition(Math.Abs(newLeftBreast - LeftBreastFullness) / 4, LeftBreastFullness, newLeftBreast);
         else
         {
-            LeftBreastTransition = new Transition(0, 0, 0);
+            _leftBreastTransition = new Transition(0, 0, 0);
             LeftBreastFullness = 0;
         }
 
         if (newRightBreast > 0)
-            RightBreastTransition = new Transition(Math.Abs(newRightBreast - RightBreastFullness) / 4, RightBreastFullness, newRightBreast);
+            _rightBreastTransition = new Transition(Math.Abs(newRightBreast - RightBreastFullness) / 4, RightBreastFullness, newRightBreast);
         else
         {
-            RightBreastTransition = new Transition(0, 0, 0);
+            _rightBreastTransition = new Transition(0, 0, 0);
             RightBreastFullness = 0;
         }
 
-        var data = Races2.GetRace(unit.Race);
-        if (data.SetupOutput.ExtendedBreastSprites == false) actor.Unit.SetBreastSize(unit.DefaultBreastSize + (int)(BreastFullness * 8));
+        var data = Races2.GetRace(Unit.Race);
+        if (data.SetupOutput.ExtendedBreastSprites == false) _actor.Unit.SetBreastSize(Unit.DefaultBreastSize + (int)(BreastFullness * 8));
         //actor.Unit.SetDickSize(unit.DefaultDickSize + (int)(BallsFullness * 8));
     }
 
-    private bool PlacedPrey(Actor_Unit prey)
+    private bool PlacedPrey(ActorUnit prey)
     {
-        Vec2i p = new Vec2i(0, 0);
+        Vec2I p = new Vec2I(0, 0);
         for (int i = 0; i < 8; i++)
         {
-            p = actor.GetPos(i);
-            if (TacticalUtilities.OpenTile(p.X, p.Y, actor))
+            p = _actor.GetPos(i);
+            if (TacticalUtilities.OpenTile(p.X, p.Y, _actor))
             {
                 prey.SetPos(p);
                 return true;
@@ -2292,9 +2292,9 @@ public class PredatorComponent
         {
             for (int y = -2; y <= 2; y++)
             {
-                p.X = actor.Position.X + x;
-                p.Y = actor.Position.Y + y;
-                if (TacticalUtilities.OpenTile(p.X, p.Y, actor))
+                p.X = _actor.Position.X + x;
+                p.Y = _actor.Position.Y + y;
+                if (TacticalUtilities.OpenTile(p.X, p.Y, _actor))
                 {
                     prey.SetPos(p);
                     return true;
@@ -2308,9 +2308,9 @@ public class PredatorComponent
     public string GetPreyInformation()
     {
         string ret = "";
-        for (int x = 0; x < prey.Count; x++)
+        for (int x = 0; x < Prey.Count; x++)
         {
-            AddPreyInformation(ref ret, prey[x], 0);
+            AddPreyInformation(ref ret, Prey[x], 0);
         }
 
         return ret;
@@ -2321,8 +2321,8 @@ public class PredatorComponent
         if (indent > 12) return "";
         if (prey.Unit == null) return "";
         var loc = prey.Location.ToString();
-        if (Equals(unit.Race, Race.Terrorbird) && prey.Location == PreyLocation.tail) loc = "Crop";
-        if (prey.Unit.IsDead == false && unit.HasTrait(TraitType.DualStomach) && stomach.Contains(prey))
+        if (Equals(Unit.Race, Race.Terrorbird) && prey.Location == PreyLocation.Tail) loc = "Crop";
+        if (prey.Unit.IsDead == false && Unit.HasTrait(TraitType.DualStomach) && Stomach.Contains(prey))
         {
             if (indent > 0) ret += $"L:{indent} ";
             ret += $"Pushing {prey.Unit.Name} deeper\n";
@@ -2362,122 +2362,122 @@ public class PredatorComponent
 
     private void AddToStomach(Prey preyref, float v)
     {
-        stomach.Add(preyref);
-        if (actor.UnitSprite != null)
+        Stomach.Add(preyref);
+        if (_actor.UnitSprite != null)
         {
-            actor.UnitSprite.UpdateSprites(actor, true);
-            actor.UnitSprite.AnimateBellyEnter();
+            _actor.UnitSprite.UpdateSprites(_actor, true);
+            _actor.UnitSprite.AnimateBellyEnter();
         }
     }
 
-    public bool UsePreferredVore(Actor_Unit target)
+    public bool UsePreferredVore(ActorUnit target)
     {
-        List<VoreType> allowedVoreTypes = State.RaceSettings.GetVoreTypes(unit.Race);
+        List<VoreType> allowedVoreTypes = State.RaceSettings.GetVoreTypes(Unit.Race);
 
-        switch (unit.PreferredVoreType)
+        switch (Unit.PreferredVoreType)
         {
             case VoreType.All:
                 break;
             case VoreType.Oral:
-                if (allowedVoreTypes.Contains(VoreType.Oral)) return Consume(target, Devour, PreyLocation.stomach);
+                if (allowedVoreTypes.Contains(VoreType.Oral)) return Consume(target, Devour, PreyLocation.Stomach);
                 break;
             case VoreType.Unbirth:
-                if (allowedVoreTypes.Contains(VoreType.Unbirth) && CanUnbirth(target)) return Consume(target, Unbirth, PreyLocation.womb);
+                if (allowedVoreTypes.Contains(VoreType.Unbirth) && CanUnbirth(target)) return Consume(target, Unbirth, PreyLocation.Womb);
                 break;
             case VoreType.CockVore:
-                if (allowedVoreTypes.Contains(VoreType.CockVore) && CanCockVore(target)) return Consume(target, CockVore, PreyLocation.balls);
+                if (allowedVoreTypes.Contains(VoreType.CockVore) && CanCockVore(target)) return Consume(target, CockVore, PreyLocation.Balls);
                 break;
             case VoreType.BreastVore:
-                if (allowedVoreTypes.Contains(VoreType.BreastVore) && CanBreastVore(target)) return Consume(target, BreastVore, PreyLocation.breasts);
+                if (allowedVoreTypes.Contains(VoreType.BreastVore) && CanBreastVore(target)) return Consume(target, BreastVore, PreyLocation.Breasts);
                 break;
             case VoreType.TailVore:
-                if (allowedVoreTypes.Contains(VoreType.TailVore) && CanTailVore(target)) return Consume(target, TailVore, PreyLocation.tail);
+                if (allowedVoreTypes.Contains(VoreType.TailVore) && CanTailVore(target)) return Consume(target, TailVore, PreyLocation.Tail);
                 break;
             case VoreType.Anal:
-                if (allowedVoreTypes.Contains(VoreType.Anal) && CanAnalVore(target)) return Consume(target, AnalVore, PreyLocation.anal);
+                if (allowedVoreTypes.Contains(VoreType.Anal) && CanAnalVore(target)) return Consume(target, AnalVore, PreyLocation.Anal);
                 break;
         }
 
-        if (State.GameManager.TacticalMode.turboMode) //When turboing, just pick the fast solution.
-            return Consume(target, Devour, PreyLocation.stomach);
+        if (State.GameManager.TacticalMode.TurboMode) //When turboing, just pick the fast solution.
+            return Consume(target, Devour, PreyLocation.Stomach);
 
         WeightedList<VoreType> options = new WeightedList<VoreType>();
 
         List<VoreType> voreTypes = new List<VoreType>();
         if (allowedVoreTypes.Contains(VoreType.Oral) && Config.OralWeight > 0) options.Add(VoreType.Oral, Config.OralWeight);
-        if (allowedVoreTypes.Contains(VoreType.Unbirth) && CanUnbirth(target) && Config.UnbirthWeight > 0 && (actor.BodySize() >= target.BodySize() * 3 || !actor.Unit.HasTrait(TraitType.TightNethers))) options.Add(VoreType.Unbirth, Config.UnbirthWeight);
-        if (allowedVoreTypes.Contains(VoreType.CockVore) && CanCockVore(target) && Config.CockWeight > 0 && (actor.BodySize() >= target.BodySize() * 3 || !actor.Unit.HasTrait(TraitType.TightNethers))) options.Add(VoreType.CockVore, Config.CockWeight);
+        if (allowedVoreTypes.Contains(VoreType.Unbirth) && CanUnbirth(target) && Config.UnbirthWeight > 0 && (_actor.BodySize() >= target.BodySize() * 3 || !_actor.Unit.HasTrait(TraitType.TightNethers))) options.Add(VoreType.Unbirth, Config.UnbirthWeight);
+        if (allowedVoreTypes.Contains(VoreType.CockVore) && CanCockVore(target) && Config.CockWeight > 0 && (_actor.BodySize() >= target.BodySize() * 3 || !_actor.Unit.HasTrait(TraitType.TightNethers))) options.Add(VoreType.CockVore, Config.CockWeight);
         if (allowedVoreTypes.Contains(VoreType.BreastVore) && CanBreastVore(target) && Config.BreastWeight > 0) options.Add(VoreType.BreastVore, Config.BreastWeight);
         if (allowedVoreTypes.Contains(VoreType.TailVore) && CanTailVore(target) && Config.TailWeight > 0) options.Add(VoreType.TailVore, Config.TailWeight);
         if (allowedVoreTypes.Contains(VoreType.Anal) && CanAnalVore(target) && Config.AnalWeight > 0) options.Add(VoreType.Anal, Config.AnalWeight);
 
         var type = options.GetResult();
 
-        if (type == VoreType.All || type == VoreType.Oral) return Consume(target, Devour, PreyLocation.stomach);
+        if (type == VoreType.All || type == VoreType.Oral) return Consume(target, Devour, PreyLocation.Stomach);
 
-        if (type == VoreType.Unbirth) return Consume(target, Unbirth, PreyLocation.womb);
-        if (type == VoreType.CockVore) return Consume(target, CockVore, PreyLocation.balls);
-        if (type == VoreType.BreastVore) return Consume(target, BreastVore, PreyLocation.breasts);
-        if (type == VoreType.TailVore) return Consume(target, TailVore, PreyLocation.tail);
-        if (type == VoreType.Anal) return Consume(target, AnalVore, PreyLocation.anal);
-        return Consume(target, Devour, PreyLocation.stomach);
+        if (type == VoreType.Unbirth) return Consume(target, Unbirth, PreyLocation.Womb);
+        if (type == VoreType.CockVore) return Consume(target, CockVore, PreyLocation.Balls);
+        if (type == VoreType.BreastVore) return Consume(target, BreastVore, PreyLocation.Breasts);
+        if (type == VoreType.TailVore) return Consume(target, TailVore, PreyLocation.Tail);
+        if (type == VoreType.Anal) return Consume(target, AnalVore, PreyLocation.Anal);
+        return Consume(target, Devour, PreyLocation.Stomach);
     }
 
-    internal bool Devour(Actor_Unit target, float delay = 0)
+    internal bool Devour(ActorUnit target, float delay = 0)
     {
         if (delay == 0)
-            return Consume(target, Devour, PreyLocation.stomach);
+            return Consume(target, Devour, PreyLocation.Stomach);
         else
-            return Consume(target, Devour, PreyLocation.stomach, delay);
+            return Consume(target, Devour, PreyLocation.Stomach, delay);
     }
 
-    internal bool Unbirth(Actor_Unit target)
+    internal bool Unbirth(ActorUnit target)
     {
-        return Consume(target, Unbirth, PreyLocation.womb);
+        return Consume(target, Unbirth, PreyLocation.Womb);
     }
 
-    internal bool BreastVore(Actor_Unit target)
+    internal bool BreastVore(ActorUnit target)
     {
-        return Consume(target, BreastVore, PreyLocation.breasts);
+        return Consume(target, BreastVore, PreyLocation.Breasts);
     }
 
-    internal bool CockVore(Actor_Unit target)
+    internal bool CockVore(ActorUnit target)
     {
-        return Consume(target, CockVore, PreyLocation.balls);
+        return Consume(target, CockVore, PreyLocation.Balls);
     }
 
-    internal bool TailVore(Actor_Unit target)
+    internal bool TailVore(ActorUnit target)
     {
-        return Consume(target, TailVore, PreyLocation.tail);
+        return Consume(target, TailVore, PreyLocation.Tail);
     }
 
-    internal bool AnalVore(Actor_Unit target)
+    internal bool AnalVore(ActorUnit target)
     {
-        return Consume(target, AnalVore, PreyLocation.anal);
+        return Consume(target, AnalVore, PreyLocation.Anal);
     }
 
-    internal bool MagicConsume(Spell spell, Actor_Unit target, PreyLocation preyLocation = PreyLocation.stomach)
+    internal bool MagicConsume(Spell spell, ActorUnit target, PreyLocation preyLocation = PreyLocation.Stomach)
     {
         bool sneakAttack = false;
-        if (TacticalUtilities.SneakAttackCheck(actor.Unit, target.Unit) && !actor.Unit.HasTrait(TraitType.Endosoma))
+        if (TacticalUtilities.SneakAttackCheck(_actor.Unit, target.Unit) && !_actor.Unit.HasTrait(TraitType.Endosoma))
         {
-            actor.Unit.hiddenFixedSide = false;
+            _actor.Unit.HiddenFixedSide = false;
             sneakAttack = true;
-            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{actor.Unit.Name} sneak-attacked {target.Unit.Name}!</color>");
+            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{_actor.Unit.Name} sneak-attacked {target.Unit.Name}!</color>");
         }
 
-        if (!Equals(actor.Unit.GetApparentSide(), target.Unit.GetApparentSide()))
+        if (!Equals(_actor.Unit.GetApparentSide(), target.Unit.GetApparentSide()))
         {
-            if (actor.SidesAttackedThisBattle == null) actor.SidesAttackedThisBattle = new List<Side>();
-            actor.SidesAttackedThisBattle.Add(target.Unit.GetApparentSide());
+            if (_actor.SidesAttackedThisBattle == null) _actor.SidesAttackedThisBattle = new List<Side>();
+            _actor.SidesAttackedThisBattle.Add(target.Unit.GetApparentSide());
         }
 
         State.GameManager.TacticalMode.AITimer = Config.TacticalVoreDelay;
-        if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.turboMode == false) State.GameManager.CameraCall(target.Position);
-        if (target.Unit == unit) return false;
-        if (target.DefendSpellCheck(spell, actor, out float chance, mod: sneakAttack ? -0.3f : 0f) == false)
+        if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.TurboMode == false) State.GameManager.CameraCall(target.Position);
+        if (target.Unit == Unit) return false;
+        if (target.DefendSpellCheck(spell, _actor, out float chance, mod: sneakAttack ? -0.3f : 0f) == false)
         {
-            State.GameManager.TacticalMode.Log.RegisterSpellMiss(unit, target.Unit, spell.SpellType, chance);
+            State.GameManager.TacticalMode.Log.RegisterSpellMiss(Unit, target.Unit, spell.SpellType, chance);
             return false;
         }
 
@@ -2485,25 +2485,25 @@ public class PredatorComponent
         {
             //actor.SetPredMode(preyType);
             float r = (float)State.Rand.NextDouble();
-            float v = target.GetDevourChance(actor, skillBoost: actor.Unit.GetStat(Stat.Mind));
+            float v = target.GetDevourChance(_actor, skillBoost: _actor.Unit.GetStat(Stat.Mind));
             if (r < v)
             {
                 if (target.Unit.IsDead == false) AlivePrey++;
-                State.GameManager.TacticalMode.TacticalStats.RegisterVore(unit.Side);
+                State.GameManager.TacticalMode.TacticalStats.RegisterVore(Unit.Side);
 
-                if (Equals(target.Unit.Side, unit.Side)) State.GameManager.TacticalMode.TacticalStats.RegisterAllyVore(unit.Side);
-                if (!Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit)) || !unit.HasTrait(TraitType.Endosoma))
+                if (Equals(target.Unit.Side, Unit.Side)) State.GameManager.TacticalMode.TacticalStats.RegisterAllyVore(Unit.Side);
+                if (!Equals(target.Unit.FixedSide, Unit.GetApparentSide(target.Unit)) || !Unit.HasTrait(TraitType.Endosoma))
                 {
-                    unit.GiveScaledExp(4 * target.Unit.ExpMultiplier, unit.Level - target.Unit.Level, true);
+                    Unit.GiveScaledExp(4 * target.Unit.ExpMultiplier, Unit.Level - target.Unit.Level, true);
                 }
 
                 target.Visible = false;
                 target.Targetable = false;
-                State.GameManager.TacticalMode.Log.RegisterSpellHit(unit, target.Unit, spell.SpellType, 0, chance);
+                State.GameManager.TacticalMode.Log.RegisterSpellHit(Unit, target.Unit, spell.SpellType, 0, chance);
                 State.GameManager.TacticalMode.DirtyPack = true;
 
                 target.Movement = 0;
-                Prey preyref = new Prey(target, actor, target.PredatorComponent?.prey);
+                Prey preyref = new Prey(target, _actor, target.PredatorComponent?.Prey);
                 MagicDevour(target, v, preyref, preyLocation);
                 AddPrey(preyref);
                 UpdateFullness();
@@ -2511,7 +2511,7 @@ public class PredatorComponent
             }
             else
             {
-                State.GameManager.TacticalMode.Log.RegisterSpellMiss(unit, target.Unit, spell.SpellType, chance);
+                State.GameManager.TacticalMode.Log.RegisterSpellMiss(Unit, target.Unit, spell.SpellType, chance);
                 return false;
             }
         }
@@ -2519,70 +2519,70 @@ public class PredatorComponent
         return false;
     }
 
-    private bool Consume(Actor_Unit target, Action<Actor_Unit, float, Prey, float> action, PreyLocation preyType, float delay = 0)
+    private bool Consume(ActorUnit target, Action<ActorUnit, float, Prey, float> action, PreyLocation preyType, float delay = 0)
     {
         State.GameManager.TacticalMode.AITimer = Config.TacticalVoreDelay;
         int boost = 0;
-        if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.turboMode == false) State.GameManager.CameraCall(target.Position);
-        if (TacticalUtilities.AppropriateVoreTarget(actor, target) == false)
+        if (State.GameManager.CurrentScene == State.GameManager.TacticalMode && State.GameManager.TacticalMode.IsPlayerInControl == false && State.GameManager.TacticalMode.TurboMode == false) State.GameManager.CameraCall(target.Position);
+        if (TacticalUtilities.AppropriateVoreTarget(_actor, target) == false)
         {
             return false;
         }
 
-        if (unit.HasTrait(TraitType.RangedVore))
+        if (Unit.HasTrait(TraitType.RangedVore))
         {
-            int dist = target.Position.GetNumberOfMovesDistance(actor.Position);
+            int dist = target.Position.GetNumberOfMovesDistance(_actor.Position);
             if (dist > 4) return false;
             boost = -3 * (dist - 1);
         }
-        else if (target.Position.GetNumberOfMovesDistance(actor.Position) > 1)
+        else if (target.Position.GetNumberOfMovesDistance(_actor.Position) > 1)
         {
             return false;
         }
 
-        if (actor.Movement == 0)
+        if (_actor.Movement == 0)
         {
             return false;
         }
 
-        if (target.Unit == unit) return false;
-        if (unit.CanVore(preyType) != CanVore(preyType, target)) return false;
-        if (target.Bulk() <= FreeCap() && (actor.BodySize() >= target.BodySize() * 3 || !actor.Unit.HasTrait(TraitType.TightNethers) || (preyType != PreyLocation.womb && preyType != PreyLocation.balls)))
+        if (target.Unit == Unit) return false;
+        if (Unit.CanVore(preyType) != CanVore(preyType, target)) return false;
+        if (target.Bulk() <= FreeCap() && (_actor.BodySize() >= target.BodySize() * 3 || !_actor.Unit.HasTrait(TraitType.TightNethers) || (preyType != PreyLocation.Womb && preyType != PreyLocation.Balls)))
         {
             bool bit = false;
             if (target.Unit.HasTrait(TraitType.Dazzle) && target.Surrendered == false)
             {
-                float chance = actor.WillCheckOdds(actor, target);
+                float chance = _actor.WillCheckOdds(_actor, target);
                 if (State.Rand.NextDouble() < chance)
                 {
-                    actor.Movement = 0;
-                    actor.UnitSprite.DisplayDazzle();
-                    actor.Unit.ApplyStatusEffect(StatusEffectType.Shaken, 0.3f, 1);
-                    TacticalUtilities.Log.RegisterDazzle(actor.Unit, target.Unit, chance);
+                    _actor.Movement = 0;
+                    _actor.UnitSprite.DisplayDazzle();
+                    _actor.Unit.ApplyStatusEffect(StatusEffectType.Shaken, 0.3f, 1);
+                    TacticalUtilities.Log.RegisterDazzle(_actor.Unit, target.Unit, chance);
                     return false;
                 }
             }
 
-            actor.SetPredMode(preyType);
-            if (TacticalUtilities.SneakAttackCheck(unit, target.Unit) && !actor.Unit.HasTrait(TraitType.Endosoma))
+            _actor.SetPredMode(preyType);
+            if (TacticalUtilities.SneakAttackCheck(Unit, target.Unit) && !_actor.Unit.HasTrait(TraitType.Endosoma))
             {
-                actor.Unit.hiddenFixedSide = false;
+                _actor.Unit.HiddenFixedSide = false;
                 boost += 3;
-                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{actor.Unit.Name} sneak-attacked {target.Unit.Name}!</color>");
+                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<color=purple>{_actor.Unit.Name} sneak-attacked {target.Unit.Name}!</color>");
             }
 
-            if (!Equals(actor.Unit.GetApparentSide(), target.Unit.GetApparentSide()))
+            if (!Equals(_actor.Unit.GetApparentSide(), target.Unit.GetApparentSide()))
             {
-                if (actor.SidesAttackedThisBattle == null) actor.SidesAttackedThisBattle = new List<Side>();
-                actor.SidesAttackedThisBattle.Add(target.Unit.GetApparentSide());
+                if (_actor.SidesAttackedThisBattle == null) _actor.SidesAttackedThisBattle = new List<Side>();
+                _actor.SidesAttackedThisBattle.Add(target.Unit.GetApparentSide());
             }
 
             float r = (float)State.Rand.NextDouble();
-            float v = target.GetDevourChance(actor, skillBoost: boost);
+            float v = target.GetDevourChance(_actor, skillBoost: boost);
             if (r < v)
             {
                 PerformConsume(target, action, preyType, v, delay);
-                if (Equals(actor.Unit.FixedSide, TacticalUtilities.GetMindControlSide(target.Unit)))
+                if (Equals(_actor.Unit.FixedSide, TacticalUtilities.GetMindControlSide(target.Unit)))
                 {
                     StatusEffect charm = target.Unit.GetStatusEffect(StatusEffectType.Charmed);
                     if (charm != null)
@@ -2591,11 +2591,11 @@ public class PredatorComponent
                     }
                 }
 
-                if (!State.GameManager.TacticalMode.turboMode) actor.SetVoreSuccessMode();
-                if (unit.HasTrait(TraitType.Tenacious)) unit.RemoveTenacious();
-                if (unit.HasTrait(TraitType.FearsomeAppetite))
+                if (!State.GameManager.TacticalMode.TurboMode) _actor.SetVoreSuccessMode();
+                if (Unit.HasTrait(TraitType.Tenacious)) Unit.RemoveTenacious();
+                if (Unit.HasTrait(TraitType.FearsomeAppetite))
                 {
-                    foreach (Actor_Unit victim in TacticalUtilities.UnitsWithinTiles(actor.Position, 3).Where(s => s.Unit.IsEnemyOfSide(unit.Side)))
+                    foreach (ActorUnit victim in TacticalUtilities.UnitsWithinTiles(_actor.Position, 3).Where(s => s.Unit.IsEnemyOfSide(Unit.Side)))
                     {
                         victim.Unit.ApplyStatusEffect(StatusEffectType.Shaken, 0.2f, 3);
                     }
@@ -2603,27 +2603,27 @@ public class PredatorComponent
             }
             else
             {
-                if (!State.GameManager.TacticalMode.turboMode) actor.SetVoreFailMode();
-                if (actor.Unit.HasTrait(TraitType.Biter))
+                if (!State.GameManager.TacticalMode.TurboMode) _actor.SetVoreFailMode();
+                if (_actor.Unit.HasTrait(TraitType.Biter))
                 {
-                    int oldMP = actor.Movement;
-                    actor.Attack(target, false, true, canKill: false);
-                    actor.Movement = oldMP;
+                    int oldMp = _actor.Movement;
+                    _actor.Attack(target, false, true, canKill: false);
+                    _actor.Movement = oldMp;
                     bit = true; //Used because killed units are considered to be surrendered, so this prevents a bite that kills a unit being counted as 2 mp
                 }
                 else
                 {
                     target.UnitSprite.DisplayResist();
-                    if (unit.HasTrait(TraitType.Tenacious)) unit.AddTenacious();
+                    if (Unit.HasTrait(TraitType.Tenacious)) Unit.AddTenacious();
                 }
             }
 
             StatusEffect hypnotized = target.Unit.GetStatusEffect(StatusEffectType.Hypnotized);
-            if (bit == false && (target.Surrendered || (unit.HasTrait(TraitType.Endosoma) && Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit))) || (hypnotized != null && Equals(hypnotized.Side, actor.Unit.FixedSide))))
-                actor.Movement = Math.Max(actor.Movement - 2, 0);
+            if (bit == false && (target.Surrendered || (Unit.HasTrait(TraitType.Endosoma) && Equals(target.Unit.FixedSide, Unit.GetApparentSide(target.Unit))) || (hypnotized != null && Equals(hypnotized.Side, _actor.Unit.FixedSide))))
+                _actor.Movement = Math.Max(_actor.Movement - 2, 0);
             else
             {
-                SpendVoreMP();
+                SpendVoreMp();
             }
 
 
@@ -2633,51 +2633,51 @@ public class PredatorComponent
         return false;
     }
 
-    private void SpendVoreMP()
+    private void SpendVoreMp()
     {
-        if (unit.TraitBoosts.VoreAttacks > 1)
+        if (Unit.TraitBoosts.VoreAttacks > 1)
         {
-            int movementFraction = 1 + actor.MaxMovement() / unit.TraitBoosts.VoreAttacks;
-            if (actor.Movement > movementFraction)
-                actor.Movement -= movementFraction;
+            int movementFraction = 1 + _actor.MaxMovement() / Unit.TraitBoosts.VoreAttacks;
+            if (_actor.Movement > movementFraction)
+                _actor.Movement -= movementFraction;
             else
-                actor.Movement = 0;
+                _actor.Movement = 0;
         }
         else
-            actor.Movement = 0;
+            _actor.Movement = 0;
     }
 
-    private void PerformConsume(Actor_Unit target, Action<Actor_Unit, float, Prey, float> action, PreyLocation preyType, float odds = 1f, float delay = 0f)
+    private void PerformConsume(ActorUnit target, Action<ActorUnit, float, Prey, float> action, PreyLocation preyType, float odds = 1f, float delay = 0f)
     {
         if (target.Unit.IsDead == false) AlivePrey++;
-        State.GameManager.TacticalMode.TacticalStats.RegisterVore(unit.Side);
+        State.GameManager.TacticalMode.TacticalStats.RegisterVore(Unit.Side);
 
-        if (ReferenceEquals(target.Unit.Side, unit.Side)) State.GameManager.TacticalMode.TacticalStats.RegisterAllyVore(unit.Side);
+        if (ReferenceEquals(target.Unit.Side, Unit.Side)) State.GameManager.TacticalMode.TacticalStats.RegisterAllyVore(Unit.Side);
         target.Visible = false;
         target.Targetable = false;
         State.GameManager.TacticalMode.DirtyPack = true;
-        if (!Equals(target.Unit.FixedSide, unit.GetApparentSide(target.Unit)) || !unit.HasTrait(TraitType.Endosoma))
+        if (!Equals(target.Unit.FixedSide, Unit.GetApparentSide(target.Unit)) || !Unit.HasTrait(TraitType.Endosoma))
         {
-            unit.GiveScaledExp(4 * target.Unit.ExpMultiplier, unit.Level - target.Unit.Level, true);
+            Unit.GiveScaledExp(4 * target.Unit.ExpMultiplier, Unit.Level - target.Unit.Level, true);
         }
 
         target.Movement = 0;
-        Prey preyref = new Prey(target, actor, target.PredatorComponent?.prey);
+        Prey preyref = new Prey(target, _actor, target.PredatorComponent?.Prey);
         action(target, odds, preyref, delay);
         AddPrey(preyref);
         UpdateFullness();
     }
 
-    private void MagicDevour(Actor_Unit target, float v, Prey preyref, PreyLocation preyLocation)
+    private void MagicDevour(ActorUnit target, float v, Prey preyref, PreyLocation preyLocation)
     {
-        if (Equals(actor.Unit.Side, target.Unit.GetApparentSide()) && !actor.Unit.HasTrait(TraitType.Endosoma))
+        if (Equals(_actor.Unit.Side, target.Unit.GetApparentSide()) && !_actor.Unit.HasTrait(TraitType.Endosoma))
         {
-            actor.Unit.hiddenFixedSide = false;
+            _actor.Unit.HiddenFixedSide = false;
         }
 
         //State.GameManager.SoundManager.PlaySwallow(PreyLocation.stomach, actor);
         //TacticalUtilities.Log.RegisterVore(unit, target.Unit, v);
-        if (Equals(actor.Unit.FixedSide, TacticalUtilities.GetMindControlSide(target.Unit)))
+        if (Equals(_actor.Unit.FixedSide, TacticalUtilities.GetMindControlSide(target.Unit)))
         {
             StatusEffect charm = target.Unit.GetStatusEffect(StatusEffectType.Charmed);
             if (charm != null)
@@ -2688,41 +2688,41 @@ public class PredatorComponent
 
         switch (preyLocation)
         {
-            case PreyLocation.womb:
+            case PreyLocation.Womb:
                 AddToWomb(preyref, 1f);
                 break;
-            case PreyLocation.balls:
+            case PreyLocation.Balls:
                 AddToBalls(preyref, 1f);
                 break;
-            case PreyLocation.anal:
+            case PreyLocation.Anal:
                 AddToStomach(preyref, 1f);
                 break;
-            case PreyLocation.breasts:
-                var data = Races2.GetRace(unit.Race);
+            case PreyLocation.Breasts:
+                var data = Races2.GetRace(Unit.Race);
                 if (data.SetupOutput.ExtendedBreastSprites)
                 {
-                    if (Config.FairyBVType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
+                    if (Config.FairyBvType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
                     {
                         var box = State.GameManager.CreateDialogBox();
                         box.SetData(() =>
                         {
-                            rightBreast.Add(preyref);
+                            RightBreast.Add(preyref);
                             UpdateFullness();
                         }, "Right", "Left", "Which breast should the prey be put in? (from your pov)", () =>
                         {
-                            leftBreast.Add(preyref);
+                            LeftBreast.Add(preyref);
                             UpdateFullness();
                         });
                         return;
                     }
 
                     if (LeftBreastFullness < RightBreastFullness || State.Rand.Next(2) == 0)
-                        leftBreast.Add(preyref);
+                        LeftBreast.Add(preyref);
                     else
-                        rightBreast.Add(preyref);
+                        RightBreast.Add(preyref);
                 }
                 else
-                    breasts.Add(preyref);
+                    Breasts.Add(preyref);
 
                 break;
             default:
@@ -2733,95 +2733,95 @@ public class PredatorComponent
         AddToStomach(preyref, v);
     }
 
-    private void Devour(Actor_Unit target, float v, Prey preyref, float delay)
+    private void Devour(ActorUnit target, float v, Prey preyref, float delay)
     {
         if (delay > 0)
-            MiscUtilities.DelayedInvoke(() => State.GameManager.SoundManager.PlaySwallow(PreyLocation.stomach, actor), delay);
+            MiscUtilities.DelayedInvoke(() => State.GameManager.SoundManager.PlaySwallow(PreyLocation.Stomach, _actor), delay);
         else
-            State.GameManager.SoundManager.PlaySwallow(PreyLocation.stomach, actor);
-        TacticalUtilities.Log.RegisterVore(unit, target.Unit, v);
+            State.GameManager.SoundManager.PlaySwallow(PreyLocation.Stomach, _actor);
+        TacticalUtilities.Log.RegisterVore(Unit, target.Unit, v);
         AddToStomach(preyref, v);
     }
 
-    private void Unbirth(Actor_Unit target, float v, Prey preyref, float delay)
+    private void Unbirth(ActorUnit target, float v, Prey preyref, float delay)
     {
-        State.GameManager.SoundManager.PlaySwallow(PreyLocation.womb, actor);
-        TacticalUtilities.Log.RegisterUnbirth(unit, target.Unit, v);
+        State.GameManager.SoundManager.PlaySwallow(PreyLocation.Womb, _actor);
+        TacticalUtilities.Log.RegisterUnbirth(Unit, target.Unit, v);
         AddToWomb(preyref, v);
     }
 
-    private void BreastVore(Actor_Unit target, float v, Prey preyref, float delay)
+    private void BreastVore(ActorUnit target, float v, Prey preyref, float delay)
     {
-        State.GameManager.SoundManager.PlaySwallow(PreyLocation.breasts, actor);
-        TacticalUtilities.Log.RegisterBreastVore(unit, target.Unit, v);
-        var data = Races2.GetRace(unit.Race);
+        State.GameManager.SoundManager.PlaySwallow(PreyLocation.Breasts, _actor);
+        TacticalUtilities.Log.RegisterBreastVore(Unit, target.Unit, v);
+        var data = Races2.GetRace(Unit.Race);
         if (data.SetupOutput.ExtendedBreastSprites)
         {
-            if (Config.FairyBVType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
+            if (Config.FairyBvType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
             {
                 var box = State.GameManager.CreateDialogBox();
                 box.SetData(() =>
                 {
-                    rightBreast.Add(preyref);
+                    RightBreast.Add(preyref);
                     UpdateFullness();
                 }, "Right", "Left", "Which breast should the prey be put in? (from your pov)", () =>
                 {
-                    leftBreast.Add(preyref);
+                    LeftBreast.Add(preyref);
                     UpdateFullness();
                 });
                 return;
             }
 
             if (LeftBreastFullness < RightBreastFullness || State.Rand.Next(2) == 0)
-                leftBreast.Add(preyref);
+                LeftBreast.Add(preyref);
             else
-                rightBreast.Add(preyref);
+                RightBreast.Add(preyref);
         }
         else
-            breasts.Add(preyref);
+            Breasts.Add(preyref);
     }
 
-    private void CockVore(Actor_Unit target, float v, Prey preyref, float delay)
+    private void CockVore(ActorUnit target, float v, Prey preyref, float delay)
     {
-        State.GameManager.SoundManager.PlaySwallow(PreyLocation.balls, actor);
-        TacticalUtilities.Log.RegisterCockVore(unit, target.Unit, v);
-        balls.Add(preyref);
+        State.GameManager.SoundManager.PlaySwallow(PreyLocation.Balls, _actor);
+        TacticalUtilities.Log.RegisterCockVore(Unit, target.Unit, v);
+        Balls.Add(preyref);
     }
 
-    private void TailVore(Actor_Unit target, float v, Prey preyref, float delay)
+    private void TailVore(ActorUnit target, float v, Prey preyref, float delay)
     {
-        State.GameManager.SoundManager.PlaySwallow(PreyLocation.stomach, actor);
-        TacticalUtilities.Log.RegisterTailVore(unit, target.Unit, v);
-        tail.Add(preyref);
+        State.GameManager.SoundManager.PlaySwallow(PreyLocation.Stomach, _actor);
+        TacticalUtilities.Log.RegisterTailVore(Unit, target.Unit, v);
+        Tail.Add(preyref);
     }
 
-    private void AnalVore(Actor_Unit target, float v, Prey preyref, float delay)
+    private void AnalVore(ActorUnit target, float v, Prey preyref, float delay)
     {
-        State.GameManager.SoundManager.PlaySwallow(PreyLocation.anal, actor);
-        TacticalUtilities.Log.RegisterAnalVore(unit, target.Unit, v);
-        stomach.Add(preyref);
+        State.GameManager.SoundManager.PlaySwallow(PreyLocation.Anal, _actor);
+        TacticalUtilities.Log.RegisterAnalVore(Unit, target.Unit, v);
+        Stomach.Add(preyref);
     }
 
     public bool CanFeed()
     {
         if (Config.KuroTenkoEnabled && (Config.FeedingType == FeedingType.Both || Config.FeedingType == FeedingType.BreastfeedOnly))
         {
-            var race = Races2.GetRace(actor.Unit.Race);
+            var race = Races2.GetRace(_actor.Unit.Race);
             if (race.SetupOutput.ExtendedBreastSprites)
             {
-                foreach (Prey preyUnit in leftBreast)
+                foreach (Prey preyUnit in LeftBreast)
                 {
                     if (preyUnit.Unit.IsDead) return true;
                 }
 
-                foreach (Prey preyUnit in rightBreast)
+                foreach (Prey preyUnit in RightBreast)
                 {
                     if (preyUnit.Unit.IsDead) return true;
                 }
             }
             else
             {
-                foreach (Prey preyUnit in breasts)
+                foreach (Prey preyUnit in Breasts)
                 {
                     if (preyUnit.Unit.IsDead) return true;
                 }
@@ -2835,7 +2835,7 @@ public class PredatorComponent
     {
         if (Config.KuroTenkoEnabled && (Config.FeedingType == FeedingType.Both || Config.FeedingType == FeedingType.CumFeedOnly))
         {
-            foreach (Prey preyUnit in balls)
+            foreach (Prey preyUnit in Balls)
             {
                 if (preyUnit.Unit.IsDead)
                 {
@@ -2858,7 +2858,7 @@ public class PredatorComponent
         return GetTransfer() != null;
     }
 
-    public bool CanVoreSteal(Actor_Unit target)
+    public bool CanVoreSteal(ActorUnit target)
     {
         if (Config.TransferAllowed == false || Config.KuroTenkoEnabled == false) return false;
         return GetVoreSteal(target) != null;
@@ -2866,7 +2866,7 @@ public class PredatorComponent
 
     private Prey GetTransfer()
     {
-        foreach (Prey preyUnit in balls)
+        foreach (Prey preyUnit in Balls)
         {
             //Testing was done with isDead being required, transferring live prey may have its own issues
             //if (preyUnit.Unit.IsDead)
@@ -2880,7 +2880,7 @@ public class PredatorComponent
 
     public float GetTransferBulk()
     {
-        foreach (Prey preyUnit in balls)
+        foreach (Prey preyUnit in Balls)
         {
             //Testing was done with isDead being required, transferring live prey may have its own issues
             //if (preyUnit.Unit.IsDead)
@@ -2892,14 +2892,14 @@ public class PredatorComponent
         return 0;
     }
 
-    public float GetSuckleChance(Actor_Unit target, bool includeSecondaries = false)
+    public float GetSuckleChance(ActorUnit target, bool includeSecondaries = false)
     {
-        if (target.Surrendered || Equals(actor.Unit.GetApparentSide(), target.Unit.FixedSide)) return 1f;
-        float predVoracity = Mathf.Pow(15 + actor.Unit.GetStat(Stat.Voracity), 1.5f);
-        float predStrength = Mathf.Pow(15 + actor.Unit.GetStat(Stat.Strength), 1.5f);
+        if (target.Surrendered || Equals(_actor.Unit.GetApparentSide(), target.Unit.FixedSide)) return 1f;
+        float predVoracity = Mathf.Pow(15 + _actor.Unit.GetStat(Stat.Voracity), 1.5f);
+        float predStrength = Mathf.Pow(15 + _actor.Unit.GetStat(Stat.Strength), 1.5f);
         float preyStrength = Mathf.Pow(15 + target.Unit.GetStat(Stat.Strength), 1.5f);
         float preyWill = Mathf.Pow(15 + target.Unit.GetStat(Stat.Will), 1.5f);
-        float attackerScore = (predVoracity + 2 * predStrength) * (actor.Unit.HealthPct + 1) * (30 + actor.BodySize()) / 16 / (1 + 2 * Mathf.Pow(actor.PredatorComponent.UsageFraction, 2));
+        float attackerScore = (predVoracity + 2 * predStrength) * (_actor.Unit.HealthPct + 1) * (30 + _actor.BodySize()) / 16 / (1 + 2 * Mathf.Pow(_actor.PredatorComponent.UsageFraction, 2));
         float defenderScore = 20 + 2 * (preyStrength + 2 * preyWill) * target.Unit.HealthPct * target.Unit.HealthPct * ((10 + target.BodySize()) / 2);
 
         float odds = attackerScore / (attackerScore + defenderScore) * 100;
@@ -2910,30 +2910,30 @@ public class PredatorComponent
         {
             if (target.Unit.HasTrait(TraitType.Dazzle))
             {
-                odds *= 1 - target.WillCheckOdds(actor, target);
+                odds *= 1 - target.WillCheckOdds(_actor, target);
             }
         }
 
         return odds / 100;
     }
 
-    public int[] GetSuckle(Actor_Unit target)
+    public int[] GetSuckle(ActorUnit target)
     {
-        if (actor.Unit.Predator == false || target.Unit.Predator == false) return new int[] { 0, 0 };
+        if (_actor.Unit.Predator == false || target.Unit.Predator == false) return new int[] { 0, 0 };
         if (Config.KuroTenkoEnabled && Config.FeedingType != FeedingType.None)
         {
-            if (target.PredatorComponent.PreyInLocation(PreyLocation.breasts, false) + target.PredatorComponent.PreyInLocation(PreyLocation.leftBreast, false) + target.PredatorComponent.PreyInLocation(PreyLocation.rightBreast, false) + target.PredatorComponent.PreyInLocation(PreyLocation.balls, false) == 0) return new int[] { 0, 0 };
-            if (Config.SucklingPermission == SucklingPermission.AlwaysBreast || Config.FeedingType == FeedingType.BreastfeedOnly) return target.PredatorComponent.CalcFeedValue(actor, "breast").Item1;
-            if (Config.SucklingPermission == SucklingPermission.AlwaysCock || Config.FeedingType == FeedingType.CumFeedOnly) return target.PredatorComponent.CalcFeedValue(actor, "cock").Item1;
-            if (Config.SucklingPermission == SucklingPermission.Auto || Config.SucklingPermission == SucklingPermission.Random) return target.PredatorComponent.CalcFeedValue(actor, "any").Item1;
+            if (target.PredatorComponent.PreyInLocation(PreyLocation.Breasts, false) + target.PredatorComponent.PreyInLocation(PreyLocation.LeftBreast, false) + target.PredatorComponent.PreyInLocation(PreyLocation.RightBreast, false) + target.PredatorComponent.PreyInLocation(PreyLocation.Balls, false) == 0) return new int[] { 0, 0 };
+            if (Config.SucklingPermission == SucklingPermission.AlwaysBreast || Config.FeedingType == FeedingType.BreastfeedOnly) return target.PredatorComponent.CalcFeedValue(_actor, "breast").Item1;
+            if (Config.SucklingPermission == SucklingPermission.AlwaysCock || Config.FeedingType == FeedingType.CumFeedOnly) return target.PredatorComponent.CalcFeedValue(_actor, "cock").Item1;
+            if (Config.SucklingPermission == SucklingPermission.Auto || Config.SucklingPermission == SucklingPermission.Random) return target.PredatorComponent.CalcFeedValue(_actor, "any").Item1;
         }
 
         return new int[] { 0, 0, 0 };
     }
 
-    public bool Suckle(Actor_Unit target)
+    public bool Suckle(ActorUnit target)
     {
-        if (target.Position.GetNumberOfMovesDistance(actor.Position) > 1 || target.Unit.Predator == false)
+        if (target.Position.GetNumberOfMovesDistance(_actor.Position) > 1 || target.Unit.Predator == false)
         {
             return false;
         }
@@ -2942,38 +2942,38 @@ public class PredatorComponent
         float v = GetSuckleChance(target);
         int[] suckle = { 0, 0, 0 };
         if (Config.SucklingPermission == SucklingPermission.AlwaysBreast)
-            suckle = target.PredatorComponent.CalcFeedValue(actor, "breast").Item1;
+            suckle = target.PredatorComponent.CalcFeedValue(_actor, "breast").Item1;
         else if (Config.SucklingPermission == SucklingPermission.AlwaysCock)
-            suckle = target.PredatorComponent.CalcFeedValue(actor, "cock").Item1;
+            suckle = target.PredatorComponent.CalcFeedValue(_actor, "cock").Item1;
         else if (Config.SucklingPermission == SucklingPermission.Random)
             if (State.Rand.Next(2) == 0)
-                suckle = target.PredatorComponent.CalcFeedValue(actor, "breast").Item1;
+                suckle = target.PredatorComponent.CalcFeedValue(_actor, "breast").Item1;
             else
-                suckle = target.PredatorComponent.CalcFeedValue(actor, "cock").Item1;
+                suckle = target.PredatorComponent.CalcFeedValue(_actor, "cock").Item1;
         else
-            suckle = target.PredatorComponent.CalcFeedValue(actor, "any").Item1;
+            suckle = target.PredatorComponent.CalcFeedValue(_actor, "any").Item1;
         if (suckle.Length < 3) return false;
-        int halfMovement = 1 + actor.MaxMovement() / 2;
-        if (actor.Movement > halfMovement)
-            actor.Movement -= halfMovement;
+        int halfMovement = 1 + _actor.MaxMovement() / 2;
+        if (_actor.Movement > halfMovement)
+            _actor.Movement -= halfMovement;
         else
-            actor.Movement = 0;
-        int actorMaxHeal = actor.Unit.MaxHealth - actor.Unit.Health;
+            _actor.Movement = 0;
+        int actorMaxHeal = _actor.Unit.MaxHealth - _actor.Unit.Health;
         if (r > v)
         {
             switch (suckle[2])
             {
                 case 0:
-                    TacticalUtilities.Log.RegisterSuckleFail(unit, target.Unit, PreyLocation.breasts, v);
+                    TacticalUtilities.Log.RegisterSuckleFail(Unit, target.Unit, PreyLocation.Breasts, v);
                     break;
                 case 1:
-                    TacticalUtilities.Log.RegisterSuckleFail(unit, target.Unit, PreyLocation.leftBreast, v);
+                    TacticalUtilities.Log.RegisterSuckleFail(Unit, target.Unit, PreyLocation.LeftBreast, v);
                     break;
                 case 2:
-                    TacticalUtilities.Log.RegisterSuckleFail(unit, target.Unit, PreyLocation.rightBreast, v);
+                    TacticalUtilities.Log.RegisterSuckleFail(Unit, target.Unit, PreyLocation.RightBreast, v);
                     break;
                 case 3:
-                    TacticalUtilities.Log.RegisterSuckleFail(unit, target.Unit, PreyLocation.balls, v);
+                    TacticalUtilities.Log.RegisterSuckleFail(Unit, target.Unit, PreyLocation.Balls, v);
                     break;
             }
 
@@ -2981,48 +2981,48 @@ public class PredatorComponent
         }
         else
         {
-            actor.Unit.GiveRawExp(suckle[1]);
-            actor.UnitSprite.DisplayDamage(suckle[1], false, true);
+            _actor.Unit.GiveRawExp(suckle[1]);
+            _actor.UnitSprite.DisplayDamage(suckle[1], false, true);
             switch (suckle[2])
             {
                 case 0:
-                    TacticalUtilities.Log.RegisterSuckle(unit, target.Unit, PreyLocation.breasts, v);
-                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
+                    TacticalUtilities.Log.RegisterSuckle(Unit, target.Unit, PreyLocation.Breasts, v);
+                    TacticalUtilities.Log.RegisterHeal(_actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
                     target.DigestCheck("breastfeed");
                     break;
                 case 1:
-                    TacticalUtilities.Log.RegisterSuckle(unit, target.Unit, PreyLocation.leftBreast, v);
-                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
+                    TacticalUtilities.Log.RegisterSuckle(Unit, target.Unit, PreyLocation.LeftBreast, v);
+                    TacticalUtilities.Log.RegisterHeal(_actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
                     target.DigestCheck("breastfeed");
                     break;
                 case 2:
-                    TacticalUtilities.Log.RegisterSuckle(unit, target.Unit, PreyLocation.rightBreast, v);
-                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
+                    TacticalUtilities.Log.RegisterSuckle(Unit, target.Unit, PreyLocation.RightBreast, v);
+                    TacticalUtilities.Log.RegisterHeal(_actor.Unit, suckle, "breastfeeding", target.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
                     target.DigestCheck("breastfeed");
                     break;
                 case 3:
-                    TacticalUtilities.Log.RegisterSuckle(unit, target.Unit, PreyLocation.balls, v);
-                    TacticalUtilities.Log.RegisterHeal(actor.Unit, suckle, "cumfeeding");
+                    TacticalUtilities.Log.RegisterSuckle(Unit, target.Unit, PreyLocation.Balls, v);
+                    TacticalUtilities.Log.RegisterHeal(_actor.Unit, suckle, "cumfeeding");
                     target.DigestCheck("cumfeed");
                     break;
             }
 
-            actor.Unit.Heal(suckle[0]);
+            _actor.Unit.Heal(suckle[0]);
             if (target.Unit.HasTrait(TraitType.Corruption))
             {
-                actor.AddCorruption(unit.GetStatTotal() / 10, unit.FixedSide);
+                _actor.AddCorruption(Unit.GetStatTotal() / 10, Unit.FixedSide);
             }
 
-            if (suckle[0] != 0) actor.UnitSprite.DisplayDamage(-suckle[0]);
-            actor.UnitSprite.UpdateSprites(target, true);
+            if (suckle[0] != 0) _actor.UnitSprite.DisplayDamage(-suckle[0]);
+            _actor.UnitSprite.UpdateSprites(target, true);
             target.PredatorComponent.UpdateFullness();
             return true;
         }
     }
 
-    public float GetVoreStealChance(Actor_Unit attacker, bool includeSecondaries = false)
+    public float GetVoreStealChance(ActorUnit attacker, bool includeSecondaries = false)
     {
-        Prey prey = GetVoreSteal(actor);
+        Prey prey = GetVoreSteal(_actor);
         if (prey == null)
         {
             return 0f;
@@ -3034,20 +3034,20 @@ public class PredatorComponent
             return 0;
         }
 
-        if (actor.Surrendered || Equals(actor.Unit.FixedSide, attacker.Unit.GetApparentSide(actor.Unit))) return 1f;
+        if (_actor.Surrendered || Equals(_actor.Unit.FixedSide, attacker.Unit.GetApparentSide(_actor.Unit))) return 1f;
 
         if (prey.Unit.HasTrait(TraitType.Irresistable)) return 1f;
 
         float recipientVoracity = Mathf.Pow(15 + attacker.Unit.GetStat(Stat.Voracity), 1.5f);
         float recipientStrength = Mathf.Pow(15 + attacker.Unit.GetStat(Stat.Strength), 1.5f);
-        float donorVoracity = Mathf.Pow(15 + actor.Unit.GetStat(Stat.Voracity), 1.5f);
-        float donorStrength = Mathf.Pow(15 + actor.Unit.GetStat(Stat.Strength), 1.5f);
-        float donorWill = Mathf.Pow(15 + actor.Unit.GetStat(Stat.Will), 1.5f);
+        float donorVoracity = Mathf.Pow(15 + _actor.Unit.GetStat(Stat.Voracity), 1.5f);
+        float donorStrength = Mathf.Pow(15 + _actor.Unit.GetStat(Stat.Strength), 1.5f);
+        float donorWill = Mathf.Pow(15 + _actor.Unit.GetStat(Stat.Will), 1.5f);
         float attackerScore = (recipientVoracity + recipientStrength) * (attacker.Unit.HealthPct + 1) * (30 + attacker.BodySize()) / 16 / (1 + 2 * Mathf.Pow(attacker.PredatorComponent.UsageFraction, 2)) - prey.Actor.Bulk();
-        float defenderHealthPct = actor.Unit.HealthPct;
-        float defenderScore = 20 + 2 * (donorStrength + 1.5f * donorVoracity + 2 * donorWill) * defenderHealthPct * defenderHealthPct * ((10 + actor.BodySize()) / 2);
+        float defenderHealthPct = _actor.Unit.HealthPct;
+        float defenderScore = 20 + 2 * (donorStrength + 1.5f * donorVoracity + 2 * donorWill) * defenderHealthPct * defenderHealthPct * ((10 + _actor.BodySize()) / 2);
 
-        defenderScore /= actor.Unit.TraitBoosts.Incoming.VoreOddsMult;
+        defenderScore /= _actor.Unit.TraitBoosts.Incoming.VoreOddsMult;
         attackerScore *= attacker.Unit.TraitBoosts.Outgoing.VoreOddsMult;
 
         if (prey.Unit.HasTrait(TraitType.GelatinousBody)) attackerScore *= 1.15f;
@@ -3060,31 +3060,31 @@ public class PredatorComponent
 
         float odds = attackerScore / (attackerScore + defenderScore) * 100;
 
-        odds *= actor.Unit.TraitBoosts.FlatHitReduction;
+        odds *= _actor.Unit.TraitBoosts.FlatHitReduction;
 
         if (includeSecondaries)
         {
-            if (actor.Unit.HasTrait(TraitType.Dazzle))
+            if (_actor.Unit.HasTrait(TraitType.Dazzle))
             {
-                odds *= 1 - actor.WillCheckOdds(attacker, actor);
+                odds *= 1 - _actor.WillCheckOdds(attacker, _actor);
             }
         }
 
         return odds / 100;
     }
 
-    private Prey GetVoreSteal(Actor_Unit target)
+    private Prey GetVoreSteal(ActorUnit target)
     {
-        if (actor.Unit.Predator == false || target.Unit.Predator == false) return null;
+        if (_actor.Unit.Predator == false || target.Unit.Predator == false) return null;
 
-        if (target.Position.GetNumberOfMovesDistance(actor.Position) > 1)
+        if (target.Position.GetNumberOfMovesDistance(_actor.Position) > 1)
         {
             return null;
         }
 
-        if (State.RaceSettings.GetVoreTypes(actor.Unit.Race).Contains(VoreType.Oral) || State.RaceSettings.GetVoreTypes(actor.Unit.Race).Contains(VoreType.Unbirth))
+        if (State.RaceSettings.GetVoreTypes(_actor.Unit.Race).Contains(VoreType.Oral) || State.RaceSettings.GetVoreTypes(_actor.Unit.Race).Contains(VoreType.Unbirth))
         {
-            foreach (Prey preyUnit in target.PredatorComponent.balls)
+            foreach (Prey preyUnit in target.PredatorComponent.Balls)
             {
                 if (!preyUnit.Unit.IsDead)
                 {
@@ -3094,11 +3094,11 @@ public class PredatorComponent
         }
 
         var data = Races2.GetRace(target.Unit.Race);
-        if (State.RaceSettings.GetVoreTypes(actor.Unit.Race).Contains(VoreType.Oral))
+        if (State.RaceSettings.GetVoreTypes(_actor.Unit.Race).Contains(VoreType.Oral))
         {
             if (data.SetupOutput.ExtendedBreastSprites)
             {
-                foreach (Prey preyUnit in target.PredatorComponent.leftBreast)
+                foreach (Prey preyUnit in target.PredatorComponent.LeftBreast)
                 {
                     if (!preyUnit.Unit.IsDead)
                     {
@@ -3106,7 +3106,7 @@ public class PredatorComponent
                     }
                 }
 
-                foreach (Prey preyUnit in target.PredatorComponent.rightBreast)
+                foreach (Prey preyUnit in target.PredatorComponent.RightBreast)
                 {
                     if (!preyUnit.Unit.IsDead)
                     {
@@ -3116,7 +3116,7 @@ public class PredatorComponent
             }
             else
             {
-                foreach (Prey preyUnit in target.PredatorComponent.breasts)
+                foreach (Prey preyUnit in target.PredatorComponent.Breasts)
                 {
                     if (!preyUnit.Unit.IsDead)
                     {
@@ -3132,7 +3132,7 @@ public class PredatorComponent
     private void TransferFail(Prey transfer)
     {
         FreePrey(transfer, true);
-        foreach (Prey preyUnit in balls)
+        foreach (Prey preyUnit in Balls)
         {
             if (preyUnit.Unit.IsDead == false)
             {
@@ -3141,7 +3141,7 @@ public class PredatorComponent
             }
         }
 
-        TacticalUtilities.Log.RegisterTransferFail(unit, transfer.Unit, .3f);
+        TacticalUtilities.Log.RegisterTransferFail(Unit, transfer.Unit, .3f);
     }
 
     public float TransferBulk()
@@ -3157,7 +3157,7 @@ public class PredatorComponent
 
     public float StealBulk()
     {
-        Prey transfer = GetVoreSteal(actor);
+        Prey transfer = GetVoreSteal(_actor);
         if (transfer == null)
         {
             return 999f;
@@ -3166,9 +3166,9 @@ public class PredatorComponent
         return transfer.Actor.Bulk();
     }
 
-    private Tuple<int[], List<Prey>> CalcFeedValue(Actor_Unit target, string feedType)
+    private Tuple<int[], List<Prey>> CalcFeedValue(ActorUnit target, string feedType)
     {
-        int healthUp = Math.Max(actor.Unit.MaxHealth / 16, 1);
+        int healthUp = Math.Max(_actor.Unit.MaxHealth / 16, 1);
         int healthUpCap = target.Unit.MaxHealth - target.Unit.Health;
         int expUp = 0;
         int location = 0;
@@ -3176,27 +3176,27 @@ public class PredatorComponent
         var deadPrey = new List<Prey>();
         if (feedType == "breast" || feedType == "any")
         {
-            var data = Races2.GetRace(unit.Race);
+            var data = Races2.GetRace(Unit.Race);
             if (data.SetupOutput.ExtendedBreastSprites)
             {
                 int leftBreastHealth = 0;
                 int rightBreastHealth = 0;
-                int leftBreastEXP = 0;
-                int rightBreastEXP = 0;
-                foreach (Prey preyUnit in actor.PredatorComponent.leftBreast.ToList())
+                int leftBreastExp = 0;
+                int rightBreastExp = 0;
+                foreach (Prey preyUnit in _actor.PredatorComponent.LeftBreast.ToList())
                     if (preyUnit.Unit.IsDead)
                     {
                         deadPrey.Add(preyUnit);
-                        leftBreastHealth += heatlhBoostCalc(preyUnit, target);
-                        leftBreastEXP += expBoostCalc(preyUnit);
+                        leftBreastHealth += HeatlhBoostCalc(preyUnit, target);
+                        leftBreastExp += ExpBoostCalc(preyUnit);
                     }
 
-                foreach (Prey preyUnit in actor.PredatorComponent.rightBreast.ToList())
+                foreach (Prey preyUnit in _actor.PredatorComponent.RightBreast.ToList())
                     if (preyUnit.Unit.IsDead)
                     {
                         deadPrey.Add(preyUnit);
-                        rightBreastHealth += heatlhBoostCalc(preyUnit, target);
-                        rightBreastEXP += expBoostCalc(preyUnit);
+                        rightBreastHealth += HeatlhBoostCalc(preyUnit, target);
+                        rightBreastExp += ExpBoostCalc(preyUnit);
                     }
 
                 if (target.Unit.HealthPct < 1.0f)
@@ -3204,39 +3204,39 @@ public class PredatorComponent
                     if (leftBreastHealth >= rightBreastHealth)
                     {
                         healthUp += leftBreastHealth;
-                        expUp += leftBreastEXP;
+                        expUp += leftBreastExp;
                         if (feedType == "any") location = 1;
                     }
                     else
                     {
                         healthUp += rightBreastHealth;
-                        expUp += rightBreastEXP;
+                        expUp += rightBreastExp;
                         if (feedType == "any") location = 2;
                     }
                 }
                 else
                 {
-                    if (leftBreastEXP >= rightBreastEXP)
+                    if (leftBreastExp >= rightBreastExp)
                     {
                         healthUp += leftBreastHealth;
-                        expUp += leftBreastEXP;
+                        expUp += leftBreastExp;
                         if (feedType == "any") location = 1;
                     }
                     else
                     {
                         healthUp += rightBreastHealth;
-                        expUp += rightBreastEXP;
+                        expUp += rightBreastExp;
                         if (feedType == "any") location = 2;
                     }
                 }
             }
             else
-                foreach (Prey preyUnit in actor.PredatorComponent.breasts.ToList())
+                foreach (Prey preyUnit in _actor.PredatorComponent.Breasts.ToList())
                     if (preyUnit.Unit.IsDead)
                     {
                         deadPrey.Add(preyUnit);
-                        healthUp += heatlhBoostCalc(preyUnit, target);
-                        expUp += expBoostCalc(preyUnit);
+                        healthUp += HeatlhBoostCalc(preyUnit, target);
+                        expUp += ExpBoostCalc(preyUnit);
                     }
         }
 
@@ -3249,12 +3249,12 @@ public class PredatorComponent
 
         if (feedType == "cock" || feedType == "any")
         {
-            foreach (Prey preyUnit in actor.PredatorComponent.balls.ToList())
+            foreach (Prey preyUnit in _actor.PredatorComponent.Balls.ToList())
                 if (preyUnit.Unit.IsDead)
                 {
                     deadPrey.Add(preyUnit);
-                    healthUp += heatlhBoostCalc(preyUnit, target);
-                    expUp += expBoostCalc(preyUnit);
+                    healthUp += HeatlhBoostCalc(preyUnit, target);
+                    expUp += ExpBoostCalc(preyUnit);
                 }
 
             if (feedType == "any") location = 3;
@@ -3283,16 +3283,16 @@ public class PredatorComponent
         }
 
         healthUp = Math.Min(healthUp, healthUpCap);
-        if (!Config.OverhealEXP) expUp = 0;
+        if (!Config.OverhealExp) expUp = 0;
         return new Tuple<int[], List<Prey>>(new int[] { healthUp, expUp, location }, deadPrey);
     }
 
-    private int heatlhBoostCalc(Prey preyUnit, Actor_Unit target)
+    private int HeatlhBoostCalc(Prey preyUnit, ActorUnit target)
     {
-        return Mathf.RoundToInt(preyUnit.Unit.MaxHealth / 10 + preyUnit.Unit.MaxHealth / 10 * 9 / 20 * Math.Max(0, preyUnit.Unit.Level - target.Unit.Level / (actor.Unit.HasTrait(TraitType.WetNurse) ? 2 : 1)) * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition);
+        return Mathf.RoundToInt(preyUnit.Unit.MaxHealth / 10 + preyUnit.Unit.MaxHealth / 10 * 9 / 20 * Math.Max(0, preyUnit.Unit.Level - target.Unit.Level / (_actor.Unit.HasTrait(TraitType.WetNurse) ? 2 : 1)) * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition);
     }
 
-    private int expBoostCalc(Prey preyUnit)
+    private int ExpBoostCalc(Prey preyUnit)
     {
         int cap = State.RaceSettings.GetBodySize(preyUnit.Actor.Unit.Race);
         int bonus = Mathf.Clamp(preyUnit.Unit.Level, 1, cap);
@@ -3301,13 +3301,13 @@ public class PredatorComponent
         // return Mathf.RoundToInt(Mathf.Clamp(preyUnit.Unit.Experience / 20, 0, (State.RaceSettings.GetBodySize(preyUnit.Actor.Unit.Race) * ((preyUnit.Predator.Unit.HasTrait(Traits.Honeymaker) ? 1 : 0) + 1))) * preyUnit.Unit.TraitBoosts.Outgoing.Nutrition);
     }
 
-    public bool Feed(Actor_Unit target)
+    public bool Feed(ActorUnit target)
     {
-        if (!Equals(target.Unit.Side, actor.Unit.Side) || target.Surrendered || target.Position.GetNumberOfMovesDistance(actor.Position) > 1 || actor.Movement == 0 || !CanFeed()) return false;
+        if (!Equals(target.Unit.Side, _actor.Unit.Side) || target.Surrendered || target.Position.GetNumberOfMovesDistance(_actor.Position) > 1 || _actor.Movement == 0 || !CanFeed()) return false;
         Tuple<int[], List<Prey>> digestion = CalcFeedValue(target, "breast");
         int[] nurseHeal = digestion.Item1;
         Prey deadPrey = digestion.Item2[0];
-        TacticalUtilities.Log.RegisterFeed(unit, target.Unit, deadPrey.Unit, 1f);
+        TacticalUtilities.Log.RegisterFeed(Unit, target.Unit, deadPrey.Unit, 1f);
         target.Unit.GiveRawExp(nurseHeal[1]);
         if (nurseHeal[0] > 0)
         {
@@ -3319,30 +3319,30 @@ public class PredatorComponent
             target.UnitSprite.DisplayDamage(nurseHeal[1], false, true);
         }
 
-        target.UnitSprite.UpdateSprites(actor, true);
-        if (nurseHeal[0] + nurseHeal[1] > 0) TacticalUtilities.Log.RegisterHeal(target.Unit, nurseHeal, "breastfeeding", actor.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
-        actor.DigestCheck("breastfeed");
-        if (unit.HasTrait(TraitType.Corruption))
+        target.UnitSprite.UpdateSprites(_actor, true);
+        if (nurseHeal[0] + nurseHeal[1] > 0) TacticalUtilities.Log.RegisterHeal(target.Unit, nurseHeal, "breastfeeding", _actor.Unit.HasTrait(TraitType.Honeymaker) ? "honey" : "none");
+        _actor.DigestCheck("breastfeed");
+        if (Unit.HasTrait(TraitType.Corruption))
         {
-            target.AddCorruption(unit.GetStatTotal() / 10, unit.FixedSide);
+            target.AddCorruption(Unit.GetStatTotal() / 10, Unit.FixedSide);
         }
 
-        int halfMovement = 1 + actor.MaxMovement() / (2 + (actor.Unit.HasTrait(TraitType.WetNurse) ? 1 : 0));
-        if (actor.Movement > halfMovement)
-            actor.Movement -= halfMovement;
+        int halfMovement = 1 + _actor.MaxMovement() / (2 + (_actor.Unit.HasTrait(TraitType.WetNurse) ? 1 : 0));
+        if (_actor.Movement > halfMovement)
+            _actor.Movement -= halfMovement;
         else
-            actor.Movement = 0;
+            _actor.Movement = 0;
         UpdateFullness();
         return true;
     }
 
-    public bool FeedCum(Actor_Unit target)
+    public bool FeedCum(ActorUnit target)
     {
-        if (!Equals(target.Unit.Side, actor.Unit.Side) || target.Surrendered || target.Position.GetNumberOfMovesDistance(actor.Position) > 1 || actor.Movement == 0 || !CanFeedCum()) return false;
+        if (!Equals(target.Unit.Side, _actor.Unit.Side) || target.Surrendered || target.Position.GetNumberOfMovesDistance(_actor.Position) > 1 || _actor.Movement == 0 || !CanFeedCum()) return false;
         Tuple<int[], List<Prey>> digestion = CalcFeedValue(target, "cock");
         int[] nurseHeal = digestion.Item1;
         Prey deadPrey = digestion.Item2[0];
-        TacticalUtilities.Log.RegisterCumFeed(unit, target.Unit, deadPrey.Unit, 1f);
+        TacticalUtilities.Log.RegisterCumFeed(Unit, target.Unit, deadPrey.Unit, 1f);
         target.Unit.GiveRawExp(nurseHeal[1]);
         if (nurseHeal[0] > 0)
         {
@@ -3354,28 +3354,28 @@ public class PredatorComponent
             target.UnitSprite.DisplayDamage(nurseHeal[1], false, true);
         }
 
-        target.UnitSprite.UpdateSprites(actor, true);
+        target.UnitSprite.UpdateSprites(_actor, true);
         if (nurseHeal[0] + nurseHeal[1] > 0) TacticalUtilities.Log.RegisterHeal(target.Unit, nurseHeal, "cumfeeding");
-        actor.DigestCheck("cumfeed");
-        if (unit.HasTrait(TraitType.Corruption))
+        _actor.DigestCheck("cumfeed");
+        if (Unit.HasTrait(TraitType.Corruption))
         {
-            target.AddCorruption(unit.GetStatTotal() / 10, unit.FixedSide);
+            target.AddCorruption(Unit.GetStatTotal() / 10, Unit.FixedSide);
         }
 
-        int quarterMovement = 1 + actor.MaxMovement() / (4 + (actor.Unit.HasTrait(TraitType.WetNurse) ? 1 : 0));
-        if (actor.Movement > quarterMovement)
-            actor.Movement -= quarterMovement;
+        int quarterMovement = 1 + _actor.MaxMovement() / (4 + (_actor.Unit.HasTrait(TraitType.WetNurse) ? 1 : 0));
+        if (_actor.Movement > quarterMovement)
+            _actor.Movement -= quarterMovement;
         else
-            actor.Movement = 0;
+            _actor.Movement = 0;
         UpdateFullness();
         return true;
     }
 
-    private bool Transfer(Actor_Unit target, Prey preyUnit)
+    private bool Transfer(ActorUnit target, Prey preyUnit)
     {
         float r = (float)State.Rand.NextDouble();
         float v = target.GetSpecialChance(SpecialAction.CockVore);
-        if (target.Position.GetNumberOfMovesDistance(actor.Position) > 1)
+        if (target.Position.GetNumberOfMovesDistance(_actor.Position) > 1)
         {
             return false;
         }
@@ -3385,11 +3385,11 @@ public class PredatorComponent
             return false;
         }
 
-        Prey preyref = new Prey(preyUnit.Actor, target, preyUnit.Actor.PredatorComponent?.prey);
+        Prey preyref = new Prey(preyUnit.Actor, target, preyUnit.Actor.PredatorComponent?.Prey);
         if (target.Unit.HasVagina && RaceParameters.GetTraitData(target.Unit).AllowedVoreTypes.Contains(VoreType.Unbirth))
         {
             var box = State.GameManager.CreateDialogBox();
-            box.SetData(() => TransferFinalize(target, preyUnit, preyref, PreyLocation.stomach), "Stomach", "Womb", "Transfer the prey to the womb or stomach?", () => TransferFinalize(target, preyUnit, preyref, PreyLocation.womb));
+            box.SetData(() => TransferFinalize(target, preyUnit, preyref, PreyLocation.Stomach), "Stomach", "Womb", "Transfer the prey to the womb or stomach?", () => TransferFinalize(target, preyUnit, preyref, PreyLocation.Womb));
         }
         // Hopefully there's no circumstance where a vaginal trasfer is possible but an oral isn't
         //else if (target.Unit.HasBreasts && !target.Unit.HasDick)
@@ -3398,26 +3398,26 @@ public class PredatorComponent
         //}
         else
         {
-            TransferFinalize(target, preyUnit, preyref, PreyLocation.stomach);
+            TransferFinalize(target, preyUnit, preyref, PreyLocation.Stomach);
         }
 
         if (target.UnitSprite != null)
         {
-            target.UnitSprite.UpdateSprites(actor, true);
+            target.UnitSprite.UpdateSprites(_actor, true);
             target.UnitSprite.AnimateBellyEnter();
         }
 
         return true;
     }
 
-    private bool TransferFinalize(Actor_Unit recipient, Prey preyUnit, Prey preyref, PreyLocation destination)
+    private bool TransferFinalize(ActorUnit recipient, Prey preyUnit, Prey preyref, PreyLocation destination)
     {
         // Empowerment handling
-        if (destination == PreyLocation.womb && recipient.Unit.HasVagina && Config.CumGestation)
+        if (destination == PreyLocation.Womb && recipient.Unit.HasVagina && Config.CumGestation)
         {
             bool alreadyPregnant = false;
-            Actor_Unit alreadyChild = null;
-            foreach (Prey existingPrey in recipient.PredatorComponent.womb)
+            ActorUnit alreadyChild = null;
+            foreach (Prey existingPrey in recipient.PredatorComponent.Womb)
             {
                 if ((existingPrey.Unit.IsDead && !Equals(existingPrey.Unit.Side, recipient.Unit.Side)) || (!existingPrey.Unit.IsDead && Equals(existingPrey.Unit.Side, recipient.Unit.Side)))
                 {
@@ -3428,21 +3428,21 @@ public class PredatorComponent
 
             if (alreadyPregnant)
             {
-                recipient.PredatorComponent.birthStatBoost += preyUnit.Unit.Level;
+                recipient.PredatorComponent.BirthStatBoost += preyUnit.Unit.Level;
                 recipient.PredatorComponent.RemovePrey(preyUnit);
-                actor.PredatorComponent.RemovePrey(preyUnit);
-                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{actor.Unit.Name}</b> pumps what remains of <b>{preyUnit.Unit.Name}</b> into <b>{recipient.Unit.Name}</b>'s womb, providing nutrients to strengthen <b>{alreadyChild.Unit.Name}</b>.");
-                if (unit.HasTrait(TraitType.Corruption) || preyUnit.Unit.HasTrait(TraitType.Corruption))
+                _actor.PredatorComponent.RemovePrey(preyUnit);
+                State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{_actor.Unit.Name}</b> pumps what remains of <b>{preyUnit.Unit.Name}</b> into <b>{recipient.Unit.Name}</b>'s womb, providing nutrients to strengthen <b>{alreadyChild.Unit.Name}</b>.");
+                if (Unit.HasTrait(TraitType.Corruption) || preyUnit.Unit.HasTrait(TraitType.Corruption))
                 {
-                    alreadyChild.Unit.hiddenFixedSide = true;
+                    alreadyChild.Unit.HiddenFixedSide = true;
                     alreadyChild.SidesAttackedThisBattle = new List<Side>();
                     alreadyChild.Unit.RemoveTrait(TraitType.Corruption);
                     alreadyChild.Unit.AddPermanentTrait(TraitType.Corruption);
                 }
 
-                if (!alreadyChild.Unit.HasTrait(TraitType.Corruption)) alreadyChild.Unit.FixedSide = unit.FixedSide;
+                if (!alreadyChild.Unit.HasTrait(TraitType.Corruption)) alreadyChild.Unit.FixedSide = Unit.FixedSide;
                 UpdateFullness();
-                unit.UpdateSpells();
+                Unit.UpdateSpells();
                 return true;
             }
         }
@@ -3450,27 +3450,27 @@ public class PredatorComponent
         if (preyUnit.Unit.IsDead == false)
         {
             recipient.PredatorComponent.AlivePrey++;
-            actor.PredatorComponent.AlivePrey--;
+            _actor.PredatorComponent.AlivePrey--;
         }
-        else if (unit.HasTrait(TraitType.Corruption))
+        else if (Unit.HasTrait(TraitType.Corruption))
         {
-            recipient.AddCorruption(preyUnit.Unit.GetStatTotal() / 2, unit.FixedSide);
+            recipient.AddCorruption(preyUnit.Unit.GetStatTotal() / 2, Unit.FixedSide);
         }
         else if (preyUnit.Unit.HasTrait(TraitType.Corruption)) recipient.AddCorruption(preyUnit.Unit.GetStatTotal() / 2, preyUnit.Unit.FixedSide);
 
         switch (destination)
         {
-            case PreyLocation.womb:
+            case PreyLocation.Womb:
                 recipient.PredatorComponent?.AddToWomb(preyref, 1.0f);
-                TacticalUtilities.Log.RegisterTransferSuccess(unit, recipient.Unit, preyUnit.Unit, 1.0f, PreyLocation.womb);
+                TacticalUtilities.Log.RegisterTransferSuccess(Unit, recipient.Unit, preyUnit.Unit, 1.0f, PreyLocation.Womb);
                 break;
-            case PreyLocation.stomach:
+            case PreyLocation.Stomach:
                 recipient.PredatorComponent.AddToStomach(preyref, 1.0f);
-                TacticalUtilities.Log.RegisterTransferSuccess(unit, recipient.Unit, preyUnit.Unit, 1.0f, PreyLocation.stomach);
+                TacticalUtilities.Log.RegisterTransferSuccess(Unit, recipient.Unit, preyUnit.Unit, 1.0f, PreyLocation.Stomach);
                 break;
             default:
                 recipient.PredatorComponent.AddToStomach(preyref, 1.0f);
-                TacticalUtilities.Log.RegisterTransferSuccess(unit, recipient.Unit, preyUnit.Unit, 1.0f, PreyLocation.stomach);
+                TacticalUtilities.Log.RegisterTransferSuccess(Unit, recipient.Unit, preyUnit.Unit, 1.0f, PreyLocation.Stomach);
                 break;
         }
 
@@ -3478,25 +3478,25 @@ public class PredatorComponent
         recipient.Unit.GiveScaledExp(4 * preyUnit.Unit.ExpMultiplier, recipient.Unit.Level - preyUnit.Unit.Level, true);
         if (preyUnit.Unit.IsDead && Config.NoScatForDeadTransfers) preyUnit.ScatDisabled = true;
         recipient.PredatorComponent.UpdateFullness();
-        actor.PredatorComponent.RemovePrey(preyUnit);
+        _actor.PredatorComponent.RemovePrey(preyUnit);
         UpdateFullness();
         return true;
     }
 
-    public bool TransferAttempt(Actor_Unit target)
+    public bool TransferAttempt(ActorUnit target)
     {
-        if (actor.Unit.Predator == false || target.Unit.Predator == false) return false;
-        if (!Equals(target.Unit.Side, actor.Unit.Side) || target.Surrendered)
+        if (_actor.Unit.Predator == false || target.Unit.Predator == false) return false;
+        if (!Equals(target.Unit.Side, _actor.Unit.Side) || target.Surrendered)
         {
             return false;
         }
 
-        if (target.Position.GetNumberOfMovesDistance(actor.Position) > 1)
+        if (target.Position.GetNumberOfMovesDistance(_actor.Position) > 1)
         {
             return false;
         }
 
-        if (actor.Movement == 0)
+        if (_actor.Movement == 0)
         {
             return false;
         }
@@ -3507,28 +3507,28 @@ public class PredatorComponent
         }
 
         Prey transfer = GetTransfer();
-        if (target.PredatorComponent.FreeCap() < transfer.Actor.Bulk() && !(target.Unit == actor.Unit))
+        if (target.PredatorComponent.FreeCap() < transfer.Actor.Bulk() && !(target.Unit == _actor.Unit))
         {
             return false;
         }
 
         if (!Transfer(target, transfer)) TransferFail(transfer);
-        int thirdMovement = (int)Math.Ceiling(actor.MaxMovement() / 3.0f);
-        if (actor.Movement > thirdMovement)
-            actor.Movement -= thirdMovement;
+        int thirdMovement = (int)Math.Ceiling(_actor.MaxMovement() / 3.0f);
+        if (_actor.Movement > thirdMovement)
+            _actor.Movement -= thirdMovement;
         else
-            actor.Movement = 0;
+            _actor.Movement = 0;
         return true;
     }
 
-    public bool VoreStealAttempt(Actor_Unit target)
+    public bool VoreStealAttempt(ActorUnit target)
     {
-        if (target.Position.GetNumberOfMovesDistance(actor.Position) > 1)
+        if (target.Position.GetNumberOfMovesDistance(_actor.Position) > 1)
         {
             return false;
         }
 
-        if (actor.Movement == 0)
+        if (_actor.Movement == 0)
         {
             return false;
         }
@@ -3540,76 +3540,76 @@ public class PredatorComponent
 
         Prey transfer = GetVoreSteal(target);
         if (transfer == null) return false;
-        if (FreeCap() < transfer.Actor.Bulk() && target.Unit != actor.Unit)
+        if (FreeCap() < transfer.Actor.Bulk() && target.Unit != _actor.Unit)
         {
             return false;
         }
 
         if (!VoreSteal(target, transfer, transfer.Location)) VoreStealFail(target, transfer, transfer.Location);
-        int thirdMovement = (int)Math.Ceiling(actor.MaxMovement() / 3.0f);
-        if (actor.Movement > thirdMovement)
-            actor.Movement -= thirdMovement;
+        int thirdMovement = (int)Math.Ceiling(_actor.MaxMovement() / 3.0f);
+        if (_actor.Movement > thirdMovement)
+            _actor.Movement -= thirdMovement;
         else
-            actor.Movement = 0;
+            _actor.Movement = 0;
         return true;
     }
 
-    private bool VoreSteal(Actor_Unit target, Prey preyUnit, PreyLocation oldLocation)
+    private bool VoreSteal(ActorUnit target, Prey preyUnit, PreyLocation oldLocation)
     {
         float r = (float)State.Rand.NextDouble();
-        float v = target.PredatorComponent.GetVoreStealChance(actor);
+        float v = target.PredatorComponent.GetVoreStealChance(_actor);
         if (r >= v)
         {
             return false;
         }
 
-        Prey preyref = new Prey(preyUnit.Actor, actor, preyUnit.Actor.PredatorComponent?.prey);
-        if (actor.Unit.HasVagina && RaceParameters.GetTraitData(actor.Unit).AllowedVoreTypes.Contains(VoreType.Unbirth) && oldLocation == PreyLocation.balls)
+        Prey preyref = new Prey(preyUnit.Actor, _actor, preyUnit.Actor.PredatorComponent?.Prey);
+        if (_actor.Unit.HasVagina && RaceParameters.GetTraitData(_actor.Unit).AllowedVoreTypes.Contains(VoreType.Unbirth) && oldLocation == PreyLocation.Balls)
         {
             var box = State.GameManager.CreateDialogBox();
-            box.SetData(() => VoreStealFinalize(target, preyUnit, preyref, PreyLocation.stomach, oldLocation), "Stomach", "Womb", "Transfer the prey to the womb or stomach?", () => VoreStealFinalize(target, preyUnit, preyref, PreyLocation.womb, oldLocation));
+            box.SetData(() => VoreStealFinalize(target, preyUnit, preyref, PreyLocation.Stomach, oldLocation), "Stomach", "Womb", "Transfer the prey to the womb or stomach?", () => VoreStealFinalize(target, preyUnit, preyref, PreyLocation.Womb, oldLocation));
         }
         else
         {
-            VoreStealFinalize(target, preyUnit, preyref, PreyLocation.stomach, oldLocation);
+            VoreStealFinalize(target, preyUnit, preyref, PreyLocation.Stomach, oldLocation);
         }
 
-        if (actor.UnitSprite != null)
+        if (_actor.UnitSprite != null)
         {
-            actor.UnitSprite.UpdateSprites(actor, true);
-            actor.UnitSprite.AnimateBellyEnter();
+            _actor.UnitSprite.UpdateSprites(_actor, true);
+            _actor.UnitSprite.AnimateBellyEnter();
         }
 
         return true;
     }
 
-    private void VoreStealFail(Actor_Unit target, Prey preyUnit, PreyLocation oldLocation)
+    private void VoreStealFail(ActorUnit target, Prey preyUnit, PreyLocation oldLocation)
     {
-        TacticalUtilities.Log.RegisterVoreStealFail(target.Unit, actor.Unit, preyUnit.Unit, oldLocation);
+        TacticalUtilities.Log.RegisterVoreStealFail(target.Unit, _actor.Unit, preyUnit.Unit, oldLocation);
     }
 
-    private bool VoreStealFinalize(Actor_Unit donor, Prey preyUnit, Prey preyref, PreyLocation destination, PreyLocation oldLocation)
+    private bool VoreStealFinalize(ActorUnit donor, Prey preyUnit, Prey preyref, PreyLocation destination, PreyLocation oldLocation)
     {
-        actor.PredatorComponent.AlivePrey++;
+        _actor.PredatorComponent.AlivePrey++;
         donor.PredatorComponent.AlivePrey--;
         switch (destination)
         {
-            case PreyLocation.womb:
-                actor.PredatorComponent?.AddToWomb(preyref, 1.0f);
-                TacticalUtilities.Log.RegisterVoreStealSuccess(donor.Unit, actor.Unit, preyUnit.Unit, 1.0f, PreyLocation.womb, oldLocation);
+            case PreyLocation.Womb:
+                _actor.PredatorComponent?.AddToWomb(preyref, 1.0f);
+                TacticalUtilities.Log.RegisterVoreStealSuccess(donor.Unit, _actor.Unit, preyUnit.Unit, 1.0f, PreyLocation.Womb, oldLocation);
                 break;
-            case PreyLocation.stomach:
-                actor.PredatorComponent.AddToStomach(preyref, 1.0f);
-                TacticalUtilities.Log.RegisterVoreStealSuccess(donor.Unit, actor.Unit, preyUnit.Unit, 1.0f, PreyLocation.stomach, oldLocation);
+            case PreyLocation.Stomach:
+                _actor.PredatorComponent.AddToStomach(preyref, 1.0f);
+                TacticalUtilities.Log.RegisterVoreStealSuccess(donor.Unit, _actor.Unit, preyUnit.Unit, 1.0f, PreyLocation.Stomach, oldLocation);
                 break;
             default:
-                actor.PredatorComponent.AddToStomach(preyref, 1.0f);
-                TacticalUtilities.Log.RegisterVoreStealSuccess(donor.Unit, actor.Unit, preyUnit.Unit, 1.0f, PreyLocation.stomach, oldLocation);
+                _actor.PredatorComponent.AddToStomach(preyref, 1.0f);
+                TacticalUtilities.Log.RegisterVoreStealSuccess(donor.Unit, _actor.Unit, preyUnit.Unit, 1.0f, PreyLocation.Stomach, oldLocation);
                 break;
         }
 
-        actor.PredatorComponent.AddPrey(preyref);
-        actor.Unit.GiveScaledExp(4 * preyUnit.Unit.ExpMultiplier, actor.Unit.Level - preyUnit.Unit.Level, true);
+        _actor.PredatorComponent.AddPrey(preyref);
+        _actor.Unit.GiveScaledExp(4 * preyUnit.Unit.ExpMultiplier, _actor.Unit.Level - preyUnit.Unit.Level, true);
         UpdateFullness();
         donor.PredatorComponent.RemovePrey(preyUnit);
         donor.PredatorComponent.UpdateFullness();
@@ -3618,99 +3618,99 @@ public class PredatorComponent
 
     private void AddToWomb(Prey preyref, float v)
     {
-        womb.Add(preyref);
-        if (actor.UnitSprite != null)
+        Womb.Add(preyref);
+        if (_actor.UnitSprite != null)
         {
-            actor.UnitSprite.UpdateSprites(actor, true);
-            actor.UnitSprite.AnimateBellyEnter();
+            _actor.UnitSprite.UpdateSprites(_actor, true);
+            _actor.UnitSprite.AnimateBellyEnter();
         }
     }
 
     private void AddToBalls(Prey preyref, float v)
     {
-        balls.Add(preyref);
-        if (actor.UnitSprite != null)
+        Balls.Add(preyref);
+        if (_actor.UnitSprite != null)
         {
-            actor.UnitSprite.UpdateSprites(actor, true);
-            actor.UnitSprite.AnimateBalls(1f);
+            _actor.UnitSprite.UpdateSprites(_actor, true);
+            _actor.UnitSprite.AnimateBalls(1f);
         }
     }
 
-    internal void ForceConsume(Actor_Unit forcePrey, PreyLocation preyLocation)
+    internal void ForceConsume(ActorUnit forcePrey, PreyLocation preyLocation)
     {
         if (forcePrey.Unit.IsDead == false) AlivePrey++;
-        State.GameManager.TacticalMode.TacticalStats.RegisterVore(unit.Side);
+        State.GameManager.TacticalMode.TacticalStats.RegisterVore(Unit.Side);
 
-        if (Equals(forcePrey.Unit.Side, unit.Side)) State.GameManager.TacticalMode.TacticalStats.RegisterAllyVore(unit.Side);
+        if (Equals(forcePrey.Unit.Side, Unit.Side)) State.GameManager.TacticalMode.TacticalStats.RegisterAllyVore(Unit.Side);
         forcePrey.Visible = false;
         forcePrey.Targetable = false;
         State.GameManager.TacticalMode.DirtyPack = true;
-        if (!Equals(forcePrey.Unit.FixedSide, unit.GetApparentSide(forcePrey.Unit)) || !unit.HasTrait(TraitType.Endosoma))
+        if (!Equals(forcePrey.Unit.FixedSide, Unit.GetApparentSide(forcePrey.Unit)) || !Unit.HasTrait(TraitType.Endosoma))
         {
-            unit.GiveScaledExp(4 * forcePrey.Unit.ExpMultiplier, unit.Level - forcePrey.Unit.Level, true);
+            Unit.GiveScaledExp(4 * forcePrey.Unit.ExpMultiplier, Unit.Level - forcePrey.Unit.Level, true);
         }
 
         forcePrey.Movement = 0;
-        Prey preyref = new Prey(forcePrey, actor, forcePrey.PredatorComponent?.prey);
+        Prey preyref = new Prey(forcePrey, _actor, forcePrey.PredatorComponent?.Prey);
         switch (preyLocation)
         {
-            case PreyLocation.womb:
-                State.GameManager.SoundManager.PlaySwallow(PreyLocation.womb, actor);
-                TacticalUtilities.Log.RegisterMiscellaneous($"<b>{forcePrey.Unit.Name}</b> pries apart <b>{LogUtilities.ApostrophizeWithOrWithoutS(unit.Name)}</b> vulva using {LogUtilities.GPPHis(forcePrey.Unit)} face, grabbing onto any bodypart {LogUtilities.GPPHe(forcePrey.Unit)} can find to slip {LogUtilities.GPPHimself(forcePrey.Unit)} all the way in, aided by the {LogUtilities.ApostrophizeWithOrWithoutS(LogUtilities.GetRaceDescSingl(unit))} contractions of sudden arousal.");
+            case PreyLocation.Womb:
+                State.GameManager.SoundManager.PlaySwallow(PreyLocation.Womb, _actor);
+                TacticalUtilities.Log.RegisterMiscellaneous($"<b>{forcePrey.Unit.Name}</b> pries apart <b>{LogUtilities.ApostrophizeWithOrWithoutS(Unit.Name)}</b> vulva using {LogUtilities.GppHis(forcePrey.Unit)} face, grabbing onto any bodypart {LogUtilities.GppHe(forcePrey.Unit)} can find to slip {LogUtilities.GppHimself(forcePrey.Unit)} all the way in, aided by the {LogUtilities.ApostrophizeWithOrWithoutS(LogUtilities.GetRaceDescSingl(Unit))} contractions of sudden arousal.");
                 AddToWomb(preyref, 1f);
                 break;
-            case PreyLocation.balls:
-                State.GameManager.SoundManager.PlaySwallow(PreyLocation.balls, actor);
+            case PreyLocation.Balls:
+                State.GameManager.SoundManager.PlaySwallow(PreyLocation.Balls, _actor);
                 AddToBalls(preyref, 1f);
-                TacticalUtilities.Log.RegisterMiscellaneous($"<b>{forcePrey.Unit.Name}</b> sucks <b>{LogUtilities.ApostrophizeWithOrWithoutS(unit.Name)}</b> tip. As soon as {LogUtilities.GPPHe(forcePrey.Unit)} start{LogUtilities.SIfSingular(forcePrey.Unit)} sticking {LogUtilities.GPPHis(forcePrey.Unit)} tongue inside, however, it's more like the {LogUtilities.ApostrophizeWithOrWithoutS(InfoPanel.RaceSingular(unit))} throbbing member is doing the sucking, allowing <b>{forcePrey.Unit.Name}</b> to wiggle all the way into {LogUtilities.GPPHis(unit)} sack.");
+                TacticalUtilities.Log.RegisterMiscellaneous($"<b>{forcePrey.Unit.Name}</b> sucks <b>{LogUtilities.ApostrophizeWithOrWithoutS(Unit.Name)}</b> tip. As soon as {LogUtilities.GppHe(forcePrey.Unit)} start{LogUtilities.SIfSingular(forcePrey.Unit)} sticking {LogUtilities.GppHis(forcePrey.Unit)} tongue inside, however, it's more like the {LogUtilities.ApostrophizeWithOrWithoutS(InfoPanel.RaceSingular(Unit))} throbbing member is doing the sucking, allowing <b>{forcePrey.Unit.Name}</b> to wiggle all the way into {LogUtilities.GppHis(Unit)} sack.");
                 break;
-            case PreyLocation.anal:
-                State.GameManager.SoundManager.PlaySwallow(PreyLocation.anal, actor);
-                TacticalUtilities.Log.RegisterMiscellaneous($"<b>{forcePrey.Unit.Name}</b> starts by shoving one {(LogUtilities.ActorHumanoid(forcePrey.Unit) ? "arm" : "forelimb")} up <b>{LogUtilities.ApostrophizeWithOrWithoutS(unit.Name)}</b> ass, then another. Inch by inch {LogUtilities.GPPHe(forcePrey.Unit)} vigorously squeez{LogUtilities.EsIfSingular(forcePrey.Unit)} {LogUtilities.GPPHimself(forcePrey.Unit)} into the anal depths.");
+            case PreyLocation.Anal:
+                State.GameManager.SoundManager.PlaySwallow(PreyLocation.Anal, _actor);
+                TacticalUtilities.Log.RegisterMiscellaneous($"<b>{forcePrey.Unit.Name}</b> starts by shoving one {(LogUtilities.ActorHumanoid(forcePrey.Unit) ? "arm" : "forelimb")} up <b>{LogUtilities.ApostrophizeWithOrWithoutS(Unit.Name)}</b> ass, then another. Inch by inch {LogUtilities.GppHe(forcePrey.Unit)} vigorously squeez{LogUtilities.EsIfSingular(forcePrey.Unit)} {LogUtilities.GppHimself(forcePrey.Unit)} into the anal depths.");
                 AddToStomach(preyref, 1f);
                 break;
-            case PreyLocation.breasts:
-                TacticalUtilities.Log.RegisterMiscellaneous($"In just a few deft movements, <b>{forcePrey.Unit.Name}</b> crams {LogUtilities.GPPHimself(forcePrey.Unit)} into <b>{LogUtilities.ApostrophizeWithOrWithoutS(unit.Name)}</b> tits.");
-                var data = Races2.GetRace(unit.Race);
+            case PreyLocation.Breasts:
+                TacticalUtilities.Log.RegisterMiscellaneous($"In just a few deft movements, <b>{forcePrey.Unit.Name}</b> crams {LogUtilities.GppHimself(forcePrey.Unit)} into <b>{LogUtilities.ApostrophizeWithOrWithoutS(Unit.Name)}</b> tits.");
+                var data = Races2.GetRace(Unit.Race);
                 if (data.SetupOutput.ExtendedBreastSprites)
                 {
-                    if (Config.FairyBVType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
+                    if (Config.FairyBvType == FairyBVType.Picked && State.GameManager.TacticalMode.IsPlayerInControl)
                     {
                         var box = State.GameManager.CreateDialogBox();
                         box.SetData(() =>
                         {
-                            rightBreast.Add(preyref);
+                            RightBreast.Add(preyref);
                             UpdateFullness();
                         }, "Right", "Left", "Which breast should the prey be put in? (from your pov)", () =>
                         {
-                            leftBreast.Add(preyref);
+                            LeftBreast.Add(preyref);
                             UpdateFullness();
                         });
-                        State.GameManager.SoundManager.PlaySwallow(PreyLocation.breasts, actor);
+                        State.GameManager.SoundManager.PlaySwallow(PreyLocation.Breasts, _actor);
                         break;
                     }
 
-                    State.GameManager.SoundManager.PlaySwallow(PreyLocation.breasts, actor);
+                    State.GameManager.SoundManager.PlaySwallow(PreyLocation.Breasts, _actor);
                     if (LeftBreastFullness < RightBreastFullness || State.Rand.Next(2) == 0)
-                        leftBreast.Add(preyref);
+                        LeftBreast.Add(preyref);
                     else
-                        rightBreast.Add(preyref);
+                        RightBreast.Add(preyref);
                     break;
                 }
 
-                State.GameManager.SoundManager.PlaySwallow(PreyLocation.breasts, actor);
-                breasts.Add(preyref);
+                State.GameManager.SoundManager.PlaySwallow(PreyLocation.Breasts, _actor);
+                Breasts.Add(preyref);
                 break;
             default:
-                State.GameManager.SoundManager.PlaySwallow(PreyLocation.stomach, actor);
-                TacticalUtilities.Log.RegisterMiscellaneous($"At {LogUtilities.GPPHis(forcePrey.Unit)} first glimpse of the {(LogUtilities.ActorHumanoid(unit) ? "warrior's" : "beast's")} maw, <b>{forcePrey.Unit.Name}</b> dives right down {LogUtilities.GPPHis(unit)} gullet. One swallow reflex later, <b>{LogUtilities.ApostrophizeWithOrWithoutS(unit.Name)}</b> belly has been filled.");
+                State.GameManager.SoundManager.PlaySwallow(PreyLocation.Stomach, _actor);
+                TacticalUtilities.Log.RegisterMiscellaneous($"At {LogUtilities.GppHis(forcePrey.Unit)} first glimpse of the {(LogUtilities.ActorHumanoid(Unit) ? "warrior's" : "beast's")} maw, <b>{forcePrey.Unit.Name}</b> dives right down {LogUtilities.GppHis(Unit)} gullet. One swallow reflex later, <b>{LogUtilities.ApostrophizeWithOrWithoutS(Unit.Name)}</b> belly has been filled.");
                 AddToStomach(preyref, 1f);
                 break;
         }
 
         AddPrey(preyref);
-        actor.SetPredMode(preyLocation);
-        actor.SetVoreSuccessMode();
+        _actor.SetPredMode(preyLocation);
+        _actor.SetVoreSuccessMode();
         UpdateFullness();
     }
 }

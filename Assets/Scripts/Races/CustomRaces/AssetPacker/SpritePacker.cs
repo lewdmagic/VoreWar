@@ -92,13 +92,13 @@ public static class SpritePacker
 
             for (var i = 0; i < rectangles.Count; i++)
             {
-                packer.insertRectangle((int)rectangles[i].width, (int)rectangles[i].height, i);
+                packer.InsertRectangle((int)rectangles[i].width, (int)rectangles[i].height, i);
             }
 
 
-            packer.packRectangles();
+            packer.PackRectangles();
 
-            if (packer.rectangleCount > 0)
+            if (packer.RectangleCount > 0)
             {
                 texture.SetPixels32(fillColor);
                 var spriteInfos = new List<SpriteInfo>();
@@ -107,18 +107,18 @@ public static class SpritePacker
                 var garabeTextures = new List<Texture2D>();
                 var garbageImages = new List<string>();
 
-                for (var j = 0; j < packer.rectangleCount; j++)
+                for (var j = 0; j < packer.RectangleCount; j++)
                 {
-                    IntegerRectangle rect = packer.getRectangle(j);
-                    var index = packer.getRectangleId(j);
+                    IntegerRectangle rect = packer.GetRectangle(j);
+                    var index = packer.GetRectangleId(j);
 
-                    texture.SetPixels32(rect.x, rect.y, rect.width, rect.height, textures[index].GetPixels32());
+                    texture.SetPixels32(rect.X, rect.Y, rect.Width, rect.Height, textures[index].GetPixels32());
 
                     var spriteInfo = new SpriteInfo(
-                        x: rect.x,
-                        y: rect.y,
-                        width: rect.width,
-                        height: rect.height,
+                        x: rect.X,
+                        y: rect.Y,
+                        width: rect.Width,
+                        height: rect.Height,
                         name: images[index],
                         pixelsPerUnit: pixelsPerUnit
                     );
@@ -154,7 +154,7 @@ public static class SpritePacker
                     //mSprites.Add(spriteInfo.name, Sprite.Create(texture, new Rect(spriteInfo.x, spriteInfo.y, spriteInfo.width, spriteInfo.height), Vector2.zero, pixelsPerUnit, 0, SpriteMeshType.FullRect));
                     //mSprites.Add(spriteInfo.name, Sprite.Create(texture, new Rect(spriteInfo.x, spriteInfo.y, spriteInfo.width, spriteInfo.height), new Vector2(spriteInfo.width/2f, spriteInfo.height/2f), pixelsPerUnit, 0, SpriteMeshType.FullRect));
                     //mSprites.Add(spriteInfo.name, Sprite.Create(texture, new Rect(spriteInfo.x, spriteInfo.y, spriteInfo.width, spriteInfo.height), new Vector2(spriteInfo.width/2f, 0), pixelsPerUnit, 0, SpriteMeshType.FullRect));
-                    mSprites.Add(spriteInfo.name, Sprite.Create(texture, new Rect(spriteInfo.x, spriteInfo.y, spriteInfo.width, spriteInfo.height), new Vector2(0.5f, 0.5f), pixelsPerUnit, 0, SpriteMeshType.FullRect));
+                    mSprites.Add(spriteInfo.Name, Sprite.Create(texture, new Rect(spriteInfo.X, spriteInfo.Y, spriteInfo.Width, spriteInfo.Height), new Vector2(0.5f, 0.5f), pixelsPerUnit, 0, SpriteMeshType.FullRect));
                 }
 
                 entries.Add(new Entry(mSprites, texture, spriteInfos.ToArray()));

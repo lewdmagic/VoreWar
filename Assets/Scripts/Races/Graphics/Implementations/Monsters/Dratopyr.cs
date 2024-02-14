@@ -111,25 +111,25 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[4].currentTime >= frameListEars.Times[input.A.AnimationController.frameLists[4].currentFrame])
+                if (input.A.AnimationController.FrameLists[4].CurrentTime >= frameListEars.Times[input.A.AnimationController.FrameLists[4].CurrentFrame])
                 {
-                    input.A.AnimationController.frameLists[4].currentFrame++;
-                    input.A.AnimationController.frameLists[4].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[4].CurrentFrame++;
+                    input.A.AnimationController.FrameLists[4].CurrentTime = 0f;
 
-                    if (input.A.AnimationController.frameLists[4].currentFrame >= frameListEars.Frames.Length)
+                    if (input.A.AnimationController.FrameLists[4].CurrentFrame >= frameListEars.Frames.Length)
                     {
-                        input.A.AnimationController.frameLists[4].currentFrame = 0;
-                        input.A.AnimationController.frameLists[4].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[4].CurrentFrame = 0;
+                        input.A.AnimationController.FrameLists[4].CurrentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Dratopyr[14 + frameListEars.Frames[input.A.AnimationController.frameLists[4].currentFrame]]);
+                output.Sprite(input.Sprites.Dratopyr[14 + frameListEars.Frames[input.A.AnimationController.FrameLists[4].CurrentFrame]]);
             }); // Ears
 
             builder.RenderSingle(SpriteType.Body, 9, (input, output) =>
             {
                 output.Coloring(ColorMap.GetDratopyrMainColor(input.U.SkinColor));
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -152,28 +152,28 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[0].currentTime >= frameListTail.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[0].CurrentTime >= frameListTail.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame++;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[0].currentFrame >= frameListTail.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListTail.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[0].currentlyActive = false;
-                            input.A.AnimationController.frameLists[0].currentFrame = 0;
-                            input.A.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Dratopyr[26 + frameListTail.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Dratopyr[26 + frameListTail.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
                 if (State.Rand.Next(250) == 0)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Dratopyr[28]);
@@ -190,36 +190,36 @@ namespace Races.Graphics.Implementations.Monsters
 
                 if (input.A.IsAttacking || input.A.IsOralVoring || input.A.IsCockVoring || input.A.IsUnbirthing)
                 {
-                    input.A.AnimationController.frameLists[2].currentlyActive = false;
-                    input.A.AnimationController.frameLists[2].currentFrame = 0;
-                    input.A.AnimationController.frameLists[2].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[2].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[2].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[2].CurrentTime = 0f;
 
                     output.Sprite(input.Sprites.Dratopyr[20]);
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[2].currentlyActive)
+                if (input.A.AnimationController.FrameLists[2].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[2].currentTime >= FrameListShake.Times[input.A.AnimationController.frameLists[2].currentFrame])
+                    if (input.A.AnimationController.FrameLists[2].CurrentTime >= FrameListShake.Times[input.A.AnimationController.FrameLists[2].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[2].currentFrame++;
-                        input.A.AnimationController.frameLists[2].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[2].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[2].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[2].currentFrame >= FrameListShake.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[2].CurrentFrame >= FrameListShake.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[2].currentlyActive = false;
-                            input.A.AnimationController.frameLists[2].currentFrame = 0;
-                            input.A.AnimationController.frameLists[2].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[2].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[2].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[2].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Dratopyr[17 + FrameListShake.Frames[input.A.AnimationController.frameLists[2].currentFrame]]);
+                    output.Sprite(input.Sprites.Dratopyr[17 + FrameListShake.Frames[input.A.AnimationController.FrameLists[2].CurrentFrame]]);
                     return;
                 }
 
                 if (State.Rand.Next(350) == 0)
                 {
-                    input.A.AnimationController.frameLists[2].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[2].CurrentlyActive = true;
                 }
 
                 output.Sprite(input.Sprites.Dratopyr[17]);
@@ -234,19 +234,19 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[3].currentTime >= frameListWings.Times[input.A.AnimationController.frameLists[3].currentFrame])
+                if (input.A.AnimationController.FrameLists[3].CurrentTime >= frameListWings.Times[input.A.AnimationController.FrameLists[3].CurrentFrame])
                 {
-                    input.A.AnimationController.frameLists[3].currentFrame++;
-                    input.A.AnimationController.frameLists[3].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[3].CurrentFrame++;
+                    input.A.AnimationController.FrameLists[3].CurrentTime = 0f;
 
-                    if (input.A.AnimationController.frameLists[3].currentFrame >= frameListWings.Frames.Length)
+                    if (input.A.AnimationController.FrameLists[3].CurrentFrame >= frameListWings.Frames.Length)
                     {
-                        input.A.AnimationController.frameLists[3].currentFrame = 0;
-                        input.A.AnimationController.frameLists[3].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[3].CurrentFrame = 0;
+                        input.A.AnimationController.FrameLists[3].CurrentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Dratopyr[8 + frameListWings.Frames[input.A.AnimationController.frameLists[3].currentFrame]]);
+                output.Sprite(input.Sprites.Dratopyr[8 + frameListWings.Frames[input.A.AnimationController.FrameLists[3].CurrentFrame]]);
             }); // Wing Webbing
 
             builder.RenderSingle(SpriteType.BodyAccent4, 2, (input, output) =>
@@ -258,7 +258,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                output.Sprite(input.Sprites.Dratopyr[11 + frameListWings.Frames[input.A.AnimationController.frameLists[3].currentFrame]]);
+                output.Sprite(input.Sprites.Dratopyr[11 + frameListWings.Frames[input.A.AnimationController.FrameLists[3].CurrentFrame]]);
             }); // Wing Bones
 
             builder.RenderSingle(SpriteType.BodyAccent5, 7, (input, output) =>
@@ -276,33 +276,33 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[1].currentlyActive)
+                if (input.A.AnimationController.FrameLists[1].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[1].currentTime >= frameListEyes.Times[input.A.AnimationController.frameLists[1].currentFrame])
+                    if (input.A.AnimationController.FrameLists[1].CurrentTime >= frameListEyes.Times[input.A.AnimationController.FrameLists[1].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[1].currentFrame++;
-                        input.A.AnimationController.frameLists[1].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[1].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[1].currentFrame >= frameListEyes.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[1].CurrentFrame >= frameListEyes.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[1].currentlyActive = false;
-                            input.A.AnimationController.frameLists[1].currentFrame = 0;
-                            input.A.AnimationController.frameLists[1].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[1].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[1].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
                         }
                     }
 
-                    if (frameListEyes.Frames[input.A.AnimationController.frameLists[1].currentFrame] == 0)
+                    if (frameListEyes.Frames[input.A.AnimationController.FrameLists[1].CurrentFrame] == 0)
                     {
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Dratopyr[2 + frameListEyes.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
+                    output.Sprite(input.Sprites.Dratopyr[2 + frameListEyes.Frames[input.A.AnimationController.FrameLists[1].CurrentFrame]]);
                     return;
                 }
 
                 if (State.Rand.Next(400) == 0)
                 {
-                    input.A.AnimationController.frameLists[1].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[1].CurrentlyActive = true;
                 }
             }); // Eyelids
 
@@ -328,7 +328,7 @@ namespace Races.Graphics.Implementations.Monsters
                             return;
                         }
 
-                        output.Sprite(input.Sprites.Dratopyr[34 + FrameListShake.Frames[input.A.AnimationController.frameLists[2].currentFrame]]);
+                        output.Sprite(input.Sprites.Dratopyr[34 + FrameListShake.Frames[input.A.AnimationController.FrameLists[2].CurrentFrame]]);
                         return;
                     }
 
@@ -338,7 +338,7 @@ namespace Races.Graphics.Implementations.Monsters
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Dratopyr[31 + FrameListShake.Frames[input.A.AnimationController.frameLists[2].currentFrame]]);
+                    output.Sprite(input.Sprites.Dratopyr[31 + FrameListShake.Frames[input.A.AnimationController.FrameLists[2].CurrentFrame]]);
                 }
             }); // Sheath
 
@@ -346,7 +346,7 @@ namespace Races.Graphics.Implementations.Monsters
             {
                 output.Coloring(ColorMap.GetDratopyrMainColor(input.U.SkinColor));
                 int bellySize = input.A.GetStomachSize(23, 0.7f);
-                int shake = FrameListShake.Frames[input.A.AnimationController.frameLists[2].currentFrame];
+                int shake = FrameListShake.Frames[input.A.AnimationController.FrameLists[2].CurrentFrame];
 
                 if (!input.A.Targetable)
                 {
@@ -384,9 +384,9 @@ namespace Races.Graphics.Implementations.Monsters
                                 return;
                             }
 
-                            if (input.A.AnimationController.frameLists[2].currentlyActive)
+                            if (input.A.AnimationController.FrameLists[2].CurrentlyActive)
                             {
-                                output.Sprite(input.Sprites.Dratopyr[41 + FrameListShake.Frames[input.A.AnimationController.frameLists[2].currentFrame]]);
+                                output.Sprite(input.Sprites.Dratopyr[41 + FrameListShake.Frames[input.A.AnimationController.FrameLists[2].CurrentFrame]]);
                                 return;
                             }
 
@@ -412,9 +412,9 @@ namespace Races.Graphics.Implementations.Monsters
                                 return;
                             }
 
-                            if (input.A.AnimationController.frameLists[2].currentlyActive)
+                            if (input.A.AnimationController.FrameLists[2].CurrentlyActive)
                             {
-                                output.Sprite(input.Sprites.Dratopyr[37 + FrameListShake.Frames[input.A.AnimationController.frameLists[2].currentFrame]]);
+                                output.Sprite(input.Sprites.Dratopyr[37 + FrameListShake.Frames[input.A.AnimationController.FrameLists[2].CurrentFrame]]);
                                 return;
                             }
 
@@ -449,7 +449,7 @@ namespace Races.Graphics.Implementations.Monsters
                     return;
                 }
 
-                int shake = FrameListShake.Frames[input.A.AnimationController.frameLists[2].currentFrame];
+                int shake = FrameListShake.Frames[input.A.AnimationController.FrameLists[2].CurrentFrame];
                 int ballSize = input.A.GetBallSize(21, 0.6f);
 
                 if (!input.A.Targetable)
@@ -497,7 +497,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(0, 0, false), // Tail controller. Index 0.
                 new AnimationController.FrameList(0, 0, false), // Eye controller. Index 1.

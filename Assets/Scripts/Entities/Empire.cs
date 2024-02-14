@@ -32,10 +32,11 @@ public class Empire
     [OdinSerialize]
     private int _gold;
 
-    private int gold { get => _gold; set => _gold = value; }
+    public int Gold => _gold;
 
     [OdinSerialize]
-    public int Income { get; private set; }
+    private int _income;
+    public int Income { get => _income; set => _income = value; }
 
     [OdinSerialize]
     private List<Army> _armies;
@@ -147,15 +148,15 @@ public class Empire
         return false;
     }
 
-    public int StartingXP
+    public int StartingXp
     {
         get
         {
             if (Boosts == null) RecalculateBoosts(State.World.Villages);
             if (StrategicAI != null && StrategicAI is StrategicAI ai)
             {
-                if (ai.CheatLevel == 2) return Mathf.Max(StrategicUtilities.Get80thExperiencePercentile() / 4, (int)(Boosts.StartingExpAdd * 1.2f));
-                if (ai.CheatLevel == 3) return Mathf.Max((int)(StrategicUtilities.Get80thExperiencePercentile() / 1.5f), (int)(Boosts.StartingExpAdd * 1.5f));
+                if (ai.CheatLevel == 2) return Mathf.Max(StrategicUtilities.Get80ThExperiencePercentile() / 4, (int)(Boosts.StartingExpAdd * 1.2f));
+                if (ai.CheatLevel == 3) return Mathf.Max((int)(StrategicUtilities.Get80ThExperiencePercentile() / 1.5f), (int)(Boosts.StartingExpAdd * 1.5f));
                 return Boosts.StartingExpAdd;
             }
             else
@@ -165,29 +166,29 @@ public class Empire
 
     public struct ConstructionArgs
     {
-        internal Race race;
-        internal Side side;
-        internal Color color;
-        internal Color secColor;
-        internal int bannerType;
-        internal StrategyAIType strategicAI;
-        internal TacticalAIType tacticalAI;
-        internal int team;
-        internal int maxArmySize;
-        internal int maxGarrisonSize;
+        internal Race Race;
+        internal Side Side;
+        internal Color Color;
+        internal Color SecColor;
+        internal int BannerType;
+        internal StrategyAIType StrategicAI;
+        internal TacticalAIType TacticalAI;
+        internal int Team;
+        internal int MaxArmySize;
+        internal int MaxGarrisonSize;
 
         public ConstructionArgs(Race race, Side side, Color color, Color secColor, int bannerType, StrategyAIType strategicAI, TacticalAIType tacticalAI, int team, int maxArmySize, int maxGarrisonSize)
         {
-            this.race = race;
-            this.side = side;
-            this.color = color;
-            this.secColor = secColor;
-            this.bannerType = bannerType;
-            this.strategicAI = strategicAI;
-            this.tacticalAI = tacticalAI;
-            this.team = team;
-            this.maxArmySize = maxArmySize;
-            this.maxGarrisonSize = maxGarrisonSize;
+            this.Race = race;
+            this.Side = side;
+            this.Color = color;
+            this.SecColor = secColor;
+            this.BannerType = bannerType;
+            this.StrategicAI = strategicAI;
+            this.TacticalAI = tacticalAI;
+            this.Team = team;
+            this.MaxArmySize = maxArmySize;
+            this.MaxGarrisonSize = maxGarrisonSize;
         }
     }
 
@@ -197,36 +198,36 @@ public class Empire
     {
         Reports = new List<StrategicReport>();
         KnockedOut = false;
-        BannerType = args.bannerType;
-        UnityColor = args.color;
-        UnitySecondaryColor = args.secColor;
-        gold = Config.StartingGold;
+        BannerType = args.BannerType;
+        UnityColor = args.Color;
+        UnitySecondaryColor = args.SecColor;
+        _gold = Config.StartingGold;
         Income = 0;
-        Race = args.race;
+        Race = args.Race;
         ReplacedRace = Race;
-        Side = args.side;
-        Team = args.team;
-        MaxArmySize = args.maxArmySize;
-        MaxGarrisonSize = args.maxGarrisonSize;
+        Side = args.Side;
+        Team = args.Team;
+        MaxArmySize = args.MaxArmySize;
+        MaxGarrisonSize = args.MaxGarrisonSize;
         Armies = new List<Army>();
 
-        Name = Race?.ToString() ?? args.side.ToString();
-        if (args.strategicAI == StrategyAIType.None)
+        Name = Race?.ToString() ?? args.Side.ToString();
+        if (args.StrategicAI == StrategyAIType.None)
             StrategicAI = null;
-        else if (args.strategicAI == StrategyAIType.Passive)
-            StrategicAI = new PassiveAI(args.side);
-        else if (args.strategicAI == StrategyAIType.Basic)
+        else if (args.StrategicAI == StrategyAIType.Passive)
+            StrategicAI = new PassiveAI(args.Side);
+        else if (args.StrategicAI == StrategyAIType.Basic)
             StrategicAI = new StrategicAI(this, 0, false);
-        else if (args.strategicAI == StrategyAIType.Advanced)
+        else if (args.StrategicAI == StrategyAIType.Advanced)
             StrategicAI = new StrategicAI(this, 0, true);
-        else if (args.strategicAI == StrategyAIType.Cheating1)
+        else if (args.StrategicAI == StrategyAIType.Cheating1)
             StrategicAI = new StrategicAI(this, 1, true);
-        else if (args.strategicAI == StrategyAIType.Cheating2)
+        else if (args.StrategicAI == StrategyAIType.Cheating2)
             StrategicAI = new StrategicAI(this, 2, true);
-        else if (args.strategicAI == StrategyAIType.Cheating3)
+        else if (args.StrategicAI == StrategyAIType.Cheating3)
             StrategicAI = new StrategicAI(this, 3, true);
-        else if (args.strategicAI == StrategyAIType.Legacy) StrategicAI = new LegacyStrategicAI(args.side);
-        TacticalAIType = args.tacticalAI;
+        else if (args.StrategicAI == StrategyAIType.Legacy) StrategicAI = new LegacyStrategicAI(args.Side);
+        TacticalAIType = args.TacticalAI;
         Boosts = new EmpireBoosts();
         EventHappened = new Dictionary<int, bool>();
         RecentEvents = new List<int>();
@@ -256,7 +257,7 @@ public class Empire
     }
 
 
-    public void CalcIncome(Village[] villages, bool AddToStats = false)
+    public void CalcIncome(Village[] villages, bool addToStats = false)
     {
         RecalculateBoosts(villages);
 
@@ -276,7 +277,7 @@ public class Empire
             for (int i = 0; i < Armies.Count; i++)
             {
                 Income = Income - Armies[i].Units.Count * Config.World.ArmyUpkeep;
-                if (AddToStats)
+                if (addToStats)
                 {
                     State.World.Stats.CollectedGold(Armies[i].Units.Count * 2, Armies[i].Side);
                     State.World.Stats.SpentGoldOnArmyMaintenance(Armies[i].Units.Count * 2, Armies[i].Side);
@@ -297,20 +298,18 @@ public class Empire
 
     public void SpendGold(int gold)
     {
-        this.gold -= gold;
+        _gold -= gold;
         State.World.Stats.SpentGold(gold, Side);
     }
 
     public void AddGold(int gold)
     {
-        this.gold += gold;
+        _gold += gold;
         if (gold > 0)
             State.World.Stats.CollectedGold(gold, Side);
         else
             State.World.Stats.SpentGold(-gold, Side);
     }
-
-    public int Gold => gold;
 
     public Village CapitalCity
     {
@@ -390,14 +389,14 @@ public class Empire
 
     private void PlaceLeader(Village capital)
     {
-        var CapitalArmy = StrategicUtilities.ArmyAt(capital.Position);
-        if (CapitalArmy != null && CapitalArmy.Units.Count < MaxArmySize && Equals(CapitalArmy.Side, Side))
-            CapitalArmy.Units.Add(Leader);
+        var capitalArmy = StrategicUtilities.ArmyAt(capital.Position);
+        if (capitalArmy != null && capitalArmy.Units.Count < MaxArmySize && Equals(capitalArmy.Side, Side))
+            capitalArmy.Units.Add(Leader);
         else
         {
-            if (CapitalArmy == null)
+            if (capitalArmy == null)
             {
-                var army = new Army(this, new Vec2i(capital.Position.X, capital.Position.Y), Side);
+                var army = new Army(this, new Vec2I(capital.Position.X, capital.Position.Y), Side);
                 Armies.Add(army);
                 army.Units.Add(Leader);
             }
@@ -445,7 +444,7 @@ public class Empire
             {
                 foreach (var unit in village.travelers)
                 {
-                    units.Add(unit.unit);
+                    units.Add(unit.Unit);
                 }
             }
         }

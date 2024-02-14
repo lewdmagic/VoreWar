@@ -10,11 +10,11 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Deer
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(29 * 29);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(29 * 29);
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            IClothing leaderClothes1 = DeerLeader1.DeerLeader1Instance.Create(paramsCalc);
+            IClothing leaderClothes1 = DeerLeader1.DeerLeader1Instance.Create(_paramsCalc);
             IClothing leaderClothes2 = DeerLeader2.DeerLeader2Instance;
             IClothing leaderClothes3 = DeerLeader3.DeerLeader3Instance;
             IClothing rags = DeerRags.DeerRagsInstance;
@@ -91,19 +91,19 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.FurCapable = true;
 
                 output.AllowedMainClothingTypes.Set(
-                    GenericTop1.GenericTop1InstanceV2.Create(paramsCalc),
+                    GenericTop1.GenericTop1InstanceV2.Create(_paramsCalc),
                     //GenericTop1.GenericTop1Instance,
-                    GenericTop2.GenericTop2Instance.Create(paramsCalc),
-                    GenericTop3.GenericTop3Instance.Create(paramsCalc),
-                    GenericTop4.GenericTop4Instance.Create(paramsCalc),
-                    GenericTop5.GenericTop5Instance.Create(paramsCalc),
-                    GenericTop6.GenericTop6Instance.Create(paramsCalc),
-                    GenericTop7.GenericTop7Instance.Create(paramsCalc),
+                    GenericTop2.GenericTop2Instance.Create(_paramsCalc),
+                    GenericTop3.GenericTop3Instance.Create(_paramsCalc),
+                    GenericTop4.GenericTop4Instance.Create(_paramsCalc),
+                    GenericTop5.GenericTop5Instance.Create(_paramsCalc),
+                    GenericTop6.GenericTop6Instance.Create(_paramsCalc),
+                    GenericTop7.GenericTop7Instance.Create(_paramsCalc),
                     MaleTop.MaleTopInstance,
                     MaleTop2.MaleTop2Instance,
-                    Natural.NaturalInstance.Create(paramsCalc),
-                    Cuirass.CuirassInstance.Create(paramsCalc),
-                    Special1.Special1Instance.Create(paramsCalc),
+                    Natural.NaturalInstance.Create(_paramsCalc),
+                    Cuirass.CuirassInstance.Create(_paramsCalc),
+                    Special1.Special1Instance.Create(_paramsCalc),
                     Special2.Special2Instance,
                     rags,
                     leaderClothes1,

@@ -6,85 +6,85 @@ namespace LegacyAI
     public class LegacyTacticalAI : ITacticalAI
     {
         [OdinSerialize]
-        private List<Actor_Unit> actors;
+        private List<ActorUnit> _actors;
 
         [OdinSerialize]
         private TacticalTileType[,] _tiles;
 
-        private TacticalTileType[,] tiles { get => _tiles; set => _tiles = value; }
+        private TacticalTileType[,] Tiles { get => _tiles; set => _tiles = value; }
 
-        private bool didAction;
-        private bool foundPath;
+        private bool _didAction;
+        private bool _foundPath;
 
         [OdinSerialize]
         private Side _aISide;
 
         private Side AISide { get => _aISide; set => _aISide = value; }
-        private List<PathNode> path;
-        private Actor_Unit pathIsFor;
+        private List<PathNode> _path;
+        private ActorUnit _pathIsFor;
 
         public TacticalAI.RetreatConditions RetreatPlan { get { return null; } set { } }
 
         [OdinSerialize]
-        public bool foreignTurn;
+        public bool ForeignTurn;
 
-        bool ITacticalAI.ForeignTurn { get { return foreignTurn; } set => foreignTurn = value; }
+        bool ITacticalAI.ForeignTurn { get { return ForeignTurn; } set => ForeignTurn = value; }
 
-        public LegacyTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, Side AIteam)
+        public LegacyTacticalAI(List<ActorUnit> actors, TacticalTileType[,] tiles, Side aIteam)
         {
-            AISide = AIteam;
-            this.tiles = tiles;
-            this.actors = actors;
+            AISide = aIteam;
+            this.Tiles = tiles;
+            this._actors = actors;
         }
 
         public bool RunAI()
         {
-            foreach (Actor_Unit actor in actors)
+            foreach (ActorUnit actor in _actors)
             {
                 if (actor.Targetable == true && Equals(actor.Unit.Side, AISide) && actor.Movement > 0)
                 {
-                    if (path != null && pathIsFor == actor)
+                    if (_path != null && _pathIsFor == actor)
                     {
-                        if (path.Count == 0)
+                        if (_path.Count == 0)
                         {
-                            path = null;
+                            _path = null;
                             continue;
                         }
 
-                        Vec2i newLoc = new Vec2i(path[0].X, path[0].Y);
-                        path.RemoveAt(0);
-                        if (actor.MoveTo(newLoc, tiles, State.GameManager.TacticalMode.RunningFriendlyAI ? Config.TacticalFriendlyAIMovementDelay : Config.TacticalAIMovementDelay) == false)
+                        Vec2I newLoc = new Vec2I(_path[0].X, _path[0].Y);
+                        _path.RemoveAt(0);
+                        if (actor.MoveTo(newLoc, Tiles, State.GameManager.TacticalMode.RunningFriendlyAI ? Config.TacticalFriendlyAIMovementDelay : Config.TacticalAIMovementDelay) == false)
                         {
                             //Can't move -- most likely a multiple movement point tile when on low MP
                             actor.Movement = 0;
-                            path = null;
+                            _path = null;
                             return true;
                         }
 
                         if (actor.Movement == 1 && IsRanged(actor) && TacticalUtilities.TileContainsMoreThanOneUnit(actor.Position.X, actor.Position.Y) == false)
                         {
-                            path = null;
+                            _path = null;
                         }
-                        else if (path.Count == 0 || actor.Movement == 0)
+                        else if (_path.Count == 0 || actor.Movement == 0)
                         {
-                            path = null;
+                            _path = null;
                         }
 
                         return true;
                     }
                     else
                     {
-                        foundPath = false;
-                        didAction = false;
+                        _foundPath = false;
+                        _didAction = false;
                         //do action
                         RunPred(actor);
-                        pathIsFor = actor;
-                        if (foundPath || didAction) return true;
+                        _pathIsFor = actor;
+                        if (_foundPath || _didAction) return true;
                         if (IsRanged(actor))
                             RunRanged(actor);
                         else
                             RunMelee(actor);
-                        if (foundPath || didAction) return true;
+                        if (_foundPath || _didAction) return true;
                         //If no path to any targets, will sit out its turn
                         actor.ClearMovement();
                         return true;
@@ -96,7 +96,7 @@ namespace LegacyAI
         }
 
 
-        public bool RunPred(Actor_Unit actor)
+        public bool RunPred(ActorUnit actor)
         {
             if (actor.Unit.Predator == false) return false;
             int index = -1;
@@ -105,16 +105,16 @@ namespace LegacyAI
             float cap = actor.PredatorComponent.FreeCap();
             if (cap >= 8)
             {
-                for (int i = 0; i < actors.Count; i++)
+                for (int i = 0; i < _actors.Count; i++)
                 {
-                    float d = actors[i].Position.GetDistance(actor.Position);
-                    if (actors[i].InSight == true && actors[i].InSight == true && actors[i].Targetable == true && d < 8)
+                    float d = _actors[i].Position.GetDistance(actor.Position);
+                    if (_actors[i].InSight == true && _actors[i].InSight == true && _actors[i].Targetable == true && d < 8)
                     {
-                        Actor_Unit unit = actors[i];
+                        ActorUnit unit = _actors[i];
                         if (!Equals(unit.Unit.Side, AISide) && unit.Bulk() <= cap)
                         {
                             int c = (int)(100 * unit.GetDevourChance(actor, true));
-                            if (c > 50 && c > chance && TacticalUtilities.FreeSpaceAroundTarget(actors[i].Position, actor) && unit.AIAvoidEat <= 0)
+                            if (c > 50 && c > chance && TacticalUtilities.FreeSpaceAroundTarget(_actors[i].Position, actor) && unit.AIAvoidEat <= 0)
                             {
                                 chance = c;
                                 index = i;
@@ -128,13 +128,13 @@ namespace LegacyAI
                 {
                     if (distance < 2)
                     {
-                        actor.PredatorComponent.UsePreferredVore(actors[index]);
-                        didAction = true;
+                        actor.PredatorComponent.UsePreferredVore(_actors[index]);
+                        _didAction = true;
                         return true;
                     }
                     else if (distance < 8)
                     {
-                        return Walkto(actor, actors[index].Position, 8);
+                        return Walkto(actor, _actors[index].Position, 8);
                     }
                 }
             }
@@ -142,36 +142,36 @@ namespace LegacyAI
             return false;
         }
 
-        private bool Walkto(Actor_Unit actor, Vec2i p)
+        private bool Walkto(ActorUnit actor, Vec2I p)
         {
-            path = TacticalPathfinder.GetPath(actor.Position, p, 1, actor);
-            if (path == null || path.Count == 0)
+            _path = TacticalPathfinder.GetPath(actor.Position, p, 1, actor);
+            if (_path == null || _path.Count == 0)
             {
                 return false;
             }
 
-            foundPath = true;
+            _foundPath = true;
             return true;
         }
 
-        private bool Walkto(Actor_Unit actor, Vec2i p, int maxDistance)
+        private bool Walkto(ActorUnit actor, Vec2I p, int maxDistance)
         {
-            path = TacticalPathfinder.GetPath(actor.Position, p, 1, actor, maxDistance);
-            if (path == null || path.Count == 0)
+            _path = TacticalPathfinder.GetPath(actor.Position, p, 1, actor, maxDistance);
+            if (_path == null || _path.Count == 0)
             {
                 return false;
             }
 
-            foundPath = true;
+            _foundPath = true;
             return true;
         }
 
 
-        private bool RandomWalk(Actor_Unit actor)
+        private bool RandomWalk(ActorUnit actor)
         {
             int r = State.Rand.Next(8);
             int d = 8;
-            while (!actor.Move(r, tiles))
+            while (!actor.Move(r, Tiles))
             {
                 r++;
                 d--;
@@ -187,20 +187,20 @@ namespace LegacyAI
                 }
             }
 
-            didAction = true;
+            _didAction = true;
             return true;
         }
 
-        private bool RunRanged(Actor_Unit actor)
+        private bool RunRanged(ActorUnit actor)
         {
             float distance = 64;
             int index = -1;
-            for (int i = 0; i < actors.Count; i++)
+            for (int i = 0; i < _actors.Count; i++)
             {
-                float d = actors[i].Position.GetNumberOfMovesDistance(actor.Position);
-                if (actors[i].InSight == true && actors[i].InSight == true && actors[i].Targetable == true)
+                float d = _actors[i].Position.GetNumberOfMovesDistance(actor.Position);
+                if (_actors[i].InSight == true && _actors[i].InSight == true && _actors[i].Targetable == true)
                 {
-                    Actor_Unit unit = actors[i];
+                    ActorUnit unit = _actors[i];
                     if (!Equals(unit.Unit.Side, AISide) && d < distance && (d > 1 || (actor.BestRanged.Omni && d > 0)))
                     {
                         index = i;
@@ -214,21 +214,21 @@ namespace LegacyAI
                 bool walked = RandomWalk(actor);
                 if (walked)
                 {
-                    didAction = true;
+                    _didAction = true;
                     return true;
                 }
 
-                didAction = true;
+                _didAction = true;
                 RunMelee(actor); // Surrounded
                 actor.ClearMovement();
                 return true;
             }
             else
             {
-                distance = actors[index].Position.GetDistance(actor.Position);
+                distance = _actors[index].Position.GetDistance(actor.Position);
                 if (distance >= actor.Unit.GetBestRanged().Range)
                 {
-                    return Walkto(actor, actors[index].Position);
+                    return Walkto(actor, _actors[index].Position);
                 }
                 else
                 {
@@ -237,19 +237,19 @@ namespace LegacyAI
                         bool walked = RandomWalk(actor);
                         if (walked)
                         {
-                            didAction = true;
+                            _didAction = true;
                             return true;
                         }
 
-                        didAction = true;
+                        _didAction = true;
                         RunMelee(actor); // Surrounded
                         actor.ClearMovement();
                         return true;
                     }
                     else
                     {
-                        didAction = true;
-                        actor.Attack(actors[index], true);
+                        _didAction = true;
+                        actor.Attack(_actors[index], true);
                     }
 
                     return true;
@@ -257,17 +257,17 @@ namespace LegacyAI
             }
         }
 
-        private bool RunMelee(Actor_Unit actor)
+        private bool RunMelee(ActorUnit actor)
         {
             //move towards closest target
             float distance = 64;
             int index = -1;
-            for (int i = 0; i < actors.Count; i++)
+            for (int i = 0; i < _actors.Count; i++)
             {
-                float d = actors[i].Position.GetDistance(actor.Position);
-                if (actors[i].InSight == true && actors[i].InSight == true && actors[i].Targetable == true)
+                float d = _actors[i].Position.GetDistance(actor.Position);
+                if (_actors[i].InSight == true && _actors[i].InSight == true && _actors[i].Targetable == true)
                 {
-                    Actor_Unit unit = actors[i];
+                    ActorUnit unit = _actors[i];
                     if (!Equals(unit.Unit.Side, AISide))
                     {
                         if (d < distance)
@@ -284,37 +284,37 @@ namespace LegacyAI
                 bool walked = RandomWalk(actor);
                 if (walked)
                 {
-                    didAction = true;
+                    _didAction = true;
                     return true;
                 }
 
-                didAction = true;
+                _didAction = true;
                 actor.ClearMovement();
                 return true;
             }
             else
             {
-                distance = actors[index].Position.GetDistance(actor.Position);
+                distance = _actors[index].Position.GetDistance(actor.Position);
                 if (distance < 2)
                 {
-                    if (actors[index] == null)
+                    if (_actors[index] == null)
                     {
                         actor.ClearMovement();
                         return true;
                     }
 
-                    didAction = true;
-                    actor.Attack(actors[index], false);
+                    _didAction = true;
+                    actor.Attack(_actors[index], false);
                     return true;
                 }
                 else
                 {
-                    return Walkto(actor, actors[index].Position);
+                    return Walkto(actor, _actors[index].Position);
                 }
             }
         }
 
 
-        private bool IsRanged(Actor_Unit actor) => actor.Unit.GetBestRanged() != null;
+        private bool IsRanged(ActorUnit actor) => actor.Unit.GetBestRanged() != null;
     }
 }

@@ -429,7 +429,7 @@ internal static class SpellList
                     var AvailableRaces = new List<Race>();
                     foreach (Race race in RaceFuncs.RaceEnumerable())
                     {
-                        if (RaceFuncs.isMonster(race) && (Config.World.GetValue($"Merc {race}") || (Config.World.GetSpawnerWithoutGeneration(race)?.Enabled ?? false))) AvailableRaces.Add(race);
+                        if (RaceFuncs.IsMonster(race) && (Config.World.GetValue($"Merc {race}") || (Config.World.GetSpawnerWithoutGeneration(race)?.Enabled ?? false))) AvailableRaces.Add(race);
                     }
 
                     AvailableRaces.Remove(Race.Dragon);
@@ -739,12 +739,12 @@ internal static class SpellList
                 a.CastStatusSpell(HypnoGas, t, null, Stat.Voracity);
                 if (Config.FartOnAbsorb)
                 {
-                    a.SetPredMode(PreyLocation.anal);
+                    a.SetPredMode(PreyLocation.Anal);
                     State.GameManager.SoundManager.PlayFart(a);
                 }
                 else if (Config.BurpFraction > 0)
                 {
-                    a.SetPredMode(PreyLocation.stomach);
+                    a.SetPredMode(PreyLocation.Stomach);
                     State.GameManager.SoundManager.PlayBurp(a);
                 }
 
@@ -755,12 +755,12 @@ internal static class SpellList
                 a.CastStatusSpell(HypnoGas, null, loc, Stat.Voracity);
                 if (Config.FartOnAbsorb)
                 {
-                    a.SetPredMode(PreyLocation.anal);
+                    a.SetPredMode(PreyLocation.Anal);
                     State.GameManager.SoundManager.PlayFart(a);
                 }
                 else if (Config.BurpFraction > 0)
                 {
-                    a.SetPredMode(PreyLocation.stomach);
+                    a.SetPredMode(PreyLocation.Stomach);
                     State.GameManager.SoundManager.PlayBurp(a);
                 }
 
@@ -1026,14 +1026,14 @@ public class Spell
     /// <summary>The number of tiles away a target is affected (i.e. 1 = 9 total tiles)</summary>
     internal int AreaOfEffect;
 
-    internal Action<Actor_Unit, Vec2i> OnExecuteTile;
+    internal Action<ActorUnit, Vec2I> OnExecuteTile;
     internal bool Resistable;
     internal float ResistanceMult = 1;
-    internal Action<Actor_Unit, Actor_Unit> OnExecute;
+    internal Action<ActorUnit, ActorUnit> OnExecute;
     internal bool IsFree = false;
 
 
-    internal bool TryCast(Actor_Unit actor, Vec2i location)
+    internal bool TryCast(ActorUnit actor, Vec2I location)
     {
         if ((actor.Unit.Mana >= ManaCost || IsFree) && actor.Movement > 0)
         {
@@ -1051,7 +1051,7 @@ public class Spell
         return false;
     }
 
-    internal bool TryCast(Actor_Unit actor, Actor_Unit target)
+    internal bool TryCast(ActorUnit actor, ActorUnit target)
     {
         if ((actor.Unit.Mana >= ManaCost || IsFree) && actor.Movement > 0)
         {
@@ -1076,19 +1076,19 @@ public class Spell
 
 internal class DamageSpell : Spell
 {
-    internal Func<Actor_Unit, Actor_Unit, int> Damage;
+    internal Func<ActorUnit, ActorUnit, int> Damage;
     internal DamageType DamageType = DamageType.Generic;
 }
 
 internal class StatusSpell : Spell
 {
-    internal Func<Actor_Unit, Actor_Unit, int> Duration;
-    internal Func<Actor_Unit, Actor_Unit, float> Effect;
+    internal Func<ActorUnit, ActorUnit, int> Duration;
+    internal Func<ActorUnit, ActorUnit, float> Effect;
 
     /// <summary>
     ///     BAD SOLUTION. TEMPORARY(tm)
     /// </summary>
-    internal Func<Actor_Unit, Actor_Unit, Side> EffectSide;
+    internal Func<ActorUnit, ActorUnit, Side> EffectSide;
 
     internal StatusEffectType Type;
     internal bool Alraune = false;

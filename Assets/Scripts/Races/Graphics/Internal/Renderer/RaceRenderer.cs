@@ -16,12 +16,12 @@ internal partial class RaceRenderer
     private readonly SpriteTypeIndexed<ISpriteContainer> _sprites = new SpriteTypeIndexed<ISpriteContainer>();
     private IEnumerable<ISpriteContainer> AllContainers => _sprites.Concat(_clothingSprites);
 
-    private readonly Actor_Unit _actor;
+    private readonly ActorUnit _actor;
     private readonly Transform _folder;
     private readonly GameObject _type;
 
 
-    internal RaceRenderer(GameObject type, GameObject animatedType, Transform folder, Actor_Unit actor)
+    internal RaceRenderer(GameObject type, GameObject animatedType, Transform folder, ActorUnit actor)
     {
         var animatedType1 = animatedType;
         _type = type;
@@ -83,7 +83,7 @@ internal partial class RaceRenderer
     {
         if (_sprites[spriteType] != null)
         {
-            _sprites[spriteType].SortOrder = layer + _actor.spriteLayerOffset;
+            _sprites[spriteType].SortOrder = layer + _actor.SpriteLayerOffset;
         }
     }
 
@@ -103,7 +103,7 @@ internal partial class RaceRenderer
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    private static RunOutput CalculateRaceRender(Actor_Unit actor, IRaceData raceData, RaceSpriteChangeDict changeDict)
+    private static RunOutput CalculateRaceRender(ActorUnit actor, IRaceData raceData, RaceSpriteChangeDict changeDict)
     {
         IRunInput runInput = new RunInput(actor);
         RunOutput runOutput = new RunOutput(changeDict);
@@ -145,7 +145,7 @@ internal partial class RaceRenderer
     }
 
 
-    private static AccumulatedClothes CalculateClothingRender(Actor_Unit actorUnit, RaceSpriteChangeDict changeDict, SetupOutput setupOutput)
+    private static AccumulatedClothes CalculateClothingRender(ActorUnit actorUnit, RaceSpriteChangeDict changeDict, SetupOutput setupOutput)
     {
         List<ClothingRenderOutput> clothingResults = new List<ClothingRenderOutput>();
 
@@ -310,7 +310,7 @@ internal partial class RaceRenderer
             ISpriteContainer container = _sprites[spriteType];
             if (changeDict.ReusedChangesDict.TryGetValue(spriteType, out var raceRenderOutput))
             {
-                container.NewSetSprite(raceRenderOutput, wholeBodyOffset, _actor.spriteLayerOffset);
+                container.NewSetSprite(raceRenderOutput, wholeBodyOffset, _actor.SpriteLayerOffset);
             }
             else
             {
@@ -386,7 +386,7 @@ internal partial class RaceRenderer
 
     public void UpdateSprite()
     {
-        SpriteCollection raceSpriteCollection = GameManager.customManager.GetRaceSpriteCollection(_actor.Unit.Race.Id);
+        SpriteCollection raceSpriteCollection = GameManager.CustomManager.GetRaceSpriteCollection(_actor.Unit.Race.Id);
         RaceSpriteChangeDict changeDict = new RaceSpriteChangeDict(raceSpriteCollection);
 
         IRaceData raceData = Races2.GetRace(_actor.Unit);
@@ -417,7 +417,7 @@ internal partial class RaceRenderer
             if (one != null)
             {
                 Vector2 extraOffset = new Vector2(wholeBodyOffset.x + clothingShift.x, wholeBodyOffset.y + clothingShift.y);
-                container.NewSetSprite(one, extraOffset, _actor.spriteLayerOffset);
+                container.NewSetSprite(one, extraOffset, _actor.SpriteLayerOffset);
                 container.Name = "Clothing_Sprite_" + i;
             }
             else

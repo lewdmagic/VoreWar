@@ -20,20 +20,20 @@ namespace LegacyAI
         [OdinSerialize]
         private int _tension = 3;
 
-        private int tension { get => _tension; set => _tension = value; }
+        private int Tension { get => _tension; set => _tension = value; }
 
-        private List<PathNode> path;
-        private Army pathIsFor;
+        private List<PathNode> _path;
+        private Army _pathIsFor;
 
         [OdinSerialize]
         private int _freegold;
 
-        private int freegold { get => _freegold; set => _freegold = value; }
+        private int Freegold { get => _freegold; set => _freegold = value; }
 
         [OdinSerialize]
         private float _growth;
 
-        private float growth { get => _growth; set => _growth = value; }
+        private float Growth { get => _growth; set => _growth = value; }
 
         private Empire _empire;
 
@@ -48,11 +48,11 @@ namespace LegacyAI
         }
 
 
-        public LegacyStrategicAI(Side AISide)
+        public LegacyStrategicAI(Side aiSide)
         {
-            this.AISide = RaceFuncs.RaceToInt(AISide.ToRace());
-            growth = 2.2F;
-            freegold = 0;
+            this.AISide = RaceFuncs.RaceToInt(aiSide.ToRace());
+            Growth = 2.2F;
+            Freegold = 0;
         }
 
 
@@ -65,27 +65,27 @@ namespace LegacyAI
         {
             foreach (Army army in Empire.Armies.ToList())
             {
-                if (army.RemainingMP < 1) continue;
+                if (army.RemainingMp < 1) continue;
 
-                if (path != null && pathIsFor == army)
+                if (_path != null && _pathIsFor == army)
                 {
-                    if (path.Count == 0)
+                    if (_path.Count == 0)
                     {
-                        army.RemainingMP = 0;
+                        army.RemainingMp = 0;
                         return true;
                     }
 
-                    Vec2i newLoc = new Vec2i(path[0].X, path[0].Y);
-                    Vec2i position = army.Position;
-                    path.RemoveAt(0);
+                    Vec2I newLoc = new Vec2I(_path[0].X, _path[0].Y);
+                    Vec2I position = army.Position;
+                    _path.RemoveAt(0);
                     if (army.MoveTo(newLoc))
                         StrategicUtilities.StartBattle(army);
-                    else if (position == army.Position) army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
+                    else if (position == army.Position) army.RemainingMp = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
                     return true;
                 }
                 else
                 {
-                    pathIsFor = army;
+                    _pathIsFor = army;
                     if (ArmyReady(army))
                     {
                         if (army.AIMode == AIMode.Default)
@@ -111,7 +111,7 @@ namespace LegacyAI
         {
             float distance = 99;
 
-            Vec2i p = null;
+            Vec2I p = null;
             //find nearest enemy village
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
@@ -141,8 +141,8 @@ namespace LegacyAI
             //move towards it
             if (p != null)
             {
-                path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
-                if (path == null) army.RemainingMP = 0;
+                _path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMp, army.MovementMode == MovementMode.Flight);
+                if (_path == null) army.RemainingMp = 0;
 
                 return true;
             }
@@ -153,7 +153,7 @@ namespace LegacyAI
         private bool Attack(Army army)
         {
             float distance = 99;
-            Vec2i p = null;
+            Vec2I p = null;
             //find nearest enemy village
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
@@ -181,9 +181,9 @@ namespace LegacyAI
             //move towards it
             if (p != null)
             {
-                path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
+                _path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMp, army.MovementMode == MovementMode.Flight);
 
-                if (path == null) army.RemainingMP = 0;
+                if (_path == null) army.RemainingMp = 0;
                 return true;
             }
 
@@ -203,7 +203,7 @@ namespace LegacyAI
             //check if we're on a village
             if (army.InVillageIndex > -1)
             {
-                army.RemainingMP = 0;
+                army.RemainingMp = 0;
                 //check to perform devouring later
 
 
@@ -214,12 +214,12 @@ namespace LegacyAI
                 Village village = GetNearestVillage(empire, army.Position);
                 if (village == null)
                 {
-                    army.RemainingMP = 0;
+                    army.RemainingMp = 0;
                     return false;
                 }
                 else
                 {
-                    path = StrategyPathfinder.GetPath(Empire, army, village.Position, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
+                    _path = StrategyPathfinder.GetPath(Empire, army, village.Position, army.RemainingMp, army.MovementMode == MovementMode.Flight);
                     return false;
                 }
             }
@@ -237,7 +237,7 @@ namespace LegacyAI
 
             RaiseTension(1);
             Empire empire = Empires[AISide];
-            empire.AddGold(freegold);
+            empire.AddGold(Freegold);
             if (empire.Income > 0)
             {
                 for (int i = 0; i < State.World.Villages.Length; i++)
@@ -298,7 +298,7 @@ namespace LegacyAI
             return null;
         }
 
-        private Village GetNearestVillage(Empire empire, Vec2i p)
+        private Village GetNearestVillage(Empire empire, Vec2I p)
         {
             float distance = 99;
             Village village = null;
@@ -357,10 +357,10 @@ namespace LegacyAI
 
         private Army MakeArmy(Village village)
         {
-            Army army = new Army(Empire, new Vec2i(village.Position.X, village.Position.Y), village.Side);
+            Army army = new Army(Empire, new Vec2I(village.Position.X, village.Position.Y), village.Side);
             int size = State.Rand.Next(6) + 1;
-            float s = tension;
-            s = s / growth;
+            float s = Tension;
+            s = s / Growth;
             size = (int)(size + s);
 
             if (size > Empires[AISide].MaxArmySize)
@@ -371,7 +371,7 @@ namespace LegacyAI
             //int level = (int)(tension / 5 / growth);
             for (int i = 0; i < size; i++)
             {
-                Unit unit = new Unit(village.Side, village.Race, Empire.StartingXP, State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
+                Unit unit = new Unit(village.Side, village.Race, Empire.StartingXp, State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
                 if (unit.HasWeapon == false)
                 {
                     if (unit.BestSuitedForRanged())
@@ -395,7 +395,7 @@ namespace LegacyAI
                 army.Units.Add(unit);
             }
 
-            army.RemainingMP = 0;
+            army.RemainingMp = 0;
             if (State.Rand.Next(4) == 1) army.AIMode = AIMode.Sneak;
             return army;
         }

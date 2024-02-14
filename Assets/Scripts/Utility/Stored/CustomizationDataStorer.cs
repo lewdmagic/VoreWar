@@ -5,43 +5,43 @@ using System.Linq;
 
 internal static class CustomizationDataStorer
 {
-    private static string filename;
-    private static List<CustomizerData> customizations;
+    private static string _filename;
+    private static List<CustomizerData> _customizations;
 
     static CustomizationDataStorer()
     {
-        filename = $"{State.StorageDirectory}Customizations.cst";
+        _filename = $"{State.StorageDirectory}Customizations.cst";
         LoadData();
     }
 
     private static void LoadData()
     {
-        if (File.Exists(filename))
+        if (File.Exists(_filename))
         {
-            byte[] bytes = File.ReadAllBytes(filename);
-            customizations = SerializationUtility.DeserializeValue<List<CustomizerData>>(bytes, DataFormat.Binary);
+            byte[] bytes = File.ReadAllBytes(_filename);
+            _customizations = SerializationUtility.DeserializeValue<List<CustomizerData>>(bytes, DataFormat.Binary);
         }
         else
         {
-            customizations = new List<CustomizerData>();
+            _customizations = new List<CustomizerData>();
         }
     }
 
     private static void SaveData()
     {
-        byte[] bytes = SerializationUtility.SerializeValue(customizations, DataFormat.Binary);
-        File.WriteAllBytes(filename, bytes);
+        byte[] bytes = SerializationUtility.SerializeValue(_customizations, DataFormat.Binary);
+        File.WriteAllBytes(_filename, bytes);
     }
 
     internal static void Remove(CustomizerData unitCustomizer)
     {
-        customizations.Remove(unitCustomizer);
+        _customizations.Remove(unitCustomizer);
         SaveData();
     }
 
     internal static void Add(CustomizerData unitCustomizer)
     {
-        customizations.Add(unitCustomizer);
+        _customizations.Add(unitCustomizer);
         SaveData();
     }
 
@@ -53,9 +53,9 @@ internal static class CustomizationDataStorer
 
     internal static List<CustomizerData> GetCompatibleCustomizations(Race race, UnitType type, bool includeOtherRaces)
     {
-        if (includeOtherRaces) return customizations.Where(s => IsCompatibleWithGraphics(s)).ToList();
-        if (type == UnitType.Leader) return customizations.Where(s => Equals(s.Race, race) && s.Type == type && IsCompatibleWithGraphics(s)).ToList();
-        return customizations.Where(s => Equals(s.Race, race) && (s.Type == type || s.Type != UnitType.Leader) && IsCompatibleWithGraphics(s)).ToList();
+        if (includeOtherRaces) return _customizations.Where(s => IsCompatibleWithGraphics(s)).ToList();
+        if (type == UnitType.Leader) return _customizations.Where(s => Equals(s.Race, race) && s.Type == type && IsCompatibleWithGraphics(s)).ToList();
+        return _customizations.Where(s => Equals(s.Race, race) && (s.Type == type || s.Type != UnitType.Leader) && IsCompatibleWithGraphics(s)).ToList();
     }
 
     private static bool IsCompatibleWithGraphics(CustomizerData data)

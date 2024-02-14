@@ -5,11 +5,11 @@ using System.Linq;
 
 internal class MapVillagePopulator
 {
-    private readonly StrategicTileType[,] tiles;
+    private readonly StrategicTileType[,] _tiles;
 
     public MapVillagePopulator(StrategicTileType[,] tiles)
     {
-        this.tiles = tiles;
+        this._tiles = tiles;
     }
 
     internal void PopulateVillages(Map map, ref Village[] villages)
@@ -17,13 +17,13 @@ internal class MapVillagePopulator
         List<Village> newVillages = new List<Village>();
         Dictionary<Race, int> nameIndex = new Dictionary<Race, int>();
 
-        for (int i = 0; i < map.storedVillages.Length; i++)
+        for (int i = 0; i < map.StoredVillages.Length; i++)
         {
-            if (Equals(map.storedVillages[i].Race, Race.Vagrant))
+            if (Equals(map.StoredVillages[i].Race, Race.Vagrant))
             {
                 Race race = Race.Vagrant;
                 if (nameIndex.ContainsKey(race) == false) nameIndex[race] = 0;
-                Village vill = new Village(State.NameGen.GetTownName(race, nameIndex[race]), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false);
+                Village vill = new Village(State.NameGen.GetTownName(race, nameIndex[race]), map.StoredVillages[i].Position, FarmSquares(map.StoredVillages[i].Position), race, false);
                 vill.SubtractPopulation(999999);
                 newVillages.Add(vill);
                 nameIndex[race] = nameIndex[race] + 1;
@@ -32,18 +32,18 @@ internal class MapVillagePopulator
 
             // if (Config.World.VillagesPerEmpire.Count < RaceFuncs.RaceToInt(map.storedVillages[i].Race))
             //     continue; // TODO check is probably not needed with a dictionary
-            if (Config.World.VillagesPerEmpire[map.storedVillages[i].Race] == 0) continue;
+            if (Config.World.VillagesPerEmpire[map.StoredVillages[i].Race] == 0) continue;
 
-            if (map.storedVillages[i].Capital == true)
+            if (map.StoredVillages[i].Capital == true)
             {
-                Race race = map.storedVillages[i].Race;
-                newVillages.Add(new Village(State.NameGen.GetTownName(race, 0), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, true));
+                Race race = map.StoredVillages[i].Race;
+                newVillages.Add(new Village(State.NameGen.GetTownName(race, 0), map.StoredVillages[i].Position, FarmSquares(map.StoredVillages[i].Position), race, true));
             }
             else
             {
-                Race race = map.storedVillages[i].Race;
+                Race race = map.StoredVillages[i].Race;
                 if (nameIndex.ContainsKey(race) == false) nameIndex[race] = 0;
-                newVillages.Add(new Village(State.NameGen.GetTownName(race, nameIndex[race] + 1), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false));
+                newVillages.Add(new Village(State.NameGen.GetTownName(race, nameIndex[race] + 1), map.StoredVillages[i].Position, FarmSquares(map.StoredVillages[i].Position), race, false));
                 nameIndex[race] = nameIndex[race] + 1;
             }
         }
@@ -95,7 +95,7 @@ internal class MapVillagePopulator
 
     internal void PopulateMercenaryHouses(Map map, ref MercenaryHouse[] houses)
     {
-        if (map.mercLocations == null)
+        if (map.MercLocations == null)
         {
             houses = new MercenaryHouse[0];
             return;
@@ -104,9 +104,9 @@ internal class MapVillagePopulator
         List<MercenaryHouse> newHouses = new List<MercenaryHouse>();
 
 
-        for (int i = 0; i < map.mercLocations.Length; i++)
+        for (int i = 0; i < map.MercLocations.Length; i++)
         {
-            newHouses.Add(new MercenaryHouse(map.mercLocations[i]));
+            newHouses.Add(new MercenaryHouse(map.MercLocations[i]));
         }
 
         houses = newHouses.ToArray();
@@ -114,7 +114,7 @@ internal class MapVillagePopulator
 
     internal void PopulateClaimables(Map map, ref ClaimableBuilding[] claimables)
     {
-        if (map.claimables == null)
+        if (map.Claimables == null)
         {
             claimables = new ClaimableBuilding[0];
             return;
@@ -123,15 +123,15 @@ internal class MapVillagePopulator
         List<ClaimableBuilding> newClaimables = new List<ClaimableBuilding>();
 
 
-        for (int i = 0; i < map.claimables.Length; i++)
+        for (int i = 0; i < map.Claimables.Length; i++)
         {
-            if (map.claimables[i].Type == ClaimableType.GoldMine) newClaimables.Add(new GoldMine(map.claimables[i].Position));
+            if (map.Claimables[i].Type == ClaimableType.GoldMine) newClaimables.Add(new GoldMine(map.Claimables[i].Position));
         }
 
         claimables = newClaimables.ToArray();
     }
 
-    private int FarmSquares(Vec2i pos)
+    private int FarmSquares(Vec2I pos)
     {
         int t = 0;
         for (int i = pos.X - 1; i < pos.X + 2; i++)
@@ -140,7 +140,7 @@ internal class MapVillagePopulator
             {
                 if (!(i == pos.X && pos.Y == j))
                 {
-                    if (tiles[i, j] == StrategicTileType.field || tiles[i, j] == StrategicTileType.fieldDesert || tiles[i, j] == StrategicTileType.fieldSnow)
+                    if (_tiles[i, j] == StrategicTileType.Field || _tiles[i, j] == StrategicTileType.FieldDesert || _tiles[i, j] == StrategicTileType.FieldSnow)
                     {
                         t++;
                     }

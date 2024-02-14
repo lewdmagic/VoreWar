@@ -7,18 +7,18 @@ using System.Linq;
 internal class RaceSettings
 {
     [OdinSerialize]
-    private Dictionary<Race, RaceSettingsItem> Races;
+    private Dictionary<Race, RaceSettingsItem> _races;
 
     public RaceSettings()
     {
-        Races = new Dictionary<Race, RaceSettingsItem>();
-        Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
-        Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
+        _races = new Dictionary<Race, RaceSettingsItem>();
+        _races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
+        _races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
     }
 
     internal void Sanitize()
     {
-        foreach (KeyValuePair<Race, RaceSettingsItem> entry in Races)
+        foreach (KeyValuePair<Race, RaceSettingsItem> entry in _races)
         {
             if (Equals(entry.Value.ConversionRace, Race.TrueNone)) entry.Value.ConversionRace = RaceParameters.GetRaceTraits(entry.Key).ConversionRace;
             if (Equals(entry.Value.LeaderRace, Race.TrueNone)) entry.Value.LeaderRace = RaceParameters.GetRaceTraits(entry.Key).LeaderRace;
@@ -31,7 +31,7 @@ internal class RaceSettings
             }
         }
 
-        foreach (RaceSettingsItem item in Races.Values)
+        foreach (RaceSettingsItem item in _races.Values)
         {
             if (item.Stats.Strength.Roll < 1) item.Stats.Strength.Roll = 1;
             if (item.Stats.Dexterity.Roll < 1) item.Stats.Dexterity.Roll = 1;
@@ -43,10 +43,10 @@ internal class RaceSettings
             if (item.Stats.Strength.Roll < 1) item.Stats.Strength.Roll = 1;
         }
 
-        if (Races.ContainsKey(Race.FeralBat) == false)
+        if (_races.ContainsKey(Race.FeralBat) == false)
         {
-            Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
-            Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
+            _races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
+            _races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
         }
     }
 
@@ -57,66 +57,66 @@ internal class RaceSettings
             return null;
         }
 
-        if (Races.TryGetValue(race, out RaceSettingsItem item))
+        if (_races.TryGetValue(race, out RaceSettingsItem item))
         {
             return item;
         }
 
-        Races[race] = new RaceSettingsItem(race);
-        return Races[race];
+        _races[race] = new RaceSettingsItem(race);
+        return _races[race];
     }
 
     internal bool Exists(Race race)
     {
-        return Races.TryGetValue(race, out RaceSettingsItem item);
+        return _races.TryGetValue(race, out RaceSettingsItem item);
     }
 
     internal bool GetOverrideGender(Race race)
     {
-        if (Races.ContainsKey(race)) return Get(race).OverrideGender;
+        if (_races.ContainsKey(race)) return Get(race).OverrideGender;
         return false;
     }
 
     internal bool GetOverrideFurry(Race race)
     {
-        if (Races.ContainsKey(race)) return Get(race).OverrideFurry;
+        if (_races.ContainsKey(race)) return Get(race).OverrideFurry;
         return false;
     }
 
     internal bool GetOverrideClothed(Race race)
     {
-        if (Races.ContainsKey(race)) return Get(race).overrideClothes;
+        if (_races.ContainsKey(race)) return Get(race).OverrideClothes;
         return false;
     }
 
     internal bool GetOverrideWeight(Race race)
     {
-        if (Races.ContainsKey(race)) return Get(race).overrideWeight;
+        if (_races.ContainsKey(race)) return Get(race).OverrideWeight;
         return false;
     }
 
     internal bool GetOverrideBreasts(Race race)
     {
-        if (Races.ContainsKey(race)) return Get(race).overrideBoob;
+        if (_races.ContainsKey(race)) return Get(race).OverrideBoob;
         return false;
     }
 
     internal bool GetOverrideDick(Race race)
     {
-        if (Races.ContainsKey(race)) return Get(race).overrideDick;
+        if (_races.ContainsKey(race)) return Get(race).OverrideDick;
         return false;
     }
 
 
     internal int GetBodySize(Race race)
     {
-        if (Races.ContainsKey(race)) return Get(race).BodySize;
+        if (_races.ContainsKey(race)) return Get(race).BodySize;
         return RaceParameters.GetRaceTraits(race).BodySize;
     }
 
     internal int GetStomachSize(Race race)
     {
-        if (Races.ContainsKey(race)) return Get(race).StomachSize;
+        if (_races.ContainsKey(race)) return Get(race).StomachSize;
         return RaceParameters.GetRaceTraits(race).StomachSize;
     }
 
@@ -127,7 +127,7 @@ internal class RaceSettings
             return null;
         }
 
-        if (Races.ContainsKey(race)) return Get(race).RaceTraits;
+        if (_races.ContainsKey(race)) return Get(race).RaceTraits;
         return RaceParameters.GetRaceTraits(race).RacialTraits;
     }
 
@@ -138,7 +138,7 @@ internal class RaceSettings
             return null;
         }
 
-        if (Races.ContainsKey(race)) return Get(race).MaleTraits;
+        if (_races.ContainsKey(race)) return Get(race).MaleTraits;
         return null;
     }
 
@@ -149,7 +149,7 @@ internal class RaceSettings
             return null;
         }
 
-        if (Races.ContainsKey(race)) return Get(race).FemaleTraits;
+        if (_races.ContainsKey(race)) return Get(race).FemaleTraits;
         return null;
     }
 
@@ -160,7 +160,7 @@ internal class RaceSettings
             return null;
         }
 
-        if (Races.ContainsKey(race)) return Get(race).HermTraits;
+        if (_races.ContainsKey(race)) return Get(race).HermTraits;
         return null;
     }
 
@@ -171,7 +171,7 @@ internal class RaceSettings
             return null;
         }
 
-        if (Races.ContainsKey(race)) return Get(race).SpawnTraits;
+        if (_races.ContainsKey(race)) return Get(race).SpawnTraits;
         return RaceParameters.GetRaceTraits(race).SpawnTraits;
     }
 
@@ -182,13 +182,13 @@ internal class RaceSettings
             return null;
         }
 
-        if (Races.ContainsKey(race)) return Get(race).LeaderTraits;
+        if (_races.ContainsKey(race)) return Get(race).LeaderTraits;
         return RaceParameters.GetRaceTraits(race).LeaderTraits;
     }
 
     internal Stat GetFavoredStat(Race race)
     {
-        if (Races.ContainsKey(race))
+        if (_races.ContainsKey(race))
         {
             var par = Get(race);
             if (par.FavoredStatSet)
@@ -202,7 +202,7 @@ internal class RaceSettings
 
     internal SpellType GetInnateSpell(Race race)
     {
-        if (Races.ContainsKey(race))
+        if (_races.ContainsKey(race))
         {
             return Get(race).InnateSpell;
         }
@@ -212,7 +212,7 @@ internal class RaceSettings
 
     internal RaceAI GetRaceAI(Race race)
     {
-        if (Races.ContainsKey(race))
+        if (_races.ContainsKey(race))
         {
             return Get(race).RaceAI;
         }
@@ -222,13 +222,13 @@ internal class RaceSettings
 
     internal string ListTraits(Race race)
     {
-        var Tags = RaceParameters.GetRaceTraits(race).RacialTraits;
-        if (Tags.Count == 0) return "";
+        var tags = RaceParameters.GetRaceTraits(race).RacialTraits;
+        if (tags.Count == 0) return "";
         string ret = "";
-        for (int i = 0; i < Tags.Count; i++)
+        for (int i = 0; i < tags.Count; i++)
         {
-            ret += Tags[i].ToString();
-            if (i + 1 < Tags.Count) ret += "\n";
+            ret += tags[i].ToString();
+            if (i + 1 < tags.Count) ret += "\n";
         }
 
         return ret;
@@ -236,7 +236,7 @@ internal class RaceSettings
 
     internal List<VoreType> GetVoreTypes(Race race)
     {
-        if (Races.ContainsKey(race))
+        if (_races.ContainsKey(race))
         {
             return Get(race).AllowedVoreTypes;
         }
@@ -246,14 +246,14 @@ internal class RaceSettings
 
     internal RaceStats GetRaceStats(Race race)
     {
-        if (Races.ContainsKey(race)) return Get(race).Stats;
+        if (_races.ContainsKey(race)) return Get(race).Stats;
         return RaceParameters.GetRaceTraits(race).RaceStats;
     }
 
     internal Race GetSpawnRace(Race race)
     {
         Race spawnRace = Race.TrueNone;
-        if (Races.ContainsKey(race)) spawnRace = Get(race).SpawnRace;
+        if (_races.ContainsKey(race)) spawnRace = Get(race).SpawnRace;
         if (Equals(spawnRace, Race.TrueNone)) spawnRace = RaceParameters.GetRaceTraits(race).SpawnRace;
         return Equals(spawnRace, Race.TrueNone) ? race : spawnRace;
     }
@@ -261,7 +261,7 @@ internal class RaceSettings
     internal Race GetConversionRace(Race race)
     {
         Race conversionRace = Race.TrueNone;
-        if (Races.ContainsKey(race)) conversionRace = Get(race).ConversionRace;
+        if (_races.ContainsKey(race)) conversionRace = Get(race).ConversionRace;
         if (Equals(conversionRace, Race.TrueNone)) conversionRace = RaceParameters.GetRaceTraits(race).ConversionRace;
         return Equals(conversionRace, Race.TrueNone) ? race : conversionRace;
     }
@@ -269,7 +269,7 @@ internal class RaceSettings
     internal Race GetLeaderRace(Race race)
     {
         Race leaderRace = Race.TrueNone;
-        if (Races.ContainsKey(race)) leaderRace = Get(race).LeaderRace;
+        if (_races.ContainsKey(race)) leaderRace = Get(race).LeaderRace;
         if (Equals(leaderRace, Race.TrueNone)) leaderRace = RaceParameters.GetRaceTraits(race).LeaderRace;
         return Equals(leaderRace, Race.TrueNone) ? race : leaderRace;
     }
@@ -283,19 +283,19 @@ internal class RaceSettings
 
     internal void Reset(Race race)
     {
-        Races.Remove(race);
+        _races.Remove(race);
         if (Equals(race, Race.FeralBat))
         {
-            Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
-            Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
+            _races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
+            _races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
         }
     }
 
     internal void ResetAll()
     {
-        Races = new Dictionary<Race, RaceSettingsItem>();
-        Races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
-        Races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
+        _races = new Dictionary<Race, RaceSettingsItem>();
+        _races[Race.FeralBat] = new RaceSettingsItem(Race.FeralBat);
+        _races[Race.FeralBat].MaleTraits = new List<TraitType> { TraitType.Small };
     }
 }
 
@@ -309,12 +309,12 @@ internal class RaceSettingsItem
     [OdinSerialize]
     private float _maleFraction;
 
-    internal float maleFraction { get => _maleFraction; set => _maleFraction = value; }
+    internal float MaleFraction { get => _maleFraction; set => _maleFraction = value; }
 
     [OdinSerialize]
     private float _hermFraction;
 
-    internal float hermFraction { get => _hermFraction; set => _hermFraction = value; }
+    internal float HermFraction { get => _hermFraction; set => _hermFraction = value; }
 
     [OdinSerialize]
     private bool _overrideFurry;
@@ -324,7 +324,7 @@ internal class RaceSettingsItem
     [OdinSerialize]
     private float _furryFraction;
 
-    internal float furryFraction { get => _furryFraction; set => _furryFraction = value; }
+    internal float FurryFraction { get => _furryFraction; set => _furryFraction = value; }
 
     [OdinSerialize]
     private int _bodySize;
@@ -369,12 +369,12 @@ internal class RaceSettingsItem
     [OdinSerialize]
     private bool _overrideClothes;
 
-    internal bool overrideClothes { get => _overrideClothes; set => _overrideClothes = value; }
+    internal bool OverrideClothes { get => _overrideClothes; set => _overrideClothes = value; }
 
     [OdinSerialize]
     private float _clothedFraction;
 
-    internal float clothedFraction { get => _clothedFraction; set => _clothedFraction = value; }
+    internal float ClothedFraction { get => _clothedFraction; set => _clothedFraction = value; }
 
     [OdinSerialize]
     private int _bannerType;
@@ -384,7 +384,7 @@ internal class RaceSettingsItem
     [OdinSerialize]
     private bool _overrideWeight;
 
-    internal bool overrideWeight { get => _overrideWeight; set => _overrideWeight = value; }
+    internal bool OverrideWeight { get => _overrideWeight; set => _overrideWeight = value; }
 
     [OdinSerialize]
     private int _minWeight;
@@ -399,7 +399,7 @@ internal class RaceSettingsItem
     [OdinSerialize]
     private bool _overrideBoob;
 
-    internal bool overrideBoob { get => _overrideBoob; set => _overrideBoob = value; }
+    internal bool OverrideBoob { get => _overrideBoob; set => _overrideBoob = value; }
 
     [OdinSerialize]
     private int _minBoob;
@@ -414,7 +414,7 @@ internal class RaceSettingsItem
     [OdinSerialize]
     private bool _overrideDick;
 
-    internal bool overrideDick { get => _overrideDick; set => _overrideDick = value; }
+    internal bool OverrideDick { get => _overrideDick; set => _overrideDick = value; }
 
     [OdinSerialize]
     private int _minDick;
@@ -483,10 +483,10 @@ internal class RaceSettingsItem
     public RaceSettingsItem(Race race)
     {
         OverrideGender = false;
-        maleFraction = Config.MaleFraction;
-        hermFraction = Config.HermFraction;
+        MaleFraction = Config.MaleFraction;
+        HermFraction = Config.HermFraction;
         OverrideFurry = false;
-        furryFraction = Config.FurryFraction;
+        FurryFraction = Config.FurryFraction;
 
         var racePar = RaceParameters.GetRaceTraits(race);
         var raceData = Races2.GetRace(race);
@@ -515,14 +515,14 @@ internal class RaceSettingsItem
             Stomach = baseStats.Stomach,
         };
 
-        overrideClothes = false;
-        clothedFraction = Config.ClothedFraction;
+        OverrideClothes = false;
+        ClothedFraction = Config.ClothedFraction;
 
         BannerType = 0;
 
-        overrideWeight = false;
-        overrideBoob = false;
-        overrideDick = false;
+        OverrideWeight = false;
+        OverrideBoob = false;
+        OverrideDick = false;
 
         MinBoob = 0;
         MaxBoob = Math.Max(raceData.SetupOutput.BreastSizes() - 1, 0);

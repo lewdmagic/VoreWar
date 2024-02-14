@@ -5,10 +5,10 @@ using UnityEngine;
 internal class Prey
 {
     [OdinSerialize]
-    public Actor_Unit Predator { get; set; }
+    public ActorUnit Predator { get; set; }
 
     [OdinSerialize]
-    public Actor_Unit Actor { get; private set; }
+    public ActorUnit Actor { get; private set; }
 
     [OdinSerialize]
     private Unit _unit;
@@ -49,9 +49,9 @@ internal class Prey
 
     public List<TraitType> SharedTraits { get => _sharedTraits; set => _sharedTraits = value; }
 
-    public PreyLocation Location => Predator?.PredatorComponent.Location(this) ?? PreyLocation.stomach;
+    public PreyLocation Location => Predator?.PredatorComponent.Location(this) ?? PreyLocation.Stomach;
 
-    public Prey(Actor_Unit actor, Actor_Unit predator, List<Prey> preyList)
+    public Prey(ActorUnit actor, ActorUnit predator, List<Prey> preyList)
     {
         Actor = actor;
         actor.SelfPrey = this;
@@ -87,9 +87,9 @@ internal class Prey
 
         if (Predator.Unit.HasTrait(TraitType.DualStomach))
         {
-            if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.stomach))
+            if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.Stomach))
                 predScore *= .8f;
-            else if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.stomach2)) predScore *= 1.0f;
+            else if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.Stomach2)) predScore *= 1.0f;
         }
 
         switch (Config.EscapeRate)
@@ -210,7 +210,7 @@ internal class Prey
         if (!Equals(Unit.Side, side)) State.GameManager.TacticalMode.SwitchAlignment(Actor);
         if (Predator.Unit.HasTrait(TraitType.Corruption) || Unit.HasTrait(TraitType.Corruption))
         {
-            Unit.hiddenFixedSide = true;
+            Unit.HiddenFixedSide = true;
             Actor.SidesAttackedThisBattle = new List<Side>();
             Unit.RemoveTrait(TraitType.Corruption);
             Unit.AddPermanentTrait(TraitType.Corruption);

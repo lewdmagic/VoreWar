@@ -65,11 +65,11 @@ public class RandomizerTraitEditor : MonoBehaviour
         {
             var obj = Instantiate(RandomizerTraitPrefab, Folder);
             var rt = obj.GetComponent<RandomizerTrait>();
-            rt.name.text = savedCustom.name;
-            rt.chance.text = (savedCustom.chance * 100).ToString();
-            rt.id = savedCustom.id;
+            rt.Name.text = savedCustom.Name;
+            rt.Chance.text = (savedCustom.Chance * 100).ToString();
+            rt.ID = savedCustom.ID;
             var ranTraits = new Dictionary<TraitType, bool>();
-            foreach (TraitType r in State.RandomizeLists.ConvertAll(r => (TraitType)r.id))
+            foreach (TraitType r in State.RandomizeLists.ConvertAll(r => (TraitType)r.ID))
             {
                 if (savedCustom.RandomTraits.Contains(r))
                     ranTraits[r] = true;
@@ -89,8 +89,8 @@ public class RandomizerTraitEditor : MonoBehaviour
             rt.CloneBtn.onClick.AddListener(() =>
             {
                 var clone = CreateRandomizerTrait(savedCustom);
-                clone.id = FindNewId();
-                clone.name.text = "new" + clone.name.text;
+                clone.ID = FindNewId();
+                clone.Name.text = "new" + clone.Name.text;
                 RandomizerTags.Add(clone);
                 CreateAddButton();
             });
@@ -105,12 +105,12 @@ public class RandomizerTraitEditor : MonoBehaviour
         {
             var newItemTemplate = Instantiate(RandomizerTraitPrefab, Folder);
             var rt = newItemTemplate.GetComponent<RandomizerTrait>();
-            rt.name.text = "";
-            rt.chance.text = "100";
+            rt.Name.text = "";
+            rt.Chance.text = "100";
             var last = RandomizerTags.LastOrDefault();
-            rt.id = last == null ? 1001 : FindNewId();
+            rt.ID = last == null ? 1001 : FindNewId();
             var ranTraits = new Dictionary<TraitType, bool>();
-            foreach (TraitType r in State.RandomizeLists.ConvertAll(r => (TraitType)r.id))
+            foreach (TraitType r in State.RandomizeLists.ConvertAll(r => (TraitType)r.ID))
             {
                 ranTraits[r] = false;
             }
@@ -124,8 +124,8 @@ public class RandomizerTraitEditor : MonoBehaviour
             rt.CloneBtn.onClick.AddListener(() =>
             {
                 var clone = CreateRandomizerTrait(savedCustom);
-                clone.id = FindNewId();
-                clone.name.text = "new" + clone.name.text;
+                clone.ID = FindNewId();
+                clone.Name.text = "new" + clone.Name.text;
                 RandomizerTags.Add(clone);
                 CreateAddButton();
             });
@@ -145,7 +145,7 @@ public class RandomizerTraitEditor : MonoBehaviour
         while (taken)
         {
             index++;
-            taken = RandomizerTags.Any(rt => rt.id == 1000 + index);
+            taken = RandomizerTags.Any(rt => rt.ID == 1000 + index);
         }
 
         return 1000 + index;
@@ -156,7 +156,7 @@ public class RandomizerTraitEditor : MonoBehaviour
         foreach (Race race in RaceFuncs.RaceEnumerable())
         {
             RaceSettingsItem item = State.RaceSettings.Get(race);
-            item.RaceTraits.Remove((TraitType)rt.id);
+            item.RaceTraits.Remove((TraitType)rt.ID);
         }
 
         RandomizerTags.Remove(rt);
@@ -170,14 +170,14 @@ public class RandomizerTraitEditor : MonoBehaviour
         {
             if (!Validate(tag))
             {
-                State.GameManager.CreateMessageBox("Saving failed: Trait with name \"" + tag.name.text + "\" is incomplete or invalid.");
+                State.GameManager.CreateMessageBox("Saving failed: Trait with name \"" + tag.Name.text + "\" is incomplete or invalid.");
                 valid = false;
             }
 
             RandomizeList newCustom = new RandomizeList();
-            newCustom.id = tag.id;
-            newCustom.name = tag.name.text;
-            newCustom.chance = int.Parse(tag.chance.text) / 100f;
+            newCustom.ID = tag.ID;
+            newCustom.Name = tag.Name.text;
+            newCustom.Chance = int.Parse(tag.Chance.text) / 100f;
             newCustom.RandomTraits = new List<TraitType>();
             foreach (var trait in tag.TraitDictionary)
             {
@@ -200,10 +200,10 @@ public class RandomizerTraitEditor : MonoBehaviour
     public bool Validate(RandomizerTrait randomizerTrait)
     {
         int res;
-        if (randomizerTrait.name.text.Length < 1) return false;
-        if (randomizerTrait.chance.text.Length < 1 || !int.TryParse(randomizerTrait.chance.text, out res) || res < 0) return false;
+        if (randomizerTrait.Name.text.Length < 1) return false;
+        if (randomizerTrait.Chance.text.Length < 1 || !int.TryParse(randomizerTrait.Chance.text, out res) || res < 0) return false;
         if (randomizerTrait.TraitDictionary.Where(i => i.Value).Count() < 1) return false;
-        if (RandomizerTags.Where(rt => rt.name.text == randomizerTrait.name.text).Count() > 1) return false;
+        if (RandomizerTags.Where(rt => rt.Name.text == randomizerTrait.Name.text).Count() > 1) return false;
         return true;
     }
 

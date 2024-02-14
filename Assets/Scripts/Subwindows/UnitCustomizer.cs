@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class UnitCustomizer
 {
-    protected Actor_Unit actor;
+    protected ActorUnit Actor;
 
     internal IRaceData RaceData;
 
     //protected CustomizerButton[] buttons;
-    internal EnumIndexedArray<ButtonType, CustomizerButton> buttons = new EnumIndexedArray<ButtonType, CustomizerButton>();
+    internal EnumIndexedArray<ButtonType, CustomizerButton> Buttons = new EnumIndexedArray<ButtonType, CustomizerButton>();
 
     protected CustomizerPanel CustomizerUI;
 
@@ -66,27 +66,27 @@ public class UnitCustomizer
         }
     }
 
-    public UnitCustomizer(Unit unit, CustomizerPanel UI)
+    public UnitCustomizer(Unit unit, CustomizerPanel ui)
     {
-        CustomizerUI = UI;
+        CustomizerUI = ui;
         CreateButtons();
         SetUnit(unit);
     }
 
-    public UnitCustomizer(Actor_Unit actor, CustomizerPanel UI)
+    public UnitCustomizer(ActorUnit actor, CustomizerPanel ui)
     {
-        CustomizerUI = UI;
+        CustomizerUI = ui;
         CreateButtons();
         SetActor(actor);
     }
 
-    private void SetUpNameChangeButton(Unit unit, CustomizerPanel UI)
+    private void SetUpNameChangeButton(Unit unit, CustomizerPanel ui)
     {
-        var button = UI.DisplayedSprite.Name.GetComponent<Button>();
+        var button = ui.DisplayedSprite.Name.GetComponent<Button>();
         if (button == null)
         {
-            button = UI.DisplayedSprite.Name.gameObject.AddComponent<Button>();
-            UI.DisplayedSprite.Name.gameObject.GetComponent<Text>().raycastTarget = true;
+            button = ui.DisplayedSprite.Name.gameObject.AddComponent<Button>();
+            ui.DisplayedSprite.Name.gameObject.GetComponent<Text>().raycastTarget = true;
         }
 
         button.onClick.RemoveAllListeners();
@@ -105,8 +105,8 @@ public class UnitCustomizer
 
     public void SetUnit(Unit unit)
     {
-        Vec2i noLoc = new Vec2i(0, 0);
-        actor = new Actor_Unit(noLoc, unit);
+        Vec2I noLoc = new Vec2I(0, 0);
+        Actor = new ActorUnit(noLoc, unit);
         RaceData = Races2.GetRace(unit);
         Unit = unit;
         Normal(unit);
@@ -114,9 +114,9 @@ public class UnitCustomizer
         RefreshView();
     }
 
-    public void SetActor(Actor_Unit actor)
+    public void SetActor(ActorUnit actor)
     {
-        this.actor = actor;
+        this.Actor = actor;
         RaceData = Races2.GetRace(actor.Unit);
         Unit = actor.Unit;
         Normal(actor.Unit);
@@ -129,23 +129,23 @@ public class UnitCustomizer
     {
         foreach (ButtonType buttonType in EnumUtil.GetValues<ButtonType>())
         {
-            buttons[buttonType].gameObject.SetActive(true);
-            buttons[buttonType].Label.text = buttons[buttonType].defaultText;
+            Buttons[buttonType].gameObject.SetActive(true);
+            Buttons[buttonType].Label.text = Buttons[buttonType].DefaultText;
         }
 
-        buttons[ButtonType.BodyAccessoryType].gameObject.SetActive(RaceData.SetupOutput.SpecialAccessoryCount > 1);
+        Buttons[ButtonType.BodyAccessoryType].gameObject.SetActive(RaceData.SetupOutput.SpecialAccessoryCount > 1);
 
-        buttons[ButtonType.BodyAccessoryColor].gameObject.SetActive(RaceData.SetupOutput.AccessoryColors > 1);
+        Buttons[ButtonType.BodyAccessoryColor].gameObject.SetActive(RaceData.SetupOutput.AccessoryColors > 1);
 
-        buttons[ButtonType.ExtraColor1].gameObject.SetActive(false);
-        buttons[ButtonType.EyeType].gameObject.SetActive(RaceData.SetupOutput.EyeTypes > 1);
-        buttons[ButtonType.Skintone].gameObject.SetActive(RaceData.SetupOutput.SkinColors > 1);
-        buttons[ButtonType.EyeColor].gameObject.SetActive(RaceData.SetupOutput.EyeColors > 1);
-        buttons[ButtonType.HairColor].gameObject.SetActive(RaceData.SetupOutput.HairColors > 1);
-        buttons[ButtonType.HairStyle].gameObject.SetActive(RaceData.SetupOutput.HairStyles > 1);
-        buttons[ButtonType.BeardStyle].gameObject.SetActive(RaceData.SetupOutput.BeardStyles > 1);
-        buttons[ButtonType.BreastSize].gameObject.SetActive(unit2.HasBreasts && RaceData.SetupOutput.BreastSizes() > 1);
-        buttons[ButtonType.CockSize].gameObject.SetActive(unit2.HasDick && RaceData.SetupOutput.DickSizes() > 1);
+        Buttons[ButtonType.ExtraColor1].gameObject.SetActive(false);
+        Buttons[ButtonType.EyeType].gameObject.SetActive(RaceData.SetupOutput.EyeTypes > 1);
+        Buttons[ButtonType.Skintone].gameObject.SetActive(RaceData.SetupOutput.SkinColors > 1);
+        Buttons[ButtonType.EyeColor].gameObject.SetActive(RaceData.SetupOutput.EyeColors > 1);
+        Buttons[ButtonType.HairColor].gameObject.SetActive(RaceData.SetupOutput.HairColors > 1);
+        Buttons[ButtonType.HairStyle].gameObject.SetActive(RaceData.SetupOutput.HairStyles > 1);
+        Buttons[ButtonType.BeardStyle].gameObject.SetActive(RaceData.SetupOutput.BeardStyles > 1);
+        Buttons[ButtonType.BreastSize].gameObject.SetActive(unit2.HasBreasts && RaceData.SetupOutput.BreastSizes() > 1);
+        Buttons[ButtonType.CockSize].gameObject.SetActive(unit2.HasDick && RaceData.SetupOutput.DickSizes() > 1);
         CustomizerUI.Gender.gameObject.SetActive(RaceData.SetupOutput.CanBeGender.Count > 1);
         CustomizerUI.Nominative.gameObject.SetActive(RaceData.SetupOutput.CanBeGender.Count > 1);
         CustomizerUI.Accusative.gameObject.SetActive(RaceData.SetupOutput.CanBeGender.Count > 1);
@@ -155,52 +155,52 @@ public class UnitCustomizer
         CustomizerUI.Quantification.gameObject.SetActive(RaceData.SetupOutput.CanBeGender.Count > 1);
         RefreshGenderDropdown(unit2);
         RefreshPronouns(unit2);
-        buttons[ButtonType.BodyWeight].gameObject.SetActive(RaceData.SetupOutput.BodySizes > 0);
-        buttons[ButtonType.ClothingColor].gameObject.SetActive(RaceData.SetupOutput.ClothingColors > 1 && (RaceData.SetupOutput.MainClothingTypesCount > 1 || RaceData.SetupOutput.WaistClothingTypesCount > 1 || RaceData.SetupOutput.ClothingHatTypesCount > 1));
-        buttons[ButtonType.ClothingType].gameObject.SetActive(RaceData.SetupOutput.MainClothingTypesCount > 1);
-        buttons[ButtonType.Clothing2Type].gameObject.SetActive(RaceData.SetupOutput.WaistClothingTypesCount > 1);
-        buttons[ButtonType.ClothingExtraType1].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing1Count > 1);
-        buttons[ButtonType.ClothingExtraType2].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing2Count > 1);
-        buttons[ButtonType.ClothingExtraType3].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing3Count > 1);
-        buttons[ButtonType.ClothingExtraType4].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing4Count > 1);
-        buttons[ButtonType.ClothingExtraType5].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing5Count > 1);
-        buttons[ButtonType.HatType].gameObject.SetActive(RaceData.SetupOutput.ClothingHatTypesCount > 1);
-        buttons[ButtonType.ClothingAccessoryType].gameObject.SetActive(RaceData.SetupOutput.ClothingAccessoryTypesCount > 1 || (unit2.EarnedMask && RaceFuncs.isMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizard)));
+        Buttons[ButtonType.BodyWeight].gameObject.SetActive(RaceData.SetupOutput.BodySizes > 0);
+        Buttons[ButtonType.ClothingColor].gameObject.SetActive(RaceData.SetupOutput.ClothingColors > 1 && (RaceData.SetupOutput.MainClothingTypesCount > 1 || RaceData.SetupOutput.WaistClothingTypesCount > 1 || RaceData.SetupOutput.ClothingHatTypesCount > 1));
+        Buttons[ButtonType.ClothingType].gameObject.SetActive(RaceData.SetupOutput.MainClothingTypesCount > 1);
+        Buttons[ButtonType.Clothing2Type].gameObject.SetActive(RaceData.SetupOutput.WaistClothingTypesCount > 1);
+        Buttons[ButtonType.ClothingExtraType1].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing1Count > 1);
+        Buttons[ButtonType.ClothingExtraType2].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing2Count > 1);
+        Buttons[ButtonType.ClothingExtraType3].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing3Count > 1);
+        Buttons[ButtonType.ClothingExtraType4].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing4Count > 1);
+        Buttons[ButtonType.ClothingExtraType5].gameObject.SetActive(RaceData.SetupOutput.ExtraMainClothing5Count > 1);
+        Buttons[ButtonType.HatType].gameObject.SetActive(RaceData.SetupOutput.ClothingHatTypesCount > 1);
+        Buttons[ButtonType.ClothingAccessoryType].gameObject.SetActive(RaceData.SetupOutput.ClothingAccessoryTypesCount > 1 || (unit2.EarnedMask && RaceFuncs.IsMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizard)));
 
 
         // TODO needs to be fixed, missing feature until there is a good way to achieve it. 
         //buttons[ButtonTypes.ClothingColor2].gameObject.SetActive(RaceData == Races.SlimeQueenInstance || RaceData == Races.PanthersInstance || RaceData == Races.ImpsInstance || RaceData == Races.GoblinsInstance); //The additional clothing colors are slime queen only for the moment // TODO imrpove comparison
         //buttons[ButtonTypes.ClothingColor3].gameObject.SetActive(RaceData == Races.SlimeQueenInstance || RaceData == Races.PanthersInstance);
-        buttons[ButtonType.ClothingColor2].gameObject.SetActive(false); //The additional clothing colors are slime queen only for the moment // TODO imrpove comparison
-        buttons[ButtonType.ClothingColor3].gameObject.SetActive(false);
+        Buttons[ButtonType.ClothingColor2].gameObject.SetActive(false); //The additional clothing colors are slime queen only for the moment // TODO imrpove comparison
+        Buttons[ButtonType.ClothingColor3].gameObject.SetActive(false);
 
 
-        buttons[ButtonType.MouthType].gameObject.SetActive(RaceData.SetupOutput.MouthTypes > 1);
+        Buttons[ButtonType.MouthType].gameObject.SetActive(RaceData.SetupOutput.MouthTypes > 1);
 
-        buttons[ButtonType.ExtraColor1].gameObject.SetActive(RaceData.SetupOutput.ExtraColors1 > 0);
-        buttons[ButtonType.ExtraColor2].gameObject.SetActive(RaceData.SetupOutput.ExtraColors2 > 0);
-        buttons[ButtonType.ExtraColor3].gameObject.SetActive(RaceData.SetupOutput.ExtraColors3 > 0);
-        buttons[ButtonType.ExtraColor4].gameObject.SetActive(RaceData.SetupOutput.ExtraColors4 > 0);
+        Buttons[ButtonType.ExtraColor1].gameObject.SetActive(RaceData.SetupOutput.ExtraColors1 > 0);
+        Buttons[ButtonType.ExtraColor2].gameObject.SetActive(RaceData.SetupOutput.ExtraColors2 > 0);
+        Buttons[ButtonType.ExtraColor3].gameObject.SetActive(RaceData.SetupOutput.ExtraColors3 > 0);
+        Buttons[ButtonType.ExtraColor4].gameObject.SetActive(RaceData.SetupOutput.ExtraColors4 > 0);
 
 
-        buttons[ButtonType.Furry].gameObject.SetActive(RaceData.SetupOutput.FurCapable);
-        buttons[ButtonType.HeadType].gameObject.SetActive(RaceData.SetupOutput.HeadTypes > 1);
-        buttons[ButtonType.TailTypes].gameObject.SetActive(RaceData.SetupOutput.TailTypes > 1);
-        buttons[ButtonType.FurTypes].gameObject.SetActive(RaceData.SetupOutput.FurTypes > 1);
-        buttons[ButtonType.EarTypes].gameObject.SetActive(RaceData.SetupOutput.EarTypes > 1);
-        buttons[ButtonType.BodyAccentTypes1].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes1 > 1);
-        buttons[ButtonType.BodyAccentTypes2].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes2 > 1);
-        buttons[ButtonType.BodyAccentTypes3].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes3 > 1);
-        buttons[ButtonType.BodyAccentTypes4].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes4 > 1);
-        buttons[ButtonType.BodyAccentTypes5].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes5 > 1);
-        buttons[ButtonType.BallsSizes].gameObject.SetActive(RaceData.SetupOutput.BallsSizes > 1);
-        buttons[ButtonType.VulvaTypes].gameObject.SetActive(RaceData.SetupOutput.VulvaTypes > 1);
-        buttons[ButtonType.AltWeaponTypes].gameObject.SetActive(RaceData.SetupOutput.BasicMeleeWeaponTypes > 1 || RaceData.SetupOutput.BasicRangedWeaponTypes > 1 || RaceData.SetupOutput.AdvancedMeleeWeaponTypes > 1 || RaceData.SetupOutput.AdvancedRangedWeaponTypes > 1);
+        Buttons[ButtonType.Furry].gameObject.SetActive(RaceData.SetupOutput.FurCapable);
+        Buttons[ButtonType.HeadType].gameObject.SetActive(RaceData.SetupOutput.HeadTypes > 1);
+        Buttons[ButtonType.TailTypes].gameObject.SetActive(RaceData.SetupOutput.TailTypes > 1);
+        Buttons[ButtonType.FurTypes].gameObject.SetActive(RaceData.SetupOutput.FurTypes > 1);
+        Buttons[ButtonType.EarTypes].gameObject.SetActive(RaceData.SetupOutput.EarTypes > 1);
+        Buttons[ButtonType.BodyAccentTypes1].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes1 > 1);
+        Buttons[ButtonType.BodyAccentTypes2].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes2 > 1);
+        Buttons[ButtonType.BodyAccentTypes3].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes3 > 1);
+        Buttons[ButtonType.BodyAccentTypes4].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes4 > 1);
+        Buttons[ButtonType.BodyAccentTypes5].gameObject.SetActive(RaceData.SetupOutput.BodyAccentTypes5 > 1);
+        Buttons[ButtonType.BallsSizes].gameObject.SetActive(RaceData.SetupOutput.BallsSizes > 1);
+        Buttons[ButtonType.VulvaTypes].gameObject.SetActive(RaceData.SetupOutput.VulvaTypes > 1);
+        Buttons[ButtonType.AltWeaponTypes].gameObject.SetActive(RaceData.SetupOutput.BasicMeleeWeaponTypes > 1 || RaceData.SetupOutput.BasicRangedWeaponTypes > 1 || RaceData.SetupOutput.AdvancedMeleeWeaponTypes > 1 || RaceData.SetupOutput.AdvancedRangedWeaponTypes > 1);
 
 
         Unit unit = Unit;
 
-        Races2.GetRace(unit.Race)?.CustomizeButtons(unit, buttons);
+        Races2.GetRace(unit.Race)?.CustomizeButtons(unit, Buttons);
 
 
         // switch (RaceFuncs.RaceToSwitch(unit2.Race))
@@ -463,7 +463,7 @@ public class UnitCustomizer
         {
             if (unit.HasDick)
             {
-                if (unit.HasVagina || Config.HermsCanUB == false)
+                if (unit.HasVagina || Config.HermsCanUb == false)
                     CustomizerUI.Gender.value = 2;
                 else
                     CustomizerUI.Gender.value = 3;
@@ -627,18 +627,18 @@ public class UnitCustomizer
 
     internal void RefreshGenderSelector()
     {
-        if (actor.Unit.HasBreasts)
+        if (Actor.Unit.HasBreasts)
         {
-            if (actor.Unit.HasDick)
+            if (Actor.Unit.HasDick)
             {
-                if (actor.Unit.HasVagina)
+                if (Actor.Unit.HasVagina)
                     CustomizerUI.Gender.value = 2;
                 else
                     CustomizerUI.Gender.value = 3;
             }
             else
             {
-                if (actor.Unit.HasVagina)
+                if (Actor.Unit.HasVagina)
                     CustomizerUI.Gender.value = 1;
                 else
                     CustomizerUI.Gender.value = 6;
@@ -646,16 +646,16 @@ public class UnitCustomizer
         }
         else
         {
-            if (actor.Unit.HasDick)
+            if (Actor.Unit.HasDick)
             {
-                if (actor.Unit.HasVagina)
+                if (Actor.Unit.HasVagina)
                     CustomizerUI.Gender.value = 4;
                 else
                     CustomizerUI.Gender.value = 0;
             }
             else
             {
-                if (actor.Unit.HasVagina)
+                if (Actor.Unit.HasVagina)
                     CustomizerUI.Gender.value = 5;
                 else
                     // What in the hell--
@@ -670,54 +670,54 @@ public class UnitCustomizer
 
     internal void RefreshView()
     {
-        actor.UpdateBestWeapons();
-        CustomizerUI.DisplayedSprite.UpdateSprites(actor);
+        Actor.UpdateBestWeapons();
+        CustomizerUI.DisplayedSprite.UpdateSprites(Actor);
         CustomizerUI.DisplayedSprite.Name.text = Unit.Name;
     }
 
     private void CreateButtons()
     {
-        buttons[ButtonType.Skintone] = CreateNewButton("Skintone", ChangeSkinTone);
-        buttons[ButtonType.HairColor] = CreateNewButton("Hair Color", ChangeHairColor);
-        buttons[ButtonType.HairStyle] = CreateNewButton("Hair Style", ChangeHairStyle);
-        buttons[ButtonType.BeardStyle] = CreateNewButton("Beard Style", ChangeBeardStyle);
-        buttons[ButtonType.BodyAccessoryColor] = CreateNewButton("Body Accessory Color", ChangeBodyAccessoryColor);
-        buttons[ButtonType.BodyAccessoryType] = CreateNewButton("Body Accessory Type", ChangeBodyAccessoryType);
-        buttons[ButtonType.HeadType] = CreateNewButton("Head Type", ChangeHeadType);
-        buttons[ButtonType.EyeColor] = CreateNewButton("Eye Color", ChangeEyeColor);
-        buttons[ButtonType.EyeType] = CreateNewButton("Eye Type", ChangeEyeType);
-        buttons[ButtonType.MouthType] = CreateNewButton("Mouth Type", ChangeMouthType);
-        buttons[ButtonType.BreastSize] = CreateNewButton("Breast Size", ChangeBreastSize);
-        buttons[ButtonType.CockSize] = CreateNewButton("Cock Size", ChangeDickSize);
-        buttons[ButtonType.BodyWeight] = CreateNewButton("Body Weight", ChangeBodyWeight);
-        buttons[ButtonType.ClothingType] = CreateNewButton("Main Clothing Type", ChangeClothingType);
-        buttons[ButtonType.Clothing2Type] = CreateNewButton("Waist Clothing Type", ChangeClothing2Type);
-        buttons[ButtonType.ClothingExtraType1] = CreateNewButton("Extra Clothing Type 1", ChangeExtraClothing1Type);
-        buttons[ButtonType.ClothingExtraType2] = CreateNewButton("Extra Clothing Type 2", ChangeExtraClothing2Type);
-        buttons[ButtonType.ClothingExtraType3] = CreateNewButton("Extra Clothing Type 3", ChangeExtraClothing3Type);
-        buttons[ButtonType.ClothingExtraType4] = CreateNewButton("Extra Clothing Type 4", ChangeExtraClothing4Type);
-        buttons[ButtonType.ClothingExtraType5] = CreateNewButton("Extra Clothing Type 5", ChangeExtraClothing5Type);
-        buttons[ButtonType.HatType] = CreateNewButton("Hat Type", ChangeClothingHatType);
-        buttons[ButtonType.ClothingAccessoryType] = CreateNewButton("Clothing Accessory Type", ChangeClothingAccesoryType);
-        buttons[ButtonType.ClothingColor] = CreateNewButton("Clothing Color", ChangeClothingColor);
-        buttons[ButtonType.ClothingColor2] = CreateNewButton("Clothing Color 2", ChangeClothingColor2);
-        buttons[ButtonType.ClothingColor3] = CreateNewButton("Clothing Color 3", ChangeClothingColor3);
-        buttons[ButtonType.ExtraColor1] = CreateNewButton("Extra Color 1", ChangeExtraColor1);
-        buttons[ButtonType.ExtraColor2] = CreateNewButton("Extra Color 2", ChangeExtraColor2);
-        buttons[ButtonType.ExtraColor3] = CreateNewButton("Extra Color 3", ChangeExtraColor3);
-        buttons[ButtonType.ExtraColor4] = CreateNewButton("Extra Color 4", ChangeExtraColor4);
-        buttons[ButtonType.Furry] = CreateNewButton("Furry", ChangeFurriness);
-        buttons[ButtonType.TailTypes] = CreateNewButton("Tail Types", ChangeTailType);
-        buttons[ButtonType.FurTypes] = CreateNewButton("Fur Types", ChangeFurType);
-        buttons[ButtonType.EarTypes] = CreateNewButton("Ear Types", ChangeEarType);
-        buttons[ButtonType.BodyAccentTypes1] = CreateNewButton("BATypes1", ChangeBodyAccentTypes1Type);
-        buttons[ButtonType.BodyAccentTypes2] = CreateNewButton("BATypes2", ChangeBodyAccentTypes2Type);
-        buttons[ButtonType.BodyAccentTypes3] = CreateNewButton("BATypes3", ChangeBodyAccentTypes3Type);
-        buttons[ButtonType.BodyAccentTypes4] = CreateNewButton("BATypes4", ChangeBodyAccentTypes4Type);
-        buttons[ButtonType.BodyAccentTypes5] = CreateNewButton("BATypes5", ChangeBodyAccentTypes5Type);
-        buttons[ButtonType.BallsSizes] = CreateNewButton("Ball Size", ChangeBallsSize);
-        buttons[ButtonType.VulvaTypes] = CreateNewButton("Vulva Type", ChangeVulvaType);
-        buttons[ButtonType.AltWeaponTypes] = CreateNewButton("Alt Weapon Sprite", ChangeWeaponSprite);
+        Buttons[ButtonType.Skintone] = CreateNewButton("Skintone", ChangeSkinTone);
+        Buttons[ButtonType.HairColor] = CreateNewButton("Hair Color", ChangeHairColor);
+        Buttons[ButtonType.HairStyle] = CreateNewButton("Hair Style", ChangeHairStyle);
+        Buttons[ButtonType.BeardStyle] = CreateNewButton("Beard Style", ChangeBeardStyle);
+        Buttons[ButtonType.BodyAccessoryColor] = CreateNewButton("Body Accessory Color", ChangeBodyAccessoryColor);
+        Buttons[ButtonType.BodyAccessoryType] = CreateNewButton("Body Accessory Type", ChangeBodyAccessoryType);
+        Buttons[ButtonType.HeadType] = CreateNewButton("Head Type", ChangeHeadType);
+        Buttons[ButtonType.EyeColor] = CreateNewButton("Eye Color", ChangeEyeColor);
+        Buttons[ButtonType.EyeType] = CreateNewButton("Eye Type", ChangeEyeType);
+        Buttons[ButtonType.MouthType] = CreateNewButton("Mouth Type", ChangeMouthType);
+        Buttons[ButtonType.BreastSize] = CreateNewButton("Breast Size", ChangeBreastSize);
+        Buttons[ButtonType.CockSize] = CreateNewButton("Cock Size", ChangeDickSize);
+        Buttons[ButtonType.BodyWeight] = CreateNewButton("Body Weight", ChangeBodyWeight);
+        Buttons[ButtonType.ClothingType] = CreateNewButton("Main Clothing Type", ChangeClothingType);
+        Buttons[ButtonType.Clothing2Type] = CreateNewButton("Waist Clothing Type", ChangeClothing2Type);
+        Buttons[ButtonType.ClothingExtraType1] = CreateNewButton("Extra Clothing Type 1", ChangeExtraClothing1Type);
+        Buttons[ButtonType.ClothingExtraType2] = CreateNewButton("Extra Clothing Type 2", ChangeExtraClothing2Type);
+        Buttons[ButtonType.ClothingExtraType3] = CreateNewButton("Extra Clothing Type 3", ChangeExtraClothing3Type);
+        Buttons[ButtonType.ClothingExtraType4] = CreateNewButton("Extra Clothing Type 4", ChangeExtraClothing4Type);
+        Buttons[ButtonType.ClothingExtraType5] = CreateNewButton("Extra Clothing Type 5", ChangeExtraClothing5Type);
+        Buttons[ButtonType.HatType] = CreateNewButton("Hat Type", ChangeClothingHatType);
+        Buttons[ButtonType.ClothingAccessoryType] = CreateNewButton("Clothing Accessory Type", ChangeClothingAccesoryType);
+        Buttons[ButtonType.ClothingColor] = CreateNewButton("Clothing Color", ChangeClothingColor);
+        Buttons[ButtonType.ClothingColor2] = CreateNewButton("Clothing Color 2", ChangeClothingColor2);
+        Buttons[ButtonType.ClothingColor3] = CreateNewButton("Clothing Color 3", ChangeClothingColor3);
+        Buttons[ButtonType.ExtraColor1] = CreateNewButton("Extra Color 1", ChangeExtraColor1);
+        Buttons[ButtonType.ExtraColor2] = CreateNewButton("Extra Color 2", ChangeExtraColor2);
+        Buttons[ButtonType.ExtraColor3] = CreateNewButton("Extra Color 3", ChangeExtraColor3);
+        Buttons[ButtonType.ExtraColor4] = CreateNewButton("Extra Color 4", ChangeExtraColor4);
+        Buttons[ButtonType.Furry] = CreateNewButton("Furry", ChangeFurriness);
+        Buttons[ButtonType.TailTypes] = CreateNewButton("Tail Types", ChangeTailType);
+        Buttons[ButtonType.FurTypes] = CreateNewButton("Fur Types", ChangeFurType);
+        Buttons[ButtonType.EarTypes] = CreateNewButton("Ear Types", ChangeEarType);
+        Buttons[ButtonType.BodyAccentTypes1] = CreateNewButton("BATypes1", ChangeBodyAccentTypes1Type);
+        Buttons[ButtonType.BodyAccentTypes2] = CreateNewButton("BATypes2", ChangeBodyAccentTypes2Type);
+        Buttons[ButtonType.BodyAccentTypes3] = CreateNewButton("BATypes3", ChangeBodyAccentTypes3Type);
+        Buttons[ButtonType.BodyAccentTypes4] = CreateNewButton("BATypes4", ChangeBodyAccentTypes4Type);
+        Buttons[ButtonType.BodyAccentTypes5] = CreateNewButton("BATypes5", ChangeBodyAccentTypes5Type);
+        Buttons[ButtonType.BallsSizes] = CreateNewButton("Ball Size", ChangeBallsSize);
+        Buttons[ButtonType.VulvaTypes] = CreateNewButton("Vulva Type", ChangeVulvaType);
+        Buttons[ButtonType.AltWeaponTypes] = CreateNewButton("Alt Weapon Sprite", ChangeWeaponSprite);
     }
 
     private CustomizerButton CreateNewButton(string text, Action<int> action)
@@ -746,7 +746,7 @@ public class UnitCustomizer
         Unit.HairColor = (RaceData.SetupOutput.HairColors + Unit.HairColor + change) % RaceData.SetupOutput.HairColors;
         if (Equals(Unit.Race, Race.Cat) | Equals(Unit.Race, Race.Dog) | Equals(Unit.Race, Race.Bunny) | Equals(Unit.Race, Race.Wolf) | Equals(Unit.Race, Race.Fox) | Equals(Unit.Race, Race.Tiger))
         {
-            buttons[ButtonType.HairColor].Label.text = "Hair Color: " + HairColorLookup(Unit.HairColor);
+            Buttons[ButtonType.HairColor].Label.text = "Hair Color: " + HairColorLookup(Unit.HairColor);
         }
 
         RefreshView();
@@ -806,7 +806,7 @@ public class UnitCustomizer
     private void ChangeBodyAccessoryColor(int change)
     {
         Unit.AccessoryColor = (RaceData.SetupOutput.AccessoryColors + Unit.AccessoryColor + change) % RaceData.SetupOutput.AccessoryColors;
-        if (Equals(Unit.Race, Race.Cat) | Equals(Unit.Race, Race.Dog) | Equals(Unit.Race, Race.Bunny) | Equals(Unit.Race, Race.Wolf) | Equals(Unit.Race, Race.Fox) | Equals(Unit.Race, Race.Tiger)) buttons[ButtonType.BodyAccessoryColor].Label.text = "Fur Color: " + HairColorLookup(Unit.AccessoryColor);
+        if (Equals(Unit.Race, Race.Cat) | Equals(Unit.Race, Race.Dog) | Equals(Unit.Race, Race.Bunny) | Equals(Unit.Race, Race.Wolf) | Equals(Unit.Race, Race.Fox) | Equals(Unit.Race, Race.Tiger)) Buttons[ButtonType.BodyAccessoryColor].Label.text = "Fur Color: " + HairColorLookup(Unit.AccessoryColor);
         RefreshView();
     }
 
@@ -855,7 +855,7 @@ public class UnitCustomizer
 
             changedGender = true;
             Unit.DickSize = State.Rand.Next(RaceData.SetupOutput.DickSizes());
-            Unit.HasVagina = Config.HermsCanUB;
+            Unit.HasVagina = Config.HermsCanUb;
             Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.SetupOutput.BreastSizes()));
         }
         else if (CustomizerUI.Gender.value == 3 && Unit.GetGender() != Gender.Gynomorph)
@@ -909,8 +909,8 @@ public class UnitCustomizer
             Unit.SetDefaultBreastSize(State.Rand.Next(RaceData.SetupOutput.BreastSizes()));
         }
 
-        buttons[ButtonType.BreastSize].gameObject.SetActive(Unit.HasBreasts && RaceData.SetupOutput.BreastSizes() > 1);
-        buttons[ButtonType.CockSize].gameObject.SetActive(Unit.HasDick && RaceData.SetupOutput.DickSizes() > 1);
+        Buttons[ButtonType.BreastSize].gameObject.SetActive(Unit.HasBreasts && RaceData.SetupOutput.BreastSizes() > 1);
+        Buttons[ButtonType.CockSize].gameObject.SetActive(Unit.HasDick && RaceData.SetupOutput.DickSizes() > 1);
         if (changedGender)
         {
             if (CustomizerUI.Gender.value == 0 || CustomizerUI.Gender.value == 5)
@@ -1146,7 +1146,7 @@ public class UnitCustomizer
     private void ChangeClothingAccesoryType(int change)
     {
         int totalClothingTypes = RaceData.SetupOutput.ClothingAccessoryTypesCount;
-        if (Unit.EarnedMask && RaceFuncs.isMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizard)) totalClothingTypes += 1;
+        if (Unit.EarnedMask && RaceFuncs.IsMainRaceOrTigerOrSuccubiOrGoblin(Unit.Race) && !Equals(Unit.Race, Race.Lizard)) totalClothingTypes += 1;
         if (totalClothingTypes == 0)
         {
             Unit.ClothingAccessoryType = 0;

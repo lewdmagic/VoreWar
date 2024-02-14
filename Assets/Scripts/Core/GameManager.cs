@@ -2,6 +2,7 @@
 using System.Linq;
 using DaVikingCode.AssetPacker;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,27 +10,27 @@ public class GameManager : MonoBehaviour
     bool confirmedQuit = false;
 #endif
 
-    private SceneBase currentScene;
+    private SceneBase _currentScene;
 
     public SceneBase CurrentScene
     {
-        get { return currentScene; }
+        get { return _currentScene; }
         private set
         {
-            if (currentScene != null) currentScene.UI.SetActive(false);
-            currentScene = value;
-            currentScene.UI.SetActive(true);
+            if (_currentScene != null) _currentScene.UI.SetActive(false);
+            _currentScene = value;
+            _currentScene.UI.SetActive(true);
         }
     }
 
     public Camera Camera;
-    public Camera_Controller CameraController;
+    public CameraController CameraController;
 
     public PipCamera PipCamera;
-    public StartMode Start_Mode;
+    public StartMode StartMode;
     public StrategyMode StrategyMode;
     public TacticalMode TacticalMode;
-    public Recruit_Mode Recruit_Mode;
+    public RecruitMode RecruitMode;
     public EndScene EndScene;
     public MapEditor MapEditor;
 
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     public TutorialScript TutorialScript;
 
-    private bool menuOpen = false;
+    private bool _menuOpen = false;
 
     public bool PureTactical = false;
 
@@ -81,18 +82,18 @@ public class GameManager : MonoBehaviour
     public TacticalEffectPrefabList TacticalEffectPrefabList;
     public bool StrategicControlsLocked { get; private set; }
     public bool CameraTransitioning { get; private set; }
-    private Vector3 oldCameraPosition;
-    private Vector3 newCameraPosition;
-    private float cameraTransitionTime;
-    private float cameraCurrentTransitionTime;
+    private Vector3 _oldCameraPosition;
+    private Vector3 _newCameraPosition;
+    private float _cameraTransitionTime;
+    private float _cameraCurrentTransitionTime;
 
-    private StrategicTileType queuedTiletype;
-    private Village queuedVillage;
-    private Army queuedInvader;
-    private Army queuedDefender;
-    internal bool queuedTactical;
+    private StrategicTileType _queuedTiletype;
+    private Village _queuedVillage;
+    private Army _queuedInvader;
+    private Army _queuedDefender;
+    internal bool QueuedTactical;
 
-    private float remainingCameraTime;
+    private float _remainingCameraTime;
 
     internal bool ActiveInput;
 
@@ -106,22 +107,21 @@ public class GameManager : MonoBehaviour
     internal PreviewSkip CurrentPreviewSkip;
 
 
-    public static CustomManager customManager;
+    public static CustomManager CustomManager;
 
     private void Start()
     {
         State.CarefulIntatntiate();
-
-        Start_Mode.UI.SetActive(true);
-        currentScene = Start_Mode;
+        StartMode.UI.SetActive(true);
+        _currentScene = StartMode;
         State.GameManager = this;
         Application.wantsToQuit += () => WantsToQuit();
 
         //State.SpriteManager = new SpriteManager();
         //State.SpriteManager.Process2();
 
-        customManager = new CustomManager();
-        customManager.LoadAllCustom();
+        CustomManager = new CustomManager();
+        CustomManager.LoadAllCustom();
         Race2.LoadHardcodedRaces();
         SeliciaMod.ModAll();
     }
@@ -205,14 +205,14 @@ public class GameManager : MonoBehaviour
     {
         Menu.UpdateButtons();
         Menu.UIPanel.SetActive(true);
-        menuOpen = true;
+        _menuOpen = true;
     }
 
     public void CloseMenu()
     {
         Menu.UIPanel.SetActive(false);
-        menuOpen = false;
-        if (currentScene == StrategyMode) StrategyMode.ButtonCallback(70);
+        _menuOpen = false;
+        if (_currentScene == StrategyMode) StrategyMode.ButtonCallback(70);
     }
 
     public void CloseStatsScreen()
@@ -229,11 +229,11 @@ public class GameManager : MonoBehaviour
 
     public void SlideCameraToTile(int x, int y)
     {
-        oldCameraPosition = Camera.transform.position;
-        newCameraPosition = new Vector3(x, y, Camera.transform.position.z);
-        float distance = Vector3.Distance(oldCameraPosition, newCameraPosition);
-        cameraTransitionTime = .2f + 0.1f * Mathf.Sqrt(distance);
-        cameraCurrentTransitionTime = 0;
+        _oldCameraPosition = Camera.transform.position;
+        _newCameraPosition = new Vector3(x, y, Camera.transform.position.z);
+        float distance = Vector3.Distance(_oldCameraPosition, _newCameraPosition);
+        _cameraTransitionTime = .2f + 0.1f * Mathf.Sqrt(distance);
+        _cameraCurrentTransitionTime = 0;
         CameraTransitioning = true;
     }
 
@@ -241,18 +241,18 @@ public class GameManager : MonoBehaviour
     {
         PureTactical = false;
         CurrentScene.CleanUp();
-        CurrentScene = Start_Mode;
-        Start_Mode.ReturnToStart();
+        CurrentScene = StartMode;
+        StartMode.ReturnToStart();
         State.GameManager.StrategyMode.CleanUpLingeringWindows();
     }
 
     private void Update()
     {
         if (ActiveInput) return;
-        if (remainingCameraTime > 0) remainingCameraTime -= Time.deltaTime;
-        if (remainingCameraTime <= 0) CornerCameraView.gameObject.SetActive(false);
+        if (_remainingCameraTime > 0) _remainingCameraTime -= Time.deltaTime;
+        if (_remainingCameraTime <= 0) CornerCameraView.gameObject.SetActive(false);
         if (CameraTransitioning) UpdateSlidingCamera();
-        if (menuOpen)
+        if (_menuOpen)
             Menu.UpdateDisplay();
         else if (CurrentScene != null) CurrentScene.ReceiveInput();
         if (State.TutorialMode) TutorialScript.CheckStatus();
@@ -260,12 +260,12 @@ public class GameManager : MonoBehaviour
 
     private void UpdateSlidingCamera()
     {
-        cameraCurrentTransitionTime += Time.deltaTime;
-        Camera.transform.position = Vector3.Lerp(oldCameraPosition, newCameraPosition, cameraCurrentTransitionTime / cameraTransitionTime);
-        if (cameraCurrentTransitionTime > cameraTransitionTime)
+        _cameraCurrentTransitionTime += Time.deltaTime;
+        Camera.transform.position = Vector3.Lerp(_oldCameraPosition, _newCameraPosition, _cameraCurrentTransitionTime / _cameraTransitionTime);
+        if (_cameraCurrentTransitionTime > _cameraTransitionTime)
         {
             CameraTransitioning = false;
-            ActivateTacticalMode(queuedTiletype, queuedVillage, queuedInvader, queuedDefender);
+            ActivateTacticalMode(_queuedTiletype, _queuedVillage, _queuedInvader, _queuedDefender);
         }
     }
 
@@ -279,11 +279,11 @@ public class GameManager : MonoBehaviour
         {
             CornerCameraView.gameObject.SetActive(true);
             PipCamera.SetLocation(location, 5);
-            remainingCameraTime = 1;
+            _remainingCameraTime = 1;
         }
     }
 
-    internal void CameraCall(Vec2i location) => CameraCall(new Vector3(location.X, location.Y, 0));
+    internal void CameraCall(Vec2I location) => CameraCall(new Vector3(location.X, location.Y, 0));
 
     public void SwitchToStrategyMode(bool initialLoad = false)
     {
@@ -295,19 +295,19 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        bool needsCameraRefresh = currentScene == Start_Mode || currentScene == TacticalMode;
+        bool needsCameraRefresh = _currentScene == StartMode || _currentScene == TacticalMode;
         StrategyMode.gameObject.SetActive(true);
         CurrentScene.CleanUp();
         CurrentScene = StrategyMode;
         StrategyMode.UndoMoves.Clear();
         StrategyMode.Regenerate(initialLoad);
         if (needsCameraRefresh) CameraController.LoadStrategicCamera();
-        queuedTactical = false;
+        QueuedTactical = false;
     }
 
     public void SwitchToMapEditor()
     {
-        if (currentScene == StrategyMode)
+        if (_currentScene == StrategyMode)
         {
             CloseMenu();
             StrategyMode.ClearGraphics();
@@ -315,7 +315,7 @@ public class GameManager : MonoBehaviour
             MapEditor.Initialize(true);
             CurrentScene = MapEditor;
         }
-        else if (currentScene == Start_Mode)
+        else if (_currentScene == StartMode)
         {
             StrategyMode.ClearGraphics();
             MapEditor.gameObject.SetActive(true);
@@ -335,7 +335,7 @@ public class GameManager : MonoBehaviour
         PureTactical = true;
         CurrentScene = TacticalMode;
         TacticalMode.Begin(tiletype, village, invader, defender, attackerAI, defenderAI);
-        if (currentScene == TacticalMode)
+        if (_currentScene == TacticalMode)
         {
             CenterCameraOnTile((int)(Config.TacticalSizeX * .5f), (int)(Config.TacticalSizeY * .5f));
             CameraController.SetZoom(Config.TacticalSizeX * .5f);
@@ -348,21 +348,21 @@ public class GameManager : MonoBehaviour
         {
             BattleReportPanel.Activate(village, invader, defender);
             StrategicControlsLocked = true;
-            queuedTactical = true;
-            queuedTiletype = tiletype;
-            queuedVillage = village;
-            queuedInvader = invader;
-            queuedDefender = defender;
+            QueuedTactical = true;
+            _queuedTiletype = tiletype;
+            _queuedVillage = village;
+            _queuedInvader = invader;
+            _queuedDefender = defender;
         }
         else if (Config.ScrollToBattleLocation)
         {
             SlideCameraToTile(invader.Position.X, invader.Position.Y);
-            queuedTactical = true;
+            QueuedTactical = true;
             StrategicControlsLocked = true;
-            queuedTiletype = tiletype;
-            queuedVillage = village;
-            queuedInvader = invader;
-            queuedDefender = defender;
+            _queuedTiletype = tiletype;
+            _queuedVillage = village;
+            _queuedInvader = invader;
+            _queuedDefender = defender;
         }
         else
             ActivateTacticalMode(tiletype, village, invader, defender);
@@ -373,7 +373,7 @@ public class GameManager : MonoBehaviour
     {
         CurrentPreviewSkip = skipType;
         TacticalBattleOverride battleOverride = skipType == PreviewSkip.Watch ? TacticalBattleOverride.ForceWatch : TacticalBattleOverride.ForceSkip;
-        ActivateTacticalMode(queuedTiletype, queuedVillage, queuedInvader, queuedDefender, battleOverride);
+        ActivateTacticalMode(_queuedTiletype, _queuedVillage, _queuedInvader, _queuedDefender, battleOverride);
         BattleReportPanel.gameObject.SetActive(false);
     }
 
@@ -394,12 +394,12 @@ public class GameManager : MonoBehaviour
         if (State.World.Relations != null)
         {
             if (village != null)
-                RelationsManager.VillageAttacked(invader.Empire, village.Empire);
+                RelationsManager.VillageAttacked(invader.EmpireOutside, village.Empire);
             else
-                RelationsManager.ArmyAttacked(invader.Empire, defender.Empire);
+                RelationsManager.ArmyAttacked(invader.EmpireOutside, defender.EmpireOutside);
             if (village != null && defender != null && !Equals(defender.Side, village.Side))
             {
-                RelationsManager.ArmyAttacked(invader.Empire, defender.Empire);
+                RelationsManager.ArmyAttacked(invader.EmpireOutside, defender.EmpireOutside);
             }
         }
 
@@ -407,7 +407,7 @@ public class GameManager : MonoBehaviour
         TacticalMode.ClearNames();
         TacticalMode.Begin(tiletype, village, invader, defender, attackerEmpire?.TacticalAIType ?? TacticalAIType.Full, defenderType, tacticalBattleOverride);
         StrategicControlsLocked = false;
-        if (currentScene == TacticalMode)
+        if (_currentScene == TacticalMode)
         {
             CenterCameraOnTile((int)(Config.TacticalSizeX * .5f), (int)(Config.TacticalSizeY * .5f));
             CameraController.SetZoom(Config.TacticalSizeX * .5f);
@@ -422,22 +422,22 @@ public class GameManager : MonoBehaviour
         CameraController.LoadTacticalCamera();
     }
 
-    public void ActivateRecruitMode(Village village, Empire empire, Recruit_Mode.ActivatingEmpire activatingEmpire = Recruit_Mode.ActivatingEmpire.Self)
+    public void ActivateRecruitMode(Village village, Empire empire, RecruitMode.ActivatingEmpire activatingEmpire = RecruitMode.ActivatingEmpire.Self)
     {
-        Recruit_Mode.Begin(village, empire, activatingEmpire);
-        CurrentScene = Recruit_Mode;
+        RecruitMode.Begin(village, empire, activatingEmpire);
+        CurrentScene = RecruitMode;
     }
 
-    public void ActivateRecruitMode(Empire actingEmpire, Army army, Recruit_Mode.ActivatingEmpire activatingEmpire = Recruit_Mode.ActivatingEmpire.Self)
+    public void ActivateRecruitMode(Empire actingEmpire, Army army, RecruitMode.ActivatingEmpire activatingEmpire = RecruitMode.ActivatingEmpire.Self)
     {
-        Recruit_Mode.BeginWithoutVillage(actingEmpire, army, activatingEmpire);
-        CurrentScene = Recruit_Mode;
+        RecruitMode.BeginWithoutVillage(actingEmpire, army, activatingEmpire);
+        CurrentScene = RecruitMode;
     }
 
-    public void ActivateRecruitMode(MercenaryHouse house, Empire actingEmpire, Army army, Recruit_Mode.ActivatingEmpire activatingEmpire = Recruit_Mode.ActivatingEmpire.Self)
+    public void ActivateRecruitMode(MercenaryHouse house, Empire actingEmpire, Army army, RecruitMode.ActivatingEmpire activatingEmpire = RecruitMode.ActivatingEmpire.Self)
     {
-        Recruit_Mode.BeginWithMercenaries(house, actingEmpire, army, activatingEmpire);
-        CurrentScene = Recruit_Mode;
+        RecruitMode.BeginWithMercenaries(house, actingEmpire, army, activatingEmpire);
+        CurrentScene = RecruitMode;
     }
 
     public void ActivateEndSceneWin(Side side)

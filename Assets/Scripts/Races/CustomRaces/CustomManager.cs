@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CustomManager
 {
-    internal class FSClothingData
+    internal class FsClothingData
     {
         internal string RaceId;
         internal string ClothingId;
@@ -15,7 +15,7 @@ public class CustomManager
         internal string ClothingLuaCode;
         internal FileInfo[] Sprites;
 
-        public FSClothingData(string raceId, string clothingFolderName, string clothingId, string clothingLuaCode, FileInfo[] sprites)
+        public FsClothingData(string raceId, string clothingFolderName, string clothingId, string clothingLuaCode, FileInfo[] sprites)
         {
             RaceId = raceId;
             ClothingId = clothingId;
@@ -25,15 +25,15 @@ public class CustomManager
         }
     }
 
-    internal class FSRaceData
+    internal class FsRaceData
     {
         internal string RaceId;
         internal string RaceFolderName;
         internal string RaceLuaCode;
         internal FileInfo[] Sprites;
-        internal List<FSClothingData> Clothing = new List<FSClothingData>();
+        internal List<FsClothingData> Clothing = new List<FsClothingData>();
 
-        public FSRaceData(string raceId, string raceFolderName, string raceLuaCode, FileInfo[] sprites)
+        public FsRaceData(string raceId, string raceFolderName, string raceLuaCode, FileInfo[] sprites)
         {
             RaceId = raceId;
             RaceFolderName = raceFolderName;
@@ -49,7 +49,7 @@ public class CustomManager
 
     internal void LoadAllCustom()
     {
-        List<FSRaceData> races = new List<FSRaceData>();
+        List<FsRaceData> races = new List<FsRaceData>();
 
         //string[] customRaceFolders = Directory.GetDirectories("GameData/CustomRaces","*", SearchOption.TopDirectoryOnly);
         string[] customRaceFolders = new DirectoryInfo("GameData/CustomRaces").GetDirectories().Select(it => it.Name).ToArray();
@@ -62,7 +62,7 @@ public class CustomManager
 
             FileInfo[] raceSpriteNames = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Sprites").GetFiles("*.png");
 
-            FSRaceData fsRaceData = new FSRaceData(raceId, customRaceFolderName, raceCode, raceSpriteNames);
+            FsRaceData fsRaceData = new FsRaceData(raceId, customRaceFolderName, raceCode, raceSpriteNames);
 
 
             //string[] clothingFolders = Directory.GetDirectories($"GameData/CustomRaces/{customRaceFolderName}/Clothing","*", SearchOption.AllDirectories);
@@ -75,21 +75,21 @@ public class CustomManager
                 string clothingCode = File.ReadAllText($"GameData/CustomRaces/{customRaceFolderName}/Clothing/{clothingFolderName}/clothing.lua");
                 FileInfo[] clothingSpriteNames = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Clothing/{clothingFolderName}/Sprites").GetFiles("*.png");
 
-                FSClothingData fsClothingData = new FSClothingData(raceId, clothingFolderName, clothingId, clothingCode, clothingSpriteNames);
+                FsClothingData fsClothingData = new FsClothingData(raceId, clothingFolderName, clothingId, clothingCode, clothingSpriteNames);
                 fsRaceData.Clothing.Add(fsClothingData);
             }
 
             races.Add(fsRaceData);
         }
 
-        process(races);
+        Process(races);
     }
 
-    private void process(List<FSRaceData> races)
+    private void Process(List<FsRaceData> races)
     {
         List<SpriteToLoad> spriteToLoadList = new List<SpriteToLoad>();
 
-        foreach (FSRaceData fsRaceData in races)
+        foreach (FsRaceData fsRaceData in races)
         {
             foreach (FileInfo raceSpriteFileInfo in fsRaceData.Sprites)
             {
@@ -99,7 +99,7 @@ public class CustomManager
                 spriteToLoadList.Add(new SpriteToLoad(key, path, raceSpriteFileInfo.LastWriteTimeUtc.ToFileTimeUtc()));
             }
 
-            foreach (FSClothingData fsClothingData in fsRaceData.Clothing)
+            foreach (FsClothingData fsClothingData in fsRaceData.Clothing)
             {
                 foreach (FileInfo clothingSpriteFileInfo in fsClothingData.Sprites)
                 {
@@ -144,11 +144,11 @@ public class CustomManager
             }
         }
 
-        foreach (FSRaceData fsRaceData in races)
+        foreach (FsRaceData fsRaceData in races)
         {
-            foreach (FSClothingData fsClothingData in fsRaceData.Clothing)
+            foreach (FsClothingData fsClothingData in fsRaceData.Clothing)
             {
-                LuaBindableClothing clothing = ClothingFromFSData(fsClothingData);
+                LuaBindableClothing clothing = ClothingFromFsData(fsClothingData);
                 _clothings[(fsClothingData.RaceId, fsClothingData.ClothingId)] = clothing;
             }
 
@@ -169,7 +169,7 @@ public class CustomManager
     }
 
 
-    private void RaceFromFsData(FSRaceData fsRaceData)
+    private void RaceFromFsData(FsRaceData fsRaceData)
     {
         RaceScriptUsable raceScriptUsable = LuaBridge.RacePrep(fsRaceData.RaceLuaCode, fsRaceData.RaceId);
         RaceDataMaker raceData = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
@@ -182,7 +182,7 @@ public class CustomManager
         Race.CreateRace(fsRaceData.RaceId, raceData, new[] { RaceTag.MainRace });
     }
 
-    private LuaBindableClothing ClothingFromFSData(FSClothingData fsClothingData)
+    private LuaBindableClothing ClothingFromFsData(FsClothingData fsClothingData)
     {
         ClothingScriptUsable clothingScriptUsable = LuaBridge.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, fsClothingData.ClothingId);
         return new LuaBindableClothing(clothingScriptUsable.SetMisc, clothingScriptUsable.CompleteGen);
@@ -211,9 +211,9 @@ public class CustomManager
 
     internal SpriteCollection GetRaceSpriteCollection(string raceId)
     {
-        if (_raceSpriteCollections.TryGetValue(raceId, out var Res))
+        if (_raceSpriteCollections.TryGetValue(raceId, out var res))
         {
-            return Res;
+            return res;
         }
         else
         {
@@ -223,9 +223,9 @@ public class CustomManager
 
     internal SpriteCollection GetClothingSpriteCollection(string raceId, string clothingId)
     {
-        if (_clothingSpriteCollection.TryGetValue((raceId, clothingId), out var Res))
+        if (_clothingSpriteCollection.TryGetValue((raceId, clothingId), out var res))
         {
-            return Res;
+            return res;
         }
         else
         {

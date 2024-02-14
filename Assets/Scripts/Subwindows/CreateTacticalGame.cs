@@ -25,16 +25,16 @@ public class CreateTacticalGame : MonoBehaviour
     public Slider Bulk;
     public Toggle AllRaces;
 
-    public Actor_Unit AttackerUnit;
-    public Actor_Unit DefenderUnit;
+    public ActorUnit AttackerUnit;
+    public ActorUnit DefenderUnit;
 
     public UIUnitSprite AttackerSprite;
     public UIUnitSprite DefenderSprite;
 
-    private bool batching;
+    private bool _batching;
 
-    private Race batchingAttackerRace;
-    private Race batchingDefenderRace;
+    private Race _batchingAttackerRace;
+    private Race _batchingDefenderRace;
 
 
     public void Start()
@@ -61,7 +61,7 @@ public class CreateTacticalGame : MonoBehaviour
     {
         if (AttackerUnit == null)
         {
-            AttackerUnit = new Actor_Unit(new Unit(Race.Cat));
+            AttackerUnit = new ActorUnit(new Unit(Race.Cat));
         }
 
         Race race;
@@ -84,7 +84,7 @@ public class CreateTacticalGame : MonoBehaviour
     {
         if (DefenderUnit == null)
         {
-            DefenderUnit = new Actor_Unit(new Unit(Race.Cat));
+            DefenderUnit = new ActorUnit(new Unit(Race.Cat));
         }
 
         if (RaceFuncs.TryParse(Defender.Race.captionText.text, out Race race))
@@ -130,12 +130,12 @@ public class CreateTacticalGame : MonoBehaviour
         int x = Convert.ToInt32(SizeX.text);
         int y = Convert.ToInt32(SizeY.text);
 
-        int MaxUnitsOnHalf = Math.Max(Convert.ToInt32(Attacker.UnitCount.text), Convert.ToInt32(Defender.UnitCount.text));
+        int maxUnitsOnHalf = Math.Max(Convert.ToInt32(Attacker.UnitCount.text), Convert.ToInt32(Defender.UnitCount.text));
 
 
         if (x < 8 || y < 8) return "Can't have a tactical dimension less than 8";
 
-        if (MaxUnitsOnHalf > x * y / 14) return "Not enough space to comfortably fit specified number of units on at least one of the halves";
+        if (maxUnitsOnHalf > x * y / 14) return "Not enough space to comfortably fit specified number of units on at least one of the halves";
 
         return "";
     }
@@ -159,13 +159,13 @@ public class CreateTacticalGame : MonoBehaviour
 
     public void SuperBulk()
     {
-        batching = true;
+        _batching = true;
         StartCoroutine(CompleteBatch());
     }
 
     public void SuperBulkSingleRace()
     {
-        batching = true;
+        _batching = true;
         StartCoroutine(SingleRaceBatch());
     }
 
@@ -173,7 +173,7 @@ public class CreateTacticalGame : MonoBehaviour
     {
         float time = Time.realtimeSinceStartup;
         List<Race> participants = new List<Race>();
-        batching = true;
+        _batching = true;
         foreach (Race race in RaceFuncs.RaceEnumerable())
         {
             if (AllRaces.isOn == false && Equals(race, Race.Succubus)) break;
@@ -184,7 +184,7 @@ public class CreateTacticalGame : MonoBehaviour
 
         if (RaceFuncs.TryParse(Attacker.Race.options[Attacker.Race.value].text, out Race thisRace))
         {
-            batchingAttackerRace = thisRace;
+            _batchingAttackerRace = thisRace;
         }
 
 
@@ -193,11 +193,11 @@ public class CreateTacticalGame : MonoBehaviour
 
         for (int j = 0; j < participants.Count; j++)
         {
-            if (Equals(participants[j], batchingAttackerRace)) continue;
+            if (Equals(participants[j], _batchingAttackerRace)) continue;
             State.GameManager.TacticalMode.Wins = new Vector2Int();
             for (int k = 0; k < Bulk.value; k++)
             {
-                batchingDefenderRace = participants[j];
+                _batchingDefenderRace = participants[j];
                 CreateTactical();
                 State.GameManager.TacticalMode.CleanUp();
                 remaining--;
@@ -215,7 +215,7 @@ public class CreateTacticalGame : MonoBehaviour
         int total = 0;
         for (int y = 0; y < participants.Count; y++)
         {
-            if (Equals(participants[y], batchingAttackerRace))
+            if (Equals(participants[y], _batchingAttackerRace))
             {
                 sb.Append($"-\t");
                 continue;
@@ -229,7 +229,7 @@ public class CreateTacticalGame : MonoBehaviour
         sb.AppendLine($"Total Wins: {total}");
         State.GameManager.CreateFullScreenMessageBox(sb.ToString());
         Debug.Log($"Batch completed in {Time.realtimeSinceStartup - time}");
-        batching = false;
+        _batching = false;
         WriteOutBatch(sb);
     }
 
@@ -247,7 +247,7 @@ public class CreateTacticalGame : MonoBehaviour
 
         if (RaceFuncs.TryParse(Attacker.Race.options[Attacker.Race.value].text, out Race thisRace))
         {
-            batchingAttackerRace = thisRace;
+            _batchingAttackerRace = thisRace;
         }
 
         int[,] grid = new int[participants.Count, participants.Count];
@@ -259,8 +259,8 @@ public class CreateTacticalGame : MonoBehaviour
                 State.GameManager.TacticalMode.Wins = new Vector2Int();
                 for (int k = 0; k < Bulk.value; k++)
                 {
-                    batchingAttackerRace = participants[i];
-                    batchingDefenderRace = participants[j];
+                    _batchingAttackerRace = participants[i];
+                    _batchingDefenderRace = participants[j];
                     CreateTactical();
                     State.GameManager.TacticalMode.CleanUp();
                     remaining--;
@@ -300,7 +300,7 @@ public class CreateTacticalGame : MonoBehaviour
         State.GameManager.CreateFullScreenMessageBox(sb.ToString());
         Debug.Log($"Batch completed in {Time.realtimeSinceStartup - time}");
         WriteOutBatch(sb);
-        batching = false;
+        _batching = false;
     }
 
 
@@ -312,18 +312,18 @@ public class CreateTacticalGame : MonoBehaviour
     internal IEnumerator SingleBatch()
     {
         float time = Time.realtimeSinceStartup;
-        batching = true;
+        _batching = true;
         int remaining = 5;
         State.GameManager.TacticalMode.Wins = new Vector2Int();
 
         if (RaceFuncs.TryParse(Attacker.Race.options[Attacker.Race.value].text, out Race attackerRace))
         {
-            batchingAttackerRace = attackerRace;
+            _batchingAttackerRace = attackerRace;
         }
 
         if (RaceFuncs.TryParse(Attacker.Race.options[Defender.Race.value].text, out Race defenderRace))
         {
-            batchingDefenderRace = defenderRace;
+            _batchingDefenderRace = defenderRace;
         }
 
         for (int i = 0; i < Bulk.value; i++)
@@ -339,7 +339,7 @@ public class CreateTacticalGame : MonoBehaviour
         }
 
         State.GameManager.CreateMessageBox($"Attacker Wins:{State.GameManager.TacticalMode.Wins.x} Defender Wins:{State.GameManager.TacticalMode.Wins.y}");
-        batching = false;
+        _batching = false;
         Debug.Log($"Batch completed in {Time.realtimeSinceStartup - time}");
     }
 
@@ -414,7 +414,7 @@ public class CreateTacticalGame : MonoBehaviour
 
         Config.World.AutoScaleTactical = AutoScale.isOn;
 
-        Vec2i none = new Vec2i(0, 0);
+        Vec2I none = new Vec2I(0, 0);
 
         State.World = new World(false);
         int attackerRangedCount = fightersA * (int)Attacker.RangedPercentage.value / 100;
@@ -425,17 +425,17 @@ public class CreateTacticalGame : MonoBehaviour
         int defenderRangedHeavyCount = defenderRangedCount * (int)Defender.HeavyWeaponsPercentage.value / 100;
         Side attackerSide = Race.Cat.ToSide();
         Side defenderSide = Race.Dog.ToSide();
-        Func<Race> AttackerRace;
-        Func<Race> DefenderRace;
-        if (batching == false)
+        Func<Race> attackerRace;
+        Func<Race> defenderRace;
+        if (_batching == false)
         {
-            AttackerRace = SetupRace(Attacker.Race);
-            DefenderRace = SetupRace(Defender.Race);
+            attackerRace = SetupRace(Attacker.Race);
+            defenderRace = SetupRace(Defender.Race);
         }
         else
         {
-            AttackerRace = () => batchingAttackerRace;
-            DefenderRace = () => batchingDefenderRace;
+            attackerRace = () => _batchingAttackerRace;
+            defenderRace = () => _batchingDefenderRace;
         }
 
 
@@ -451,18 +451,18 @@ public class CreateTacticalGame : MonoBehaviour
 
         Army attacker = new Army(new Empire(), none, attackerSide);
         Army defender = new Army(new Empire(), none, defenderSide);
-        attacker.Empire.ReplacedRace = AttackerRace();
-        defender.Empire.ReplacedRace = DefenderRace();
+        attacker.EmpireOutside.ReplacedRace = attackerRace();
+        defender.EmpireOutside.ReplacedRace = defenderRace();
         if (Attacker.HasLeader.isOn)
         {
-            attacker.Units.Add(new NPC_unit(levelA, Attacker.RangedPercentage.value >= 50, 3, attackerSide, AttackerRace(), 0, Attacker.CanVore.isOn));
+            attacker.Units.Add(new NpcUnit(levelA, Attacker.RangedPercentage.value >= 50, 3, attackerSide, attackerRace(), 0, Attacker.CanVore.isOn));
             attacker.Units.Last().ImmuneToDefections = true;
             if (State.Rand.NextDouble() < Attacker.MagicPercentage.value / 100) attacker.Units.Last().SetItem(State.World.ItemRepository.GetRandomBook(1, maxMagicA, true), 1);
         }
 
         if (Defender.HasLeader.isOn)
         {
-            defender.Units.Add(new NPC_unit(levelB, Defender.RangedPercentage.value >= 50, 3, defenderSide, DefenderRace(), 0, Defender.CanVore.isOn));
+            defender.Units.Add(new NpcUnit(levelB, Defender.RangedPercentage.value >= 50, 3, defenderSide, defenderRace(), 0, Defender.CanVore.isOn));
             defender.Units.Last().ImmuneToDefections = true;
             if (State.Rand.NextDouble() < Defender.MagicPercentage.value / 100) defender.Units.Last().SetItem(State.World.ItemRepository.GetRandomBook(1, maxMagicB, true), 1);
         }
@@ -471,14 +471,14 @@ public class CreateTacticalGame : MonoBehaviour
         {
             if (x < attackerRangedCount)
             {
-                attacker.Units.Add(new NPC_unit(levelA, attackerRangedHeavyCount > 0, 1, attackerSide, AttackerRace(), 0, Attacker.CanVore.isOn));
+                attacker.Units.Add(new NpcUnit(levelA, attackerRangedHeavyCount > 0, 1, attackerSide, attackerRace(), 0, Attacker.CanVore.isOn));
                 attacker.Units.Last().ImmuneToDefections = true;
                 attackerRangedHeavyCount--;
                 if (State.Rand.NextDouble() < Attacker.MagicPercentage.value / 100) attacker.Units.Last().SetItem(State.World.ItemRepository.GetRandomBook(1, maxMagicA, true), 1);
             }
             else
             {
-                attacker.Units.Add(new NPC_unit(levelA, attackerMeleeHeavyCount > 0, 0, attackerSide, AttackerRace(), 0, Attacker.CanVore.isOn));
+                attacker.Units.Add(new NpcUnit(levelA, attackerMeleeHeavyCount > 0, 0, attackerSide, attackerRace(), 0, Attacker.CanVore.isOn));
                 attacker.Units.Last().ImmuneToDefections = true;
                 attackerMeleeHeavyCount--;
                 if (State.Rand.NextDouble() < Attacker.MagicPercentage.value / 100) attacker.Units.Last().SetItem(State.World.ItemRepository.GetRandomBook(1, maxMagicA, true), 1);
@@ -489,14 +489,14 @@ public class CreateTacticalGame : MonoBehaviour
         {
             if (x < defenderRangedCount)
             {
-                defender.Units.Add(new NPC_unit(levelB, defenderRangedHeavyCount > 0, 1, defenderSide, DefenderRace(), 0, Defender.CanVore.isOn));
+                defender.Units.Add(new NpcUnit(levelB, defenderRangedHeavyCount > 0, 1, defenderSide, defenderRace(), 0, Defender.CanVore.isOn));
                 defender.Units.Last().ImmuneToDefections = true;
                 defenderRangedHeavyCount--;
                 if (State.Rand.NextDouble() < Defender.MagicPercentage.value / 100) defender.Units.Last().SetItem(State.World.ItemRepository.GetRandomBook(1, maxMagicB, true), 1);
             }
             else
             {
-                defender.Units.Add(new NPC_unit(levelB, defenderMeleeHeavyCount > 0, 0, defenderSide, DefenderRace(), 0, Defender.CanVore.isOn));
+                defender.Units.Add(new NpcUnit(levelB, defenderMeleeHeavyCount > 0, 0, defenderSide, defenderRace(), 0, Defender.CanVore.isOn));
                 defender.Units.Last().ImmuneToDefections = true;
                 defenderMeleeHeavyCount--;
                 if (State.Rand.NextDouble() < Defender.MagicPercentage.value / 100) defender.Units.Last().SetItem(State.World.ItemRepository.GetRandomBook(1, maxMagicB, true), 1);
@@ -504,58 +504,58 @@ public class CreateTacticalGame : MonoBehaviour
         }
 
         Village village = null;
-        StrategicTileType tileType = StrategicTileType.grass;
+        StrategicTileType tileType = StrategicTileType.Grass;
         if (TerrainType.value == 1)
-            tileType = StrategicTileType.forest;
+            tileType = StrategicTileType.Forest;
         else if (TerrainType.value == 2)
-            tileType = StrategicTileType.desert;
+            tileType = StrategicTileType.Desert;
         else if (TerrainType.value == 3)
-            tileType = StrategicTileType.snow;
+            tileType = StrategicTileType.Snow;
         else if (TerrainType.value == 4)
-            village = new Village("", none, 0, DefenderRace(), false);
+            village = new Village("", none, 0, defenderRace(), false);
         else if (TerrainType.value == 5)
         {
-            village = new Village("", none, 0, DefenderRace(), false);
+            village = new Village("", none, 0, defenderRace(), false);
             village.buildings.Add(VillageBuilding.wall);
         }
         else if (TerrainType.value == 6)
         {
-            tileType = StrategicTileType.desert;
-            village = new Village("", none, 0, DefenderRace(), false);
+            tileType = StrategicTileType.Desert;
+            village = new Village("", none, 0, defenderRace(), false);
         }
         else if (TerrainType.value == 7)
         {
-            tileType = StrategicTileType.desert;
-            village = new Village("", none, 0, DefenderRace(), false);
+            tileType = StrategicTileType.Desert;
+            village = new Village("", none, 0, defenderRace(), false);
             village.buildings.Add(VillageBuilding.wall);
         }
 
         village?.UpdateNetBoosts();
 
-        if (Attacker.Race.value == 0 && batching == false)
+        if (Attacker.Race.value == 0 && _batching == false)
         {
             State.GameManager.TacticalMode.AttackerName = "Random";
             attacker.Name = "Random";
         }
         else
         {
-            State.GameManager.TacticalMode.AttackerName = AttackerRace().ToString();
-            attacker.Name = AttackerRace().ToString();
+            State.GameManager.TacticalMode.AttackerName = attackerRace().ToString();
+            attacker.Name = attackerRace().ToString();
         }
 
-        if (Defender.Race.value == 0 && batching == false)
+        if (Defender.Race.value == 0 && _batching == false)
         {
             State.GameManager.TacticalMode.DefenderName = "Random";
             defender.Name = "Random";
         }
         else
         {
-            State.GameManager.TacticalMode.DefenderName = DefenderRace().ToString();
-            defender.Name = DefenderRace().ToString();
+            State.GameManager.TacticalMode.DefenderName = defenderRace().ToString();
+            defender.Name = defenderRace().ToString();
         }
 
         State.GameManager.ActivatePureTacticalMode(tileType, village, attacker, defender, attackerAI, defenderAI);
-        if (batching == false) gameObject.SetActive(false);
+        if (_batching == false) gameObject.SetActive(false);
     }
 
 

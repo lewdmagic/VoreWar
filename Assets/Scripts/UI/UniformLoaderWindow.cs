@@ -12,7 +12,7 @@ public class UniformLoaderWindow : MonoBehaviour
 
     internal bool EnteredFromUnitEditor = false;
 
-    private Race ActiveRace;
+    private Race _activeRace;
 
     public void Open(bool inUnitEditor)
     {
@@ -23,9 +23,9 @@ public class UniformLoaderWindow : MonoBehaviour
         if (EnteredFromUnitEditor)
             tempUnit = State.GameManager.UnitEditor.UnitEditor.Unit;
         else
-            tempUnit = State.GameManager.Recruit_Mode.Customizer.Unit;
-        ActiveRace = tempUnit.Race;
-        UniformFraction.value = UniformDataStorer.GetUniformOdds(ActiveRace);
+            tempUnit = State.GameManager.RecruitMode.Customizer.Unit;
+        _activeRace = tempUnit.Race;
+        UniformFraction.value = UniformDataStorer.GetUniformOdds(_activeRace);
     }
 
 
@@ -35,7 +35,7 @@ public class UniformLoaderWindow : MonoBehaviour
         if (EnteredFromUnitEditor)
             customs = UniformDataStorer.GetCompatibleCustomizations(State.GameManager.UnitEditor.UnitEditor.Unit);
         else
-            customs = UniformDataStorer.GetCompatibleCustomizations(State.GameManager.Recruit_Mode.Customizer.Unit);
+            customs = UniformDataStorer.GetCompatibleCustomizations(State.GameManager.RecruitMode.Customizer.Unit);
         int children = ActorFolder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
         {
@@ -51,10 +51,10 @@ public class UniformLoaderWindow : MonoBehaviour
             if (EnteredFromUnitEditor)
                 tempUnit = State.GameManager.UnitEditor.UnitEditor.Unit.Clone();
             else
-                tempUnit = State.GameManager.Recruit_Mode.Customizer.Unit.Clone();
+                tempUnit = State.GameManager.RecruitMode.Customizer.Unit.Clone();
 
             uniformData.CopyToUnit(tempUnit);
-            Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), tempUnit);
+            ActorUnit actor = new ActorUnit(new Vec2I(0, 0), tempUnit);
             sprite.UpdateSprites(actor);
             sprite.Name.text = uniformData.Name;
             var ucd = obj.GetComponent<UnitCustomizerDisplayPanel>();
@@ -63,13 +63,13 @@ public class UniformLoaderWindow : MonoBehaviour
             if (EnteredFromUnitEditor)
                 ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(uniformData, State.GameManager.UnitEditor.UnitEditor.Unit));
             else
-                ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(uniformData, State.GameManager.Recruit_Mode.Customizer.Unit));
+                ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(uniformData, State.GameManager.RecruitMode.Customizer.Unit));
         }
 
         if (EnteredFromUnitEditor)
             customs = UniformDataStorer.GetIncompatibleCustomizations(State.GameManager.UnitEditor.UnitEditor.Unit);
         else
-            customs = UniformDataStorer.GetIncompatibleCustomizations(State.GameManager.Recruit_Mode.Customizer.Unit);
+            customs = UniformDataStorer.GetIncompatibleCustomizations(State.GameManager.RecruitMode.Customizer.Unit);
         foreach (UniformData uniformData in customs)
         {
             GameObject obj = Instantiate(UnitDisplay, ActorFolder);
@@ -78,7 +78,7 @@ public class UniformLoaderWindow : MonoBehaviour
             if (EnteredFromUnitEditor)
                 tempUnit = State.GameManager.UnitEditor.UnitEditor.Unit;
             else
-                tempUnit = State.GameManager.Recruit_Mode.Customizer.Unit;
+                tempUnit = State.GameManager.RecruitMode.Customizer.Unit;
             string rejectMessage;
             if (tempUnit.Type == UnitType.Leader && uniformData.Type != UnitType.Leader)
                 rejectMessage = "Not for leaders";
@@ -92,7 +92,7 @@ public class UniformLoaderWindow : MonoBehaviour
                 rejectMessage = "Unspecified Error";
             tempUnit = new Unit(uniformData.Race.ToSide(), uniformData.Race, 0, false, uniformData.Type);
             uniformData.CopyToUnit(tempUnit);
-            Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), tempUnit);
+            ActorUnit actor = new ActorUnit(new Vec2I(0, 0), tempUnit);
             sprite.UpdateSprites(actor);
             sprite.Name.text = uniformData.Name;
             var ucd = obj.GetComponent<UnitCustomizerDisplayPanel>();
@@ -105,7 +105,7 @@ public class UniformLoaderWindow : MonoBehaviour
             if (EnteredFromUnitEditor)
                 ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(uniformData, State.GameManager.UnitEditor.UnitEditor.Unit));
             else
-                ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(uniformData, State.GameManager.Recruit_Mode.Customizer.Unit));
+                ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(uniformData, State.GameManager.RecruitMode.Customizer.Unit));
         }
     }
 
@@ -119,8 +119,8 @@ public class UniformLoaderWindow : MonoBehaviour
         }
         else
         {
-            State.GameManager.Recruit_Mode.Customizer.RefreshView();
-            State.GameManager.Recruit_Mode.Customizer.RefreshGenderSelector();
+            State.GameManager.RecruitMode.Customizer.RefreshView();
+            State.GameManager.RecruitMode.Customizer.RefreshGenderSelector();
         }
 
         CloseThis();
@@ -129,9 +129,9 @@ public class UniformLoaderWindow : MonoBehaviour
 
     public void CloseThis()
     {
-        if (UniformDataStorer.GetUniformOdds(ActiveRace) != UniformFraction.value)
+        if (UniformDataStorer.GetUniformOdds(_activeRace) != UniformFraction.value)
         {
-            UniformDataStorer.SetUniformOdds(ActiveRace, UniformFraction.value);
+            UniformDataStorer.SetUniformOdds(_activeRace, UniformFraction.value);
         }
 
 

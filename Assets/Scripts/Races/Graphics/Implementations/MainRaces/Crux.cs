@@ -123,7 +123,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 output.AvoidedMainClothingTypes = 2;
                 output.AllowedMainClothingTypes.Set(
-                    CruxClothingTypes.TShirtInstance,
+                    CruxClothingTypes.ShirtInstance,
                     CruxClothingTypes.NetShirtInstance,
                     CruxClothingTypes.RaggedBraInstance,
                     CruxClothingTypes.LabCoatInstance,
@@ -297,7 +297,7 @@ namespace Races.Graphics.Implementations.MainRaces
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.Crux, input.U.ExtraColor1 * 56 + input.U.ExtraColor2 * 8 + input.U.ExtraColor3));
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -596,35 +596,35 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (input.A.IsAttacking || input.A.IsOralVoring)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = false;
-                    input.A.AnimationController.frameLists[0].currentFrame = 0;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive)
                 {
-                    if (input.A.AnimationController.frameLists[0].currentTime >=
-                        frameListDrool.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                    if (input.A.AnimationController.FrameLists[0].CurrentTime >=
+                        frameListDrool.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame++;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                        if (input.A.AnimationController.frameLists[0].currentFrame >= frameListDrool.Frames.Length)
+                        if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListDrool.Frames.Length)
                         {
-                            input.A.AnimationController.frameLists[0].currentlyActive = false;
-                            input.A.AnimationController.frameLists[0].currentFrame = 0;
-                            input.A.AnimationController.frameLists[0].currentTime = 0f;
+                            input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                            input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                            input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                         }
                     }
 
-                    output.Sprite(input.Sprites.Crux[291 + frameListDrool.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                    output.Sprite(input.Sprites.Crux[291 + frameListDrool.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
                     return;
                 }
 
                 if (input.A.PredatorComponent?.VisibleFullness > 0 && State.Rand.Next(600) == 0)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                 }
             }); // Drool animation.
 
@@ -800,7 +800,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         internal static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(), // Drool controller. Index 0.
                 new AnimationController.FrameList()

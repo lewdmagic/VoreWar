@@ -3,18 +3,18 @@ using System.Linq;
 
 public class NonCombatantTacticalAI : RaceServantTacticalAI
 {
-    public NonCombatantTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, Side AISide, bool defendingVillage = false) : base(actors, tiles, AISide, defendingVillage)
+    public NonCombatantTacticalAI(List<ActorUnit> actors, TacticalTileType[,] tiles, Side aiSide, bool defendingVillage = false) : base(actors, tiles, aiSide, defendingVillage)
     {
     }
 
-    protected override void GetNewOrder(Actor_Unit actor)
+    protected override void GetNewOrder(ActorUnit actor)
     {
-        foundPath = false;
-        didAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
+        FoundPath = false;
+        DidAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
 
-        path = null;
-        List<Actor_Unit> masters = actors.Where(a => RaceAIType.Dict[State.RaceSettings.GetRaceAI(a.Unit.Race)] != typeof(NonCombatantTacticalAI) && !TacticalUtilities.TreatAsHostile(actor, a)).ToList();
-        if ((retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(TraitType.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide), AISide))
+        Path = null;
+        List<ActorUnit> masters = Actors.Where(a => RaceAIType.Dict[State.RaceSettings.GetRaceAI(a.Unit.Race)] != typeof(NonCombatantTacticalAI) && !TacticalUtilities.TreatAsHostile(actor, a)).ToList();
+        if ((Retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(TraitType.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, EnemySide), AISide))
             || masters.Count == 0)
         {
             int retreatY;
@@ -30,7 +30,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
             }
 
             WalkToYBand(actor, retreatY);
-            if (path == null || path.Path.Count == 0)
+            if (Path == null || Path.Path.Count == 0)
             {
                 actor.Movement = 0;
             }
@@ -45,8 +45,8 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
         if (spareMp >= thirdMovement)
         {
             RunBellyRub(actor, spareMp);
-            if (path != null) return;
-            if (didAction) return;
+            if (Path != null) return;
+            if (DidAction) return;
         }
 
         if (actor.Unit.GetStatusEffect(StatusEffectType.Temptation) != null && (State.Rand.Next(2) == 0 || actor.Unit.GetStatusEffect(StatusEffectType.Temptation).Duration <= 3))
@@ -57,23 +57,23 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
         TryResurrect(actor);
 
         RunSpells(actor);
-        if (path != null) return;
+        if (Path != null) return;
 
         RunBellyRub(actor, actor.Movement);
-        if (foundPath || didAction) return;
+        if (FoundPath || DidAction) return;
         //Search for surrendered targets outside of vore range
         //If no path to any targets, will sit out its turn
 
         actor.ClearMovement();
     }
 
-    protected override List<PotentialTarget> GetListOfPotentialRubTargets(Actor_Unit actor, Vec2i position, int moves)
+    protected override List<PotentialTarget> GetListOfPotentialRubTargets(ActorUnit actor, Vec2I position, int moves)
     {
         List<PotentialTarget> targets = new List<PotentialTarget>();
 
-        List<Actor_Unit> masters = actors.Where(a => RaceAIType.Dict[State.RaceSettings.GetRaceAI(a.Unit.Race)] != typeof(NonCombatantTacticalAI) && Equals(TacticalUtilities.GetMindControlSide(a.Unit), Side.TrueNoneSide)).ToList();
+        List<ActorUnit> masters = Actors.Where(a => RaceAIType.Dict[State.RaceSettings.GetRaceAI(a.Unit.Race)] != typeof(NonCombatantTacticalAI) && Equals(TacticalUtilities.GetMindControlSide(a.Unit), Side.TrueNoneSide)).ToList();
 
-        foreach (Actor_Unit unit in masters)
+        foreach (ActorUnit unit in masters)
         {
             if (unit.Targetable == true && unit.Unit.Predator && !TacticalUtilities.TreatAsHostile(actor, unit) && Equals(TacticalUtilities.GetMindControlSide(unit.Unit), Side.TrueNoneSide) && !unit.Surrendered && unit.PredatorComponent?.PreyCount > 0 && !unit.ReceivedRub)
             {
@@ -86,10 +86,10 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
             }
         }
 
-        return targets.OrderByDescending(t => t.utility).ToList();
+        return targets.OrderByDescending(t => t.Utility).ToList();
     }
 
-    protected override void RunSpells(Actor_Unit actor)
+    protected override void RunSpells(ActorUnit actor)
     {
         if (actor.Unit.UseableSpells == null || actor.Unit.UseableSpells.Any() == false) return;
         var friendlySpells = actor.Unit.UseableSpells.Where(sp => sp != SpellList.Resurrection && sp != SpellList.Reanimate && sp != SpellList.Bind && sp.ManaCost <= actor.Unit.Mana && sp.AcceptibleTargets.Contains(AbilityTargets.Ally)).ToList();
@@ -108,25 +108,25 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
 
         List<PotentialTarget> targets = GetListOfPotentialSpellTargets(actor, spell, actor.Position);
         if (!targets.Any()) return;
-        Actor_Unit reserveTarget = targets[0].actor;
+        ActorUnit reserveTarget = targets[0].Actor;
         while (targets.Any())
         {
-            if (targets[0].distance <= spell.Range.Max)
+            if (targets[0].Distance <= spell.Range.Max)
             {
-                if (spell.TryCast(actor, targets[0].actor)) didAction = true;
+                if (spell.TryCast(actor, targets[0].Actor)) DidAction = true;
                 return;
             }
             else
             {
-                if (targets[0].actor.Position.GetNumberOfMovesDistance(actor.Position) <= actor.Movement + spell.Range.Max) //discard the clearly impossible
+                if (targets[0].Actor.Position.GetNumberOfMovesDistance(actor.Position) <= actor.Movement + spell.Range.Max) //discard the clearly impossible
                 {
-                    MoveToAndAction(actor, targets[0].actor.Position, spell.Range.Max, actor.Movement, () => spell.TryCast(actor, targets[0].actor));
-                    if (foundPath && path.Path.Count() < actor.Movement)
+                    MoveToAndAction(actor, targets[0].Actor.Position, spell.Range.Max, actor.Movement, () => spell.TryCast(actor, targets[0].Actor));
+                    if (FoundPath && Path.Path.Count() < actor.Movement)
                         return;
                     else
                     {
-                        foundPath = false;
-                        path = null;
+                        FoundPath = false;
+                        Path = null;
                     }
                 }
             }
@@ -135,7 +135,7 @@ public class NonCombatantTacticalAI : RaceServantTacticalAI
         }
     }
 
-    protected override int CheckActionEconomyOfActorFromPositionWithAP(Actor_Unit actor, Vec2i position, int ap)
+    protected override int CheckActionEconomyOfActorFromPositionWithAP(ActorUnit actor, Vec2I position, int ap)
     {
         int apRequired = -1;
 

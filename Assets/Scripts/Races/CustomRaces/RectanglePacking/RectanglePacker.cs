@@ -37,138 +37,138 @@ namespace DaVikingCode.RectanglePacking
      */
     public class RectanglePacker
     {
-        public static readonly string VERSION = "1.3.0";
-        private readonly List<IntegerRectangle> mFreeAreas = new List<IntegerRectangle>();
+        public static readonly string Version = "1.3.0";
+        private readonly List<IntegerRectangle> _mFreeAreas = new List<IntegerRectangle>();
 
-        private readonly List<IntegerRectangle> mInsertedRectangles = new List<IntegerRectangle>();
+        private readonly List<IntegerRectangle> _mInsertedRectangles = new List<IntegerRectangle>();
 
-        private readonly List<SortableSize> mInsertList = new List<SortableSize>();
-        private readonly List<IntegerRectangle> mNewFreeAreas = new List<IntegerRectangle>();
+        private readonly List<SortableSize> _mInsertList = new List<SortableSize>();
+        private readonly List<IntegerRectangle> _mNewFreeAreas = new List<IntegerRectangle>();
 
-        private readonly IntegerRectangle mOutsideRectangle;
+        private readonly IntegerRectangle _mOutsideRectangle;
 
-        private readonly List<IntegerRectangle> mRectangleStack = new List<IntegerRectangle>();
+        private readonly List<IntegerRectangle> _mRectangleStack = new List<IntegerRectangle>();
 
-        private readonly List<SortableSize> mSortableSizeStack = new List<SortableSize>();
-        private int mHeight;
+        private readonly List<SortableSize> _mSortableSizeStack = new List<SortableSize>();
+        private int _mHeight;
 
-        private int mWidth;
+        private int _mWidth;
 
         public RectanglePacker(int width, int height, int padding = 0)
         {
-            mOutsideRectangle = new IntegerRectangle(width + 1, height + 1);
-            reset(width, height, padding);
+            _mOutsideRectangle = new IntegerRectangle(width + 1, height + 1);
+            Reset(width, height, padding);
         }
 
-        public int rectangleCount => mInsertedRectangles.Count;
+        public int RectangleCount => _mInsertedRectangles.Count;
 
-        public int packedWidth { get; private set; }
+        public int PackedWidth { get; private set; }
 
-        public int packedHeight { get; private set; }
+        public int PackedHeight { get; private set; }
 
-        public int padding { get; private set; } = 8;
+        public int Padding { get; private set; } = 8;
 
-        public void reset(int width, int height, int padding = 0)
+        public void Reset(int width, int height, int padding = 0)
         {
-            while (mInsertedRectangles.Count > 0)
+            while (_mInsertedRectangles.Count > 0)
             {
-                freeRectangle(mInsertedRectangles.Pop());
+                FreeRectangle(_mInsertedRectangles.Pop());
             }
 
-            while (mFreeAreas.Count > 0)
+            while (_mFreeAreas.Count > 0)
             {
-                freeRectangle(mFreeAreas.Pop());
+                FreeRectangle(_mFreeAreas.Pop());
             }
 
-            mWidth = width;
-            mHeight = height;
+            _mWidth = width;
+            _mHeight = height;
 
-            packedWidth = 0;
-            packedHeight = 0;
+            PackedWidth = 0;
+            PackedHeight = 0;
 
-            mFreeAreas.Add(allocateRectangle(0, 0, mWidth, mHeight));
+            _mFreeAreas.Add(AllocateRectangle(0, 0, _mWidth, _mHeight));
 
-            while (mInsertList.Count > 0)
+            while (_mInsertList.Count > 0)
             {
-                freeSize(mInsertList.Pop());
+                FreeSize(_mInsertList.Pop());
             }
 
-            this.padding = padding;
+            this.Padding = padding;
         }
 
-        public IntegerRectangle getRectangle(int index)
+        public IntegerRectangle GetRectangle(int index)
         {
             IntegerRectangle rectangle = new IntegerRectangle();
-            var inserted = mInsertedRectangles[index];
+            var inserted = _mInsertedRectangles[index];
 
-            rectangle.x = inserted.x;
-            rectangle.y = inserted.y;
-            rectangle.width = inserted.width;
-            rectangle.height = inserted.height;
+            rectangle.X = inserted.X;
+            rectangle.Y = inserted.Y;
+            rectangle.Width = inserted.Width;
+            rectangle.Height = inserted.Height;
 
             return rectangle;
         }
 
-        public int getRectangleId(int index)
+        public int GetRectangleId(int index)
         {
-            var inserted = mInsertedRectangles[index];
-            return inserted.id;
+            var inserted = _mInsertedRectangles[index];
+            return inserted.ID;
         }
 
-        public void insertRectangle(int width, int height, int id)
+        public void InsertRectangle(int width, int height, int id)
         {
-            var sortableSize = allocateSize(width, height, id);
-            mInsertList.Add(sortableSize);
+            var sortableSize = AllocateSize(width, height, id);
+            _mInsertList.Add(sortableSize);
         }
 
-        public int packRectangles(bool sort = true)
+        public int PackRectangles(bool sort = true)
         {
             if (sort)
             {
-                mInsertList.Sort((emp1, emp2) => emp1.width.CompareTo(emp2.width));
+                _mInsertList.Sort((emp1, emp2) => emp1.Width.CompareTo(emp2.Width));
             }
 
-            while (mInsertList.Count > 0)
+            while (_mInsertList.Count > 0)
             {
-                var sortableSize = mInsertList.Pop();
-                var width = sortableSize.width;
-                var height = sortableSize.height;
+                var sortableSize = _mInsertList.Pop();
+                var width = sortableSize.Width;
+                var height = sortableSize.Height;
 
-                var index = getFreeAreaIndex(width, height);
+                var index = GetFreeAreaIndex(width, height);
                 if (index >= 0)
                 {
-                    var freeArea = mFreeAreas[index];
-                    var target = allocateRectangle(freeArea.x, freeArea.y, width, height);
-                    target.id = sortableSize.id;
+                    var freeArea = _mFreeAreas[index];
+                    var target = AllocateRectangle(freeArea.X, freeArea.Y, width, height);
+                    target.ID = sortableSize.ID;
 
                     // Generate the new free areas, these are parts of the old ones intersected or touched by the target
-                    generateNewFreeAreas(target, mFreeAreas, mNewFreeAreas);
+                    GenerateNewFreeAreas(target, _mFreeAreas, _mNewFreeAreas);
 
-                    while (mNewFreeAreas.Count > 0)
+                    while (_mNewFreeAreas.Count > 0)
                     {
-                        mFreeAreas.Add(mNewFreeAreas.Pop());
+                        _mFreeAreas.Add(_mNewFreeAreas.Pop());
                     }
 
-                    mInsertedRectangles.Add(target);
+                    _mInsertedRectangles.Add(target);
 
-                    if (target.right > packedWidth)
+                    if (target.Right > PackedWidth)
                     {
-                        packedWidth = target.right;
+                        PackedWidth = target.Right;
                     }
 
-                    if (target.bottom > packedHeight)
+                    if (target.Bottom > PackedHeight)
                     {
-                        packedHeight = target.bottom;
+                        PackedHeight = target.Bottom;
                     }
                 }
 
-                freeSize(sortableSize);
+                FreeSize(sortableSize);
             }
 
-            return rectangleCount;
+            return RectangleCount;
         }
 
-        private void filterSelfSubAreas(List<IntegerRectangle> areas)
+        private void FilterSelfSubAreas(List<IntegerRectangle> areas)
         {
             for (var i = areas.Count - 1; i >= 0; i--)
             {
@@ -178,9 +178,9 @@ namespace DaVikingCode.RectanglePacking
                     if (i != j)
                     {
                         var area = areas[j];
-                        if (filtered.x >= area.x && filtered.y >= area.y && filtered.right <= area.right && filtered.bottom <= area.bottom)
+                        if (filtered.X >= area.X && filtered.Y >= area.Y && filtered.Right <= area.Right && filtered.Bottom <= area.Bottom)
                         {
-                            freeRectangle(filtered);
+                            FreeRectangle(filtered);
                             var topOfStack = areas.Pop();
                             if (i < areas.Count)
                             {
@@ -195,17 +195,17 @@ namespace DaVikingCode.RectanglePacking
             }
         }
 
-        private void generateNewFreeAreas(IntegerRectangle target, List<IntegerRectangle> areas, List<IntegerRectangle> results)
+        private void GenerateNewFreeAreas(IntegerRectangle target, List<IntegerRectangle> areas, List<IntegerRectangle> results)
         {
             // Increase dimensions by one to get the areas on right / bottom this rectangle touches
             // Also add the padding here
-            var x = target.x;
-            var y = target.y;
-            var right = target.right + 1 + padding;
-            var bottom = target.bottom + 1 + padding;
+            var x = target.X;
+            var y = target.Y;
+            var right = target.Right + 1 + Padding;
+            var bottom = target.Bottom + 1 + Padding;
 
             IntegerRectangle targetWithPadding = null;
-            if (padding == 0)
+            if (Padding == 0)
             {
                 targetWithPadding = target;
             }
@@ -213,14 +213,14 @@ namespace DaVikingCode.RectanglePacking
             for (var i = areas.Count - 1; i >= 0; i--)
             {
                 var area = areas[i];
-                if (!(x >= area.right || right <= area.x || y >= area.bottom || bottom <= area.y))
+                if (!(x >= area.Right || right <= area.X || y >= area.Bottom || bottom <= area.Y))
                 {
                     if (targetWithPadding == null)
                     {
-                        targetWithPadding = allocateRectangle(target.x, target.y, target.width + padding, target.height + padding);
+                        targetWithPadding = AllocateRectangle(target.X, target.Y, target.Width + Padding, target.Height + Padding);
                     }
 
-                    generateDividedAreas(targetWithPadding, area, results);
+                    GenerateDividedAreas(targetWithPadding, area, results);
                     var topOfStack = areas.Pop();
                     if (i < areas.Count)
                     {
@@ -232,74 +232,74 @@ namespace DaVikingCode.RectanglePacking
 
             if (targetWithPadding != null && targetWithPadding != target)
             {
-                freeRectangle(targetWithPadding);
+                FreeRectangle(targetWithPadding);
             }
 
-            filterSelfSubAreas(results);
+            FilterSelfSubAreas(results);
         }
 
-        private void generateDividedAreas(IntegerRectangle divider, IntegerRectangle area, List<IntegerRectangle> results)
+        private void GenerateDividedAreas(IntegerRectangle divider, IntegerRectangle area, List<IntegerRectangle> results)
         {
             var count = 0;
 
-            var rightDelta = area.right - divider.right;
+            var rightDelta = area.Right - divider.Right;
             if (rightDelta > 0)
             {
-                results.Add(allocateRectangle(divider.right, area.y, rightDelta, area.height));
+                results.Add(AllocateRectangle(divider.Right, area.Y, rightDelta, area.Height));
                 count++;
             }
 
-            var leftDelta = divider.x - area.x;
+            var leftDelta = divider.X - area.X;
             if (leftDelta > 0)
             {
-                results.Add(allocateRectangle(area.x, area.y, leftDelta, area.height));
+                results.Add(AllocateRectangle(area.X, area.Y, leftDelta, area.Height));
                 count++;
             }
 
-            var bottomDelta = area.bottom - divider.bottom;
+            var bottomDelta = area.Bottom - divider.Bottom;
             if (bottomDelta > 0)
             {
-                results.Add(allocateRectangle(area.x, divider.bottom, area.width, bottomDelta));
+                results.Add(AllocateRectangle(area.X, divider.Bottom, area.Width, bottomDelta));
                 count++;
             }
 
-            var topDelta = divider.y - area.y;
+            var topDelta = divider.Y - area.Y;
             if (topDelta > 0)
             {
-                results.Add(allocateRectangle(area.x, area.y, area.width, topDelta));
+                results.Add(AllocateRectangle(area.X, area.Y, area.Width, topDelta));
                 count++;
             }
 
-            if (count == 0 && (divider.width < area.width || divider.height < area.height))
+            if (count == 0 && (divider.Width < area.Width || divider.Height < area.Height))
             {
                 // Only touching the area, store the area itself
                 results.Add(area);
             }
             else
             {
-                freeRectangle(area);
+                FreeRectangle(area);
             }
         }
 
-        private int getFreeAreaIndex(int width, int height)
+        private int GetFreeAreaIndex(int width, int height)
         {
-            var best = mOutsideRectangle;
+            var best = _mOutsideRectangle;
             var index = -1;
 
-            var paddedWidth = width + padding;
-            var paddedHeight = height + padding;
+            var paddedWidth = width + Padding;
+            var paddedHeight = height + Padding;
 
-            var count = mFreeAreas.Count;
+            var count = _mFreeAreas.Count;
             for (var i = count - 1; i >= 0; i--)
             {
-                var free = mFreeAreas[i];
-                if (free.x < packedWidth || free.y < packedHeight)
+                var free = _mFreeAreas[i];
+                if (free.X < PackedWidth || free.Y < PackedHeight)
                 {
                     // Within the packed area, padding required
-                    if (free.x < best.x && paddedWidth <= free.width && paddedHeight <= free.height)
+                    if (free.X < best.X && paddedWidth <= free.Width && paddedHeight <= free.Height)
                     {
                         index = i;
-                        if ((paddedWidth == free.width && free.width <= free.height && free.right < mWidth) || (paddedHeight == free.height && free.height <= free.width))
+                        if ((paddedWidth == free.Width && free.Width <= free.Height && free.Right < _mWidth) || (paddedHeight == free.Height && free.Height <= free.Width))
                         {
                             break;
                         }
@@ -310,10 +310,10 @@ namespace DaVikingCode.RectanglePacking
                 else
                 {
                     // Outside the current packed area, no padding required
-                    if (free.x < best.x && width <= free.width && height <= free.height)
+                    if (free.X < best.X && width <= free.Width && height <= free.Height)
                     {
                         index = i;
-                        if ((width == free.width && free.width <= free.height && free.right < mWidth) || (height == free.height && free.height <= free.width))
+                        if ((width == free.Width && free.Width <= free.Height && free.Right < _mWidth) || (height == free.Height && free.Height <= free.Width))
                         {
                             break;
                         }
@@ -326,17 +326,17 @@ namespace DaVikingCode.RectanglePacking
             return index;
         }
 
-        private IntegerRectangle allocateRectangle(int x, int y, int width, int height)
+        private IntegerRectangle AllocateRectangle(int x, int y, int width, int height)
         {
-            if (mRectangleStack.Count > 0)
+            if (_mRectangleStack.Count > 0)
             {
-                var rectangle = mRectangleStack.Pop();
-                rectangle.x = x;
-                rectangle.y = y;
-                rectangle.width = width;
-                rectangle.height = height;
-                rectangle.right = x + width;
-                rectangle.bottom = y + height;
+                var rectangle = _mRectangleStack.Pop();
+                rectangle.X = x;
+                rectangle.Y = y;
+                rectangle.Width = width;
+                rectangle.Height = height;
+                rectangle.Right = x + width;
+                rectangle.Bottom = y + height;
 
                 return rectangle;
             }
@@ -344,19 +344,19 @@ namespace DaVikingCode.RectanglePacking
             return new IntegerRectangle(x, y, width, height);
         }
 
-        private void freeRectangle(IntegerRectangle rectangle)
+        private void FreeRectangle(IntegerRectangle rectangle)
         {
-            mRectangleStack.Add(rectangle);
+            _mRectangleStack.Add(rectangle);
         }
 
-        private SortableSize allocateSize(int width, int height, int id)
+        private SortableSize AllocateSize(int width, int height, int id)
         {
-            if (mSortableSizeStack.Count > 0)
+            if (_mSortableSizeStack.Count > 0)
             {
-                var size = mSortableSizeStack.Pop();
-                size.width = width;
-                size.height = height;
-                size.id = id;
+                var size = _mSortableSizeStack.Pop();
+                size.Width = width;
+                size.Height = height;
+                size.ID = id;
 
                 return size;
             }
@@ -364,9 +364,9 @@ namespace DaVikingCode.RectanglePacking
             return new SortableSize(width, height, id);
         }
 
-        private void freeSize(SortableSize size)
+        private void FreeSize(SortableSize size)
         {
-            mSortableSizeStack.Add(size);
+            _mSortableSizeStack.Add(size);
         }
     }
 

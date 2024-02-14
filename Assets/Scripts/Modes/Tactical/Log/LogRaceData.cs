@@ -50,7 +50,7 @@ internal class Texts : ITexts
     {
         foreach (var entry in entries)
         {
-            _internalList.Add(entry.value);
+            _internalList.Add(entry.Value);
         }
     }
 
@@ -59,7 +59,7 @@ internal class Texts : ITexts
         _internalList.Clear();
         foreach (var entry in entries)
         {
-            _internalList.Add(entry.value);
+            _internalList.Add(entry.Value);
         }
     }
 
@@ -73,11 +73,11 @@ internal class Texts : ITexts
 
 public class FlavorEntry
 {
-    internal Weighted<Gendered> value;
+    internal Weighted<Gendered> Value;
 
     public FlavorEntry(string text, double weight, Gender? gender)
     {
-        value = new Weighted<Gendered>(weight, new Gendered(text, gender));
+        Value = new Weighted<Gendered>(weight, new Gendered(text, gender));
     }
 
     public FlavorEntry(string text) : this(text, 1, null)

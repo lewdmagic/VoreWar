@@ -14,7 +14,7 @@ public class WorldConfig
     [OdinSerialize]
     internal readonly Dictionary<Race, int> VillagesPerEmpire = MakeVillagesPerEmpire();
 
-    internal void resetVillagesPerEmpire()
+    internal void ResetVillagesPerEmpire()
     {
         foreach (Race race in RaceFuncs.MainRaceEnumerable())
         {
@@ -88,9 +88,9 @@ public class WorldConfig
     internal int MaxSpellLevelDrop { get => _maxSpellLevelDrop; set => _maxSpellLevelDrop = value; }
 
     [OdinSerialize]
-    private int _armyMP = 3;
+    private int _armyMp = 3;
 
-    internal int ArmyMP { get => _armyMP; set => _armyMP = value; }
+    internal int ArmyMp { get => _armyMp; set => _armyMp = value; }
 
     [OdinSerialize]
     private int _maxArmies = 32;
@@ -262,9 +262,9 @@ public class WorldConfig
     internal Orientation FemalesLike { get => _femalesLike; set => _femalesLike = value; }
 
     [OdinSerialize]
-    private FairyBVType _fairyBVType = 0;
+    private FairyBVType _fairyBvType = 0;
 
-    internal FairyBVType FairyBVType { get => _fairyBVType; set => _fairyBVType = value; }
+    internal FairyBVType FairyBvType { get => _fairyBvType; set => _fairyBvType = value; }
 
     [OdinSerialize]
     private FeedingType _feedingType = 0;
@@ -279,7 +279,7 @@ public class WorldConfig
     [OdinSerialize]
     private UBConversion _uBConversion = 0;
 
-    internal UBConversion UBConversion { get => _uBConversion; set => _uBConversion = value; }
+    internal UBConversion UbConversion { get => _uBConversion; set => _uBConversion = value; }
 
     [OdinSerialize]
     private SucklingPermission _sucklingPermission = 0;

@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Panthers
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
         internal static List<IClothing> AllClothing;
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
@@ -98,22 +98,22 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 List<IClothing> allowedMainClothingTypes = new List<IClothing>
                 {
-                    All.GenericFemaleTop1.Create(paramsCalc),
-                    All.BeltTop1.Create(paramsCalc),
-                    All.GenericFemaleTop2.Create(paramsCalc),
-                    All.GenericFemaleTop3.Create(paramsCalc),
-                    All.GenericFemaleTop4.Create(paramsCalc),
-                    All.GenericFemaleTop5.Create(paramsCalc),
-                    All.GenericFemaleTop6.Create(paramsCalc),
+                    All.GenericFemaleTop1.Create(_paramsCalc),
+                    All.BeltTop1.Create(_paramsCalc),
+                    All.GenericFemaleTop2.Create(_paramsCalc),
+                    All.GenericFemaleTop3.Create(_paramsCalc),
+                    All.GenericFemaleTop4.Create(_paramsCalc),
+                    All.GenericFemaleTop5.Create(_paramsCalc),
+                    All.GenericFemaleTop6.Create(_paramsCalc),
                     All.Simple1,
                     All.Simple2,
                     All.Simple3,
                     All.Simple4,
                     All.Simple5,
-                    All.GenericOnepiece1.Create(paramsCalc),
-                    All.GenericOnepiece2.Create(paramsCalc),
-                    All.GenericOnepiece3.Create(paramsCalc),
-                    All.GenericOnepiece4.Create(paramsCalc)
+                    All.GenericOnepiece1.Create(_paramsCalc),
+                    All.GenericOnepiece2.Create(_paramsCalc),
+                    All.GenericOnepiece3.Create(_paramsCalc),
+                    All.GenericOnepiece4.Create(_paramsCalc)
                 };
 
                 output.AllowedMainClothingTypes.Set(allowedMainClothingTypes);
@@ -131,10 +131,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 List<IClothing> extraMainClothing1Types = new List<IClothing>() //Overtops
                 {
-                    All.GenericFemaleTop7.Create(paramsCalc),
+                    All.GenericFemaleTop7.Create(_paramsCalc),
                     All.SimpleAttack1,
-                    All.GenericFemaleTop8.Create(paramsCalc),
-                    All.BoneTop1.Create(paramsCalc),
+                    All.GenericFemaleTop8.Create(_paramsCalc),
+                    All.BoneTop1.Create(_paramsCalc),
                     All.Simple6,
                     All.Simple7,
                     All.SimpleAttack2,

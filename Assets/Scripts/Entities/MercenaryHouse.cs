@@ -14,15 +14,15 @@ public class MercenaryHouse
     internal static List<MercenaryContainer> UniqueMercs;
 
     [OdinSerialize]
-    private Vec2i _position;
+    private Vec2I _position;
 
-    internal Vec2i Position { get => _position; set => _position = value; }
+    internal Vec2I Position { get => _position; set => _position = value; }
 
 
-    private static List<Race> AvailableRaces;
-    private static int TurnRefreshed;
+    private static List<Race> _availableRaces;
+    private static int _turnRefreshed;
 
-    public MercenaryHouse(Vec2i position)
+    public MercenaryHouse(Vec2I position)
     {
         Position = position;
         Mercenaries = new List<MercenaryContainer>();
@@ -50,7 +50,7 @@ public class MercenaryHouse
 
         foreach (Race race in RaceFuncs.RaceEnumerable())
         {
-            if (RaceFuncs.isNotUniqueMerc(race)) continue;
+            if (RaceFuncs.IsNotUniqueMerc(race)) continue;
             if (Config.World.GetValue($"Merc {race}") == false) continue;
             if (raceQuantities[race] < 1)
             {
@@ -64,13 +64,13 @@ public class MercenaryHouse
     {
         const int minimumReplacedPerTurn = 4;
         const int maxStock = 12;
-        if (State.World.Turn != TurnRefreshed)
+        if (State.World.Turn != _turnRefreshed)
         {
-            TurnRefreshed = State.World.Turn;
-            AvailableRaces = new List<Race>();
+            _turnRefreshed = State.World.Turn;
+            _availableRaces = new List<Race>();
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
-                if (RaceFuncs.isNotUniqueMerc(race) && Config.World.GetValue($"Merc {race}")) AvailableRaces.Add(race);
+                if (RaceFuncs.IsNotUniqueMerc(race) && Config.World.GetValue($"Merc {race}")) _availableRaces.Add(race);
             }
         }
 
@@ -91,7 +91,7 @@ public class MercenaryHouse
 
         for (int i = 0; i < 20; i++)
         {
-            if (Mercenaries.Count < maxStock && AvailableRaces.Count > 0)
+            if (Mercenaries.Count < maxStock && _availableRaces.Count > 0)
             {
                 Mercenaries.Add(CreateMercenary(highestExp));
             }
@@ -105,12 +105,12 @@ public class MercenaryHouse
     {
         MercenaryContainer merc = new MercenaryContainer();
         Race race;
-        race = AvailableRaces[State.Rand.Next(AvailableRaces.Count())];
+        race = _availableRaces[State.Rand.Next(_availableRaces.Count())];
 
 
         int exp = (int)(highestExp * .8f) + State.Rand.Next(10);
         merc.Unit = new Unit(race.ToSide(), race, exp, true, UnitType.Mercenary, true);
-        if (RaceFuncs.isMainRaceOrMerc(race) && merc.Unit.FixedGear == false)
+        if (RaceFuncs.IsMainRaceOrMerc(race) && merc.Unit.FixedGear == false)
         {
             if (merc.Unit.Items[0] == null)
             {

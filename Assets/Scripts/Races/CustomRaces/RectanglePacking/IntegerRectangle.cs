@@ -32,23 +32,23 @@ namespace DaVikingCode.RectanglePacking
      */
     public class IntegerRectangle
     {
-        public int bottom;
-        public int height;
-        public int id;
-        public int right;
-        public int width;
+        public int Bottom;
+        public int Height;
+        public int ID;
+        public int Right;
+        public int Width;
 
-        public int x;
-        public int y;
+        public int X;
+        public int Y;
 
         public IntegerRectangle(int x = 0, int y = 0, int width = 0, int height = 0)
         {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            right = x + width;
-            bottom = y + height;
+            this.X = x;
+            this.Y = y;
+            this.Width = width;
+            this.Height = height;
+            Right = x + width;
+            Bottom = y + height;
         }
     }
 }

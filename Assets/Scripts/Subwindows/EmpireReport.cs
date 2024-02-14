@@ -5,26 +5,26 @@ using UnityEngine;
 
 public class EmpireReport : MonoBehaviour
 {
-    private Dictionary<Side, EmpireReportItem> Reports = new Dictionary<Side, EmpireReportItem>();
+    private Dictionary<Side, EmpireReportItem> _reports = new Dictionary<Side, EmpireReportItem>();
 
     public GameObject ReportItemPrefab;
     public Transform ReportFolder;
 
     public DiplomacyScreen DiplomacyScreen;
 
-    private bool pausedState = false;
+    private bool _pausedState = false;
 
-    private readonly int GoblinNum = RaceFuncs.MainRaceCount;
-    private readonly int FirstMonster = RaceFuncs.MainRaceCount + 1;
+    private readonly int _goblinNum = RaceFuncs.MainRaceCount;
+    private readonly int _firstMonster = RaceFuncs.MainRaceCount + 1;
 
     private EmpireReportItem GetReportItem(Side side)
     {
-        return Reports.GetOrSet(side, () => Instantiate(ReportItemPrefab, ReportFolder).GetComponent<EmpireReportItem>());
+        return _reports.GetOrSet(side, () => Instantiate(ReportItemPrefab, ReportFolder).GetComponent<EmpireReportItem>());
     }
 
     public void Open()
     {
-        pausedState = State.GameManager.StrategyMode.Paused;
+        _pausedState = State.GameManager.StrategyMode.Paused;
         State.GameManager.StrategyMode.Paused = true;
         gameObject.SetActive(true);
 
@@ -49,7 +49,7 @@ public class EmpireReport : MonoBehaviour
 
     public void Refresh()
     {
-        foreach (EmpireReportItem report in Reports.Values)
+        foreach (EmpireReportItem report in _reports.Values)
         {
             report.gameObject.SetActive(false);
         }
@@ -57,13 +57,13 @@ public class EmpireReport : MonoBehaviour
         for (int i = 0; i < State.World.MainEmpires.Count; i++)
         {
             Empire empire = State.World.MainEmpires[i];
-            Reports[empire.Side].gameObject.SetActive(!empire.KnockedOut);
+            _reports[empire.Side].gameObject.SetActive(!empire.KnockedOut);
             if (empire.KnockedOut) continue;
 
-            Reports[empire.Side].EmpireStatus.text = $"{empire.Name}  Villages: {State.World.Villages.Where(s => Equals(s.Side, empire.Side)).Count()}  Mines: {State.World.Claimables.Where(s => s.Owner == empire).Count()} Armies : {empire.Armies.Count()} ";
+            _reports[empire.Side].EmpireStatus.text = $"{empire.Name}  Villages: {State.World.Villages.Where(s => Equals(s.Side, empire.Side)).Count()}  Mines: {State.World.Claimables.Where(s => s.Owner == empire).Count()} Armies : {empire.Armies.Count()} ";
             if (empire.IsAlly(State.World.ActingEmpire) || Config.CheatExtraStrategicInfo || State.GameManager.StrategyMode.OnlyAIPlayers)
             {
-                Reports[empire.Side].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count} Gold: {empire.Gold}  Income: {empire.Income}";
+                _reports[empire.Side].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count} Gold: {empire.Gold}  Income: {empire.Income}";
             }
         }
 
@@ -87,13 +87,13 @@ public class EmpireReport : MonoBehaviour
             if (Equals(empire.Race, Race.Goblin)) continue;
             SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
             if (spawner == null) continue;
-            Reports[empire.Side].gameObject.SetActive(spawner.Enabled);
-            Reports[empire.Side].Contact.gameObject.SetActive(false);
+            _reports[empire.Side].gameObject.SetActive(spawner.Enabled);
+            _reports[empire.Side].Contact.gameObject.SetActive(false);
 
-            Reports[empire.Side].EmpireStatus.text = $"{empire.Name}  Villages: {State.World.Villages.Where(s => Equals(s.Side, empire.Side)).Count()} Armies : {empire.Armies.Count()} ";
+            _reports[empire.Side].EmpireStatus.text = $"{empire.Name}  Villages: {State.World.Villages.Where(s => Equals(s.Side, empire.Side)).Count()} Armies : {empire.Armies.Count()} ";
             if (empire.IsAlly(State.World.ActingEmpire) || Config.CheatExtraStrategicInfo || State.GameManager.StrategyMode.OnlyAIPlayers)
             {
-                Reports[empire.Side].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count}";
+                _reports[empire.Side].EmpireStatus.text += $"Units: {empire.GetAllUnits().Count}";
             }
         }
     }
@@ -101,17 +101,17 @@ public class EmpireReport : MonoBehaviour
     public void CreateDiplomacyReport()
     {
         StringBuilder sb = new StringBuilder();
-        List<string> Allies = new List<string>();
-        List<string> Neutral = new List<string>();
-        List<string> Enemies = new List<string>();
+        List<string> allies = new List<string>();
+        List<string> neutral = new List<string>();
+        List<string> enemies = new List<string>();
         List<Empire> list = State.World.MainEmpires.Where(s => s.KnockedOut == false).ToList();
         //list.Append(State.World.GetEmpireOfRace(Race.Goblins));
 
         foreach (Empire emp in list)
         {
-            Allies.Clear();
-            Neutral.Clear();
-            Enemies.Clear();
+            allies.Clear();
+            neutral.Clear();
+            enemies.Clear();
 
             foreach (Empire emp2 in list)
             {
@@ -121,26 +121,26 @@ public class EmpireReport : MonoBehaviour
                 switch (relation.Type)
                 {
                     case RelationState.Neutral:
-                        Neutral.Add(emp2.Name.ToString());
+                        neutral.Add(emp2.Name.ToString());
                         break;
                     case RelationState.Allied:
-                        Allies.Add(emp2.Name.ToString());
+                        allies.Add(emp2.Name.ToString());
                         break;
                     case RelationState.Enemies:
-                        Enemies.Add(emp2.Name.ToString());
+                        enemies.Add(emp2.Name.ToString());
                         break;
                 }
             }
 
-            string allies = Allies.Count() > 0 ? $"Allies:<color=blue> {string.Join(", ", Allies)}</color>" : "";
-            string neutrals = Neutral.Count() > 0 ? $"Neutral: {string.Join(", ", Neutral)}" : "";
-            string enemies;
-            if (Enemies.Count > 6)
-                enemies = "Enemies: <color=red>all others</color>";
+            string allies2 = allies.Count() > 0 ? $"Allies:<color=blue> {string.Join(", ", allies)}</color>" : "";
+            string neutrals2 = neutral.Count() > 0 ? $"Neutral: {string.Join(", ", neutral)}" : "";
+            string enemies2;
+            if (enemies.Count > 6)
+                enemies2 = "Enemies: <color=red>all others</color>";
             else
-                enemies = Enemies.Count() > 0 ? $"Enemies: <color=red>{string.Join(", ", Enemies)}</color>" : "";
+                enemies2 = enemies.Count() > 0 ? $"Enemies: <color=red>{string.Join(", ", enemies)}</color>" : "";
 
-            sb.AppendLine($"{emp.Name} - {allies} {neutrals} {enemies} ");
+            sb.AppendLine($"{emp.Name} - {allies2} {neutrals2} {enemies2} ");
         }
 
         State.GameManager.CreateFullScreenMessageBox(sb.ToString());
@@ -149,6 +149,6 @@ public class EmpireReport : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
-        State.GameManager.StrategyMode.Paused = pausedState;
+        State.GameManager.StrategyMode.Paused = _pausedState;
     }
 }

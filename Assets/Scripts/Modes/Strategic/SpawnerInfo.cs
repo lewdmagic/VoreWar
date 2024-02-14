@@ -31,12 +31,12 @@ internal class SpawnerInfo
     [OdinSerialize]
     private float _spawnRate;
 
-    internal float spawnRate { get => _spawnRate; set => _spawnRate = value; }
+    internal float SpawnRate { get => _spawnRate; set => _spawnRate = value; }
 
     [OdinSerialize]
     private float _scalingFactor;
 
-    internal float scalingFactor { get => _scalingFactor; set => _scalingFactor = value; }
+    internal float ScalingFactor { get => _scalingFactor; set => _scalingFactor = value; }
 
     [OdinSerialize]
     private int _team;
@@ -76,8 +76,8 @@ internal class SpawnerInfo
     {
         Enabled = enabled;
         MaxArmies = maxArmies;
-        this.spawnRate = spawnRate;
-        this.scalingFactor = scalingFactor;
+        this.SpawnRate = spawnRate;
+        this.ScalingFactor = scalingFactor;
         Team = team;
         SpawnAttempts = spawnAttempts;
         AddOnRace = addOnRace;

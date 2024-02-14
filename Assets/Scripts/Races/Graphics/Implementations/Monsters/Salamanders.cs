@@ -97,7 +97,7 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.Body, 2, (input, output) =>
             {
                 output.Coloring(ColorPaletteMap.GetPalette(SwapType.SalamanderSkin, input.U.SkinColor));
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
@@ -108,19 +108,19 @@ namespace Races.Graphics.Implementations.Monsters
             builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.A.AnimationController.frameLists[0].currentTime >= frameListSalamanderFlame.Times[input.A.AnimationController.frameLists[0].currentFrame] && input.U.IsDead == false)
+                if (input.A.AnimationController.FrameLists[0].CurrentTime >= frameListSalamanderFlame.Times[input.A.AnimationController.FrameLists[0].CurrentFrame] && input.U.IsDead == false)
                 {
-                    input.A.AnimationController.frameLists[0].currentFrame++;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                    if (input.A.AnimationController.frameLists[0].currentFrame >= frameListSalamanderFlame.Frames.Length)
+                    if (input.A.AnimationController.FrameLists[0].CurrentFrame >= frameListSalamanderFlame.Frames.Length)
                     {
-                        input.A.AnimationController.frameLists[0].currentFrame = 0;
-                        input.A.AnimationController.frameLists[0].currentTime = 0f;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
                     }
                 }
 
-                output.Sprite(input.Sprites.Salamanders[22 + frameListSalamanderFlame.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Salamanders[22 + frameListSalamanderFlame.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
             }); // flame
 
             builder.RenderSingle(SpriteType.BodyAccent2, 3, (input, output) =>
@@ -286,7 +286,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(State.Rand.Next(0, 2), 0, true)
             };

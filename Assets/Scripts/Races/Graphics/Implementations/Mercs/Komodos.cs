@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Mercs
 {
     internal static class Komodos
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
@@ -78,13 +78,13 @@ namespace Races.Graphics.Implementations.Mercs
 
 
                 output.AllowedMainClothingTypes.Set(
-                    GenericTop1.GenericTop1Instance.Create(paramsCalc),
-                    GenericTop2.GenericTop2Instance.Create(paramsCalc),
-                    GenericTop3.GenericTop3Instance.Create(paramsCalc),
-                    GenericTop4.GenericTop4Instance.Create(paramsCalc),
-                    GenericTop5.GenericTop5Instance.Create(paramsCalc),
-                    Natural.NaturalInstance.Create(paramsCalc),
-                    Tribal.TribalInstance.Create(paramsCalc)
+                    GenericTop1.GenericTop1Instance.Create(_paramsCalc),
+                    GenericTop2.GenericTop2Instance.Create(_paramsCalc),
+                    GenericTop3.GenericTop3Instance.Create(_paramsCalc),
+                    GenericTop4.GenericTop4Instance.Create(_paramsCalc),
+                    GenericTop5.GenericTop5Instance.Create(_paramsCalc),
+                    Natural.NaturalInstance.Create(_paramsCalc),
+                    Tribal.TribalInstance.Create(_paramsCalc)
                 );
                 output.AvoidedMainClothingTypes = 0;
                 output.AvoidedEyeTypes = 0;

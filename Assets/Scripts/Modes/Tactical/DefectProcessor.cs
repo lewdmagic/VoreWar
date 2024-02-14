@@ -3,28 +3,28 @@
 
 internal class DefectProcessor
 {
-    internal Army attacker;
-    internal Army defender;
-    internal Village village;
+    internal Army Attacker;
+    internal Army Defender;
+    internal Village Village;
 
     internal int DefectedAttackers;
     internal int DefectedDefenders;
     internal int DefectedGarrison;
 
-    internal int newAttackers;
-    internal int newDefenders;
+    internal int NewAttackers;
+    internal int NewDefenders;
     //internal int newGarrison;
 
-    internal List<Actor_Unit> extraDefenders;
-    internal List<Actor_Unit> extraAttackers;
+    internal List<ActorUnit> ExtraDefenders;
+    internal List<ActorUnit> ExtraAttackers;
 
     public DefectProcessor(Army attacker, Army defender, Village village)
     {
-        this.attacker = attacker;
-        this.defender = defender;
-        this.village = village;
-        extraAttackers = new List<Actor_Unit>();
-        extraDefenders = new List<Actor_Unit>();
+        this.Attacker = attacker;
+        this.Defender = defender;
+        this.Village = village;
+        ExtraAttackers = new List<ActorUnit>();
+        ExtraDefenders = new List<ActorUnit>();
     }
 
     internal void DefectReport()
@@ -35,64 +35,64 @@ internal class DefectProcessor
         State.GameManager.CreateMessageBox(msg);
     }
 
-    internal void AttackerDefectCheck(Actor_Unit actor, Race otherRace)
+    internal void AttackerDefectCheck(ActorUnit actor, Race otherRace)
     {
         if (!Equals(actor.Unit.Race, otherRace) || actor.Unit.ImmuneToDefections || actor.Unit.HasTrait(TraitType.Camaraderie) || (actor.Unit.HasFixedSide() && !actor.Unit.HasTrait(TraitType.Infiltrator))) return;
         if (actor.Unit.HasTrait(TraitType.RaceLoyal) || State.Rand.NextDouble() < .15f - .05f * (actor.Unit.GetStat(Stat.Will) - 10) / 10)
         {
             DefectedAttackers++;
 
-            attacker.Units.Remove(actor.Unit);
-            if (defender != null && defender.Units.Count < defender.MaxSize)
+            Attacker.Units.Remove(actor.Unit);
+            if (Defender != null && Defender.Units.Count < Defender.MaxSize)
             {
-                actor.Unit.Side = defender.Side;
-                defender.Units.Add(actor.Unit);
+                actor.Unit.Side = Defender.Side;
+                Defender.Units.Add(actor.Unit);
             }
             else
             {
                 actor.Unit.Side = State.GameManager.TacticalMode.GetDefenderSide();
-                newDefenders++;
-                extraDefenders.Add(actor);
+                NewDefenders++;
+                ExtraDefenders.Add(actor);
             }
         }
     }
 
-    internal void DefenderDefectCheck(Actor_Unit actor, Race otherRace)
+    internal void DefenderDefectCheck(ActorUnit actor, Race otherRace)
     {
         if (!Equals(actor.Unit.Race, otherRace) || actor.Unit.ImmuneToDefections || actor.Unit.HasTrait(TraitType.Camaraderie) || (actor.Unit.HasFixedSide() && !actor.Unit.HasTrait(TraitType.Infiltrator))) return;
         if (actor.Unit.HasTrait(TraitType.RaceLoyal) || State.Rand.NextDouble() < .15f - .05f * (actor.Unit.GetStat(Stat.Will) - 10) / 10)
         {
-            actor.Unit.Side = attacker.Side;
+            actor.Unit.Side = Attacker.Side;
             DefectedDefenders++;
-            defender.Units.Remove(actor.Unit);
-            if (attacker.Units.Count < attacker.MaxSize)
+            Defender.Units.Remove(actor.Unit);
+            if (Attacker.Units.Count < Attacker.MaxSize)
             {
-                attacker.Units.Add(actor.Unit);
+                Attacker.Units.Add(actor.Unit);
             }
             else
             {
-                newAttackers++;
-                extraAttackers.Add(actor);
+                NewAttackers++;
+                ExtraAttackers.Add(actor);
             }
         }
     }
 
-    internal void GarrisonDefectCheck(Actor_Unit actor, Race otherRace)
+    internal void GarrisonDefectCheck(ActorUnit actor, Race otherRace)
     {
         if (!Equals(actor.Unit.Race, otherRace) || actor.Unit.ImmuneToDefections || actor.Unit.HasTrait(TraitType.Camaraderie) || (actor.Unit.HasFixedSide() && !actor.Unit.HasTrait(TraitType.Infiltrator))) return;
-        if (actor.Unit.HasTrait(TraitType.RaceLoyal) || State.Rand.NextDouble() < (2 - village.Happiness / 66) * .15f - .05f * (actor.Unit.GetStat(Stat.Will) - 10) / 10)
+        if (actor.Unit.HasTrait(TraitType.RaceLoyal) || State.Rand.NextDouble() < (2 - Village.Happiness / 66) * .15f - .05f * (actor.Unit.GetStat(Stat.Will) - 10) / 10)
         {
-            actor.Unit.Side = attacker.Side;
-            village.GetRecruitables().Remove(actor.Unit);
+            actor.Unit.Side = Attacker.Side;
+            Village.GetRecruitables().Remove(actor.Unit);
             DefectedGarrison++;
-            if (attacker.Units.Count < attacker.MaxSize)
+            if (Attacker.Units.Count < Attacker.MaxSize)
             {
-                attacker.Units.Add(actor.Unit);
+                Attacker.Units.Add(actor.Unit);
             }
             else
             {
-                newAttackers++;
-                extraAttackers.Add(actor);
+                NewAttackers++;
+                ExtraAttackers.Add(actor);
             }
         }
     }

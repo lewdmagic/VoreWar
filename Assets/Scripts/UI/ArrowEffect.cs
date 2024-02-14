@@ -7,38 +7,38 @@ public class ArrowEffect : MonoBehaviour
 
     internal Vector2 StartLocation;
     internal Vector2 EndLocation;
-    internal float totalTime;
-    internal float currentTime;
+    internal float TotalTime;
+    internal float CurrentTime;
 
-    internal float extraTime;
+    internal float ExtraTime;
 
-    private Action PlayHitSound;
-    private Action CreateHitEffect;
+    private Action _playHitSound;
+    private Action _createHitEffect;
 
-    public void Setup(Vec2i startLocation, Vec2i endLocation, Actor_Unit target)
+    public void Setup(Vec2I startLocation, Vec2I endLocation, ActorUnit target)
     {
         GeneralSetup(startLocation, endLocation);
 
-        PlayHitSound = () => State.GameManager.SoundManager.PlayArrowHit(target);
-        CreateHitEffect = () => State.GameManager.TacticalMode.CreateBloodHitEffect(EndLocation);
+        _playHitSound = () => State.GameManager.SoundManager.PlayArrowHit(target);
+        _createHitEffect = () => State.GameManager.TacticalMode.CreateBloodHitEffect(EndLocation);
     }
 
-    public void Setup(Vec2i startLocation, Vec2i endLocation, Actor_Unit target, Action hitSound, Action hitEffect)
+    public void Setup(Vec2I startLocation, Vec2I endLocation, ActorUnit target, Action hitSound, Action hitEffect)
     {
         GeneralSetup(startLocation, endLocation);
 
-        PlayHitSound = hitSound;
-        CreateHitEffect = hitEffect;
+        _playHitSound = hitSound;
+        _createHitEffect = hitEffect;
     }
 
-    private void GeneralSetup(Vec2i startLocation, Vec2i endLocation)
+    private void GeneralSetup(Vec2I startLocation, Vec2I endLocation)
     {
         StartLocation = startLocation;
         EndLocation = endLocation;
         Arrow.transform.position = StartLocation;
 
-        currentTime = 0;
-        totalTime = startLocation.GetNumberOfMovesDistance(endLocation) * 0.05f;
+        CurrentTime = 0;
+        TotalTime = startLocation.GetNumberOfMovesDistance(endLocation) * 0.05f;
 
         float angle = 90 + (float)(Math.Atan2(startLocation.Y - endLocation.Y, startLocation.X - endLocation.X) * 180 / Math.PI);
         Arrow.transform.localRotation = Quaternion.Euler(0, 0, angle);
@@ -54,15 +54,15 @@ public class ArrowEffect : MonoBehaviour
             return;
         }
 
-        currentTime += Time.deltaTime;
-        Arrow.transform.position = Vector2.Lerp(StartLocation, EndLocation, currentTime / totalTime);
-        if (currentTime > totalTime)
+        CurrentTime += Time.deltaTime;
+        Arrow.transform.position = Vector2.Lerp(StartLocation, EndLocation, CurrentTime / TotalTime);
+        if (CurrentTime > TotalTime)
         {
-            PlayHitSound?.Invoke();
-            CreateHitEffect?.Invoke();
+            _playHitSound?.Invoke();
+            _createHitEffect?.Invoke();
         }
 
-        if (currentTime > totalTime + extraTime)
+        if (CurrentTime > TotalTime + ExtraTime)
         {
             Destroy(gameObject);
         }

@@ -10,11 +10,11 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class AntQueen
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(31 * 31);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(31 * 31);
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            IClothing LeaderClothes = AntLeaderClothes.AntLeaderClothesInstance.Create(paramsCalc);
+            IClothing leaderClothes = AntLeaderClothes.AntLeaderClothesInstance.Create(_paramsCalc);
 
 
             builder.RandomCustom(data =>
@@ -27,7 +27,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + data.SetupOutput.AllowedMainClothingTypes.IndexOf(LeaderClothes);
+                    unit.ClothingType = 1 + data.SetupOutput.AllowedMainClothingTypes.IndexOf(leaderClothes);
                 }
             });
 
@@ -47,7 +47,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.ExtendedBreastSprites = true;
 
                 output.AllowedMainClothingTypes.Set(
-                    LeaderClothes
+                    leaderClothes
                 );
                 output.AvoidedMainClothingTypes = 1;
                 output.AvoidedEyeTypes = 0;

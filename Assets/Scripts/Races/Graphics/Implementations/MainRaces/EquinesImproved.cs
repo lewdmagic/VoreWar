@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class EquinesImrpoved
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(29 * 29);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(29 * 29);
 
         private static ColorSwapPalette LegTuft(IActorUnit actor)
         {
@@ -116,10 +116,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
 
                 output.AllowedMainClothingTypes.Set( //undertops
-                    HorseClothing.HorseUndertop1Instance.Create(paramsCalc),
-                    HorseClothing.HorseUndertop2Instance.Create(paramsCalc),
-                    HorseClothing.HorseUndertop3Instance.Create(paramsCalc),
-                    HorseClothing.HorseUndertop4Instance.Create(paramsCalc),
+                    HorseClothing.HorseUndertop1Instance.Create(_paramsCalc),
+                    HorseClothing.HorseUndertop2Instance.Create(_paramsCalc),
+                    HorseClothing.HorseUndertop3Instance.Create(_paramsCalc),
+                    HorseClothing.HorseUndertop4Instance.Create(_paramsCalc),
                     HorseClothing.HorseUndertopM1Instance,
                     HorseClothing.HorseUndertopM2Instance,
                     HorseClothing.HorseUndertopM3Instance

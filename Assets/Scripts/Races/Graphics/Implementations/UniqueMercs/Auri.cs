@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 {
     internal static class Auri
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(32 * 32);
         internal const float StomachMult = 1.7f;
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
@@ -98,7 +98,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 List<IClothing> allowedMainClothingTypes = new List<IClothing>
                 {
-                    AuriTop.AuriTopInstance.Create(paramsCalc)
+                    AuriTop.AuriTopInstance.Create(_paramsCalc)
                 };
 
                 output.AllowedMainClothingTypes.Clear();
@@ -114,10 +114,10 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 List<IClothing> extraMainClothing1Types = new List<IClothing>() //Over
                 {
-                    Kimono.Kimono1.Create(paramsCalc),
-                    Kimono.Kimono2.Create(paramsCalc),
-                    KimonoHoliday.KimonoHoliday1.Create(paramsCalc),
-                    KimonoHoliday.KimonoHoliday2.Create(paramsCalc)
+                    Kimono.Kimono1.Create(_paramsCalc),
+                    Kimono.Kimono2.Create(_paramsCalc),
+                    KimonoHoliday.KimonoHoliday1.Create(_paramsCalc),
+                    KimonoHoliday.KimonoHoliday2.Create(_paramsCalc)
                 };
                 output.ExtraMainClothing1Types.Set(extraMainClothing1Types);
 
@@ -157,36 +157,36 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
 
                 if (State.Rand.Next(1600) == 0)
                 {
-                    input.A.AnimationController.frameLists[1].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[1].CurrentlyActive = true;
                 }
 
-                if (input.A.AnimationController.frameLists[1].currentlyActive == false)
+                if (input.A.AnimationController.FrameLists[1].CurrentlyActive == false)
                 {
                     output.Sprite(input.Sprites.Auri[16]);
                     return;
                 }
 
-                if (input.A.AnimationController.frameLists[1].currentTime >= earAnimation.Times[input.A.AnimationController.frameLists[1].currentFrame])
+                if (input.A.AnimationController.FrameLists[1].CurrentTime >= earAnimation.Times[input.A.AnimationController.FrameLists[1].CurrentFrame])
                 {
-                    input.A.AnimationController.frameLists[1].currentFrame++;
-                    input.A.AnimationController.frameLists[1].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[1].CurrentFrame++;
+                    input.A.AnimationController.FrameLists[1].CurrentTime = 0f;
 
-                    if (input.A.AnimationController.frameLists[1].currentFrame >= earAnimation.Frames.Length)
+                    if (input.A.AnimationController.FrameLists[1].CurrentFrame >= earAnimation.Frames.Length)
                     {
-                        input.A.AnimationController.frameLists[1].currentlyActive = false;
-                        input.A.AnimationController.frameLists[1].currentTime = 0;
-                        input.A.AnimationController.frameLists[1].currentFrame = 0;
+                        input.A.AnimationController.FrameLists[1].CurrentlyActive = false;
+                        input.A.AnimationController.FrameLists[1].CurrentTime = 0;
+                        input.A.AnimationController.FrameLists[1].CurrentFrame = 0;
                     }
                 }
 
-                output.Sprite(input.Sprites.Auri[faceAnimation.Frames[input.A.AnimationController.frameLists[1].currentFrame]]);
+                output.Sprite(input.Sprites.Auri[faceAnimation.Frames[input.A.AnimationController.FrameLists[1].CurrentFrame]]);
             });
 
             builder.RenderSingle(SpriteType.Hair, 6, (input, output) =>
@@ -270,37 +270,37 @@ namespace Races.Graphics.Implementations.UniqueMercs
             builder.RenderSingle(SpriteType.BodyAccessory, 5, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                if (input.A.AnimationController.frameLists == null)
+                if (input.A.AnimationController.FrameLists == null)
                 {
                     SetUpAnimations(input.Actor);
                 }
 
                 if (State.Rand.Next(650) == 0)
                 {
-                    input.A.AnimationController.frameLists[0].currentlyActive = true;
+                    input.A.AnimationController.FrameLists[0].CurrentlyActive = true;
                 }
 
-                if (input.A.AnimationController.frameLists[0].currentlyActive == false)
+                if (input.A.AnimationController.FrameLists[0].CurrentlyActive == false)
                 {
                     output.Sprite(input.Sprites.Auri[21]);
                     return;
                 }
 
 
-                if (input.A.AnimationController.frameLists[0].currentTime >= earAnimation.Times[input.A.AnimationController.frameLists[0].currentFrame])
+                if (input.A.AnimationController.FrameLists[0].CurrentTime >= earAnimation.Times[input.A.AnimationController.FrameLists[0].CurrentFrame])
                 {
-                    input.A.AnimationController.frameLists[0].currentFrame++;
-                    input.A.AnimationController.frameLists[0].currentTime = 0f;
+                    input.A.AnimationController.FrameLists[0].CurrentFrame++;
+                    input.A.AnimationController.FrameLists[0].CurrentTime = 0f;
 
-                    if (input.A.AnimationController.frameLists[0].currentFrame >= earAnimation.Frames.Length)
+                    if (input.A.AnimationController.FrameLists[0].CurrentFrame >= earAnimation.Frames.Length)
                     {
-                        input.A.AnimationController.frameLists[0].currentlyActive = false;
-                        input.A.AnimationController.frameLists[0].currentTime = 0;
-                        input.A.AnimationController.frameLists[0].currentFrame = 0;
+                        input.A.AnimationController.FrameLists[0].CurrentlyActive = false;
+                        input.A.AnimationController.FrameLists[0].CurrentTime = 0;
+                        input.A.AnimationController.FrameLists[0].CurrentFrame = 0;
                     }
                 }
 
-                output.Sprite(input.Sprites.Auri[earAnimation.Frames[input.A.AnimationController.frameLists[0].currentFrame]]);
+                output.Sprite(input.Sprites.Auri[earAnimation.Frames[input.A.AnimationController.FrameLists[0].CurrentFrame]]);
             });
 
             builder.RenderSingle(SpriteType.SecondaryAccessory, 0, (input, output) =>
@@ -458,13 +458,13 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         private static void SetUpAnimations(IActorUnit actor)
         {
-            actor.AnimationController.frameLists = new[]
+            actor.AnimationController.FrameLists = new[]
             {
                 new AnimationController.FrameList(),
                 new AnimationController.FrameList()
             };
-            actor.AnimationController.frameLists[0].currentlyActive = false;
-            actor.AnimationController.frameLists[1].currentlyActive = false;
+            actor.AnimationController.FrameLists[0].CurrentlyActive = false;
+            actor.AnimationController.FrameLists[1].CurrentlyActive = false;
         }
 
         private static class AuriTop

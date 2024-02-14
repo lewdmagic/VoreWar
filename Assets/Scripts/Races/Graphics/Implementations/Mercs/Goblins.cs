@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.Mercs
 
     internal static class Goblins
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(22 * 22);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(22 * 22);
         private static List<IClothing> _allClothing;
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
@@ -135,11 +135,11 @@ namespace Races.Graphics.Implementations.Mercs
                 {
                     GobboLeotard.GobboLeotardInstance,
                     GobboCasinoBunny.GobboCasinoBunnyInstance,
-                    GobboUndertop1.GobboUndertop1Instance.Create(paramsCalc),
-                    GobboUndertop2.GobboUndertop2Instance.Create(paramsCalc),
-                    GobboUndertop3.GobboUndertop3Instance.Create(paramsCalc),
-                    GobboUndertop4.GobboUndertop4Instance.Create(paramsCalc),
-                    GobboUndertop5.GobboUndertop5Instance.Create(paramsCalc)
+                    GobboUndertop1.GobboUndertop1Instance.Create(_paramsCalc),
+                    GobboUndertop2.GobboUndertop2Instance.Create(_paramsCalc),
+                    GobboUndertop3.GobboUndertop3Instance.Create(_paramsCalc),
+                    GobboUndertop4.GobboUndertop4Instance.Create(_paramsCalc),
+                    GobboUndertop5.GobboUndertop5Instance.Create(_paramsCalc)
                 };
                 output.AllowedMainClothingTypes.Set(allowedMainClothingTypes); //undertops
 
@@ -164,9 +164,9 @@ namespace Races.Graphics.Implementations.Mercs
                 );
 
                 output.ExtraMainClothing2Types.Set( //Special clothing
-                    GobboOverOpFem.GobboOverOpFemInstance.Create(paramsCalc),
+                    GobboOverOpFem.GobboOverOpFemInstance.Create(_paramsCalc),
                     //GobboOverOPM.GobboOverOPMInstance,
-                    GobboOverTop1.GobboOverTop1Instance.Create(paramsCalc),
+                    GobboOverTop1.GobboOverTop1Instance.Create(_paramsCalc),
                     GobboOverTop2.GobboOverTop2Instance,
                     GobboOverTop3.GobboOverTop3Instance,
                     GobboOverTop4.GobboOverTop4Instance

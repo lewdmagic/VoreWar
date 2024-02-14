@@ -80,14 +80,14 @@ public class StrategicStats
     }
 
     [OdinSerialize]
-    private Dictionary<Side, RaceStats> EmpireStats;
+    private Dictionary<Side, RaceStats> _empireStats;
 
     public StrategicStats()
     {
-        EmpireStats = new Dictionary<Side, RaceStats>();
+        _empireStats = new Dictionary<Side, RaceStats>();
         foreach (Empire empire in State.World.MainEmpires)
         {
-            EmpireStats[empire.Side] = new RaceStats(empire.Side.ToString());
+            _empireStats[empire.Side] = new RaceStats(empire.Side.ToString());
         }
     }
 
@@ -96,9 +96,9 @@ public class StrategicStats
         var empireStats = new Dictionary<Side, RaceStats>();
         foreach (Empire empire in State.World.MainEmpires)
         {
-            if (EmpireStats.TryGetValue(empire.Side, out RaceStats stats))
+            if (_empireStats.TryGetValue(empire.Side, out RaceStats stats))
             {
-                empireStats[empire.Side] = EmpireStats[empire.Side];
+                empireStats[empire.Side] = _empireStats[empire.Side];
             }
             else
             {
@@ -106,13 +106,13 @@ public class StrategicStats
             }
         }
 
-        EmpireStats = empireStats;
+        _empireStats = empireStats;
     }
 
     public string Summary()
     {
         StringBuilder sb = new StringBuilder();
-        foreach (RaceStats race in EmpireStats.Values)
+        foreach (RaceStats race in _empireStats.Values)
         {
             if (race.TotalGoldCollected == Config.StartingGold || (race.BattlesLost == 0 && race.BattlesWon == 0)) continue;
             sb.AppendLine($"Empire of {race.EmpireName}");
@@ -137,12 +137,12 @@ public class StrategicStats
     public void BattleResolution(Side winner, Side loser)
     {
         RaceStats stats;
-        if (EmpireStats.TryGetValue(winner, out stats))
+        if (_empireStats.TryGetValue(winner, out stats))
         {
             stats.BattlesWon++;
         }
 
-        if (EmpireStats.TryGetValue(loser, out stats))
+        if (_empireStats.TryGetValue(loser, out stats))
         {
             stats.BattlesLost++;
         }
@@ -150,7 +150,7 @@ public class StrategicStats
 
     public void LostArmy(Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.ArmiesLost++;
         }
@@ -158,7 +158,7 @@ public class StrategicStats
 
     public void ResurrectedLeader(Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.LeaderResurrections++;
         }
@@ -166,7 +166,7 @@ public class StrategicStats
 
     public void CollectedGold(int amount, Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.TotalGoldCollected++;
         }
@@ -174,7 +174,7 @@ public class StrategicStats
 
     public void SpentGold(int amount, Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.TotalGoldSpent++;
         }
@@ -182,7 +182,7 @@ public class StrategicStats
 
     public void SpentGoldOnArmyEquipment(int amount, Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.GoldSpentOnEquipment++;
         }
@@ -190,7 +190,7 @@ public class StrategicStats
 
     public void SpentGoldOnBuildings(int amount, Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.GoldSpentOnBuildings++;
         }
@@ -198,7 +198,7 @@ public class StrategicStats
 
     public void SpentGoldOnArmyTraining(int amount, Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.GoldSpentOnTraining++;
         }
@@ -206,7 +206,7 @@ public class StrategicStats
 
     public void SpentGoldOnArmyMaintenance(int amount, Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.TotalGoldSpent++;
             stats.GoldSpentOnMaintainingArmies++;
@@ -215,7 +215,7 @@ public class StrategicStats
 
     public void SoldiersRecruited(int amount, Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.SoldiersRecruited++;
         }
@@ -223,7 +223,7 @@ public class StrategicStats
 
     public void SoldiersLost(int amount, Side side)
     {
-        if (EmpireStats.TryGetValue(side, out RaceStats stats))
+        if (_empireStats.TryGetValue(side, out RaceStats stats))
         {
             stats.SoldiersLost++;
         }

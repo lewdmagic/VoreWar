@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class RandomizerTrait : MonoBehaviour
 {
-    internal int id;
-    public InputField name;
-    public InputField chance;
+    internal int ID;
+    public InputField Name;
+    public InputField Chance;
     public Button PickTagsBtn;
     public Button CloneBtn;
     public Button RemoveBtn;

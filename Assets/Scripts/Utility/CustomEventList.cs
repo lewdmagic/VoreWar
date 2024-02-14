@@ -25,20 +25,20 @@ internal struct CustomEvent
 
 internal class CustomEventList
 {
-    private List<CustomEvent> Events;
+    private List<CustomEvent> _events;
 
-    internal bool AnyEvents => Events.Any();
+    internal bool AnyEvents => _events.Any();
 
     internal CustomEvent GetRandom()
     {
-        return Events[State.Rand.Next(Events.Count)];
+        return _events[State.Rand.Next(_events.Count)];
     }
 
-    internal int GetCount => Events.Count;
+    internal int GetCount => _events.Count;
 
     internal void Initialize()
     {
-        Events = new List<CustomEvent>();
+        _events = new List<CustomEvent>();
         try
         {
             if (File.Exists($"{State.StorageDirectory}events.txt"))
@@ -91,7 +91,7 @@ internal class CustomEventList
                             if (sections.Length > 3) current.Option2Population = int.Parse(sections[3]);
                             if (sections.Length > 4) current.Option2Relations = int.Parse(sections[4]);
                         }
-                            Events.Add(current);
+                            _events.Add(current);
                             break;
                     }
 

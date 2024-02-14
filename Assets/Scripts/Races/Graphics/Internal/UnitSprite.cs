@@ -22,24 +22,24 @@ public class UnitSprite : MonoBehaviour
 
     public Transform GraphicsFolder;
     public Transform OtherFolder;
-    public readonly float pitchMax = 1.08f;
-    public readonly float pitchMin = 0.92f;
+    public readonly float PitchMax = 1.08f;
+    public readonly float PitchMin = 0.92f;
 
     public readonly int SfxSourcesCount = 5;
 
-    private Animator animator;
-    private Animator ballsAnimator;
+    private Animator _animator;
+    private Animator _ballsAnimator;
     internal bool BlueColored;
-    private Animator boobsAnimator;
+    private Animator _boobsAnimator;
 
-    private int lastHealth;
+    private int _lastHealth;
 
-    private float remainingTimeForDamage;
-    private Animator SecondBoobsAnimator;
-    private Color startingColor;
-    private float startingTimeForDamage = .75f;
+    private float _remainingTimeForDamage;
+    private Animator _secondBoobsAnimator;
+    private Color _startingColor;
+    private float _startingTimeForDamage = .75f;
 
-    private float timeUntilHealthBarReset = -1;
+    private float _timeUntilHealthBarReset = -1;
 
     internal RaceRenderer RaceRenderer { get; set; }
 
@@ -50,15 +50,15 @@ public class UnitSprite : MonoBehaviour
         for (var i = 0; i < SfxSourcesCount; i++)
         {
             SfxSources[i] = gameObject.AddComponent<AudioSource>();
-            SfxSources[i].pitch = pitchMin + (pitchMax - pitchMin) / SfxSourcesCount * i;
+            SfxSources[i].pitch = PitchMin + (PitchMax - PitchMin) / SfxSourcesCount * i;
         }
 
         LoopSource = gameObject.AddComponent<AudioSource>();
     }
 
-    public void UpdateHealthBar(Actor_Unit unit)
+    public void UpdateHealthBar(ActorUnit unit)
     {
-        if (State.GameManager.TacticalMode.turboMode)
+        if (State.GameManager.TacticalMode.TurboMode)
         {
             return;
         }
@@ -75,12 +75,12 @@ public class UnitSprite : MonoBehaviour
             HealthBar.value = healthFraction;
         }
 
-        lastHealth = unit.Unit.Health;
+        _lastHealth = unit.Unit.Health;
     }
 
-    public void ShowDamagedHealthBar(Actor_Unit unit, int damage)
+    public void ShowDamagedHealthBar(ActorUnit unit, int damage)
     {
-        timeUntilHealthBarReset = .1f;
+        _timeUntilHealthBarReset = .1f;
         HealthBarOrange.gameObject.SetActive(true);
         float orangeLevel = 0.5f + (Mathf.Abs(Time.time % 1 - .5f) - 0.25f);
         HealthBarOrange.GetComponent<Image>().color = new Color(1, orangeLevel, 0);
@@ -180,7 +180,7 @@ public class UnitSprite : MonoBehaviour
 
     public void DisplayDamage(int damage, bool spellDamage = false, bool expGain = false)
     {
-        if (State.GameManager.TacticalMode.turboMode)
+        if (State.GameManager.TacticalMode.TurboMode)
         {
             return;
         }
@@ -226,28 +226,28 @@ public class UnitSprite : MonoBehaviour
 
     private void FinishDisplayedTextSetup()
     {
-        remainingTimeForDamage = startingTimeForDamage;
-        startingColor = DamageIndicator.faceColor;
+        _remainingTimeForDamage = _startingTimeForDamage;
+        _startingColor = DamageIndicator.faceColor;
         DamageIndicator.gameObject.SetActive(true);
     }
 
     private void UpdateDisplayDamage()
     {
-        remainingTimeForDamage -= Time.deltaTime;
-        if (remainingTimeForDamage < 0)
+        _remainingTimeForDamage -= Time.deltaTime;
+        if (_remainingTimeForDamage < 0)
         {
             DamageIndicator.gameObject.SetActive(false);
         }
         else
         {
-            DamageIndicator.faceColor = new Color(startingColor.r, startingColor.g, startingColor.b, 1.5f * remainingTimeForDamage / startingTimeForDamage);
-            DamageIndicator.outlineColor = new Color(0, 0, 0, 1.5f * remainingTimeForDamage / startingTimeForDamage);
+            DamageIndicator.faceColor = new Color(_startingColor.r, _startingColor.g, _startingColor.b, 1.5f * _remainingTimeForDamage / _startingTimeForDamage);
+            DamageIndicator.outlineColor = new Color(0, 0, 0, 1.5f * _remainingTimeForDamage / _startingTimeForDamage);
         }
     }
 
-    public void UpdateSprites(Actor_Unit actor, bool activeTurn)
+    public void UpdateSprites(ActorUnit actor, bool activeTurn)
     {
-        if (State.GameManager.TacticalMode.turboMode)
+        if (State.GameManager.TacticalMode.TurboMode)
         {
             return;
         }
@@ -256,7 +256,7 @@ public class UnitSprite : MonoBehaviour
 
         goalScale *= actor.Unit.GetScale();
 
-        if (lastHealth != actor.Unit.Health)
+        if (_lastHealth != actor.Unit.Health)
         {
             UpdateHealthBar(actor);
         }
@@ -273,10 +273,10 @@ public class UnitSprite : MonoBehaviour
             GraphicsFolder.localScale = new Vector3(newScale, newScale, newScale);
         }
 
-        if (timeUntilHealthBarReset > 0)
+        if (_timeUntilHealthBarReset > 0)
         {
-            timeUntilHealthBarReset -= Time.deltaTime;
-            if (timeUntilHealthBarReset <= 0)
+            _timeUntilHealthBarReset -= Time.deltaTime;
+            if (_timeUntilHealthBarReset <= 0)
             {
                 UpdateHealthBar(actor);
             }
@@ -284,7 +284,7 @@ public class UnitSprite : MonoBehaviour
 
         UpdateFlexibleSquare(actor, activeTurn);
 
-        if (remainingTimeForDamage >= 0)
+        if (_remainingTimeForDamage >= 0)
         {
             UpdateDisplayDamage();
         }
@@ -300,7 +300,7 @@ public class UnitSprite : MonoBehaviour
         ApplyTinting(actor);
     }
 
-    private void ApplyTinting(Actor_Unit actor)
+    private void ApplyTinting(ActorUnit actor)
     {
         if (actor.Visible && actor.Targetable == false)
         {
@@ -322,7 +322,7 @@ public class UnitSprite : MonoBehaviour
         }
     }
 
-    private void UpdateLevelText(Actor_Unit actor)
+    private void UpdateLevelText(ActorUnit actor)
     {
         LevelText.gameObject.SetActive(Config.ShowLevelText);
         if (Config.ShowLevelText)
@@ -331,73 +331,73 @@ public class UnitSprite : MonoBehaviour
         }
     }
 
-    private void CreateCompleteSprite(Actor_Unit actor)
+    private void CreateCompleteSprite(ActorUnit actor)
     {
         if (Config.AnimatedBellies)
         {
             RaceRenderer = new RaceRenderer(State.GameManager.SpriteRendererPrefab, State.GameManager.SpriteRenderAnimatedPrefab, GraphicsFolder, actor);
-            animator = RaceRenderer.GetSpriteOfType(SpriteType.Belly)?.GameObject.GetComponentInParent<Animator>();
-            if (animator != null)
+            _animator = RaceRenderer.GetSpriteOfType(SpriteType.Belly)?.GameObject.GetComponentInParent<Animator>();
+            if (_animator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
                 if (raceData.SetupOutput.GentleAnimation)
                 {
-                    animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
+                    _animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
                 }
                 else
                 {
-                    animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/Actors");
+                    _animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/Actors");
                 }
 
-                animator.enabled = true;
+                _animator.enabled = true;
             }
 
-            ballsAnimator = RaceRenderer.GetSpriteOfType(SpriteType.Balls)?.GameObject.GetComponentInParent<Animator>();
-            if (ballsAnimator != null)
+            _ballsAnimator = RaceRenderer.GetSpriteOfType(SpriteType.Balls)?.GameObject.GetComponentInParent<Animator>();
+            if (_ballsAnimator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
                 if (raceData.SetupOutput.GentleAnimation)
                 {
-                    ballsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
+                    _ballsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
                 }
                 else
                 {
-                    ballsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/Actors");
+                    _ballsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/Actors");
                 }
 
-                ballsAnimator.enabled = true;
+                _ballsAnimator.enabled = true;
             }
 
-            boobsAnimator = RaceRenderer.GetSpriteOfType(SpriteType.Breasts)?.GameObject.GetComponentInParent<Animator>();
-            if (boobsAnimator != null)
+            _boobsAnimator = RaceRenderer.GetSpriteOfType(SpriteType.Breasts)?.GameObject.GetComponentInParent<Animator>();
+            if (_boobsAnimator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
                 if (raceData.SetupOutput.GentleAnimation)
                 {
-                    boobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
+                    _boobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
                 }
                 else
                 {
-                    boobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/Actors");
+                    _boobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/Actors");
                 }
 
-                boobsAnimator.enabled = true;
+                _boobsAnimator.enabled = true;
             }
 
-            SecondBoobsAnimator = RaceRenderer.GetSpriteOfType(SpriteType.SecondaryBreasts)?.GameObject.GetComponentInParent<Animator>();
-            if (SecondBoobsAnimator != null)
+            _secondBoobsAnimator = RaceRenderer.GetSpriteOfType(SpriteType.SecondaryBreasts)?.GameObject.GetComponentInParent<Animator>();
+            if (_secondBoobsAnimator != null)
             {
                 var raceData = Races2.GetRace(actor.Unit);
                 if (raceData.SetupOutput.GentleAnimation)
                 {
-                    SecondBoobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
+                    _secondBoobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/ActorsGentle");
                 }
                 else
                 {
-                    SecondBoobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/Actors");
+                    _secondBoobsAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Animations/Actors");
                 }
 
-                SecondBoobsAnimator.enabled = true;
+                _secondBoobsAnimator.enabled = true;
             }
         }
         else
@@ -406,7 +406,7 @@ public class UnitSprite : MonoBehaviour
         }
     }
 
-    private void UpdateFlexibleSquare(Actor_Unit actor, bool activeTurn)
+    private void UpdateFlexibleSquare(ActorUnit actor, bool activeTurn)
     {
         float alpha = 1;
         if (Config.AllianceSquaresDarkness == 2)
@@ -524,7 +524,7 @@ public class UnitSprite : MonoBehaviour
 
     public void AnimateBalls(float odds)
     {
-        if (ballsAnimator == null)
+        if (_ballsAnimator == null)
         {
             return;
         }
@@ -534,7 +534,7 @@ public class UnitSprite : MonoBehaviour
             return;
         }
 
-        if (!ballsAnimator.GetCurrentAnimatorStateInfo(0).IsName("none"))
+        if (!_ballsAnimator.GetCurrentAnimatorStateInfo(0).IsName("none"))
         {
             return;
         }
@@ -542,23 +542,23 @@ public class UnitSprite : MonoBehaviour
         int ran = Random.Range(0, 3); // 0 up to 3
         if (ran == 0)
         {
-            ballsAnimator.SetTrigger("wriggle");
+            _ballsAnimator.SetTrigger("wriggle");
         }
 
         if (ran == 1)
         {
-            ballsAnimator.SetTrigger("wriggle2");
+            _ballsAnimator.SetTrigger("wriggle2");
         }
 
         if (ran == 2)
         {
-            ballsAnimator.SetTrigger("wriggle3");
+            _ballsAnimator.SetTrigger("wriggle3");
         }
     }
 
     public void AnimateBelly(float odds)
     {
-        if (animator == null)
+        if (_animator == null)
         {
             return;
         }
@@ -568,7 +568,7 @@ public class UnitSprite : MonoBehaviour
             return;
         }
 
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("none"))
+        if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("none"))
         {
             return;
         }
@@ -576,23 +576,23 @@ public class UnitSprite : MonoBehaviour
         int ran = Random.Range(0, 4); // 0 up to 3
         if (ran == 1)
         {
-            animator.SetTrigger("wriggle");
+            _animator.SetTrigger("wriggle");
         }
 
         if (ran == 2)
         {
-            animator.SetTrigger("wriggle2");
+            _animator.SetTrigger("wriggle2");
         }
 
         if (ran == 3)
         {
-            animator.SetTrigger("wriggle3");
+            _animator.SetTrigger("wriggle3");
         }
     }
 
     public void AnimateBoobs(float odds)
     {
-        if (boobsAnimator == null)
+        if (_boobsAnimator == null)
         {
             return;
         }
@@ -602,7 +602,7 @@ public class UnitSprite : MonoBehaviour
             return;
         }
 
-        if (!boobsAnimator.GetCurrentAnimatorStateInfo(0).IsName("none"))
+        if (!_boobsAnimator.GetCurrentAnimatorStateInfo(0).IsName("none"))
         {
             return;
         }
@@ -610,23 +610,23 @@ public class UnitSprite : MonoBehaviour
         int ran = Random.Range(0, 3); // 0 up to 3
         if (ran == 1)
         {
-            boobsAnimator.SetTrigger("wriggle");
+            _boobsAnimator.SetTrigger("wriggle");
         }
 
         if (ran == 2)
         {
-            boobsAnimator.SetTrigger("wriggle2");
+            _boobsAnimator.SetTrigger("wriggle2");
         }
 
         if (ran == 3)
         {
-            boobsAnimator.SetTrigger("wriggle3");
+            _boobsAnimator.SetTrigger("wriggle3");
         }
     }
 
     public void AnimateSecondBoobs(float odds)
     {
-        if (SecondBoobsAnimator == null)
+        if (_secondBoobsAnimator == null)
         {
             return;
         }
@@ -636,7 +636,7 @@ public class UnitSprite : MonoBehaviour
             return;
         }
 
-        if (!SecondBoobsAnimator.GetCurrentAnimatorStateInfo(0).IsName("none"))
+        if (!_secondBoobsAnimator.GetCurrentAnimatorStateInfo(0).IsName("none"))
         {
             return;
         }
@@ -644,28 +644,28 @@ public class UnitSprite : MonoBehaviour
         int ran = Random.Range(0, 3); // 0 up to 3
         if (ran == 1)
         {
-            SecondBoobsAnimator.SetTrigger("wriggle");
+            _secondBoobsAnimator.SetTrigger("wriggle");
         }
 
         if (ran == 2)
         {
-            SecondBoobsAnimator.SetTrigger("wriggle2");
+            _secondBoobsAnimator.SetTrigger("wriggle2");
         }
 
         if (ran == 3)
         {
-            SecondBoobsAnimator.SetTrigger("wriggle3");
+            _secondBoobsAnimator.SetTrigger("wriggle3");
         }
     }
 
     public void AnimateBellyEnter()
     {
-        if (animator == null)
+        if (_animator == null)
         {
             return;
         }
 
-        animator.SetTrigger("enter");
+        _animator.SetTrigger("enter");
     }
 
     private void ApplyDeadEffect()

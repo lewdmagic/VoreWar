@@ -107,7 +107,7 @@ public static class VillageBuildingList
         )
         {
             Cost = new BuildingCost() { Wealth = 60 },
-            Boosts = new VillageBoosts() { hasWall = true }
+            Boosts = new VillageBoosts() { HasWall = true }
         },
 
         [VillageBuilding.trainer] = new VillageBuildingDefinition(
@@ -346,7 +346,7 @@ public static class VillageBuildingList
             Cost = new BuildingCost() { Wealth = 60 },
             Boosts = new VillageBoosts()
             {
-                hasWall = true
+                HasWall = true
             }
         },
 

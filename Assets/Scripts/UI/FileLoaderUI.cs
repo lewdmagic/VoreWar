@@ -19,7 +19,7 @@ public class FileLoaderUI : MonoBehaviour
     {
         var button = Instantiate(ButtonType, Folder);
         button.GetComponentInChildren<Text>().text = $"Use Map : {Path.GetFileName(file)}";
-        button.GetComponent<Button>().onClick.AddListener(() => State.GameManager.Start_Mode.CreateStrategicGame.PickMap(file));
+        button.GetComponent<Button>().onClick.AddListener(() => State.GameManager.StartMode.CreateStrategicGame.PickMap(file));
         button.GetComponent<Button>().onClick.AddListener(() => TerminateSelf());
     }
 
@@ -27,7 +27,7 @@ public class FileLoaderUI : MonoBehaviour
     {
         var button = Instantiate(ButtonType, Folder);
         button.GetComponentInChildren<Text>().text = $"Use Save Game : {Path.GetFileName(file)}";
-        button.GetComponent<Button>().onClick.AddListener(() => State.GameManager.Start_Mode.CreateStrategicGame.PickSaveForContentData(file));
+        button.GetComponent<Button>().onClick.AddListener(() => State.GameManager.StartMode.CreateStrategicGame.PickSaveForContentData(file));
         button.GetComponent<Button>().onClick.AddListener(() => TerminateSelf());
     }
 

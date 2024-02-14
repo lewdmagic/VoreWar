@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Races.Graphics.Implementations.UniqueMercs
 {
-    internal static class DRACO
+    internal static class Draco
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
@@ -53,22 +53,22 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 output.Coloring(Defaults.WhiteColored);
                 if (input.A.IsAttacking || input.A.IsOralVoring)
                 {
-                    output.Sprite(input.Sprites.DRACO[3]);
+                    output.Sprite(input.Sprites.Draco[3]);
                     return;
                 }
 
-                output.Sprite(input.Sprites.DRACO[2]);
+                output.Sprite(input.Sprites.Draco[2]);
             });
 
             builder.RenderSingle(SpriteType.Body, 5, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                output.Sprite(input.Sprites.DRACO[0]);
+                output.Sprite(input.Sprites.Draco[0]);
             });
             builder.RenderSingle(SpriteType.BodyAccent, 3, (input, output) =>
             {
                 output.Coloring(Defaults.WhiteColored);
-                output.Sprite(input.Sprites.DRACO[1]);
+                output.Sprite(input.Sprites.Draco[1]);
             });
             builder.RenderSingle(SpriteType.Belly, 4, (input, output) =>
             {
@@ -78,7 +78,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     return;
                 }
 
-                output.Sprite(input.A.HasBelly ? input.Sprites.DRACO[5 + input.A.GetStomachSize(4)] : null);
+                output.Sprite(input.A.HasBelly ? input.Sprites.Draco[5 + input.A.GetStomachSize(4)] : null);
             });
 
             builder.RunBefore(Defaults.Finalize);

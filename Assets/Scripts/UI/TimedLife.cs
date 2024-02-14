@@ -3,11 +3,11 @@
 public class TimedLife : MonoBehaviour
 {
     public float Life;
-    private float currentLife;
+    private float _currentLife;
 
     private void Update()
     {
-        currentLife += Time.deltaTime;
-        if (currentLife > Life) Destroy(gameObject);
+        _currentLife += Time.deltaTime;
+        if (_currentLife > Life) Destroy(gameObject);
     }
 }

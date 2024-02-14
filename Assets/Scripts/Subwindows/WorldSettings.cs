@@ -8,77 +8,77 @@ using UnityEngine.UI;
 public class WorldSettings : MonoBehaviour
 {
     public GameObject EditEmpirePrefab;
-    public Transform folder;
-    private EditEmpireUI[] Empires;
+    public Transform Folder;
+    private EditEmpireUI[] _empires;
 
     public Text RightText;
 
     public void Open()
     {
         ShowSettings();
-        if (Empires != null)
+        if (_empires != null)
         {
-            foreach (var item in Empires)
+            foreach (var item in _empires)
             {
                 Destroy(item.gameObject);
             }
         }
 
-        Empires = new EditEmpireUI[State.World.MainEmpires.Count];
-        for (int i = 0; i < Empires.Length; i++)
+        _empires = new EditEmpireUI[State.World.MainEmpires.Count];
+        for (int i = 0; i < _empires.Length; i++)
         {
-            Empires[i] = Instantiate(EditEmpirePrefab, folder).GetComponent<EditEmpireUI>();
-            Empires[i].Name.text = State.World.MainEmpires[i].Name.ToString();
-            Empires[i].AIPlayer.isOn = State.World.MainEmpires[i].StrategicAI != null;
+            _empires[i] = Instantiate(EditEmpirePrefab, Folder).GetComponent<EditEmpireUI>();
+            _empires[i].Name.text = State.World.MainEmpires[i].Name.ToString();
+            _empires[i].AIPlayer.isOn = State.World.MainEmpires[i].StrategicAI != null;
             if (State.World.MainEmpires[i].StrategicAI is PassiveAI)
             {
-                Empires[i].StrategicAI.value = 0;
+                _empires[i].StrategicAI.value = 0;
             }
             else if (State.World.MainEmpires[i].StrategicAI is LegacyStrategicAI)
             {
-                Empires[i].StrategicAI.value = 1;
+                _empires[i].StrategicAI.value = 1;
             }
             else if (State.World.MainEmpires[i].StrategicAI is StrategicAI)
             {
                 StrategicAI ai = (StrategicAI)State.World.MainEmpires[i].StrategicAI;
                 if (ai.CheatLevel > 0)
                 {
-                    Empires[i].StrategicAI.value = 3 + ai.CheatLevel;
+                    _empires[i].StrategicAI.value = 3 + ai.CheatLevel;
                 }
-                else if (ai.smarterAI)
+                else if (ai.SmarterAI)
                 {
-                    Empires[i].StrategicAI.value = 3;
+                    _empires[i].StrategicAI.value = 3;
                 }
                 else
                 {
-                    Empires[i].StrategicAI.value = 2;
+                    _empires[i].StrategicAI.value = 2;
                 }
             }
 
-            if (Empires[i].AIPlayer.isOn)
+            if (_empires[i].AIPlayer.isOn)
             {
-                Empires[i].TacticalAI.value = (int)State.World.MainEmpires[i].TacticalAIType - 1;
+                _empires[i].TacticalAI.value = (int)State.World.MainEmpires[i].TacticalAIType - 1;
             }
             else
             {
-                Empires[i].TacticalAI.value = 1;
+                _empires[i].TacticalAI.value = 1;
             }
 
-            Empires[i].CanVore.isOn = State.World.MainEmpires[i].CanVore;
-            Empires[i].Team.text = State.World.MainEmpires[i].Team.ToString();
-            Empires[i].PrimaryColor.value = CreateStrategicGame.IndexFromColor(State.World.MainEmpires[i].UnityColor);
+            _empires[i].CanVore.isOn = State.World.MainEmpires[i].CanVore;
+            _empires[i].Team.text = State.World.MainEmpires[i].Team.ToString();
+            _empires[i].PrimaryColor.value = CreateStrategicGame.IndexFromColor(State.World.MainEmpires[i].UnityColor);
             Color secColor = State.World.MainEmpires[i].UnitySecondaryColor;
-            Empires[i].SecondaryColor.value = CreateStrategicGame.IndexFromColor(GetLighterColor(State.World.MainEmpires[i].UnitySecondaryColor));
-            Empires[i].PrimaryColor.onValueChanged.AddListener((s) => UpdateColors());
-            Empires[i].SecondaryColor.onValueChanged.AddListener((s) => UpdateColors());
-            Empires[i].MaxArmySize.value = State.World.MainEmpires[i].MaxArmySize;
-            Empires[i].MaxGarrisonSize.value = State.World.MainEmpires[i].MaxGarrisonSize;
-            Empires[i].MaxArmySize.GetComponentInChildren<SetMeToValue>().Set(Empires[i].MaxArmySize);
-            Empires[i].MaxGarrisonSize.GetComponentInChildren<SetMeToValue>().Set(Empires[i].MaxGarrisonSize);
-            Empires[i].TurnOrder.text = State.World.MainEmpires[i].TurnOrder.ToString();
+            _empires[i].SecondaryColor.value = CreateStrategicGame.IndexFromColor(GetLighterColor(State.World.MainEmpires[i].UnitySecondaryColor));
+            _empires[i].PrimaryColor.onValueChanged.AddListener((s) => UpdateColors());
+            _empires[i].SecondaryColor.onValueChanged.AddListener((s) => UpdateColors());
+            _empires[i].MaxArmySize.value = State.World.MainEmpires[i].MaxArmySize;
+            _empires[i].MaxGarrisonSize.value = State.World.MainEmpires[i].MaxGarrisonSize;
+            _empires[i].MaxArmySize.GetComponentInChildren<SetMeToValue>().Set(_empires[i].MaxArmySize);
+            _empires[i].MaxGarrisonSize.GetComponentInChildren<SetMeToValue>().Set(_empires[i].MaxGarrisonSize);
+            _empires[i].TurnOrder.text = State.World.MainEmpires[i].TurnOrder.ToString();
             if (State.World.MainEmpires[i].KnockedOut || RaceFuncs.IsRebelOrBandit3(State.World.MainEmpires[i].Side))
             {
-                Empires[i].gameObject.SetActive(false);
+                _empires[i].gameObject.SetActive(false);
             }
         }
 
@@ -101,12 +101,12 @@ public class WorldSettings : MonoBehaviour
 
     public void ExitAndSave()
     {
-        for (int i = 0; i < Empires.Length; i++)
+        for (int i = 0; i < _empires.Length; i++)
         {
             if (RaceFuncs.IsRebelOrBandit2(State.World.MainEmpires[i].Side)) continue;
-            if (Empires[i].AIPlayer.isOn)
+            if (_empires[i].AIPlayer.isOn)
             {
-                StrategyAIType strat = (StrategyAIType)(Empires[i].StrategicAI.value + 1);
+                StrategyAIType strat = (StrategyAIType)(_empires[i].StrategicAI.value + 1);
                 if (strat == StrategyAIType.Passive)
                     State.World.MainEmpires[i].StrategicAI = new PassiveAI(State.World.MainEmpires[i].Side);
                 else if (strat == StrategyAIType.Basic)
@@ -120,7 +120,7 @@ public class WorldSettings : MonoBehaviour
                 else if (strat == StrategyAIType.Cheating3)
                     State.World.MainEmpires[i].StrategicAI = new StrategicAI(State.World.MainEmpires[i], 3, true);
                 else if (strat == StrategyAIType.Legacy) State.World.MainEmpires[i].StrategicAI = new LegacyStrategicAI(State.World.MainEmpires[i].Side);
-                State.World.MainEmpires[i].TacticalAIType = (TacticalAIType)Empires[i].TacticalAI.value + 1;
+                State.World.MainEmpires[i].TacticalAIType = (TacticalAIType)_empires[i].TacticalAI.value + 1;
             }
             else
             {
@@ -128,14 +128,14 @@ public class WorldSettings : MonoBehaviour
                 State.World.MainEmpires[i].TacticalAIType = TacticalAIType.None;
             }
 
-            if (State.World.MainEmpires[i].CanVore != Empires[i].CanVore.isOn)
+            if (State.World.MainEmpires[i].CanVore != _empires[i].CanVore.isOn)
             {
-                State.World.MainEmpires[i].CanVore = Empires[i].CanVore.isOn;
+                State.World.MainEmpires[i].CanVore = _empires[i].CanVore.isOn;
                 foreach (Unit unit in StrategicUtilities.GetAllUnits().Where(s => Equals(s.Race, State.World.MainEmpires[i].Race)))
                 {
                     if (unit.Type == UnitType.Soldier)
                     {
-                        if (unit.fixedPredator == false)
+                        if (unit.FixedPredator == false)
                         {
                             unit.Predator = State.World.MainEmpires[i].CanVore;
                             unit.ReloadTraits(); //To make sure it takes into account gender traits as well
@@ -144,17 +144,17 @@ public class WorldSettings : MonoBehaviour
                 }
             }
 
-            if (State.World.MainEmpires[i].Team != Convert.ToInt32(Empires[i].Team.text))
+            if (State.World.MainEmpires[i].Team != Convert.ToInt32(_empires[i].Team.text))
             {
-                State.World.MainEmpires[i].Team = Convert.ToInt32(Empires[i].Team.text);
+                State.World.MainEmpires[i].Team = Convert.ToInt32(_empires[i].Team.text);
                 RelationsManager.TeamUpdated(State.World.MainEmpires[i]);
             }
 
-            State.World.MainEmpires[i].UnityColor = CreateStrategicGame.ColorFromIndex(Empires[i].PrimaryColor.value);
-            State.World.MainEmpires[i].UnitySecondaryColor = CreateStrategicGame.GetDarkerColor(CreateStrategicGame.ColorFromIndex(Empires[i].SecondaryColor.value));
-            State.World.MainEmpires[i].MaxArmySize = (int)Empires[i].MaxArmySize.value;
-            State.World.MainEmpires[i].MaxGarrisonSize = (int)Empires[i].MaxGarrisonSize.value;
-            State.World.MainEmpires[i].TurnOrder = Convert.ToInt32(Empires[i].TurnOrder.text);
+            State.World.MainEmpires[i].UnityColor = CreateStrategicGame.ColorFromIndex(_empires[i].PrimaryColor.value);
+            State.World.MainEmpires[i].UnitySecondaryColor = CreateStrategicGame.GetDarkerColor(CreateStrategicGame.ColorFromIndex(_empires[i].SecondaryColor.value));
+            State.World.MainEmpires[i].MaxArmySize = (int)_empires[i].MaxArmySize.value;
+            State.World.MainEmpires[i].MaxGarrisonSize = (int)_empires[i].MaxGarrisonSize.value;
+            State.World.MainEmpires[i].TurnOrder = Convert.ToInt32(_empires[i].TurnOrder.text);
         }
 
         if (Config.Diplomacy == false) RelationsManager.ResetRelationTypes();
@@ -177,7 +177,7 @@ public class WorldSettings : MonoBehaviour
 
     private void ChangeArmySizes(int size)
     {
-        foreach (var empire in Empires)
+        foreach (var empire in _empires)
         {
             empire.MaxArmySize.value = size;
         }
@@ -191,7 +191,7 @@ public class WorldSettings : MonoBehaviour
 
     private void ChangeGarrisonSizes(int size)
     {
-        foreach (var empire in Empires)
+        foreach (var empire in _empires)
         {
             empire.MaxGarrisonSize.value = size;
         }
@@ -211,14 +211,14 @@ public class WorldSettings : MonoBehaviour
         right.AppendLine($"Gold Mine Income : {Config.GoldMineIncome}");
         right.AppendLine($"Leader Exp % lost on Death : {Math.Round(Config.LeaderLossExpPct * 100, 2)}");
         right.AppendLine($"Leader Levels lost on Death : {Config.LeaderLossLevels}");
-        if (State.World.crazyBuildings) right.AppendLine($"Annoynimouse's crazy buildings are on...");
+        if (State.World.CrazyBuildings) right.AppendLine($"Annoynimouse's crazy buildings are on...");
 
         RightText.text = right.ToString();
     }
 
     public void UpdateColors()
     {
-        foreach (var emp in Empires)
+        foreach (var emp in _empires)
         {
             emp.PrimaryColor.GetComponent<Image>().color = CreateStrategicGame.ColorFromIndex(emp.PrimaryColor.value);
             emp.SecondaryColor.GetComponent<Image>().color = CreateStrategicGame.GetDarkerColor(CreateStrategicGame.ColorFromIndex(emp.SecondaryColor.value));

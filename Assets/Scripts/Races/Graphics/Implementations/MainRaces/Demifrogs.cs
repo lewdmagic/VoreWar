@@ -10,12 +10,12 @@ namespace Races.Graphics.Implementations.MainRaces
 {
     internal static class Demifrogs
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(31 * 31);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(31 * 31);
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            IClothing LeaderClothes = DemifrogLeader.DemifrogLeaderInstance.Create(paramsCalc);
-            IClothing Rags = DemifrogRags.DemifrogRagsInstance;
+            IClothing leaderClothes = DemifrogLeader.DemifrogLeaderInstance.Create(_paramsCalc);
+            IClothing rags = DemifrogRags.DemifrogRagsInstance;
 
 
             builder.Setup(output =>
@@ -94,18 +94,18 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.ExtendedBreastSprites = true;
 
                 output.AllowedMainClothingTypes.Set(
-                    GenericTop1.GenericTop1Instance.Create(paramsCalc),
-                    GenericTop2.GenericTop2Instance.Create(paramsCalc),
-                    GenericTop3.GenericTop3Instance.Create(paramsCalc),
-                    GenericTop4.GenericTop4Instance.Create(paramsCalc),
-                    GenericTop5.GenericTop5Instance.Create(paramsCalc),
-                    GenericTop6.GenericTop6Instance.Create(paramsCalc),
+                    GenericTop1.GenericTop1Instance.Create(_paramsCalc),
+                    GenericTop2.GenericTop2Instance.Create(_paramsCalc),
+                    GenericTop3.GenericTop3Instance.Create(_paramsCalc),
+                    GenericTop4.GenericTop4Instance.Create(_paramsCalc),
+                    GenericTop5.GenericTop5Instance.Create(_paramsCalc),
+                    GenericTop6.GenericTop6Instance.Create(_paramsCalc),
                     MaleTop.MaleTopInstance,
                     MaleTop2.MaleTop2Instance,
-                    Natural.NaturalInstance.Create(paramsCalc),
-                    Tribal.TribalInstance.Create(paramsCalc),
-                    Rags,
-                    LeaderClothes
+                    Natural.NaturalInstance.Create(_paramsCalc),
+                    Tribal.TribalInstance.Create(_paramsCalc),
+                    rags,
+                    leaderClothes
                 );
                 output.AvoidedMainClothingTypes = 2;
                 output.AvoidedEyeTypes = 0;
@@ -266,11 +266,11 @@ namespace Races.Graphics.Implementations.MainRaces
                             leftSize = 27;
                         }
 
-                        output.Sprite(input.Sprites.Demifrogs3alt[0 + leftSize]);
+                        output.Sprite(input.Sprites.Demifrogs3Alt[0 + leftSize]);
                     }
                     else
                     {
-                        output.Sprite(input.Sprites.Demifrogs3alt[0 + input.U.BreastSize]);
+                        output.Sprite(input.Sprites.Demifrogs3Alt[0 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -312,11 +312,11 @@ namespace Races.Graphics.Implementations.MainRaces
                             rightSize = 27;
                         }
 
-                        output.Sprite(input.Sprites.Demifrogs3alt[31 + rightSize]);
+                        output.Sprite(input.Sprites.Demifrogs3Alt[31 + rightSize]);
                     }
                     else
                     {
-                        output.Sprite(input.Sprites.Demifrogs3alt[31 + input.U.BreastSize]);
+                        output.Sprite(input.Sprites.Demifrogs3Alt[31 + input.U.BreastSize]);
                     }
                 }
                 else
@@ -370,7 +370,7 @@ namespace Races.Graphics.Implementations.MainRaces
                                 break;
                         }
 
-                        output.Sprite(input.Sprites.Demifrogs3alt[62 + size]);
+                        output.Sprite(input.Sprites.Demifrogs3Alt[62 + size]);
                     }
                     else
                     {
@@ -484,11 +484,11 @@ namespace Races.Graphics.Implementations.MainRaces
 
                     if (offset > 0)
                     {
-                        output.Sprite(input.Sprites.Demifrogs3alt[Math.Min(103 + offset, 129)]);
+                        output.Sprite(input.Sprites.Demifrogs3Alt[Math.Min(103 + offset, 129)]);
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Demifrogs3alt[95 + size]);
+                    output.Sprite(input.Sprites.Demifrogs3Alt[95 + size]);
                 }
                 else
                 {
@@ -616,12 +616,12 @@ namespace Races.Graphics.Implementations.MainRaces
 
                 if (unit.Type == UnitType.Leader)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, LeaderClothes);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, leaderClothes);
                 }
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)
                 {
-                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, Rags);
+                    unit.ClothingType = 1 + Extensions.IndexOf(data.SetupOutput.AllowedMainClothingTypes, rags);
                     if (unit.ClothingType == 0) //Covers rags not in the list
                     {
                         unit.ClothingType = data.SetupOutput.AllowedMainClothingTypes.Count;

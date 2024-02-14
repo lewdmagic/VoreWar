@@ -10,8 +10,8 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
     public Slider[] Sliders;
     public Toggle AutoSpend;
     internal bool Custom;
-    private bool deniedChanges = false;
-    private Unit Unit;
+    private bool _deniedChanges = false;
+    private Unit _unit;
 
     internal void Open(Unit unit)
     {
@@ -33,7 +33,7 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
             }
         }
         CustomDropdown.value = 0;
-        Unit = unit;
+        _unit = unit;
         Dropdown.value = (int)unit.AIClass;
         Sliders[(int)Stat.Voracity].gameObject.SetActive(unit.Predator);
         Sliders[(int)Stat.Stomach].gameObject.SetActive(unit.Predator);
@@ -48,11 +48,11 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
         if ((AIClass)Dropdown.value == AIClass.Custom)
         {
             Custom = true;
-            if (Unit.StatWeights != null)
+            if (_unit.StatWeights != null)
             {
                 for (int i = 0; i < (int)Stat.None; i++)
                 {
-                    Sliders[i].value = Unit.StatWeights.Weight[i];
+                    Sliders[i].value = _unit.StatWeights.Weight[i];
                 }
             }
 
@@ -60,18 +60,18 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
         }
         else
         {
-            Unit.StatWeights = null;
+            _unit.StatWeights = null;
         }
 
-        deniedChanges = true;
+        _deniedChanges = true;
         Custom = false;
-        Unit.AIClass = (AIClass)Dropdown.value;
+        _unit.AIClass = (AIClass)Dropdown.value;
         float[] weight = new float[(int)Stat.None];
 
-        switch (Unit.AIClass)
+        switch (_unit.AIClass)
         {
             case AIClass.Default:
-                if ((Unit.BestSuitedForRanged() && Unit.FixedGear == false) || Unit.GetBestRanged() != null)
+                if ((_unit.BestSuitedForRanged() && _unit.FixedGear == false) || _unit.GetBestRanged() != null)
                 {
                     weight[(int)Stat.Strength] = 0;
                     weight[(int)Stat.Dexterity] = 3;
@@ -176,7 +176,7 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
                 break;
         }
 
-        if (Unit.Type == UnitType.Leader)
+        if (_unit.Type == UnitType.Leader)
         {
             weight[(int)Stat.Leadership] = 4;
         }
@@ -186,7 +186,7 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
             Sliders[i].value = weight[i];
         }
 
-        deniedChanges = false;
+        _deniedChanges = false;
     }
 
     public void PickCustomClass()
@@ -240,11 +240,11 @@ public class ConfigAutoLevelUpPanel : MonoBehaviour
             Sliders[i].GetComponentInChildren<Text>().text = $"{(Stat)i} - {Math.Round(Sliders[i].value, 2)} ";
         }
 
-        if (deniedChanges == false)
+        if (_deniedChanges == false)
         {
             Custom = true;
-            Unit.AIClass = AIClass.Custom;
-            Dropdown.value = (int)Unit.AIClass;
+            _unit.AIClass = AIClass.Custom;
+            Dropdown.value = (int)_unit.AIClass;
         }
     }
 

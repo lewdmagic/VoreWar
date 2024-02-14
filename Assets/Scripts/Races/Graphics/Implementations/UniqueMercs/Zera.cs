@@ -35,27 +35,27 @@ namespace Races.Graphics.Implementations.UniqueMercs
             /////////////////////////////////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////
 
-            if (!(bodyState == BodyStateType.Third && stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach)))
+            if (!(bodyState == BodyStateType.Third && stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach)))
             {
                 if (bodyState == BodyStateType.Third)
                 {
-                    if (stomachSize > 16 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                    if (stomachSize > 16 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach) == false)
                     {
                         stomachSize = 16;
                     }
                 }
 
-                if (stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                if (stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach))
                 {
                     // Nothing ? I think
                 }
 
-                if (stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
+                if (stomachSize == 19 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach) == false)
                 {
                     stomachSize = 18;
                 }
 
-                if (stomachSize > 17 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                if (stomachSize > 17 && actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach) == false)
                 {
                     stomachSize = 17;
                 }
@@ -109,9 +109,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            int[] BallsLow = { 0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 17, 18, 19, 20, 21, 22, 35, 34, 33, 32 }; //8 is cut out so the lengths match
-            int[] BallsMedium = { 0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 15, 16, 23, 24, 25, 20, 21, 22, 35, 34, 33, 32 };
-            int[] BallsHigh = { 0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 15, 16, 26, 27, 28, 29, 30, 31, 35, 34, 33, 32 };
+            int[] ballsLow = { 0, 1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 17, 18, 19, 20, 21, 22, 35, 34, 33, 32 }; //8 is cut out so the lengths match
+            int[] ballsMedium = { 0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 15, 16, 23, 24, 25, 20, 21, 22, 35, 34, 33, 32 };
+            int[] ballsHigh = { 0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 15, 16, 26, 27, 28, 29, 30, 31, 35, 34, 33, 32 };
 
 
             builder.Setup(output =>
@@ -355,7 +355,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 if (CalcZeraParameters(input.A).BodyState == BodyStateType.Third)
                 {
-                    if (CalcZeraParameters(input.A).StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                    if (CalcZeraParameters(input.A).StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach))
                     {
                         output.Sprite(input.Sprites.ZeraFrontBelly[12]);
                         return;
@@ -383,7 +383,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     return;
                 }
 
-                if (CalcZeraParameters(input.A).StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                if (CalcZeraParameters(input.A).StomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach))
                 {
                     output.Sprite(input.Sprites.ZeraBelly[9]);
                     return;
@@ -418,12 +418,12 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 if (input.U.Predator)
                 {
-                    if (ballIndex > 18 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.balls) == false)
+                    if (ballIndex > 18 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, PreyLocation.Balls) == false)
                     {
                         ballIndex = 18;
                     }
 
-                    if (ballIndex == 21 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls) == false)
+                    if (ballIndex == 21 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Balls) == false)
                     {
                         ballIndex = 20;
                     }
@@ -432,15 +432,15 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
                 if (CalcZeraParameters(input.A).StomachSize >= 10)
                 {
-                    ballSprite = BallsHigh[ballIndex];
+                    ballSprite = ballsHigh[ballIndex];
                 }
                 else if (CalcZeraParameters(input.A).StomachSize >= 7)
                 {
-                    ballSprite = BallsMedium[ballIndex];
+                    ballSprite = ballsMedium[ballIndex];
                 }
                 else
                 {
-                    ballSprite = BallsLow[ballIndex];
+                    ballSprite = ballsLow[ballIndex];
                 }
 
 
@@ -519,13 +519,13 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
             if (bodyState == BodyStateType.Third)
             {
-                if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach))
                 {
                     SetThirdOffset(59 * .416667f);
                     return;
                 }
 
-                if (stomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                if (stomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach) == false)
                 {
                     stomachSize = 16;
                 }
@@ -546,7 +546,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
         }
 
         // Extracted from BellySprite
-        private static void adjustBodyOffsets222(IRunInput input, IRunOutput output, BodyStateType bodyState, int stomachSize)
+        private static void AdjustBodyOffsets222(IRunInput input, IRunOutput output, BodyStateType bodyState, int stomachSize)
         {
             if (input.A.HasBelly == false)
             {
@@ -565,13 +565,13 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
             if (bodyState == BodyStateType.Third)
             {
-                if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+                if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach))
                 {
                     SetThirdOffset(59 * .416667f);
                     return;
                 }
 
-                if (stomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+                if (stomachSize > 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach) == false)
                 {
                     stomachSize = 16;
                 }
@@ -586,18 +586,18 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 }
             }
 
-            if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach))
+            if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach))
             {
                 return;
             }
 
-            if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach) == false)
+            if (stomachSize == 19 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach) == false)
             {
                 stomachSize = 18;
             }
 
 
-            if (stomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach) == false)
+            if (stomachSize > 17 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach) == false)
             {
                 stomachSize = 17;
             }

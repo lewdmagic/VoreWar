@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
     internal static class Imps
     {
-        private static Func<IClothingRenderInput, IOverSizeParameters> paramsCalc = CommonRaceCode.MakeOversizeFunc(22 * 22);
+        private static Func<IClothingRenderInput, IOverSizeParameters> _paramsCalc = CommonRaceCode.MakeOversizeFunc(22 * 22);
         private static List<IClothing> _allClothing;
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
@@ -145,11 +145,11 @@ namespace Races.Graphics.Implementations.MainRaces
                 {
                     NewImpLeotard.NewImpLeotardInstance,
                     NewImpCasinoBunny.NewImpCasinoBunnyInstance,
-                    NewImpUndertop1.NewImpUndertop1Instance.Create(paramsCalc),
-                    NewImpUndertop2.NewImpUndertop2Instance.Create(paramsCalc),
-                    NewImpUndertop3.NewImpUndertop3Instance.Create(paramsCalc),
-                    NewImpUndertop4.NewImpUndertop4Instance.Create(paramsCalc),
-                    NewImpUndertop5.NewImpUndertop5Instance.Create(paramsCalc)
+                    NewImpUndertop1.NewImpUndertop1Instance.Create(_paramsCalc),
+                    NewImpUndertop2.NewImpUndertop2Instance.Create(_paramsCalc),
+                    NewImpUndertop3.NewImpUndertop3Instance.Create(_paramsCalc),
+                    NewImpUndertop4.NewImpUndertop4Instance.Create(_paramsCalc),
+                    NewImpUndertop5.NewImpUndertop5Instance.Create(_paramsCalc)
                 };
                 output.AllowedMainClothingTypes.Clear();
 
@@ -174,7 +174,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 );
 
                 output.ExtraMainClothing2Types.Set( //Special clothing
-                    NewImpOverOPFem.NewImpOverOPFemInstance.Create(paramsCalc),
+                    NewImpOverOpFem.NewImpOverOpFemInstance.Create(_paramsCalc),
                     NewImpOverOpm.NewImpOverOpmInstance,
                     NewImpOverTop1.NewImpOverTop1Instance,
                     NewImpOverTop2.NewImpOverTop2Instance,
@@ -1529,9 +1529,9 @@ namespace Races.Graphics.Implementations.MainRaces
         });
     }
 
-    internal static class NewImpOverOPFem
+    internal static class NewImpOverOpFem
     {
-        internal static readonly BindableClothing<IOverSizeParameters> NewImpOverOPFemInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
+        internal static readonly BindableClothing<IOverSizeParameters> NewImpOverOpFemInstance = ClothingBuilder.CreateV2<IOverSizeParameters>(builder =>
         {
             builder.Setup(ClothingBuilder.DefaultMisc, (input, output) =>
             {

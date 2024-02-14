@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class CommonRaceCode
 {
-    public static bool AreBreastsOverside2(Actor_Unit actor, int highestBreastSprite)
+    public static bool AreBreastsOverside2(ActorUnit actor, int highestBreastSprite)
     {
         if (actor.PredatorComponent?.LeftBreastFullness > 0)
         {

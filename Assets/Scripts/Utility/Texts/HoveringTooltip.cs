@@ -7,20 +7,20 @@ using UnityEngine.UI;
 
 public class HoveringTooltip : MonoBehaviour
 {
-    private TextMeshProUGUI text;
-    private RectTransform rect;
-    private int remainingFrames = 0;
+    private TextMeshProUGUI _text;
+    private RectTransform _rect;
+    private int _remainingFrames = 0;
 
     private void Start()
     {
-        rect = GetComponent<RectTransform>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
+        _rect = GetComponent<RectTransform>();
+        _text = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Update()
     {
-        if (remainingFrames > 0)
-            remainingFrames--;
+        if (_remainingFrames > 0)
+            _remainingFrames--;
         else
             gameObject.SetActive(false);
     }
@@ -34,12 +34,12 @@ public class HoveringTooltip : MonoBehaviour
             return;
         }
 
-        rect.sizeDelta = new Vector2(500, 200);
+        _rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
-        remainingFrames = 3;
-        text.text = description;
+        _remainingFrames = 3;
+        _text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        float exceeded = Input.mousePosition.x + _rect.rect.width * Screen.width / 1920 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
@@ -53,12 +53,12 @@ public class HoveringTooltip : MonoBehaviour
             return;
         }
 
-        rect.sizeDelta = new Vector2(500, 200);
+        _rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
-        remainingFrames = 3;
-        text.text = description;
+        _remainingFrames = 3;
+        _text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        float exceeded = Input.mousePosition.x + _rect.rect.width * Screen.width / 1920 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
@@ -72,17 +72,17 @@ public class HoveringTooltip : MonoBehaviour
             return;
         }
 
-        rect.sizeDelta = new Vector2(500, 200);
+        _rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
-        remainingFrames = 3;
-        text.text = description;
+        _remainingFrames = 3;
+        _text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        float exceeded = Input.mousePosition.x + _rect.rect.width * Screen.width / 1920 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
-    public void UpdateInformation(string[] words, Unit unit, Actor_Unit actor)
+    public void UpdateInformation(string[] words, Unit unit, ActorUnit actor)
     {
         string description = GetDescription(words, unit, actor);
         if (description == "")
@@ -91,23 +91,23 @@ public class HoveringTooltip : MonoBehaviour
             return;
         }
 
-        rect.sizeDelta = new Vector2(500, 200);
+        _rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
-        remainingFrames = 3;
-        text.text = description;
+        _remainingFrames = 3;
+        _text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        float exceeded = Input.mousePosition.x + _rect.rect.width * Screen.width / 1920 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
 
     public void UpdateInformation(Slider slider)
     {
-        rect.sizeDelta = new Vector2(350, 80);
+        _rect.sizeDelta = new Vector2(350, 80);
         string description = $"Slider Value: {Math.Round(slider.value, 3)}\nRight Click to type in the number.";
         gameObject.SetActive(true);
-        remainingFrames = 3;
-        text.text = description;
+        _remainingFrames = 3;
+        _text.text = description;
         float xAdjust = 10;
         float exceeded = Input.mousePosition.x + 640 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
@@ -118,10 +118,10 @@ public class HoveringTooltip : MonoBehaviour
     {
         string description = "Click to show the information for this consumed unit";
         gameObject.SetActive(true);
-        remainingFrames = 3;
-        text.text = description;
+        _remainingFrames = 3;
+        _text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        float exceeded = Input.mousePosition.x + _rect.rect.width * Screen.width / 1920 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }
@@ -140,13 +140,13 @@ public class HoveringTooltip : MonoBehaviour
     {
         if (Enum.TryParse(words[2], out SpellType spell))
         {
-            List<Spell> AllSpells = SpellList.SpellDict.Select(s => s.Value).ToList();
+            List<Spell> allSpells = SpellList.SpellDict.Select(s => s.Value).ToList();
             string complete = $"{words[0]} {words[1]} {words[2]} {words[3]} {words[4]}";
-            for (int i = 0; i < AllSpells.Count; i++)
+            for (int i = 0; i < allSpells.Count; i++)
             {
-                if (words[2] == AllSpells[i].SpellType.ToString() || (complete.Contains(AllSpells[i].SpellType.ToString()) && AllSpells[i].SpellType.ToString().Contains(words[2]))) //Ensures that the phrase contains the highlighed word
+                if (words[2] == allSpells[i].SpellType.ToString() || (complete.Contains(allSpells[i].SpellType.ToString()) && allSpells[i].SpellType.ToString().Contains(words[2]))) //Ensures that the phrase contains the highlighed word
                 {
-                    return $"{AllSpells[i].Description}\nRange: {AllSpells[i].Range.Min}-{AllSpells[i].Range.Max}\nMana Cost: {AllSpells[i].ManaCost}\nTargets: {string.Join(", ", AllSpells[i].AcceptibleTargets)}";
+                    return $"{allSpells[i].Description}\nRange: {allSpells[i].Range.Min}-{allSpells[i].Range.Max}\nMana Cost: {allSpells[i].ManaCost}\nTargets: {string.Join(", ", allSpells[i].AcceptibleTargets)}";
                 }
             }
         }
@@ -164,7 +164,7 @@ public class HoveringTooltip : MonoBehaviour
         return "";
     }
 
-    private string GetDescription(string[] words, Unit unit, Actor_Unit actor = null)
+    private string GetDescription(string[] words, Unit unit, ActorUnit actor = null)
     {
         if (int.TryParse(words[2], out int temp))
         {
@@ -176,21 +176,21 @@ public class HoveringTooltip : MonoBehaviour
             switch (stat)
             {
                 case Stat.Strength:
-                    return $"Affects melee accuracy and damage, also has a lesser impact on health, has minor effects on vore defense and vore escape\n{StatData(Stat.Strength)}";
+                    return $"Affects melee accuracy and damage, also has a lesser impact on health, has minor effects on vore defense and vore escape\n{StatData(Stat.Strength, unit)}";
                 case Stat.Dexterity:
-                    return $"Affects ranged accuracy and damage, has minor effect on vore escape\n{StatData(Stat.Dexterity)}";
+                    return $"Affects ranged accuracy and damage, has minor effect on vore escape\n{StatData(Stat.Dexterity, unit)}";
                 case Stat.Voracity:
-                    return $"Affects vore odds, also has a minor effect on keeping prey down, also affects digestion damage to a minor degree\n{StatData(Stat.Voracity)}";
+                    return $"Affects vore odds, also has a minor effect on keeping prey down, also affects digestion damage to a minor degree\n{StatData(Stat.Voracity, unit)}";
                 case Stat.Agility:
-                    return $"Affects melee and ranged evasion and movement speed\n{StatData(Stat.Agility)}\nMovement: {actor?.MaxMovement() ?? Mathf.Max(3 + (int)Mathf.Pow(unit.GetStat(Stat.Agility) / 4, .8f), 1)} tiles";
+                    return $"Affects melee and ranged evasion and movement speed\n{StatData(Stat.Agility, unit)}\nMovement: {actor?.MaxMovement() ?? Mathf.Max(3 + (int)Mathf.Pow(unit.GetStat(Stat.Agility) / 4, .8f), 1)} tiles";
                 case Stat.Will:
-                    return $"Affects vore defense, escape rate, mana capacity, and magic defense\n{StatData(Stat.Will)}";
+                    return $"Affects vore defense, escape rate, mana capacity, and magic defense\n{StatData(Stat.Will, unit)}";
                 case Stat.Mind:
-                    return $"Affects spell damage, success odds, and duration with a minor amount of mana capacity\n{StatData(Stat.Mind)}";
+                    return $"Affects spell damage, success odds, and duration with a minor amount of mana capacity\n{StatData(Stat.Mind, unit)}";
                 case Stat.Endurance:
-                    return $"Affects total health, also reduces damage from acid, has a minor role in escape chance.\n{StatData(Stat.Endurance)}";
+                    return $"Affects total health, also reduces damage from acid, has a minor role in escape chance.\n{StatData(Stat.Endurance, unit)}";
                 case Stat.Stomach:
-                    return $"Affects stomach capacity and digestion rate.  Also helps keep prey from escaping.\n{StatData(Stat.Stomach)}\n" +
+                    return $"Affects stomach capacity and digestion rate.  Also helps keep prey from escaping.\n{StatData(Stat.Stomach, unit)}\n" +
                            (State.World?.ItemRepository == null ? $"" : $"{(!unit.Predator || actor?.PredatorComponent == null ? "" : $"Used Capacity: {Math.Round(actor.PredatorComponent.GetBulkOfPrey(), 2)}\n")}Max Capacity: {Math.Round(State.RaceSettings.GetStomachSize(unit.Race) * (unit.GetStat(Stat.Stomach) / 12f * unit.TraitBoosts.CapacityMult), 1)}");
                 case Stat.Leadership:
                     return $"Provides a stat boost for all friendly units\nStat value: {unit.GetStatBase(Stat.Leadership)}";
@@ -303,23 +303,23 @@ public class HoveringTooltip : MonoBehaviour
 
         if (State.World?.ItemRepository != null)
         {
-            List<Item> AllItems = State.World.ItemRepository.GetAllItems();
+            List<Item> allItems = State.World.ItemRepository.GetAllItems();
             string complete = $"{words[0]} {words[1]} {words[2]} {words[3]} {words[4]}";
-            for (int i = 0; i < AllItems.Count; i++)
+            for (int i = 0; i < allItems.Count; i++)
             {
-                if (words[2] == AllItems[i].Name || (complete.Contains(AllItems[i].Name) && AllItems[i].Name.Contains(words[2]))) //Ensures that the phrase contains the highlighed word
+                if (words[2] == allItems[i].Name || (complete.Contains(allItems[i].Name) && allItems[i].Name.Contains(words[2]))) //Ensures that the phrase contains the highlighed word
                 {
-                    if (AllItems[i] is Weapon weapon)
+                    if (allItems[i] is Weapon weapon)
                     {
                         return $"{weapon.Description}\nDamage:{weapon.Damage}\nRange:{weapon.Range}\nAccuracy:{weapon.AccuracyModifier}";
                     }
 
-                    if (AllItems[i] is Accessory accessory)
+                    if (allItems[i] is Accessory accessory)
                     {
                         return $"{accessory.Description}"; // \n+{accessory.StatBonus} to {(Stat)accessory.ChangedStat}";
                     }
 
-                    if (AllItems[i] is SpellBook book)
+                    if (allItems[i] is SpellBook book)
                     {
                         return $"{book.Description}\n{book.DetailedDescription()}";
                     }
@@ -328,13 +328,13 @@ public class HoveringTooltip : MonoBehaviour
         }
 
         {
-            List<Spell> AllSpells = SpellList.SpellDict.Select(s => s.Value).ToList();
+            List<Spell> allSpells = SpellList.SpellDict.Select(s => s.Value).ToList();
             string complete = $"{words[0]} {words[1]} {words[2]} {words[3]} {words[4]}";
-            for (int i = 0; i < AllSpells.Count; i++)
+            for (int i = 0; i < allSpells.Count; i++)
             {
-                if (words[2] == AllSpells[i].Name || (complete.Contains(AllSpells[i].Name) && AllSpells[i].Name.Contains(words[2]))) //Ensures that the phrase contains the highlighed word
+                if (words[2] == allSpells[i].Name || (complete.Contains(allSpells[i].Name) && allSpells[i].Name.Contains(words[2]))) //Ensures that the phrase contains the highlighed word
                 {
-                    return $"{AllSpells[i].Description}\nRange: {AllSpells[i].Range.Min}-{AllSpells[i].Range.Max}\nMana Cost: {AllSpells[i].ManaCost}\nTargets: {string.Join(", ", AllSpells[i].AcceptibleTargets)}";
+                    return $"{allSpells[i].Description}\nRange: {allSpells[i].Range.Min}-{allSpells[i].Range.Max}\nMana Cost: {allSpells[i].ManaCost}\nTargets: {string.Join(", ", allSpells[i].AcceptibleTargets)}";
                 }
             }
         }
@@ -355,21 +355,23 @@ public class HoveringTooltip : MonoBehaviour
         }
 
 
-        string StatData(Stat Stat)
-        {
-            string leader = "";
-            int leaderBonus = unit.GetLeaderBonus();
-            if (leaderBonus > 0) leader = $"+{leaderBonus} from leader\n";
-            string traits = "";
-            int traitBonus = unit.GetTraitBonus(Stat);
-            if (traitBonus > 0) traits = $"+{traitBonus} from traits\n";
-            string effects = "";
-            int effectBonus = unit.GetEffectBonus(Stat);
-            if (effectBonus > 0)
-                effects = $"+{effectBonus} from effects\n";
-            else if (effectBonus < 0) effects = $"{effectBonus} from effects\n";
-            return $"{unit.GetStatBase(Stat)} base {Stat}\n{leader}{traits}{effects}Final Stat: {unit.GetStat(Stat)}";
-        }
+
+    }
+    
+    string StatData(Stat stat2, Unit unit)
+    {
+        string leader = "";
+        int leaderBonus = unit.GetLeaderBonus();
+        if (leaderBonus > 0) leader = $"+{leaderBonus} from leader\n";
+        string traits = "";
+        int traitBonus = unit.GetTraitBonus(stat2);
+        if (traitBonus > 0) traits = $"+{traitBonus} from traits\n";
+        string effects = "";
+        int effectBonus = unit.GetEffectBonus(stat2);
+        if (effectBonus > 0)
+            effects = $"+{effectBonus} from effects\n";
+        else if (effectBonus < 0) effects = $"{effectBonus} from effects\n";
+        return $"{unit.GetStatBase(stat2)} base {stat2}\n{leader}{traits}{effects}Final Stat: {unit.GetStat(stat2)}";
     }
 
     public static string GetTraitData(TraitType traitType)
@@ -552,9 +554,9 @@ public class HoveringTooltip : MonoBehaviour
                 return "Armies fully consisting of infiltrators are invisible to the enemy. Using 'Exchange' on an enemy village or a Mercenary camp will infiltrate it (For Player villages, infiltrating as a Mercenary will be preferred, otherwise as recruitables).\nWill also use conventional changes of allignment to go undercover\n(Hidden Trait)";
             case TraitType.BookWormI:
                 return "Unit generates with a random Tier 1 Book.";
-            case TraitType.BookWormII:
+            case TraitType.BookWormIi:
                 return "Unit generates with a random Tier 2 Book.";
-            case TraitType.BookWormIII:
+            case TraitType.BookWormIii:
                 return "Unit generates with a random Tier 3-4 Book.";
             case TraitType.Temptation:
                 return "Units that are put under a mindcontrol (e.g. Charm, Hypnosis) effect by this unit want to force-feed themselves to it or its close allies.";
@@ -652,12 +654,12 @@ public class HoveringTooltip : MonoBehaviour
             return;
         }
 
-        rect.sizeDelta = new Vector2(500, 200);
+        _rect.sizeDelta = new Vector2(500, 200);
         gameObject.SetActive(true);
-        remainingFrames = 999;
-        text.text = description;
+        _remainingFrames = 999;
+        _text.text = description;
         float xAdjust = 10;
-        float exceeded = Input.mousePosition.x + rect.rect.width * Screen.width / 1920 - Screen.width;
+        float exceeded = Input.mousePosition.x + _rect.rect.width * Screen.width / 1920 - Screen.width;
         if (exceeded > 0) xAdjust = -exceeded;
         transform.position = Input.mousePosition + new Vector3(xAdjust, 0, 0);
     }

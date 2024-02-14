@@ -54,9 +54,9 @@ public class Village
     public string Name { get => _name; set => _name = value; }
 
     [OdinSerialize]
-    private Vec2i _position;
+    private Vec2I _position;
 
-    public Vec2i Position { get => _position; set => _position = value; }
+    public Vec2I Position { get => _position; set => _position = value; }
 
     [OdinSerialize]
     private int _turnDestroyed = 0;
@@ -128,7 +128,7 @@ public class Village
 
     public int MaxGarrisonSize = 0;
 
-    public Village(string name, Vec2i p, int fields, Race race, bool capital)
+    public Village(string name, Vec2I p, int fields, Race race, bool capital)
     {
         buildings = new List<VillageBuilding>();
         Position = p;
@@ -289,7 +289,7 @@ public class Village
 
         Empire tempOwner = State.World.GetEmpireOfSide(Side);
 
-        if (tempOwner != null && Name.Contains("Abandoned town") && RaceFuncs.isNotUniqueMerc(tempOwner.Race))
+        if (tempOwner != null && Name.Contains("Abandoned town") && RaceFuncs.IsNotUniqueMerc(tempOwner.Race))
         {
             for (int i = 1; i < 100; i++)
             {
@@ -413,7 +413,7 @@ public class Village
             return State.GameManager.StrategyMode.VillageSprites[0];
         }
 
-        if (RaceFuncs.isMonster(Race))
+        if (RaceFuncs.IsMonster(Race))
         {
             if (buildings.Contains(VillageBuilding.wall))
             {
@@ -442,7 +442,7 @@ public class Village
             return State.GameManager.StrategyMode.VillageSprites[0];
         }
 
-        if (RaceFuncs.isMonster(Race))
+        if (RaceFuncs.IsMonster(Race))
         {
             // TODO this is prob wrong
             return State.GameManager.StrategyMode.VillageSprites[0];
@@ -453,7 +453,7 @@ public class Village
 
     public bool HasWalls()
     {
-        return NetBoosts.hasWall;
+        return NetBoosts.HasWall;
     }
 
     public float Healrate()
@@ -618,7 +618,7 @@ public class Village
                 Dictionary<Race, int> count = new Dictionary<Race, int>();
                 foreach (Unit unit in army.Units)
                 {
-                    if (RaceFuncs.isNotUniqueMerc(unit.Race) && !Equals(Empire.ReplacedRace, unit.Race)) continue;
+                    if (RaceFuncs.IsNotUniqueMerc(unit.Race) && !Equals(Empire.ReplacedRace, unit.Race)) continue;
                     if (State.RaceSettings.GetRaceTraits(unit.Race).Contains(TraitType.Infertile)) continue;
                     if (count.ContainsKey(unit.Race) == false)
                         count[unit.Race] = 1;
@@ -705,53 +705,53 @@ public class Village
         if (travelers == null) return;
         foreach (InvisibleTravelingUnit unit in travelers.ToList())
         {
-            unit.remainingTurns -= 1;
-            if (unit.remainingTurns <= 0)
+            unit.RemainingTurns -= 1;
+            if (unit.RemainingTurns <= 0)
             {
                 travelers.Remove(unit);
-                if (unit.unit.IsDead) continue;
-                if (!Equals(unit.unit.Side, Side))
+                if (unit.Unit.IsDead) continue;
+                if (!Equals(unit.Unit.Side, Side))
                 {
-                    var closestFriendlyVillage = State.World.Villages.Where(s => Equals(s.Side, unit.unit.Side)).OrderBy(s => s.Position.GetNumberOfMovesDistance(Position)).FirstOrDefault();
-                    if (closestFriendlyVillage == null) closestFriendlyVillage = State.World.Villages.Where(s => s.Empire.IsAlly(State.World.GetEmpireOfSide(unit.unit.Side))).OrderBy(s => s.Position.GetNumberOfMovesDistance(Position)).FirstOrDefault();
+                    var closestFriendlyVillage = State.World.Villages.Where(s => Equals(s.Side, unit.Unit.Side)).OrderBy(s => s.Position.GetNumberOfMovesDistance(Position)).FirstOrDefault();
+                    if (closestFriendlyVillage == null) closestFriendlyVillage = State.World.Villages.Where(s => s.Empire.IsAlly(State.World.GetEmpireOfSide(unit.Unit.Side))).OrderBy(s => s.Position.GetNumberOfMovesDistance(Position)).FirstOrDefault();
                     if (closestFriendlyVillage != null)
                     {
-                        StrategicUtilities.CreateInvisibleTravelingArmy(unit.unit, closestFriendlyVillage, closestFriendlyVillage.Position.GetNumberOfMovesDistance(Position) / Config.ArmyMP);
+                        StrategicUtilities.CreateInvisibleTravelingArmy(unit.Unit, closestFriendlyVillage, closestFriendlyVillage.Position.GetNumberOfMovesDistance(Position) / Config.ArmyMp);
                         continue;
                     }
-                    else if (unit.unit == State.World.GetEmpireOfSide(unit.unit.Side).Leader)
+                    else if (unit.Unit == State.World.GetEmpireOfSide(unit.Unit.Side).Leader)
                     {
-                        unit.unit.Health = -9999;
+                        unit.Unit.Health = -9999;
                         continue;
                     }
                 }
 
-                if (unit.unit == Empire.Leader)
+                if (unit.Unit == Empire.Leader)
                 {
                     var localArmy = StrategicUtilities.ArmyAt(Position);
-                    if (localArmy != null && Equals(localArmy.Side, Side) && localArmy.Units.Count() < localArmy.Empire.MaxArmySize)
+                    if (localArmy != null && Equals(localArmy.Side, Side) && localArmy.Units.Count() < localArmy.EmpireOutside.MaxArmySize)
                     {
-                        Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name} and auto-joined the army there", new Vec2(Position.X, Position.Y)));
-                        localArmy.Units.Add(unit.unit);
+                        Empire.Reports.Add(new StrategicReport($"{unit.Unit.Name} (Leader) has arrived at {Name} and auto-joined the army there", new Vec2(Position.X, Position.Y)));
+                        localArmy.Units.Add(unit.Unit);
                     }
                     else if (localArmy == null && Empire.Armies.Count < Config.MaxArmies)
                     {
-                        Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name} and created a new army there", new Vec2(Position.X, Position.Y)));
-                        Army army = new Army(Empire, new Vec2i(Position.X, Position.Y), Side);
+                        Empire.Reports.Add(new StrategicReport($"{unit.Unit.Name} (Leader) has arrived at {Name} and created a new army there", new Vec2(Position.X, Position.Y)));
+                        Army army = new Army(Empire, new Vec2I(Position.X, Position.Y), Side);
                         Empire.Armies.Add(army);
-                        army.Units.Add(unit.unit);
+                        army.Units.Add(unit.Unit);
                     }
                     else
                     {
-                        VillagePopulation.AddHireable(unit.unit);
-                        Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} (Leader) has arrived at {Name}", new Vec2(Position.X, Position.Y)));
+                        VillagePopulation.AddHireable(unit.Unit);
+                        Empire.Reports.Add(new StrategicReport($"{unit.Unit.Name} (Leader) has arrived at {Name}", new Vec2(Position.X, Position.Y)));
                     }
 
                     continue;
                 }
 
-                VillagePopulation.AddHireable(unit.unit);
-                Empire.Reports.Add(new StrategicReport($"{unit.unit.Name} has arrived at {Name}", new Vec2(Position.X, Position.Y)));
+                VillagePopulation.AddHireable(unit.Unit);
+                Empire.Reports.Add(new StrategicReport($"{unit.Unit.Name} has arrived at {Name}", new Vec2(Position.X, Position.Y)));
             }
         }
     }
@@ -930,7 +930,7 @@ public class Village
         if (Empire != null)
         {
             Empire.RecalculateBoosts(State.World.Villages);
-            total += Empire.StartingXP;
+            total += Empire.StartingXp;
         }
 
         return total;
@@ -945,7 +945,7 @@ public class Village
 
     internal List<Unit> PrepareAndReturnGarrison()
     {
-        if (State.World.GetEmpireOfSide(Side) is MonsterEmpire && RaceFuncs.isMonster(Race))
+        if (State.World.GetEmpireOfSide(Side) is MonsterEmpire && RaceFuncs.IsMonster(Race))
         {
             return PrepareAndReturnMonsterGarrison();
         }
@@ -982,7 +982,7 @@ public class Village
                 else
                 {
                     Race nextRace = VillagePopulation.RandomRaceByWeight();
-                    if (Weapons.Count == 0 && State.RaceSettings.GetRaceTraits(nextRace).Contains(TraitType.Feral) == false && RaceFuncs.isMonster(nextRace) == false) continue;
+                    if (Weapons.Count == 0 && State.RaceSettings.GetRaceTraits(nextRace).Contains(TraitType.Feral) == false && RaceFuncs.IsMonster(nextRace) == false) continue;
                     bool found = false;
                     for (int j = 0; j < 15; j++)
                     {
@@ -997,7 +997,7 @@ public class Village
 
                     if (found == false) continue;
 
-                    if (RaceFuncs.isMonster(nextRace))
+                    if (RaceFuncs.IsMonster(nextRace))
                     {
                         CreateMonster(startingExp, ActiveGarrison);
                         continue;
@@ -1071,7 +1071,7 @@ public class Village
         if (spawner != null)
         {
             int highestExp = State.GameManager.StrategyMode.ScaledExp;
-            int baseXp = (int)(highestExp * spawner.scalingFactor / 100);
+            int baseXp = (int)(highestExp * spawner.ScalingFactor / 100);
             startingExp = baseXp;
         }
 
@@ -1254,7 +1254,7 @@ public class Village
                 else
                 {
                     var unitRace = VillagePopulation.RandomRaceByWeight();
-                    Unit unit = new Unit(empire.Side, unitRace, empire.StartingXP, State.World.GetEmpireOfRace(unitRace)?.CanVore ?? true);
+                    Unit unit = new Unit(empire.Side, unitRace, empire.StartingXp, State.World.GetEmpireOfRace(unitRace)?.CanVore ?? true);
                     unit.AddTraits(GetTraitsToAdd());
                     army.Units.Add(unit);
                     State.World.Stats.SoldiersRecruited(1, Side);
@@ -1307,7 +1307,7 @@ public class Village
             AvailableRaces = new List<Race>();
             foreach (Race race in RaceFuncs.RaceEnumerable())
             {
-                if (RaceFuncs.isNotUniqueMerc(race) && Config.World.GetValue($"Merc {race}")) AvailableRaces.Add(race);
+                if (RaceFuncs.IsNotUniqueMerc(race) && Config.World.GetValue($"Merc {race}")) AvailableRaces.Add(race);
             }
         }
 
@@ -1383,7 +1383,7 @@ public class Village
             }
             else
             {
-                var emps = State.World.AllActiveEmpires.Where(s => s.IsAlly(Empire) && RaceFuncs.isNotUniqueMerc(s.Race) && !Equals(s.Race, Race.Goblin)).ToArray();
+                var emps = State.World.AllActiveEmpires.Where(s => s.IsAlly(Empire) && RaceFuncs.IsNotUniqueMerc(s.Race) && !Equals(s.Race, Race.Goblin)).ToArray();
 
                 if (emps.Length > 0)
                 {
@@ -1394,7 +1394,7 @@ public class Village
         }
         else
         {
-            var possibleRaces = AvailableRaces.Where((s) => RaceFuncs.isMainRaceOrMerc(race)).Concat(State.World.MainEmpires.Where(t => t.KnockedOut == false).Select((i) => i.CapitalCity?.OriginalRace ?? i.Race)).ToArray();
+            var possibleRaces = AvailableRaces.Where((s) => RaceFuncs.IsMainRaceOrMerc(race)).Concat(State.World.MainEmpires.Where(t => t.KnockedOut == false).Select((i) => i.CapitalCity?.OriginalRace ?? i.Race)).ToArray();
             race = possibleRaces[State.Rand.Next(possibleRaces.Count())];
         }
 
@@ -1403,7 +1403,7 @@ public class Village
         int extraCost = 0;
         int exp = GetStartingXp() + (int)(highestExp * .3f) + State.Rand.Next(10);
         merc.Unit = new Unit(race.ToSide(), race, exp, canVore, UnitType.Adventurer, true);
-        if (RaceFuncs.isMainRaceOrMerc(race) && merc.Unit.FixedGear == false)
+        if (RaceFuncs.IsMainRaceOrMerc(race) && merc.Unit.FixedGear == false)
         {
             if (merc.Unit.Items[0] == null)
             {
@@ -1444,7 +1444,7 @@ public class Village
         int extraCost = 0;
         int exp = (int)(highestExp * .8f) + State.Rand.Next(10);
         merc.Unit = new Unit(race.ToSide(), race, exp, true, UnitType.Mercenary, true);
-        if (RaceFuncs.isMainRaceOrMerc(race) && merc.Unit.FixedGear == false)
+        if (RaceFuncs.IsMainRaceOrMerc(race) && merc.Unit.FixedGear == false)
         {
             if (merc.Unit.Items[0] == null)
             {

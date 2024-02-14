@@ -224,20 +224,20 @@ public class VillagePopulation
     private int RandomRacePlaceByWeight()
     {
         int totalPop = 0;
-        var BreedablePop = Population.Where(pop =>
+        var breedablePop = Population.Where(pop =>
         {
             var traits = State.RaceSettings.GetRaceTraits(pop.Race);
             return !traits.Contains(TraitType.Infertile);
         }).ToList();
-        for (int x = 0; x < BreedablePop.Count; x++)
+        for (int x = 0; x < breedablePop.Count; x++)
         {
-            totalPop += BreedablePop[x].Population;
+            totalPop += breedablePop[x].Population;
         }
 
         int randomPop = State.Rand.Next(totalPop);
-        for (int x = 0; x < BreedablePop.Count; x++)
+        for (int x = 0; x < breedablePop.Count; x++)
         {
-            randomPop -= BreedablePop[x].Population;
+            randomPop -= breedablePop[x].Population;
             if (randomPop < 0)
             {
                 return x;

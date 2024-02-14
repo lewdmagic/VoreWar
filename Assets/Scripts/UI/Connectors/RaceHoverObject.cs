@@ -3,23 +3,23 @@ using UnityEngine.EventSystems;
 
 public class RaceHoverObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private bool hovering;
-    internal Race race;
+    private bool _hovering;
+    internal Race Race;
 
 
     private void Update()
     {
-        if (hovering == false) return;
-        State.GameManager.HoveringRacePicture.UpdateInformation(race);
+        if (_hovering == false) return;
+        State.GameManager.HoveringRacePicture.UpdateInformation(Race);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hovering = true;
+        _hovering = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        hovering = false;
+        _hovering = false;
     }
 }

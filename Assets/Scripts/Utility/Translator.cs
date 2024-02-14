@@ -3,12 +3,12 @@
 
 public class Translator
 {
-    private bool playerMove;
-    private Vec2i startPos;
-    private Vec2i endPos;
-    private float remainingTime;
-    private float totalTime;
-    private Transform transform;
+    private bool _playerMove;
+    private Vec2I _startPos;
+    private Vec2I _endPos;
+    private float _remainingTime;
+    private float _totalTime;
+    private Transform _transform;
 
     public bool IsActive { get; private set; }
 
@@ -16,50 +16,50 @@ public class Translator
     {
         if (IsActive)
         {
-            if (transform == null)
+            if (_transform == null)
             {
                 IsActive = false;
                 return;
             }
 
-            remainingTime -= Time.deltaTime;
-            if (remainingTime <= 0)
+            _remainingTime -= Time.deltaTime;
+            if (_remainingTime <= 0)
             {
                 IsActive = false;
-                transform.position = new Vector2(endPos.X, endPos.Y);
+                _transform.position = new Vector2(_endPos.X, _endPos.Y);
                 return;
             }
 
-            float t = (totalTime - remainingTime) / totalTime;
-            float newX = Mathf.Lerp(startPos.X, endPos.X, t);
-            float newY = Mathf.Lerp(startPos.Y, endPos.Y, t);
-            transform.position = new Vector2(newX, newY);
+            float t = (_totalTime - _remainingTime) / _totalTime;
+            float newX = Mathf.Lerp(_startPos.X, _endPos.X, t);
+            float newY = Mathf.Lerp(_startPos.Y, _endPos.Y, t);
+            _transform.position = new Vector2(newX, newY);
             if (State.GameManager.CurrentScene == State.GameManager.TacticalMode)
             {
-                if (State.GameManager.TacticalMode.IsPlayerInControl == false) State.GameManager.CameraCall(transform.position);
+                if (State.GameManager.TacticalMode.IsPlayerInControl == false) State.GameManager.CameraCall(_transform.position);
             }
             else
             {
-                if (State.GameManager.StrategyMode.IsPlayerTurn == false) State.GameManager.CameraCall(transform.position);
+                if (State.GameManager.StrategyMode.IsPlayerTurn == false) State.GameManager.CameraCall(_transform.position);
             }
         }
     }
 
-    public void SetTranslator(Transform trans, Vec2i start, Vec2i end, float AIMoveRate, bool PlayerMove)
+    public void SetTranslator(Transform trans, Vec2I start, Vec2I end, float aiMoveRate, bool playerMove)
     {
         if (trans == null) return;
         if (IsActive)
         {
-            transform.position = new Vector2(endPos.X, endPos.Y);
+            _transform.position = new Vector2(_endPos.X, _endPos.Y);
         }
 
-        playerMove = PlayerMove;
-        totalTime = Mathf.Min(AIMoveRate);
-        transform = trans;
-        startPos = start;
-        endPos = end;
+        _playerMove = playerMove;
+        _totalTime = Mathf.Min(aiMoveRate);
+        _transform = trans;
+        _startPos = start;
+        _endPos = end;
         IsActive = true;
-        remainingTime = totalTime;
+        _remainingTime = _totalTime;
     }
 
     internal void ClearTranslator()

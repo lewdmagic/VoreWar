@@ -2,28 +2,28 @@
 
 public class AnimationController
 {
-    public FrameList[] frameLists;
+    public FrameList[] FrameLists;
 
     public struct FrameList
     {
-        public int currentFrame;
-        public float currentTime;
-        public bool currentlyActive;
+        public int CurrentFrame;
+        public float CurrentTime;
+        public bool CurrentlyActive;
 
         public FrameList(int frame, float time, bool active)
         {
-            currentFrame = frame;
-            currentTime = time;
-            currentlyActive = active;
+            CurrentFrame = frame;
+            CurrentTime = time;
+            CurrentlyActive = active;
         }
     }
 
     public void UpdateTimes(float time)
     {
-        if (frameLists == null) return;
-        for (int i = 0; i < frameLists.Count(); i++)
+        if (FrameLists == null) return;
+        for (int i = 0; i < FrameLists.Count(); i++)
         {
-            if (frameLists[i].currentlyActive) frameLists[i].currentTime += time;
+            if (FrameLists[i].CurrentlyActive) FrameLists[i].CurrentTime += time;
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ItemExchangeControl : MonoBehaviour
 {
-    internal ItemType type;
+    internal ItemType Type;
     public Button TransferToRightButton;
     public Button TransferToLeftButton;
     public TextMeshProUGUI LeftText;
@@ -15,18 +15,18 @@ public class ItemExchangeControl : MonoBehaviour
     {
         LeftText.text = left.ToString();
         RightText.text = right.ToString();
-        ItemText.text = type.ToString();
+        ItemText.text = Type.ToString();
         TransferToRightButton.interactable = left > 0;
         TransferToLeftButton.interactable = right > 0;
     }
 
     public void TransferRight()
     {
-        State.GameManager.StrategyMode.ExchangerUI.TransferItemToRight(type);
+        State.GameManager.StrategyMode.ExchangerUI.TransferItemToRight(Type);
     }
 
     public void TransferLeft()
     {
-        State.GameManager.StrategyMode.ExchangerUI.TransferItemToLeft(type);
+        State.GameManager.StrategyMode.ExchangerUI.TransferItemToLeft(Type);
     }
 }

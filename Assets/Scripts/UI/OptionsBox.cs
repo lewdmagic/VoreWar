@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class OptionsBox : MonoBehaviour
 {
-    private Action AAction;
-    private Action BAction;
-    private Action CAction;
-    private Action DAction;
-    private Action EAction;
+    private Action _aAction;
+    private Action _bAction;
+    private Action _cAction;
+    private Action _dAction;
+    private Action _eAction;
     public Button A;
     public Button B;
     public Button C;
@@ -18,21 +18,21 @@ public class OptionsBox : MonoBehaviour
 
     public void SetData(string mainText, string aText, Action aAction, string bText, Action bAction, string cText = null, Action cAction = null, string dText = null, Action dAction = null, string eText = null, Action eAction = null)
     {
-        AAction = aAction;
+        _aAction = aAction;
         A.GetComponentInChildren<Text>().text = aText;
-        BAction = bAction;
+        _bAction = bAction;
         B.GetComponentInChildren<Text>().text = bText;
-        CAction = cAction;
+        _cAction = cAction;
         if (cText != null)
             C.GetComponentInChildren<Text>().text = cText;
         else
             C.gameObject.SetActive(false);
-        DAction = dAction;
+        _dAction = dAction;
         if (dText != null)
             D.GetComponentInChildren<Text>().text = dText;
         else
             D.gameObject.SetActive(false);
-        EAction = eAction;
+        _eAction = eAction;
         if (eText != null)
             E.GetComponentInChildren<Text>().text = eText;
         else
@@ -42,31 +42,31 @@ public class OptionsBox : MonoBehaviour
 
     public void AClicked()
     {
-        AAction?.Invoke();
+        _aAction?.Invoke();
         Destroy(gameObject);
     }
 
     public void BClicked()
     {
-        BAction?.Invoke();
+        _bAction?.Invoke();
         Destroy(gameObject);
     }
 
     public void CClicked()
     {
-        CAction?.Invoke();
+        _cAction?.Invoke();
         Destroy(gameObject);
     }
 
     public void DClicked()
     {
-        DAction?.Invoke();
+        _dAction?.Invoke();
         Destroy(gameObject);
     }
 
     public void EClicked()
     {
-        EAction?.Invoke();
+        _eAction?.Invoke();
         Destroy(gameObject);
     }
 }

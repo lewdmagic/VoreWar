@@ -4,30 +4,30 @@ using UnityEngine.UI;
 
 public class DialogBox : MonoBehaviour
 {
-    private Action YesAction;
-    private Action NoAction;
+    private Action _yesAction;
+    private Action _noAction;
     public Button Yes;
     public Button No;
     public Text Text;
 
     public void SetData(Action action, string yesText, string noText, string mainText, Action noAction = null)
     {
-        YesAction = action;
+        _yesAction = action;
         Yes.GetComponentInChildren<Text>().text = yesText;
         No.GetComponentInChildren<Text>().text = noText;
         Text.text = mainText;
-        NoAction = noAction;
+        _noAction = noAction;
     }
 
     public void YesClicked()
     {
-        YesAction?.Invoke();
+        _yesAction?.Invoke();
         Destroy(gameObject);
     }
 
     public void NoClicked()
     {
-        NoAction?.Invoke();
+        _noAction?.Invoke();
         Destroy(gameObject);
     }
 }

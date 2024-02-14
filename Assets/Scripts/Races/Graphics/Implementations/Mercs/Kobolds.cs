@@ -303,12 +303,12 @@ namespace Races.Graphics.Implementations.Mercs
                         ballsYOffset = 30;
                     }
 
-                    if (ballSize == 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.balls))
+                    if (ballSize == 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Balls))
                     {
                         ballsYOffset = 30;
                     }
 
-                    if (ballSize == 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.balls))
+                    if (ballSize == 16 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Balls))
                     {
                         ballsYOffset = 30;
                     }
@@ -331,12 +331,12 @@ namespace Races.Graphics.Implementations.Mercs
                         stomachYOffset = 20;
                     }
 
-                    if (stomachSize == 12 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.stomach, PreyLocation.womb))
+                    if (stomachSize == 12 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach, PreyLocation.Womb))
                     {
                         stomachYOffset = 20;
                     }
 
-                    if (stomachSize == 12 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.stomach, PreyLocation.womb))
+                    if (stomachSize == 12 && input.A.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, true, PreyLocation.Stomach, PreyLocation.Womb))
                     {
                         stomachYOffset = 20;
                     }

@@ -42,7 +42,7 @@ public static class LuaBridge
         UserData.RegisterType<SpriteDictionary>();
         UserData.RegisterType<IRaceBuilder>();
         UserData.RegisterType<SwapType>();
-        UserData.RegisterType<Actor_Unit>();
+        UserData.RegisterType<ActorUnit>();
         UserData.RegisterType<Unit>();
         UserData.RegisterType<ColorSwapPalette>();
         UserData.RegisterType<IRandomCustomInput>();
@@ -186,7 +186,7 @@ end");
         Func<Texts, Texts, Texts, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
         script.Globals["NewFlavorText"] = newFlavorText;
 
-        Func<string, IClothing> getClothing = (id) => { return GameManager.customManager.GetRaceClothing(raceId, id); };
+        Func<string, IClothing> getClothing = (id) => { return GameManager.CustomManager.GetRaceClothing(raceId, id); };
 
         script.Globals["GetClothing"] = getClothing;
 
@@ -218,7 +218,7 @@ end");
                 }
             };
 
-            return GameManager.customManager.GetRaceClothing(raceId, id, realCalcFunc);
+            return GameManager.CustomManager.GetRaceClothing(raceId, id, realCalcFunc);
         };
 
         script.Globals["GetClothing2"] = getClothing2;
@@ -319,5 +319,6 @@ end");
 // Workaround for statics in stucts
 public static class Colors
 {
+    // Don't rename
     public static readonly Color white = Color.white;
 }

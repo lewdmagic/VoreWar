@@ -13,7 +13,7 @@ internal static class MinimalTemplate
         builder.RenderSingle(SpriteType.Body, 3, (input, output) => { });
     });
 
-    private static IClothing Rags = ClothingBuilder.Create(builder =>
+    private static IClothing _rags = ClothingBuilder.Create(builder =>
     {
         builder.Setup(ClothingBuilder.DefaultMisc, (input, output) => { });
 

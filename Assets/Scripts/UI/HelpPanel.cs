@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HelpPanel : MonoBehaviour
 {
-    private bool generatedHelp;
+    private bool _generatedHelp;
     public Transform ButtonFolder;
     public GameObject[] HelpPages;
     public GameObject ButtonPrefab;
@@ -13,7 +13,7 @@ public class HelpPanel : MonoBehaviour
 
     public void GenerateButtonsIfNeeded()
     {
-        if (generatedHelp) return;
+        if (_generatedHelp) return;
         CreatePageButton(HelpText.GameBasics, "Game Basics");
         CreatePageButton(HelpText.StrategyMode, "Strategy Mode");
         CreatePageButton(HelpText.RecruitMode, "Recruit Screen");
@@ -33,7 +33,7 @@ public class HelpPanel : MonoBehaviour
         Button exitButton = Instantiate(ButtonPrefab, ButtonFolder).GetComponent<Button>();
         exitButton.GetComponentInChildren<Text>().text = "Exit Help";
         exitButton.onClick.AddListener(FindObjectOfType<GameMenu>().CloseHelp);
-        generatedHelp = true;
+        _generatedHelp = true;
     }
 
     private void CreatePageButton(string pageText, string pageName)

@@ -5,19 +5,19 @@ using Random = UnityEngine.Random;
 
 internal static class LogUtilities
 {
-    private static int rand;
+    private static int _rand;
 
     internal static string GetRandomStringFrom(List<string> messages)
     {
         if (messages.Count == 0) return "";
-        rand = Random.Range(0, messages.Count);
-        return messages[rand];
+        _rand = Random.Range(0, messages.Count);
+        return messages[_rand];
     }
 
     internal static string GetRandomStringFrom(params string[] messages)
     {
-        rand = Random.Range(0, messages.Length);
-        return messages[rand];
+        _rand = Random.Range(0, messages.Length);
+        return messages[_rand];
     }
 
     internal static string GetGenderString(Unit unit, string female, string male, string mixed)
@@ -39,14 +39,14 @@ internal static class LogUtilities
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string GPPHe(Unit unit) => unit.GetPronoun(0);
+    internal static string GppHe(Unit unit) => unit.GetPronoun(0);
 
     /// <summary>
     ///     Returns given unit's nominative pronoun appended with present-tense auxillary.<br></br>(e.g. he is/she is/they are)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string GPPHeIs(Unit unit) => unit.GetPronoun(0) + (unit.GetPronoun(5) == "plural" ? " are" : " is");
+    internal static string GppHeIs(Unit unit) => unit.GetPronoun(0) + (unit.GetPronoun(5) == "plural" ? " are" : " is");
 
     /// <summary>
     ///     Returns given unit's nominative pronoun appended with present-tense auxillary as a contraction.<br></br>(e.g.
@@ -54,35 +54,35 @@ internal static class LogUtilities
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string GPPHeIsAbbr(Unit unit) => unit.GetPronoun(0) + (unit.GetPronoun(5) == "plural" ? "'re" : "'s");
+    internal static string GppHeIsAbbr(Unit unit) => unit.GetPronoun(0) + (unit.GetPronoun(5) == "plural" ? "'re" : "'s");
 
     /// <summary>
     ///     Returns given unit's nominative pronoun appended with past-tense auxillary.<br></br>(e.g. he was/she was/they were)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string GPPHeWas(Unit unit) => unit.GetPronoun(0) + (unit.GetPronoun(5) == "plural" ? " were" : " was");
+    internal static string GppHeWas(Unit unit) => unit.GetPronoun(0) + (unit.GetPronoun(5) == "plural" ? " were" : " was");
 
     /// <summary>
     ///     Returns given unit's accusative pronoun.<br></br>(e.g. him/her/them)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string GPPHim(Unit unit) => unit.GetPronoun(1);
+    internal static string GppHim(Unit unit) => unit.GetPronoun(1);
 
     /// <summary>
     ///     Returns given unit's pronomial possessive pronoun.<br></br>(e.g. ...<u>their</u> belly...)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string GPPHis(Unit unit) => unit.GetPronoun(2);
+    internal static string GppHis(Unit unit) => unit.GetPronoun(2);
 
     /// <summary>
     ///     Returns given unit's reflexive pronoun.<br></br>(e.g. ...can't help <u>themself</u>...)
     /// </summary>
     /// <param name="unit"></param>
     /// <returns></returns>
-    internal static string GPPHimself(Unit unit) => unit.GetPronoun(4);
+    internal static string GppHimself(Unit unit) => unit.GetPronoun(4);
 
     /// <summary>
     ///     Returns "s" if given unit is referred to with singular grammar.
@@ -130,14 +130,14 @@ internal static class LogUtilities
     {
         switch (location)
         {
-            case PreyLocation.breasts:
-            case PreyLocation.balls:
+            case PreyLocation.Breasts:
+            case PreyLocation.Balls:
                 return "";
-            case PreyLocation.stomach:
-            case PreyLocation.stomach2:
-            case PreyLocation.womb:
-            case PreyLocation.tail:
-            case PreyLocation.anal:
+            case PreyLocation.Stomach:
+            case PreyLocation.Stomach2:
+            case PreyLocation.Womb:
+            case PreyLocation.Tail:
+            case PreyLocation.Anal:
                 return "s";
         }
 
@@ -169,15 +169,15 @@ internal static class LogUtilities
     internal static Unit PotentialNextPrey(Unit unit)
     {
         var preyList = TacticalUtilities.Units.Where(s => !Equals(s.Unit.Side, unit.Side) && s.Visible && s.Targetable && !s.Unit.IsDead);
-        var preyChanceMap = new Dictionary<Actor_Unit, float>();
-        foreach (Actor_Unit prey in preyList)
+        var preyChanceMap = new Dictionary<ActorUnit, float>();
+        foreach (ActorUnit prey in preyList)
         {
             float chance = prey.GetDevourChance(TacticalUtilities.Units.Where(actor => actor.Unit == unit)?.FirstOrDefault(), true);
             preyChanceMap.Add(prey, chance);
         }
 
         var primePrey = preyChanceMap.OrderBy(x => x.Value).LastOrDefault();
-        if (!primePrey.Equals(default(KeyValuePair<Actor_Unit, float>)))
+        if (!primePrey.Equals(default(KeyValuePair<ActorUnit, float>)))
         {
             return primePrey.Key.Unit;
         }
@@ -212,7 +212,7 @@ internal static class LogUtilities
 
     internal static bool ActorHumanoid(Unit s)
     {
-        return RaceFuncs.isHumanoid(s.Race);
+        return RaceFuncs.IsHumanoid(s.Race);
     }
 
     internal static bool RomanticTarget(Unit unit, Unit target)
@@ -256,7 +256,7 @@ internal static class LogUtilities
     /// </summary>
     /// <param name="str"></param>
     /// <returns></returns>
-    internal static string GetAorAN(string str)
+    internal static string GetAorAn(string str)
     {
         if (str.StartsWith("a", true, null) || str.StartsWith("e", true, null) || str.StartsWith("i", true, null) || str.StartsWith("o", true, null) || str.StartsWith("u", true, null) || str.StartsWith("y", true, null))
         {
@@ -359,15 +359,15 @@ internal static class LogUtilities
     public static bool PreyCumgested(EventLog s) => s.Prey.IsDead && InBalls(s);
     public static bool CanBurp(EventLog s) => Config.BurpFraction > .1f;
     public static bool Farts(EventLog s) => Config.FartOnAbsorb;
-    public static bool Scat(EventLog s) => Config.Scat && (s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2);
+    public static bool Scat(EventLog s) => Config.Scat && (s.PreyLocation == PreyLocation.Stomach || s.PreyLocation == PreyLocation.Stomach2);
     public static bool Lewd(EventLog s) => Config.LewdDialog;
     public static bool HardVore(EventLog s) => Config.HardVoreDialog;
-    public static bool HardVoreInStomach(EventLog s) => Config.HardVoreDialog && (s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2);
-    public static bool InStomach(EventLog s) => s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2;
-    public static bool InWomb(EventLog s) => s.preyLocation == PreyLocation.womb;
-    public static bool InStomachOrWomb(EventLog s) => s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2 || s.preyLocation == PreyLocation.womb;
-    public static bool InBreasts(EventLog s) => s.preyLocation == PreyLocation.breasts || s.preyLocation == PreyLocation.leftBreast || s.preyLocation == PreyLocation.rightBreast;
-    public static bool InBalls(EventLog s) => s.preyLocation == PreyLocation.balls;
+    public static bool HardVoreInStomach(EventLog s) => Config.HardVoreDialog && (s.PreyLocation == PreyLocation.Stomach || s.PreyLocation == PreyLocation.Stomach2);
+    public static bool InStomach(EventLog s) => s.PreyLocation == PreyLocation.Stomach || s.PreyLocation == PreyLocation.Stomach2;
+    public static bool InWomb(EventLog s) => s.PreyLocation == PreyLocation.Womb;
+    public static bool InStomachOrWomb(EventLog s) => s.PreyLocation == PreyLocation.Stomach || s.PreyLocation == PreyLocation.Stomach2 || s.PreyLocation == PreyLocation.Womb;
+    public static bool InBreasts(EventLog s) => s.PreyLocation == PreyLocation.Breasts || s.PreyLocation == PreyLocation.LeftBreast || s.PreyLocation == PreyLocation.RightBreast;
+    public static bool InBalls(EventLog s) => s.PreyLocation == PreyLocation.Balls;
     public static bool FirstTime(EventLog s) => s.Unit.DigestedUnits == 0 && s.Unit.Level < 10 && s.Unit.Type != UnitType.Mercenary && s.Unit.Type != UnitType.SpecialMercenary && State.GameManager.PureTactical == false;
     public static bool FirstTimeAbsorption(EventLog s) => s.Unit.DigestedUnits == 1 && s.Unit.Level < 10 && s.Unit.Type != UnitType.Mercenary && s.Unit.Type != UnitType.SpecialMercenary && State.GameManager.PureTactical == false;
     public static bool TargetFirstTime(EventLog s) => s.Target.DigestedUnits == 0 && s.Target.Level < 10 && s.Target.Type != UnitType.Mercenary && s.Target.Type != UnitType.SpecialMercenary && State.GameManager.PureTactical == false;
@@ -375,7 +375,7 @@ internal static class LogUtilities
     public static bool Endo(EventLog s) => s.Unit.HasTrait(TraitType.Endosoma);
     public static bool HealingEndo(EventLog s) => s.Unit.HasTrait(TraitType.Endosoma) && s.Unit.HasTrait(TraitType.HealingBelly);
     public static bool FriendlyPrey(EventLog s) => Equals(s.Unit.Side, s.Prey.Side);
-    public static bool ActorHumanoid(EventLog s) => RaceFuncs.isHumanoid(s.Unit.Race);
+    public static bool ActorHumanoid(EventLog s) => RaceFuncs.IsHumanoid(s.Unit.Race);
     public static bool HasGreatEscape(EventLog s) => s.Target.HasTrait(TraitType.TheGreatEscape);
     public static bool Cursed(EventLog s) => s.Target.GetStatusEffect(StatusEffectType.WillingPrey) != null;
     public static bool Shrunk(EventLog s) => s.Target.GetStatusEffect(StatusEffectType.Diminished) != null;
@@ -384,23 +384,23 @@ internal static class LogUtilities
     public static bool SizeDiffPrey(EventLog s, float ratio) => State.RaceSettings.GetBodySize(s.Unit.Race) * s.Unit.GetScale(1) >= State.RaceSettings.GetBodySize(s.Prey.Race) * s.Target.GetScale(1) * ratio;
 
     //bool ReqSSW(EventLog s) => SameSexWarrior(s.Unit) != "NULL";
-    public static bool ReqOSW(EventLog s) => AttractedWarrior(s.Unit) != null;
-    public static bool ReqOSWLewd(EventLog s) => AttractedWarrior(s.Unit) != null && Lewd(s);
-    public static bool ReqOSWStomach(EventLog s) => AttractedWarrior(s.Unit) != null && InStomach(s);
-    public static bool ReqOSWBelly(EventLog s) => AttractedWarrior(s.Unit) != null && InStomachOrWomb(s);
-    public static bool ReqSSWAndOSW(EventLog s) => CompetitionWarrior(s.Unit) != null && AttractedWarrior(s.Unit) != null;
+    public static bool ReqOsw(EventLog s) => AttractedWarrior(s.Unit) != null;
+    public static bool ReqOswLewd(EventLog s) => AttractedWarrior(s.Unit) != null && Lewd(s);
+    public static bool ReqOswStomach(EventLog s) => AttractedWarrior(s.Unit) != null && InStomach(s);
+    public static bool ReqOswBelly(EventLog s) => AttractedWarrior(s.Unit) != null && InStomachOrWomb(s);
+    public static bool ReqSswAndOsw(EventLog s) => CompetitionWarrior(s.Unit) != null && AttractedWarrior(s.Unit) != null;
     public static bool ReqTargetCompatible(EventLog s) => RomanticTarget(s.Unit, s.Target);
     public static bool ReqTargetCompatibleLewd(EventLog s) => RomanticTarget(s.Unit, s.Target) && Lewd(s);
     public static bool ReqTargetClothingOn(EventLog s) => s.Target.ClothingType != 0;
     public static bool ReqTargetClothingOff(EventLog s) => s.Target.ClothingType == 0;
     public static bool WeightGain(EventLog s) => Config.WeightGain;
-    public static bool BonesDisposal(EventLog s) => Config.Bones && (s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2);
+    public static bool BonesDisposal(EventLog s) => Config.Bones && (s.PreyLocation == PreyLocation.Stomach || s.PreyLocation == PreyLocation.Stomach2);
     public static bool TargetBoobs(EventLog s) => s.Target.HasBreasts;
     public static bool ActorBoobs(EventLog s) => s.Unit.HasBreasts;
     public static bool ActorTail(EventLog s) => RaceParameters.GetTraitData(s.Unit).HasTail;
     public static bool TargetLeader(EventLog s) => s.Target.Type == UnitType.Leader;
     public static bool ActorLeader(EventLog s) => s.Unit.Type == UnitType.Leader;
-    public static bool TargetHumanoid(EventLog s) => RaceFuncs.isHumanoid(s.Target.Race);
+    public static bool TargetHumanoid(EventLog s) => RaceFuncs.IsHumanoid(s.Target.Race);
 
     public static bool CanAddressPlayer(EventLog s) =>
         Config.FourthWallBreakType == FourthWallBreakType.On ||
