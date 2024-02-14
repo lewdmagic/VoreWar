@@ -334,6 +334,54 @@ internal static class LogUtilities
         return Races2.GetRace(unit.Race).FlavorText().GetWeaponTrueName(weapon, unit);
     }
     
+    public static bool PreyDead(EventLog s) => s.Prey.IsDead;
+    public static bool PreyCumgested(EventLog s) => s.Prey.IsDead && InBalls(s);
+    public static bool CanBurp(EventLog s) => Config.BurpFraction > .1f;
+    public static bool Farts(EventLog s) => Config.FartOnAbsorb;
+    public static bool Scat(EventLog s) => Config.Scat && (s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2);
+    public static bool Lewd(EventLog s) => Config.LewdDialog;
+    public static bool HardVore(EventLog s) => Config.HardVoreDialog;
+    public static bool HardVoreInStomach(EventLog s) => Config.HardVoreDialog && (s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2);
+    public static bool InStomach(EventLog s) => s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2;
+    public static bool InWomb(EventLog s) => s.preyLocation == PreyLocation.womb;
+    public static bool InStomachOrWomb(EventLog s) => s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2 || s.preyLocation == PreyLocation.womb;
+    public static bool InBreasts(EventLog s) => s.preyLocation == PreyLocation.breasts || s.preyLocation == PreyLocation.leftBreast || s.preyLocation == PreyLocation.rightBreast;
+    public static bool InBalls(EventLog s) => s.preyLocation == PreyLocation.balls;
+    public static bool FirstTime(EventLog s) => s.Unit.DigestedUnits == 0 && s.Unit.Level < 10 && s.Unit.Type != UnitType.Mercenary && s.Unit.Type != UnitType.SpecialMercenary && State.GameManager.PureTactical == false;
+    public static bool FirstTimeAbsorption(EventLog s) => s.Unit.DigestedUnits == 1 && s.Unit.Level < 10 && s.Unit.Type != UnitType.Mercenary && s.Unit.Type != UnitType.SpecialMercenary && State.GameManager.PureTactical == false;
+    public static bool TargetFirstTime(EventLog s) => s.Target.DigestedUnits == 0 && s.Target.Level < 10 && s.Target.Type != UnitType.Mercenary && s.Target.Type != UnitType.SpecialMercenary && State.GameManager.PureTactical == false;
+    public static bool Friendly(EventLog s) => Equals(s.Unit.Side, s.Target.Side);
+    public static bool Endo(EventLog s) => s.Unit.HasTrait(TraitType.Endosoma);
+    public static bool HealingEndo(EventLog s) => s.Unit.HasTrait(TraitType.Endosoma) && s.Unit.HasTrait(TraitType.HealingBelly);
+    public static bool FriendlyPrey(EventLog s) => Equals(s.Unit.Side, s.Prey.Side);
+    public static bool ActorHumanoid(EventLog s) => RaceFuncs.isHumanoid(s.Unit.Race);
+    public static bool HasGreatEscape(EventLog s) => s.Target.HasTrait(TraitType.TheGreatEscape);
+    public static bool Cursed(EventLog s) => s.Target.GetStatusEffect(StatusEffectType.WillingPrey) != null;
+    public static bool Shrunk(EventLog s) => s.Target.GetStatusEffect(StatusEffectType.Diminished) != null;
+    public static bool SizeDiff(EventLog s, float ratio) => State.RaceSettings.GetBodySize(s.Unit.Race) * s.Unit.GetScale(1) >= State.RaceSettings.GetBodySize(s.Target.Race) * s.Target.GetScale(1) * ratio;
+    public static bool SizeDiffPrey(EventLog s, float ratio) => State.RaceSettings.GetBodySize(s.Unit.Race) * s.Unit.GetScale(1) >= State.RaceSettings.GetBodySize(s.Prey.Race) * s.Target.GetScale(1) * ratio;
+    //bool ReqSSW(EventLog s) => SameSexWarrior(s.Unit) != "NULL";
+    public static bool ReqOSW(EventLog s) => AttractedWarrior(s.Unit) != null;
+    public static bool ReqOSWLewd(EventLog s) => AttractedWarrior(s.Unit) != null && Lewd(s);
+    public static bool ReqOSWStomach(EventLog s) => AttractedWarrior(s.Unit) != null && InStomach(s);
+    public static bool ReqOSWBelly(EventLog s) => AttractedWarrior(s.Unit) != null && InStomachOrWomb(s);
+    public static bool ReqSSWAndOSW(EventLog s) => CompetitionWarrior(s.Unit) != null && AttractedWarrior(s.Unit) != null;
+    public static bool ReqTargetCompatible(EventLog s) => RomanticTarget(s.Unit, s.Target);
+    public static bool ReqTargetCompatibleLewd(EventLog s) => RomanticTarget(s.Unit, s.Target) && Lewd(s);
+    public static bool ReqTargetClothingOn(EventLog s) => s.Target.ClothingType != 0;
+    public static bool ReqTargetClothingOff(EventLog s) => s.Target.ClothingType == 0;
+    public static bool WeightGain(EventLog s) => Config.WeightGain;
+    public static bool BonesDisposal(EventLog s) => Config.Bones && (s.preyLocation == PreyLocation.stomach || s.preyLocation == PreyLocation.stomach2);
+    public static bool TargetBoobs(EventLog s) => s.Target.HasBreasts;
+    public static bool ActorBoobs(EventLog s) => s.Unit.HasBreasts;
+    public static bool ActorTail(EventLog s) => RaceParameters.GetTraitData(s.Unit).HasTail;
+    public static bool TargetLeader(EventLog s) => s.Target.Type == UnitType.Leader;
+    public static bool ActorLeader(EventLog s) => s.Unit.Type == UnitType.Leader;
+    public static bool TargetHumanoid(EventLog s) => RaceFuncs.isHumanoid(s.Target.Race);
+    public static bool CanAddressPlayer(EventLog s) => Config.FourthWallBreakType == FourthWallBreakType.On ||
+                                                !TacticalUtilities.IsUnitControlledByPlayer(s.Unit) && Config.FourthWallBreakType == FourthWallBreakType.EnemyOnly ||
+                                                TacticalUtilities.IsUnitControlledByPlayer(s.Unit) && Config.FourthWallBreakType == FourthWallBreakType.FriendlyOnly;
+    
     /*
     /// <summary>
     /// <para>Gets a descriptive string that fits sentences like "Edmond stuffs Sidney down his maw, enjoying the * morsels squirms on her way down."</para>
