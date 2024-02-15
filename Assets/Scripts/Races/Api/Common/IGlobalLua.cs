@@ -14,9 +14,9 @@ public interface IGlobalLua
 
     int GetPaletteCount(SwapType swap);
 
-    IClothing GetClothing(string stringId);
+    IClothing MakeClothing(string stringId);
 
-    IClothing GetClothing2(string stringId, Func<IClothingRenderInput, Table> paramCalc);
+    IClothing MakeClothingWithParams(string stringId, Func<IClothingRenderInput,Table> paramCalc);
 
     int RandomInt(int maxValue);
 

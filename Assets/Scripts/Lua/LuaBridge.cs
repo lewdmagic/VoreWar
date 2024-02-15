@@ -186,11 +186,11 @@ end");
         Func<Texts, Texts, Texts, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
         script.Globals["NewFlavorText"] = newFlavorText;
 
-        Func<string, IClothing> getClothing = (id) => { return GameManager.CustomManager.GetRaceClothing(raceId, id); };
+        Func<string, IClothing> makeClothing = (id) => { return GameManager.CustomManager.GetRaceClothing(raceId, id); };
 
-        script.Globals["GetClothing"] = getClothing;
+        script.Globals["MakeClothing"] = makeClothing;
 
-        Func<string, Func<IClothingRenderInput, Table>, IClothing> getClothing2 = (id, calcFunc) =>
+        Func<string, Func<IClothingRenderInput, Table>, IClothing> makeClothingWithParams = (id, calcFunc) =>
         {
             Func<IClothingRenderInput, Table> realCalcFunc = (input) =>
             {
@@ -221,7 +221,7 @@ end");
             return GameManager.CustomManager.GetRaceClothing(raceId, id, realCalcFunc);
         };
 
-        script.Globals["GetClothing2"] = getClothing2;
+        script.Globals["MakeClothingWithParams"] = makeClothingWithParams;
     }
 
     // Can be used later

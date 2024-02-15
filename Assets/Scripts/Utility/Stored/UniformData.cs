@@ -142,7 +142,7 @@ internal class UniformData
         unit.ClothingExtraType5 = ClothingExtraType5;
 
 
-        var race = Races2.GetRace(unit);
+        var race = RaceFuncs.GetRace(unit);
         if (ClothingType > race.SetupOutput.AllowedMainClothingTypes.Count) unit.ClothingType = 0;
         if (ClothingType2 > race.SetupOutput.AllowedWaistTypes.Count) unit.ClothingType2 = 0;
         if (ClothingExtraType1 > race.SetupOutput.ExtraMainClothing1Types.Count) unit.ClothingExtraType1 = 0;

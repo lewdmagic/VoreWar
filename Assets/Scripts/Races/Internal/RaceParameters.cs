@@ -24,7 +24,7 @@ internal static class RaceParameters
             return Default;
         }
 
-        return Races2.GetRace(race)?.RaceTraits() ?? Default;
+        return RaceFuncs.GetRace(race)?.RaceTraits() ?? Default;
     }
 
     internal static IRaceTraits GetTraitData(Unit unit)

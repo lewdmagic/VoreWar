@@ -593,7 +593,7 @@ public static class State
             {
                 if (World.AllActiveEmpires != null)
                 {
-                    var raceData = Races2.GetRace(Race.Bee);
+                    var raceData = RaceFuncs.GetRace(Race.Bee);
                     foreach (var unit in StrategicUtilities.GetAllUnits())
                     {
                         if (Equals(unit.Race, Race.Bee)) raceData.RandomCustomCall(unit);

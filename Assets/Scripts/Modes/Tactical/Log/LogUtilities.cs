@@ -307,7 +307,7 @@ internal static class LogUtilities
     /// <returns></returns>
     internal static string GetPreyDesc(Unit unit)
     {
-        return Races2.GetRace(unit.Race).FlavorText().GetPreyDescription(unit);
+        return RaceFuncs.GetRace(unit.Race).FlavorText().GetPreyDescription(unit);
     }
 
     /// <summary>
@@ -324,7 +324,7 @@ internal static class LogUtilities
     /// <returns></returns>
     internal static string GetPredDesc(Unit unit)
     {
-        return Races2.GetRace(unit.Race).FlavorText().GetPredDescription(unit);
+        return RaceFuncs.GetRace(unit.Race).FlavorText().GetPredDescription(unit);
     }
 
     /// <summary>
@@ -341,7 +341,7 @@ internal static class LogUtilities
     /// <returns></returns>
     internal static string GetRaceDescSingl(Unit unit)
     {
-        return Races2.GetRace(unit.Race).FlavorText().GetRaceSingleDescription(unit);
+        return RaceFuncs.GetRace(unit.Race).FlavorText().GetRaceSingleDescription(unit);
     }
 
     /// <summary>
@@ -352,7 +352,7 @@ internal static class LogUtilities
     /// <returns></returns>
     internal static string GetWeaponTrueName(Weapon weapon, Unit unit)
     {
-        return Races2.GetRace(unit.Race).FlavorText().GetWeaponTrueName(weapon, unit);
+        return RaceFuncs.GetRace(unit.Race).FlavorText().GetWeaponTrueName(weapon, unit);
     }
 
     public static bool PreyDead(EventLog s) => s.Prey.IsDead;

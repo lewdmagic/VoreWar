@@ -1011,7 +1011,7 @@ public class Village
                     StrategicUtilities.SpendLevelUps(unit);
                 }
 
-                IRaceData race = Races2.GetRace(unit);
+                IRaceData race = RaceFuncs.GetRace(unit);
                 if (unit.ClothingType != 0)
                 {
                     if (Equals(unit.Race, Race.Lizard))

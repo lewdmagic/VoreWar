@@ -15,7 +15,7 @@
         Stats[(int)Stat.Leadership] = 10;
 
         Health = MaxHealth;
-        if (Equals(Race, Race.Lizard)) Races2.GetRace(Race.Lizard).RandomCustomCall(this);
+        if (Equals(Race, Race.Lizard)) RaceFuncs.GetRace(Race.Lizard).RandomCustomCall(this);
         if (Config.LetterBeforeLeaderNames != "") Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;
         Type = UnitType.Leader;

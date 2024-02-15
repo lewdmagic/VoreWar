@@ -639,7 +639,7 @@ internal static class TacticalUtilities
         {
             if (!Equals(actor.Unit.Race, Race.Imp) && !Equals(actor.Unit.Race, Race.Lamia) && !Equals(actor.Unit.Race, Race.Tiger))
             {
-                Races2.GetRace(actor.Unit).RandomCustomCall(actor.Unit);
+                RaceFuncs.GetRace(actor.Unit).RandomCustomCall(actor.Unit);
             }
         }
     }

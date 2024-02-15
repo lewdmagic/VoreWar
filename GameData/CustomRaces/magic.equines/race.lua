@@ -17,12 +17,6 @@ function Setup(output)
         traits.RaceDescription = "";
     end);
 
-    output.FlavorText(NewFlavorText(
-            NewTextsBasic(),
-            NewTextsBasic(),
-            NewTextsBasic().Add("equine").Add("bronco").Add("mare", Gender.Female).Add("stallion", Gender.Male)
-    ));
-
     output.SetFlavorText(FlavorType.RaceSingleDescription,
         NewFlavorEntry("equine"),
         NewFlavorEntry("bronco"),
@@ -80,32 +74,32 @@ function Setup(output)
     output.ExtendedBreastSprites = true;
 
     output.AllowedMainClothingTypes.AddRange({-- undertops
-        GetClothing("under_top_male_1"),
-        GetClothing("under_top_male_2"),
-        GetClothing("under_top_male_3"),
-        GetClothing2("under_top_female_1", oversizeParamCalc),
-        GetClothing2("under_top_female_2", oversizeParamCalc),
-        GetClothing2("under_top_female_3", oversizeParamCalc),
-        GetClothing2("under_top_female_4", oversizeParamCalc)
+        MakeClothing("under_top_male_1"),
+        MakeClothing("under_top_male_2"),
+        MakeClothing("under_top_male_3"),
+        MakeClothingWithParams("under_top_female_1", OversizeParamCalc),
+        MakeClothingWithParams("under_top_female_2", OversizeParamCalc),
+        MakeClothingWithParams("under_top_female_3", OversizeParamCalc),
+        MakeClothingWithParams("under_top_female_4", OversizeParamCalc)
     });
 
     output.AllowedWaistTypes.AddRange({ -- underbottoms
-        GetClothing("under_bottom_1"),
-        GetClothing("under_bottom_2"),
-        GetClothing("under_bottom_3"),
-        GetClothing("under_bottom_4"),
-        GetClothing("under_bottom_5")
+    MakeClothing("under_bottom_1"),
+    MakeClothing("under_bottom_2"),
+    MakeClothing("under_bottom_3"),
+        MakeClothing("under_bottom_4"),
+        MakeClothing("under_bottom_5")
     });
 
     output.ExtraMainClothing1Types.AddRange({ -- Overtops
-        GetClothing("over_top_1"),
-        GetClothing("over_top_2")
+    MakeClothing("over_top_1"),
+    MakeClothing("over_top_2")
     });
 
     output.ExtraMainClothing2Types.AddRange({ -- Overbottoms
-        GetClothing("over_bottom_1"),
-        GetClothing("over_bottom_2"),
-        GetClothing("over_bottom_3")
+    MakeClothing("over_bottom_1"),
+    MakeClothing("over_bottom_2"),
+    MakeClothing("over_bottom_3")
     });
 
     output.WholeBodyOffset = NewVector2(0, 16 * 0.625);
@@ -296,7 +290,7 @@ function SpottedBelly(actor)
     return GetPalette(SwapType.HorseSkin, actor.Unit.SkinColor);
 end
 
-function oversizeParamCalc(input)
+function OversizeParamCalc(input)
     return {
         oversize = BreastsOversizeCalc(input.A, 29 * 29),
         text = "hello"

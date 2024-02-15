@@ -156,7 +156,7 @@ public class CheatMenu : MonoBehaviour
             if (emp.Leader != null)
             {
                 emp.Leader.Race = race;
-                emp.Leader.RandomizeNameAndGender(race, Races2.GetRace(emp.Leader));
+                emp.Leader.RandomizeNameAndGender(race, RaceFuncs.GetRace(emp.Leader));
             }
         }
     }

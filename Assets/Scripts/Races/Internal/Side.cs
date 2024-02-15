@@ -63,6 +63,19 @@ public class Side : IComparable<Side>
 
         return Id.Equals(other.Id);
     }
+    
+    public static bool operator == (Side b1, Side b2)
+    {
+        if ((object)b1 == null)
+            return (object)b2 == null;
+
+        return b1.Equals(b2);
+    }
+
+    public static bool operator != (Side b1, Side b2)
+    {
+        return !(b1 == b2);
+    }
 
     public override int GetHashCode()
     {

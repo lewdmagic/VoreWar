@@ -353,7 +353,7 @@ internal class CustomizerData
 
         unit.Pronouns = Pronouns;
 
-        var race = Races2.GetRace(unit);
+        var race = RaceFuncs.GetRace(unit);
         if (HairColor >= race.SetupOutput.HairColors) unit.HairColor = 0;
         if (HairStyle >= race.SetupOutput.HairStyles) unit.HairStyle = 0;
         if (SkinColor >= race.SetupOutput.SkinColors) unit.SkinColor = 0;

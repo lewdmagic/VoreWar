@@ -135,7 +135,7 @@ public class InfoPanel
 
     public static string RaceSingular(Unit unit)
     {
-        return Races2.GetRace(unit.Race).SingularName(unit);
+        return RaceFuncs.GetRace(unit.Race).SingularName(unit);
     }
 
     private void BuildStatus(StringBuilder sb, Unit unit)
@@ -154,7 +154,7 @@ public class InfoPanel
             sb.AppendLine($"{unit.Type}");
         else
         {
-            var race = Races2.GetRace(unit.Race);
+            var race = RaceFuncs.GetRace(unit.Race);
             if (race != null && race.SetupOutput.CanBeGender.Contains(Gender.None))
                 sb.AppendLine($"{unit.Type}");
             else if (unit.GetGender() == Gender.Hermaphrodite)

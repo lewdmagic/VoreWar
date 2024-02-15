@@ -942,7 +942,7 @@ Turns: {CurrentTurn}
 
         if (_village != null)
         {
-            _wallType = Races2.GetRace(_village.Race).WallType();
+            _wallType = RaceFuncs.GetRace(_village.Race).WallType();
         }
 
         RebuildInfo();
@@ -3879,7 +3879,7 @@ Turns: {CurrentTurn}
                     break;
             }
 
-            var raceData = Races2.GetRace(actor.Unit);
+            var raceData = RaceFuncs.GetRace(actor.Unit);
             actor.Unit.RandomizeNameAndGender(actor.Unit.Race, raceData);
             raceData.RandomCustomCall(actor.Unit);
             actor.Unit.DigestedUnits = 0;

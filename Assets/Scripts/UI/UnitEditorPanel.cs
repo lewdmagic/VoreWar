@@ -303,7 +303,7 @@ public class UnitEditorPanel : CustomizerPanel
         {
             if (Equals(UnitEditor.Unit.Race, race)) return;
             UnitEditor.Unit.Race = race;
-            UnitEditor.Unit.RandomizeGender(race, Races2.GetRace(UnitEditor.Unit));
+            UnitEditor.Unit.RandomizeGender(race, RaceFuncs.GetRace(UnitEditor.Unit));
             UnitEditor.Unit.SetGear(race);
             UnitEditor.ClearAnimations();
             RandomizeUnit();
@@ -411,7 +411,7 @@ public class UnitEditorPanel : CustomizerPanel
 
     public void RandomizeUnit()
     {
-        Races2.GetRace(UnitEditor.Unit).RandomCustomCall(UnitEditor.Unit);
+        RaceFuncs.GetRace(UnitEditor.Unit).RandomCustomCall(UnitEditor.Unit);
         UnitEditor.RefreshView();
         UnitEditor.RefreshGenderSelector();
     }

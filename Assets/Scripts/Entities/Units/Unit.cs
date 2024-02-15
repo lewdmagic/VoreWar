@@ -902,7 +902,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
         ImmuneToDefections = immuneToDefectons;
 
 
-        var raceData = Races2.GetRace(this);
+        var raceData = RaceFuncs.GetRace(this);
         RandomizeNameAndGender(race, raceData, true);
 
         DefaultBreastSize = BreastSize;
@@ -1273,7 +1273,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     internal void SetGenderRandomizeName(Race race, Gender gender)
     {
-        var raceData = Races2.GetRace(this);
+        var raceData = RaceFuncs.GetRace(this);
         var isMale = false;
         if (raceData.SetupOutput.CanBeGender.Count == 0 || (raceData.SetupOutput.CanBeGender.Contains(Gender.None) && raceData.SetupOutput.CanBeGender.Count == 1))
         {
@@ -1317,14 +1317,14 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     internal void TotalRandomizeAppearance()
     {
-        var raceData = Races2.GetRace(this);
+        var raceData = RaceFuncs.GetRace(this);
         RandomizeNameAndGender(Race, raceData, true);
         raceData.RandomCustomCall(this);
     }
 
     internal void RandomizeAppearance()
     {
-        var raceData = Races2.GetRace(this);
+        var raceData = RaceFuncs.GetRace(this);
         raceData.RandomCustomCall(this);
     }
 
@@ -2181,7 +2181,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             CopyAppearance(appearance);
         else
         {
-            var newRace = Races2.GetRace(race);
+            var newRace = RaceFuncs.GetRace(race);
             newRace.RandomCustomCall(this);
         }
     }
@@ -2281,7 +2281,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
 
     public void SetBreastSize(int size)
     {
-        if (size > Races2.GetRace(this).SetupOutput.BreastSizes() - 1) size = Races2.GetRace(this).SetupOutput.BreastSizes() - 1;
+        if (size > RaceFuncs.GetRace(this).SetupOutput.BreastSizes() - 1) size = RaceFuncs.GetRace(this).SetupOutput.BreastSizes() - 1;
         if (size <= DefaultBreastSize) size = DefaultBreastSize;
         BreastSize = size;
     }
@@ -2826,7 +2826,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             shape.AddPermanentTrait(trait);
         }
 
-        if (Races2.GetRace(shape.Race).SetupOutput.CanBeGender.Contains(GetGender()))
+        if (RaceFuncs.GetRace(shape.Race).SetupOutput.CanBeGender.Contains(GetGender()))
         {
             shape.SetGenderRandomizeName(race, GetGender());
         }

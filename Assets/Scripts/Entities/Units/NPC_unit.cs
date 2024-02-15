@@ -112,7 +112,7 @@ public class NpcUnit : Unit
         Stats[(int)Stat.Stomach] = 4 + raceStats.Stomach.Minimum + raceStats.Stomach.Roll;
         Stats[(int)Stat.Leadership] = 10;
 
-        if (Equals(race, Race.Lizard)) Races2.GetRace(Race.Lizard).RandomCustomCall(this);
+        if (Equals(race, Race.Lizard)) RaceFuncs.GetRace(Race.Lizard).RandomCustomCall(this);
         if (Config.LetterBeforeLeaderNames != "") Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;
         if (Equals(race, Race.Slime))
