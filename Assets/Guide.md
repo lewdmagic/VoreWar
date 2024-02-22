@@ -16,7 +16,7 @@ Major changes at a glance:
 
 Custom Races is a new experimental feature that allows users to add or modify races. Adding a folder with appropriate files is all it takes to add a race.
 
-Custom races are coded with Lua scripting language 5.2. API.lua file contains the definitions for the custom races lua API, adding it to your editor will provide autocompletion and type checking. It's not required but *highly* recommended.
+Custom races are coded with Lua scripting language 5.2. API.lua file located in `Tools/Lua/API.lua` contains the definitions for the custom races lua API, adding it to your editor will provide autocompletion and type checking. It's not required but *highly* recommended.
 
 ## Set up your editor
 
@@ -118,13 +118,12 @@ end
 
 The render function is called with two parameters: input and output. 
 
-The input variable gives you access to various data needed to make decisions.
-The output variable allows you to provide rendering instructions. 
+The input variable gives you access to various data needed to make decisions. The output variable allows you to provide rendering instructions. 
 
 the cornerstone is the NewSprite method belonging to output
 
 ```lua
-local headSprite = NewSprite(SpriteType.Head, 5)
+local headSprite = output.NewSprite(SpriteType.Head, 5)
 ```
 
 This creates a sprite handle for us, with the specified SpriteType and layer. 
@@ -135,7 +134,7 @@ headSprite.Sprite("head");
 
 That's all you need to render head.png from the sprites folder. 
 
-The sprite method has a few variations for conviniece. 
+The sprite method has a few variations for convenience. 
 
 calling it with multiple arguments will join them with "_"
 ```lua
