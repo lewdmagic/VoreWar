@@ -1,10 +1,26 @@
-Custom Races is a new experimental feature that allows users to add or modify races. Adding a folder with appropriate files is all that's required to add a custom race.
 
-Custom races are programmed with Lua scripting language 5.2. API.lua file contains the definitions for the custom race lua API, adding it to your editor will provide autocompletion and type checking. It's not required but *highly* recommended.
+# VoreWar Experimental
+
+This build contains a lot of modifications to the code base. 
+
+Major changes at a glance: 
+
+* The code relating to Races has been rewritten almost entirely.
+* Custom races feature that allows adding new races coded with Lua, without recompiling the game.
+* Wide encompassing code cleanup and normalization.
+* **Upgraded Unity version to 2022.3.5f**
+* Many bugs fixed.
+* Many bugs added.
+
+## Custom Races
+
+Custom Races is a new experimental feature that allows users to add or modify races. Adding a folder with appropriate files is all it takes to add a race.
+
+Custom races are coded with Lua scripting language 5.2. API.lua file contains the definitions for the custom races lua API, adding it to your editor will provide autocompletion and type checking. It's not required but *highly* recommended.
 
 ## Set up your editor
 
-1. Download visual code https://code.visualstudio.com/.
+1. Download Visual Studio Code https://code.visualstudio.com/.
 2. Install extension called `Lua` by sumneko. 
 3. Open extension settings, search `@ext:sumneko.lua workspace library`, click `Add Item` and paste the path to API.lua 
 
@@ -15,17 +31,58 @@ The name of the folder serves as the ID of the race. To keep IDs from colliding,
 
 The fastest way to create a new race is to simply copy an existing one! For example, you can copy the folder `magic.equines` and name it `jamie.equines`. You just created a new custom race. Next time you start the game, it will show up as a separate option. Of course it's a carbon copy, but you can immidiately begin to modify and experiment with it.
 
-Your `jamie.equine` folder will containe the following items:
+Your `jamie.equine` folder will contain the following items:
 
 * `sprites` folder should contain png files.
-* `clothing` folder should containt a folder for each piece of clothing (more on this later)
+* `clothing` folder should contain a folder for each piece of clothing (more on this later)
 * `race.lua` primary race script.
-* `banner.png` the banner sprite.  
+* `banner.png` the banner sprite.
 
+## Folder Layout
+
+```
+CustomRaces
+├───jamie.human 📁
+│   ├───race.lua
+│   ├───banner.png
+│   ├───sprites 📁
+│   │   ├───body_001.png
+│   │   ├───body_002.png
+│   │   └───body_003.png
+│   └───clothing 📁
+│       ├───pants1 📁
+│       │   ├───clothing.lua
+│       │   └───sprites 📁
+│       │       ├───top_part.png 
+│       │       └───bottom_part.png
+│       └───pants2 📁
+│           ├───clothing.lua
+│           └───sprites 📁
+│               ├───top_part.png
+│               └───bottom_part.png
+├───jamie.cat 📁
+│   ├───race.lua
+│   ├───banner.png
+│   ├───sprites 📁
+│   │   ├───body_001.png
+│   │   ├───body_002.png
+│   │   └───body_003.png
+│   ├───clothing 📁
+│   │   ├───pants1 📁
+│   │   │   ├───clothing.lua
+│   │   │   └───sprites 📁
+│   │   │       ├───top_part.png
+│   │   │       └───bottom_part.png
+│   │   └───pants2 📁
+│   │       ├───clothing.lua
+│   │       └───sprites 📁
+│   │           ├───top_part.png
+│   │           └───bottom_part.png
+```
 
 # race.lua
 
-race.lua is the pri
+race.lua is the script file that defines a race. 
 
 It must contain 4 items: 
 
@@ -197,7 +254,7 @@ output.AllowedWaistTypes.AddRange({ -- underbottoms
 
 #### Other Race Data
 
-Various race attributes can be adjusted here. 
+Various race attributes can be in the Setup function. 
 
 ```lua
 output.SpecialAccessoryCount = 0;
@@ -226,66 +283,63 @@ output.ExtendedBreastSprites = true;
 output.WholeBodyOffset = NewVector2(0, 16 * 0.625);
 ```
 
+## Clothing
 
+Clothing works in a very similar way to custom races. Each race folder must contain the following: 
 
+* `clothing.lua` primary race script.
+* `sprites` folder should contain png files.
 
+# clothing.lua
 
+clothing.lua must contain 3 items:
 
-
-
-
+1. The API version at the top of the file. The only version right now is 0.0.1, so don't worry about this.
 ```
-CustomRaces
-- jackson.human
-- - race.lua
-- - banner.png
-- - sprites
-- - - sprite_1.png
-- - - sprite_2.png
-- - - sprite_3.png
-- - clothing
-- - - pants1
-- - - - 
-
-
-└───magic.equines
-    ├───clothing
-    │   ├───over_bottom_1
-    │   │   └───sprites
-    │   ├───over_bottom_2
-    │   │   └───sprites
-    │   ├───over_bottom_3
-    │   │   └───sprites
-    │   ├───over_top_1
-    │   │   └───sprites
-    │   ├───over_top_2
-    │   │   └───sprites
-    │   ├───under_bottom_1
-    │   │   └───sprites
-    │   ├───under_bottom_2
-    │   │   └───sprites
-    │   ├───under_bottom_3
-    │   │   └───sprites
-    │   ├───under_bottom_4
-    │   │   └───sprites
-    │   ├───under_bottom_5
-    │   │   └───sprites
-    │   ├───under_top_female_1
-    │   │   └───sprites
-    │   ├───under_top_female_2
-    │   │   └───sprites
-    │   ├───under_top_female_3
-    │   │   └───sprites
-    │   ├───under_top_female_4
-    │   │   └───sprites
-    │   ├───under_top_male_1
-    │   │   └───sprites
-    │   ├───under_top_male_2
-    │   │   └───sprites
-    │   └───under_top_male_3
-    │       └───sprites
-    └───sprites
+API_VERSION = "0.0.1"
 ```
+2. A setup function. It's called once. You can use the output variable to customize the clothing.
+```lua 
+---@param input IClothingSetupInput
+---@param output IClothingSetupOutput
+function Setup(input, output)
+    
+end
+```
+3. A render function. This function is called every update. It tells the game what sprites to render.
+```lua 
+---@param input IClothingRenderInput
+---@param output IClothingRenderOutput
+function Render(input, output)
+    
+end
+```
+
+# Example
+
+```lua 
+API_VERSION = "0.0.1"
+
+---@param input IClothingSetupInput
+---@param output IClothingSetupOutput
+function Setup(input, output)
+    output.DiscardUsesPalettes = true;
+end
+
+---@param input IClothingRenderInput
+---@param output IClothingRenderOutput
+function Render(input, output)
+    output.DisableDick();
+
+    output.NewSprite("main", 15)
+          .Sprite(input.Sex, ternary(input.A.HasBelly, "hasbelly", "nobelly"))
+          .Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+end
+```
+
+
+
+
 
 
 
