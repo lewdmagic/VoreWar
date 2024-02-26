@@ -9,36 +9,30 @@
     //public TacticalAIType TacticalAIType;
 
 
-
     public MonsterEmpire(ConstructionArgs args) : base(args)
     {
-        if (args.strategicAI == StrategyAIType.Monster)
+        if (args.StrategicAI == StrategyAIType.Monster)
             StrategicAI = new MonsterStrategicAI(this);
-        else if (args.strategicAI == StrategyAIType.Goblin)
-            StrategicAI = new GoblinAI(this);
+        else if (args.StrategicAI == StrategyAIType.Goblin) StrategicAI = new GoblinAI(this);
     }
 
-    new public void Regenerate()
+    public new void Regenerate()
     {
         for (int i = 0; i < Armies.Count; i++)
         {
             Armies[i].Refresh();
         }
-
     }
 
 
-    new public int Income => 0;
-    new public int StartingXP => 0;
+    public new int Income => 0;
+    public new int StartingXP => 0;
 
-    new public void LoadFix()
+    public new void LoadFix()
     {
     }
 
-    new public void CalcIncome(Village[] villages, bool AddToStats = false)
+    public new void CalcIncome(Village[] villages, bool AddToStats = false)
     {
     }
-
-
 }
-

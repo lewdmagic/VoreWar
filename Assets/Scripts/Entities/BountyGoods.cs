@@ -1,10 +1,12 @@
 ﻿using OdinSerializer;
 
 
-class BountyGoods
+internal class BountyGoods
 {
     [OdinSerialize]
-    internal int Gold;
+    private int _gold;
+
+    internal int Gold { get => _gold; set => _gold = value; }
 
     public BountyGoods(int gold)
     {
@@ -19,7 +21,7 @@ class BountyGoods
             if (Gold > 0)
             {
                 ret = $"\n<color=yellow>Recieved {Gold} Gold</color>\n";
-                army.Empire.AddGold(Gold);
+                army.EmpireOutside.AddGold(Gold);
                 Gold = 0;
             }
         }
@@ -33,7 +35,7 @@ class BountyGoods
                 Gold = 0;
             }
         }
+
         return ret;
     }
 }
-

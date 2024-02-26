@@ -1,58 +1,58 @@
 ﻿using System;
 
-static class SizeToName
+internal static class SizeToName
 {
-    static string[] labels;
+    private static string[] _labels;
 
     static SizeToName()
     {
-        labels = new string[]
+        _labels = new string[]
         {
-"Anemic",
-"Feeble",
-"Fragile",
-"Frail",
-"Shaky",
-"Insubstantial",
-"Weak",
-"Delicate",
-"Scouts",
-"Fair",
-"Respectable",
-"Raiders",
-"Middling",
-"Warband",
-"Resilient",
-"Tough",
-"Strong",
-"Tempered",
-"Potent",
-"Powerful",
-"Principal",
-"Professional",
-"Veteran",
-"Distinguished",
-"Renowned",
-"Great",
-"Famed",
-"Unprecedented",
-"Honored",
-"Fabled",
-"Enduring",
-"Venerable",
-"Immortal",
-"Eternal",
-"Legendary",
-"Historic",
-"Revered",
-"Worshiped",
-"Demonic",
-"Prophetic",
-"Hallowed",
-"Divine",
-"Almighty",
-"Infinite",
-"Godlike",
+            "Anemic",
+            "Feeble",
+            "Fragile",
+            "Frail",
+            "Shaky",
+            "Insubstantial",
+            "Weak",
+            "Delicate",
+            "Scouts",
+            "Fair",
+            "Respectable",
+            "Raiders",
+            "Middling",
+            "Warband",
+            "Resilient",
+            "Tough",
+            "Strong",
+            "Tempered",
+            "Potent",
+            "Powerful",
+            "Principal",
+            "Professional",
+            "Veteran",
+            "Distinguished",
+            "Renowned",
+            "Great",
+            "Famed",
+            "Unprecedented",
+            "Honored",
+            "Fabled",
+            "Enduring",
+            "Venerable",
+            "Immortal",
+            "Eternal",
+            "Legendary",
+            "Historic",
+            "Revered",
+            "Worshiped",
+            "Demonic",
+            "Prophetic",
+            "Hallowed",
+            "Divine",
+            "Almighty",
+            "Infinite",
+            "Godlike",
         };
     }
 
@@ -79,10 +79,8 @@ static class SizeToName
         const int startingBase = 60;
         const float multiplier = 1.3f;
         int log = 1 + (int)(Math.Log(strength / startingBase) / Math.Log(multiplier));
-        if (log < 0)
-            log = 0;
-        if (log < labels.Length)
-            return $"{labels[log]} ({log})";
+        if (log < 0) log = 0;
+        if (log < _labels.Length) return $"{_labels[log]} ({log})";
         return $"Indescribable ({log})";
     }
 }

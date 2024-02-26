@@ -18,15 +18,15 @@ public class MessageLogPanel : MonoBehaviour
     public Toggle ShowWeaponCombat;
     public Toggle ShowFluff;
 
-    RectTransform rect;
+    private RectTransform _rect;
 
-    int size = 1;
+    private int _size = 1;
 
-    bool initialized = false;
+    private bool _initialized = false;
 
     public void SetBase()
     {
-        initialized = false;
+        _initialized = false;
         TacticalUtilities.Log.ShowWeaponCombat = PlayerPrefs.GetInt("LogShowWeaponCombat", 1) == 1;
         TacticalUtilities.Log.ShowOdds = PlayerPrefs.GetInt("LogShowOdds", 0) == 1;
         TacticalUtilities.Log.ShowHealing = PlayerPrefs.GetInt("LogShowHealing", 1) == 1;
@@ -41,13 +41,12 @@ public class MessageLogPanel : MonoBehaviour
         ShowMisses.isOn = TacticalUtilities.Log.ShowMisses;
         ShowInformational.isOn = TacticalUtilities.Log.ShowInformational;
         ShowFluff.isOn = TacticalUtilities.Log.ShowPureFluff;
-        initialized = true;
+        _initialized = true;
     }
 
     public void Refresh()
     {
-        if (initialized == false)
-            return;
+        if (_initialized == false) return;
         TacticalUtilities.Log.ShowWeaponCombat = ShowWeaponCombat.isOn;
         TacticalUtilities.Log.ShowOdds = ShowOdds.isOn;
         TacticalUtilities.Log.ShowHealing = ShowHealing.isOn;
@@ -69,24 +68,24 @@ public class MessageLogPanel : MonoBehaviour
 
     public void Expand()
     {
-        if (rect == null) rect = GetComponent<RectTransform>();
-        if (size == 0)
+        if (_rect == null) _rect = GetComponent<RectTransform>();
+        if (_size == 0)
         {
             Restore.gameObject.SetActive(false);
             gameObject.SetActive(true);
             //rect.sizeDelta = new Vector2(1920, 160);
             //rect.anchoredPosition = new Vector3(0, 118, 0);            
-            size = 1;
+            _size = 1;
         }
-        else if (size == 1)
+        else if (_size == 1)
         {
-            rect.anchorMax = new Vector2(1, 1);
-            rect.pivot = new Vector2(.5f, .5f);
-            rect.sizeDelta = new Vector2(1920, Screen.height);
+            _rect.anchorMax = new Vector2(1, 1);
+            _rect.pivot = new Vector2(.5f, .5f);
+            _rect.sizeDelta = new Vector2(1920, Screen.height);
             transform.position = Vector3.zero;
-            rect.offsetMax = Vector2.zero;
-            rect.offsetMin = Vector2.zero;
-            size = 2;
+            _rect.offsetMax = Vector2.zero;
+            _rect.offsetMin = Vector2.zero;
+            _size = 2;
             IncreaseSize.interactable = false;
             ShowHealing.gameObject.SetActive(true);
             ShowMisses.gameObject.SetActive(true);
@@ -100,14 +99,14 @@ public class MessageLogPanel : MonoBehaviour
 
     public void Shrink()
     {
-        if (rect == null) rect = GetComponent<RectTransform>();
-        if (size == 2)
+        if (_rect == null) _rect = GetComponent<RectTransform>();
+        if (_size == 2)
         {
-            rect.anchorMax = new Vector2(0, 0);
-            rect.pivot = Vector2.zero;
-            rect.sizeDelta = new Vector2(1920, 160);
-            rect.anchoredPosition = new Vector3(0, 98, 0);
-            size = 1;
+            _rect.anchorMax = new Vector2(0, 0);
+            _rect.pivot = Vector2.zero;
+            _rect.sizeDelta = new Vector2(1920, 160);
+            _rect.anchoredPosition = new Vector3(0, 98, 0);
+            _size = 1;
             IncreaseSize.interactable = true;
             ShowHealing.gameObject.SetActive(false);
             ShowMisses.gameObject.SetActive(false);
@@ -117,12 +116,11 @@ public class MessageLogPanel : MonoBehaviour
             ShowFluff.gameObject.SetActive(false);
             ShowSpells.gameObject.SetActive(false);
         }
-        else if (size == 1)
+        else if (_size == 1)
         {
             gameObject.SetActive(false);
-            size = 0;
+            _size = 0;
             Restore.gameObject.SetActive(true);
         }
     }
-
 }

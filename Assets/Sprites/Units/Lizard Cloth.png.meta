@@ -1,33 +1,81 @@
 fileFormatVersion: 2
 guid: 5795fc502ea5566458ca02d6f7e54727
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: Lizard Cloth_0
-    21300018: Lizard Cloth_1
-    21300020: Lizard Cloth_2
-    21300022: Lizard Cloth_3
-    21300024: Lizard Cloth_4
-    21300026: Lizard Cloth_5
-    21300028: Lizard Cloth_6
-    21300030: Lizard Cloth_7
-    21300032: Lizard Cloth_8
-    21300034: Lizard Cloth_9
-    21300036: Lizard Cloth_10
-    21300038: Lizard Cloth_11
-    21300040: Lizard Cloth_12
-    21300042: Lizard Cloth_13
-    21300044: Lizard Cloth_14
-    21300046: Lizard Cloth_15
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: Lizard Cloth_0
+  - first:
+      213: 21300018
+    second: Lizard Cloth_1
+  - first:
+      213: 21300020
+    second: Lizard Cloth_2
+  - first:
+      213: 21300022
+    second: Lizard Cloth_3
+  - first:
+      213: 21300024
+    second: Lizard Cloth_4
+  - first:
+      213: 21300026
+    second: Lizard Cloth_5
+  - first:
+      213: 21300028
+    second: Lizard Cloth_6
+  - first:
+      213: 21300030
+    second: Lizard Cloth_7
+  - first:
+      213: 21300032
+    second: Lizard Cloth_8
+  - first:
+      213: 21300034
+    second: Lizard Cloth_9
+  - first:
+      213: 21300036
+    second: Lizard Cloth_10
+  - first:
+      213: 21300038
+    second: Lizard Cloth_11
+  - first:
+      213: 21300040
+    second: Lizard Cloth_12
+  - first:
+      213: 21300042
+    second: Lizard Cloth_13
+  - first:
+      213: 21300044
+    second: Lizard Cloth_14
+  - first:
+      213: 21300046
+    second: Lizard Cloth_15
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -44,9 +92,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -56,8 +107,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -78,11 +129,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -92,8 +149,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -103,7 +162,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -123,6 +210,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 873b5f4af3f284c42a714f1e1dcef49e
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -143,6 +231,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 96ff8bfed16e49b41b8a010000e47ab3
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -163,6 +252,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b4869cdd5b27e3a4aa5e203f2013534c
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -183,6 +273,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f9f5a3aaa3047fb46a2bc5977ce4306b
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -203,6 +294,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 19920de056e2d7145b146319c9373295
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -223,6 +315,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e750779fb1e8f0b4d9cb358a84987541
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -243,6 +336,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9c9baf7796b33704cb572854bd0f7b2a
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -263,6 +357,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a5223115d78713741ad98ac500f791ed
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -283,6 +378,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4f901992043d41f46ae94762b8458a09
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -303,6 +399,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3f7a1e1649c9a44458f0fb87574f1cf0
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -323,6 +420,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 08d0a221b657fde45895845b8d53efb0
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -343,6 +441,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1cea4c9e99b92d841aa71c4061dc9ae9
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -363,6 +462,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 64529aa43079d9745a25f6f72b4f2950
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -383,6 +483,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4112ba0c09327e04c927c005e6460093
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -403,6 +504,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8da5a024a37dd0a49b1fc9b55b9d8986
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -423,6 +525,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b1bacde7bd8d5304d801f014d9881b7d
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -431,13 +534,31 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      Lizard Cloth_0: 21300016
+      Lizard Cloth_1: 21300018
+      Lizard Cloth_10: 21300036
+      Lizard Cloth_11: 21300038
+      Lizard Cloth_12: 21300040
+      Lizard Cloth_13: 21300042
+      Lizard Cloth_14: 21300044
+      Lizard Cloth_15: 21300046
+      Lizard Cloth_2: 21300020
+      Lizard Cloth_3: 21300022
+      Lizard Cloth_4: 21300024
+      Lizard Cloth_5: 21300026
+      Lizard Cloth_6: 21300028
+      Lizard Cloth_7: 21300030
+      Lizard Cloth_8: 21300032
+      Lizard Cloth_9: 21300034
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

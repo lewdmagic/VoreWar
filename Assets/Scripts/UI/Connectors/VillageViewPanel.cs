@@ -7,5 +7,4 @@ public class VillageViewPanel : MonoBehaviour
     public GameObject ButtonPrefab;
     public Text VillageInfo;
     public Toggle BuyForAllToggle;
-
 }

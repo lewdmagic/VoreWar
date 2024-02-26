@@ -3,66 +3,65 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-class ItemStock
+internal class ItemStock
 {
     [OdinSerialize]
-    Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
+    private Dictionary<ItemType,int> _items = new Dictionary<ItemType, int>();
+    //public Dictionary<ItemType,int> Items { get => _items; set => _items = value; }
 
     internal void AddItem(ItemType type, int quantity = 1)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
-        if (Items.ContainsKey(type))
+        if (_items == null) _items = new Dictionary<ItemType, int>();
+        if (_items.ContainsKey(type))
         {
-            Items[type] += quantity;
+            _items[type] += quantity;
         }
         else
-            Items[type] = quantity;
+            _items[type] = quantity;
     }
 
     internal bool HasItem(ItemType type)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
-        if (Items.TryGetValue(type, out int num))
+        if (_items == null) _items = new Dictionary<ItemType, int>();
+        if (_items.TryGetValue(type, out int num))
         {
             return num > 0;
         }
+
         return false;
     }
 
     internal int ItemCount(ItemType type)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
-        if (Items.TryGetValue(type, out int num))
+        if (_items == null) _items = new Dictionary<ItemType, int>();
+        if (_items.TryGetValue(type, out int num))
         {
             return num;
         }
+
         return 0;
     }
 
     internal bool TakeItem(ItemType type)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
-        if (Items.TryGetValue(type, out int num))
+        if (_items == null) _items = new Dictionary<ItemType, int>();
+        if (_items.TryGetValue(type, out int num))
         {
             if (num > 0)
             {
-                Items[type]--;
+                _items[type]--;
                 return true;
             }
         }
+
         return false;
     }
 
     internal List<ItemType> GetAllSpellBooks()
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (_items == null) _items = new Dictionary<ItemType, int>();
         List<ItemType> items = new List<ItemType>();
-        foreach (var item in Items)
+        foreach (var item in _items)
         {
             if (item.Key >= ItemType.FireBall && item.Key <= ItemType.GateMaw)
             {
@@ -75,14 +74,15 @@ class ItemStock
                 }
             }
         }
+
         return items;
     }
+
     internal List<ItemType> SellAllWeaponsAndAccessories(Empire empire)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (_items == null) _items = new Dictionary<ItemType, int>();
         List<ItemType> items = new List<ItemType>();
-        foreach (var item in Items)
+        foreach (var item in _items)
         {
             if (item.Key < ItemType.FireBall)
             {
@@ -92,47 +92,43 @@ class ItemStock
                 }
             }
         }
+
         return items;
     }
 
     internal bool TransferAllItems(ItemStock destination)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (_items == null) _items = new Dictionary<ItemType, int>();
         bool foundItem = false;
-        foreach (var item in Items.ToList())
+        foreach (var item in _items.ToList())
         {
             if (item.Value > 0)
             {
                 foundItem = true;
                 destination.AddItem(item.Key, item.Value);
-                Items[item.Key] = 0;
+                _items[item.Key] = 0;
             }
         }
+
         return foundItem;
     }
 
 
-
-
     internal bool TransferAllItems(ItemStock destination, ref List<Item> foundItems)
     {
-        if (Items == null)
-            Items = new Dictionary<ItemType, int>();
+        if (_items == null) _items = new Dictionary<ItemType, int>();
         bool foundItem = false;
-        foreach (var item in Items.ToList())
+        foreach (var item in _items.ToList())
         {
             if (item.Value > 0)
             {
                 foundItem = true;
                 foundItems.Add(State.World.ItemRepository.GetItem(item.Key));
                 destination.AddItem(item.Key, item.Value);
-                Items[item.Key] = 0;
+                _items[item.Key] = 0;
             }
         }
+
         return foundItem;
     }
-
-
 }
-

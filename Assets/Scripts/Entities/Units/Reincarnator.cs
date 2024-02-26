@@ -9,21 +9,28 @@ using System.Threading.Tasks;
 public class Reincarnator
 {
     [OdinSerialize]
-    public Unit PastLife { get; set; }
-    [OdinSerialize]
-    public Race Race { get; set; }
-    [OdinSerialize]
-    public bool RaceLocked { get; set; } = false;
+    private Unit _pastLife;
 
-    public Reincarnator(Unit Unit, Race race, bool raceLocked = false)
+    public Unit PastLife { get => _pastLife; set => _pastLife = value; }
+
+    [OdinSerialize]
+    private Race _race;
+
+    public Race Race { get => _race; set => _race = value; }
+
+    [OdinSerialize]
+    private bool _raceLocked = false;
+
+    public bool RaceLocked { get => _raceLocked; set => _raceLocked = value; }
+
+    public Reincarnator(Unit unit, Race race, bool raceLocked = false)
     {
-        PastLife = Unit;
+        PastLife = unit;
         PastLife.FixedSide = PastLife.FixedSide;
-        PastLife.RemoveTrait(Traits.Diseased);
-        PastLife.RemoveTrait(Traits.Illness);
-        PastLife.RemoveTrait(Traits.Infertile);
+        PastLife.RemoveTrait(TraitType.Diseased);
+        PastLife.RemoveTrait(TraitType.Illness);
+        PastLife.RemoveTrait(TraitType.Infertile);
         Race = race;
         RaceLocked = raceLocked;
     }
 }
-

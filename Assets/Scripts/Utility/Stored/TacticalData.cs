@@ -5,94 +5,156 @@ using TacticalBuildings;
 public class TacticalData
 {
     [OdinSerialize]
-    public List<Actor_Unit> units;
-    [OdinSerialize]
-    public Army[] armies;
-    [OdinSerialize]
-    public Village village;
+    public List<ActorUnit> Units;
 
     [OdinSerialize]
-    internal List<ClothingDiscards> DiscardedClothing;
+    private Army[] _armies;
+
+    public Army[] Armies { get => _armies; set => _armies = value; }
 
     [OdinSerialize]
-    public TacticalTileType[,] tiles;
+    private Village _village;
+
+    public Village Village { get => _village; set => _village = value; }
 
     [OdinSerialize]
-    public Actor_Unit selectedUnit;
+    private List<ClothingDiscards> _discardedClothing;
+
+    internal List<ClothingDiscards> DiscardedClothing { get => _discardedClothing; set => _discardedClothing = value; }
 
     [OdinSerialize]
-    public int defenderSide;
+    private TacticalTileType[,] _tiles;
+
+    public TacticalTileType[,] Tiles { get => _tiles; set => _tiles = value; }
 
     [OdinSerialize]
-    public int currentTurn;
+    public ActorUnit SelectedUnit;
 
     [OdinSerialize]
-    public bool attackersTurn;
-    [OdinSerialize]
-    public bool isAPlayerTurn;
-    [OdinSerialize]
-    public int activeSide;
+    private Side _defenderSide;
+
+    public Side DefenderSide { get => _defenderSide; set => _defenderSide = value; }
 
     [OdinSerialize]
-    public bool AIAttacker;
-    [OdinSerialize]
-    public bool AIDefender;
+    private int _currentTurn;
+
+    public int CurrentTurn { get => _currentTurn; set => _currentTurn = value; }
 
     [OdinSerialize]
-    public string AttackerName;
+    private bool _attackersTurn;
+
+    public bool AttackersTurn { get => _attackersTurn; set => _attackersTurn = value; }
+
     [OdinSerialize]
-    public string DefenderName;
+    private bool _isAPlayerTurn;
+
+    public bool IsAPlayerTurn { get => _isAPlayerTurn; set => _isAPlayerTurn = value; }
+
+    [OdinSerialize]
+    private Side _activeSide;
+
+    public Side ActiveSide { get => _activeSide; set => _activeSide = value; }
+
+    [OdinSerialize]
+    private bool _aIAttacker;
+
+    public bool AIAttacker { get => _aIAttacker; set => _aIAttacker = value; }
+
+    [OdinSerialize]
+    private bool _aIDefender;
+
+    public bool AIDefender { get => _aIDefender; set => _aIDefender = value; }
+
+    [OdinSerialize]
+    private string _attackerName;
+
+    public string AttackerName { get => _attackerName; set => _attackerName = value; }
+
+    [OdinSerialize]
+    private string _defenderName;
+
+    public string DefenderName { get => _defenderName; set => _defenderName = value; }
 
 
     [OdinSerialize]
-    public TacticalStats TacticalStats;
+    private TacticalStats _tacticalStats;
+
+    public TacticalStats TacticalStats { get => _tacticalStats; set => _tacticalStats = value; }
 
     [OdinSerialize]
-    public ITacticalAI currentAI;
-    [OdinSerialize]
-    public ITacticalAI attackerAI;
-    [OdinSerialize]
-    public ITacticalAI defenderAI;
+    private ITacticalAI _currentAI;
+
+    public ITacticalAI CurrentAI { get => _currentAI; set => _currentAI = value; }
 
     [OdinSerialize]
-    public bool runningFriendlyAI;
+    private ITacticalAI _attackerAI;
+
+    public ITacticalAI AttackerAI { get => _attackerAI; set => _attackerAI = value; }
 
     [OdinSerialize]
-    public List<Actor_Unit> extraAttackers;
+    private ITacticalAI _defenderAI;
+
+    public ITacticalAI DefenderAI { get => _defenderAI; set => _defenderAI = value; }
 
     [OdinSerialize]
-    public List<Actor_Unit> extraDefenders;
+    private bool _runningFriendlyAI;
+
+    public bool RunningFriendlyAI { get => _runningFriendlyAI; set => _runningFriendlyAI = value; }
 
     [OdinSerialize]
-    public List<Unit> retreatedAttackers;
+    public List<ActorUnit> ExtraAttackers;
 
     [OdinSerialize]
-    public List<Unit> retreatedDefenders;
+    public List<ActorUnit> ExtraDefenders;
 
     [OdinSerialize]
-    public TacticalMessageLog log;
+    private List<Unit> _retreatedAttackers;
+
+    public List<Unit> RetreatedAttackers { get => _retreatedAttackers; set => _retreatedAttackers = value; }
 
     [OdinSerialize]
-    internal List<MiscDiscard> MiscDiscards;
+    private List<Unit> _retreatedDefenders;
+
+    public List<Unit> RetreatedDefenders { get => _retreatedDefenders; set => _retreatedDefenders = value; }
 
     [OdinSerialize]
-    public int LastDiscard;
+    private TacticalMessageLog _log;
+
+    public TacticalMessageLog LOG { get => _log; set => _log = value; }
 
     [OdinSerialize]
-    internal List<Actor_Unit> garrison;
+    private List<MiscDiscard> _miscDiscards;
+
+    internal List<MiscDiscard> MiscDiscards { get => _miscDiscards; set => _miscDiscards = value; }
 
     [OdinSerialize]
-    public double StartingAttackerPower;
+    private int _lastDiscard;
+
+    public int LastDiscard { get => _lastDiscard; set => _lastDiscard = value; }
 
     [OdinSerialize]
-    public double StartingDefenderPower;
+    internal List<ActorUnit> Garrison;
 
     [OdinSerialize]
-    internal TacticalBuilding[] buildings;
-    [OdinSerialize]
-    internal Dictionary<Vec2, TileEffect> activeEffects;
+    private double _startingAttackerPower;
+
+    public double StartingAttackerPower { get => _startingAttackerPower; set => _startingAttackerPower = value; }
 
     [OdinSerialize]
-    internal DecorationStorage[] decorationStorage;
+    private double _startingDefenderPower;
+
+    public double StartingDefenderPower { get => _startingDefenderPower; set => _startingDefenderPower = value; }
+
+    [OdinSerialize]
+    private TacticalBuilding[] _buildings;
+
+    internal TacticalBuilding[] Buildings { get => _buildings; set => _buildings = value; }
+
+    [OdinSerialize]
+    internal Dictionary<Vec2, TileEffect> ActiveEffects;
+
+    [OdinSerialize]
+    private DecorationStorage[] _decorationStorage;
+
+    internal DecorationStorage[] DecorationStorage { get => _decorationStorage; set => _decorationStorage = value; }
 }
-

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-static class HelpText
+internal static class HelpText
 {
     public static string GameBasics = @"Goals:
 Claim all enemy villages for your side, to do this raise armies at your villages by recruiting soldiers and equipping them with items in the village shop then moving them towards the enemy.  There's 3 different selectable victory conditions.
@@ -164,12 +164,12 @@ Allies can win the game as a team, but sides with simply a peace treaty can't.  
     public static string Traits()
     {
         StringBuilder sb = new StringBuilder();
-        foreach (Traits trait in (Race[])Enum.GetValues(typeof(Traits)))
+        foreach (TraitType trait in Enum.GetValues(typeof(TraitType)))
         {
             sb.AppendLine($"{trait} - {HoveringTooltip.GetTraitData(trait).Replace('\n', ' ')}");
         }
-        return sb.ToString();
 
+        return sb.ToString();
     }
 
     public static string Spells()
@@ -182,7 +182,7 @@ Mana regenerates 60% of its max on each strategic turn.");
         {
             sb.AppendLine($"{spell.Name}\n{spell.Description}\nRange: {spell.Range.Min}-{spell.Range.Max}\nMana Cost: {spell.ManaCost}\nTargets: {string.Join(", ", spell.AcceptibleTargets)}\n");
         }
+
         return sb.ToString();
     }
 }
-

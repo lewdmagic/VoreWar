@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 
 public class RaceHoverObjectAuto : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    bool hovering;
+    private bool _hovering;
 
-    Race race;
+    private Race _race;
 
     private void Start()
     {
@@ -18,25 +18,25 @@ public class RaceHoverObjectAuto : MonoBehaviour, IPointerEnterHandler, IPointer
             return;
         }
 
-        if (Enum.TryParse(GetComponentInChildren<TextMeshProUGUI>().text, out Race result))
-            race = result;
+        if (RaceFuncs.TryParse(GetComponentInChildren<TextMeshProUGUI>().text, out Race result))
+            _race = result;
         else
             Destroy(this);
     }
+
     private void Update()
     {
-        if (hovering == false)
-            return;
-        State.GameManager.HoveringRacePicture.UpdateInformation(race);
+        if (_hovering == false) return;
+        State.GameManager.HoveringRacePicture.UpdateInformation(_race);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hovering = true;
+        _hovering = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        hovering = false;
+        _hovering = false;
     }
 }

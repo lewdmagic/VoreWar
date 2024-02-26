@@ -5,15 +5,13 @@ namespace Assets.Scripts.UI.Connectors
 {
     public class DropDownTool : MonoBehaviour
     {
-
         // Use this for initialization
-        void Start()
+        private void Start()
         {
-
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (gameObject.activeSelf)
             {
@@ -27,8 +25,8 @@ namespace Assets.Scripts.UI.Connectors
                             key = i.ToString();
                         }
                     }
-                    if (key == "4")
-                        return;
+
+                    if (key == "4") return;
                     for (int i = 1; i < transform.childCount; i++)
                     {
                         if (transform.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text.StartsWith(key))
@@ -42,7 +40,6 @@ namespace Assets.Scripts.UI.Connectors
                             break;
                         }
                     }
-
                 }
             }
         }

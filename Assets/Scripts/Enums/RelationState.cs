@@ -1,7 +1,6 @@
-﻿enum RelationState
+﻿internal enum RelationState
 {
     Neutral,
     Allied,
     Enemies
 }
-

@@ -1,11 +1,13 @@
 ﻿using OdinSerializer;
 
-class PassiveAI : IStrategicAI
+internal class PassiveAI : IStrategicAI
 {
     [OdinSerialize]
-    int AISide;
+    private Side _aISide;
 
-    public PassiveAI(int aISide)
+    private Side AISide { get => _aISide; set => _aISide = value; }
+
+    public PassiveAI(Side aISide)
     {
         AISide = aISide;
     }
@@ -21,12 +23,12 @@ class PassiveAI : IStrategicAI
         Village[] villages = State.World.Villages;
         for (int i = 0; i < State.World.Villages.Length; i++)
         {
-            if (villages[i].Side == AISide)
+            if (Equals(villages[i].Side, AISide))
             {
                 StrategicUtilities.BuyBasicWeapons(villages[i]);
             }
         }
+
         return false;
     }
 }
-

@@ -36,52 +36,54 @@ public class SaveLoad : MonoBehaviour
                 SaveInfo.LoadGame.interactable = false;
                 return;
             }
+
             SaveInfo.DeleteSave.interactable = true;
-            World TempWorld = State.PreviewSave($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav");
-            if (TempWorld == null)
+            World tempWorld = State.PreviewSave($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav");
+            if (tempWorld == null)
             {
                 SaveInfo.LeftText.text = "Invalid save (from a incompatible version?)";
                 SaveInfo.LoadGame.interactable = false;
                 return;
             }
-            SaveInfo.LoadGame.interactable = true;
-            if (TempWorld.Empires != null)
-                TempWorld.MainEmpires = TempWorld.Empires.ToList();
 
-            if (TempWorld.MainEmpires == null)
+            SaveInfo.LoadGame.interactable = true;
+            if (tempWorld.Empires != null) tempWorld.MainEmpiresWritable = tempWorld.Empires.ToList();
+
+            if (tempWorld.MainEmpires == null)
             {
                 SaveInfo.LeftText.text = "Is a pure tactical game";
                 StringBuilder sb = new StringBuilder();
-                int livingAttackers = TempWorld.TacticalData.armies[0].Units.Where(s => s.IsDead == false).Count();
-                int livingDefenders = TempWorld.TacticalData.units.Where(s => s.Unit.IsDead == false).Count() - livingAttackers;
-                sb.AppendLine($"Tactical Turn : {TempWorld.TacticalData.currentTurn}");
-                sb.AppendLine($"Attacker: {TempWorld.TacticalData.AttackerName} Living Units: {livingAttackers}");
-                sb.AppendLine($"Defender: {TempWorld.TacticalData.DefenderName} Living Units: {livingDefenders}");
+                int livingAttackers = tempWorld.TacticalData.Armies[0].Units.Where(s => s.IsDead == false).Count();
+                int livingDefenders = tempWorld.TacticalData.Units.Where(s => s.Unit.IsDead == false).Count() - livingAttackers;
+                sb.AppendLine($"Tactical Turn : {tempWorld.TacticalData.CurrentTurn}");
+                sb.AppendLine($"Attacker: {tempWorld.TacticalData.AttackerName} Living Units: {livingAttackers}");
+                sb.AppendLine($"Defender: {tempWorld.TacticalData.DefenderName} Living Units: {livingDefenders}");
                 sb.AppendLine($"Saved date: {File.GetLastWriteTime($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav")}");
-                sb.AppendLine($"Saved version: {(!string.IsNullOrWhiteSpace(TempWorld.SaveVersion) ? TempWorld.SaveVersion : "Pre V08D")}");
+                sb.AppendLine($"Saved version: {(!string.IsNullOrWhiteSpace(tempWorld.SaveVersion) ? tempWorld.SaveVersion : "Pre V08D")}");
                 SaveInfo.RightText.text = sb.ToString();
                 return;
             }
+
             StringBuilder sbLeft = new StringBuilder();
             StringBuilder sbRight = new StringBuilder();
-            foreach (Empire empire in TempWorld.MainEmpires)
+            foreach (Empire empire in tempWorld.MainEmpires)
             {
-                int villageCount = TempWorld.Villages.Where(s => s.Side == empire.Side).Count();
+                int villageCount = tempWorld.Villages.Where(s => Equals(s.Side, empire.Side)).Count();
                 int armyCount = empire.Armies.Count();
-                if (armyCount > 0 || villageCount > 0)
-                    sbLeft.AppendLine($"{(empire.Name != null ? empire.Name : empire.Race.ToString())} - Villages: {villageCount} Armies: {armyCount}");
+                if (armyCount > 0 || villageCount > 0) sbLeft.AppendLine($"{(empire.Name != null ? empire.Name : empire.Race.ToString())} - Villages: {villageCount} Armies: {armyCount}");
             }
-            sbRight.AppendLine($"Strategic Turn: {TempWorld.Turn}");
-            if (TempWorld.TacticalData != null)
+
+            sbRight.AppendLine($"Strategic Turn: {tempWorld.Turn}");
+            if (tempWorld.TacticalData != null)
             {
                 sbRight.AppendLine("Game is in the middle of a battle");
-                sbRight.AppendLine($"Tactical Turn : {TempWorld.TacticalData.currentTurn}");
+                sbRight.AppendLine($"Tactical Turn : {tempWorld.TacticalData.CurrentTurn}");
             }
+
             sbRight.AppendLine($"Saved date: {File.GetLastWriteTime($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav")}");
-            sbRight.AppendLine($"Saved version: {(!string.IsNullOrWhiteSpace(TempWorld.SaveVersion) ? TempWorld.SaveVersion : "Pre V08D")}");
+            sbRight.AppendLine($"Saved version: {(!string.IsNullOrWhiteSpace(tempWorld.SaveVersion) ? tempWorld.SaveVersion : "Pre V08D")}");
             SaveInfo.LeftText.text = sbLeft.ToString();
             SaveInfo.RightText.text = sbRight.ToString();
-
         }
         catch
         {
@@ -98,7 +100,7 @@ public class SaveLoad : MonoBehaviour
 
     public void Load()
     {
-        if (RequireConfirmation.isOn && State.GameManager.CurrentScene != State.GameManager.Start_Mode)
+        if (RequireConfirmation.isOn && State.GameManager.CurrentScene != State.GameManager.StartMode)
         {
             var box = State.GameManager.CreateDialogBox();
             box.SetData(LoadSave, "Load Game", "Cancel", "You already are in a game, are you sure you want to load?");
@@ -107,7 +109,6 @@ public class SaveLoad : MonoBehaviour
         {
             LoadSave();
         }
-
     }
 
     private void LoadSave()
@@ -123,10 +124,9 @@ public class SaveLoad : MonoBehaviour
         box.SetData(ActuallyDelete, "Delete", "Cancel", "Are you sure you want to delete this saved game?");
     }
 
-    void ActuallyDelete()
+    private void ActuallyDelete()
     {
-        if (File.Exists($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav"))
-            File.Delete($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav");
+        if (File.Exists($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav")) File.Delete($"{State.SaveDirectory}{SaveInfo.SavedGameName.text}.sav");
         InputChanged();
         ListSlots();
     }
@@ -138,16 +138,16 @@ public class SaveLoad : MonoBehaviour
         {
             Destroy(SaveNamesFolder.GetChild(i).gameObject);
         }
+
         BuildFiles(State.SaveDirectory, "sav");
-        bool InMainMenu = State.GameManager.CurrentScene == State.GameManager.Start_Mode;
-        SaveInfo.SaveGame.interactable = !InMainMenu;
+        bool inMainMenu = State.GameManager.CurrentScene == State.GameManager.StartMode;
+        SaveInfo.SaveGame.interactable = !inMainMenu;
         InputChanged();
     }
 
     private void BuildFiles(string directory, string extension)
     {
-        if (Directory.Exists(directory) == false)
-            Directory.CreateDirectory(directory);
+        if (Directory.Exists(directory) == false) Directory.CreateDirectory(directory);
         string[] files = Directory.GetFiles(directory);
 
         foreach (string file in files)
@@ -180,8 +180,4 @@ public class SaveLoad : MonoBehaviour
         // Not found, return not compatible
         return false;
     }
-
-
 }
-
-

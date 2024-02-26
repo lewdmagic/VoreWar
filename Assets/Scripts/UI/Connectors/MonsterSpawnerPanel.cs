@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MonsterSpawnerPanel : MonoBehaviour
 {
-    internal Race race;
+    internal Race Race;
     public Toggle SpawnEnabled;
     public Slider SpawnRate;
     public InputField MaxArmies;
@@ -17,4 +17,3 @@ public class MonsterSpawnerPanel : MonoBehaviour
     public Toggle AddonRace;
     public Dropdown ConquestType;
 }
-

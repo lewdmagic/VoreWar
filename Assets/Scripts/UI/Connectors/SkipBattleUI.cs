@@ -8,4 +8,3 @@ public class SkipBattleUI : MonoBehaviour
     public Toggle AllowRetreat;
     public Toggle KeepSettings;
 }
-

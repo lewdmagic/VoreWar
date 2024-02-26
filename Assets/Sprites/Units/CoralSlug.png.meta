@@ -1,38 +1,96 @@
 fileFormatVersion: 2
 guid: 262f03f26eb79e349b60c1dfdcda288d
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: CoralSlug_0
-    21300018: CoralSlug_1
-    21300020: CoralSlug_2
-    21300022: CoralSlug_3
-    21300024: CoralSlug_4
-    21300026: CoralSlug_5
-    21300028: CoralSlug_6
-    21300030: CoralSlug_7
-    21300032: CoralSlug_8
-    21300034: CoralSlug_9
-    21300036: CoralSlug_10
-    21300038: CoralSlug_11
-    21300040: CoralSlug_12
-    21300042: CoralSlug_13
-    21300044: CoralSlug_14
-    21300046: CoralSlug_15
-    21300048: CoralSlug_16
-    21300050: CoralSlug_17
-    21300052: CoralSlug_18
-    21300054: CoralSlug_19
-    21300056: CoralSlug_20
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: CoralSlug_0
+  - first:
+      213: 21300018
+    second: CoralSlug_1
+  - first:
+      213: 21300020
+    second: CoralSlug_2
+  - first:
+      213: 21300022
+    second: CoralSlug_3
+  - first:
+      213: 21300024
+    second: CoralSlug_4
+  - first:
+      213: 21300026
+    second: CoralSlug_5
+  - first:
+      213: 21300028
+    second: CoralSlug_6
+  - first:
+      213: 21300030
+    second: CoralSlug_7
+  - first:
+      213: 21300032
+    second: CoralSlug_8
+  - first:
+      213: 21300034
+    second: CoralSlug_9
+  - first:
+      213: 21300036
+    second: CoralSlug_10
+  - first:
+      213: 21300038
+    second: CoralSlug_11
+  - first:
+      213: 21300040
+    second: CoralSlug_12
+  - first:
+      213: 21300042
+    second: CoralSlug_13
+  - first:
+      213: 21300044
+    second: CoralSlug_14
+  - first:
+      213: 21300046
+    second: CoralSlug_15
+  - first:
+      213: 21300048
+    second: CoralSlug_16
+  - first:
+      213: 21300050
+    second: CoralSlug_17
+  - first:
+      213: 21300052
+    second: CoralSlug_18
+  - first:
+      213: 21300054
+    second: CoralSlug_19
+  - first:
+      213: 21300056
+    second: CoralSlug_20
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -49,9 +107,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -61,8 +122,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -83,11 +144,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -97,8 +164,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -108,7 +177,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -128,6 +225,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f69725fe9bbc0e74484d4ec1d396a6af
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -148,6 +246,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 89702c7f6268ca44facfa5e042c9fb00
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -168,6 +267,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f23a3eba9b183d441ab5267fbb91125d
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -188,6 +288,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9e4c2782d96d93b498b5f0eb264acd83
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -208,6 +309,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a18034abfcd15b4408e22f69b1a73de8
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -228,6 +330,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dc6a33ad058e44448b043f8d1a91bbc8
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -248,6 +351,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9772354ce1814f245b66ba1992f37d6f
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -268,6 +372,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 556a448ccd16c1e4fbe813b2feb629ad
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -288,6 +393,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f29e051c65bd7f1468d83a2370d568b0
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -308,6 +414,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 36f0de171495165468e98114ba334e31
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -328,6 +435,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5c9494406367b664a81256a941910562
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -348,6 +456,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9e982bd391ff1a04a8f82bf2a7fcbca5
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -368,6 +477,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4e409f0337764a0459632a1244fa897d
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -388,6 +498,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ee70a13017439664fa7ad801fabba78a
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -408,6 +519,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1589106adf7b9214c8cb7a78c3174d92
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -428,6 +540,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b13f3521b321bf749a213721f944553f
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -448,6 +561,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 979784632a3faf34c83dbe87dc36a222
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -468,6 +582,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6d22f2e7864314641b7de8f0ee9a7d4d
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -488,6 +603,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b9eb6d7409cf41a4186fecfd4f6084ad
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -508,6 +624,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 72ac78bb4229ed84a9aa8983a5b6c929
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -528,6 +645,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3a71491680efe9743819b1b0825acc85
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -536,13 +654,36 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      CoralSlug_0: 21300016
+      CoralSlug_1: 21300018
+      CoralSlug_10: 21300036
+      CoralSlug_11: 21300038
+      CoralSlug_12: 21300040
+      CoralSlug_13: 21300042
+      CoralSlug_14: 21300044
+      CoralSlug_15: 21300046
+      CoralSlug_16: 21300048
+      CoralSlug_17: 21300050
+      CoralSlug_18: 21300052
+      CoralSlug_19: 21300054
+      CoralSlug_2: 21300020
+      CoralSlug_20: 21300056
+      CoralSlug_3: 21300022
+      CoralSlug_4: 21300024
+      CoralSlug_5: 21300026
+      CoralSlug_6: 21300028
+      CoralSlug_7: 21300030
+      CoralSlug_8: 21300032
+      CoralSlug_9: 21300034
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

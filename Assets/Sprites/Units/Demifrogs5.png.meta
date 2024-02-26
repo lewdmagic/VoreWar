@@ -1,38 +1,96 @@
 fileFormatVersion: 2
 guid: 675b4b047829ae746916cf2a2889cf6f
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: Demifrogs5_0
-    21300018: Demifrogs5_1
-    21300020: Demifrogs5_2
-    21300022: Demifrogs5_3
-    21300024: Demifrogs5_4
-    21300026: Demifrogs5_5
-    21300028: Demifrogs5_6
-    21300030: Demifrogs5_7
-    21300032: Demifrogs5_8
-    21300034: Demifrogs5_9
-    21300036: Demifrogs5_10
-    21300038: Demifrogs5_11
-    21300040: Demifrogs5_12
-    21300042: Demifrogs5_13
-    21300044: Demifrogs5_14
-    21300046: Demifrogs5_15
-    21300048: Demifrogs5_16
-    21300050: Demifrogs5_17
-    21300052: Demifrogs5_18
-    21300054: Demifrogs5_19
-    21300056: Demifrogs5_20
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: Demifrogs5_0
+  - first:
+      213: 21300018
+    second: Demifrogs5_1
+  - first:
+      213: 21300020
+    second: Demifrogs5_2
+  - first:
+      213: 21300022
+    second: Demifrogs5_3
+  - first:
+      213: 21300024
+    second: Demifrogs5_4
+  - first:
+      213: 21300026
+    second: Demifrogs5_5
+  - first:
+      213: 21300028
+    second: Demifrogs5_6
+  - first:
+      213: 21300030
+    second: Demifrogs5_7
+  - first:
+      213: 21300032
+    second: Demifrogs5_8
+  - first:
+      213: 21300034
+    second: Demifrogs5_9
+  - first:
+      213: 21300036
+    second: Demifrogs5_10
+  - first:
+      213: 21300038
+    second: Demifrogs5_11
+  - first:
+      213: 21300040
+    second: Demifrogs5_12
+  - first:
+      213: 21300042
+    second: Demifrogs5_13
+  - first:
+      213: 21300044
+    second: Demifrogs5_14
+  - first:
+      213: 21300046
+    second: Demifrogs5_15
+  - first:
+      213: 21300048
+    second: Demifrogs5_16
+  - first:
+      213: 21300050
+    second: Demifrogs5_17
+  - first:
+      213: 21300052
+    second: Demifrogs5_18
+  - first:
+      213: 21300054
+    second: Demifrogs5_19
+  - first:
+      213: 21300056
+    second: Demifrogs5_20
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -49,9 +107,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -61,8 +122,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -83,11 +144,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -97,8 +164,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -108,7 +177,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -128,6 +225,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 284ddb3bb0c44f44e949d36561f672ae
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -148,6 +246,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 234508614429ecf41b9b0eccd2b3c63d
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -168,6 +267,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 72c1cc13557d5e84c835e0f3c980fbe1
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -188,6 +288,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3dc756268cb8c2645988800341c57370
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -208,6 +309,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 967f07dffe9f6a343bcaf36cf7641198
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -228,6 +330,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b5511a947ecbd214387fef5a466b2c7d
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -248,6 +351,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6c3690da9856c724e9ef1b2df99ac7fd
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -268,6 +372,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8ca4ccb76a71cf541ac2173d890f797b
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -288,6 +393,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0aebede6d0bea824ba37a2664e6e683d
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -308,6 +414,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 380ac866f09fafd44bc92207cb9e9d26
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -328,6 +435,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ed7927d763b20c549bf3f5ea91f640df
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -348,6 +456,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c71c9525c0e3c0f49a078881a9086b3e
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -368,6 +477,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 433d6e0445670974e8162c947d768509
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -388,6 +498,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2508dde6d83404c4d9640bc59f13388e
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -408,6 +519,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ada643dcd3bdeb34c911bff0b43f4e7a
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -428,6 +540,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3eab46e98a3e3f24f9f2eae06098d5e4
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -448,6 +561,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dfcad9fd81388b944b58de7e8a4f5019
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -468,6 +582,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 06d0471c8edb6124ba9fbf2469e83af0
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -488,6 +603,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c6ec4f7c8239e724bb8b86ebf60341eb
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -508,6 +624,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e7aced454a3b19041b6a867eac941035
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -528,6 +645,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 99462e5eaa4a32f4f875f21595b437a5
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -536,13 +654,36 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      Demifrogs5_0: 21300016
+      Demifrogs5_1: 21300018
+      Demifrogs5_10: 21300036
+      Demifrogs5_11: 21300038
+      Demifrogs5_12: 21300040
+      Demifrogs5_13: 21300042
+      Demifrogs5_14: 21300044
+      Demifrogs5_15: 21300046
+      Demifrogs5_16: 21300048
+      Demifrogs5_17: 21300050
+      Demifrogs5_18: 21300052
+      Demifrogs5_19: 21300054
+      Demifrogs5_2: 21300020
+      Demifrogs5_20: 21300056
+      Demifrogs5_3: 21300022
+      Demifrogs5_4: 21300024
+      Demifrogs5_5: 21300026
+      Demifrogs5_6: 21300028
+      Demifrogs5_7: 21300030
+      Demifrogs5_8: 21300032
+      Demifrogs5_9: 21300034
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

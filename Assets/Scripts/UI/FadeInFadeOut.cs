@@ -9,40 +9,38 @@ public class FadeInFadeOut : MonoBehaviour
 
     public SpriteRenderer SpriteRenderer;
 
-    bool fadingIn = true;
-    bool fadingOut = false;
+    private bool _fadingIn = true;
+    private bool _fadingOut = false;
 
-    float currentTime = 0;
+    private float _currentTime = 0;
 
     private void Update()
     {
-        currentTime += Time.deltaTime;
-        if (fadingIn)
+        _currentTime += Time.deltaTime;
+        if (_fadingIn)
         {
-            SpriteRenderer.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, currentTime / FadeInTime));
-            if (currentTime > FadeInTime)
+            SpriteRenderer.color = new Color(1, 1, 1, Mathf.Lerp(0, 1, _currentTime / FadeInTime));
+            if (_currentTime > FadeInTime)
             {
-                fadingIn = false;
-                currentTime = 0;
+                _fadingIn = false;
+                _currentTime = 0;
             }
         }
-        else if (fadingOut)
+        else if (_fadingOut)
         {
-            SpriteRenderer.color = new Color(1, 1, 1, Mathf.Lerp(1, 0, currentTime / FadeOutTime));
-            if (currentTime > FadeOutTime)
+            SpriteRenderer.color = new Color(1, 1, 1, Mathf.Lerp(1, 0, _currentTime / FadeOutTime));
+            if (_currentTime > FadeOutTime)
             {
                 Destroy(gameObject);
             }
         }
         else
         {
-            if (currentTime > HoldTime)
+            if (_currentTime > HoldTime)
             {
-                fadingOut = true;
-                currentTime = 0;
+                _fadingOut = true;
+                _currentTime = 0;
             }
         }
     }
-
 }
-

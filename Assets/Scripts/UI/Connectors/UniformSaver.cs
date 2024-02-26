@@ -8,20 +8,20 @@ public class UniformSaver : MonoBehaviour
     public Toggle IncludeHat;
     public Toggle IncludeClothingAccesory;
 
-    bool OpenedFromEditor;
+    private bool _openedFromEditor;
 
     public void Open(bool openedFromEditor)
     {
-        OpenedFromEditor = openedFromEditor;
+        _openedFromEditor = openedFromEditor;
         Unit unit;
-        if (OpenedFromEditor)
+        if (_openedFromEditor)
             unit = State.GameManager.UnitEditor.UnitEditor.Unit;
         else
-            unit = State.GameManager.Recruit_Mode.Customizer.Unit;
+            unit = State.GameManager.RecruitMode.Customizer.Unit;
 
         Text.text = unit.Name;
-        var raceData = Races.GetRace(unit.Race);
-        if (raceData.AllowedClothingHatTypes.Count > 0)
+        var raceData = RaceFuncs.GetRace(unit.Race);
+        if (raceData.SetupOutput.AllowedClothingHatTypes.Count > 0)
         {
             IncludeHat.interactable = true;
         }
@@ -31,7 +31,7 @@ public class UniformSaver : MonoBehaviour
             IncludeHat.interactable = false;
         }
 
-        if (raceData.AllowedClothingAccessoryTypes.Count > 0)
+        if (raceData.SetupOutput.AllowedClothingAccessoryTypes.Count > 0)
         {
             IncludeClothingAccesory.interactable = true;
         }
@@ -40,19 +40,18 @@ public class UniformSaver : MonoBehaviour
             IncludeClothingAccesory.isOn = false;
             IncludeClothingAccesory.interactable = false;
         }
+
         gameObject.SetActive(true);
     }
 
     public void Save()
     {
         UniformData uniform = new UniformData();
-        if (OpenedFromEditor)
+        if (_openedFromEditor)
             uniform.CopyFromUnit(State.GameManager.UnitEditor.UnitEditor.Unit, IncludeHat.isOn, IncludeClothingAccesory.isOn);
         else
-            uniform.CopyFromUnit(State.GameManager.Recruit_Mode.Customizer.Unit, IncludeHat.isOn, IncludeClothingAccesory.isOn);
+            uniform.CopyFromUnit(State.GameManager.RecruitMode.Customizer.Unit, IncludeHat.isOn, IncludeClothingAccesory.isOn);
         uniform.Name = Text.text;
         UniformDataStorer.Add(uniform);
     }
-
-
 }

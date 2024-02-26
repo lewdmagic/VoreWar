@@ -34,6 +34,7 @@ public class GameMenu : MonoBehaviour
             OpenMapEditorButton.interactable = true;
             WorldSettingsButton.interactable = true;
         }
+
         SaveLoadButton.interactable = State.TutorialMode == false;
     }
 
@@ -44,6 +45,7 @@ public class GameMenu : MonoBehaviour
             State.GameManager.CreateMessageBox("Can't access normal game save/load from within the map editor, use the map editor save/load on the left panel");
             return;
         }
+
         SaveLoadScreen.gameObject.SetActive(true);
         SaveLoadScreen.ListSlots();
     }
@@ -71,6 +73,7 @@ public class GameMenu : MonoBehaviour
         RandomizerTraitEditor.gameObject.SetActive(true);
         RandomizerTraitEditor.Open();
     }
+
     public void LoadHelp()
     {
         HelpUI.GenerateButtonsIfNeeded();
@@ -116,7 +119,6 @@ public class GameMenu : MonoBehaviour
             else
                 CloseMenu();
         }
-
     }
 
     public void MainMenu()
@@ -125,6 +127,7 @@ public class GameMenu : MonoBehaviour
         {
             State.GameManager.StrategyMode.ClearData();
         }
+
         State.GameManager.SwitchToMainMenu();
         CloseMenu();
     }
@@ -142,12 +145,10 @@ public class GameMenu : MonoBehaviour
         {
             State.GameManager.StrategyMode.Regenerate();
         }
+
         if (State.GameManager.CurrentScene == State.GameManager.TacticalMode)
         {
             State.GameManager.TacticalMode.RebuildInfo();
         }
     }
-
-
-
 }

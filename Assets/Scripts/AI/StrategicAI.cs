@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-
 public class ConstructionWants
 {
     public bool Wealth = false;
@@ -20,41 +19,46 @@ public class ConstructionWants
 public class StrategicAI : IStrategicAI
 {
     [OdinSerialize]
-    Empire empire;
+    private Empire _empire;
+
+    private Empire Empire { get => _empire; set => _empire = value; }
 
     [OdinSerialize]
     [Obsolete]
-    public bool strongerAI = false;
+    public bool StrongerAI = false;
 
     [OdinSerialize]
-    public int CheatLevel = 0;
+    private int _cheatLevel = 0;
+
+    public int CheatLevel { get => _cheatLevel; set => _cheatLevel = value; }
 
     [OdinSerialize]
-    public bool smarterAI = false;
+    private bool _smarterAI = false;
 
-    StrategicArmyCommander ArmyCommander;
+    public bool SmarterAI { get => _smarterAI; set => _smarterAI = value; }
 
-    int idealArmySize;
+    private StrategicArmyCommander _armyCommander;
 
-    int AISide => empire.Side;
+    private int _idealArmySize;
+
+    private Side AISide => Empire.Side;
 
     public StrategicAI(Empire empire, int cheatLevel, bool smarterAI)
     {
-        this.empire = empire;
+        this.Empire = empire;
         CheatLevel = cheatLevel;
-        this.smarterAI = smarterAI;
+        this.SmarterAI = smarterAI;
     }
 
-    void RegenArmyCommander()
+    private void RegenArmyCommander()
     {
-        ArmyCommander = new StrategicArmyCommander(empire, empire.MaxArmySize, smarterAI);
+        _armyCommander = new StrategicArmyCommander(Empire, Empire.MaxArmySize, SmarterAI);
     }
 
     public bool RunAI()
     {
-        if (ArmyCommander == null)
-            RegenArmyCommander();
-        return ArmyCommander.GiveOrder();
+        if (_armyCommander == null) RegenArmyCommander();
+        return _armyCommander.GiveOrder();
     }
 
 
@@ -62,40 +66,36 @@ public class StrategicAI : IStrategicAI
     {
         if (CheatLevel >= 1)
         {
-            empire.AddGold(100 * CheatLevel);
+            Empire.AddGold(100 * CheatLevel);
         }
+
         bool boughtWeapons = false;
 
-        if (Config.Diplomacy)
-            ProcessRelations();
+        if (Config.Diplomacy) ProcessRelations();
 
-        if (ArmyCommander == null)
-            RegenArmyCommander();
-        ArmyCommander.ResetPath();
-        ArmyCommander.SpendExpAndRecruit();
+        if (_armyCommander == null) RegenArmyCommander();
+        _armyCommander.ResetPath();
+        _armyCommander.SpendExpAndRecruit();
 
         int currentUnitCount = 0;
-        foreach (Army army in empire.Armies)
+        foreach (Army army in Empire.Armies)
         {
             currentUnitCount += army.Units.Count;
         }
 
 
-
-        int totalIncome = empire.Income;
-        for (int i = 0; i < empire.Armies.Count; i++)
+        int totalIncome = Empire.Income;
+        for (int i = 0; i < Empire.Armies.Count; i++)
         {
-            totalIncome += (empire.Armies[i].Units.Count * Config.World.ArmyUpkeep);
+            totalIncome += Empire.Armies[i].Units.Count * Config.World.ArmyUpkeep;
         }
 
         int idealUnitCount;
 
         idealUnitCount = totalIncome / Math.Max(Config.World.ArmyUpkeep * 3 / 5, 1);
-        if (empire.Gold > 3000)
-            idealUnitCount = totalIncome / Math.Max(Config.World.ArmyUpkeep * 4 / 5, 1);
-        int minArmySize = empire.MaxArmySize * 3 / 4;
-        if (currentUnitCount > 40 || ArmyCommander.StrongestArmyRatio < .7f)
-            minArmySize = empire.MaxArmySize;
+        if (Empire.Gold > 3000) idealUnitCount = totalIncome / Math.Max(Config.World.ArmyUpkeep * 4 / 5, 1);
+        int minArmySize = Empire.MaxArmySize * 3 / 4;
+        if (currentUnitCount > 40 || _armyCommander.StrongestArmyRatio < .7f) minArmySize = Empire.MaxArmySize;
 
         if (currentUnitCount > 32)
         {
@@ -103,6 +103,7 @@ public class StrategicAI : IStrategicAI
             {
                 BuyGarrisonWeapons(i);
             }
+
             boughtWeapons = true;
         }
 
@@ -110,28 +111,30 @@ public class StrategicAI : IStrategicAI
         int unitCost = Config.ArmyCost + 6;
         bool forcedHeavyWeapon = false;
         int minThreshold = 0;
-        if (empire.Armies.Count > 3)
+        if (Empire.Armies.Count > 3)
         {
-            minThreshold = 100 * (empire.Armies.Count - 3);
+            minThreshold = 100 * (Empire.Armies.Count - 3);
         }
-        if (smarterAI)
+
+        if (SmarterAI)
         {
             unitCost = Config.ArmyCost + State.World.ItemRepository.GetItem(ItemType.CompoundBow).Cost;
             forcedHeavyWeapon = true;
         }
-        if (empire.Gold > 50 + minThreshold + minArmySize * unitCost && empire.Income > 10 && (idealUnitCount - currentUnitCount >= minArmySize || currentUnitCount == 0) && empire.Armies.Count() < Config.MaxArmies)
+
+        if (Empire.Gold > 50 + minThreshold + minArmySize * unitCost && Empire.Income > 10 && (idealUnitCount - currentUnitCount >= minArmySize || currentUnitCount == 0) && Empire.Armies.Count() < Config.MaxArmies)
         {
             purchasedArmy = PurchaseArmy(unitCost, ref currentUnitCount, forcedHeavyWeapon);
             for (int i = 0; i < 10; i++) //Can purchase additional armies if absolutely loaded with cash
             {
-                if (empire.Gold > minThreshold + (i * 100) + 40 * unitCost && (idealUnitCount - currentUnitCount > 12) && empire.Armies.Count() < Config.MaxArmies)
+                if (Empire.Gold > minThreshold + i * 100 + 40 * unitCost && idealUnitCount - currentUnitCount > 12 && Empire.Armies.Count() < Config.MaxArmies)
                     PurchaseArmy(unitCost, ref currentUnitCount, forcedHeavyWeapon);
                 else
                     break;
             }
         }
 
-        if (empire.Gold < 150 && empire.Income < 0 && empire.Side < 50)
+        if (Empire.Gold < 150 && Empire.Income < 0 && RaceFuncs.IsMainRace2(Empire.Side))
         {
             DismissWeakestArmy();
         }
@@ -144,7 +147,7 @@ public class StrategicAI : IStrategicAI
             }
         }
 
-        if (currentUnitCount >= idealUnitCount || empire.Gold > 700 || empire.Armies.Count > 2)
+        if (currentUnitCount >= idealUnitCount || Empire.Gold > 700 || Empire.Armies.Count > 2)
         {
             PurchaseBuildings();
         }
@@ -160,11 +163,9 @@ public class StrategicAI : IStrategicAI
         int enemyCount = 0;
         foreach (Empire otherEmp in State.World.MainEmpires)
         {
-            if (otherEmp == empire)
-                continue;
-            if (otherEmp.KnockedOut)
-                continue;
-            var relation = RelationsManager.GetRelation(empire.Side, otherEmp.Side);
+            if (otherEmp == Empire) continue;
+            if (otherEmp.KnockedOut) continue;
+            var relation = RelationsManager.GetRelation(Empire.Side, otherEmp.Side);
             switch (relation.Type)
             {
                 case RelationState.Neutral:
@@ -177,14 +178,12 @@ public class StrategicAI : IStrategicAI
                     enemyCount = ProcessEnemies(enemyCount, otherEmp, relation);
                     break;
             }
-
         }
+
         if (enemyCount == 0 && neutralCount > 0 && lowestNeutral != null)
         {
-            if (Config.LockedAIRelations == false)
-                RelationsManager.SetWar(empire, lowestNeutral);
+            if (Config.LockedAIRelations == false) RelationsManager.SetWar(Empire, lowestNeutral);
         }
-
     }
 
     private int ProcessEnemies(int enemyCount, Empire otherEmp, Relationship relation)
@@ -195,27 +194,25 @@ public class StrategicAI : IStrategicAI
             if (otherEmp.StrategicAI == null)
             {
                 if (relation.TurnsSinceAsked == -1 || relation.TurnsSinceAsked > 20) //Done this way to avoid pestering the player
-                    RelationsManager.AskPlayerForPeace(empire, otherEmp);
+                    RelationsManager.AskPlayerForPeace(Empire, otherEmp);
             }
             else
             {
-                if (Config.LockedAIRelations)
-                    return enemyCount;
-                var counterRelation = RelationsManager.GetRelation(otherEmp.Side, empire.Side);
+                if (Config.LockedAIRelations) return enemyCount;
+                var counterRelation = RelationsManager.GetRelation(otherEmp.Side, Empire.Side);
                 if (counterRelation.Attitude > -.2f)
                 {
-                    RelationsManager.SetPeace(empire, otherEmp);
-                    NotificationSystem.ShowNotification($"{empire.Name} have entered peace with the {otherEmp.Name}", 3);
+                    RelationsManager.SetPeace(Empire, otherEmp);
+                    NotificationSystem.ShowNotification($"{Empire.Name} have entered peace with the {otherEmp.Name}", 3);
                     foreach (Empire playerEmp in State.World.MainEmpires.Where(s => s.StrategicAI == null))
                     {
                         if (playerEmp != otherEmp)
                         {
-                            playerEmp.Reports.Add(new StrategicReport($"{empire.Name} have entered peace with the {otherEmp.Name}!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
+                            playerEmp.Reports.Add(new StrategicReport($"{Empire.Name} have entered peace with the {otherEmp.Name}!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
                         }
                     }
                 }
             }
-
         }
 
         return enemyCount;
@@ -227,23 +224,24 @@ public class StrategicAI : IStrategicAI
         {
             relation.Attitude *= .6f;
         }
+
         if (relation.Attitude < .4f)
         {
-            if (Config.LockedAIRelations && otherEmp.StrategicAI != null)
-                return;
+            if (Config.LockedAIRelations && otherEmp.StrategicAI != null) return;
 
-            RelationsManager.SetPeace(empire, otherEmp);
-            NotificationSystem.ShowNotification($"{empire.Name} have terminated their alliance with {otherEmp.Name}", 3);
+            RelationsManager.SetPeace(Empire, otherEmp);
+            NotificationSystem.ShowNotification($"{Empire.Name} have terminated their alliance with {otherEmp.Name}", 3);
             foreach (Empire playerEmp in State.World.MainEmpires.Where(s => s.StrategicAI == null))
             {
                 if (playerEmp != otherEmp)
                 {
-                    playerEmp.Reports.Add(new StrategicReport($"{empire.Name} have nullified their alliance with the {otherEmp.Name}!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
+                    playerEmp.Reports.Add(new StrategicReport($"{Empire.Name} have nullified their alliance with the {otherEmp.Name}!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
                 }
             }
+
             if (otherEmp.StrategicAI == null)
             {
-                otherEmp.Reports.Add(new StrategicReport($"{empire.Name} have nullified their alliance with you!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
+                otherEmp.Reports.Add(new StrategicReport($"{Empire.Name} have nullified their alliance with you!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
             }
         }
     }
@@ -261,69 +259,68 @@ public class StrategicAI : IStrategicAI
             lowestNeutral = otherEmp;
             lowestRel = relation.Attitude;
         }
+
         if (relation.Attitude < -.75f)
         {
-            if (Config.LockedAIRelations && otherEmp.StrategicAI != null)
-                return;
-            RelationsManager.SetWar(empire, otherEmp);
-            NotificationSystem.ShowNotification($"{empire.Name} have declared war on {otherEmp.Name}", 3);
+            if (Config.LockedAIRelations && otherEmp.StrategicAI != null) return;
+            RelationsManager.SetWar(Empire, otherEmp);
+            NotificationSystem.ShowNotification($"{Empire.Name} have declared war on {otherEmp.Name}", 3);
             foreach (Empire playerEmp in State.World.MainEmpires.Where(s => s.StrategicAI == null))
             {
                 if (playerEmp != otherEmp)
                 {
-                    playerEmp.Reports.Add(new StrategicReport($"{empire.Name} have declared war on the {otherEmp.Name}!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
+                    playerEmp.Reports.Add(new StrategicReport($"{Empire.Name} have declared war on the {otherEmp.Name}!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
                 }
             }
-            if (otherEmp.StrategicAI == null)
-            {
-                otherEmp.Reports.Add(new StrategicReport($"{empire.Name} have declared war on you!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
-            }
-        }
-        if (relation.Attitude > 1.25f)
-        {
 
             if (otherEmp.StrategicAI == null)
             {
+                otherEmp.Reports.Add(new StrategicReport($"{Empire.Name} have declared war on you!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
+            }
+        }
+
+        if (relation.Attitude > 1.25f)
+        {
+            if (otherEmp.StrategicAI == null)
+            {
                 if (relation.TurnsSinceAsked == -1 || relation.TurnsSinceAsked > 20) //Done this way to avoid pestering the player
-                    RelationsManager.AskPlayerForAlliance(empire, otherEmp);
+                    RelationsManager.AskPlayerForAlliance(Empire, otherEmp);
             }
             else
             {
-                if (Config.LockedAIRelations && otherEmp.StrategicAI != null)
-                    return;
-                var counterRelation = RelationsManager.GetRelation(otherEmp.Side, empire.Side);
+                if (Config.LockedAIRelations && otherEmp.StrategicAI != null) return;
+                var counterRelation = RelationsManager.GetRelation(otherEmp.Side, Empire.Side);
                 if (counterRelation.Attitude > .7f)
                 {
-                    RelationsManager.SetAlly(empire, otherEmp);
-                    NotificationSystem.ShowNotification($"{empire.Name} have allied with {otherEmp.Name}", 3);
+                    RelationsManager.SetAlly(Empire, otherEmp);
+                    NotificationSystem.ShowNotification($"{Empire.Name} have allied with {otherEmp.Name}", 3);
                     foreach (Empire playerEmp in State.World.MainEmpires.Where(s => s.StrategicAI == null))
                     {
                         if (playerEmp != otherEmp)
                         {
-                            playerEmp.Reports.Add(new StrategicReport($"{empire.Name} have allied with the {otherEmp.Name}!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
+                            playerEmp.Reports.Add(new StrategicReport($"{Empire.Name} have allied with the {otherEmp.Name}!", otherEmp.CapitalCity?.Position ?? new Vec2(0, 0)));
                         }
                     }
                 }
             }
-
         }
     }
 
     public void JustTryToBuildAnything(Village village)
     {
-        TryVillageConstruction(village, empire, new ConstructionWants()
+        TryVillageConstruction(village, Empire, new ConstructionWants()
         {
             Wealth = true
         });
-        TryVillageConstruction(village, empire, new ConstructionWants()
+        TryVillageConstruction(village, Empire, new ConstructionWants()
         {
             Population = true
         });
-        TryVillageConstruction(village, empire, new ConstructionWants()
+        TryVillageConstruction(village, Empire, new ConstructionWants()
         {
             StartingExperience = true
         });
-        TryVillageConstruction(village, empire, new ConstructionWants()
+        TryVillageConstruction(village, Empire, new ConstructionWants()
         {
             Mercenaries = true,
             Garrison = true,
@@ -333,7 +330,7 @@ public class StrategicAI : IStrategicAI
         });
     }
 
-    static public void TryVillageConstruction(Village village, Empire empire, ConstructionWants wants)
+    public static void TryVillageConstruction(Village village, Empire empire, ConstructionWants wants)
     {
         var validBuildings = new Dictionary<VillageBuilding, VillageBuildingDefinition>();
 
@@ -344,8 +341,7 @@ public class StrategicAI : IStrategicAI
                 || pair.Value.Boosts.WealthAdd > 0
                 || pair.Value.Boosts.MaxHappinessAdd > 0
             );
-            foreach (var result in resultList)
-                validBuildings.Add(result.Key, result.Value);
+            foreach (var result in resultList) validBuildings.Add(result.Key, result.Value);
         }
         else if (wants.Population)
         {
@@ -355,8 +351,7 @@ public class StrategicAI : IStrategicAI
                 || pair.Value.Boosts.FarmsEquivalent > 0.0f
                 || pair.Value.Boosts.PopulationMaxAdd > 0
             );
-            foreach (var result in resultList)
-                validBuildings.Add(result.Key, result.Value);
+            foreach (var result in resultList) validBuildings.Add(result.Key, result.Value);
         }
         else if (wants.Garrison)
         {
@@ -364,16 +359,14 @@ public class StrategicAI : IStrategicAI
                 pair.Value.Boosts.GarrisonMaxMult > 0.0f
                 || pair.Value.Boosts.GarrisonMaxAdd > 0
             );
-            foreach (var result in resultList)
-                validBuildings.Add(result.Key, result.Value);
+            foreach (var result in resultList) validBuildings.Add(result.Key, result.Value);
         }
         else if (wants.HealRate)
         {
             var resultList = VillageBuildingList.Buildings.Where(pair =>
                 pair.Value.Boosts.HealRateMult > 0.0f
             );
-            foreach (var result in resultList)
-                validBuildings.Add(result.Key, result.Value);
+            foreach (var result in resultList) validBuildings.Add(result.Key, result.Value);
         }
         else if (wants.StartingExperience)
         {
@@ -382,16 +375,14 @@ public class StrategicAI : IStrategicAI
                 || pair.Value.Boosts.TeamStartingExpAdd > 0
                 || pair.Value.Boosts.MaximumTrainingLevelAdd > 0
             );
-            foreach (var result in resultList)
-                validBuildings.Add(result.Key, result.Value);
+            foreach (var result in resultList) validBuildings.Add(result.Key, result.Value);
         }
         else if (wants.Defenses)
         {
             var resultList = VillageBuildingList.Buildings.Where(pair =>
-                pair.Value.Boosts.hasWall == true
+                pair.Value.Boosts.HasWall == true
             );
-            foreach (var result in resultList)
-                validBuildings.Add(result.Key, result.Value);
+            foreach (var result in resultList) validBuildings.Add(result.Key, result.Value);
         }
         else if (wants.Mercenaries)
         {
@@ -401,16 +392,14 @@ public class StrategicAI : IStrategicAI
                 || pair.Value.Boosts.MaxAdventurersAdd > 0
                 || pair.Value.Boosts.AdventurersPerTurnAdd > 0
             );
-            foreach (var result in resultList)
-                validBuildings.Add(result.Key, result.Value);
+            foreach (var result in resultList) validBuildings.Add(result.Key, result.Value);
         }
         else if (wants.Magic)
         {
             var resultList = VillageBuildingList.Buildings.Where(pair =>
                 pair.Value.Boosts.SpellLevels > 0
             );
-            foreach (var result in resultList)
-                validBuildings.Add(result.Key, result.Value);
+            foreach (var result in resultList) validBuildings.Add(result.Key, result.Value);
         }
 
 
@@ -426,88 +415,84 @@ public class StrategicAI : IStrategicAI
 
     private void DismissWeakestArmy()
     {
-        if (empire.Armies.Count > 1)
+        if (Empire.Armies.Count > 1)
         {
-            Army weakestArmy = empire.Armies.OrderBy(s => s.Units.Sum(t => t.Experience) / s.Units.Count()).FirstOrDefault();
+            Army weakestArmy = Empire.Armies.OrderBy(s => s.Units.Sum(t => t.Experience) / s.Units.Count()).FirstOrDefault();
             StrategicUtilities.ProcessTravelingUnits(weakestArmy.Units, weakestArmy);
             foreach (Unit unit in weakestArmy.Units.ToList())
             {
                 weakestArmy.Units.Remove(unit);
             }
-            empire.Armies.Remove(weakestArmy);
+
+            Empire.Armies.Remove(weakestArmy);
         }
-        else if (empire.Armies.Count == 1) //If there's only one army, just remove the weakest unit
+        else if (Empire.Armies.Count == 1) //If there's only one army, just remove the weakest unit
         {
-            Unit weakest = empire.Armies.First().Units.Where(s => s.Type != UnitType.Leader).OrderBy(s => s.Experience).FirstOrDefault();
+            Unit weakest = Empire.Armies.First().Units.Where(s => s.Type != UnitType.Leader).OrderBy(s => s.Experience).FirstOrDefault();
             if (weakest != null)
             {
-                StrategicUtilities.ProcessTravelingUnit(weakest, empire.Armies.First());
-                empire.Armies[0].Units.Remove(weakest);
-                if (empire.Armies[0].Units.Any() == false)
-                    empire.Armies.RemoveAt(0);
+                StrategicUtilities.ProcessTravelingUnit(weakest, Empire.Armies.First());
+                Empire.Armies[0].Units.Remove(weakest);
+                if (Empire.Armies[0].Units.Any() == false) Empire.Armies.RemoveAt(0);
             }
         }
     }
 
-    void PurchaseBuildings()
+    private void PurchaseBuildings()
     {
-        Village[] ownVillages = State.World.Villages.Where(s => s.Side == AISide && s.GetTotalPop() > 30).Where(s => StrategicUtilities.EnemyArmyWithinXTiles(s, 4) == false).OrderByDescending(s => s.GetTotalPop()).ToArray();
+        Village[] ownVillages = State.World.Villages.Where(s => Equals(s.Side, AISide) && s.GetTotalPop() > 30).Where(s => StrategicUtilities.EnemyArmyWithinXTiles(s, 4) == false).OrderByDescending(s => s.GetTotalPop()).ToArray();
         foreach (Village village in ownVillages)
         {
-            TryVillageConstruction(village, empire, new ConstructionWants()
+            TryVillageConstruction(village, Empire, new ConstructionWants()
             {
                 Mercenaries = true
             });
 
-            if (empire.CanVore == false)
+            if (Empire.CanVore == false)
             {
-                TryVillageConstruction(village, empire, new ConstructionWants()
+                TryVillageConstruction(village, Empire, new ConstructionWants()
                 {
                     HealRate = true
                 });
             }
+
             JustTryToBuildAnything(village);
 
-            if (empire.Gold < 80)
-                break;
+            if (Empire.Gold < 80) break;
         }
     }
 
 
-    private bool PurchaseArmy(int unitCost, ref int currentUnitCount, bool ForceAdvancedWeapons)
+    private bool PurchaseArmy(int unitCost, ref int currentUnitCount, bool forceAdvancedWeapons)
     {
-        idealArmySize = empire.Gold / unitCost;
-        if (idealArmySize > empire.MaxArmySize)
+        _idealArmySize = Empire.Gold / unitCost;
+        if (_idealArmySize > Empire.MaxArmySize)
         {
-            idealArmySize = empire.MaxArmySize;
+            _idealArmySize = Empire.MaxArmySize;
         }
+
         int tier = 1;
-        if (empire.Gold > idealArmySize * 40)
-            tier = 2;
-        if (ForceAdvancedWeapons)
-            tier = 2;
-        Village v = GetBestVillageToMakeArmy(empire);
+        if (Empire.Gold > _idealArmySize * 40) tier = 2;
+        if (forceAdvancedWeapons) tier = 2;
+        Village v = GetBestVillageToMakeArmy(Empire);
         if (v != null)
         {
             Army army = MakeArmy(v, tier);
-            if (army == null)
-                return false;
-            if (State.Rand.Next(0, 4) == 0)
-                army.AIMode = AIMode.Sneak;
-            empire.Armies.Add(army);
+            if (army == null) return false;
+            if (State.Rand.Next(0, 4) == 0) army.AIMode = AIMode.Sneak;
+            Empire.Armies.Add(army);
             currentUnitCount += army.Units.Count;
             return true;
         }
+
         return false;
     }
 
-    Army MakeArmy(Village village, int tier)
+    private Army MakeArmy(Village village, int tier)
     {
-        Army army = new Army(empire, new Vec2i(village.Position.x, village.Position.y), village.Side);
-        if (idealArmySize > village.GetTotalPop() - 3)
-            idealArmySize = village.GetTotalPop() - 3;
-        if (idealArmySize < 4 && idealArmySize < empire.MaxArmySize)
-            return null;
+        Army army = new Army(Empire, new Vec2I(village.Position.X, village.Position.Y), village.Side);
+        if (_idealArmySize > village.GetTotalPop() - 3) _idealArmySize = village.GetTotalPop() - 3;
+        if (_idealArmySize < 4 && _idealArmySize < Empire.MaxArmySize) return null;
 
 
         if (Config.AICanCheatSpecialMercs && MercenaryHouse.UniqueMercs?.Count > 0)
@@ -524,14 +509,13 @@ public class StrategicAI : IStrategicAI
                         break;
                     }
                 }
-
             }
         }
 
 
-        for (int i = 0; i < idealArmySize; i++)
+        for (int i = 0; i < _idealArmySize; i++)
         {
-            ArmyCommander.RecruitUnitAndEquip(army, village, tier);
+            _armyCommander.RecruitUnitAndEquip(army, village, tier);
         }
 
         return army;
@@ -540,20 +524,20 @@ public class StrategicAI : IStrategicAI
 
     private void BuyGarrisonWeapons(int i)
     {
-        if (State.World.Villages[i].Side == AISide)
+        if (Equals(State.World.Villages[i].Side, AISide))
         {
             StrategicUtilities.BuyBasicWeapons(State.World.Villages[i]);
         }
     }
 
 
-    Village GetBestVillageToMakeArmy(Empire empire)
+    private Village GetBestVillageToMakeArmy(Empire empire)
     {
         int index = -1;
         int bestScore = -80;
         for (int i = 0; i < State.World.Villages.Length; i++)
         {
-            if (State.World.Villages[i].Side == empire.Side)
+            if (Equals(State.World.Villages[i].Side, empire.Side))
             {
                 bool occupied = StrategicUtilities.IsVillageOccupied(empire, i);
                 if (occupied == false)
@@ -571,27 +555,27 @@ public class StrategicAI : IStrategicAI
         return index > -1 ? State.World.Villages[index] : null;
     }
 
-    int VillageArmyCreationPriority(Empire empire, Village village)
+    private int VillageArmyCreationPriority(Empire empire, Village village)
     {
-        int baseLevel = Unit.GetLevelFromExperience(empire.StartingXP);
+        int baseLevel = Unit.GetLevelFromExperience(empire.StartingXp);
         double expBonus = 0;
         if (village.GetRecruitables().Count > 0)
         {
             Unit unit;
-            int possibles = Math.Min(Math.Min(village.GetRecruitables().Count, idealArmySize), village.GetTotalPop() - 3);
+            int possibles = Math.Min(Math.Min(village.GetRecruitables().Count, _idealArmySize), village.GetTotalPop() - 3);
             for (int i = 0; i < possibles; i++)
             {
                 unit = village.GetRecruitables()[i];
-                if (unit.Level > baseLevel)
-                    expBonus += Math.Pow(unit.Level, 1.2f);
+                if (unit.Level > baseLevel) expBonus += Math.Pow(unit.Level, 1.2f);
             }
         }
+
         int villageSizePenalty; //avoid placing armies where the population is low or the entire army can't be bought.
         int hostileArmyPriority = 0;
         int hostileVillagePriority = 0;
         int friendlyArmyPriority = 0;
 
-        int surplusVillagers = village.GetTotalPop() + 3 - idealArmySize;
+        int surplusVillagers = village.GetTotalPop() + 3 - _idealArmySize;
 
         if (surplusVillagers > 0)
             villageSizePenalty = -1 * surplusVillagers / 2;
@@ -601,19 +585,18 @@ public class StrategicAI : IStrategicAI
         foreach (Army enemyArmy in StrategicUtilities.GetAllHostileArmies(empire))
         {
             int d = village.Position.GetNumberOfMovesDistance(enemyArmy.Position);
-            if (d < 12)
-                hostileArmyPriority += (24 - 2 * d);
+            if (d < 12) hostileArmyPriority += 24 - 2 * d;
         }
 
         int distance = 99;
         foreach (Village enemyVillage in StrategicUtilities.GetAllHostileVillages(empire))
         {
             int d = village.Position.GetNumberOfMovesDistance(enemyVillage.Position);
-            if (d <= distance)
-                distance = d;
+            if (d <= distance) distance = d;
         }
+
         if (distance <= 16)
-            hostileVillagePriority += (30 - distance);
+            hostileVillagePriority += 30 - distance;
         else if (distance < 32)
             hostileVillagePriority += 3;
         else if (distance < 64)
@@ -624,16 +607,12 @@ public class StrategicAI : IStrategicAI
         foreach (Army army in empire.Armies)
         {
             int d = village.Position.GetNumberOfMovesDistance(army.Position);
-            if (d < 8)
-                friendlyArmyPriority += (16 - d * 2);
+            if (d < 8) friendlyArmyPriority += 16 - d * 2;
         }
 
         int offRacePenalty = 0;
-        if (village.Race != empire.ReplacedRace)
-            offRacePenalty = 5;
+        if (!Equals(village.Race, empire.ReplacedRace)) offRacePenalty = 5;
 
         return hostileArmyPriority + hostileVillagePriority + friendlyArmyPriority - villageSizePenalty - offRacePenalty + (int)(expBonus / 4);
     }
-
-
 }

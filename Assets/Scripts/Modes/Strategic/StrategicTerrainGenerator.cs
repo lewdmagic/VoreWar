@@ -2,45 +2,45 @@
 
 namespace Assets.Scripts.Modes.Strategic
 {
-    class StrategicTerrainGenerator
+    internal class StrategicTerrainGenerator
     {
-        WorldGenerator.MapGenArgs GenArgs;
+        private WorldGenerator.MapGenArgs _genArgs;
 
-        int xSize = Config.StrategicWorldSizeX;
-        int ySize = Config.StrategicWorldSizeY;
-        float humidity_plus = 0.0f;
-        float mountain_threshold = 0.7f;
+        private int _xSize = Config.StrategicWorldSizeX;
+        private int _ySize = Config.StrategicWorldSizeY;
+        private float _humidityPlus = 0.0f;
+        private float _mountainThreshold = 0.7f;
 
         //this is used to sharpen mountains and flatten valleys. 
         //Ideally the curve should be 0y in 0x and 1y in 1x, and below 0.5 for most of its length
-        AnimationCurve height_multiplier = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(.2f, .2f), new Keyframe(.8f, .5f), new Keyframe(1, 1) });
+        private AnimationCurve _heightMultiplier = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(.2f, .2f), new Keyframe(.8f, .5f), new Keyframe(1, 1) });
 
-        float he_zoom = 10f;
-        float he_factor = 2f; //1.8 to 4 look good
-        Vector2 he_seed;
+        private float _heZoom = 10f;
+        private float _heFactor = 2f; //1.8 to 4 look good
+        private Vector2 _heSeed;
 
-        float hu_zoom = 10f;
-        float hu_factor = 1.8f; //1.8 to 10 look good
-        Vector2 hu_seed;
+        private float _huZoom = 10f;
+        private float _huFactor = 1.8f; //1.8 to 10 look good
+        private Vector2 _huSeed;
 
-        float tmp_zoom = 10f;
-        float tmp_factor = 1.8f;
-        Vector2 tmp_seed;
+        private float _tmpZoom = 10f;
+        private float _tmpFactor = 1.8f;
+        private Vector2 _tmpSeed;
 
-        float[,] he_array;
-        float[,] hu_array;
-        float[,] te_array;
+        private float[,] _heArray;
+        private float[,] _huArray;
+        private float[,] _teArray;
 
         public StrategicTerrainGenerator(WorldGenerator.MapGenArgs genArgs)
         {
-            GenArgs = genArgs;
+            _genArgs = genArgs;
         }
 
         internal StrategicTileType[,] GenerateTerrain()
         {
-            he_seed = new Vector2(Random.Range(0, 200), Random.Range(0, 200));
-            hu_seed = new Vector2(Random.Range(0, 200), Random.Range(0, 200));
-            tmp_seed = new Vector2(Random.Range(0, 200), Random.Range(0, 200));
+            _heSeed = new Vector2(Random.Range(0, 200), Random.Range(0, 200));
+            _huSeed = new Vector2(Random.Range(0, 200), Random.Range(0, 200));
+            _tmpSeed = new Vector2(Random.Range(0, 200), Random.Range(0, 200));
 
             StrategicTileType[,] tiles = new StrategicTileType[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
             MakeArrays();
@@ -50,18 +50,18 @@ namespace Assets.Scripts.Modes.Strategic
                 {
                     tiles[x, y] = GetTerrain(x, y);
                 }
-
             }
+
             return tiles;
         }
 
-        StrategicTileType GetTerrain(int x, int y)
+        private StrategicTileType GetTerrain(int x, int y)
         {
-            float height = he_array[x, y];
-            float humidity = hu_array[x, y];
-            float temperature = te_array[x, y];
-            temperature += GenArgs.Temperature;
-            if (GenArgs.Poles)
+            float height = _heArray[x, y];
+            float humidity = _huArray[x, y];
+            float temperature = _teArray[x, y];
+            temperature += _genArgs.Temperature;
+            if (_genArgs.Poles)
             {
                 float position = (float)y / Config.StrategicWorldSizeY;
                 if (position < .4f)
@@ -77,48 +77,36 @@ namespace Assets.Scripts.Modes.Strategic
                 else
                     temperature = (temperature + .5f) / 2;
             }
-            if (height < GenArgs.WaterPct && temperature < .3f)
-                return StrategicTileType.ice;
-            if (height < GenArgs.WaterPct)
-                return StrategicTileType.water;
-            if (temperature > .6f && height < .55f - (GenArgs.Hilliness / 5))
-                return StrategicTileType.desert;
-            if (temperature > .6f && height > .55f - (GenArgs.Hilliness / 5) + Random.Range(0f, 1 - mountain_threshold))
-                return StrategicTileType.brokenCliffs;
-            if (temperature > .6f)
-                return StrategicTileType.sandHills;
-            if (temperature < .3f && height < .55f - (GenArgs.Hilliness / 5) && humidity < (.5f + GenArgs.ForestPct / 4) && humidity > (.5f - GenArgs.ForestPct / 4))
-                return StrategicTileType.snowTrees;
-            if (temperature < .3f && height < .55f - (GenArgs.Hilliness / 5))
-                return StrategicTileType.snow;
-            if (temperature < .3f && height > .55f - (GenArgs.Hilliness / 5) + Random.Range(0f, 1 - mountain_threshold))
-                return StrategicTileType.snowMountain;
-            if (temperature < .3f)
-                return StrategicTileType.snowHills;
-            if (height > .55f - (GenArgs.Hilliness / 5) + Random.Range(0f, 1 - mountain_threshold))
-                return StrategicTileType.mountain;
-            if (height > .55f - (GenArgs.Hilliness / 5))
-                return StrategicTileType.hills;
-            if (humidity > .75f - GenArgs.Swampiness / 4)
-                return StrategicTileType.swamp;
-            if (temperature < .55f && temperature > .4f && humidity < (.5f + GenArgs.ForestPct / 4) && humidity > (.5f - GenArgs.ForestPct / 4))
-                return StrategicTileType.forest;
+
+            if (height < _genArgs.WaterPct && temperature < .3f) return StrategicTileType.Ice;
+            if (height < _genArgs.WaterPct) return StrategicTileType.Water;
+            if (temperature > .6f && height < .55f - _genArgs.Hilliness / 5) return StrategicTileType.Desert;
+            if (temperature > .6f && height > .55f - _genArgs.Hilliness / 5 + Random.Range(0f, 1 - _mountainThreshold)) return StrategicTileType.BrokenCliffs;
+            if (temperature > .6f) return StrategicTileType.SandHills;
+            if (temperature < .3f && height < .55f - _genArgs.Hilliness / 5 && humidity < .5f + _genArgs.ForestPct / 4 && humidity > .5f - _genArgs.ForestPct / 4) return StrategicTileType.SnowTrees;
+            if (temperature < .3f && height < .55f - _genArgs.Hilliness / 5) return StrategicTileType.Snow;
+            if (temperature < .3f && height > .55f - _genArgs.Hilliness / 5 + Random.Range(0f, 1 - _mountainThreshold)) return StrategicTileType.SnowMountain;
+            if (temperature < .3f) return StrategicTileType.SnowHills;
+            if (height > .55f - _genArgs.Hilliness / 5 + Random.Range(0f, 1 - _mountainThreshold)) return StrategicTileType.Mountain;
+            if (height > .55f - _genArgs.Hilliness / 5) return StrategicTileType.Hills;
+            if (humidity > .75f - _genArgs.Swampiness / 4) return StrategicTileType.Swamp;
+            if (temperature < .55f && temperature > .4f && humidity < .5f + _genArgs.ForestPct / 4 && humidity > .5f - _genArgs.ForestPct / 4)
+                return StrategicTileType.Forest;
             else
-                return StrategicTileType.grass;
+                return StrategicTileType.Grass;
         }
 
 
-
         //calculate the value of an element of the array based on noise and location
-        float FractalNoise(int i, int j, float zoom, float factor, Vector2 seed)
+        private float FractalNoise(int i, int j, float zoom, float factor, Vector2 seed)
         {
             i = i + Mathf.RoundToInt(seed.x * zoom);
             j = j + Mathf.RoundToInt(seed.y * zoom);
             //fractal behavior occurs here. Everything else is parameter fine-tuning
             return 0
-            + Mathf.PerlinNoise(i / zoom, j / zoom) / 3
-            + Mathf.PerlinNoise(i / (zoom / factor), j / (zoom / factor)) / 3
-            + Mathf.PerlinNoise(i / (zoom / factor * factor), j / (zoom / factor * factor)) / 3;
+                   + Mathf.PerlinNoise(i / zoom, j / zoom) / 3
+                   + Mathf.PerlinNoise(i / (zoom / factor), j / (zoom / factor)) / 3
+                   + Mathf.PerlinNoise(i / (zoom / factor * factor), j / (zoom / factor * factor)) / 3;
         }
 
         //float FractalNoiseRidges(int i, int j, float zoom, float factor, Vector2 seed)
@@ -149,27 +137,26 @@ namespace Assets.Scripts.Modes.Strategic
 
 
         //makes and calculates the values of the 3 arrays that are used to determine the type of tile
-        void MakeArrays()
+        private void MakeArrays()
         {
-            he_array = new float[xSize, ySize];
-            hu_array = new float[xSize, ySize];
-            te_array = new float[xSize, ySize];
+            _heArray = new float[_xSize, _ySize];
+            _huArray = new float[_xSize, _ySize];
+            _teArray = new float[_xSize, _ySize];
 
             RecalculateArray();
         }
 
-        void RecalculateArray()
+        private void RecalculateArray()
         {
-            for (int i = 0; i < xSize; i++)
+            for (int i = 0; i < _xSize; i++)
             {
-                for (int j = 0; j < ySize; j++)
+                for (int j = 0; j < _ySize; j++)
                 {
-                    he_array[i, j] = height_multiplier.Evaluate(FractalNoise(i, j, he_zoom, he_factor, he_seed));
-                    hu_array[i, j] = FractalNoise(i, j, hu_zoom, hu_factor, hu_seed) + humidity_plus;
-                    te_array[i, j] = FractalNoise(i, j, tmp_zoom, tmp_factor, tmp_seed);
+                    _heArray[i, j] = _heightMultiplier.Evaluate(FractalNoise(i, j, _heZoom, _heFactor, _heSeed));
+                    _huArray[i, j] = FractalNoise(i, j, _huZoom, _huFactor, _huSeed) + _humidityPlus;
+                    _teArray[i, j] = FractalNoise(i, j, _tmpZoom, _tmpFactor, _tmpSeed);
                 }
             }
         }
-
     }
 }

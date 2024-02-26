@@ -7,8 +7,7 @@ public class SimpleHoverSpells : MonoBehaviour
 
     private void Update()
     {
-        if (gameObject.activeInHierarchy == false)
-            return;
+        if (gameObject.activeInHierarchy == false) return;
 
         int wordIndex = TMP_TextUtilities.FindIntersectingWord(InfoText, Input.mousePosition, null);
 
@@ -22,11 +21,11 @@ public class SimpleHoverSpells : MonoBehaviour
                     words[i] = string.Empty;
                     continue;
                 }
+
                 words[i] = InfoText.textInfo.wordInfo[wordIndex - 2 + i].GetWord();
             }
+
             State.GameManager.HoveringTooltip.UpdateInformationSpellsOnly(words);
         }
-
     }
-
 }

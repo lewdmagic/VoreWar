@@ -1,32 +1,68 @@
 ﻿using OdinSerializer;
 
 
-class SpawnerInfo
+internal class SpawnerInfo
 {
     [OdinSerialize]
-    internal bool Enabled;
+    private bool _enabled;
+
+    internal bool Enabled { get => _enabled; set => _enabled = value; }
+
     [OdinSerialize]
-    internal int MaxArmies;
+    private int _maxArmies;
+
+    internal int MaxArmies { get => _maxArmies; set => _maxArmies = value; }
+
     [OdinSerialize]
-    internal float Confidence;
+    private float _confidence;
+
+    internal float Confidence { get => _confidence; set => _confidence = value; }
+
     [OdinSerialize]
-    internal int MinArmySize;
+    private int _minArmySize;
+
+    internal int MinArmySize { get => _minArmySize; set => _minArmySize = value; }
+
     [OdinSerialize]
-    internal int MaxArmySize;
+    private int _maxArmySize;
+
+    internal int MaxArmySize { get => _maxArmySize; set => _maxArmySize = value; }
+
     [OdinSerialize]
-    internal float spawnRate;
+    private float _spawnRate;
+
+    internal float SpawnRate { get => _spawnRate; set => _spawnRate = value; }
+
     [OdinSerialize]
-    internal float scalingFactor;
+    private float _scalingFactor;
+
+    internal float ScalingFactor { get => _scalingFactor; set => _scalingFactor = value; }
+
     [OdinSerialize]
-    internal int Team;
+    private int _team;
+
+    internal int Team { get => _team; set => _team = value; }
+
     [OdinSerialize]
-    internal int SpawnAttempts;
+    private int _spawnAttempts;
+
+    internal int SpawnAttempts { get => _spawnAttempts; set => _spawnAttempts = value; }
+
     [OdinSerialize]
-    internal int TurnOrder;
+    private int _turnOrder;
+
+    internal int TurnOrder { get => _turnOrder; set => _turnOrder = value; }
+
     [OdinSerialize]
-    internal bool AddOnRace;
+    private bool _addOnRace;
+
+    internal bool AddOnRace { get => _addOnRace; set => _addOnRace = value; }
+
     [OdinSerialize]
-    internal bool UsingCustomType;
+    private bool _usingCustomType;
+
+    internal bool UsingCustomType { get => _usingCustomType; set => _usingCustomType = value; }
+
     [OdinSerialize]
     internal Config.MonsterConquestType ConquestType;
 
@@ -40,8 +76,8 @@ class SpawnerInfo
     {
         Enabled = enabled;
         MaxArmies = maxArmies;
-        this.spawnRate = spawnRate;
-        this.scalingFactor = scalingFactor;
+        this.SpawnRate = spawnRate;
+        this.ScalingFactor = scalingFactor;
         Team = team;
         SpawnAttempts = spawnAttempts;
         AddOnRace = addOnRace;
@@ -56,7 +92,4 @@ class SpawnerInfo
         ConquestType = conquestType;
         UsingCustomType = true;
     }
-
-
 }
-

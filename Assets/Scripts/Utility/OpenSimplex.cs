@@ -9,24 +9,24 @@ namespace Noise
 {
     public class OpenSimplexNoise
     {
-        private const double STRETCH_2D = -0.211324865405187;    //(1/Math.sqrt(2+1)-1)/2;
-        private const double SQUISH_2D = 0.366025403784439;      //(Math.sqrt(2+1)-1)/2;
-        private const double NORM_2D = 1.0 / 47.0;
+        private const double Stretch2D = -0.211324865405187; //(1/Math.sqrt(2+1)-1)/2;
+        private const double Squish2D = 0.366025403784439; //(Math.sqrt(2+1)-1)/2;
+        private const double Norm2D = 1.0 / 47.0;
 
 
-        private byte[] perm;
-        private byte[] perm2D;
+        private byte[] _perm;
+        private byte[] _perm2D;
 
-        private static double[] gradients2D = new double[]
+        private static double[] _gradients2D = new double[]
         {
-             5,  2,    2,  5,
-            -5,  2,   -2,  5,
-             5, -2,    2, -5,
-            -5, -2,   -2, -5,
+            5, 2, 2, 5,
+            -5, 2, -2, 5,
+            5, -2, 2, -5,
+            -5, -2, -2, -5,
         };
 
 
-        private static Contribution2[] lookup2D;
+        private static Contribution2[] _lookup2D;
 
         static OpenSimplexNoise()
         {
@@ -54,19 +54,18 @@ namespace Noise
                     {
                         previous.Next = current;
                     }
+
                     previous = current;
                 }
+
                 current.Next = new Contribution2(p2D[i + 1], p2D[i + 2], p2D[i + 3]);
             }
 
-            lookup2D = new Contribution2[64];
+            _lookup2D = new Contribution2[64];
             for (var i = 0; i < lookupPairs2D.Length; i += 2)
             {
-                lookup2D[lookupPairs2D[i]] = contributions2D[lookupPairs2D[i + 1]];
+                _lookup2D[lookupPairs2D[i]] = contributions2D[lookupPairs2D[i + 1]];
             }
-
-
-
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -83,13 +82,14 @@ namespace Noise
 
         public OpenSimplexNoise(long seed)
         {
-            perm = new byte[256];
-            perm2D = new byte[256];
+            _perm = new byte[256];
+            _perm2D = new byte[256];
             var source = new byte[256];
             for (int i = 0; i < 256; i++)
             {
                 source[i] = (byte)i;
             }
+
             seed = seed * 6364136223846793005L + 1442695040888963407L;
             seed = seed * 6364136223846793005L + 1442695040888963407L;
             seed = seed * 6364136223846793005L + 1442695040888963407L;
@@ -99,24 +99,25 @@ namespace Noise
                 int r = (int)((seed + 31) % (i + 1));
                 if (r < 0)
                 {
-                    r += (i + 1);
+                    r += i + 1;
                 }
-                perm[i] = source[r];
-                perm2D[i] = (byte)(perm[i] & 0x0E);
+
+                _perm[i] = source[r];
+                _perm2D[i] = (byte)(_perm[i] & 0x0E);
                 source[r] = source[i];
             }
         }
 
         public double Evaluate(double x, double y)
         {
-            var stretchOffset = (x + y) * STRETCH_2D;
+            var stretchOffset = (x + y) * Stretch2D;
             var xs = x + stretchOffset;
             var ys = y + stretchOffset;
 
             var xsb = FastFloor(xs);
             var ysb = FastFloor(ys);
 
-            var squishOffset = (xsb + ysb) * SQUISH_2D;
+            var squishOffset = (xsb + ysb) * Squish2D;
             var dx0 = x - (xsb + squishOffset);
             var dy0 = y - (ysb + squishOffset);
 
@@ -126,51 +127,51 @@ namespace Noise
             var inSum = xins + yins;
 
             var hash =
-               (int)(xins - yins + 1) |
-               (int)(inSum) << 1 |
-               (int)(inSum + yins) << 2 |
-               (int)(inSum + xins) << 4;
+                (int)(xins - yins + 1) |
+                ((int)inSum << 1) |
+                ((int)(inSum + yins) << 2) |
+                ((int)(inSum + xins) << 4);
 
-            var c = lookup2D[hash];
+            var c = _lookup2D[hash];
 
             var value = 0.0;
             while (c != null)
             {
-                var dx = dx0 + c.dx;
-                var dy = dy0 + c.dy;
+                var dx = dx0 + c.Dx;
+                var dy = dy0 + c.Dy;
                 var attn = 2 - dx * dx - dy * dy;
                 if (attn > 0)
                 {
-                    var px = xsb + c.xsb;
-                    var py = ysb + c.ysb;
+                    var px = xsb + c.Xsb;
+                    var py = ysb + c.Ysb;
 
-                    var i = perm2D[(perm[px & 0xFF] + py) & 0xFF];
-                    var valuePart = gradients2D[i] * dx + gradients2D[i + 1] * dy;
+                    var i = _perm2D[(_perm[px & 0xFF] + py) & 0xFF];
+                    var valuePart = _gradients2D[i] * dx + _gradients2D[i + 1] * dy;
 
                     attn *= attn;
                     value += attn * attn * valuePart;
                 }
+
                 c = c.Next;
             }
-            return value * NORM_2D;
+
+            return value * Norm2D;
         }
 
 
         private class Contribution2
         {
-            public double dx, dy;
-            public int xsb, ysb;
+            public double Dx, Dy;
+            public int Xsb, Ysb;
             public Contribution2 Next;
 
             public Contribution2(double multiplier, int xsb, int ysb)
             {
-                dx = -xsb - multiplier * SQUISH_2D;
-                dy = -ysb - multiplier * SQUISH_2D;
-                this.xsb = xsb;
-                this.ysb = ysb;
+                Dx = -xsb - multiplier * Squish2D;
+                Dy = -ysb - multiplier * Squish2D;
+                this.Xsb = xsb;
+                this.Ysb = ysb;
             }
         }
-
-
     }
 }

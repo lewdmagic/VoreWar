@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AIPlottedPath
 {
-    internal Actor_Unit Actor;
+    internal ActorUnit Actor;
     internal Action Action;
     internal List<PathNode> Path;
 }

@@ -6,43 +6,41 @@ public class AnimationEffectComponent : MonoBehaviour
     public Sprite[] Frame;
     public bool Repeat;
 
-    new private SpriteRenderer renderer;
+    private new SpriteRenderer _renderer;
 
-    int currentFrame = 0;
-    float currentTime = 0;
+    private int _currentFrame = 0;
+    private float _currentTime = 0;
 
     private void Start()
     {
-        renderer = GetComponentInChildren<SpriteRenderer>();
-
+        _renderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Update()
     {
-        if (renderer == null)
-            renderer = GetComponentInChildren<SpriteRenderer>();
-        currentTime += Time.deltaTime;
-        if (currentTime > FrameTime[currentFrame])
+        if (_renderer == null) _renderer = GetComponentInChildren<SpriteRenderer>();
+        _currentTime += Time.deltaTime;
+        if (_currentTime > FrameTime[_currentFrame])
         {
-            if (currentFrame + 1 > FrameTime.GetUpperBound(0))
+            if (_currentFrame + 1 > FrameTime.GetUpperBound(0))
             {
                 if (Repeat)
                 {
-                    currentTime = 0;
-                    currentFrame = 0;
-                    renderer.sprite = Frame[0];
+                    _currentTime = 0;
+                    _currentFrame = 0;
+                    _renderer.sprite = Frame[0];
                     return;
                 }
+
                 Destroy(gameObject);
                 return;
             }
             else
             {
-                currentTime = 0;
-                currentFrame++;
-                renderer.sprite = Frame[currentFrame];
+                _currentTime = 0;
+                _currentFrame++;
+                _renderer.sprite = Frame[_currentFrame];
             }
         }
     }
-
 }

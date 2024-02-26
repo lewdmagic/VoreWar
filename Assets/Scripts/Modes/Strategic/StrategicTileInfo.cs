@@ -3,38 +3,38 @@ using System.Collections.Generic;
 
 public enum StrategicTileType
 {
-    grass = 0,
-    forest = 1,
-    mountain = 2,
-    water = 3,
-    field = 4,
-    hills = 5,
-    desert = 6,
-    ocean = 7,
-    snow = 8,
-    ice = 9,
-    lava = 10,
-    volcanic = 11,
-    purpleSwamp = 12,
-    sandHills = 13,
-    snowHills = 14,
-    swamp = 15,
-    fieldSnow = 16,
-    fieldDesert = 17,
-    snowTrees = 18,
-    snowMountain = 19,
-    brokenCliffs = 20,
+    Grass = 0,
+    Forest = 1,
+    Mountain = 2,
+    Water = 3,
+    Field = 4,
+    Hills = 5,
+    Desert = 6,
+    Ocean = 7,
+    Snow = 8,
+    Ice = 9,
+    Lava = 10,
+    Volcanic = 11,
+    PurpleSwamp = 12,
+    SandHills = 13,
+    SnowHills = 14,
+    Swamp = 15,
+    FieldSnow = 16,
+    FieldDesert = 17,
+    SnowTrees = 18,
+    SnowMountain = 19,
+    BrokenCliffs = 20,
 }
 
 public enum StrategicDoodadType
 {
-    none = 0,
-    bridgeVertical = 1,
-    bridgeHorizontal = 2,
-    bridgeIntersection = 3,
-    virtualBridgeVertical = 4,
-    virtualBridgeHorizontal = 5,
-    virtualBridgeIntersection = 6,
+    None = 0,
+    BridgeVertical = 1,
+    BridgeHorizontal = 2,
+    BridgeIntersection = 3,
+    VirtualBridgeVertical = 4,
+    VirtualBridgeHorizontal = 5,
+    VirtualBridgeIntersection = 6,
     SpawnerVagrant = 1001,
     SpawnerSerpents = 1002,
     SpawnerWyvern = 1003,
@@ -65,7 +65,7 @@ public enum StrategicDoodadType
     SpawnerTerrorbird = 1028,
     SpawnerDratopyr = 1029,
     SpawnerFeralLions = 1030,
-	SpawnerGoodra = 1031,
+    SpawnerGoodra = 1031,
 }
 
 public enum MovementType
@@ -75,82 +75,77 @@ public enum MovementType
     Air,
 }
 
-static class StrategicTileInfo
+internal static class StrategicTileInfo
 {
-    static int[] grasses = new int[] { 0, 13, 14, 15 };
-    static int[] forests = new int[] { 1, 16, 17, 18 };
-    static int[] waters = new int[] { 3, 19, 20, 21 };
-    static int[] fields = new int[] { 4, 22, 23, 24 };
-    static int[] sands = new int[] { 6, 25, 27 };
-    static int[] hills = new int[] { 5, 26 };
-    static int[] swamps = new int[] { 30, 31, 32 };
-    static int[] snowFields = new int[] { 33, 34, 35, 36 };
-    static int[] desertFields = new int[] { 37, 38, 39, 40 };
+    private static int[] _grasses = new int[] { 0, 13, 14, 15 };
+    private static int[] _forests = new int[] { 1, 16, 17, 18 };
+    private static int[] _waters = new int[] { 3, 19, 20, 21 };
+    private static int[] _fields = new int[] { 4, 22, 23, 24 };
+    private static int[] _sands = new int[] { 6, 25, 27 };
+    private static int[] _hills = new int[] { 5, 26 };
+    private static int[] _swamps = new int[] { 30, 31, 32 };
+    private static int[] _snowFields = new int[] { 33, 34, 35, 36 };
+    private static int[] _desertFields = new int[] { 37, 38, 39, 40 };
 
-    static internal List<StrategicTileType> SandFamily = new List<StrategicTileType>() { StrategicTileType.desert, StrategicTileType.fieldDesert, StrategicTileType.sandHills, StrategicTileType.brokenCliffs };
-    static internal List<StrategicTileType> GrassFamily = new List<StrategicTileType>() { StrategicTileType.grass, StrategicTileType.forest, StrategicTileType.mountain, StrategicTileType.field, StrategicTileType.hills };
-    static internal List<StrategicTileType> SnowFamily = new List<StrategicTileType>() { StrategicTileType.snow, StrategicTileType.snowHills, StrategicTileType.fieldSnow, StrategicTileType.ice, StrategicTileType.snowTrees, StrategicTileType.snowMountain };
-    static internal List<StrategicTileType> WaterFamily = new List<StrategicTileType>() { StrategicTileType.water, StrategicTileType.ocean };
+    internal static List<StrategicTileType> SandFamily = new List<StrategicTileType>() { StrategicTileType.Desert, StrategicTileType.FieldDesert, StrategicTileType.SandHills, StrategicTileType.BrokenCliffs };
+    internal static List<StrategicTileType> GrassFamily = new List<StrategicTileType>() { StrategicTileType.Grass, StrategicTileType.Forest, StrategicTileType.Mountain, StrategicTileType.Field, StrategicTileType.Hills };
+    internal static List<StrategicTileType> SnowFamily = new List<StrategicTileType>() { StrategicTileType.Snow, StrategicTileType.SnowHills, StrategicTileType.FieldSnow, StrategicTileType.Ice, StrategicTileType.SnowTrees, StrategicTileType.SnowMountain };
+    internal static List<StrategicTileType> WaterFamily = new List<StrategicTileType>() { StrategicTileType.Water, StrategicTileType.Ocean };
 
 
-    static Noise.OpenSimplexNoise OpenSimplexNoise = new Noise.OpenSimplexNoise(155);
+    private static Noise.OpenSimplexNoise _openSimplexNoise = new Noise.OpenSimplexNoise(155);
 
-    static internal int GetTileType(StrategicTileType type, int x, int y)
+    internal static int GetTileType(StrategicTileType type, int x, int y)
     {
-        Random rand = new Random((int)(65535 * OpenSimplexNoise.Evaluate(16 * x, 16 * y)));
+        Random rand = new Random((int)(65535 * _openSimplexNoise.Evaluate(16 * x, 16 * y)));
 
         switch (type)
         {
-            case StrategicTileType.grass:
-                return grasses[rand.Next(grasses.Length)];
-            case StrategicTileType.forest:
-                if (Config.SimpleForests)
-                    return forests[rand.Next(2)];
-                return forests[rand.Next(forests.Length)];
-            case StrategicTileType.water:
-                return waters[rand.Next(waters.Length)];
-            case StrategicTileType.field:
-                if (Config.SimpleFarms)
-                    return fields[0];
-                return fields[rand.Next(fields.Length)];
-            case StrategicTileType.fieldSnow:
-                if (Config.SimpleFarms)
-                    return snowFields[0];
-                return snowFields[rand.Next(snowFields.Length)];
-            case StrategicTileType.fieldDesert:
-                if (Config.SimpleFarms)
-                    return desertFields[0];
-                return desertFields[rand.Next(desertFields.Length)];
-            case StrategicTileType.hills:
-                return hills[rand.Next(hills.Length)];
-            case StrategicTileType.desert:
-                return sands[rand.Next(sands.Length)];
-            case StrategicTileType.swamp:
-                return swamps[rand.Next(swamps.Length)];
-            case StrategicTileType.sandHills:
+            case StrategicTileType.Grass:
+                return _grasses[rand.Next(_grasses.Length)];
+            case StrategicTileType.Forest:
+                if (Config.SimpleForests) return _forests[rand.Next(2)];
+                return _forests[rand.Next(_forests.Length)];
+            case StrategicTileType.Water:
+                return _waters[rand.Next(_waters.Length)];
+            case StrategicTileType.Field:
+                if (Config.SimpleFarms) return _fields[0];
+                return _fields[rand.Next(_fields.Length)];
+            case StrategicTileType.FieldSnow:
+                if (Config.SimpleFarms) return _snowFields[0];
+                return _snowFields[rand.Next(_snowFields.Length)];
+            case StrategicTileType.FieldDesert:
+                if (Config.SimpleFarms) return _desertFields[0];
+                return _desertFields[rand.Next(_desertFields.Length)];
+            case StrategicTileType.Hills:
+                return _hills[rand.Next(_hills.Length)];
+            case StrategicTileType.Desert:
+                return _sands[rand.Next(_sands.Length)];
+            case StrategicTileType.Swamp:
+                return _swamps[rand.Next(_swamps.Length)];
+            case StrategicTileType.SandHills:
                 return 28;
-            case StrategicTileType.snowHills:
+            case StrategicTileType.SnowHills:
                 return 29;
-            case StrategicTileType.snowTrees:
-                return (int)StrategicTileType.snow;
-            case StrategicTileType.snowMountain:
-                return (int)StrategicTileType.snow;
-            case StrategicTileType.brokenCliffs:
-                return (int)StrategicTileType.desert;
+            case StrategicTileType.SnowTrees:
+                return (int)StrategicTileType.Snow;
+            case StrategicTileType.SnowMountain:
+                return (int)StrategicTileType.Snow;
+            case StrategicTileType.BrokenCliffs:
+                return (int)StrategicTileType.Desert;
             default:
                 return (int)type;
         }
     }
 
-    static internal int GetObjectTileType(StrategicTileType type, int x, int y)
+    internal static int GetObjectTileType(StrategicTileType type, int x, int y)
     {
-        Random rand = new Random((int)(65535 * OpenSimplexNoise.Evaluate(16 * x, 16 * y)));
+        Random rand = new Random((int)(65535 * _openSimplexNoise.Evaluate(16 * x, 16 * y)));
 
         switch (type)
         {
-            case StrategicTileType.forest:
-                if (Config.SimpleForests)
-                    return 4 + rand.Next(2);
+            case StrategicTileType.Forest:
+                if (Config.SimpleForests) return 4 + rand.Next(2);
                 return 4 + rand.Next(4);
             //case StrategicTileType.field:
             //    if (Config.SimpleFarms)
@@ -164,29 +159,26 @@ static class StrategicTileInfo
             //    if (Config.SimpleFarms)
             //        return desertFields[0];
             //    return desertFields[rand.Next(desertFields.Length)];
-            case StrategicTileType.field:
-                if (Config.SimpleFarms)
-                    return 16;
+            case StrategicTileType.Field:
+                if (Config.SimpleFarms) return 16;
                 return 16 + rand.Next(4);
-            case StrategicTileType.fieldSnow:
-                if (Config.SimpleFarms)
-                    return 8;
+            case StrategicTileType.FieldSnow:
+                if (Config.SimpleFarms) return 8;
                 return 8 + rand.Next(4);
-            case StrategicTileType.fieldDesert:
-                if (Config.SimpleFarms)
-                    return 12;
+            case StrategicTileType.FieldDesert:
+                if (Config.SimpleFarms) return 12;
                 return 12 + rand.Next(4);
-            case StrategicTileType.hills:
+            case StrategicTileType.Hills:
                 return 3 - rand.Next(2);
-            case StrategicTileType.sandHills:
+            case StrategicTileType.SandHills:
                 return 1;
-            case StrategicTileType.snowHills:
+            case StrategicTileType.SnowHills:
                 return 0;
-            case StrategicTileType.snowTrees:
+            case StrategicTileType.SnowTrees:
                 return 20 + rand.Next(2);
-            case StrategicTileType.snowMountain:
+            case StrategicTileType.SnowMountain:
                 return 22;
-            case StrategicTileType.brokenCliffs:
+            case StrategicTileType.BrokenCliffs:
                 return 23;
             default:
                 return -1;
@@ -194,38 +186,35 @@ static class StrategicTileInfo
     }
 
     /// <summary>
-    /// Don't call from within Map editor, use the local
+    ///     Don't call from within Map editor, use the local
     /// </summary>
-    static internal bool CanWalkInto(int x, int y)
+    internal static bool CanWalkInto(int x, int y)
     {
-        if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false)
-            return false;
-        if (CanWalkInto(State.World.Tiles[x, y]) == true)
-            return true;
-        if (State.World.Doodads != null && State.World.Doodads[x, y] >= StrategicDoodadType.bridgeVertical && State.World.Doodads[x, y] <= StrategicDoodadType.virtualBridgeIntersection)
-            return true;
+        if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false) return false;
+        if (CanWalkInto(State.World.Tiles[x, y]) == true) return true;
+        if (State.World.Doodads != null && State.World.Doodads[x, y] >= StrategicDoodadType.BridgeVertical && State.World.Doodads[x, y] <= StrategicDoodadType.VirtualBridgeIntersection) return true;
         return false;
     }
 
-    static internal bool CanWalkInto(StrategicTileType type)
+    internal static bool CanWalkInto(StrategicTileType type)
     {
         switch (type)
         {
-            case StrategicTileType.grass:
-            case StrategicTileType.forest:
-            case StrategicTileType.field:
-            case StrategicTileType.fieldDesert:
-            case StrategicTileType.fieldSnow:
-            case StrategicTileType.hills:
-            case StrategicTileType.desert:
-            case StrategicTileType.snow:
-            case StrategicTileType.ice:
-            case StrategicTileType.volcanic:
-            case StrategicTileType.swamp:
-            case StrategicTileType.purpleSwamp:
-            case StrategicTileType.sandHills:
-            case StrategicTileType.snowHills:
-            case StrategicTileType.snowTrees:
+            case StrategicTileType.Grass:
+            case StrategicTileType.Forest:
+            case StrategicTileType.Field:
+            case StrategicTileType.FieldDesert:
+            case StrategicTileType.FieldSnow:
+            case StrategicTileType.Hills:
+            case StrategicTileType.Desert:
+            case StrategicTileType.Snow:
+            case StrategicTileType.Ice:
+            case StrategicTileType.Volcanic:
+            case StrategicTileType.Swamp:
+            case StrategicTileType.PurpleSwamp:
+            case StrategicTileType.SandHills:
+            case StrategicTileType.SnowHills:
+            case StrategicTileType.SnowTrees:
                 return true;
 
             //case StrategicTileType.mountain:
@@ -240,41 +229,38 @@ static class StrategicTileInfo
         }
     }
 
-    static internal int WalkCost(int x, int y)
+    internal static int WalkCost(int x, int y)
     {
-        if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false)
-            return 9999;
-        if (State.World.Doodads != null && State.World.Doodads[x, y] >= StrategicDoodadType.bridgeVertical && State.World.Doodads[x, y] <= StrategicDoodadType.virtualBridgeIntersection)
-            return 1;
+        if ((x >= 0 && x < Config.StrategicWorldSizeX && y >= 0 && y < Config.StrategicWorldSizeY) == false) return 9999;
+        if (State.World.Doodads != null && State.World.Doodads[x, y] >= StrategicDoodadType.BridgeVertical && State.World.Doodads[x, y] <= StrategicDoodadType.VirtualBridgeIntersection) return 1;
         return WalkCost(State.World.Tiles[x, y]);
     }
 
-    static internal int WalkCost(StrategicTileType type)
+    internal static int WalkCost(StrategicTileType type)
     {
         switch (type)
         {
-            case StrategicTileType.grass:
-            case StrategicTileType.field:
-            case StrategicTileType.desert:
-            case StrategicTileType.snow:
-            case StrategicTileType.volcanic:
-            case StrategicTileType.fieldSnow:
-            case StrategicTileType.fieldDesert:
+            case StrategicTileType.Grass:
+            case StrategicTileType.Field:
+            case StrategicTileType.Desert:
+            case StrategicTileType.Snow:
+            case StrategicTileType.Volcanic:
+            case StrategicTileType.FieldSnow:
+            case StrategicTileType.FieldDesert:
 
                 return 1;
 
-            case StrategicTileType.forest:
-            case StrategicTileType.hills:
-            case StrategicTileType.ice:
-            case StrategicTileType.swamp:
-            case StrategicTileType.purpleSwamp:
-            case StrategicTileType.sandHills:
-            case StrategicTileType.snowHills:
-            case StrategicTileType.snowTrees:
+            case StrategicTileType.Forest:
+            case StrategicTileType.Hills:
+            case StrategicTileType.Ice:
+            case StrategicTileType.Swamp:
+            case StrategicTileType.PurpleSwamp:
+            case StrategicTileType.SandHills:
+            case StrategicTileType.SnowHills:
+            case StrategicTileType.SnowTrees:
                 return 2;
             default:
                 return 1;
         }
     }
-
 }

@@ -3,83 +3,87 @@ using System.Collections.Generic;
 using System.IO;
 
 
-class StoredClassWeight
+internal class StoredClassWeight
 {
     [OdinSerialize]
-    internal StatWeights Weights;
+    private StatWeights _weights;
+
+    internal StatWeights Weights { get => _weights; set => _weights = value; }
+
     [OdinSerialize]
-    internal string Name;
+    private string _name;
+
+    internal string Name { get => _name; set => _name = value; }
 }
 
-static class CustomAutoLevel
+internal static class CustomAutoLevel
 {
     static CustomAutoLevel()
     {
-        filename = $"{State.StorageDirectory}AutoLevels.cst";
+        _filename = $"{State.StorageDirectory}AutoLevels.cst";
         LoadData();
     }
 
-    static string filename;
-    static List<StoredClassWeight> weightsList;
+    private static string _filename;
+    private static List<StoredClassWeight> _weightsList;
 
     internal static string[] GetAllNames()
     {
-        string[] names = new string[weightsList.Count];
+        string[] names = new string[_weightsList.Count];
         for (int i = 0; i < names.Length; i++)
         {
-            names[i] = weightsList[i].Name;
+            names[i] = _weightsList[i].Name;
         }
+
         return names;
     }
 
 
-    static void LoadData()
+    private static void LoadData()
     {
-        if (File.Exists(filename))
+        if (File.Exists(_filename))
         {
-            byte[] bytes = File.ReadAllBytes(filename);
-            weightsList = SerializationUtility.DeserializeValue<List<StoredClassWeight>>(bytes, DataFormat.JSON);
+            byte[] bytes = File.ReadAllBytes(_filename);
+            _weightsList = SerializationUtility.DeserializeValue<List<StoredClassWeight>>(bytes, DataFormat.JSON);
         }
         else
         {
-            weightsList = new List<StoredClassWeight>();
+            _weightsList = new List<StoredClassWeight>();
         }
     }
 
-    static void SaveData()
+    private static void SaveData()
     {
         try
         {
-            byte[] bytes = SerializationUtility.SerializeValue(weightsList, DataFormat.JSON);
-            File.WriteAllBytes(filename, bytes);
+            byte[] bytes = SerializationUtility.SerializeValue(_weightsList, DataFormat.JSON);
+            File.WriteAllBytes(_filename, bytes);
         }
         catch
         {
             State.GameManager.CreateMessageBox("Couldn't save Custom Auto Levels to file for some reason");
         }
-
     }
 
     internal static StoredClassWeight GetByName(string name)
     {
-        foreach (StoredClassWeight entry in weightsList)
+        foreach (StoredClassWeight entry in _weightsList)
         {
-            if (entry.Name == name)
-                return entry;
+            if (entry.Name == name) return entry;
         }
+
         return null;
     }
 
     internal static void Remove(StoredClassWeight data)
     {
-        weightsList.Remove(data);
+        _weightsList.Remove(data);
         SaveData();
     }
 
     internal static void Add(StoredClassWeight data)
     {
-        weightsList.Add(data);
+        _weightsList.Add(data);
         SaveData();
     }
-
 }

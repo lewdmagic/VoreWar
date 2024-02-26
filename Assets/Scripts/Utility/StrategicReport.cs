@@ -1,10 +1,11 @@
 ﻿using OdinSerializer;
 
 
-struct StrategicReport
+internal struct StrategicReport
 {
     [OdinSerialize]
     internal string Text;
+
     [OdinSerialize]
     internal Vec2 Position;
 
@@ -14,4 +15,3 @@ struct StrategicReport
         Position = position;
     }
 }
-

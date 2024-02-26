@@ -13,21 +13,17 @@ public class EventScreen : MonoBehaviour
 
     private void Update()
     {
-        if (gameObject.activeSelf == false)
-            return;
+        if (gameObject.activeSelf == false) return;
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && FirstChoice.interactable)
             FirstChoice.onClick.Invoke();
         else if (Input.GetKeyDown(KeyCode.Alpha2) && SecondChoice.interactable)
             SecondChoice.onClick.Invoke();
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && ThirdChoice.interactable)
-            ThirdChoice.onClick.Invoke();
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && ThirdChoice.interactable) ThirdChoice.onClick.Invoke();
     }
 
     public void OnDisable() //So that gold updates properly after this window is closed
     {
-        if (State.GameManager != null)
-            MiscUtilities.DelayedInvoke(State.GameManager.StrategyMode.Regenerate, .1f);
+        if (State.GameManager != null) MiscUtilities.DelayedInvoke(State.GameManager.StrategyMode.Regenerate, .1f);
     }
-
 }

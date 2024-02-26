@@ -1,27 +1,63 @@
 fileFormatVersion: 2
 guid: 34caa9ac49013fe4095eacf349935c9e
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_3
-    21300002: Hero Armor_4
-    21300004: Hero Armor_5
-    21300006: Hero Armor_6
-    21300008: Hero Armor_7
-    21300010: alraunechristmas_0
-    21300012: alraunechristmas_1
-    21300014: alraunechristmas_2
-    21300016: alraunechristmas_3
-    21300018: alraunechristmas_4
-    21300020: alraunechristmas_5
-    21300022: alraunechristmas_6
-    21300024: alraunechristmas_7
-    21300026: alraunechristmas_8
-    21300028: alraunechristmas_9
-    21300030: alraunechristmas_10
-    21300032: alraunechristmas_11
-    21300034: alraunechristmas_12
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_3
+  - first:
+      213: 21300002
+    second: Hero Armor_4
+  - first:
+      213: 21300004
+    second: Hero Armor_5
+  - first:
+      213: 21300006
+    second: Hero Armor_6
+  - first:
+      213: 21300008
+    second: Hero Armor_7
+  - first:
+      213: 21300010
+    second: alraunechristmas_0
+  - first:
+      213: 21300012
+    second: alraunechristmas_1
+  - first:
+      213: 21300014
+    second: alraunechristmas_2
+  - first:
+      213: 21300016
+    second: alraunechristmas_3
+  - first:
+      213: 21300018
+    second: alraunechristmas_4
+  - first:
+      213: 21300020
+    second: alraunechristmas_5
+  - first:
+      213: 21300022
+    second: alraunechristmas_6
+  - first:
+      213: 21300024
+    second: alraunechristmas_7
+  - first:
+      213: 21300026
+    second: alraunechristmas_8
+  - first:
+      213: 21300028
+    second: alraunechristmas_9
+  - first:
+      213: 21300030
+    second: alraunechristmas_10
+  - first:
+      213: 21300032
+    second: alraunechristmas_11
+  - first:
+      213: 21300034
+    second: alraunechristmas_12
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -38,9 +74,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -50,8 +89,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -72,11 +111,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -86,8 +131,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -97,7 +144,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -117,6 +192,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bae8ad21bb708e041a21e9204db4c831
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -137,6 +213,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 17baa393a76a29740881276a91aca46d
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -157,6 +234,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e89c031cc9e557945b62833dd3abedf6
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -177,6 +255,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4480332fc4f7efc4099609ccb00c783a
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -197,6 +276,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a75d9d20ee742434b8441aff79f1a8ad
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -217,6 +297,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d402be9ab46335248aecd04800b85553
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -237,6 +318,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c3f440f047db57f4595732435f6310bd
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -257,6 +339,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0844835ea6f32a6449df21cbb31293c2
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -277,6 +360,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 612a43b18ebc23c4885762157a285c4d
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -297,6 +381,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: df91a737ad1540343b1d7ab3c69b4839
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -317,6 +402,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: aba92c1e11993a340ab0a0f2be8160ca
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -337,6 +423,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9e76077bfff67e345b5c0a4bf96cef8c
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -357,6 +444,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 698e9cdfcdf941b4d90d9a0b6d768ec2
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -365,13 +453,28 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      alraunechristmas_0: 21300010
+      alraunechristmas_1: 21300012
+      alraunechristmas_10: 21300030
+      alraunechristmas_11: 21300032
+      alraunechristmas_12: 21300034
+      alraunechristmas_2: 21300014
+      alraunechristmas_3: 21300016
+      alraunechristmas_4: 21300018
+      alraunechristmas_5: 21300020
+      alraunechristmas_6: 21300022
+      alraunechristmas_7: 21300024
+      alraunechristmas_8: 21300026
+      alraunechristmas_9: 21300028
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

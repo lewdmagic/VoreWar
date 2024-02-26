@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-static class StrategicUtilities
+internal static class StrategicUtilities
 {
-    private static Dictionary<Trait, double[][]> TraitPowerFactors = new Dictionary<Trait, double[][]>();
+    private static Dictionary<Trait, double[][]> _traitPowerFactors = new Dictionary<Trait, double[][]>();
+
     public static Army[] GetAllArmies(bool excludeMonsters = false)
     {
         List<Army> armies = new List<Army>();
@@ -21,8 +22,7 @@ static class StrategicUtilities
         }
         else
         {
-            if (State.World.AllActiveEmpires == null)
-                return armies.ToArray();
+            if (State.World.AllActiveEmpires == null) return armies.ToArray();
             foreach (Empire empire in State.World.AllActiveEmpires)
             {
                 foreach (Army army in empire.Armies)
@@ -46,6 +46,7 @@ static class StrategicUtilities
                 armies.Add(army);
             }
         }
+
         return armies.ToArray();
     }
 
@@ -54,23 +55,23 @@ static class StrategicUtilities
         List<Army> hostileArmies = new List<Army>();
         foreach (Empire hostileEmpire in State.World.AllActiveEmpires)
         {
-            if (empire.IsEnemy(hostileEmpire) == false || (includeGoblins == false && hostileEmpire.Team == -200))
-                continue;
+            if (empire.IsEnemy(hostileEmpire) == false || (includeGoblins == false && hostileEmpire.Team == -200)) continue;
             foreach (Army army in hostileEmpire.Armies)
             {
                 hostileArmies.Add(army);
             }
         }
+
         return hostileArmies.ToArray();
     }
 
-    public static Army ArmyAt(Vec2i location)
+    public static Army ArmyAt(Vec2I location)
     {
         foreach (Army army in GetAllArmies())
         {
-            if (army.Position.Matches(location))
-                return army;
+            if (army.Position.Matches(location)) return army;
         }
+
         return null;
     }
 
@@ -78,15 +79,16 @@ static class StrategicUtilities
     {
         foreach (Village village in State.World.Villages)
         {
-            if (village.Position.Matches(location.x, location.y))
+            if (village.Position.Matches(location.X, location.Y))
             {
                 return village;
             }
         }
+
         return null;
     }
 
-    public static Village GetVillageAt(Vec2i location)
+    public static Village GetVillageAt(Vec2I location)
     {
         foreach (Village village in State.World.Villages)
         {
@@ -95,10 +97,11 @@ static class StrategicUtilities
                 return village;
             }
         }
+
         return null;
     }
 
-    public static MercenaryHouse GetMercenaryHouseAt(Vec2i location)
+    public static MercenaryHouse GetMercenaryHouseAt(Vec2I location)
     {
         foreach (MercenaryHouse house in State.World.MercenaryHouses)
         {
@@ -107,10 +110,11 @@ static class StrategicUtilities
                 return house;
             }
         }
+
         return null;
     }
 
-    public static ClaimableBuilding GetClaimableAt(Vec2i location)
+    public static ClaimableBuilding GetClaimableAt(Vec2I location)
     {
         foreach (ClaimableBuilding claimable in State.World.Claimables)
         {
@@ -119,18 +123,18 @@ static class StrategicUtilities
                 return claimable;
             }
         }
+
         return null;
     }
 
-    public static void TryClaim(Vec2i location, Empire empire)
+    public static void TryClaim(Vec2I location, Empire empire)
     {
-        if (empire.Race == Race.Goblins)
-            return;
+        if (Equals(empire.Race, Race.Goblin)) return;
 
         ClaimableBuilding claimable = GetClaimableAt(location);
         if (claimable != null)
         {
-            if (empire.Race >= Race.Vagrants)
+            if (RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(empire.Side))
             {
                 claimable.Owner = null;
             }
@@ -140,14 +144,15 @@ static class StrategicUtilities
                 {
                     return;
                 }
+
                 if (claimable.Owner != empire)
                 {
                     State.GameManager.StrategyMode.UndoMoves.Clear();
                     RelationsManager.GoldMineTaken(empire, claimable.Owner);
                     claimable.Owner = empire;
                 }
-
             }
+
             State.GameManager.StrategyMode.RedrawVillages();
         }
     }
@@ -165,24 +170,25 @@ static class StrategicUtilities
         {
             units.AddRange(army.Units);
         }
+
         if (State.World.MainEmpires != null)
         {
             foreach (Village village in State.World.Villages)
             {
-                if (village == null)
-                    continue;
+                if (village == null) continue;
                 units.AddRange(village.GetRecruitables());
-                if (village.travelers != null)
-                    units.AddRange(village.travelers.Select(s => s.unit));
+                if (village.travelers != null) units.AddRange(village.travelers.Select(s => s.Unit));
                 if (village.Mercenaries?.Any() ?? false)
                 {
                     units.AddRange(village.Mercenaries.Select(s => s.Unit));
                 }
+
                 if (village.Adventurers?.Any() ?? false)
                 {
                     units.AddRange(village.Adventurers.Select(s => s.Unit));
                 }
             }
+
             if (State.World.MercenaryHouses != null && State.World.MercenaryHouses.Any())
             {
                 foreach (var house in State.World.MercenaryHouses)
@@ -194,6 +200,7 @@ static class StrategicUtilities
                 }
             }
         }
+
         return units;
     }
 
@@ -210,26 +217,24 @@ static class StrategicUtilities
         {
             units.AddRange(army.Units);
         }
+
         return units;
     }
 
-    public static List<int> GetAllHumanSides()
+    public static List<Side> GetAllHumanSides()
     {
         if (State.World.MainEmpires != null)
-            return State.World.AllActiveEmpires?.Where(emp => emp.StrategicAI == null).ToList().ConvertAll(emp => emp.Side) ?? new List<int>();
+            return State.World.AllActiveEmpires?.Where(emp => emp.StrategicAI == null).ToList().ConvertAll(emp => emp.Side) ?? new List<Side>();
         else
         {
-            var list = new List<int>();
-            if (!State.GameManager.TacticalMode.AIAttacker)
-                list.Add(State.GameManager.TacticalMode.GetAttackerSide());
-            if (!State.GameManager.TacticalMode.AIDefender)
-                list.Add(State.GameManager.TacticalMode.GetDefenderSide());
+            var list = new List<Side>();
+            if (!State.GameManager.TacticalMode.AIAttacker) list.Add(State.GameManager.TacticalMode.GetAttackerSide());
+            if (!State.GameManager.TacticalMode.AIDefender) list.Add(State.GameManager.TacticalMode.GetDefenderSide());
             return list;
         }
-
     }
 
-    public static int Get80thExperiencePercentile()
+    public static int Get80ThExperiencePercentile()
     {
         int highestExp = 4;
         var allUnits = GetAllUnits(true).Where(s => s.Type != UnitType.Leader).OrderBy(s => s.Experience).ToArray();
@@ -246,27 +251,26 @@ static class StrategicUtilities
         List<Village> hostileVillages = new List<Village>();
         foreach (Village village in State.World.Villages)
         {
-            if (village.Empire.IsEnemy(empire))
-                hostileVillages.Add(village);
-
+            if (village.Empire.IsEnemy(empire)) hostileVillages.Add(village);
         }
+
         return hostileVillages.ToArray();
     }
 
-    public static int SideVillageCount(int side)
+    public static int SideVillageCount(Side side)
     {
         int count = 0;
         foreach (Village village in State.World.Villages)
         {
-            if (village.Side == side)
-                count++;
+            if (Equals(village.Side, side)) count++;
         }
+
         return count;
     }
 
     public static void StartBattle(Army army)
     {
-        Army[] hostileArmies = GetAllHostileArmies(army.Empire, true);
+        Army[] hostileArmies = GetAllHostileArmies(army.EmpireOutside, true);
         Army enemy = null;
         Village village = null;
         for (int i = 0; i < hostileArmies.Length; i++)
@@ -277,23 +281,25 @@ static class StrategicUtilities
                 break;
             }
         }
+
         for (int i = 0; i < State.World.Villages.Length; i++)
         {
-            if (State.World.Villages[i].Empire.IsEnemy(army.Empire) && army.Position.Matches(State.World.Villages[i].Position))
+            if (State.World.Villages[i].Empire.IsEnemy(army.EmpireOutside) && army.Position.Matches(State.World.Villages[i].Position))
             {
                 village = State.World.Villages[i];
                 break;
             }
         }
+
         if (army != null)
         {
-            army.RemainingMP = 0;
+            army.RemainingMp = 0;
         }
-        if (village == null && enemy != null && enemy.Units.Count == 0)
-            return;
+
+        if (village == null && enemy != null && enemy.Units.Count == 0) return;
         if (village != null)
         {
-            SpawnerInfo spawner = Config.SpawnerInfo((Race)army.Side);
+            SpawnerInfo spawner = Config.World.GetSpawner(army.Side.ToRace());
             Config.MonsterConquestType spawnerType;
             if (spawner != null)
                 spawnerType = spawner.GetConquestType();
@@ -301,7 +307,7 @@ static class StrategicUtilities
                 spawnerType = Config.MonsterConquest;
             if (enemy == null && village.Garrison == 0)
             {
-                if (army.Side >= 100 && army.Side <= 700)
+                if (RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(army.Side) && RaceFuncs.IsNotBandit(army.Side))
                 {
                     if (spawnerType == Config.MonsterConquestType.IgnoreTowns)
                     {
@@ -312,9 +318,10 @@ static class StrategicUtilities
                     {
                         if (village.GetTotalPop() > 2)
                         {
-                            army.RemainingMP = 1;
+                            army.RemainingMp = 1;
                             State.GameManager.StrategyMode.Devour(army, Mathf.Min(2 * army.Units.Count, village.Population - 2));
                         }
+
                         army.Units = new List<Unit>();
                         army.Prune();
                     }
@@ -322,24 +329,25 @@ static class StrategicUtilities
                     {
                         if (village.GetTotalPop() > village.Maxpop / 2)
                         {
-                            army.RemainingMP = 1;
+                            army.RemainingMp = 1;
                             State.GameManager.StrategyMode.Devour(army, village.GetTotalPop() - village.Maxpop / 2);
                         }
+
                         Claim();
                     }
                     else //if (Config.MonsterConquest == Config.MonsterConquestType.CompleteDevourAndHold || Config.MonsterConquest == Config.MonsterConquestType.CompleteDevourAndMoveOn)
                     {
                         if (village.GetTotalPop() > 0)
                         {
-
                             if (Config.MonsterConquestTurns == 0)
                             {
-                                army.RemainingMP = 1;
+                                army.RemainingMp = 1;
                                 State.GameManager.StrategyMode.Devour(army, village.GetTotalPop());
                             }
                             else
                                 army.MonsterTurnsRemaining = Config.MonsterConquestTurns;
                         }
+
                         Claim();
                     }
                 }
@@ -348,7 +356,7 @@ static class StrategicUtilities
             }
             else
             {
-                if (army.Side >= 100)
+                if (RaceFuncs.IsMonstersOrUniqueMercsOrRebelsOrBandits(army.Side))
                 {
                     if (spawnerType == Config.MonsterConquestType.IgnoreTowns)
                     {
@@ -357,21 +365,20 @@ static class StrategicUtilities
                         return;
                     }
                 }
-                State.GameManager.ActivateTacticalWithDelay(State.World.Tiles[army.Position.x, army.Position.y], village, army, enemy);
+
+                State.GameManager.ActivateTacticalWithDelay(State.World.Tiles[army.Position.X, army.Position.Y], village, army, enemy);
             }
         }
         else
         {
-            State.GameManager.ActivateTacticalWithDelay(State.World.Tiles[army.Position.x, army.Position.y], village, army, enemy);
+            State.GameManager.ActivateTacticalWithDelay(State.World.Tiles[army.Position.X, army.Position.Y], village, army, enemy);
         }
 
         void Claim()
         {
             village.ChangeOwner(army.Side);
         }
-
     }
-
 
 
     public static int NumberOfDesiredUpgrades(Army army)
@@ -379,16 +386,13 @@ static class StrategicUtilities
         int upgrades = 0;
         foreach (Unit unit in army.Units)
         {
-            if (unit.Level < 4)
-                continue;
-            if (unit.FixedGear)
-                continue;
-            Item UpgradeTo = State.World.ItemRepository.GetUpgrade(unit.Items[0]);
-            if (UpgradeTo != null)
-                upgrades++;
-            if (unit.GetItem(1) == null)
-                upgrades++;
+            if (unit.Level < 4) continue;
+            if (unit.FixedGear) continue;
+            Item upgradeTo = State.World.ItemRepository.GetUpgrade(unit.Items[0]);
+            if (upgradeTo != null) upgrades++;
+            if (unit.GetItem(1) == null) upgrades++;
         }
+
         return upgrades;
     }
 
@@ -413,23 +417,22 @@ static class StrategicUtilities
         }
     }
 
-    static void UpgradeWeaponIfPossible(Empire empire, Unit unit)
+    private static void UpgradeWeaponIfPossible(Empire empire, Unit unit)
     {
         Item currentWeapon = unit.Items[0];
-        Item UpgradeTo = State.World.ItemRepository.GetUpgrade(currentWeapon);
-        if (UpgradeTo == null)
-            return;
-        if (empire.Gold >= UpgradeTo.Cost - (currentWeapon.Cost / 2))
+        Item upgradeTo = State.World.ItemRepository.GetUpgrade(currentWeapon);
+        if (upgradeTo == null) return;
+        if (empire.Gold >= upgradeTo.Cost - currentWeapon.Cost / 2)
         {
             Shop.SellItem(empire, unit, 0);
-            Shop.BuyItem(empire, unit, UpgradeTo);
+            Shop.BuyItem(empire, unit, upgradeTo);
         }
     }
 
-    static void PurchaseAccessories(Empire empire, Village village, Unit unit)
+    private static void PurchaseAccessories(Empire empire, Village village, Unit unit)
     {
         Item itemToPurchase = null;
-        if (unit.BestSuitedForRanged() && unit.HasTrait(Traits.Feral) == false)
+        if (unit.BestSuitedForRanged() && unit.HasTrait(TraitType.Feral) == false)
         {
             itemToPurchase = State.World.ItemRepository.GetItem(ItemType.Gloves);
         }
@@ -453,9 +456,9 @@ static class StrategicUtilities
                 case 3:
                     itemToPurchase = State.World.ItemRepository.GetItem(ItemType.Gauntlet);
                     break;
-
             }
         }
+
         if (unit.AIClass == AIClass.MagicMelee || unit.AIClass == AIClass.MagicRanged)
         {
             if (village.buildings.Contains(VillageBuilding.MagicGuild))
@@ -463,10 +466,12 @@ static class StrategicUtilities
             else
                 itemToPurchase = State.World.ItemRepository.GetRandomBook(1, 1);
         }
+
         if (itemToPurchase == null || unit.Items.Contains(itemToPurchase))
         {
             return;
         }
+
         if (empire.Gold >= itemToPurchase.Cost)
         {
             Shop.BuyItem(empire, unit, itemToPurchase); //Will not buy if there are no free slots, so don't need to check that here
@@ -475,10 +480,10 @@ static class StrategicUtilities
 
     internal static void SetAIClass(Unit unit, float magicChance = 0)
     {
-        if (unit.Race == Race.Fairies)
+        if (Equals(unit.Race, Race.Fairy))
             unit.AIClass = AIClass.MagicRanged;
-        else if ((unit.Race == Race.Succubi || unit.FixedGear == false) && unit.BestSuitedForRanged() ||
-            (unit.FixedGear && unit.GetBestRanged() != null))
+        else if (((Equals(unit.Race, Race.Succubus) || unit.FixedGear == false) && unit.BestSuitedForRanged()) ||
+                 (unit.FixedGear && unit.GetBestRanged() != null))
         {
             if (unit.Items[1] is SpellBook || State.Rand.NextDouble() < magicChance)
                 unit.AIClass = AIClass.MagicRanged;
@@ -489,7 +494,7 @@ static class StrategicUtilities
         }
         else
         {
-            if (unit.HasTrait(Traits.Feral) == false && (unit.Items[1] is SpellBook || State.Rand.NextDouble() < magicChance))
+            if (unit.HasTrait(TraitType.Feral) == false && (unit.Items[1] is SpellBook || State.Rand.NextDouble() < magicChance))
                 unit.AIClass = AIClass.MagicMelee;
             else if (unit.Predator && State.Rand.Next(3) == 0)
                 unit.AIClass = AIClass.MeleeVore;
@@ -498,15 +503,14 @@ static class StrategicUtilities
         }
     }
 
-    public static double TileThreat(Vec2i location)
+    public static double TileThreat(Vec2I location)
     {
         //This system doesn't fully take into account the full exponential power of high powered units
 
         return VillagePower(location) + ArmyPower(location);
-
     }
 
-    private static double VillagePower(Vec2i location)
+    private static double VillagePower(Vec2I location)
     {
         double power = 0;
         Village village = GetVillageAt(location);
@@ -514,10 +518,11 @@ static class StrategicUtilities
         {
             power = village.Garrison * village.Garrison;
         }
+
         return power;
     }
 
-    private static double ArmyPower(Vec2i location)
+    private static double ArmyPower(Vec2I location)
     {
         Army army = ArmyAt(location);
         return ArmyPower(army);
@@ -538,14 +543,16 @@ static class StrategicUtilities
                 {
                     racePower = RaceParameters.GetTraitData(unit).PowerAdjustment;
                 }
+
                 double weaponFactor;
-                if (unit.GetBestRanged() != null) weaponFactor = 1.5 / 4 * unit.GetBestRanged().Damage;
-                else weaponFactor = unit.GetBestMelee().Damage / 4f;
-                power += weaponFactor * racePower * (((unit.GetScale() - 1) * 0.9) + 1) * Math.Pow(1.2, unit.Level - 1 + effectiveLevelBoost + (unit.GetStatBase(Stat.Leadership) > 0 ? 3 : 0));
-
+                if (unit.GetBestRanged() != null)
+                    weaponFactor = 1.5 / 4 * unit.GetBestRanged().Damage;
+                else
+                    weaponFactor = unit.GetBestMelee().Damage / 4f;
+                power += weaponFactor * racePower * ((unit.GetScale() - 1) * 0.9 + 1) * Math.Pow(1.2, unit.Level - 1 + effectiveLevelBoost + (unit.GetStatBase(Stat.Leadership) > 0 ? 3 : 0));
             }
-            finalPower = count * power;
 
+            finalPower = count * power;
         }
 
         return finalPower;
@@ -567,18 +574,23 @@ static class StrategicUtilities
                 {
                     racePower = RaceParameters.GetTraitData(unit).PowerAdjustment;
                 }
+
                 double weaponFactor;
-                if (unit.GetBestRanged() != null) weaponFactor = 1.5 / 4 * unit.GetBestRanged().Damage;
-                else weaponFactor = unit.GetBestMelee().Damage / 4f;
-                power += weaponFactor * racePower * (((unit.GetScale() - 1) * 0.9) + 1) * Math.Pow(1.2, unit.Level - 1 + effectiveLevelBoost + (unit.GetStatBase(Stat.Leadership) > 0 ? 3 : 0));
+                if (unit.GetBestRanged() != null)
+                    weaponFactor = 1.5 / 4 * unit.GetBestRanged().Damage;
+                else
+                    weaponFactor = unit.GetBestMelee().Damage / 4f;
+                power += weaponFactor * racePower * ((unit.GetScale() - 1) * 0.9 + 1) * Math.Pow(1.2, unit.Level - 1 + effectiveLevelBoost + (unit.GetStatBase(Stat.Leadership) > 0 ? 3 : 0));
             }
+
             finalPower = count * power;
         }
+
         return finalPower;
     }
 
     /// <summary>
-    /// Used for getting the absolute power for a cluster of units, involves no exponents, so it's more of unit value
+    ///     Used for getting the absolute power for a cluster of units, involves no exponents, so it's more of unit value
     /// </summary>
     /// <param name="units"></param>
     /// <returns></returns>
@@ -594,12 +606,16 @@ static class StrategicUtilities
                 {
                     racePower = RaceParameters.GetTraitData(unit).PowerAdjustment;
                 }
+
                 double weaponFactor;
-                if (unit.GetBestRanged() != null) weaponFactor = 1.5 / 4 * unit.GetBestRanged().Damage;
-                else weaponFactor = unit.GetBestMelee().Damage / 4;
+                if (unit.GetBestRanged() != null)
+                    weaponFactor = 1.5 / 4 * unit.GetBestRanged().Damage;
+                else
+                    weaponFactor = unit.GetBestMelee().Damage / 4;
                 value += weaponFactor * racePower * Math.Pow(1.2, unit.Level - 1 + (unit.GetStatBase(Stat.Leadership) > 0 ? 3 : 0));
             }
         }
+
         return value;
     }
 
@@ -609,15 +625,15 @@ static class StrategicUtilities
         List<Village> retVillages = new List<Village>();
         for (int i = 0; i < State.World.Villages.Length; i++)
         {
-            if (villages[i].Side == empire.Side && villages[i].GetTotalPop() > 8)
+            if (Equals(villages[i].Side, empire.Side) && villages[i].GetTotalPop() > 8)
             {
                 if (IsVillageOccupied(empire, i) == false)
                 {
                     retVillages.Add(villages[i]);
-
                 }
             }
         }
+
         return retVillages.ToArray();
     }
 
@@ -627,22 +643,20 @@ static class StrategicUtilities
         List<MercenaryHouse> retMercs = new List<MercenaryHouse>();
         for (int i = 0; i < State.World.MercenaryHouses.Length; i++)
         {
-
-            if (mercs[i].Mercenaries.Count < 8)
-                continue;
+            if (mercs[i].Mercenaries.Count < 8) continue;
             if (ArmyAt(mercs[i].Position) == null)
             {
                 retMercs.Add(mercs[i]);
-
             }
         }
+
         return retMercs.ToArray();
     }
 
     internal static bool IsVillageOccupied(Empire empire, int i)
     {
         bool occupied = false;
-        Army[] allArmies = StrategicUtilities.GetAllArmies();
+        Army[] allArmies = GetAllArmies();
         for (int j = 0; j < allArmies.Length; j++)
         {
             if (allArmies[j].Position.Matches(State.World.Villages[i].Position))
@@ -651,16 +665,17 @@ static class StrategicUtilities
                 break;
             }
         }
+
         return occupied;
     }
 
     internal static bool EnemyArmyWithinXTiles(Army army, int tiles, bool includeGoblins = false)
     {
-        foreach (Army enemyArmy in GetAllHostileArmies(army.Empire, includeGoblins))
+        foreach (Army enemyArmy in GetAllHostileArmies(army.EmpireOutside, includeGoblins))
         {
-            if (enemyArmy.Position.GetNumberOfMovesDistance(army.Position) <= tiles)
-                return true;
+            if (enemyArmy.Position.GetNumberOfMovesDistance(army.Position) <= tiles) return true;
         }
+
         return false;
     }
 
@@ -668,17 +683,16 @@ static class StrategicUtilities
     {
         foreach (Army enemyArmy in GetAllHostileArmies(village.Empire))
         {
-            if (enemyArmy.Position.GetNumberOfMovesDistance(village.Position) <= tiles)
-                return true;
+            if (enemyArmy.Position.GetNumberOfMovesDistance(village.Position) <= tiles) return true;
         }
+
         return false;
     }
 
     internal static void BuyBasicWeapons(Village village)
     {
         int neededWeapons = Math.Min(village.MaxGarrisonSize, village.GetTotalPop() - 3) - village.Garrison;
-        if (neededWeapons <= 0)
-            return;
+        if (neededWeapons <= 0) return;
         int maces = neededWeapons / 2;
         int bows = neededWeapons - maces;
         Empire empire = State.World.GetEmpireOfSide(village.Side);
@@ -687,12 +701,12 @@ static class StrategicUtilities
             BuyWeapon(village, ItemType.Mace);
             maces -= 1;
         }
+
         while (bows > 0 && empire.Gold > 5)
         {
             BuyWeapon(village, ItemType.Bow);
             bows -= 1;
         }
-
     }
 
     internal static void BuyWeapon(Village village, ItemType weapon)
@@ -705,23 +719,21 @@ static class StrategicUtilities
         village.SellWeapon(weapon);
     }
 
-    internal static bool IsTileClear(Vec2i p)
+    internal static bool IsTileClear(Vec2I p)
     {
         return IsTileClear((Vec2)p);
     }
 
     internal static bool IsTileClear(Vec2 p)
     {
-        if (p.x < 0 || p.y < 0 || p.x >= Config.StrategicWorldSizeX || p.y >= Config.StrategicWorldSizeY)
-            return false;
-        if (StrategicTileInfo.CanWalkInto(p.x, p.y))
+        if (p.X < 0 || p.Y < 0 || p.X >= Config.StrategicWorldSizeX || p.Y >= Config.StrategicWorldSizeY) return false;
+        if (StrategicTileInfo.CanWalkInto(p.X, p.Y))
         {
-
             foreach (Army army in GetAllArmies())
             {
-                if (army.Position.Matches(p.x, p.y))
-                    return false;
+                if (army.Position.Matches(p.X, p.Y)) return false;
             }
+
             if (GetVillageAt(p) != null)
             {
                 return false;
@@ -729,50 +741,44 @@ static class StrategicUtilities
 
             return true;
         }
+
         return false;
     }
 
 
     internal static void ProcessTravelingUnits(List<Unit> travelingUnits, Army army)
     {
-        var loc = StrategyPathfinder.GetPathToClosestObject(null, army, State.World.Villages.Where(s => travelingUnits[0].Side == s.Side).Select(s => s.Position).ToArray(), army.GetMaxMovement(), 999, army.movementMode == Army.MovementMode.Flight);
+        var loc = StrategyPathfinder.GetPathToClosestObject(null, army, State.World.Villages.Where(s => Equals(travelingUnits[0].Side, s.Side)).Select(s => s.Position).ToArray(), army.GetMaxMovement(), 999, army.MovementMode == MovementMode.Flight);
 
         int turns = 9999;
         int flightTurns = 9999;
-        Vec2i destination = null;
-        if (travelingUnits.Where(s => s.Type == UnitType.SpecialMercenary).Any())
-            travelingUnits = travelingUnits.Where(s => s.Type != UnitType.SpecialMercenary || s.HasTrait(Traits.Eternal)).ToList();
-        if (travelingUnits.Count() == 0)
-            return;
-        bool flyersExist = travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder)).Count() > 0;
+        Vec2I destination = null;
+        if (travelingUnits.Where(s => s.Type == UnitType.SpecialMercenary).Any()) travelingUnits = travelingUnits.Where(s => s.Type != UnitType.SpecialMercenary || s.HasTrait(TraitType.Eternal)).ToList();
+        if (travelingUnits.Count() == 0) return;
+        bool flyersExist = travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder)).Count() > 0;
         if (loc != null && loc.Count > 0)
         {
-            destination = new Vec2i(loc.Last().X, loc.Last().Y);
+            destination = new Vec2I(loc.Last().X, loc.Last().Y);
             turns = StrategyPathfinder.TurnsToReach(null, army, destination, army.GetMaxMovement(), false);
-            if (flyersExist)
-                flightTurns = StrategyPathfinder.TurnsToReach(null, army, destination, army.GetMaxMovement(), true);
+            if (flyersExist) flightTurns = StrategyPathfinder.TurnsToReach(null, army, destination, army.GetMaxMovement(), true);
         }
+
         if (turns < 999)
         {
             Village village = GetVillageAt(destination);
-            if (village.Side != army.Side)
-                Debug.Log("Sent traveling units to someone else's village...");
-            if (flyersExist)
-                CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder)).ToList(), village, flightTurns);
-            CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder) == false).ToList(), village, turns);
+            if (!Equals(village.Side, army.Side)) Debug.Log("Sent traveling units to someone else's village...");
+            if (flyersExist) CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder)).ToList(), village, flightTurns);
+            CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder) == false).ToList(), village, turns);
         }
-
-
     }
 
 
-    static internal void CreateInvisibleTravelingArmy(List<Unit> travelingUnits, Village village, int turns)
+    internal static void CreateInvisibleTravelingArmy(List<Unit> travelingUnits, Village village, int turns)
     {
-        if (village.travelers == null)
-            village.travelers = new List<InvisibleTravelingUnit>();
+        if (village.travelers == null) village.travelers = new List<InvisibleTravelingUnit>();
         foreach (Unit unit in travelingUnits)
         {
-            if (village.travelers.Where(s => s.unit == unit).Any()) //Avoid doubling up
+            if (village.travelers.Where(s => s.Unit == unit).Any()) //Avoid doubling up
                 continue;
             village.travelers.Add(new InvisibleTravelingUnit(unit, turns));
         }
@@ -780,25 +786,23 @@ static class StrategicUtilities
 
     internal static void ProcessTravelingUnit(Unit travelingUnit, Army army)
     {
-        if (travelingUnit.Type == UnitType.SpecialMercenary && travelingUnit.HasTrait(Traits.Eternal) == false)
-            return;
-        var loc = StrategyPathfinder.GetPathToClosestObject(null, army, State.World.Villages.Where(s => travelingUnit.Side == s.Side).Select(s => s.Position).ToArray(), army.GetMaxMovement(), 999, army.movementMode == Army.MovementMode.Flight);
+        if (travelingUnit.Type == UnitType.SpecialMercenary && travelingUnit.HasTrait(TraitType.Eternal) == false) return;
+        var loc = StrategyPathfinder.GetPathToClosestObject(null, army, State.World.Villages.Where(s => Equals(travelingUnit.Side, s.Side)).Select(s => s.Position).ToArray(), army.GetMaxMovement(), 999, army.MovementMode == MovementMode.Flight);
         int turns = 9999;
-        Vec2i destination = null;
+        Vec2I destination = null;
         if (loc != null && loc.Count > 0)
         {
-            destination = new Vec2i(loc.Last().X, loc.Last().Y);
-            turns = StrategyPathfinder.TurnsToReach(null, army, destination, army.GetMaxMovement(), travelingUnit.HasTrait(Traits.Pathfinder));
+            destination = new Vec2I(loc.Last().X, loc.Last().Y);
+            turns = StrategyPathfinder.TurnsToReach(null, army, destination, army.GetMaxMovement(), travelingUnit.HasTrait(TraitType.Pathfinder));
         }
-        if (turns < 999)
-            CreateInvisibleTravelingArmy(travelingUnit, GetVillageAt(destination), turns);
+
+        if (turns < 999) CreateInvisibleTravelingArmy(travelingUnit, GetVillageAt(destination), turns);
     }
 
-    static internal void CreateInvisibleTravelingArmy(Unit travelingUnit, Village village, int turns)
+    internal static void CreateInvisibleTravelingArmy(Unit travelingUnit, Village village, int turns)
     {
-        if (village.travelers == null)
-            village.travelers = new List<InvisibleTravelingUnit>();
-        if (village.travelers.Where(s => s.unit == travelingUnit).Any()) //Avoid doubling up
+        if (village.travelers == null) village.travelers = new List<InvisibleTravelingUnit>();
+        if (village.travelers.Where(s => s.Unit == travelingUnit).Any()) //Avoid doubling up
             return;
         village.travelers.Add(new InvisibleTravelingUnit(travelingUnit, turns));
     }
@@ -816,22 +820,19 @@ static class StrategicUtilities
 
     internal static void SpendLevelUps(Unit unit)
     {
-        if (unit.HasEnoughExpToLevelUp() == false)
-            return;
+        if (unit.HasEnoughExpToLevelUp() == false) return;
         Stat[] stats;
 
         for (int k = 0; k < 1000; k++)
         {
             stats = unit.GetLevelUpPossibilities(unit.Predator);
-            if (unit.HasEnoughExpToLevelUp() == false)
-                break;
+            if (unit.HasEnoughExpToLevelUp() == false) break;
             unit.LevelUp(PickBest(unit, stats));
         }
     }
 
-    static Stat PickBest(Unit unit, Stat[] stats)
+    private static Stat PickBest(Unit unit, Stat[] stats)
     {
-
         float[] weight = new float[(int)Stat.None];
         float[] priority = new float[(int)Stat.None];
 
@@ -862,6 +863,7 @@ static class StrategicUtilities
                     weight[(int)Stat.Stomach] = 2;
                     weight[(int)Stat.Leadership] = 0;
                 }
+
                 break;
             case AIClass.Melee:
                 weight[(int)Stat.Strength] = 3;
@@ -946,6 +948,7 @@ static class StrategicUtilities
         {
             weight[(int)Stat.Leadership] = 4;
         }
+
         if (unit.AIClass == AIClass.Custom && unit.StatWeights != null)
         {
             for (int i = 0; i < (int)Stat.None; i++)
@@ -953,37 +956,34 @@ static class StrategicUtilities
                 weight[i] = unit.StatWeights.Weight[i];
             }
         }
+
         int highest = 0;
         for (int i = 0; i < priority.Length; i++)
         {
-            if (unit.GetStatBase((Stat)i) != 0 && stats.Contains((Stat)i))
-                priority[i] = weight[i] / unit.GetStatBase((Stat)i);
-            if (priority[i] > priority[highest])
-                highest = i;
+            if (unit.GetStatBase((Stat)i) != 0 && stats.Contains((Stat)i)) priority[i] = weight[i] / unit.GetStatBase((Stat)i);
+            if (priority[i] > priority[highest]) highest = i;
         }
-        return (Stat)highest;
 
+        return (Stat)highest;
     }
 
     internal static void TryInfiltrateRandom(Army originArmy, Unit unit)
     {
         List<MercenaryContainer> mercDestination = null;
         List<Unit> destination = null;
-        var eligibleVillages = State.World.Villages.Where(v => (v.Empire.StrategicAI != null || v.NetBoosts.MercsPerTurnAdd > 0) && RelationsManager.GetRelation(v.Side,unit.Side).Type == RelationState.Enemies).ToList();
-        if (eligibleVillages.Count == 0)
-            eligibleVillages = State.World.Villages.Where(v => (v.Empire.StrategicAI != null || v.NetBoosts.MercsPerTurnAdd > 0) && RelationsManager.GetRelation(v.Side, unit.Side).Type != RelationState.Allied).ToList();
-        if (eligibleVillages.Count == 0)
-            eligibleVillages = State.World.Villages.Where(v => RelationsManager.GetRelation(v.Side, unit.Side).Type != RelationState.Allied).ToList();
+        var eligibleVillages = State.World.Villages.Where(v => (v.Empire.StrategicAI != null || v.NetBoosts.MercsPerTurnAdd > 0) && RelationsManager.GetRelation(v.Side, unit.Side).Type == RelationState.Enemies).ToList();
+        if (eligibleVillages.Count == 0) eligibleVillages = State.World.Villages.Where(v => (v.Empire.StrategicAI != null || v.NetBoosts.MercsPerTurnAdd > 0) && RelationsManager.GetRelation(v.Side, unit.Side).Type != RelationState.Allied).ToList();
+        if (eligibleVillages.Count == 0) eligibleVillages = State.World.Villages.Where(v => RelationsManager.GetRelation(v.Side, unit.Side).Type != RelationState.Allied).ToList();
         Village chosenVillage = null;
         if (eligibleVillages.Count() > 0 && State.Rand.Next(2) < 1)
         {
             chosenVillage = eligibleVillages[State.Rand.Next(eligibleVillages.Count())];
-            if (chosenVillage.Empire.StrategicAI == null && chosenVillage.NetBoosts.MercsPerTurnAdd > 0 )
+            if (chosenVillage.Empire.StrategicAI == null && chosenVillage.NetBoosts.MercsPerTurnAdd > 0)
                 mercDestination = chosenVillage.Mercenaries;
-            else destination = chosenVillage.GetRecruitables();
+            else
+                destination = chosenVillage.GetRecruitables();
         }
-        else if (State.World.MercenaryHouses.Any() && State.Rand.Next(10) < 1)
-            mercDestination = State.World.MercenaryHouses[State.Rand.Next(State.World.MercenaryHouses.Count())].Mercenaries;
+        else if (State.World.MercenaryHouses.Any() && State.Rand.Next(10) < 1) mercDestination = State.World.MercenaryHouses[State.Rand.Next(State.World.MercenaryHouses.Count())].Mercenaries;
 
         if (destination != null)
         {
@@ -1001,20 +1001,21 @@ static class StrategicUtilities
             {
                 power = RaceParameters.GetTraitData(merc.Unit).PowerAdjustment;
             }
-            merc.Cost = (int)((25 + State.Rand.Next(15) + (.12 * unit.Experience)) * UnityEngine.Random.Range(0.8f, 1.2f) * power);
+
+            merc.Cost = (int)((25 + State.Rand.Next(15) + .12 * unit.Experience) * UnityEngine.Random.Range(0.8f, 1.2f) * power);
             mercDestination.Add(merc);
             originArmy.Units.Remove(unit);
-            Debug.Log($"{unit.Name} has infiltrated {chosenVillage?.Name ?? ("a mercanary camp")}");
+            Debug.Log($"{unit.Name} has infiltrated {chosenVillage?.Name ?? "a mercanary camp"}");
         }
+
         if (!originArmy.Units.Contains(unit))
             unit.OnDiscard = () =>
             {
-                var closestFriendlyVillage = State.World.Villages.Where(s => s.Side == unit.Side).OrderBy(s => s.Position.GetNumberOfMovesDistance(originArmy.Position)).FirstOrDefault();
-                if (closestFriendlyVillage == null)
-                    closestFriendlyVillage = State.World.Villages.Where(s => s.Empire.IsAlly(State.World.GetEmpireOfSide(unit.Side))).OrderBy(s => s.Position.GetNumberOfMovesDistance(originArmy.Position)).FirstOrDefault();
+                var closestFriendlyVillage = State.World.Villages.Where(s => Equals(s.Side, unit.Side)).OrderBy(s => s.Position.GetNumberOfMovesDistance(originArmy.Position)).FirstOrDefault();
+                if (closestFriendlyVillage == null) closestFriendlyVillage = State.World.Villages.Where(s => s.Empire.IsAlly(State.World.GetEmpireOfSide(unit.Side))).OrderBy(s => s.Position.GetNumberOfMovesDistance(originArmy.Position)).FirstOrDefault();
                 if (closestFriendlyVillage != null)
                 {
-                    StrategicUtilities.CreateInvisibleTravelingArmy(unit, closestFriendlyVillage, 1);
+                    CreateInvisibleTravelingArmy(unit, closestFriendlyVillage, 1);
                     Debug.Log(unit.Name + " is returning to " + closestFriendlyVillage.Name);
                 }
             };
@@ -1030,8 +1031,9 @@ static class StrategicUtilities
         }
         else if (village.Empire.StrategicAI == null && village.NetBoosts.MercsPerTurnAdd > 0)
             mercDestination = village.Mercenaries;
-        else destination = village.GetRecruitables();
-   
+        else
+            destination = village.GetRecruitables();
+
         if (destination != null)
         {
             destination.Add(unit);
@@ -1048,23 +1050,23 @@ static class StrategicUtilities
             {
                 power = RaceParameters.GetTraitData(merc.Unit).PowerAdjustment;
             }
-            merc.Cost = (int)((25 + State.Rand.Next(15) + (.12 * unit.Experience)) * UnityEngine.Random.Range(0.8f, 1.2f) * power);
+
+            merc.Cost = (int)((25 + State.Rand.Next(15) + .12 * unit.Experience) * UnityEngine.Random.Range(0.8f, 1.2f) * power);
             mercDestination.Add(merc);
             originArmy.Units.Remove(unit);
-            Debug.Log($"{unit.Name} has infiltrated {village?.Name ?? ("a mercanary camp")}");
+            Debug.Log($"{unit.Name} has infiltrated {village?.Name ?? "a mercanary camp"}");
         }
+
         if (!originArmy.Units.Contains(unit))
             unit.OnDiscard = () =>
-        {
-            var closestFriendlyVillage = State.World.Villages.Where(s => s.Side == unit.Side).OrderBy(s => s.Position.GetNumberOfMovesDistance(originArmy.Position)).FirstOrDefault();
-            if (closestFriendlyVillage == null)
-                closestFriendlyVillage = State.World.Villages.Where(s => s.Empire.IsAlly(State.World.GetEmpireOfSide(unit.Side))).OrderBy(s => s.Position.GetNumberOfMovesDistance(originArmy.Position)).FirstOrDefault();
-            if (closestFriendlyVillage != null)
             {
-                StrategicUtilities.CreateInvisibleTravelingArmy(unit, closestFriendlyVillage, 1);
-                Debug.Log(unit.Name + " is returning to " + closestFriendlyVillage.Name);
-            }
-        };
+                var closestFriendlyVillage = State.World.Villages.Where(s => Equals(s.Side, unit.Side)).OrderBy(s => s.Position.GetNumberOfMovesDistance(originArmy.Position)).FirstOrDefault();
+                if (closestFriendlyVillage == null) closestFriendlyVillage = State.World.Villages.Where(s => s.Empire.IsAlly(State.World.GetEmpireOfSide(unit.Side))).OrderBy(s => s.Position.GetNumberOfMovesDistance(originArmy.Position)).FirstOrDefault();
+                if (closestFriendlyVillage != null)
+                {
+                    CreateInvisibleTravelingArmy(unit, closestFriendlyVillage, 1);
+                    Debug.Log(unit.Name + " is returning to " + closestFriendlyVillage.Name);
+                }
+            };
     }
 }
-

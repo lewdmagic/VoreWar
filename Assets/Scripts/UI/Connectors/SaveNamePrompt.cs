@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class SaveNamePrompt : MonoBehaviour
 {
-
     public InputField Name;
 
     public Button Save;
@@ -12,5 +11,4 @@ public class SaveNamePrompt : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
 }

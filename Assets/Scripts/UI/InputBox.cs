@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class InputBox : MonoBehaviour
 {
-    bool stringMode = false;
-    Action<int> YesAction;
-    Action<string> YesActionString;
-    Action NoAction;
+    private bool _stringMode = false;
+    private Action<int> _yesAction;
+    private Action<string> _yesActionString;
+    private Action _noAction;
     public TMP_InputField InputField;
     public Button Yes;
     public Button No;
@@ -17,12 +17,12 @@ public class InputBox : MonoBehaviour
     public void SetData(Action<int> action, string yesText, string noText, string mainText, int characterLimit, Action noAction = null)
     {
         State.GameManager.ActiveInput = true;
-        stringMode = false;
-        YesAction = action;
+        _stringMode = false;
+        _yesAction = action;
         Yes.GetComponentInChildren<Text>().text = yesText;
         No.GetComponentInChildren<Text>().text = noText;
         Text.text = mainText;
-        NoAction = noAction;
+        _noAction = noAction;
         InputField.characterLimit = characterLimit;
         InputField.ActivateInputField();
     }
@@ -30,21 +30,20 @@ public class InputBox : MonoBehaviour
     public void SetData(Action<string> action, string yesText, string noText, string mainText, int characterLimit, Action noAction = null)
     {
         State.GameManager.ActiveInput = true;
-        stringMode = true;
+        _stringMode = true;
         InputField.contentType = TMP_InputField.ContentType.Standard;
-        YesActionString = action;
+        _yesActionString = action;
         Yes.GetComponentInChildren<Text>().text = yesText;
         No.GetComponentInChildren<Text>().text = noText;
         Text.text = mainText;
-        NoAction = noAction;
+        _noAction = noAction;
         InputField.characterLimit = characterLimit;
         InputField.ActivateInputField();
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Menu") && NoAction == null)
-            NoClicked();
+        if (Input.GetButtonDown("Menu") && _noAction == null) NoClicked();
     }
 
     public void ActivateTypeMethod(Func<string, string> getYesValue)
@@ -54,27 +53,27 @@ public class InputBox : MonoBehaviour
 
     public void YesClicked()
     {
-        if (stringMode == false && int.TryParse(InputField.text, out int result))
+        if (_stringMode == false && int.TryParse(InputField.text, out int result))
         {
-            YesAction?.Invoke(result);
+            _yesAction?.Invoke(result);
         }
-        else if (stringMode)
+        else if (_stringMode)
         {
-            YesActionString?.Invoke(InputField.text);
+            _yesActionString?.Invoke(InputField.text);
         }
         else
         {
             State.GameManager.CreateMessageBox("Invalid value");
         }
+
         State.GameManager.ActiveInput = false;
         Destroy(gameObject);
     }
 
     public void NoClicked()
     {
-        NoAction?.Invoke();
+        _noAction?.Invoke();
         State.GameManager.ActiveInput = false;
         Destroy(gameObject);
     }
-
 }

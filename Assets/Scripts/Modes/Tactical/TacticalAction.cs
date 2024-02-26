@@ -3,31 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-struct AcceptibleTargets
+internal struct AcceptibleTargets
 {
     internal AbilityTargets[] Targets;
 
     public AcceptibleTargets(AbilityTargets[] targets, int minRange, int maxRange)
     {
         Targets = targets;
-
     }
 }
 
 
-
-class TargetedTacticalAction
+internal class TargetedTacticalAction
 {
     internal string Name;
     internal bool RequiresPred;
-    internal Predicate<Actor_Unit> AppearConditional;
-    internal int MinimumMP;
+    internal Predicate<ActorUnit> AppearConditional;
+    internal int MinimumMp;
     internal Color ButtonColor;
     internal Action OnClicked;
-    internal Func<Actor_Unit, Actor_Unit, bool> OnExecute;
-    internal Func<Actor_Unit, Vec2i, bool> OnExecuteLocation;
+    internal Func<ActorUnit, ActorUnit, bool> OnExecute;
+    internal Func<ActorUnit, Vec2I, bool> OnExecuteLocation;
 
-    public TargetedTacticalAction(string name, bool requiresPred, Predicate<Actor_Unit> conditional, Action onClicked, Func<Actor_Unit, Actor_Unit, bool> onExecute, Func<Actor_Unit, Vec2i, bool> onExecuteLocation = null, int minimumMp = 1, Color color = default)
+    public TargetedTacticalAction(string name, bool requiresPred, Predicate<ActorUnit> conditional, Action onClicked, Func<ActorUnit, ActorUnit, bool> onExecute, Func<ActorUnit, Vec2I, bool> onExecuteLocation = null, int minimumMp = 1, Color color = default)
     {
         Name = name;
         RequiresPred = requiresPred;
@@ -35,7 +33,7 @@ class TargetedTacticalAction
         OnClicked = onClicked;
         OnExecute = onExecute;
         OnExecuteLocation = onExecuteLocation;
-        MinimumMP = minimumMp;
+        MinimumMp = minimumMp;
         if (color == default)
             ButtonColor = new Color(.669f, .753f, 1);
         else
@@ -43,14 +41,14 @@ class TargetedTacticalAction
     }
 }
 
-class UntargetedTacticalAction
+internal class UntargetedTacticalAction
 {
     internal Color ButtonColor;
     internal string Name;
     internal Action OnClicked;
-    internal Predicate<Actor_Unit> AppearConditional;
+    internal Predicate<ActorUnit> AppearConditional;
 
-    public UntargetedTacticalAction(string name, Action onClicked, Predicate<Actor_Unit> conditional, Color color = default)
+    public UntargetedTacticalAction(string name, Action onClicked, Predicate<ActorUnit> conditional, Color color = default)
     {
         Name = name;
         OnClicked = onClicked;
@@ -62,12 +60,12 @@ class UntargetedTacticalAction
     }
 }
 
-static class TacticalActionList
+internal static class TacticalActionList
 {
-    static internal List<TargetedTacticalAction> TargetedActions;
-    static internal List<UntargetedTacticalAction> UntargetedActions;
+    internal static List<TargetedTacticalAction> TargetedActions;
+    internal static List<UntargetedTacticalAction> UntargetedActions;
 
-    static internal Dictionary<SpecialAction, TargetedTacticalAction> TargetedDictionary;
+    internal static Dictionary<SpecialAction, TargetedTacticalAction> TargetedDictionary;
 
     static TacticalActionList()
     {
@@ -108,11 +106,11 @@ static class TacticalActionList
         TargetedDictionary[SpecialAction.CockVore] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
-          name: "Anal Vore",
-          requiresPred: true,
-          conditional: (a) => a.Unit.CanAnalVore && State.RaceSettings.GetVoreTypes(a.Unit.Race).Contains(VoreType.Anal),
-          onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.AnalVore),
-          onExecute: (a, t) => a.PredatorComponent.AnalVore(t)));
+            name: "Anal Vore",
+            requiresPred: true,
+            conditional: (a) => a.Unit.CanAnalVore && State.RaceSettings.GetVoreTypes(a.Unit.Race).Contains(VoreType.Anal),
+            onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.AnalVore),
+            onExecute: (a, t) => a.PredatorComponent.AnalVore(t)));
         TargetedDictionary[SpecialAction.AnalVore] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
@@ -153,7 +151,7 @@ static class TacticalActionList
             requiresPred: true,
             conditional: (a) => a.PredatorComponent?.CanFeed() ?? false,
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.BreastFeed),
-            onExecute: (a, t) => { return t.Unit.Side == a.Unit.Side ? a.PredatorComponent.Feed(t) : false; }));
+            onExecute: (a, t) => { return Equals(t.Unit.Side, a.Unit.Side) ? a.PredatorComponent.Feed(t) : false; }));
         TargetedDictionary[SpecialAction.BreastFeed] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
@@ -169,13 +167,13 @@ static class TacticalActionList
             requiresPred: true,
             conditional: (a) => a.PredatorComponent?.CanFeedCum() ?? false,
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.CumFeed),
-            onExecute: (a, t) => { return t.Unit.Side == a.Unit.Side && t.Unit != a.Unit ? a.PredatorComponent.FeedCum(t) : false; }));
+            onExecute: (a, t) => { return Equals(t.Unit.Side, a.Unit.Side) && t.Unit != a.Unit ? a.PredatorComponent.FeedCum(t) : false; }));
         TargetedDictionary[SpecialAction.CumFeed] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
             name: "Melee Pounce",
             requiresPred: false,
-            conditional: (a) => a.Unit.HasTrait(Traits.Pounce),
+            conditional: (a) => a.Unit.HasTrait(TraitType.Pounce),
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.PounceMelee),
             onExecute: (a, t) => a.MeleePounce(t),
             minimumMp: 2));
@@ -185,25 +183,25 @@ static class TacticalActionList
         TargetedActions.Add(new TargetedTacticalAction(
             name: "Vore Pounce",
             requiresPred: true,
-            conditional: (a) => a.Unit.HasTrait(Traits.Pounce) && a.Unit.Predator,
+            conditional: (a) => a.Unit.HasTrait(TraitType.Pounce) && a.Unit.Predator,
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.PounceVore),
             onExecute: (a, t) => a.VorePounce(t),
             minimumMp: 2));
         TargetedDictionary[SpecialAction.PounceVore] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
-           name: "Shun Goku Satsu",
-           requiresPred: false,
-           conditional: (a) => a.Unit.HasTrait(Traits.ShunGokuSatsu) && a.TurnUsedShun + 3 <= State.GameManager.TacticalMode.currentTurn,
-           onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.ShunGokuSatsu),
-           onExecute: (a, t) => a.ShunGokuSatsu(t),
-           minimumMp: 1));
+            name: "Shun Goku Satsu",
+            requiresPred: false,
+            conditional: (a) => a.Unit.HasTrait(TraitType.ShunGokuSatsu) && a.TurnUsedShun + 3 <= State.GameManager.TacticalMode.CurrentTurn,
+            onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.ShunGokuSatsu),
+            onExecute: (a, t) => a.ShunGokuSatsu(t),
+            minimumMp: 1));
         TargetedDictionary[SpecialAction.ShunGokuSatsu] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
             name: "Regurgitate",
             requiresPred: true,
-            conditional: (a) => a.PredatorComponent?.AlivePrey > 0 && a.Unit.HasTrait(Traits.Greedy) == false,
+            conditional: (a) => a.PredatorComponent?.AlivePrey > 0 && a.Unit.HasTrait(TraitType.Greedy) == false,
             onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.Regurgitate),
             onExecute: null,
             onExecuteLocation: (a, l) => a.Regurgitate(a, l),
@@ -211,20 +209,19 @@ static class TacticalActionList
         TargetedDictionary[SpecialAction.Regurgitate] = TargetedActions.Last();
 
         TargetedActions.Add(new TargetedTacticalAction(
-          name: "Tail Strike",
-          requiresPred: false,
-          conditional: (a) => a.Unit.HasTrait(Traits.TailStrike),
-          onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.TailStrike),
-          onExecute: (a, t) => a.TailStrike(t),
-          minimumMp: 1));
+            name: "Tail Strike",
+            requiresPred: false,
+            conditional: (a) => a.Unit.HasTrait(TraitType.TailStrike),
+            onClicked: () => State.GameManager.TacticalMode.TrySetSpecialMode(SpecialAction.TailStrike),
+            onExecute: (a, t) => a.TailStrike(t),
+            minimumMp: 1));
         TargetedDictionary[SpecialAction.TailStrike] = TargetedActions.Last();
 
 
         //UntargetedActions.Add(new UntargetedTacticalAction("Shapeshift", () => State.GameManager.TacticalMode.ButtonCallback(16), (a) => a.Unit.ShifterShapes != null && a.Unit.ShifterShapes.Count > 1));
         UntargetedActions.Add(new UntargetedTacticalAction("Flee", () => State.GameManager.TacticalMode.ButtonCallback(10), (a) => true));
         UntargetedActions.Add(new UntargetedTacticalAction("Surrender", () => State.GameManager.TacticalMode.ButtonCallback(9), (a) => true, new Color(.9f, .65f, .65f)));
-        UntargetedActions.Add(new UntargetedTacticalAction("Reveal", () => State.GameManager.TacticalMode.ButtonCallback(15), (a) => a.Unit.hiddenFixedSide && TacticalUtilities.PlayerCanSeeTrueSide(a.Unit)));
-        UntargetedActions.Add(new UntargetedTacticalAction("Defect", () => State.GameManager.TacticalMode.ButtonCallback(14), (a) => a.allowedToDefect));
+        UntargetedActions.Add(new UntargetedTacticalAction("Reveal", () => State.GameManager.TacticalMode.ButtonCallback(15), (a) => a.Unit.HiddenFixedSide && TacticalUtilities.PlayerCanSeeTrueSide(a.Unit)));
+        UntargetedActions.Add(new UntargetedTacticalAction("Defect", () => State.GameManager.TacticalMode.ButtonCallback(14), (a) => a.AllowedToDefect));
     }
 }
-

@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.AI
 {
-    class ActionStep
+    internal class ActionStep
     {
     }
 }

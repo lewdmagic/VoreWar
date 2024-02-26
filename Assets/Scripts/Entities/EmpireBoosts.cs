@@ -6,7 +6,7 @@ public class EmpireBoosts
 
     public void ResetValues()
     {
-        this.WealthAdd = 0;
-        this.StartingExpAdd = 0;
+        WealthAdd = 0;
+        StartingExpAdd = 0;
     }
 }

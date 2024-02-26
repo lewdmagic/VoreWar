@@ -6,22 +6,47 @@ using System.Linq;
 
 public class World
 {
-    internal const int MonsterCount = 32;
     [OdinSerialize]
-    public int Turn = 1;
+    private int _turn = 1;
+
+    public int Turn { get => _turn; set => _turn = value; }
+
     [OdinSerialize]
-    public string SaveVersion;
+    private string _saveVersion;
+
+    public string SaveVersion { get => _saveVersion; set => _saveVersion = value; }
+
     [OdinSerialize]
-    public List<Empire> EmpireOrder;
+    private List<Empire> _empireOrder;
+
+    public List<Empire> EmpireOrder { get => _empireOrder; set => _empireOrder = value; }
     public StrategicTileType[,] Tiles;
     public StrategicDoodadType[,] Doodads;
     public Village[] Villages;
 
-    public List<Empire> MainEmpires;
+    public IReadOnlyList<Empire> MainEmpires => MainEmpiresWritable;
+    public List<Empire> MainEmpiresWritable;
+
+    public List<Empire> AllActiveEmpiresWritable;
+    public IEnumerable<Empire> AllActiveEmpires => AllActiveEmpiresWritable;
+    public int AllActiveEmpiresCount => AllActiveEmpiresWritable.Count;
+
+    ///////////////////////////////////
+    ///////////////////////////////////
+
+    internal void SortMainEmpiresBySide()
+    {
+        MainEmpiresWritable = MainEmpiresWritable.OrderBy(s => s.Side).ToList();
+    }
+
+    ///////////////////////////////////
+
+
     /// <summary>
-    /// Deprecated, only left in for compatibility
+    ///     Deprecated, only left in for compatibility
     /// </summary>
     public Empire[] Empires;
+
     public Empire ActingEmpire;
     public ItemRepository ItemRepository;
     public WorldConfig ConfigStorage;
@@ -29,52 +54,62 @@ public class World
     public TacticalData TacticalData;
 
     [OdinSerialize]
-    internal Dictionary<int, Dictionary<int, Relationship>> Relations;
-
-
+    internal Dictionary<Side, Dictionary<Side, Relationship>> Relations = new Dictionary<Side, Dictionary<Side, Relationship>>();
 
     [OdinSerialize]
-    public bool crazyBuildings = false;
+    private bool _crazyBuildings = false;
+
+    public bool CrazyBuildings { get => _crazyBuildings; set => _crazyBuildings = value; }
 
     [OdinSerialize]
-    internal SavedCameraState SavedCameraState;
+    private SavedCameraState _savedCameraState;
+
+    internal SavedCameraState SavedCameraState { get => _savedCameraState; set => _savedCameraState = value; }
 
     public MonsterEmpire[] MonsterEmpires;
 
     public MercenaryHouse[] MercenaryHouses;
-    [OdinSerialize]
-    internal ClaimableBuilding[] Claimables;
-
-    public List<Empire> AllActiveEmpires;
 
     [OdinSerialize]
-    public List<Reincarnator> Reincarnators;
+    private ClaimableBuilding[] _claimables;
+
+    internal ClaimableBuilding[] Claimables { get => _claimables; set => _claimables = value; }
+
 
     [OdinSerialize]
-    public bool IsNight = false;
-	
-    public World(bool MapEditorVersion)
+    private List<Reincarnator> _reincarnators;
+
+    public List<Reincarnator> Reincarnators { get => _reincarnators; set => _reincarnators = value; }
+
+    [OdinSerialize]
+    private bool _isNight = false;
+
+    public bool IsNight { get => _isNight; set => _isNight = value; }
+
+    public World(bool mapEditorVersion)
     {
-
-        Config.World.VillagesPerEmpire = new int[Config.NumberOfRaces];
-        Config.CenteredEmpire = new bool[Config.NumberOfRaces];
+        Config.World.ResetVillagesPerEmpire();
+        Config.ResetCenteredEmpire();
         State.World = this;
         ConfigStorage = Config.World;
         ItemRepository = new ItemRepository();
-        if (MapEditorVersion)
+        if (mapEditorVersion)
         {
-            MainEmpires = new List<Empire>();
+            MainEmpiresWritable = new List<Empire>();
             Villages = new Village[0];
-            for (int i = 0; i < Config.NumberOfRaces; i++)
+            foreach (Race race in RaceFuncs.MainRaceEnumerable())
             {
-                int bannerType = State.RaceSettings.Exists((Race)i) ? State.RaceSettings.Get((Race)i).BannerType : 1;
-                MainEmpires.Add(new Empire(new Empire.ConstructionArgs(i, CreateStrategicGame.ColorFromIndex(i), UnityEngine.Color.white, bannerType, StrategyAIType.None, TacticalAIType.None, 0, 16, 16)));
+                int bannerType = State.RaceSettings.Exists(race) ? State.RaceSettings.Get(race).BannerType : 1;
+                MainEmpiresWritable.Add(new Empire(new Empire.ConstructionArgs(race, race.ToSide(), CreateStrategicGame.ColorFromRace(race), UnityEngine.Color.white, bannerType, StrategyAIType.None, TacticalAIType.None, 0, 16, 16)));
             }
+
             WorldGenerator worldGen = new WorldGenerator();
             worldGen.GenerateOnlyTerrain(ref Tiles);
             Doodads = new StrategicDoodadType[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
         }
-        AllActiveEmpires = MainEmpires;
+
+        // Make a copy instead of copying referrence
+        AllActiveEmpiresWritable = MainEmpiresWritable?.ToList();
         MercenaryHouses = new MercenaryHouse[0];
         Claimables = new ClaimableBuilding[0];
     }
@@ -88,7 +123,7 @@ public class World
         if (map == null)
         {
             WorldGenerator worldGen = new WorldGenerator();
-            int empireCount = Config.VillagesPerEmpire.Where(s => s > 0).Count();
+            int empireCount = Config.World.VillagesPerEmpire.Values.Where(s => s > 0).Count();
             worldGen.GenerateWorld(ref Tiles, ref Villages, args.Team, args.MapGen);
             Claimables = new ClaimableBuilding[0];
             worldGen.PlaceMercenaryHouses(args.MercCamps);
@@ -103,32 +138,46 @@ public class World
             MapVillagePopulator pop = new MapVillagePopulator(Tiles);
             pop.PopulateVillages(map, ref Villages);
             pop.PopulateMercenaryHouses(map, ref MercenaryHouses);
-            pop.PopulateClaimables(map, ref Claimables);
+            pop.PopulateClaimables(map, ref _claimables);
         }
 
 
-        MainEmpires = new List<Empire>();
-        for (int i = 0; i < Config.NumberOfRaces; i++)
+        MainEmpiresWritable = new List<Empire>();
+        foreach (Race race in RaceFuncs.MainRaceEnumerable())
         {
-            MainEmpires.Add(new Empire(args.empireArgs[i]));
+            MainEmpiresWritable.Add(new Empire(args.EmpireArgs[race]));
         }
-        for (int i = 0; i < MainEmpires.Count; i++)
+
+        // for (int i = 0; i < MainEmpires.Count; i++)
+        // {
+        //     MainEmpires[i].CalcIncome(Villages);
+        //     MainEmpires[i].CanVore = args.CanVore[RaceFuncs.IntToRace(i)]; // wrong int cast to Race
+        //     MainEmpires[i].TurnOrder = args.TurnOrder[RaceFuncs.IntToRace(i)];
+        // }
+        foreach (Empire empire in MainEmpires)
         {
-            MainEmpires[i].CalcIncome(Villages);
-            MainEmpires[i].CanVore = args.CanVore[i];
-            MainEmpires[i].TurnOrder = args.TurnOrder[i];
+            empire.CalcIncome(Villages);
+            empire.CanVore = args.CanVore[empire.Race];
+            empire.TurnOrder = args.TurnOrder[empire.Race];
         }
-        MainEmpires.Add(new Empire(new Empire.ConstructionArgs(700, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 700, 16, 16)));
-        MainEmpires.Last().Name = "Rebels";
-        MainEmpires.Last().ReplacedRace = Race.Tigers;
-        MainEmpires.Add(new Empire(new Empire.ConstructionArgs(701, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16)));
-        MainEmpires.Last().Name = "Bandits";
-        /*         MainEmpires.Add(new Empire(new Empire.ConstructionArgs(702, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 702, 16, 16)));
+
+
+        Empire rebelsEmpire = new Empire(new Empire.ConstructionArgs(null, Side.RebelSide, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 700, 16, 16));
+        rebelsEmpire.Name = "Rebels";
+        rebelsEmpire.ReplacedRace = Race.Tiger;
+        MainEmpiresWritable.Add(rebelsEmpire);
+
+        Empire banditsEmpire = new Empire(new Empire.ConstructionArgs(null, Side.BanditSide, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 701, 16, 16));
+        banditsEmpire.Name = "Bandits";
+        MainEmpiresWritable.Add(banditsEmpire);
+
+
+        /*      MainEmpires.Add(new Empire(new Empire.ConstructionArgs(702, UnityEngine.Color.red, new UnityEngine.Color(.6f, 0, 0), 5, StrategyAIType.Basic, TacticalAIType.Full, 702, 16, 16)));
                 MainEmpires.Last().Name = "Outcasts";
                 MainEmpires.Last().ReplacedRace = Race.Tigers; */
         UpdateBanditLimits();
-        crazyBuildings = args.crazyBuildings;
-        VillageBuildingList.SetBuildings(crazyBuildings);
+        CrazyBuildings = args.CrazyBuildings;
+        VillageBuildingList.SetBuildings(CrazyBuildings);
 
 
         ItemRepository = new ItemRepository();
@@ -147,8 +196,6 @@ public class World
         State.GameManager.StrategyMode.RebuildSpawners();
         MercenaryHouse.UpdateStaticStock();
         RenameBunnyTownsAsPreyTowns();
-
-
     }
 
     internal void UpdateBanditLimits()
@@ -157,25 +204,17 @@ public class World
         int minArmySize = 48;
         foreach (var empire in MainEmpires)
         {
-
-
-            if (empire.Side < 100)
+            if (RaceFuncs.IsMainRaceOrMerc(empire.Side))
             {
-                if (empire.KnockedOut)
-                    continue;
-                if (empire.MaxGarrisonSize < minGarrison)
-                    minGarrison = empire.MaxGarrisonSize;
-                if (empire.MaxArmySize < minArmySize)
-                    minArmySize = empire.MaxArmySize;
+                if (empire.KnockedOut) continue;
+                if (empire.MaxGarrisonSize < minGarrison) minGarrison = empire.MaxGarrisonSize;
+                if (empire.MaxArmySize < minArmySize) minArmySize = empire.MaxArmySize;
             }
             else
             {
                 empire.MaxArmySize = minArmySize;
                 empire.MaxGarrisonSize = minGarrison;
             }
-
-
-
         }
     }
 
@@ -191,68 +230,45 @@ public class World
             {
                 foreach (var army in monsterArmies)
                 {
-                    if (army.Side == empire.Side)
+                    if (Equals(army.Side, empire.Side))
                     {
                         empire.Armies.Add(army);
                         army.SetEmpire(empire);
                     }
                 }
+
                 if (oldMons.Length < i) //Not sure how this would trigger, but this conditional is intended to stop an exception that's happening.  
                 {
                     empire.ReplacedRace = oldMons[i].ReplacedRace;
                     i++;
                 }
-
             }
         }
-
     }
 
     internal void InitializeMonsters()
     {
-        MonsterEmpires = new MonsterEmpire[MonsterCount];
-        MonsterEmpires[0] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Vagrants, UnityEngine.Color.white, UnityEngine.Color.white, 9, StrategyAIType.Monster, TacticalAIType.Full, 996, 32, 0));
-        MonsterEmpires[1] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Serpents, UnityEngine.Color.white, UnityEngine.Color.white, 22, StrategyAIType.Monster, TacticalAIType.Full, 997, 32, 0));
-        MonsterEmpires[2] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Wyvern, UnityEngine.Color.white, UnityEngine.Color.white, 23, StrategyAIType.Monster, TacticalAIType.Full, 998, 32, 0));
-        MonsterEmpires[3] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Compy, UnityEngine.Color.white, UnityEngine.Color.white, 25, StrategyAIType.Monster, TacticalAIType.Full, 999, 32, 0));
-        MonsterEmpires[4] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.FeralSharks, UnityEngine.Color.white, UnityEngine.Color.white, 26, StrategyAIType.Monster, TacticalAIType.Full, 1000, 32, 0));
-        MonsterEmpires[5] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.FeralWolves, UnityEngine.Color.white, UnityEngine.Color.white, 27, StrategyAIType.Monster, TacticalAIType.Full, 1001, 32, 0));
-        MonsterEmpires[6] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Cake, UnityEngine.Color.white, UnityEngine.Color.white, 28, StrategyAIType.Monster, TacticalAIType.Full, 1002, 32, 0));
-        MonsterEmpires[7] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Goblins, UnityEngine.Color.white, UnityEngine.Color.white, 30, StrategyAIType.Goblin, TacticalAIType.Full, -200, 32, 0));
-        MonsterEmpires[8] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Harvesters, UnityEngine.Color.white, UnityEngine.Color.white, 31, StrategyAIType.Monster, TacticalAIType.Full, 1003, 32, 0));
-        MonsterEmpires[9] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Voilin, UnityEngine.Color.white, UnityEngine.Color.white, 32, StrategyAIType.Monster, TacticalAIType.Full, 1004, 32, 0));
-        MonsterEmpires[10] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.FeralBats, UnityEngine.Color.white, UnityEngine.Color.white, 33, StrategyAIType.Monster, TacticalAIType.Full, 1005, 32, 0));
-        MonsterEmpires[11] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.FeralFrogs, UnityEngine.Color.white, UnityEngine.Color.white, 34, StrategyAIType.Monster, TacticalAIType.Full, 1006, 32, 0));
-        MonsterEmpires[12] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Dragon, UnityEngine.Color.white, UnityEngine.Color.white, 35, StrategyAIType.Monster, TacticalAIType.Full, 1007, 32, 0));
-        MonsterEmpires[13] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Dragonfly, UnityEngine.Color.white, UnityEngine.Color.white, 36, StrategyAIType.Monster, TacticalAIType.Full, 1008, 32, 0));
-        MonsterEmpires[14] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.TwistedVines, UnityEngine.Color.white, UnityEngine.Color.white, 41, StrategyAIType.Monster, TacticalAIType.Full, 1009, 32, 0));
-        MonsterEmpires[15] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Fairies, UnityEngine.Color.white, UnityEngine.Color.white, 42, StrategyAIType.Monster, TacticalAIType.Full, 1010, 32, 0));
-        MonsterEmpires[16] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.FeralAnts, UnityEngine.Color.white, UnityEngine.Color.white, 43, StrategyAIType.Monster, TacticalAIType.Full, 1011, 32, 0));
-        MonsterEmpires[17] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Gryphons, UnityEngine.Color.white, UnityEngine.Color.white, 44, StrategyAIType.Monster, TacticalAIType.Full, 1012, 32, 0));
-        MonsterEmpires[18] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.RockSlugs, UnityEngine.Color.white, UnityEngine.Color.white, 45, StrategyAIType.Monster, TacticalAIType.Full, 1013, 32, 0));
-        MonsterEmpires[19] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Salamanders, UnityEngine.Color.white, UnityEngine.Color.white, 46, StrategyAIType.Monster, TacticalAIType.Full, 1014, 32, 0));
-        MonsterEmpires[20] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Mantis, UnityEngine.Color.white, UnityEngine.Color.white, 47, StrategyAIType.Monster, TacticalAIType.Full, 1015, 32, 0));
-        MonsterEmpires[21] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.EasternDragon, UnityEngine.Color.white, UnityEngine.Color.white, 48, StrategyAIType.Monster, TacticalAIType.Full, 1016, 32, 0));
-        MonsterEmpires[22] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Catfish, UnityEngine.Color.white, UnityEngine.Color.white, 49, StrategyAIType.Monster, TacticalAIType.Full, 1017, 32, 0));
-        MonsterEmpires[23] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Gazelle, UnityEngine.Color.white, UnityEngine.Color.white, 50, StrategyAIType.Monster, TacticalAIType.Full, 1018, 32, 0));
-        MonsterEmpires[24] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Earthworms, UnityEngine.Color.white, UnityEngine.Color.white, 51, StrategyAIType.Monster, TacticalAIType.Full, 1019, 32, 0));
-        MonsterEmpires[25] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.FeralLizards, UnityEngine.Color.white, UnityEngine.Color.white, 52, StrategyAIType.Monster, TacticalAIType.Full, 1020, 32, 0));
-        MonsterEmpires[26] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Monitors, UnityEngine.Color.white, UnityEngine.Color.white, 53, StrategyAIType.Monster, TacticalAIType.Full, 1021, 32, 0));
-        MonsterEmpires[27] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Schiwardez, UnityEngine.Color.white, UnityEngine.Color.white, 54, StrategyAIType.Monster, TacticalAIType.Full, 1022, 32, 0));
-        MonsterEmpires[28] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Terrorbird, UnityEngine.Color.white, UnityEngine.Color.white, 55, StrategyAIType.Monster, TacticalAIType.Full, 1023, 32, 0));
-        MonsterEmpires[29] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Dratopyr, UnityEngine.Color.white, UnityEngine.Color.white, 56, StrategyAIType.Monster, TacticalAIType.Full, 1024, 32, 0));
-        MonsterEmpires[30] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.FeralLions, UnityEngine.Color.white, UnityEngine.Color.white, 57, StrategyAIType.Monster, TacticalAIType.Full, 1337, 32, 0));
-        MonsterEmpires[31] = new MonsterEmpire(new Empire.ConstructionArgs((int)Race.Goodra, UnityEngine.Color.white, UnityEngine.Color.white, 58, StrategyAIType.Monster, TacticalAIType.Full, 1025, 32, 0));
-		foreach (var emp in MonsterEmpires)
+        MonsterEmpires = new MonsterEmpire[RaceFuncs.SpawnerElligibleMonsterRaces.Count];
+        int i = 0;
+        foreach (var entry in RaceFuncs.SpawnerElligibleMonsterRaces)
         {
-            SpawnerInfo spawner = Config.SpawnerInfo(emp.Race);
-            if (spawner == null)
-                continue;
+            Race race = entry.Key;
+            RaceFuncs.MonsterData data = entry.Value;
+            MonsterEmpires[i] = new MonsterEmpire(new Empire.ConstructionArgs(race, race.ToSide(), UnityEngine.Color.white, UnityEngine.Color.white, data.BannerType, data.StrategicAI, data.TacticalAI, data.Team, data.MaxArmySize, data.MaxGarrisonSize));
+
+            i++;
+        }
+
+        foreach (var emp in MonsterEmpires)
+        {
+            SpawnerInfo spawner = Config.World.GetSpawner(emp.Race);
+            if (spawner == null) continue;
             emp.Team = spawner.Team;
         }
+
         List<Empire> allEmps = MainEmpires.ToList();
         allEmps.AddRange(MonsterEmpires);
-        AllActiveEmpires = allEmps;
+        AllActiveEmpiresWritable = allEmps;
     }
 
     internal void RefreshEmpires()
@@ -262,22 +278,21 @@ public class World
             InitializeMonsters();
             return;
         }
+
         List<Empire> allEmps = MainEmpires.ToList();
         allEmps.AddRange(MonsterEmpires);
-        AllActiveEmpires = allEmps;
+        AllActiveEmpiresWritable = allEmps;
     }
 
     internal void PopulateMonsterTurnOrders()
     {
         foreach (var empire in MonsterEmpires)
         {
-            SpawnerInfo spawner = Config.SpawnerInfo(empire.Race);
-            if (spawner == null)
-                continue;
+            SpawnerInfo spawner = Config.World.GetSpawner(empire.Race);
+            if (spawner == null) continue;
             empire.TurnOrder = spawner.TurnOrder;
             empire.Team = spawner.Team;
         }
-
     }
 
     internal void RefreshTurnOrder()
@@ -287,30 +302,28 @@ public class World
 
     internal Empire GetEmpireOfRace(Race race)
     {
-        if (AllActiveEmpires == null)
-            return null;
-        for (int i = 0; i < AllActiveEmpires.Count; i++)
+        if (AllActiveEmpires == null) return null;
+        foreach (Empire empire in AllActiveEmpires)
         {
-            if (AllActiveEmpires[i].Race == race)
-                return AllActiveEmpires[i];
+            if (Equals(empire.Race, race)) return empire;
         }
-        for (int i = 0; i < AllActiveEmpires.Count; i++)
+
+        foreach (Empire empire in AllActiveEmpires)
         {
-            if (AllActiveEmpires[i].ReplacedRace == race)
-                return AllActiveEmpires[i];
+            if (Equals(empire.ReplacedRace, race)) return empire;
         }
+
         return null;
     }
 
-    internal Empire GetEmpireOfSide(int side)
+    internal Empire GetEmpireOfSide(Side side)
     {
-        if (AllActiveEmpires == null)
-            return null;
-        for (int i = 0; i < AllActiveEmpires.Count; i++)
+        if (AllActiveEmpires == null) return null;
+        foreach (Empire empire in AllActiveEmpires)
         {
-            if (AllActiveEmpires[i].Side == side)
-                return AllActiveEmpires[i];
+            if (Equals(empire.Side, side)) return empire;
         }
+
         return null;
     }
 
@@ -318,13 +331,13 @@ public class World
     {
         int nameIndex = 1;
 
-        foreach (Village village in Villages.Where(s => s.Race == Race.Bunnies && s.Empire.CanVore == false))
+        foreach (Village village in Villages.Where(s => Equals(s.Race, Race.Bunny) && s.Empire.CanVore == false))
         {
             if (village.Capital)
-                village.Name = State.NameGen.GetAlternateTownName(Race.Bunnies, 0);
+                village.Name = State.NameGen.GetAlternateTownName(Race.Bunny, 0);
             else
             {
-                village.Name = State.NameGen.GetAlternateTownName(Race.Bunnies, nameIndex);
+                village.Name = State.NameGen.GetAlternateTownName(Race.Bunny, nameIndex);
                 nameIndex++;
             }
         }

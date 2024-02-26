@@ -32,7 +32,7 @@ public class TacticalTileDictionary : MonoBehaviour
     public Sprite[] VolcanicOverGravelSptites;
     public Sprite[] PathSprites;
 
-    void Start()
+    private void Start()
     {
         if (PlayerPrefs.GetInt("DesaturatedTiles", 0) == 1)
         {
@@ -46,6 +46,7 @@ public class TacticalTileDictionary : MonoBehaviour
             RocksOverSand = CreateTiles(RocksOverSandSprites);
             SnowEnviroment = CreateTiles(SnowEnviromentSprites);
         }
+
         TileTypes = CreateTiles(TileSprites);
         VolcanicTileTypes = CreateTiles(VolcanicTileSprites);
         RocksOverTar = CreateTiles(RocksOverTarSprites);
@@ -64,8 +65,8 @@ public class TacticalTileDictionary : MonoBehaviour
                 temptiles[i] = ScriptableObject.CreateInstance<Tile>();
                 temptiles[i].sprite = sprites[i];
             }
+
             return temptiles;
         }
     }
-
 }

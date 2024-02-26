@@ -25,13 +25,13 @@ public class VillageBuildingDefinition
         Description = desc;
     }
 
-    static public BuildingCost GetCost(VillageBuilding building, int amount = 1)
+    public static BuildingCost GetCost(VillageBuilding building, int amount = 1)
     {
         var def = VillageBuildingList.GetBuildingDefinition(building);
         return GetCost(def, amount);
     }
 
-    static public BuildingCost GetCost(VillageBuildingDefinition buildingDef, int amount = 1)
+    public static BuildingCost GetCost(VillageBuildingDefinition buildingDef, int amount = 1)
     {
         var cost = new BuildingCost()
         {
@@ -45,8 +45,8 @@ public class VillageBuildingDefinition
 
     public bool CanAfford(Empire empire)
     {
-        var hasEnoughWealth = (empire.Gold >= Cost.Wealth || Cost.Wealth <= 0);
-        var hasEnoughLeaderXp = (Cost.LeaderExperience <= 0.0f || (empire.Leader?.IsDead == false && empire.Leader?.Experience > Cost.LeaderExperience));
+        var hasEnoughWealth = empire.Gold >= Cost.Wealth || Cost.Wealth <= 0;
+        var hasEnoughLeaderXp = Cost.LeaderExperience <= 0.0f || (empire.Leader?.IsDead == false && empire.Leader?.Experience > Cost.LeaderExperience);
         return hasEnoughWealth && hasEnoughLeaderXp;
     }
 
@@ -56,10 +56,10 @@ public class VillageBuildingDefinition
         if (village.buildings.Contains(Id) == true) return false;
 
 
-        var subjugationRequirementMet = (RequiresSubjugatedRace == false) || (village.Side != (int)village.Race);
+        var subjugationRequirementMet = RequiresSubjugatedRace == false || !Equals(village.Side, village.Race.ToSide());
         if (subjugationRequirementMet == false) return false;
 
-        if (RequiresRaceCapitol && (village.Capital == false || village.OriginalRace != village.Race)) return false;
+        if (RequiresRaceCapitol && (village.Capital == false || !Equals(village.OriginalRace, village.Race))) return false;
 
         return HasAllPrerequisites(village);
     }
@@ -70,21 +70,25 @@ public class VillageBuildingDefinition
         {
             return false;
         }
+
         if (village.buildings.Contains(Id))
         {
             return false;
         }
+
         if (RequiresSubjugatedRace && village.IsSubjugated() == false)
         {
             return false;
         }
+
         if (RequiresRaceCapitol && (
-            village.IsOriginalOwner() == false
-            || village.Capital == false)
-            )
+                village.IsOriginalOwner() == false
+                || village.Capital == false)
+           )
         {
             return false;
         }
+
         return true;
     }
 

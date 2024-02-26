@@ -1,87 +1,243 @@
 fileFormatVersion: 2
 guid: 7808cdf77abee0f49a527755775485ff
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: Komodos3_0
-    21300018: Komodos3_1
-    21300020: Komodos3_2
-    21300022: Komodos3_3
-    21300024: Komodos3_4
-    21300026: Komodos3_5
-    21300028: Komodos3_6
-    21300030: Komodos3_7
-    21300032: Komodos3_8
-    21300034: Komodos3_9
-    21300036: Komodos3_10
-    21300038: Komodos3_11
-    21300040: Komodos3_12
-    21300042: Komodos3_13
-    21300044: Komodos3_14
-    21300046: Komodos3_15
-    21300048: Komodos3_16
-    21300050: Komodos3_17
-    21300052: Komodos3_18
-    21300054: Komodos3_19
-    21300056: Komodos3_20
-    21300058: Komodos3_21
-    21300060: Komodos3_22
-    21300062: Komodos3_23
-    21300064: Komodos3_24
-    21300066: Komodos3_25
-    21300068: Komodos3_26
-    21300070: Komodos3_27
-    21300072: Komodos3_28
-    21300074: Komodos3_29
-    21300076: Komodos3_30
-    21300078: Komodos3_31
-    21300080: Komodos3_32
-    21300082: Komodos3_33
-    21300084: Komodos3_34
-    21300086: Komodos3_35
-    21300088: Komodos3_36
-    21300090: Komodos3_37
-    21300092: Komodos3_38
-    21300094: Komodos3_39
-    21300096: Komodos3_40
-    21300098: Komodos3_41
-    21300100: Komodos3_42
-    21300102: Komodos3_43
-    21300104: Komodos3_44
-    21300106: Komodos3_45
-    21300108: Komodos3_46
-    21300110: Komodos3_47
-    21300112: Komodos3_48
-    21300114: Komodos3_49
-    21300116: Komodos3_50
-    21300118: Komodos3_51
-    21300120: Komodos3_52
-    21300122: Komodos3_53
-    21300124: Komodos3_54
-    21300126: Komodos3_55
-    21300128: Komodos3_56
-    21300130: Komodos3_57
-    21300132: Komodos3_58
-    21300134: Komodos3_59
-    21300136: Komodos3_60
-    21300138: Komodos3_61
-    21300140: Komodos3_62
-    21300142: Komodos3_63
-    21300144: Komodos3_64
-    21300146: Komodos3_65
-    21300148: Komodos3_66
-    21300150: Komodos3_67
-    21300152: Komodos3_68
-    21300154: Komodos3_69
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: Komodos3_0
+  - first:
+      213: 21300018
+    second: Komodos3_1
+  - first:
+      213: 21300020
+    second: Komodos3_2
+  - first:
+      213: 21300022
+    second: Komodos3_3
+  - first:
+      213: 21300024
+    second: Komodos3_4
+  - first:
+      213: 21300026
+    second: Komodos3_5
+  - first:
+      213: 21300028
+    second: Komodos3_6
+  - first:
+      213: 21300030
+    second: Komodos3_7
+  - first:
+      213: 21300032
+    second: Komodos3_8
+  - first:
+      213: 21300034
+    second: Komodos3_9
+  - first:
+      213: 21300036
+    second: Komodos3_10
+  - first:
+      213: 21300038
+    second: Komodos3_11
+  - first:
+      213: 21300040
+    second: Komodos3_12
+  - first:
+      213: 21300042
+    second: Komodos3_13
+  - first:
+      213: 21300044
+    second: Komodos3_14
+  - first:
+      213: 21300046
+    second: Komodos3_15
+  - first:
+      213: 21300048
+    second: Komodos3_16
+  - first:
+      213: 21300050
+    second: Komodos3_17
+  - first:
+      213: 21300052
+    second: Komodos3_18
+  - first:
+      213: 21300054
+    second: Komodos3_19
+  - first:
+      213: 21300056
+    second: Komodos3_20
+  - first:
+      213: 21300058
+    second: Komodos3_21
+  - first:
+      213: 21300060
+    second: Komodos3_22
+  - first:
+      213: 21300062
+    second: Komodos3_23
+  - first:
+      213: 21300064
+    second: Komodos3_24
+  - first:
+      213: 21300066
+    second: Komodos3_25
+  - first:
+      213: 21300068
+    second: Komodos3_26
+  - first:
+      213: 21300070
+    second: Komodos3_27
+  - first:
+      213: 21300072
+    second: Komodos3_28
+  - first:
+      213: 21300074
+    second: Komodos3_29
+  - first:
+      213: 21300076
+    second: Komodos3_30
+  - first:
+      213: 21300078
+    second: Komodos3_31
+  - first:
+      213: 21300080
+    second: Komodos3_32
+  - first:
+      213: 21300082
+    second: Komodos3_33
+  - first:
+      213: 21300084
+    second: Komodos3_34
+  - first:
+      213: 21300086
+    second: Komodos3_35
+  - first:
+      213: 21300088
+    second: Komodos3_36
+  - first:
+      213: 21300090
+    second: Komodos3_37
+  - first:
+      213: 21300092
+    second: Komodos3_38
+  - first:
+      213: 21300094
+    second: Komodos3_39
+  - first:
+      213: 21300096
+    second: Komodos3_40
+  - first:
+      213: 21300098
+    second: Komodos3_41
+  - first:
+      213: 21300100
+    second: Komodos3_42
+  - first:
+      213: 21300102
+    second: Komodos3_43
+  - first:
+      213: 21300104
+    second: Komodos3_44
+  - first:
+      213: 21300106
+    second: Komodos3_45
+  - first:
+      213: 21300108
+    second: Komodos3_46
+  - first:
+      213: 21300110
+    second: Komodos3_47
+  - first:
+      213: 21300112
+    second: Komodos3_48
+  - first:
+      213: 21300114
+    second: Komodos3_49
+  - first:
+      213: 21300116
+    second: Komodos3_50
+  - first:
+      213: 21300118
+    second: Komodos3_51
+  - first:
+      213: 21300120
+    second: Komodos3_52
+  - first:
+      213: 21300122
+    second: Komodos3_53
+  - first:
+      213: 21300124
+    second: Komodos3_54
+  - first:
+      213: 21300126
+    second: Komodos3_55
+  - first:
+      213: 21300128
+    second: Komodos3_56
+  - first:
+      213: 21300130
+    second: Komodos3_57
+  - first:
+      213: 21300132
+    second: Komodos3_58
+  - first:
+      213: 21300134
+    second: Komodos3_59
+  - first:
+      213: 21300136
+    second: Komodos3_60
+  - first:
+      213: 21300138
+    second: Komodos3_61
+  - first:
+      213: 21300140
+    second: Komodos3_62
+  - first:
+      213: 21300142
+    second: Komodos3_63
+  - first:
+      213: 21300144
+    second: Komodos3_64
+  - first:
+      213: 21300146
+    second: Komodos3_65
+  - first:
+      213: 21300148
+    second: Komodos3_66
+  - first:
+      213: 21300150
+    second: Komodos3_67
+  - first:
+      213: 21300152
+    second: Komodos3_68
+  - first:
+      213: 21300154
+    second: Komodos3_69
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -98,9 +254,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -110,8 +269,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -132,11 +291,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -146,8 +311,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -157,7 +324,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -177,6 +372,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ce6bf009b86c5794fbb7235a206e7179
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -197,6 +393,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0ad2f0101e8f17b4dac7bdabdd5cd35f
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -217,6 +414,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1688e3f35f487214ab51b377cf54df89
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -237,6 +435,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d28abba26147e4c4982f864c9b359a5c
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -257,6 +456,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: aeed98bd46bb6b44a9d2c83ce3e3c2e3
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -277,6 +477,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 78c5f49b548f0c244914a9d16430c37a
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -297,6 +498,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 137aa9a170b41c1438129401a0b9cd2a
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -317,6 +519,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 062f4ee061ca6cc4c8054b6e894d673e
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -337,6 +540,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8682119f7c9950541a7bfa5cce086604
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -357,6 +561,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ffb1f98ccf4d0254589455211d0f0b95
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -377,6 +582,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f77e795aff0da1743996c46814649f05
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -397,6 +603,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ef9a73c0fa0d54f4892c1bff0c2826f2
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -417,6 +624,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2e1ac1519bb078f4eb38356387c81054
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -437,6 +645,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cfdf26cd1efbb374a8421822306ea915
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -457,6 +666,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 45f933bb676ca394c982a6fe2cb2dd9c
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -477,6 +687,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bb8a747f3ce30f1438350a3d68e2517c
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -497,6 +708,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c15e6ea0b5584d04f94318e872d3f709
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -517,6 +729,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d3a179a62807dbc459cb51055a5e9d0d
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -537,6 +750,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 668068491b09f194abf4c215daee842c
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -557,6 +771,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5dcd50409988b4b4884a72575218c0bf
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -577,6 +792,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8d3dbb0f82c7a4f418396683c7393bac
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -597,6 +813,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 47ddc1e2a67408743823fc1d3613f156
+      internalID: 21300058
       vertices: []
       indices: 
       edges: []
@@ -617,6 +834,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 590169f74e3419f43bc50016218f6d4b
+      internalID: 21300060
       vertices: []
       indices: 
       edges: []
@@ -637,6 +855,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f2523c2a7cd46114294391b470bf82ba
+      internalID: 21300062
       vertices: []
       indices: 
       edges: []
@@ -657,6 +876,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0e6b88bee79e9f3488e5a75320d8523f
+      internalID: 21300064
       vertices: []
       indices: 
       edges: []
@@ -677,6 +897,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 27a57c503fb808345a0792d1c3854cce
+      internalID: 21300066
       vertices: []
       indices: 
       edges: []
@@ -697,6 +918,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6b4d8de9e28c12941a117c9ab87f4ad7
+      internalID: 21300068
       vertices: []
       indices: 
       edges: []
@@ -717,6 +939,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 636fd29d9a83aa446a74f44926f1a5fd
+      internalID: 21300070
       vertices: []
       indices: 
       edges: []
@@ -737,6 +960,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e7af3c433eda9cc44b157d339fd31eef
+      internalID: 21300072
       vertices: []
       indices: 
       edges: []
@@ -757,6 +981,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dc721fc38957566498cc6ec6f5bfc3be
+      internalID: 21300074
       vertices: []
       indices: 
       edges: []
@@ -777,6 +1002,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dbd0ec9e6b352dd4491e901e5151fc50
+      internalID: 21300076
       vertices: []
       indices: 
       edges: []
@@ -797,6 +1023,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9654b6adfbb30e549ba0713a33496686
+      internalID: 21300078
       vertices: []
       indices: 
       edges: []
@@ -817,6 +1044,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 62ff53f7ddeae6c43a968c0037b7bc33
+      internalID: 21300080
       vertices: []
       indices: 
       edges: []
@@ -837,6 +1065,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 170153c3ce1b8ae45823ea492b4d32c3
+      internalID: 21300082
       vertices: []
       indices: 
       edges: []
@@ -857,6 +1086,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f378b24b06fc71b4eb27c35a6896df46
+      internalID: 21300084
       vertices: []
       indices: 
       edges: []
@@ -877,6 +1107,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: af0b7ac4a9731104fa9d1a08c85c5fb6
+      internalID: 21300086
       vertices: []
       indices: 
       edges: []
@@ -897,6 +1128,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 10d79292b319a114bb83100620bd3628
+      internalID: 21300088
       vertices: []
       indices: 
       edges: []
@@ -917,6 +1149,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c16dfa444ab4c9247954361ac1086fc2
+      internalID: 21300090
       vertices: []
       indices: 
       edges: []
@@ -937,6 +1170,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ce42e7faa90885e48ab7f2bbf4f6e152
+      internalID: 21300092
       vertices: []
       indices: 
       edges: []
@@ -957,6 +1191,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 777eb11f8501e2541b94b2f07d86ce8d
+      internalID: 21300094
       vertices: []
       indices: 
       edges: []
@@ -977,6 +1212,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e4b442dcbee76f64a99744300fc0dc6c
+      internalID: 21300096
       vertices: []
       indices: 
       edges: []
@@ -997,6 +1233,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 115ac2dfd19534b49bfd41c7d914e588
+      internalID: 21300098
       vertices: []
       indices: 
       edges: []
@@ -1017,6 +1254,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6e3e02e0714c17a4194ccfdcdb1e71d6
+      internalID: 21300100
       vertices: []
       indices: 
       edges: []
@@ -1037,6 +1275,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 62210b611d045db4fac34a4ac5ff2ea3
+      internalID: 21300102
       vertices: []
       indices: 
       edges: []
@@ -1057,6 +1296,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3649e728ab3a2904696c8d1efdba057a
+      internalID: 21300104
       vertices: []
       indices: 
       edges: []
@@ -1077,6 +1317,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d2df39106a4bcb44a93bbb695e484db4
+      internalID: 21300106
       vertices: []
       indices: 
       edges: []
@@ -1097,6 +1338,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c87e33d8cc7683242b1b306855541d24
+      internalID: 21300108
       vertices: []
       indices: 
       edges: []
@@ -1117,6 +1359,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 98a50d30b4b53f24c8baaf10305fac77
+      internalID: 21300110
       vertices: []
       indices: 
       edges: []
@@ -1137,6 +1380,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cdef2b67808261442831e6bd12b801c9
+      internalID: 21300112
       vertices: []
       indices: 
       edges: []
@@ -1157,6 +1401,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 02b9b477bf36c3a4785fc8c110863c6f
+      internalID: 21300114
       vertices: []
       indices: 
       edges: []
@@ -1177,6 +1422,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3036cd2e99ae1154cbcdd3e9cb5f4ca7
+      internalID: 21300116
       vertices: []
       indices: 
       edges: []
@@ -1197,6 +1443,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9bbe79579516d09438c5f33a7f672136
+      internalID: 21300118
       vertices: []
       indices: 
       edges: []
@@ -1217,6 +1464,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 31dba1bc3315f244eae3780d90f71da0
+      internalID: 21300120
       vertices: []
       indices: 
       edges: []
@@ -1237,6 +1485,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 25bda45b5d1a73345a9c5bd2df7d80bd
+      internalID: 21300122
       vertices: []
       indices: 
       edges: []
@@ -1257,6 +1506,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3bdb076c1a554fd4da62b2b3841a9b35
+      internalID: 21300124
       vertices: []
       indices: 
       edges: []
@@ -1277,6 +1527,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3dcf82ade81c7264dbc5bdda54aa4642
+      internalID: 21300126
       vertices: []
       indices: 
       edges: []
@@ -1297,6 +1548,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 350263dff3efcd54cad3b002f23d2496
+      internalID: 21300128
       vertices: []
       indices: 
       edges: []
@@ -1317,6 +1569,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 661d043c9c563024289f81e96966b862
+      internalID: 21300130
       vertices: []
       indices: 
       edges: []
@@ -1337,6 +1590,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a7f5c73dd7d644749a5e2bd2a0375aee
+      internalID: 21300132
       vertices: []
       indices: 
       edges: []
@@ -1357,6 +1611,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 21323e643c698f740ab038264c2112da
+      internalID: 21300134
       vertices: []
       indices: 
       edges: []
@@ -1377,6 +1632,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 50ec43e56d2806e418a9801e229e50d1
+      internalID: 21300136
       vertices: []
       indices: 
       edges: []
@@ -1397,6 +1653,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6c4077d9916fb7447b5806512064a986
+      internalID: 21300138
       vertices: []
       indices: 
       edges: []
@@ -1417,6 +1674,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7aa1dd3c5f938324ab86dd8eba718a5a
+      internalID: 21300140
       vertices: []
       indices: 
       edges: []
@@ -1437,6 +1695,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d638e17f241887f44bd8e74eb7d8b2f9
+      internalID: 21300142
       vertices: []
       indices: 
       edges: []
@@ -1457,6 +1716,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5ed3d5dab6c90a54caabeca5198b76cd
+      internalID: 21300144
       vertices: []
       indices: 
       edges: []
@@ -1477,6 +1737,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d627623a3569ce64caece6d7830a8620
+      internalID: 21300146
       vertices: []
       indices: 
       edges: []
@@ -1497,6 +1758,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6386c068067aa2448819d40bbb87a6ed
+      internalID: 21300148
       vertices: []
       indices: 
       edges: []
@@ -1517,6 +1779,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cd731c95d2c253544842ce9cf2765fbd
+      internalID: 21300150
       vertices: []
       indices: 
       edges: []
@@ -1537,6 +1800,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 49ae80507fb763b4fb5a9cc2b49e25d8
+      internalID: 21300152
       vertices: []
       indices: 
       edges: []
@@ -1557,6 +1821,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 842f5e87d5d00e54c8852071d96dd0dd
+      internalID: 21300154
       vertices: []
       indices: 
       edges: []
@@ -1565,13 +1830,85 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      Komodos3_0: 21300016
+      Komodos3_1: 21300018
+      Komodos3_10: 21300036
+      Komodos3_11: 21300038
+      Komodos3_12: 21300040
+      Komodos3_13: 21300042
+      Komodos3_14: 21300044
+      Komodos3_15: 21300046
+      Komodos3_16: 21300048
+      Komodos3_17: 21300050
+      Komodos3_18: 21300052
+      Komodos3_19: 21300054
+      Komodos3_2: 21300020
+      Komodos3_20: 21300056
+      Komodos3_21: 21300058
+      Komodos3_22: 21300060
+      Komodos3_23: 21300062
+      Komodos3_24: 21300064
+      Komodos3_25: 21300066
+      Komodos3_26: 21300068
+      Komodos3_27: 21300070
+      Komodos3_28: 21300072
+      Komodos3_29: 21300074
+      Komodos3_3: 21300022
+      Komodos3_30: 21300076
+      Komodos3_31: 21300078
+      Komodos3_32: 21300080
+      Komodos3_33: 21300082
+      Komodos3_34: 21300084
+      Komodos3_35: 21300086
+      Komodos3_36: 21300088
+      Komodos3_37: 21300090
+      Komodos3_38: 21300092
+      Komodos3_39: 21300094
+      Komodos3_4: 21300024
+      Komodos3_40: 21300096
+      Komodos3_41: 21300098
+      Komodos3_42: 21300100
+      Komodos3_43: 21300102
+      Komodos3_44: 21300104
+      Komodos3_45: 21300106
+      Komodos3_46: 21300108
+      Komodos3_47: 21300110
+      Komodos3_48: 21300112
+      Komodos3_49: 21300114
+      Komodos3_5: 21300026
+      Komodos3_50: 21300116
+      Komodos3_51: 21300118
+      Komodos3_52: 21300120
+      Komodos3_53: 21300122
+      Komodos3_54: 21300124
+      Komodos3_55: 21300126
+      Komodos3_56: 21300128
+      Komodos3_57: 21300130
+      Komodos3_58: 21300132
+      Komodos3_59: 21300134
+      Komodos3_6: 21300028
+      Komodos3_60: 21300136
+      Komodos3_61: 21300138
+      Komodos3_62: 21300140
+      Komodos3_63: 21300142
+      Komodos3_64: 21300144
+      Komodos3_65: 21300146
+      Komodos3_66: 21300148
+      Komodos3_67: 21300150
+      Komodos3_68: 21300152
+      Komodos3_69: 21300154
+      Komodos3_7: 21300030
+      Komodos3_8: 21300032
+      Komodos3_9: 21300034
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

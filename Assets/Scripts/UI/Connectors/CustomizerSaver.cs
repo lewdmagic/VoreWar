@@ -4,28 +4,26 @@ using UnityEngine.UI;
 public class CustomizerSaver : MonoBehaviour
 {
     public InputField Text;
-    bool OpenedFromEditor;
+    private bool _openedFromEditor;
 
     public void Open(bool openedFromEditor)
     {
-        OpenedFromEditor = openedFromEditor;
-        if (OpenedFromEditor)
+        _openedFromEditor = openedFromEditor;
+        if (_openedFromEditor)
             Text.text = State.GameManager.UnitEditor.UnitEditor.Unit.Name;
         else
-            Text.text = State.GameManager.Recruit_Mode.Customizer.Unit.Name;
+            Text.text = State.GameManager.RecruitMode.Customizer.Unit.Name;
         gameObject.SetActive(true);
     }
 
     public void Save()
     {
         CustomizerData custom = new CustomizerData();
-        if (OpenedFromEditor)
+        if (_openedFromEditor)
             custom.CopyFromUnit(State.GameManager.UnitEditor.UnitEditor.Unit);
         else
-            custom.CopyFromUnit(State.GameManager.Recruit_Mode.Customizer.Unit);
+            custom.CopyFromUnit(State.GameManager.RecruitMode.Customizer.Unit);
         custom.Name = Text.text;
         CustomizationDataStorer.Add(custom);
     }
-
-
 }

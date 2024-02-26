@@ -5,5 +5,4 @@ public class LevelUpPanel : MonoBehaviour
 {
     public Toggle KeepOpen;
     public Button[] StatButtons;
-
 }

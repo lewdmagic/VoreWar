@@ -2,5 +2,4 @@
 {
     bool RunAI();
     bool TurnAI();
-
 }

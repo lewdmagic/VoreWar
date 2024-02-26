@@ -1,190 +1,552 @@
 fileFormatVersion: 2
 guid: 12b986d40e6c4484fae3dbbf6a3ec17e
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_3
-    21300002: Hero Armor_4
-    21300004: Hero Armor_6
-    21300006: Hero Armor_7
-    21300008: Banners_0
-    21300010: Banners_1
-    21300012: Banners_2
-    21300014: Banners_3
-    21300016: Banners_4
-    21300018: Banners_5
-    21300020: Banners_6
-    21300022: Banners_7
-    21300024: Banners_8
-    21300026: Banners_9
-    21300028: Banners_10
-    21300030: Banners_11
-    21300032: Banners_12
-    21300034: Banners_13
-    21300036: Banners_14
-    21300038: Banners_15
-    21300040: Banners_16
-    21300042: Banners_17
-    21300044: Banners_18
-    21300046: Banners_19
-    21300048: Banners_20
-    21300050: Banners_21
-    21300052: Banners_22
-    21300054: Banners_23
-    21300056: Banners_24
-    21300058: Banners_25
-    21300060: Banners_26
-    21300062: Banners_27
-    21300064: Banners_28
-    21300066: Banners_29
-    21300068: Banners_30
-    21300070: Banners_31
-    21300072: Banners_32
-    21300074: Banners_33
-    21300076: Banners_34
-    21300078: Banners_35
-    21300080: Banners_36
-    21300082: Banners_37
-    21300084: Banners_38
-    21300086: Banners_39
-    21300088: Banners_40
-    21300090: Banners_41
-    21300092: Banners_42
-    21300094: Banners_43
-    21300096: Banners_44
-    21300098: Banners_45
-    21300100: Banners_46
-    21300102: Banners_47
-    21300104: Banners_48
-    21300106: Banners_49
-    21300108: Banners_50
-    21300110: Banners_51
-    21300112: Banners_52
-    21300114: Banners_53
-    21300116: Banners_54
-    21300118: Banners_55
-    21300120: Banners_56
-    21300122: Banners_57
-    21300124: Banners_58
-    21300126: Banners_59
-    21300128: Banners_60
-    21300130: Banners_61
-    21300132: Banners_62
-    21300134: Banners_63
-    21300136: Banners_64
-    21300138: Banners_65
-    21300140: Banners_66
-    21300142: Banners_67
-    21300144: Banners_68
-    21300146: Banners_69
-    21300148: Banners_70
-    21300150: Banners_71
-    21300152: Banners_72
-    21300154: Banners_73
-    21300156: Banners_74
-    21300158: Banners_75
-    21300160: Banners_76
-    21300162: Banners_77
-    21300164: Banners_78
-    21300166: Banners_79
-    21300168: Banners_80
-    21300170: Banners_81
-    21300172: Banners_82
-    21300174: Banners_83
-    21300176: Banners_84
-    21300178: Banners_85
-    21300180: Banners_86
-    21300182: Banners_87
-    21300184: Banners_88
-    21300186: Banners_89
-    21300188: Banners_90
-    21300190: Banners_91
-    21300192: Banners_92
-    21300194: Banners_93
-    21300196: Banners_94
-    21300198: Banners_95
-    21300200: Banners_96
-    21300202: Banners_97
-    21300204: Banners_98
-    21300206: Banners_99
-    21300208: Banners_100
-    21300210: Banners_101
-    21300212: Banners_102
-    21300214: Banners_103
-    21300216: Banners_104
-    21300218: Banners_105
-    21300220: Banners_106
-    21300222: Banners_107
-    21300224: Banners_108
-    21300226: Banners_109
-    21300228: Banners_110
-    21300230: Banners_111
-    21300232: Banners_112
-    21300234: Banners_113
-    21300236: Banners_114
-    21300238: Banners_115
-    21300240: Banners_116
-    21300242: Banners_117
-    21300244: Banners_118
-    21300246: Banners_119
-    21300248: Banners_120
-    21300250: Banners_121
-    21300252: Banners_122
-    21300254: Banners_123
-    21300256: Banners_124
-    21300258: Banners_125
-    21300260: Banners_126
-    21300262: Banners_127
-    21300264: Banners_128
-    21300266: Banners_129
-    21300268: Banners_130
-    21300270: Banners_131
-    21300272: Banners_132
-    21300274: Banners_133
-    21300276: Banners_134
-    21300278: Banners_135
-    21300280: Banners_136
-    21300282: Banners_137
-    21300284: Banners_138
-    21300286: Banners_139
-    21300288: Banners_140
-    21300290: Banners_141
-    21300292: Banners_142
-    21300294: Banners_143
-    21300296: Banners_144
-    21300298: Banners_145
-    21300300: Banners_146
-    21300302: Banners_147
-    21300304: Banners_148
-    21300306: Banners_149
-    21300308: Banners_150
-    21300310: Banners_151
-    21300312: Banners_152
-    21300314: Banners_153
-    21300316: Banners_154
-    21300318: Banners_155
-    21300320: Banners_156
-    21300322: Banners_157
-    21300324: Banners_158
-    21300326: Banners_159
-    21300328: Banners_160
-    21300330: Banners_161
-    21300332: Banners_162
-    21300334: Banners_163
-    21300336: Banners_164
-    21300338: Banners_165
-    21300340: Banners_166
-    21300342: Banners_167
-    21300344: Banners_168
-    21300346: Banners_169
-    21300348: Banners_170
-    21300350: Banners_171
-    21300352: Banners_172
-    21300354: Banners_173
-    21300356: Banners_174
-    21300358: Banners_175
-    21300360: Banners_176
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_3
+  - first:
+      213: 21300002
+    second: Hero Armor_4
+  - first:
+      213: 21300004
+    second: Hero Armor_6
+  - first:
+      213: 21300006
+    second: Hero Armor_7
+  - first:
+      213: 21300008
+    second: Banners_0
+  - first:
+      213: 21300010
+    second: Banners_1
+  - first:
+      213: 21300012
+    second: Banners_2
+  - first:
+      213: 21300014
+    second: Banners_3
+  - first:
+      213: 21300016
+    second: Banners_4
+  - first:
+      213: 21300018
+    second: Banners_5
+  - first:
+      213: 21300020
+    second: Banners_6
+  - first:
+      213: 21300022
+    second: Banners_7
+  - first:
+      213: 21300024
+    second: Banners_8
+  - first:
+      213: 21300026
+    second: Banners_9
+  - first:
+      213: 21300028
+    second: Banners_10
+  - first:
+      213: 21300030
+    second: Banners_11
+  - first:
+      213: 21300032
+    second: Banners_12
+  - first:
+      213: 21300034
+    second: Banners_13
+  - first:
+      213: 21300036
+    second: Banners_14
+  - first:
+      213: 21300038
+    second: Banners_15
+  - first:
+      213: 21300040
+    second: Banners_16
+  - first:
+      213: 21300042
+    second: Banners_17
+  - first:
+      213: 21300044
+    second: Banners_18
+  - first:
+      213: 21300046
+    second: Banners_19
+  - first:
+      213: 21300048
+    second: Banners_20
+  - first:
+      213: 21300050
+    second: Banners_21
+  - first:
+      213: 21300052
+    second: Banners_22
+  - first:
+      213: 21300054
+    second: Banners_23
+  - first:
+      213: 21300056
+    second: Banners_24
+  - first:
+      213: 21300058
+    second: Banners_25
+  - first:
+      213: 21300060
+    second: Banners_26
+  - first:
+      213: 21300062
+    second: Banners_27
+  - first:
+      213: 21300064
+    second: Banners_28
+  - first:
+      213: 21300066
+    second: Banners_29
+  - first:
+      213: 21300068
+    second: Banners_30
+  - first:
+      213: 21300070
+    second: Banners_31
+  - first:
+      213: 21300072
+    second: Banners_32
+  - first:
+      213: 21300074
+    second: Banners_33
+  - first:
+      213: 21300076
+    second: Banners_34
+  - first:
+      213: 21300078
+    second: Banners_35
+  - first:
+      213: 21300080
+    second: Banners_36
+  - first:
+      213: 21300082
+    second: Banners_37
+  - first:
+      213: 21300084
+    second: Banners_38
+  - first:
+      213: 21300086
+    second: Banners_39
+  - first:
+      213: 21300088
+    second: Banners_40
+  - first:
+      213: 21300090
+    second: Banners_41
+  - first:
+      213: 21300092
+    second: Banners_42
+  - first:
+      213: 21300094
+    second: Banners_43
+  - first:
+      213: 21300096
+    second: Banners_44
+  - first:
+      213: 21300098
+    second: Banners_45
+  - first:
+      213: 21300100
+    second: Banners_46
+  - first:
+      213: 21300102
+    second: Banners_47
+  - first:
+      213: 21300104
+    second: Banners_48
+  - first:
+      213: 21300106
+    second: Banners_49
+  - first:
+      213: 21300108
+    second: Banners_50
+  - first:
+      213: 21300110
+    second: Banners_51
+  - first:
+      213: 21300112
+    second: Banners_52
+  - first:
+      213: 21300114
+    second: Banners_53
+  - first:
+      213: 21300116
+    second: Banners_54
+  - first:
+      213: 21300118
+    second: Banners_55
+  - first:
+      213: 21300120
+    second: Banners_56
+  - first:
+      213: 21300122
+    second: Banners_57
+  - first:
+      213: 21300124
+    second: Banners_58
+  - first:
+      213: 21300126
+    second: Banners_59
+  - first:
+      213: 21300128
+    second: Banners_60
+  - first:
+      213: 21300130
+    second: Banners_61
+  - first:
+      213: 21300132
+    second: Banners_62
+  - first:
+      213: 21300134
+    second: Banners_63
+  - first:
+      213: 21300136
+    second: Banners_64
+  - first:
+      213: 21300138
+    second: Banners_65
+  - first:
+      213: 21300140
+    second: Banners_66
+  - first:
+      213: 21300142
+    second: Banners_67
+  - first:
+      213: 21300144
+    second: Banners_68
+  - first:
+      213: 21300146
+    second: Banners_69
+  - first:
+      213: 21300148
+    second: Banners_70
+  - first:
+      213: 21300150
+    second: Banners_71
+  - first:
+      213: 21300152
+    second: Banners_72
+  - first:
+      213: 21300154
+    second: Banners_73
+  - first:
+      213: 21300156
+    second: Banners_74
+  - first:
+      213: 21300158
+    second: Banners_75
+  - first:
+      213: 21300160
+    second: Banners_76
+  - first:
+      213: 21300162
+    second: Banners_77
+  - first:
+      213: 21300164
+    second: Banners_78
+  - first:
+      213: 21300166
+    second: Banners_79
+  - first:
+      213: 21300168
+    second: Banners_80
+  - first:
+      213: 21300170
+    second: Banners_81
+  - first:
+      213: 21300172
+    second: Banners_82
+  - first:
+      213: 21300174
+    second: Banners_83
+  - first:
+      213: 21300176
+    second: Banners_84
+  - first:
+      213: 21300178
+    second: Banners_85
+  - first:
+      213: 21300180
+    second: Banners_86
+  - first:
+      213: 21300182
+    second: Banners_87
+  - first:
+      213: 21300184
+    second: Banners_88
+  - first:
+      213: 21300186
+    second: Banners_89
+  - first:
+      213: 21300188
+    second: Banners_90
+  - first:
+      213: 21300190
+    second: Banners_91
+  - first:
+      213: 21300192
+    second: Banners_92
+  - first:
+      213: 21300194
+    second: Banners_93
+  - first:
+      213: 21300196
+    second: Banners_94
+  - first:
+      213: 21300198
+    second: Banners_95
+  - first:
+      213: 21300200
+    second: Banners_96
+  - first:
+      213: 21300202
+    second: Banners_97
+  - first:
+      213: 21300204
+    second: Banners_98
+  - first:
+      213: 21300206
+    second: Banners_99
+  - first:
+      213: 21300208
+    second: Banners_100
+  - first:
+      213: 21300210
+    second: Banners_101
+  - first:
+      213: 21300212
+    second: Banners_102
+  - first:
+      213: 21300214
+    second: Banners_103
+  - first:
+      213: 21300216
+    second: Banners_104
+  - first:
+      213: 21300218
+    second: Banners_105
+  - first:
+      213: 21300220
+    second: Banners_106
+  - first:
+      213: 21300222
+    second: Banners_107
+  - first:
+      213: 21300224
+    second: Banners_108
+  - first:
+      213: 21300226
+    second: Banners_109
+  - first:
+      213: 21300228
+    second: Banners_110
+  - first:
+      213: 21300230
+    second: Banners_111
+  - first:
+      213: 21300232
+    second: Banners_112
+  - first:
+      213: 21300234
+    second: Banners_113
+  - first:
+      213: 21300236
+    second: Banners_114
+  - first:
+      213: 21300238
+    second: Banners_115
+  - first:
+      213: 21300240
+    second: Banners_116
+  - first:
+      213: 21300242
+    second: Banners_117
+  - first:
+      213: 21300244
+    second: Banners_118
+  - first:
+      213: 21300246
+    second: Banners_119
+  - first:
+      213: 21300248
+    second: Banners_120
+  - first:
+      213: 21300250
+    second: Banners_121
+  - first:
+      213: 21300252
+    second: Banners_122
+  - first:
+      213: 21300254
+    second: Banners_123
+  - first:
+      213: 21300256
+    second: Banners_124
+  - first:
+      213: 21300258
+    second: Banners_125
+  - first:
+      213: 21300260
+    second: Banners_126
+  - first:
+      213: 21300262
+    second: Banners_127
+  - first:
+      213: 21300264
+    second: Banners_128
+  - first:
+      213: 21300266
+    second: Banners_129
+  - first:
+      213: 21300268
+    second: Banners_130
+  - first:
+      213: 21300270
+    second: Banners_131
+  - first:
+      213: 21300272
+    second: Banners_132
+  - first:
+      213: 21300274
+    second: Banners_133
+  - first:
+      213: 21300276
+    second: Banners_134
+  - first:
+      213: 21300278
+    second: Banners_135
+  - first:
+      213: 21300280
+    second: Banners_136
+  - first:
+      213: 21300282
+    second: Banners_137
+  - first:
+      213: 21300284
+    second: Banners_138
+  - first:
+      213: 21300286
+    second: Banners_139
+  - first:
+      213: 21300288
+    second: Banners_140
+  - first:
+      213: 21300290
+    second: Banners_141
+  - first:
+      213: 21300292
+    second: Banners_142
+  - first:
+      213: 21300294
+    second: Banners_143
+  - first:
+      213: 21300296
+    second: Banners_144
+  - first:
+      213: 21300298
+    second: Banners_145
+  - first:
+      213: 21300300
+    second: Banners_146
+  - first:
+      213: 21300302
+    second: Banners_147
+  - first:
+      213: 21300304
+    second: Banners_148
+  - first:
+      213: 21300306
+    second: Banners_149
+  - first:
+      213: 21300308
+    second: Banners_150
+  - first:
+      213: 21300310
+    second: Banners_151
+  - first:
+      213: 21300312
+    second: Banners_152
+  - first:
+      213: 21300314
+    second: Banners_153
+  - first:
+      213: 21300316
+    second: Banners_154
+  - first:
+      213: 21300318
+    second: Banners_155
+  - first:
+      213: 21300320
+    second: Banners_156
+  - first:
+      213: 21300322
+    second: Banners_157
+  - first:
+      213: 21300324
+    second: Banners_158
+  - first:
+      213: 21300326
+    second: Banners_159
+  - first:
+      213: 21300328
+    second: Banners_160
+  - first:
+      213: 21300330
+    second: Banners_161
+  - first:
+      213: 21300332
+    second: Banners_162
+  - first:
+      213: 21300334
+    second: Banners_163
+  - first:
+      213: 21300336
+    second: Banners_164
+  - first:
+      213: 21300338
+    second: Banners_165
+  - first:
+      213: 21300340
+    second: Banners_166
+  - first:
+      213: 21300342
+    second: Banners_167
+  - first:
+      213: 21300344
+    second: Banners_168
+  - first:
+      213: 21300346
+    second: Banners_169
+  - first:
+      213: 21300348
+    second: Banners_170
+  - first:
+      213: 21300350
+    second: Banners_171
+  - first:
+      213: 21300352
+    second: Banners_172
+  - first:
+      213: 21300354
+    second: Banners_173
+  - first:
+      213: 21300356
+    second: Banners_174
+  - first:
+      213: 21300358
+    second: Banners_175
+  - first:
+      213: 21300360
+    second: Banners_176
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -201,9 +563,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -213,8 +578,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -235,11 +600,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -249,8 +620,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -260,7 +633,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -280,6 +681,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 43622dfb563dba94ca116c81ce8a84dd
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -300,6 +702,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8dc30244ca3daa84587a679fd1c7f4d6
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -320,6 +723,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 378d477c20a7f1d489c6950c2e677d9a
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -340,6 +744,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6b4451f25b38134489eb8196b331593a
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -360,6 +765,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f74a4e8bd4a8ada43932aeeaaf29aa6d
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -380,6 +786,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ed2cdb19f397a9f42b53a4a1463c2fd0
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -400,6 +807,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dddd79796865ff74298666704e745e99
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -420,6 +828,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d8d714eebe475ca4daf4519a4c3ca4b5
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -440,6 +849,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6e226e92e2f2dd449b7f747308f72757
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -460,6 +870,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 52785a5bdbd5cd14c9a8ecfd94a11667
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -480,6 +891,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e57619d8c60524b4dad16235f7248a01
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -500,6 +912,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cc5b91630e8df184d8eb15f4f2766b58
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -520,6 +933,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 717b735c42fd96f4b8c5c4ff913bc686
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -540,6 +954,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: af820c80ccad5db46985bbc7329e80be
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -560,6 +975,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4f55764a9b3adce4aaa45c1b9b5b25bf
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -580,6 +996,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e9d76947a487b9a41ab708f7b1d380fe
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -600,6 +1017,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6528b2417d2857f46a41a30c32490f88
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -620,6 +1038,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 83ba325855a62a843b93c7d2bcc64f3c
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -640,6 +1059,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e05fc50506ff435439b4dd9707f5afc9
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -660,6 +1080,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 83a5eef20ad23ac48ab0121c5b4d2c0b
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -680,6 +1101,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 80fa489ab381fd5488569d3a43cfa0b1
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -700,6 +1122,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1e001602deb63f94d8151f44b63dbcaa
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -720,6 +1143,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e0d6da90ce3f2be49aaf359e0501df41
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -740,6 +1164,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d6d2c60fe188cfd4d82596f9e802b49b
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -760,6 +1185,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: af431f6505b57394b9872fabb3f0da25
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -780,6 +1206,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 418b91bb061183f49a12d82a978ce263
+      internalID: 21300058
       vertices: []
       indices: 
       edges: []
@@ -800,6 +1227,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 863ced0d346e0ce43a5f1342762a45a0
+      internalID: 21300060
       vertices: []
       indices: 
       edges: []
@@ -820,6 +1248,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0319a115a6472e04488b829c6d8c7ecc
+      internalID: 21300062
       vertices: []
       indices: 
       edges: []
@@ -840,6 +1269,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0c95036d97331df42b74fd5f4c46b181
+      internalID: 21300064
       vertices: []
       indices: 
       edges: []
@@ -860,6 +1290,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 534f148e7f2a25d40b89e004afd6ad88
+      internalID: 21300066
       vertices: []
       indices: 
       edges: []
@@ -880,6 +1311,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5108ca2e3b384b147af6c8099ff672ed
+      internalID: 21300068
       vertices: []
       indices: 
       edges: []
@@ -900,6 +1332,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 58bc657c09f0d02448028afe27a955eb
+      internalID: 21300070
       vertices: []
       indices: 
       edges: []
@@ -920,6 +1353,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bbe45d10942e76940b17014a1ae394e8
+      internalID: 21300072
       vertices: []
       indices: 
       edges: []
@@ -940,6 +1374,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6b54ad4653b945740805691deb8f83ea
+      internalID: 21300074
       vertices: []
       indices: 
       edges: []
@@ -960,6 +1395,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3fb54563b2aedc34985cb4f01a039adb
+      internalID: 21300076
       vertices: []
       indices: 
       edges: []
@@ -980,6 +1416,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 106505d9feeb6d74bae943fbcfec3ed5
+      internalID: 21300078
       vertices: []
       indices: 
       edges: []
@@ -1000,6 +1437,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: fe93e239cdf6860408894dc6e0fb42c4
+      internalID: 21300080
       vertices: []
       indices: 
       edges: []
@@ -1020,6 +1458,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 31d714c397ca36c409795fe60a206220
+      internalID: 21300082
       vertices: []
       indices: 
       edges: []
@@ -1040,6 +1479,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 80751598f4e79a1459f762b001155bc6
+      internalID: 21300084
       vertices: []
       indices: 
       edges: []
@@ -1060,6 +1500,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cb84f6a7414698e4594258de9292160c
+      internalID: 21300086
       vertices: []
       indices: 
       edges: []
@@ -1080,6 +1521,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2f3611ca25c00034cb2bf64903c5f14a
+      internalID: 21300088
       vertices: []
       indices: 
       edges: []
@@ -1100,6 +1542,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 95d337b0e96a5c64c83feb96e2eb7021
+      internalID: 21300090
       vertices: []
       indices: 
       edges: []
@@ -1120,6 +1563,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 54ab42049e670104ab48963ef3f8bfa6
+      internalID: 21300092
       vertices: []
       indices: 
       edges: []
@@ -1140,6 +1584,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dbd99002564901346af09a93cb5b9856
+      internalID: 21300094
       vertices: []
       indices: 
       edges: []
@@ -1160,6 +1605,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bb0fab2cd01be684b945a8d119e3d0ec
+      internalID: 21300096
       vertices: []
       indices: 
       edges: []
@@ -1180,6 +1626,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4c7ba3a46cefb8640a09bd76e5850ceb
+      internalID: 21300098
       vertices: []
       indices: 
       edges: []
@@ -1200,6 +1647,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c38a52973aeead54a9f1d901edd5c4e7
+      internalID: 21300100
       vertices: []
       indices: 
       edges: []
@@ -1220,6 +1668,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8b7d08a5656533b4b91e0a51cbfecbad
+      internalID: 21300102
       vertices: []
       indices: 
       edges: []
@@ -1240,6 +1689,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e83f14e3c0e26cb4bb2aea4153003ef7
+      internalID: 21300104
       vertices: []
       indices: 
       edges: []
@@ -1260,6 +1710,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6e102dc9b62ebc04f8a138baa7a5ab16
+      internalID: 21300106
       vertices: []
       indices: 
       edges: []
@@ -1280,6 +1731,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7a87338348648eb44a69d59613935b0f
+      internalID: 21300108
       vertices: []
       indices: 
       edges: []
@@ -1300,6 +1752,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: be12046920ff7bd47848b44ef74595ef
+      internalID: 21300110
       vertices: []
       indices: 
       edges: []
@@ -1320,6 +1773,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6c3262078619afe40854fa65e1492ff7
+      internalID: 21300112
       vertices: []
       indices: 
       edges: []
@@ -1340,6 +1794,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 92acf615bb9c7de4f8eebf72c8abe327
+      internalID: 21300114
       vertices: []
       indices: 
       edges: []
@@ -1360,6 +1815,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0dbc5f48839039f46910df37c3fd8aae
+      internalID: 21300116
       vertices: []
       indices: 
       edges: []
@@ -1380,6 +1836,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b01bbde37dc76594498f37ccaed09e52
+      internalID: 21300118
       vertices: []
       indices: 
       edges: []
@@ -1400,6 +1857,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6cde4b77e8b5c9a478b7bb7aebb05dd6
+      internalID: 21300120
       vertices: []
       indices: 
       edges: []
@@ -1408,13 +1866,72 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      Banners_0: 21300008
+      Banners_1: 21300010
+      Banners_10: 21300028
+      Banners_11: 21300030
+      Banners_12: 21300032
+      Banners_13: 21300034
+      Banners_14: 21300036
+      Banners_15: 21300038
+      Banners_16: 21300040
+      Banners_17: 21300042
+      Banners_18: 21300044
+      Banners_19: 21300046
+      Banners_2: 21300012
+      Banners_20: 21300048
+      Banners_21: 21300050
+      Banners_22: 21300052
+      Banners_23: 21300054
+      Banners_24: 21300056
+      Banners_25: 21300058
+      Banners_26: 21300060
+      Banners_27: 21300062
+      Banners_28: 21300064
+      Banners_29: 21300066
+      Banners_3: 21300014
+      Banners_30: 21300068
+      Banners_31: 21300070
+      Banners_32: 21300072
+      Banners_33: 21300074
+      Banners_34: 21300076
+      Banners_35: 21300078
+      Banners_36: 21300080
+      Banners_37: 21300082
+      Banners_38: 21300084
+      Banners_39: 21300086
+      Banners_4: 21300016
+      Banners_40: 21300088
+      Banners_41: 21300090
+      Banners_42: 21300092
+      Banners_43: 21300094
+      Banners_44: 21300096
+      Banners_45: 21300098
+      Banners_46: 21300100
+      Banners_47: 21300102
+      Banners_48: 21300104
+      Banners_49: 21300106
+      Banners_5: 21300018
+      Banners_50: 21300108
+      Banners_51: 21300110
+      Banners_52: 21300112
+      Banners_53: 21300114
+      Banners_54: 21300116
+      Banners_55: 21300118
+      Banners_56: 21300120
+      Banners_6: 21300020
+      Banners_7: 21300022
+      Banners_8: 21300024
+      Banners_9: 21300026
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

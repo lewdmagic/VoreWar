@@ -5,75 +5,76 @@ using System.Security.Policy;
 using UnityEngine;
 using UnityEngine.UI;
 
-static class TacticalUtilities
+internal static class TacticalUtilities
 {
-    static Army[] armies;
-    static Village village;
-    static List<Actor_Unit> garrison;
-    static TacticalTileType[,] tiles;
-    static bool[,] blockedTiles;
-    static bool[,] blockedClimberTiles;
-    static HirePanel UnitPickerUI;
+    private static Army[] _armies;
+    private static Village _village;
+    private static List<ActorUnit> _garrison;
+    private static TacticalTileType[,] _tiles;
+    private static bool[,] _blockedTiles;
+    private static bool[,] _blockedClimberTiles;
+    private static HirePanel _unitPickerUI;
 
-    static internal TacticalMessageLog Log => State.GameManager.TacticalMode.Log;
+    internal static TacticalMessageLog Log => State.GameManager.TacticalMode.Log;
 
-    static internal List<Actor_Unit> Units { get; private set; }
+    internal static List<ActorUnit> Units { get; private set; }
 
-    static internal void ResetData()
+    internal static void ResetData()
     {
-        armies = null;
-        village = null;
+        _armies = null;
+        _village = null;
         Units = null;
-        tiles = null;
-        garrison = null;
-        blockedTiles = null;
-        blockedClimberTiles = null;
+        _tiles = null;
+        _garrison = null;
+        _blockedTiles = null;
+        _blockedClimberTiles = null;
     }
 
-    static internal void ResetData(Army[] larmies, Village lvillage, List<Actor_Unit> lunits, List<Actor_Unit> lgarrison, TacticalTileType[,] ltiles, bool[,] lblockedTiles, bool[,] lblockedClimberTiles)
+    internal static void ResetData(Army[] larmies, Village lvillage, List<ActorUnit> lunits, List<ActorUnit> lgarrison, TacticalTileType[,] ltiles, bool[,] lblockedTiles, bool[,] lblockedClimberTiles)
     {
-        armies = larmies;
-        village = lvillage;
+        _armies = larmies;
+        _village = lvillage;
         Units = lunits;
-        tiles = ltiles;
-        garrison = lgarrison;
-        blockedTiles = lblockedTiles;
-        blockedClimberTiles = lblockedClimberTiles;
-        UnitPickerUI = State.GameManager.TacticalMode.UnitPickerUI;
+        _tiles = ltiles;
+        _garrison = lgarrison;
+        _blockedTiles = lblockedTiles;
+        _blockedClimberTiles = lblockedClimberTiles;
+        _unitPickerUI = State.GameManager.TacticalMode.UnitPickerUI;
     }
 
-    static internal void ProcessTravelingUnits(List<Unit> travelingUnits)
+    // This is for fleeing units
+    internal static void ProcessTravelingUnits(List<Unit> travelingUnits)
     {
         if (State.World.Villages == null)
         {
             return;
         }
-        if (travelingUnits[0].Side < 60)
+
+        if (!RaceFuncs.IsMonster(travelingUnits[0].Side.ToRace()))
         {
             if (Config.TroopScatter)
             {
                 foreach (var unit in travelingUnits.ToList())
                 {
-                    var villageList = State.World.Villages.Where(s => travelingUnits[0].Side == s.Side && s != village).ToList();
+                    var villageList = State.World.Villages.Where(s => Equals(travelingUnits[0].Side, s.Side) && s != _village).ToList();
                     Village friendlyVillage;
-                    if (villageList.Count() == 0)
-                        continue;
+                    if (villageList.Count() == 0) continue;
                     if (villageList.Count() == 1)
                         friendlyVillage = villageList[0];
                     else
                         friendlyVillage = villageList[State.Rand.Next(villageList.Count())];
-                    var loc = StrategyPathfinder.GetPath(null, armies[0], friendlyVillage.Position, 3, false, 999);
+                    var loc = StrategyPathfinder.GetPath(null, _armies[0], friendlyVillage.Position, 3, false, 999);
                     int turns = 9999;
                     int flightTurns = 9999;
-                    Vec2i destination = null;
-                    bool flyersExist = unit.HasTrait(Traits.Pathfinder);
+                    Vec2I destination = null;
+                    bool flyersExist = unit.HasTrait(TraitType.Pathfinder);
                     if (loc != null && loc.Count > 0)
                     {
-                        destination = new Vec2i(loc.Last().X, loc.Last().Y);
-                        turns = StrategyPathfinder.TurnsToReach(null, armies[0], destination, Config.ArmyMP, false);
-                        if (flyersExist)
-                            flightTurns = StrategyPathfinder.TurnsToReach(null, armies[0], destination, Config.ArmyMP, true);
+                        destination = new Vec2I(loc.Last().X, loc.Last().Y);
+                        turns = StrategyPathfinder.TurnsToReach(null, _armies[0], destination, Config.ArmyMp, false);
+                        if (flyersExist) flightTurns = StrategyPathfinder.TurnsToReach(null, _armies[0], destination, Config.ArmyMp, true);
                     }
+
                     if (turns < 999)
                     {
                         if (flyersExist)
@@ -81,34 +82,32 @@ static class TacticalUtilities
                         else
                             StrategicUtilities.CreateInvisibleTravelingArmy(unit, StrategicUtilities.GetVillageAt(destination), turns);
                     }
+
                     travelingUnits.Remove(unit);
                 }
             }
             else
             {
-                var loc = StrategyPathfinder.GetPathToClosestObject(null, armies[0], State.World.Villages.Where(s => travelingUnits[0].Side == s.Side && s != village).Select(s => s.Position).ToArray(), 3, 999, false);
+                var loc = StrategyPathfinder.GetPathToClosestObject(null, _armies[0], State.World.Villages.Where(s => Equals(travelingUnits[0].Side, s.Side) && s != _village).Select(s => s.Position).ToArray(), 3, 999, false);
                 int turns = 9999;
                 int flightTurns = 9999;
-                Vec2i destination = null;
-                bool flyersExist = travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder)).Count() > 0;
+                Vec2I destination = null;
+                bool flyersExist = travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder)).Count() > 0;
                 if (loc != null && loc.Count > 0)
                 {
-                    destination = new Vec2i(loc.Last().X, loc.Last().Y);
-                    turns = StrategyPathfinder.TurnsToReach(null, armies[0], destination, Config.ArmyMP, false);
-                    if (flyersExist)
-                        flightTurns = StrategyPathfinder.TurnsToReach(null, armies[0], destination, Config.ArmyMP, true);
+                    destination = new Vec2I(loc.Last().X, loc.Last().Y);
+                    turns = StrategyPathfinder.TurnsToReach(null, _armies[0], destination, Config.ArmyMp, false);
+                    if (flyersExist) flightTurns = StrategyPathfinder.TurnsToReach(null, _armies[0], destination, Config.ArmyMp, true);
                 }
+
                 if (turns < 999)
                 {
-                    if (flyersExist)
-                        StrategicUtilities.CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder)).ToList(), StrategicUtilities.GetVillageAt(destination), flightTurns);
-                    StrategicUtilities.CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(Traits.Pathfinder) == false).ToList(), StrategicUtilities.GetVillageAt(destination), turns);
+                    if (flyersExist) StrategicUtilities.CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder)).ToList(), StrategicUtilities.GetVillageAt(destination), flightTurns);
+                    StrategicUtilities.CreateInvisibleTravelingArmy(travelingUnits.Where(s => s.HasTrait(TraitType.Pathfinder) == false).ToList(), StrategicUtilities.GetVillageAt(destination), turns);
                 }
             }
-
-
         }
-        else if (travelingUnits[0].Side > 500)
+        else if (RaceFuncs.IsRebelOrBandit(travelingUnits[0].Side))
         {
             //Bandits and rebels that flee simply vanish
         }
@@ -116,33 +115,26 @@ static class TacticalUtilities
         {
             GenerateFleeingArmy(travelingUnits);
         }
-
     }
 
 
-
-    static void GenerateFleeingArmy(List<Unit> fleeingUnits)
+    private static void GenerateFleeingArmy(List<Unit> fleeingUnits)
     {
-        if (fleeingUnits.Any() == false)
-            return;
-        if (Config.MonstersCanReform == false)
-            return;
+        if (fleeingUnits.Any() == false) return;
+        if (Config.MonstersCanReform == false) return;
         for (int x = -1; x < 2; x++)
         {
             for (int y = -1; y < 2; y++)
             {
-                if (x == 0 && y == 0)
-                    continue;
-                Vec2i loc = new Vec2i(armies[0].Position.x + x, armies[0].Position.y + y);
-                if (loc.x < 0 || loc.y < 0 || loc.x >= Config.StrategicWorldSizeX || loc.y >= Config.StrategicWorldSizeY)
-                    continue;
+                if (x == 0 && y == 0) continue;
+                Vec2I loc = new Vec2I(_armies[0].Position.X + x, _armies[0].Position.Y + y);
+                if (loc.X < 0 || loc.Y < 0 || loc.X >= Config.StrategicWorldSizeX || loc.Y >= Config.StrategicWorldSizeY) continue;
                 if (StrategicUtilities.IsTileClear(loc))
                 {
-                    MonsterEmpire monsterEmp = (MonsterEmpire)State.World.GetEmpireOfSide(fleeingUnits[0].Side);
-                    if (monsterEmp == null)
-                        return;
+                    MonsterEmpire monsterEmp = (MonsterEmpire)State.World.GetEmpireOfSide(fleeingUnits[0].Side); // TODO incorrect cast exception happened here.
+                    if (monsterEmp == null) return;
                     var army = new Army(monsterEmp, loc, fleeingUnits[0].Side);
-                    army.RemainingMP = 0;
+                    army.RemainingMp = 0;
                     monsterEmp.Armies.Add(army);
                     army.Units.AddRange(fleeingUnits);
                     return;
@@ -151,28 +143,23 @@ static class TacticalUtilities
         }
     }
 
-    static internal void GenerateAnotherArmy(List<Unit> leftoverUnits)
+    internal static void GenerateAnotherArmy(List<Unit> leftoverUnits)
     {
-        if (leftoverUnits.Any() == false)
-            return;
-        if (Config.MonstersCanReform == false)
-            return;
+        if (leftoverUnits.Any() == false) return;
+        if (Config.MonstersCanReform == false) return;
         for (int x = -1; x < 2; x++)
         {
             for (int y = -1; y < 2; y++)
             {
-                if (x == 0 && y == 0)
-                    continue;
-                Vec2i loc = new Vec2i(armies[0].Position.x + x, armies[0].Position.y + y);
-                if (loc.x < 0 || loc.y < 0 || loc.x >= Config.StrategicWorldSizeX || loc.y >= Config.StrategicWorldSizeY)
-                    continue;
+                if (x == 0 && y == 0) continue;
+                Vec2I loc = new Vec2I(_armies[0].Position.X + x, _armies[0].Position.Y + y);
+                if (loc.X < 0 || loc.Y < 0 || loc.X >= Config.StrategicWorldSizeX || loc.Y >= Config.StrategicWorldSizeY) continue;
                 if (StrategicUtilities.IsTileClear(loc))
                 {
                     MonsterEmpire monsterEmp = (MonsterEmpire)State.World.GetEmpireOfSide(leftoverUnits[0].Side);
-                    if (monsterEmp == null)
-                        return;
+                    if (monsterEmp == null) return;
                     var army = new Army(monsterEmp, loc, leftoverUnits[0].Side);
-                    army.RemainingMP = 0;
+                    army.RemainingMp = 0;
                     monsterEmp.Armies.Add(army);
                     army.Units.AddRange(leftoverUnits);
                     return;
@@ -181,87 +168,83 @@ static class TacticalUtilities
         }
     }
 
-    static internal void CleanVillage(int remainingAttackers)
+    internal static void CleanVillage(int remainingAttackers)
     {
-        bool MonsterAttacker = armies[0].Side >= 100;
-        SpawnerInfo spawner = Config.SpawnerInfo((Race)armies[0]?.Side);
+        bool monsterAttacker = RaceFuncs.IsMonster(_armies[0].Side.ToRace());
+        //SpawnerInfo spawner = Config.SpawnerInfo((Race)armies[0]?.Side);
+        SpawnerInfo spawner = Config.World.GetSpawner(_armies[0].Side.ToRace());
         Config.MonsterConquestType spawnerType;
         if (spawner != null)
             spawnerType = spawner.GetConquestType();
         else
             spawnerType = Config.MonsterConquest;
         //clean up missing garrison units
-        if (garrison != null)
+        if (_garrison != null)
         {
-            foreach (Actor_Unit garrison in garrison)
+            foreach (ActorUnit garrison in _garrison)
             {
-                if (garrison.Unit.IsDead || garrison.Fled || garrison.Unit.Side == armies[0].Side)
+                if (garrison.Unit.IsDead || garrison.Fled || Equals(garrison.Unit.Side, _armies[0].Side))
                 {
-                    village.VillagePopulation.RemoveHireable(garrison.Unit);
+                    _village.VillagePopulation.RemoveHireable(garrison.Unit);
                 }
             }
         }
-        if (village.Side != armies[0].Side && remainingAttackers > 0 && (MonsterAttacker == false || spawnerType != Config.MonsterConquestType.DevourAndDisperse))
+
+        if (!Equals(_village.Side, _armies[0].Side) && remainingAttackers > 0 && (monsterAttacker == false || spawnerType != Config.MonsterConquestType.DevourAndDisperse))
         {
-            village.ChangeOwner(armies[0].Side);
+            _village.ChangeOwner(_armies[0].Side);
         }
-        else if (remainingAttackers > 0 && MonsterAttacker && spawnerType != Config.MonsterConquestType.DevourAndDisperse)
+        else if (remainingAttackers > 0 && monsterAttacker && spawnerType != Config.MonsterConquestType.DevourAndDisperse)
         {
-            if (State.World.GetEmpireOfRace(village.Race)?.IsAlly(armies[0].Empire) ?? false)
-                village.ChangeOwner(armies[0].Side);
+            if (State.World.GetEmpireOfRace(_village.Race)?.IsAlly(_armies[0].EmpireOutside) ?? false) _village.ChangeOwner(_armies[0].Side);
         }
 
-        if (MonsterAttacker && remainingAttackers > 0 && village.Empire.IsEnemy(armies[0].Empire))
+        if (monsterAttacker && remainingAttackers > 0 && _village.Empire.IsEnemy(_armies[0].EmpireOutside))
         {
             if (spawnerType == Config.MonsterConquestType.DevourAndDisperse)
             {
-                armies[0].RemainingMP = 1;
-                State.GameManager.StrategyMode.Devour(armies[0], Mathf.Min(2 * armies[0].Units.Count, village.Population - 2));
-                armies[0].Units = new List<Unit>();
+                _armies[0].RemainingMp = 1;
+                State.GameManager.StrategyMode.Devour(_armies[0], Mathf.Min(2 * _armies[0].Units.Count, _village.Population - 2));
+                _armies[0].Units = new List<Unit>();
             }
             else if (spawnerType == Config.MonsterConquestType.DevourAndHold)
             {
-                if (village.GetTotalPop() > village.Maxpop / 2)
+                if (_village.GetTotalPop() > _village.Maxpop / 2)
                 {
-                    armies[0].RemainingMP = 1;
-                    State.GameManager.StrategyMode.Devour(armies[0], village.GetTotalPop() - village.Maxpop / 2);
+                    _armies[0].RemainingMp = 1;
+                    State.GameManager.StrategyMode.Devour(_armies[0], _village.GetTotalPop() - _village.Maxpop / 2);
                 }
             }
             else //if (Config.MonsterConquest == Config.MonsterConquestType.CompleteDevourAndHold || Config.MonsterConquest == Config.MonsterConquestType.CompleteDevourAndMoveOn)
             {
-                if (village.GetTotalPop() > 0)
+                if (_village.GetTotalPop() > 0)
                 {
-                    armies[0].RemainingMP = 1;
+                    _armies[0].RemainingMp = 1;
                     if (Config.MonsterConquestTurns > 1)
                     {
-                        armies[0].MonsterTurnsRemaining = Config.MonsterConquestTurns;
+                        _armies[0].MonsterTurnsRemaining = Config.MonsterConquestTurns;
                     }
                     else
-                        State.GameManager.StrategyMode.Devour(armies[0], village.GetTotalPop() / Config.MonsterConquestTurns);
+                        State.GameManager.StrategyMode.Devour(_armies[0], _village.GetTotalPop() / Config.MonsterConquestTurns);
                 }
-
             }
-
-
         }
-
     }
+
     internal static bool IsUnitControlledByPlayer(Unit unit)
     {
-        if (GetMindControlSide(unit) != -1)  // Charmed units may fight for the player, but they are always AI controlled
+        if (!Equals(GetMindControlSide(unit), Side.TrueNoneSide)) // Charmed units may fight for the player, but they are always AI controlled
             return false;
-        int defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
-        int attackerSide = State.GameManager.TacticalMode.GetAttackerSide();
+        Side defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
+        Side attackerSide = State.GameManager.TacticalMode.GetAttackerSide();
         bool aiDefender = State.GameManager.TacticalMode.AIDefender;
         bool aiAttacker = State.GameManager.TacticalMode.AIAttacker;
-        if (State.GameManager.TacticalMode.CheatAttackerControl && unit.Side == attackerSide)
-            return true;
-        if (State.GameManager.TacticalMode.CheatDefenderControl && unit.Side == defenderSide)
-            return true;
+        if (State.GameManager.TacticalMode.CheatAttackerControl && Equals(unit.Side, attackerSide)) return true;
+        if (State.GameManager.TacticalMode.CheatDefenderControl && Equals(unit.Side, defenderSide)) return true;
 
         if (State.GameManager.PureTactical)
         {
-            return !aiAttacker && attackerSide == unit.FixedSide || !aiDefender && defenderSide == unit.FixedSide;
+            return (!aiAttacker && Equals(attackerSide, unit.FixedSide)) || (!aiDefender && Equals(defenderSide, unit.FixedSide));
         }
         else
         {
@@ -269,28 +252,28 @@ static class TacticalUtilities
             {
                 return true;
             }
-            bool prefSideHuman = !aiDefender && defenderSide == GetPreferredSide(unit, defenderSide, attackerSide) || !aiAttacker && attackerSide == GetPreferredSide(unit, attackerSide, defenderSide);
-            bool currentSideHuman = !aiDefender && defenderSide == unit.Side || !aiAttacker && attackerSide == unit.Side;
+
+            bool prefSideHuman = (!aiDefender && Equals(defenderSide, GetPreferredSide(unit, defenderSide, attackerSide))) || (!aiAttacker && Equals(attackerSide, GetPreferredSide(unit, attackerSide, defenderSide)));
+            bool currentSideHuman = (!aiDefender && Equals(defenderSide, unit.Side)) || (!aiAttacker && Equals(attackerSide, unit.Side));
             return prefSideHuman && currentSideHuman && !PlayerCanSeeTrueSide(unit); // "sleeping" infiltrators follow your orders while it doesn't go against their agenda.
         }
     }
 
-    static internal bool AppropriateVoreTarget(Actor_Unit pred, Actor_Unit prey)
+    internal static bool AppropriateVoreTarget(ActorUnit pred, ActorUnit prey)
     {
-        if (pred == prey)
-            return false;
-        if (pred.Unit.Side == prey.Unit.Side)
+        if (pred == prey) return false;
+        if (Equals(pred.Unit.Side, prey.Unit.Side))
         {
-            if (prey.Surrendered || pred.Unit.HasTrait(Traits.Cruel) || Config.AllowInfighting || pred.Unit.HasTrait(Traits.Endosoma) || !(prey.Unit.GetApparentSide(pred.Unit) == pred.Unit.FixedSide && prey.Unit.GetApparentSide(pred.Unit) == pred.Unit.GetApparentSide()) || GetMindControlSide(prey.Unit) != -1 || GetMindControlSide(pred.Unit) != -1 )
-                return true;
+            if (prey.Surrendered || pred.Unit.HasTrait(TraitType.Cruel) || Config.AllowInfighting || pred.Unit.HasTrait(TraitType.Endosoma) || !(Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.FixedSide) && Equals(prey.Unit.GetApparentSide(pred.Unit), pred.Unit.GetApparentSide())) || !Equals(GetMindControlSide(prey.Unit), Side.TrueNoneSide) || !Equals(GetMindControlSide(pred.Unit), Side.TrueNoneSide)) return true;
             return false;
         }
+
         return true;
     }
 
-    static public int GetPreferredSide(Unit actor, int sideA, int sideB) // If equally aligned with both, should default to A
+    public static Side GetPreferredSide(Unit actor, Side sideA, Side sideB) // If equally aligned with both, should default to A
     {
-        int effectiveActorSide = GetMindControlSide(actor) != -1 ? GetMindControlSide(actor) : actor.FixedSide;
+        Side effectiveActorSide = !Equals(GetMindControlSide(actor), Side.TrueNoneSide) ? GetMindControlSide(actor) : actor.FixedSide;
         if (State.GameManager.PureTactical)
         {
             return effectiveActorSide;
@@ -298,47 +281,49 @@ static class TacticalUtilities
 
         int aISideHostility = 0;
         int enemySideHostility = 0;
-        if (effectiveActorSide != sideA)
+        if (!Equals(effectiveActorSide, sideA))
         {
-            if (effectiveActorSide != sideB)
+            if (!Equals(effectiveActorSide, sideB))
             {
                 switch (RelationsManager.GetRelation(effectiveActorSide, sideB).Type)
                 {
                     case RelationState.Allied:
-                        {
-                            enemySideHostility = 1;
-                            break;
-                        }
+                    {
+                        enemySideHostility = 1;
+                        break;
+                    }
                     case RelationState.Neutral:
-                        {
-                            enemySideHostility = 2;
-                            break;
-                        }
+                    {
+                        enemySideHostility = 2;
+                        break;
+                    }
                     case RelationState.Enemies:
-                        {
-                            enemySideHostility = 3;
-                            break;
-                        }
+                    {
+                        enemySideHostility = 3;
+                        break;
+                    }
                 }
             }
+
             switch (RelationsManager.GetRelation(effectiveActorSide, sideA).Type)
             {
                 case RelationState.Allied:
-                    {
-                        aISideHostility = 1;
-                        break;
-                    }
+                {
+                    aISideHostility = 1;
+                    break;
+                }
                 case RelationState.Neutral:
-                    {
-                        aISideHostility = 2;
-                        break;
-                    }
+                {
+                    aISideHostility = 2;
+                    break;
+                }
                 case RelationState.Enemies:
-                    {
-                        aISideHostility = 3;
-                        break;
-                    }
+                {
+                    aISideHostility = 3;
+                    break;
+                }
             }
+
             return enemySideHostility >= aISideHostility ? sideA : sideB;
         }
         else
@@ -347,71 +332,71 @@ static class TacticalUtilities
         }
     }
 
-    static public bool TreatAsHostile(Actor_Unit actor, Actor_Unit target)
+    public static bool TreatAsHostile(ActorUnit actor, ActorUnit target)
     {
         if (actor == target) return false;
-        if (actor.Unit.Side == actor.Unit.FixedSide && !(target.sidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false) && target.Unit.Side == actor.Unit.Side && GetMindControlSide(actor.Unit) == -1)
-            return false;
-        int friendlySide = actor.Unit.Side;
-        int defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
-        int opponentSide = friendlySide == defenderSide ? State.GameManager.TacticalMode.GetAttackerSide() : defenderSide;
-        int effectiveTargetSide = target.Unit.GetApparentSide(actor.Unit);
-        int effectiveActorSide = GetMindControlSide(actor.Unit) != -1 ? GetMindControlSide(actor.Unit) : actor.Unit.FixedSide;
-        if (GetMindControlSide(target.Unit) == effectiveActorSide)
-            return false;
+        if (ReferenceEquals(actor.Unit.Side, actor.Unit.FixedSide) && !(target.SidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false) && Equals(target.Unit.Side, actor.Unit.Side) && Equals(GetMindControlSide(actor.Unit), Side.TrueNoneSide)) return false;
+        Side friendlySide = actor.Unit.Side;
+        Side defenderSide = State.GameManager.TacticalMode.GetDefenderSide();
+        Side opponentSide = Equals(friendlySide, defenderSide) ? State.GameManager.TacticalMode.GetAttackerSide() : defenderSide;
+        Side effectiveTargetSide = target.Unit.GetApparentSide(actor.Unit);
+        Side effectiveActorSide = !Equals(GetMindControlSide(actor.Unit), Side.TrueNoneSide) ? GetMindControlSide(actor.Unit) : actor.Unit.FixedSide;
+        if (Equals(GetMindControlSide(target.Unit), effectiveActorSide)) return false;
         if (State.GameManager.PureTactical)
         {
-            return effectiveTargetSide != effectiveActorSide;
+            return !Equals(effectiveTargetSide, effectiveActorSide);
         }
-        if (effectiveActorSide == effectiveTargetSide)
-            return false;
+
+        if (Equals(effectiveActorSide, effectiveTargetSide)) return false;
         int aISideHostility = 0;
         int enemySideHostility = 0;
-        int preferredSide;
-        int unpreferredSide;
-        if (effectiveActorSide != friendlySide)
+        Side preferredSide;
+        Side unpreferredSide;
+        if (!Equals(effectiveActorSide, friendlySide))
         {
-            if (effectiveActorSide != opponentSide)
+            if (!Equals(effectiveActorSide, opponentSide))
             {
                 switch (RelationsManager.GetRelation(effectiveActorSide, opponentSide).Type)
                 {
                     case RelationState.Allied:
-                        {
-                            enemySideHostility = 1;
-                            break;
-                        }
+                    {
+                        enemySideHostility = 1;
+                        break;
+                    }
                     case RelationState.Neutral:
-                        {
-                            enemySideHostility = 2;
-                            break;
-                        }
+                    {
+                        enemySideHostility = 2;
+                        break;
+                    }
                     case RelationState.Enemies:
-                        {
-                            enemySideHostility = 3;
-                            break;
-                        }
+                    {
+                        enemySideHostility = 3;
+                        break;
+                    }
                 }
             }
+
             switch (RelationsManager.GetRelation(effectiveActorSide, friendlySide).Type)
             {
                 case RelationState.Allied:
-                    {
-                        aISideHostility = 1;
-                        break;
-                    }
+                {
+                    aISideHostility = 1;
+                    break;
+                }
                 case RelationState.Neutral:
-                    {
-                        aISideHostility = 2;
-                        break;
-                    }
+                {
+                    aISideHostility = 2;
+                    break;
+                }
                 case RelationState.Enemies:
-                    {
-                        aISideHostility = 3;
-                        break;
-                    }
+                {
+                    aISideHostility = 3;
+                    break;
+                }
             }
+
             preferredSide = enemySideHostility >= aISideHostility ? friendlySide : opponentSide;
-            unpreferredSide = preferredSide == friendlySide ? opponentSide : friendlySide;
+            unpreferredSide = Equals(preferredSide, friendlySide) ? opponentSide : friendlySide;
         }
         else
         {
@@ -420,145 +405,149 @@ static class TacticalUtilities
         }
 
         int targetSideHostilityP = 0;
-        int targetSideHostilityUP = 0;
-        if (preferredSide != effectiveTargetSide)
+        int targetSideHostilityUp = 0;
+        if (!Equals(preferredSide, effectiveTargetSide))
         {
             switch (RelationsManager.GetRelation(preferredSide, effectiveTargetSide).Type)
             {
                 case RelationState.Allied:
-                    {
-                        targetSideHostilityP = 1;
-                        break;
-                    }
+                {
+                    targetSideHostilityP = 1;
+                    break;
+                }
                 case RelationState.Neutral:
-                    {
-                        targetSideHostilityP = 2;
-                        break;
-                    }
+                {
+                    targetSideHostilityP = 2;
+                    break;
+                }
                 case RelationState.Enemies:
-                    {
-                        targetSideHostilityP = 3;
-                        break;
-                    }
+                {
+                    targetSideHostilityP = 3;
+                    break;
+                }
             }
-
         }
-        if (unpreferredSide != effectiveTargetSide)
+
+        if (!Equals(unpreferredSide, effectiveTargetSide))
         {
             switch (RelationsManager.GetRelation(unpreferredSide, effectiveTargetSide).Type)
             {
                 case RelationState.Allied:
-                    {
-                        targetSideHostilityUP = 1;
-                        break;
-                    }
+                {
+                    targetSideHostilityUp = 1;
+                    break;
+                }
                 case RelationState.Neutral:
-                    {
-                        targetSideHostilityUP = 2;
-                        break;
-                    }
+                {
+                    targetSideHostilityUp = 2;
+                    break;
+                }
                 case RelationState.Enemies:
-                    {
-                        targetSideHostilityUP = 3;
-                        break;
-                    }
+                {
+                    targetSideHostilityUp = 3;
+                    break;
+                }
             }
-
         }
-        return targetSideHostilityP >= targetSideHostilityUP || (target.sidesAttackedThisBattle?.Contains(preferredSide) ?? false) || (target.sidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false);
+
+        return targetSideHostilityP >= targetSideHostilityUp || (target.SidesAttackedThisBattle?.Contains(preferredSide) ?? false) || (target.SidesAttackedThisBattle?.Contains(actor.Unit.FixedSide) ?? false);
     }
 
-    static public bool SneakAttackCheck(Unit attacker, Unit target)
+    public static bool SneakAttackCheck(Unit attacker, Unit target)
     {
-        if (GetMindControlSide(attacker) != -1) return false;
-        return attacker.GetApparentSide(target) == target.GetApparentSide() && attacker.IsInfiltratingSide(target.GetApparentSide());
+        if (!Equals(GetMindControlSide(attacker), Side.TrueNoneSide)) return false;
+        return Equals(attacker.GetApparentSide(target), target.GetApparentSide()) && attacker.IsInfiltratingSide(target.GetApparentSide());
     }
 
-    static public int GetMindControlSide(Unit unit)
+    public static Side GetMindControlSide(Unit unit)
     {
-        if (unit.GetStatusEffect(StatusEffectType.Hypnotized) != null)
-            return (int)(unit.GetStatusEffect(StatusEffectType.Hypnotized).Strength);
-        if (unit.GetStatusEffect(StatusEffectType.Charmed) != null)
-            return (int)(unit.GetStatusEffect(StatusEffectType.Charmed).Strength);
-        return -1;
+        if (unit.GetStatusEffect(StatusEffectType.Hypnotized) != null) return unit.GetStatusEffect(StatusEffectType.Hypnotized).Side;
+        if (unit.GetStatusEffect(StatusEffectType.Charmed) != null) return unit.GetStatusEffect(StatusEffectType.Charmed).Side;
+        return Side.TrueNoneSide;
     }
+    // static public Side GetMindControlSide(Unit unit)
+    // {
+    //     if (unit.GetStatusEffect(StatusEffectType.Hypnotized) != null)
+    //         return (int)(unit.GetStatusEffect(StatusEffectType.Hypnotized).Strength);
+    //     if (unit.GetStatusEffect(StatusEffectType.Charmed) != null)
+    //         return (int)(unit.GetStatusEffect(StatusEffectType.Charmed).Strength);
+    //     return Race.none.ToSide();
+    // }
 
-    static public bool OpenTile(Vec2i vec, Actor_Unit actor) => OpenTile(vec.x, vec.y, actor);
+    public static bool OpenTile(Vec2I vec, ActorUnit actor) => OpenTile(vec.X, vec.Y, actor);
 
-    static public bool FreeSpaceAroundTarget(Vec2i targetLocation, Actor_Unit actor)
+    public static bool FreeSpaceAroundTarget(Vec2I targetLocation, ActorUnit actor)
     {
-        for (int x = targetLocation.x - 1; x < targetLocation.x + 2; x++)
+        for (int x = targetLocation.X - 1; x < targetLocation.X + 2; x++)
         {
-            for (int y = targetLocation.y - 1; y < targetLocation.y + 2; y++)
+            for (int y = targetLocation.Y - 1; y < targetLocation.Y + 2; y++)
             {
-                if (x == targetLocation.x && y == targetLocation.y)
-                    continue;
+                if (x == targetLocation.X && y == targetLocation.Y) continue;
                 if (OpenTile(x, y, actor))
                 {
                     return true;
                 }
             }
         }
+
         return false;
     }
 
-    static public bool OpenTile(int x, int y, Actor_Unit actor)
+    public static bool OpenTile(int x, int y, ActorUnit actor)
     {
-        if (x < 0 || y < 0 || x > tiles.GetUpperBound(0) || y > tiles.GetUpperBound(1))
-            return false;
-        if (blockedTiles != null)
+        if (x < 0 || y < 0 || x > _tiles.GetUpperBound(0) || y > _tiles.GetUpperBound(1)) return false;
+        if (_blockedTiles != null)
         {
-            if (actor?.Unit.HasTrait(Traits.NimbleClimber) ?? false)
+            if (actor?.Unit.HasTrait(TraitType.NimbleClimber) ?? false)
             {
-                if (x <= blockedClimberTiles.GetUpperBound(0) || y <= blockedClimberTiles.GetUpperBound(1))
+                if (x <= _blockedClimberTiles.GetUpperBound(0) || y <= _blockedClimberTiles.GetUpperBound(1))
                 {
-                    if (blockedClimberTiles[x, y])
-                        return false;
+                    if (_blockedClimberTiles[x, y]) return false;
                 }
             }
             else
             {
-                if (x <= blockedTiles.GetUpperBound(0) || y <= blockedTiles.GetUpperBound(1))
+                if (x <= _blockedTiles.GetUpperBound(0) || y <= _blockedTiles.GetUpperBound(1))
                 {
-                    if (blockedTiles[x, y])
-                        return false;
+                    if (_blockedTiles[x, y]) return false;
                 }
             }
-
         }
 
-        if (TacticalTileInfo.CanWalkInto(tiles[x, y], actor))
+        if (TacticalTileInfo.CanWalkInto(_tiles[x, y], actor))
         {
             for (int i = 0; i < Units.Count; i++)
             {
                 if (Units[i].Targetable == true && !Units[i].Hidden)
                 {
-                    if (Units[i].Position.x == x && Units[i].Position.y == y)
+                    if (Units[i].Position.X == x && Units[i].Position.Y == y)
                     {
                         return false;
                     }
                 }
             }
+
             return true;
         }
+
         return false;
     }
 
-    static public bool TileContainsMoreThanOneUnit(int x, int y)
+    public static bool TileContainsMoreThanOneUnit(int x, int y)
     {
-        if (x < 0 || y < 0 || x > tiles.GetUpperBound(0) || y > tiles.GetUpperBound(1))
-            return false;
+        if (x < 0 || y < 0 || x > _tiles.GetUpperBound(0) || y > _tiles.GetUpperBound(1)) return false;
         if (Units == null)
         {
             Debug.Log("This shouldn'targetPred have happened");
             return false;
         }
+
         int count = 0;
         for (int i = 0; i < Units.Count; i++)
         {
             if (Units[i].Targetable == true)
             {
-                if (Units[i].Position.x == x && Units[i].Position.y == y)
+                if (Units[i].Position.X == x && Units[i].Position.Y == y)
                 {
                     count++;
                 }
@@ -575,106 +564,98 @@ static class TacticalUtilities
     //}
 
 
-    static public bool FlyableTile(int x, int y)
+    public static bool FlyableTile(int x, int y)
     {
-        if (x < 0 || y < 0 || x > tiles.GetUpperBound(0) || y > tiles.GetUpperBound(1))
-            return false;
+        if (x < 0 || y < 0 || x > _tiles.GetUpperBound(0) || y > _tiles.GetUpperBound(1)) return false;
         return true;
     }
 
 
-    static internal void CheckKnockBack(Actor_Unit Attacker, Actor_Unit Target, ref float damage)
+    internal static void CheckKnockBack(ActorUnit attacker, ActorUnit target, ref float damage)
     {
-        int xDiff = Target.Position.x - Attacker.Position.x;
-        int yDiff = Target.Position.y - Attacker.Position.y;
-        int direction = Attacker.DiffToDirection(xDiff, yDiff);
-        if (OpenTile(Attacker.GetTile(Target.Position, direction), Target))
-            return;
-        if (OpenTile(Attacker.GetTile(Target.Position, (direction + 1) % 8), Target))
-            return;
-        if (OpenTile(Attacker.GetTile(Target.Position, (direction + 7) % 8), Target))
-            return;
+        int xDiff = target.Position.X - attacker.Position.X;
+        int yDiff = target.Position.Y - attacker.Position.Y;
+        int direction = attacker.DiffToDirection(xDiff, yDiff);
+        if (OpenTile(attacker.GetTile(target.Position, direction), target)) return;
+        if (OpenTile(attacker.GetTile(target.Position, (direction + 1) % 8), target)) return;
+        if (OpenTile(attacker.GetTile(target.Position, (direction + 7) % 8), target)) return;
         damage *= 1.2f;
         return;
     }
 
-    static internal void KnockBack(Actor_Unit Attacker, Actor_Unit Target)
+    internal static void KnockBack(ActorUnit attacker, ActorUnit target)
     {
-        int xDiff = Target.Position.x - Attacker.Position.x;
-        int yDiff = Target.Position.y - Attacker.Position.y;
-        int direction = Attacker.DiffToDirection(xDiff, yDiff);
+        int xDiff = target.Position.X - attacker.Position.X;
+        int yDiff = target.Position.Y - attacker.Position.Y;
+        int direction = attacker.DiffToDirection(xDiff, yDiff);
 
-        Target.Movement += 1;
-        if (Target.Move(direction, tiles))
+        target.Movement += 1;
+        if (target.Move(direction, _tiles))
             return;
-        else if (Target.Move((direction + 1) % 8, tiles))
+        else if (target.Move((direction + 1) % 8, _tiles))
             return;
-        else if (Target.Move((direction + 7) % 8, tiles))
-            return;
-        Target.Movement -= 1;
+        else if (target.Move((direction + 7) % 8, _tiles)) return;
+        target.Movement -= 1;
 
         return;
     }
 
-    static internal PredatorComponent GetPredatorComponentOfUnit(Unit unit)
+    internal static PredatorComponent GetPredatorComponentOfUnit(Unit unit)
     {
-        foreach (Actor_Unit actor in Units)
+        foreach (ActorUnit actor in Units)
         {
-            if (actor.Unit == unit)
-                return actor.PredatorComponent;
+            if (actor.Unit == unit) return actor.PredatorComponent;
         }
+
         return null;
     }
 
-    static internal Actor_Unit FindPredator(Actor_Unit searcher)
+    internal static ActorUnit FindPredator(ActorUnit searcher)
     {
-        foreach (Actor_Unit Unit in Units)
+        foreach (ActorUnit unit in Units)
         {
-            if (Unit.PredatorComponent?.IsActorInPrey(searcher) ?? false)
-                return Unit;
+            if (unit.PredatorComponent?.IsActorInPrey(searcher) ?? false) return unit;
         }
+
         return null;
     }
 
-    static internal void UpdateActorLocations()
+    internal static void UpdateActorLocations()
     {
-        foreach (Actor_Unit unit in Units)
+        foreach (ActorUnit unit in Units)
         {
-            if (unit.UnitSprite == null)
-                continue;
-            Vec2i vec = unit.Position;
-            Vector2 vector2 = new Vector2(vec.x, vec.y);
+            if (unit.UnitSprite == null) continue;
+            Vec2I vec = unit.Position;
+            Vector2 vector2 = new Vector2(vec.X, vec.Y);
             unit.UnitSprite.transform.position = vector2;
         }
     }
 
 
-    static internal void RefreshUnitGraphicType()
+    internal static void RefreshUnitGraphicType()
     {
-        if (Units == null)
-            return;
-        foreach (Actor_Unit actor in Units)
+        if (Units == null) return;
+        foreach (ActorUnit actor in Units)
         {
-            if (actor.Unit.Race != Race.Imps && actor.Unit.Race != Race.Lamia && actor.Unit.Race != Race.Tigers)
+            if (!Equals(actor.Unit.Race, Race.Imp) && !Equals(actor.Unit.Race, Race.Lamia) && !Equals(actor.Unit.Race, Race.Tiger))
             {
-                Races.GetRace(actor.Unit).RandomCustom(actor.Unit);
+                RaceFuncs.GetRace(actor.Unit).RandomCustomCall(actor.Unit);
             }
         }
     }
 
-    static internal void UpdateVersion()
+    internal static void UpdateVersion()
     {
-        foreach (Actor_Unit actor in Units)
+        foreach (ActorUnit actor in Units)
         {
             actor.PredatorComponent?.UpdateVersion();
         }
     }
 
-    static internal List<Actor_Unit> UnitsWithinTiles(Vec2 target, int tiles)
+    internal static List<ActorUnit> UnitsWithinTiles(Vec2 target, int tiles)
     {
-        List<Actor_Unit> unitList = new List<Actor_Unit>();
-
-        foreach (Actor_Unit actor in Units)
+        List<ActorUnit> unitList = new List<ActorUnit>();
+        foreach (ActorUnit actor in Units)
         {
             if (actor.Visible && actor.Targetable)
             {
@@ -684,131 +665,137 @@ static class TacticalUtilities
                 }
             }
         }
+
         return unitList;
     }
 
-    static internal Actor_Unit FindUnitToResurrect(Actor_Unit caster)
+    internal static ActorUnit FindUnitToResurrect(ActorUnit caster)
     {
-        Actor_Unit actor = Units.Where(s => s.Unit.Side == caster.Unit.Side && s.Unit.IsDead && s.Unit.Type != UnitType.Summon).OrderByDescending(s => s.Unit.Experience).FirstOrDefault();
+        ActorUnit actor = Units.Where(s => Equals(s.Unit.Side, caster.Unit.Side) && s.Unit.IsDead && s.Unit.Type != UnitType.Summon).OrderByDescending(s => s.Unit.Experience).FirstOrDefault();
         return actor;
     }
 
-    static internal Actor_Unit FindUnitToReanimate(Actor_Unit caster)
+    internal static ActorUnit FindUnitToReanimate(ActorUnit caster)
     {
-        Actor_Unit actor = Units.Where(s => s.Unit.IsDead).OrderByDescending(s => s.Unit.Experience).FirstOrDefault();
+        ActorUnit actor = Units.Where(s => s.Unit.IsDead).OrderByDescending(s => s.Unit.Experience).FirstOrDefault();
         return actor;
     }
 
 
-    internal static void CreateResurrectionPanel(Vec2i loc, int side)
+    internal static void CreateResurrectionPanel(Vec2I loc, Side side)
     {
-        int children = UnitPickerUI.ActorFolder.transform.childCount;
+        int children = _unitPickerUI.ActorFolder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
         {
-            UnityEngine.Object.Destroy(UnitPickerUI.ActorFolder.transform.GetChild(i).gameObject);
+            UnityEngine.Object.Destroy(_unitPickerUI.ActorFolder.transform.GetChild(i).gameObject);
         }
-        Actor_Unit[] list = Units.Where(s => s.Unit.Side == side && s.Unit.IsDead && s.Unit.Type != UnitType.Summon).OrderByDescending(s => s.Unit.Experience).ToArray();
-        foreach (Actor_Unit actor in list)
+
+        ActorUnit[] list = Units.Where(s => Equals(s.Unit.Side, side) && s.Unit.IsDead && s.Unit.Type != UnitType.Summon).OrderByDescending(s => s.Unit.Experience).ToArray();
+        foreach (ActorUnit actor in list)
         {
-            GameObject obj = UnityEngine.Object.Instantiate(UnitPickerUI.HiringUnitPanel, UnitPickerUI.ActorFolder);
+            GameObject obj = UnityEngine.Object.Instantiate(_unitPickerUI.HiringUnitPanel, _unitPickerUI.ActorFolder);
             UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
             Text text = obj.transform.GetChild(3).GetComponent<Text>();
             text.text = $"Level: {actor.Unit.Level} Exp: {(int)actor.Unit.Experience}\n" +
-                $"Health : {100 * actor.Unit.HealthPct}%\n" +
-                $"Items: {actor.Unit.GetItem(0)?.Name} {actor.Unit.GetItem(1)?.Name}\n" +
-                $"Str: {actor.Unit.GetStatBase(Stat.Strength)} Dex: {actor.Unit.GetStatBase(Stat.Dexterity)} Agility: {actor.Unit.GetStatBase(Stat.Agility)}\n" +
-                $"Mind: {actor.Unit.GetStatBase(Stat.Mind)} Will: {actor.Unit.GetStatBase(Stat.Will)} Endurance: {actor.Unit.GetStatBase(Stat.Endurance)}\n";
-            if (actor.Unit.Predator)
-                text.text += $"Vore: {actor.Unit.GetStatBase(Stat.Voracity)} Stomach: {actor.Unit.GetStatBase(Stat.Stomach)}";
+                        $"Health : {100 * actor.Unit.HealthPct}%\n" +
+                        $"Items: {actor.Unit.GetItem(0)?.Name} {actor.Unit.GetItem(1)?.Name}\n" +
+                        $"Str: {actor.Unit.GetStatBase(Stat.Strength)} Dex: {actor.Unit.GetStatBase(Stat.Dexterity)} Agility: {actor.Unit.GetStatBase(Stat.Agility)}\n" +
+                        $"Mind: {actor.Unit.GetStatBase(Stat.Mind)} Will: {actor.Unit.GetStatBase(Stat.Will)} Endurance: {actor.Unit.GetStatBase(Stat.Endurance)}\n";
+            if (actor.Unit.Predator) text.text += $"Vore: {actor.Unit.GetStatBase(Stat.Voracity)} Stomach: {actor.Unit.GetStatBase(Stat.Stomach)}";
             actor.UpdateBestWeapons();
             sprite.UpdateSprites(actor);
             sprite.Name.text = actor.Unit.Name;
             Button button = obj.GetComponentInChildren<Button>();
             button.onClick.AddListener(() => Resurrect(loc, actor));
-            button.onClick.AddListener(() => UnitPickerUI.gameObject.SetActive(false));
+            button.onClick.AddListener(() => _unitPickerUI.gameObject.SetActive(false));
         }
-        UnitPickerUI.ActorFolder.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 300 * (1 + (list.Length / 3)));
-        UnitPickerUI.gameObject.SetActive(true);
+
+        _unitPickerUI.ActorFolder.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 300 * (1 + list.Length / 3));
+        _unitPickerUI.gameObject.SetActive(true);
     }
 
-    internal static void CreateReanimationPanel(Vec2i loc, Unit unit)
+    internal static void CreateReanimationPanel(Vec2I loc, Unit unit)
     {
-        int children = UnitPickerUI.ActorFolder.transform.childCount;
+        int children = _unitPickerUI.ActorFolder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
         {
-            UnityEngine.Object.Destroy(UnitPickerUI.ActorFolder.transform.GetChild(i).gameObject);
+            UnityEngine.Object.Destroy(_unitPickerUI.ActorFolder.transform.GetChild(i).gameObject);
         }
-        Actor_Unit[] list = Units.Where(s => s.Unit.IsDead).OrderByDescending(s => s.Unit.Experience).ToArray();
-        foreach (Actor_Unit actor in list)
+
+        ActorUnit[] list = Units.Where(s => s.Unit.IsDead).OrderByDescending(s => s.Unit.Experience).ToArray();
+        foreach (ActorUnit actor in list)
         {
-            GameObject obj = UnityEngine.Object.Instantiate(UnitPickerUI.HiringUnitPanel, UnitPickerUI.ActorFolder);
+            GameObject obj = UnityEngine.Object.Instantiate(_unitPickerUI.HiringUnitPanel, _unitPickerUI.ActorFolder);
             UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
-            Text GenderText = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>();
-            Text EXPText = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetComponent<Text>();
-            GameObject EquipRow = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(2).gameObject;
-            GameObject StatRow1 = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(3).gameObject;
-            GameObject StatRow2 = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(4).gameObject;
-            GameObject StatRow3 = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(5).gameObject;
-            GameObject StatRow4 = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(6).gameObject;
-            Text TraitList = obj.transform.GetChild(2).GetChild(0).GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Text>();
-            Text HireButton = obj.transform.GetChild(2).GetChild(1).GetChild(0).gameObject.GetComponent<Text>();
+            Text genderText = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>();
+            Text expText = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetComponent<Text>();
+            GameObject equipRow = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(2).gameObject;
+            GameObject statRow1 = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(3).gameObject;
+            GameObject statRow2 = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(4).gameObject;
+            GameObject statRow3 = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(5).gameObject;
+            GameObject statRow4 = obj.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(6).gameObject;
+            Text traitList = obj.transform.GetChild(2).GetChild(0).GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Text>();
+            Text hireButton = obj.transform.GetChild(2).GetChild(1).GetChild(0).gameObject.GetComponent<Text>();
 
             string gender;
-                if (actor.Unit.GetGender() == Gender.Hermaphrodite)
-                    gender = "Herm";
+            if (actor.Unit.GetGender() == Gender.Hermaphrodite)
+                gender = "Herm";
 
-                else
-                    gender = actor.Unit.GetGender().ToString();
-                GenderText.text = $"{gender}";
-            TraitList.text = RaceEditorPanel.TraitListToText(actor.Unit.GetTraits, true).Replace(", ","\n");
-            EXPText.text = $"Level {actor.Unit.Level} ({(int)actor.Unit.Experience} EXP)";
-            if (actor.Unit.HasTrait(Traits.Resourceful))
+            else
+                gender = actor.Unit.GetGender().ToString();
+            genderText.text = $"{gender}";
+            traitList.text = RaceEditorPanel.TraitListToText(actor.Unit.GetTraits, true).Replace(", ", "\n");
+            expText.text = $"Level {actor.Unit.Level} ({(int)actor.Unit.Experience} EXP)";
+            if (actor.Unit.HasTrait(TraitType.Resourceful))
             {
-                EquipRow.transform.GetChild(2).gameObject.SetActive(true);
-                EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(0)?.Name;
-                EquipRow.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(1)?.Name;
-                EquipRow.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(2)?.Name;
+                equipRow.transform.GetChild(2).gameObject.SetActive(true);
+                equipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(0)?.Name;
+                equipRow.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(1)?.Name;
+                equipRow.transform.GetChild(2).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(2)?.Name;
             }
             else
             {
-                EquipRow.transform.GetChild(2).gameObject.SetActive(false);
-                EquipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(0)?.Name;
-                EquipRow.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(1)?.Name;
+                equipRow.transform.GetChild(2).gameObject.SetActive(false);
+                equipRow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(0)?.Name;
+                equipRow.transform.GetChild(1).GetChild(0).GetComponent<Text>().text = actor.Unit.GetItem(1)?.Name;
             }
-            StatRow1.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Strength).ToString();
-            StatRow1.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Dexterity).ToString();
-            StatRow2.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Mind).ToString();
-            StatRow2.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Will).ToString();
-            StatRow3.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Endurance).ToString();
-            StatRow3.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Agility).ToString();
+
+            statRow1.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Strength).ToString();
+            statRow1.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Dexterity).ToString();
+            statRow2.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Mind).ToString();
+            statRow2.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Will).ToString();
+            statRow3.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Endurance).ToString();
+            statRow3.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Agility).ToString();
             if (actor.PredatorComponent != null)
             {
-                StatRow4.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Voracity).ToString();
-                StatRow4.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Stomach).ToString();
+                statRow4.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Voracity).ToString();
+                statRow4.transform.GetChild(1).GetChild(1).GetComponent<Text>().text = actor.Unit.GetStatBase(Stat.Stomach).ToString();
             }
             else
-                StatRow4.SetActive(false);
+                statRow4.SetActive(false);
+
             actor.UpdateBestWeapons();
             sprite.UpdateSprites(actor);
             sprite.Name.text = actor.Unit.Name;
             Button button = obj.GetComponentInChildren<Button>();
-            button.onClick.AddListener(() => {
+            button.onClick.AddListener(() =>
+            {
                 State.GameManager.SoundManager.PlaySpellCast(SpellList.Summon, actor);
                 Reanimate(loc, actor, unit);
             });
-            button.onClick.AddListener(() => UnitPickerUI.gameObject.SetActive(false));
+            button.onClick.AddListener(() => _unitPickerUI.gameObject.SetActive(false));
         }
-        UnitPickerUI.ActorFolder.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 300 * (1 + (list.Length / 3)));
-        UnitPickerUI.gameObject.SetActive(true);
+
+        _unitPickerUI.ActorFolder.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 300 * (1 + list.Length / 3));
+        _unitPickerUI.gameObject.SetActive(true);
     }
 
-    internal static void Resurrect(Vec2i loc, Actor_Unit target)
+    internal static void Resurrect(Vec2I loc, ActorUnit target)
     {
         var pred = FindPredator(target);
-        if (pred != null)
-            pred.PredatorComponent.FreeUnit(target, true);
-        target.Position.x = loc.x;
-        target.Position.y = loc.y;
+        if (pred != null) pred.PredatorComponent.FreeUnit(target, true);
+        target.Position.X = loc.X;
+        target.Position.Y = loc.Y;
         target.Unit.Health = target.Unit.MaxHealth * 3 / 4;
         target.Visible = true;
         target.Targetable = true;
@@ -824,29 +811,28 @@ static class TacticalUtilities
         }
     }
 
-    internal static void Reanimate(Vec2i loc, Actor_Unit target, Unit caster)
+    internal static void Reanimate(Vec2I loc, ActorUnit target, Unit caster)
     {
         var pred = FindPredator(target);
-        if (pred != null)
-            pred.PredatorComponent.FreeUnit(target, true);
-        target.Position.x = loc.x;
-        target.Position.y = loc.y;
+        if (pred != null) pred.PredatorComponent.FreeUnit(target, true);
+        target.Position.X = loc.X;
+        target.Position.Y = loc.Y;
         target.Unit.Health = target.Unit.MaxHealth * 3 / 4;
         target.Visible = true;
         target.Targetable = true;
         target.SelfPrey = null;
         target.Surrendered = false;
-        target.sidesAttackedThisBattle = new List<int>();
+        target.SidesAttackedThisBattle = new List<Side>();
         target.Unit.Type = UnitType.Summon;
         State.GameManager.TacticalMode.HandleReanimationSideEffects(caster, target);
-        if (!target.Unit.HasTrait(Traits.Untamable))
-            target.Unit.FixedSide = caster.FixedSide;
+        if (!target.Unit.HasTrait(TraitType.Untamable)) target.Unit.FixedSide = caster.FixedSide;
 
         var actorCharm = caster.GetStatusEffect(StatusEffectType.Charmed) ?? caster.GetStatusEffect(StatusEffectType.Hypnotized);
         if (actorCharm != null)
         {
             target.Unit.ApplyStatusEffect(StatusEffectType.Charmed, actorCharm.Strength, actorCharm.Duration);
         }
+
         UpdateActorLocations();
         if (target.UnitSprite != null)
         {
@@ -855,112 +841,97 @@ static class TacticalUtilities
             target.UnitSprite.FlexibleSquare.gameObject.SetActive(true);
             target.UnitSprite.HealthBar.gameObject.SetActive(true);
         }
+
         State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{caster.Name}</b> brought back <b>{target.Unit.Name}</b> as a summon.");
     }
 
-    static internal bool MeetsQualifier(List<AbilityTargets> targets, Actor_Unit actor, Actor_Unit target)
+    internal static bool MeetsQualifier(List<AbilityTargets> targets, ActorUnit actor, ActorUnit target)
     {
-        if ((target.Unit.GetApparentSide() != actor.Unit.FixedSide) && targets.Contains(AbilityTargets.Enemy))
-            return true;
-        if ((target.Unit.GetApparentSide() == actor.Unit.GetApparentSide() || target.Unit.GetApparentSide() == actor.Unit.FixedSide) && targets.Contains(AbilityTargets.Ally))
-            return true;
-        if ((target.Unit.GetApparentSide() == actor.Unit.GetApparentSide() || target.Unit.GetApparentSide() == actor.Unit.FixedSide) && target.Surrendered && targets.Contains(AbilityTargets.SurrenderedAlly))
-            return true;
-        if (targets.Contains(AbilityTargets.Enemy) && Config.AllowInfighting)
-            return true;
-        if (targets.Contains(AbilityTargets.Self) && actor.Unit == target.Unit)
-            return true;
+        if (!Equals(target.Unit.GetApparentSide(), actor.Unit.FixedSide) && targets.Contains(AbilityTargets.Enemy)) return true;
+        if ((Equals(target.Unit.GetApparentSide(), actor.Unit.GetApparentSide()) || Equals(target.Unit.GetApparentSide(), actor.Unit.FixedSide)) && targets.Contains(AbilityTargets.Ally)) return true;
+        if ((Equals(target.Unit.GetApparentSide(), actor.Unit.GetApparentSide()) || Equals(target.Unit.GetApparentSide(), actor.Unit.FixedSide)) && target.Surrendered && targets.Contains(AbilityTargets.SurrenderedAlly)) return true;
+        if (targets.Contains(AbilityTargets.Enemy) && Config.AllowInfighting) return true;
+        if (targets.Contains(AbilityTargets.Self) && actor.Unit == target.Unit) return true;
         return false;
-
     }
 
-    static internal Actor_Unit GetActorAt(Vec2 location)
+    internal static ActorUnit GetActorAt(Vec2 location)
     {
-        foreach (Actor_Unit actor in Units)
+        foreach (ActorUnit actor in Units)
         {
-            if (actor == null)
-                continue;
-            if (actor.Position.x == location.x && actor.Position.y == location.y)
-                return actor;
+            if (actor == null) continue;
+            if (actor.Position.X == location.X && actor.Position.Y == location.Y) return actor;
         }
+
         return null;
     }
 
-    static internal Actor_Unit GetActorOf(Unit unit)
+    internal static ActorUnit GetActorOf(Unit unit)
     {
         return Units.FirstOrDefault(actor => actor.Unit == unit);
     }
 
-    static internal void CreateEffect(Vec2i location, TileEffectType type, int areaOfEffect, float strength, int duration)
+    internal static void CreateEffect(Vec2I location, TileEffectType type, int areaOfEffect, float strength, int duration)
     {
-        for (int x = location.x - areaOfEffect; x <= location.x + areaOfEffect; x++)
+        for (int x = location.X - areaOfEffect; x <= location.X + areaOfEffect; x++)
         {
-            for (int y = location.y - areaOfEffect; y <= location.y + areaOfEffect; y++)
+            for (int y = location.Y - areaOfEffect; y <= location.Y + areaOfEffect; y++)
             {
-                if (x < 0 || y < 0 || x > tiles.GetUpperBound(0) || y > tiles.GetUpperBound(1))
-                    continue;
+                if (x < 0 || y < 0 || x > _tiles.GetUpperBound(0) || y > _tiles.GetUpperBound(1)) continue;
                 Vec2 position = new Vec2(x, y);
                 TileEffect effect = new TileEffect(duration, strength, type);
                 State.GameManager.TacticalMode.ActiveEffects[position] = effect;
                 switch (type)
                 {
                     case TileEffectType.Fire:
-                        State.GameManager.TacticalMode.EffectTileMap.SetTile(new Vector3Int(position.x, position.y, 0), State.GameManager.TacticalMode.Pyre);
+                        State.GameManager.TacticalMode.EffectTileMap.SetTile(new Vector3Int(position.X, position.Y, 0), State.GameManager.TacticalMode.Pyre);
                         break;
                     case TileEffectType.IcePatch:
-                        State.GameManager.TacticalMode.EffectTileMap.SetTile(new Vector3Int(position.x, position.y, 0), State.GameManager.TacticalMode.Ice);
+                        State.GameManager.TacticalMode.EffectTileMap.SetTile(new Vector3Int(position.X, position.Y, 0), State.GameManager.TacticalMode.Ice);
                         break;
                 }
             }
         }
-
     }
 
-    static public bool IsUnitControlledBySide(Unit unit, int side)
+    public static bool IsUnitControlledBySide(Unit unit, Side side)
     {
-        if (GetMindControlSide(unit) != -1)  // Charmed units may fight for a specific side, but for targeting purposes we'll consider them driven by separate forces
+        if (!Equals(GetMindControlSide(unit), Side.TrueNoneSide)) // Charmed units may fight for a specific side, but for targeting purposes we'll consider them driven by separate forces
             return false;
-        if (side == unit.FixedSide)
+        if (Equals(side, unit.FixedSide))
             return true;
-        else if (State.GameManager.PureTactical)
-            return false;
-        if (unit.IsInfiltratingSide(side))
-            return true;                    // hidden and compliant
+        else if (State.GameManager.PureTactical) return false;
+        if (unit.IsInfiltratingSide(side)) return true; // hidden and compliant
         return false;
     }
 
-    static public bool PlayerCanSeeTrueSide(Unit unit)
+    public static bool PlayerCanSeeTrueSide(Unit unit)
     {
-        if (!unit.hiddenFixedSide || unit.FixedSide == unit.Side) return true;
+        if (!unit.HiddenFixedSide || Equals(unit.FixedSide, unit.Side)) return true;
 
-        if (State.World.MainEmpires == null)
-            return unit.FixedSide == (!State.GameManager.TacticalMode.AIAttacker ?
-                State.GameManager.TacticalMode.GetAttackerSide() : (!State.GameManager.TacticalMode.AIDefender ? State.GameManager.TacticalMode.GetDefenderSide() : unit.FixedSide));
+        if (State.World.MainEmpires == null) return Equals(unit.FixedSide, !State.GameManager.TacticalMode.AIAttacker ? State.GameManager.TacticalMode.GetAttackerSide() : !State.GameManager.TacticalMode.AIDefender ? State.GameManager.TacticalMode.GetDefenderSide() : unit.FixedSide);
 
         if (StrategicUtilities.GetAllHumanSides().Count > 1) return false;
         if (StrategicUtilities.GetAllHumanSides().Count < 1) return true;
 
 
-
-        if (State.GameManager.StrategyMode.LastHumanEmpire?.Side == unit.FixedSide)
-            return true;
+        if (Equals(State.GameManager.StrategyMode.LastHumanEmpire?.Side, unit.FixedSide)) return true;
 
         if (RelationsManager.GetRelation(unit.FixedSide, State.GameManager.StrategyMode.LastHumanEmpire.Side).Type == RelationState.Allied)
-         {
+        {
             return true;
-         }
-        
+        }
+
         return false;
     }
 
-    static public bool UnitCanSeeTrueSideOfTarget(Unit viewer, Unit target)
+    public static bool UnitCanSeeTrueSideOfTarget(Unit viewer, Unit target)
     {
-        if (!target.hiddenFixedSide || target.FixedSide == target.Side) return true;
+        if (!target.HiddenFixedSide || Equals(target.FixedSide, target.Side)) return true;
 
         if (State.World.MainEmpires == null) return false;
 
-        if (target.FixedSide == viewer.FixedSide)
-            return true;
+        if (ReferenceEquals(target.FixedSide, viewer.FixedSide)) return true;
 
         if (RelationsManager.GetRelation(target.FixedSide, viewer.FixedSide).Type == RelationState.Allied)
         {
@@ -973,19 +944,19 @@ static class TacticalUtilities
         return false;
     }
 
-    internal static void ForceFeed(Actor_Unit actor, Actor_Unit targetPred)
+    internal static void ForceFeed(ActorUnit actor, ActorUnit targetPred)
     {
         float r = (float)State.Rand.NextDouble();
         if (targetPred.Unit.Predator)
         {
-            PreyLocation preyLocation = PreyLocation.stomach;
+            PreyLocation preyLocation = PreyLocation.Stomach;
             var possibilities = new Dictionary<string, PreyLocation>();
-            possibilities.Add("Maw", PreyLocation.stomach);
+            possibilities.Add("Maw", PreyLocation.Stomach);
 
-            if (targetPred.Unit.CanAnalVore && State.RaceSettings.GetVoreTypes(targetPred.Unit.Race).Contains(VoreType.Anal)) possibilities.Add("Anus", PreyLocation.anal);
-            if (targetPred.Unit.CanBreastVore && State.RaceSettings.GetVoreTypes(targetPred.Unit.Race).Contains(VoreType.BreastVore)) possibilities.Add("Breast", PreyLocation.breasts);
-            if (targetPred.Unit.CanCockVore && State.RaceSettings.GetVoreTypes(targetPred.Unit.Race).Contains(VoreType.CockVore)) possibilities.Add("Cock", PreyLocation.balls);
-            if (targetPred.Unit.CanUnbirth && State.RaceSettings.GetVoreTypes(targetPred.Unit.Race).Contains(VoreType.Unbirth)) possibilities.Add("Pussy", PreyLocation.womb);
+            if (targetPred.Unit.CanAnalVore && State.RaceSettings.GetVoreTypes(targetPred.Unit.Race).Contains(VoreType.Anal)) possibilities.Add("Anus", PreyLocation.Anal);
+            if (targetPred.Unit.CanBreastVore && State.RaceSettings.GetVoreTypes(targetPred.Unit.Race).Contains(VoreType.BreastVore)) possibilities.Add("Breast", PreyLocation.Breasts);
+            if (targetPred.Unit.CanCockVore && State.RaceSettings.GetVoreTypes(targetPred.Unit.Race).Contains(VoreType.CockVore)) possibilities.Add("Cock", PreyLocation.Balls);
+            if (targetPred.Unit.CanUnbirth && State.RaceSettings.GetVoreTypes(targetPred.Unit.Race).Contains(VoreType.Unbirth)) possibilities.Add("Pussy", PreyLocation.Womb);
 
             if (State.GameManager.TacticalMode.IsPlayerInControl && State.GameManager.CurrentScene == State.GameManager.TacticalMode && possibilities.Count > 1)
             {
@@ -1002,20 +973,22 @@ static class TacticalUtilities
         }
         else
         {
-            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{actor.Unit.Name}</b> couldn't force feed {LogUtilities.GPPHimself(actor.Unit)} to <b>{targetPred.Unit.Name}</b>.");
+            State.GameManager.TacticalMode.Log.RegisterMiscellaneous($"<b>{actor.Unit.Name}</b> couldn't force feed {LogUtilities.GppHimself(actor.Unit)} to <b>{targetPred.Unit.Name}</b>.");
             actor.Movement = 0;
         }
     }
-    internal static void AssumeForm(Actor_Unit actor, Actor_Unit target)
+
+    internal static void AssumeForm(ActorUnit actor, ActorUnit target)
     {
         actor.ChangeRacePrey();
     }
-    internal static void RevertForm(Actor_Unit actor, Actor_Unit target)
+
+    internal static void RevertForm(ActorUnit actor, ActorUnit target)
     {
         actor.RevertRace();
     }
 
-    internal static void ShapeshifterPanel(Actor_Unit selectedUnit)
+    internal static void ShapeshifterPanel(ActorUnit selectedUnit)
     {
         //int children = UnitPickerUI.ActorFolder.transform.childCount;
         //for (int i = children - 1; i >= 0; i--)
@@ -1048,7 +1021,6 @@ static class TacticalUtilities
 
     internal static bool IsPreyEndoTargetForUnit(Prey preyUnit, Unit unit)
     {
-        return unit.HasTrait(Traits.Endosoma) && (preyUnit.Unit.FixedSide == unit.GetApparentSide(preyUnit.Unit)) && preyUnit.Unit.IsDead == false;
+        return unit.HasTrait(TraitType.Endosoma) && Equals(preyUnit.Unit.FixedSide, unit.GetApparentSide(preyUnit.Unit)) && preyUnit.Unit.IsDead == false;
     }
 }
-

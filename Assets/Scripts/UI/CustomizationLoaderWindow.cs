@@ -18,7 +18,6 @@ public class CustomizationLoaderWindow : MonoBehaviour
         EnteredFromUnitEditor = inUnitEditor;
         PopulateGrid();
         gameObject.SetActive(true);
-
     }
 
     public void PopulateGrid()
@@ -27,21 +26,22 @@ public class CustomizationLoaderWindow : MonoBehaviour
         if (EnteredFromUnitEditor)
             customs = CustomizationDataStorer.GetCompatibleCustomizations(State.GameManager.UnitEditor.UnitEditor.Unit.Race, State.GameManager.UnitEditor.UnitEditor.Unit.Type, ShowAll.isOn);
         else
-            customs = CustomizationDataStorer.GetCompatibleCustomizations(State.GameManager.Recruit_Mode.Customizer.Unit.Race, State.GameManager.Recruit_Mode.Customizer.Unit.Type, ShowAll.isOn);
+            customs = CustomizationDataStorer.GetCompatibleCustomizations(State.GameManager.RecruitMode.Customizer.Unit.Race, State.GameManager.RecruitMode.Customizer.Unit.Type, ShowAll.isOn);
         int children = ActorFolder.transform.childCount;
         for (int i = children - 1; i >= 0; i--)
         {
             Destroy(ActorFolder.transform.GetChild(i).gameObject);
         }
+
         foreach (CustomizerData customizerData in customs)
         {
             GameObject obj = Instantiate(UnitDisplay, ActorFolder);
             UIUnitSprite sprite = obj.GetComponentInChildren<UIUnitSprite>();
-            Unit tempUnit = new Unit(1, customizerData.Race, 0, false);
-            if (customizerData.Type == UnitType.Leader)
-                tempUnit.Type = UnitType.Leader;
+            // was 1
+            Unit tempUnit = new Unit(Race.Dog.ToSide(), customizerData.Race, 0, false);
+            if (customizerData.Type == UnitType.Leader) tempUnit.Type = UnitType.Leader;
             customizerData.CopyToUnit(tempUnit, true);
-            Actor_Unit actor = new Actor_Unit(new Vec2i(0, 0), tempUnit);
+            ActorUnit actor = new ActorUnit(new Vec2I(0, 0), tempUnit);
             sprite.UpdateSprites(actor);
             sprite.Name.text = customizerData.Name;
             var ucd = obj.GetComponent<UnitCustomizerDisplayPanel>();
@@ -50,12 +50,11 @@ public class CustomizationLoaderWindow : MonoBehaviour
             if (EnteredFromUnitEditor)
                 ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(customizerData, State.GameManager.UnitEditor.UnitEditor.Unit));
             else
-                ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(customizerData, State.GameManager.Recruit_Mode.Customizer.Unit));
+                ucd.CopyFromButton.onClick.AddListener(() => CopyToUnit(customizerData, State.GameManager.RecruitMode.Customizer.Unit));
         }
-
     }
 
-    void CopyToUnit(CustomizerData data, Unit unit)
+    private void CopyToUnit(CustomizerData data, Unit unit)
     {
         data.CopyToUnit(unit, CopyName.isOn);
         if (EnteredFromUnitEditor)
@@ -64,19 +63,17 @@ public class CustomizationLoaderWindow : MonoBehaviour
             State.GameManager.UnitEditor.UnitEditor.Unit.ReloadTraits();
             State.GameManager.UnitEditor.UnitEditor.Unit.InitializeTraits();
             State.GameManager.UnitEditor.UnitEditor.RefreshView();
-
         }
         else
         {
-            State.GameManager.Recruit_Mode.Customizer.RefreshGenderSelector();
-            State.GameManager.Recruit_Mode.Customizer.Unit.ReloadTraits();
-            State.GameManager.Recruit_Mode.Customizer.Unit.InitializeTraits();
-            State.GameManager.Recruit_Mode.Customizer.RefreshView();
+            State.GameManager.RecruitMode.Customizer.RefreshGenderSelector();
+            State.GameManager.RecruitMode.Customizer.Unit.ReloadTraits();
+            State.GameManager.RecruitMode.Customizer.Unit.InitializeTraits();
+            State.GameManager.RecruitMode.Customizer.RefreshView();
         }
 
         CloseThis();
     }
-
 
 
     public void CloseThis()
@@ -86,7 +83,7 @@ public class CustomizationLoaderWindow : MonoBehaviour
         {
             Destroy(ActorFolder.transform.GetChild(i).gameObject);
         }
+
         gameObject.SetActive(false);
     }
 }
-

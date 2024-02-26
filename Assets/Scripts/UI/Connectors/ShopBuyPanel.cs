@@ -10,4 +10,3 @@ public class ShopBuyPanel : MonoBehaviour
     public Text InventoryButtonText;
     public TextMeshProUGUI Description;
 }
-

@@ -18,15 +18,13 @@ public class StrategicTileDictionary : MonoBehaviour
     public Sprite[] DeepWaterOverWaterSprites;
     public Sprite[] ObjectSprites;
 
-    void Start()
+    private void Start()
     {
-
         IceOverSnow = CreateTiles(IceOverSnowSprites);
         DeepWaterOverWater = CreateTiles(DeepWaterOverWaterSprites);
         WaterFloat = CreateTiles(WaterFloatSprites);
         GrassFloat = CreateTiles(GrassFloatSprites);
         Objects = CreateTiles(ObjectSprites);
-
 
 
         Tile[] CreateTiles(Sprite[] sprites)
@@ -37,8 +35,8 @@ public class StrategicTileDictionary : MonoBehaviour
                 temptiles[i] = ScriptableObject.CreateInstance<Tile>();
                 temptiles[i].sprite = sprites[i];
             }
+
             return temptiles;
         }
     }
 }
-

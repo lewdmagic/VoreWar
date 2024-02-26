@@ -6,73 +6,73 @@ public class SoundManager : MonoBehaviour
 {
     internal bool SoundEnabled = true;
 
-    private readonly int sourceCount = 9;
-    private AudioSource[] efxSources;
-    private int sourceIndex = 0;
+    private readonly int _sourceCount = 9;
+    private AudioSource[] _efxSources;
+    private int _sourceIndex = 0;
 
-    private readonly float lowPitchRange = 0.92f;
-    private readonly float highPitchRange = 1.08f;
+    private readonly float _lowPitchRange = 0.92f;
+    private readonly float _highPitchRange = 1.08f;
 
-    private float voreVolume = 1f;
-    private float combatVolume = 1f;
-    private float passiveVoreSoundVolume = 1f;
+    private float _voreVolume = 1f;
+    private float _combatVolume = 1f;
+    private float _passiveVoreSoundVolume = 1f;
 
-    private float sfxFloor = 0.7f;
-    private float loopFloor = 0f;
+    private float _sfxFloor = 0.7f;
+    private float _loopFloor = 0f;
 
-    private AudioClip[] Swings;
-    private AudioClip[] ArrowHits;
-    private AudioClip[] MeleeHits;
-    private AudioClip[] ArmorHits;
-    private AudioClip[] Burps;
-    private AudioClip[] Farts;
+    private AudioClip[] _swings;
+    private AudioClip[] _arrowHits;
+    private AudioClip[] _meleeHits;
+    private AudioClip[] _armorHits;
+    private AudioClip[] _burps;
+    private AudioClip[] _farts;
 
-    private readonly Dictionary<PreyLocation, AudioClip[]> Swallows = new Dictionary<PreyLocation, AudioClip[]>();
-    private readonly Dictionary<PreyLocation, AudioClip[]> FailedSwallows = new Dictionary<PreyLocation, AudioClip[]>();
-    private readonly Dictionary<PreyLocation, AudioClip[]> Digests = new Dictionary<PreyLocation, AudioClip[]>();
-    private readonly Dictionary<PreyLocation, AudioClip[]> DigestLoops = new Dictionary<PreyLocation, AudioClip[]>();
-    private readonly Dictionary<PreyLocation, AudioClip[]> Absorbs = new Dictionary<PreyLocation, AudioClip[]>();
-    private readonly Dictionary<PreyLocation, AudioClip[]> AbsorbLoops = new Dictionary<PreyLocation, AudioClip[]>();
+    private readonly Dictionary<PreyLocation, AudioClip[]> _swallows = new Dictionary<PreyLocation, AudioClip[]>();
+    private readonly Dictionary<PreyLocation, AudioClip[]> _failedSwallows = new Dictionary<PreyLocation, AudioClip[]>();
+    private readonly Dictionary<PreyLocation, AudioClip[]> _digests = new Dictionary<PreyLocation, AudioClip[]>();
+    private readonly Dictionary<PreyLocation, AudioClip[]> _digestLoops = new Dictionary<PreyLocation, AudioClip[]>();
+    private readonly Dictionary<PreyLocation, AudioClip[]> _absorbs = new Dictionary<PreyLocation, AudioClip[]>();
+    private readonly Dictionary<PreyLocation, AudioClip[]> _absorbLoops = new Dictionary<PreyLocation, AudioClip[]>();
 
-    private readonly Dictionary<string, AudioClip[]> SpellCasts = new Dictionary<string, AudioClip[]>();
-    private readonly Dictionary<string, AudioClip[]> SpellHits = new Dictionary<string, AudioClip[]>();
+    private readonly Dictionary<string, AudioClip[]> _spellCasts = new Dictionary<string, AudioClip[]>();
+    private readonly Dictionary<string, AudioClip[]> _spellHits = new Dictionary<string, AudioClip[]>();
 
-    private readonly Dictionary<string, AudioClip[]> MiscSounds = new Dictionary<string, AudioClip[]>();
+    private readonly Dictionary<string, AudioClip[]> _miscSounds = new Dictionary<string, AudioClip[]>();
 
-    internal void PlaySwing(Actor_Unit actor) => RandomizeSfx(Swings, actor, combatVolume);
-    internal void PlayArrowHit(Actor_Unit actor) => RandomizeSfx(ArrowHits, actor, combatVolume);
-    internal void PlayMeleeHit(Actor_Unit actor) => RandomizeSfx(MeleeHits, actor, combatVolume);
-    internal void PlayArmorHit(Actor_Unit actor) => RandomizeSfx(ArmorHits, actor, combatVolume);
+    internal void PlaySwing(ActorUnit actor) => RandomizeSfx(_swings, actor, _combatVolume);
+    internal void PlayArrowHit(ActorUnit actor) => RandomizeSfx(_arrowHits, actor, _combatVolume);
+    internal void PlayMeleeHit(ActorUnit actor) => RandomizeSfx(_meleeHits, actor, _combatVolume);
+    internal void PlayArmorHit(ActorUnit actor) => RandomizeSfx(_armorHits, actor, _combatVolume);
 
-    internal void PlayBurp(Actor_Unit actor) => RandomizeSfx(Burps, actor, voreVolume);
-    internal void PlayFart(Actor_Unit actor) => RandomizeSfx(Farts, actor, voreVolume);
+    internal void PlayBurp(ActorUnit actor) => RandomizeSfx(_burps, actor, _voreVolume);
+    internal void PlayFart(ActorUnit actor) => RandomizeSfx(_farts, actor, _voreVolume);
 
-    internal void PlaySwallow(PreyLocation location, Actor_Unit actor) => RandomizeSfx(Swallows[location], actor, voreVolume);
-    internal void PlayFailedSwallow(PreyLocation location, Actor_Unit actor) => RandomizeSfx(FailedSwallows[location], actor, voreVolume);
+    internal void PlaySwallow(PreyLocation location, ActorUnit actor) => RandomizeSfx(_swallows[location], actor, _voreVolume);
+    internal void PlayFailedSwallow(PreyLocation location, ActorUnit actor) => RandomizeSfx(_failedSwallows[location], actor, _voreVolume);
 
-    internal void PlayDigest(PreyLocation location, Actor_Unit actor) => RandomizeSfx(Digests[location], actor, voreVolume);
-    internal void PlayDigestLoop(PreyLocation location, Actor_Unit actor) => RandomizeLoop(DigestLoops[location], actor, passiveVoreSoundVolume);
+    internal void PlayDigest(PreyLocation location, ActorUnit actor) => RandomizeSfx(_digests[location], actor, _voreVolume);
+    internal void PlayDigestLoop(PreyLocation location, ActorUnit actor) => RandomizeLoop(_digestLoops[location], actor, _passiveVoreSoundVolume);
 
-    internal void PlayAbsorb(PreyLocation location, Actor_Unit actor) => RandomizeSfx(Absorbs[location], actor, voreVolume);
-    internal void PlayAbsorbLoop(PreyLocation location, Actor_Unit actor) => RandomizeLoop(AbsorbLoops[location], actor, passiveVoreSoundVolume);
+    internal void PlayAbsorb(PreyLocation location, ActorUnit actor) => RandomizeSfx(_absorbs[location], actor, _voreVolume);
+    internal void PlayAbsorbLoop(PreyLocation location, ActorUnit actor) => RandomizeLoop(_absorbLoops[location], actor, _passiveVoreSoundVolume);
 
-    internal void PlaySpellCast(Spell spell, Actor_Unit actor) => RandomizeSfx(SpellCasts[spell.Id], actor, combatVolume);
+    internal void PlaySpellCast(Spell spell, ActorUnit actor) => RandomizeSfx(_spellCasts[spell.Id], actor, _combatVolume);
 
     // todo locate the spell correctly
-    internal void PlaySpellHit(Spell spell, Vector2 location) => RandomizeSfxGlobal(SpellHits[spell.Id], location, combatVolume);
+    internal void PlaySpellHit(Spell spell, Vector2 location) => RandomizeSfxGlobal(_spellHits[spell.Id], location, _combatVolume);
 
     private void PopulateVoreClips(Dictionary<PreyLocation, AudioClip[]> dict, string name)
     {
         char sep = Path.DirectorySeparatorChar;
-        dict[PreyLocation.stomach] = Resources.LoadAll<AudioClip>($"audio{sep}vore{sep}{name}{sep}oral");
-        dict[PreyLocation.stomach2] = dict[PreyLocation.stomach];
-        dict[PreyLocation.anal] = dict[PreyLocation.stomach];
-        dict[PreyLocation.tail] = dict[PreyLocation.stomach];
-        dict[PreyLocation.balls] = Resources.LoadAll<AudioClip>($"audio{sep}vore{sep}{name}{sep}cock");
-        dict[PreyLocation.breasts] = Resources.LoadAll<AudioClip>($"audio{sep}vore{sep}{name}{sep}breast");
-        dict[PreyLocation.leftBreast] = dict[PreyLocation.breasts];
-        dict[PreyLocation.rightBreast] = dict[PreyLocation.breasts];
-        dict[PreyLocation.womb] = Resources.LoadAll<AudioClip>($"audio{sep}vore{sep}{name}{sep}unbirth");
+        dict[PreyLocation.Stomach] = Resources.LoadAll<AudioClip>($"audio{sep}vore{sep}{name}{sep}oral");
+        dict[PreyLocation.Stomach2] = dict[PreyLocation.Stomach];
+        dict[PreyLocation.Anal] = dict[PreyLocation.Stomach];
+        dict[PreyLocation.Tail] = dict[PreyLocation.Stomach];
+        dict[PreyLocation.Balls] = Resources.LoadAll<AudioClip>($"audio{sep}vore{sep}{name}{sep}cock");
+        dict[PreyLocation.Breasts] = Resources.LoadAll<AudioClip>($"audio{sep}vore{sep}{name}{sep}breast");
+        dict[PreyLocation.LeftBreast] = dict[PreyLocation.Breasts];
+        dict[PreyLocation.RightBreast] = dict[PreyLocation.Breasts];
+        dict[PreyLocation.Womb] = Resources.LoadAll<AudioClip>($"audio{sep}vore{sep}{name}{sep}unbirth");
     }
 
     private void PopulateClips(ref AudioClip[] array, string name)
@@ -83,21 +83,21 @@ public class SoundManager : MonoBehaviour
 
     private void InitSources()
     {
-        efxSources = new AudioSource[sourceCount];
+        _efxSources = new AudioSource[_sourceCount];
 
-        for (int x = 0; x < sourceCount; x++)
+        for (int x = 0; x < _sourceCount; x++)
         {
             AudioSource source = gameObject.AddComponent<AudioSource>();
-            source.pitch = (highPitchRange - lowPitchRange) * x / sourceCount + lowPitchRange;
-            efxSources[x] = source;
+            source.pitch = (_highPitchRange - _lowPitchRange) * x / _sourceCount + _lowPitchRange;
+            _efxSources[x] = source;
         }
     }
 
     public void SetVolume(float combatVolume, float voreVolume, float passiveVoreSoundVolume)
     {
-        this.voreVolume = voreVolume;
-        this.combatVolume = combatVolume;
-        this.passiveVoreSoundVolume = passiveVoreSoundVolume;
+        this._voreVolume = voreVolume;
+        this._combatVolume = combatVolume;
+        this._passiveVoreSoundVolume = passiveVoreSoundVolume;
 
         //foreach(var source in efxSources)
         //{
@@ -109,29 +109,30 @@ public class SoundManager : MonoBehaviour
     {
         char sep = Path.DirectorySeparatorChar;
 
-        PopulateClips(ref Swings, $"combat{sep}swings");
-        PopulateClips(ref ArrowHits, $"combat{sep}arrow-hits");
-        PopulateClips(ref MeleeHits, $"combat{sep}melee-hits");
-        PopulateClips(ref ArmorHits, $"combat{sep}armor-hits");
+        PopulateClips(ref _swings, $"combat{sep}swings");
+        PopulateClips(ref _arrowHits, $"combat{sep}arrow-hits");
+        PopulateClips(ref _meleeHits, $"combat{sep}melee-hits");
+        PopulateClips(ref _armorHits, $"combat{sep}armor-hits");
 
-        PopulateClips(ref Burps, $"vore{sep}burps");
-        PopulateClips(ref Farts, $"vore{sep}farts");
+        PopulateClips(ref _burps, $"vore{sep}burps");
+        PopulateClips(ref _farts, $"vore{sep}farts");
 
-        PopulateVoreClips(Swallows, "swallow");
-        PopulateVoreClips(FailedSwallows, "fail");
-        PopulateVoreClips(Digests, "digest");
-        PopulateVoreClips(DigestLoops, "digest-loop");
-        PopulateVoreClips(Absorbs, "absorb");
-        PopulateVoreClips(AbsorbLoops, "absorb-loop");
+        PopulateVoreClips(_swallows, "swallow");
+        PopulateVoreClips(_failedSwallows, "fail");
+        PopulateVoreClips(_digests, "digest");
+        PopulateVoreClips(_digestLoops, "digest-loop");
+        PopulateVoreClips(_absorbs, "absorb");
+        PopulateVoreClips(_absorbLoops, "absorb-loop");
 
         foreach (var spell in SpellList.SpellDict.Values)
         {
             string id = spell.Id;
 
-            SpellCasts[id] = Resources.LoadAll<AudioClip>($"audio{sep}spell{sep}{id}{sep}cast");
-            SpellHits[id] = Resources.LoadAll<AudioClip>($"audio{sep}spell{sep}{id}{sep}hit");
+            _spellCasts[id] = Resources.LoadAll<AudioClip>($"audio{sep}spell{sep}{id}{sep}cast");
+            _spellHits[id] = Resources.LoadAll<AudioClip>($"audio{sep}spell{sep}{id}{sep}hit");
         }
-        MiscSounds["unbound"] = Resources.LoadAll<AudioClip>($"audio{sep}spell{sep}unbound");
+
+        _miscSounds["unbound"] = Resources.LoadAll<AudioClip>($"audio{sep}spell{sep}unbound");
 
         InitSources();
     }
@@ -148,7 +149,7 @@ public class SoundManager : MonoBehaviour
         source.PlayOneShot(clip, volume); //Allows sounds to play over each other without using multiple Audio Sources
     }
 
-    float PositionSound(AudioSource source, Vector2 position, float minVolume)
+    private float PositionSound(AudioSource source, Vector2 position, float minVolume)
     {
         Camera camera = State.GameManager.Camera;
 
@@ -176,18 +177,15 @@ public class SoundManager : MonoBehaviour
     // If the location is null, the sound has no pan or volume adjustment
     // Otherwise, it sounds like it came from that location on the tactical map
 
-    void RandomizeSfxGlobal(AudioClip[] clips, Vector2? location, float volume)
+    private void RandomizeSfxGlobal(AudioClip[] clips, Vector2? location, float volume)
     {
-        if (SoundEnabled == false)
-            return;
-        if (clips == null || clips.Length == 0)
-            return;
-        if (State.GameManager.TacticalMode.TacticalSoundBlocked())
-            return;
+        if (SoundEnabled == false) return;
+        if (clips == null || clips.Length == 0) return;
+        if (State.GameManager.TacticalMode.TacticalSoundBlocked()) return;
 
-        AudioSource source = efxSources[sourceIndex];
+        AudioSource source = _efxSources[_sourceIndex];
 
-        sourceIndex = (sourceIndex + 1) % sourceCount;
+        _sourceIndex = (_sourceIndex + 1) % _sourceCount;
 
         AudioClip clip = clips[Random.Range(0, clips.Length)];
 
@@ -203,87 +201,79 @@ public class SoundManager : MonoBehaviour
         PlaySfx(clip, source, volume);
     }
 
-    void RandomizeLoop(AudioClip[] clips, Actor_Unit actor, float volume)
+    private void RandomizeLoop(AudioClip[] clips, ActorUnit actor, float volume)
     {
-        if (SoundEnabled == false)
-            return;
-        if (clips == null || clips.Length == 0)
-            return;
+        if (SoundEnabled == false) return;
+        if (clips == null || clips.Length == 0) return;
         if (actor == null)
         {
             return;
         }
 
-        if (State.GameManager.TacticalMode.TacticalSoundBlocked())
-            return;
+        if (State.GameManager.TacticalMode.TacticalSoundBlocked()) return;
 
         AudioSource source = actor.UnitSprite.LoopSource;
 
-        volume *= PositionSound(source, actor.UnitSprite.transform.position, loopFloor);
+        volume *= PositionSound(source, actor.UnitSprite.transform.position, _loopFloor);
 
         source.volume = volume;
 
         // Don't interrupt an existing source
 
-        if (source.isPlaying)
-            return;
+        if (source.isPlaying) return;
 
-        source.pitch = Random.Range(lowPitchRange, highPitchRange);
+        source.pitch = Random.Range(_lowPitchRange, _highPitchRange);
 
         AudioClip clip = clips[Random.Range(0, clips.Length)];
 
         PlayLoop(clip, source);
     }
 
-    void RandomizeSfx(AudioClip[] clips, Actor_Unit actor, float volume)
+    private void RandomizeSfx(AudioClip[] clips, ActorUnit actor, float volume)
     {
-        if (SoundEnabled == false)
-            return;
-        if (clips == null || clips.Length == 0)
-            return;
+        if (SoundEnabled == false) return;
+        if (clips == null || clips.Length == 0) return;
 
         if (actor == null || actor.UnitSprite == null)
         {
             RandomizeSfxGlobal(clips, null, volume);
             return;
         }
-        if (State.GameManager.TacticalMode.TacticalSoundBlocked())
-            return;
+
+        if (State.GameManager.TacticalMode.TacticalSoundBlocked()) return;
 
         AudioSource source = actor.UnitSprite.SfxSources[Random.Range(0, actor.UnitSprite.SfxSourcesCount)];
 
         AudioClip clip = clips[Random.Range(0, clips.Length)];
 
-        volume *= PositionSound(source, actor.UnitSprite.transform.position, sfxFloor);
+        volume *= PositionSound(source, actor.UnitSprite.transform.position, _sfxFloor);
 
         if (actor.InSight) //Keeps a Unity warning from popping up
             PlaySfx(clip, source, volume);
     }
 
-    internal void PlayMisc(string name, Actor_Unit actor)
+    internal void PlayMisc(string name, ActorUnit actor)
     {
-        var volume = combatVolume;
+        var volume = _combatVolume;
 
-        AudioClip[] clips = MiscSounds[name];
+        AudioClip[] clips = _miscSounds[name];
 
-        if (SoundEnabled == false)
-            return;
-        if (clips == null || clips.Length == 0)
-            return;
+        if (SoundEnabled == false) return;
+        if (clips == null || clips.Length == 0) return;
 
         if (actor == null || actor.UnitSprite == null)
         {
             RandomizeSfxGlobal(clips, null, volume);
             return;
         }
-        if (State.GameManager.TacticalMode.TacticalSoundBlocked())
-            return;
+
+        if (State.GameManager.TacticalMode.TacticalSoundBlocked()) return;
 
         AudioSource source = actor.UnitSprite.SfxSources[Random.Range(0, actor.UnitSprite.SfxSourcesCount)];
 
         AudioClip clip = clips[Random.Range(0, clips.Length)];
 
-        volume *= PositionSound(source, actor.UnitSprite.transform.position, sfxFloor);
+        volume *= PositionSound(source, actor.UnitSprite.transform.position, _sfxFloor);
 
         if (actor.InSight) //Keeps a Unity warning from popping up
             PlaySfx(clip, source, volume);

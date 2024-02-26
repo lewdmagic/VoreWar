@@ -7,19 +7,33 @@ namespace LegacyAI
 {
     public class LegacyStrategicAI : IStrategicAI
     {
-        List<Empire> Empires => State.World.AllActiveEmpires;
-        [OdinSerialize]
-        int AISide;
-        [OdinSerialize]
-        int tension = 3;
-
-        List<PathNode> path;
-        Army pathIsFor;
+        // TODO index is used as a Side/Race key, change to dictionary
+        // TODO This AI is basically disabled and WILL NOT WORK AT ALL 
+        //IReadOnlyList<Empire> Empires => State.World.AllActiveEmpires;
+        private IReadOnlyList<Empire> Empires => new List<Empire>();
 
         [OdinSerialize]
-        int freegold;
+        private int _aISide;
+
+        private int AISide { get => _aISide; set => _aISide = value; }
+
         [OdinSerialize]
-        float growth;
+        private int _tension = 3;
+
+        private int Tension { get => _tension; set => _tension = value; }
+
+        private List<PathNode> _path;
+        private Army _pathIsFor;
+
+        [OdinSerialize]
+        private int _freegold;
+
+        private int Freegold { get => _freegold; set => _freegold = value; }
+
+        [OdinSerialize]
+        private float _growth;
+
+        private float Growth { get => _growth; set => _growth = value; }
 
         private Empire _empire;
 
@@ -27,21 +41,19 @@ namespace LegacyAI
         {
             get
             {
-                if (_empire == null)
-                    _empire = State.World.GetEmpireOfSide(AISide);
+                if (_empire == null) _empire = State.World.GetEmpireOfSide(RaceFuncs.IntToRace(AISide).ToSide());
                 return _empire;
             }
             set { _empire = value; }
         }
 
 
-        public LegacyStrategicAI(int AISide)
+        public LegacyStrategicAI(Side aiSide)
         {
-            this.AISide = AISide;
-            growth = 2.2F;
-            freegold = 0;
+            this.AISide = RaceFuncs.RaceToInt(aiSide.ToRace());
+            Growth = 2.2F;
+            Freegold = 0;
         }
-
 
 
         public void RaiseTension(int tension)
@@ -53,30 +65,27 @@ namespace LegacyAI
         {
             foreach (Army army in Empire.Armies.ToList())
             {
-                if (army.RemainingMP < 1)
-                    continue;
+                if (army.RemainingMp < 1) continue;
 
-                if (path != null && pathIsFor == army)
+                if (_path != null && _pathIsFor == army)
                 {
-                    if (path.Count == 0)
+                    if (_path.Count == 0)
                     {
-                        army.RemainingMP = 0;
+                        army.RemainingMp = 0;
                         return true;
                     }
 
-                    Vec2i newLoc = new Vec2i(path[0].X, path[0].Y);
-                    Vec2i position = army.Position;
-                    path.RemoveAt(0);
+                    Vec2I newLoc = new Vec2I(_path[0].X, _path[0].Y);
+                    Vec2I position = army.Position;
+                    _path.RemoveAt(0);
                     if (army.MoveTo(newLoc))
                         StrategicUtilities.StartBattle(army);
-                    else if (position == army.Position)
-                        army.RemainingMP = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
+                    else if (position == army.Position) army.RemainingMp = 0; //This prevents the army from wasting time trying to move into a forest with 1 mp repeatedly
                     return true;
-
                 }
                 else
                 {
-                    pathIsFor = army;
+                    _pathIsFor = army;
                     if (ArmyReady(army))
                     {
                         if (army.AIMode == AIMode.Default)
@@ -94,14 +103,15 @@ namespace LegacyAI
                     }
                 }
             }
+
             return false;
         }
 
-        bool Sneak(Army army)
+        private bool Sneak(Army army)
         {
             float distance = 99;
 
-            Vec2i p = null;
+            Vec2I p = null;
             //find nearest enemy village
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
@@ -115,36 +125,35 @@ namespace LegacyAI
                     }
                 }
             }
+
             int hp = army.GetAbsHealth();
             Army[] hostileArmies = StrategicUtilities.GetAllHostileArmies(Empire);
             for (int i = 0; i < hostileArmies.Length; i++)
             {
-
                 float d = hostileArmies[i].Position.GetDistance(army.Position);
                 if (d < distance && hp > hostileArmies[i].GetAbsHealth())
                 {
                     distance = d;
                     p = hostileArmies[i].Position;
                 }
-
             }
 
             //move towards it
             if (p != null)
             {
-                path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
-                if (path == null)
-                    army.RemainingMP = 0;
+                _path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMp, army.MovementMode == MovementMode.Flight);
+                if (_path == null) army.RemainingMp = 0;
 
                 return true;
             }
+
             return false;
         }
 
-        bool Attack(Army army)
+        private bool Attack(Army army)
         {
             float distance = 99;
-            Vec2i p = null;
+            Vec2I p = null;
             //find nearest enemy village
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
@@ -158,6 +167,7 @@ namespace LegacyAI
                     }
                 }
             }
+
             foreach (Army hostileArmy in StrategicUtilities.GetAllHostileArmies(Empire))
             {
                 float d = hostileArmy.Position.GetNumberOfMovesDistance(army.Position);
@@ -171,18 +181,17 @@ namespace LegacyAI
             //move towards it
             if (p != null)
             {
-                path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
+                _path = StrategyPathfinder.GetPath(Empire, army, p, army.RemainingMp, army.MovementMode == MovementMode.Flight);
 
-                if (path == null)
-                    army.RemainingMP = 0;
+                if (_path == null) army.RemainingMp = 0;
                 return true;
             }
+
             return false;
         }
 
 
-
-        bool ArmyReady(Army army)
+        private bool ArmyReady(Army army)
         {
             Empire empire = Empires[AISide];
             //check army health
@@ -190,10 +199,11 @@ namespace LegacyAI
             {
                 return true;
             }
+
             //check if we're on a village
             if (army.InVillageIndex > -1)
             {
-                army.RemainingMP = 0;
+                army.RemainingMp = 0;
                 //check to perform devouring later
 
 
@@ -204,16 +214,15 @@ namespace LegacyAI
                 Village village = GetNearestVillage(empire, army.Position);
                 if (village == null)
                 {
-                    army.RemainingMP = 0;
+                    army.RemainingMp = 0;
                     return false;
                 }
                 else
                 {
-                    path = StrategyPathfinder.GetPath(Empire, army, village.Position, army.RemainingMP, army.movementMode == Army.MovementMode.Flight);
+                    _path = StrategyPathfinder.GetPath(Empire, army, village.Position, army.RemainingMp, army.MovementMode == MovementMode.Flight);
                     return false;
                 }
             }
-
         }
 
         public bool TurnAI()
@@ -225,14 +234,15 @@ namespace LegacyAI
                     SpendLevelUps(unit);
                 }
             }
+
             RaiseTension(1);
             Empire empire = Empires[AISide];
-            empire.AddGold(freegold);
+            empire.AddGold(Freegold);
             if (empire.Income > 0)
             {
                 for (int i = 0; i < State.World.Villages.Length; i++)
                 {
-                    if (State.World.Villages[i].Side == AISide)
+                    if (Equals(State.World.Villages[i].Side, RaceFuncs.IntToRace(AISide).ToSide()))
                     {
                         StrategicUtilities.BuyBasicWeapons(State.World.Villages[i]);
                     }
@@ -241,7 +251,6 @@ namespace LegacyAI
 
             if (empire.Gold > 100 && empire.Armies.Count() < Config.MaxArmies)
             {
-
                 Village v = GetVillage(empire);
                 if (v != null)
                 {
@@ -255,14 +264,15 @@ namespace LegacyAI
                     }
                 }
             }
+
             return false;
         }
 
-        Village GetVillage(Empire empire)
+        private Village GetVillage(Empire empire)
         {
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
-                if (State.World.Villages[i].Side == empire.Side)
+                if (Equals(State.World.Villages[i].Side, empire.Side))
                 {
                     //check village isn't occupied by an existing army
                     bool occupied = false;
@@ -277,35 +287,37 @@ namespace LegacyAI
                             }
                         }
                     }
+
                     if (occupied == false)
                     {
                         return State.World.Villages[i];
                     }
-
                 }
             }
+
             return null;
         }
 
-        Village GetNearestVillage(Empire empire, Vec2i p)
+        private Village GetNearestVillage(Empire empire, Vec2I p)
         {
             float distance = 99;
             Village village = null;
             for (int i = 0; i < State.World.Villages.Length; i++)
             {
-                if (State.World.Villages[i].Side == AISide && (int)State.World.Villages[i].Race == AISide)
+                if (Equals(State.World.Villages[i].Side, RaceFuncs.IntToRace(AISide).ToSide()) && RaceFuncs.RaceToInt(State.World.Villages[i].Race) == AISide)
                 {
                     //check village isn't occupied by an existing army
                     bool occupied = false;
                     for (int j = 0; j < empire.Armies.Count; j++)
                     {
-                        if (empire.Armies[j].Position.x == State.World.Villages[i].Position.x &&
-                            empire.Armies[j].Position.y == State.World.Villages[i].Position.y)
+                        if (empire.Armies[j].Position.X == State.World.Villages[i].Position.X &&
+                            empire.Armies[j].Position.Y == State.World.Villages[i].Position.Y)
                         {
                             occupied = true;
                             break;
                         }
                     }
+
                     if (occupied == false)
                     {
                         float d = State.World.Villages[i].Position.GetDistance(p);
@@ -318,46 +330,48 @@ namespace LegacyAI
                             distance = d;
                             village = State.World.Villages[i];
                         }
-
                     }
-
                 }
             }
+
             return village;
         }
 
-        void SpendLevelUps(Unit unit)
+        private void SpendLevelUps(Unit unit)
         {
             for (int i = 0; i < 10; i++)
             {
-                if (!unit.HasEnoughExpToLevelUp())
-                    return;
+                if (!unit.HasEnoughExpToLevelUp()) return;
                 Stat[] stats = unit.GetLevelUpPossibilities(unit.Predator);
                 Stat badStat = unit.BestSuitedForRanged() ? Stat.Strength : Stat.Dexterity;
                 Stat chosenStat;
-                if (stats[0] != badStat) chosenStat = stats[0];
-                else chosenStat = stats[1];
+                if (stats[0] != badStat)
+                    chosenStat = stats[0];
+                else
+                    chosenStat = stats[1];
                 unit.LevelUp(chosenStat);
             }
+
             return;
         }
 
-        Army MakeArmy(Village village)
+        private Army MakeArmy(Village village)
         {
-            Army army = new Army(Empire, new Vec2i(village.Position.x, village.Position.y), village.Side);
+            Army army = new Army(Empire, new Vec2I(village.Position.X, village.Position.Y), village.Side);
             int size = State.Rand.Next(6) + 1;
-            float s = tension;
-            s = s / growth;
+            float s = Tension;
+            s = s / Growth;
             size = (int)(size + s);
 
             if (size > Empires[AISide].MaxArmySize)
             {
                 size = Empires[AISide].MaxArmySize;
             }
+
             //int level = (int)(tension / 5 / growth);
             for (int i = 0; i < size; i++)
             {
-                Unit unit = new Unit(village.Side, village.Race, Empire.StartingXP, State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
+                Unit unit = new Unit(village.Side, village.Race, Empire.StartingXp, State.World.GetEmpireOfRace(village.Race)?.CanVore ?? true);
                 if (unit.HasWeapon == false)
                 {
                     if (unit.BestSuitedForRanged())
@@ -380,15 +394,14 @@ namespace LegacyAI
 
                 army.Units.Add(unit);
             }
-            army.RemainingMP = 0;
-            if (State.Rand.Next(4) == 1)
-                army.AIMode = AIMode.Sneak;
+
+            army.RemainingMp = 0;
+            if (State.Rand.Next(4) == 1) army.AIMode = AIMode.Sneak;
             return army;
         }
 
-        void LevelMelee(int levels, Unit unit)
+        private void LevelMelee(int levels, Unit unit)
         {
-
             if (levels > 1)
             {
                 int r = State.Rand.Next(2);
@@ -401,15 +414,14 @@ namespace LegacyAI
                     case 1:
                         unit.SetItem(State.World.ItemRepository.GetItem(ItemType.Helmet), 1);
                         break;
-
                 }
-
-
             }
+
             if (levels > 5)
             {
                 unit.SetItem(State.World.ItemRepository.GetItem(ItemType.Axe), 0);
             }
+
             for (int i = 0; i < levels; i++)
             {
                 int r = State.Rand.Next(7);
@@ -440,17 +452,18 @@ namespace LegacyAI
             }
         }
 
-        void LevelArcher(int levels, Unit unit)
+        private void LevelArcher(int levels, Unit unit)
         {
-
             if (levels > 2)
             {
                 unit.SetItem(State.World.ItemRepository.GetItem(ItemType.Gloves), 1);
             }
+
             if (levels > 5)
             {
                 unit.SetItem(State.World.ItemRepository.GetItem(ItemType.CompoundBow), 0);
             }
+
             for (int i = 0; i < levels; i++)
             {
                 int r = State.Rand.Next(7);

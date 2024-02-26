@@ -1,4 +1,4 @@
-﻿static class DefaultTooltips
+﻿internal static class DefaultTooltips
 {
     internal static string Tooltip(int tooltip)
     {
@@ -620,7 +620,7 @@ Note, due to the way this is set up, you have to restart the game client for cha
                 return "Affects how likely a unit is to fart when absorbing prey.";
             case 245:
                 return "Whether tactical log fluff may break the fourth wall sometimes, having units treat the player as another unit they can address." +
-                    "\nCan also be turned on selectively for either side";
+                       "\nCan also be turned on selectively for either side";
             case 246:
                 return @"Enables the player to use belly rub on enemies, is mostly a toggle so you don't do it by accident.
 Note, that units with the SeductiveTouch cheat trait will be able to rub enemies even when this is disabled";
@@ -643,11 +643,11 @@ Does not retroactively affect already created units.";
                 return "A percentual reduction in the size of growth units that's applied each strategic turn (but they won't lose more than they've grown)";
             case 255:
                 return "Makes more grown units decay at a different pace. This value is how much extra decay 1 factors of growth adds in ‰.\n" +
-                    "For example, default is 40‰ (4%), which would be +2% decay at 1.5x growth, or +4% at 2x growth.";
+                       "For example, default is 40‰ (4%), which would be +2% decay at 1.5x growth, or +4% at 2x growth.";
             case 256:
                 return "Modifies how mighty the game thinks the Race is (Affects power calculations).\n" +
-                    "A way to make your balance changes known to the AI, or deliberately make it misjudge. " +
-                    "In the default balance, this value ranges from 50 (compy) to 1200 (dragon).";
+                       "A way to make your balance changes known to the AI, or deliberately make it misjudge. " +
+                       "In the default balance, this value ranges from 50 (compy) to 1200 (dragon).";
             case 257:
                 return @"Enables the Goodra monster packs";
             case 258:

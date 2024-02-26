@@ -4,18 +4,16 @@ using UnityEngine.EventSystems;
 
 public class AltClicks : MonoBehaviour, IPointerClickHandler
 {
-
-    public UnityEvent leftClick;
-    public UnityEvent middleClick;
-    public UnityEvent rightClick;
+    public UnityEvent LeftClick;
+    public UnityEvent MiddleClick;
+    public UnityEvent RightClick;
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
-            leftClick.Invoke();
+            LeftClick.Invoke();
         else if (eventData.button == PointerEventData.InputButton.Middle)
-            middleClick.Invoke();
-        else if (eventData.button == PointerEventData.InputButton.Right)
-            rightClick.Invoke();
+            MiddleClick.Invoke();
+        else if (eventData.button == PointerEventData.InputButton.Right) RightClick.Invoke();
     }
 }

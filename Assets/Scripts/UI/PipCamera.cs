@@ -2,26 +2,22 @@
 
 public class PipCamera : MonoBehaviour
 {
-
-    Camera cam;
+    private Camera _cam;
 
     private void Start()
     {
-        cam = GetComponent<Camera>();
+        _cam = GetComponent<Camera>();
     }
 
     internal void SetLocation(int x, int y, int zoom)
     {
-        cam.transform.position = new Vector3(x, y, cam.transform.position.z);
-        cam.orthographicSize = zoom;
+        _cam.transform.position = new Vector3(x, y, _cam.transform.position.z);
+        _cam.orthographicSize = zoom;
     }
 
     internal void SetLocation(Vector3 position, int zoom)
     {
-        cam.transform.position = new Vector3(position.x, position.y, cam.transform.position.z);
-        cam.orthographicSize = zoom;
+        _cam.transform.position = new Vector3(position.x, position.y, _cam.transform.position.z);
+        _cam.orthographicSize = zoom;
     }
-
-
-
 }

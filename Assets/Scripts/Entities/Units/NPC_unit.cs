@@ -1,13 +1,12 @@
-public class NPC_unit : Unit
+public class NpcUnit : Unit
 {
-
-    public NPC_unit(int level, bool advancedWeapons, int type, int side, Race race, int startingXP, bool canVore) : base(side, race, startingXP, canVore, type: type == 3 ? UnitType.Leader : UnitType.Soldier)
+    public NpcUnit(int level, bool advancedWeapons, int type, Side side, Race race, int startingXp, bool canVore) : base(side, race, startingXp, canVore, type: type == 3 ? UnitType.Leader : UnitType.Soldier)
     {
-        if (race == Race.Alligators || race == Race.Komodos)
+        if (Equals(race, Race.Alligator) || Equals(race, Race.Komodo))
             GenMelee(level - 1, advancedWeapons);
-        else if (race >= Race.Vagrants)
+        else if (RaceFuncs.IsMosnterOrUniqueMerc(race))
             GenMonster(level - 1);
-        else if (FixedGear || race == Race.Succubi)
+        else if (FixedGear || Equals(race, Race.Succubus))
             StrategicUtilities.CheatForceLevelUps(this, level - 1);
         else
         {
@@ -27,10 +26,12 @@ public class NPC_unit : Unit
                     break;
             }
         }
-        if (startingXP == 0 && level > 1)
+
+        if (startingXp == 0 && level > 1)
         {
             SetExp(GetExperienceRequiredForLevel(level - 1));
         }
+
         RestoreManaPct(1);
         GiveTraitBooks();
     }
@@ -40,7 +41,7 @@ public class NPC_unit : Unit
         StrategicUtilities.CheatForceLevelUps(this, desiredLevels);
     }
 
-    void GenGarrison(int levels, bool advancedWeapons)
+    private void GenGarrison(int levels, bool advancedWeapons)
     {
         if (BestSuitedForRanged())
             GenArcher(levels, advancedWeapons);
@@ -48,7 +49,7 @@ public class NPC_unit : Unit
             GenMelee(levels, advancedWeapons);
     }
 
-    void GenMelee(int levels, bool advancedWeapons)
+    private void GenMelee(int levels, bool advancedWeapons)
     {
         if (advancedWeapons)
             Items[0] = State.World.ItemRepository.GetItem(ItemType.Axe);
@@ -60,6 +61,7 @@ public class NPC_unit : Unit
             Stats[(int)Stat.Dexterity] = Stats[(int)Stat.Strength];
             Stats[(int)Stat.Strength] = temp;
         }
+
         Stats[(int)Stat.Strength] += levels;
         Stats[(int)Stat.Voracity] += levels;
         Stats[(int)Stat.Stomach] += levels;
@@ -69,7 +71,7 @@ public class NPC_unit : Unit
         Health = MaxHealth;
     }
 
-    void GenArcher(int levels, bool advancedWeapons)
+    private void GenArcher(int levels, bool advancedWeapons)
     {
         if (advancedWeapons)
             Items[0] = State.World.ItemRepository.GetItem(ItemType.CompoundBow);
@@ -81,6 +83,7 @@ public class NPC_unit : Unit
             Stats[(int)Stat.Dexterity] = Stats[(int)Stat.Strength];
             Stats[(int)Stat.Strength] = temp;
         }
+
         Stats[(int)Stat.Dexterity] += levels;
         Stats[(int)Stat.Voracity] += levels;
         Stats[(int)Stat.Stomach] += levels;
@@ -90,10 +93,10 @@ public class NPC_unit : Unit
         Health = MaxHealth;
     }
 
-    void GenLeader(int levels, bool Ranged, Race race)
+    private void GenLeader(int levels, bool ranged, Race race)
     {
         Type = UnitType.Leader;
-        if (Ranged)
+        if (ranged)
             Items[0] = State.World.ItemRepository.GetItem(ItemType.CompoundBow);
         else
             Items[0] = State.World.ItemRepository.GetItem(ItemType.Axe);
@@ -109,12 +112,10 @@ public class NPC_unit : Unit
         Stats[(int)Stat.Stomach] = 4 + raceStats.Stomach.Minimum + raceStats.Stomach.Roll;
         Stats[(int)Stat.Leadership] = 10;
 
-        if (race == Race.Lizards)
-            Races.GetRace(Race.Lizards).RandomCustom(this);
-        if (Config.LetterBeforeLeaderNames != "")
-            Name = Config.LetterBeforeLeaderNames + Name.ToLower();
+        if (Equals(race, Race.Lizard)) RaceFuncs.GetRace(Race.Lizard).RandomCustomCall(this);
+        if (Config.LetterBeforeLeaderNames != "") Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;
-        if (race == Race.Slimes)
+        if (Equals(race, Race.Slime))
         {
             if (Config.HermFraction >= 0.05)
             {
@@ -124,6 +125,7 @@ public class NPC_unit : Unit
             {
                 DickSize = -1;
             }
+
             ClothingType = 1;
             SetDefaultBreastSize(1);
             HairStyle = 1;
@@ -133,7 +135,8 @@ public class NPC_unit : Unit
             ReloadTraits();
             InitializeTraits();
         }
-        if (Ranged)
+
+        if (ranged)
             Stats[(int)Stat.Dexterity] += levels;
         else
             Stats[(int)Stat.Strength] += levels;

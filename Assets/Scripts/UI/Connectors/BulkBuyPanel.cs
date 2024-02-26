@@ -8,5 +8,4 @@ public class BulkBuyPanel : MonoBehaviour
     public Button BuyExpensive;
     public Button BuyAccessories;
     public Toggle SellAndBuy;
-
 }

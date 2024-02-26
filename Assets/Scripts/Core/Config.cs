@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-static class Config
+internal static class Config
 {
     public enum AutoAdvanceType
     {
@@ -37,8 +37,6 @@ static class Config
         Disabled
     }
 
-    public const int NumberOfRaces = 30;
-
     public const int NewItemSlots = 2;
 
     public const int GarrisonCost = 8;
@@ -55,7 +53,7 @@ static class Config
     public static float TacticalAttackDelay = 0.2f;
     public static float TacticalVoreDelay = 0.3f;
 
-    public static int MaxVillages => World.VillagesPerEmpire.Sum();
+    public static int MaxVillages => World.VillagesPerEmpire.Values.Sum();
 
     public static AutoAdvanceType AutoAdvance = AutoAdvanceType.AdvanceTurns;
     public static bool StopAtEndOfBattle = false;
@@ -113,7 +111,25 @@ static class Config
 
     public static bool KuroTenkoConvertsAllTypes = false;
 
-    public static bool[] CenteredEmpire = new bool[NumberOfRaces];
+    public static Dictionary<Race, bool> CenteredEmpire = MakeCenteredEmpire();
+
+
+    internal static void ResetCenteredEmpire()
+    {
+        CenteredEmpire = MakeCenteredEmpire();
+    }
+
+    private static Dictionary<Race, bool> MakeCenteredEmpire()
+    {
+        Dictionary<Race, bool> villagesPerEmpire = new Dictionary<Race, bool>();
+        foreach (Race race in RaceFuncs.MainRaceEnumerable())
+        {
+            villagesPerEmpire[race] = false;
+        }
+
+        return villagesPerEmpire;
+    }
+
 
     public static int StartingGold;
 
@@ -122,7 +138,7 @@ static class Config
     internal static WorldConfig World = new WorldConfig();
 
 
-    internal static int[] VillagesPerEmpire => World.VillagesPerEmpire;
+    //internal static int[] VillagesPerEmpire => World.VillagesPerEmpire;
 
     internal static MonsterConquestType MonsterConquest => World.MonsterConquest;
     internal static int MonsterConquestTurns => World.MonsterConquestTurns;
@@ -139,7 +155,7 @@ static class Config
     internal static bool RaceSpecificVoreGraphicsDisabled => World.GetValue("RaceSpecificVoreGraphicsDisabled");
 
 
-    internal static bool FriendlyRegurgitation => World.GetValue("FriendlyRegurgitation");//Units will vomit up friendly units if they're in the main stomach    
+    internal static bool FriendlyRegurgitation => World.GetValue("FriendlyRegurgitation"); //Units will vomit up friendly units if they're in the main stomach    
     internal static int StrategicWorldSizeX => World.StrategicWorldSizeX;
     internal static int StrategicWorldSizeY => World.StrategicWorldSizeY;
     internal static bool AutoScaleTactical => World.AutoScaleTactical;
@@ -159,10 +175,10 @@ static class Config
     internal static int RandomEventRate => World.RandomEventRate;
     internal static int RandomAIEventRate => World.RandomAIEventRate;
     internal static bool EventsRepeat => World.GetValue("EventsRepeat");
-    internal static FairyBVType FairyBVType => World.FairyBVType;
+    internal static FairyBVType FairyBvType => World.FairyBvType;
     internal static FeedingType FeedingType => World.FeedingType;
     internal static FourthWallBreakType FourthWallBreakType => World.FourthWallBreakType;
-    internal static UBConversion UBConversion => World.UBConversion;
+    internal static UBConversion UbConversion => World.UbConversion;
     internal static SucklingPermission SucklingPermission => World.SucklingPermission;
 
     internal static int StartingPopulation => World.StartingPopulation;
@@ -210,9 +226,6 @@ static class Config
 
     public static bool LamiaUseTailAsSecondBelly => World.GetValue("LamiaUseTailAsSecondBelly");
 
-    internal static SpawnerInfo SpawnerInfo(Race race) => World.GetSpawner(race);
-    internal static SpawnerInfo SpawnerInfoWithoutGeneration(Race race) => World.GetSpawnerWithoutGeneration(race);
-
     internal static VictoryType VictoryCondition => World.VictoryCondition;
     internal static int BreastSizeModifier => World.BreastSizeModifier;
     internal static int HermBreastSizeModifier => World.HermBreastSizeModifier;
@@ -221,18 +234,18 @@ static class Config
     internal static int GoldMineIncome => World.GoldMineIncome;
     internal static int MaxSpellLevelDrop => World.MaxSpellLevelDrop;
 
-    internal static int ArmyMP => World.ArmyMP;
+    internal static int ArmyMp => World.ArmyMp;
     internal static int MaxArmies => World.MaxArmies;
     internal static bool RaceTraitsEnabled => World.GetValue("RaceTraitsEnabled");
     internal static bool RagsForSlaves => World.GetValue("RagsForSlaves");
     internal static bool VisibleCorpses => World.GetValue("VisibleCorpses");
     internal static bool EdibleCorpses => World.GetValue("EdibleCorpses");
 
-    internal static List<Traits> LeaderTraits => World.LeaderTraits;
-    internal static List<Traits> MaleTraits => World.MaleTraits;
-    internal static List<Traits> FemaleTraits => World.FemaleTraits;
-    internal static List<Traits> HermTraits => World.HermTraits;
-    internal static List<Traits> SpawnTraits => World.SpawnTraits;
+    internal static List<TraitType> LeaderTraits => World.LeaderTraits;
+    internal static List<TraitType> MaleTraits => World.MaleTraits;
+    internal static List<TraitType> FemaleTraits => World.FemaleTraits;
+    internal static List<TraitType> HermTraits => World.HermTraits;
+    internal static List<TraitType> SpawnTraits => World.SpawnTraits;
 
     internal static bool NoAIRetreat => World.GetValue("NoAIRetreat");
     internal static bool AICanCheatSpecialMercs => World.GetValue("AICanCheatSpecialMercs");
@@ -270,11 +283,11 @@ static class Config
     internal static bool AnalVore => World.GetValue("AnalVore");
     internal static bool TailVore => World.GetValue("TailVore");
     internal static bool Unbirth => World.GetValue("Unbirth");
-    internal static bool HermsCanUB => World.GetValue("HermsCanUB");
+    internal static bool HermsCanUb => World.GetValue("HermsCanUB");
     internal static bool CockVore => World.GetValue("CockVore");
     internal static bool CockVoreHidesClothes => World.GetValue("CockVoreHidesClothes");
     internal static bool KuroTenkoEnabled => World.GetValue("KuroTenkoEnabled");
-    internal static bool OverhealEXP => World.GetValue("OverhealEXP");
+    internal static bool OverhealExp => World.GetValue("OverhealEXP");
     internal static bool TransferAllowed => World.GetValue("TransferAllowed");
     internal static bool CumGestation => World.GetValue("CumGestation");
     internal static bool NoScatForDeadTransfers => World.GetValue("NoScatForDeadTransfers");
@@ -335,7 +348,7 @@ static class Config
     public static bool Scat => World.GetValue("Scat");
     public static bool ScatV2 => World.GetValue("ScatV2");
     public static bool ScatBones => World.GetValue("ScatBones");
-    public static bool CondomsForCV => World.GetValue("CondomsForCV");
+    public static bool CondomsForCv => World.GetValue("CondomsForCV");
     public static bool ClothingDiscards => World.GetValue("ClothingDiscards");
     public static bool AutoSurrender => World.GetValue("AutoSurrender");
     public static bool SurrenderedCanConvert => World.GetValue("SurrenderedCanConvert");
@@ -346,18 +359,14 @@ static class Config
     internal static bool BurpOnDigest => World.GetValue("BurpOnDigest");
     public static bool FartOnAbsorb => World.GetValue("FartOnAbsorb");
 
-    public static bool StatBoostsAffectMaxHP => World.GetValue("StatBoostsAffectMaxHP");
+    public static bool StatBoostsAffectMaxHp => World.GetValue("StatBoostsAffectMaxHP");
 
     internal static bool WinterActive()
     {
         if (World.WinterStuff == SeasonalType.AlwaysOn)
             return true;
-        else if (World.WinterStuff == SeasonalType.Disabled)
-            return false;
-        if (DateTime.UtcNow.Month == 12 || DateTime.UtcNow.DayOfYear < 15)
-            return true;
+        else if (World.WinterStuff == SeasonalType.Disabled) return false;
+        if (DateTime.UtcNow.Month == 12 || DateTime.UtcNow.DayOfYear < 15) return true;
         return false;
     }
-
 }
-

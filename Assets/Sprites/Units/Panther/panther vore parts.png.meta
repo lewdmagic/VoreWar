@@ -1,190 +1,552 @@
 fileFormatVersion: 2
 guid: 5735c5c2675799f45aa4a19943f24be2
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: panther vore parts_0
-    21300018: panther vore parts_1
-    21300020: panther vore parts_2
-    21300022: panther vore parts_3
-    21300024: panther vore parts_4
-    21300026: panther vore parts_5
-    21300028: panther vore parts_6
-    21300030: panther vore parts_7
-    21300032: panther vore parts_8
-    21300034: panther vore parts_9
-    21300036: panther vore parts_10
-    21300038: panther vore parts_11
-    21300040: panther vore parts_12
-    21300042: panther vore parts_13
-    21300044: panther vore parts_14
-    21300046: panther vore parts_15
-    21300048: panther vore parts_16
-    21300050: panther vore parts_17
-    21300052: panther vore parts_18
-    21300054: panther vore parts_19
-    21300056: panther vore parts_20
-    21300058: panther vore parts_21
-    21300060: panther vore parts_22
-    21300062: panther vore parts_25
-    21300064: panther vore parts_26
-    21300066: panther vore parts_27
-    21300068: panther vore parts_28
-    21300070: panther vore parts_29
-    21300072: panther vore parts_30
-    21300074: panther vore parts_31
-    21300076: panther vore parts_32
-    21300078: panther vore parts_33
-    21300080: panther vore parts_34
-    21300082: panther vore parts_35
-    21300084: panther vore parts_36
-    21300086: panther vore parts_37
-    21300088: panther vore parts_38
-    21300090: panther vore parts_39
-    21300092: panther vore parts_40
-    21300094: panther vore parts_41
-    21300096: panther vore parts_42
-    21300098: panther vore parts_43
-    21300100: panther vore parts_44
-    21300102: panther vore parts_45
-    21300104: panther vore parts_46
-    21300106: panther vore parts_47
-    21300108: panther vore parts_48
-    21300110: panther vore parts_49
-    21300112: panther vore parts_50
-    21300114: panther vore parts_51
-    21300116: panther vore parts_52
-    21300118: panther vore parts_53
-    21300120: panther vore parts_54
-    21300122: panther vore parts_55
-    21300124: panther vore parts_56
-    21300126: panther vore parts_58
-    21300128: panther vore parts_59
-    21300130: panther vore parts_60
-    21300132: panther vore parts_61
-    21300134: panther vore parts_62
-    21300136: panther vore parts_63
-    21300138: panther vore parts_64
-    21300140: panther vore parts_66
-    21300142: panther vore parts_67
-    21300144: panther vore parts_68
-    21300146: panther vore parts_69
-    21300148: panther vore parts_70
-    21300150: panther vore parts_71
-    21300152: panther vore parts_72
-    21300154: panther vore parts_73
-    21300156: panther vore parts_74
-    21300158: panther vore parts_75
-    21300160: panther vore parts_76
-    21300162: panther vore parts_77
-    21300164: panther vore parts_78
-    21300166: panther vore parts_79
-    21300168: panther vore parts_80
-    21300170: panther vore parts_81
-    21300172: panther vore parts_82
-    21300174: panther vore parts_83
-    21300176: panther vore parts_84
-    21300178: panther vore parts_85
-    21300180: panther vore parts_86
-    21300182: panther vore parts_87
-    21300184: panther vore parts_88
-    21300186: panther vore parts_89
-    21300188: panther vore parts_90
-    21300190: panther vore parts_91
-    21300192: panther vore parts_92
-    21300194: panther vore parts_93
-    21300196: panther vore parts_94
-    21300198: panther vore parts_95
-    21300200: panther vore parts_96
-    21300202: panther vore parts_97
-    21300204: panther vore parts_98
-    21300206: panther vore parts_99
-    21300208: panther vore parts_100
-    21300210: panther vore parts_101
-    21300212: panther vore parts_102
-    21300214: panther vore parts_103
-    21300216: panther vore parts_104
-    21300218: panther vore parts_105
-    21300220: panther vore parts_106
-    21300222: panther vore parts_107
-    21300224: panther vore parts_108
-    21300226: panther vore parts_109
-    21300228: panther vore parts_110
-    21300230: panther vore parts_111
-    21300232: panther vore parts_112
-    21300234: panther vore parts_113
-    21300236: panther vore parts_114
-    21300238: panther vore parts_115
-    21300240: panther vore parts_116
-    21300242: panther vore parts_117
-    21300244: panther vore parts_118
-    21300246: panther vore parts_119
-    21300248: panther vore parts_120
-    21300250: panther vore parts_121
-    21300252: panther vore parts_122
-    21300254: panther vore parts_123
-    21300256: panther vore parts_124
-    21300258: panther vore parts_125
-    21300260: panther vore parts_126
-    21300262: panther vore parts_127
-    21300264: panther vore parts_128
-    21300266: panther vore parts_129
-    21300268: panther vore parts_130
-    21300270: panther vore parts_131
-    21300272: panther vore parts_132
-    21300274: panther vore parts_133
-    21300276: panther vore parts_134
-    21300278: panther vore parts_135
-    21300280: panther vore parts_136
-    21300282: panther vore parts_137
-    21300284: panther vore parts_138
-    21300286: panther vore parts_139
-    21300288: panther vore parts_140
-    21300290: panther vore parts_141
-    21300292: panther vore parts_142
-    21300294: panther vore parts_143
-    21300296: panther vore parts_144
-    21300298: panther vore parts_145
-    21300300: panther vore parts_146
-    21300302: panther vore parts_147
-    21300304: panther vore parts_148
-    21300306: panther vore parts_149
-    21300308: panther vore parts_150
-    21300310: panther vore parts_151
-    21300312: panther vore parts_152
-    21300314: panther vore parts_153
-    21300316: panther vore parts_154
-    21300318: panther vore parts_155
-    21300320: panther vore parts_156
-    21300322: panther vore parts_157
-    21300324: panther vore parts_158
-    21300326: panther vore parts_159
-    21300328: panther vore parts_160
-    21300330: panther vore parts_161
-    21300332: panther vore parts_162
-    21300334: panther vore parts_163
-    21300336: panther vore parts_164
-    21300338: panther vore parts_165
-    21300340: panther vore parts_166
-    21300342: panther vore parts_167
-    21300344: panther vore parts_168
-    21300346: panther vore parts_169
-    21300348: panther vore parts_170
-    21300350: panther vore parts_171
-    21300352: panther vore parts_172
-    21300354: panther vore parts_23
-    21300356: panther vore parts_24
-    21300358: panther vore parts_57
-    21300360: panther vore parts_65
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: panther vore parts_0
+  - first:
+      213: 21300018
+    second: panther vore parts_1
+  - first:
+      213: 21300020
+    second: panther vore parts_2
+  - first:
+      213: 21300022
+    second: panther vore parts_3
+  - first:
+      213: 21300024
+    second: panther vore parts_4
+  - first:
+      213: 21300026
+    second: panther vore parts_5
+  - first:
+      213: 21300028
+    second: panther vore parts_6
+  - first:
+      213: 21300030
+    second: panther vore parts_7
+  - first:
+      213: 21300032
+    second: panther vore parts_8
+  - first:
+      213: 21300034
+    second: panther vore parts_9
+  - first:
+      213: 21300036
+    second: panther vore parts_10
+  - first:
+      213: 21300038
+    second: panther vore parts_11
+  - first:
+      213: 21300040
+    second: panther vore parts_12
+  - first:
+      213: 21300042
+    second: panther vore parts_13
+  - first:
+      213: 21300044
+    second: panther vore parts_14
+  - first:
+      213: 21300046
+    second: panther vore parts_15
+  - first:
+      213: 21300048
+    second: panther vore parts_16
+  - first:
+      213: 21300050
+    second: panther vore parts_17
+  - first:
+      213: 21300052
+    second: panther vore parts_18
+  - first:
+      213: 21300054
+    second: panther vore parts_19
+  - first:
+      213: 21300056
+    second: panther vore parts_20
+  - first:
+      213: 21300058
+    second: panther vore parts_21
+  - first:
+      213: 21300060
+    second: panther vore parts_22
+  - first:
+      213: 21300062
+    second: panther vore parts_25
+  - first:
+      213: 21300064
+    second: panther vore parts_26
+  - first:
+      213: 21300066
+    second: panther vore parts_27
+  - first:
+      213: 21300068
+    second: panther vore parts_28
+  - first:
+      213: 21300070
+    second: panther vore parts_29
+  - first:
+      213: 21300072
+    second: panther vore parts_30
+  - first:
+      213: 21300074
+    second: panther vore parts_31
+  - first:
+      213: 21300076
+    second: panther vore parts_32
+  - first:
+      213: 21300078
+    second: panther vore parts_33
+  - first:
+      213: 21300080
+    second: panther vore parts_34
+  - first:
+      213: 21300082
+    second: panther vore parts_35
+  - first:
+      213: 21300084
+    second: panther vore parts_36
+  - first:
+      213: 21300086
+    second: panther vore parts_37
+  - first:
+      213: 21300088
+    second: panther vore parts_38
+  - first:
+      213: 21300090
+    second: panther vore parts_39
+  - first:
+      213: 21300092
+    second: panther vore parts_40
+  - first:
+      213: 21300094
+    second: panther vore parts_41
+  - first:
+      213: 21300096
+    second: panther vore parts_42
+  - first:
+      213: 21300098
+    second: panther vore parts_43
+  - first:
+      213: 21300100
+    second: panther vore parts_44
+  - first:
+      213: 21300102
+    second: panther vore parts_45
+  - first:
+      213: 21300104
+    second: panther vore parts_46
+  - first:
+      213: 21300106
+    second: panther vore parts_47
+  - first:
+      213: 21300108
+    second: panther vore parts_48
+  - first:
+      213: 21300110
+    second: panther vore parts_49
+  - first:
+      213: 21300112
+    second: panther vore parts_50
+  - first:
+      213: 21300114
+    second: panther vore parts_51
+  - first:
+      213: 21300116
+    second: panther vore parts_52
+  - first:
+      213: 21300118
+    second: panther vore parts_53
+  - first:
+      213: 21300120
+    second: panther vore parts_54
+  - first:
+      213: 21300122
+    second: panther vore parts_55
+  - first:
+      213: 21300124
+    second: panther vore parts_56
+  - first:
+      213: 21300126
+    second: panther vore parts_58
+  - first:
+      213: 21300128
+    second: panther vore parts_59
+  - first:
+      213: 21300130
+    second: panther vore parts_60
+  - first:
+      213: 21300132
+    second: panther vore parts_61
+  - first:
+      213: 21300134
+    second: panther vore parts_62
+  - first:
+      213: 21300136
+    second: panther vore parts_63
+  - first:
+      213: 21300138
+    second: panther vore parts_64
+  - first:
+      213: 21300140
+    second: panther vore parts_66
+  - first:
+      213: 21300142
+    second: panther vore parts_67
+  - first:
+      213: 21300144
+    second: panther vore parts_68
+  - first:
+      213: 21300146
+    second: panther vore parts_69
+  - first:
+      213: 21300148
+    second: panther vore parts_70
+  - first:
+      213: 21300150
+    second: panther vore parts_71
+  - first:
+      213: 21300152
+    second: panther vore parts_72
+  - first:
+      213: 21300154
+    second: panther vore parts_73
+  - first:
+      213: 21300156
+    second: panther vore parts_74
+  - first:
+      213: 21300158
+    second: panther vore parts_75
+  - first:
+      213: 21300160
+    second: panther vore parts_76
+  - first:
+      213: 21300162
+    second: panther vore parts_77
+  - first:
+      213: 21300164
+    second: panther vore parts_78
+  - first:
+      213: 21300166
+    second: panther vore parts_79
+  - first:
+      213: 21300168
+    second: panther vore parts_80
+  - first:
+      213: 21300170
+    second: panther vore parts_81
+  - first:
+      213: 21300172
+    second: panther vore parts_82
+  - first:
+      213: 21300174
+    second: panther vore parts_83
+  - first:
+      213: 21300176
+    second: panther vore parts_84
+  - first:
+      213: 21300178
+    second: panther vore parts_85
+  - first:
+      213: 21300180
+    second: panther vore parts_86
+  - first:
+      213: 21300182
+    second: panther vore parts_87
+  - first:
+      213: 21300184
+    second: panther vore parts_88
+  - first:
+      213: 21300186
+    second: panther vore parts_89
+  - first:
+      213: 21300188
+    second: panther vore parts_90
+  - first:
+      213: 21300190
+    second: panther vore parts_91
+  - first:
+      213: 21300192
+    second: panther vore parts_92
+  - first:
+      213: 21300194
+    second: panther vore parts_93
+  - first:
+      213: 21300196
+    second: panther vore parts_94
+  - first:
+      213: 21300198
+    second: panther vore parts_95
+  - first:
+      213: 21300200
+    second: panther vore parts_96
+  - first:
+      213: 21300202
+    second: panther vore parts_97
+  - first:
+      213: 21300204
+    second: panther vore parts_98
+  - first:
+      213: 21300206
+    second: panther vore parts_99
+  - first:
+      213: 21300208
+    second: panther vore parts_100
+  - first:
+      213: 21300210
+    second: panther vore parts_101
+  - first:
+      213: 21300212
+    second: panther vore parts_102
+  - first:
+      213: 21300214
+    second: panther vore parts_103
+  - first:
+      213: 21300216
+    second: panther vore parts_104
+  - first:
+      213: 21300218
+    second: panther vore parts_105
+  - first:
+      213: 21300220
+    second: panther vore parts_106
+  - first:
+      213: 21300222
+    second: panther vore parts_107
+  - first:
+      213: 21300224
+    second: panther vore parts_108
+  - first:
+      213: 21300226
+    second: panther vore parts_109
+  - first:
+      213: 21300228
+    second: panther vore parts_110
+  - first:
+      213: 21300230
+    second: panther vore parts_111
+  - first:
+      213: 21300232
+    second: panther vore parts_112
+  - first:
+      213: 21300234
+    second: panther vore parts_113
+  - first:
+      213: 21300236
+    second: panther vore parts_114
+  - first:
+      213: 21300238
+    second: panther vore parts_115
+  - first:
+      213: 21300240
+    second: panther vore parts_116
+  - first:
+      213: 21300242
+    second: panther vore parts_117
+  - first:
+      213: 21300244
+    second: panther vore parts_118
+  - first:
+      213: 21300246
+    second: panther vore parts_119
+  - first:
+      213: 21300248
+    second: panther vore parts_120
+  - first:
+      213: 21300250
+    second: panther vore parts_121
+  - first:
+      213: 21300252
+    second: panther vore parts_122
+  - first:
+      213: 21300254
+    second: panther vore parts_123
+  - first:
+      213: 21300256
+    second: panther vore parts_124
+  - first:
+      213: 21300258
+    second: panther vore parts_125
+  - first:
+      213: 21300260
+    second: panther vore parts_126
+  - first:
+      213: 21300262
+    second: panther vore parts_127
+  - first:
+      213: 21300264
+    second: panther vore parts_128
+  - first:
+      213: 21300266
+    second: panther vore parts_129
+  - first:
+      213: 21300268
+    second: panther vore parts_130
+  - first:
+      213: 21300270
+    second: panther vore parts_131
+  - first:
+      213: 21300272
+    second: panther vore parts_132
+  - first:
+      213: 21300274
+    second: panther vore parts_133
+  - first:
+      213: 21300276
+    second: panther vore parts_134
+  - first:
+      213: 21300278
+    second: panther vore parts_135
+  - first:
+      213: 21300280
+    second: panther vore parts_136
+  - first:
+      213: 21300282
+    second: panther vore parts_137
+  - first:
+      213: 21300284
+    second: panther vore parts_138
+  - first:
+      213: 21300286
+    second: panther vore parts_139
+  - first:
+      213: 21300288
+    second: panther vore parts_140
+  - first:
+      213: 21300290
+    second: panther vore parts_141
+  - first:
+      213: 21300292
+    second: panther vore parts_142
+  - first:
+      213: 21300294
+    second: panther vore parts_143
+  - first:
+      213: 21300296
+    second: panther vore parts_144
+  - first:
+      213: 21300298
+    second: panther vore parts_145
+  - first:
+      213: 21300300
+    second: panther vore parts_146
+  - first:
+      213: 21300302
+    second: panther vore parts_147
+  - first:
+      213: 21300304
+    second: panther vore parts_148
+  - first:
+      213: 21300306
+    second: panther vore parts_149
+  - first:
+      213: 21300308
+    second: panther vore parts_150
+  - first:
+      213: 21300310
+    second: panther vore parts_151
+  - first:
+      213: 21300312
+    second: panther vore parts_152
+  - first:
+      213: 21300314
+    second: panther vore parts_153
+  - first:
+      213: 21300316
+    second: panther vore parts_154
+  - first:
+      213: 21300318
+    second: panther vore parts_155
+  - first:
+      213: 21300320
+    second: panther vore parts_156
+  - first:
+      213: 21300322
+    second: panther vore parts_157
+  - first:
+      213: 21300324
+    second: panther vore parts_158
+  - first:
+      213: 21300326
+    second: panther vore parts_159
+  - first:
+      213: 21300328
+    second: panther vore parts_160
+  - first:
+      213: 21300330
+    second: panther vore parts_161
+  - first:
+      213: 21300332
+    second: panther vore parts_162
+  - first:
+      213: 21300334
+    second: panther vore parts_163
+  - first:
+      213: 21300336
+    second: panther vore parts_164
+  - first:
+      213: 21300338
+    second: panther vore parts_165
+  - first:
+      213: 21300340
+    second: panther vore parts_166
+  - first:
+      213: 21300342
+    second: panther vore parts_167
+  - first:
+      213: 21300344
+    second: panther vore parts_168
+  - first:
+      213: 21300346
+    second: panther vore parts_169
+  - first:
+      213: 21300348
+    second: panther vore parts_170
+  - first:
+      213: 21300350
+    second: panther vore parts_171
+  - first:
+      213: 21300352
+    second: panther vore parts_172
+  - first:
+      213: 21300354
+    second: panther vore parts_23
+  - first:
+      213: 21300356
+    second: panther vore parts_24
+  - first:
+      213: 21300358
+    second: panther vore parts_57
+  - first:
+      213: 21300360
+    second: panther vore parts_65
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -201,9 +563,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -213,8 +578,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -235,11 +600,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 4096
     resizeAlgorithm: 0
@@ -249,8 +620,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 4096
     resizeAlgorithm: 0
@@ -260,7 +633,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -280,6 +681,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cfd20e4e10473d5418f6295aaf8b32bd
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -300,6 +702,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d94ad1173bbdc8f40b82e07a0e7ed2bb
+      internalID: 21300018
       vertices: []
       indices: 
       edges: []
@@ -320,6 +723,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 79ba93281efa29a48a795090d838b210
+      internalID: 21300020
       vertices: []
       indices: 
       edges: []
@@ -340,6 +744,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2640c375c02966e4e88b9c5763ddb1ea
+      internalID: 21300022
       vertices: []
       indices: 
       edges: []
@@ -360,6 +765,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cf4bd95c6d1402a438c042d9ff108904
+      internalID: 21300024
       vertices: []
       indices: 
       edges: []
@@ -380,6 +786,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 09ec4e4350bf7f84281cb7d7c61c5439
+      internalID: 21300026
       vertices: []
       indices: 
       edges: []
@@ -400,6 +807,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5578ff4d2fa92b94a96bd6e2d688ad79
+      internalID: 21300028
       vertices: []
       indices: 
       edges: []
@@ -420,6 +828,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9f969b907857b7e4887e0fcecbff729c
+      internalID: 21300030
       vertices: []
       indices: 
       edges: []
@@ -440,6 +849,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6b5b0f1339d8999479201756568bf818
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -460,6 +870,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8d8b3d1eb7b688444bd50ba89d437047
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -480,6 +891,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8a7e36a8e2f19d14bb5e951d3d5ab3ca
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -500,6 +912,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 102f0465e5a30684f9c1683b1fa977da
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -520,6 +933,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 006e17bc255eef345838df954b614608
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -540,6 +954,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 94aa4fa8170623d468da94dfe821bca8
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -560,6 +975,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6148fd064e1520f4ea8d91ae4a3e176f
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -580,6 +996,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3411a2308829c284797ee2d474eb67af
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -600,6 +1017,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3abb3d71dc59065488f3db5f63a91231
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -620,6 +1038,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bedf8f30a28836445b40db77a9227834
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -640,6 +1059,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 513d3c1e89b4f6f4da62dda6a0a0757c
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -660,6 +1080,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 83184d4985bad574182e25a559591a7f
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -680,6 +1101,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6bf0c056294dcb84f951986e9662ff7a
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -700,6 +1122,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 32ef9a930b387f141a96b20f4c1925cf
+      internalID: 21300058
       vertices: []
       indices: 
       edges: []
@@ -720,6 +1143,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a51c76bdcc1101a4fbcc2ca8da7a4a4e
+      internalID: 21300060
       vertices: []
       indices: 
       edges: []
@@ -740,6 +1164,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d54c97ca771cba048bb1cbfc2db6488a
+      internalID: 21300354
       vertices: []
       indices: 
       edges: []
@@ -760,6 +1185,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 981f00810b3809c478fd67233a695a76
+      internalID: 21300356
       vertices: []
       indices: 
       edges: []
@@ -780,6 +1206,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 28236a3d43e98ae429eadb93588af22e
+      internalID: 21300062
       vertices: []
       indices: 
       edges: []
@@ -800,6 +1227,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 02483f7dd795802488c80491ed9eb700
+      internalID: 21300064
       vertices: []
       indices: 
       edges: []
@@ -820,6 +1248,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 11207c40a7b2b5c49a53238109b0334a
+      internalID: 21300066
       vertices: []
       indices: 
       edges: []
@@ -840,6 +1269,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 45966a6dfb158994b9808264f5aa05ea
+      internalID: 21300068
       vertices: []
       indices: 
       edges: []
@@ -860,6 +1290,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 64598cc4e262d5647845bc83ec5a204c
+      internalID: 21300070
       vertices: []
       indices: 
       edges: []
@@ -880,6 +1311,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 62b4ffe7e3880bc4eb8bea5901e73fc2
+      internalID: 21300072
       vertices: []
       indices: 
       edges: []
@@ -900,6 +1332,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dbebe6d39e7b52c47807729acadde564
+      internalID: 21300074
       vertices: []
       indices: 
       edges: []
@@ -920,6 +1353,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1e5f4558f59932e49a13bffb7aded531
+      internalID: 21300076
       vertices: []
       indices: 
       edges: []
@@ -940,6 +1374,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 278f157e219dc4e498a59a942e0ca150
+      internalID: 21300078
       vertices: []
       indices: 
       edges: []
@@ -960,6 +1395,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b3e6bf98b39955841b308a1d65088b1e
+      internalID: 21300080
       vertices: []
       indices: 
       edges: []
@@ -980,6 +1416,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f89a7cc03cbac4d45bfd20777170c966
+      internalID: 21300082
       vertices: []
       indices: 
       edges: []
@@ -1000,6 +1437,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ac5824cbd9ca44a43bdc7645d8164da6
+      internalID: 21300084
       vertices: []
       indices: 
       edges: []
@@ -1020,6 +1458,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a28818817ddae0748bb8fab342020929
+      internalID: 21300086
       vertices: []
       indices: 
       edges: []
@@ -1040,6 +1479,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e13e798e7ce7d104ab2be6f7438028e1
+      internalID: 21300088
       vertices: []
       indices: 
       edges: []
@@ -1060,6 +1500,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3af33046d2833024e88b9f32dc897818
+      internalID: 21300090
       vertices: []
       indices: 
       edges: []
@@ -1080,6 +1521,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0d1aa880925eef34bb9b28e70209a8bc
+      internalID: 21300092
       vertices: []
       indices: 
       edges: []
@@ -1100,6 +1542,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 09b0168db07110940b3fb1bb25bc0c7e
+      internalID: 21300094
       vertices: []
       indices: 
       edges: []
@@ -1120,6 +1563,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3ee635a6eb055b5489c89cd00535ef27
+      internalID: 21300096
       vertices: []
       indices: 
       edges: []
@@ -1140,6 +1584,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1cc25036c1fe0ed4a9b4a5001f5ac3c2
+      internalID: 21300098
       vertices: []
       indices: 
       edges: []
@@ -1160,6 +1605,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 57fe50f7da2290c45b4dd401b7659fa3
+      internalID: 21300100
       vertices: []
       indices: 
       edges: []
@@ -1180,6 +1626,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 62e1d4cce424cb648a2b684ab8fafc86
+      internalID: 21300102
       vertices: []
       indices: 
       edges: []
@@ -1200,6 +1647,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ed9b74cd3c63d664d898511d031a7295
+      internalID: 21300104
       vertices: []
       indices: 
       edges: []
@@ -1220,6 +1668,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0dcf48802a39c8542973778dcf009c6c
+      internalID: 21300106
       vertices: []
       indices: 
       edges: []
@@ -1240,6 +1689,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9388147fa85463a418241f431a78e217
+      internalID: 21300108
       vertices: []
       indices: 
       edges: []
@@ -1260,6 +1710,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 34c021649e96a57458958855d21c6025
+      internalID: 21300110
       vertices: []
       indices: 
       edges: []
@@ -1280,6 +1731,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4b4e1dd3ecf352147ba6dc4b37735581
+      internalID: 21300112
       vertices: []
       indices: 
       edges: []
@@ -1300,6 +1752,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 16c8d2cda32273f418efc9924a55e091
+      internalID: 21300114
       vertices: []
       indices: 
       edges: []
@@ -1320,6 +1773,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2c817e6d2e3c8a14c9c9161bda452956
+      internalID: 21300116
       vertices: []
       indices: 
       edges: []
@@ -1340,6 +1794,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8318ffa6160ec0149956b926c6d18003
+      internalID: 21300118
       vertices: []
       indices: 
       edges: []
@@ -1360,6 +1815,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b55935b4862c3c74ab81079d285983cc
+      internalID: 21300120
       vertices: []
       indices: 
       edges: []
@@ -1380,6 +1836,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0cb712d8c72169143a91b3a6f2f7142c
+      internalID: 21300122
       vertices: []
       indices: 
       edges: []
@@ -1400,6 +1857,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6ebe29dbfb0ab2243bdc9bd8ad3496f7
+      internalID: 21300124
       vertices: []
       indices: 
       edges: []
@@ -1420,6 +1878,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 877a5e3cce0e45441a7b56786711a720
+      internalID: 21300358
       vertices: []
       indices: 
       edges: []
@@ -1440,6 +1899,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 647bdb084bfcf3b4f9753f832e17f011
+      internalID: 21300126
       vertices: []
       indices: 
       edges: []
@@ -1460,6 +1920,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f6823460414bb1841b5b5abcd1e0352b
+      internalID: 21300128
       vertices: []
       indices: 
       edges: []
@@ -1480,6 +1941,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b3d51314caa905247aedcf0396eb3d9d
+      internalID: 21300130
       vertices: []
       indices: 
       edges: []
@@ -1500,6 +1962,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3e8c82d481d6400449e4d773cf2ea471
+      internalID: 21300132
       vertices: []
       indices: 
       edges: []
@@ -1520,6 +1983,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3ee0262f824370341867c05d0a545501
+      internalID: 21300134
       vertices: []
       indices: 
       edges: []
@@ -1540,6 +2004,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7c671c8536709164e87edef7cf2170fb
+      internalID: 21300136
       vertices: []
       indices: 
       edges: []
@@ -1560,6 +2025,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8c7cb20eaa52b844c9f52302825e5682
+      internalID: 21300138
       vertices: []
       indices: 
       edges: []
@@ -1580,6 +2046,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 836f10204ee562b47adaf9a2554175f3
+      internalID: 21300360
       vertices: []
       indices: 
       edges: []
@@ -1600,6 +2067,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1180997a55f23844e9833234ae54da3e
+      internalID: 21300140
       vertices: []
       indices: 
       edges: []
@@ -1620,6 +2088,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a0640ed2678e3b848a0a0028407989e9
+      internalID: 21300142
       vertices: []
       indices: 
       edges: []
@@ -1640,6 +2109,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3a13d59566bceb74aa20e639d27b2b68
+      internalID: 21300144
       vertices: []
       indices: 
       edges: []
@@ -1660,6 +2130,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 52f5c98a971cc554891af1fdb5be0d78
+      internalID: 21300146
       vertices: []
       indices: 
       edges: []
@@ -1680,6 +2151,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e1c38f3e8b072874586dc4c4d4053c5e
+      internalID: 21300148
       vertices: []
       indices: 
       edges: []
@@ -1700,6 +2172,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 840acd895bfd4374eb2e253f73392619
+      internalID: 21300150
       vertices: []
       indices: 
       edges: []
@@ -1720,6 +2193,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 17d3e965cccdb9e44b0af823855dccf4
+      internalID: 21300152
       vertices: []
       indices: 
       edges: []
@@ -1740,6 +2214,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 662a69f5d0c18a34c969669ba4b3ffc0
+      internalID: 21300154
       vertices: []
       indices: 
       edges: []
@@ -1760,6 +2235,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 848feec7d86a09247813005a10a2a67d
+      internalID: 21300156
       vertices: []
       indices: 
       edges: []
@@ -1780,6 +2256,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 554a5c347f0fad9449278554d8d96b1e
+      internalID: 21300158
       vertices: []
       indices: 
       edges: []
@@ -1800,6 +2277,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 93f803a0c7e0ff646a1f788a13a39bc6
+      internalID: 21300160
       vertices: []
       indices: 
       edges: []
@@ -1820,6 +2298,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: adbe6f94fa880b748bd45f8c494e6993
+      internalID: 21300162
       vertices: []
       indices: 
       edges: []
@@ -1840,6 +2319,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cba78e8fcb93689428b4184fc1c1821e
+      internalID: 21300164
       vertices: []
       indices: 
       edges: []
@@ -1860,6 +2340,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 492e3b777151b1f4e956c5aae79fa63a
+      internalID: 21300166
       vertices: []
       indices: 
       edges: []
@@ -1880,6 +2361,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 939400e96c0c4904f973b6156a3c9873
+      internalID: 21300168
       vertices: []
       indices: 
       edges: []
@@ -1900,6 +2382,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 77084f5141832d947b91035c80667f15
+      internalID: 21300170
       vertices: []
       indices: 
       edges: []
@@ -1920,6 +2403,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9d74700ffc09a8f4aadda8be71fddb33
+      internalID: 21300172
       vertices: []
       indices: 
       edges: []
@@ -1940,6 +2424,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 66c9aaadf8b71ba49a50ef9ae0bb129e
+      internalID: 21300174
       vertices: []
       indices: 
       edges: []
@@ -1960,6 +2445,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: efd5e4eb55b0c4946a5d1704f45133c3
+      internalID: 21300176
       vertices: []
       indices: 
       edges: []
@@ -1980,6 +2466,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 231d1c50c9f9a5b4889e6247e360bb5e
+      internalID: 21300178
       vertices: []
       indices: 
       edges: []
@@ -2000,6 +2487,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d3becaf0815cfc643928e04635774e3b
+      internalID: 21300180
       vertices: []
       indices: 
       edges: []
@@ -2020,6 +2508,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3f21cf0ec94aa694fa69a1236a6c38a2
+      internalID: 21300182
       vertices: []
       indices: 
       edges: []
@@ -2040,6 +2529,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c96653d898e8d0b4c8cc5726ca6291b0
+      internalID: 21300184
       vertices: []
       indices: 
       edges: []
@@ -2060,6 +2550,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 934e838ea6a6ede438d47fb683084d01
+      internalID: 21300186
       vertices: []
       indices: 
       edges: []
@@ -2080,6 +2571,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3e3946cf158eb9b438c237c77908d4de
+      internalID: 21300188
       vertices: []
       indices: 
       edges: []
@@ -2100,6 +2592,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 31fd79bbc7ec09545bb39e9ac7a03e5e
+      internalID: 21300190
       vertices: []
       indices: 
       edges: []
@@ -2120,6 +2613,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0444e74e71d5e244ab5e9865136e6f5e
+      internalID: 21300192
       vertices: []
       indices: 
       edges: []
@@ -2140,6 +2634,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f00a281be7e058447809962405942499
+      internalID: 21300194
       vertices: []
       indices: 
       edges: []
@@ -2160,6 +2655,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7445bf3d6a4de7c43bc2ac583571f734
+      internalID: 21300196
       vertices: []
       indices: 
       edges: []
@@ -2180,6 +2676,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 675c53d6359bee345abf6863e702c0d6
+      internalID: 21300198
       vertices: []
       indices: 
       edges: []
@@ -2200,6 +2697,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 46213f63c62c6654891f8decb99d271e
+      internalID: 21300200
       vertices: []
       indices: 
       edges: []
@@ -2220,6 +2718,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2c800fa374f5a954d9f8e228218cc75b
+      internalID: 21300202
       vertices: []
       indices: 
       edges: []
@@ -2240,6 +2739,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f850c770cad22d24eb90bd8a2e1e18e6
+      internalID: 21300204
       vertices: []
       indices: 
       edges: []
@@ -2260,6 +2760,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e12873cc6abab5f4296b086ec813f5bc
+      internalID: 21300206
       vertices: []
       indices: 
       edges: []
@@ -2280,6 +2781,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0e9b979b4cd39c44c97b9a83aebf285f
+      internalID: 21300208
       vertices: []
       indices: 
       edges: []
@@ -2300,6 +2802,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f8098b371238ff242b35c13fb9e70785
+      internalID: 21300210
       vertices: []
       indices: 
       edges: []
@@ -2320,6 +2823,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d8cce08e81ca58f4fb74300e2fc30026
+      internalID: 21300212
       vertices: []
       indices: 
       edges: []
@@ -2340,6 +2844,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: fcc918584edd2e848ad0ef6e0dfead07
+      internalID: 21300214
       vertices: []
       indices: 
       edges: []
@@ -2360,6 +2865,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0b252379a3ebe314894eee4d4ffadd50
+      internalID: 21300216
       vertices: []
       indices: 
       edges: []
@@ -2380,6 +2886,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 7692f62fcc193004384e457802b2c9b2
+      internalID: 21300218
       vertices: []
       indices: 
       edges: []
@@ -2400,6 +2907,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4a24c011d1be9f848ae3e90f0ffedbd1
+      internalID: 21300220
       vertices: []
       indices: 
       edges: []
@@ -2420,6 +2928,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 30ea4cba9b20c8c409a64d6c28852459
+      internalID: 21300222
       vertices: []
       indices: 
       edges: []
@@ -2440,6 +2949,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 2a8009f9979c3f642902b5f5ae5fc696
+      internalID: 21300224
       vertices: []
       indices: 
       edges: []
@@ -2460,6 +2970,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f7511afc3920d09479192fa6acd82643
+      internalID: 21300226
       vertices: []
       indices: 
       edges: []
@@ -2480,6 +2991,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f7c7f80921323c84ab48ddf1c22de1de
+      internalID: 21300228
       vertices: []
       indices: 
       edges: []
@@ -2500,6 +3012,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0b1332005aa81254988f831467896eb6
+      internalID: 21300230
       vertices: []
       indices: 
       edges: []
@@ -2520,6 +3033,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6d08d4d85e1c5584aadeffbb2783a793
+      internalID: 21300232
       vertices: []
       indices: 
       edges: []
@@ -2540,6 +3054,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3e84a1baae55da44092079e7df0109ca
+      internalID: 21300234
       vertices: []
       indices: 
       edges: []
@@ -2560,6 +3075,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ed7a7ea943f072c4f902e3141f49504b
+      internalID: 21300236
       vertices: []
       indices: 
       edges: []
@@ -2580,6 +3096,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: db37313c1f875fc4792521f7327ec0c8
+      internalID: 21300238
       vertices: []
       indices: 
       edges: []
@@ -2600,6 +3117,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f06e03050adff54488693f0a9d6b0e2d
+      internalID: 21300240
       vertices: []
       indices: 
       edges: []
@@ -2620,6 +3138,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e9266eb1ab4cc314092feb53bd2c548c
+      internalID: 21300242
       vertices: []
       indices: 
       edges: []
@@ -2640,6 +3159,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 35343b2bd2106f245b1a8a1d9d325ac0
+      internalID: 21300244
       vertices: []
       indices: 
       edges: []
@@ -2660,6 +3180,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 60097c14ae896e140a2b0644eb3f5900
+      internalID: 21300246
       vertices: []
       indices: 
       edges: []
@@ -2680,6 +3201,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 504e3756d1d80d542a101cd564949120
+      internalID: 21300248
       vertices: []
       indices: 
       edges: []
@@ -2700,6 +3222,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: fcd5780aa50230047a01876e93fffb41
+      internalID: 21300250
       vertices: []
       indices: 
       edges: []
@@ -2720,6 +3243,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 74ea1de7bbeaae84e9d26adea9bcd250
+      internalID: 21300252
       vertices: []
       indices: 
       edges: []
@@ -2740,6 +3264,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9ea1aaaf1416cca4cb709bd864db6421
+      internalID: 21300254
       vertices: []
       indices: 
       edges: []
@@ -2760,6 +3285,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 641539314878c0b4e8d025b60981f490
+      internalID: 21300256
       vertices: []
       indices: 
       edges: []
@@ -2780,6 +3306,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 6972e526bd5ea2644a911705f63077aa
+      internalID: 21300258
       vertices: []
       indices: 
       edges: []
@@ -2800,6 +3327,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8118d39c0d717a24581a7847be373ebe
+      internalID: 21300260
       vertices: []
       indices: 
       edges: []
@@ -2820,6 +3348,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 86788612552120c4089cdbbdf9655e7d
+      internalID: 21300262
       vertices: []
       indices: 
       edges: []
@@ -2840,6 +3369,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ba4e864dce5d8b14fa6dfde644290f59
+      internalID: 21300264
       vertices: []
       indices: 
       edges: []
@@ -2860,6 +3390,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9e41d2130dfa8964e8898c0b98e30bef
+      internalID: 21300266
       vertices: []
       indices: 
       edges: []
@@ -2880,6 +3411,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a6123a34f75575c40b25b447027b6e40
+      internalID: 21300268
       vertices: []
       indices: 
       edges: []
@@ -2900,6 +3432,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c4195f6632a73f344ac5d063d04a87ed
+      internalID: 21300270
       vertices: []
       indices: 
       edges: []
@@ -2920,6 +3453,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bb995f7c8c80dc748ac9e0b281a9c722
+      internalID: 21300272
       vertices: []
       indices: 
       edges: []
@@ -2940,6 +3474,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5afe67aa40f55f240a888698d7e4c552
+      internalID: 21300274
       vertices: []
       indices: 
       edges: []
@@ -2960,6 +3495,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4440a14ad3d5d8347acf877310fc7777
+      internalID: 21300276
       vertices: []
       indices: 
       edges: []
@@ -2980,6 +3516,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 76d73483ff74d7d4586ca7fb8fc8115e
+      internalID: 21300278
       vertices: []
       indices: 
       edges: []
@@ -3000,6 +3537,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 94c4d13ed3f8b224984c37edd5f19134
+      internalID: 21300280
       vertices: []
       indices: 
       edges: []
@@ -3020,6 +3558,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8af960fc542962e4ea1a5ab5ff9a54e8
+      internalID: 21300282
       vertices: []
       indices: 
       edges: []
@@ -3040,6 +3579,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 1f4b5cefd60eae348b885b3cac9c1b2a
+      internalID: 21300284
       vertices: []
       indices: 
       edges: []
@@ -3060,6 +3600,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bee6e8872a0c1ad4e866f7ad8e2220a6
+      internalID: 21300286
       vertices: []
       indices: 
       edges: []
@@ -3080,6 +3621,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c1b9b98f2e4a11b46927dce56a990294
+      internalID: 21300288
       vertices: []
       indices: 
       edges: []
@@ -3100,6 +3642,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0e141ac76af16a64e922cc455d3bf6c7
+      internalID: 21300290
       vertices: []
       indices: 
       edges: []
@@ -3120,6 +3663,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4338afc3b7fb1584a99c0f3392e30282
+      internalID: 21300292
       vertices: []
       indices: 
       edges: []
@@ -3140,6 +3684,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e0c817e938b906249abe80d6359422fa
+      internalID: 21300294
       vertices: []
       indices: 
       edges: []
@@ -3160,6 +3705,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8f362890ad9c0c04a98b2c690d9654e8
+      internalID: 21300296
       vertices: []
       indices: 
       edges: []
@@ -3180,6 +3726,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4b48097575a62024c8a0d172069ad346
+      internalID: 21300298
       vertices: []
       indices: 
       edges: []
@@ -3188,13 +3735,161 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      panther vore parts_0: 21300016
+      panther vore parts_1: 21300018
+      panther vore parts_10: 21300036
+      panther vore parts_100: 21300208
+      panther vore parts_101: 21300210
+      panther vore parts_102: 21300212
+      panther vore parts_103: 21300214
+      panther vore parts_104: 21300216
+      panther vore parts_105: 21300218
+      panther vore parts_106: 21300220
+      panther vore parts_107: 21300222
+      panther vore parts_108: 21300224
+      panther vore parts_109: 21300226
+      panther vore parts_11: 21300038
+      panther vore parts_110: 21300228
+      panther vore parts_111: 21300230
+      panther vore parts_112: 21300232
+      panther vore parts_113: 21300234
+      panther vore parts_114: 21300236
+      panther vore parts_115: 21300238
+      panther vore parts_116: 21300240
+      panther vore parts_117: 21300242
+      panther vore parts_118: 21300244
+      panther vore parts_119: 21300246
+      panther vore parts_12: 21300040
+      panther vore parts_120: 21300248
+      panther vore parts_121: 21300250
+      panther vore parts_122: 21300252
+      panther vore parts_123: 21300254
+      panther vore parts_124: 21300256
+      panther vore parts_125: 21300258
+      panther vore parts_126: 21300260
+      panther vore parts_127: 21300262
+      panther vore parts_128: 21300264
+      panther vore parts_129: 21300266
+      panther vore parts_13: 21300042
+      panther vore parts_130: 21300268
+      panther vore parts_131: 21300270
+      panther vore parts_132: 21300272
+      panther vore parts_133: 21300274
+      panther vore parts_134: 21300276
+      panther vore parts_135: 21300278
+      panther vore parts_136: 21300280
+      panther vore parts_137: 21300282
+      panther vore parts_138: 21300284
+      panther vore parts_139: 21300286
+      panther vore parts_14: 21300044
+      panther vore parts_140: 21300288
+      panther vore parts_141: 21300290
+      panther vore parts_142: 21300292
+      panther vore parts_143: 21300294
+      panther vore parts_144: 21300296
+      panther vore parts_145: 21300298
+      panther vore parts_15: 21300046
+      panther vore parts_16: 21300048
+      panther vore parts_17: 21300050
+      panther vore parts_18: 21300052
+      panther vore parts_19: 21300054
+      panther vore parts_2: 21300020
+      panther vore parts_20: 21300056
+      panther vore parts_21: 21300058
+      panther vore parts_22: 21300060
+      panther vore parts_23: 21300354
+      panther vore parts_24: 21300356
+      panther vore parts_25: 21300062
+      panther vore parts_26: 21300064
+      panther vore parts_27: 21300066
+      panther vore parts_28: 21300068
+      panther vore parts_29: 21300070
+      panther vore parts_3: 21300022
+      panther vore parts_30: 21300072
+      panther vore parts_31: 21300074
+      panther vore parts_32: 21300076
+      panther vore parts_33: 21300078
+      panther vore parts_34: 21300080
+      panther vore parts_35: 21300082
+      panther vore parts_36: 21300084
+      panther vore parts_37: 21300086
+      panther vore parts_38: 21300088
+      panther vore parts_39: 21300090
+      panther vore parts_4: 21300024
+      panther vore parts_40: 21300092
+      panther vore parts_41: 21300094
+      panther vore parts_42: 21300096
+      panther vore parts_43: 21300098
+      panther vore parts_44: 21300100
+      panther vore parts_45: 21300102
+      panther vore parts_46: 21300104
+      panther vore parts_47: 21300106
+      panther vore parts_48: 21300108
+      panther vore parts_49: 21300110
+      panther vore parts_5: 21300026
+      panther vore parts_50: 21300112
+      panther vore parts_51: 21300114
+      panther vore parts_52: 21300116
+      panther vore parts_53: 21300118
+      panther vore parts_54: 21300120
+      panther vore parts_55: 21300122
+      panther vore parts_56: 21300124
+      panther vore parts_57: 21300358
+      panther vore parts_58: 21300126
+      panther vore parts_59: 21300128
+      panther vore parts_6: 21300028
+      panther vore parts_60: 21300130
+      panther vore parts_61: 21300132
+      panther vore parts_62: 21300134
+      panther vore parts_63: 21300136
+      panther vore parts_64: 21300138
+      panther vore parts_65: 21300360
+      panther vore parts_66: 21300140
+      panther vore parts_67: 21300142
+      panther vore parts_68: 21300144
+      panther vore parts_69: 21300146
+      panther vore parts_7: 21300030
+      panther vore parts_70: 21300148
+      panther vore parts_71: 21300150
+      panther vore parts_72: 21300152
+      panther vore parts_73: 21300154
+      panther vore parts_74: 21300156
+      panther vore parts_75: 21300158
+      panther vore parts_76: 21300160
+      panther vore parts_77: 21300162
+      panther vore parts_78: 21300164
+      panther vore parts_79: 21300166
+      panther vore parts_8: 21300032
+      panther vore parts_80: 21300168
+      panther vore parts_81: 21300170
+      panther vore parts_82: 21300172
+      panther vore parts_83: 21300174
+      panther vore parts_84: 21300176
+      panther vore parts_85: 21300178
+      panther vore parts_86: 21300180
+      panther vore parts_87: 21300182
+      panther vore parts_88: 21300184
+      panther vore parts_89: 21300186
+      panther vore parts_9: 21300034
+      panther vore parts_90: 21300188
+      panther vore parts_91: 21300190
+      panther vore parts_92: 21300192
+      panther vore parts_93: 21300194
+      panther vore parts_94: 21300196
+      panther vore parts_95: 21300198
+      panther vore parts_96: 21300200
+      panther vore parts_97: 21300202
+      panther vore parts_98: 21300204
+      panther vore parts_99: 21300206
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

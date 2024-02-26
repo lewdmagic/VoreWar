@@ -2,7 +2,7 @@
 
 public class SpellBook : Item
 {
-    public SpellBook(string name, string description, int cost, int tier, SpellTypes containedSpell)
+    public SpellBook(string name, string description, int cost, int tier, SpellType containedSpell)
     {
         Name = name;
         Description = description;
@@ -12,7 +12,8 @@ public class SpellBook : Item
     }
 
     [OdinSerialize]
-    internal SpellTypes ContainedSpell { get; private set; }
+    internal SpellType ContainedSpell { get; private set; }
+
     [OdinSerialize]
     internal int Tier { get; private set; }
 

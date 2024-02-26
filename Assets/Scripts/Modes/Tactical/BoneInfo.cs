@@ -1,64 +1,72 @@
 ﻿using OdinSerializer;
 using UnityEngine;
 
-class BoneInfo
+public class BoneInfo
 {
     [OdinSerialize]
-    public BoneTypes boneTypes = BoneTypes.GenericBonePile;
-    [OdinSerialize]
-    public string name = "";
-    [OdinSerialize]
-    public int accessoryColor = -1;
+    private BoneType _boneType = BoneType.GenericBonePile;
 
-    public BoneInfo(BoneTypes boneTypes, string name = "", int accessoryColor = -1)
+    public BoneType BoneType { get => _boneType; set => _boneType = value; }
+
+    [OdinSerialize]
+    private string _name = "";
+
+    public string Name { get => _name; set => _name = value; }
+
+    [OdinSerialize]
+    private int _accessoryColor = -1;
+
+    public int AccessoryColor { get => _accessoryColor; set => _accessoryColor = value; }
+
+    public BoneInfo(BoneType boneType, string name = "", int accessoryColor = -1)
     {
-        this.name = name;
-        this.boneTypes = boneTypes;
-        this.accessoryColor = accessoryColor;
+        this.Name = name;
+        BoneType = boneType;
+        this.AccessoryColor = accessoryColor;
     }
 
     public Vector3 GetBoneScalingForScat()
     {
         Vector3 rtn = new Vector3(1f, 1f);
-        switch (boneTypes)
+        switch (BoneType)
         {
-            case BoneTypes.GenericBonePile:
-            case BoneTypes.SlimePile:
-            case BoneTypes.CrypterBonePile:
-            case BoneTypes.DisposedCondom:
-            case BoneTypes.CumPuddle:
+            case BoneType.GenericBonePile:
+            case BoneType.SlimePile:
+            case BoneType.CrypterBonePile:
+            case BoneType.DisposedCondom:
+            case BoneType.CumPuddle:
                 rtn = new Vector3(0.65f, 0.65f);
                 break;
-            case BoneTypes.CrypterSkull:
-            case BoneTypes.HumanoidSkull:
-            case BoneTypes.LizardSkull:
-            case BoneTypes.Imp2EyeSkull:
-            case BoneTypes.Imp1EyeSkull:
-            case BoneTypes.Imp3EyeSkull:
-            case BoneTypes.SeliciaSkull:
+            case BoneType.CrypterSkull:
+            case BoneType.HumanoidSkull:
+            case BoneType.LizardSkull:
+            case BoneType.Imp2EyeSkull:
+            case BoneType.Imp1EyeSkull:
+            case BoneType.Imp3EyeSkull:
+            case BoneType.SeliciaSkull:
                 rtn = new Vector3(0.65f, 0.65f);
                 break;
-            case BoneTypes.FurryBones:
-            case BoneTypes.FurryRabbitBones:
-            case BoneTypes.HarrysGooPile:
+            case BoneType.FurryBones:
+            case BoneType.FurryRabbitBones:
+            case BoneType.HarrysGooPile:
                 rtn = new Vector3(1f, 1f);
                 break;
-            case BoneTypes.Kangaroo:
+            case BoneType.Kangaroo:
                 rtn = new Vector3(0.85f, 0.85f);
                 break;
-            case BoneTypes.Alligator:
+            case BoneType.Alligator:
                 rtn = new Vector3(1f, 1f);
                 break;
-            case BoneTypes.Wyvern:
-            case BoneTypes.YoungWyvern:
-            case BoneTypes.Compy:
-            case BoneTypes.Shark:
-            case BoneTypes.DarkSwallower:
-            case BoneTypes.Cake:
-            case BoneTypes.WyvernBonesWithoutHead:
+            case BoneType.Wyvern:
+            case BoneType.YoungWyvern:
+            case BoneType.Compy:
+            case BoneType.Shark:
+            case BoneType.DarkSwallower:
+            case BoneType.Cake:
+            case BoneType.WyvernBonesWithoutHead:
                 rtn = new Vector3(0.5f, 0.5f);
                 break;
-            case BoneTypes.VisionSkull:
+            case BoneType.VisionSkull:
                 rtn = new Vector3(0.8f, 0.8f);
                 break;
             default:
@@ -66,71 +74,73 @@ class BoneInfo
                 rtn = new Vector3(0f, 0f);
                 break;
         }
+
         return rtn;
     }
 
     public Vector3 GetBoneOffsetForScat()
     {
         Vector3 rtn;
-        switch (this.boneTypes)
+        switch (BoneType)
         {
-            case BoneTypes.GenericBonePile:
+            case BoneType.GenericBonePile:
                 rtn = new Vector3(0, 0.01f);
                 break;
-            case BoneTypes.SlimePile:
-            case BoneTypes.CrypterBonePile:
-            case BoneTypes.DisposedCondom:
-            case BoneTypes.CumPuddle:
+            case BoneType.SlimePile:
+            case BoneType.CrypterBonePile:
+            case BoneType.DisposedCondom:
+            case BoneType.CumPuddle:
                 rtn = new Vector3(0, 0);
                 break;
-            case BoneTypes.CrypterSkull:
-            case BoneTypes.HumanoidSkull:
-            case BoneTypes.LizardSkull:
-            case BoneTypes.Imp2EyeSkull:
-            case BoneTypes.Imp1EyeSkull:
-            case BoneTypes.Imp3EyeSkull:
+            case BoneType.CrypterSkull:
+            case BoneType.HumanoidSkull:
+            case BoneType.LizardSkull:
+            case BoneType.Imp2EyeSkull:
+            case BoneType.Imp1EyeSkull:
+            case BoneType.Imp3EyeSkull:
                 rtn = new Vector3(Random.Range(-.07f, .07f), -.02f);
                 break;
-            case BoneTypes.SeliciaSkull:
+            case BoneType.SeliciaSkull:
                 rtn = new Vector3(Random.Range(-.07f, .07f), Random.Range(0, .03f));
                 break;
-            case BoneTypes.FurryBones:
-            case BoneTypes.FurryRabbitBones:
-            case BoneTypes.HarrysGooPile:
+            case BoneType.FurryBones:
+            case BoneType.FurryRabbitBones:
+            case BoneType.HarrysGooPile:
                 rtn = new Vector3(0, 0.02f);
                 break;
-            case BoneTypes.Kangaroo:
+            case BoneType.Kangaroo:
                 rtn = new Vector3(0, 0.02f);
                 break;
-            case BoneTypes.Alligator:
-            case BoneTypes.Wyvern:
+            case BoneType.Alligator:
+            case BoneType.Wyvern:
                 rtn = new Vector3(0, 0);
                 break;
-            case BoneTypes.YoungWyvern:
+            case BoneType.YoungWyvern:
                 rtn = new Vector3(0, 0.015f);
                 break;
-            case BoneTypes.Compy:
+            case BoneType.Compy:
                 rtn = new Vector3(0, 0.03f);
                 break;
-            case BoneTypes.Shark:
+            case BoneType.Shark:
                 rtn = new Vector3(0 - 0.01f, -0.01f);
                 break;
-            case BoneTypes.DarkSwallower:
+            case BoneType.DarkSwallower:
                 rtn = new Vector3(0, 0.05f);
                 break;
-            case BoneTypes.Cake:
+            case BoneType.Cake:
                 rtn = new Vector3(Random.Range(-.11f, .11f), 0.1f);
                 break;
-            case BoneTypes.WyvernBonesWithoutHead:
+            case BoneType.WyvernBonesWithoutHead:
                 rtn = new Vector3(0, .05f);
                 break;
-            case BoneTypes.VisionSkull:
+            case BoneType.VisionSkull:
                 rtn = new Vector3(Random.Range(-.07f, .07f), Random.Range(-0.13f, -0.15f));
                 break;
             default:
                 rtn = new Vector3(0, 0);
                 break;
         }
+
         return rtn;
     }
 

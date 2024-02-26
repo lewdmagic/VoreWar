@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Utility.Stored
 {
-    struct EmpireData
+    internal struct EmpireData
     {
         public bool AIPlayer;
         public string VillageCount;
@@ -18,18 +18,22 @@ namespace Assets.Scripts.Utility.Stored
         public float MaxGarrisonSize;
     }
 
-    class CreateStrategicStored
+    internal class CreateStrategicStored
     {
         [OdinSerialize]
         internal Dictionary<string, string> InputFields;
+
         [OdinSerialize]
         internal Dictionary<string, bool> Toggles;
+
         [OdinSerialize]
         internal Dictionary<string, int> Dropdowns;
+
         [OdinSerialize]
         internal Dictionary<string, float> Sliders;
+
         [OdinSerialize]
-        internal Dictionary<int, EmpireData> Empires;
+        internal Dictionary<Race, EmpireData> Empires;
 
         public CreateStrategicStored()
         {
@@ -37,7 +41,7 @@ namespace Assets.Scripts.Utility.Stored
             Toggles = new Dictionary<string, bool>();
             Dropdowns = new Dictionary<string, int>();
             Sliders = new Dictionary<string, float>();
-            Empires = new Dictionary<int, EmpireData>();
+            Empires = new Dictionary<Race, EmpireData>();
         }
     }
 }

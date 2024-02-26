@@ -5,34 +5,72 @@ using System.Text;
 
 public class TacticalStats
 {
-    class RaceStats
+    private class RaceStats
     {
         [OdinSerialize]
-        public Dictionary<Weapon, int> DamageDealtBy;
+        private Dictionary<Weapon, int> _damageDealtBy;
+
+        public Dictionary<Weapon, int> DamageDealtBy { get => _damageDealtBy; set => _damageDealtBy = value; }
+
         [OdinSerialize]
-        public Dictionary<Weapon, int> KillsWith;
+        private Dictionary<Weapon, int> _killsWith;
+
+        public Dictionary<Weapon, int> KillsWith { get => _killsWith; set => _killsWith = value; }
+
         [OdinSerialize]
-        public Dictionary<Spell, int> DamageDealtBySpell;
+        private Dictionary<Spell, int> _damageDealtBySpell;
+
+        public Dictionary<Spell, int> DamageDealtBySpell { get => _damageDealtBySpell; set => _damageDealtBySpell = value; }
+
         [OdinSerialize]
-        public Dictionary<Spell, int> KillsWithSpell;
+        private Dictionary<Spell, int> _killsWithSpell;
+
+        public Dictionary<Spell, int> KillsWithSpell { get => _killsWithSpell; set => _killsWithSpell = value; }
+
         [OdinSerialize]
-        public int Hits;
+        private int _hits;
+
+        public int Hits { get => _hits; set => _hits = value; }
+
         [OdinSerialize]
-        public int Misses;
+        private int _misses;
+
+        public int Misses { get => _misses; set => _misses = value; }
+
         [OdinSerialize]
-        public int TotalHPHealed;
+        private int _totalHpHealed;
+
+        public int TotalHpHealed { get => _totalHpHealed; set => _totalHpHealed = value; }
+
         [OdinSerialize]
-        public int TargetsVored;
+        private int _targetsVored;
+
+        public int TargetsVored { get => _targetsVored; set => _targetsVored = value; }
+
         [OdinSerialize]
-        public int TargetsRegurgitated;
+        private int _targetsRegurgitated;
+
+        public int TargetsRegurgitated { get => _targetsRegurgitated; set => _targetsRegurgitated = value; }
+
         [OdinSerialize]
-        public int TargetsEscaped;
+        private int _targetsEscaped;
+
+        public int TargetsEscaped { get => _targetsEscaped; set => _targetsEscaped = value; }
+
         [OdinSerialize]
-        public int TargetsFreed;
+        private int _targetsFreed;
+
+        public int TargetsFreed { get => _targetsFreed; set => _targetsFreed = value; }
+
         [OdinSerialize]
-        public int TargetsDigested;
+        private int _targetsDigested;
+
+        public int TargetsDigested { get => _targetsDigested; set => _targetsDigested = value; }
+
         [OdinSerialize]
-        public int AlliesEaten;
+        private int _alliesEaten;
+
+        public int AlliesEaten { get => _alliesEaten; set => _alliesEaten = value; }
 
         public RaceStats()
         {
@@ -42,26 +80,47 @@ public class TacticalStats
             KillsWithSpell = new Dictionary<Spell, int>();
         }
     }
-    [OdinSerialize]
-    public int DefenderSide;
-    [OdinSerialize]
-    public int AttackerSide;
-    [OdinSerialize]
-    int attackers;
-    [OdinSerialize]
-    int defenders;
-    [OdinSerialize]
-    int garrison;
-    [OdinSerialize]
-    RaceStats AttackerStats;
-    [OdinSerialize]
-    RaceStats DefenderStats;
 
-    public void SetInitialUnits(int attack, int defend, int garr, int attackerSide, int defenderSide)
+    [OdinSerialize]
+    private Side _defenderSide;
+
+    public Side DefenderSide { get => _defenderSide; set => _defenderSide = value; }
+
+    [OdinSerialize]
+    private Side _attackerSide;
+
+    public Side AttackerSide { get => _attackerSide; set => _attackerSide = value; }
+
+    [OdinSerialize]
+    private int _attackers;
+
+    private int Attackers { get => _attackers; set => _attackers = value; }
+
+    [OdinSerialize]
+    private int _defenders;
+
+    private int Defenders { get => _defenders; set => _defenders = value; }
+
+    [OdinSerialize]
+    private int _garrison;
+
+    private int Garrison { get => _garrison; set => _garrison = value; }
+
+    [OdinSerialize]
+    private RaceStats _attackerStats;
+
+    private RaceStats AttackerStats { get => _attackerStats; set => _attackerStats = value; }
+
+    [OdinSerialize]
+    private RaceStats _defenderStats;
+
+    private RaceStats DefenderStats { get => _defenderStats; set => _defenderStats = value; }
+
+    public void SetInitialUnits(int attack, int defend, int garr, Side attackerSide, Side defenderSide)
     {
-        attackers = attack;
-        defenders = defend;
-        garrison = garr;
+        Attackers = attack;
+        Defenders = defend;
+        Garrison = garr;
         AttackerSide = attackerSide;
         DefenderSide = defenderSide;
 
@@ -84,8 +143,7 @@ public class TacticalStats
         {
             if (attackerValueLost > 4 * defenderValueLost)
                 lossRatio = "Pyrrhic ";
-            else if (attackerValueLost > 2 * defenderValueLost)
-                lossRatio = "Costly ";
+            else if (attackerValueLost > 2 * defenderValueLost) lossRatio = "Costly ";
             if (remainingAttackerPct > .9)
                 survivorRatio = "Flawless";
             else if (remainingAttackerPct > .6)
@@ -95,14 +153,12 @@ public class TacticalStats
             else
                 survivorRatio = "Marginal";
             return $"{lossRatio}{survivorRatio} Attacker Victory";
-
         }
         else
         {
             if (defenderValueLost > 4 * attackerValueLost)
                 lossRatio = "Pyrrhic ";
-            else if (defenderValueLost > 2 * attackerValueLost)
-                lossRatio = "Costly ";
+            else if (defenderValueLost > 2 * attackerValueLost) lossRatio = "Costly ";
             if (remainingDefenderPct > .9)
                 survivorRatio = "Flawless";
             else if (remainingDefenderPct > .6)
@@ -113,60 +169,56 @@ public class TacticalStats
                 survivorRatio = "Marginal";
             return $"{lossRatio}{survivorRatio} Defender Victory";
         }
-
     }
 
     public string AttackerSummary(int remAttackers)
     {
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"Attackers Remaining: {remAttackers} / {attackers}");
+        sb.AppendLine($"Attackers Remaining: {remAttackers} / {Attackers}");
         GetRaceStats(sb, AttackerStats);
         return sb.ToString();
     }
 
     public string DefenderSummary(int remDefenders, int remGarrison)
     {
-        if (remDefenders < 0)
-            remDefenders = 0;
-        if (remGarrison < 0)
-            remGarrison = 0;
+        if (remDefenders < 0) remDefenders = 0;
+        if (remGarrison < 0) remGarrison = 0;
         StringBuilder sb = new StringBuilder();
-        if (defenders > 0)
-            sb.AppendLine($"Defenders Remaining: {remDefenders} / {defenders}");
-        if (garrison > 0)
-            sb.AppendLine($"Garrison Remaining: {remGarrison} / {garrison}");
+        if (Defenders > 0) sb.AppendLine($"Defenders Remaining: {remDefenders} / {Defenders}");
+        if (Garrison > 0) sb.AppendLine($"Garrison Remaining: {remGarrison} / {Garrison}");
         GetRaceStats(sb, DefenderStats);
         return sb.ToString();
     }
 
-    private void GetRaceStats(StringBuilder sb, RaceStats Stats)
+    private void GetRaceStats(StringBuilder sb, RaceStats stats)
     {
-        foreach (var item in Stats.DamageDealtBy)
+        foreach (var item in stats.DamageDealtBy)
         {
-            sb.AppendLine($"{item.Key.Name} - Damage Dealt: {Stats.DamageDealtBy[item.Key]} - Kills: {(Stats.KillsWith.ContainsKey(item.Key) ? Stats.KillsWith[item.Key] : 0)}");
+            sb.AppendLine($"{item.Key.Name} - Damage Dealt: {stats.DamageDealtBy[item.Key]} - Kills: {(stats.KillsWith.ContainsKey(item.Key) ? stats.KillsWith[item.Key] : 0)}");
         }
-        if (Stats.DamageDealtBySpell != null && Stats.KillsWithSpell != null)
+
+        if (stats.DamageDealtBySpell != null && stats.KillsWithSpell != null)
         {
-            foreach (var item in Stats.DamageDealtBySpell)
+            foreach (var item in stats.DamageDealtBySpell)
             {
-                sb.AppendLine($"{item.Key.Name} - Damage Dealt: {Stats.DamageDealtBySpell[item.Key]} - Kills: {(Stats.KillsWithSpell.ContainsKey(item.Key) ? Stats.KillsWithSpell[item.Key] : 0)}");
+                sb.AppendLine($"{item.Key.Name} - Damage Dealt: {stats.DamageDealtBySpell[item.Key]} - Kills: {(stats.KillsWithSpell.ContainsKey(item.Key) ? stats.KillsWithSpell[item.Key] : 0)}");
             }
         }
-        sb.AppendLine($"Hits: {Stats.Hits}");
-        sb.AppendLine($"Misses: {Stats.Misses}");
-        sb.AppendLine($"Total HP Healed: {Stats.TotalHPHealed}");
-        sb.AppendLine($"Targets Vored: {Stats.TargetsVored}");
-        sb.AppendLine($"Prey Freed: {Stats.TargetsFreed}");
-        sb.AppendLine($"Prey Escaped: {Stats.TargetsEscaped}");
-        sb.AppendLine($"Prey Regurgitated: {Stats.TargetsRegurgitated}");
-        sb.AppendLine($"Prey Digested: {Stats.TargetsDigested}");
-        if (Stats.AlliesEaten > 0)
-            sb.AppendLine($"Allies Eaten: {Stats.AlliesEaten}");
+
+        sb.AppendLine($"Hits: {stats.Hits}");
+        sb.AppendLine($"Misses: {stats.Misses}");
+        sb.AppendLine($"Total HP Healed: {stats.TotalHpHealed}");
+        sb.AppendLine($"Targets Vored: {stats.TargetsVored}");
+        sb.AppendLine($"Prey Freed: {stats.TargetsFreed}");
+        sb.AppendLine($"Prey Escaped: {stats.TargetsEscaped}");
+        sb.AppendLine($"Prey Regurgitated: {stats.TargetsRegurgitated}");
+        sb.AppendLine($"Prey Digested: {stats.TargetsDigested}");
+        if (stats.AlliesEaten > 0) sb.AppendLine($"Allies Eaten: {stats.AlliesEaten}");
     }
 
-    public void RegisterKill(Weapon weapon, int attackerSide)
+    public void RegisterKill(Weapon weapon, Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (ReferenceEquals(attackerSide, AttackerSide))
         {
             if (AttackerStats.KillsWith.ContainsKey(weapon))
                 AttackerStats.KillsWith[weapon] += 1;
@@ -182,13 +234,11 @@ public class TacticalStats
         }
     }
 
-    internal void RegisterKill(Spell spell, int attackerSide)
+    internal void RegisterKill(Spell spell, Side attackerSide)
     {
-
-        if (attackerSide == AttackerSide)
+        if (Equals(attackerSide, AttackerSide))
         {
-            if (AttackerStats.KillsWithSpell == null)
-                AttackerStats.KillsWithSpell = new Dictionary<Spell, int>();
+            if (AttackerStats.KillsWithSpell == null) AttackerStats.KillsWithSpell = new Dictionary<Spell, int>();
             if (AttackerStats.KillsWithSpell.ContainsKey(spell))
                 AttackerStats.KillsWithSpell[spell] += 1;
             else
@@ -196,8 +246,7 @@ public class TacticalStats
         }
         else
         {
-            if (DefenderStats.KillsWithSpell == null)
-                DefenderStats.KillsWithSpell = new Dictionary<Spell, int>();
+            if (DefenderStats.KillsWithSpell == null) DefenderStats.KillsWithSpell = new Dictionary<Spell, int>();
             if (DefenderStats.KillsWithSpell.ContainsKey(spell))
                 DefenderStats.KillsWithSpell[spell] += 1;
             else
@@ -205,9 +254,9 @@ public class TacticalStats
         }
     }
 
-    public void RegisterHit(Weapon weapon, int damage, int attackerSide)
+    public void RegisterHit(Weapon weapon, int damage, Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (Equals(attackerSide, AttackerSide))
         {
             if (AttackerStats.DamageDealtBy.ContainsKey(weapon))
                 AttackerStats.DamageDealtBy[weapon] += damage;
@@ -225,12 +274,11 @@ public class TacticalStats
         }
     }
 
-    internal void RegisterHit(Spell spell, int damage, int attackerSide)
+    internal void RegisterHit(Spell spell, int damage, Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (Equals(attackerSide, AttackerSide))
         {
-            if (AttackerStats.DamageDealtBySpell == null)
-                AttackerStats.DamageDealtBySpell = new Dictionary<Spell, int>();
+            if (AttackerStats.DamageDealtBySpell == null) AttackerStats.DamageDealtBySpell = new Dictionary<Spell, int>();
             if (AttackerStats.DamageDealtBySpell.ContainsKey(spell))
                 AttackerStats.DamageDealtBySpell[spell] += damage;
             else
@@ -239,8 +287,7 @@ public class TacticalStats
         }
         else
         {
-            if (DefenderStats.DamageDealtBySpell == null)
-                DefenderStats.DamageDealtBySpell = new Dictionary<Spell, int>();
+            if (DefenderStats.DamageDealtBySpell == null) DefenderStats.DamageDealtBySpell = new Dictionary<Spell, int>();
             if (DefenderStats.DamageDealtBySpell.ContainsKey(spell))
                 DefenderStats.DamageDealtBySpell[spell] += damage;
             else
@@ -249,68 +296,67 @@ public class TacticalStats
         }
     }
 
-    public void RegisterMiss(int attackerSide)
+    public void RegisterMiss(Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (Equals(attackerSide, AttackerSide))
             AttackerStats.Misses++;
         else
             DefenderStats.Misses++;
     }
 
-    public void RegisterHealing(int amount, int attackerSide)
+    public void RegisterHealing(int amount, Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
-            AttackerStats.TotalHPHealed += amount;
+        if (Equals(attackerSide, AttackerSide))
+            AttackerStats.TotalHpHealed += amount;
         else
-            DefenderStats.TotalHPHealed += amount;
+            DefenderStats.TotalHpHealed += amount;
     }
 
-    public void RegisterVore(int attackerSide)
+    public void RegisterVore(Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (Equals(attackerSide, AttackerSide))
             AttackerStats.TargetsVored++;
         else
             DefenderStats.TargetsVored++;
     }
 
-    public void RegisterAllyVore(int attackerSide)
+    public void RegisterAllyVore(Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (ReferenceEquals(attackerSide, AttackerSide))
             AttackerStats.AlliesEaten++;
         else
             DefenderStats.AlliesEaten++;
     }
 
-    public void RegisterEscape(int attackerSide)
+    public void RegisterEscape(Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (Equals(attackerSide, AttackerSide))
             AttackerStats.TargetsEscaped++;
         else
             DefenderStats.TargetsEscaped++;
     }
 
-    public void RegisterFreed(int attackerSide)
+    public void RegisterFreed(Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (Equals(attackerSide, AttackerSide))
             AttackerStats.TargetsFreed++;
         else
             DefenderStats.TargetsFreed++;
     }
 
-    public void RegisterRegurgitation(int attackerSide)
+    public void RegisterRegurgitation(Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (Equals(attackerSide, AttackerSide))
             AttackerStats.TargetsRegurgitated++;
         else
             DefenderStats.TargetsRegurgitated++;
     }
 
-    public void RegisterDigestion(int attackerSide)
+    public void RegisterDigestion(Side attackerSide)
     {
-        if (attackerSide == AttackerSide)
+        if (Equals(attackerSide, AttackerSide))
             AttackerStats.TargetsDigested++;
         else
             DefenderStats.TargetsDigested++;
     }
 }
-

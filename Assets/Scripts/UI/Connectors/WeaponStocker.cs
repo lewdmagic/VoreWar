@@ -16,5 +16,4 @@ public class WeaponStocker : MonoBehaviour
     public Button BuyCompoundBow;
     public Button SellCompoundBow;
     public Text CompoundBows;
-
 }

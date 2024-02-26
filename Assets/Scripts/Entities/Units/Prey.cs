@@ -2,51 +2,69 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class Prey
+internal class Prey
 {
+    [OdinSerialize]
+    public ActorUnit Predator { get; set; }
 
+    [OdinSerialize]
+    public ActorUnit Actor { get; private set; }
 
     [OdinSerialize]
-    public Actor_Unit Predator { get; set; }
-    [OdinSerialize]
-    public Actor_Unit Actor { get; private set; }
-    [OdinSerialize]
-    public Unit Unit { get; set; }
+    private Unit _unit;
+
+    public Unit Unit { get => _unit; set => _unit = value; }
+
     [OdinSerialize]
     public List<Prey> SubPrey { get; private set; }
+
     [OdinSerialize]
     public float EscapeRate { get; private set; }
+
     [OdinSerialize]
-    public int TurnsDigested { get; set; }
+    private int _turnsDigested;
+
+    public int TurnsDigested { get => _turnsDigested; set => _turnsDigested = value; }
+
     [OdinSerialize]
-    public int TurnsBeingSwallowed { get; set; }
+    private int _turnsBeingSwallowed;
+
+    public int TurnsBeingSwallowed { get => _turnsBeingSwallowed; set => _turnsBeingSwallowed = value; }
+
     /// <summary>
-    /// Turns since last damaged, only updated for alive units
+    ///     Turns since last damaged, only updated for alive units
     /// </summary>
     [OdinSerialize]
-    public int TurnsSinceLastDamage { get; set; }
+    private int _turnsSinceLastDamage;
+
+    public int TurnsSinceLastDamage { get => _turnsSinceLastDamage; set => _turnsSinceLastDamage = value; }
 
     [OdinSerialize]
-    public bool ScatDisabled { get; set; }
+    private bool _scatDisabled;
+
+    public bool ScatDisabled { get => _scatDisabled; set => _scatDisabled = value; }
 
     [OdinSerialize]
-    public List<Traits> SharedTraits;
+    private List<TraitType> _sharedTraits;
 
-    public PreyLocation Location => Predator?.PredatorComponent.Location(this) ?? PreyLocation.stomach;
+    public List<TraitType> SharedTraits { get => _sharedTraits; set => _sharedTraits = value; }
 
-    public Prey(Actor_Unit actor, Actor_Unit predator, List<Prey> preyList)
+    public PreyLocation Location => Predator?.PredatorComponent.Location(this) ?? PreyLocation.Stomach;
+
+    public Prey(ActorUnit actor, ActorUnit predator, List<Prey> preyList)
     {
         Actor = actor;
         actor.SelfPrey = this;
         Predator = predator;
         Unit = actor.Unit;
         SubPrey = preyList;
-        SharedTraits = new List<Traits>();
+        SharedTraits = new List<TraitType>();
     }
 
     public void UpdateEscapeRate()
     {
-        if (Actor.Surrendered || (Predator.Unit.HasTrait(Traits.Endosoma) && (Unit.FixedSide == Predator.Unit.GetApparentSide(Unit)) || Unit.GetStatusEffect(StatusEffectType.Hypnotized)?.Strength == Predator.Unit.FixedSide))
+        StatusEffect hypnotizedEffect = Unit.GetStatusEffect(StatusEffectType.Hypnotized);
+        if (Actor.Surrendered || (Predator.Unit.HasTrait(TraitType.Endosoma) && Equals(Unit.FixedSide, Predator.Unit.GetApparentSide(Unit))) || (hypnotizedEffect != null && Equals(hypnotizedEffect.Side, Predator.Unit.FixedSide)))
         {
             EscapeRate = 0;
             return;
@@ -60,18 +78,18 @@ class Prey
         float preyWill = Mathf.Pow(15 + Unit.GetStat(Stat.Will), 1.5f);
 
         float predScore = 4 * ((10 + Predator.PredatorComponent.TotalCapacity()) / 10 + predStomach * 2 + predVoracity) * (Predator.Unit.HealthPct + 1) / (1 + Predator.PredatorComponent.UsageFraction);
-        float preyScore = 2 * (preyEndurance + preyStrength + preyDexterity + 3 * preyWill) / 2 * (.2f + (Unit.HealthPct * Unit.HealthPct)) * ((1f + TurnsDigested) / (4f + TurnsDigested));
+        float preyScore = 2 * (preyEndurance + preyStrength + preyDexterity + 3 * preyWill) / 2 * (.2f + Unit.HealthPct * Unit.HealthPct) * ((1f + TurnsDigested) / (4f + TurnsDigested));
 
         preyScore *= Unit.TraitBoosts.Incoming.ChanceToEscape;
         predScore /= Predator.Unit.TraitBoosts.Outgoing.ChanceToEscape;
 
-        if (Predator.Unit.HasTrait(Traits.Inescapable) || Unit.GetStatusEffect(StatusEffectType.Sleeping) != null)
-            preyScore = 0;
+        if (Predator.Unit.HasTrait(TraitType.Inescapable) || Unit.GetStatusEffect(StatusEffectType.Sleeping) != null) preyScore = 0;
 
-        if (Predator.Unit.HasTrait(Traits.DualStomach))
+        if (Predator.Unit.HasTrait(TraitType.DualStomach))
         {
-            if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.stomach)) predScore *= .8f;
-            else if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.stomach2)) predScore *= 1.0f;
+            if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.Stomach))
+                predScore *= .8f;
+            else if (Predator.PredatorComponent.IsUnitInPrey(Actor, PreyLocation.Stomach2)) predScore *= 1.0f;
         }
 
         switch (Config.EscapeRate)
@@ -91,10 +109,10 @@ class Prey
         {
             preyScore /= 2;
         }
-        if (Predator.Surrendered)
-            predScore /= 10;
 
-        EscapeRate = (preyScore / (predScore + preyScore));
+        if (Predator.Surrendered) predScore /= 10;
+
+        EscapeRate = preyScore / (predScore + preyScore);
 
         //float statRatio = (float)Predator.Unit.GetStat(Stat.Stomach) / (Unit.GetStat(Stat.Strength) + Unit.GetStat(Stat.Dexterity) + Unit.GetStat(Stat.Will)) * 3;
         //float healthRatio = (Predator.Unit.Health / (float)Predator.Unit.MaxHealth) / (Unit.Health / (float)Unit.MaxHealth);
@@ -128,7 +146,6 @@ class Prey
         //if (Predator.Surrendered)
         //    combinedRatio /= 4;
         //EscapeRate = Math.Min(0.10f / combinedRatio, 1);
-
     }
 
     public Prey[] GetAliveSubPrey()
@@ -141,10 +158,11 @@ class Prey
                 units.Add(SubPrey[i]);
             }
         }
+
         return units.ToArray();
     }
 
-    void PreyVaporizer()
+    private void PreyVaporizer()
     {
         for (int i = 0; i < SubPrey.Count; i++)
         {
@@ -158,24 +176,25 @@ class Prey
 
     public void ChangeRace(Race race)
     {
-        if (Unit.Race != Unit.HiddenRace)
+        if (!Equals(Unit.Race, Unit.HiddenRace))
         {
             Unit.ResetSharedTraits();
             Actor.RevertRace();
         }
 
         Predator.PredatorComponent.OnRemoveCallbacks(this, false);
-        HashSet<Gender> set = new HashSet<Gender>(Races.GetRace(Unit.Race).CanBeGender);
-        bool equals = set.SetEquals(Races.GetRace(race).CanBeGender);
+        HashSet<Gender> set = new HashSet<Gender>(RaceFuncs.GetRace(Unit.Race).SetupOutput.CanBeGender);
+        bool equals = set.SetEquals(RaceFuncs.GetRace(race).SetupOutput.CanBeGender);
         Unit.ChangeRace(race);
         Unit.SetGear(race);
         if (equals == false || Config.AlwaysRandomizeConverted)
             Unit.TotalRandomizeAppearance();
         else
         {
-            var raceAppearance = Races.GetRace(race);
-            raceAppearance.RandomCustom(Unit);
+            var raceAppearance = RaceFuncs.GetRace(race);
+            raceAppearance.RandomCustomCall(Unit);
         }
+
         Actor.Movement = 0;
         Actor.AnimationController = new AnimationController();
         Actor.Unit.ReloadTraits();
@@ -186,107 +205,111 @@ class Prey
         Actor.Surrendered = false;
     }
 
-    public void ChangeSide(int side)
+    public void ChangeSide(Side side)
     {
-        if (Unit.Side != side)
-            State.GameManager.TacticalMode.SwitchAlignment(Actor);
-        if (Predator.Unit.HasTrait(Traits.Corruption) || Unit.HasTrait(Traits.Corruption))
+        if (!Equals(Unit.Side, side)) State.GameManager.TacticalMode.SwitchAlignment(Actor);
+        if (Predator.Unit.HasTrait(TraitType.Corruption) || Unit.HasTrait(TraitType.Corruption))
         {
-            Unit.hiddenFixedSide = true;
-            Actor.sidesAttackedThisBattle = new List<int>();
-            Unit.RemoveTrait(Traits.Corruption);
-            Unit.AddPermanentTrait(Traits.Corruption);
+            Unit.HiddenFixedSide = true;
+            Actor.SidesAttackedThisBattle = new List<Side>();
+            Unit.RemoveTrait(TraitType.Corruption);
+            Unit.AddPermanentTrait(TraitType.Corruption);
         }
-        if (!Unit.HasTrait(Traits.Corruption))
-            Unit.FixedSide = Predator.Unit.FixedSide;
+
+        if (!Unit.HasTrait(TraitType.Corruption)) Unit.FixedSide = Predator.Unit.FixedSide;
         Actor.Surrendered = false;
     }
+
     public List<BoneInfo> GetBoneTypes()
     {
-        List<BoneInfo> rtn = new List<BoneInfo>();
-        switch (Unit.Race)
-        {
-            case Race.Slimes:
-                rtn.Add(new BoneInfo(BoneTypes.SlimePile, Unit.Name, Unit.AccessoryColor));
-                break;
-            case Race.Crypters:
-                rtn.Add(new BoneInfo(BoneTypes.CrypterBonePile, Unit.Name, Unit.AccessoryColor));
-                rtn.Add(new BoneInfo(BoneTypes.CrypterSkull, Unit.Name));
-                break;
-            case Race.Kangaroos:
-                rtn.Add(new BoneInfo(BoneTypes.Kangaroo, Unit.Name));
-                break;
-            case Race.Wyvern:
-                rtn.Add(new BoneInfo(BoneTypes.Wyvern, Unit.Name));
-                break;
-            case Race.YoungWyvern:
-                rtn.Add(new BoneInfo(BoneTypes.YoungWyvern, Unit.Name));
-                break;
-            case Race.Compy:
-                rtn.Add(new BoneInfo(BoneTypes.Compy, Unit.Name));
-                break;
-            case Race.FeralSharks:
-                rtn.Add(new BoneInfo(BoneTypes.Shark, Unit.Name));
-                break;
-            case Race.DarkSwallower:
-                rtn.Add(new BoneInfo(BoneTypes.DarkSwallower, Unit.Name));
-                break;
-            case Race.Cake:
-                rtn.Add(new BoneInfo(BoneTypes.Cake, Unit.Name));
-                break;
-            case Race.Selicia:
-                rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
-                rtn.Add(new BoneInfo(BoneTypes.SeliciaSkull, Unit.Name));
-                break;
-            case Race.Vagrants:
-            case Race.CoralSlugs:
-            case Race.RockSlugs:
-            case Race.SpitterSlugs:
-            case Race.SpringSlugs:
-                // No bone
-                break;
-            case Race.Dragon:
-                rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
-                break;
-            case Race.Vision:
-                rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
-                rtn.Add(new BoneInfo(BoneTypes.VisionSkull, Unit.Name));
-                break;
-            default:
-                if (Unit.Furry)
-                {
-                    if (Unit.Race == Race.Bunnies)
-                        rtn.Add(new BoneInfo(BoneTypes.FurryRabbitBones, Unit.Name));
-                    else
-                        rtn.Add(new BoneInfo(BoneTypes.FurryBones, Unit.Name));
-                }
-                else
-                {
-                    rtn.Add(new BoneInfo(BoneTypes.GenericBonePile, Unit.Name));
-                    if (Unit.Race == Race.Lizards)
-                        rtn.Add(new BoneInfo(BoneTypes.LizardSkull, ""));
-                    else if (Unit.Race == Race.Imps)
-                    {
-                        if (Unit.EyeType == 0)
-                            rtn.Add(new BoneInfo(BoneTypes.Imp3EyeSkull, ""));
-                        else if (Unit.EyeType == 1)
-                            rtn.Add(new BoneInfo(BoneTypes.Imp1EyeSkull, ""));
-                        else
-                            rtn.Add(new BoneInfo(BoneTypes.Imp2EyeSkull, ""));
-                    }
-                    else if (Unit.Race == Race.Goblins)
-                    {
-                        rtn.Add(new BoneInfo(BoneTypes.Imp2EyeSkull, ""));
-                    }
-                    else
-                    {
-                        rtn.Add(new BoneInfo(BoneTypes.HumanoidSkull, ""));
-                    }
-                }
-                break;
-
-        }
-        return rtn;
+        return RaceFuncs.GetRace(Unit.Race).BoneInfo(Unit);
     }
 
+    // public List<BoneInfo> GetBoneTypes()
+    // {
+    //     List<BoneInfo> rtn = new List<BoneInfo>();
+    //     switch (RaceFuncs.RaceToSwitch(Unit.Race))
+    //     {
+    //         case RaceNumbers.Slimes:
+    //             rtn.Add(new BoneInfo(BoneTypes.SlimePile, Unit.Name, Unit.AccessoryColor));
+    //             break;
+    //         case RaceNumbers.Crypters:
+    //             rtn.Add(new BoneInfo(BoneTypes.CrypterBonePile, Unit.Name, Unit.AccessoryColor));
+    //             rtn.Add(new BoneInfo(BoneTypes.CrypterSkull, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Kangaroos:
+    //             rtn.Add(new BoneInfo(BoneTypes.Kangaroo, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Wyvern:
+    //             rtn.Add(new BoneInfo(BoneTypes.Wyvern, Unit.Name));
+    //             break;
+    //         case RaceNumbers.YoungWyvern:
+    //             rtn.Add(new BoneInfo(BoneTypes.YoungWyvern, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Compy:
+    //             rtn.Add(new BoneInfo(BoneTypes.Compy, Unit.Name));
+    //             break;
+    //         case RaceNumbers.FeralSharks:
+    //             rtn.Add(new BoneInfo(BoneTypes.Shark, Unit.Name));
+    //             break;
+    //         case RaceNumbers.DarkSwallower:
+    //             rtn.Add(new BoneInfo(BoneTypes.DarkSwallower, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Cake:
+    //             rtn.Add(new BoneInfo(BoneTypes.Cake, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Selicia:
+    //             rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
+    //             rtn.Add(new BoneInfo(BoneTypes.SeliciaSkull, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Vagrants:
+    //         case RaceNumbers.CoralSlugs:
+    //         case RaceNumbers.RockSlugs:
+    //         case RaceNumbers.SpitterSlugs:
+    //         case RaceNumbers.SpringSlugs:
+    //             // No bone
+    //             break;
+    //         case RaceNumbers.Dragon:
+    //             rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
+    //             break;
+    //         case RaceNumbers.Vision:
+    //             rtn.Add(new BoneInfo(BoneTypes.WyvernBonesWithoutHead, Unit.Name));
+    //             rtn.Add(new BoneInfo(BoneTypes.VisionSkull, Unit.Name));
+    //             break;
+    //         default:
+    //             if (Unit.Furry)
+    //             {
+    //                 if (Unit.Race == Race.Bunnies)
+    //                     rtn.Add(new BoneInfo(BoneTypes.FurryRabbitBones, Unit.Name));
+    //                 else
+    //                     rtn.Add(new BoneInfo(BoneTypes.FurryBones, Unit.Name));
+    //             }
+    //             else
+    //             {
+    //                 rtn.Add(new BoneInfo(BoneTypes.GenericBonePile, Unit.Name));
+    //                 if (Unit.Race == Race.Lizards)
+    //                     rtn.Add(new BoneInfo(BoneTypes.LizardSkull, ""));
+    //                 else if (Unit.Race == Race.Imps)
+    //                 {
+    //                     if (Unit.EyeType == 0)
+    //                         rtn.Add(new BoneInfo(BoneTypes.Imp3EyeSkull, ""));
+    //                     else if (Unit.EyeType == 1)
+    //                         rtn.Add(new BoneInfo(BoneTypes.Imp1EyeSkull, ""));
+    //                     else
+    //                         rtn.Add(new BoneInfo(BoneTypes.Imp2EyeSkull, ""));
+    //                 }
+    //                 else if (Unit.Race == Race.Goblins)
+    //                 {
+    //                     rtn.Add(new BoneInfo(BoneTypes.Imp2EyeSkull, ""));
+    //                 }
+    //                 else
+    //                 {
+    //                     rtn.Add(new BoneInfo(BoneTypes.HumanoidSkull, ""));
+    //                 }
+    //             }
+    //             break;
+    //
+    //     }
+    //     return rtn;
+    // }
 }

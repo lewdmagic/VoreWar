@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class StartEmpireUI : MonoBehaviour
 {
+    public Text Text;
     public Toggle AIPlayer;
     public InputField VillageCount;
     public Dropdown StrategicAI;
@@ -20,22 +21,16 @@ public class StartEmpireUI : MonoBehaviour
 
     private void Start()
     {
-        if (PrimaryColor != null)
-            LastColor = PrimaryColor.value;
-        if (RemoveButton != null)
-            RemoveButton.onClick.AddListener(() => State.GameManager.Start_Mode.CreateStrategicGame.RemoveRace(this));
+        if (PrimaryColor != null) LastColor = PrimaryColor.value;
     }
 
     public void UpdateColor()
     {
-        State.GameManager.Start_Mode.CreateStrategicGame.UpdateColor(this);
+        State.GameManager.StartMode.CreateStrategicGame.UpdateColor(this);
     }
 
     public void UpdateSecondaryColor()
     {
-        State.GameManager.Start_Mode.CreateStrategicGame.UpdateSecondaryColor(this);
+        State.GameManager.StartMode.CreateStrategicGame.UpdateSecondaryColor(this);
     }
-
-
 }
-

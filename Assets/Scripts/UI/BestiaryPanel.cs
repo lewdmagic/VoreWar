@@ -8,7 +8,7 @@ public class BestiaryPanel : MonoBehaviour
     public GameObject Harvester;
 
 
-    void ClearAll()
+    private void ClearAll()
     {
         Foreward.SetActive(false);
         Compy.SetActive(false);

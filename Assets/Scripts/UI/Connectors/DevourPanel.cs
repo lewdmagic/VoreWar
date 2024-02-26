@@ -5,5 +5,4 @@ public class DevourPanel : MonoBehaviour
 {
     public Text FullText;
     public InputField NumberToDevour;
-
 }

@@ -6,5 +6,4 @@ public class ClickableText : MonoBehaviour
 {
     public TextMeshProUGUI Text;
     public EventTrigger EventTrigger;
-
 }

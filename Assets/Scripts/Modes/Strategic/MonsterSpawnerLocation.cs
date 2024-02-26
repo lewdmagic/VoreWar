@@ -1,13 +1,12 @@
-﻿class MonsterSpawnerLocation
+﻿internal class MonsterSpawnerLocation
 {
-    internal Vec2i Location;
+    internal Vec2I Location;
 
     internal Race Race;
 
-    public MonsterSpawnerLocation(Vec2i location, Race race)
+    public MonsterSpawnerLocation(Vec2I location, Race race)
     {
         Location = location;
         Race = race;
     }
 }
-

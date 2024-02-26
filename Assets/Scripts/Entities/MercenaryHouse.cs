@@ -7,48 +7,51 @@ using UnityEngine;
 public class MercenaryHouse
 {
     [OdinSerialize]
-    internal List<MercenaryContainer> Mercenaries;
+    private List<MercenaryContainer> _mercenaries;
 
-    static internal List<MercenaryContainer> UniqueMercs;
+    internal List<MercenaryContainer> Mercenaries { get => _mercenaries; set => _mercenaries = value; }
+
+    internal static List<MercenaryContainer> UniqueMercs;
 
     [OdinSerialize]
-    internal Vec2i Position;
+    private Vec2I _position;
+
+    internal Vec2I Position { get => _position; set => _position = value; }
 
 
+    private static List<Race> _availableRaces;
+    private static int _turnRefreshed;
 
-    static List<Race> AvailableRaces;
-    static int TurnRefreshed;
-
-    public MercenaryHouse(Vec2i position)
+    public MercenaryHouse(Vec2I position)
     {
         Position = position;
         Mercenaries = new List<MercenaryContainer>();
     }
 
-    static internal void UpdateStaticStock()
+    internal static void UpdateStaticStock()
     {
         UniqueMercs = new List<MercenaryContainer>();
         Dictionary<Race, int> raceQuantities = new Dictionary<Race, int>();
         int highestExp = 0;
-        if (State.World.Turn == 1)
-            highestExp = 4;
-        foreach (Race race in (Race[])System.Enum.GetValues(typeof(Race)))
+        if (State.World.Turn == 1) highestExp = 4;
+        foreach (Race race in RaceFuncs.RaceEnumerable())
         {
             raceQuantities[race] = 0;
         }
-        foreach (Unit unit in StrategicUtilities.GetAllUnits())
+
+        var units = StrategicUtilities.GetAllUnits().Where(it => it.Race != null);
+        foreach (Unit unit in units)
         {
             if (raceQuantities.TryGetValue(unit.Race, out int val))
                 raceQuantities[unit.Race]++;
             else
                 raceQuantities[unit.Race] = 1;
         }
-        foreach (Race race in (Race[])System.Enum.GetValues(typeof(Race)))
+
+        foreach (Race race in RaceFuncs.RaceEnumerable())
         {
-            if (race < Race.Selicia)
-                continue;
-            if (Config.World.GetValue($"Merc {race}") == false)
-                continue;
+            if (RaceFuncs.IsNotUniqueMerc(race)) continue;
+            if (Config.World.GetValue($"Merc {race}") == false) continue;
             if (raceQuantities[race] < 1)
             {
                 if (highestExp == 0) highestExp = State.GameManager.StrategyMode.ScaledExp;
@@ -61,32 +64,34 @@ public class MercenaryHouse
     {
         const int minimumReplacedPerTurn = 4;
         const int maxStock = 12;
-        if (State.World.Turn != TurnRefreshed)
+        if (State.World.Turn != _turnRefreshed)
         {
-            TurnRefreshed = State.World.Turn;
-            AvailableRaces = new List<Race>();
-            foreach (Race race in (Race[])System.Enum.GetValues(typeof(Race)))
+            _turnRefreshed = State.World.Turn;
+            _availableRaces = new List<Race>();
+            foreach (Race race in RaceFuncs.RaceEnumerable())
             {
-                if (race < Race.Selicia && Config.World.GetValue($"Merc {race}"))
-                    AvailableRaces.Add(race);
+                if (RaceFuncs.IsNotUniqueMerc(race) && Config.World.GetValue($"Merc {race}")) _availableRaces.Add(race);
             }
         }
+
         int highestExp = State.GameManager.StrategyMode.ScaledExp;
 
         if (Mercenaries.Count > maxStock - minimumReplacedPerTurn)
         {
             List<Unit> units = Mercenaries.ConvertAll(merc => merc.Unit);
             Mercenaries.RemoveRange(0, Mercenaries.Count - (maxStock - minimumReplacedPerTurn));
-            foreach (Unit u in units) {
+            foreach (Unit u in units)
+            {
                 if (!Mercenaries.Any(mer => mer.Unit == u) && u.OnDiscard != null)
                 {
                     u.OnDiscard();
                 }
             }
         }
+
         for (int i = 0; i < 20; i++)
         {
-            if (Mercenaries.Count < maxStock && AvailableRaces.Count > 0)
+            if (Mercenaries.Count < maxStock && _availableRaces.Count > 0)
             {
                 Mercenaries.Add(CreateMercenary(highestExp));
             }
@@ -100,12 +105,12 @@ public class MercenaryHouse
     {
         MercenaryContainer merc = new MercenaryContainer();
         Race race;
-        race = AvailableRaces[State.Rand.Next(AvailableRaces.Count())];
+        race = _availableRaces[State.Rand.Next(_availableRaces.Count())];
 
 
         int exp = (int)(highestExp * .8f) + State.Rand.Next(10);
-        merc.Unit = new Unit((int)race, race, exp, true, UnitType.Mercenary, true);
-        if (race < Race.Vagrants && merc.Unit.FixedGear == false)
+        merc.Unit = new Unit(race.ToSide(), race, exp, true, UnitType.Mercenary, true);
+        if (RaceFuncs.IsMainRaceOrMerc(race) && merc.Unit.FixedGear == false)
         {
             if (merc.Unit.Items[0] == null)
             {
@@ -136,7 +141,6 @@ public class MercenaryHouse
                     else
                         merc.Unit.SetItem(State.World.ItemRepository.GetItem(ItemType.Gauntlet), 1);
                     break;
-
             }
 
             if (State.Rand.Next(10) == 0)
@@ -151,20 +155,21 @@ public class MercenaryHouse
         {
             power = RaceParameters.GetTraitData(merc.Unit).PowerAdjustment;
         }
+
         StrategicUtilities.SetAIClass(merc.Unit);
         StrategicUtilities.SpendLevelUps(merc.Unit);
-        merc.Cost = (int)((25 + State.Rand.Next(15) + (.12 * exp)) * Random.Range(0.8f, 1.2f) * power);
+        merc.Cost = (int)((25 + State.Rand.Next(15) + .12 * exp) * Random.Range(0.8f, 1.2f) * power);
         merc.Title = $"{InfoPanel.RaceSingular(merc.Unit)} - Mercenary";
 
         return merc;
     }
 
-    static internal MercenaryContainer CreateUniqueMercenary(int highestExp, Race race)
+    internal static MercenaryContainer CreateUniqueMercenary(int highestExp, Race race)
     {
         MercenaryContainer merc = new MercenaryContainer();
 
         int exp = (int)(highestExp * .8f);
-        merc.Unit = new Unit((int)race, race, exp, true, UnitType.SpecialMercenary, true)
+        merc.Unit = new Unit(race.ToSide(), race, exp, true, UnitType.SpecialMercenary, true)
         {
             FixedGear = true
         };
@@ -174,13 +179,10 @@ public class MercenaryHouse
         {
             power = RaceParameters.GetTraitData(merc.Unit).PowerAdjustment;
         }
+
         StrategicUtilities.SetAIClass(merc.Unit);
         StrategicUtilities.SpendLevelUps(merc.Unit);
-        merc.Cost = (int)((20 + State.Rand.Next(15) + (.12 * exp)) * power);
+        merc.Cost = (int)((20 + State.Rand.Next(15) + .12 * exp) * power);
         return merc;
     }
-
-
-
 }
-

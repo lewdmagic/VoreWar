@@ -2,32 +2,33 @@ using System.Collections.Generic;
 
 public class HedonistTacticalAI : TacticalAI
 {
-    public HedonistTacticalAI(List<Actor_Unit> actors, TacticalTileType[,] tiles, int AISide, bool defendingVillage = false) : base(actors, tiles, AISide, defendingVillage)
+    public HedonistTacticalAI(List<ActorUnit> actors, TacticalTileType[,] tiles, Side aiSide, bool defendingVillage = false) : base(actors, tiles, aiSide, defendingVillage)
     {
     }
 
-    protected override void GetNewOrder(Actor_Unit actor)
+    protected override void GetNewOrder(ActorUnit actor)
     {
-        foundPath = false;
-        didAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
+        FoundPath = false;
+        DidAction = false; // Very important fix: surrounded retreaters sometimes just skipped doing attacks because this was never set to false in or before "fightwithoutmoving"
 
-        path = null;
-        if (retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(Traits.Fearless) == false && TacticalUtilities.GetMindControlSide(actor.Unit) == -1 && TacticalUtilities.GetPreferredSide(actor.Unit, AISide, enemySide) == AISide)
+        Path = null;
+        if (Retreating && actor.Unit.Type != UnitType.Summon && actor.Unit.Type != UnitType.SpecialMercenary && actor.Unit.HasTrait(TraitType.Fearless) == false && Equals(TacticalUtilities.GetMindControlSide(actor.Unit), Side.TrueNoneSide) && Equals(TacticalUtilities.GetPreferredSide(actor.Unit, AISide, EnemySide), AISide))
         {
             int retreatY;
             if (State.GameManager.TacticalMode.IsDefender(actor) == false)
                 retreatY = Config.TacticalSizeY - 1;
             else
                 retreatY = 0;
-            if (actor.Position.y == retreatY)
+            if (actor.Position.Y == retreatY)
             {
                 State.GameManager.TacticalMode.AttemptRetreat(actor, true);
                 FightWithoutMoving(actor);
                 actor.Movement = 0;
                 return;
             }
+
             WalkToYBand(actor, retreatY);
-            if (path == null || path.Path.Count == 0)
+            if (Path == null || Path.Path.Count == 0)
             {
                 FightWithoutMoving(actor);
                 actor.Movement = 0;
@@ -43,12 +44,13 @@ public class HedonistTacticalAI : TacticalAI
             if (actor.PredatorComponent.CanFeed())
             {
                 RunFeed(actor, "breast", true);
-                if (foundPath || didAction) return;
+                if (FoundPath || DidAction) return;
             }
+
             if (actor.PredatorComponent.CanFeedCum())
             {
                 RunFeed(actor, "cock", true);
-                if (foundPath || didAction) return;
+                if (FoundPath || DidAction) return;
             }
         }
 
@@ -57,9 +59,8 @@ public class HedonistTacticalAI : TacticalAI
         if (spareMp >= thirdMovement)
         {
             RunBellyRub(actor, spareMp);
-            if (path != null)
-                return;
-            if (didAction) return;
+            if (Path != null) return;
+            if (DidAction) return;
         }
 
         if (actor.Unit.GetStatusEffect(StatusEffectType.Temptation) != null && (State.Rand.Next(2) == 0 || actor.Unit.GetStatusEffect(StatusEffectType.Temptation).Duration <= 2))
@@ -67,65 +68,63 @@ public class HedonistTacticalAI : TacticalAI
             RunForceFeed(actor);
         }
 
-        if (actor.Unit.HasTrait(Traits.Pounce) && actor.Movement >= 2)
+        if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             RunVorePounce(actor);
-            if (path != null)
-                return;
-            if (didAction) return;
-
+            if (Path != null) return;
+            if (DidAction) return;
         }
 
         RunPred(actor);
-        if (didAction || foundPath)
-            return;
+        if (DidAction || FoundPath) return;
 
         TryResurrect(actor);
         TryReanimate(actor);
 
         RunBind(actor);
 
-        if (State.Rand.Next(2) == 0 || actor.Unit.HasWeapon == false)
-            RunSpells(actor);
-        if (path != null)
-            return;
-        if (actor.Unit.HasTrait(Traits.Pounce) && actor.Movement >= 2)
+        if (State.Rand.Next(2) == 0 || actor.Unit.HasWeapon == false) RunSpells(actor);
+        if (Path != null) return;
+        if (actor.Unit.HasTrait(TraitType.Pounce) && actor.Movement >= 2)
         {
             if (IsRanged(actor) == false)
             {
                 RunMeleePounce(actor);
-                if (didAction) return;
+                if (DidAction) return;
             }
         }
-        if (foundPath || didAction) return;
+
+        if (FoundPath || DidAction) return;
         if (IsRanged(actor))
             RunRanged(actor);
         else
             RunMelee(actor);
-        if (foundPath || didAction) return;
+        if (FoundPath || DidAction) return;
 
         if (Config.KuroTenkoEnabled && actor.PredatorComponent != null)
         {
             if ((Config.FeedingType == FeedingType.Both || Config.FeedingType == FeedingType.BreastfeedOnly) && actor.PredatorComponent.CanFeed())
             {
                 RunFeed(actor, "breast");
-                if (foundPath || didAction) return;
+                if (FoundPath || DidAction) return;
             }
+
             if ((Config.FeedingType == FeedingType.Both || Config.FeedingType == FeedingType.CumFeedOnly) && actor.PredatorComponent.CanFeedCum())
             {
                 RunFeed(actor, "cock");
-                if (foundPath || didAction) return;
+                if (FoundPath || DidAction) return;
             }
+
             RunSuckle(actor);
-            if (foundPath || didAction) return;
+            if (FoundPath || DidAction) return;
         }
 
         RunBellyRub(actor, actor.Movement);
-        if (foundPath || didAction) return;
+        if (FoundPath || DidAction) return;
         //Search for surrendered targets outside of vore range
         //If no path to any targets, will sit out its turn
         RunPred(actor, true);
-        if (foundPath || didAction) return;
+        if (FoundPath || DidAction) return;
         actor.ClearMovement();
     }
 }

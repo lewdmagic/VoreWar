@@ -1,55 +1,147 @@
 fileFormatVersion: 2
 guid: e60f9253c8f5ae34884e40f477f1caa9
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Hero Armor_0
-    21300002: Hero Armor_1
-    21300004: Hero Armor_2
-    21300006: Hero Armor_3
-    21300008: Hero Armor_4
-    21300010: Hero Armor_5
-    21300012: Hero Armor_6
-    21300014: Hero Armor_7
-    21300016: Hero Armor_0
-    21300018: Hero Armor_1
-    21300020: Hero Armor_2
-    21300022: Hero Armor_3
-    21300024: Hero Armor_4
-    21300026: Hero Armor_5
-    21300028: Hero Armor_6
-    21300030: Hero Armor_7
-    21300032: YoungWyvern_0
-    21300034: YoungWyvern_1
-    21300036: YoungWyvern_2
-    21300038: YoungWyvern_3
-    21300040: YoungWyvern_4
-    21300042: YoungWyvern_5
-    21300044: YoungWyvern_6
-    21300046: YoungWyvern_7
-    21300048: YoungWyvern_8
-    21300050: YoungWyvern_9
-    21300052: YoungWyvern_10
-    21300054: YoungWyvern_11
-    21300056: YoungWyvern_12
-    21300058: YoungWyvern_13
-    21300060: YoungWyvern_14
-    21300062: YoungWyvern_15
-    21300064: YoungWyvern_16
-    21300066: YoungWyvern_17
-    21300068: YoungWyvern_18
-    21300070: YoungWyvern_19
-    21300072: YoungWyvern_20
-    21300074: YoungWyvern_21
-    21300076: YoungWyvern_22
-    21300078: YoungWyvern_23
-    21300080: YoungWyvern_24
-    21300082: YoungWyvern_25
-    21300084: YoungWyvern_26
-    21300086: YoungWyvern_27
-    21300088: YoungWyvern_28
-    21300090: YoungWyvern_29
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Hero Armor_0
+  - first:
+      213: 21300002
+    second: Hero Armor_1
+  - first:
+      213: 21300004
+    second: Hero Armor_2
+  - first:
+      213: 21300006
+    second: Hero Armor_3
+  - first:
+      213: 21300008
+    second: Hero Armor_4
+  - first:
+      213: 21300010
+    second: Hero Armor_5
+  - first:
+      213: 21300012
+    second: Hero Armor_6
+  - first:
+      213: 21300014
+    second: Hero Armor_7
+  - first:
+      213: 21300016
+    second: Hero Armor_0
+  - first:
+      213: 21300018
+    second: Hero Armor_1
+  - first:
+      213: 21300020
+    second: Hero Armor_2
+  - first:
+      213: 21300022
+    second: Hero Armor_3
+  - first:
+      213: 21300024
+    second: Hero Armor_4
+  - first:
+      213: 21300026
+    second: Hero Armor_5
+  - first:
+      213: 21300028
+    second: Hero Armor_6
+  - first:
+      213: 21300030
+    second: Hero Armor_7
+  - first:
+      213: 21300032
+    second: YoungWyvern_0
+  - first:
+      213: 21300034
+    second: YoungWyvern_1
+  - first:
+      213: 21300036
+    second: YoungWyvern_2
+  - first:
+      213: 21300038
+    second: YoungWyvern_3
+  - first:
+      213: 21300040
+    second: YoungWyvern_4
+  - first:
+      213: 21300042
+    second: YoungWyvern_5
+  - first:
+      213: 21300044
+    second: YoungWyvern_6
+  - first:
+      213: 21300046
+    second: YoungWyvern_7
+  - first:
+      213: 21300048
+    second: YoungWyvern_8
+  - first:
+      213: 21300050
+    second: YoungWyvern_9
+  - first:
+      213: 21300052
+    second: YoungWyvern_10
+  - first:
+      213: 21300054
+    second: YoungWyvern_11
+  - first:
+      213: 21300056
+    second: YoungWyvern_12
+  - first:
+      213: 21300058
+    second: YoungWyvern_13
+  - first:
+      213: 21300060
+    second: YoungWyvern_14
+  - first:
+      213: 21300062
+    second: YoungWyvern_15
+  - first:
+      213: 21300064
+    second: YoungWyvern_16
+  - first:
+      213: 21300066
+    second: YoungWyvern_17
+  - first:
+      213: 21300068
+    second: YoungWyvern_18
+  - first:
+      213: 21300070
+    second: YoungWyvern_19
+  - first:
+      213: 21300072
+    second: YoungWyvern_20
+  - first:
+      213: 21300074
+    second: YoungWyvern_21
+  - first:
+      213: 21300076
+    second: YoungWyvern_22
+  - first:
+      213: 21300078
+    second: YoungWyvern_23
+  - first:
+      213: 21300080
+    second: YoungWyvern_24
+  - first:
+      213: 21300082
+    second: YoungWyvern_25
+  - first:
+      213: 21300084
+    second: YoungWyvern_26
+  - first:
+      213: 21300086
+    second: YoungWyvern_27
+  - first:
+      213: 21300088
+    second: YoungWyvern_28
+  - first:
+      213: 21300090
+    second: YoungWyvern_29
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -66,9 +158,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -78,8 +173,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -100,11 +195,17 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -114,8 +215,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -125,7 +228,35 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -145,6 +276,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 10a11ee2f597cba4bb1acfe26ca81529
+      internalID: 21300032
       vertices: []
       indices: 
       edges: []
@@ -165,6 +297,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 024fbd3e57acaff45aacdabec2c26ac9
+      internalID: 21300034
       vertices: []
       indices: 
       edges: []
@@ -185,6 +318,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c7240df7fee1e694ba41683b6fbca9e4
+      internalID: 21300036
       vertices: []
       indices: 
       edges: []
@@ -205,6 +339,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dd1c9ee14729a664eab72548064b62e2
+      internalID: 21300038
       vertices: []
       indices: 
       edges: []
@@ -225,6 +360,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: da6bee03230113b45b46b89dfab0d996
+      internalID: 21300040
       vertices: []
       indices: 
       edges: []
@@ -245,6 +381,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c447a34a6e8534a41a686d30750ec713
+      internalID: 21300042
       vertices: []
       indices: 
       edges: []
@@ -265,6 +402,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c6e78258f120c534c992da55adc2e53d
+      internalID: 21300044
       vertices: []
       indices: 
       edges: []
@@ -285,6 +423,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3374b6a00adb97447a1a7f7bc2129aeb
+      internalID: 21300046
       vertices: []
       indices: 
       edges: []
@@ -305,6 +444,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b6abf3b887e068143866f315210b63e2
+      internalID: 21300048
       vertices: []
       indices: 
       edges: []
@@ -325,6 +465,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 38c542087cae58142bab818a13337eed
+      internalID: 21300050
       vertices: []
       indices: 
       edges: []
@@ -345,6 +486,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b793cc547739a374085ee1c4919294bf
+      internalID: 21300052
       vertices: []
       indices: 
       edges: []
@@ -365,6 +507,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 876042986385097479b3cf4962c309e3
+      internalID: 21300054
       vertices: []
       indices: 
       edges: []
@@ -385,6 +528,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8606e8278d4e45d408066769ba195ac7
+      internalID: 21300056
       vertices: []
       indices: 
       edges: []
@@ -405,6 +549,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: bc408ed42a0e7a345915a0b4843debdf
+      internalID: 21300058
       vertices: []
       indices: 
       edges: []
@@ -425,6 +570,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 826e4cfa71cd5264cae43f76bae75c51
+      internalID: 21300060
       vertices: []
       indices: 
       edges: []
@@ -445,6 +591,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: adc0e31853f33934585e3373c05c6578
+      internalID: 21300062
       vertices: []
       indices: 
       edges: []
@@ -465,6 +612,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d7fd061d53f3ccc41b19164747e93e0b
+      internalID: 21300064
       vertices: []
       indices: 
       edges: []
@@ -485,6 +633,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 9986685c511611f429fcbe90eeac6a83
+      internalID: 21300066
       vertices: []
       indices: 
       edges: []
@@ -505,6 +654,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4b3774b0fc61a6f4f87a2fc743c3468a
+      internalID: 21300068
       vertices: []
       indices: 
       edges: []
@@ -525,6 +675,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0334fc26294f4af4892ab14220671960
+      internalID: 21300070
       vertices: []
       indices: 
       edges: []
@@ -545,6 +696,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: cea064d0653f3bd45a6d3568ad0e90b7
+      internalID: 21300072
       vertices: []
       indices: 
       edges: []
@@ -565,6 +717,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 742179e9aa20de44bbf7265c0e29307e
+      internalID: 21300074
       vertices: []
       indices: 
       edges: []
@@ -585,6 +738,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 76b27ffcc0818ee439153b9e8e8b9f35
+      internalID: 21300076
       vertices: []
       indices: 
       edges: []
@@ -605,6 +759,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 623899d3b5dccff4bb64077b114e8815
+      internalID: 21300078
       vertices: []
       indices: 
       edges: []
@@ -625,6 +780,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3b8bd3f8889b8564182138cbded5b147
+      internalID: 21300080
       vertices: []
       indices: 
       edges: []
@@ -645,6 +801,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f962fb915d82e494d8440094a84b958e
+      internalID: 21300082
       vertices: []
       indices: 
       edges: []
@@ -665,6 +822,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: dc0f69cdecf0f964598147ab48508fc4
+      internalID: 21300084
       vertices: []
       indices: 
       edges: []
@@ -685,6 +843,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 40e5e0ff3b09f454a858210fd2155fe5
+      internalID: 21300086
       vertices: []
       indices: 
       edges: []
@@ -705,6 +864,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: d8946cff80e29464b8d130dcde1f3344
+      internalID: 21300088
       vertices: []
       indices: 
       edges: []
@@ -725,6 +885,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4b28ee2600e6e364fae9557999b9324e
+      internalID: 21300090
       vertices: []
       indices: 
       edges: []
@@ -733,13 +894,45 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1b5712b4071ef4c41a210c84304949d6
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+    secondaryTextures: []
+    nameFileIdTable:
+      YoungWyvern_0: 21300032
+      YoungWyvern_1: 21300034
+      YoungWyvern_10: 21300052
+      YoungWyvern_11: 21300054
+      YoungWyvern_12: 21300056
+      YoungWyvern_13: 21300058
+      YoungWyvern_14: 21300060
+      YoungWyvern_15: 21300062
+      YoungWyvern_16: 21300064
+      YoungWyvern_17: 21300066
+      YoungWyvern_18: 21300068
+      YoungWyvern_19: 21300070
+      YoungWyvern_2: 21300036
+      YoungWyvern_20: 21300072
+      YoungWyvern_21: 21300074
+      YoungWyvern_22: 21300076
+      YoungWyvern_23: 21300078
+      YoungWyvern_24: 21300080
+      YoungWyvern_25: 21300082
+      YoungWyvern_26: 21300084
+      YoungWyvern_27: 21300086
+      YoungWyvern_28: 21300088
+      YoungWyvern_29: 21300090
+      YoungWyvern_3: 21300038
+      YoungWyvern_4: 21300040
+      YoungWyvern_5: 21300042
+      YoungWyvern_6: 21300044
+      YoungWyvern_7: 21300046
+      YoungWyvern_8: 21300048
+      YoungWyvern_9: 21300050
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

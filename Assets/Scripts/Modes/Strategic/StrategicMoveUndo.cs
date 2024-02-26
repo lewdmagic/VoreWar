@@ -1,14 +1,13 @@
 ﻿internal class StrategicMoveUndo
 {
-
     internal Army Army;
-    internal int MP;
-    internal Vec2i PreviousPosition;
+    internal int Mp;
+    internal Vec2I PreviousPosition;
 
-    public StrategicMoveUndo(Army army, int mP, Vec2i previousPosition)
+    public StrategicMoveUndo(Army army, int mP, Vec2I previousPosition)
     {
         Army = army;
-        MP = mP;
+        Mp = mP;
         PreviousPosition = previousPosition;
     }
 
@@ -17,9 +16,7 @@
         State.GameManager.StrategyMode.Translator.ClearTranslator();
         State.GameManager.StrategyMode.QueuedPath = null;
         Army.SetPosition(PreviousPosition);
-        Army.RemainingMP = MP;
+        Army.RemainingMp = Mp;
         State.GameManager.StrategyMode.Regenerate();
-
-
     }
 }

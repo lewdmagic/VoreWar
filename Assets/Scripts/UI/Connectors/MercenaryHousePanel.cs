@@ -15,4 +15,3 @@ public class MercenaryHousePanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 }
-

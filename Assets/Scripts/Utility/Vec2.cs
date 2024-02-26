@@ -3,22 +3,22 @@ using UnityEngine;
 
 internal struct Vec2 : IComparable<Vec2>, IEquatable<Vec2>
 {
-    public int x, y;
+    public int X, Y;
 
     public Vec2(int x, int y)
     {
-        this.x = x;
-        this.y = y;
+        this.X = x;
+        this.Y = y;
     }
 
     public static Vec2 operator +(Vec2 a, Vec2 b)
     {
-        return new Vec2(a.x + b.x, a.y + b.y);
+        return new Vec2(a.X + b.X, a.Y + b.Y);
     }
 
     public static bool operator ==(Vec2 a, Vec2 b)
     {
-        return a.x == b.x && a.y == b.y;
+        return a.X == b.X && a.Y == b.Y;
     }
 
     public static bool operator !=(Vec2 a, Vec2 b)
@@ -28,18 +28,18 @@ internal struct Vec2 : IComparable<Vec2>, IEquatable<Vec2>
 
     public override string ToString()
     {
-        return "(" + x + ", " + y + ")";
+        return "(" + X + ", " + Y + ")";
     }
 
     public int CompareTo(Vec2 other)
     {
-        if (x == other.x)
+        if (X == other.X)
         {
-            return y.CompareTo(other.y);
+            return Y.CompareTo(other.Y);
         }
         else
         {
-            return x.CompareTo(other.x);
+            return X.CompareTo(other.X);
         }
     }
 
@@ -50,8 +50,8 @@ internal struct Vec2 : IComparable<Vec2>, IEquatable<Vec2>
 
     public override int GetHashCode()
     {
-        return ((x.GetHashCode()
-            ^ (y.GetHashCode() << 1)) >> 1);
+        return (X.GetHashCode()
+                ^ (Y.GetHashCode() << 1)) >> 1;
     }
 
     public override bool Equals(object obj)
@@ -64,13 +64,14 @@ internal struct Vec2 : IComparable<Vec2>, IEquatable<Vec2>
         return false;
     }
 
-    public static implicit operator Vec2(Vec2i obj)
+    public static implicit operator Vec2(Vec2I obj)
     {
         if (obj == null)
         {
             Debug.Log("Vec2 Passed null comparison");
             return new Vec2(0, 0);
         }
-        return new Vec2(obj.x, obj.y);
+
+        return new Vec2(obj.X, obj.Y);
     }
 }

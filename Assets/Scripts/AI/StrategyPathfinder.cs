@@ -8,7 +8,7 @@ public static class StrategyPathfinder
     public static bool Initialized = false;
 
 
-    struct Cell
+    private struct Cell
     {
         public bool FriendlyOccupied;
         public bool EnemyOccupied;
@@ -17,7 +17,7 @@ public static class StrategyPathfinder
         public StrategicTileType TileType;
     }
 
-    struct QueueNode : IComparable<QueueNode>
+    private struct QueueNode : IComparable<QueueNode>
     {
         public Vec2 Value;
         public int Dist;
@@ -45,7 +45,7 @@ public static class StrategyPathfinder
         }
     }
 
-    class Vec2Comparer : IEqualityComparer<Vec2>
+    private class Vec2Comparer : IEqualityComparer<Vec2>
     {
         public bool Equals(Vec2 a, Vec2 b)
         {
@@ -54,11 +54,11 @@ public static class StrategyPathfinder
 
         public int GetHashCode(Vec2 obj)
         {
-            return ((IntegerHash(obj.x)
-                    ^ (IntegerHash(obj.y) << 1)) >> 1);
+            return (IntegerHash(obj.X)
+                    ^ (IntegerHash(obj.Y) << 1)) >> 1;
         }
 
-        static int IntegerHash(int a)
+        private static int IntegerHash(int a)
         {
             // fmix32 from murmurhash
             uint h = (uint)a;
@@ -71,21 +71,21 @@ public static class StrategyPathfinder
         }
     }
 
-    static bool flyingPath = false;
+    private static bool _flyingPath = false;
 
-    struct EndPoint
+    private struct EndPoint
     {
-        internal QueueNode node;
-        internal int priority;
+        internal QueueNode Node;
+        internal int Priority;
 
         public EndPoint(QueueNode node, int priority)
         {
-            this.node = node;
-            this.priority = priority;
+            this.Node = node;
+            this.Priority = priority;
         }
     }
 
-    private static Cell[,] Grid = null;
+    private static Cell[,] _grid = null;
 
     private static List<Vec2> GetNeighbours(Vec2 cell, List<Vec2> neighbours)
     {
@@ -99,7 +99,7 @@ public static class StrategyPathfinder
 
                 bool notSelf = !(dx == 0 && dy == 0);
                 bool connectivity = Math.Abs(dx) + Math.Abs(dy) <= 2;
-                bool withinGrid = coord.x >= 0 && coord.y >= 0 && coord.x < Config.StrategicWorldSizeX && coord.y < Config.StrategicWorldSizeY;
+                bool withinGrid = coord.X >= 0 && coord.Y >= 0 && coord.X < Config.StrategicWorldSizeX && coord.Y < Config.StrategicWorldSizeY;
 
                 if (notSelf && connectivity && withinGrid)
                 {
@@ -111,14 +111,13 @@ public static class StrategyPathfinder
         return neighbours;
     }
 
-    private static List<Vec2> FindPath(Vec2 start, Vec2 end, Army army, int MPPerTurn, int maxDistance)
+    private static List<Vec2> FindPath(Vec2 start, Vec2 end, Army army, int mpPerTurn, int maxDistance)
     {
-
         Vec2Comparer comparer = new Vec2Comparer();
         var dist = new Dictionary<Vec2, int>(comparer);
         var prev = new Dictionary<Vec2, Vec2?>(comparer);
 
-        var Q = new SortedSet<QueueNode>();
+        var q = new SortedSet<QueueNode>();
 
         for (int x = 0; x < Config.StrategicWorldSizeX; x++)
         {
@@ -134,15 +133,15 @@ public static class StrategyPathfinder
 
         dist[start] = 0;
         prev[start] = null;
-        Q.Add(new QueueNode(start, 0, 0));
+        q.Add(new QueueNode(start, 0, 0));
 
         List<Vec2> neighbours = new List<Vec2>();
 
         // Search loop
-        while (Q.Count > 0)
+        while (q.Count > 0)
         {
-            var u = Q.Min;
-            Q.Remove(Q.Min);
+            var u = q.Min;
+            q.Remove(q.Min);
 
             // Old priority queue value
             if (u.Dist != dist[u.Value])
@@ -159,22 +158,19 @@ public static class StrategyPathfinder
             {
                 if (CanEnter(v, army))
                 {
-                    int walkCost = Grid[v.x, v.y].MovementCost;
-                    if (flyingPath)
-                        walkCost = 1;
-                    if (dist[u.Value] + walkCost > maxDistance)
-                        continue;
-                    if (Grid[v.x, v.y].EnemyOccupied && end != v) //avoid targets you're not looking for
+                    int walkCost = _grid[v.X, v.Y].MovementCost;
+                    if (_flyingPath) walkCost = 1;
+                    if (dist[u.Value] + walkCost > maxDistance) continue;
+                    if (_grid[v.X, v.Y].EnemyOccupied && end != v) //avoid targets you're not looking for
                         walkCost += 6;
-                    int remainingMP = Config.ArmyMP - (dist[u.Value] % MPPerTurn);
-                    if (walkCost > remainingMP)
-                        walkCost = walkCost + remainingMP;
+                    int remainingMp = Config.ArmyMp - dist[u.Value] % mpPerTurn;
+                    if (walkCost > remainingMp) walkCost = walkCost + remainingMp;
                     int alt = dist[u.Value] + walkCost;
                     if (dist.TryGetValue(v, out int distInt) == false || alt < dist[v])
                     {
                         dist[v] = alt;
-                        bool diagonal = u.Value.x != v.x && u.Value.y != v.y;
-                        Q.Add(new QueueNode(v, alt, u.Diagonals + (diagonal ? 1 : 0)));
+                        bool diagonal = u.Value.X != v.X && u.Value.Y != v.Y;
+                        q.Add(new QueueNode(v, alt, u.Diagonals + (diagonal ? 1 : 0)));
 
                         prev[v] = u.Value;
                     }
@@ -192,8 +188,7 @@ public static class StrategyPathfinder
             while (current != null)
             {
                 path.Add(current.Value);
-                if (prev.ContainsKey(current.Value))
-                    current = prev[current.Value];
+                if (prev.ContainsKey(current.Value)) current = prev[current.Value];
             }
 
             path.Reverse();
@@ -202,13 +197,13 @@ public static class StrategyPathfinder
         return path;
     }
 
-    private static int TurnsToReach(Vec2 start, Vec2 end, Army army, int MPPerTurn)
+    private static int TurnsToReach(Vec2 start, Vec2 end, Army army, int mpPerTurn)
     {
         Vec2Comparer comparer = new Vec2Comparer();
         var dist = new Dictionary<Vec2, int>(comparer);
         var prev = new Dictionary<Vec2, Vec2?>(comparer);
 
-        var Q = new SortedSet<QueueNode>();
+        var q = new SortedSet<QueueNode>();
 
         for (int x = 0; x < Config.StrategicWorldSizeX; x++)
         {
@@ -224,15 +219,15 @@ public static class StrategyPathfinder
 
         dist[start] = 0;
         prev[start] = null;
-        Q.Add(new QueueNode(start, 0, 0));
+        q.Add(new QueueNode(start, 0, 0));
 
         List<Vec2> neighbours = new List<Vec2>();
 
         // Search loop
-        while (Q.Count > 0)
+        while (q.Count > 0)
         {
-            var u = Q.Min;
-            Q.Remove(Q.Min);
+            var u = q.Min;
+            q.Remove(q.Min);
 
             // Old priority queue value
             if (u.Dist != dist[u.Value])
@@ -249,39 +244,39 @@ public static class StrategyPathfinder
             {
                 if (CanEnter(v, army))
                 {
-                    int walkCost = Grid[v.x, v.y].MovementCost;
-                    if (flyingPath)
-                        walkCost = 1;
-                    int remainingMP = MPPerTurn - (dist[u.Value] % MPPerTurn);
-                    if (walkCost > remainingMP)
-                        walkCost = walkCost + remainingMP;
+                    int walkCost = _grid[v.X, v.Y].MovementCost;
+                    if (_flyingPath) walkCost = 1;
+                    int remainingMp = mpPerTurn - dist[u.Value] % mpPerTurn;
+                    if (walkCost > remainingMp) walkCost = walkCost + remainingMp;
                     int alt = dist[u.Value] + walkCost;
                     if (dist.TryGetValue(v, out int distInt) == false || alt < dist[v])
                     {
                         dist[v] = alt;
-                        bool diagonal = u.Value.x != v.x && u.Value.y != v.y;
-                        Q.Add(new QueueNode(v, alt, u.Diagonals + (diagonal ? 1 : 0)));
+                        bool diagonal = u.Value.X != v.X && u.Value.Y != v.Y;
+                        q.Add(new QueueNode(v, alt, u.Diagonals + (diagonal ? 1 : 0)));
 
                         prev[v] = u.Value;
                     }
                 }
             }
         }
+
         if (prev.ContainsKey(end))
         {
-            return (dist[end] + 2) / MPPerTurn;
+            return (dist[end] + 2) / mpPerTurn;
         }
+
         return 9999;
     }
 
-    private static List<Vec2> FindPathMany(Vec2 start, Vec2[] ends, Army army, int MPPerTurn, int[] priorities, int maxDistance)
+    private static List<Vec2> FindPathMany(Vec2 start, Vec2[] ends, Army army, int mpPerTurn, int[] priorities, int maxDistance)
     {
         List<EndPoint> endNodes = new List<EndPoint>();
         Vec2Comparer comparer = new Vec2Comparer();
         var dist = new Dictionary<Vec2, int>(comparer);
         var prev = new Dictionary<Vec2, Vec2?>(comparer);
 
-        var Q = new SortedSet<QueueNode>();
+        var q = new SortedSet<QueueNode>();
 
         for (int x = 0; x < Config.StrategicWorldSizeX; x++)
         {
@@ -297,15 +292,15 @@ public static class StrategyPathfinder
 
         dist[start] = 0;
         prev[start] = null;
-        Q.Add(new QueueNode(start, 0, 0));
+        q.Add(new QueueNode(start, 0, 0));
 
         List<Vec2> neighbours = new List<Vec2>();
 
         // Search loop
-        while (Q.Count > 0)
+        while (q.Count > 0)
         {
-            var u = Q.Min;
-            Q.Remove(Q.Min);
+            var u = q.Min;
+            q.Remove(q.Min);
 
             // Old priority queue value
             if (u.Dist != dist[u.Value])
@@ -319,31 +314,26 @@ public static class StrategyPathfinder
                     endNodes.Add(new EndPoint(u, dist[u.Value] - priorities[Array.IndexOf(ends, u.Value)]));
                 else
                     endNodes.Add(new EndPoint(u, dist[u.Value]));
-                if (endNodes.Count > 10)
-                    break;
-
+                if (endNodes.Count > 10) break;
             }
 
             foreach (var v in GetNeighbours(u.Value, neighbours))
             {
                 if (CanEnter(v, army))
                 {
-                    int walkCost = Grid[v.x, v.y].MovementCost;
-                    if (flyingPath)
-                        walkCost = 1;
-                    if (dist[u.Value] + walkCost > maxDistance)
-                        continue;
-                    if (Grid[v.x, v.y].EnemyOccupied && ends.Any(s => s == v) == false) //avoid targets you're not looking for
+                    int walkCost = _grid[v.X, v.Y].MovementCost;
+                    if (_flyingPath) walkCost = 1;
+                    if (dist[u.Value] + walkCost > maxDistance) continue;
+                    if (_grid[v.X, v.Y].EnemyOccupied && ends.Any(s => s == v) == false) //avoid targets you're not looking for
                         walkCost += 6;
-                    int remainingMP = Config.ArmyMP - (dist[u.Value] % MPPerTurn);
-                    if (walkCost > remainingMP)
-                        walkCost = walkCost + remainingMP;
+                    int remainingMp = Config.ArmyMp - dist[u.Value] % mpPerTurn;
+                    if (walkCost > remainingMp) walkCost = walkCost + remainingMp;
                     int alt = dist[u.Value] + walkCost;
                     if (dist.TryGetValue(v, out int distInt) == false || alt < dist[v])
                     {
                         dist[v] = alt;
-                        bool diagonal = u.Value.x != v.x && u.Value.y != v.y;
-                        Q.Add(new QueueNode(v, alt, u.Diagonals + (diagonal ? 1 : 0)));
+                        bool diagonal = u.Value.X != v.X && u.Value.Y != v.Y;
+                        q.Add(new QueueNode(v, alt, u.Diagonals + (diagonal ? 1 : 0)));
 
                         prev[v] = u.Value;
                     }
@@ -354,17 +344,15 @@ public static class StrategyPathfinder
         // Trace path - if there is one
         var path = new List<Vec2>();
 
-        var end = endNodes.OrderBy(s => s.priority).FirstOrDefault();
+        var end = endNodes.OrderBy(s => s.Priority).FirstOrDefault();
 
-        if (end.node.Dist <= 0)
-            return null;
+        if (end.Node.Dist <= 0) return null;
 
-        Vec2? current = end.node.Value;
+        Vec2? current = end.Node.Value;
         while (current != null)
         {
             path.Add(current.Value);
-            if (prev.ContainsKey(current.Value))
-                current = prev[current.Value];
+            if (prev.ContainsKey(current.Value)) current = prev[current.Value];
         }
 
         path.Reverse();
@@ -374,35 +362,30 @@ public static class StrategyPathfinder
 
     internal static bool CanEnter(Vec2 pos, Army army)
     {
-        if (State.World.Doodads != null && State.World.Doodads[pos.x, pos.y] >= StrategicDoodadType.bridgeVertical && State.World.Doodads[pos.x, pos.y] <= StrategicDoodadType.virtualBridgeIntersection)
-            return true;
-        if (Grid[pos.x, pos.y].FriendlyOccupied)
-            return false;
-        if (army.impassables.Contains(Grid[pos.x, pos.y].TileType)) 
-            return false;
+        if (State.World.Doodads != null && State.World.Doodads[pos.X, pos.Y] >= StrategicDoodadType.BridgeVertical && State.World.Doodads[pos.X, pos.Y] <= StrategicDoodadType.VirtualBridgeIntersection) return true;
+        if (_grid[pos.X, pos.Y].FriendlyOccupied) return false;
+        if (army.Impassables.Contains(_grid[pos.X, pos.Y].TileType)) return false;
         return true;
     }
 
 
-    internal static List<PathNode> GetPath(Empire empire, Army army, Vec2i destination, int startingMP, bool flight, int maxDistance = 999)
+    internal static List<PathNode> GetPath(Empire empire, Army army, Vec2I destination, int startingMp, bool flight, int maxDistance = 999)
     {
         var origin = army.Position;
         //Quick sanity check to make sure that tile is actually passable
-        if (TileCheck(empire, destination) == false)
-            return null;
-        flyingPath = flight;
+        if (TileCheck(empire, destination) == false) return null;
+        _flyingPath = flight;
         InitializeGrid();
         NormalOccupancy(empire);
 
-        var otherPath = FindPath(new Vec2(origin.x, origin.y), new Vec2(destination.x, destination.y), army, Config.ArmyMP, maxDistance);
+        var otherPath = FindPath(new Vec2(origin.X, origin.Y), new Vec2(destination.X, destination.Y), army, Config.ArmyMp, maxDistance);
 
-        if (otherPath == null)
-            return null;
+        if (otherPath == null) return null;
 
         List<PathNode> path = new List<PathNode>();
         for (int i = 0; i < otherPath.Count(); i++)
         {
-            path.Add(new PathNode(otherPath[i].x, otherPath[i].y));
+            path.Add(new PathNode(otherPath[i].X, otherPath[i].Y));
         }
 
         if (path.Count <= 1)
@@ -417,32 +400,32 @@ public static class StrategyPathfinder
 
 
     /// <summary>
-    /// Similar to normal path but can't go through towns
+    ///     Similar to normal path but can't go through towns
     /// </summary>
     /// <returns></returns>
-    internal static List<PathNode> GetMonsterPath(Empire empire, Army army, Vec2i destination, int startingMP, bool flight)
+    internal static List<PathNode> GetMonsterPath(Empire empire, Army army, Vec2I destination, int startingMp, bool flight)
     {
         var origin = army.Position;
         //Quick sanity check to make sure that tile is actually passable
-        if (TileCheck(empire, destination) == false)
-            return null;
-        flyingPath = flight;
+        if (TileCheck(empire, destination) == false) return null;
+        _flyingPath = flight;
         InitializeGrid();
         MonsterOccupancy(empire);
 
-        var otherPath = FindPath(new Vec2(origin.x, origin.y), new Vec2(destination.x, destination.y), army, Config.ArmyMP, 9999);
+        var otherPath = FindPath(new Vec2(origin.X, origin.Y), new Vec2(destination.X, destination.Y), army, Config.ArmyMp, 9999);
 
-        if (otherPath == null)
-            return null;
+        if (otherPath == null) return null;
 
         List<PathNode> path = new List<PathNode>();
         for (int i = 0; i < otherPath.Count(); i++)
         {
-            path.Add(new PathNode(otherPath[i].x, otherPath[i].y));
+            path.Add(new PathNode(otherPath[i].X, otherPath[i].Y));
         }
+
         if (path.Count > 0)
             path.RemoveAt(0);
-        else return null;
+        else
+            return null;
 
         return path;
     }
@@ -454,8 +437,8 @@ public static class StrategyPathfinder
         {
             for (int y = 0; y < Config.StrategicWorldSizeY; y++)
             {
-                Grid[x, y].FriendlyOccupied = false;
-                Grid[x, y].EnemyOccupied = false;
+                _grid[x, y].FriendlyOccupied = false;
+                _grid[x, y].EnemyOccupied = false;
             }
         }
 
@@ -463,15 +446,16 @@ public static class StrategyPathfinder
         {
             if (empire != null)
             {
-                if (army.Empire.IsEnemy(empire))
-                    Grid[army.Position.x, army.Position.y].EnemyOccupied = true;
+                if (army.EmpireOutside.IsEnemy(empire))
+                    _grid[army.Position.X, army.Position.Y].EnemyOccupied = true;
                 else
-                    Grid[army.Position.x, army.Position.y].FriendlyOccupied = true;
+                    _grid[army.Position.X, army.Position.Y].FriendlyOccupied = true;
             }
         }
+
         foreach (var village in State.World.Villages)
         {
-            Grid[village.Position.x, village.Position.y].FriendlyOccupied = true;
+            _grid[village.Position.X, village.Position.Y].FriendlyOccupied = true;
         }
     }
 
@@ -481,8 +465,8 @@ public static class StrategyPathfinder
         {
             for (int y = 0; y < Config.StrategicWorldSizeY; y++)
             {
-                Grid[x, y].FriendlyOccupied = false;
-                Grid[x, y].EnemyOccupied = false;
+                _grid[x, y].FriendlyOccupied = false;
+                _grid[x, y].EnemyOccupied = false;
             }
         }
 
@@ -490,10 +474,10 @@ public static class StrategyPathfinder
         {
             if (empire != null)
             {
-                if (army.Empire.IsEnemy(empire))
-                    Grid[army.Position.x, army.Position.y].EnemyOccupied = true;
+                if (army.EmpireOutside.IsEnemy(empire))
+                    _grid[army.Position.X, army.Position.Y].EnemyOccupied = true;
                 else
-                    Grid[army.Position.x, army.Position.y].FriendlyOccupied = true;
+                    _grid[army.Position.X, army.Position.Y].FriendlyOccupied = true;
             }
         }
 
@@ -502,9 +486,9 @@ public static class StrategyPathfinder
             if (empire != null)
             {
                 if (village.Empire.IsEnemy(empire))
-                    Grid[village.Position.x, village.Position.y].EnemyOccupied = true;
+                    _grid[village.Position.X, village.Position.Y].EnemyOccupied = true;
                 else if (village.Empire.IsNeutral(empire)) //If it's neither an enemy or an ally, it should be blocked
-                    Grid[village.Position.x, village.Position.y].FriendlyOccupied = true;
+                    _grid[village.Position.X, village.Position.Y].FriendlyOccupied = true;
             }
         }
     }
@@ -513,7 +497,7 @@ public static class StrategyPathfinder
     {
         if (Initialized == false)
         {
-            Grid = new Cell[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
+            _grid = new Cell[Config.StrategicWorldSizeX, Config.StrategicWorldSizeY];
             for (int x = 0; x < Config.StrategicWorldSizeX; x++)
             {
                 for (int y = 0; y < Config.StrategicWorldSizeY; y++)
@@ -525,83 +509,80 @@ public static class StrategyPathfinder
                         TileType = State.World.Tiles[x, y]
                     };
 
-                    Grid[x, y] = cell;
+                    _grid[x, y] = cell;
                 }
             }
+
             Initialized = true;
         }
     }
 
-    internal static int TurnsToReach(Empire empire, Army army, Vec2i destination, int MPPerTurn, bool flight)
+    internal static int TurnsToReach(Empire empire, Army army, Vec2I destination, int mpPerTurn, bool flight)
     {
         var origin = army.Position;
         //Quick sanity check to make sure that tile is actually passable
-        if (TileCheck(empire, destination) == false)
-            return 9999;
-        flyingPath = flight;
+        if (TileCheck(empire, destination) == false) return 9999;
+        _flyingPath = flight;
         InitializeGrid();
         NormalOccupancy(empire);
 
-        int turns = TurnsToReach(new Vec2(origin.x, origin.y), new Vec2(destination.x, destination.y), army, MPPerTurn);
+        int turns = TurnsToReach(new Vec2(origin.X, origin.Y), new Vec2(destination.X, destination.Y), army, mpPerTurn);
 
         return turns;
     }
 
-    internal static List<PathNode> GetPathToClosestObject(Empire empire, Army army, Vec2i[] destinations, int startingMP, int maxDistance, bool flight, int[] priorities = null)
+    internal static List<PathNode> GetPathToClosestObject(Empire empire, Army army, Vec2I[] destinations, int startingMp, int maxDistance, bool flight, int[] priorities = null)
     {
         var origin = army.Position;
-        flyingPath = flight;
+        _flyingPath = flight;
         InitializeGrid();
         NormalOccupancy(empire);
 
         Vec2[] ends = new Vec2[destinations.Length];
         for (int i = 0; i < destinations.Length; i++)
         {
-            ends[i].x = destinations[i].x;
-            ends[i].y = destinations[i].y;
+            ends[i].X = destinations[i].X;
+            ends[i].Y = destinations[i].Y;
         }
 
-        var otherPath = FindPathMany(new Vec2(origin.x, origin.y), ends, army, Config.ArmyMP, priorities, maxDistance);
+        var otherPath = FindPathMany(new Vec2(origin.X, origin.Y), ends, army, Config.ArmyMp, priorities, maxDistance);
 
-        if (otherPath == null)
-            return null;
+        if (otherPath == null) return null;
         List<PathNode> path = new List<PathNode>();
 
         for (int i = 0; i < otherPath.Count(); i++)
         {
-            path.Add(new PathNode(otherPath[i].x, otherPath[i].y));
+            path.Add(new PathNode(otherPath[i].X, otherPath[i].Y));
         }
 
         path.RemoveAt(0);
 
         return path;
-
     }
 
-    internal static List<PathNode> GetMonsterPathToClosestObject(Empire empire, Army army, Vec2i[] destinations, int startingMP, int maxDistance, bool flight)
+    internal static List<PathNode> GetMonsterPathToClosestObject(Empire empire, Army army, Vec2I[] destinations, int startingMp, int maxDistance, bool flight)
     {
         var origin = army.Position;
         //float time = Time.realtimeSinceStartup;
-        flyingPath = flight;
+        _flyingPath = flight;
         InitializeGrid();
         MonsterOccupancy(empire);
 
         Vec2[] ends = new Vec2[destinations.Length];
         for (int i = 0; i < destinations.Length; i++)
         {
-            ends[i].x = destinations[i].x;
-            ends[i].y = destinations[i].y;
+            ends[i].X = destinations[i].X;
+            ends[i].Y = destinations[i].Y;
         }
 
-        var otherPath = FindPathMany(new Vec2(origin.x, origin.y), ends, army, Config.ArmyMP, null, maxDistance);
+        var otherPath = FindPathMany(new Vec2(origin.X, origin.Y), ends, army, Config.ArmyMp, null, maxDistance);
 
-        if (otherPath == null)
-            return null;
+        if (otherPath == null) return null;
         List<PathNode> path = new List<PathNode>();
 
         for (int i = 0; i < otherPath.Count(); i++)
         {
-            path.Add(new PathNode(otherPath[i].x, otherPath[i].y));
+            path.Add(new PathNode(otherPath[i].X, otherPath[i].Y));
         }
 
         //Debug.Log(Time.realtimeSinceStartup - time);
@@ -609,66 +590,58 @@ public static class StrategyPathfinder
         path.RemoveAt(0);
 
         return path;
-
     }
 
 
-
-
-    static List<PathNode> GetWalkableAdjacentSquares(Empire empire, int x, int y)
+    private static List<PathNode> GetWalkableAdjacentSquares(Empire empire, int x, int y)
     {
         var proposedLocations = new List<PathNode>()
-            {
-                new PathNode { X = x, Y = y - 1 },
-                new PathNode { X = x, Y = y + 1 },
-                new PathNode { X = x - 1, Y = y },
-                new PathNode { X = x + 1, Y = y },
-                new PathNode { X = x + 1, Y = y + 1 },
-                new PathNode { X = x + 1, Y = y - 1 },
-                new PathNode { X = x - 1, Y = y + 1 },
-                new PathNode { X = x - 1, Y = y - 1 },
-            };
+        {
+            new PathNode { X = x, Y = y - 1 },
+            new PathNode { X = x, Y = y + 1 },
+            new PathNode { X = x - 1, Y = y },
+            new PathNode { X = x + 1, Y = y },
+            new PathNode { X = x + 1, Y = y + 1 },
+            new PathNode { X = x + 1, Y = y - 1 },
+            new PathNode { X = x - 1, Y = y + 1 },
+            new PathNode { X = x - 1, Y = y - 1 },
+        };
 
-        return proposedLocations.Where(l => TileCheck(empire, new Vec2i(l.X, l.Y)) == true).ToList();
+        return proposedLocations.Where(l => TileCheck(empire, new Vec2I(l.X, l.Y)) == true).ToList();
     }
 
-    static int ComputeHScore(int x, int y, int targetX, int targetY)
+    private static int ComputeHScore(int x, int y, int targetX, int targetY)
     {
         int dx = Mathf.Abs(x - targetX);
         int dy = Mathf.Abs(y - targetY);
         return Mathf.Max(dx, dy);
     }
 
-    static int TotalManhattan(int x, int y, int targetX, int targetY)
+    private static int TotalManhattan(int x, int y, int targetX, int targetY)
     {
         int dx = Mathf.Abs(x - targetX);
         int dy = Mathf.Abs(y - targetY);
-        return (dx + dy);
+        return dx + dy;
     }
 
 
-
-
-    public static bool TileCheck(Empire empire, Vec2i p)
+    public static bool TileCheck(Empire empire, Vec2I p)
     {
         //check tile
-        if (p.x < 0 || p.y < 0 || p.x >= Config.StrategicWorldSizeX || p.y >= Config.StrategicWorldSizeY)
-            return false;
-        if (StrategicTileInfo.CanWalkInto(p.x, p.y))
+        if (p.X < 0 || p.Y < 0 || p.X >= Config.StrategicWorldSizeX || p.Y >= Config.StrategicWorldSizeY) return false;
+        if (StrategicTileInfo.CanWalkInto(p.X, p.Y))
         {
             if (empire != null)
             {
                 foreach (Army army in StrategicUtilities.GetAllArmies())
                 {
-                    if (army.Empire.IsAlly(empire) && army.Position.Matches(p))
-                        return false;
+                    if (army.EmpireOutside.IsAlly(empire) && army.Position.Matches(p)) return false;
                 }
             }
 
             return true;
         }
+
         return false;
     }
-
 }
-

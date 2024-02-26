@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-class RandomEvent
+internal class RandomEvent
 {
     internal string MainText;
 

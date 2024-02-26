@@ -1,108 +1,153 @@
 ﻿using MapObjects;
 using System.Collections.Generic;
+using System.Linq;
 
 
-class MapVillagePopulator
+internal class MapVillagePopulator
 {
-    readonly StrategicTileType[,] tiles;
+    private readonly StrategicTileType[,] _tiles;
 
     public MapVillagePopulator(StrategicTileType[,] tiles)
     {
-        this.tiles = tiles;
+        this._tiles = tiles;
     }
 
     internal void PopulateVillages(Map map, ref Village[] villages)
     {
         List<Village> newVillages = new List<Village>();
-        Dictionary<int, int> nameIndex = new Dictionary<int, int>();
+        Dictionary<Race, int> nameIndex = new Dictionary<Race, int>();
 
-        for (int i = 0; i < map.storedVillages.Length; i++)
+        for (int i = 0; i < map.StoredVillages.Length; i++)
         {
-            if (map.storedVillages[i].Race == Race.Vagrants)
+            if (Equals(map.StoredVillages[i].Race, Race.Vagrant))
             {
-                Race race = Race.Vagrants;
-                if (nameIndex.ContainsKey((int)race) == false)
-                    nameIndex[(int)race] = 0;
-                Village vill = new Village(State.NameGen.GetTownName(race, nameIndex[(int)race]), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false);
+                Race race = Race.Vagrant;
+                if (nameIndex.ContainsKey(race) == false) nameIndex[race] = 0;
+                Village vill = new Village(State.NameGen.GetTownName(race, nameIndex[race]), map.StoredVillages[i].Position, FarmSquares(map.StoredVillages[i].Position), race, false);
                 vill.SubtractPopulation(999999);
                 newVillages.Add(vill);
-                nameIndex[(int)race] = nameIndex[(int)race] + 1;
+                nameIndex[race] = nameIndex[race] + 1;
                 continue;
             }
-            if (Config.VillagesPerEmpire.Length < (int)map.storedVillages[i].Race)
-                continue;
-            if (Config.VillagesPerEmpire[(int)map.storedVillages[i].Race] == 0)
-                continue;
 
-            if (map.storedVillages[i].Capital == true)
+            // if (Config.World.VillagesPerEmpire.Count < RaceFuncs.RaceToInt(map.storedVillages[i].Race))
+            //     continue; // TODO check is probably not needed with a dictionary
+            if (Config.World.VillagesPerEmpire[map.StoredVillages[i].Race] == 0) continue;
+
+            if (map.StoredVillages[i].Capital == true)
             {
-                Race race = map.storedVillages[i].Race;
-                newVillages.Add(new Village(State.NameGen.GetTownName(race, 0), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, true));
+                Race race = map.StoredVillages[i].Race;
+                newVillages.Add(new Village(State.NameGen.GetTownName(race, 0), map.StoredVillages[i].Position, FarmSquares(map.StoredVillages[i].Position), race, true));
             }
             else
             {
-                Race race = map.storedVillages[i].Race;
-                if (nameIndex.ContainsKey((int)race) == false)
-                    nameIndex[(int)race] = 0;
-                newVillages.Add(new Village(State.NameGen.GetTownName(race, nameIndex[(int)race] + 1), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false));
-                nameIndex[(int)race] = nameIndex[(int)race] + 1;
+                Race race = map.StoredVillages[i].Race;
+                if (nameIndex.ContainsKey(race) == false) nameIndex[race] = 0;
+                newVillages.Add(new Village(State.NameGen.GetTownName(race, nameIndex[race] + 1), map.StoredVillages[i].Position, FarmSquares(map.StoredVillages[i].Position), race, false));
+                nameIndex[race] = nameIndex[race] + 1;
             }
-
         }
+
         villages = newVillages.ToArray();
     }
 
+
+    // internal void PopulateVillages(Map map, ref Village[] villages)
+    // {
+    //     List<Village> newVillages = new List<Village>();
+    //     Dictionary<int, int> nameIndex = new Dictionary<int, int>();
+    //
+    //     for (int i = 0; i < map.storedVillages.Length; i++)
+    //     {
+    //         if (map.storedVillages[i].Race == Race.Vagrants)
+    //         {
+    //             Race race = Race.Vagrants;
+    //             if (nameIndex.ContainsKey(RaceFuncs.RaceToInt(race)) == false)
+    //                 nameIndex[RaceFuncs.RaceToInt(race)] = 0;
+    //             Village vill = new Village(State.NameGen.GetTownName(race, nameIndex[RaceFuncs.RaceToInt(race)]), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false);
+    //             vill.SubtractPopulation(999999);
+    //             newVillages.Add(vill);
+    //             nameIndex[RaceFuncs.RaceToInt(race)] = nameIndex[RaceFuncs.RaceToInt(race)] + 1;
+    //             continue;
+    //         }
+    //         if (Config.World.VillagesPerEmpire.Count < RaceFuncs.RaceToInt(map.storedVillages[i].Race))
+    //             continue; // TODO check is probably not needed with a dictionary
+    //         if (Config.World.VillagesPerEmpire[map.storedVillages[i].Race] == 0)
+    //             continue;
+    //
+    //         if (map.storedVillages[i].Capital == true)
+    //         {
+    //             Race race = map.storedVillages[i].Race;
+    //             newVillages.Add(new Village(State.NameGen.GetTownName(race, 0), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, true));
+    //         }
+    //         else
+    //         {
+    //             Race race = map.storedVillages[i].Race;
+    //             if (nameIndex.ContainsKey(RaceFuncs.RaceToInt(race)) == false)
+    //                 nameIndex[RaceFuncs.RaceToInt(race)] = 0;
+    //             newVillages.Add(new Village(State.NameGen.GetTownName(race, nameIndex[RaceFuncs.RaceToInt(race)] + 1), map.storedVillages[i].Position, FarmSquares(map.storedVillages[i].Position), race, false));
+    //             nameIndex[RaceFuncs.RaceToInt(race)] = nameIndex[RaceFuncs.RaceToInt(race)] + 1;
+    //         }
+    //
+    //     }
+    //     villages = newVillages.ToArray();
+    // }
+
     internal void PopulateMercenaryHouses(Map map, ref MercenaryHouse[] houses)
     {
-        if (map.mercLocations == null)
+        if (map.MercLocations == null)
         {
             houses = new MercenaryHouse[0];
             return;
         }
+
         List<MercenaryHouse> newHouses = new List<MercenaryHouse>();
 
 
-        for (int i = 0; i < map.mercLocations.Length; i++)
+        for (int i = 0; i < map.MercLocations.Length; i++)
         {
-            newHouses.Add(new MercenaryHouse(map.mercLocations[i]));
+            newHouses.Add(new MercenaryHouse(map.MercLocations[i]));
         }
+
         houses = newHouses.ToArray();
     }
 
     internal void PopulateClaimables(Map map, ref ClaimableBuilding[] claimables)
     {
-        if (map.claimables == null)
+        if (map.Claimables == null)
         {
             claimables = new ClaimableBuilding[0];
             return;
         }
+
         List<ClaimableBuilding> newClaimables = new List<ClaimableBuilding>();
 
 
-        for (int i = 0; i < map.claimables.Length; i++)
+        for (int i = 0; i < map.Claimables.Length; i++)
         {
-            if (map.claimables[i].Type == ClaimableType.GoldMine)
-                newClaimables.Add(new GoldMine(map.claimables[i].Position));
+            if (map.Claimables[i].Type == ClaimableType.GoldMine) newClaimables.Add(new GoldMine(map.Claimables[i].Position));
         }
+
         claimables = newClaimables.ToArray();
     }
 
-    int FarmSquares(Vec2i pos)
+    private int FarmSquares(Vec2I pos)
     {
         int t = 0;
-        for (int i = pos.x - 1; i < pos.x + 2; i++)
+        for (int i = pos.X - 1; i < pos.X + 2; i++)
         {
-            for (int j = pos.y - 1; j < pos.y + 2; j++)
+            for (int j = pos.Y - 1; j < pos.Y + 2; j++)
             {
-                if (!(i == pos.x && pos.y == j))
+                if (!(i == pos.X && pos.Y == j))
                 {
-                    if (tiles[i, j] == StrategicTileType.field || tiles[i, j] == StrategicTileType.fieldDesert || tiles[i, j] == StrategicTileType.fieldSnow)
+                    if (_tiles[i, j] == StrategicTileType.Field || _tiles[i, j] == StrategicTileType.FieldDesert || _tiles[i, j] == StrategicTileType.FieldSnow)
                     {
                         t++;
                     }
                 }
             }
         }
+
         return t;
     }
 }

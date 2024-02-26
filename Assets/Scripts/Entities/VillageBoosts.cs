@@ -25,9 +25,9 @@ public class VillageBoosts
 
     internal int MaximumTrainingLevelAdd = 0;
 
-    internal bool hasWall = false;
+    internal bool HasWall = false;
 
-    internal bool allowsSubjugation = false;
+    internal bool AllowsSubjugation = false;
 
     internal int MercsPerTurnAdd = 0;
     internal int MaxMercsAdd = 0;
@@ -40,7 +40,7 @@ public class VillageBoosts
     internal int SpellLevels = 0;
 
 
-    internal List<Traits> AddTraits = new List<Traits>();
+    internal List<TraitType> AddTraits = new List<TraitType>();
 
     public void ResetValues()
     {
@@ -57,15 +57,15 @@ public class VillageBoosts
         StartingExpAdd = 0;
         TeamStartingExpAdd = 0;
         MaximumTrainingLevelAdd = 0;
-        hasWall = false;
-        allowsSubjugation = false;
+        HasWall = false;
+        AllowsSubjugation = false;
         MercsPerTurnAdd = 0;
         MaxMercsAdd = 0;
         AdventurersPerTurnAdd = 0;
         MaxAdventurersAdd = 0;
         SpellLevels = 0;
         MaxHappinessAdd = 0;
-        AddTraits = new List<Traits>();
+        AddTraits = new List<TraitType>();
     }
 
     public VillageBoosts MergeBoosts(VillageBoosts otherBoost)
@@ -83,8 +83,8 @@ public class VillageBoosts
         StartingExpAdd += otherBoost.StartingExpAdd;
         TeamStartingExpAdd += otherBoost.TeamStartingExpAdd;
         MaximumTrainingLevelAdd += otherBoost.MaximumTrainingLevelAdd;
-        hasWall = hasWall || otherBoost.hasWall;
-        allowsSubjugation = allowsSubjugation || otherBoost.allowsSubjugation;
+        HasWall = HasWall || otherBoost.HasWall;
+        AllowsSubjugation = AllowsSubjugation || otherBoost.AllowsSubjugation;
         MercsPerTurnAdd += otherBoost.MercsPerTurnAdd;
         MaxMercsAdd += otherBoost.MaxMercsAdd;
         AdventurersPerTurnAdd += otherBoost.AdventurersPerTurnAdd;

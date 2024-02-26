@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 
 
-
 namespace TacticalDecorations
 {
-    enum PathType
+    internal enum PathType
     {
         BlockAll,
         Tree
     }
 
-    enum TacDecType
+    internal enum TacDecType
     {
         GrassBush,
         GrassFlowers1,
@@ -81,15 +80,17 @@ namespace TacticalDecorations
         VolcanicMagmaRock5,
     }
 
-    class TacticalDecoration
+    internal class TacticalDecoration
     {
         internal int Width;
+
         /// <summary>
-        /// The height of blocked tiles
+        ///     The height of blocked tiles
         /// </summary>
         internal int Height;
+
         /// <summary>
-        /// Graphical tiles.  Height, then width
+        ///     Graphical tiles.  Height, then width
         /// </summary>
         internal int[,] Tile;
 
@@ -104,7 +105,7 @@ namespace TacticalDecorations
         }
     }
 
-    static class TacticalDecorationList
+    internal static class TacticalDecorationList
     {
         internal static Dictionary<TacDecType, TacticalDecoration> DecDict = new Dictionary<TacDecType, TacticalDecoration>()
         {
@@ -178,7 +179,6 @@ namespace TacticalDecorations
         };
 
 
-
         internal static TacDecType[] Bones = new TacDecType[] { TacDecType.DesertBones1, TacDecType.DesertBones2, TacDecType.DesertBones3, TacDecType.DesertBones4 };
         internal static TacDecType[] Rocks = new TacDecType[] { TacDecType.DesertRocks1, TacDecType.DesertRocks2, TacDecType.DesertRocks3, TacDecType.DesertRocks4, TacDecType.DesertRocks5, TacDecType.DesertRocks6, TacDecType.DesertRocks7, TacDecType.DesertRocks8 };
         internal static TacDecType[] Cactus = new TacDecType[] { TacDecType.DesertCactus1, TacDecType.DesertCactus2, TacDecType.DesertCactus3, TacDecType.DesertCactus4, TacDecType.DesertCactus5 };
@@ -195,6 +195,3 @@ namespace TacticalDecorations
         internal static TacDecType[] VolcanicMagmaRocks = new TacDecType[] { TacDecType.VolcanicMagmaRock1, TacDecType.VolcanicMagmaRock2, TacDecType.VolcanicMagmaRock3, TacDecType.VolcanicMagmaRock4, TacDecType.VolcanicMagmaRock5 };
     }
 }
-
-
-

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using UnityEngine.Experimental.UIElements;
 
 public struct Range
 {
@@ -14,6 +13,7 @@ public struct Range
         Min = min;
         Max = max;
     }
+
     public Range(int max)
     {
         Min = 0;
@@ -30,76 +30,79 @@ public enum AbilityTargets
     Tile,
 }
 
-static class SpellList
+internal static class SpellList
 {
-    static internal readonly DamageSpell Fireball;
-    static internal readonly DamageSpell PowerBolt;
-    static internal readonly DamageSpell LightningBolt;
-    static internal readonly StatusSpell Shield;
-    static internal readonly StatusSpell Mending;
-    static internal readonly StatusSpell Speed;
-    static internal readonly StatusSpell Valor;
-    static internal readonly StatusSpell Predation;
-    static internal readonly StatusSpell Charm;
+    internal static readonly DamageSpell Fireball;
+    internal static readonly DamageSpell PowerBolt;
+    internal static readonly DamageSpell LightningBolt;
+    internal static readonly StatusSpell Shield;
+    internal static readonly StatusSpell Mending;
+    internal static readonly StatusSpell Speed;
+    internal static readonly StatusSpell Valor;
+    internal static readonly StatusSpell Predation;
+    internal static readonly StatusSpell Charm;
 
-    static internal readonly DamageSpell IceBlast;
-    static internal readonly DamageSpell Pyre;
+    internal static readonly DamageSpell IceBlast;
+
+    internal static readonly DamageSpell Pyre;
+
     //static internal readonly Spell Warp;
     //static internal readonly DamageSpell MagicWall;
-    static internal readonly StatusSpell Poison;
+    internal static readonly StatusSpell Poison;
 
     //Quicksand
-    static internal readonly StatusSpell PreysCurse;
-    static internal readonly StatusSpell Enlarge;
-    static internal readonly Spell Maw;
-    static internal readonly Spell Summon;
+    internal static readonly StatusSpell PreysCurse;
+    internal static readonly StatusSpell Enlarge;
+    internal static readonly Spell Maw;
+    internal static readonly Spell Summon;
 
-    static internal readonly StatusSpell Diminishment;
+    internal static readonly StatusSpell Diminishment;
+
     //Raze
-    static internal readonly Spell GateMaw;
-    static internal readonly Spell Reanimate;
-    static internal readonly Spell Resurrection;
+    internal static readonly Spell GateMaw;
+    internal static readonly Spell Reanimate;
+    internal static readonly Spell Resurrection;
 
-    static internal readonly Spell AmplifyMagic;
-    static internal readonly Spell Evocation;
-    static internal readonly DamageSpell ManaFlux;
-    static internal readonly DamageSpell UnstableMana;
-    static internal readonly DamageSpell ManaExpolsion;
+    internal static readonly Spell AmplifyMagic;
+    internal static readonly Spell Evocation;
+    internal static readonly DamageSpell ManaFlux;
+    internal static readonly DamageSpell UnstableMana;
+    internal static readonly DamageSpell ManaExpolsion;
 
-    static internal readonly StatusSpell AlraunePuff;
-    static internal readonly StatusSpell Web;
-    static internal readonly StatusSpell GlueBomb;
-    static internal readonly StatusSpell Petrify;
-    static internal readonly StatusSpell HypnoGas;
-    static internal readonly StatusSpell Whispers;
-    static internal readonly Spell ForceFeed;
-    static internal readonly Spell AssumeForm;
-    static internal readonly Spell RevertForm;
-    static internal readonly Spell Bind;
+    internal static readonly StatusSpell AlraunePuff;
+    internal static readonly StatusSpell Web;
+    internal static readonly StatusSpell GlueBomb;
+    internal static readonly StatusSpell Petrify;
+    internal static readonly StatusSpell HypnoGas;
+    internal static readonly StatusSpell Whispers;
+    internal static readonly Spell ForceFeed;
+    internal static readonly Spell AssumeForm;
+    internal static readonly Spell RevertForm;
+    internal static readonly Spell Bind;
 
-    static internal readonly DamageSpell ViperPoisonDamage;
-    static internal readonly StatusSpell ViperPoisonStatus;
-    static internal readonly StatusSpell ViralInfection;
-    static internal readonly StatusSpell DivinitysEmbrace;
+    internal static readonly DamageSpell ViperPoisonDamage;
+    internal static readonly StatusSpell ViperPoisonStatus;
+    internal static readonly StatusSpell ViralInfection;
+    internal static readonly StatusSpell DivinitysEmbrace;
 
-    static internal Dictionary<SpellTypes, Spell> SpellDict;
+    internal static Dictionary<SpellType, Spell> SpellDict;
 
 
     static SpellList()
     {
-        SpellDict = new Dictionary<SpellTypes, Spell>();
+        SpellDict = new Dictionary<SpellType, Spell>();
         Fireball = new DamageSpell()
         {
             Name = "Fireball",
             Id = "fireball",
-            SpellType = SpellTypes.Fireball,
+            SpellType = SpellType.Fireball,
             Description = "Deals damage in an area",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Tile },
             Range = new Range(6),
             AreaOfEffect = 1,
             Tier = 1,
             Resistable = true,
-            DamageType = DamageTypes.Fire,
+            DamageType = DamageType.Fire,
             Damage = (a, t) => 5 + a.Unit.GetStat(Stat.Mind) / 10,
             OnExecute = (a, t) =>
             {
@@ -112,13 +115,13 @@ static class SpellList
                 TacticalGraphicalEffects.CreateFireBall(a.Position, l, null);
             },
         };
-        SpellDict[SpellTypes.Fireball] = Fireball;
+        SpellDict[SpellType.Fireball] = Fireball;
 
         PowerBolt = new DamageSpell()
         {
             Name = "Power Bolt",
             Id = "power-bolt",
-            SpellType = SpellTypes.PowerBolt,
+            SpellType = SpellType.PowerBolt,
             Description = "Deals damage to a single target, not resistable",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(6),
@@ -132,13 +135,13 @@ static class SpellList
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t);
             },
         };
-        SpellDict[SpellTypes.PowerBolt] = PowerBolt;
+        SpellDict[SpellType.PowerBolt] = PowerBolt;
 
         LightningBolt = new DamageSpell()
         {
             Name = "Lightning Bolt",
             Id = "lightning-bolt",
-            SpellType = SpellTypes.LightningBolt,
+            SpellType = SpellType.LightningBolt,
             Description = "Deals damage to a single target, long range",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(40),
@@ -152,13 +155,13 @@ static class SpellList
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t);
             },
         };
-        SpellDict[SpellTypes.LightningBolt] = LightningBolt;
+        SpellDict[SpellType.LightningBolt] = LightningBolt;
 
         Shield = new StatusSpell()
         {
             Name = "Shield",
             Id = "shield",
-            SpellType = SpellTypes.Shield,
+            SpellType = SpellType.Shield,
             Description = "Causes target to take reduced damage",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(6),
@@ -173,13 +176,13 @@ static class SpellList
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Buff);
             },
         };
-        SpellDict[SpellTypes.Shield] = Shield;
+        SpellDict[SpellType.Shield] = Shield;
 
         Mending = new StatusSpell()
         {
             Name = "Mending",
             Id = "mending",
-            SpellType = SpellTypes.Mending,
+            SpellType = SpellType.Mending,
             Description = "Heals target over time",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(4),
@@ -194,13 +197,13 @@ static class SpellList
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Heal);
             },
         };
-        SpellDict[SpellTypes.Mending] = Mending;
+        SpellDict[SpellType.Mending] = Mending;
 
         Speed = new StatusSpell()
         {
             Name = "Speed",
             Id = "speed",
-            SpellType = SpellTypes.Speed,
+            SpellType = SpellType.Speed,
             Description = "Makes target faster",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(4),
@@ -215,13 +218,13 @@ static class SpellList
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Buff);
             },
         };
-        SpellDict[SpellTypes.Speed] = Speed;
+        SpellDict[SpellType.Speed] = Speed;
 
         Valor = new StatusSpell()
         {
             Name = "Valor",
             Id = "valor",
-            SpellType = SpellTypes.Valor,
+            SpellType = SpellType.Valor,
             Description = "Target does more damage",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(6),
@@ -236,13 +239,13 @@ static class SpellList
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Buff);
             },
         };
-        SpellDict[SpellTypes.Valor] = Valor;
+        SpellDict[SpellType.Valor] = Valor;
 
         Predation = new StatusSpell()
         {
             Name = "Predation",
             Id = "predation",
-            SpellType = SpellTypes.Predation,
+            SpellType = SpellType.Predation,
             Description = "Target is better at vore",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(6),
@@ -257,13 +260,13 @@ static class SpellList
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Buff);
             },
         };
-        SpellDict[SpellTypes.Predation] = Predation;
+        SpellDict[SpellType.Predation] = Predation;
 
         IceBlast = new DamageSpell()
         {
             Name = "Ice Blast",
             Id = "ice-blast",
-            SpellType = SpellTypes.IceBlast,
+            SpellType = SpellType.IceBlast,
             Description = "Area of effect cold damage and lays down ice",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Tile },
             Range = new Range(6),
@@ -284,20 +287,20 @@ static class SpellList
                 TacticalGraphicalEffects.CreateIceBlast(l);
             },
         };
-        SpellDict[SpellTypes.IceBlast] = IceBlast;
+        SpellDict[SpellType.IceBlast] = IceBlast;
 
         Pyre = new DamageSpell()
         {
             Name = "Pyre",
             Id = "pyre",
-            SpellType = SpellTypes.Pyre,
+            SpellType = SpellType.Pyre,
             Description = "Deals damage in an area, sets the ground on fire for a few turns",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Tile },
             Range = new Range(6),
             AreaOfEffect = 1,
             Tier = 2,
             Resistable = true,
-            DamageType = DamageTypes.Fire,
+            DamageType = DamageType.Fire,
             Damage = (a, t) => 7 + a.Unit.GetStat(Stat.Mind) / 10,
             OnExecute = (a, t) =>
             {
@@ -310,7 +313,7 @@ static class SpellList
                 TacticalUtilities.CreateEffect(l, TileEffectType.Fire, 1, 1 + a.Unit.GetStat(Stat.Mind) / 30, 4);
             },
         };
-        SpellDict[SpellTypes.Pyre] = Pyre;
+        SpellDict[SpellType.Pyre] = Pyre;
 
         //Warp = new Spell() //Implemented this and forgot it was supposed to be target and then location, only the caster makes it highly situational
         //{
@@ -337,7 +340,7 @@ static class SpellList
         {
             Name = "Poison",
             Id = "poison",
-            SpellType = SpellTypes.Poison,
+            SpellType = SpellType.Poison,
             Description = "Deals damage over time, can not kill targets",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(8),
@@ -348,17 +351,16 @@ static class SpellList
             Resistable = true,
             OnExecute = (a, t) =>
             {
-                if (a.CastStatusSpell(Poison, t))
-                    TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Poison);
+                if (a.CastStatusSpell(Poison, t)) TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Poison);
             },
         };
-        SpellDict[SpellTypes.Poison] = Poison;
+        SpellDict[SpellType.Poison] = Poison;
 
         PreysCurse = new StatusSpell()
         {
             Name = "Prey's Curse",
             Id = "preys-curse",
-            SpellType = SpellTypes.PreysCurse,
+            SpellType = SpellType.PreysCurse,
             Description = "Makes target into a semi-willing prey, increasing vore chance on them (and changing some flavor text)",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(6),
@@ -369,17 +371,16 @@ static class SpellList
             Resistable = true,
             OnExecute = (a, t) =>
             {
-                if (a.CastStatusSpell(PreysCurse, t))
-                    TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Debuff);
+                if (a.CastStatusSpell(PreysCurse, t)) TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Debuff);
             },
         };
-        SpellDict[SpellTypes.PreysCurse] = PreysCurse;
+        SpellDict[SpellType.PreysCurse] = PreysCurse;
 
         Maw = new Spell()
         {
             Name = "Maw",
             Id = "maw",
-            SpellType = SpellTypes.Maw,
+            SpellType = SpellType.Maw,
             Description = "Attempts to teleport the target into caster's belly, adding caster's Power to Voracity.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(4),
@@ -387,18 +388,19 @@ static class SpellList
             Resistable = true,
             OnExecute = (a, t) => a.CastMawWithLocation(Maw, t),
         };
-        SpellDict[SpellTypes.Maw] = Maw;
+        SpellDict[SpellType.Maw] = Maw;
 
         Charm = new StatusSpell()
         {
             Name = "Charm",
             Id = "charm",
-            SpellType = SpellTypes.Charm,
+            SpellType = SpellType.Charm,
             Description = "Has a chance to temporarily make an enemy fight for the caster.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(6),
             Duration = (a, t) => 2 + a.Unit.GetStat(Stat.Mind) / 10,
-            Effect = (a, t) => a.Unit.GetApparentSide(t.Unit),         // the unit will act to the best of its knowledge
+            Effect = (a, t) => 0f, // the unit will act to the best of its knowledge
+            EffectSide = (a, t) => a.Unit.GetApparentSide(t.Unit), // the unit will act to the best of its knowledge
             Type = StatusEffectType.Charmed,
             Tier = 3,
             Resistable = true,
@@ -408,13 +410,13 @@ static class SpellList
                 TacticalGraphicalEffects.CreateHeartProjectile(a.Position, t.Position, t);
             },
         };
-        SpellDict[SpellTypes.Charm] = Charm;
+        SpellDict[SpellType.Charm] = Charm;
 
         Summon = new Spell()
         {
             Name = "Summon",
             Id = "summon",
-            SpellType = SpellTypes.Summon,
+            SpellType = SpellType.Summon,
             Description = "Summons a random monster at 50 % of caster’s experience (Available monsters depend on what monsters are available to hire as mercs, or set to spawn, so that monsters you aren't interested in don't spawn.)",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Tile },
             Range = new Range(4),
@@ -425,20 +427,19 @@ static class SpellList
                 if (TacticalUtilities.OpenTile(loc, null) && a.CastSpell(Summon, null))
                 {
                     var AvailableRaces = new List<Race>();
-                    foreach (Race race in (Race[])System.Enum.GetValues(typeof(Race)))
+                    foreach (Race race in RaceFuncs.RaceEnumerable())
                     {
-                        if (race >= Race.Vagrants && race < Race.Selicia && (Config.World.GetValue($"Merc {race}") || (Config.SpawnerInfoWithoutGeneration(race)?.Enabled ?? false)))
-                            AvailableRaces.Add(race);
+                        if (RaceFuncs.IsMonster(race) && (Config.World.GetValue($"Merc {race}") || (Config.World.GetSpawnerWithoutGeneration(race)?.Enabled ?? false))) AvailableRaces.Add(race);
                     }
+
                     AvailableRaces.Remove(Race.Dragon);
-                    if (AvailableRaces.Any() == false)
-                        AvailableRaces.Add(Race.Vagrants);
+                    if (AvailableRaces.Any() == false) AvailableRaces.Add(Race.Vagrant);
                     Race summonRace = AvailableRaces[State.Rand.Next(AvailableRaces.Count())];
                     Unit unit = new Unit(a.Unit.Side, summonRace, (int)(a.Unit.Experience * .50f), true, UnitType.Summon);
                     var actorCharm = a.Unit.GetStatusEffect(StatusEffectType.Charmed) ?? a.Unit.GetStatusEffect(StatusEffectType.Hypnotized);
                     if (actorCharm != null)
                     {
-                        unit.ApplyStatusEffect(StatusEffectType.Charmed, actorCharm.Strength, actorCharm.Duration);
+                        unit.ApplyStatusEffect(StatusEffectType.Charmed, actorCharm.Strength, actorCharm.Duration, actorCharm.Side);
                     }
 
                     StrategicUtilities.SpendLevelUps(unit);
@@ -447,14 +448,14 @@ static class SpellList
                 }
             },
         };
-        SpellDict[SpellTypes.Summon] = Summon;
+        SpellDict[SpellType.Summon] = Summon;
 
 
         Reanimate = new Spell()
         {
             Name = "Reanimate",
             Id = "Reanimate",
-            SpellType = SpellTypes.Reanimate,
+            SpellType = SpellType.Reanimate,
             Description = "Brings back any unit that died this battle as a summon under the caster's control",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Tile },
             Range = new Range(4),
@@ -478,16 +479,15 @@ static class SpellList
                         }
                     }
                 }
-
             },
         };
-        SpellDict[SpellTypes.Reanimate] = Reanimate;
+        SpellDict[SpellType.Reanimate] = Reanimate;
 
         Enlarge = new StatusSpell()
         {
             Name = "Enlarge",
             Id = "enlarge",
-            SpellType = SpellTypes.Enlarge,
+            SpellType = SpellType.Enlarge,
             Description = "Makes target unit 20% bigger, increasing stats and increasing body size and stomach size",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(4),
@@ -502,14 +502,14 @@ static class SpellList
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Buff);
             },
         };
-        SpellDict[SpellTypes.Enlarge] = Enlarge;
+        SpellDict[SpellType.Enlarge] = Enlarge;
 
 
         Diminishment = new StatusSpell()
         {
             Name = "Diminishment",
             Id = "diminishment",
-            SpellType = SpellTypes.Diminishment,
+            SpellType = SpellType.Diminishment,
             Description = "Reduces target in size greatly, cutting all its statistics (including size) by 75%.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(6),
@@ -521,13 +521,13 @@ static class SpellList
             ResistanceMult = 1.5f,
             OnExecute = (a, t) => a.CastStatusSpell(Diminishment, t),
         };
-        SpellDict[SpellTypes.Diminishment] = Diminishment;
+        SpellDict[SpellType.Diminishment] = Diminishment;
 
         GateMaw = new Spell()
         {
             Name = "Gate Maw",
             Id = "gate-maw",
-            SpellType = SpellTypes.GateMaw,
+            SpellType = SpellType.GateMaw,
             Description = "Attempts to teleport all targets in radius into caster's belly, adding caster's Power to Voracity. If caster doesn't have enough stomach space, targets are unaffected.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Tile },
             Range = new Range(4),
@@ -537,14 +537,14 @@ static class SpellList
             OnExecute = (a, t) => a.CastMawWithLocation(GateMaw, t),
             OnExecuteTile = (a, l) => a.CastMawWithLocation(GateMaw, null, l),
         };
-        SpellDict[SpellTypes.GateMaw] = GateMaw;
+        SpellDict[SpellType.GateMaw] = GateMaw;
 
 
         Resurrection = new Spell()
         {
             Name = "Resurrection",
             Id = "resurrection",
-            SpellType = SpellTypes.Resurrection,
+            SpellType = SpellType.Resurrection,
             Description = "Resurrects the highest exp unit that died during this battle",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Tile },
             Range = new Range(4),
@@ -567,40 +567,33 @@ static class SpellList
                         }
                     }
                 }
-
             },
         };
-        SpellDict[SpellTypes.Resurrection] = Resurrection;
+        SpellDict[SpellType.Resurrection] = Resurrection;
 
         ViperPoisonDamage = new DamageSpell()
         {
             Name = "Viper Spit",
             Id = "viperDamage",
-            SpellType = SpellTypes.ViperDamage,
+            SpellType = SpellType.ViperDamage,
             Description = "(Designed as part of the Viper spit spell)",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Tile },
             Range = new Range(6),
             AreaOfEffect = 1,
             Tier = 0,
             Resistable = true,
-            DamageType = DamageTypes.Poison,
+            DamageType = DamageType.Poison,
             Damage = (a, t) => 5 + a.Unit.GetStat(Stat.Mind) / 10,
-            OnExecute = (a, t) =>
-            {
-
-            },
-            OnExecuteTile = (a, l) =>
-            {
-
-            },
+            OnExecute = (a, t) => { },
+            OnExecuteTile = (a, l) => { },
         };
-        SpellDict[SpellTypes.ViperDamage] = ViperPoisonDamage;
+        SpellDict[SpellType.ViperDamage] = ViperPoisonDamage;
 
         ViperPoisonStatus = new StatusSpell()
         {
             Name = "Poison Spit",
             Id = "viper-poison",
-            SpellType = SpellTypes.ViperPoison,
+            SpellType = SpellType.ViperPoison,
             Description = "Deals damage and applies a strong short lived poison in a 3x3 area",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Tile },
             Range = new Range(6),
@@ -625,15 +618,14 @@ static class SpellList
                 a.CastOffensiveSpell(ViperPoisonDamage, null, loc);
                 TacticalGraphicalEffects.CreatePoisonCloud(loc);
             }
-
         };
-        SpellDict[SpellTypes.ViperPoison] = ViperPoisonStatus;
+        SpellDict[SpellType.ViperPoison] = ViperPoisonStatus;
 
         AlraunePuff = new StatusSpell()
         {
             Name = "Pollen Cloud",
             Id = "alraune-spell",
-            SpellType = SpellTypes.AlraunePuff,
+            SpellType = SpellType.AlraunePuff,
             Description = "Applies a variety of status effects in a 3x3 area",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Tile },
             Range = new Range(8),
@@ -655,15 +647,14 @@ static class SpellList
                 a.CastStatusSpell(AlraunePuff, null, loc);
                 TacticalGraphicalEffects.CreatePollenCloud(loc);
             }
-
         };
-        SpellDict[SpellTypes.AlraunePuff] = AlraunePuff;
+        SpellDict[SpellType.AlraunePuff] = AlraunePuff;
 
         Web = new StatusSpell()
         {
             Name = "Web",
             Id = "web",
-            SpellType = SpellTypes.Web,
+            SpellType = SpellType.Web,
             Description = "Webs the target, lowering their movement to 1 for a few turns and lowering their stats",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(4),
@@ -678,15 +669,14 @@ static class SpellList
                 a.CastStatusSpell(Web, t);
                 TacticalGraphicalEffects.CreateSpiderWeb(a.Position, t.Position, t);
             },
-
         };
-        SpellDict[SpellTypes.Web] = Web;
+        SpellDict[SpellType.Web] = Web;
 
         GlueBomb = new StatusSpell()
         {
             Name = "Glue Bomb",
             Id = "glueBomb",
-            SpellType = SpellTypes.GlueBomb,
+            SpellType = SpellType.GlueBomb,
             Description = "Glues a 3x3 area, greatly slowing them down for a significant number of turns.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Tile },
             Range = new Range(8),
@@ -707,15 +697,14 @@ static class SpellList
                 a.CastStatusSpell(GlueBomb, null, loc);
                 TacticalGraphicalEffects.CreateGlueBomb(a.Position, loc);
             }
-
         };
-        SpellDict[SpellTypes.GlueBomb] = GlueBomb;
+        SpellDict[SpellType.GlueBomb] = GlueBomb;
 
         Petrify = new StatusSpell()
         {
             Name = "Petrify",
             Id = "petrify",
-            SpellType = SpellTypes.Petrify,
+            SpellType = SpellType.Petrify,
             Description = "Petrifies the target, preventing them from taking any action or dodging, but reducing damage taken and making them harder to eat.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(4),
@@ -725,24 +714,21 @@ static class SpellList
             Tier = 0,
             Resistable = true,
             ResistanceMult = .9f,
-            OnExecute = (a, t) =>
-            {
-                a.CastStatusSpell(Petrify, t);
-            },
-
+            OnExecute = (a, t) => { a.CastStatusSpell(Petrify, t); },
         };
-        SpellDict[SpellTypes.Petrify] = Petrify;
+        SpellDict[SpellType.Petrify] = Petrify;
 
         HypnoGas = new StatusSpell()
         {
             Name = "Hypnotic Gas",
             Id = "hypno-fart",
-            SpellType = SpellTypes.HypnoGas,
+            SpellType = SpellType.HypnoGas,
             Description = "Applies Hypnotized in a 4x4 area near the caster. Hypnotized units become noncombatants that serve the caster's side.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Tile, AbilityTargets.Enemy },
             Range = new Range(1),
             Duration = (a, t) => 5,
-            Effect = (a, t) => a.Unit.GetApparentSide(t.Unit),
+            Effect = (a, t) => 0f,
+            EffectSide = (a, t) => a.Unit.GetApparentSide(t.Unit),
             AreaOfEffect = 1,
             Type = StatusEffectType.Hypnotized,
             Tier = 0,
@@ -753,14 +739,15 @@ static class SpellList
                 a.CastStatusSpell(HypnoGas, t, null, Stat.Voracity);
                 if (Config.FartOnAbsorb)
                 {
-                    a.SetPredMode(PreyLocation.anal);
+                    a.SetPredMode(PreyLocation.Anal);
                     State.GameManager.SoundManager.PlayFart(a);
                 }
                 else if (Config.BurpFraction > 0)
                 {
-                    a.SetPredMode(PreyLocation.stomach);
+                    a.SetPredMode(PreyLocation.Stomach);
                     State.GameManager.SoundManager.PlayBurp(a);
                 }
+
                 TacticalGraphicalEffects.CreateGasCloud(t.Position);
             },
             OnExecuteTile = (a, loc) =>
@@ -768,25 +755,25 @@ static class SpellList
                 a.CastStatusSpell(HypnoGas, null, loc, Stat.Voracity);
                 if (Config.FartOnAbsorb)
                 {
-                    a.SetPredMode(PreyLocation.anal);
+                    a.SetPredMode(PreyLocation.Anal);
                     State.GameManager.SoundManager.PlayFart(a);
                 }
                 else if (Config.BurpFraction > 0)
                 {
-                    a.SetPredMode(PreyLocation.stomach);
+                    a.SetPredMode(PreyLocation.Stomach);
                     State.GameManager.SoundManager.PlayBurp(a);
                 }
+
                 TacticalGraphicalEffects.CreateGasCloud(loc);
             }
-
         };
-        SpellDict[SpellTypes.HypnoGas] = HypnoGas;
+        SpellDict[SpellType.HypnoGas] = HypnoGas;
 
         Bind = new Spell()
         {
             Name = "Bind/Resummon",
             Id = "Bind",
-            SpellType = SpellTypes.Bind,
+            SpellType = SpellType.Bind,
             Description = "Allows to either take control of any summon, or re-summon the most recently bound one by targeting an empty space.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy, AbilityTargets.Ally, AbilityTargets.Tile },
             Range = new Range(4),
@@ -795,88 +782,76 @@ static class SpellList
             OnExecute = (a, t) => a.CastBind(t),
             OnExecuteTile = (a, l) => a.SummonBound(l),
         };
-        SpellDict[SpellTypes.Bind] = Bind;
+        SpellDict[SpellType.Bind] = Bind;
 
         ForceFeed = new Spell()
         {
             Name = "Force Feed",
             Id = "force-feed",
-            SpellType = SpellTypes.ForceFeed,
+            SpellType = SpellType.ForceFeed,
             Description = "",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(1),
             Tier = 0,
             Resistable = false,
-            OnExecute = (a, t) =>
-            {
-                TacticalUtilities.ForceFeed(a, t);
-            },
+            OnExecute = (a, t) => { TacticalUtilities.ForceFeed(a, t); },
         };
-        SpellDict[SpellTypes.ForceFeed] = ForceFeed;
+        SpellDict[SpellType.ForceFeed] = ForceFeed;
 
         RevertForm = new Spell()
         {
             Name = "Revert Form",
             Id = "revert-form",
-            SpellType = SpellTypes.RevertForm,
+            SpellType = SpellType.RevertForm,
             Description = "",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Self },
             Range = new Range(1),
             Tier = 0,
             Resistable = false,
-            OnExecute = (a, t) =>
-            {
-                TacticalUtilities.RevertForm(a, t);
-            },
+            OnExecute = (a, t) => { TacticalUtilities.RevertForm(a, t); },
         };
-        SpellDict[SpellTypes.RevertForm] = RevertForm;
+        SpellDict[SpellType.RevertForm] = RevertForm;
 
         AssumeForm = new Spell()
         {
             Name = "Assume Form",
             Id = "assume-form",
-            SpellType = SpellTypes.AssumeForm,
+            SpellType = SpellType.AssumeForm,
             Description = "Assumes the form of a random Prey",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Self },
             Range = new Range(1),
             Tier = 0,
             Resistable = false,
-            OnExecute = (a, t) =>
-            {
-                TacticalUtilities.AssumeForm(a, t);
-            },
+            OnExecute = (a, t) => { TacticalUtilities.AssumeForm(a, t); },
         };
-        SpellDict[SpellTypes.AssumeForm] = AssumeForm;
+        SpellDict[SpellType.AssumeForm] = AssumeForm;
 
 
         Whispers = new StatusSpell()
         {
             Name = "Whispers",
             Id = "whispers-spell",
-            SpellType = SpellTypes.Whispers,
+            SpellType = SpellType.Whispers,
             Description = "Applies Charm, Prey's Curse, and Temptation for 3 rounds",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(1),
             Duration = (a, t) => 3,
-            Effect = (a, t) => a.Unit.GetApparentSide(t.Unit),
+            Effect = (a, t) => 0f,
+            EffectSide = (a, t) => a.Unit.GetApparentSide(t.Unit),
             Type = StatusEffectType.Charmed,
             Tier = 3,
             Resistable = true,
-            OnExecute = (a, t) =>
-            {
-                a.CastStatusSpell(Whispers, t);
-            },
-
+            OnExecute = (a, t) => { a.CastStatusSpell(Whispers, t); },
         };
-        SpellDict[SpellTypes.Whispers] = Whispers;
+        SpellDict[SpellType.Whispers] = Whispers;
 
         ViralInfection = new StatusSpell()
         {
             Name = "ViralInfection",
             Id = "viralinfection",
-            SpellType = SpellTypes.ViralInfection,
+            SpellType = SpellType.ViralInfection,
             Description = "Applies virus to enemy, dealing damage over time.",
-            AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally, AbilityTargets.Enemy, AbilityTargets.Self},
+            AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally, AbilityTargets.Enemy, AbilityTargets.Self },
             Range = new Range(8),
             Duration = (a, t) => 4 + a.Unit.GetStat(Stat.Mind) / 5,
             Effect = (a, t) => 1 + a.Unit.GetStat(Stat.Mind) / 10,
@@ -885,17 +860,16 @@ static class SpellList
             Resistable = false,
             OnExecute = (a, t) =>
             {
-                if (a.CastStatusSpell(ViralInfection, t))
-                    TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Poison);
+                if (a.CastStatusSpell(ViralInfection, t)) TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.Poison);
             },
         };
-        SpellDict[SpellTypes.ViralInfection] = ViralInfection;
+        SpellDict[SpellType.ViralInfection] = ViralInfection;
 
         AmplifyMagic = new Spell()
         {
             Name = "Amplify Magic",
             Id = "amplify-magic",
-            SpellType = SpellTypes.AmplifyMagic,
+            SpellType = SpellType.AmplifyMagic,
             Description = "Grant nearby units stacks of Focus, scaling with will.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(1),
@@ -907,20 +881,20 @@ static class SpellList
             {
                 a.CastSpell(AmplifyMagic, t);
                 int amt = a.Unit.GetStat(Stat.Will) / 25;
-                foreach (var ally in TacticalUtilities.UnitsWithinTiles(t.Position, 1).Where(s => s.Unit.IsDead == false && s.Unit.Side == a.Unit.Side))
+                foreach (var ally in TacticalUtilities.UnitsWithinTiles(t.Position, 1).Where(s => s.Unit.IsDead == false && Equals(s.Unit.Side, a.Unit.Side)))
                 {
-                    ally.Unit.AddFocus(((amt > 1) ? amt : 1));
+                    ally.Unit.AddFocus(amt > 1 ? amt : 1);
                     TacticalGraphicalEffects.CreateGenericMagic(a.Position, ally.Position, ally, TacticalGraphicalEffects.SpellEffectIcon.Buff);
                 }
             }
         };
-        SpellDict[SpellTypes.AmplifyMagic] = AmplifyMagic;
+        SpellDict[SpellType.AmplifyMagic] = AmplifyMagic;
 
         DivinitysEmbrace = new StatusSpell()
         {
             Name = "Divinity's Embrace",
             Id = "divinitysembrace",
-            SpellType = SpellTypes.DivinitysEmbrace,
+            SpellType = SpellType.DivinitysEmbrace,
             Description = "Shower an ally in divine light, providing instant healing as well as damage mitigation for a few turns.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(4),
@@ -936,13 +910,13 @@ static class SpellList
                 t.Damage(-5 - a.Unit.GetStat(Stat.Mind));
             },
         };
-        SpellDict[SpellTypes.DivinitysEmbrace] = DivinitysEmbrace;
+        SpellDict[SpellType.DivinitysEmbrace] = DivinitysEmbrace;
 
         Evocation = new Spell()
         {
             Name = "Evocation",
             Id = "evocation",
-            SpellType = SpellTypes.Evocation,
+            SpellType = SpellType.Evocation,
             Description = "Draw all nearby Unit's Focus onto a target, inspiring it. Grants the target equivalent SpellForce stacks and half as much MP.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Ally },
             Range = new Range(1),
@@ -961,26 +935,28 @@ static class SpellList
                         t.Unit.AddSpellForce();
                         stacks++;
                     }
+
                     ally.Unit.StatusEffects.Remove(ally.Unit.GetStatusEffect(StatusEffectType.Focus));
                     TacticalGraphicalEffects.CreateGenericMagic(ally.Position, t.Position, t);
                 }
-                t.Movement += stacks/2;
+
+                t.Movement += stacks / 2;
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t, TacticalGraphicalEffects.SpellEffectIcon.PurplePlus);
             }
         };
-        SpellDict[SpellTypes.Evocation] = Evocation;
+        SpellDict[SpellType.Evocation] = Evocation;
 
         ManaFlux = new DamageSpell()
         {
             Name = "Mana Flux",
             Id = "mana-flux",
-            SpellType = SpellTypes.ManaFlux,
+            SpellType = SpellType.ManaFlux,
             Description = "Deals damage which is increased by missing mana.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(6),
             Tier = 1,
             AreaOfEffect = 0,
-            Damage = (a, t) => (a.Unit.GetStat(Stat.Mind) / 5) + ((a.Unit.MaxMana - a.Unit.Mana)/10),
+            Damage = (a, t) => a.Unit.GetStat(Stat.Mind) / 5 + (a.Unit.MaxMana - a.Unit.Mana) / 10,
             Resistable = true,
             OnExecute = (a, t) =>
             {
@@ -988,18 +964,18 @@ static class SpellList
                 TacticalGraphicalEffects.CreateGenericMagic(a.Position, t.Position, t);
             }
         };
-        SpellDict[SpellTypes.ManaFlux] = ManaFlux;
+        SpellDict[SpellType.ManaFlux] = ManaFlux;
         UnstableMana = new DamageSpell()
         {
             Name = "Unstable Mana",
             Id = "unstable-mana",
-            SpellType = SpellTypes.UnstableMana,
+            SpellType = SpellType.UnstableMana,
             Description = "Deals damage increased by unit's current mana, then uses it all. The target explodes, dealing half of their current mana as damage around them.",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(6),
             Tier = 0,
             AreaOfEffect = 0,
-            Damage = (a, t) => (a.Unit.Mana / 4) + a.Unit.GetStat(Stat.Mind) / 5,
+            Damage = (a, t) => a.Unit.Mana / 4 + a.Unit.GetStat(Stat.Mind) / 5,
             Resistable = true,
             OnExecute = (a, t) =>
             {
@@ -1011,16 +987,17 @@ static class SpellList
                 {
                     a.CastOffensiveSpell(ManaExpolsion, t);
                 }
+
                 a.Unit.SpendMana(a.Unit.Mana);
             }
         };
-        SpellDict[SpellTypes.UnstableMana] = UnstableMana;
+        SpellDict[SpellType.UnstableMana] = UnstableMana;
 
         ManaExpolsion = new DamageSpell()
         {
             Name = "Mana Expolsion",
             Id = "mana-expolsion",
-            SpellType = SpellTypes.ManaExpolsion,
+            SpellType = SpellType.ManaExpolsion,
             Description = "(Second half of Unstable Mana Spell)",
             AcceptibleTargets = new List<AbilityTargets>() { AbilityTargets.Enemy },
             Range = new Range(6),
@@ -1029,12 +1006,9 @@ static class SpellList
             Damage = (a, t) => t.Unit.Mana / 2,
             Resistable = true,
             ResistanceMult = 0.2f,
-            OnExecute = (a, t) =>
-            {
-            }
+            OnExecute = (a, t) => { }
         };
-        SpellDict[SpellTypes.ManaExpolsion] = ManaExpolsion;
-        
+        SpellDict[SpellType.ManaExpolsion] = ManaExpolsion;
     }
 }
 
@@ -1045,19 +1019,21 @@ public class Spell
     internal string Id;
     internal string Description;
     internal List<AbilityTargets> AcceptibleTargets;
-    internal SpellTypes SpellType;
+    internal SpellType SpellType;
     internal Range Range;
     internal int Tier;
+
     /// <summary>The number of tiles away a target is affected (i.e. 1 = 9 total tiles)</summary>
     internal int AreaOfEffect;
-    internal Action<Actor_Unit, Vec2i> OnExecuteTile;
+
+    internal Action<ActorUnit, Vec2I> OnExecuteTile;
     internal bool Resistable;
     internal float ResistanceMult = 1;
-    internal Action<Actor_Unit, Actor_Unit> OnExecute;
+    internal Action<ActorUnit, ActorUnit> OnExecute;
     internal bool IsFree = false;
-    
 
-    internal bool TryCast(Actor_Unit actor, Vec2i location)
+
+    internal bool TryCast(ActorUnit actor, Vec2I location)
     {
         if ((actor.Unit.Mana >= ManaCost || IsFree) && actor.Movement > 0)
         {
@@ -1068,11 +1044,14 @@ public class Spell
                 actor.Unit.SingleUseSpells.Remove(SpellType);
                 actor.Unit.UpdateSpells();
             }
+
             return true;
         }
+
         return false;
     }
-    internal bool TryCast(Actor_Unit actor, Actor_Unit target)
+
+    internal bool TryCast(ActorUnit actor, ActorUnit target)
     {
         if ((actor.Unit.Mana >= ManaCost || IsFree) && actor.Movement > 0)
         {
@@ -1083,29 +1062,34 @@ public class Spell
                 actor.Unit.SingleUseSpells.Remove(SpellType);
                 actor.Unit.UpdateSpells();
             }
+
             return true;
         }
+
         return false;
     }
 
     internal int ManaCost => 2 * (int)Math.Pow(2, Tier);
-
-
 }
 
 //May redo this with interfaces later on
 
-class DamageSpell : Spell
+internal class DamageSpell : Spell
 {
-
-    internal Func<Actor_Unit, Actor_Unit, int> Damage;
-    internal DamageTypes DamageType = DamageTypes.Generic;
+    internal Func<ActorUnit, ActorUnit, int> Damage;
+    internal DamageType DamageType = DamageType.Generic;
 }
 
-class StatusSpell : Spell
+internal class StatusSpell : Spell
 {
-    internal Func<Actor_Unit, Actor_Unit, int> Duration;
-    internal Func<Actor_Unit, Actor_Unit, float> Effect;
+    internal Func<ActorUnit, ActorUnit, int> Duration;
+    internal Func<ActorUnit, ActorUnit, float> Effect;
+
+    /// <summary>
+    ///     BAD SOLUTION. TEMPORARY(tm)
+    /// </summary>
+    internal Func<ActorUnit, ActorUnit, Side> EffectSide;
+
     internal StatusEffectType Type;
     internal bool Alraune = false;
 }

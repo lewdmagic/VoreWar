@@ -1,18 +1,21 @@
 ﻿using OdinSerializer;
 
 
-class InvisibleTravelingUnit
+internal class InvisibleTravelingUnit
 {
     [OdinSerialize]
-    internal Unit unit;
+    private Unit _unit;
+
+    internal Unit Unit { get => _unit; set => _unit = value; }
 
     [OdinSerialize]
-    internal int remainingTurns;
+    private int _remainingTurns;
+
+    internal int RemainingTurns { get => _remainingTurns; set => _remainingTurns = value; }
 
     public InvisibleTravelingUnit(Unit unit, int remainingTurns)
     {
-        this.unit = unit;
-        this.remainingTurns = remainingTurns;
+        this.Unit = unit;
+        this.RemainingTurns = remainingTurns;
     }
 }
-

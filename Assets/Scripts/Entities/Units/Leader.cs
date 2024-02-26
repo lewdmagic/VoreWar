@@ -1,7 +1,6 @@
 ﻿public class Leader : Unit
 {
-
-    public Leader(int side, Race race, int startingXP) : base(side, race, startingXP, true, UnitType.Leader)
+    public Leader(Side side, Race race, int startingXp) : base(side, race, startingXp, true, UnitType.Leader)
     {
         var raceStats = State.RaceSettings.GetRaceStats(Race);
 
@@ -16,13 +15,11 @@
         Stats[(int)Stat.Leadership] = 10;
 
         Health = MaxHealth;
-        if (Race == Race.Lizards)
-            Races.GetRace(Race.Lizards).RandomCustom(this);
-        if (Config.LetterBeforeLeaderNames != "")
-            Name = Config.LetterBeforeLeaderNames + Name.ToLower();
+        if (Equals(Race, Race.Lizard)) RaceFuncs.GetRace(Race.Lizard).RandomCustomCall(this);
+        if (Config.LetterBeforeLeaderNames != "") Name = Config.LetterBeforeLeaderNames + Name.ToLower();
         ExpMultiplier = 2;
         Type = UnitType.Leader;
-        if (Race == Race.Slimes)
+        if (Equals(Race, Race.Slime))
         {
             if (Config.HermFraction >= 0.05)
             {
@@ -32,6 +29,7 @@
             {
                 DickSize = -1;
             }
+
             ClothingType = 1;
             SetDefaultBreastSize(1);
             HairStyle = 1;
@@ -41,6 +39,7 @@
             ReloadTraits();
             InitializeTraits();
         }
+
         if (Config.LeadersUseCustomizations)
         {
             var list = CustomizationDataStorer.GetCompatibleCustomizations(race, UnitType.Leader, false);
@@ -50,6 +49,7 @@
             }
         }
     }
+
     public static Stat[] GetLevelUpPossibilities()
     {
         Stat[] ret;
@@ -59,9 +59,9 @@
             ret = new Stat[(int)Stat.None];
         for (int i = 0; i < ret.Length; i++)
         {
-
             ret[i] = (Stat)i;
         }
+
         return ret;
     }
 
@@ -70,4 +70,3 @@
         return base.GetStatTotal() + GetStat(Stat.Leadership);
     }
 }
-

@@ -14,10 +14,10 @@ public class StatScreenPanel : MonoBehaviour
     internal bool AutoClose;
     internal float AutoCloseTime;
 
-    public void Open(bool AIOnly)
+    public void Open(bool aiOnly)
     {
         State.GameManager.StatScreen.gameObject.SetActive(true);
-        if (Config.TimedAIStats && AIOnly)
+        if (Config.TimedAIStats && aiOnly)
         {
             State.GameManager.StatScreen.AutoClose = true;
             State.GameManager.StatScreen.AutoCloseTime = 10;
@@ -37,16 +37,13 @@ public class StatScreenPanel : MonoBehaviour
         if (AutoClose && AutoCloseTime > 0)
         {
             AutoCloseTime -= Time.deltaTime;
-            if (AutoCloseTime < 0)
-                State.GameManager.CloseStatsScreen();
+            if (AutoCloseTime < 0) State.GameManager.CloseStatsScreen();
             CloseButtonText.text = $"Exit Stats Screen (automatically happens in {(int)AutoCloseTime})";
         }
-
     }
 
     public void AddTime()
     {
         AutoCloseTime += 15;
     }
-
 }

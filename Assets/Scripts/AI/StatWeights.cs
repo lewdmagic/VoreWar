@@ -1,9 +1,10 @@
 ﻿using OdinSerializer;
 
 
-class StatWeights
+internal class StatWeights
 {
     [OdinSerialize]
-    internal float[] Weight = new float[(int)Stat.None];
-}
+    private float[] _weight = new float[(int)Stat.None];
 
+    internal float[] Weight { get => _weight; set => _weight = value; }
+}
