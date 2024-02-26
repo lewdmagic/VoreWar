@@ -80,14 +80,14 @@ namespace Races.Graphics.Implementations.Mercs
                     },
                     RaceStats = new RaceStats()
                     {
-                        Strength = new RaceStats.StatRange(6, 14),
-                        Dexterity = new RaceStats.StatRange(10, 18),
-                        Endurance = new RaceStats.StatRange(8, 16),
-                        Mind = new RaceStats.StatRange(8, 16),
-                        Will = new RaceStats.StatRange(10, 16),
-                        Agility = new RaceStats.StatRange(10, 16),
-                        Voracity = new RaceStats.StatRange(8, 16),
-                        Stomach = new RaceStats.StatRange(10, 15),
+                        Strength = new StatRange(6, 14),
+                        Dexterity = new StatRange(10, 18),
+                        Endurance = new StatRange(8, 16),
+                        Mind = new StatRange(8, 16),
+                        Will = new StatRange(10, 16),
+                        Agility = new StatRange(10, 16),
+                        Voracity = new StatRange(8, 16),
+                        Stomach = new StatRange(10, 15),
                     },
                     RaceDescription = "Small and physically unintimidating, the Goblins came from a realm far ahead in technology. Were it not for the lack of materials to replicate their greatest inventions and the small size of their weapons, the Goblins might have claimed the entire land. As it is, they learned to be good at dodging and escaping the maws and guts of predators, through one end or another.",
                 });

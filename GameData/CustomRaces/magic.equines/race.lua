@@ -133,7 +133,6 @@ function Render(input, output)
     local bodyName = ternary(input.U.HasBreasts, "body_female", "body_male");
     local bodyIndex = ternary(input.A.IsAttacking, 2, ternary(input.U.HasWeapon, 1, 0));
 
-    
     output.NewSprite(SpriteType.Body, 4)
           .Coloring(GetPalette(SwapType.HorseSkin, input.U.SkinColor))
           .Sprite0(bodyName, bodyIndex);

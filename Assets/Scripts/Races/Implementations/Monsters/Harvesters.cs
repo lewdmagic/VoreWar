@@ -36,14 +36,14 @@ namespace Races.Graphics.Implementations.Monsters
                     PowerAdjustment = 2.2f,
                     RaceStats = new RaceStats()
                     {
-                        Strength = new RaceStats.StatRange(12, 22),
-                        Dexterity = new RaceStats.StatRange(6, 14),
-                        Endurance = new RaceStats.StatRange(18, 24),
-                        Mind = new RaceStats.StatRange(6, 10),
-                        Will = new RaceStats.StatRange(10, 22),
-                        Agility = new RaceStats.StatRange(18, 28),
-                        Voracity = new RaceStats.StatRange(18, 24),
-                        Stomach = new RaceStats.StatRange(10, 14),
+                        Strength = new StatRange(12, 22),
+                        Dexterity = new StatRange(6, 14),
+                        Endurance = new StatRange(18, 24),
+                        Mind = new StatRange(6, 10),
+                        Will = new StatRange(10, 22),
+                        Agility = new StatRange(18, 28),
+                        Voracity = new StatRange(18, 24),
+                        Stomach = new StatRange(10, 14),
                     },
                     RacialTraits = new List<TraitType>()
                     {

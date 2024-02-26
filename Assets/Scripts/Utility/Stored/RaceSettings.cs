@@ -244,7 +244,7 @@ internal class RaceSettings
         return RaceParameters.GetRaceTraits(race).AllowedVoreTypes;
     }
 
-    internal RaceStats GetRaceStats(Race race)
+    internal IRaceStats GetRaceStats(Race race)
     {
         if (_races.ContainsKey(race)) return Get(race).Stats;
         return RaceParameters.GetRaceTraits(race).RaceStats;

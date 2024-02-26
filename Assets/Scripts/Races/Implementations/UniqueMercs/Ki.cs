@@ -45,14 +45,14 @@ namespace Races.Graphics.Implementations.UniqueMercs
                     PowerAdjustment = 1.5f,
                     RaceStats = new RaceStats()
                     {
-                        Strength = new RaceStats.StatRange(5, 7),
-                        Dexterity = new RaceStats.StatRange(5, 7),
-                        Endurance = new RaceStats.StatRange(9, 11),
-                        Mind = new RaceStats.StatRange(8, 12),
-                        Will = new RaceStats.StatRange(18, 22),
-                        Agility = new RaceStats.StatRange(20, 24),
-                        Voracity = new RaceStats.StatRange(18, 22),
-                        Stomach = new RaceStats.StatRange(18, 22),
+                        Strength = new StatRange(5, 7),
+                        Dexterity = new StatRange(5, 7),
+                        Endurance = new StatRange(9, 11),
+                        Mind = new StatRange(8, 12),
+                        Will = new StatRange(18, 22),
+                        Agility = new StatRange(20, 24),
+                        Voracity = new StatRange(18, 22),
+                        Stomach = new StatRange(18, 22),
                     },
                     RacialTraits = new List<TraitType>()
                     {

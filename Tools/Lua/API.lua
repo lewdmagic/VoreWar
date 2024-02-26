@@ -306,6 +306,11 @@ function _G.RandomInt(maxValue) end
 ---@return FlavorEntry
 function _G.NewFlavorEntry(text) end
 
+---@param min integer
+---@param max integer
+---@return StatRange
+function _G.NewStatRange(min, max) end
+
 ---@param text string
 ---@param gender Gender
 ---@return FlavorEntry
@@ -316,6 +321,19 @@ local INameInput = {}
 
 ---@return Gender
 function INameInput.GetGender() end
+
+---@class IRaceStats
+---@field Strength StatRange 
+---@field Dexterity StatRange 
+---@field Voracity StatRange 
+---@field Mind StatRange 
+---@field Agility StatRange 
+---@field Stomach StatRange 
+---@field Endurance StatRange 
+---@field Will StatRange 
+local IRaceStats = {}
+
+
 
 ---@class IRaceTraits
 ---@field BodySize integer 
@@ -331,7 +349,7 @@ function INameInput.GetGender() end
 ---@field ConversionRace Race 
 ---@field LeaderRace Race 
 ---@field InnateSpells ListOfSpellType 
----@field RaceStats RaceStats 
+---@field RaceStats IRaceStats 
 ---@field ExpMultiplier number 
 ---@field PowerAdjustment number 
 ---@field CanUseRangedWeapons boolean 
@@ -1289,6 +1307,8 @@ function ListOfSide.AddRange(range) end
 
 ---@alias Vec2i userdata
 
+---@alias Vec2I userdata
+
 ---@alias AnimationController userdata
 
 ---@alias Side userdata
@@ -1297,7 +1317,7 @@ function ListOfSide.AddRange(range) end
 
 ---@alias Race userdata
 
----@alias RaceStats userdata
+---@alias StatRange userdata
 
 ---@alias IClothing userdata
 

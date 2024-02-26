@@ -78,6 +78,9 @@ public static class LuaBridge
         UserData.RegisterType<IClothingSetupInput>();
         UserData.RegisterType<IClothingSetupOutput>();
         UserData.RegisterType<ClothingMiscData>();
+        
+        UserData.RegisterType<StatRange>();
+        UserData.RegisterType<RaceStats>();
 
 
         UserData.RegisterType<IClothingRenderInput>();
@@ -94,6 +97,10 @@ public static class LuaBridge
         UserData.RegisterType<IList<IClothing>>();
         UserData.RegisterType<List<IClothing>>();
         UserData.RegisterType<IRaceRenderAllOutput>();
+        UserData.RegisterType<SpellType>();
+        UserData.RegisterType<List<SpellType>>();
+        UserData.RegisterType<VoreType>();
+        UserData.RegisterType<List<VoreType>>();
 
         LuaUtil.RegisterSimpleAction<IRandomCustomInput>();
         LuaUtil.RegisterSimpleAction<RaceTraits>();
@@ -149,8 +156,8 @@ public static class LuaBridge
 
         script.Globals["Defaults"] = defaults;
 
-        Func<int, int> RandomInt = (max) => State.Rand.Next(max);
-        script.Globals["RandomInt"] = RandomInt;
+        Func<int, int> randomInt = (max) => State.Rand.Next(max);
+        script.Globals["RandomInt"] = randomInt;
 
         script.DoString(@"
 function ternary ( cond , T , F )
@@ -167,6 +174,8 @@ end");
     private static void RegisterRace(Script script, string raceId)
     {
         script.Globals["TraitType"] = UserData.CreateStatic<TraitType>();
+        script.Globals["SpellType"] = UserData.CreateStatic<SpellType>();
+        script.Globals["VoreType"] = UserData.CreateStatic<VoreType>();
         script.Globals["ButtonType"] = UserData.CreateStatic<ButtonType>();
         script.Globals["Stat"] = UserData.CreateStatic<Stat>();
         script.Globals["FlavorType"] = UserData.CreateStatic<FlavorType>();
@@ -179,6 +188,9 @@ end");
 
         Func<string, FlavorEntry> newFlavorEntry = (text) => new FlavorEntry(text);
         script.Globals["NewFlavorEntry"] = newFlavorEntry;
+
+        Func<int, int, StatRange> newStatRange = (int min, int max) => new StatRange(min, max);
+        script.Globals["NewStatRange"] = newStatRange;
 
         Func<string, Gender, FlavorEntry> newFlavorEntryGendered = (text, gender) => new FlavorEntry(text, gender);
         script.Globals["NewFlavorEntryGendered"] = newFlavorEntryGendered;

@@ -22,5 +22,7 @@ public interface IGlobalLua
 
     FlavorEntry NewFlavorEntry(string text);
 
+    StatRange NewStatRange(int min, int max);
+
     FlavorEntry NewFlavorEntryGendered(string text, Gender gender);
 }

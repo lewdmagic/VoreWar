@@ -2,6 +2,7 @@ using OdinSerializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using static UnityEngine.UI.CanvasScaler;
 
 
@@ -606,6 +607,11 @@ public abstract class TacticalAI : ITacticalAI
             targets = GetListOfPotentialRangedTargets(actor, actor.Position);
             while (targets.Any())
             {
+                if (actor.BestRanged == null)
+                {
+                    Debug.Log(actor.Unit.Name);
+                    Debug.Log(actor.BestRanged);
+                }
                 if (targets[0].Distance <= actor.BestRanged.Range && targets[0].Distance > 1) // TODO Null pointer occurred here
                 {
                     actor.Attack(targets[0].Actor, true);

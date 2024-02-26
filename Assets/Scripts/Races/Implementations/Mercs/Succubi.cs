@@ -65,14 +65,14 @@ namespace Races.Graphics.Implementations.Mercs
                     },
                     RaceStats = new RaceStats()
                     {
-                        Strength = new RaceStats.StatRange(3, 6),
-                        Dexterity = new RaceStats.StatRange(8, 14),
-                        Endurance = new RaceStats.StatRange(8, 14),
-                        Mind = new RaceStats.StatRange(8, 14),
-                        Will = new RaceStats.StatRange(12, 20),
-                        Agility = new RaceStats.StatRange(6, 14),
-                        Voracity = new RaceStats.StatRange(8, 14),
-                        Stomach = new RaceStats.StatRange(8, 14),
+                        Strength = new StatRange(3, 6),
+                        Dexterity = new StatRange(8, 14),
+                        Endurance = new StatRange(8, 14),
+                        Mind = new StatRange(8, 14),
+                        Will = new StatRange(12, 20),
+                        Agility = new StatRange(6, 14),
+                        Voracity = new StatRange(8, 14),
+                        Stomach = new StatRange(8, 14),
                     },
                 });
                 output.CustomizeButtons((unit, buttons) => { buttons.SetActive(ButtonType.ClothingColor2, true); });

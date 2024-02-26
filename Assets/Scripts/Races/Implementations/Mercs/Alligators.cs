@@ -35,14 +35,14 @@ namespace Races.Graphics.Implementations.Mercs
                     RaceStats = new RaceStats() // Stronger, tougher, slower moving and with slower digestion. (Crocodilians would normally have a very strong digestion, but that reguires focusing on it, not going on fighting.)
                         // Wider, shorter throats also make eating easier, but also make prey's escape easier. (Not in RL, obviously. Or perhaps they would, if crocodilians had a habit of swallowing sizeable living prey.)
                         {
-                            Strength = new RaceStats.StatRange(10, 18),
-                            Dexterity = new RaceStats.StatRange(4, 7),
-                            Endurance = new RaceStats.StatRange(12, 18),
-                            Mind = new RaceStats.StatRange(5, 10),
-                            Will = new RaceStats.StatRange(8, 14),
-                            Agility = new RaceStats.StatRange(6, 10),
-                            Voracity = new RaceStats.StatRange(7, 14),
-                            Stomach = new RaceStats.StatRange(8, 14),
+                            Strength = new StatRange(10, 18),
+                            Dexterity = new StatRange(4, 7),
+                            Endurance = new StatRange(12, 18),
+                            Mind = new StatRange(5, 10),
+                            Will = new StatRange(8, 14),
+                            Agility = new StatRange(6, 10),
+                            Voracity = new StatRange(7, 14),
+                            Stomach = new StatRange(8, 14),
                         },
                     RacialTraits = new List<TraitType>() // Alligator = Lizard+
                     {

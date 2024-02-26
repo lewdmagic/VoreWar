@@ -37,14 +37,14 @@ namespace Races.Graphics.Implementations.Monsters
                     ExpMultiplier = 1.5f,
                     RaceStats = new RaceStats()
                     {
-                        Strength = new RaceStats.StatRange(6, 14),
-                        Dexterity = new RaceStats.StatRange(4, 8),
-                        Endurance = new RaceStats.StatRange(10, 16),
-                        Mind = new RaceStats.StatRange(6, 10),
-                        Will = new RaceStats.StatRange(8, 14),
-                        Agility = new RaceStats.StatRange(8, 12),
-                        Voracity = new RaceStats.StatRange(12, 20),
-                        Stomach = new RaceStats.StatRange(6, 12),
+                        Strength = new StatRange(6, 14),
+                        Dexterity = new StatRange(4, 8),
+                        Endurance = new StatRange(10, 16),
+                        Mind = new StatRange(6, 10),
+                        Will = new StatRange(8, 14),
+                        Agility = new StatRange(8, 12),
+                        Voracity = new StatRange(12, 20),
+                        Stomach = new StatRange(6, 12),
                     },
                     RacialTraits = new List<TraitType>()
                     {

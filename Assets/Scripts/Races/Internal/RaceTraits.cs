@@ -28,7 +28,7 @@ public class RaceTraits : IRaceTraits
     public Race ConversionRace { get; set; } = Race.TrueNone;
     public Race LeaderRace { get; set; } = Race.TrueNone;
     public List<SpellType> InnateSpells { get; set; } = new List<SpellType>();
-    public RaceStats RaceStats { get; set; } = new RaceStats();
+    public IRaceStats RaceStats { get; set; } = new RaceStats();
 
     /// <summary>
     ///     Attacks against this race will have their experience gained modified by this ratio

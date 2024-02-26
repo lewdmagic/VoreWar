@@ -28,14 +28,14 @@ namespace Races.Graphics.Implementations.Mercs
                     },
                     RaceStats = new RaceStats()
                     {
-                        Strength = new RaceStats.StatRange(16, 24),
-                        Dexterity = new RaceStats.StatRange(10, 18),
-                        Endurance = new RaceStats.StatRange(12, 22),
-                        Mind = new RaceStats.StatRange(12, 20),
-                        Will = new RaceStats.StatRange(10, 22),
-                        Agility = new RaceStats.StatRange(8, 18),
-                        Voracity = new RaceStats.StatRange(12, 20),
-                        Stomach = new RaceStats.StatRange(12, 18),
+                        Strength = new StatRange(16, 24),
+                        Dexterity = new StatRange(10, 18),
+                        Endurance = new StatRange(12, 22),
+                        Mind = new StatRange(12, 20),
+                        Will = new StatRange(10, 22),
+                        Agility = new StatRange(8, 18),
+                        Voracity = new StatRange(12, 20),
+                        Stomach = new StatRange(12, 18),
                     },
                     RaceDescription = "Somewhat enigmatic, it is uncertain if the Tigers are native to this realm or came from elsewhere. They do not seem interested in settling down though, joining armies to test their considerable skills in battle instead.",
                 });

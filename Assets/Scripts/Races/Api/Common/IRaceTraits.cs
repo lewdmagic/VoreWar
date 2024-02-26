@@ -25,7 +25,7 @@ public interface IRaceTraits
     Race ConversionRace { get; set; }
     Race LeaderRace { get; set; }
     List<SpellType> InnateSpells { get; set; }
-    RaceStats RaceStats { get; set; }
+    IRaceStats RaceStats { get; set; }
 
     /// <summary>
     ///     Attacks against this race will have their experience gained modified by this ratio

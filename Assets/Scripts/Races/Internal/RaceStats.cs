@@ -1,64 +1,39 @@
 using OdinSerializer;
 
-public class RaceStats
+
+public class RaceStats : IRaceStats
 {
-    /// <summary>
-    ///     Sets the minimum and maximum stats
-    /// </summary>
-    internal struct StatRange
-    {
-        [OdinSerialize]
-        internal int Minimum;
-
-        [OdinSerialize]
-        internal int Roll;
-
-        /// <summary>
-        ///     Sets up the stat range
-        /// </summary>
-        /// <param name="minimum">the lowest the stat will be</param>
-        /// <param name="maximum">the highest, inclusive</param>
-        public StatRange(int minimum, int maximum)
-        {
-            Minimum = minimum;
-            Roll = 1 + maximum - minimum;
-            if (Roll < 1)
-            {
-                UnityEngine.Debug.LogWarning("Maximum is less than minimum for one of the Stat Ranges");
-                Roll = 1;
-            }
-        }
-
-        public StatRange(bool junk, int minimum, int roll)
-        {
-            Minimum = minimum;
-            Roll = roll;
-        }
-    }
+    [OdinSerialize]
+    private StatRange _strength;
+    public StatRange Strength { get => _strength; set => _strength = value; }
 
     [OdinSerialize]
-    internal StatRange Strength;
+    private StatRange _dexterity;
+    public StatRange Dexterity { get => _dexterity; set => _dexterity = value; }
 
     [OdinSerialize]
-    internal StatRange Dexterity;
+    private StatRange _voracity;
+    public StatRange Voracity { get => _voracity; set => _voracity = value; }
 
     [OdinSerialize]
-    internal StatRange Voracity;
+    private StatRange _mind;
+    public StatRange Mind { get => _mind; set => _mind = value; }
 
     [OdinSerialize]
-    internal StatRange Mind;
+    private StatRange _agility;
+    public StatRange Agility { get => _agility; set => _agility = value; }
 
     [OdinSerialize]
-    internal StatRange Agility;
+    private StatRange _stomach;
+    public StatRange Stomach { get => _stomach; set => _stomach = value; }
 
     [OdinSerialize]
-    internal StatRange Stomach;
+    private StatRange _endurance;
+    public StatRange Endurance { get => _endurance; set => _endurance = value; }
 
     [OdinSerialize]
-    internal StatRange Endurance;
-
-    [OdinSerialize]
-    internal StatRange Will;
+    private StatRange _will;
+    public StatRange Will { get => _will; set => _will = value; }
 
     public RaceStats() //Default Stats
     {
@@ -70,5 +45,35 @@ public class RaceStats
         Agility = new StatRange(6, 10);
         Voracity = new StatRange(6, 11);
         Stomach = new StatRange(12, 15);
+    }
+}
+
+/// <summary>
+///     Sets the minimum and maximum stats
+/// </summary>
+public class StatRange
+{
+    [OdinSerialize]
+    private int _minimum;
+    internal int Minimum { get => _minimum; set => _minimum = value; }
+
+    [OdinSerialize]
+    private int _roll;
+    internal int Roll { get => _roll; set => _roll = value; }
+
+    /// <summary>
+    ///     Sets up the stat range
+    /// </summary>
+    /// <param name="minimum">the lowest the stat will be</param>
+    /// <param name="maximum">the highest, inclusive</param>
+    public StatRange(int minimum, int maximum)
+    {
+        Minimum = minimum;
+        Roll = 1 + maximum - minimum;
+        if (Roll < 1)
+        {
+            UnityEngine.Debug.LogWarning("Maximum is less than minimum for one of the Stat Ranges");
+            Roll = 1;
+        }
     }
 }

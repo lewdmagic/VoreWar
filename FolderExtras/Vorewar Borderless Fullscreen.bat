@@ -1,0 +1,1 @@
+start Vorewar.exe -window-mode borderless 

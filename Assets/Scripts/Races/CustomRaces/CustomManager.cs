@@ -229,7 +229,6 @@ public class CustomManager
         }
         else
         {
-            Debug.Log("dfdf");
             return null;
         }
     }
