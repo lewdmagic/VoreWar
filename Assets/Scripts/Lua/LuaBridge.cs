@@ -29,6 +29,13 @@ public static class FlavorEntryMaker
 
 public static class LuaBridge
 {
+
+    private static void ExceptionHappened(ScriptRuntimeException exception)
+    {
+        Debug.LogError("Lua script exception: " + exception.DecoratedMessage);
+        LuaExceptionHandler.LogToFile(exception);
+    }
+    
     static LuaBridge()
     {
         UserData.RegisterType<OverSizeParameters>();
@@ -224,8 +231,7 @@ end");
                 }
                 catch (ScriptRuntimeException ex)
                 {
-                    Debug.LogError("Doh! An error occured! " + ex.Message);
-                    Debug.LogError("Doh! An error occured! " + ex.DecoratedMessage);
+                    ExceptionHappened(ex);
                     throw;
                 }
             };
@@ -263,7 +269,7 @@ end");
                 }
                 catch (ScriptRuntimeException ex)
                 {
-                    Debug.LogError("Doh! An error occured! " + ex.DecoratedMessage);
+                    ExceptionHappened(ex);
                 }
             },
             (input, output) =>
@@ -274,8 +280,7 @@ end");
                 }
                 catch (ScriptRuntimeException ex)
                 {
-                    Debug.LogError("Doh! An error occured! " + ex.Message);
-                    Debug.LogError("Doh! An error occured! " + ex.DecoratedMessage);
+                    ExceptionHappened(ex);
                 }
             },
             (output) =>
@@ -286,8 +291,7 @@ end");
                 }
                 catch (ScriptRuntimeException ex)
                 {
-                    Debug.LogError("Doh! An error occured! " + ex.Message);
-                    Debug.LogError("Doh! An error occured! " + ex.DecoratedMessage);
+                    ExceptionHappened(ex);
                 }
             }
         );
@@ -318,8 +322,7 @@ end");
                 }
                 catch (ScriptRuntimeException ex)
                 {
-                    Debug.Log("Doh! An error occured! " + ex.Message);
-                    Debug.Log("Doh! An error occured! " + ex.DecoratedMessage);
+                    ExceptionHappened(ex);
                 }
             }
         );

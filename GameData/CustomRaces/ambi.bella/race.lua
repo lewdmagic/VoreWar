@@ -34,6 +34,7 @@ function Setup(output)
         traits.RaceStats.Voracity = NewStatRange(20, 25);
         traits.RaceStats.Stomach = NewStatRange(15, 20);
 
+
         traits.RacialTraits = {
             TraitType.Tenacious,
             TraitType.Resilient,
