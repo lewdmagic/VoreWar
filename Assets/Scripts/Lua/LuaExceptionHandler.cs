@@ -47,7 +47,7 @@ public static class LuaExceptionHandler
 
             if (!_exceptionHappened)
             {
-                State.GameManager.CreateMessageBox($"A Lua script exception occured. All Lua exceptions of this session are logged to {Path}. ");
+                State.GameManager.CreateMessageBox($"A Lua script exception occured. Further exceptions in this session will not create a pop-up but will be logged to {Path}. The exception message: \n\n{exception.DecoratedMessage}");
                 _exceptionHappened = true;
             }
         }
