@@ -1,0 +1,1 @@
+Converted to a Lua custom race from the base game by Lewd Magic. Don't go bothering GreenSlime about any bugs. 
