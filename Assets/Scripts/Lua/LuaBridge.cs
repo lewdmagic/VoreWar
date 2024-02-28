@@ -135,7 +135,7 @@ public static class LuaBridge
     }
 
 
-    private static void RegisterShared(Script script)
+    private static void RegisterShared(Script script, string raceId)
     {
         script.Globals["Log"] = (Action<string>)Debug.Log;
 
@@ -145,6 +145,13 @@ public static class LuaBridge
 
         script.Globals["GetPaletteCount"] = (Func<SwapType, int>)ColorPaletteMap.GetPaletteCount;
         script.Globals["GetPalette"] = (Func<SwapType, int, ColorSwapPalette>)ColorPaletteMap.GetPalette;
+        
+        Func<string, int, ColorSwapPalette> customPalette = (paletteId, index) => GameManager.CustomManager.GetRacePalette(raceId, paletteId, index);
+        script.Globals["GetCustomPalette"] = customPalette;
+        
+        Func<string, int> customPaletteCount = (paletteId) => GameManager.CustomManager.GetRacePaletteCount(raceId, paletteId);
+        script.Globals["GetCustomPaletteCount"] = customPaletteCount;
+        
         Func<float, float, float, Vector3> newVector3 = (x, y, z) => new Vector3(x, y, z);
         script.Globals["NewVector3"] = newVector3;
 
@@ -205,7 +212,7 @@ end");
         Func<Texts, Texts, Texts, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
         script.Globals["NewFlavorText"] = newFlavorText;
 
-        Func<string, IClothing> makeClothing = (id) => { return GameManager.CustomManager.GetRaceClothing(raceId, id); };
+        Func<string, IClothing> makeClothing = id => GameManager.CustomManager.GetRaceClothing(raceId, id);
 
         script.Globals["MakeClothing"] = makeClothing;
 
@@ -251,7 +258,7 @@ end");
     internal static RaceScriptUsable RacePrep(string scriptCode, string raceId)
     {
         Script script = new Script();
-        RegisterShared(script);
+        RegisterShared(script, raceId);
         RegisterRace(script, raceId);
 
         script.DoString(scriptCode, null, raceId + " - race.lua");
@@ -300,11 +307,11 @@ end");
     }
 
 
-    internal static ClothingScriptUsable ScriptPrepClothingFromCode(string scriptCode, string clothingId)
+    internal static ClothingScriptUsable ScriptPrepClothingFromCode(string scriptCode, string clothingId, string raceId)
     {
         Script script = new Script();
 
-        RegisterShared(script);
+        RegisterShared(script, raceId);
         RegisterClothing(script);
 
         script.DoString(scriptCode, null, clothingId + " - clothing.lua");

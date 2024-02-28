@@ -9,11 +9,11 @@ public class CustomManager
 {
     internal class FsClothingData
     {
-        internal string RaceId;
-        internal string ClothingId;
-        internal string ClothingFolderName;
-        internal string ClothingLuaCode;
-        internal FileInfo[] Sprites;
+        internal readonly string RaceId;
+        internal readonly string ClothingId;
+        internal readonly string ClothingFolderName;
+        internal readonly string ClothingLuaCode;
+        internal readonly FileInfo[] Sprites;
 
         public FsClothingData(string raceId, string clothingFolderName, string clothingId, string clothingLuaCode, FileInfo[] sprites)
         {
@@ -25,13 +25,26 @@ public class CustomManager
         }
     }
 
+    internal class FsPaletteData
+    {
+        internal string PaletteId;
+        internal FileInfo PaletteImage;
+
+        public FsPaletteData(string paletteId, FileInfo paletteImage)
+        {
+            PaletteId = paletteId;
+            PaletteImage = paletteImage;
+        }
+    }
+
     internal class FsRaceData
     {
-        internal string RaceId;
-        internal string RaceFolderName;
-        internal string RaceLuaCode;
-        internal FileInfo[] Sprites;
-        internal List<FsClothingData> Clothing = new List<FsClothingData>();
+        internal readonly string RaceId;
+        internal readonly string RaceFolderName;
+        internal readonly string RaceLuaCode;
+        internal readonly FileInfo[] Sprites;
+        internal readonly List<FsClothingData> Clothing = new List<FsClothingData>();
+        internal readonly List<FsPaletteData> Palettes = new List<FsPaletteData>();
 
         public FsRaceData(string raceId, string raceFolderName, string raceLuaCode, FileInfo[] sprites)
         {
@@ -67,7 +80,7 @@ public class CustomManager
 
             //string[] clothingFolders = Directory.GetDirectories($"GameData/CustomRaces/{customRaceFolderName}/Clothing","*", SearchOption.AllDirectories);
             string[] clothingFolders = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Clothing").GetDirectories().Select(it => it.Name).ToArray();
-            ;
+            
 
             foreach (string clothingFolderName in clothingFolders)
             {
@@ -78,22 +91,67 @@ public class CustomManager
                 FsClothingData fsClothingData = new FsClothingData(raceId, clothingFolderName, clothingId, clothingCode, clothingSpriteNames);
                 fsRaceData.Clothing.Add(fsClothingData);
             }
+            
+            string paletteFolderPath = $"GameData/CustomRaces/{customRaceFolderName}/Palettes";
+            if (Directory.Exists(paletteFolderPath))
+            {
+                FileInfo[] paletteImages = new DirectoryInfo(paletteFolderPath).GetFiles("*.png");
 
+                foreach (FileInfo paletteImage in paletteImages)
+                {
+                    FsPaletteData fsPaletteData = new FsPaletteData(paletteImage.NameNoExtension().ToLower(), paletteImage);
+                    fsRaceData.Palettes.Add(fsPaletteData);
+                }
+            }
+            
             races.Add(fsRaceData);
         }
 
         Process(races);
     }
-
+    
+    private void RegisterPalette(string raceId, string paletteId, Texture2D map)
+    {
+        Debug.Log($"Registering {raceId}, {paletteId} palette");
+        List<ColorSwapPalette> palettes = _racePalettes.GetOrSet((raceId, paletteId), () => new List<ColorSwapPalette>());
+        
+        int[] toReplaceReds = new int[map.width];
+        for (int i = 0; i < map.width; i++)
+        {
+            toReplaceReds[i] = ((Color32)map.GetPixel(i, 0)).r;
+        }
+        
+        for (int pixelY = 1; pixelY < map.height; pixelY++)
+        {
+            Dictionary<int, Color> swapDict = new Dictionary<int, Color>();
+            for (int i = 0; i < toReplaceReds.Length; i++)
+            {
+                swapDict[toReplaceReds[i]] = map.GetPixel(i, pixelY);
+            }
+            
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
+            palettes.Add(swap);
+        }
+    }
+    
     private void Process(List<FsRaceData> races)
     {
+        foreach (FsRaceData fsRaceData in races)
+        {
+            foreach (FsPaletteData fsPaletteData in fsRaceData.Palettes)
+            {
+                var loader = new WWW("file:///" + fsPaletteData.PaletteImage.FullName);
+                RegisterPalette(fsRaceData.RaceId, fsPaletteData.PaletteId, loader.texture);
+            }
+        }
+        
         List<SpriteToLoad> spriteToLoadList = new List<SpriteToLoad>();
 
         foreach (FsRaceData fsRaceData in races)
         {
             foreach (FileInfo raceSpriteFileInfo in fsRaceData.Sprites)
             {
-                string pureName = raceSpriteFileInfo.Name.Substring(0, raceSpriteFileInfo.Name.Length - raceSpriteFileInfo.Extension.Length).ToLower();
+                string pureName = raceSpriteFileInfo.NameNoExtension().ToLower();
                 string key = $"race/{fsRaceData.RaceId}/{pureName}";
                 string path = $"GameData/CustomRaces/{fsRaceData.RaceFolderName}/Sprites/{raceSpriteFileInfo.Name}";
                 spriteToLoadList.Add(new SpriteToLoad(key, path, raceSpriteFileInfo.LastWriteTimeUtc.ToFileTimeUtc()));
@@ -148,7 +206,7 @@ public class CustomManager
         {
             foreach (FsClothingData fsClothingData in fsRaceData.Clothing)
             {
-                LuaBindableClothing clothing = ClothingFromFsData(fsClothingData);
+                LuaBindableClothing clothing = ClothingFromFsData(fsClothingData, fsRaceData);
                 _clothings[(fsClothingData.RaceId, fsClothingData.ClothingId)] = clothing;
             }
 
@@ -182,20 +240,22 @@ public class CustomManager
         Race.CreateRace(fsRaceData.RaceId, raceData, new[] { RaceTag.MainRace });
     }
 
-    private LuaBindableClothing ClothingFromFsData(FsClothingData fsClothingData)
+    private LuaBindableClothing ClothingFromFsData(FsClothingData fsClothingData, FsRaceData fsRaceData)
     {
-        ClothingScriptUsable clothingScriptUsable = LuaBridge.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, fsClothingData.ClothingId);
+        ClothingScriptUsable clothingScriptUsable = LuaBridge.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, fsClothingData.ClothingId, fsRaceData.RaceId);
         return new LuaBindableClothing(clothingScriptUsable.SetMisc, clothingScriptUsable.CompleteGen);
     }
 
 
     // raceId
-    private Dictionary<string, SpriteCollection> _raceSpriteCollections = new Dictionary<string, SpriteCollection>();
+    private readonly Dictionary<string, SpriteCollection> _raceSpriteCollections = new();
 
     // raceId, clothingId
-    private Dictionary<(string, string), SpriteCollection> _clothingSpriteCollection = new Dictionary<(string, string), SpriteCollection>();
+    private readonly Dictionary<(string, string), SpriteCollection> _clothingSpriteCollection = new();
 
-    private Dictionary<(string, string), LuaBindableClothing> _clothings = new Dictionary<(string, string), LuaBindableClothing>();
+    private readonly Dictionary<(string, string), LuaBindableClothing> _clothings = new();
+    
+    private readonly Dictionary<(string, string), List<ColorSwapPalette>> _racePalettes = new();
 
 
     internal IClothing GetRaceClothing(string raceId, string clothingId)
@@ -218,6 +278,31 @@ public class CustomManager
         else
         {
             return null;
+        }
+    }
+
+    internal ColorSwapPalette GetRacePalette(string raceId, string paletteId, int index)
+    {
+        if (_racePalettes.TryGetValue((raceId, paletteId), out var res))
+        {
+            Debug.Log($"Palette for {(raceId, paletteId)} count: {res.Count}, index: {index}");
+            return res[index];
+        }
+        else
+        {
+            throw new Exception($"Palette for {(raceId, paletteId)} does not exist");
+        }
+    }
+
+    internal int GetRacePaletteCount(string raceId, string paletteId)
+    {
+        if (_racePalettes.TryGetValue((raceId, paletteId), out var res))
+        {
+            return res.Count;
+        }
+        else
+        {
+            throw new Exception($"Palette for {(raceId, paletteId)} does not exist");
         }
     }
 

@@ -488,6 +488,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         return;
                     }
 
+                    // TODO index out of bounds happened here
                     output.Sprite(input.Sprites.Demifrogs3Alt[95 + size]);
                 }
                 else

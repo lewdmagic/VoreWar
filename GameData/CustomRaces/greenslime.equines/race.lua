@@ -134,14 +134,16 @@ function Render(input, output)
     local bodyIndex = ternary(input.A.IsAttacking, 2, ternary(input.U.HasWeapon, 1, 0));
 
     output.NewSprite(SpriteType.Body, 4)
-          .Coloring(GetPalette(SwapType.HorseSkin, input.U.SkinColor))
+          --.Coloring(GetPalette(SwapType.HorseSkin, input.U.SkinColor))
+          .Coloring(GetCustomPalette("horse_palette", input.U.SkinColor))
           .Sprite0(bodyName, bodyIndex);
 
 
     if input.U.BodyAccentType3 ~= 0 then
         local state = ternary(input.A.IsAttacking, "attack", ternary(input.U.HasWeapon, "holdweapon", "stand"));
-        output.NewSprite(SpriteType.BodyAccent3, 5)
+        output.NewSprite(SpriteType.BodyAccent3, 5) 
               .Coloring(GetPalette(SwapType.HorseSkin, input.U.AccessoryColor))
+              --.Coloring(GetCustomPalette("horse_palette", input.U.AccessoryColor))
               .Sprite0("skin_pattern", state, input.Sex, input.U.BodyAccentType3 - 1);
     end
 

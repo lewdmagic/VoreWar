@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -17,6 +18,12 @@ public static class ColorPaletteMap
 
     internal static ColorSwapPalette GetPalette(SwapType swap, int index)
     {
+        
+        if (swap == SwapType.HorseSkin)
+        {
+            Debug.Log(index);
+        }
+        
         _swaps.TryGetValue(swap, out var list);
         if (list == null) return Default;
         if (index < list.Count) return list[index];
@@ -42,7 +49,6 @@ public static class ColorPaletteMap
     {
         return _clothingBaseColor[index];
     }
-
 
     static ColorPaletteMap()
     {
