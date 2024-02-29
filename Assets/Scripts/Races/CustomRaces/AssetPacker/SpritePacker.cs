@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using DaVikingCode.AssetPacker;
 using DaVikingCode.RectanglePacking;
@@ -147,6 +148,9 @@ public static class SpritePacker
 
                 texture.Apply();
 
+                //then Save To Disk as PNG
+                byte[] bytes = texture.EncodeToPNG();
+                File.WriteAllBytes("UserData/texture" + ".png", bytes);
 
                 Dictionary<string, Sprite> mSprites = new Dictionary<string, Sprite>();
                 foreach (var spriteInfo in spriteInfos)

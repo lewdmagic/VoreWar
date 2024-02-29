@@ -190,7 +190,7 @@ public static class ColorPaletteMap
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
             Dictionary<int, Color> swapDict = NormalReversed(normalIndexes, map, pixelY);
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, clear);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict, clear, 256);
             furSwaps.Add(swap);
         }
 
@@ -198,7 +198,7 @@ public static class ColorPaletteMap
         for (int pixelY = 0; pixelY < map.height; pixelY++)
         {
             Dictionary<int, Color> swapDict = NormalReversed(normalIndexes, map, pixelY);
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, clear);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict, clear, 256);
             furSwaps.Add(swap);
         }
 
@@ -237,7 +237,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(1, pixelY),
                 [250] = map.GetPixel(0, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             universalHairSwaps.Add(swap);
         }
 
@@ -252,7 +252,7 @@ public static class ColorPaletteMap
             clear[142] = true;
             clear[196] = true;
             clear[255] = true;
-            swap = new ColorSwapPalette(swapDict, clear);
+            swap = new ColorSwapPalette(swapDict, clear, 256);
             mouthColorSwaps.Add(swap);
         }
 
@@ -267,7 +267,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(1, pixelY),
                 [250] = map.GetPixel(0, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             redSkinColorSwaps.Add(swap);
         }
 
@@ -282,7 +282,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(1, pixelY),
                 [250] = map.GetPixel(0, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             redFurColorSwaps.Add(swap);
         }
 
@@ -297,7 +297,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(1, pixelY),
                 [250] = map.GetPixel(0, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             redSkinColorSwaps.Add(swap);
         }
 
@@ -325,7 +325,7 @@ public static class ColorPaletteMap
             clear[84] = true;
             clear[142] = true;
             clear[196] = true;
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, clear);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict, clear, 256);
             lizardMainSwaps.Add(swap);
         }
 
@@ -462,7 +462,7 @@ public static class ColorPaletteMap
             clear[232] = true;
             clear[239] = true;
             clear[251] = true;
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, null, 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             impSwaps.Add(swap);
         }
 
@@ -618,7 +618,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(1, pixelY),
                 [250] = map.GetPixel(0, pixelY),
             };
-            swap = new ColorSwapPalette(swapDict, null, 0);
+            swap = new ColorSwapPalette(swapDict);
             clothing50SpacedSwaps.Add(swap);
         }
 
@@ -645,7 +645,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(1, pixelY),
                 [250] = map.GetPixel(0, pixelY),
             };
-            swap = new ColorSwapPalette(swapDict, null, 0);
+            swap = new ColorSwapPalette(swapDict);
             clothing50SpacedSwaps.Add(swap);
         }
 
@@ -672,7 +672,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(3, pixelY),
                 [250] = map.GetPixel(4, pixelY),
             };
-            swap = new ColorSwapPalette(swapDict, null, 0);
+            swap = new ColorSwapPalette(swapDict);
             clothing50SpacedSwaps.Add(swap);
         }
 
@@ -699,7 +699,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(1, pixelY),
                 [250] = map.GetPixel(0, pixelY),
             };
-            swap = new ColorSwapPalette(swapDict, null, 0);
+            swap = new ColorSwapPalette(swapDict);
             clothing50SpacedSwaps.Add(swap);
         }
 
@@ -733,7 +733,7 @@ public static class ColorPaletteMap
                 [95] = map.GetPixel(0, pixelY),
                 [99] = map.GetPixel(1, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 4);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict, null, maxClearRange: 4);
             feralWolfMane.Add(swap);
         }
 
@@ -1165,7 +1165,7 @@ public static class ColorPaletteMap
                 [236] = map.GetPixel(1, pixelY),
                 [244] = map.GetPixel(0, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 4);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict, null, maxClearRange: 4);
             pucaSwaps.Add(swap);
 
             swapDict = new Dictionary<int, Color>
@@ -1460,7 +1460,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(3, pixelY),
                 [250] = map.GetPixel(4, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             pantherClothesSwaps.Add(swap);
         }
 
@@ -1474,7 +1474,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(3, pixelY),
                 [250] = map.GetPixel(4, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             pantherBodyPaintSwaps.Add(swap);
         }
 
@@ -1488,7 +1488,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(3, pixelY),
                 [250] = map.GetPixel(4, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             pantherHairSwaps.Add(swap);
         }
 
@@ -1502,7 +1502,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(3, pixelY),
                 [250] = map.GetPixel(4, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             pantherSkinSwaps.Add(swap);
         }
 
@@ -1542,7 +1542,7 @@ public static class ColorPaletteMap
                 [200] = map.GetPixel(3, pixelY),
                 [250] = map.GetPixel(4, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             horseSkinSwaps.Add(swap);
         }
 
@@ -1756,7 +1756,7 @@ public static class ColorPaletteMap
                 [240] = map.GetPixel(1, pixelY),
                 [251] = map.GetPixel(0, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 0);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
             feralLionsFurSwaps.Add(swap);
         }
 
@@ -1769,7 +1769,7 @@ public static class ColorPaletteMap
                 [140] = map.GetPixel(1, pixelY),
                 [254] = map.GetPixel(2, pixelY),
             };
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict, maxClearRange: 5);
+            ColorSwapPalette swap = new ColorSwapPalette(swapDict, null, maxClearRange: 5);
             feralLionsEyesSwaps.Add(swap);
         }
 

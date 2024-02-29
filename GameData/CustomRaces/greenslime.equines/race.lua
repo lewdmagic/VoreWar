@@ -112,7 +112,7 @@ function Render(input, output)
 
     local headSprite = output.NewSprite(SpriteType.Head, 5);
     headSprite.Sprite("head", input.Sex, ternary(input.A.IsAttacking or input.A.IsEating, "eat", "still"));
-    headSprite.Coloring(SwapType.HorseSkin, input.U.SkinColor);
+    headSprite.Coloring(GetCustomPalette("horse_palette", input.U.SkinColor));
 
     local eyesSprite = output.NewSprite(SpriteType.Eyes, 6);
     eyesSprite.Coloring(SwapType.EyeColor, input.U.EyeColor);
@@ -142,26 +142,26 @@ function Render(input, output)
     if input.U.BodyAccentType3 ~= 0 then
         local state = ternary(input.A.IsAttacking, "attack", ternary(input.U.HasWeapon, "holdweapon", "stand"));
         output.NewSprite(SpriteType.BodyAccent3, 5) 
-              .Coloring(GetPalette(SwapType.HorseSkin, input.U.AccessoryColor))
-              --.Coloring(GetCustomPalette("horse_palette", input.U.AccessoryColor))
+              --.Coloring(GetPalette(SwapType.HorseSkin, input.U.AccessoryColor))
+              .Coloring(GetCustomPalette("horse_palette", input.U.AccessoryColor))
               .Sprite0("skin_pattern", state, input.Sex, input.U.BodyAccentType3 - 1);
     end
 
     if input.U.BodyAccentType4 ~= 0 then
         local state = ternary(input.A.IsAttacking or input.A.IsEating, "eat", "still");
         output.NewSprite(SpriteType.BodyAccent4, 6)
-              .Coloring(GetPalette(SwapType.HorseSkin, input.U.AccessoryColor))
+              .Coloring(GetCustomPalette("horse_palette", input.U.AccessoryColor))
               .Sprite0("head_pattern", input.Sex, state, input.U.BodyAccentType4 - 1);
     end
 
 
     output.NewSprite(SpriteType.BodyAccent5, 5)
-          .Coloring(SwapType.HorseSkin, input.U.AccessoryColor)
+          .Coloring(GetCustomPalette("horse_palette", input.U.AccessoryColor))
           .Sprite("torso_pattern", input.Sex);
 
 
     output.NewSprite(SpriteType.BodyAccent8, 6)
-          .Coloring(SwapType.HorseSkin, ternary(input.U.BodyAccentType3 >= 2, input.U.AccessoryColor, input.U.SkinColor))
+          .Coloring(GetCustomPalette("horse_palette", ternary(input.U.BodyAccentType3 >= 2, input.U.AccessoryColor, input.U.SkinColor)))
           .Sprite("leg_tuft");
 
     output.NewSprite(SpriteType.BodyAccent10, 5)
@@ -175,7 +175,7 @@ function Render(input, output)
     local tainBitSprite2 = output.NewSprite(SpriteType.BodyAccent9, 3);
     tainBitSprite2.Sprite0("tail_2", input.U.TailType, true);
     if (input.U.BodyAccentType3 == 5) then
-        tainBitSprite2.Coloring(SwapType.HorseSkin, input.U.SkinColor);
+        tainBitSprite2.Coloring(GetCustomPalette("horse_palette", input.U.SkinColor));
     else
         tainBitSprite2.Coloring(SwapType.Clothing50Spaced, input.U.ClothingColor);
     end
@@ -285,10 +285,10 @@ end
 
 function SpottedBelly(actor)
     if (actor.Unit.BodyAccentType5 == 1) then
-        return GetPalette(SwapType.HorseSkin, actor.Unit.AccessoryColor);
+        return GetCustomPalette("horse_palette", actor.Unit.AccessoryColor);
     end
 
-    return GetPalette(SwapType.HorseSkin, actor.Unit.SkinColor);
+    return GetCustomPalette("horse_palette", actor.Unit.SkinColor);
 end
 
 function OversizeParamCalc(input)

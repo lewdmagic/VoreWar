@@ -112,27 +112,58 @@ public class CustomManager
     
     private void RegisterPalette(string raceId, string paletteId, Texture2D map)
     {
-        Debug.Log($"Registering {raceId}, {paletteId} palette");
         List<ColorSwapPalette> palettes = _racePalettes.GetOrSet((raceId, paletteId), () => new List<ColorSwapPalette>());
         
-        int[] toReplaceReds = new int[map.width];
-        for (int i = 0; i < map.width; i++)
-        {
-            toReplaceReds[i] = ((Color32)map.GetPixel(i, 0)).r;
-        }
-        
+        // Start from 1 because the first row is used for toReplace colors
         for (int pixelY = 1; pixelY < map.height; pixelY++)
         {
-            Dictionary<int, Color> swapDict = new Dictionary<int, Color>();
-            for (int i = 0; i < toReplaceReds.Length; i++)
+            // Unity indexes textures from BOTTOM left. We flip it here
+            int topIndex = map.height - 1;
+            int pixelYUnity = topIndex - pixelY;
+
+            List<(int, Color)> colors = new List<(int, Color)>();
+            for (int i = 0; i < map.width; i++)
             {
-                swapDict[toReplaceReds[i]] = map.GetPixel(i, pixelY);
+                int red = ((Color32)map.GetPixel(i, topIndex)).r; // You can cast Color to Color32 freely
+                Color color = map.GetPixel(i, pixelYUnity);
+                colors.Add((red, color));
             }
             
-            ColorSwapPalette swap = new ColorSwapPalette(swapDict);
-            palettes.Add(swap);
+            palettes.Add(new ColorSwapPalette(colors));
         }
     }
+    
+    // private void RegisterPalette(string raceId, string paletteId, Texture2D map)
+    // {
+    //     Debug.Log($"Registering {raceId}, {paletteId} palette");
+    //     List<ColorSwapPalette> palettes = _racePalettes.GetOrSet((raceId, paletteId), () => new List<ColorSwapPalette>());
+    //     int topIndex = map.height - 1;
+    //     
+    //     int[] toReplaceReds = new int[map.width];
+    //     for (int i = 0; i < map.width; i++)
+    //     {
+    //         int red = ((Color32)map.GetPixel(i, topIndex)).r;
+    //         toReplaceReds[i] = red;
+    //     }
+    //     
+    //     // Start from 1 because the first row is used for toReplace colors
+    //     for (int pixelY = 1; pixelY < map.height; pixelY++)
+    //     {
+    //         int pixelYUnity = topIndex - pixelY;
+    //
+    //         List<(int, Color)> colors = new List<(int, Color)>();
+    //         for (int i = 0; i < toReplaceReds.Length; i++)
+    //         {
+    //             Color color = map.GetPixel(i, pixelYUnity);
+    //             colors.Add((toReplaceReds[i], color));
+    //             
+    //             if (raceId == "flame_valxsarion.feral_horse") Debug.Log($"Replace red {toReplaceReds[i]} with color at {i}, {pixelYUnity}. ${color}");
+    //         }
+    //         
+    //         ColorSwapPalette swap = new ColorSwapPalette(colors);
+    //         palettes.Add(swap);
+    //     }
+    // }
     
     private void Process(List<FsRaceData> races)
     {
@@ -285,7 +316,7 @@ public class CustomManager
     {
         if (_racePalettes.TryGetValue((raceId, paletteId), out var res))
         {
-            Debug.Log($"Palette for {(raceId, paletteId)} count: {res.Count}, index: {index}");
+            //Debug.Log($"Palette for {(raceId, paletteId)} count: {res.Count}, index: {index}");
             return res[index];
         }
         else

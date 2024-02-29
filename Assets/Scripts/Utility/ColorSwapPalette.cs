@@ -10,7 +10,8 @@ public class ColorSwapPalette
     internal Material ColorSwapMaterial;
     private static readonly int SwapTex = Shader.PropertyToID("_SwapTex");
 
-    public ColorSwapPalette(Dictionary<int, Color> swap, bool[] clear = null, int maxClearRange = 256)
+    [Obsolete("Support for legacy code and textures. New palettes should not rely on clear or maxClearRange. Use ColorSwapPalette(IEnumerable<(int, Color)> swap)")]
+    public ColorSwapPalette(Dictionary<int, Color> swap, bool[] clear, int maxClearRange)
     {
         Texture2D colorSwapTex = new Texture2D(256, 1, TextureFormat.RGBA32, false, false);
         colorSwapTex.filterMode = FilterMode.Point;
@@ -51,7 +52,8 @@ public class ColorSwapPalette
         ColorSwapMaterial.SetTexture(SwapTex, colorSwapTex);
     }
 
-    /*
+    
+    [Obsolete("Support for legacy code. Use ColorSwapPalette(IEnumerable<(int, Color)> swap)")]
     public ColorSwapPalette(Dictionary<int, Color> swap) : this(swap.Select((it) => (it.Key, it.Value)))
     {
         
@@ -65,7 +67,7 @@ public class ColorSwapPalette
             wrapMode = TextureWrapMode.Clamp
         };
 
-        // Prefill the map with white colors. 
+        // Prefill the map with transparency colors. 
         for (int i = 0; i < colorSwapTex.width; ++i) colorSwapTex.SetPixel(i, 0, new Color(0.0f, 0.0f, 0.0f, 0.0f));
 
         // Only precise color indexes have a replacement.  
@@ -73,13 +75,9 @@ public class ColorSwapPalette
         {
             colorSwapTex.SetPixel(entry.Item1, 0, entry.Item2);
         }
-        
-        // could be useful later
-        //int swapKey = Math.Max(i / (256 / swap.Count), swap.Count - 1);
 
         colorSwapTex.Apply();
         ColorSwapMaterial = Object.Instantiate(State.GameManager.ColorSwapMaterial);
         ColorSwapMaterial.SetTexture(SwapTex, colorSwapTex);
     }
-    */
 }
