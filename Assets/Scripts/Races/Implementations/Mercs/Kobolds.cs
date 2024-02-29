@@ -98,17 +98,13 @@ namespace Races.Graphics.Implementations.Mercs
                 if (IsFacingFront(input.A))
                 {
                     output.Layer(4);
-                    if (input.A.IsOralVoring)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[spr + 1]);
-                        return;
-                    }
-
-                    output.Sprite(input.Sprites.Kobolds[spr]);
-                    return;
+                    output.Sprite(input.A.IsOralVoring ? input.Sprites.Kobolds[spr + 1] : input.Sprites.Kobolds[spr]);
+                }
+                else
+                {
+                    output.Sprite(input.Sprites.Kobolds[spr + 2]).Layer(1);
                 }
 
-                output.Sprite(input.Sprites.Kobolds[spr + 2]).Layer(1);
             });
 
             builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
