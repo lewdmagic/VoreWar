@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Schiwardez", "Schiwardez");
                 output.RaceTraits(new RaceTraits()
@@ -164,7 +164,7 @@ namespace Races.Graphics.Implementations.Monsters
 
 
             builder.RunBefore((input, output) => { output.ChangeSprite(SpriteType.Balls).AddOffset(-125 * .5f, 0); });
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
     }
 }

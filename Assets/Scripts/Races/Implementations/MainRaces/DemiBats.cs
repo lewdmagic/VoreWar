@@ -21,7 +21,7 @@ namespace Races.Graphics.Implementations.MainRaces
             IClothing rags = DemibatRags.DemibatRagsInstance;
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Bat", "Bats");
 
@@ -569,10 +569,10 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
                 if (unit.Type == UnitType.Leader)
                 {

@@ -14,7 +14,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListFins = new RaceFrameList(new int[4] { 0, 1, 2, 1 }, new float[4] { 1f, .8f, 1f, .8f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Dark Swallower", "Dark Swallowers");
                 output.BonesInfo((unit) => new List<BoneInfo>()
@@ -170,7 +170,7 @@ namespace Races.Graphics.Implementations.Monsters
             }); // Belly.
 
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
 
         private static void SetUpAnimations(IActorUnit actor)

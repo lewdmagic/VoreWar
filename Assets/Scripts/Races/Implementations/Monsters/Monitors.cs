@@ -14,7 +14,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListTongue = new RaceFrameList(new int[7] { 0, 1, 2, 1, 2, 1, 0 }, new float[7] { 0.1f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.3f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Monitor", "Monitors");
                 output.RaceTraits(new RaceTraits()
@@ -418,9 +418,9 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore(Defaults.BasicBellyRunAfter);
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.AccessoryColor = unit.SkinColor;

@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.MainRaces
             IClothing leaderClothes = DriderLeader.DriderLeaderInstance;
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Drider", "Driders");
                 output.FlavorText(new FlavorText(
@@ -244,10 +244,10 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
                 if (unit.Type == UnitType.Leader)
                 {

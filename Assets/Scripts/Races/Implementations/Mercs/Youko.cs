@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.Mercs
         // Recode Youko to extend (not inheritance) human behavior 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Whisp", "Whisps");
                 output.WallType(WallType.Fox);
@@ -74,7 +74,7 @@ namespace Races.Graphics.Implementations.Mercs
             });
 
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
 
         /*
@@ -188,7 +188,7 @@ namespace Races.Graphics.Implementations.Mercs
         RandomCustom = (data) =>
         {
             IUnitRead unit = data.Unit;
-            Defaults.RandomCustom(data);
+            Defaults.RandomCustom(data, output);
 
             if (unit.HasDick && unit.HasBreasts)
             {

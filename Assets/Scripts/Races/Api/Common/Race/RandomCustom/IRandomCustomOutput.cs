@@ -1,4 +1,4 @@
-public class IRandomCustomOutput
+public interface IRandomCustomOutput
 {
         
 }

@@ -86,7 +86,7 @@ public static class Defaults
         }
     };
 
-    public static readonly Action<IRandomCustomInput> RandomCustom = input =>
+    public static readonly Action<IRandomCustomInput, IRandomCustomOutput> Randomize = (input, output) =>
     {
         IUnitRead unit = input.Unit;
         if (input.SetupOutput.BodySizes > 0)

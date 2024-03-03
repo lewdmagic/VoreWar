@@ -14,7 +14,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Salix", "Salix");
                 output.RaceTraits(new RaceTraits()
@@ -407,9 +407,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 output.Sprite(input.Sprites.Salix[22]);
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.ClothingType = 1;

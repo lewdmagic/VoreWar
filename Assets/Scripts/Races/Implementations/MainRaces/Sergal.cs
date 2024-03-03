@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Sergal", "Sergals");
                 output.FlavorText(new FlavorText(
@@ -171,9 +171,9 @@ namespace Races.Graphics.Implementations.MainRaces
                 output.ActorFurry = true;
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 if (Config.HairMatchesFur)

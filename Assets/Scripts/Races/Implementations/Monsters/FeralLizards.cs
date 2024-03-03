@@ -9,7 +9,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListTongue = new RaceFrameList(new int[3] { 0, 1, 2 }, new float[3] { 0.5f, 0.2f, 0.3f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Feral Lizard", "Feral Lizards");
                 output.RaceTraits(new RaceTraits()
@@ -273,9 +273,9 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) => { output.ChangeSprite(SpriteType.Balls).AddOffset(-30 * .625f, 0); });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.BodyAccentType1 = 0;

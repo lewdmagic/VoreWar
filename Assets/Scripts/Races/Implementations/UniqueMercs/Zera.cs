@@ -114,7 +114,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             int[] ballsHigh = { 0, 1, 2, 3, 4, 5, 6, 7, 13, 14, 15, 16, 26, 27, 28, 29, 30, 31, 35, 34, 33, 32 };
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Zera", "Zera");
                 output.FlavorText(new FlavorText(
@@ -496,9 +496,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.Name = "Zera";

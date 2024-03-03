@@ -14,7 +14,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Hippo", "Hippos");
                 output.FlavorText(new FlavorText(
@@ -345,9 +345,9 @@ namespace Races.Graphics.Implementations.Mercs
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 if (State.Rand.Next(5) == 0)

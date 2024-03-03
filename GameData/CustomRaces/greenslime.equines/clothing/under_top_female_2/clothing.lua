@@ -1,4 +1,4 @@
-API_VERSION = "0.1.0"
+API_VERSION = "0.0.1"
 
 ---@param input IClothingSetupInput
 ---@param output IClothingSetupOutput
@@ -9,7 +9,7 @@ end
 
 function Render(input, output, params)
     local sprite = output.NewSprite(20);
-    sprite.Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+    sprite.Palette("clothing", input.U.ClothingColor);
 
     if (params.oversize) then
         --do nothing

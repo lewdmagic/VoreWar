@@ -129,18 +129,19 @@ internal class RaceData : IRaceData
     }
 
 
-    private class RandomCustomInput : IRandomCustomInput
-    {
-        internal RandomCustomInput(Unit unit, ISetupOutput setupOutput)
-        {
-            Unit = unit;
-            SetupOutput = setupOutput;
-        }
-
-        public IUnitRead Unit { get; }
-        public ISetupOutput SetupOutput { get; }
-    }
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     ///////////////////////// API IMPLEMENTATIONS
+}
+
+internal class RandomCustomInput : IRandomCustomInput
+{
+    internal RandomCustomInput(Unit unit, ISetupOutput setupOutput)
+    {
+        Unit = unit;
+        SetupOutput = setupOutput;
+    }
+
+    public IUnitRead Unit { get; }
+    public ISetupOutput SetupOutput { get; }
 }

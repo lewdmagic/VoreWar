@@ -58,7 +58,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
             RaceFrameList spinEffect = new RaceFrameList(new int[2] { 25, 19 }, new float[2] { .375f, .375f });
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Zoey", "Zoey");
                 output.RaceTraits(new RaceTraits()
@@ -349,9 +349,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.Name = "Zoey";

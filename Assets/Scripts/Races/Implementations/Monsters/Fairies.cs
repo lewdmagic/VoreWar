@@ -87,7 +87,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList fallWingsEnc = new RaceFrameList(new int[3] { 109, 110, 111 }, new float[3] { .2f, .2f, .2f });
             RaceFrameList winterWingsEnc = new RaceFrameList(new int[3] { 112, 113, 114 }, new float[3] { .2f, .2f, .2f });
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Fairy", "Fairies");
                 output.RaceTraits(new RaceTraits()
@@ -523,9 +523,9 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.HairStyle = State.Rand.Next(7);

@@ -17,9 +17,9 @@ namespace Races.Graphics.Implementations.MainRaces
             //     Defaults.BasicBellyRunAfter(input, output);
             // });
 
-            // builder.RandomCustom(data =>
+            // builder.RandomCustom((data, output) =>   
             // {
-            //     Defaults.RandomCustom(data);
+            //     Defaults.RandomCustom(data, output);
             //
             //     data.Unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3);
             //     data.Unit.BodyAccentType4 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes4);

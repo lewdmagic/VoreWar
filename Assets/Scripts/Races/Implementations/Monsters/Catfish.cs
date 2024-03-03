@@ -14,7 +14,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListTail = new RaceFrameList(new[] { 0, 1, 2, 1, 0, 1, 2, 1, 0 }, new[] { .5f, .3f, .5f, .3f, .5f, .3f, .5f, .3f, .5f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Catfish", "Catfish");
                 output.RaceTraits(new RaceTraits()
@@ -311,9 +311,9 @@ namespace Races.Graphics.Implementations.Monsters
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);

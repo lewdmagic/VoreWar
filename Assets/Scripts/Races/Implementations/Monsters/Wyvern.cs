@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListTongue = new RaceFrameList(new int[6] { 0, 1, 2, 3, 4, 5 }, new float[6] { 0.3f, 0.3f, 0.3f, 0.3f, 0.3f, 0.3f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Wyvern", "Wyverns");
                 output.BonesInfo((unit) => new List<BoneInfo>()
@@ -324,9 +324,9 @@ namespace Races.Graphics.Implementations.Monsters
             }); // Dick, CV, UB
 
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.BodySize = State.Rand.Next(0, 4);

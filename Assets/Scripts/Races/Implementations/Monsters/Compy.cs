@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.Monsters
         {
             RaceFrameList frameListTail = new RaceFrameList(new[] { 2, 1, 0, 1, 2, 3, 4, 3 }, new[] { 0.5f, 0.4f, 0.8f, 0.4f, 0.4f, 0.4f, 0.8f, 0.4f });
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Compy", "Compy");
 
@@ -184,7 +184,7 @@ namespace Races.Graphics.Implementations.Monsters
             });
 
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
 

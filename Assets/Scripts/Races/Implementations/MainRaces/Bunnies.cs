@@ -6,7 +6,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.Setup((output) =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Bunny", "Bunnies");
                 output.WallType(WallType.Bunny);
@@ -76,7 +76,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 });
             });
 
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
 
             builder.RenderSingle(SpriteType.Head, Defaults.SpriteGens3[SpriteType.Head]);
             builder.RenderSingle(SpriteType.Eyes, Defaults.SpriteGens3[SpriteType.Eyes]);

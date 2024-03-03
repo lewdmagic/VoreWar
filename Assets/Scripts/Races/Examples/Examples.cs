@@ -36,7 +36,7 @@ internal static class Examples
     {
         // Setup is only ran once. Think of it as a constructor.
         // It's not required, but it's almost always needed
-        builder.Setup(output =>
+        builder.Setup((data, output) =>
         {
             // These two are functions because they often change based on Config 
             output.BreastSizes = () => 3;
@@ -138,9 +138,9 @@ internal static class Examples
 
         // Required function. usually it's based on Defaults.RandomCustom, which is just the old 
         // Random method from DefaultRaceData. 
-        builder.RandomCustom(data =>
+        builder.RandomCustom((data, output) =>
         {
-            Defaults.RandomCustom(data);
+            Defaults.Randomize(data, output);
             IUnitRead unit = data.Unit;
 
             unit.SkinColor = State.Rand.Next(data.SetupOutput.SkinColors);

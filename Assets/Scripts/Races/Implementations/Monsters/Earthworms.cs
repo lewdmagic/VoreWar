@@ -24,7 +24,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListHeadIdle = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .5f, .5f, 1.5f, .5f, .5f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Earthworm", "Earthworms");
                 output.RaceTraits(new RaceTraits()
@@ -288,7 +288,7 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) => { output.ChangeSprite(SpriteType.Belly).AddOffset(0, -48 * .625f); });
 
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
 
         private static void SetUpAnimations(IActorUnit actor)

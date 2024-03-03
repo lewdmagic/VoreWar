@@ -84,8 +84,9 @@ API_VERSION = "0.1.0"
 ```
 2. A setup function. It's called once. You can use the output variable to customize the race.
 ```lua 
+---@param input ISetupInput
 ---@param output ISetupOutput
-function Setup(output)
+function Setup(input, output)
     
 end 
 ```
@@ -100,7 +101,8 @@ end
 4. A randomizer function. It's called to randomize a unit.
 ```lua 
 ---@param input IRandomCustomInput
-function RandomCustom(input)
+---@param output IRandomCustomOutput
+function Randomize(input, output)
     
 end 
 ```

@@ -33,6 +33,7 @@ public static class LuaBridge
     private static void ExceptionHappened(ScriptRuntimeException exception)
     {
         Debug.LogError("Lua script exception: " + exception.DecoratedMessage);
+        Debug.LogError("Lua script exception: " + exception.Message);
         LuaExceptionHandler.LogToFile(exception);
     }
     
@@ -84,10 +85,13 @@ public static class LuaBridge
 
         UserData.RegisterType<IClothingSetupInput>();
         UserData.RegisterType<IClothingSetupOutput>();
+        
+        
         UserData.RegisterType<ClothingMiscData>();
         
         UserData.RegisterType<StatRange>();
         UserData.RegisterType<RaceStats>();
+        UserData.RegisterType<RandomCustomOutput>();
 
 
         UserData.RegisterType<IClothingRenderInput>();
@@ -98,6 +102,7 @@ public static class LuaBridge
 
         UserData.RegisterType<BindableClothing<IOverSizeParameters>>();
         UserData.RegisterType<BindableClothing<OverSizeParameters>>();
+        UserData.RegisterType<SetupInput>();
         UserData.RegisterType<SetupOutput>();
 
         UserData.RegisterType<IList>();
@@ -111,6 +116,11 @@ public static class LuaBridge
 
         LuaUtil.RegisterSimpleAction<IRandomCustomInput>();
         LuaUtil.RegisterSimpleAction<IRandomCustomOutput>();
+        LuaUtil.RegisterSimpleAction<RandomCustomOutput>();
+
+        LuaUtil.RegisterSimpleAction<RandomCustomOutput>();
+        LuaUtil.RegisterSimpleAction<RandomCustomInput, RandomCustomOutput>();
+        
         LuaUtil.RegisterSimpleAction<RaceTraits>();
         LuaUtil.RegisterSimpleAction<IRaceTraits>();
 
@@ -165,7 +175,7 @@ public static class LuaBridge
         Dictionary<string, dynamic> defaults = new Dictionary<string, dynamic>
         {
             ["Finalize"] = Defaults.Finalize,
-            ["RandomCustom"] = Defaults.RandomCustom,
+            ["Randomize"] = Defaults.Randomize,
             ["BasicBellyRunAfter"] = Defaults.BasicBellyRunAfter
         };
 
@@ -266,7 +276,7 @@ end");
 
         object render = script.Globals["Render"];
         object setup = script.Globals["Setup"];
-        object randomCustom = script.Globals["RandomCustom"];
+        object randomCustom = script.Globals["Randomize"];
 
         RaceScriptUsable scriptUsable = new RaceScriptUsable(
             (input, output) =>

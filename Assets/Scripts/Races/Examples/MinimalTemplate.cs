@@ -4,9 +4,9 @@ internal static class MinimalTemplate
 {
     internal static RaceDataMaker MyRace = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
     {
-        builder.Setup(output => { });
+        builder.Setup((input, output) => { });
 
-        builder.RandomCustom(data => { });
+        builder.RandomCustom((data, output) => { });
 
         builder.RunBefore((input, output) => { });
 

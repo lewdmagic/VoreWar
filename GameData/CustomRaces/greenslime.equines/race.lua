@@ -1,8 +1,9 @@
 API_VERSION = "0.1.0"
 
 --- Core function: called once to set up the race.
+---@param input ISetupInput
 ---@param output ISetupOutput
-function Setup(output)
+function Setup(input, output)
     output.Names("Equinezz", "Equinezzs");
 
     output.SetRaceTraits(function (traits)
@@ -270,8 +271,9 @@ end
 
 --- Core function: called to randomize a unit of this race.
 ---@param input IRandomCustomInput
-function RandomCustom(input)
-    Defaults.RandomCustom(input);
+---@param output IRandomCustomOutput
+function Randomize(input, output)
+    Defaults.Randomize(input, output);
 
     input.Unit.BodyAccentType3 = RandomInt(input.SetupOutput.BodyAccentTypes3);
     input.Unit.BodyAccentType4 = RandomInt(input.SetupOutput.BodyAccentTypes4);

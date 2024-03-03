@@ -441,6 +441,11 @@ local IRandomCustomInput = {}
 
 
 
+---@class IRandomCustomOutput
+local IRandomCustomOutput = {}
+
+
+
 ---@class IRaceRenderAllOutput
 local IRaceRenderAllOutput = {}
 
@@ -632,6 +637,11 @@ function IRaceRenderOutput.SetActive(active) end
 ---@param localScale Vector3
 ---@return IRaceRenderOutput
 function IRaceRenderOutput.SetLocalScale(localScale) end
+
+---@class ISetupInput
+local ISetupInput = {}
+
+
 
 ---@class ISetupOutput
 ---@field BreastSizes fun(): integer 
@@ -965,7 +975,7 @@ Stat = nil
 ---@field AabayxSkin SwapType
 
 ---@type SwapType
-SwapType = nilundefined
+SwapType = nil
 
 ---@class TraitType
 ---@field DoubleAttack TraitType

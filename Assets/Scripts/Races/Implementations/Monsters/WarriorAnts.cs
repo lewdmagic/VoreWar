@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Warrior Ant", "Warrior Ants");
                 output.RaceTraits(new RaceTraits()
@@ -130,9 +130,9 @@ namespace Races.Graphics.Implementations.Monsters
                 output.ChangeSprite(SpriteType.Belly).AddOffset(20 * .625f, 0);
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.AccessoryColor = unit.SkinColor;

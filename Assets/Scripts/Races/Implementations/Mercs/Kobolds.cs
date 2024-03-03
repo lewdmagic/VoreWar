@@ -37,7 +37,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Kobold", "Kobolds");
                 output.FlavorText(new FlavorText(
@@ -362,7 +362,7 @@ namespace Races.Graphics.Implementations.Mercs
                 }
             });
 
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
 
         private static class BikiniBottom

@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Coral Slug", "Coral Slugs");
                 output.BonesInfo(null);
@@ -136,7 +136,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.Sprite(input.Sprites.CoralSlug[10 + input.A.GetStomachSize(9)]);
             });
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
     }
 }

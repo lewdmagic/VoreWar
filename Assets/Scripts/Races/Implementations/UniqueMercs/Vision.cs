@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Vision", "Vision");
                 output.BonesInfo((unit) => new List<BoneInfo>()
@@ -77,9 +77,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
             });
 
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.Name = "Vision";

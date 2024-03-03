@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly IRaceData Instance = RaceBuilder.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Equine", "Equines");
                 output.FlavorText(new FlavorText(
@@ -397,10 +397,10 @@ namespace Races.Graphics.Implementations.MainRaces
                 Defaults.BasicBellyRunAfter.Invoke(input, output);
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 Unit unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.RandomCustom(data, output);
 
 
                 unit.BodyAccentType3 = State.Rand.Next(data.MiscRaceData.BodyAccentTypes3);

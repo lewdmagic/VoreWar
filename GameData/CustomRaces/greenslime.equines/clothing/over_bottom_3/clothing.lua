@@ -1,4 +1,4 @@
-API_VERSION = "0.1.0"
+API_VERSION = "0.0.1"
 
 ---@param input IClothingSetupInput
 ---@param output IClothingSetupOutput
@@ -13,5 +13,5 @@ function Render(input, output)
     
     output.NewSprite("main", 15)
             .Sprite(input.Sex, ternary(input.A.HasBelly, "hasbelly", "nobelly"))
-            .Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+            .Palette("clothing", input.U.ClothingColor);
 end

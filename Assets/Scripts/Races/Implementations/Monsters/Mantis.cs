@@ -25,7 +25,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListScythesEating = new RaceFrameList(new int[5] { 0, 1, 2, 1, 0 }, new float[5] { .2f, .5f, 1.5f, .5f, .2f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Mantis", "Mantises");
                 output.RaceTraits(new RaceTraits()
@@ -446,9 +446,9 @@ namespace Races.Graphics.Implementations.Monsters
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.EyeColor = unit.SkinColor;
