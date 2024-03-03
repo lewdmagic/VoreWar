@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 internal class RaceDataMaker
 {
-    private readonly Func<SetupOutput> _template;
+    private readonly Func<ISetupInput, SetupOutput> _template;
     private readonly Action<IRaceBuilder> _builderUser;
 
-    public RaceDataMaker(Func<SetupOutput> template, Action<IRaceBuilder> builderUser)
+    public RaceDataMaker(Func<ISetupInput, SetupOutput> template, Action<IRaceBuilder> builderUser)
     {
         _template = template;
         _builderUser = builderUser;
@@ -27,7 +27,7 @@ internal class RaceDataMaker
 
 internal static class RaceBuilderStatic
 {
-    internal static RaceDataMaker CreateV2(Func<SetupOutput> template, Action<IRaceBuilder> builderUser)
+    internal static RaceDataMaker CreateV2(Func<ISetupInput, SetupOutput> template, Action<IRaceBuilder> builderUser)
     {
         return new RaceDataMaker(template, builderUser);
     }
@@ -86,24 +86,24 @@ internal class RaceBuilder : IRaceBuilder
 {
     private readonly SpriteTypeIndexed<SingleRenderFunc> _raceSpriteSet = new SpriteTypeIndexed<SingleRenderFunc>();
 
-    private Action<IRandomCustomInput> _randomCustom;
+    private Action<IRandomCustomInput, IRandomCustomOutput> _randomCustom;
 
     private Action<IRunInput, IRunOutput> _runBefore;
-    private Action<SetupOutput> _setupFunc;
+    private Action<ISetupInput, SetupOutput> _setupFunc;
     private Action<IRunInput, IRaceRenderAllOutput> _renderAllAction;
-    private readonly Func<SetupOutput> _template;
+    private readonly Func<ISetupInput, SetupOutput> _template;
 
-    internal RaceBuilder(Func<SetupOutput> template)
+    internal RaceBuilder(Func<ISetupInput, SetupOutput> template)
     {
         _template = template;
     }
 
-    public void Setup(Action<ISetupOutput> setupFunc)
+    public void Setup(Action<ISetupInput, ISetupOutput> setupFunc)
     {
         _setupFunc = setupFunc;
     }
 
-    public void RandomCustom(Action<IRandomCustomInput> value)
+    public void RandomCustom(Action<IRandomCustomInput, IRandomCustomOutput> value)
     {
         _randomCustom = value;
     }
@@ -132,8 +132,9 @@ internal class RaceBuilder : IRaceBuilder
 
     public IRaceData Build()
     {
-        SetupOutput data = _template();
-        _setupFunc?.Invoke(data);
+        SetupInput input = new SetupInput();
+        SetupOutput data = _template(input);
+        _setupFunc?.Invoke(input, data);
 
         return new RaceData(_raceSpriteSet, data, _runBefore, _randomCustom, data.ExtraRaceInfo, _renderAllAction);
     }

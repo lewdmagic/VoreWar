@@ -488,7 +488,6 @@ namespace Races.Graphics.Implementations.MainRaces
                         return;
                     }
 
-                    Debug.Log(95 + size + " " + size + " || " + input.Sprites.Demifrogs3Alt.Length);
                     output.Sprite(input.Sprites.Demifrogs3Alt[Math.Min(95 + size, 129)]);
                 }
                 else

@@ -1,4 +1,4 @@
-API_VERSION = "0.0.1"
+API_VERSION = "0.1.0"
 
 --- Core function: called once to set up the race.
 ---@param output ISetupOutput
@@ -112,10 +112,10 @@ function Render(input, output)
 
     local headSprite = output.NewSprite(SpriteType.Head, 5);
     headSprite.Sprite("head", input.Sex, ternary(input.A.IsAttacking or input.A.IsEating, "eat", "still"));
-    headSprite.Coloring(GetCustomPalette("horse_palette", input.U.SkinColor));
+    headSprite.Palette("skin", input.U.SkinColor);
 
     local eyesSprite = output.NewSprite(SpriteType.Eyes, 6);
-    eyesSprite.Coloring(SwapType.EyeColor, input.U.EyeColor);
+    eyesSprite.Palette("eyes", input.U.EyeColor);
     if (input.U.IsDead and input.U.Items ~= nil) then
         eyesSprite.Sprite("eyes", input.Sex, "dead");
     else
@@ -123,66 +123,64 @@ function Render(input, output)
     end
 
     output.NewSprite(SpriteType.Hair, 21)
-          .Coloring(SwapType.UniversalHair, input.U.HairColor)
+          .Palette("hair", input.U.HairColor)
           .Sprite0("hair_front", input.U.HairStyle);
 
     output.NewSprite(SpriteType.Hair2, 1)
-          .Coloring(SwapType.UniversalHair, input.U.HairColor)
+          .Palette("hair", input.U.HairColor)
           .Sprite0("hair_back", input.U.HairStyle);
 
     local bodyName = ternary(input.U.HasBreasts, "body_female", "body_male");
     local bodyIndex = ternary(input.A.IsAttacking, 2, ternary(input.U.HasWeapon, 1, 0));
 
     output.NewSprite(SpriteType.Body, 4)
-          --.Coloring(GetPalette(SwapType.HorseSkin, input.U.SkinColor))
-          .Coloring(GetCustomPalette("horse_palette", input.U.SkinColor))
+          .Palette("skin", input.U.SkinColor)
           .Sprite0(bodyName, bodyIndex);
 
 
     if input.U.BodyAccentType3 ~= 0 then
         local state = ternary(input.A.IsAttacking, "attack", ternary(input.U.HasWeapon, "holdweapon", "stand"));
-        output.NewSprite(SpriteType.BodyAccent3, 5) 
-              --.Coloring(GetPalette(SwapType.HorseSkin, input.U.AccessoryColor))
-              .Coloring(GetCustomPalette("horse_palette", input.U.AccessoryColor))
+        output.NewSprite(SpriteType.BodyAccent3, 5)
+              .Palette("skin", input.U.AccessoryColor)
               .Sprite0("skin_pattern", state, input.Sex, input.U.BodyAccentType3 - 1);
     end
 
     if input.U.BodyAccentType4 ~= 0 then
         local state = ternary(input.A.IsAttacking or input.A.IsEating, "eat", "still");
         output.NewSprite(SpriteType.BodyAccent4, 6)
-              .Coloring(GetCustomPalette("horse_palette", input.U.AccessoryColor))
+              .Palette("skin", input.U.AccessoryColor)
               .Sprite0("head_pattern", input.Sex, state, input.U.BodyAccentType4 - 1);
     end
 
 
     output.NewSprite(SpriteType.BodyAccent5, 5)
-          .Coloring(GetCustomPalette("horse_palette", input.U.AccessoryColor))
+          .Palette("skin", input.U.AccessoryColor)
           .Sprite("torso_pattern", input.Sex);
 
 
     output.NewSprite(SpriteType.BodyAccent8, 6)
-          .Coloring(GetCustomPalette("horse_palette", ternary(input.U.BodyAccentType3 >= 2, input.U.AccessoryColor, input.U.SkinColor)))
+          .Palette("skin", ternary(input.U.BodyAccentType3 >= 2, input.U.AccessoryColor, input.U.SkinColor))
           .Sprite("leg_tuft");
 
     output.NewSprite(SpriteType.BodyAccent10, 5)
           .Sprite("hooves", input.Sex);
     
     output.NewSprite(SpriteType.BodyAccessory, 2)
-          .Coloring(SwapType.UniversalHair, input.U.HairColor)
+          .Palette("hair", input.U.HairColor)
           .Sprite0("tail_1", input.U.TailType);
 
 
     local tainBitSprite2 = output.NewSprite(SpriteType.BodyAccent9, 3);
     tainBitSprite2.Sprite0("tail_2", input.U.TailType, true);
     if (input.U.BodyAccentType3 == 5) then
-        tainBitSprite2.Coloring(GetCustomPalette("horse_palette", input.U.SkinColor));
+        tainBitSprite2.Palette("skin", input.U.SkinColor);
     else
-        tainBitSprite2.Coloring(SwapType.Clothing50Spaced, input.U.ClothingColor);
+        --tainBitSprite2.Palette("clothing", input.U.ClothingColor);
     end
 
     if input.U.HasBreasts then
         local breastLeftSprite = output.NewSprite(SpriteType.Breasts, 19);
-        breastLeftSprite.Coloring(SpottedBelly(input.Actor));
+        breastLeftSprite.Palette(SpottedBelly(input.Actor));
         if (input.A.PredatorComponent and input.A.PredatorComponent.LeftBreastFullness > 0) then
             local leftSize = math.sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(29 * 29));
 
@@ -200,7 +198,7 @@ function Render(input, output)
 
     if (input.U.HasBreasts) then
         local rightLeftSprite = output.NewSprite(SpriteType.SecondaryBreasts, 19);
-        rightLeftSprite.Coloring(SpottedBelly(input.Actor));
+        rightLeftSprite.Palette(SpottedBelly(input.Actor));
         if (input.A.PredatorComponent and input.A.PredatorComponent.RightBreastFullness > 0) then
             local rightSize = math.sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(29 * 29));
 
@@ -218,7 +216,7 @@ function Render(input, output)
 
     if (input.A.HasBelly) then
         local bellySprite = output.NewSprite(SpriteType.Belly, 17);
-        bellySprite.Coloring(SpottedBelly(input.Actor));
+        bellySprite.Palette(SpottedBelly(input.Actor));
         local size = input.A.GetStomachSize(29, 1.2);
         local combined = math.min(size, 26);
         bellySprite.Sprite0("belly", combined, true);
@@ -229,7 +227,7 @@ function Render(input, output)
 
         -- Dick
         local dickSprite = output.NewSprite(SpriteType.Dick, 14);
-        dickSprite.Coloring(SpottedBelly(input.Actor));
+        dickSprite.Palette(SpottedBelly(input.Actor));
         local breastsNotTooBig = input.A.PredatorComponent and input.A.PredatorComponent.VisibleFullness < 0.26 and
                 math.sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetRightBreastSize(29 * 29)) < 16 and
                 math.sqrt(input.U.DefaultBreastSize * input.U.DefaultBreastSize + input.A.GetLeftBreastSize(29 * 29)) < 16;
@@ -250,7 +248,7 @@ function Render(input, output)
         
         -- Balls
         local ballsSprite = output.NewSprite(SpriteType.Balls, 13);
-        ballsSprite.Coloring(SpottedBelly(input.A));
+        ballsSprite.Palette(SpottedBelly(input.A));
         local size = input.A.GetBallSize(29, 0.8);
         local baseSize = (input.U.DickSize + 1) / 3;
         local combinedSize = math.min(baseSize + size + 2, 26);
@@ -285,10 +283,10 @@ end
 
 function SpottedBelly(actor)
     if (actor.Unit.BodyAccentType5 == 1) then
-        return GetCustomPalette("horse_palette", actor.Unit.AccessoryColor);
+        return "skin", actor.Unit.AccessoryColor;
     end
 
-    return GetCustomPalette("horse_palette", actor.Unit.SkinColor);
+    return "skin", actor.Unit.SkinColor;
 end
 
 function OversizeParamCalc(input)

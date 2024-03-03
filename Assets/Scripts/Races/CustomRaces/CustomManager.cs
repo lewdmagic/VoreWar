@@ -55,12 +55,27 @@ public class CustomManager
         }
     }
 
+
+    private class FsGameData
+    {
+        internal readonly List<FsRaceData> Races;
+        internal readonly List<FsPaletteData> Palettes;
+
+        public FsGameData(List<FsRaceData> races, List<FsPaletteData> palettes)
+        {
+            Races = races;
+            Palettes = palettes;
+        }
+    }
+    
+
     private static FileInfo[] LoadSpriteNames2(string path)
     {
         return new DirectoryInfo(path).GetFiles("*.png");
     }
 
-    internal void LoadAllCustom()
+
+    private static FsGameData LoadFsGameData()
     {
         List<FsRaceData> races = new List<FsRaceData>();
 
@@ -107,67 +122,38 @@ public class CustomManager
             races.Add(fsRaceData);
         }
 
-        Process(races);
-    }
-    
-    private void RegisterPalette(string raceId, string paletteId, Texture2D map)
-    {
-        List<ColorSwapPalette> palettes = _racePalettes.GetOrSet((raceId, paletteId), () => new List<ColorSwapPalette>());
-        
-        // Start from 1 because the first row is used for toReplace colors
-        for (int pixelY = 1; pixelY < map.height; pixelY++)
-        {
-            // Unity indexes textures from BOTTOM left. We flip it here
-            int topIndex = map.height - 1;
-            int pixelYUnity = topIndex - pixelY;
 
-            List<(int, Color)> colors = new List<(int, Color)>();
-            for (int i = 0; i < map.width; i++)
+        List<FsPaletteData> commonPalettes = new List<FsPaletteData>();
+        string commonPaletteFolderPath = $"GameData/Palettes";
+        if (Directory.Exists(commonPaletteFolderPath))
+        {
+            FileInfo[] paletteImages = new DirectoryInfo(commonPaletteFolderPath).GetFiles("*.png");
+
+            foreach (FileInfo paletteImage in paletteImages)
             {
-                int red = ((Color32)map.GetPixel(i, topIndex)).r; // You can cast Color to Color32 freely
-                Color color = map.GetPixel(i, pixelYUnity);
-                colors.Add((red, color));
+                FsPaletteData fsPaletteData = new FsPaletteData(paletteImage.NameNoExtension().ToLower(), paletteImage);
+                commonPalettes.Add(fsPaletteData);
             }
-            
-            palettes.Add(new ColorSwapPalette(colors));
         }
+
+        return new FsGameData(races, commonPalettes);
     }
     
-    // private void RegisterPalette(string raceId, string paletteId, Texture2D map)
-    // {
-    //     Debug.Log($"Registering {raceId}, {paletteId} palette");
-    //     List<ColorSwapPalette> palettes = _racePalettes.GetOrSet((raceId, paletteId), () => new List<ColorSwapPalette>());
-    //     int topIndex = map.height - 1;
-    //     
-    //     int[] toReplaceReds = new int[map.width];
-    //     for (int i = 0; i < map.width; i++)
-    //     {
-    //         int red = ((Color32)map.GetPixel(i, topIndex)).r;
-    //         toReplaceReds[i] = red;
-    //     }
-    //     
-    //     // Start from 1 because the first row is used for toReplace colors
-    //     for (int pixelY = 1; pixelY < map.height; pixelY++)
-    //     {
-    //         int pixelYUnity = topIndex - pixelY;
-    //
-    //         List<(int, Color)> colors = new List<(int, Color)>();
-    //         for (int i = 0; i < toReplaceReds.Length; i++)
-    //         {
-    //             Color color = map.GetPixel(i, pixelYUnity);
-    //             colors.Add((toReplaceReds[i], color));
-    //             
-    //             if (raceId == "flame_valxsarion.feral_horse") Debug.Log($"Replace red {toReplaceReds[i]} with color at {i}, {pixelYUnity}. ${color}");
-    //         }
-    //         
-    //         ColorSwapPalette swap = new ColorSwapPalette(colors);
-    //         palettes.Add(swap);
-    //     }
-    // }
-    
-    private void Process(List<FsRaceData> races)
+    internal void LoadAllCustom()
     {
-        foreach (FsRaceData fsRaceData in races)
+        FsGameData fsGameData = LoadFsGameData();
+        Process(fsGameData);
+    }
+    
+    private void Process(FsGameData gameData)
+    {
+        foreach (FsPaletteData fsPaletteData in gameData.Palettes)
+        {
+            var loader = new WWW("file:///" + fsPaletteData.PaletteImage.FullName);
+            RegisterCommonPalette(fsPaletteData.PaletteId, loader.texture);
+        }
+        
+        foreach (FsRaceData fsRaceData in gameData.Races)
         {
             foreach (FsPaletteData fsPaletteData in fsRaceData.Palettes)
             {
@@ -178,7 +164,7 @@ public class CustomManager
         
         List<SpriteToLoad> spriteToLoadList = new List<SpriteToLoad>();
 
-        foreach (FsRaceData fsRaceData in races)
+        foreach (FsRaceData fsRaceData in gameData.Races)
         {
             foreach (FileInfo raceSpriteFileInfo in fsRaceData.Sprites)
             {
@@ -202,38 +188,39 @@ public class CustomManager
 
         (string, Sprite)[] sprites = SpritePacker.LoadOrUpdateTextures(spriteToLoadList);
 
-        foreach ((string, Sprite) namedSprite in sprites)
+        foreach (var (key, sprite) in sprites)
         {
-            string key = namedSprite.Item1;
-            Sprite sprite = namedSprite.Item2;
             string[] split = key.Split('/');
 
             //Debug.Log(key);
 
-            if (split[0] == "race")
+            switch (split[0])
             {
-                string raceId = split[1];
-                string spriteId = split[2];
+                case "race":
+                {
+                    string raceId = split[1];
+                    string spriteId = split[2];
 
-                SpriteCollection spriteCollection = _raceSpriteCollections.GetOrSet(raceId, () => new SpriteCollection($"Race sprite collection for {raceId}"));
-                spriteCollection.Add(spriteId, sprite);
-            }
-            else if (split[0] == "clothing")
-            {
-                string raceId = split[1];
-                string clothingId = split[2];
-                string spriteId = split[3];
+                    SpriteCollection spriteCollection = _raceSpriteCollections.GetOrSet(raceId, () => new SpriteCollection($"Race sprite collection for {raceId}"));
+                    spriteCollection.Add(spriteId, sprite);
+                    break;
+                }
+                case "clothing":
+                {
+                    string raceId = split[1];
+                    string clothingId = split[2];
+                    string spriteId = split[3];
 
-                SpriteCollection spriteCollection = _clothingSpriteCollection.GetOrSet((raceId, clothingId), () => new SpriteCollection($"Clothing sprite collection for {raceId}/{clothingId}"));
-                spriteCollection.Add(spriteId, sprite);
-            }
-            else
-            {
-                throw new Exception($"unknown sprite category {split[0]}");
+                    SpriteCollection spriteCollection = _clothingSpriteCollection.GetOrSet((raceId, clothingId), () => new SpriteCollection($"Clothing sprite collection for {raceId}/{clothingId}"));
+                    spriteCollection.Add(spriteId, sprite);
+                    break;
+                }
+                default:
+                    throw new Exception($"unknown sprite category {split[0]}");
             }
         }
 
-        foreach (FsRaceData fsRaceData in races)
+        foreach (FsRaceData fsRaceData in gameData.Races)
         {
             foreach (FsClothingData fsClothingData in fsRaceData.Clothing)
             {
@@ -244,17 +231,44 @@ public class CustomManager
             RaceFromFsData(fsRaceData);
         }
     }
-
-    public struct RaceClothingKey
+    
+    
+    
+    private void RegisterPalette(string raceId, string paletteId, Texture2D map)
     {
-        public readonly string RaceId;
-        public readonly string ClothingID;
+        List<ColorSwapPalette> palettes = _racePalettes.GetOrSet((raceId, paletteId), () => new List<ColorSwapPalette>());
+        palettes.AddRange(TextureToPalettes(map));
+    }
+    
+    private void RegisterCommonPalette(string paletteId, Texture2D map)
+    {
+        List<ColorSwapPalette> palettes = _commonPalettes.GetOrSet(paletteId, () => new List<ColorSwapPalette>());
+        palettes.AddRange(TextureToPalettes(map));
+    }
 
-        public RaceClothingKey(string raceId, string clothingID)
+    private static List<ColorSwapPalette> TextureToPalettes(Texture2D map)
+    {
+        List<ColorSwapPalette> palettes = new List<ColorSwapPalette>();
+        
+        // Start from 1 because the first row is used for toReplace colors
+        for (int pixelY = 1; pixelY < map.height; pixelY++)
         {
-            RaceId = raceId;
-            ClothingID = clothingID;
+            // Unity indexes textures from BOTTOM left. We flip it here
+            int topIndex = map.height - 1;
+            int pixelYUnity = topIndex - pixelY;
+
+            List<(int, Color)> colors = new List<(int, Color)>();
+            for (int i = 0; i < map.width; i++)
+            {
+                int red = ((Color32)map.GetPixel(i, topIndex)).r; // You can cast Color to Color32 freely
+                Color color = map.GetPixel(i, pixelYUnity);
+                colors.Add((red, color));
+            }
+            
+            palettes.Add(new ColorSwapPalette(colors));
         }
+
+        return palettes;
     }
 
 
@@ -287,6 +301,7 @@ public class CustomManager
     private readonly Dictionary<(string, string), LuaBindableClothing> _clothings = new();
     
     private readonly Dictionary<(string, string), List<ColorSwapPalette>> _racePalettes = new();
+    private readonly Dictionary<string, List<ColorSwapPalette>> _commonPalettes = new();
 
 
     internal IClothing GetRaceClothing(string raceId, string clothingId)
@@ -312,17 +327,25 @@ public class CustomManager
         }
     }
 
+
+    internal ColorSwapPalette GetRacePalette(Race race, string paletteId, int index) => GetRacePalette(race.Id, paletteId, index);
+
     internal ColorSwapPalette GetRacePalette(string raceId, string paletteId, int index)
     {
-        if (_racePalettes.TryGetValue((raceId, paletteId), out var res))
+        List<ColorSwapPalette> res;
+        if (_racePalettes.TryGetValue((raceId, paletteId), out res))
         {
             //Debug.Log($"Palette for {(raceId, paletteId)} count: {res.Count}, index: {index}");
             return res[index];
         }
-        else
+        
+        // Grab common if race specific isn't defined.
+        if (_commonPalettes.TryGetValue(paletteId, out res))
         {
-            throw new Exception($"Palette for {(raceId, paletteId)} does not exist");
+            return res[index];
         }
+        
+        throw new Exception($"Palette for {(raceId, paletteId)} does not exist");
     }
 
     internal int GetRacePaletteCount(string raceId, string paletteId)

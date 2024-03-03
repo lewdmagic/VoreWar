@@ -19,7 +19,7 @@ internal interface ISpriteContainer
     void Destroy();
     string Name { get; set; }
 
-    void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset);
+    void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset, Race race);
 }
 
 
@@ -80,7 +80,7 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
     }
 
 
-    public void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
+    public void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset, Race race)
     {
         Sprite actualSprite = spriteChange.SpriteVal;
 
@@ -90,9 +90,14 @@ internal class SpriteContainerSpriteRenderer : SpriteContainerShared, ISpriteCon
             return;
         }
 
-        if (spriteChange.Palette != null)
+        if (spriteChange.RacePalette.HasValue)
         {
-            _spriteRenderer.material = spriteChange.Palette.ColorSwapMaterial;
+            var palette = GameManager.CustomManager.GetRacePalette(race, spriteChange.RacePalette.Value.Item1, spriteChange.RacePalette.Value.Item2);
+            _spriteRenderer.material = palette.ColorSwapMaterial;
+        }
+        else if (spriteChange.PaletteValue != null)
+        {
+            _spriteRenderer.material = spriteChange.PaletteValue.ColorSwapMaterial;
         }
         else
         {
@@ -173,7 +178,7 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
         _image = image;
     }
 
-    public void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset)
+    public void NewSetSprite(RaceRenderOutput spriteChange, Vector2 wholeBodyOffset, int extraLayerOffset, Race race)
     {
         Sprite actualSprite = spriteChange.SpriteVal;
 
@@ -185,7 +190,20 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
 
         Vector2 usedOffset = spriteChange.Offset + wholeBodyOffset;
 
-        UpdatePalette(spriteChange.Palette);
+        if (spriteChange.RacePalette.HasValue)
+        {
+            var palette = GameManager.CustomManager.GetRacePalette(race, spriteChange.RacePalette.Value.Item1, spriteChange.RacePalette.Value.Item2);
+            _image.material = palette.ColorSwapMaterial;
+        }
+        else if (spriteChange.PaletteValue != null)
+        {
+            _image.material = spriteChange.PaletteValue.ColorSwapMaterial;
+        }
+        else
+        {
+            _image.material = ColorPaletteMap.Default.ColorSwapMaterial;
+        }
+
         if (spriteChange.Color.HasValue)
         {
             Color = spriteChange.Color.Value;
@@ -243,18 +261,6 @@ internal class SpriteContainerImage : SpriteContainerShared, ISpriteContainer
             {
                 _image.color = value;
             }
-        }
-    }
-
-    public void UpdatePalette(ColorSwapPalette palette)
-    {
-        if (palette != null)
-        {
-            _image.material = palette.ColorSwapMaterial;
-        }
-        else
-        {
-            _image.material = ColorPaletteMap.Default.ColorSwapMaterial;
         }
     }
 

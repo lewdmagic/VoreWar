@@ -33,7 +33,7 @@ Custom races are coded with Lua scripting language 5.2. API.lua file located in 
 
 The name of the folder serves as the ID of the race. To keep IDs from colliding, the race id is made up of 2 parts separated by a period. First part is the creator's name and the second is the race name such as: `jackson.human`
 
-The fastest way to create a new race is to copy an existing one! For example, you can copy the folder `magic.equine` and name it `jamie.equine`. You just created a new custom race. Next time you start the game, it will show up as a separate option. Of course it's a carbon copy, but you can immediately begin to modify and experiment with it.
+The fastest way to create a new race is to copy an existing one! For example, you can copy the folder `greenslime.equine` and name it `jamie.equine`. You just created a new custom race. Next time you start the game, it will show up as a separate option. Of course it's a carbon copy, but you can immediately begin to modify and experiment with it.
 
 Your `jamie.equine` folder will contain the following items:
 
@@ -53,6 +53,9 @@ CustomRaces
 │   │   ├───body_001.png
 │   │   ├───body_002.png
 │   │   └───body_003.png
+│   ├───palettes 📁
+│   │   ├───skin.png
+│   │   ├───hair.png
 │   └───clothing 📁
 │       ├───pants1 📁
 │       │   ├───clothing.lua
@@ -75,9 +78,9 @@ race.lua is the script file that defines a race.
 
 It must contain 4 items:
 
-1. The API version at the top of the file. The only version right now is 0.0.1, so don't worry about this.
+1. The API version at the top of the file. The latest version is 0.1.0.
 ```
-API_VERSION = "0.0.1"
+API_VERSION = "0.1.0"
 ```
 2. A setup function. It's called once. You can use the output variable to customize the race.
 ```lua 
@@ -142,7 +145,7 @@ headSprite.Sprite0("head", "female", 3); --renders head_female_004.png from /spr
 
 Configure the coloring of the sprite.
 ```lua
-headSprite.Coloring(SwapType.HorseSkin, 5);
+headSprite.Palette("skin", 6);;
 ```
 
 ## Setup
@@ -321,9 +324,46 @@ function Render(input, output)
 
     output.NewSprite("main", 15)
           .Sprite(input.Sex, ternary(input.A.HasBelly, "hasbelly", "nobelly"))
-          .Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor));
+          .Palette("clothing", input.U.ClothingColor);
 end
 ```
 
+## Palettes
+
+Custom races support palettes to add differently colored variations of sprites. To add a palette, add a PNG file to the `palettes` folder of a custom race. 
+
+The first row of pixels of the palette define the template colors that will be replaced. 
+
+This example palette has top row pixels with red values 50, 100, 150, 200, 250. Only the red value of the pixel matters, you may also use shades of white like RGB(50, 50, 50), RGB(100, 100, 100) etc. 
+
+The rows after first one define the replacement colors. Each row is a separate set.
+
+![Palette example](Docs/Img/palette_example.png)
+
+### Example
+
+This is a sprite that's made up of pixels with red values of 50, 100, 150, 200, 250.  
+
+![Palette example](Docs/Img/arm_template.png)
+
+If the example palette from above is applied to it with index 5, the reds will be replaced with corresponding colors from the bottom (7th) row.
+
+![Palette example](Docs/Img/arm_white.png)
 
 
+If it's applied with index 3, the reds will be replaced with corresponding colors from the 5th row.
+
+![Palette example](Docs/Img/arm_redish.png)
+
+Apply a palette to a sprite with the `.Palette(string name, int index)` method. The first argument `name` is the name of the PNG file defining a palette.
+The following snippet will replace the red template sprite with colors from the 7th row (index 5). 
+
+```lua
+output.NewSprite(SpriteType.Head, 5)
+      .Sprite("arm")
+      .Palette("example_palette", 5);
+```
+
+### Global Palettes
+
+Palettes can be registered to be available to all custom races by placing them in `GameData/Palettes`. You can access them the same way you access palettes placed within custom races. If a global palette and a palette in a custom race share a name, the race specific palette takes priority. 

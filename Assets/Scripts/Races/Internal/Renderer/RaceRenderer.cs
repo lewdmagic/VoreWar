@@ -310,7 +310,7 @@ internal partial class RaceRenderer
             ISpriteContainer container = _sprites[spriteType];
             if (changeDict.ReusedChangesDict.TryGetValue(spriteType, out var raceRenderOutput))
             {
-                container.NewSetSprite(raceRenderOutput, wholeBodyOffset, _actor.SpriteLayerOffset);
+                container.NewSetSprite(raceRenderOutput, wholeBodyOffset, _actor.SpriteLayerOffset, _actor.Unit.Race);
             }
             else
             {
@@ -417,7 +417,7 @@ internal partial class RaceRenderer
             if (one != null)
             {
                 Vector2 extraOffset = new Vector2(wholeBodyOffset.x + clothingShift.x, wholeBodyOffset.y + clothingShift.y);
-                container.NewSetSprite(one, extraOffset, _actor.SpriteLayerOffset);
+                container.NewSetSprite(one, extraOffset, _actor.SpriteLayerOffset, _actor.Unit.Race);
                 container.Name = "Clothing_Sprite_" + i;
             }
             else

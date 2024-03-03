@@ -110,6 +110,7 @@ public static class LuaBridge
         UserData.RegisterType<List<VoreType>>();
 
         LuaUtil.RegisterSimpleAction<IRandomCustomInput>();
+        LuaUtil.RegisterSimpleAction<IRandomCustomOutput>();
         LuaUtil.RegisterSimpleAction<RaceTraits>();
         LuaUtil.RegisterSimpleAction<IRaceTraits>();
 
@@ -268,11 +269,11 @@ end");
         object randomCustom = script.Globals["RandomCustom"];
 
         RaceScriptUsable scriptUsable = new RaceScriptUsable(
-            (output) =>
+            (input, output) =>
             {
                 try
                 {
-                    script.Call(setup, output);
+                    script.Call(setup, input, output);
                 }
                 catch (ScriptRuntimeException ex)
                 {
@@ -290,11 +291,11 @@ end");
                     ExceptionHappened(ex);
                 }
             },
-            (output) =>
+            (input, output) =>
             {
                 try
                 {
-                    script.Call(randomCustom, output);
+                    script.Call(randomCustom, input, output);
                 }
                 catch (ScriptRuntimeException ex)
                 {

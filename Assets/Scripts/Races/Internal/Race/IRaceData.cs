@@ -25,7 +25,7 @@ internal interface IRaceData
 
 
     ExtraRaceInfo ExtraRaceInfo2 { get; }
-    Action<IRandomCustomInput> RandomCustom { get; }
+    Action<IRandomCustomInput, IRandomCustomOutput> RandomCustom { get; }
     Action<IRunInput, IRunOutput> RunBefore { get; }
     Action<IRunInput, IRaceRenderAllOutput> RenderAllAction { get; }
     SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; }

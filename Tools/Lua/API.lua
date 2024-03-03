@@ -611,6 +611,11 @@ function IRaceRenderOutput.Coloring(paletteFunc) end
 ---@return IRaceRenderOutput
 function IRaceRenderOutput.Coloring(swap, index) end
 
+---@param paletteName string
+---@param index integer
+---@return IRaceRenderOutput
+function IRaceRenderOutput.Palette(paletteName, index) end
+
 ---@param hide boolean
 ---@return IRaceRenderOutput
 function IRaceRenderOutput.SetHide(hide) end
@@ -960,7 +965,7 @@ Stat = nil
 ---@field AabayxSkin SwapType
 
 ---@type SwapType
-SwapType = nil
+SwapType = nilundefined
 
 ---@class TraitType
 ---@field DoubleAttack TraitType
