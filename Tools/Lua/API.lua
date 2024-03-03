@@ -280,14 +280,9 @@ function _G.NewVector3(x, y, z) end
 ---@return Vector2
 function _G.NewVector2(x, y) end
 
----@param swap SwapType
----@param index integer
----@return ColorSwapPalette
-function _G.GetPalette(swap, index) end
-
----@param swap SwapType
+---@param paletteName string
 ---@return integer
-function _G.GetPaletteCount(swap) end
+function _G.GetPaletteCount(paletteName) end
 
 ---@param stringId string
 ---@return IClothing

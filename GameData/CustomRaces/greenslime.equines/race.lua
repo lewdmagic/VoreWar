@@ -55,12 +55,12 @@ function Setup(input, output)
     output.AvoidedEyeTypes = 0;
     output.AvoidedMouthTypes = 0;
 
-    output.HairColors = GetPaletteCount(SwapType.UniversalHair);
+    output.HairColors = GetPaletteCount("hair");
     output.HairStyles = 15;
-    output.SkinColors = GetPaletteCount(SwapType.HorseSkin);
-    output.AccessoryColors = GetPaletteCount(SwapType.HorseSkin);
+    output.SkinColors = GetPaletteCount("skin");
+    output.AccessoryColors = GetPaletteCount("skin");
     output.EyeTypes = 4;
-    output.EyeColors = GetPaletteCount(SwapType.EyeColor);
+    output.EyeColors = GetPaletteCount("eyes");
     output.SecondaryEyeColors = 1;
     output.BodySizes = 0;
     
@@ -71,7 +71,7 @@ function Setup(input, output)
     output.BodyAccentTypes4 = 5;
     output.BodyAccentTypes5 = 2;
 
-    output.ClothingColors = GetPaletteCount(SwapType.Clothing50Spaced);
+    output.ClothingColors = GetPaletteCount("clothing");
     output.ExtendedBreastSprites = true;
 
     output.AllowedMainClothingTypes.AddRange({-- undertops
@@ -259,12 +259,10 @@ function Render(input, output)
 
     if (input.U.HasWeapon and input.A.Surrendered == false) then
         output.NewSprite(SpriteType.Weapon, 12)
-              .Coloring(Defaults.WhiteColored)
               .Sprite(input.SimpleWeaponSpriteFrontV1, true);
 
         -- bow bit 
         output.NewSprite(SpriteType.SecondaryAccessory, 3)
-              .Coloring(Defaults.WhiteColored)
               .Sprite(input.SimpleWeaponSpriteBackV1, true);
     end
 end

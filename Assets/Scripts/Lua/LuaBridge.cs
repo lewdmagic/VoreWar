@@ -153,15 +153,9 @@ public static class LuaBridge
         script.Globals["Gender"] = UserData.CreateStatic<Gender>();
         script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
         script.Globals["SwapType"] = UserData.CreateStatic<SwapType>();
-
-        script.Globals["GetPaletteCount"] = (Func<SwapType, int>)ColorPaletteMap.GetPaletteCount;
-        script.Globals["GetPalette"] = (Func<SwapType, int, ColorSwapPalette>)ColorPaletteMap.GetPalette;
-        
-        Func<string, int, ColorSwapPalette> customPalette = (paletteId, index) => GameManager.CustomManager.GetRacePalette(raceId, paletteId, index);
-        script.Globals["GetCustomPalette"] = customPalette;
         
         Func<string, int> customPaletteCount = (paletteId) => GameManager.CustomManager.GetRacePaletteCount(raceId, paletteId);
-        script.Globals["GetCustomPaletteCount"] = customPaletteCount;
+        script.Globals["GetPaletteCount"] = customPaletteCount;
         
         Func<float, float, float, Vector3> newVector3 = (x, y, z) => new Vector3(x, y, z);
         script.Globals["NewVector3"] = newVector3;
