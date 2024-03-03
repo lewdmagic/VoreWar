@@ -1,8 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 public static class Extensions
 {
+    public static string NameNoExtension(this FileInfo self)
+    {
+        return self.Name.Substring(0, self.Name.Length - self.Extension.Length);
+    }
+    
     public static void AddIgnoreNull<T>(this List<T> list, T item)
     {
         if (item == null) return;

@@ -13,7 +13,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListSalamanderFlame = new RaceFrameList(new int[10] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new float[10] { .1f, .1f, .1f, .1f, .1f, .1f, .1f, .1f, .1f, .1f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Salamander", "Salamanders");
                 output.RaceTraits(new RaceTraits()
@@ -281,7 +281,7 @@ namespace Races.Graphics.Implementations.Monsters
             });
 
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
 
         private static void SetUpAnimations(IActorUnit actor)

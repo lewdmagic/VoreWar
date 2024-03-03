@@ -10,10 +10,10 @@ end
 ---@param output IClothingRenderOutput
 function Render(input, output)
     output.NewSprite(3)
-            .Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor))
+            .Palette("clothing", input.U.ClothingColor)
             .Sprite("main_back");
 
     output.NewSprite(21)
-            .Coloring(GetPalette(SwapType.Clothing50Spaced, input.U.ClothingColor))
+            .Palette("clothing", input.U.ClothingColor)
             .Sprite("main_front");
 end

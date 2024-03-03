@@ -16,7 +16,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListTongue = new RaceFrameList(new int[13] { 0, 1, 2, 3, 4, 2, 3, 4, 2, 3, 4, 1, 0 }, new float[13] { .2f, .2f, .2f, .3f, .2f, .3f, .2f, .2f, .2f, .2f, .3f, .3f, .3f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Harvester", "Harvesters");
                 output.FlavorText(new FlavorText(
@@ -273,7 +273,7 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore(Defaults.Finalize);
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
 

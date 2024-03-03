@@ -14,7 +14,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Human", "Humans");
                 output.FlavorText(new FlavorText(
@@ -681,10 +681,10 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
                 if (unit.HasDick && unit.HasBreasts)
                 {

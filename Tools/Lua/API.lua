@@ -280,14 +280,9 @@ function _G.NewVector3(x, y, z) end
 ---@return Vector2
 function _G.NewVector2(x, y) end
 
----@param swap SwapType
----@param index integer
----@return ColorSwapPalette
-function _G.GetPalette(swap, index) end
-
----@param swap SwapType
+---@param paletteName string
 ---@return integer
-function _G.GetPaletteCount(swap) end
+function _G.GetPaletteCount(paletteName) end
 
 ---@param stringId string
 ---@return IClothing
@@ -438,6 +433,11 @@ function IUnitRead.SetDefaultBreastSize(size, update) end
 ---@field Unit IUnitRead Read only
 ---@field SetupOutput ISetupOutput Read only
 local IRandomCustomInput = {}
+
+
+
+---@class IRandomCustomOutput
+local IRandomCustomOutput = {}
 
 
 
@@ -611,6 +611,11 @@ function IRaceRenderOutput.Coloring(paletteFunc) end
 ---@return IRaceRenderOutput
 function IRaceRenderOutput.Coloring(swap, index) end
 
+---@param paletteName string
+---@param index integer
+---@return IRaceRenderOutput
+function IRaceRenderOutput.Palette(paletteName, index) end
+
 ---@param hide boolean
 ---@return IRaceRenderOutput
 function IRaceRenderOutput.SetHide(hide) end
@@ -627,6 +632,11 @@ function IRaceRenderOutput.SetActive(active) end
 ---@param localScale Vector3
 ---@return IRaceRenderOutput
 function IRaceRenderOutput.SetLocalScale(localScale) end
+
+---@class ISetupInput
+local ISetupInput = {}
+
+
 
 ---@class ISetupOutput
 ---@field BreastSizes fun(): integer 

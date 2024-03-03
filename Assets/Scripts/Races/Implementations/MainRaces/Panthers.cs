@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.MainRaces
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Panther", "Panthers");
                 output.FlavorText(new FlavorText(
@@ -664,9 +664,9 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.EyeType = State.Rand.Next(10) == 0 ? 1 : 0;

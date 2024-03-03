@@ -25,7 +25,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Ki", "Ki");
                 output.FlavorText(new FlavorText(
@@ -583,9 +583,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
                 output.ChangeSprite(SpriteType.BodyAccent2).AddOffset(0, bodyAccent2 * PixelOffset);
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.Name = "Ki";

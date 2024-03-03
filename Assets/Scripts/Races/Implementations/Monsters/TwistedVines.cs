@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Twisted Vine", "Twisted Vines");
                 output.RaceTraits(new RaceTraits()
@@ -80,7 +80,7 @@ namespace Races.Graphics.Implementations.Monsters
             });
 
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
     }
 }

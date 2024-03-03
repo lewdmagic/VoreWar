@@ -37,7 +37,7 @@ namespace Races.Graphics.Implementations.Mercs
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Kobold", "Kobolds");
                 output.FlavorText(new FlavorText(
@@ -98,17 +98,13 @@ namespace Races.Graphics.Implementations.Mercs
                 if (IsFacingFront(input.A))
                 {
                     output.Layer(4);
-                    if (input.A.IsOralVoring)
-                    {
-                        output.Sprite(input.Sprites.Kobolds[spr + 1]);
-                        return;
-                    }
-
-                    output.Sprite(input.Sprites.Kobolds[spr]);
-                    return;
+                    output.Sprite(input.A.IsOralVoring ? input.Sprites.Kobolds[spr + 1] : input.Sprites.Kobolds[spr]);
+                }
+                else
+                {
+                    output.Sprite(input.Sprites.Kobolds[spr + 2]).Layer(1);
                 }
 
-                output.Sprite(input.Sprites.Kobolds[spr + 2]).Layer(1);
             });
 
             builder.RenderSingle(SpriteType.Body, 3, (input, output) =>
@@ -366,7 +362,7 @@ namespace Races.Graphics.Implementations.Mercs
                 }
             });
 
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
 
         private static class BikiniBottom

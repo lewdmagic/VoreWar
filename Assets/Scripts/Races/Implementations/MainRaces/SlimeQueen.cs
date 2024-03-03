@@ -65,9 +65,9 @@ namespace Races.Graphics.Implementations.MainRaces
         };
         */
 
-            Action<IRandomCustomInput> randomCustom = data =>
+            Action<IRandomCustomInput, IRandomCustomOutput> randomCustom = (data, output) =>
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 if (unit.HasDick && unit.HasBreasts)
@@ -110,7 +110,7 @@ namespace Races.Graphics.Implementations.MainRaces
             ///////////////////////////////////////////////////////////////////////////////////////////////
             ///////////////////////////////////////////////////////////////////////////////////////////////
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("SlimeQueen", "SlimeQueens");
                 output.AvoidedMainClothingTypes = 1;
@@ -247,10 +247,10 @@ namespace Races.Graphics.Implementations.MainRaces
             });
 
 
-            Action<IRandomCustomInput> parentRandomCustom = randomCustom;
-            builder.RandomCustom(data =>
+            Action<IRandomCustomInput, IRandomCustomOutput> parentRandomCustom = randomCustom;
+            builder.RandomCustom((data, output) =>   
             {
-                parentRandomCustom(data);
+                parentRandomCustom(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.HairStyle = State.Rand.Next(data.SetupOutput.HairStyles);

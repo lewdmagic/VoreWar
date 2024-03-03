@@ -23,7 +23,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Vagrant", "Vagrants");
                 output.BonesInfo(null);
@@ -143,7 +143,7 @@ namespace Races.Graphics.Implementations.Monsters
                 output.ChangeSprite(SpriteType.Belly).AddOffset(0, 60 * .625f);
             });
 
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
     }
 }

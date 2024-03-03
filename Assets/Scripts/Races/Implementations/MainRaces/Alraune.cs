@@ -17,10 +17,10 @@ namespace Races.Graphics.Implementations.MainRaces
             IClothing rags = AlrauneRags.AlrauneRagsInstance;
 
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null &&
                     (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) &&
@@ -82,7 +82,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 unit.BodyAccentType3 = State.Rand.Next(data.SetupOutput.BodyAccentTypes3);
             });
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Alraune", "Alraune");
                 output.FlavorText(new FlavorText(

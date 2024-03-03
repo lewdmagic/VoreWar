@@ -11,7 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Harpy", "Harpies");
                 output.FlavorText(new FlavorText(
@@ -225,10 +225,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RunBefore((input, output) => { output.ClothingShift = input.A.GetSimpleBodySprite() != 0 ? new Vector3(0, 10, 0) : new Vector3(0, 0, 0); });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
                 unit.BodyAccentType1 = 0;
 

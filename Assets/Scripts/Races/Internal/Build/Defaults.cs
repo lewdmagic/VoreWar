@@ -86,7 +86,7 @@ public static class Defaults
         }
     };
 
-    public static readonly Action<IRandomCustomInput> RandomCustom = input =>
+    public static readonly Action<IRandomCustomInput, IRandomCustomOutput> Randomize = (input, output) =>
     {
         IUnitRead unit = input.Unit;
         if (input.SetupOutput.BodySizes > 0)
@@ -827,12 +827,12 @@ public static class Defaults
     }
 
 
-    internal static SetupOutput Default()
+    internal static SetupOutput Default(ISetupInput input)
     {
-        return Default<IParameters>();
+        return Default<IParameters>(input);
     }
 
-    internal static SetupOutput Default<T>() where T : IParameters
+    internal static SetupOutput Default<T>(ISetupInput input) where T : IParameters
     {
         /*
          *
@@ -953,12 +953,12 @@ public static class Defaults
         return setupOutput;
     }
 
-    internal static SetupOutput Blank()
+    internal static SetupOutput Blank(ISetupInput input)
     {
-        return Blank<IParameters>();
+        return Blank<IParameters>(input);
     }
 
-    internal static SetupOutput Blank<T>() where T : IParameters
+    internal static SetupOutput Blank<T>(ISetupInput input) where T : IParameters
     {
         SetupOutput setupOutput = new SetupOutput(
             () => Config.AllowHugeBreasts ? State.GameManager.SpriteDictionary.Breasts.Length : State.GameManager.SpriteDictionary.Breasts.Length - 3,

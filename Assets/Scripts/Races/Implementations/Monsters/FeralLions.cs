@@ -25,7 +25,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListRumpVore = new RaceFrameList(new int[2] { 0, 1 }, new float[2] { .75f, .5f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Feral Lion", "Feral Lions");
                 output.FlavorText(new FlavorText(
@@ -303,9 +303,9 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore((input, output) => { Defaults.Finalize.Invoke(input, output); });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
 

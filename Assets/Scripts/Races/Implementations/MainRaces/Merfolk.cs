@@ -15,7 +15,7 @@ namespace Races.Graphics.Implementations.MainRaces
             IClothing rags = MermenRags.MermenRagsInstance;
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Merfolk", "Merfolk");
                 output.FlavorText(new FlavorText(
@@ -278,9 +278,9 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 if (Config.RagsForSlaves && State.World?.MainEmpires != null && (State.World.GetEmpireOfRace(unit.Race)?.IsEnemy(State.World.GetEmpireOfSide(unit.Side)) ?? false) && unit.ImmuneToDefections == false)

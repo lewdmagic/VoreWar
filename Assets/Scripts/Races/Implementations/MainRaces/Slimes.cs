@@ -11,7 +11,7 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Slime", "Slimes");
                 output.WallType(WallType.Slime);
@@ -223,9 +223,9 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 if (unit.HasDick && unit.HasBreasts)

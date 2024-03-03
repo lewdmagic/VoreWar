@@ -4810,7 +4810,8 @@ internal static class SeliciaMod
 
         raceTyped.ModifySingleRender(SpriteType.Belly, ModdingMode.After, (input, output) =>
         {
-            if (input.Actor.PredatorComponent.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach, PreyLocation.Womb))
+            // TODO why is only THIS ONE RACE having a null for predatorComponent
+            if (input.Actor.PredatorComponent?.IsUnitOfSpecificationInPrey(Race.Selicia, false, PreyLocation.Stomach, PreyLocation.Womb) ?? false)
             {
                 if (input.Actor.GetStomachSize(29, .75f) == 29)
                 {

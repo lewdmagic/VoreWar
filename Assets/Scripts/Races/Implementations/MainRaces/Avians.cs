@@ -18,7 +18,7 @@ namespace Races.Graphics.Implementations.MainRaces
             IClothing rags = AvianRags.AvianRagsInstance;
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Avian", "Avians");
                 output.FlavorText(new FlavorText(
@@ -426,10 +426,10 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
                 unit.BodyAccentType1 = State.Rand.Next(data.SetupOutput.BodyAccentTypes1);
 

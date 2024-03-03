@@ -17,7 +17,7 @@ namespace Races.Graphics.Implementations.MainRaces
             IClothing rags = DemiantRags.DemiantRagsInstance;
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Ant", "Ants");
                 output.FlavorText(new FlavorText(
@@ -432,10 +432,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
             builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
 
                 unit.AccessoryColor = unit.SkinColor;

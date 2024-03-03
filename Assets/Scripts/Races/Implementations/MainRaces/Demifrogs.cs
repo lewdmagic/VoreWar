@@ -18,7 +18,7 @@ namespace Races.Graphics.Implementations.MainRaces
             IClothing rags = DemifrogRags.DemifrogRagsInstance;
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("DemiFrog", "DemiFrogs");
                 output.FlavorText(new FlavorText(
@@ -488,7 +488,7 @@ namespace Races.Graphics.Implementations.MainRaces
                         return;
                     }
 
-                    output.Sprite(input.Sprites.Demifrogs3Alt[95 + size]);
+                    output.Sprite(input.Sprites.Demifrogs3Alt[Math.Min(95 + size, 129)]);
                 }
                 else
                 {
@@ -586,10 +586,10 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
 
                 unit.AccessoryColor = unit.SkinColor;

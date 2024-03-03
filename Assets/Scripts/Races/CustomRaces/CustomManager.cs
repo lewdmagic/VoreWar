@@ -9,11 +9,11 @@ public class CustomManager
 {
     internal class FsClothingData
     {
-        internal string RaceId;
-        internal string ClothingId;
-        internal string ClothingFolderName;
-        internal string ClothingLuaCode;
-        internal FileInfo[] Sprites;
+        internal readonly string RaceId;
+        internal readonly string ClothingId;
+        internal readonly string ClothingFolderName;
+        internal readonly string ClothingLuaCode;
+        internal readonly FileInfo[] Sprites;
 
         public FsClothingData(string raceId, string clothingFolderName, string clothingId, string clothingLuaCode, FileInfo[] sprites)
         {
@@ -25,13 +25,26 @@ public class CustomManager
         }
     }
 
+    internal class FsPaletteData
+    {
+        internal string PaletteId;
+        internal FileInfo PaletteImage;
+
+        public FsPaletteData(string paletteId, FileInfo paletteImage)
+        {
+            PaletteId = paletteId;
+            PaletteImage = paletteImage;
+        }
+    }
+
     internal class FsRaceData
     {
-        internal string RaceId;
-        internal string RaceFolderName;
-        internal string RaceLuaCode;
-        internal FileInfo[] Sprites;
-        internal List<FsClothingData> Clothing = new List<FsClothingData>();
+        internal readonly string RaceId;
+        internal readonly string RaceFolderName;
+        internal readonly string RaceLuaCode;
+        internal readonly FileInfo[] Sprites;
+        internal readonly List<FsClothingData> Clothing = new List<FsClothingData>();
+        internal readonly List<FsPaletteData> Palettes = new List<FsPaletteData>();
 
         public FsRaceData(string raceId, string raceFolderName, string raceLuaCode, FileInfo[] sprites)
         {
@@ -42,12 +55,27 @@ public class CustomManager
         }
     }
 
+
+    private class FsGameData
+    {
+        internal readonly List<FsRaceData> Races;
+        internal readonly List<FsPaletteData> Palettes;
+
+        public FsGameData(List<FsRaceData> races, List<FsPaletteData> palettes)
+        {
+            Races = races;
+            Palettes = palettes;
+        }
+    }
+    
+
     private static FileInfo[] LoadSpriteNames2(string path)
     {
         return new DirectoryInfo(path).GetFiles("*.png");
     }
 
-    internal void LoadAllCustom()
+
+    private static FsGameData LoadFsGameData()
     {
         List<FsRaceData> races = new List<FsRaceData>();
 
@@ -67,7 +95,7 @@ public class CustomManager
 
             //string[] clothingFolders = Directory.GetDirectories($"GameData/CustomRaces/{customRaceFolderName}/Clothing","*", SearchOption.AllDirectories);
             string[] clothingFolders = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Clothing").GetDirectories().Select(it => it.Name).ToArray();
-            ;
+            
 
             foreach (string clothingFolderName in clothingFolders)
             {
@@ -78,22 +106,69 @@ public class CustomManager
                 FsClothingData fsClothingData = new FsClothingData(raceId, clothingFolderName, clothingId, clothingCode, clothingSpriteNames);
                 fsRaceData.Clothing.Add(fsClothingData);
             }
+            
+            string paletteFolderPath = $"GameData/CustomRaces/{customRaceFolderName}/Palettes";
+            if (Directory.Exists(paletteFolderPath))
+            {
+                FileInfo[] paletteImages = new DirectoryInfo(paletteFolderPath).GetFiles("*.png");
 
+                foreach (FileInfo paletteImage in paletteImages)
+                {
+                    FsPaletteData fsPaletteData = new FsPaletteData(paletteImage.NameNoExtension().ToLower(), paletteImage);
+                    fsRaceData.Palettes.Add(fsPaletteData);
+                }
+            }
+            
             races.Add(fsRaceData);
         }
 
-        Process(races);
-    }
 
-    private void Process(List<FsRaceData> races)
+        List<FsPaletteData> commonPalettes = new List<FsPaletteData>();
+        string commonPaletteFolderPath = $"GameData/Palettes";
+        if (Directory.Exists(commonPaletteFolderPath))
+        {
+            FileInfo[] paletteImages = new DirectoryInfo(commonPaletteFolderPath).GetFiles("*.png");
+
+            foreach (FileInfo paletteImage in paletteImages)
+            {
+                FsPaletteData fsPaletteData = new FsPaletteData(paletteImage.NameNoExtension().ToLower(), paletteImage);
+                commonPalettes.Add(fsPaletteData);
+            }
+        }
+
+        return new FsGameData(races, commonPalettes);
+    }
+    
+    internal void LoadAllCustom()
     {
+        FsGameData fsGameData = LoadFsGameData();
+        Process(fsGameData);
+    }
+    
+    private void Process(FsGameData gameData)
+    {
+        foreach (FsPaletteData fsPaletteData in gameData.Palettes)
+        {
+            var loader = new WWW("file:///" + fsPaletteData.PaletteImage.FullName);
+            RegisterCommonPalette(fsPaletteData.PaletteId, loader.texture);
+        }
+        
+        foreach (FsRaceData fsRaceData in gameData.Races)
+        {
+            foreach (FsPaletteData fsPaletteData in fsRaceData.Palettes)
+            {
+                var loader = new WWW("file:///" + fsPaletteData.PaletteImage.FullName);
+                RegisterPalette(fsRaceData.RaceId, fsPaletteData.PaletteId, loader.texture);
+            }
+        }
+        
         List<SpriteToLoad> spriteToLoadList = new List<SpriteToLoad>();
 
-        foreach (FsRaceData fsRaceData in races)
+        foreach (FsRaceData fsRaceData in gameData.Races)
         {
             foreach (FileInfo raceSpriteFileInfo in fsRaceData.Sprites)
             {
-                string pureName = raceSpriteFileInfo.Name.Substring(0, raceSpriteFileInfo.Name.Length - raceSpriteFileInfo.Extension.Length).ToLower();
+                string pureName = raceSpriteFileInfo.NameNoExtension().ToLower();
                 string key = $"race/{fsRaceData.RaceId}/{pureName}";
                 string path = $"GameData/CustomRaces/{fsRaceData.RaceFolderName}/Sprites/{raceSpriteFileInfo.Name}";
                 spriteToLoadList.Add(new SpriteToLoad(key, path, raceSpriteFileInfo.LastWriteTimeUtc.ToFileTimeUtc()));
@@ -113,59 +188,87 @@ public class CustomManager
 
         (string, Sprite)[] sprites = SpritePacker.LoadOrUpdateTextures(spriteToLoadList);
 
-        foreach ((string, Sprite) namedSprite in sprites)
+        foreach (var (key, sprite) in sprites)
         {
-            string key = namedSprite.Item1;
-            Sprite sprite = namedSprite.Item2;
             string[] split = key.Split('/');
 
             //Debug.Log(key);
 
-            if (split[0] == "race")
+            switch (split[0])
             {
-                string raceId = split[1];
-                string spriteId = split[2];
+                case "race":
+                {
+                    string raceId = split[1];
+                    string spriteId = split[2];
 
-                SpriteCollection spriteCollection = _raceSpriteCollections.GetOrSet(raceId, () => new SpriteCollection($"Race sprite collection for {raceId}"));
-                spriteCollection.Add(spriteId, sprite);
-            }
-            else if (split[0] == "clothing")
-            {
-                string raceId = split[1];
-                string clothingId = split[2];
-                string spriteId = split[3];
+                    SpriteCollection spriteCollection = _raceSpriteCollections.GetOrSet(raceId, () => new SpriteCollection($"Race sprite collection for {raceId}"));
+                    spriteCollection.Add(spriteId, sprite);
+                    break;
+                }
+                case "clothing":
+                {
+                    string raceId = split[1];
+                    string clothingId = split[2];
+                    string spriteId = split[3];
 
-                SpriteCollection spriteCollection = _clothingSpriteCollection.GetOrSet((raceId, clothingId), () => new SpriteCollection($"Clothing sprite collection for {raceId}/{clothingId}"));
-                spriteCollection.Add(spriteId, sprite);
-            }
-            else
-            {
-                throw new Exception($"unknown sprite category {split[0]}");
+                    SpriteCollection spriteCollection = _clothingSpriteCollection.GetOrSet((raceId, clothingId), () => new SpriteCollection($"Clothing sprite collection for {raceId}/{clothingId}"));
+                    spriteCollection.Add(spriteId, sprite);
+                    break;
+                }
+                default:
+                    throw new Exception($"unknown sprite category {split[0]}");
             }
         }
 
-        foreach (FsRaceData fsRaceData in races)
+        foreach (FsRaceData fsRaceData in gameData.Races)
         {
             foreach (FsClothingData fsClothingData in fsRaceData.Clothing)
             {
-                LuaBindableClothing clothing = ClothingFromFsData(fsClothingData);
+                LuaBindableClothing clothing = ClothingFromFsData(fsClothingData, fsRaceData);
                 _clothings[(fsClothingData.RaceId, fsClothingData.ClothingId)] = clothing;
             }
 
             RaceFromFsData(fsRaceData);
         }
     }
-
-    public struct RaceClothingKey
+    
+    
+    
+    private void RegisterPalette(string raceId, string paletteId, Texture2D map)
     {
-        public readonly string RaceId;
-        public readonly string ClothingID;
+        List<ColorSwapPalette> palettes = _racePalettes.GetOrSet((raceId, paletteId), () => new List<ColorSwapPalette>());
+        palettes.AddRange(TextureToPalettes(map));
+    }
+    
+    private void RegisterCommonPalette(string paletteId, Texture2D map)
+    {
+        List<ColorSwapPalette> palettes = _commonPalettes.GetOrSet(paletteId, () => new List<ColorSwapPalette>());
+        palettes.AddRange(TextureToPalettes(map));
+    }
 
-        public RaceClothingKey(string raceId, string clothingID)
+    private static List<ColorSwapPalette> TextureToPalettes(Texture2D map)
+    {
+        List<ColorSwapPalette> palettes = new List<ColorSwapPalette>();
+        
+        // Start from 1 because the first row is used for toReplace colors
+        for (int pixelY = 1; pixelY < map.height; pixelY++)
         {
-            RaceId = raceId;
-            ClothingID = clothingID;
+            // Unity indexes textures from BOTTOM left. We flip it here
+            int topIndex = map.height - 1;
+            int pixelYUnity = topIndex - pixelY;
+
+            List<(int, Color)> colors = new List<(int, Color)>();
+            for (int i = 0; i < map.width; i++)
+            {
+                int red = ((Color32)map.GetPixel(i, topIndex)).r; // You can cast Color to Color32 freely
+                Color color = map.GetPixel(i, pixelYUnity);
+                colors.Add((red, color));
+            }
+            
+            palettes.Add(new ColorSwapPalette(colors));
         }
+
+        return palettes;
     }
 
 
@@ -182,20 +285,23 @@ public class CustomManager
         Race.CreateRace(fsRaceData.RaceId, raceData, new[] { RaceTag.MainRace });
     }
 
-    private LuaBindableClothing ClothingFromFsData(FsClothingData fsClothingData)
+    private LuaBindableClothing ClothingFromFsData(FsClothingData fsClothingData, FsRaceData fsRaceData)
     {
-        ClothingScriptUsable clothingScriptUsable = LuaBridge.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, fsClothingData.ClothingId);
+        ClothingScriptUsable clothingScriptUsable = LuaBridge.ScriptPrepClothingFromCode(fsClothingData.ClothingLuaCode, fsClothingData.ClothingId, fsRaceData.RaceId);
         return new LuaBindableClothing(clothingScriptUsable.SetMisc, clothingScriptUsable.CompleteGen);
     }
 
 
     // raceId
-    private Dictionary<string, SpriteCollection> _raceSpriteCollections = new Dictionary<string, SpriteCollection>();
+    private readonly Dictionary<string, SpriteCollection> _raceSpriteCollections = new();
 
     // raceId, clothingId
-    private Dictionary<(string, string), SpriteCollection> _clothingSpriteCollection = new Dictionary<(string, string), SpriteCollection>();
+    private readonly Dictionary<(string, string), SpriteCollection> _clothingSpriteCollection = new();
 
-    private Dictionary<(string, string), LuaBindableClothing> _clothings = new Dictionary<(string, string), LuaBindableClothing>();
+    private readonly Dictionary<(string, string), LuaBindableClothing> _clothings = new();
+    
+    private readonly Dictionary<(string, string), List<ColorSwapPalette>> _racePalettes = new();
+    private readonly Dictionary<string, List<ColorSwapPalette>> _commonPalettes = new();
 
 
     internal IClothing GetRaceClothing(string raceId, string clothingId)
@@ -218,6 +324,39 @@ public class CustomManager
         else
         {
             return null;
+        }
+    }
+
+
+    internal ColorSwapPalette GetRacePalette(Race race, string paletteId, int index) => GetRacePalette(race.Id, paletteId, index);
+
+    internal ColorSwapPalette GetRacePalette(string raceId, string paletteId, int index)
+    {
+        List<ColorSwapPalette> res;
+        if (_racePalettes.TryGetValue((raceId, paletteId), out res))
+        {
+            //Debug.Log($"Palette for {(raceId, paletteId)} count: {res.Count}, index: {index}");
+            return res[index];
+        }
+        
+        // Grab common if race specific isn't defined.
+        if (_commonPalettes.TryGetValue(paletteId, out res))
+        {
+            return res[index];
+        }
+        
+        throw new Exception($"Palette for {(raceId, paletteId)} does not exist");
+    }
+
+    internal int GetRacePaletteCount(string raceId, string paletteId)
+    {
+        if (_racePalettes.TryGetValue((raceId, paletteId), out var res))
+        {
+            return res.Count;
+        }
+        else
+        {
+            throw new Exception($"Palette for {(raceId, paletteId)} does not exist");
         }
     }
 

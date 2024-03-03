@@ -6,17 +6,17 @@ namespace Races.Graphics.Implementations.MainRaces
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Default, builder =>
         {
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 if (unit.Type == UnitType.Leader)
                 {
                     unit.ClothingType = 1 + data.SetupOutput.AllowedMainClothingTypes.IndexOf(RaceSpecificClothing.CatLeaderInstance);
                 }
             });
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Cat", "Cats");
                 output.WallType(WallType.Cat);

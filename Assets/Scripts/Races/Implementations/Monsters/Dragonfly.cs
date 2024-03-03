@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.Monsters
         {
             RaceFrameList frameListWings = new RaceFrameList(new int[3] { 0, 1, 2 }, new float[3] { .02f, .02f, .02f });
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Dragonfly", "Dragonflies");
                 output.RaceTraits(new RaceTraits()
@@ -108,7 +108,7 @@ namespace Races.Graphics.Implementations.Monsters
             }); // Belly
 
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
 
         private static void SetUpAnimations(IActorUnit actor)

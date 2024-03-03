@@ -71,7 +71,7 @@ internal class RaceData : IRaceData
 
 
     public ExtraRaceInfo ExtraRaceInfo2 { get; private set; }
-    public Action<IRandomCustomInput> RandomCustom { get; private set; }
+    public Action<IRandomCustomInput, IRandomCustomOutput> RandomCustom { get; private set; }
     public Action<IRunInput, IRunOutput> RunBefore { get; private set; }
     public Action<IRunInput, IRaceRenderAllOutput> RenderAllAction { get; private set; }
     public SpriteTypeIndexed<SingleRenderFunc> RaceSpriteSet { get; private set; }
@@ -82,7 +82,7 @@ internal class RaceData : IRaceData
         SpriteTypeIndexed<SingleRenderFunc> raceSpriteSet,
         SetupOutput setupOutput,
         Action<IRunInput, IRunOutput> runBefore,
-        Action<IRandomCustomInput> randomCustom,
+        Action<IRandomCustomInput, IRandomCustomOutput> randomCustom,
         ExtraRaceInfo extraRaceInfo2,
         Action<IRunInput, IRaceRenderAllOutput> renderAllAction
     )
@@ -125,22 +125,23 @@ internal class RaceData : IRaceData
 
     public void RandomCustomCall(Unit unit)
     {
-        RandomCustom(new RandomCustomInput(unit, SetupOutputRaw));
+        RandomCustom(new RandomCustomInput(unit, SetupOutputRaw), new RandomCustomOutput());
     }
 
 
-    private class RandomCustomInput : IRandomCustomInput
-    {
-        internal RandomCustomInput(Unit unit, ISetupOutput setupOutput)
-        {
-            Unit = unit;
-            SetupOutput = setupOutput;
-        }
-
-        public IUnitRead Unit { get; }
-        public ISetupOutput SetupOutput { get; }
-    }
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     ///////////////////////// API IMPLEMENTATIONS
+}
+
+internal class RandomCustomInput : IRandomCustomInput
+{
+    internal RandomCustomInput(Unit unit, ISetupOutput setupOutput)
+    {
+        Unit = unit;
+        SetupOutput = setupOutput;
+    }
+
+    public IUnitRead Unit { get; }
+    public ISetupOutput SetupOutput { get; }
 }

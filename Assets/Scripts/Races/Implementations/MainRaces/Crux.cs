@@ -16,7 +16,7 @@ namespace Races.Graphics.Implementations.MainRaces
             //RaceFrameList frameListWet = new RaceFrameList(new [] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new [] { .4f, .8f, .8f, .7f, .6f, .5f, .4f, .4f, .4f, .4f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Crux", "Crux");
                 output.WallType(WallType.Crux);
@@ -754,10 +754,10 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
                 unit.BodySize = State.Rand.Next(0, data.SetupOutput.BodySizes);
                 unit.HeadType = State.Rand.Next(0, data.SetupOutput.HeadTypes);

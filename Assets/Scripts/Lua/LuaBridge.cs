@@ -33,6 +33,7 @@ public static class LuaBridge
     private static void ExceptionHappened(ScriptRuntimeException exception)
     {
         Debug.LogError("Lua script exception: " + exception.DecoratedMessage);
+        Debug.LogError("Lua script exception: " + exception.Message);
         LuaExceptionHandler.LogToFile(exception);
     }
     
@@ -84,10 +85,13 @@ public static class LuaBridge
 
         UserData.RegisterType<IClothingSetupInput>();
         UserData.RegisterType<IClothingSetupOutput>();
+        
+        
         UserData.RegisterType<ClothingMiscData>();
         
         UserData.RegisterType<StatRange>();
         UserData.RegisterType<RaceStats>();
+        UserData.RegisterType<RandomCustomOutput>();
 
 
         UserData.RegisterType<IClothingRenderInput>();
@@ -98,6 +102,7 @@ public static class LuaBridge
 
         UserData.RegisterType<BindableClothing<IOverSizeParameters>>();
         UserData.RegisterType<BindableClothing<OverSizeParameters>>();
+        UserData.RegisterType<SetupInput>();
         UserData.RegisterType<SetupOutput>();
 
         UserData.RegisterType<IList>();
@@ -110,6 +115,12 @@ public static class LuaBridge
         UserData.RegisterType<List<VoreType>>();
 
         LuaUtil.RegisterSimpleAction<IRandomCustomInput>();
+        LuaUtil.RegisterSimpleAction<IRandomCustomOutput>();
+        LuaUtil.RegisterSimpleAction<RandomCustomOutput>();
+
+        LuaUtil.RegisterSimpleAction<RandomCustomOutput>();
+        LuaUtil.RegisterSimpleAction<RandomCustomInput, RandomCustomOutput>();
+        
         LuaUtil.RegisterSimpleAction<RaceTraits>();
         LuaUtil.RegisterSimpleAction<IRaceTraits>();
 
@@ -135,16 +146,17 @@ public static class LuaBridge
     }
 
 
-    private static void RegisterShared(Script script)
+    private static void RegisterShared(Script script, string raceId)
     {
         script.Globals["Log"] = (Action<string>)Debug.Log;
 
         script.Globals["Gender"] = UserData.CreateStatic<Gender>();
         script.Globals["SpriteType"] = UserData.CreateStatic<SpriteType>();
         script.Globals["SwapType"] = UserData.CreateStatic<SwapType>();
-
-        script.Globals["GetPaletteCount"] = (Func<SwapType, int>)ColorPaletteMap.GetPaletteCount;
-        script.Globals["GetPalette"] = (Func<SwapType, int, ColorSwapPalette>)ColorPaletteMap.GetPalette;
+        
+        Func<string, int> customPaletteCount = (paletteId) => GameManager.CustomManager.GetRacePaletteCount(raceId, paletteId);
+        script.Globals["GetPaletteCount"] = customPaletteCount;
+        
         Func<float, float, float, Vector3> newVector3 = (x, y, z) => new Vector3(x, y, z);
         script.Globals["NewVector3"] = newVector3;
 
@@ -157,7 +169,7 @@ public static class LuaBridge
         Dictionary<string, dynamic> defaults = new Dictionary<string, dynamic>
         {
             ["Finalize"] = Defaults.Finalize,
-            ["RandomCustom"] = Defaults.RandomCustom,
+            ["Randomize"] = Defaults.Randomize,
             ["BasicBellyRunAfter"] = Defaults.BasicBellyRunAfter
         };
 
@@ -205,7 +217,7 @@ end");
         Func<Texts, Texts, Texts, Dictionary<string, string>, FlavorText> newFlavorText = (preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames) => new FlavorText(preyDescriptions, predDescriptions, raceSingleDescriptions, weaponNames);
         script.Globals["NewFlavorText"] = newFlavorText;
 
-        Func<string, IClothing> makeClothing = (id) => { return GameManager.CustomManager.GetRaceClothing(raceId, id); };
+        Func<string, IClothing> makeClothing = id => GameManager.CustomManager.GetRaceClothing(raceId, id);
 
         script.Globals["MakeClothing"] = makeClothing;
 
@@ -251,21 +263,21 @@ end");
     internal static RaceScriptUsable RacePrep(string scriptCode, string raceId)
     {
         Script script = new Script();
-        RegisterShared(script);
+        RegisterShared(script, raceId);
         RegisterRace(script, raceId);
 
         script.DoString(scriptCode, null, raceId + " - race.lua");
 
         object render = script.Globals["Render"];
         object setup = script.Globals["Setup"];
-        object randomCustom = script.Globals["RandomCustom"];
+        object randomCustom = script.Globals["Randomize"];
 
         RaceScriptUsable scriptUsable = new RaceScriptUsable(
-            (output) =>
+            (input, output) =>
             {
                 try
                 {
-                    script.Call(setup, output);
+                    script.Call(setup, input, output);
                 }
                 catch (ScriptRuntimeException ex)
                 {
@@ -283,11 +295,11 @@ end");
                     ExceptionHappened(ex);
                 }
             },
-            (output) =>
+            (input, output) =>
             {
                 try
                 {
-                    script.Call(randomCustom, output);
+                    script.Call(randomCustom, input, output);
                 }
                 catch (ScriptRuntimeException ex)
                 {
@@ -300,11 +312,11 @@ end");
     }
 
 
-    internal static ClothingScriptUsable ScriptPrepClothingFromCode(string scriptCode, string clothingId)
+    internal static ClothingScriptUsable ScriptPrepClothingFromCode(string scriptCode, string clothingId, string raceId)
     {
         Script script = new Script();
 
-        RegisterShared(script);
+        RegisterShared(script, raceId);
         RegisterClothing(script);
 
         script.DoString(scriptCode, null, clothingId + " - clothing.lua");

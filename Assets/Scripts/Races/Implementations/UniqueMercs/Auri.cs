@@ -20,7 +20,7 @@ namespace Races.Graphics.Implementations.UniqueMercs
             RaceFrameList earAnimation = new RaceFrameList(new int[3] { 22, 23, 22 }, new float[3] { .2f, .2f, .2f });
             RaceFrameList faceAnimation = new RaceFrameList(new int[3] { 18, 19, 18 }, new float[3] { .25f, .25f, .25f });
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Auri", "Auri");
                 output.RaceTraits(new RaceTraits()
@@ -438,9 +438,9 @@ namespace Races.Graphics.Implementations.UniqueMercs
 
             builder.RunBefore((input, output) => { Defaults.BasicBellyRunAfter.Invoke(input, output); });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
                 unit.Name = "Auri";

@@ -640,81 +640,81 @@ public class ContentSettings : MonoBehaviour
         if (_toggles == null) CreateList();
         foreach (ToggleObject toggle in _toggles)
         {
-            Config.World.Toggles[toggle.Name] = PlayerPrefs.GetInt(toggle.Name, toggle.DefaultState ? 1 : 0) == 1;
+            Config.World.Toggles[toggle.Name] = FBPP.GetInt(toggle.Name, toggle.DefaultState ? 1 : 0) == 1;
         }
 
-        Config.World.MaleFraction = PlayerPrefs.GetFloat("MaleFraction", .5f);
-        Config.World.HermFraction = PlayerPrefs.GetFloat("HermFraction", 0);
-        Config.World.HermNameFraction = PlayerPrefs.GetFloat("HermNameFraction", .66f);
-        Config.World.ClothedFraction = PlayerPrefs.GetFloat("ClothedFraction", .85f);
-        Config.World.FurryFraction = PlayerPrefs.GetFloat("FurryFraction", .5f);
-        Config.World.WeightLossFractionBreasts = PlayerPrefs.GetFloat("WeightLossFractionBreasts", .2f);
-        Config.World.WeightLossFractionBody = PlayerPrefs.GetFloat("WeightLossFractionBody", .2f);
-        Config.World.WeightLossFractionDick = PlayerPrefs.GetFloat("WeightLossFractionDick", .2f);
-        Config.World.GrowthCap = PlayerPrefs.GetFloat("GrowthCap", 5f);
-        Config.World.GrowthMod = PlayerPrefs.GetFloat("GrowthMod", 1f);
-        Config.World.GrowthDecayOffset = PlayerPrefs.GetFloat("GrowthDecayOffset", 0);
-        Config.World.GrowthDecayIncreaseRate = PlayerPrefs.GetFloat("GrowthDecayIncreaseRate", 0.04f);
-        Config.World.TacticalTerrainFrequency = PlayerPrefs.GetFloat("TacticalTerrainFrequency", 10f);
-        Config.World.TacticalWaterValue = PlayerPrefs.GetFloat("TacticalWaterValue", .29f);
-        Config.World.BreastSizeModifier = PlayerPrefs.GetInt("BreastSizeModifier", 0);
-        Config.World.CockSizeModifier = PlayerPrefs.GetInt("CockSizeModifier", 0);
-        Config.World.DefaultStartingWeight = PlayerPrefs.GetInt("StartingWeight", 2);
-        Config.World.AutoSurrenderChance = PlayerPrefs.GetFloat("AutoSurrenderChance", 1);
-        Config.World.AutoSurrenderDefectChance = PlayerPrefs.GetFloat("AutoSurrenderDefectChance", 0.25f);
-        Config.World.OralWeight = PlayerPrefs.GetInt("OralWeight", 40);
-        Config.World.BreastWeight = PlayerPrefs.GetInt("BreastWeight", 40);
-        Config.World.AnalWeight = PlayerPrefs.GetInt("AnalWeight", 40);
-        Config.World.UnbirthWeight = PlayerPrefs.GetInt("UnbirthWeight", 40);
-        Config.World.CockWeight = PlayerPrefs.GetInt("CockWeight", 40);
-        Config.World.TailWeight = PlayerPrefs.GetInt("TailWeight", 40);
-        Config.World.MonsterConquest = (Config.MonsterConquestType)PlayerPrefs.GetInt("MonsterConquest", 0);
-        Config.World.BurpFraction = PlayerPrefs.GetFloat("BurpFraction", .1f);
-        Config.World.FartFraction = PlayerPrefs.GetFloat("FartFraction", .1f);
-        Config.World.ArmyMp = PlayerPrefs.GetInt("ArmyMP", 3);
-        Config.World.CustomEventFrequency = PlayerPrefs.GetFloat("CustomEventFrequency", .25f);
-        Config.World.MaxArmies = PlayerPrefs.GetInt("MaxArmies", 32);
-        Config.World.MonsterConquestTurns = PlayerPrefs.GetInt("MonsterConquestTurns", 1);
-        Config.World.MalesLike = (Orientation)PlayerPrefs.GetInt("MalesLike", 0);
-        Config.World.FemalesLike = (Orientation)PlayerPrefs.GetInt("FemalesLike", 0);
-        Config.World.WinterStuff = (Config.SeasonalType)PlayerPrefs.GetInt("WinterStuff", 0);
-        Config.World.VoreRate = PlayerPrefs.GetInt("VoreRate", 0);
-        Config.World.FairyBvType = (FairyBVType)PlayerPrefs.GetInt("FairyBVType", 0);
-        Config.World.FeedingType = (FeedingType)PlayerPrefs.GetInt("FeedingType", 0);
-        Config.World.FourthWallBreakType = (FourthWallBreakType)PlayerPrefs.GetInt("FourthWallBreakType", 0);
-        Config.World.UbConversion = (UBConversion)PlayerPrefs.GetInt("UBConversion", 0);
-        Config.World.SucklingPermission = (SucklingPermission)PlayerPrefs.GetInt("SucklingPermission", 0);
-        Config.World.EscapeRate = PlayerPrefs.GetInt("EscapeRate", 0);
-        Config.World.RandomEventRate = PlayerPrefs.GetInt("RandomEventRate", 0);
-        Config.World.RandomAIEventRate = PlayerPrefs.GetInt("RandomAIEventRate", 0);
-        Config.World.DiplomacyScale = (DiplomacyScale)PlayerPrefs.GetInt("DiplomacyScale", 0);
-        Config.World.MaxSpellLevelDrop = PlayerPrefs.GetInt("MaxSpellLevelDrop", 4);
-        Config.World.LeaderTraits = RaceEditorPanel.TextToTraitList(PlayerPrefs.GetString("LeaderTraits", ""));
-        Config.World.MaleTraits = RaceEditorPanel.TextToTraitList(PlayerPrefs.GetString("MaleTraits", ""));
-        Config.World.FemaleTraits = RaceEditorPanel.TextToTraitList(PlayerPrefs.GetString("FemaleTraits", ""));
-        Config.World.HermTraits = RaceEditorPanel.TextToTraitList(PlayerPrefs.GetString("HermTraits", ""));
-        Config.World.SpawnTraits = RaceEditorPanel.TextToTraitList(PlayerPrefs.GetString("SpawnTraits", ""));
-        Config.World.OverallMonsterCapModifier = PlayerPrefs.GetFloat("OverallMonsterCapModifier", 1);
-        Config.World.OverallMonsterSpawnRateModifier = PlayerPrefs.GetFloat("OverallMonsterSpawnRateModifier", 1);
-        Config.World.RevealTurn = PlayerPrefs.GetInt("RevealTurn", 50);
+        Config.World.MaleFraction = FBPP.GetFloat("MaleFraction", .5f);
+        Config.World.HermFraction = FBPP.GetFloat("HermFraction", 0);
+        Config.World.HermNameFraction = FBPP.GetFloat("HermNameFraction", .66f);
+        Config.World.ClothedFraction = FBPP.GetFloat("ClothedFraction", .85f);
+        Config.World.FurryFraction = FBPP.GetFloat("FurryFraction", .5f);
+        Config.World.WeightLossFractionBreasts = FBPP.GetFloat("WeightLossFractionBreasts", .2f);
+        Config.World.WeightLossFractionBody = FBPP.GetFloat("WeightLossFractionBody", .2f);
+        Config.World.WeightLossFractionDick = FBPP.GetFloat("WeightLossFractionDick", .2f);
+        Config.World.GrowthCap = FBPP.GetFloat("GrowthCap", 5f);
+        Config.World.GrowthMod = FBPP.GetFloat("GrowthMod", 1f);
+        Config.World.GrowthDecayOffset = FBPP.GetFloat("GrowthDecayOffset", 0);
+        Config.World.GrowthDecayIncreaseRate = FBPP.GetFloat("GrowthDecayIncreaseRate", 0.04f);
+        Config.World.TacticalTerrainFrequency = FBPP.GetFloat("TacticalTerrainFrequency", 10f);
+        Config.World.TacticalWaterValue = FBPP.GetFloat("TacticalWaterValue", .29f);
+        Config.World.BreastSizeModifier = FBPP.GetInt("BreastSizeModifier", 0);
+        Config.World.CockSizeModifier = FBPP.GetInt("CockSizeModifier", 0);
+        Config.World.DefaultStartingWeight = FBPP.GetInt("StartingWeight", 2);
+        Config.World.AutoSurrenderChance = FBPP.GetFloat("AutoSurrenderChance", 1);
+        Config.World.AutoSurrenderDefectChance = FBPP.GetFloat("AutoSurrenderDefectChance", 0.25f);
+        Config.World.OralWeight = FBPP.GetInt("OralWeight", 40);
+        Config.World.BreastWeight = FBPP.GetInt("BreastWeight", 40);
+        Config.World.AnalWeight = FBPP.GetInt("AnalWeight", 40);
+        Config.World.UnbirthWeight = FBPP.GetInt("UnbirthWeight", 40);
+        Config.World.CockWeight = FBPP.GetInt("CockWeight", 40);
+        Config.World.TailWeight = FBPP.GetInt("TailWeight", 40);
+        Config.World.MonsterConquest = (Config.MonsterConquestType)FBPP.GetInt("MonsterConquest", 0);
+        Config.World.BurpFraction = FBPP.GetFloat("BurpFraction", .1f);
+        Config.World.FartFraction = FBPP.GetFloat("FartFraction", .1f);
+        Config.World.ArmyMp = FBPP.GetInt("ArmyMP", 3);
+        Config.World.CustomEventFrequency = FBPP.GetFloat("CustomEventFrequency", .25f);
+        Config.World.MaxArmies = FBPP.GetInt("MaxArmies", 32);
+        Config.World.MonsterConquestTurns = FBPP.GetInt("MonsterConquestTurns", 1);
+        Config.World.MalesLike = (Orientation)FBPP.GetInt("MalesLike", 0);
+        Config.World.FemalesLike = (Orientation)FBPP.GetInt("FemalesLike", 0);
+        Config.World.WinterStuff = (Config.SeasonalType)FBPP.GetInt("WinterStuff", 0);
+        Config.World.VoreRate = FBPP.GetInt("VoreRate", 0);
+        Config.World.FairyBvType = (FairyBVType)FBPP.GetInt("FairyBVType", 0);
+        Config.World.FeedingType = (FeedingType)FBPP.GetInt("FeedingType", 0);
+        Config.World.FourthWallBreakType = (FourthWallBreakType)FBPP.GetInt("FourthWallBreakType", 0);
+        Config.World.UbConversion = (UBConversion)FBPP.GetInt("UBConversion", 0);
+        Config.World.SucklingPermission = (SucklingPermission)FBPP.GetInt("SucklingPermission", 0);
+        Config.World.EscapeRate = FBPP.GetInt("EscapeRate", 0);
+        Config.World.RandomEventRate = FBPP.GetInt("RandomEventRate", 0);
+        Config.World.RandomAIEventRate = FBPP.GetInt("RandomAIEventRate", 0);
+        Config.World.DiplomacyScale = (DiplomacyScale)FBPP.GetInt("DiplomacyScale", 0);
+        Config.World.MaxSpellLevelDrop = FBPP.GetInt("MaxSpellLevelDrop", 4);
+        Config.World.LeaderTraits = RaceEditorPanel.TextToTraitList(FBPP.GetString("LeaderTraits", ""));
+        Config.World.MaleTraits = RaceEditorPanel.TextToTraitList(FBPP.GetString("MaleTraits", ""));
+        Config.World.FemaleTraits = RaceEditorPanel.TextToTraitList(FBPP.GetString("FemaleTraits", ""));
+        Config.World.HermTraits = RaceEditorPanel.TextToTraitList(FBPP.GetString("HermTraits", ""));
+        Config.World.SpawnTraits = RaceEditorPanel.TextToTraitList(FBPP.GetString("SpawnTraits", ""));
+        Config.World.OverallMonsterCapModifier = FBPP.GetFloat("OverallMonsterCapModifier", 1);
+        Config.World.OverallMonsterSpawnRateModifier = FBPP.GetFloat("OverallMonsterSpawnRateModifier", 1);
+        Config.World.RevealTurn = FBPP.GetInt("RevealTurn", 50);
         MonsterDropdownChanged();
         if (Config.World.SpawnerInfo == null) Config.World.ResetSpawnerDictionary();
         foreach (MonsterSpawnerPanel spawner in _monsterSpawners)
         {
             Config.World.SpawnerInfo[spawner.Race] = new SpawnerInfo(
-                PlayerPrefs.GetInt($"{spawner.Race} Enabled", 0) == 1,
-                PlayerPrefs.GetInt($"{spawner.Race} Max Armies", 4),
-                PlayerPrefs.GetFloat($"{spawner.Race} Spawn Rate", .15f),
-                PlayerPrefs.GetInt($"{spawner.Race} Scale Factor", 40),
-                PlayerPrefs.GetInt($"{spawner.Race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.Race)),
-                PlayerPrefs.GetInt($"{spawner.Race} Attempts", 1),
-                PlayerPrefs.GetInt($"{spawner.Race} Add-On", 1) == 1,
-                PlayerPrefs.GetFloat($"{spawner.Race} Confidence", 6f),
-                PlayerPrefs.GetInt($"{spawner.Race} Min Army Size", 8),
-                PlayerPrefs.GetInt($"{spawner.Race} Max Army Size", 12),
-                PlayerPrefs.GetInt($"{spawner.Race} Turn Order", 40)
+                FBPP.GetInt($"{spawner.Race} Enabled", 0) == 1,
+                FBPP.GetInt($"{spawner.Race} Max Armies", 4),
+                FBPP.GetFloat($"{spawner.Race} Spawn Rate", .15f),
+                FBPP.GetInt($"{spawner.Race} Scale Factor", 40),
+                FBPP.GetInt($"{spawner.Race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.Race)),
+                FBPP.GetInt($"{spawner.Race} Attempts", 1),
+                FBPP.GetInt($"{spawner.Race} Add-On", 1) == 1,
+                FBPP.GetFloat($"{spawner.Race} Confidence", 6f),
+                FBPP.GetInt($"{spawner.Race} Min Army Size", 8),
+                FBPP.GetInt($"{spawner.Race} Max Army Size", 12),
+                FBPP.GetInt($"{spawner.Race} Turn Order", 40)
             );
-            var type = PlayerPrefs.GetInt($"{spawner.Race} Conquest Type", 0);
+            var type = FBPP.GetInt($"{spawner.Race} Conquest Type", 0);
             if (type != 0)
             {
                 Config.World.SpawnerInfo[spawner.Race].SetSpawnerType((Config.MonsterConquestType)(type - 2));
@@ -801,7 +801,7 @@ public class ContentSettings : MonoBehaviour
         CustomEventFrequency.value = Config.CustomEventFrequency;
         MaxArmies.value = Config.MaxArmies;
         MonsterConquestTurns.text = Config.MonsterConquestTurns.ToString();
-        MercSortMethod.value = PlayerPrefs.GetInt("MercSortMethod", 0);
+        MercSortMethod.value = FBPP.GetInt("MercSortMethod", 0);
         FemalesLike.value = (int)Config.FemalesLike;
         MalesLike.value = (int)Config.MalesLike;
         FairyBvType.value = (int)Config.FairyBvType;
@@ -814,7 +814,7 @@ public class ContentSettings : MonoBehaviour
         MaxSpellLevelDrop.value = Config.MaxSpellLevelDrop - 1;
         OverallMonsterSpawnRateModifier.value = Config.OverallMonsterSpawnRateModifier;
         OverallMonsterCapModifier.value = Config.OverallMonsterCapModifier;
-        MercSortDirection.isOn = PlayerPrefs.GetInt("MercSortDirection", 0) == 1;
+        MercSortDirection.isOn = FBPP.GetInt("MercSortDirection", 0) == 1;
         MercSortDirectionChanged();
         WinterStuff.RefreshShownValue();
         MercSortMethod.RefreshShownValue();
@@ -879,9 +879,9 @@ public class ContentSettings : MonoBehaviour
     private void SetValues()
     {
         bool oldMulti = Config.MultiRaceVillages;
-        PlayerPrefs.SetInt("MercSortMethod", MercSortMethod.value);
+        FBPP.SetInt("MercSortMethod", MercSortMethod.value);
 
-        PlayerPrefs.SetInt("MercSortDirection", MercSortDirection.isOn ? 1 : 0);
+        FBPP.SetInt("MercSortDirection", MercSortDirection.isOn ? 1 : 0);
         //if (Config.NewGraphics != NewGraphics.isOn)
         //{
         //    Config.World.Toggles["NewGraphics"] = NewGraphics.isOn;
@@ -1128,137 +1128,139 @@ public class ContentSettings : MonoBehaviour
     {
         foreach (ToggleObject toggle in _toggles)
         {
-            PlayerPrefs.SetInt(toggle.Name, toggle.Toggle.isOn ? 1 : 0);
+            FBPP.SetInt(toggle.Name, toggle.Toggle.isOn ? 1 : 0);
         }
 
-        PlayerPrefs.SetFloat("MaleFraction", 1 - FemaleFraction.value);
-        PlayerPrefs.SetFloat("HermFraction", HermFraction.value);
-        PlayerPrefs.SetFloat("HermNameFraction", HermNameFraction.value);
-        PlayerPrefs.SetFloat("ClothedFraction", ClothedFraction.value);
-        PlayerPrefs.SetFloat("FurryFraction", FurryFraction.value);
-        PlayerPrefs.SetFloat("WeightLossFractionBreasts", WeightLossFractionBreasts.value);
-        PlayerPrefs.SetFloat("WeightLossFractionBody", WeightLossFractionBody.value);
-        PlayerPrefs.SetFloat("WeightLossFractionDick", WeightLossFractionDick.value);
+        FBPP.SetFloat("MaleFraction", 1 - FemaleFraction.value);
+        FBPP.SetFloat("HermFraction", HermFraction.value);
+        FBPP.SetFloat("HermNameFraction", HermNameFraction.value);
+        FBPP.SetFloat("ClothedFraction", ClothedFraction.value);
+        FBPP.SetFloat("FurryFraction", FurryFraction.value);
+        FBPP.SetFloat("WeightLossFractionBreasts", WeightLossFractionBreasts.value);
+        FBPP.SetFloat("WeightLossFractionBody", WeightLossFractionBody.value);
+        FBPP.SetFloat("WeightLossFractionDick", WeightLossFractionDick.value);
         if (int.TryParse(GrowthDecayIncreaseRate.text, out int gir))
-            PlayerPrefs.SetFloat("GrowthDecayIncreaseRate", gir / 1000f);
+            FBPP.SetFloat("GrowthDecayIncreaseRate", gir / 1000f);
         else
-            PlayerPrefs.SetFloat("GrowthDecayIncreaseRate", 0.04f);
+            FBPP.SetFloat("GrowthDecayIncreaseRate", 0.04f);
         if (int.TryParse(GrowthDecayOffset.text, out int gos))
-            PlayerPrefs.SetFloat("GrowthDecayOffset", gos / 100f);
+            FBPP.SetFloat("GrowthDecayOffset", gos / 100f);
         else
-            PlayerPrefs.SetFloat("GrowthDecayOffset", 0);
+            FBPP.SetFloat("GrowthDecayOffset", 0);
         if (int.TryParse(GrowthMod.text, out int gm))
-            PlayerPrefs.SetFloat("GrowthMod", gm / 100f);
+            FBPP.SetFloat("GrowthMod", gm / 100f);
         else
-            PlayerPrefs.SetFloat("GrowthMod", 1f);
+            FBPP.SetFloat("GrowthMod", 1f);
         if (int.TryParse(GrowthCap.text, out int gc))
-            PlayerPrefs.SetFloat("GrowthCap", gc / 100f);
+            FBPP.SetFloat("GrowthCap", gc / 100f);
         else
-            PlayerPrefs.SetFloat("GrowthCap", 5f);
-        PlayerPrefs.SetFloat("TacticalWaterValue", TacticalWaterValue.value);
-        PlayerPrefs.SetFloat("TacticalTerrainFrequency", TacticalTerrainFrequency.value);
-        PlayerPrefs.SetFloat("OverallMonsterSpawnRateModifier", OverallMonsterSpawnRateModifier.value);
-        PlayerPrefs.SetFloat("OverallMonsterCapModifier", OverallMonsterCapModifier.value);
-        PlayerPrefs.SetInt("BreastSizeModifier", (int)BreastSizeModifier.value);
-        PlayerPrefs.SetInt("HermBreastSizeModifier", (int)HermBreastSizeModifier.value);
-        PlayerPrefs.SetInt("CockSizeModifier", (int)CockSizeModifier.value);
-        PlayerPrefs.SetInt("StartingWeight", (int)DefaultStartingWeight.value);
-        PlayerPrefs.SetInt("MonsterConquest", MonsterConquest.value - 1);
-        PlayerPrefs.SetInt("VoreRate", VoreRate.value - 1);
-        PlayerPrefs.SetInt("EscapeRate", EscapeRate.value - 1);
-        PlayerPrefs.SetInt("RandomEventRate", RandomEventRate.value);
-        PlayerPrefs.SetInt("RandomAIEventRate", RandomAIEventRate.value);
-        PlayerPrefs.SetFloat("BurpFraction", BurpFraction.value);
-        PlayerPrefs.SetFloat("FartFraction", FartFraction.value);
-        PlayerPrefs.SetInt("ArmyMP", (int)ArmyMp.value);
-        PlayerPrefs.SetFloat("CustomEventFrequency", CustomEventFrequency.value);
-        PlayerPrefs.SetFloat("AutoSurrenderChance", AutoSurrenderChance.value);
-        PlayerPrefs.SetFloat("AutoSurrenderDefectChance", AutoSurrenderDefectChance.value);
-        PlayerPrefs.SetInt("MaxArmies", (int)MaxArmies.value);
-        PlayerPrefs.SetInt("FemalesLike", FemalesLike.value);
-        PlayerPrefs.SetInt("WinterStuff", WinterStuff.value);
-        PlayerPrefs.SetInt("MalesLike", MalesLike.value);
-        PlayerPrefs.SetInt("FairyBVType", FairyBvType.value);
-        PlayerPrefs.SetInt("FeedingType", FeedingType.value);
-        PlayerPrefs.SetInt("FourthWallBreakType", FourthWallBreakType.value);
-        PlayerPrefs.SetInt("UBConversion", UbConversion.value);
-        PlayerPrefs.SetInt("SucklingPermission", SucklingPermission.value);
-        PlayerPrefs.SetInt("DiplomacyScale", DiplomacyScale.value);
-        PlayerPrefs.SetInt("MaxSpellLevelDrop", MaxSpellLevelDrop.value + 1);
-        PlayerPrefs.SetInt("MonsterConquestTurns", int.TryParse(MonsterConquestTurns.text, out int monsterTurns) ? monsterTurns : 0);
-        PlayerPrefs.SetString("LeaderTraits", LeaderTraits.text);
-        PlayerPrefs.SetString("MaleTraits", MaleTraits.text);
-        PlayerPrefs.SetString("FemaleTraits", FemaleTraits.text);
-        PlayerPrefs.SetString("HermTraits", HermTraits.text);
-        PlayerPrefs.SetString("SpawnTraits", SpawnTraits.text);
-        PlayerPrefs.SetInt("OralWeight", (int)OralWeight.value);
-        PlayerPrefs.SetInt("AnalWeight", (int)AnalWeight.value);
-        PlayerPrefs.SetInt("BreastWeight", (int)BreastWeight.value);
-        PlayerPrefs.SetInt("UnbirthWeight", (int)UnbirthWeight.value);
-        PlayerPrefs.SetInt("CockWeight", (int)CockWeight.value);
-        PlayerPrefs.SetInt("TailWeight", (int)TailWeight.value);
-        PlayerPrefs.SetInt("FogDistance", (int)FogDistance.value);
-        PlayerPrefs.SetInt("DefualtTacticalSightRange", (int)DefualtTacticalSightRange.value);
-        PlayerPrefs.SetInt("NightStrategicSightReduction", (int)NightStrategicSightReduction.value);
-        PlayerPrefs.SetInt("NightRounds", (int)NightRounds.value);
+            FBPP.SetFloat("GrowthCap", 5f);
+        FBPP.SetFloat("TacticalWaterValue", TacticalWaterValue.value);
+        FBPP.SetFloat("TacticalTerrainFrequency", TacticalTerrainFrequency.value);
+        FBPP.SetFloat("OverallMonsterSpawnRateModifier", OverallMonsterSpawnRateModifier.value);
+        FBPP.SetFloat("OverallMonsterCapModifier", OverallMonsterCapModifier.value);
+        FBPP.SetInt("BreastSizeModifier", (int)BreastSizeModifier.value);
+        FBPP.SetInt("HermBreastSizeModifier", (int)HermBreastSizeModifier.value);
+        FBPP.SetInt("CockSizeModifier", (int)CockSizeModifier.value);
+        FBPP.SetInt("StartingWeight", (int)DefaultStartingWeight.value);
+        FBPP.SetInt("MonsterConquest", MonsterConquest.value - 1);
+        FBPP.SetInt("VoreRate", VoreRate.value - 1);
+        FBPP.SetInt("EscapeRate", EscapeRate.value - 1);
+        FBPP.SetInt("RandomEventRate", RandomEventRate.value);
+        FBPP.SetInt("RandomAIEventRate", RandomAIEventRate.value);
+        FBPP.SetFloat("BurpFraction", BurpFraction.value);
+        FBPP.SetFloat("FartFraction", FartFraction.value);
+        FBPP.SetInt("ArmyMP", (int)ArmyMp.value);
+        FBPP.SetFloat("CustomEventFrequency", CustomEventFrequency.value);
+        FBPP.SetFloat("AutoSurrenderChance", AutoSurrenderChance.value);
+        FBPP.SetFloat("AutoSurrenderDefectChance", AutoSurrenderDefectChance.value);
+        FBPP.SetInt("MaxArmies", (int)MaxArmies.value);
+        FBPP.SetInt("FemalesLike", FemalesLike.value);
+        FBPP.SetInt("WinterStuff", WinterStuff.value);
+        FBPP.SetInt("MalesLike", MalesLike.value);
+        FBPP.SetInt("FairyBVType", FairyBvType.value);
+        FBPP.SetInt("FeedingType", FeedingType.value);
+        FBPP.SetInt("FourthWallBreakType", FourthWallBreakType.value);
+        FBPP.SetInt("UBConversion", UbConversion.value);
+        FBPP.SetInt("SucklingPermission", SucklingPermission.value);
+        FBPP.SetInt("DiplomacyScale", DiplomacyScale.value);
+        FBPP.SetInt("MaxSpellLevelDrop", MaxSpellLevelDrop.value + 1);
+        FBPP.SetInt("MonsterConquestTurns", int.TryParse(MonsterConquestTurns.text, out int monsterTurns) ? monsterTurns : 0);
+        FBPP.SetString("LeaderTraits", LeaderTraits.text);
+        FBPP.SetString("MaleTraits", MaleTraits.text);
+        FBPP.SetString("FemaleTraits", FemaleTraits.text);
+        FBPP.SetString("HermTraits", HermTraits.text);
+        FBPP.SetString("SpawnTraits", SpawnTraits.text);
+        FBPP.SetInt("OralWeight", (int)OralWeight.value);
+        FBPP.SetInt("AnalWeight", (int)AnalWeight.value);
+        FBPP.SetInt("BreastWeight", (int)BreastWeight.value);
+        FBPP.SetInt("UnbirthWeight", (int)UnbirthWeight.value);
+        FBPP.SetInt("CockWeight", (int)CockWeight.value);
+        FBPP.SetInt("TailWeight", (int)TailWeight.value);
+        FBPP.SetInt("FogDistance", (int)FogDistance.value);
+        FBPP.SetInt("DefualtTacticalSightRange", (int)DefualtTacticalSightRange.value);
+        FBPP.SetInt("NightStrategicSightReduction", (int)NightStrategicSightReduction.value);
+        FBPP.SetInt("NightRounds", (int)NightRounds.value);
         if (int.TryParse(RevealTurn.text, out int rvl))
-            PlayerPrefs.SetFloat("RevealTurn", rvl);
+            FBPP.SetFloat("RevealTurn", rvl);
         else
-            PlayerPrefs.SetFloat("RevealTurn", 50);
-        PlayerPrefs.SetFloat("BaseNightChance", BaseNightChance.value);
-        PlayerPrefs.SetFloat("NightChanceIncrease", NightChanceIncrease.value);
-        PlayerPrefs.SetFloat("BaseCritChance", BaseCritChance.value);
-        PlayerPrefs.SetFloat("CritDamageMod", CritDamageMod.value);
-        PlayerPrefs.SetFloat("BaseGrazeChance", BaseGrazeChance.value);
-        PlayerPrefs.SetFloat("GrazeDamageMod", GrazeDamageMod.value);
+            FBPP.SetFloat("RevealTurn", 50);
+        FBPP.SetFloat("BaseNightChance", BaseNightChance.value);
+        FBPP.SetFloat("NightChanceIncrease", NightChanceIncrease.value);
+        FBPP.SetFloat("BaseCritChance", BaseCritChance.value);
+        FBPP.SetFloat("CritDamageMod", CritDamageMod.value);
+        FBPP.SetFloat("BaseGrazeChance", BaseGrazeChance.value);
+        FBPP.SetFloat("GrazeDamageMod", GrazeDamageMod.value);
 
         foreach (MonsterSpawnerPanel spawner in _monsterSpawners)
         {
-            PlayerPrefs.SetInt($"{spawner.Race} Enabled", spawner.SpawnEnabled.isOn ? 1 : 0);
-            PlayerPrefs.SetInt($"{spawner.Race} Add-On", spawner.AddonRace.isOn ? 1 : 0);
-            PlayerPrefs.SetFloat($"{spawner.Race} Spawn Rate", spawner.SpawnRate.value);
+            FBPP.SetInt($"{spawner.Race} Enabled", spawner.SpawnEnabled.isOn ? 1 : 0);
+            FBPP.SetInt($"{spawner.Race} Add-On", spawner.AddonRace.isOn ? 1 : 0);
+            FBPP.SetFloat($"{spawner.Race} Spawn Rate", spawner.SpawnRate.value);
 
             if (int.TryParse(spawner.ScalingRate.text, out int scaling))
-                PlayerPrefs.SetInt($"{spawner.Race} Scale Factor", scaling);
+                FBPP.SetInt($"{spawner.Race} Scale Factor", scaling);
             else
-                PlayerPrefs.SetInt($"{spawner.Race} Scale Factor", 40);
+                FBPP.SetInt($"{spawner.Race} Scale Factor", 40);
             if (int.TryParse(spawner.MaxArmies.text, out int armies))
-                PlayerPrefs.SetInt($"{spawner.Race} Max Armies", armies);
+                FBPP.SetInt($"{spawner.Race} Max Armies", armies);
             else
-                PlayerPrefs.SetInt($"{spawner.Race} Max Armies", 4);
+                FBPP.SetInt($"{spawner.Race} Max Armies", 4);
 
             if (float.TryParse(spawner.Confidence.text, out float confidence))
-                PlayerPrefs.SetFloat($"{spawner.Race} Confidence", confidence);
+                FBPP.SetFloat($"{spawner.Race} Confidence", confidence);
             else
-                PlayerPrefs.SetFloat($"{spawner.Race} Confidence", 6f);
+                FBPP.SetFloat($"{spawner.Race} Confidence", 6f);
 
             if (int.TryParse(spawner.MinArmySize.text, out int minSize))
-                PlayerPrefs.SetInt($"{spawner.Race} Min Army Size", minSize);
+                FBPP.SetInt($"{spawner.Race} Min Army Size", minSize);
             else
-                PlayerPrefs.SetInt($"{spawner.Race} Min Army Size", 8);
+                FBPP.SetInt($"{spawner.Race} Min Army Size", 8);
 
             if (int.TryParse(spawner.MaxArmySize.text, out int maxSize))
-                PlayerPrefs.SetInt($"{spawner.Race} Max Army Size", maxSize);
+                FBPP.SetInt($"{spawner.Race} Max Army Size", maxSize);
             else
-                PlayerPrefs.SetInt($"{spawner.Race} Max Army Size", 12);
+                FBPP.SetInt($"{spawner.Race} Max Army Size", 12);
 
             if (int.TryParse(spawner.Team.text, out int team))
-                PlayerPrefs.SetInt($"{spawner.Race} Team", team);
+                FBPP.SetInt($"{spawner.Race} Team", team);
             else
-                PlayerPrefs.SetInt($"{spawner.Race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.Race));
+                FBPP.SetInt($"{spawner.Race} Team", 900 + RaceFuncs.RaceToIntForTeam(spawner.Race));
 
             if (int.TryParse(spawner.TurnOrder.text, out int turnOrder))
-                PlayerPrefs.SetInt($"{spawner.Race} Turn Order", turnOrder);
+                FBPP.SetInt($"{spawner.Race} Turn Order", turnOrder);
             else
-                PlayerPrefs.SetInt($"{spawner.Race} Turn Order", 40);
+                FBPP.SetInt($"{spawner.Race} Turn Order", 40);
 
             if (int.TryParse(spawner.SpawnAttempts.text, out int attempts))
-                PlayerPrefs.SetInt($"{spawner.Race} Attempts", attempts);
+                FBPP.SetInt($"{spawner.Race} Attempts", attempts);
             else
-                PlayerPrefs.SetInt($"{spawner.Race} Attempts", 1);
+                FBPP.SetInt($"{spawner.Race} Attempts", 1);
 
-            PlayerPrefs.SetInt($"{spawner.Race} Conquest Type", spawner.ConquestType.value);
+            FBPP.SetInt($"{spawner.Race} Conquest Type", spawner.ConquestType.value);
 
+            FBPP.Save();
+            
             if (State.World?.AllActiveEmpires != null)
             {
                 var emp = State.World.GetEmpireOfRace(spawner.Race);

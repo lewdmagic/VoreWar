@@ -17,9 +17,9 @@ namespace Races.Graphics.Implementations.MainRaces
             IClothing leaderClothes = AntLeaderClothes.AntLeaderClothesInstance.Create(_paramsCalc);
 
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
                 unit.AccessoryColor = unit.SkinColor;
 
@@ -31,7 +31,7 @@ namespace Races.Graphics.Implementations.MainRaces
                 }
             });
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("AntQueen", "AntQueens");
                 output.CanBeGender = new List<Gender> { Gender.Female, Gender.Hermaphrodite };

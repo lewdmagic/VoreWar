@@ -1,4 +1,4 @@
-API_VERSION = "0.0.1"
+API_VERSION = "0.1.0"
 
 ---@param input IClothingSetupInput
 ---@param output IClothingSetupOutput

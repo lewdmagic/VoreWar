@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.Monsters
         {
             RaceFrameList frameListWings = new RaceFrameList(new int[2] { 0, 1 }, new float[2] { .2f, .2f });
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Feral Bat", "Feral Bats");
                 output.RaceTraits(new RaceTraits()
@@ -197,7 +197,7 @@ namespace Races.Graphics.Implementations.Monsters
 
             builder.RunBefore(Defaults.BasicBellyRunAfter);
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
                 unit.SkinColor = State.Rand.Next(0, data.SetupOutput.SkinColors);

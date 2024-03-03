@@ -9,10 +9,8 @@ public interface IGlobalLua
     Vector3 NewVector3(float x, float y, float z);
 
     Vector2 NewVector2(float x, float y);
-
-    ColorSwapPalette GetPalette(SwapType swap, int index);
-
-    int GetPaletteCount(SwapType swap);
+    
+    int GetPaletteCount(string paletteName);
 
     IClothing MakeClothing(string stringId);
 

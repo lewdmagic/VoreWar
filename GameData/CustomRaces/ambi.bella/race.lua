@@ -1,8 +1,9 @@
-API_VERSION = "0.0.1"
+API_VERSION = "0.1.0"
 
 --- Core function: called once to set up the race.
+---@param output ISetupInput
 ---@param output ISetupOutput
-function Setup(output)
+function Setup(input, output)
     output.Names("Bella", "Bellas");
 
     --output.FixedGender = true;
@@ -99,7 +100,8 @@ end
 
 --- Core function: called to randomize a unit of this race.
 ---@param input IRandomCustomInput
-function RandomCustom(input)
-    Defaults.RandomCustom(input);
+---@param input IRandomCustomOutput
+function Randomize(input, output)
+    Defaults.Randomize(input, output);
     input.Unit.Name = "Bella";
 end

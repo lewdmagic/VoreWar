@@ -2,11 +2,11 @@ using System;
 
 internal class RaceScriptUsable
 {
-    internal Action<ISetupOutput> SetupFunc;
-    internal Action<IRunInput, IRaceRenderAllOutput> Generator;
-    internal Action<IRandomCustomInput> Value;
+    internal readonly Action<ISetupInput, ISetupOutput> SetupFunc;
+    internal readonly Action<IRunInput, IRaceRenderAllOutput> Generator;
+    internal readonly Action<IRandomCustomInput, IRandomCustomOutput> Value;
 
-    internal RaceScriptUsable(Action<ISetupOutput> setupFunc, Action<IRunInput, IRaceRenderAllOutput> generator, Action<IRandomCustomInput> value)
+    internal RaceScriptUsable(Action<ISetupInput, ISetupOutput> setupFunc, Action<IRunInput, IRaceRenderAllOutput> generator, Action<IRandomCustomInput, IRandomCustomOutput> value)
     {
         SetupFunc = setupFunc;
         Generator = generator;

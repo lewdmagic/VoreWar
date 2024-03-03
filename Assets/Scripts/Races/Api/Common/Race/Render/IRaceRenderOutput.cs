@@ -30,6 +30,7 @@ public interface IRaceRenderOutput
     IRaceRenderOutput Coloring(Color? colorFunc);
     IRaceRenderOutput Coloring(ColorSwapPalette paletteFunc);
     IRaceRenderOutput Coloring(SwapType swap, int index);
+    IRaceRenderOutput Palette(string paletteName, int index);
 
     IRaceRenderOutput SetHide(bool hide);
 

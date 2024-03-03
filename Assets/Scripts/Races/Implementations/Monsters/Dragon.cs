@@ -13,7 +13,7 @@ namespace Races.Graphics.Implementations.Monsters
 
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Dragon", "Dragons");
                 output.BonesInfo((unit) => new List<BoneInfo>()
@@ -381,7 +381,7 @@ namespace Races.Graphics.Implementations.Monsters
                 }
             });
 
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
 
         private static Position CalcPosition(IActorUnit actor)

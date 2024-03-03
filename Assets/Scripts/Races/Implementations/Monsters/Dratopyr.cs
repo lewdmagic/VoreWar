@@ -18,7 +18,7 @@ namespace Races.Graphics.Implementations.Monsters
             RaceFrameList frameListEars = new RaceFrameList(new int[18] { 0, 1, 2, 1, 0, 1, 0, 1, 2, 1, 2, 1, 0, 1, 2, 1, 2, 1 }, new float[18] { 2.2f, 0.3f, 0.5f, 0.2f, 0.8f, 0.3f, 1.5f, 0.9f, 1.3f, 0.6f, 0.4f, 0.3f, 2.2f, 1.5f, 0.6f, 0.3f, 0.8f, 0.2f });
 
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Dratopyr", "Dratopyrs");
                 output.RaceTraits(new RaceTraits()
@@ -472,9 +472,9 @@ namespace Races.Graphics.Implementations.Monsters
                 output.ChangeSprite(SpriteType.Belly).AddOffset(0, -80 * .625f);
             });
 
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
                 IUnitRead unit = data.Unit;
 
 

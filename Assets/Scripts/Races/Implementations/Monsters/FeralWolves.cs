@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Feral Wolf", "Feral Wolves");
                 output.FlavorText(new FlavorText(
@@ -112,7 +112,7 @@ namespace Races.Graphics.Implementations.Monsters
 
                 output.Sprite(input.Sprites.FeralWolf[10 + input.A.GetStomachSize(4)]);
             });
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
     }
 }

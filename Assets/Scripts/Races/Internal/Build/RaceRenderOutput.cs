@@ -21,7 +21,8 @@ internal class RaceRenderOutput : IRaceRenderOutput
     public bool? Hide { get; private set; }
 
     public Color? Color { get; private set; }
-    public ColorSwapPalette Palette { get; private set; }
+    public ColorSwapPalette PaletteValue { get; private set; }
+    public (string, int)? RacePalette { get; private set; }
 
     private Sprite GetSpriteInternal(string id, bool returnNull)
     {
@@ -164,13 +165,13 @@ internal class RaceRenderOutput : IRaceRenderOutput
     public IRaceRenderOutput Coloring(Color? color)
     {
         Color = color;
-        Palette = null;
+        PaletteValue = null;
         return this;
     }
 
     public IRaceRenderOutput Coloring(ColorSwapPalette palette)
     {
-        Palette = palette;
+        PaletteValue = palette;
         Color = null;
         return this;
     }
@@ -180,6 +181,13 @@ internal class RaceRenderOutput : IRaceRenderOutput
         Coloring(ColorPaletteMap.GetPalette(swap, index));
         return this;
     }
+    
+    public IRaceRenderOutput Palette(string paletteName, int index)
+    {
+        RacePalette = (paletteName, index);
+        return this;
+    }
+
 
     public IRaceRenderOutput SetHide(bool hide)
     {

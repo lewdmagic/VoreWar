@@ -10,7 +10,7 @@ namespace Races.Graphics.Implementations.Monsters
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Cake", "Cakes");
                 output.BonesInfo((unit) => new List<BoneInfo>()
@@ -126,7 +126,7 @@ namespace Races.Graphics.Implementations.Monsters
             }); // Candles.
 
             builder.RunBefore(Defaults.Finalize);
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
     }
 }

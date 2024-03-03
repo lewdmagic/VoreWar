@@ -112,6 +112,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         State.CarefulIntatntiate();
+        
+        // Improved player preference library 
+        FBPP.Start(new FBPPConfig()
+        {
+            SaveFileName = "contentsettings.json",
+            AutoSaveData = false,
+            ScrambleSaveData = false,
+            //EncryptionSecret = "my-secret",
+            SaveFilePath = "UserData"
+        });
+        
         StartMode.UI.SetActive(true);
         _currentScene = StartMode;
         State.GameManager = this;

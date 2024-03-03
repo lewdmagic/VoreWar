@@ -7,8 +7,8 @@ using System;
 
 internal interface IRaceBuilder
 {
-    void Setup(Action<ISetupOutput> setupFunc);
-    void RandomCustom(Action<IRandomCustomInput> value);
+    void Setup(Action<ISetupInput, ISetupOutput> setupFunc);
+    void RandomCustom(Action<IRandomCustomInput, IRandomCustomOutput> value);
     void RunBefore(Action<IRunInput, IRunOutput> value);
 
     void RenderSingle(SpriteType spriteType, int layer, Action<IRaceRenderInput, IRaceRenderOutput> generator);

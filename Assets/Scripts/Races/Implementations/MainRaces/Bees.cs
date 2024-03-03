@@ -14,7 +14,7 @@ namespace Races.Graphics.Implementations.MainRaces
         {
             RaceFrameList frameListWings = new RaceFrameList(new[] { 0, 1, 2, 3, 2, 1 }, new[] { .05f, .05f, .05f, .05f, .05f, .05f });
 
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Bee", "Bees");
                 output.FlavorText(new FlavorText(
@@ -533,10 +533,10 @@ namespace Races.Graphics.Implementations.MainRaces
 
 
             builder.RunBefore(Defaults.BasicBellyRunAfter);
-            builder.RandomCustom(data =>
+            builder.RandomCustom((data, output) =>   
             {
                 IUnitRead unit = data.Unit;
-                Defaults.RandomCustom(data);
+                Defaults.Randomize(data, output);
 
                 if (unit.HasDick && unit.HasBreasts)
                 {

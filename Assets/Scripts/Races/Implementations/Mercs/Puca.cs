@@ -12,7 +12,7 @@ namespace Races.Graphics.Implementations.Mercs
     {
         internal static readonly RaceDataMaker Instance = RaceBuilderStatic.CreateV2(Defaults.Blank, builder =>
         {
-            builder.Setup(output =>
+            builder.Setup((input, output) =>
             {
                 output.Names("Puca", "Puca");
                 output.FlavorText(new FlavorText(
@@ -267,7 +267,7 @@ namespace Races.Graphics.Implementations.Mercs
                 }
             });
 
-            builder.RandomCustom(Defaults.RandomCustom);
+            builder.RandomCustom(Defaults.Randomize);
         });
 
 
