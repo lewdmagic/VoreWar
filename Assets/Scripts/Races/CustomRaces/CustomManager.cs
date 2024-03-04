@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using MoonSharp.Interpreter;
 using UnityEngine;
 
@@ -27,8 +28,8 @@ public class CustomManager
 
     internal class FsPaletteData
     {
-        internal string PaletteId;
-        internal FileInfo PaletteImage;
+        internal readonly string PaletteId;
+        internal readonly FileInfo PaletteImage;
 
         public FsPaletteData(string paletteId, FileInfo paletteImage)
         {
@@ -55,6 +56,24 @@ public class CustomManager
         }
     }
 
+    internal class CachedFileInfo
+    {
+        readonly string Path;
+        readonly string Name;
+        readonly string NameNoExtension;
+        readonly DateTime LastModifiedTime;
+        readonly long Size;
+
+        public CachedFileInfo(string path, string name, string nameNoExtension, DateTime lastModifiedTime, long size)
+        {
+            Path = path;
+            Name = name;
+            NameNoExtension = nameNoExtension;
+            LastModifiedTime = lastModifiedTime;
+            Size = size;
+        }
+    }
+
 
     private class FsGameData
     {
@@ -72,6 +91,19 @@ public class CustomManager
     private static FileInfo[] LoadSpriteNames2(string path)
     {
         return new DirectoryInfo(path).GetFiles("*.png");
+    }
+
+    internal void StartChangeScanning()
+    {
+
+        Thread myThread = new Thread(MyFunction);
+        myThread.Start();
+    }
+    
+    void MyFunction()
+    {
+        
+        // Some work here
     }
 
 
@@ -141,7 +173,13 @@ public class CustomManager
     
     internal void LoadAllCustom()
     {
+        
+        var watch = System.Diagnostics.Stopwatch.StartNew();
         FsGameData fsGameData = LoadFsGameData();
+        watch.Stop();
+
+        Debug.Log($"Execution Time: {watch.ElapsedMilliseconds} ms");
+        
         Process(fsGameData);
     }
     
