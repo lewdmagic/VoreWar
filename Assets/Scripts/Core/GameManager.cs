@@ -109,6 +109,34 @@ public class GameManager : MonoBehaviour
 
     public static CustomManager CustomManager;
 
+    // Helper function for getting the command line arguments
+    private static string GetArg(string name)
+    {
+        var args = System.Environment.GetCommandLineArgs();
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (args[i] == name && args.Length > i + 1)
+            {
+                return args[i + 1];
+            }
+        }
+        return null;
+    }
+    
+    // Helper function for getting the command line arguments
+    private static bool HasFlag(string name)
+    {
+        var args = System.Environment.GetCommandLineArgs();
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (args[i] == name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     private void Start()
     {
         State.CarefulIntatntiate();
@@ -131,7 +159,13 @@ public class GameManager : MonoBehaviour
         //State.SpriteManager = new SpriteManager();
         //State.SpriteManager.Process2();
 
-        CustomManager = new CustomManager();
+        bool developerMode = HasFlag("--dev-mode");
+        
+        #if UNITY_EDITOR == true
+            developerMode = true;
+        #endif
+        
+        CustomManager = new CustomManager(developerMode);
         CustomManager.LoadAllCustom();
         Race2.LoadHardcodedRaces();
         SeliciaMod.ModAll();

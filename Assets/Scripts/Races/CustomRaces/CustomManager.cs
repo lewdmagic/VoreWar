@@ -8,15 +8,24 @@ using UnityEngine;
 
 public class CustomManager
 {
+
+    private readonly bool _autoScan = false;
+    
+    internal CustomManager(bool autoScan)
+    {
+        _autoScan = autoScan;
+    }
+    
+    
     internal class FsClothingData
     {
         internal readonly string RaceId;
         internal readonly string ClothingId;
         internal readonly string ClothingFolderName;
         internal readonly string ClothingLuaCode;
-        internal readonly FileInfo[] Sprites;
+        internal readonly CachedFileInfo[] Sprites;
 
-        public FsClothingData(string raceId, string clothingFolderName, string clothingId, string clothingLuaCode, FileInfo[] sprites)
+        public FsClothingData(string raceId, string clothingFolderName, string clothingId, string clothingLuaCode, CachedFileInfo[] sprites)
         {
             RaceId = raceId;
             ClothingId = clothingId;
@@ -43,11 +52,11 @@ public class CustomManager
         internal readonly string RaceId;
         internal readonly string RaceFolderName;
         internal readonly string RaceLuaCode;
-        internal readonly FileInfo[] Sprites;
+        internal readonly CachedFileInfo[] Sprites;
         internal readonly List<FsClothingData> Clothing = new List<FsClothingData>();
         internal readonly List<FsPaletteData> Palettes = new List<FsPaletteData>();
 
-        public FsRaceData(string raceId, string raceFolderName, string raceLuaCode, FileInfo[] sprites)
+        public FsRaceData(string raceId, string raceFolderName, string raceLuaCode, CachedFileInfo[] sprites)
         {
             RaceId = raceId;
             RaceFolderName = raceFolderName;
@@ -58,11 +67,11 @@ public class CustomManager
 
     internal class CachedFileInfo
     {
-        readonly string Path;
-        readonly string Name;
-        readonly string NameNoExtension;
-        readonly DateTime LastModifiedTime;
-        readonly long Size;
+        internal readonly string Path;
+        internal readonly string Name;
+        internal readonly string NameNoExtension;
+        internal readonly DateTime LastModifiedTime;
+        internal readonly long Size;
 
         public CachedFileInfo(string path, string name, string nameNoExtension, DateTime lastModifiedTime, long size)
         {
@@ -71,6 +80,17 @@ public class CustomManager
             NameNoExtension = nameNoExtension;
             LastModifiedTime = lastModifiedTime;
             Size = size;
+        }
+
+        internal static CachedFileInfo FromFileInfo(FileInfo fileInfo)
+        {
+            return new CachedFileInfo(
+                fileInfo.FullName,
+                fileInfo.Name,
+                fileInfo.NameNoExtension(),
+                fileInfo.LastWriteTimeUtc,
+                fileInfo.Length
+            );
         }
     }
 
@@ -107,6 +127,11 @@ public class CustomManager
     }
 
 
+    private static CachedFileInfo[] GetFileInfos(string path, string filter)
+    {
+        return new DirectoryInfo(path).GetFiles(filter).Select(it => CachedFileInfo.FromFileInfo(it)).ToArray();
+    }
+    
     private static FsGameData LoadFsGameData()
     {
         List<FsRaceData> races = new List<FsRaceData>();
@@ -120,8 +145,7 @@ public class CustomManager
             string raceId = customRaceFolderName.ToLower();
             string raceCode = File.ReadAllText($"GameData/CustomRaces/{customRaceFolderName}/race.lua");
 
-            FileInfo[] raceSpriteNames = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Sprites").GetFiles("*.png");
-
+            CachedFileInfo[] raceSpriteNames = GetFileInfos($"GameData/CustomRaces/{customRaceFolderName}/Sprites", "*.png");
             FsRaceData fsRaceData = new FsRaceData(raceId, customRaceFolderName, raceCode, raceSpriteNames);
 
 
@@ -133,7 +157,7 @@ public class CustomManager
             {
                 string clothingId = clothingFolderName.ToLower();
                 string clothingCode = File.ReadAllText($"GameData/CustomRaces/{customRaceFolderName}/Clothing/{clothingFolderName}/clothing.lua");
-                FileInfo[] clothingSpriteNames = new DirectoryInfo($"GameData/CustomRaces/{customRaceFolderName}/Clothing/{clothingFolderName}/Sprites").GetFiles("*.png");
+                CachedFileInfo[] clothingSpriteNames = GetFileInfos($"GameData/CustomRaces/{customRaceFolderName}/Clothing/{clothingFolderName}/Sprites", "*.png");
 
                 FsClothingData fsClothingData = new FsClothingData(raceId, clothingFolderName, clothingId, clothingCode, clothingSpriteNames);
                 fsRaceData.Clothing.Add(fsClothingData);
@@ -182,36 +206,98 @@ public class CustomManager
     private bool _needToReloadSprites = false;
     private FsGameData _previosFsGameData = null;
 
+    // Note: Incomplete
+    private bool CachedFileInfoEquals(CachedFileInfo one, CachedFileInfo two)
+    {
+        if (one.LastModifiedTime != two.LastModifiedTime) return false;
+        return true;
+    }
+    
+    // Note: Incomplete
+    private bool FsClothingEquals(FsClothingData one, FsClothingData two)
+    {
+        if (!CachedFileArraysEquals(one.Sprites, two.Sprites))
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    // Note: Incomplete
     private bool FsRaceEquals(FsRaceData one, FsRaceData two)
     {
-        return false;
-    } 
-    
+        if (!CachedFileArraysEquals(one.Sprites, two.Sprites))
+        {
+            return false;
+        }
+
+        if (one.Clothing.Count != two.Clothing.Count) return false;
+
+        for (int i = 0; i < one.Clothing.Count; i++)
+        {
+            var oneClothing = one.Clothing[i];
+            var twoClothing = two.Clothing[i];
+            if (!FsClothingEquals(oneClothing, twoClothing)) return false;
+        }
+        
+        
+        return true;
+    }
+
+    private bool CachedFileArraysEquals(CachedFileInfo[] one, CachedFileInfo[] two)
+    {
+        if (one.Length != two.Length) return false;
+
+        for (int i = 0; i < one.Length; i++)
+        {
+            var oneRace = one[i];
+            var twoRace = two[i];
+            if (!CachedFileInfoEquals(oneRace, twoRace)) return false;
+        }
+
+        return true;
+    }
+
+    // Note: Incomplete
     private bool FsDataEquals(FsGameData one, FsGameData two)
     {
+        if (one == two) return true;
+        if (one == null || two == null) return false;
+        
         if (one.Races.Count != two.Races.Count) return false;
         for (int i = 0; i < one.Races.Count; i++)
         {
             var oneRace = one.Races[i];
             var twoRace = two.Races[i];
-            
-            
+            if (!FsRaceEquals(oneRace, twoRace)) return false;
         }
-        return false;
+        return true;
     }
     
     internal void CheckIfRefreshNeeded()
     {
+        if (!_autoScan) return;
+        Debug.Log("Checking for changes");
         if (!_needToReloadSprites)
         {
             FsGameData fsGameData = LoadFsGameData();
-            
+            if (!FsDataEquals(fsGameData, _previosFsGameData))
+            {
+                _needToReloadSprites = true;
+                _previosFsGameData = fsGameData;
+            }
         }
     }
 
     internal void RefreshIfNeeded()
     {
-        
+        if (!_autoScan) return;
+        if (_needToReloadSprites)
+        {
+            Debug.Log("Auto refreshing Custom");
+            ProcessSprites(_previosFsGameData);
+            _needToReloadSprites = false;
+        }
     }
     
     
@@ -252,22 +338,22 @@ public class CustomManager
 
         foreach (FsRaceData fsRaceData in gameData.Races)
         {
-            foreach (FileInfo raceSpriteFileInfo in fsRaceData.Sprites)
+            foreach (CachedFileInfo raceSpriteFileInfo in fsRaceData.Sprites)
             {
-                string pureName = raceSpriteFileInfo.NameNoExtension().ToLower();
+                string pureName = raceSpriteFileInfo.NameNoExtension.ToLower();
                 string key = $"race/{fsRaceData.RaceId}/{pureName}";
                 string path = $"GameData/CustomRaces/{fsRaceData.RaceFolderName}/Sprites/{raceSpriteFileInfo.Name}";
-                spriteToLoadList.Add(new SpriteToLoad(key, path, raceSpriteFileInfo.LastWriteTimeUtc.ToFileTimeUtc()));
+                spriteToLoadList.Add(new SpriteToLoad(key, path, raceSpriteFileInfo.LastModifiedTime.ToFileTimeUtc()));
             }
 
             foreach (FsClothingData fsClothingData in fsRaceData.Clothing)
             {
-                foreach (FileInfo clothingSpriteFileInfo in fsClothingData.Sprites)
+                foreach (CachedFileInfo clothingSpriteFileInfo in fsClothingData.Sprites)
                 {
-                    string pureName = clothingSpriteFileInfo.Name.Substring(0, clothingSpriteFileInfo.Name.Length - clothingSpriteFileInfo.Extension.Length).ToLower();
+                    string pureName = clothingSpriteFileInfo.NameNoExtension.ToLower();
                     string key = $"clothing/{fsRaceData.RaceId}/{fsClothingData.ClothingId}/{pureName}";
                     string path = $"GameData/CustomRaces/{fsRaceData.RaceFolderName}/Clothing/{fsClothingData.ClothingFolderName}/Sprites/{clothingSpriteFileInfo.Name}";
-                    spriteToLoadList.Add(new SpriteToLoad(key, path, clothingSpriteFileInfo.LastWriteTimeUtc.ToFileTimeUtc()));
+                    spriteToLoadList.Add(new SpriteToLoad(key, path, clothingSpriteFileInfo.LastModifiedTime.ToFileTimeUtc()));
                 }
             }
         }

@@ -32,11 +32,8 @@ public static class SpritePacker
     
     internal static (string, Sprite)[] LoadOrUpdateTextures(IEnumerable<SpriteToLoad> toLoads)
     {
-
-        foreach (var texture in _texture2Ds)
-        {
-            Object.Destroy(texture);
-        }
+        List<Texture2D> toRemove = new List<Texture2D>(_texture2Ds);
+        _texture2Ds.Clear();
         
         // TODO a lot of redundant and inefficient conversions
         List<TextureToPack> texturesToPack = toLoads.Select(it => { return new TextureToPack(it.Path, it.Key); }).ToList();
@@ -51,6 +48,11 @@ public static class SpritePacker
             {
                 result.Add((dictEntry.Key, dictEntry.Value));
             }
+        }        
+        
+        foreach (var texture in toRemove)
+        {
+            Object.Destroy(texture);
         }
 
         return result.ToArray();
