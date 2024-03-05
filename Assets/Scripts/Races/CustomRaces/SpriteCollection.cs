@@ -24,7 +24,7 @@ public class SpriteCollection : ISpriteCollection
         return _dictionary.GetOrNull(name);
     }
 
-    public void Add(string name, Sprite sprite)
+    public void Set(string name, Sprite sprite)
     {
         _dictionary[name] = sprite;
     }

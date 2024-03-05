@@ -170,20 +170,65 @@ public class CustomManager
 
         return new FsGameData(races, commonPalettes);
     }
+
+
+    internal void Refresh()
+    {
+        Debug.Log("Refreshing Custom");
+        FsGameData fsGameData = LoadFsGameData();
+        ProcessSprites(fsGameData);
+    }
+
+    private bool _needToReloadSprites = false;
+    private FsGameData _previosFsGameData = null;
+
+    private bool FsRaceEquals(FsRaceData one, FsRaceData two)
+    {
+        return false;
+    } 
+    
+    private bool FsDataEquals(FsGameData one, FsGameData two)
+    {
+        if (one.Races.Count != two.Races.Count) return false;
+        for (int i = 0; i < one.Races.Count; i++)
+        {
+            var oneRace = one.Races[i];
+            var twoRace = two.Races[i];
+            
+            
+        }
+        return false;
+    }
+    
+    internal void CheckIfRefreshNeeded()
+    {
+        if (!_needToReloadSprites)
+        {
+            FsGameData fsGameData = LoadFsGameData();
+            
+        }
+    }
+
+    internal void RefreshIfNeeded()
+    {
+        
+    }
+    
     
     internal void LoadAllCustom()
     {
-        
         var watch = System.Diagnostics.Stopwatch.StartNew();
         FsGameData fsGameData = LoadFsGameData();
         watch.Stop();
 
         Debug.Log($"Execution Time: {watch.ElapsedMilliseconds} ms");
-        
-        Process(fsGameData);
+
+        ProcessPalettes(fsGameData);
+        ProcessSprites(fsGameData);
+        ProcessRacesAndClothing(fsGameData);
     }
-    
-    private void Process(FsGameData gameData)
+
+    private void ProcessPalettes(FsGameData gameData)
     {
         foreach (FsPaletteData fsPaletteData in gameData.Palettes)
         {
@@ -199,7 +244,10 @@ public class CustomManager
                 RegisterPalette(fsRaceData.RaceId, fsPaletteData.PaletteId, loader.texture);
             }
         }
-        
+    }
+
+    private void ProcessSprites(FsGameData gameData)
+    {
         List<SpriteToLoad> spriteToLoadList = new List<SpriteToLoad>();
 
         foreach (FsRaceData fsRaceData in gameData.Races)
@@ -229,9 +277,6 @@ public class CustomManager
         foreach (var (key, sprite) in sprites)
         {
             string[] split = key.Split('/');
-
-            //Debug.Log(key);
-
             switch (split[0])
             {
                 case "race":
@@ -240,7 +285,7 @@ public class CustomManager
                     string spriteId = split[2];
 
                     SpriteCollection spriteCollection = _raceSpriteCollections.GetOrSet(raceId, () => new SpriteCollection($"Race sprite collection for {raceId}"));
-                    spriteCollection.Add(spriteId, sprite);
+                    spriteCollection.Set(spriteId, sprite);
                     break;
                 }
                 case "clothing":
@@ -250,14 +295,18 @@ public class CustomManager
                     string spriteId = split[3];
 
                     SpriteCollection spriteCollection = _clothingSpriteCollection.GetOrSet((raceId, clothingId), () => new SpriteCollection($"Clothing sprite collection for {raceId}/{clothingId}"));
-                    spriteCollection.Add(spriteId, sprite);
+                    spriteCollection.Set(spriteId, sprite);
                     break;
                 }
                 default:
                     throw new Exception($"unknown sprite category {split[0]}");
             }
         }
-
+    }
+    
+    
+    private void ProcessRacesAndClothing(FsGameData gameData)
+    {
         foreach (FsRaceData fsRaceData in gameData.Races)
         {
             foreach (FsClothingData fsClothingData in fsRaceData.Clothing)

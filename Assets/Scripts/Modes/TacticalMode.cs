@@ -2381,6 +2381,8 @@ Turns: {CurrentTurn}
 
     private void UpdateStatus(float dt)
     {
+        GameManager.CustomManager.RefreshIfNeeded();
+        
         if (SpectatorMode) RunningFriendlyAI = true;
 
         Translator?.UpdateLocation();
@@ -4257,7 +4259,7 @@ Turns: {CurrentTurn}
 
         if (Input.GetButtonDown("ReloadSprites"))
         {
-            State.SpriteManager.Process2();
+            GameManager.CustomManager.Refresh();
         }
 
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Z))

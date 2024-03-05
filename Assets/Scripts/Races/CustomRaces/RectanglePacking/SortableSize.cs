@@ -32,11 +32,11 @@ namespace DaVikingCode.RectanglePacking
     public class SortableSize
     {
         public int Height;
-        public int ID;
+        public string ID;
 
         public int Width;
 
-        public SortableSize(int width, int height, int id)
+        public SortableSize(int width, int height, string id)
         {
             this.Width = width;
             this.Height = height;

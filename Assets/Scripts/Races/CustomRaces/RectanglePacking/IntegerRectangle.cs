@@ -34,7 +34,7 @@ namespace DaVikingCode.RectanglePacking
     {
         public int Bottom;
         public int Height;
-        public int ID;
+        public string ID;
         public int Right;
         public int Width;
 
