@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using DaVikingCode.AssetPacker;
 using UnityEngine;
@@ -268,6 +269,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        UnityFuncs.EnforceAspectRatio();
         if (ActiveInput) return;
         if (_remainingCameraTime > 0) _remainingCameraTime -= Time.deltaTime;
         if (_remainingCameraTime <= 0) CornerCameraView.gameObject.SetActive(false);
