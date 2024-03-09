@@ -1,0 +1,1 @@
+start Vorewar.exe --dev-mode
