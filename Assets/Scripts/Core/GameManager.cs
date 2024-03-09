@@ -3,6 +3,7 @@ using System.Linq;
 using DaVikingCode.AssetPacker;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Utility;
 
 public class GameManager : MonoBehaviour
 {
@@ -109,33 +110,7 @@ public class GameManager : MonoBehaviour
 
     public static CustomManager CustomManager;
 
-    // Helper function for getting the command line arguments
-    private static string GetArg(string name)
-    {
-        var args = System.Environment.GetCommandLineArgs();
-        for (int i = 0; i < args.Length; i++)
-        {
-            if (args[i] == name && args.Length > i + 1)
-            {
-                return args[i + 1];
-            }
-        }
-        return null;
-    }
-    
-    // Helper function for getting the command line arguments
-    private static bool HasFlag(string name)
-    {
-        var args = System.Environment.GetCommandLineArgs();
-        for (int i = 0; i < args.Length; i++)
-        {
-            if (args[i] == name)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+
     
     private void Start()
     {
@@ -159,7 +134,7 @@ public class GameManager : MonoBehaviour
         //State.SpriteManager = new SpriteManager();
         //State.SpriteManager.Process2();
 
-        bool developerMode = HasFlag("--dev-mode");
+        bool developerMode = CommandLine.HasFlag("--dev-mode");
         
         #if UNITY_EDITOR == true
             developerMode = true;

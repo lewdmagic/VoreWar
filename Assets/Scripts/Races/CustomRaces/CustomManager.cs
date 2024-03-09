@@ -38,9 +38,9 @@ public class CustomManager
     internal class FsPaletteData
     {
         internal readonly string PaletteId;
-        internal readonly FileInfo PaletteImage;
+        internal readonly CachedFileInfo PaletteImage;
 
-        public FsPaletteData(string paletteId, FileInfo paletteImage)
+        public FsPaletteData(string paletteId, CachedFileInfo paletteImage)
         {
             PaletteId = paletteId;
             PaletteImage = paletteImage;
@@ -170,7 +170,7 @@ public class CustomManager
 
                 foreach (FileInfo paletteImage in paletteImages)
                 {
-                    FsPaletteData fsPaletteData = new FsPaletteData(paletteImage.NameNoExtension().ToLower(), paletteImage);
+                    FsPaletteData fsPaletteData = new FsPaletteData(paletteImage.NameNoExtension().ToLower(), CachedFileInfo.FromFileInfo(paletteImage));
                     fsRaceData.Palettes.Add(fsPaletteData);
                 }
             }
@@ -187,7 +187,7 @@ public class CustomManager
 
             foreach (FileInfo paletteImage in paletteImages)
             {
-                FsPaletteData fsPaletteData = new FsPaletteData(paletteImage.NameNoExtension().ToLower(), paletteImage);
+                FsPaletteData fsPaletteData = new FsPaletteData(paletteImage.NameNoExtension().ToLower(), CachedFileInfo.FromFileInfo(paletteImage));
                 commonPalettes.Add(fsPaletteData);
             }
         }
@@ -204,6 +204,7 @@ public class CustomManager
     }
 
     private bool _needToReloadSprites = false;
+    private bool _needToReloadPalettes = false;
     private FsGameData _previosFsGameData = null;
 
     // Note: Incomplete
@@ -274,19 +275,71 @@ public class CustomManager
         return true;
     }
     
+    private bool FsDataEqualsPalette(FsGameData one, FsGameData two)
+    {
+        if (one == two) return true;
+        if (one == null || two == null) return false;
+        
+        if (one.Races.Count != two.Races.Count) return false;
+        for (int i = 0; i < one.Races.Count; i++)
+        {
+            var oneRace = one.Races[i];
+            var twoRace = two.Races[i];
+
+            if (oneRace.Palettes.Count != twoRace.Palettes.Count) return false;
+            for (int paletteIndex = 0; paletteIndex < oneRace.Palettes.Count; paletteIndex++)
+            {
+                var onePalette = oneRace.Palettes[paletteIndex].PaletteImage;
+                var twoPalette = twoRace.Palettes[paletteIndex].PaletteImage;
+
+                if (!CachedFileInfoEquals(onePalette, twoPalette))
+                {
+                    return false;
+                }
+            }
+        }
+        
+        // Common
+        for (int i = 0; i < one.Palettes.Count; i++)
+        {
+            var onePalette = one.Palettes[i].PaletteImage;
+            var twoPalette = two.Palettes[i].PaletteImage;
+
+            if (!CachedFileInfoEquals(onePalette, twoPalette))
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     internal void CheckIfRefreshNeeded()
     {
         if (!_autoScan) return;
-        Debug.Log("Checking for changes");
+        FsGameData replacementData = null;
+        
         if (!_needToReloadSprites)
         {
             FsGameData fsGameData = LoadFsGameData();
             if (!FsDataEquals(fsGameData, _previosFsGameData))
             {
                 _needToReloadSprites = true;
-                _previosFsGameData = fsGameData;
+                replacementData = fsGameData;
             }
         }
+
+        if (!_needToReloadPalettes)
+        {
+            FsGameData fsGameData = LoadFsGameData();
+            if (!FsDataEqualsPalette(fsGameData, _previosFsGameData))
+            {
+                _needToReloadPalettes = true;
+                replacementData = fsGameData;
+            }
+        }
+
+        if (replacementData != null) _previosFsGameData = replacementData;
     }
 
     internal void RefreshIfNeeded()
@@ -294,31 +347,38 @@ public class CustomManager
         if (!_autoScan) return;
         if (_needToReloadSprites)
         {
-            Debug.Log("Auto refreshing Custom");
+            Debug.Log("Auto refreshing Sprites");
             ProcessSprites(_previosFsGameData);
             _needToReloadSprites = false;
+        }
+        if (_needToReloadPalettes)
+        {
+            // This creates a memory leak because the old Palettes are not destroyed. 
+            // However, the palettes are tiny, and the number of updates is unlikely to
+            // reach very high numbers
+            Debug.Log("Auto refreshing Palettes");
+            ProcessPalettes(_previosFsGameData);
+            _needToReloadPalettes = false;
         }
     }
     
     
     internal void LoadAllCustom()
     {
-        var watch = System.Diagnostics.Stopwatch.StartNew();
         FsGameData fsGameData = LoadFsGameData();
-        watch.Stop();
-
-        Debug.Log($"Execution Time: {watch.ElapsedMilliseconds} ms");
 
         ProcessPalettes(fsGameData);
         ProcessSprites(fsGameData);
         ProcessRacesAndClothing(fsGameData);
+
+        _previosFsGameData = fsGameData;
     }
 
     private void ProcessPalettes(FsGameData gameData)
     {
         foreach (FsPaletteData fsPaletteData in gameData.Palettes)
         {
-            var loader = new WWW("file:///" + fsPaletteData.PaletteImage.FullName);
+            var loader = new WWW("file:///" + fsPaletteData.PaletteImage.Path);
             RegisterCommonPalette(fsPaletteData.PaletteId, loader.texture);
         }
         
@@ -326,7 +386,7 @@ public class CustomManager
         {
             foreach (FsPaletteData fsPaletteData in fsRaceData.Palettes)
             {
-                var loader = new WWW("file:///" + fsPaletteData.PaletteImage.FullName);
+                var loader = new WWW("file:///" + fsPaletteData.PaletteImage.Path);
                 RegisterPalette(fsRaceData.RaceId, fsPaletteData.PaletteId, loader.texture);
             }
         }
@@ -409,14 +469,12 @@ public class CustomManager
     
     private void RegisterPalette(string raceId, string paletteId, Texture2D map)
     {
-        List<ColorSwapPalette> palettes = _racePalettes.GetOrSet((raceId, paletteId), () => new List<ColorSwapPalette>());
-        palettes.AddRange(TextureToPalettes(map));
+        _racePalettes[(raceId, paletteId)] = TextureToPalettes(map);
     }
     
     private void RegisterCommonPalette(string paletteId, Texture2D map)
     {
-        List<ColorSwapPalette> palettes = _commonPalettes.GetOrSet(paletteId, () => new List<ColorSwapPalette>());
-        palettes.AddRange(TextureToPalettes(map));
+        _commonPalettes[paletteId] = TextureToPalettes(map);
     }
 
     private static List<ColorSwapPalette> TextureToPalettes(Texture2D map)
@@ -523,14 +581,20 @@ public class CustomManager
 
     internal int GetRacePaletteCount(string raceId, string paletteId)
     {
-        if (_racePalettes.TryGetValue((raceId, paletteId), out var res))
+
+        List<ColorSwapPalette> res;
+        
+        if (_racePalettes.TryGetValue((raceId, paletteId), out res))
         {
             return res.Count;
         }
-        else
+        
+        if (_commonPalettes.TryGetValue(paletteId, out res))
         {
-            throw new Exception($"Palette for {(raceId, paletteId)} does not exist");
+            return res.Count;
         }
+        
+        throw new Exception($"Palette for {(raceId, paletteId)} does not exist");
     }
 
     internal SpriteCollection GetClothingSpriteCollection(string raceId, string clothingId)

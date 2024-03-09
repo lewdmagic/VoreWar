@@ -25,6 +25,8 @@ internal class SpriteToLoad
 
 public static class SpritePacker
 {
+    private const bool LogStats = false;
+    
     private const int TextureSize = 2048;
     private const float PixelsPerUnit = 160f;
 
@@ -101,7 +103,7 @@ public static class SpritePacker
         // }
         
         watch5.Stop();
-        Debug.Log($"{watch5.ElapsedMilliseconds}");
+        if (LogStats) Debug.Log($"{watch5.ElapsedMilliseconds}");
         
         var watch8 = System.Diagnostics.Stopwatch.StartNew();
         
@@ -112,7 +114,7 @@ public static class SpritePacker
             resultCollection.Add((item, bytes));
         });
         watch8.Stop();
-        Debug.Log($"{watch8.ElapsedMilliseconds}");
+        if (LogStats) Debug.Log($"{watch8.ElapsedMilliseconds}");
 
         var watch9 = System.Diagnostics.Stopwatch.StartNew();
         var res = resultCollection.ToList();
@@ -125,7 +127,7 @@ public static class SpritePacker
             textureEntryMap[itemToRaster.Id] = textureEntry;
         }
         watch9.Stop();
-        Debug.Log($"{watch9.ElapsedMilliseconds}");
+        if (LogStats) Debug.Log($"{watch9.ElapsedMilliseconds}");
         
         int width = textureSize;
         int height = textureSize;
@@ -144,7 +146,7 @@ public static class SpritePacker
         }
 
         watch1.Stop();
-        Debug.Log(watch1.ElapsedMilliseconds);
+        if (LogStats) Debug.Log(watch1.ElapsedMilliseconds);
 
         return entries;
     }
@@ -173,7 +175,7 @@ public static class SpritePacker
         //File.WriteAllBytes("UserData/texture" + textureEntryMap.Count + ".png", bytes);
 
         watch50.Stop();
-        Debug.Log(watch50.ElapsedMilliseconds);
+        if (LogStats) Debug.Log(watch50.ElapsedMilliseconds);
         
         return new Entry(mSprites, texture, spriteInfos.ToArray());
     }
