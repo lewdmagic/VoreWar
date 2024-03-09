@@ -294,6 +294,13 @@ public class TacticalMode : SceneBase
             _buildingTileTypes[i] = ScriptableObject.CreateInstance<Tile>();
             _buildingTileTypes[i].sprite = allSprites[i];
         }
+        InvokeRepeating("CheckSpriteRefresh", 3.0f, 0.3f);
+    }
+    
+    void CheckSpriteRefresh()
+    {
+        GameManager.CustomManager.CheckIfRefreshNeeded();
+        GameManager.CustomManager.RefreshIfNeeded();
     }
 
     private void PlaceUndoMarker()
@@ -2381,6 +2388,7 @@ Turns: {CurrentTurn}
 
     private void UpdateStatus(float dt)
     {
+        
         if (SpectatorMode) RunningFriendlyAI = true;
 
         Translator?.UpdateLocation();
@@ -4257,7 +4265,7 @@ Turns: {CurrentTurn}
 
         if (Input.GetButtonDown("ReloadSprites"))
         {
-            State.SpriteManager.Process2();
+            GameManager.CustomManager.Refresh();
         }
 
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.Z))

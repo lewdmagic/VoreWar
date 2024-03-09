@@ -3,6 +3,7 @@ using System.Linq;
 using DaVikingCode.AssetPacker;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Utility;
 
 public class GameManager : MonoBehaviour
 {
@@ -109,6 +110,8 @@ public class GameManager : MonoBehaviour
 
     public static CustomManager CustomManager;
 
+
+    
     private void Start()
     {
         State.CarefulIntatntiate();
@@ -131,7 +134,13 @@ public class GameManager : MonoBehaviour
         //State.SpriteManager = new SpriteManager();
         //State.SpriteManager.Process2();
 
-        CustomManager = new CustomManager();
+        bool developerMode = CommandLine.HasFlag("--dev-mode");
+        
+        #if UNITY_EDITOR == true
+            developerMode = true;
+        #endif
+        
+        CustomManager = new CustomManager(developerMode);
         CustomManager.LoadAllCustom();
         Race2.LoadHardcodedRaces();
         SeliciaMod.ModAll();

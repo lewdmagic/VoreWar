@@ -109,13 +109,13 @@ namespace DaVikingCode.RectanglePacking
             return rectangle;
         }
 
-        public int GetRectangleId(int index)
+        public string GetRectangleId(int index)
         {
             var inserted = _mInsertedRectangles[index];
             return inserted.ID;
         }
 
-        public void InsertRectangle(int width, int height, int id)
+        public void InsertRectangle(int width, int height, string id)
         {
             var sortableSize = AllocateSize(width, height, id);
             _mInsertList.Add(sortableSize);
@@ -349,7 +349,7 @@ namespace DaVikingCode.RectanglePacking
             _mRectangleStack.Add(rectangle);
         }
 
-        private SortableSize AllocateSize(int width, int height, int id)
+        private SortableSize AllocateSize(int width, int height, string id)
         {
             if (_mSortableSizeStack.Count > 0)
             {
