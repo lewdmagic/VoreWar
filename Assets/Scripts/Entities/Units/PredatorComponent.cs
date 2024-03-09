@@ -1387,29 +1387,41 @@ public class PredatorComponent
         bool freshKill = false;
         if (Unit.HasTrait(TraitType.Extraction) && !TacticalUtilities.IsPreyEndoTargetForUnit(preyUnit, Unit))
         {
-            var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
-
-            if (possibleTraits.Any())
+            if (preyUnit.Unit.GetTraits.Any())
             {
-                var trait = possibleTraits[State.Rand.Next(possibleTraits.Length)];
-                Unit.AddPermanentTrait(trait);
-                //process vore traits appropriately
-                if (TraitList.GetTrait(trait) is IVoreCallback callback)
+
+                var trait = preyUnit.Unit.GetTraits[State.Rand.Next(preyUnit.Unit.GetTraits.Count)];
+                var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
+                if (possibleTraits.Any())
                 {
-                    if (callback.IsPredTrait == true)
-                        callback.OnSwallow(preyUnit, _actor, location);
+                    trait = possibleTraits[State.Rand.Next(possibleTraits.Length)];
+                    if (Unit.HasTrait(TraitType.SynchronizedEvolution))
+                    {
+                        RaceSettingsItem item = State.RaceSettings.Get(Unit.Race);
+                        item.RaceTraits.Add(trait);
+                        UpdateRaceTraits();
+                    }
                     else
-                        callback.OnRemove(preyUnit, _actor, location);
+                    {
+                        Unit.AddPermanentTrait(trait);
+                        //process vore traits appropriately
+                        if (TraitList.GetTrait(trait) is IVoreCallback callback)
+                        {
+                            if (callback.IsPredTrait == true)
+                                callback.OnSwallow(preyUnit, _actor, location);
+                            else
+                                callback.OnRemove(preyUnit, _actor, location);
+                        }
+                        UpdateUnitTraits();
+                    }
+                }
+                else
+                {
+                    Unit.GiveRawExp(5);
+                    _actor.UnitSprite.DisplayDamage(5, false, true);
                 }
 
                 preyUnit.Unit.RemoveTrait(trait);
-            }
-            else if (preyUnit.Unit.GetTraits.Any())
-            {
-                var trait = preyUnit.Unit.GetTraits[State.Rand.Next(preyUnit.Unit.GetTraits.Count)];
-                preyUnit.Unit.RemoveTrait(trait);
-                Unit.GiveRawExp(5);
-                _actor.UnitSprite.DisplayDamage(5, false, true);
             }
         }
 
@@ -1701,6 +1713,8 @@ public class PredatorComponent
                 float cap = TotalCapacity();
                 escapeMult = 1.4f + 2 * (Fullness / cap - 1);
                 _actor.Damage((int)(FreeCap() * -1) / 2);
+                // TODO Overfeeding damage is missing
+                //if (Config.OverfeedingDamage) actor.Damage((int)(FreeCap() * -1) / 2);
             }
 
             if (State.Rand.NextDouble() < preyUnit.EscapeRate * escapeMult && preyUnit.Actor.Surrendered == false)
@@ -1798,28 +1812,25 @@ public class PredatorComponent
     //    return released;
     //}
 
-    private void CheckPredTraitAbsorption(Prey preyUnit)
+    
+    void CheckPredTraitAbsorption(Prey preyUnit)
     {
         bool updated = false;
-        bool raceUpdated = true;
         if (Unit.HasTrait(TraitType.Extraction))
         {
             var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
-
             foreach (TraitType trait in possibleTraits)
             {
                 Unit.AddPermanentTrait(trait);
                 preyUnit.Unit.RemoveTrait(trait);
                 updated = true;
             }
-
             foreach (TraitType trait in preyUnit.Unit.GetTraits)
             {
                 preyUnit.Unit.RemoveTrait(trait);
                 Unit.GiveRawExp(5);
             }
         }
-
         if (preyUnit.Unit.HasTrait(TraitType.Donor))
         {
             int donorIndex = preyUnit.Unit.GetTraits.IndexOf(TraitType.Donor);
@@ -1829,22 +1840,23 @@ public class PredatorComponent
             foreach (TraitType trait in possibleTraits)
             {
                 Unit.AddPermanentTrait(trait);
-                preyUnit.Unit.RemoveTrait(trait);
-                updated = true;
+                    preyUnit.Unit.RemoveTrait(trait);
+                    updated = true;
             }
         }
-
-        if (Unit.HasTrait(TraitType.InfiniteAssimilation))
+        if (Unit.HasTrait(TraitType.InfiniteAssimilation) || Unit.HasTrait(TraitType.Assimilate))
         {
             var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
 
             if (possibleTraits.Any())
             {
+                if (Unit.BaseTraitsCount >= 5 && Unit.HasTrait(TraitType.Assimilate))
+                    Unit.RemoveTrait(TraitType.Assimilate);
                 if (Unit.HasTrait(TraitType.SynchronizedEvolution))
                 {
                     RaceSettingsItem item = State.RaceSettings.Get(Unit.Race);
                     item.RaceTraits.Add(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
-                    raceUpdated = true;
+                    UpdateRaceTraits();
                 }
                 else
                 {
@@ -1853,49 +1865,6 @@ public class PredatorComponent
                 }
             }
         }
-        else if (Unit.HasTrait(TraitType.Assimilate))
-        {
-            if (Unit.BaseTraitsCount < 5)
-            {
-                var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
-
-                if (possibleTraits.Any())
-                {
-                    if (Unit.HasTrait(TraitType.SynchronizedEvolution))
-                    {
-                        RaceSettingsItem item = State.RaceSettings.Get(Unit.Race);
-                        item.RaceTraits.Add(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
-                        raceUpdated = true;
-                    }
-                    else
-                    {
-                        Unit.AddPermanentTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
-                        updated = true;
-                    }
-                }
-            }
-            else if (Unit.BaseTraitsCount == 5)
-            {
-                var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
-
-                if (possibleTraits.Any())
-                {
-                    Unit.RemoveTrait(TraitType.Assimilate);
-                    if (Unit.HasTrait(TraitType.SynchronizedEvolution))
-                    {
-                        RaceSettingsItem item = State.RaceSettings.Get(Unit.Race);
-                        item.RaceTraits.Add(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
-                        raceUpdated = true;
-                    }
-                    else
-                    {
-                        Unit.AddPermanentTrait(possibleTraits[State.Rand.Next(possibleTraits.Length)]);
-                        updated = true;
-                    }
-                }
-            }
-        }
-
         if (Unit.HasTrait(TraitType.AdaptiveBiology) && updated == false)
         {
             var possibleTraits = preyUnit.Unit.GetTraits.Where(s => Unit.GetTraits.Contains(s) == false && State.AssimilateList.CanGet(s)).ToArray();
@@ -1906,51 +1875,52 @@ public class PredatorComponent
                 updated = true;
             }
         }
+        if (updated) UpdateUnitTraits();
+    }
+    
+    public void UpdateUnitTraits()
+    {
+        Unit.ReloadTraits();
+        Unit.InitializeTraits();
+    }
 
-        if (updated)
+    public void UpdateRaceTraits()
+    {
+        if (State.World.Villages != null)
         {
-            Unit.ReloadTraits();
-            Unit.InitializeTraits();
+            var units = StrategicUtilities.GetAllUnits();
+            foreach (Unit unit in units)
+            {
+                unit.ReloadTraits();
+            }
         }
-
-        if (raceUpdated)
+        else
         {
-            if (State.World.Villages != null)
+            foreach (ActorUnit actor in TacticalUtilities.Units)
             {
-                var units = StrategicUtilities.GetAllUnits();
-                foreach (Unit unit in units)
-                {
-                    unit.ReloadTraits();
-                }
+                actor.Unit.ReloadTraits();
+                actor.Unit.InitializeTraits();
+                actor.Unit.UpdateSpells();
             }
-            else
+        }
+        if (State.World.AllActiveEmpires != null)
+        {
+            foreach (Empire emp in State.World.AllActiveEmpires)
             {
-                foreach (ActorUnit actor in TacticalUtilities.Units)
+                if (RaceFuncs.IsRebelOrBandit4(emp.Side))
+                    continue;
+                var raceFlags = State.RaceSettings.GetRaceTraits(emp.ReplacedRace);
+                if (raceFlags != null)
                 {
-                    actor.Unit.ReloadTraits();
-                    actor.Unit.InitializeTraits();
-                    actor.Unit.UpdateSpells();
-                }
-            }
-
-            if (State.World.AllActiveEmpires != null)
-            {
-                foreach (Empire emp in State.World.AllActiveEmpires)
-                {
-                    if (RaceFuncs.IsRebelOrBandit4(emp.Side)) continue;
-                    var raceFlags = State.RaceSettings.GetRaceTraits(emp.ReplacedRace);
-                    if (raceFlags != null)
-                    {
-                        if (raceFlags.Contains(TraitType.Prey))
-                            emp.CanVore = false;
-                        else
-                            emp.CanVore = true;
-                    }
+                    if (raceFlags.Contains(TraitType.Prey))
+                        emp.CanVore = false;
+                    else
+                        emp.CanVore = true;
                 }
             }
         }
     }
-
+    
     private void DigestionEffect(Prey preyUnit, ActorUnit existingPredator)
     {
         if (Config.BurpOnDigest)
@@ -2174,7 +2144,10 @@ public class PredatorComponent
             var location = Location(preyUnit);
             fullness += preyUnit.Actor.Bulk();
             if (location == PreyLocation.Breasts)
-            {
+            {                
+                // This condition is for kangaroo pouch vore, when proper pouch sprites are implemented, remove it
+                if (_actor.Unit.Race == Race.Kangaroo)
+                    stomachFullness += preyUnit.Actor.Bulk();
                 breastFullness += preyUnit.Actor.Bulk();
             }
             else if (location == PreyLocation.Balls)
@@ -2321,7 +2294,8 @@ public class PredatorComponent
         if (indent > 12) return "";
         if (prey.Unit == null) return "";
         var loc = prey.Location.ToString();
-        if (Equals(Unit.Race, Race.Terrorbird) && prey.Location == PreyLocation.Tail) loc = "Crop";
+        if (Equals(Unit.Race, Race.Terrorbird) && prey.Location == PreyLocation.Tail) loc = "crop";
+        if (Equals(Unit.Race, Race.Kangaroo) && prey.Location == PreyLocation.Breasts) loc = "pouch";
         if (prey.Unit.IsDead == false && Unit.HasTrait(TraitType.DualStomach) && Stomach.Contains(prey))
         {
             if (indent > 0) ret += $"L:{indent} ";
@@ -2609,7 +2583,7 @@ public class PredatorComponent
                     int oldMp = _actor.Movement;
                     _actor.Attack(target, false, true, canKill: false);
                     _actor.Movement = oldMp;
-                    bit = true; //Used because killed units are considered to be surrendered, so this prevents a bite that kills a unit being counted as 2 mp
+                    bit = true; //Used because killed units are considered to be surrendered, so this prevents a bite that kills a unit being counted as 2 AP
                 }
                 else
                 {
@@ -2807,6 +2781,8 @@ public class PredatorComponent
         if (Config.KuroTenkoEnabled && (Config.FeedingType == FeedingType.Both || Config.FeedingType == FeedingType.BreastfeedOnly))
         {
             var race = RaceFuncs.GetRace(_actor.Unit.Race);
+            if (_actor.Unit.Race == Race.Kangaroo)
+                return false;
             if (race.SetupOutput.ExtendedBreastSprites)
             {
                 foreach (Prey preyUnit in LeftBreast)
