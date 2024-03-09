@@ -248,13 +248,15 @@ public abstract class TacticalAI : ITacticalAI
 
         foreach (ActorUnit actor in Actors)
         {
-            // Needed for AttackerAI to see, not sure why, but it works. 
-            int unitSightRange = Config.DefualtTacticalSightRange + actor.Unit.TraitBoosts.SightRangeBoost;
-            foreach (var seenUnit in TacticalUtilities.UnitsWithinTiles(actor.Position, unitSightRange).Where(s => TacticalUtilities.TreatAsHostile(s, actor)))
+            if (State.World.IsNight)
             {
-                seenUnit.InSight = true;
+                int unitSightRange = Config.DefualtTacticalSightRange + actor.Unit.TraitBoosts.SightRangeBoost;
+                foreach (var seenUnit in TacticalUtilities.UnitsWithinTiles(actor.Position, unitSightRange).Where(s => TacticalUtilities.TreatAsHostile(actor, s)))
+                {
+                    seenUnit.InSight = true;
+                }
             }
-
+            
             if (actor.Targetable == true && Equals(actor.Unit.Side, AISide) && (ForeignTurn ? !TacticalUtilities.IsUnitControlledByPlayer(actor.Unit) : true) && actor.Movement > 0)
             {
                 if (TacticalUtilities.IsUnitControlledByPlayer(actor.Unit) && State.GameManager.TacticalMode.RunningFriendlyAI == false && !State.GameManager.TacticalMode.IgnorePseudo && !State.GameManager.TacticalMode.TurboMode)
@@ -736,7 +738,7 @@ public abstract class TacticalAI : ITacticalAI
         {
             foreach (ActorUnit unit in Actors)
             {
-                if (unit.Targetable && unit.InSight && (TacticalUtilities.TreatAsHostile(actor, unit) || (unit.Unit.GetStatusEffect(StatusEffectType.Hypnotized)?.Duration < 3 && unit != actor)) && unit.Bulk() <= cap)
+                if (unit.Targetable && (unit.InSight || !State.World.IsNight) && (TacticalUtilities.TreatAsHostile(actor, unit) || (unit.Unit.GetStatusEffect(StatusEffectType.Hypnotized)?.Duration < 3 && unit != actor)) && unit.Bulk() <= cap)
                 {
                     int distance = unit.Position.GetNumberOfMovesDistance(position);
                     if (distance <= movement || anyDistance)
@@ -885,7 +887,7 @@ public abstract class TacticalAI : ITacticalAI
         {
             foreach (ActorUnit unit in Actors)
             {
-                if (unit.Targetable && unit.InSight && TacticalUtilities.TreatAsHostile(actor, unit) && unit.Bulk() <= cap && TacticalUtilities.FreeSpaceAroundTarget(unit.Position, actor))
+                if (unit.Targetable && (unit.InSight || !State.World.IsNight) && TacticalUtilities.TreatAsHostile(actor, unit) && unit.Bulk() <= cap && TacticalUtilities.FreeSpaceAroundTarget(unit.Position, actor))
                 {
                     int distance = unit.Position.GetNumberOfMovesDistance(position);
                     if (distance <= 2 + moves)
@@ -968,7 +970,7 @@ public abstract class TacticalAI : ITacticalAI
         if (State.GameManager.TacticalMode.IsOnlyOneSideVisible() && actor.Unit.IsInfiltratingSide(AISide)) return targets;
         foreach (ActorUnit unit in Actors)
         {
-            if (unit.Targetable == true && unit.InSight && TacticalUtilities.FreeSpaceAroundTarget(unit.Position, actor) && TacticalUtilities.TreatAsHostile(actor, unit) && (unit.Surrendered == false || (OnlySurrenderedEnemies && LackPredators) || CurrentTurn > 150))
+            if (unit.Targetable == true && (unit.InSight || !State.World.IsNight) && TacticalUtilities.FreeSpaceAroundTarget(unit.Position, actor) && TacticalUtilities.TreatAsHostile(actor, unit) && (unit.Surrendered == false || (OnlySurrenderedEnemies && LackPredators) || CurrentTurn > 150))
             {
                 int distance = unit.Position.GetNumberOfMovesDistance(position);
                 if (distance <= 2 + moves)
@@ -1040,7 +1042,7 @@ public abstract class TacticalAI : ITacticalAI
                 }
                 else
                 {
-                    if (reserveTarget.InSight)
+                    if (reserveTarget.InSight || !State.World.IsNight)
                     {
                         MoveToAndAction(actor, reserveTarget.Position, actor.BestRanged.Range, 999, () => actor.Attack(reserveTarget, true));
                     }
@@ -1111,7 +1113,7 @@ public abstract class TacticalAI : ITacticalAI
         ActorUnit reserveTarget = targets[0].Actor;
         while (targets.Any())
         {
-            if (targets[0].Distance < 2 && targets[0].Actor.InSight)
+            if (targets[0].Distance < 2 && (targets[0].Actor.InSight || !State.World.IsNight))
             {
                 actor.Attack(targets[0].Actor, false);
                 DidAction = true;
@@ -1119,7 +1121,7 @@ public abstract class TacticalAI : ITacticalAI
             }
             else
             {
-                if (targets[0].Actor.Position.GetNumberOfMovesDistance(actor.Position) < actor.Movement && targets[0].Actor.InSight) //discard the clearly impossible
+                if (targets[0].Actor.Position.GetNumberOfMovesDistance(actor.Position) < actor.Movement && (targets[0].Actor.InSight || !State.World.IsNight)) //discard the clearly impossible
                 {
                     if (Equals(actor.Unit.Race, Race.Asura) && TacticalActionList.TargetedDictionary[SpecialAction.ShunGokuSatsu].AppearConditional(actor))
                         MoveToAndAction(actor, targets[0].Actor.Position, 1, actor.Movement, () => actor.ShunGokuSatsu(targets[0].Actor));
@@ -1343,7 +1345,7 @@ public abstract class TacticalAI : ITacticalAI
             {
                 var prevBinder = Actors.Where(a => a.Unit.BoundUnit?.Unit == unit.Unit).FirstOrDefault();
 
-                if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
+                if (unit.Targetable == true && (unit.InSight || !State.World.IsNight) && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
                 {
                     int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                     float chance = unit.GetMagicChance(unit, spell);
@@ -1360,7 +1362,7 @@ public abstract class TacticalAI : ITacticalAI
                 {
                     var prevBinder = Actors.Where(a => a.Unit.BoundUnit?.Unit == unit.Unit).FirstOrDefault();
 
-                    if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
+                    if (unit.Targetable == true && (unit.InSight || !State.World.IsNight) && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
                     {
                         int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                         float chance = unit.GetMagicChance(unit, spell);
@@ -1420,7 +1422,7 @@ public abstract class TacticalAI : ITacticalAI
             {
                 var prevBinder = Actors.Where(a => a.Unit.BoundUnit?.Unit == unit.Unit).FirstOrDefault();
 
-                if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
+                if (unit.Targetable == true && (unit.InSight || !State.World.IsNight) && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
                 {
                     int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                     float chance = unit.GetMagicChance(unit, spell);
@@ -1437,7 +1439,7 @@ public abstract class TacticalAI : ITacticalAI
                 {
                     var prevBinder = Actors.Where(a => a.Unit.BoundUnit?.Unit == unit.Unit).FirstOrDefault();
 
-                    if (unit.Targetable == true && unit.InSight && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
+                    if (unit.Targetable == true && (unit.InSight || !State.World.IsNight) && unit.Surrendered == false && !Equals(prevBinder?.Unit.GetApparentSide(actor.Unit), actor.Unit.FixedSide) && !Equals(prevBinder?.Unit.FixedSide, actor.Unit.FixedSide))
                     {
                         int distance = unit.Position.GetNumberOfMovesDistance(actor.Position);
                         float chance = unit.GetMagicChance(unit, spell);
@@ -1553,14 +1555,14 @@ public abstract class TacticalAI : ITacticalAI
         ActorUnit reserveTarget = targets[0].Actor;
         while (targets.Any())
         {
-            if (targets[0].Distance <= spell.Range.Max && targets[0].Actor.InSight)
+            if (targets[0].Distance <= spell.Range.Max && (targets[0].Actor.InSight || !State.World.IsNight))
             {
                 if (spell.TryCast(actor, targets[0].Actor)) DidAction = true;
                 return;
             }
             else
             {
-                if (targets[0].Actor.Position.GetNumberOfMovesDistance(actor.Position) <= actor.Movement + spell.Range.Max && targets[0].Actor.InSight) //discard the clearly impossible
+                if (targets[0].Actor.Position.GetNumberOfMovesDistance(actor.Position) <= actor.Movement + spell.Range.Max && (targets[0].Actor.InSight || !State.World.IsNight)) //discard the clearly impossible
                 {
                     MoveToAndAction(actor, targets[0].Actor.Position, spell.Range.Max, actor.Movement, () => spell.TryCast(actor, targets[0].Actor));
                     if (FoundPath && Path.Path.Count() < actor.Movement)
@@ -1605,7 +1607,7 @@ public abstract class TacticalAI : ITacticalAI
                     targets.Add(new PotentialTarget(unit, net, distance, 4, net * 1000 + chance));
                 }
 
-                if (unit.Targetable == true && unit.InSight && unit.Surrendered == false)
+                if (unit.Targetable == true && (unit.InSight || !State.World.IsNight) && unit.Surrendered == false)
                 {
                     int distance = unit.Position.GetNumberOfMovesDistance(position);
                     float chance = unit.GetMagicChance(unit, spell);
