@@ -230,12 +230,12 @@ internal static class TraitList
             s.SpeedLossFromWeightMultiplier = 0;
             s.DodgeLossFromWeightMultiplier = 0.2f;
         }),
-        [TraitType.Maul] = new Booster("Allows unit to attack twice in melee.\nEach attack uses half of max mp", (s) =>
+        [TraitType.Maul] = new Booster("Allows unit to attack twice in melee.\nEach attack uses half of max AP", (s) =>
         {
             s.MeleeAttacks += 1;
             s.VirtualStrMult *= 1.8f;
         }),
-        [TraitType.DoubleAttack] = new Booster("Allows unit to attack twice in melee or ranged.\nEach attack uses half of max mp", (s) =>
+        [TraitType.DoubleAttack] = new Booster("Allows unit to attack twice in melee or ranged.\nEach attack uses half of max AP", (s) =>
         {
             s.MeleeAttacks += 1;
             s.RangedAttacks += 1;
@@ -273,7 +273,7 @@ internal static class TraitList
         }),
         [TraitType.SoftBody] = new Booster("Unit takes additional acid damage", (s) => s.Incoming.DigestionRate *= 2f),
         [TraitType.KeenReflexes] = new Booster("Gains a significant amount of dodge chance against ranged attacks", (s) => s.Incoming.RangedShift += 1.5f),
-        [TraitType.StrongGullet] = new Booster("Allows unit to do 2 vore attempts.\nEach vore uses half of max mp", (s) => s.VoreAttacks += 1),
+        [TraitType.StrongGullet] = new Booster("Allows unit to do 2 vore attempts.\nEach vore uses half of max AP", (s) => s.VoreAttacks += 1),
         [TraitType.AdeptLearner] = new Booster("Allows picking of any stat on level up and gives +1 to 2 random stats on level up", (s) =>
         {
             s.OnLevelUpBonusToGiveToTwoRandomStats += 1;
@@ -350,12 +350,12 @@ internal static class TraitList
             s.SpeedMultiplier *= .8f;
             s.Incoming.ChanceToEscape *= .25f;
         }),
-        [TraitType.Slippery] = new Booster("This unit is harder to eat, but has a hard time escaping once eaten", (s) =>
+        [TraitType.Slippery] = new Booster("Unit is harder to eat, but has a hard time escaping once eaten", (s) =>
         {
             s.Incoming.VoreOddsMult *= .8f;
             s.Incoming.ChanceToEscape *= .4f;
         }),
-        [TraitType.HealingBlood] = new Booster("This unit heals 2 hp per turn (and fully outside of battles), but is also worth a lot more healing to its predator", (s) =>
+        [TraitType.HealingBlood] = new Booster("Unit heals 2 hp per turn (and fully outside of battles), but is also worth a lot more healing to its predator", (s) =>
         {
             s.HealthRegen += 2;
             s.Outgoing.Nutrition *= 3f;
@@ -394,9 +394,9 @@ internal static class TraitList
         [TraitType.InstantAbsorption] = new Booster("Instantly absorbs dead prey. \n(Cheat Trait)", (s) => s.Outgoing.AbsorptionRate *= 1000000f),
         [TraitType.Inescapable] = new Booster("Prey can never escape. \n(Cheat Trait)", (s) => s.Outgoing.ChanceToEscape /= 1000f), //Handled seperately now.  
         [TraitType.Irresistable] = new Booster("Prey is always devoured. \n(Cheat Trait)", (s) => s.Outgoing.VoreOddsMult *= 1000000f),
-        [TraitType.Titanic] = new Booster("Unit is practically a giant. (x3 size). \n(Cheat Trait)", (s) => s.Scale *= 3f),
-        [TraitType.Colossal] = new Booster("Unit is far larger than normal (x2.5 size). \n(Cheat Trait)", (s) => s.Scale *= 2.5f),
-        [TraitType.Huge] = new Booster("Unit is considerably larger than normal (x2 size). \n(Cheat Trait)", (s) => s.Scale *= 2f),
+        [TraitType.Titanic] = new Booster("Unit is practically a giant. (size × 3). \n(Cheat Trait)", (s) => s.Scale *= 3f),
+        [TraitType.Colossal] = new Booster("Unit is far larger than normal (size × 2.5). \n(Cheat Trait)", (s) => s.Scale *= 2.5f),
+        [TraitType.Huge] = new Booster("Unit is considerably larger than normal (size × 2). \n(Cheat Trait)", (s) => s.Scale *= 2f),
         [TraitType.Tiny] = new Booster("Unit is far smaller than normal. \n(Cheat Trait)", (s) => s.Scale /= 3.0f),
         [TraitType.AdaptiveTactics] = new Booster("Unit earns double the normal amount of experience from actions.\n(Cheat Trait)", (s) => s.ExpGain *= 2),
         [TraitType.SlowMetabolism] = new Booster("Unit digests and absorbs prey very slowly (effectively the slow digestion and slow absorbtion traits combined, but is also slower than those)", (s) =>
@@ -418,10 +418,10 @@ internal static class TraitList
             s.Incoming.VoreOddsMult *= 0.75f;
             s.Incoming.MeleeDamage *= 1.2f;
         }),
-        [TraitType.PeakCondition] = new Booster("Unit is at the height of their physical condition (+50% all stats)", (s) => s.StatMult *= 1.5f),
-        [TraitType.Fit] = new Booster("Unit is in better shape than the average unit (+20% all stats)", (s) => s.StatMult *= 1.2f),
-        [TraitType.Illness] = new Booster("Unit is sick and is in poor shape (-20% all stats)", (s) => s.StatMult *= 0.8f),
-        [TraitType.Diseased] = new Booster("Unit is in terrible shape, and is only a shadow of its former self (-50% all stats)", (s) => s.StatMult *= 0.5f),
+        [TraitType.PeakCondition] = new Booster("Unit is at the height of their physical condition (all stats × 1.5)", (s) => s.StatMult *= 1.5f),
+        [TraitType.Fit] = new Booster("Unit is in better shape than the average unit (all stats × 1.2)", (s) => s.StatMult *= 1.2f),
+        [TraitType.Illness] = new Booster("Unit is sick and is in poor shape (all stats × 0.8)", (s) => s.StatMult *= 0.8f),
+        [TraitType.Diseased] = new Booster("Unit is in terrible shape, and is only a shadow of its former self (all stats × 0.5)", (s) => s.StatMult *= 0.5f),
         [TraitType.StretchyInsides] = new Booster("This unit can hold twice as many units as normal.", (s) => s.CapacityMult *= 2),
         [TraitType.UnlimitedCapacity] = new Booster("This unit effectively has no limit on consumed prey.\n(Cheat Trait)", (s) => s.CapacityMult *= 1000),
         [TraitType.Clumsy] = new Booster("This unit moves slower, and has slightly reduced melee accuracy and damage.", (s) =>
@@ -433,7 +433,7 @@ internal static class TraitList
         }),
         [TraitType.Honeymaker] = new Booster("When feeding another unit, more exprience is given and prey is absorbed slower.", (s) => { s.Incoming.RangedDamage *= 1.0f; }),
         [TraitType.WetNurse] = new Booster("When feeding another unit, more health is healed and less AP is consumed.", (s) => { s.Incoming.RangedDamage *= 1.0f; }),
-        [TraitType.HighlyAbsorbable] = new Booster("This unit's body gets absorbed more readily. (+50% absorb speed)", (s) => { s.Incoming.AbsorptionRate *= 1.5f; }),
+        [TraitType.HighlyAbsorbable] = new Booster("This unit's body gets absorbed more readily. (absorb speed × 1.5)", (s) => { s.Incoming.AbsorptionRate *= 1.5f; }),
         [TraitType.IdealSustenance] = new Booster("This unit's body gets absorbed efficiently and very fast.(+50% nutrition, +100% absorb speed)", (s) =>
         {
             s.Outgoing.Nutrition *= 1.5f;
@@ -445,21 +445,21 @@ internal static class TraitList
         [TraitType.SlowedGrowth] = new Booster("Unit grows 20% less from absorbing prey (Requires the Growth trait)", (s) => { s.Incoming.GrowthRate *= 0.8f; }),
         [TraitType.FleetingGrowth] = new Booster("Unit loses its gained growth more quickly (Requires the Growth trait)", (s) => { s.GrowthDecayRate *= 2f; }),
         [TraitType.PersistentGrowth] = new Booster("Unit loses its gained growth less quickly (Requires the Growth trait)", (s) => { s.GrowthDecayRate *= 0.5f; }),
-        [TraitType.ProteinRich] = new Booster("Absorbing this unit yields more (x2) healing and (with the growth trait) more growth than usual (+80%)", (s) =>
+        [TraitType.ProteinRich] = new Booster("Absorbing this unit yields more (2×) healing and (with the growth trait) more growth than usual (1.5×)", (s) =>
         {
             s.Outgoing.GrowthRate *= 1.5f;
             s.Outgoing.Nutrition *= 2f;
         }),
         [TraitType.EfficientGuts] = new Booster("Unit receives 50% more healing from absorbing prey", (s) => { s.Incoming.Nutrition *= 1.5f; }),
-        [TraitType.WastefulProcessing] = new Booster("Unit can't get as much healing out of prey, but they are done with it quicker. (+50% absorb speed, -50% nutrition)", (s) =>
+        [TraitType.WastefulProcessing] = new Booster("Unit can't get as much healing out of prey, but they are done with it quicker. (Absorption rate × 1.5, Nutrition received × 0.5)", (s) =>
         {
             s.Incoming.Nutrition *= 0.5f;
             s.Outgoing.AbsorptionRate *= 1.5f;
         }),
         [TraitType.TightNethers] = new Booster("This unit can only take much smaller units into their nethers, but their prey will not enlarge while inside their genitals.", (s) => { s.Incoming.RangedDamage *= 1.0f; }),
         [TraitType.NightEye] = new Booster("Increases night time vision range by +1 in Tactical battles and by +1 in stratigic if half of the units in an army have this trait.", (s) => { s.SightRangeBoost += 1; }),
-        [TraitType.KeenEye] = new Booster("Unit has the chance to deal increase damage when attacking.", (s) => { s.Outgoing.CritRateShift += 0.1f; }),
-        [TraitType.AccuteDodge] = new Booster("Unit has the chance to minimise recieved damage when being attacked. (Excludes spells and vore damage).", (s) => { s.Outgoing.GrazeRateShift += 0.1f; }),
+        [TraitType.KeenEye] = new Booster("Unit has a 10% chance to deal increase damage when attacking.", (s) => { s.Outgoing.CritRateShift += 0.1f; }),
+        [TraitType.AccuteDodge] = new Booster("Unit has a 10% chance to minimise recieved damage when being attacked. (Excludes spells and vore damage).", (s) => { s.Outgoing.GrazeRateShift += 0.1f; }),
         [TraitType.ViralDigestion] = new ViralDigestion(),
         [TraitType.AwkwardShape] = new Booster("This unit has a very strange body type, making them harder to swallow and providing less sustenance as prey.", (s) =>
         {
@@ -551,7 +551,7 @@ internal class Paralyzer : Trait, IAttackStatusEffect
 
 internal class BoggingSlime : Trait, IAttackStatusEffect
 {
-    public BoggingSlime() => Description = "Attacks from this unit have a chance to slime enemy units for 1 turn.\n(effect lowers mp to 50 % of max)\nDoes not stack.";
+    public BoggingSlime() => Description = "Attacks from this unit have a chance to slime enemy units for 1 turn.\n(effect lowers AP to 50 % of max)\nDoes not stack.";
 
     public void ApplyStatusEffect(ActorUnit actor, ActorUnit target, bool ranged, int damage)
     {
@@ -561,7 +561,7 @@ internal class BoggingSlime : Trait, IAttackStatusEffect
 
 internal class Vampirism : Trait, IAttackStatusEffect
 {
-    public Vampirism() => Description = "Melee Attacks from this unit will heal the attacker by a small amount (12% of damage done, to a minimum of 1).";
+    public Vampirism() => Description = "Melee attacks from this unit will heal the attacker by a small amount (12% of damage done, to a minimum of 1).";
 
     public void ApplyStatusEffect(ActorUnit actor, ActorUnit target, bool ranged, int damage)
     {
@@ -590,7 +590,7 @@ internal class Stinger : Trait, IAttackStatusEffect
 
 internal class DefensiveStance : Trait, IVoreDefenseOdds, IPhysicalDefenseOdds
 {
-    public DefensiveStance() => Description = "Unit gets a bonus to defense if it has at least 1 mp remaining";
+    public DefensiveStance() => Description = "Unit gets a bonus to defense if it has at least 1 AP remaining";
 
     public void PhysicalDefense(ActorUnit defender, ref float defMult) => defMult += defender.Movement > 0 ? 0.8f : 0;
 
@@ -615,7 +615,7 @@ internal class UnpleasantDigestion : VoreTrait
 {
     public UnpleasantDigestion()
     {
-        Description = "While digesting, Prey deals damage to predator";
+        Description = "While digesting, prey deals damage to predator";
     }
 
     public override bool IsPredTrait => false;
@@ -631,7 +631,7 @@ internal class Whispers : VoreTrait, IProvidesSingleSpell
 {
     public Whispers()
     {
-        Description = "Predator has a chance to be charmed and afflicted by Prey's curse each round";
+        Description = "Predator has a chance to be charmed and afflicted by Prey's Curse each round";
     }
 
     public override bool IsPredTrait => false;
@@ -649,7 +649,7 @@ internal class Parasite : VoreTraitBooster
 {
     public Parasite()
     {
-        Description = "A parasite prey will give the host CreateSpawn and set infection after digestion, host Takes minor damage on prey absorption and major damage when creating spawn";
+        Description = "A parasite prey will give the host CreateSpawn and set infection after digestion, host takes minor damage on prey absorption and major damage when creating spawn";
         Boost = (s) => s.Incoming.ChanceToEscape *= 0;
     }
 
@@ -669,7 +669,7 @@ internal class Metamorphosis : VoreTrait, INoAutoEscape
 {
     public Metamorphosis()
     {
-        Description = "Unit changes Race upon digestion";
+        Description = "Unit is revived and changes race upon being digested";
     }
 
     public override bool IsPredTrait => false;
@@ -702,7 +702,7 @@ internal class MetamorphicConversion : Metamorphosis
 {
     public MetamorphicConversion()
     {
-        Description = "Unit changes Race and side upon digestion";
+        Description = "Unit is revived, changes side and race upon being digested";
     }
 
     public override bool IsPredTrait => false;
@@ -722,8 +722,8 @@ internal class Possession : VoreTraitBooster, INoAutoEscape
 {
     public Possession()
     {
-        Description = "If a possession unit is eaten, the pred will be possessed as a hidden status. " +
-                      "Once possessed prey's stat total plus the Preds corruption is equal to that of the pred, they are under control of the side of the last-eaten possessed.";
+        Description = "When unit is eaten, pred will be possessed as a hidden status. " +
+                      "Once possessed prey's stat total plus the pred's corruption is equal to that of the pred, they are under control of the side of the last-eaten possessed.";
         Boost = (s) => s.Incoming.ChanceToEscape *= 0;
     }
 
@@ -771,7 +771,7 @@ internal class Changeling : VoreTrait, IProvidesMultiSpell
 {
     public Changeling()
     {
-        Description = "While absorbing a prey, Becomes that prey's Race";
+        Description = "While absorbing prey, changes to prey's race";
     }
 
     public override bool IsPredTrait => true;
@@ -805,7 +805,7 @@ internal class GreaterChangeling : Changeling
 {
     public GreaterChangeling()
     {
-        Description = "While digesting a prey, Becomes that prey's Race";
+        Description = "While digesting prey, changes to prey's race";
     }
 
     public override bool IsPredTrait => true;
@@ -892,7 +892,7 @@ internal class CreateSpawn : VoreTrait
 {
     public CreateSpawn()
     {
-        Description = "creates a spawn unit on prey Absorption";
+        Description = "Creates a spawn unit on prey absorption";
     }
 
     public override bool IsPredTrait => true;
@@ -913,7 +913,7 @@ internal class SpiritPossession : Possession
 {
     public SpiritPossession()
     {
-        Description = "Units soul continues to possess pred after death";
+        Description = "Unit's soul continues to possess pred after death";
         Boost = (s) => s.Incoming.ChanceToEscape *= 0;
     }
 
@@ -941,7 +941,7 @@ internal class ForcedMetamorphosis : VoreTraitBooster, INoAutoEscape
 {
     public ForcedMetamorphosis()
     {
-        Description = "Pred Unit will gain the metamorphosis trait on Prey death";
+        Description = "Pred will gain the Metamorphosis trait upon digesting this unit.";
         Boost = (s) => s.Incoming.ChanceToEscape *= 0;
     }
 
@@ -970,7 +970,7 @@ internal class ViralDigestion : VoreTrait
 {
     public ViralDigestion()
     {
-        Description = "This unit has powerful viruses within them, which cause any prey to take additional damage for a few turns even after escaping.";
+        Description = "Unit has powerful viruses within them, which cause any prey to take additional damage for a few turns even after escaping.";
     }
 
     public override bool IsPredTrait => true;
