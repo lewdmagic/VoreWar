@@ -274,7 +274,12 @@ public class FlavorText
     internal string GetPredDescription(Unit unit)
     {
         List<Weighted<Gendered>> filtered = ByType[FlavorType.PredAdjectives].Where(description => description.Value.Gender == null || description.Value.Gender == unit.GetGender()).ToList();
-        if (filtered.Count == 0) throw new Exception($"{unit.Race} has no GetPredDescription");
+        if (filtered.Count == 0)
+        {
+            // TODO Defaults are not working correctly. 
+            Debug.LogWarning($"{unit.Race} has no GetPredDescription");
+            return "strong";
+        }
         return PickWeighedFull(filtered).Text;
     }
 
