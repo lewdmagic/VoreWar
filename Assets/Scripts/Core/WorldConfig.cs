@@ -528,6 +528,7 @@ public class WorldConfig
             ["BurpOnDigest"] = false,
             ["FartOnAbsorb"] = false,
             ["StatBoostsAffectMaxHP"] = false,
+            ["OverfeedingDamage"] = false,
             ["DayNightEnabled"] = true,
             ["DayNightCosmetic"] = false,
             ["DayNightSchedule"] = true,

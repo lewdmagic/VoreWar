@@ -113,7 +113,7 @@ public class ActorUnit : IActorUnit
     public bool Hidden { get => _hidden; set => _hidden = value; }
 
     [OdinSerialize]
-    private bool _inSight;
+    private bool _inSight = true;
 
     public bool InSight { get => _inSight; set => _inSight = value; }
 
@@ -448,6 +448,7 @@ public class ActorUnit : IActorUnit
 
         if (Unit.HasTrait(TraitType.Binder) && State.World?.ItemRepository != null) //protection for the create strat screen
         {
+            Unit.SingleUseSpells.Add(SpellList.Bind.SpellType);
             Unit.SingleUseSpells.Add(SpellList.Bind.SpellType);
             Unit.UpdateSpells();
         }

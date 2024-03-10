@@ -2740,7 +2740,7 @@ public class Unit : IUnitRead //, ISerializationCallbackReceiver
             foreach (SpellType type in racePar.InnateSpells)
             {
                 var thisType = type;
-                if (thisType > SpellType.Resurrection) thisType = thisType - SpellType.Resurrection + SpellType.AlraunePuff - 1;
+                //if (thisType > SpellType.Resurrection) thisType = thisType - SpellType.Resurrection + SpellType.AlraunePuff - 1;
                 if (SpellList.SpellDict.TryGetValue(thisType, out Spell spell))
                 {
                     UseableSpells.Add(spell);

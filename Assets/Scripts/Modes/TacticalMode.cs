@@ -578,11 +578,6 @@ public class TacticalMode : SceneBase
                     State.GameManager.CreateMessageBox(message);
             }
         }
-
-        if (State.World.IsNight)
-        {
-            UpdateFog();
-        }
     }
 
     private void InitRetreatConditions(ITacticalAI ai, List<ActorUnit> fighters, Empire empire, bool nonPlayer)
@@ -2324,7 +2319,7 @@ Turns: {CurrentTurn}
 
         if (actor.Movement <= 0)
         {
-            if (silent == false) State.GameManager.CreateMessageBox("Unit needs at least 1 mp to flee");
+            if (silent == false) State.GameManager.CreateMessageBox("Unit needs at least 1 AP to flee");
             return;
         }
 
@@ -3374,10 +3369,6 @@ Turns: {CurrentTurn}
     {
         AllSurrenderedCheck();
         Log.RegisterNewTurn(_attackersTurn ? AttackerName : DefenderName, CurrentTurn);
-        if (State.World.IsNight)
-        {
-            UpdateFog();
-        }
 
         for (int i = 0; i < _units.Count; i++)
         {
