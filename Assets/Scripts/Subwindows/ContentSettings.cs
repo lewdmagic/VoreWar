@@ -344,7 +344,7 @@ public class ContentSettings : MonoBehaviour
             new ToggleObject(BurpOnDigest, "BurpOnDigest", false),
             new ToggleObject(FartOnAbsorb, "FartOnAbsorb", false),
             new ToggleObject(CanUseStomachRubOnEnemies, "CanUseStomachRubOnEnemies", false),
-            new ToggleObject(DayNightEnabled, "DayNightEnabled", true),
+            new ToggleObject(DayNightEnabled, "DayNightEnabled", false),
             new ToggleObject(DayNightCosmetic, "DayNightCosmetic", false),
             new ToggleObject(DayNightSchedule, "DayNightSchedule", true),
             new ToggleObject(DayNightRandom, "DayNightRandom", true),
@@ -1425,6 +1425,7 @@ public class ContentSettings : MonoBehaviour
         if (!TransferAllowed.isOn) CumGestation.isOn = false;
         SpecialMercsCanConvert.interactable = KuroTenkoEnabled.isOn && (int)Config.UbConversion <= 1;
         NoScatForDeadTransfers.interactable = KuroTenkoEnabled.isOn;
+        AlwaysRandomizeConverted.interactable = KuroTenkoEnabled.isOn;
     }
 
     public void DayNightCycleChanged()

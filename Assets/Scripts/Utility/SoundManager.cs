@@ -248,7 +248,7 @@ public class SoundManager : MonoBehaviour
 
         volume *= PositionSound(source, actor.UnitSprite.transform.position, _sfxFloor);
 
-        if (actor.InSight) //Keeps a Unity warning from popping up
+        if (actor.UnitSprite.isActiveAndEnabled) //Keeps a Unity warning from popping up
             PlaySfx(clip, source, volume);
     }
 
@@ -275,7 +275,7 @@ public class SoundManager : MonoBehaviour
 
         volume *= PositionSound(source, actor.UnitSprite.transform.position, _sfxFloor);
 
-        if (actor.InSight) //Keeps a Unity warning from popping up
+        if (actor.UnitSprite.isActiveAndEnabled) //Keeps a Unity warning from popping up
             PlaySfx(clip, source, volume);
     }
 }
