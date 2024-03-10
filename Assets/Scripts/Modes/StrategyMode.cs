@@ -346,7 +346,7 @@ public class StrategyMode : SceneBase
 
             if (right.RemainingMp < 1 && Equals(right.Side, left.Side))
             {
-                State.GameManager.CreateMessageBox("Recieving Army needs to have at least 1 MP to exchange units  (0 Mp for Allied armies)");
+                State.GameManager.CreateMessageBox("Recieving Army needs to have at least 1 MP to exchange units (0 MP for Allied armies)");
                 return;
             }
         }
@@ -860,7 +860,7 @@ public class StrategyMode : SceneBase
         }
 
 
-        if (Config.FogOfWar)
+        if (Config.FogOfWar || State.World.IsNight)
             UpdateFog();
         else
             FogOfWar.ClearAllTiles();
@@ -1385,7 +1385,7 @@ public class StrategyMode : SceneBase
 
         if (_currentPathDestination != null && mouseLocation.Matches(_currentPathDestination)) return;
         _currentPathDestination = mouseLocation;
-        var path = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, mouseLocation, SelectedArmy.RemainingMp, SelectedArmy.MovementMode == MovementMode.Flight);
+        var path = StrategyPathfinder.GetArmyPath(ActingEmpire, SelectedArmy, mouseLocation, SelectedArmy.RemainingMp, SelectedArmy.MovementMode == MovementMode.Flight);
         _arrowManager.ClearNodes();
         if (path == null || path.Count == 0) return;
         int remainingMp = SelectedArmy.RemainingMp;
@@ -1420,7 +1420,7 @@ public class StrategyMode : SceneBase
 
     private void ShowPathOfArmy(Army army)
     {
-        var path = StrategyPathfinder.GetPath(ActingEmpire, army, army.Destination, army.RemainingMp, army.MovementMode == MovementMode.Flight);
+        var path = StrategyPathfinder.GetArmyPath(ActingEmpire, army, army.Destination, army.RemainingMp, army.MovementMode == MovementMode.Flight);
         _arrowManager.ClearNodes();
         if (path == null || path.Count == 0) return;
         int remainingMp = army.RemainingMp;
@@ -1639,6 +1639,11 @@ public class StrategyMode : SceneBase
                 State.World.IsNight = false;
                 NightChance += Config.NightChanceIncrease;
             }
+        }
+        else
+        {
+            State.World.IsNight = false;
+            NightChance = Config.BaseNightChance;
         }
 
         if (ActingEmpire is MonsterEmpire)
@@ -2060,7 +2065,7 @@ public class StrategyMode : SceneBase
         if (SelectedArmy == null) return;
         _arrowManager.ClearNodes();
         Vec2I clickLoc = new Vec2I(x, y);
-        QueuedPath = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, clickLoc, SelectedArmy.RemainingMp, SelectedArmy.MovementMode == MovementMode.Flight);
+        QueuedPath = StrategyPathfinder.GetArmyPath(ActingEmpire, SelectedArmy, clickLoc, SelectedArmy.RemainingMp, SelectedArmy.MovementMode == MovementMode.Flight);
         if (QueuedPath == null)
         {
             Army army = StrategicUtilities.ArmyAt(clickLoc);
@@ -2292,7 +2297,7 @@ public class StrategyMode : SceneBase
                 {
                     SelectedArmy = army;
                     foundWaiting = true;
-                    QueuedPath = StrategyPathfinder.GetPath(ActingEmpire, SelectedArmy, SelectedArmy.Destination, SelectedArmy.RemainingMp, SelectedArmy.MovementMode == MovementMode.Flight);
+                    QueuedPath = StrategyPathfinder.GetArmyPath(ActingEmpire, SelectedArmy, SelectedArmy.Destination, SelectedArmy.RemainingMp, SelectedArmy.MovementMode == MovementMode.Flight);
                     if (QueuedPath == null) army.Destination = null;
                     break;
                 }
@@ -2424,7 +2429,7 @@ public class StrategyMode : SceneBase
         }
         else
         {
-            if (Config.FogOfWar && FogSystem.FoggedTile[villageAtCursor.Position.X, villageAtCursor.Position.Y]) return;
+            if ((Config.FogOfWar || State.World.IsNight) && FogSystem.FoggedTile[villageAtCursor.Position.X, villageAtCursor.Position.Y]) return;
             StringBuilder sb = new StringBuilder();
             VillageTooltip.gameObject.SetActive(true);
             sb.AppendLine($"Village: {villageAtCursor.Name}");
@@ -2465,7 +2470,7 @@ public class StrategyMode : SceneBase
         }
         else
         {
-            if ((Config.FogOfWar && FogSystem.FoggedTile[armyAtCursor.Position.X, armyAtCursor.Position.Y]) || (armyAtCursor.Banner != null && !armyAtCursor.Banner.gameObject.activeSelf)) return;
+            if (((Config.FogOfWar || State.World.IsNight) && FogSystem.FoggedTile[armyAtCursor.Position.X, armyAtCursor.Position.Y]) || (armyAtCursor.Banner != null && !armyAtCursor.Banner.gameObject.activeSelf)) return;
             StringBuilder sb = new StringBuilder();
             sb = ArmyToolTip(armyAtCursor);
 

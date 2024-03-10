@@ -397,7 +397,7 @@ internal class MonsterStrategicAI : IStrategicAI
     {
         if (targetPosition != null)
         {
-            _path = StrategyPathfinder.GetPath(Empire, army, targetPosition, army.RemainingMp, army.MovementMode == MovementMode.Flight);
+            _path = StrategyPathfinder.GetArmyPath(Empire, army, targetPosition, army.RemainingMp, army.MovementMode == MovementMode.Flight);
             return;
         }
 

@@ -573,7 +573,7 @@ internal class StrategicArmyCommander
     {
         if (targetPosition != null)
         {
-            _path = StrategyPathfinder.GetPath(_empire, army, targetPosition, army.RemainingMp, army.MovementMode == MovementMode.Flight, maxDistance);
+            _path = StrategyPathfinder.GetArmyPath(_empire, army, targetPosition, army.RemainingMp, army.MovementMode == MovementMode.Flight, maxDistance);
             return;
         }
 

@@ -622,8 +622,7 @@ public class WorldGenerator
 
         foreach (Village village in State.World.Villages)
         {
-            var pseudoArmy = new Army(village.Empire, village.Position, village.Side);
-            var path = StrategyPathfinder.GetPath(null, pseudoArmy, center, 0, false);
+            var path = StrategyPathfinder.GetPath(village.Position, center, 0, false);
             if (path == null)
             {
                 Vec2I currentLoc = new Vec2I(village.Position.X, village.Position.Y);
